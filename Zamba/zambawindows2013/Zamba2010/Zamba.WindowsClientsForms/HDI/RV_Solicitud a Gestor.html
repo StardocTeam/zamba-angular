@@ -1,0 +1,470 @@
+<html>
+     <head>
+         	<title>Solicitud a Gestor</title>						
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet"/>		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet"/>		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" type="text/css" media="screen"/>
+		<script type="text/javascript" language="JavaScript">
+		
+       	    function SetRuleId(sender)
+       		{
+				document.getElementById("hdnRuleId").name = sender.id;               
+            	frmMain.submit();
+			}
+
+			function SepararHoraMinutos(txt){
+				var len = txt.value;
+				if(len.length == 2)
+				{
+					txt.value = len + ":";
+				}
+			}
+
+			function zamba_save_onclick(){
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+				 
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+
+			
+			$(document).ready(function()
+			{	
+
+            });
+  
+			function formatTime(id)
+			{
+				$('#' + id).val($('#zamba_index' + id).val());
+				
+				var ctrl = $('#' + id);						
+				var time = ctrl.val().replace(":", "");
+				
+				var h = time.substring(0, time.length - 2);					
+				var m = time.substring(time.length - 2, time.length);
+				
+				if (h != "" || m != "")
+					ctrl.val(h + ":" + m);
+					
+					if ($('#zamba_index' + id).val() == 0)
+					ctrl.val("00" + ":" + "00");					
+					
+				if (h > 23 || m > 59)
+					ctrl.addClass("error");
+				else
+					ctrl.removeClass("error");
+			}	
+			
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+			
+				
+			function validaDatos()
+			{		
+				return true;		
+			}
+		
+			function loadTime(id)
+			{
+				document.getElementById(id).value = document.getElementById("zamba_index" + id).value.replace(":", "");
+			}
+			
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+
+		</script>
+		
+     </head>
+     <body>
+        <div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				
+				<div name="design" id="design">
+					<strong>Solicitud a Gestor</strong>
+				</div>
+				<br />
+
+				<table cellpadding="6">
+					<tr>
+						<td style="font-size:smaller"><label style="width:15em;">Id Solicitud</label></td>
+						<td><input type="text" id="zamba_index_33715" name="zamba_index_33715" readonly="readonly" class="readonly" size="10"/><td>
+						<td><label>Id de Reclamo: </label></td>
+						<td><input type="text" id="zamba_index_26260" name="zamba_index_26260" size="10" readonly="readonly"  class="readonly"/></td>
+						<td><label>Nro de Siniestro:</label></td>
+						<td><input type="text" id="zamba_index_26247" name="zamba_index_26247" size="12" readonly="readonly" class="readonly"/></td>
+					</tr>	
+					<tr>
+						<td class="style8"><label>Sector: </label></td>
+						<td class="style8"><input type="text" id="zamba_index_135512" name="zamba_index_135512" onchange="ValidacionPM()" size="40" readonly="readonly" class="readonly"/></td>
+						<td class="style8">&nbsp;<label>Rama:</label></td>
+						<td class="style8"><input type="text" id="zamba_index_26294" name="zamba_index_26294" onchange="ValidacionPM()" size="35" readonly="readonly" class="readonly"/></td>
+					</tr>
+				</table>
+<br />
+				<div class="tabber">
+				<div class="tabbertab">
+				<h2>Datos Solicitud</h2>
+					
+				<table cellpadding="4">
+					<tr>
+						<td style="font-size:smaller"><label style="width:15em;">Tipo de Solicitud</label></td>
+						<td><input type="text" id="zamba_index_33667" name="zamba_index_33667" size="50" readonly="readonly" class="readonly" ></td>
+					</tr>
+					<tr>
+						<td style="font-size:smaller"><label style="width:15em;">Gestor</label></td>
+						<td><input type="text" id="zamba_index_33717" name="zamba_index_33717" readonly="readonly" class="readonly" size="50"></td>
+					</tr>
+					<tr>
+						<td  style="font-size:smaller"><label style="width:15em;">Direcci&oacuten de Asegurado</label>
+						</td>
+						<td colspan="3"><input type="text" size="130" id="zamba_index_26216" name="zamba_index_26216" readonly="readonly" class="readonly" />
+					</tr>
+					<tr>		
+						<td  style="font-size:smaller"><label style="width:15em;">Tel&eacutefono de Asegurado</label>
+						</td>
+						<td ><input type="text" id="zamba_index_26217" name="zamba_index_26217" readonly="readonly" class="readonly" />
+						</td>
+						<td style="font-size:smaller"><label style="width:15em;">Reclamante</label></td>
+						<td><input type="text" id="zamba_index_26321" name="zamba_index_26321" readonly="readonly" class="readonly" size="50"></td>
+					</tr>
+					<tr>
+						<td style="font-size:smaller"><label style="width:15em;">Fecha Solicitud</label></td>
+						<td><input type="text" id="zamba_index_26405" name="zamba_index_26405" readonly="readonly" class="readonly"/></td>
+						<td style="font-size:smaller"><label style="width:15em;">Fecha Finalizaci&oacuten</label></td>
+						<td><input type="text" id="zamba_index_33653" name="zamba_index_33653" readonly="readonly" class="readonly"/></td>
+					</tr>
+					<tr>		
+						<td style="font-size:smaller"><label style="width:15em;">Resultado</label></td>
+						<td><input id="zamba_index_33716" name="zamba_index_33716" readonly="readonly" class="readonly"/>
+						</td>
+						<td style="font-size:smaller"><label style="width:15em;">Id Comprobante</label></td>
+						<td><input type="text" id="zamba_index_26446" name="zamba_index_26446" size="10" readonly="readonly" class="readonly" /></td>
+					</tr>
+					<tr><td></td></tr>	
+					<tr>
+						<td><input type="submit" name="zamba_rule_56532" id="zamba_rule_56532" value="Agregar comentario" class="submit" onclick="SetRuleId(this);"/></td>
+						<td colspan="3"><TEXTAREA COLS=125 ROWS=5 id="zamba_index_1152" name="zamba_index_1152" size="110"></TEXTAREA></td>
+					</tr>
+					<tr>
+					<td style="font-size:smaller"><label style="width:15em;">Observaciones</label></td>					
+					<td colspan="4"><TEXTAREA COLS=125 ROWS=10 id="zamba_index_64" name="zamba_index_64" readonly="readonly" class="readonly"></TEXTAREA></td> 
+					</tr>
+				</table>	
+
+				</p>
+				
+
+</div>
+
+				<div class="tabbertab">
+					<h2>Reclamo Asociado</h2>
+
+						<table id="zamba_associated_documents_26027" class="tablesorter" style="width: 100%;" >
+							<tbody>
+							</tbody>
+						</table>
+
+					</p>
+				</div>
+				
+
+					<div class="tabbertab">
+						<h2>Datos Siniestro</h2>
+					
+							<table cellpadding="4">
+
+<tr>
+
+
+<td style="font-size:smaller">
+<label style="width:15em;">Fecha Siniestro</label>
+</td>
+<td>
+<input type="text" id="zamba_index_26201" name="zamba_index_26201" readonly="readonly" class="readonly" />
+</td>
+
+<td style="font-size:smaller">
+<label style="width:15em;">Nro de poliza</label>
+</td>
+<td>
+<input type="text" id="zamba_index_26174" name="zamba_index_26174" readonly="readonly" class="readonly" />
+</td>
+</tr>
+
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Id Asegurado</label></td>
+<td><input type="text" id="zamba_index_26314" name="zamba_index_26314" readonly="readonly" class="readonly" size="50"/></td>
+<td style="font-size:smaller"><label style="width:15em;">Reclamante</label></td>
+<td><input type="text" id="zamba_index_26191" name="zamba_index_26191" readonly="readonly" class="readonly" size="50"/></td>
+</tr>
+
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Productor</label></td>
+<td><input type="text" size="50" id="zamba_index_26233" name="zamba_index_26233" readonly="readonly" class="readonly" /></td>
+</tr>
+
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Tipo de Reclamo</label></td>
+<td><input type="text" id="zamba_index_26232" name="zamba_index_26232" readonly="readonly" class="readonly" /></td>
+</tr>
+
+<tr>
+<td style="font-size:smaller">
+<label style="width:15em;">Causa</label>
+</td>
+<td>
+<input type="text" id="zamba_index_26181" name="zamba_index_26181" readonly="readonly" class="readonly" size="50"/>
+</td>
+</tr>
+</table>
+
+</div>
+
+<div class="tabbertab">
+                <h2>Componente</h2>
+					<p>				
+						<table cellpadding="6">
+							<tr>
+								<td><label>ID Componente:</label></td>
+								<td><input type="text" name="zamba_index_26304" size="15" readonly="readonly" class="readonly"/></td>
+								
+							</tr>
+							<tr><td>&nbsp;</td></tr>
+						</table>
+							<table cellpadding="4">
+							<tr>
+								<td>
+								<font face="Tahoma" size="2"> <u>Datos de la Ubicaci&oacute;n </u></font> 
+								</td>
+						    </tr>
+							</table>
+							
+							<table cellpadding="4">
+							<tr>
+							    <td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td><label>Ubicaci&oacute;n del Riesgo:</label></td>
+								<td><input type="text" name="zamba_index_135513" size="30" readonly="readonly" class="readonly" /></td>
+								<td class="style6">&nbsp;</td>
+								<td class="style5"><label>Nro de Domicilio:</label></td>
+								<td><input type="text"name="zamba_index_135514" size="30"
+                                        readonly="readonly" class="readonly" /></td>
+							</tr>
+							<tr>
+								<td><label>Localidad:</label></td>
+								<td><input type="text" name="zamba_index_26215" size="30" 
+                                        readonly="readonly" class="readonly" /></td>
+								<td class="style6"> &nbsp;</td>
+								<td class="style5"> <label>Provincia:</label></td>
+								<td><input type="text" name="zamba_index_26283" size="30" readonly="readonly" class="readonly" /></td>
+							</tr>	
+							<tr>
+								<td><label>C&oacute;digo Postal:</label></td>
+								<td><input type="text" name="zamba_index_26285" size="30" readonly="readonly" class="readonly" /></td>
+								<td class="style6">&nbsp;</td>
+								<td class="style5"><label>Sufijo C&oacute;digo Postal:</label></td>
+								<td><input type="text" name="zamba_index_26298" size="30" readonly="readonly" class="readonly" /></td>
+							</tr>	
+							<tr>
+								<td><label>Fecha de Egreso de N&oacute;mina:</label></td>
+								<td><input type="text" id="zamba_index_135515" name="zamba_ASOC_26031_index_135515" size="30" readonly="readonly" class="readonly"/></td>
+								<td class="style6">&nbsp;</td>
+								<td class="style5"><label>Clasificaci&oacute;n del Riesgo:</label></td>
+								<td><input type="text" name="zamba_index_135516" id="zamba_ASOC_26031_index_135516" size="30" readonly="readonly" class="readonly"></td>
+							</tr>
+							<tr>
+								<td colspan="5">
+								    &nbsp;</td>
+						    </tr>
+							<tr>
+								<td colspan="5">
+								<font face="Tahoma" size="2"> <u>Datos de la Embarcaci&oacute;n </u></font> 
+								</td>
+						    </tr>
+							<tr>
+							    <td class="style4">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class="style4"><label>Tipo del Casco:</label></td>
+								<td><input type="text" name="zamba_index_135517" size="30" readonly="readonly" class="readonly" /></td>
+								<td class="style7">&nbsp;</td>
+								<td><label>Nombre del Casco:</label></td>
+								<td><input type="text"name="zamba_index_135518" size="30" readonly="readonly" class="readonly" /></td>
+							</tr>
+							<tr>
+								<td class="style4"><label>Matr&iacute;cula Rey:</label></td>
+								<td><input type="text" name="zamba_index_135519" size="30" readonly="readonly" class="readonly" /></td>
+								<td class="style7"> &nbsp;</td>
+								<td> <label>Matr&iacute;cula Jurisdicci&oacute;n:</label></td>
+								<td><input type="text" name="zamba_index_135526" size="30" readonly="readonly" class="readonly" /></td>
+							</tr>	
+							<tr>
+								<td class="style4"><label>C&oacute;digo Pa&iacute;s:</label></td>
+								<td><input type="text" name="zamba_index_135520" size="30" readonly="readonly" class="readonly" /></td>
+								<td class="style7">&nbsp;</td>
+								<td><label>F&aacute;brica Casco Astillero:</label></td>
+								<td><input type="text" name="zamba_index_135521" size="30" readonly="readonly" class="readonly" /></td>
+							</tr>	
+							<tr>
+								<td class="style4"><label>Modelo del Casco:</label></td>
+								<td><input type="text" id="Text2" name="zamba_index_135522" size="30" readonly="readonly" class="readonly"/></td>
+								<td class="style7">&nbsp;</td>
+								<td><label>A&ntilde;o del Casco:</label></td>
+								<td><input type="text" name="zamba_index_135523" id="Text3" size="30" readonly="readonly" class="readonly"/></td>
+							</tr>
+							<tr>
+								<td class="style4"><label>Material del Casco:</label></td>
+								<td><input type="text" id="Text4" name="zamba_index_135524" size="30" readonly="readonly" class="readonly"/></td>
+								<td class="style7">&nbsp;</td>
+								<td><label>Suma Asegurada Total:</label></td>
+								<td><input type="text" name="zamba_index_135525" id="Text5" size="30" readonly="readonly" class="readonly"/></td>
+							</tr>
+						 </table>
+						</table>	
+					</p>
+            </div>
+
+			<div class="tabbertab">
+				<h2>Documentaci&oacuten</h2>
+				<table id="zamba_associated_documents_26033" class="tablesorter"  style="width: 100%;" >
+					<tbody>
+					</tbody>
+				</table>
+			</div>	
+		
+				<div class="tabbertab">
+					<h2>Solicitudes</h2>
+					
+					<table cellpadding="4">
+						<tr>
+							<td><label>Recupero de Unidad:</label></td>
+						</tr>	
+					</table>
+
+					<table id="zamba_associated_documents_33079" class="tablesorter" >
+						<tbody>
+						</tbody>
+					</table>
+					<table cellpadding="4">
+						<tr>
+							<td><label>Solicitud de Gestor:</label></td>
+						</tr>	
+					</table>
+
+					<table id="zamba_associated_documents_33086" class="tablesorter" >
+						<tbody>
+						</tbody>
+					</table>
+				</div>	
+<div class="tabbertab">
+						<h2>Vehiculo</h2>
+					
+							<table cellpadding="4">
+
+<tr>
+
+
+<td style="font-size:smaller">
+<label style="width:15em;">Tipo de Patente</label>
+</td>
+<td>
+<input type="text" id="zamba_index_26210" name="zamba_index_26210" readonly="readonly" class="readonly" />
+</td>
+
+<td style="font-size:smaller">
+<label style="width:15em;">Patente</label>
+</td>
+<td>
+<input type="text" id="zamba_index_26309" name="zamba_index_26309" readonly="readonly" class="readonly" />
+</td>
+</tr>
+
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Marca</label></td>
+<td><input type="text" id="zamba_index_26208" name="zamba_index_26208" readonly="readonly" class="readonly" size="50"/></td>
+<td style="font-size:smaller"><label style="width:15em;">Modelo</label></td>
+<td><input type="text" size="50" id="zamba_index_26245" name="zamba_index_26245" readonly="readonly" class="readonly" /></td>
+</tr>
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Submodelo</label></td>
+<td><input type="text" id="zamba_index_26308" name="zamba_index_26308" readonly="readonly" class="readonly" size="50"/></td>
+<td style="font-size:smaller"><label style="width:15em;">A&ntilde;o</label></td>
+<td><input type="text" size="50" id="zamba_index_26246" name="zamba_index_26246" readonly="readonly" class="readonly" /></td>
+</tr>
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Motor</label></td>
+<td><input type="text" id="zamba_index_26183" name="zamba_index_26183" readonly="readonly" class="readonly" size="50"/></td>
+<td style="font-size:smaller"><label style="width:15em;">Chasis</label></td>
+<td><input type="text" size="50" id="zamba_index_26184" name="zamba_index_26184" readonly="readonly" class="readonly" /></td>
+</tr>
+<tr>
+<td style="font-size:smaller"><label style="width:15em;">Tipo de Vehiculo</label></td>
+<td><input type="text" id="zamba_index_26254" name="zamba_index_26254" readonly="readonly" class="readonly" size="50"/></td>
+</tr>
+
+</table>
+
+</div>
+	</div>	
+<br/>
+<br/>           						
+
+				<div name="logocliente" id="logocliente">	
+					<img src="images/logocliente.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+         </form>
+         </div>
+     </body></html>
+

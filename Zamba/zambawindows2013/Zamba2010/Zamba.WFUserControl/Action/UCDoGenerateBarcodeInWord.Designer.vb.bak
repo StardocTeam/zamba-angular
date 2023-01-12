@@ -1,0 +1,325 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class UCDoGenerateBarcodeInWord
+    Inherits Zamba.WFUserControl.ZRuleControl
+
+    'UserControl overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.cmbDocTypes = New System.Windows.Forms.ComboBox
+        Me.grdIndices = New System.Windows.Forms.DataGridView
+        Me.Index_Id = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Nombre = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.ValorIndice = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.Label5 = New System.Windows.Forms.Label
+   		Me.txtVariable = New Zamba.AppBlock.TextoInteligente
+        Me.txtInputPath = New Zamba.AppBlock.TextoInteligente
+        Me.BtnSave = New Zamba.AppBlock.ZButton
+        Me.btnSearch = New Zamba.AppBlock.ZButton
+        Me.ChkContinueWithCurrentTasks = New System.Windows.Forms.CheckBox
+        Me.ChkAutoPrint = New System.Windows.Forms.CheckBox
+        Me.ChkInsertBarcode = New System.Windows.Forms.CheckBox
+        Me.txtTop = New Zamba.AppBlock.TextoInteligente
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.txtLeft = New Zamba.AppBlock.TextoInteligente
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.txtOutputPath = New Zamba.AppBlock.TextoInteligente
+        Me.CHKSavePath = New System.Windows.Forms.CheckBox
+        Me.chkWithoutInsert = New System.Windows.Forms.CheckBox
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        CType(Me.grdIndices, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.chkWithoutInsert)
+        Me.tbRule.Controls.Add(Me.txtOutputPath)
+        Me.tbRule.Controls.Add(Me.CHKSavePath)
+        Me.tbRule.Controls.Add(Me.ChkInsertBarcode)
+        Me.tbRule.Controls.Add(Me.txtTop)
+        Me.tbRule.Controls.Add(Me.Label6)
+        Me.tbRule.Controls.Add(Me.txtLeft)
+        Me.tbRule.Controls.Add(Me.Label7)
+        Me.tbRule.Controls.Add(Me.ChkAutoPrint)
+        Me.tbRule.Controls.Add(Me.ChkContinueWithCurrentTasks)
+        Me.tbRule.Controls.Add(Me.btnSearch)
+        Me.tbRule.Controls.Add(Me.BtnSave)
+        Me.tbRule.Controls.Add(Me.txtInputPath)
+    	Me.tbRule.Controls.Add(Me.txtVariable)
+        Me.tbRule.Controls.Add(Me.Label5)
+        Me.tbRule.Controls.Add(Me.Panel1)
+        Me.tbRule.Controls.Add(Me.Label2)
+        Me.tbRule.Controls.Add(Me.grdIndices)
+        Me.tbRule.Controls.Add(Me.Label4)
+        Me.tbRule.Controls.Add(Me.cmbDocTypes)
+        '
+        'cmbDocTypes
+        '
+        Me.cmbDocTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbDocTypes.FormattingEnabled = True
+        Me.cmbDocTypes.Location = New System.Drawing.Point(134, 25)
+        Me.cmbDocTypes.Name = "cmbDocTypes"
+        Me.cmbDocTypes.Size = New System.Drawing.Size(458, 21)
+        Me.cmbDocTypes.TabIndex = 1
+        '
+        'grdIndices
+        '
+        Me.grdIndices.AllowUserToAddRows = False
+        Me.grdIndices.AllowUserToDeleteRows = False
+        Me.grdIndices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grdIndices.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Index_Id, Me.Nombre, Me.ValorIndice})
+        Me.grdIndices.Location = New System.Drawing.Point(75, 52)
+        Me.grdIndices.Name = "grdIndices"
+        Me.grdIndices.Size = New System.Drawing.Size(517, 217)
+        Me.grdIndices.TabIndex = 12
+        '
+        'Index_Id
+        '
+        Me.Index_Id.DataPropertyName = "Index_Id"
+        Me.Index_Id.HeaderText = "ID Indice"
+        Me.Index_Id.Name = "Index_Id"
+        '
+        'Nombre
+        '
+        Me.Nombre.DataPropertyName = "Index_Name"
+        Me.Nombre.HeaderText = "Nombre Indice"
+        Me.Nombre.Name = "Nombre"
+        Me.Nombre.ReadOnly = True
+        '
+        'ValorIndice
+        '
+        Me.ValorIndice.DataPropertyName = "ValorIndice"
+        Me.ValorIndice.HeaderText = "Valor Indice"
+        Me.ValorIndice.Name = "ValorIndice"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
+        Me.Label4.Location = New System.Drawing.Point(26, 52)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(45, 13)
+        Me.Label4.TabIndex = 11
+        Me.Label4.Text = "Indices:"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
+        Me.Label2.Location = New System.Drawing.Point(27, 169)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(102, 13)
+        Me.Label2.TabIndex = 13
+        Me.Label2.Text = "Entidad:"
+        '
+        'Panel1
+        '
+        Me.Panel1.Location = New System.Drawing.Point(30, 209)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(567, 187)
+        Me.Panel1.TabIndex = 14
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
+        Me.Label5.Location = New System.Drawing.Point(27, 414)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(52, 13)
+        Me.Label5.TabIndex = 15
+        Me.Label5.Text = "Carátula:"
+        '
+        'txtInputPath
+        '
+        Me.txtInputPath.Location = New System.Drawing.Point(85, 411)
+        Me.txtInputPath.Name = "txtInputPath"
+        Me.txtInputPath.Size = New System.Drawing.Size(482, 21)
+        Me.txtInputPath.TabIndex = 16
+        Me.txtInputPath.Text = ""
+         '
+        'txtVariable
+        '
+        Me.txtVariable.Location = New System.Drawing.Point(134, 482)
+        Me.txtVariable.Name = "txtVariable"
+        Me.txtVariable.Size = New System.Drawing.Size(415, 21)
+        Me.txtVariable.TabIndex = 16
+        Me.txtVariable.Text = ""
+       '
+        'BtnSave
+        '
+        Me.BtnSave.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.BtnSave.Location = New System.Drawing.Point(266, 460)
+        Me.BtnSave.Name = "BtnSave"
+        Me.BtnSave.Size = New System.Drawing.Size(70, 27)
+        Me.BtnSave.TabIndex = 33
+        Me.BtnSave.Text = "Guardar"
+        '
+        'btnSearch
+        '
+        Me.btnSearch.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.btnSearch.Location = New System.Drawing.Point(573, 405)
+        Me.btnSearch.Name = "btnSearch"
+        Me.btnSearch.Size = New System.Drawing.Size(24, 27)
+        Me.btnSearch.TabIndex = 34
+        Me.btnSearch.Text = "..."
+        '
+        'ChkContinueWithCurrentTasks
+        '
+        Me.ChkContinueWithCurrentTasks.AutoSize = True
+        Me.ChkContinueWithCurrentTasks.BackColor = System.Drawing.Color.Transparent
+        Me.ChkContinueWithCurrentTasks.Location = New System.Drawing.Point(28, 6)
+        Me.ChkContinueWithCurrentTasks.Name = "ChkContinueWithCurrentTasks"
+        Me.ChkContinueWithCurrentTasks.Size = New System.Drawing.Size(245, 17)
+        Me.ChkContinueWithCurrentTasks.TabIndex = 39
+        Me.ChkContinueWithCurrentTasks.Text = "Continuar la ejecución con las tareas actuales"
+        Me.ChkContinueWithCurrentTasks.UseVisualStyleBackColor = False
+        '
+        'ChkAutoPrint
+        '
+        Me.ChkAutoPrint.AutoSize = True
+        Me.ChkAutoPrint.BackColor = System.Drawing.Color.Transparent
+        Me.ChkAutoPrint.Location = New System.Drawing.Point(28, 29)
+        Me.ChkAutoPrint.Name = "ChkAutoPrint"
+        Me.ChkAutoPrint.Size = New System.Drawing.Size(203, 17)
+        Me.ChkAutoPrint.TabIndex = 40
+        Me.ChkAutoPrint.Text = "Imprimir automáticamente la carátula"
+        Me.ChkAutoPrint.UseVisualStyleBackColor = False
+        '
+        'ChkInsertBarcode
+        '
+        Me.ChkInsertBarcode.AutoSize = True
+        Me.ChkInsertBarcode.BackColor = System.Drawing.Color.Transparent
+        Me.ChkInsertBarcode.Location = New System.Drawing.Point(28, 52)
+        Me.ChkInsertBarcode.Name = "ChkInsertBarcode"
+        Me.ChkInsertBarcode.Size = New System.Drawing.Size(314, 17)
+        Me.ChkInsertBarcode.TabIndex = 46
+        Me.ChkInsertBarcode.Text = "Insertar código de barras y dejar pendiente de digitalización"
+        Me.ChkInsertBarcode.UseVisualStyleBackColor = False
+        '
+        'txtTop
+        '
+        Me.txtTop.Location = New System.Drawing.Point(135, 75)
+        Me.txtTop.Name = "txtTop"
+        Me.txtTop.Size = New System.Drawing.Size(110, 21)
+        Me.txtTop.TabIndex = 43
+        Me.txtTop.Text = ""
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
+        Me.Label6.Location = New System.Drawing.Point(100, 79)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(29, 13)
+        Me.Label6.TabIndex = 42
+        Me.Label6.Text = "Top:"
+        '
+        'txtTop
+        '
+        Me.txtTop.Location = New System.Drawing.Point(133, 514)
+        Me.txtTop.Name = "txtTop"
+        Me.txtTop.Size = New System.Drawing.Size(110, 21)
+        Me.txtTop.TabIndex = 36
+        Me.txtTop.Text = ""
+        '
+        'txtLeft
+        '
+        Me.txtLeft.Location = New System.Drawing.Point(299, 75)
+        Me.txtLeft.Name = "txtLeft"
+        Me.txtLeft.Size = New System.Drawing.Size(110, 21)
+        Me.txtLeft.TabIndex = 45
+        Me.txtLeft.Text = ""
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.BackColor = System.Drawing.Color.Transparent
+        Me.Label7.Location = New System.Drawing.Point(263, 79)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(30, 13)
+        Me.Label7.TabIndex = 44
+        Me.Label7.Text = "Left:"
+        '
+        'txtOutputPath
+        '
+        Me.txtOutputPath.Location = New System.Drawing.Point(256, 140)
+        Me.txtOutputPath.Name = "txtOutputPath"
+        Me.txtOutputPath.Size = New System.Drawing.Size(341, 21)
+        Me.txtOutputPath.TabIndex = 52
+        Me.txtOutputPath.Text = ""
+        '
+        'CHKSavePath
+        '
+        Me.CHKSavePath.Location = New System.Drawing.Point(28, 140)
+        Me.CHKSavePath.Name = "CHKSavePath"
+        Me.CHKSavePath.Size = New System.Drawing.Size(232, 20)
+        Me.CHKSavePath.TabIndex = 51
+        Me.CHKSavePath.Text = "Guardar ruta del documento en variable:"
+        Me.CHKSavePath.UseVisualStyleBackColor = True
+        '
+        'chkWithoutInsert
+        '
+        Me.chkWithoutInsert.AutoSize = True
+        Me.chkWithoutInsert.Location = New System.Drawing.Point(28, 117)
+        Me.chkWithoutInsert.Name = "chkWithoutInsert"
+        Me.chkWithoutInsert.Size = New System.Drawing.Size(303, 17)
+        Me.chkWithoutInsert.TabIndex = 53
+        Me.chkWithoutInsert.Text = "No insertar el documento en Zamba, solo generar el Word"
+        Me.chkWithoutInsert.UseVisualStyleBackColor = True
+        '
+        'UCDoGenerateBarcodeInWord
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Name = "UCDoGenerateBarcodeInWord"
+        Me.tbRule.ResumeLayout(False)
+        Me.tbRule.PerformLayout()
+        Me.tbctrMain.ResumeLayout(False)
+        CType(Me.grdIndices, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents cmbDocTypes As System.Windows.Forms.ComboBox
+    Friend WithEvents grdIndices As System.Windows.Forms.DataGridView
+    Friend WithEvents Index_Id As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Nombre As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ValorIndice As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents txtInputPath As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents btnSearch As Zamba.AppBlock.ZButton
+    Friend WithEvents BtnSave As Zamba.AppBlock.ZButton
+    Friend WithEvents ChkAutoPrint As System.Windows.Forms.CheckBox
+    Friend WithEvents ChkContinueWithCurrentTasks As System.Windows.Forms.CheckBox
+    Friend WithEvents ChkInsertBarcode As System.Windows.Forms.CheckBox
+    Friend WithEvents txtTop As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents txtLeft As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents txtOutputPath As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents CHKSavePath As System.Windows.Forms.CheckBox
+    Friend WithEvents chkWithoutInsert As System.Windows.Forms.CheckBox
+
+End Class

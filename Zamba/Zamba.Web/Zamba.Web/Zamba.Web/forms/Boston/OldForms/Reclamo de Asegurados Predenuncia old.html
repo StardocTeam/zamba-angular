@@ -1,0 +1,345 @@
+<html>
+	<head>
+		<title>Ingreso de Predenuncia</title>			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">		
+		<script src="Reclamo de Asegurados Ingreso.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<script type="text/javascript" language="JavaScript">					 
+			function SepararHoraMinutos(txt){
+				var len = txt.value;
+				if(len.length == 2)
+				{
+					txt.value = len + ":";
+				}
+			}
+
+			function zamba_save_onclick()
+			{
+				document.getElementById("zamba_index_26410").value = document.getElementById("zamba_index_26410").value.replace(":", "");
+			}
+			
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_26201');
+				makeCalendar('zamba_index_26427');			
+				makeCalendar('zamba_ASOC_26031_index_26280');
+				makeCalendar('zamba_ASOC_26031_index_26281');			
+				setTimeout("formatTime('_26410')", 100);	
+				addDroplistFilter("zamba_index_26478");				
+	        });					
+
+			function formatTime(id)
+			{
+				$('#' + id).val($('#zamba_index' + id).val());
+			
+				var ctrl = $('#' + id);						
+				var time = ctrl.val().replace(":", "");
+				
+				var h = time.substring(0, time.length - 2);					
+				var m = time.substring(time.length - 2, time.length);
+				
+				if (h != "" || m != "")
+					ctrl.val(h + ":" + m);
+					
+				if ($('#zamba_index' + id).val() == 0)
+					ctrl.val("00" + ":" + "00");					
+					
+				if (h > 23 || m > 59)
+					ctrl.addClass("error");
+				else
+					ctrl.removeClass("error");
+			}
+
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+
+
+			function validaDatos()
+			{		
+
+				if ($('#zamba_index_26201').val() == '')
+				{
+					alert("Ingrese la fecha del siniestro");
+					$('#zamba_index_26201').focus();
+					return false;
+				}
+				if ($('#_26410').val() == '')
+				{
+					alert("Ingrese la hora del siniestro");
+					$('#_26410').focus();
+					return false;
+				}
+				if ($('#zamba_index_26174').val() == '' && $('#zamba_index_26400').val() == '' && $('#zamba_index_26248').val() == '' && $('#zamba_index_26296').val() == '')
+				{
+					alert("Debe ingresar al menos uno de los siguientes datos:\n\n- Nro de poliza\n- Apellido\n- Nro de documento\n- CUIT");
+					return false;
+				}
+
+				var currentTime = new Date();
+				var date_user = dateToString(document.getElementById('zamba_index_26427').value);	
+				var date_actual = dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+				if(parseInt(date_user) > parseInt(date_actual))
+				{
+					alert("La fecha de notificación debe ser menor o igual a la fecha de hoy.");
+					$('#zamba_index_26427').focus();
+					return false;
+				}
+			
+				var date_user_sin = dateToString(document.getElementById('zamba_index_26201').value);	
+				
+				if(parseInt(date_user_sin) > parseInt(date_actual))
+				{
+					alert("La fecha del siniestro debe ser menor o igual a la fecha de hoy.");
+					$('#zamba_index_26201').focus();
+					return false;
+				}
+
+					if(parseInt(date_user) < parseInt(date_user_sin))
+				{
+					alert("La fecha de notificación debe ser mayor o igual a la fecha de siniestro.");
+					$('#zamba_index_26427').focus();
+					return false;
+				}
+				if($('#zamba_index_26478').val() == '0 - Sin Definir' || $('#zamba_index_26478').val() == '0')
+				{
+					alert("Debe seleccionar un responsable.");
+					$('#zamba_index_26478').focus();
+					return false;
+				}
+				
+				 if($('#_26410').attr('class') == 'error')
+                 {
+                    alert("La hora del siniestro es invalida");
+                 	$('#_26410').focus();
+                   return false;
+                 } 
+				return true;		
+			}
+			
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');
+		</script>
+	</head>	
+	<body>
+	
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				
+				<div name="logostardoc" id="logostardoc">
+				</div>
+
+				<div name="design" id="design">
+					<strong>Ingreso Predenuncia</strong>
+				</div>
+				<br />
+
+				<div name="floatleft" id="floatleft">	
+
+				<table cellpadding="4">
+					<tr>
+						<td><label>Id: </label></td>
+						<td><input type="text" id="zamba_index_26260" name="zamba_index_26260" size="10" readonly="true" class="readonly"/></td>
+						<td><label>Id Operaci&oacuten Siniestro: </label></td>
+						<td><input type="text" id="zamba_index_26261" name="zamba_index_26261" size="10" readonly="true" class="readonly"/></td>
+						<td><label>Nro de Siniestro:</label></td>
+						<td><input type="text" name="zamba_index_26247" size="12" readonly="true" class="readonly"/></td>
+						</tr>
+						</div>
+					</table>
+					<table>
+					<tr>		
+						<td><label>Marca Cabecera:</label></td>
+						<td><input type="text" id="zamba_index_26487"  name="zamba_index_26487"  style="width:300px;" size="12" readonly="true" class="readonly"/></td>
+					</tr>	
+				</div>
+				</table>
+
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Informaci&oacuten</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>Nro Reclamo:</label></td>
+									<td><input type="text" name="zamba_index_26178" size="10" readonly="true" class="readonly"/></td>
+									<td><label>Nro P&oacuteliza:</label></td>
+									<td><input type="text" name="zamba_index_26174" size="10"/></td>
+								</tr>
+								<tr>
+									<td><label>Fecha Siniestro: </label></td>
+									<td><input id="zamba_index_26201" name="zamba_index_26201" style="width:170px;" /></td>
+									<td><label>Hora Siniestro: </label></td>
+									<td>
+										<input id="_26410" name="_26410" style="width:170px;" maxlength="5" onkeyup="formatTime('_26410');" class="solonums"/>
+										<input type="text" type="text" id="zamba_index_26410" name="zamba_index_26410" style="display:none"/>
+									</td>
+								</tr>	
+								<tr>	
+									<td><label>Fecha reclamo: </label></td>
+									<td><input id="zamba_index_26175" name="zamba_index_26175" style="width:170px;" readonly="true" class="readonly"/></td>
+									<td><label>Fecha Notificacion Siniestro: </label></td>
+									<td><input id="zamba_index_26427" name="zamba_index_26427" style="width:170px;"/></td>									
+								<tr>	
+									<td><label>Fecha Denuncia: </label></td>
+									<td><input id="zamba_index_26421" name="zamba_index_26421" style="width:170px;" readonly="true" class="readonly"/></td>	
+									<td><label>Monto Reclamo: </label></td>
+									<td><input id="zamba_index_26424" name="zamba_index_26424" style="width:100px;" readonly="true" class="readonly"/></td>									
+
+								</tr>	
+								<tr>	
+									<td><label>ID Componente: </label></td>
+									<td><input type="text" name="zamba_index_26304" id="zamba_index_26304" style="width:170px;" readonly="true" class="readonly"/></td>
+									<td><label>Valor Franquicia: </label></td>
+									<td><input id="zamba_index_26481" name="zamba_index_26481" style="width:100px;" readonly="true" class="readonly"/></td>									
+								</tr>	
+								<tr>
+									<td><label>Responsable: </label></td>
+									<td><select name="zamba_index_26478" id="zamba_index_26478" style="width:170px;"></select></td>
+									<td><label>Estado Reclamo: </label></td>
+									<td><input id="zamba_index_26313" name="zamba_index_26313" style="width:230px;" readonly="true" class="readonly"/></td>
+								</tr>
+								<tr>
+									<td style="padding:10px 0 10px 0" colspan="6">
+									<hr>
+									</td>
+								</tr>
+								<tr>	
+									<td><label>Analisis Vigencia Componente: </label></td>
+									<td  colspan="4"><input id="zamba_index_26463" name="zamba_index_26463" style="width:650px;" readonly="true" class="readonly"/></td>								
+								</tr>	
+								<tr>	
+									<td><label>Analisis Cobertura Financiera: </label></td>
+									<td colspan="4"><input id="zamba_index_26462" name="zamba_index_26462" style="width:650px;" readonly="true" class="readonly"/></td>								
+								</tr>	
+								<tr>	
+									<td><label>Analisis Prescripci&oacuten: </label></td>
+									<td  colspan="4"><input id="zamba_index_26489" name="zamba_index_26489" style="width:650px;" readonly="true" class="readonly"/></td>								
+								</tr>									
+								<tr>
+									<td style="padding:10px 0 10px 0" colspan="6">
+									<hr>
+									</td>
+								</tr>
+
+							</table>
+							<table cellpadding="4">
+							<tr>
+								<td>
+								<font face="Tahoma" size="2"> <u>Informaci&oacuten del Asegurado </u></font> 
+								</td>
+						    </tr>
+							</table>
+							<table cellpadding="4">
+								<tr><td>&nbsp;</td></tr>
+								<tr>
+									<td><label>Apellido:</label></td>
+									<td><input type="text" name="zamba_index_26400" id="zamba_index_26400" size="30" /></td>
+									<td><label>Nombre:</label></td>
+									<td><input type="text" name="zamba_index_26399" id="zamba_index_26399" size="30"></td>
+								</tr>
+								<tr>
+									<td><label>Tipo Doc: </label></td>
+									<td><input type="text" name="zamba_index_26236" id="zamba_index_26236" style="width:90px;"></td>
+									<td><label>Nro. Doc: </label></td>
+									<td><input type="text" name="zamba_index_26248" id="zamba_index_26248" size="20"></td>
+								</tr>
+								<tr>
+									<td><label>CUIT: </label></td>
+									<td><input type="text" name="zamba_index_26296" id="zamba_index_26296" size="20"></td>
+								</tr>	
+								<tr>
+									<td style="padding:10px 0 10px 0" colspan="6">
+									<hr>
+									</td>
+								</tr>	
+							</table>
+					<table cellpadding="4">
+							<tr>
+								<td>
+								<font face="Tahoma" size="2"> <u>Datos Adicionales del Reclamo </u></font> 
+								</td>
+						    </tr>
+							</table>
+							<table cellpadding="4">
+								<tr><td>&nbsp;</td></tr>
+
+								<tr>	
+									<td><label>Hecho Generador: </label></td>
+									<td colspan=2><input type="text" id="zamba_index_26312" name="zamba_index_26312" size="70" readonly="true" class="readonly" /></td>
+								</tr>
+								<tr>
+									<td><label>Riesgo-Cobertura:</label></td>
+									<td><input type="text" name="zamba_index_26306" id="zamba_index_26306" size="70"readonly="true" class="readonly"></td>
+								</tr>
+								<tr>
+									<td><label>Cobertura: </label></td>
+									<td><input type="text"name="zamba_index_26401" id="zamba_index_26401" size="70" readonly="true" class="readonly" ></td>
+								</tr>
+								
+							</table>	
+							<div>
+	<table>
+	<tr>
+						<td><label>Obervaciones:</label></td>
+						<td colspan="4"><TEXTAREA COLS=100 ROWS=10 id="zamba_index_64" name="zamba_index_64"></TEXTAREA></td> 
+				</tr>
+				</table>
+</div>	
+					</p>
+				</div>	
+				<br/>
+	
+					<div name="logoUnion" id="logoUnion">	
+					<img src="images/Union.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+				
+			</form>						
+		</div>
+	</body>
+</html>

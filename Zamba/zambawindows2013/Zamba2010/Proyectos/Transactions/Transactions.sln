@@ -1,0 +1,98 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Transactions", "Transactions\Zamba.Transactions.vbproj", "{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Core", "..\..\Zamba.Core\Zamba.Core.vbproj", "{A706E6F9-436F-4761-AB28-30F99F1EF098}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Server", "..\..\Zamba.Server\Zamba.Server.vbproj", "{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.ICore", "..\..\Zamba.ICore\Zamba.ICore.vbproj", "{E16279A2-165D-4D96-AD32-009874164C05}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.CoreDs", "..\..\Zamba.CoreDs\Zamba.CoreDs.vbproj", "{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Tools", "..\..\Zamba.Tools\Zamba.Tools.vbproj", "{D349AB2A-B052-4307-B979-D397D10760A1}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Exceptions", "..\..\Zamba.Exceptions\Zamba.Exceptions.vbproj", "{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\Zamba.Core\\Zamba.Core.vbproj
+		SccProjectName1 = ../../Zamba.Core
+		SccLocalPath1 = ..\\..\\Zamba.Core
+		SccProjectUniqueName2 = ..\\..\\Zamba.Server\\Zamba.Server.vbproj
+		SccProjectName2 = ../../Zamba.Server
+		SccLocalPath2 = ..\\..\\Zamba.Server
+		SccProjectUniqueName3 = ..\\..\\Zamba.ICore\\Zamba.ICore.vbproj
+		SccProjectName3 = ../../Zamba.ICore
+		SccLocalPath3 = ..\\..\\Zamba.ICore
+		SccProjectUniqueName4 = ..\\..\\Zamba.CoreDs\\Zamba.CoreDs.vbproj
+		SccProjectName4 = ../../Zamba.CoreDs
+		SccLocalPath4 = ..\\..\\Zamba.CoreDs
+		SccProjectUniqueName5 = ..\\..\\Zamba.Tools\\Zamba.Tools.vbproj
+		SccProjectName5 = ../../Zamba.Tools
+		SccLocalPath5 = ..\\..\\Zamba.Tools
+		SccProjectUniqueName6 = ..\\..\\Zamba.Exceptions\\Zamba.Exceptions.vbproj
+		SccProjectName6 = ../../Zamba.Exceptions
+		SccLocalPath6 = ..\\..\\Zamba.Exceptions
+		SccProjectUniqueName7 = Transactions\\Zamba.Transactions.vbproj
+		SccProjectName7 = Transactions
+		SccLocalPath7 = Transactions
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release Sin Trace|Any CPU = Release Sin Trace|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDD0249-D9D9-4953-86F6-1B9BA0E046DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release Sin Trace|Any CPU.ActiveCfg = Release Sin Trace|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release Sin Trace|Any CPU.Build.0 = Release Sin Trace|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

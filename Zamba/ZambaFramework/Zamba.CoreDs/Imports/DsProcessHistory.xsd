@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsProcessHistory" targetNamespace="http://tempuri.org/DsProcessHistory.xsd"
+	elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/DsProcessHistory.xsd"
+	xmlns:mstns="http://tempuri.org/DsProcessHistory.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsProcessHistory" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="ProcessHistory">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Process_Date" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="User_Id" type="xs:decimal" minOccurs="0" />
+							<xs:element name="TotalFiles" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ProcessedFiles" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Result_Id" type="xs:decimal" minOccurs="0" />
+							<xs:element name="SkipedFiles" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ErrorFiles" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Path" type="xs:string" minOccurs="0" />
+							<xs:element name="User_name" type="xs:string" minOccurs="0" />
+							<xs:element name="Process_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="RESULT" type="xs:string" minOccurs="0" />
+							<xs:element name="Hash" type="xs:string" minOccurs="0" />
+							<xs:element name="TEMPFILE" type="xs:string" minOccurs="0" />
+							<xs:element name="ERRORFILE" type="xs:string" minOccurs="0" />
+							<xs:element name="LOGFILE" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

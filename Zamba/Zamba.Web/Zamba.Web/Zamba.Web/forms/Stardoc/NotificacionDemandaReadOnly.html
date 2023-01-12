@@ -1,0 +1,85 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="NotificacionDemanda.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            <div id="tblNotificacion" class="attributes_table">
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Juicio / Mediación:</span>
+                            <input class="form-control input-sm" id="zamba_index_2681" name="zamba_index_2681" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">ID Reclamo:</span>
+                            <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Tipo de Notificación:</span>
+                            <input class="form-control input-sm" id="zamba_index_2717" name="zamba_index_2717" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha de Notificación:</span>
+                            <input class="form-control input-sm" id="zamba_index_2704" name="zamba_index_2704" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">ID Notificación:</span>
+                            <input class="form-control input-sm" id="zamba_index_2702" name="zamba_index_2702" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha de Vencimiento:</span>
+                            <input class="form-control input-sm" id="zamba_index_2705" name="zamba_index_2705" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tblObervaciones" class="attributes_table">
+                <div class="form-group row">
+                    <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                </div>
+                <div class="form-group row">
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64"
+          style="WIDTH: 728px" maxlength="5000"
+          class="readonly" readonly="readonly"
+          onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+                </div>
+            </div>
+
+            <hr /> <center style="z-index: -1">
+                <iframe id="zamba_innerdoctype_original"
+                        align="middle"
+                        title="Documento Original"
+                        style="height:600px; width:98%"></iframe>
+            </center>
+        </form>
+    </div>
+</body>
+</html>

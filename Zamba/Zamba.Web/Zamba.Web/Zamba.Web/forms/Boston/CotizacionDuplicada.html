@@ -1,0 +1,246 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+     
+    
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        function zamba_save_onclick(sender) {
+            if (document.getElementById("zamba_index_95").value.trim() == "") {
+                alert("La Fecha de Ingreso a la Compañía es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_94").value.trim() == "") {
+                alert("El Ejecutivo comercial es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_32").value.trim() == "") {
+                alert("La Seccion es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_60").value.trim() == "") {
+                alert("La Agencia es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_104").value.trim() == "") {
+                alert("El Grupo es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_98").value.trim() == "") {
+                alert("Plazo Limite Cotizacion es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_3").value.trim() == "") {
+                alert("El Asegurado es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (document.getElementById("zamba_index_100").value.trim() == "") {
+                alert("El Suscriptor es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (invertirFecha($("#zamba_index_95").val()) > invertirFecha($("#zamba_index_96").val())) {
+                alert("La fecha de Ingreso a la Compañía debe de ser menor o igual a la Fecha de Ingreso a BackOffice.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (invertirFecha($("#zamba_index_98").val()) < invertirFecha($("#zamba_index_96").val())) {
+                alert("Plazo Limite de Cotización debe de ser mayor o igual a la Fecha de Ingreso a BackOffice.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else {
+                alert("Se guardó de manera exitosa.")
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+        }
+
+        function invertirFecha(mifecha) {
+            var fecha = mifecha.split(/\//);
+            var fecha = mifecha.split(/\//).reverse().join('/');
+            return fecha;
+        }
+
+        function BuscarProductor(sender) {
+            if ($("#zamba_index_4").val() == "" || $("#zamba_index_4").val() == null) {
+                alert("Debe de cargar el Código de Productor.");
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else {
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+        }
+
+        function DeshabilitarCamposBusqueda() {
+            if ($("#zamba_index_4").val() != "" && $("#zamba_index_58").val() != "" && $("#zamba_index_94").val() != "") {
+                if ($("#zamba_index_60").val() != "" && $("#zamba_index_104").val() != "") {
+                    $("#zamba_index_58").attr('disabled', 'true');
+                    $("#zamba_index_94").attr('disabled', 'true');
+                    $("#zamba_index_60").attr('disabled', 'true');
+                    $("#zamba_index_104").attr('disabled', 'true');
+                }
+            }
+        }
+
+        function LimpiarCamposBusqueda() {
+            $("#zamba_index_4").val("");
+            $("#zamba_index_58").val("");
+            $("#zamba_index_94").val("");
+            $("#zamba_index_60").val("");
+            $("#zamba_index_104").val("");
+        }
+
+        function FuncionesPosCargaDeReclamo() {
+            CargarFechasyBotones2();
+            DeshabilitarCamposBusqueda();
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("4");
+
+            if ($("#zamba_index_38").val() == null)
+                $("#zamba_index_38").val("2");
+
+            // //Guarda la agencia actual y la emisora
+            // var agencia = $("#zamba_index_60").val();
+            // var seleccionado = $("#zamba_index_1001006").val();
+
+            // //Elimina a todos los que no sean ninguno de los dos
+            // $(".emisor option[value!=1][value!=" + agencia + "]")
+            //     .remove()
+            //     .end()
+            //     .val(seleccionado);
+        }
+        function CargarFechasyBotones2() {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+        }
+        window.onload = function () {
+            setTimeout(function () { FuncionesPosCargaDeReclamo(); }, 500);
+        };
+    </script>
+</head>
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="CotizacionDuplicada.html">
+            <div class="form-group row"></div>
+            <input id="hdnRuleId" type="hidden" />
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Fecha Ingreso Compañía:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_95" onblur="valFecha(this)" name="zamba_index_95" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Fecha Ingreso BackOffice:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_96" name="zamba_index_96" onblur="valFecha(this)" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">ID Cotización:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_102" name="zamba_index_102" disabled="disabled" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Cod Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_4" name="zamba_index_4" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_58" name="zamba_index_58" disabled="disabled" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Ejecutivo Comercial:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_94" name="zamba_index_94" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Agencia:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_60" name="zamba_index_60" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Grupo:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_104" name="zamba_index_104" disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">CUIT:</span>
+                        <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_1128" name="zamba_index_1128" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Asegurado:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_3" name="zamba_index_3" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="padding:1px;">Plazo Límite Cotización:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_98" name="zamba_index_98" onblur="valFecha(this)" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Suscriptor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_100" name="zamba_index_100" disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Sección:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_32" name="zamba_index_32" disabled="disabled"/>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Agencia Cotizadora:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_111" name="zamba_index_111" disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <!--<input class="btn  btn-primary" id="zamba_save" name="zamba_save" style="font-weight: bold" type="submit" value="Guardar" onclick="zamba_save_onclick(this)"/>-->
+            </center>
+
+            
+                <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:95%; height:1400px" src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\OfficeTemp\9313667(3).png" title="Documento Original"></iframe>
+            
+            <center>
+                <div class="col-md-2" style="position:relative;left:20px;">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:whitesmoke">CotizacionDuplicada.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </center>
+        </form>
+    </div>
+</body>
+</html>

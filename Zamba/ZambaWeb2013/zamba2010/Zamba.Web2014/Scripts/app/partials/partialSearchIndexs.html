@@ -1,0 +1,28 @@
+﻿<div ng-repeat="items in FieldsData" ng-mouseenter="ShowFieldOptions=true" ng-mouseleave="ShowFieldOptions=false">
+    <div class="form-group">
+        <input type="hidden" value="{{items.FieldId}}" />
+        <label class="control-label col-md-3" for="{{items.Field.FieldId}}">{{items.Field.Name}}</label>
+        <div class="col-md-8">
+            <div class="input-group">
+                <input class="form-control col-md-7" type="text" id="{{items.Field.FieldId}}" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 1" />
+                <input class="form-control col-md-7" type="checkbox" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 4" />
+                <input class="form-control col-md-7" type="date" format-date placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 2" />
+                <input class="form-control col-md-7" type="number" format-number placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 3" />
+                <input class="form-control col-md-7" type="color" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 5" />
+                <input class="form-control col-md-7" type="datetime" format-date placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 6" />
+                <input class="form-control col-md-7" type="email" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 7" />
+                <input class="form-control col-md-7" type="month" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 9" />
+                <input class="form-control col-md-7" type="password" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 8" />
+                <input class="form-control col-md-7" type="tel" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 10" />
+                <input class="form-control col-md-7" type="time" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 11" />
+                <input class="form-control col-md-7" type="url" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 13" />
+                <input class="form-control col-md-7" type="week" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 12" />
+                <input class="form-control col-md-7" type="image" placeholder="{{items.Field.Name}}" ng-model="items.FormFieldValue" ng-change="saveData(FieldsData[$index])" ng-if="items.Field.FieldTypeId == 14" />
+                <span class="input-group-btn">
+                   <a class="btn btn-search" ng-if="items.Field.Dropdown == 2" ng-click="showlist($index)"> <i class="fa fa-list"></i></a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

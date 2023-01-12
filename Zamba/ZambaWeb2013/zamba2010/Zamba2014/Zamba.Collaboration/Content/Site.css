@@ -1,0 +1,139 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: Open Sans;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.tableRequest {
+    position: relative;
+    -webkit-box-shadow: 3px 3px 22px 2px #CCCCCC;
+    /*/*/ *-moz-box-shadow: 1px 1px 22px 1px #CCCCCC;
+    */*/*/
+    box-shadow: 1px 2px 26px 2px #CCCCCC;
+    /*background-color:white;*/
+    color: #969696;
+    margin-top: 1%;
+}
+
+.tableCollaboration {
+    position: relative;
+    margin-top: 2%;
+    color: #969696;
+}
+
+/*#dropZone {
+        background: gray;
+        border: black dashed 3px;
+        width: 200px;
+        padding: 50px;
+        text-align: center;
+        color: white;
+    }*/
+a.imgNavBar {
+    background: url('Images/icon-social-collaboration-blue.png') no-repeat top left;
+    display: block;
+    width: 250px;
+    height: 250px;
+    position: relative;
+    top: 40px;
+    zoom: 22%;
+    text-indent: -9999px; /* hides the link text */
+}
+
+.navbar-inverse {
+    background-color: white;
+    border-bottom: 1px solid #6198ec;
+}
+
+a.navBarMenu {
+    display: inline-block;
+}
+
+
+
+#CaptchaImage {
+    height: 73px !important;
+    width: 280px !important;
+}
+
+.buttonModifi {
+    background-color: #6198ec;
+    color: white;
+    border: none !important;
+}
+
+    .buttonModifi:hover {
+        background-color: #6198ec;
+        color: white;
+    }
+
+label {
+    color: #969696 !important;
+    font-size: 13px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #6198ec !important;
+}
+
+.dz-success-mark {
+    left: 100px !important;
+}
+
+.dz-image img {
+    width: 280px;
+    height: 280px;
+    border-radius: 100%;
+}
+
+#CaptchaInputText {
+    width: 280px;
+}
+
+.MainTitle {
+    position: relative;
+    top: 15px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.roundAvatar {
+    border-radius: 50%;
+    border: 1px solid;
+    border-style: dashed;
+    float: left;
+    margin-top: 15px;
+    z-index: 9;
+    position: absolute;
+    background-color: white;
+    width: 100px;
+    height: 100px;
+}
+
+.dz-preview { /*, .dz-preview>.dz-remove*/
+    display: inline !important;
+    left: 120px;
+}
+
+.dz-remove {
+    display: inline !important;
+    margin-top: -20px;
+    z-index: 9999999999;
+}
+
+.dz-size, .dz-filename {
+    display: none !important;
+}

@@ -1,0 +1,6 @@
+Error: Error de sintaxis al convertir una cadena de caracteres a datetime. Trace:    en Zamba.Servers.SQLCon7.ExecuteDataset(CommandType commandType, String commandText, IDbDataParameter[] commandParameters) en D:\Zamba2007\Zamba.Server\SqlServer\SQLCon7.vb:línea 417
+   en Zamba.Servers.SQLCon7.ExecuteDataset(CommandType commandType, String commandText) en D:\Zamba2007\Zamba.Server\SqlServer\SQLCon7.vb:línea 392
+   en Zamba.Data.Results_Factory.getResultsData(Int32 docTypeId, Int32 indexId, List`1 genIndex, String comparateValue, Boolean searchValue, String strRestricc) en D:\Zamba2007\Zamba.Data\Results\Results_Factory.vb:línea 219
+   en Zamba.Core.Results_Business.getResultsData(Int32 docTypeId, Int32 indexId, List`1 genIndex, Int32 UserId, String comparateValue, Boolean searchValue) en D:\Zamba2007\Zamba.Bussines\Results\Results_Business.vb:línea 286
+   en Zamba.Services.Result.getResultsData(Int32 docTypeId, Int32 indexId, String comparateValue, List`1 genIndex, Boolean filter, Int32 UserId) en D:\Zamba2007\Zamba.Services\Result.cs:línea 32
+   en Main.getDocs(Boolean refreshCombo, Boolean useFilter, Boolean DontLoadGrid) en d:\Zamba2007\Zamba.WebTreeView\Main.aspx.cs:línea 535

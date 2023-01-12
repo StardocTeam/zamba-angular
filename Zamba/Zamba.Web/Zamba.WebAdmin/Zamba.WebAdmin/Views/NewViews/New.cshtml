@@ -1,0 +1,88 @@
+﻿@model List<Zamba.WebAdmin.Models.News.ZInformationVM>
+@{
+    Layout = "~/Views/Shared/_LayoutViewer.cshtml";
+}
+
+<div class="row" style="margin:0">
+    <div class="col-xs-12 col-md-5 allNews" style="padding-top:5px; background-color:white">
+
+        <div class="container titleNewsView">
+
+            <div class="titleStyleBlack">
+                <div style="display:inline;margin-left:30px">
+                    @*<span class="glyphicon glyphicon-star-empty"></span>*@
+                    Zamba Noticias
+                </div>
+                <input type="search" class="form-control input-sm" placeholder="Buscar..."
+                       style="display:inline; width:auto;" id="filterNewsInp" />
+                <select id="orderNewsBy" class="form-control input-sm" style="display:inline;width:auto;">
+                    <option value="all">Todos</option>
+                    <option value="noread">No leidos</option>
+                    <option value="recent">Mas recientes</option>
+                    <option value="last">Mas antiguos</option>
+                </select>
+            </div>
+
+        </div>
+    @*@Html.Action*@
+        @{var i = 0; }
+        @foreach (var m in Model)
+        {
+            i++;
+            string style = i > 9 ? "display:none" : null;
+            string classAttr = m.Readed == true ? "readed" : "";
+
+
+            <a href="@m.Id" title="@m.Title" style="@style" data-placement="bottom" created="@m.Created.ToString("MM-dd-yyyy hh:mm")" class="col-md-4 newItem @classAttr">
+                @Html.Raw(m.Content)
+            </a>
+        }
+
+        <div class="col-md-12" style="padding:10px;">
+            <div class="row">
+
+                <button class="col-md-3 col-md-offset-3 btn btn-default" onclick="showMoreNews(this);">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Traer más...
+                </button>
+                <span class="col-md-2 countNews">
+                    @ViewBag.NewsCount  noticias
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <span class="legal">
+                Copyright© @DateTime.Now.Year Stardoc Argentina
+            </span>
+        </div></div>
+    <div class="col-md-7 frmSection" style="height: 100vh; overflow:hidden;">
+        <div class="row">
+            <span class="col-md-6 col-md-offset-3 titleNews" style="text-align: center;">
+                <span class="glyphicon glyphicon-book"></span> @ViewBag.NewTitle
+            </span>
+        </div>
+        <hr style="margin:0" />
+        <div id="htmlContent">
+            <div id="navigateContent" style="display:none;">
+                <iframe height=700 width="100%" src=""></iframe>
+            </div>
+            <div id="defaultContent">
+                @Html.Raw(ViewBag.Content)
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/news/newsContent.js")"></script>
+<style>
+    .list-group-item {
+        padding: 5px 15px;
+    }
+
+    body {
+        padding: 0;
+    }
+</style>

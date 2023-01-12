@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+   
+</head>
+
+<body>
+    <form name="frmMain" action="Envios.Edit.html">
+        <center>
+            <div>
+                <div ng-controller="appController">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container-fluid">
+                        <center>
+                            <div class="tab-pane active" id="Envios.Edit">
+                               
+                                <div class="PanelPrincipal">
+
+                                    <ul class=" nav nav-tabs">
+                                        <li class=" active"><a href="#Envio" data-toggle="tab">Envio</a></li>
+                                        <li><a href="#Eventos" data-toggle="tab">Eventos</a></li>
+                                        <!-- <li><a href="#Add" data-toggle="tab">Add</a></li> -->
+
+
+
+                                    </ul>
+                                   
+                                        <div class="tab-content" id="taskController" ng-controller="TaskController">
+                                            <div class="tab-pane active" id="Envio">
+                                                <div class="form-group row">
+                                                    <div class="col-md-9"></div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Guia-->                                  		<span class="input-group-addon">Nro Guia:</span>
+                                                            <input id="zamba_index_139614" name="zamba_index_139614" size="1" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                   <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Envio-->                                  		<span class="input-group-addon">Nro de Envio:</span>
+                                                            <input id="zamba_index_150673" name="zamba_index_150673" size="1" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Estado Envio-->                                  		<span class="input-group-addon">Estado Envio:</span>
+                                                            <input id="zamba_index_150687" name="zamba_index_150687" size="1" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Estado Orden-->   	<span class="input-group-addon" style="padding:3px;">Estado Orden</span>
+                                                            <input id="zamba_index_26188" name="zamba_index_26188" size="1" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+													<div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Contrato-->  <span class="input-group-addon">Contrato</span>
+                                                            <input id="zamba_index_150679" name="zamba_index_150679" class="form-control input-sm" disabled />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Nro Permisionaria-->                                  		<span class="input-group-addon">Nro Permisionaria</span>
+                                                            <input id="zamba_index_150683" name="zamba_index_150683" size="1" class="form-control input-sm" disabled />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <!--Referencias-->                                  		<span class="input-group-addon">Referencias</span>
+                                                            <input id="zamba_index_150688" name="zamba_index_150688" size="1" class="form-control input-sm" disabled />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                         </div>
+
+                                            <div class="tab-pane" id="Eventos">
+
+                                               <div class="col-md-12 col-xs-12">
+                        <div id="timelineID" ng-controller="MainController">
+                            <zamba-timeline entity-id="107" timeline-type="Aprobaciones" parent-entity-id="18">
+                            </zamba-timeline>
+                        </div>
+                    </div>
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="form-group row">
+									<div class="col-md-6"></div>
+                                         <div class="col-md-1">
+											<input type="button" onclick="PrintGuide();" class="btn-sm btn-primary" value="Imprimir" id="printer">
+										</div>
+                                    </div>
+
+                                    <div class="form-group row"></div>
+
+                                    <div class="row">
+                                        <center>
+                                            <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                                <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-3">
+                                                <span style="color:whitesmoke">Envio_Edit.htm</span>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-2">
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </center>
+        <script src="../../app/SignFiles/Controller/SignController.js?v=53"></script>
+        <script src="../../app/SignFiles/Service/SignService.js?v=53"></script>
+        <script type="text/javascript">
+
+                       // angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+
+        </script>
+
+    </form>
+</body>
+
+
+</html>
+
+<style>
+    .Inputselect {
+        width: 190px !important;
+    }
+
+    .Inputselect2 {
+        width: 65px;
+        position: relative;
+        left: 8px;
+    }
+
+    .Inputselect3 {
+        width: 70px !important;
+    }
+
+
+    .Inputselect4 {
+        width: 200px !important;
+    }
+
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

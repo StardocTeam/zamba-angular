@@ -1,0 +1,33 @@
+﻿<div class="table-result" style="overflow: scroll;     height: 565px;">
+    <table class="table" style="text-align:center">
+        <thead>
+            <tr>
+                <!--<th scope="col" class="CenderColum" ng-repeat="headElement in headElements"> </th>-->
+                <!--<th scope="col" class="CenderColum">Seleccion</th>-->
+                <th scope="col" class="CenderColum" ng-repeat="(headElement, value) in Results[0]">{{headElement}}</th>
+
+            </tr>
+            <div id="BuscadorID" class="BuscadorIDStyle" style="display:none">
+                <input type="text" ng-model="searchText" class="form-control" placeholder="BUSCAR...">
+               
+            </div>
+
+        </thead>
+<tbody class="buscar">
+    <tr mdbTableCol ng-repeat="data in List =(Results| filter:searchText)">
+        <!--<th style="text-align: center">
+            <input type="checkbox" name="checkTable" value="{{$index}}" ng-click="checkoptions($index)">
+        </th>-->
+        <!--<th style="text-align: center">
+            <input type="checkbox" name="checkTable" value="{{data}}" ng-click="checkoptions(data.NroGuia)">
+        </th>-->
+        <td ng-repeat="(columnName, value) in data">{{value}}</td>
+
+    </tr>
+</tbody>
+    </table>
+    </div>
+<!--<div class="modal-footer">
+    <button class="btn btn-primary" type="button" id="btnGardar" ng-click="pc.ok()" disabled>Aceptar</button>
+    <button class="btn btn-danger" type="button" id="btnCancelar" ng-click="pc.cancel()">Cancelar</button>
+</div>-->

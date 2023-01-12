@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="refresh-refrescar-actualizar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh-refrescar-actualizar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FrmMain_SetWindowTitle__">
+    <value xml:space="preserve">(</value>
+  </data>
+  <data name="FrmMain_FrmTestLoad_Usted_no_posee_permisos_para_este_modulo__Por_favor_contactese_con_el_Administrador_">
+    <value xml:space="preserve">Usted no posee permisos para este modulo. Por favor contactese con el Administrador.</value>
+  </data>
+  <data name="FrmMain_FrmTestLoad_Atención">
+    <value xml:space="preserve">Atención</value>
+  </data>
+  <data name="FrmMain_SetWindowTitle__Openparenthesis">
+    <value xml:space="preserve">(</value>
+  </data>
+  <data name="FrmMain_SetWindowTitle__Closeparenthesis">
+    <value xml:space="preserve">)</value>
+  </data>
+  <data name="FrmMain_SetWindowTitle____hyphen">
+    <value xml:space="preserve"> - </value>
+  </data>
+  <data name="FrmMain_FrmTestLoad_____">
+    <value xml:space="preserve"> - [</value>
+  </data>
+  <data name="FrmMain_FrmTestLoad__">
+    <value xml:space="preserve">]</value>
+  </data>
+  <data name="FrmMain_FrmTestLoad_Ha_ocurrido_un_error_inesperado">
+    <value xml:space="preserve">Ha ocurrido un error inesperado</value>
+  </data>
+  <data name="FrmMain_FrmTestLoad_Zamba_Software">
+    <value xml:space="preserve">Zamba Software</value>
+  </data>
+  <data name="FrmMain_DoLogin_Su_instalacion_no_se_encuentra_registrada__por_favor_contactese_con_Stardoc_Argentina_S_A_">
+    <value xml:space="preserve">Su instalacion no se encuentra registrada, por favor contactese con Stardoc Argentina S.A.</value>
+  </data>
+  <data name="FrmMain_DoLogin_Atencion">
+    <value xml:space="preserve">Atencion</value>
+  </data>
+  <data name="FrmMain_BtnExportClick_Ingrese_la_ruta_y_el_nombre_del_archivo_de_Excel">
+    <value xml:space="preserve">Ingrese la ruta y el nombre del archivo de Excel</value>
+  </data>
+  <data name="FrmMain_BtnExportClick_CSV_files____csv____csv">
+    <value xml:space="preserve">CSV files (*.csv)|*.csv</value>
+  </data>
+  <data name="FrmMain_BtnExportClick_excel_files____xls____xls">
+    <value xml:space="preserve">excel files (*.xls)|*.xls</value>
+  </data>
+  <data name="FrmMain_BtnExportClick_PDF_files____pdf____pdf">
+    <value xml:space="preserve">PDF files (*.pdf)|*.pdf</value>
+  </data>
+  <data name="FrmMain_BtnExportClick_Word_files____doc____doc">
+    <value xml:space="preserve">Word files (*.doc)|*.doc</value>
+  </data>
+  <data name="FrmMain_Validate_Id_maximo_soportado_18_caracteres">
+    <value xml:space="preserve">Id maximo soportado 18 caracteres</value>
+  </data>
+  <data name="FrmMain_CommandBarButton1Click_Por_favor_seleccione_un_tipo_específico_para_listar_los_casos_de_prueba_">
+    <value xml:space="preserve">Por favor seleccione un tipo específico para listar los casos de prueba.</value>
+  </data>
+  <data name="FrmMain_CommandBarButton1Click_Listado_de_Casos_de_Prueba">
+    <value xml:space="preserve">Listado de Casos de Prueba</value>
+  </data>
+  <data name="FrmMain_CommandBarButton1Click_Desea_listar_los_casos_de_prueba_y_sus_ejecuciones_o_desea_listar_los_casos_de_prueba_para_registrar_su_ejecucion_manualmente_">
+    <value xml:space="preserve">Desea listar los casos de prueba y sus ejecuciones o desea listar los casos de prueba para registrar su ejecucion manualmente?</value>
+  </data>
+  <data name="FrmMain_CommandBarButton1Click_Ocurrio_un_error_al_generar_el_informe__por_favor_contactese_con_el_administrador_del_sistema">
+    <value xml:space="preserve">Ocurrio un error al generar el informe, por favor contactese con el administrador del sistema</value>
+  </data>
+  <data name="FrmMain_CommandBarButton1Click_Error">
+    <value xml:space="preserve">Error</value>
+  </data>
+  <data name="FrmMain_btnNewTestCase_Click_Debe_seleccionar_un_tipo_de_objeto_y_objeto">
+    <value xml:space="preserve">Debe seleccionar un tipo de objeto y objeto</value>
+  </data>
+  <data name="FrmMain_btnNewTestCase_Click_Advertencia">
+    <value xml:space="preserve">Advertencia</value>
+  </data>
+  <data name="FrmMain_btnNewTestCase_Click_Se_debe_ingresar_un_ID_para_el_objeto_al_que_se_desea_generar_un_caso_de_prueba">
+    <value xml:space="preserve">Se debe ingresar un ID para el objeto al que se desea generar un caso de prueba</value>
+  </data>
+  <data name="FrmMain_btnNewTestCase_Click_ATENCION">
+    <value xml:space="preserve">ATENCION</value>
+  </data>
+</root>

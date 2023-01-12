@@ -1,0 +1,1165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2FD4EA76-168E-494E-BD52-195EB4986497}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>Zamba.ReportsViewer</RootNamespace>
+    <AssemblyName>Zamba.ReportsViewer</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Stardoc.Zamba.pfx</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>http://localhost/Zamba.ReportsViewer/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\..\compilado\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRules>-Microsoft.Design#CA1012;-Microsoft.Design#CA2210;-Microsoft.Design#CA1005;-Microsoft.Design#CA1020;-Microsoft.Design#CA1021;-Microsoft.Design#CA1010;-Microsoft.Design#CA1011;-Microsoft.Design#CA1009;-Microsoft.Design#CA1050;-Microsoft.Design#CA1026;-Microsoft.Design#CA1019;-Microsoft.Design#CA1031;-Microsoft.Design#CA1047;-Microsoft.Design#CA1000;-Microsoft.Design#CA1048;-Microsoft.Design#CA1051;-Microsoft.Design#CA1002;-Microsoft.Design#CA1061;-Microsoft.Design#CA1006;-Microsoft.Design#CA1046;-Microsoft.Design#CA1045;-Microsoft.Design#CA1065;-Microsoft.Design#CA1038;-Microsoft.Design#CA1008;-Microsoft.Design#CA1028;-Microsoft.Design#CA1064;-Microsoft.Design#CA1004;-Microsoft.Design#CA1035;-Microsoft.Design#CA1063;-Microsoft.Design#CA1032;-Microsoft.Design#CA1023;-Microsoft.Design#CA1033;-Microsoft.Design#CA1039;-Microsoft.Design#CA1016;-Microsoft.Design#CA1014;-Microsoft.Design#CA1017;-Microsoft.Design#CA1018;-Microsoft.Design#CA1027;-Microsoft.Design#CA1059;-Microsoft.Design#CA1060;-Microsoft.Design#CA1034;-Microsoft.Design#CA1013;-Microsoft.Design#CA1036;-Microsoft.Design#CA1041;-Microsoft.Design#CA1025;-Microsoft.Design#CA1052;-Microsoft.Design#CA1053;-Microsoft.Design#CA1057;-Microsoft.Design#CA1058;-Microsoft.Design#CA1001;-Microsoft.Design#CA1049;-Microsoft.Design#CA1054;-Microsoft.Design#CA1056;-Microsoft.Design#CA1055;-Microsoft.Design#CA1030;-Microsoft.Design#CA1003;-Microsoft.Design#CA1007;-Microsoft.Design#CA1043;-Microsoft.Design#CA1024;-Microsoft.Globalization#CA1301;-Microsoft.Globalization#CA1302;-Microsoft.Globalization#CA1308;-Microsoft.Globalization#CA1306;-Microsoft.Globalization#CA1304;-Microsoft.Globalization#CA1305;-Microsoft.Globalization#CA2101;-Microsoft.Globalization#CA1300;-Microsoft.Globalization#CA1307;-Microsoft.Globalization#CA1309;-Microsoft.Interoperability#CA1403;-Microsoft.Interoperability#CA1406;-Microsoft.Interoperability#CA1413;-Microsoft.Interoperability#CA1402;-Microsoft.Interoperability#CA1407;-Microsoft.Interoperability#CA1404;-Microsoft.Interoperability#CA1410;-Microsoft.Interoperability#CA1411;-Microsoft.Interoperability#CA1405;-Microsoft.Interoperability#CA1409;-Microsoft.Interoperability#CA1415;-Microsoft.Interoperability#CA1408;-Microsoft.Interoperability#CA1414;-Microsoft.Interoperability#CA1412;-Microsoft.Interoperability#CA1400;-Microsoft.Interoperability#CA1401;-Microsoft.Maintainability#CA1506;-Microsoft.Maintainability#CA1502;-Microsoft.Maintainability#CA1501;-Microsoft.Maintainability#CA1505;-Microsoft.Maintainability#CA1504;-Microsoft.Maintainability#CA1500;-Microsoft.Mobility#CA1600;-Microsoft.Mobility#CA1601;-Microsoft.Naming#CA1702;-Microsoft.Naming#CA1700;-Microsoft.Naming#CA1712;-Microsoft.Naming#CA1713;-Microsoft.Naming#CA1714;-Microsoft.Naming#CA1709;-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1708;-Microsoft.Naming#CA1715;-Microsoft.Naming#CA1710;-Microsoft.Naming#CA1720;-Microsoft.Naming#CA1707;-Microsoft.Naming#CA1722;-Microsoft.Naming#CA1711;-Microsoft.Naming#CA1716;-Microsoft.Naming#CA1717;-Microsoft.Naming#CA1725;-Microsoft.Naming#CA1719;-Microsoft.Naming#CA1721;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703;-Microsoft.Naming#CA1724;-Microsoft.Naming#CA1726;-Microsoft.Performance#CA1809;-Microsoft.Performance#CA1811;-Microsoft.Performance#CA1812;-Microsoft.Performance#CA1813;-Microsoft.Performance#CA1805;-Microsoft.Performance#CA1810;-Microsoft.Performance#CA1824;-Microsoft.Performance#CA1822;-Microsoft.Performance#CA1815;-Microsoft.Performance#CA1814;-Microsoft.Performance#CA1819;-Microsoft.Performance#CA1821;-Microsoft.Performance#CA1820;-Microsoft.Performance#CA1802;-Microsoft.Portability#CA1901;-Microsoft.Portability#CA1900;-Microsoft.Reliability#CA2001;-Microsoft.Reliability#CA2002;-Microsoft.Reliability#CA2003;-Microsoft.Reliability#CA2004;-Microsoft.Reliability#CA2006;-Microsoft.Security#CA2116;-Microsoft.Security#CA2117;-Microsoft.Security#CA2105;-Microsoft.Security#CA2115;-Microsoft.Security#CA2102;-Microsoft.Security#CA2104;-Microsoft.Security#CA2122;-Microsoft.Security#CA2114;-Microsoft.Security#CA2123;-Microsoft.Security#CA2111;-Microsoft.Security#CA2108;-Microsoft.Security#CA2107;-Microsoft.Security#CA2103;-Microsoft.Security#CA2118;-Microsoft.Security#CA2109;-Microsoft.Security#CA2119;-Microsoft.Security#CA2106;-Microsoft.Security#CA2112;-Microsoft.Security#CA2120;-Microsoft.Security#CA2121;-Microsoft.Security#CA2126;-Microsoft.Security#CA2124;-Microsoft.Security#CA2127;-Microsoft.Security#CA2128;-Microsoft.Security#CA2129;-Microsoft.Usage#CA2243;-Microsoft.Usage#CA2236;-Microsoft.Usage#CA1816;-Microsoft.Usage#CA2227;-Microsoft.Usage#CA2213;-Microsoft.Usage#CA2216;-Microsoft.Usage#CA2214;-Microsoft.Usage#CA2222;-Microsoft.Usage#CA1806;-Microsoft.Usage#CA2217;-Microsoft.Usage#CA2212;-Microsoft.Usage#CA2219;-Microsoft.Usage#CA2201;-Microsoft.Usage#CA2228;-Microsoft.Usage#CA2221;-Microsoft.Usage#CA2220;-Microsoft.Usage#CA2240;-Microsoft.Usage#CA2229;-Microsoft.Usage#CA2238;-Microsoft.Usage#CA2207;-Microsoft.Usage#CA2208;-Microsoft.Usage#CA2235;-Microsoft.Usage#CA2237;-Microsoft.Usage#CA2232;-Microsoft.Usage#CA2223;-Microsoft.Usage#CA2211;-Microsoft.Usage#CA2233;-Microsoft.Usage#CA2225;-Microsoft.Usage#CA2226;-Microsoft.Usage#CA2231;-Microsoft.Usage#CA2224;-Microsoft.Usage#CA2218;-Microsoft.Usage#CA2234;-Microsoft.Usage#CA2239;-Microsoft.Usage#CA2200;-Microsoft.Usage#CA1801;-Microsoft.Usage#CA2242;-Microsoft.Usage#CA2205;-Microsoft.Usage#CA2230</CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\compilado\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>
+    </NoWarn>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Enterprise.Framework, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Enterprise.InfoStore, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\assembly\GAC_MSIL\System.Web.Services\2.0.0.0__b03f5f7f11d50a3a\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="CrystalReport1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ReportsCore\ClsActiveUsers.vb" />
+    <Compile Include="ReportsCore\ClsDocCount.vb" />
+    <Compile Include="ReportsCore\ClsEstadisticas.vb" />
+    <Compile Include="ReportsCore\ClsHistorialDeAcciones.vb" />
+    <Compile Include="ReportsCore\ClsHistory.vb" />
+    <Compile Include="ReportsCore\ClsMails.vb" />
+    <Compile Include="ReportsCore\ClsProceso.vb" />
+    <Compile Include="ReportsCore\ClsUsersRights.vb" />
+    <Compile Include="ReportsCore\ClsWorkflow.vb" />
+    <Compile Include="ReportsCore\csCaratulasIngresadas.vb" />
+    <Compile Include="ReportsCore\csValidarParametros.vb" />
+    <Compile Include="ReportsCore\DocIndex.Designer.vb">
+      <DependentUpon>DocIndex.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsActions.Designer.vb">
+      <DependentUpon>DsActions.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsActiveUsers.Designer.vb">
+      <DependentUpon>DsActiveUsers.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsBarcode.Designer.vb">
+      <DependentUpon>DsBarcode.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\dsBestDocuments.Designer.vb">
+      <DependentUpon>dsBestDocuments.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\dsCaratulasIngresadas.vb">
+      <DependentUpon>dsCaratulasIngresadas.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocCountStep.Designer.vb">
+      <DependentUpon>DsDocCountStep.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocDeleted.Designer.vb">
+      <DependentUpon>DsDocDeleted.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\dsdocdiarios.Designer.vb">
+      <DependentUpon>dsdocdiarios.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocIndex.Designer.vb">
+      <DependentUpon>DsDocIndex.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocs.Designer.vb">
+      <DependentUpon>DsDocs.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocsInWF.Designer.vb">
+      <DependentUpon>DsDocsInWF.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocumentsByDate.Designer.vb">
+      <DependentUpon>DsDocumentsByDate.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsDocumentsType.Designer.vb">
+      <DependentUpon>DsDocumentsType.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsHistorialAcciones.Designer.vb">
+      <DependentUpon>DsHistorialAcciones.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsHistory.Designer.vb">
+      <DependentUpon>DsHistory.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsInactiveUsers.Designer.vb">
+      <DependentUpon>DsInactiveUsers.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsInstalled.Designer.vb">
+      <DependentUpon>DsInstalled.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DSLogins.Designer.vb">
+      <DependentUpon>DSLogins.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsMails.Designer.vb">
+      <DependentUpon>DsMails.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsMailsCount.Designer.vb">
+      <DependentUpon>DsMailsCount.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsMailspublicos.Designer.vb">
+      <DependentUpon>DsMailspublicos.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsPermisos.Designer.vb">
+      <DependentUpon>DsPermisos.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsRptProcess.Designer.vb">
+      <DependentUpon>DsRptProcess.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsRulesByStep.Designer.vb">
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsUsers.Designer.vb">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsUsersPrint.Designer.vb">
+      <DependentUpon>DsUsersPrint.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\dsvols.Designer.vb">
+      <DependentUpon>dsvols.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\DsWFStepStates.Designer.vb">
+      <DependentUpon>DsWFStepStates.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReportsCore\Volumenes.vb" />
+    <Compile Include="Reports\frmAllBarcode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmBatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmDates.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmDocHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmUsers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmUSrFRecha.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\RptCaratulas.vb">
+      <DependentUpon>RptCaratulas.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptCaratulasIngresadas.vb">
+      <DependentUpon>rptCaratulasIngresadas.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptCaratulasIngresadasPorUsuario.vb">
+      <DependentUpon>rptCaratulasIngresadasPorUsuario.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocByDate.vb">
+      <DependentUpon>RptDocByDate.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocCountInStep.vb">
+      <DependentUpon>RptDocCountInStep.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocDeleted.vb">
+      <DependentUpon>RptDocDeleted.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptDocDiarios.vb">
+      <DependentUpon>rptDocDiarios.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocHistory.vb">
+      <DependentUpon>RptDocHistory.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocIndex.vb">
+      <DependentUpon>RptDocIndex.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocMasCons.vb">
+      <DependentUpon>RptDocMasCons.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocSend.vb">
+      <DependentUpon>RptDocSend.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocTypeInWF.vb">
+      <DependentUpon>RptDocTypeInWF.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocumentIndex.vb">
+      <DependentUpon>RptDocumentIndex.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptDocumentos.vb">
+      <DependentUpon>RptDocumentos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptHistorialAcciones.vb">
+      <DependentUpon>rptHistorialAcciones.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptImpresos.vb">
+      <DependentUpon>RptImpresos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptInactive.vb">
+      <DependentUpon>RptInactive.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptInstalled.vb">
+      <DependentUpon>RptInstalled.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptLockUser.vb">
+      <DependentUpon>rptLockUser.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptLogins.vb">
+      <DependentUpon>rptLogins.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptMailsImportados.vb">
+      <DependentUpon>RptMailsImportados.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptMailsImported.vb">
+      <DependentUpon>RptMailsImported.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptMailsPub.vb">
+      <DependentUpon>RptMailsPub.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptMailsPublicToImport.vb">
+      <DependentUpon>RptMailsPublicToImport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptMailsToImport.vb">
+      <DependentUpon>RptMailsToImport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptOnlineUsers.vb">
+      <DependentUpon>RptOnlineUsers.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RPTPermisos1.vb">
+      <DependentUpon>RPTPermisos.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptPermisosPorUsuario.vb">
+      <DependentUpon>RptPermisosPorUsuario.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptProcess.vb">
+      <DependentUpon>RptProcess.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptRulesByStep.vb">
+      <DependentUpon>RptRulesByStep.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptStep.vb">
+      <DependentUpon>RptStep.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptUserHistory.vb">
+      <DependentUpon>RptUserHistory.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\rptvolumenes.vb">
+      <DependentUpon>rptvolumenes.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\RptWfStepStates.vb">
+      <DependentUpon>RptWfStepStates.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\ZReports.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CrystalReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmAllBarcode.resx">
+      <DependentUpon>frmAllBarcode.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmBatch.resx">
+      <DependentUpon>frmBatch.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmDates.resx">
+      <DependentUpon>FrmDates.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmDocHistory.resx">
+      <DependentUpon>FrmDocHistory.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmReport.resx">
+      <DependentUpon>FrmReport.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmUsers.resx">
+      <DependentUpon>FrmUsers.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmUSrFRecha.resx">
+      <DependentUpon>frmUSrFRecha.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptCaratulas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptCaratulas.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptCaratulasIngresadas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCaratulasIngresadas.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptCaratulasIngresadasPorUsuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCaratulasIngresadasPorUsuario.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocByDate.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocByDate.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocCountInStep.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocCountInStep.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocDeleted.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocDeleted.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptDocDiarios.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDocDiarios.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocHistory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocHistory.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocIndex.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocIndex.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocMasCons.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocMasCons.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocSend.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocSend.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocTypeInWF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocTypeInWF.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocumentIndex.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocumentIndex.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptDocumentos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptDocumentos.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptHistorialAcciones.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptHistorialAcciones.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptImpresos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptImpresos.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptInactive.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptInactive.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptInstalled.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptInstalled.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptLockUser.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLockUser.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptLogins.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLogins.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptMailsImportados.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptMailsImportados.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptMailsImported.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptMailsImported.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptMailsPub.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptMailsPub.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptMailsPublicToImport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptMailsPublicToImport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptMailsToImport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptMailsToImport.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptOnlineUsers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptOnlineUsers.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RPTPermisos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RPTPermisos1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptPermisosPorUsuario.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptPermisosPorUsuario.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptProcess.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptProcess.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptRulesByStep.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptRulesByStep.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptStep.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptStep.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptUserHistory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptUserHistory.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptvolumenes.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptvolumenes.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptWfStepStates.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RptWfStepStates.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="ReportsCore\DocIndex.xsc">
+      <DependentUpon>DocIndex.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DocIndex.xss">
+      <DependentUpon>DocIndex.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DocIndex.xsx">
+      <DependentUpon>DocIndex.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsActions.xsc">
+      <DependentUpon>DsActions.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsActions.xss">
+      <DependentUpon>DsActions.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsActions.xsx">
+      <DependentUpon>DsActions.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsActiveUsers.xsc">
+      <DependentUpon>DsActiveUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsActiveUsers.xss">
+      <DependentUpon>DsActiveUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsActiveUsers.xsx">
+      <DependentUpon>DsActiveUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsBarcode.xsc">
+      <DependentUpon>DsBarcode.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsBarcode.xss">
+      <DependentUpon>DsBarcode.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsBarcode.xsx">
+      <DependentUpon>DsBarcode.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsBestDocuments.xsc">
+      <DependentUpon>dsBestDocuments.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsBestDocuments.xss">
+      <DependentUpon>dsBestDocuments.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsBestDocuments.xsx">
+      <DependentUpon>dsBestDocuments.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsCaratulasIngresadas.xsc">
+      <DependentUpon>dsCaratulasIngresadas.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsCaratulasIngresadas.xss">
+      <DependentUpon>dsCaratulasIngresadas.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsCaratulasIngresadas.xsx">
+      <DependentUpon>dsCaratulasIngresadas.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocCountStep.xsc">
+      <DependentUpon>DsDocCountStep.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocCountStep.xss">
+      <DependentUpon>DsDocCountStep.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocCountStep.xsx">
+      <DependentUpon>DsDocCountStep.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocDeleted.xsc">
+      <DependentUpon>DsDocDeleted.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocDeleted.xss">
+      <DependentUpon>DsDocDeleted.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocDeleted.xsx">
+      <DependentUpon>DsDocDeleted.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsdocdiarios.xsc">
+      <DependentUpon>dsdocdiarios.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsdocdiarios.xss">
+      <DependentUpon>dsdocdiarios.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsdocdiarios.xsx">
+      <DependentUpon>dsdocdiarios.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocIndex.xsc">
+      <DependentUpon>DsDocIndex.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocIndex.xss">
+      <DependentUpon>DsDocIndex.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocIndex.xsx">
+      <DependentUpon>DsDocIndex.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocs.xsc">
+      <DependentUpon>DsDocs.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocs.xss">
+      <DependentUpon>DsDocs.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocs.xsx">
+      <DependentUpon>DsDocs.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocsInWF.xsc">
+      <DependentUpon>DsDocsInWF.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocsInWF.xss">
+      <DependentUpon>DsDocsInWF.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocsInWF.xsx">
+      <DependentUpon>DsDocsInWF.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocumentsByDate.xss">
+      <DependentUpon>DsDocumentsByDate.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocumentsByDate.xsx">
+      <DependentUpon>DsDocumentsByDate.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocumentsType.xsc">
+      <DependentUpon>DsDocumentsType.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocumentsType.xss">
+      <DependentUpon>DsDocumentsType.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsDocumentsType.xsx">
+      <DependentUpon>DsDocumentsType.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsHistorialAcciones.xsc">
+      <DependentUpon>DsHistorialAcciones.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsHistorialAcciones.xss">
+      <DependentUpon>DsHistorialAcciones.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsHistorialAcciones.xsx">
+      <DependentUpon>DsHistorialAcciones.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsHistory.xsc">
+      <DependentUpon>DsHistory.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsHistory.xss">
+      <DependentUpon>DsHistory.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsHistory.xsx">
+      <DependentUpon>DsHistory.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsInactiveUsers.xsc">
+      <DependentUpon>DsInactiveUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsInactiveUsers.xss">
+      <DependentUpon>DsInactiveUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsInactiveUsers.xsx">
+      <DependentUpon>DsInactiveUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsInstalled.xsc">
+      <DependentUpon>DsInstalled.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsInstalled.xss">
+      <DependentUpon>DsInstalled.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsInstalled.xsx">
+      <DependentUpon>DsInstalled.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DSLogins.xsc">
+      <DependentUpon>DSLogins.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DSLogins.xss">
+      <DependentUpon>DSLogins.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DSLogins.xsx">
+      <DependentUpon>DSLogins.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMails.xsc">
+      <DependentUpon>DsMails.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMails.xss">
+      <DependentUpon>DsMails.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMails.xsx">
+      <DependentUpon>DsMails.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMailsCount.xsc">
+      <DependentUpon>DsMailsCount.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMailsCount.xss">
+      <DependentUpon>DsMailsCount.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMailsCount.xsx">
+      <DependentUpon>DsMailsCount.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMailspublicos.xsc">
+      <DependentUpon>DsMailspublicos.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMailspublicos.xss">
+      <DependentUpon>DsMailspublicos.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsMailspublicos.xsx">
+      <DependentUpon>DsMailspublicos.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsPermisos.xsc">
+      <DependentUpon>DsPermisos.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsPermisos.xss">
+      <DependentUpon>DsPermisos.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsPermisos.xsx">
+      <DependentUpon>DsPermisos.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsRptProcess.xsc">
+      <DependentUpon>DsRptProcess.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsRptProcess.xss">
+      <DependentUpon>DsRptProcess.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsRptProcess.xsx">
+      <DependentUpon>DsRptProcess.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsRulesByStep.xsc">
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsRulesByStep.xss">
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsRulesByStep.xsx">
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsUsers.xsc">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsUsers.xss">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsUsers.xsx">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsUsersPrint.xsc">
+      <DependentUpon>DsUsersPrint.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsUsersPrint.xss">
+      <DependentUpon>DsUsersPrint.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsUsersPrint.xsx">
+      <DependentUpon>DsUsersPrint.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsvols.xsc">
+      <DependentUpon>dsvols.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsvols.xss">
+      <DependentUpon>dsvols.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\dsvols.xsx">
+      <DependentUpon>dsvols.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsWFStepStates.xsc">
+      <DependentUpon>DsWFStepStates.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsWFStepStates.xss">
+      <DependentUpon>DsWFStepStates.xsd</DependentUpon>
+    </None>
+    <None Include="ReportsCore\DsWFStepStates.xsx">
+      <DependentUpon>DsWFStepStates.xsd</DependentUpon>
+    </None>
+    <None Include="Stardoc.Zamba.pfx" />
+    <Content Include="ReportsCore\DsWFStepStates.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsWFStepStates.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\dsvols.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsvols.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsUsersPrint.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsUsersPrint.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsUsers.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsUsers.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsRulesByStep.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRulesByStep.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsRptProcess.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRptProcess.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsPermisos.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsPermisos.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsMailspublicos.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsMailspublicos.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsMailsCount.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsMailsCount.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsMails.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsMails.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DSLogins.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSLogins.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsInstalled.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsInstalled.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsInactiveUsers.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsInactiveUsers.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsHistory.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsHistory.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsHistorialAcciones.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsHistorialAcciones.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocumentsType.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocumentsType.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocumentsByDate.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocumentsByDate.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocsInWF.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocsInWF.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocs.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocs.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocIndex.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocIndex.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\dsdocdiarios.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsdocdiarios.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocDeleted.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocDeleted.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsDocCountStep.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocCountStep.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\dsCaratulasIngresadas.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsCaratulasIngresadas.Designer.vb</LastGenOutput>
+    </Content>
+    <Content Include="ReportsCore\dsBestDocuments.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsBestDocuments.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsBarcode.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsBarcode.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsActiveUsers.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsActiveUsers.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DsActions.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsActions.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportsCore\DocIndex.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DocIndex.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\icono nota 32X32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
+      <Project>{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}</Project>
+      <Name>Zamba.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{D349AB2A-B052-4307-B979-D397D10760A1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

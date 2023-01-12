@@ -1,0 +1,99 @@
+<html>
+<head>
+    <title>Intimaci&oacuten</title>
+    <link href="Content/Styles/Aysa_styles.css" type="text/css" rel="stylesheet">
+    <link href="Content/Styles/Aysa_styles_table.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <form name="frmMain" method="post" style="width: 700px; height: 400px">
+    <input id="hdnRuleId" type="hidden" />
+	        <div name="design" id="design">
+            <strong>Cortes</strong>
+        </div>
+    <br />
+    <div class="tabber">
+        <div class="tabbertab" id="tabGeneral">
+            <h2>
+                Datos del Corte</h2>
+		<input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px;
+                display: none;" />
+        <select id="zamba_index_1181" name="zamba_index_1181" style="width: 175px; display:none;"></select>
+        <input type="text" id="zamba_index_1192" name="zamba_index_1192" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1193" name="zamba_index_1193" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1187" name="zamba_index_1187" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1188" name="zamba_index_1188" style="width: 150px; display:none;" />
+		<input type="text" id="zamba_index_11310" name="zamba_index_11310" style="width: 150px; display:none;" />
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Nro SISEME:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_11298" name="zamba_index_11298" style="width: 150px"/>
+                    </td>
+					<td>
+                        <label>
+                            Fecha de Corte:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_11329" name="zamba_index_11329" style="width: 150px"/>
+                    </td>
+					                </tr>
+				                <tr>
+                    <td>
+                        <label>
+                            Motivo del corte:</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_11321" class="ConvertToUpper" name="zamba_index_11321"></textarea>
+                    </td>
+                </tr>
+                </tr>
+				                <tr>
+                    <td>
+                        <label>
+                            Observaciones:</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_1229" class="ConvertToUpper" name="zamba_index_1229"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+		<div class="tabbertab" id="tabGeneral">
+            <h2>
+                Documentaci&oacuten</h2>
+            <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule" value="Agregar Documentacion" name="zamba_rule_8062"/>
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentaci&oacuten asociada al corte:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+        </div>
+    </div>
+    <br />
+       <div style="text-align: center">
+        <input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />
+    </div>
+    </form>
+</body>
+</html>

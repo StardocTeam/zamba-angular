@@ -1,0 +1,23 @@
+********************************************************************************
+                                 ZAMBA.INDEXER                                  
+********************************************************************************
+El proceso puede requerir de una gran cantidad de tiempo dependiendo de
+la cantidad de documentos que existan en zamba. Se recomienda configurar
+IndexerStart e IndexerEnd en el caso de que por la noche se realizen
+backups de la base. También es recomendable tener en True la opción
+SaveLastProcessedDoc (ver la descripción debajo para su utilidad)
+
+Configuración (Todo dentro del UserCOnfig en la sección Indexer):
+* RowsToGet: El procesamiento se realiza por bloques de registros para evitar
+  traer demasiados datos y 'colgar' la base. El bloque procesado será de N
+  registros. Default = 5000.
+* FullDescription: Descripción detallada del procesamiento. Default = False
+* LastDocIdProcessed: DocId de una DOC_I para comenzar. Se utiliza en conjunto
+  con la opción StartFromDocType. Default = 0.
+* StartFromDocType: DocType para comenzar a procesar. El procesamiento es
+  ascendente. Default = 0.
+* SaveLastProcessedDoc: Guarda el último ID de tipo de documento en la opción
+  StartFromDocType y el ID del documento en la opción LastDocIdProcessed.
+  Default = True.
+* IndexerStart: Hora en que el indexer comienza a ejecutarse. Default = 0.
+* IndexerEnd: Hora en que el indexer detiene la ejecución. Default = 24.

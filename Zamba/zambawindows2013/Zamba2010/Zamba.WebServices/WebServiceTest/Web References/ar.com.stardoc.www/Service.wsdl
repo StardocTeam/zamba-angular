@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetIndexs">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetIndexsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIndexsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryDocuments">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="query" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="QueryDocumentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="QueryDocumentsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocumentImage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDocumentImageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDocumentImageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetIndexsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIndexs" />
+  </wsdl:message>
+  <wsdl:message name="GetIndexsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIndexsResponse" />
+  </wsdl:message>
+  <wsdl:message name="QueryDocumentsSoapIn">
+    <wsdl:part name="parameters" element="tns:QueryDocuments" />
+  </wsdl:message>
+  <wsdl:message name="QueryDocumentsSoapOut">
+    <wsdl:part name="parameters" element="tns:QueryDocumentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentImageSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDocumentImage" />
+  </wsdl:message>
+  <wsdl:message name="GetDocumentImageSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDocumentImageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceIndexSoap">
+    <wsdl:operation name="GetIndexs">
+      <wsdl:input message="tns:GetIndexsSoapIn" />
+      <wsdl:output message="tns:GetIndexsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryDocuments">
+      <wsdl:input message="tns:QueryDocumentsSoapIn" />
+      <wsdl:output message="tns:QueryDocumentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentImage">
+      <wsdl:input message="tns:GetDocumentImageSoapIn" />
+      <wsdl:output message="tns:GetDocumentImageSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceIndexSoap" type="tns:ServiceIndexSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetIndexs">
+      <soap:operation soapAction="http://tempuri.org/GetIndexs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryDocuments">
+      <soap:operation soapAction="http://tempuri.org/QueryDocuments" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentImage">
+      <soap:operation soapAction="http://tempuri.org/GetDocumentImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceIndexSoap12" type="tns:ServiceIndexSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetIndexs">
+      <soap12:operation soapAction="http://tempuri.org/GetIndexs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryDocuments">
+      <soap12:operation soapAction="http://tempuri.org/QueryDocuments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentImage">
+      <soap12:operation soapAction="http://tempuri.org/GetDocumentImage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceIndex">
+    <wsdl:port name="ServiceIndexSoap" binding="tns:ServiceIndexSoap">
+      <soap:address location="http://localhost:4173/Zamba.WebServices/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceIndexSoap12" binding="tns:ServiceIndexSoap12">
+      <soap12:address location="http://localhost:4173/Zamba.WebServices/Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A706E6F9-436F-4761-AB28-30F99F1EF098}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Zamba.Core</AssemblyName>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>Zamba.Core</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <SccAuxPath>SAK</SccAuxPath>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/Zamba.Core/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <BaseAddress>285212672</BaseAddress>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssociatedIndexsRightsInfo.vb" />
+    <Compile Include="AutoMail\AutoMail.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AutoMail\SMTP_Validada.vb" />
+    <Compile Include="Barcodes\BarcodeRemark.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BaseImageFileResult.vb" />
+    <Compile Include="Entidades\DataGeneratorHelper.vb" />
+    <Compile Include="Entidades\ErrorReport.vb" />
+    <Compile Include="Entidades\ErrorReportAttachment.vb" />
+    <Compile Include="Entidades\IRuleButton.vb" />
+    <Compile Include="Entidades\Search.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions\ZambaEx.vb" />
+    <Compile Include="CoreComparer.vb" />
+    <Compile Include="Entidades\BlobDocument.vb" />
+    <Compile Include="Entidades\ButtonDiagram.vb" />
+    <Compile Include="Entidades\EntityDiagram.vb" />
+    <Compile Include="Entidades\InterfaceDiagram.vb" />
+    <Compile Include="Entidades\RemoteInsertEntry.vb" />
+    <Compile Include="Entidades\RuleButton.vb" />
+    <Compile Include="Entidades\SectionDiagram.vb" />
+    <Compile Include="Entidades\WFDiagram.vb" />
+    <Compile Include="Entidades\ZScript.vb" />
+    <Compile Include="Forms\Condition.vb" />
+    <Compile Include="Forms\DynamicFormsState.vb" />
+    <Compile Include="Forms\IndexDescription.vb" />
+    <Compile Include="Forms\Section.vb" />
+    <Compile Include="Forms\ZwebDynamicForm.vb" />
+    <Compile Include="Forms\ZWebFormCondition.vb" />
+    <Compile Include="HistoryAnalysis\Rules\DoRuleNode.vb" />
+    <Compile Include="HistoryAnalysis\Rules\DoRuleNodeHistory.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IfRuleNode.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IfRuleNodeHistory.vb" />
+    <Compile Include="HistoryAnalysis\Rules\RuleNode.vb" />
+    <Compile Include="HistoryAnalysis\StepAnalysis.vb" />
+    <Compile Include="Entidades\Asociados.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\OutLookMail.vb" />
+    <Compile Include="Entidades\Destinatario.vb" />
+    <Compile Include="Entidades\DocD.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\DocDIndex.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\DocGroup.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\DocType.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\Doc_Index.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\Index.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\IndexLink.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\IndexLinkInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\LotusBtn.vb" />
+    <Compile Include="Entidades\LotusMail.vb" />
+    <Compile Include="Entidades\NetMailMessage.vb" />
+    <Compile Include="Entidades\NewResult.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\OfficeDocumentInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\oLinked.vb" />
+    <Compile Include="Entidades\PublishEvent.vb" />
+    <Compile Include="Entidades\RequestAction.vb" />
+    <Compile Include="Entidades\RequestActionTask.vb" />
+    <Compile Include="Entidades\Restriction.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\Result.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\Schedule.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\ZBatch.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entidades\ZPicture.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\ZwebForm.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HistoryAnalysis\TaskAnalysis.vb" />
+    <Compile Include="Imports\Folder.vb" />
+    <Compile Include="Imports\Process.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imports\ProcessHistory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imports\ProcessList.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imports\ProcessTask.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IndexsRightsInfo.vb" />
+    <Compile Include="Indices\IndexSustitutionItem.vb" />
+    <Compile Include="csTarea.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FechaHora.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Indices\ZIndexReference.vb" />
+    <Compile Include="MensajeForo.vb" />
+    <Compile Include="Pop3Mail\DownloadedEmail.vb" />
+    <Compile Include="Pop3Mail\DownloadedEmailHeader.vb" />
+    <Compile Include="Pop3Mail\DownloadedEmailBody.vb" />
+    <Compile Include="Printer\PaperSize.vb" />
+    <Compile Include="Projects\Project.vb" />
+    <Compile Include="PropiedadesTypeAttribute.vb" />
+    <Compile Include="PublishableResult.vb">
+    </Compile>
+    <Compile Include="PublishState.vb" />
+    <Compile Include="Security\Correo.vb" />
+    <Compile Include="Security\User.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\UserGroup.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\UserView.vb" />
+    <Compile Include="Service\Agent.vb" />
+    <Compile Include="Service\FolderWatcher.vb" />
+    <Compile Include="Service\ServiceObj.vb" />
+    <Compile Include="Service\WebService.vb" />
+    <Compile Include="Storage\DatabaseEntity.vb" />
+    <Compile Include="Storage\ServerEntity.vb" />
+    <Compile Include="Volumes\Volume.vb" />
+    <Compile Include="Volumes\VolumeList.vb" />
+    <Compile Include="WF\BreakPoint.vb" />
+    <Compile Include="WF\IndexAndVariable.vb" />
+    <Compile Include="WF\IndexAndVariableConfiguration.vb" />
+    <Compile Include="WF\RuleDescription.vb" />
+    <Compile Include="WF\StateItem.vb" />
+    <Compile Include="WF\TaskResult.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\TempTaskResult.vb" />
+    <Compile Include="WF\UnusedRule.vb" />
+    <Compile Include="WF\UseCase.vb" />
+    <Compile Include="WF\UseCaseItems.vb" />
+    <Compile Include="WF\VariablesInterReglas.vb" />
+    <Compile Include="WF\ViewTaskResult.vb" />
+    <Compile Include="WF\WFItems.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WFNodes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WFRuleEnums.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WFRuleParent.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WFService.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WFStep.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WFStepState.vb" />
+    <Compile Include="WF\WorkFlow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WF\WorkflowUserView.vb" />
+    <Compile Include="WF\ZambaUIHelpers.vb" />
+    <Compile Include="ZambaCore.vb" />
+    <Compile Include="ZBaseCore.vb" />
+    <Compile Include="ZClass.vb" />
+    <Compile Include="ZClone.vb" />
+    <Compile Include="ZCoreView.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="Class Diagrams\HistoryAnalysis.cd" />
+    <None Include="Class Diagrams\LazyLoad.cd" />
+    <None Include="Class Diagrams\WFNodes.cd" />
+    <None Include="Class Diagrams\WFCalendar.cd" />
+    <None Include="Class Diagrams\WFCore.cd" />
+    <None Include="Class Diagrams\WORKFLOW.cd" />
+    <None Include="Class Diagrams\Zamba.Core.cd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Stardoc2014.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
+      <Project>{98dcc71c-e25b-414f-95ff-e5b98b5d529d}</Project>
+      <Name>Zamba.FWBC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2ab0ea3e-507b-47e6-bc37-0d203270aedd}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
+      <Project>{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}</Project>
+      <Name>Zamba.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messages\" />
+    <Folder Include="My Project\" />
+    <Folder Include="Notes\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

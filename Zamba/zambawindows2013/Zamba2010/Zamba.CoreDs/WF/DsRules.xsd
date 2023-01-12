@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsRules" targetNamespace="http://tempuri.org/DsRules.xsd" xmlns:mstns="http://tempuri.org/DsRules.xsd" xmlns="http://tempuri.org/DsRules.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsRules" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DsRules" msprop:Generator_DataSetName="DsRules">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="WFRules" msprop:Generator_UserTableName="WFRules" msprop:Generator_RowDeletedName="WFRulesRowDeleted" msprop:Generator_RowChangedName="WFRulesRowChanged" msprop:Generator_RowClassName="WFRulesRow" msprop:Generator_RowChangingName="WFRulesRowChanging" msprop:Generator_RowEvArgName="WFRulesRowChangeEvent" msprop:Generator_RowEvHandlerName="WFRulesRowChangeEventHandler" msprop:Generator_TableClassName="WFRulesDataTable" msprop:Generator_TableVarName="tableWFRules" msprop:Generator_RowDeletingName="WFRulesRowDeleting" msprop:Generator_TablePropName="WFRules">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_UserColumnName="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="step_Id" msprop:Generator_UserColumnName="step_Id" msprop:Generator_ColumnVarNameInTable="columnstep_Id" msprop:Generator_ColumnPropNameInRow="step_Id" msprop:Generator_ColumnPropNameInTable="step_IdColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Type" msprop:Generator_UserColumnName="Type" msprop:Generator_ColumnVarNameInTable="columnType" msprop:Generator_ColumnPropNameInRow="Type" msprop:Generator_ColumnPropNameInTable="TypeColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ParentId" msprop:Generator_UserColumnName="ParentId" msprop:Generator_ColumnVarNameInTable="columnParentId" msprop:Generator_ColumnPropNameInRow="ParentId" msprop:Generator_ColumnPropNameInTable="ParentIdColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ParentType" msprop:Generator_UserColumnName="ParentType" msprop:Generator_ColumnVarNameInTable="columnParentType" msprop:Generator_ColumnPropNameInRow="ParentType" msprop:Generator_ColumnPropNameInTable="ParentTypeColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Class" msprop:Generator_UserColumnName="Class" msprop:Generator_ColumnVarNameInTable="columnClass" msprop:Generator_ColumnPropNameInRow="_Class" msprop:Generator_ColumnPropNameInTable="ClassColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Enable" msprop:Generator_UserColumnName="Enable" msprop:Generator_ColumnPropNameInRow="Enable" msprop:Generator_ColumnVarNameInTable="columnEnable" msprop:Generator_ColumnPropNameInTable="EnableColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Version" msprop:Generator_UserColumnName="Version" msprop:Generator_ColumnPropNameInRow="Version" msprop:Generator_ColumnVarNameInTable="columnVersion" msprop:Generator_ColumnPropNameInTable="VersionColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="WFRuleParamItems" msprop:Generator_UserTableName="WFRuleParamItems" msprop:Generator_RowDeletedName="WFRuleParamItemsRowDeleted" msprop:Generator_RowChangedName="WFRuleParamItemsRowChanged" msprop:Generator_RowClassName="WFRuleParamItemsRow" msprop:Generator_RowChangingName="WFRuleParamItemsRowChanging" msprop:Generator_RowEvArgName="WFRuleParamItemsRowChangeEvent" msprop:Generator_RowEvHandlerName="WFRuleParamItemsRowChangeEventHandler" msprop:Generator_TableClassName="WFRuleParamItemsDataTable" msprop:Generator_TableVarName="tableWFRuleParamItems" msprop:Generator_RowDeletingName="WFRuleParamItemsRowDeleting" msprop:Generator_TablePropName="WFRuleParamItems">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Rule_id" msprop:Generator_UserColumnName="Rule_id" msprop:Generator_ColumnVarNameInTable="columnRule_id" msprop:Generator_ColumnPropNameInRow="Rule_id" msprop:Generator_ColumnPropNameInTable="Rule_idColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Item" msprop:Generator_UserColumnName="Item" msprop:Generator_ColumnVarNameInTable="columnItem" msprop:Generator_ColumnPropNameInRow="Item" msprop:Generator_ColumnPropNameInTable="ItemColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Value" msprop:Generator_UserColumnName="Value" msprop:Generator_ColumnVarNameInTable="columnValue" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="Value" msprop:Generator_ColumnPropNameInTable="ValueColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

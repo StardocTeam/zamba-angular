@@ -1,0 +1,341 @@
+update doc_I166 set i16=i41, i41=i16 from doc_I166 where i16 like '%a%' or i16 like '%e%'
+GO
+update doc_I166 set i16=i41, i41=i16 from doc_I166 where i16 is null
+GO
+update DOC_I166 set i16 = '0' where i16 is NULL
+GO
+update DOC_I166 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I166 set i16 = replace(i16,',,',',')
+GO
+update DOC_I166 set i16 = replace(i16,', ',',')
+GO
+update DOC_I166 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I166 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I166 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I166 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I166 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I166 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I166 set i16 = replace(i16,',','.')
+GO
+update DOC_I166 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I166 set i16 = '0' where i16= '.'
+GO
+update doc_i37 set i16 = '0' where i16 is NULL
+GO
+update doc_i37 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update doc_i37 set i16 = replace(i16,',,',',')
+GO
+update doc_i37 set i16 = replace(i16,', ',',')
+GO
+update doc_i37 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update doc_i37 set i16 = replace(i16,'.,',',')
+GO
+update doc_i37 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update doc_i37 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update doc_i37 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update doc_i37 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update doc_i37 set i16 = replace(i16,',','.')
+GO
+update doc_i37 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I37 set i16 = '0' where i16= '.'
+GO
+update doc_i38 set i16 = '0' where i16 is NULL
+GO
+update doc_i38 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update doc_i38 set i16 = replace(i16,',,',',')
+GO
+update doc_i38 set i16 = replace(i16,', ',',')
+GO
+update doc_i38 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update doc_i38 set i16 = replace(i16,'.,',',')
+GO
+update doc_i38 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update doc_i38 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update doc_i38 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update doc_i38 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update doc_i38 set i16 = replace(i16,',','.')
+GO
+update doc_i38 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I38 set i16 = '0' where i16= '.'
+GO
+update DOC_I39 set i16 = '0' where i16 is NULL
+GO
+update DOC_I39 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I39 set i16 = replace(i16,',,',',')
+GO
+update DOC_I39 set i16 = replace(i16,', ',',')
+GO
+update DOC_I39 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I39 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I39 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I39 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I39 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I39 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I39 set i16 = replace(i16,',','.')
+GO
+update DOC_I39 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I39 set i16 = '0' where i16= '.'
+GO
+update DOC_I40 set i16 = '0' where i16 is NULL
+GO
+update DOC_I40 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I40 set i16 = replace(i16,',,',',')
+GO
+update DOC_I40 set i16 = replace(i16,', ',',')
+GO
+update DOC_I40 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I40 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I40 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I40 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I40 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I40 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I40 set i16 = replace(i16,',','.')
+GO
+update DOC_I40 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I40 set i16 = '0' where i16= '.'
+GO
+update DOC_I42 set i16 = '0' where i16 is NULL
+GO
+update DOC_I42 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I42 set i16 = replace(i16,',,',',')
+GO
+update DOC_I42 set i16 = replace(i16,', ',',')
+GO
+update DOC_I42 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I42 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I42 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I42 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I42 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I42 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I42 set i16 = replace(i16,',','.')
+GO
+update DOC_I42 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I42 set i16 = '0' where i16= '.'
+GO
+update DOC_I65 set i16 = '0' where i16 is NULL
+GO
+update DOC_I65 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I65 set i16 = replace(i16,',,',',')
+GO
+update DOC_I65 set i16 = replace(i16,', ',',')
+GO
+update DOC_I65 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I65 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I65 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I65 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I65 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I65 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I65 set i16 = replace(i16,',','.')
+GO
+update DOC_I65 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I65 set i16 = '0' where i16= '.'
+GO
+update DOC_I66 set i16 = '0' where i16 is NULL
+GO
+update DOC_I66 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I66 set i16 = replace(i16,',,',',')
+GO
+update DOC_I66 set i16 = replace(i16,', ',',')
+GO
+update DOC_I66 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I66 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I66 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I66 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I66 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I66 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I66 set i16 = replace(i16,',','.')
+GO
+update DOC_I66 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I66 set i16 = '0' where i16= '.'
+GO
+update DOC_I67 set i16 = '0' where i16 is NULL
+GO
+update DOC_I67 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I67 set i16 = replace(i16,',,',',')
+GO
+update DOC_I67 set i16 = replace(i16,', ',',')
+GO
+update DOC_I67 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I67 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I67 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I67 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I67 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I67 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I67 set i16 = replace(i16,',','.')
+GO
+update DOC_I67 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I67 set i16 = '0' where i16= '.'
+GO
+update DOC_I70 set i16 = '0' where i16 is NULL
+GO
+update DOC_I70 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I70 set i16 = replace(i16,',,',',')
+GO
+update DOC_I70 set i16 = replace(i16,', ',',')
+GO
+update DOC_I70 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I70 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I70 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I70 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I70 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I70 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I70 set i16 = replace(i16,',','.')
+GO
+update DOC_I70 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I70 set i16 = '0' where i16= '.'
+GO
+update DOC_I101 set i16 = '0' where i16 is NULL
+GO
+update DOC_I101 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I101 set i16 = replace(i16,',,',',')
+GO
+update DOC_I101 set i16 = replace(i16,', ',',')
+GO
+update DOC_I101 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I101 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I101 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I101 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I101 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I101 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I101 set i16 = replace(i16,',','.')
+GO
+update DOC_I101 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I101 set i16 = '0' where i16= '.'
+GO
+update DOC_I165 set i16 = '0' where i16 is NULL
+GO
+update DOC_I165 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I165 set i16 = replace(i16,',,',',')
+GO
+update DOC_I165 set i16 = replace(i16,', ',',')
+GO
+update DOC_I165 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I165 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I165 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I165 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I165 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I165 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I165 set i16 = replace(i16,',','.')
+GO
+update DOC_I165 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I165 set i16 = '0' where i16= '.'
+GO
+update DOC_I168 set i16 = '0' where i16 is NULL
+GO
+update DOC_I168 set i16 = '0' where rtrim(ltrim(i16)) = ''
+GO
+update DOC_I168 set i16 = replace(i16,',,',',')
+GO
+update DOC_I168 set i16 = replace(i16,', ',',')
+GO
+update DOC_I168 set i16 = SUBSTRING(i16,LEN(i16),LEN(i16)-1) where SUBSTRING(i16,LEN(i16),1) = '.'
+GO
+update DOC_I168 set i16 = replace(i16,'.,',',')
+GO
+update DOC_I168 set i16 = replace(SUBSTRING(i16,0,LEN(i16)-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2),',','') where i16 like '%,%,%' 
+GO
+update DOC_I168 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%,%' 
+GO
+update DOC_I168 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%,%.%' 
+GO
+update DOC_I168 set i16 = SUBSTRING(replace(replace(i16,',',''),'.',''),0,LEN(replace(replace(i16,',',''),'.',''))-1) +  '.' + SUBSTRING(i16,LEN(i16)-1,2) where i16 like '%.%.%' 
+GO
+update DOC_I168 set i16 = replace(i16,',','.')
+GO
+update DOC_I168 set i16 = '0' where ISNUMERIC(rtrim(ltrim(i16)))= 0
+GO
+update DOC_I168 set i16 = '0' where i16= '.'

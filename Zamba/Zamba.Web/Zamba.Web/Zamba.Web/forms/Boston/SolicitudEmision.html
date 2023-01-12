@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 28.11.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: OK -->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <meta name="viewport" content="width=device-width, initial-scale=-1, shrink-to-fit=no"> 
+    <!--<link rel="stylesheet" href="boston_styles.css" type="text/css" />-->
+
+    <!--  -->
+    <script src="scripts/jquery-3.1.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script> 
+    <link rel="stylesheet" href="content/bootstrap.min.css"> 
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+		
+
+        function FuncionesPosCargaDeReclamo() {
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("4");
+
+            if ($("#zamba_index_38").val() == null)
+                $("#zamba_index_38").val("2");
+
+            //Guarda la agencia actual y la emisora
+            var agencia = $("#zamba_index_60").val();
+            var seleccionado = $("#zamba_index_1001006").val();
+
+            //Elimina a todos los que no sean ninguno de los dos
+            $(".emisor option[value!=1][value!=" + agencia + "]")
+                .remove()
+                .end()
+                .val(seleccionado);
+        }
+
+        window.onload = function () {
+            setTimeout(function () { FuncionesPosCargaDeReclamo(); }, 500);
+			
+			//Si tiene documento embebido, muestra el scroll			
+			setIframeScrollAttribute();
+			SetInitialConfigurations();
+        };
+		
+		
+    </script>
+	
+	
+	
+                <style>
+                   
+
+                    .BTS1 {
+                        position: relative;
+                        left: -340px;
+                    }
+
+                    .LABEL1 {
+                        position: relative;
+                        left: 180px;
+                        position: relative;
+                        top: 5px;
+                    }
+
+                    .Visualizador {
+                        position: relative;
+                        left: -70px;
+                        position: relative;
+                        bottom: 20px;
+                    }
+					
+					
+                </style>
+
+</head>
+
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid" id="container-panel">
+        <div>
+            <form name="frmMain" action="SolicitudEmision.html">
+                <div class="form-group row">
+                    <div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Nro de Solicitud:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1068" name="zamba_index_1068" readonly="readonly" />
+                        </div>
+                    </div>
+					<div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Seccion:</span>
+                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_32" name="zamba_index_32"></select>
+                        </div>
+                    </div>
+					<div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Tipo de Movimiento:</span>
+                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_38" name="zamba_index_38"></select>
+                        </div>
+                    </div>
+					<div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Nro Solicitud
+                                Productor:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1157" name="zamba_index_1157" />
+                        </div>
+                    </div>
+				</div>
+				
+					
+				
+				<div class="form-group row">
+					
+					<div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Coaseguro:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1170" name="zamba_index_1170" readonly="readonly" />
+                        </div>
+                    </div>
+					<div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Solicitud de
+                                Anulacion:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1173" name="zamba_index_1173" />
+                        </div>
+                    </div>
+					<div class="col-xs-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Agencia Emisora:</span>
+                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1001006" name="zamba_index_1001006"></select>
+                        </div>
+                    </div>
+				</div>				
+                <center>
+                    <input class="btn btn-primary btn-md" id="zamba_save" type="submit" value="Guardar"
+                        name="zamba_save" />
+                </center>
+				
+					<div >				
+						
+							
+                        <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:95%; height:1400px;" class="iframeStyle"  src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\tempN\Images\TASKWITHOUTDOCUMENT.png" >
+                        </iframe>
+							
+						
+					</div>
+						                
+                <div class="row">
+                    <center>
+                        <div class="col-xs-2" style="position:relative;left:20px;">
+                            
+                        </div>
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-2">
+                            <span style="color:white">SolicitudEmision.html</span>
+                        </div>
+                        <div class="col-xs-5">
+                            
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+                </div>
+
+
+
+
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

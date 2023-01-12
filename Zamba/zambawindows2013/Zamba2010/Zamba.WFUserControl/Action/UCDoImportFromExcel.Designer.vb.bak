@@ -1,0 +1,279 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class UCDoImportFromExcel
+    Inherits Zamba.WFUserControl.ZRuleControl
+
+    'UserControl overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.txtFilePath = New Zamba.AppBlock.TextoInteligente
+        Me.btnBrowse = New Zamba.AppBlock.ZButton
+        Me.txtVersion = New System.Windows.Forms.Label
+        Me.cmbVersion = New System.Windows.Forms.ComboBox
+        Me.BtnSave = New Zamba.AppBlock.ZButton
+        Me.btnPreview = New Zamba.AppBlock.ZButton
+        Me.lblSheetName = New System.Windows.Forms.Label
+        Me.txtsheetName = New Zamba.AppBlock.TextoInteligente
+        Me.grdTableCols = New System.Windows.Forms.DataGridView
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.txtVarName = New Zamba.AppBlock.TextoInteligente
+        Me.txtDirPath = New Zamba.AppBlock.TextoInteligente
+        Me.txtSaveFileName = New Zamba.AppBlock.TextoInteligente
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.chkSaveCopyAs = New System.Windows.Forms.CheckBox
+        Me.btnBrowse2 = New Zamba.AppBlock.ZButton
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        CType(Me.grdTableCols, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.btnBrowse2)
+        Me.tbRule.Controls.Add(Me.chkSaveCopyAs)
+        Me.tbRule.Controls.Add(Me.Label6)
+        Me.tbRule.Controls.Add(Me.Label5)
+        Me.tbRule.Controls.Add(Me.txtSaveFileName)
+        Me.tbRule.Controls.Add(Me.txtDirPath)
+        Me.tbRule.Controls.Add(Me.txtVarName)
+        Me.tbRule.Controls.Add(Me.Label4)
+        Me.tbRule.Controls.Add(Me.txtsheetName)
+        Me.tbRule.Controls.Add(Me.grdTableCols)
+        Me.tbRule.Controls.Add(Me.lblSheetName)
+        Me.tbRule.Controls.Add(Me.btnPreview)
+        Me.tbRule.Controls.Add(Me.BtnSave)
+        Me.tbRule.Controls.Add(Me.cmbVersion)
+        Me.tbRule.Controls.Add(Me.txtVersion)
+        Me.tbRule.Controls.Add(Me.btnBrowse)
+        Me.tbRule.Controls.Add(Me.txtFilePath)
+        Me.tbRule.Controls.Add(Me.Label2)
+        Me.tbRule.Size = New System.Drawing.Size(568, 515)
+        '
+        'tbctrMain
+        '
+        Me.tbctrMain.Size = New System.Drawing.Size(576, 541)
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(18, 32)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(75, 13)
+        Me.Label2.TabIndex = 0
+        Me.Label2.Text = "Archivo Excel:"
+        '
+        'txtFilePath
+        '
+        Me.txtFilePath.Location = New System.Drawing.Point(99, 29)
+        Me.txtFilePath.MaxLength = 4000
+        Me.txtFilePath.Name = "txtFilePath"
+        Me.txtFilePath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None
+        Me.txtFilePath.Size = New System.Drawing.Size(368, 23)
+        Me.txtFilePath.TabIndex = 17
+        Me.txtFilePath.Text = ""
+        '
+        'btnBrowse
+        '
+        Me.btnBrowse.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.btnBrowse.Location = New System.Drawing.Point(473, 29)
+        Me.btnBrowse.Name = "btnBrowse"
+        Me.btnBrowse.Size = New System.Drawing.Size(76, 23)
+        Me.btnBrowse.TabIndex = 36
+        Me.btnBrowse.Text = "Examinar"
+        '
+        'txtVersion
+        '
+        Me.txtVersion.AutoSize = True
+        Me.txtVersion.Location = New System.Drawing.Point(326, 72)
+        Me.txtVersion.Name = "txtVersion"
+        Me.txtVersion.Size = New System.Drawing.Size(93, 13)
+        Me.txtVersion.TabIndex = 37
+        Me.txtVersion.Text = "Version de Office:"
+        '
+        'cmbVersion
+        '
+        Me.cmbVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbVersion.FormattingEnabled = True
+        Me.cmbVersion.Location = New System.Drawing.Point(425, 69)
+        Me.cmbVersion.Name = "cmbVersion"
+        Me.cmbVersion.Size = New System.Drawing.Size(124, 21)
+        Me.cmbVersion.TabIndex = 38
+        '
+        'BtnSave
+        '
+        Me.BtnSave.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.BtnSave.Location = New System.Drawing.Point(250, 466)
+        Me.BtnSave.Name = "BtnSave"
+        Me.BtnSave.Size = New System.Drawing.Size(70, 27)
+        Me.BtnSave.TabIndex = 39
+        Me.BtnSave.Text = "Guardar"
+        '
+        'btnPreview
+        '
+        Me.btnPreview.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.btnPreview.Location = New System.Drawing.Point(258, 66)
+        Me.btnPreview.Name = "btnPreview"
+        Me.btnPreview.Size = New System.Drawing.Size(62, 27)
+        Me.btnPreview.TabIndex = 40
+        Me.btnPreview.Text = "Ver"
+        '
+        'lblSheetName
+        '
+        Me.lblSheetName.AutoSize = True
+        Me.lblSheetName.Location = New System.Drawing.Point(18, 72)
+        Me.lblSheetName.Name = "lblSheetName"
+        Me.lblSheetName.Size = New System.Drawing.Size(87, 13)
+        Me.lblSheetName.TabIndex = 41
+        Me.lblSheetName.Text = "Nombre de hoja:"
+        '
+        'txtsheetName
+        '
+        Me.txtsheetName.Location = New System.Drawing.Point(111, 69)
+        Me.txtsheetName.MaxLength = 4000
+        Me.txtsheetName.Name = "txtsheetName"
+        Me.txtsheetName.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None
+        Me.txtsheetName.Size = New System.Drawing.Size(141, 23)
+        Me.txtsheetName.TabIndex = 42
+        Me.txtsheetName.Text = ""
+        '
+        'grdTableCols
+        '
+        Me.grdTableCols.AllowUserToAddRows = False
+        Me.grdTableCols.AllowUserToDeleteRows = False
+        Me.grdTableCols.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.grdTableCols.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grdTableCols.Location = New System.Drawing.Point(21, 145)
+        Me.grdTableCols.Name = "grdTableCols"
+        Me.grdTableCols.ReadOnly = True
+        Me.grdTableCols.Size = New System.Drawing.Size(528, 208)
+        Me.grdTableCols.TabIndex = 43
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(18, 112)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(106, 13)
+        Me.Label4.TabIndex = 44
+        Me.Label4.Text = "Guardar en Variable:"
+        '
+        'txtVarName
+        '
+        Me.txtVarName.Location = New System.Drawing.Point(130, 109)
+        Me.txtVarName.MaxLength = 4000
+        Me.txtVarName.Name = "txtVarName"
+        Me.txtVarName.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None
+        Me.txtVarName.Size = New System.Drawing.Size(419, 23)
+        Me.txtVarName.TabIndex = 45
+        Me.txtVarName.Text = ""
+        '
+        'txtDirPath
+        '
+        Me.txtDirPath.Enabled = False
+        Me.txtDirPath.Location = New System.Drawing.Point(130, 399)
+        Me.txtDirPath.MaxLength = 4000
+        Me.txtDirPath.Name = "txtDirPath"
+        Me.txtDirPath.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None
+        Me.txtDirPath.Size = New System.Drawing.Size(337, 23)
+        Me.txtDirPath.TabIndex = 46
+        Me.txtDirPath.Text = ""
+        '
+        'txtSaveFileName
+        '
+        Me.txtSaveFileName.Enabled = False
+        Me.txtSaveFileName.Location = New System.Drawing.Point(130, 425)
+        Me.txtSaveFileName.MaxLength = 4000
+        Me.txtSaveFileName.Name = "txtSaveFileName"
+        Me.txtSaveFileName.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None
+        Me.txtSaveFileName.Size = New System.Drawing.Size(419, 23)
+        Me.txtSaveFileName.TabIndex = 47
+        Me.txtSaveFileName.Text = ""
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(18, 402)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(56, 13)
+        Me.Label5.TabIndex = 48
+        Me.Label5.Text = "Ubicación:"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(18, 428)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(48, 13)
+        Me.Label6.TabIndex = 49
+        Me.Label6.Text = "Nombre:"
+        '
+        'chkSaveCopyAs
+        '
+        Me.chkSaveCopyAs.AutoSize = True
+        Me.chkSaveCopyAs.Location = New System.Drawing.Point(21, 368)
+        Me.chkSaveCopyAs.Name = "chkSaveCopyAs"
+        Me.chkSaveCopyAs.Size = New System.Drawing.Size(148, 17)
+        Me.chkSaveCopyAs.TabIndex = 50
+        Me.chkSaveCopyAs.Text = "Guardar copia del archivo"
+        Me.chkSaveCopyAs.UseVisualStyleBackColor = True
+        '
+        'btnBrowse2
+        '
+        Me.btnBrowse2.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.btnBrowse2.Location = New System.Drawing.Point(473, 399)
+        Me.btnBrowse2.Name = "btnBrowse2"
+        Me.btnBrowse2.Size = New System.Drawing.Size(76, 23)
+        Me.btnBrowse2.TabIndex = 51
+        Me.btnBrowse2.Text = "Examinar"
+        '
+        'UCDoImportFromExcel
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Name = "UCDoImportFromExcel"
+        Me.Size = New System.Drawing.Size(576, 541)
+        Me.tbRule.ResumeLayout(False)
+        Me.tbRule.PerformLayout()
+        Me.tbctrMain.ResumeLayout(False)
+        CType(Me.grdTableCols, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents txtFilePath As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents cmbVersion As System.Windows.Forms.ComboBox
+    Friend WithEvents txtVersion As System.Windows.Forms.Label
+    Friend WithEvents btnBrowse As Zamba.AppBlock.ZButton
+    Friend WithEvents BtnSave As Zamba.AppBlock.ZButton
+    Friend WithEvents btnPreview As Zamba.AppBlock.ZButton
+    Friend WithEvents txtsheetName As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents lblSheetName As System.Windows.Forms.Label
+    Friend WithEvents grdTableCols As System.Windows.Forms.DataGridView
+    Friend WithEvents txtVarName As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents txtSaveFileName As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents txtDirPath As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents chkSaveCopyAs As System.Windows.Forms.CheckBox
+    Friend WithEvents btnBrowse2 As Zamba.AppBlock.ZButton
+
+End Class

@@ -1,0 +1,207 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Form: LIBRO -->
+<!--Autor:Stardoc-->
+<!--Fecha Creacion:20/08/2020-->
+<!--Modificado por: STARDOC-->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<!--Version:1.0.0-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   
+
+    <script type="text/javascript">
+        function ComboFecha() {
+            var n = (new Date()).getFullYear()
+            var select = document.getElementById("SelectFecha");
+            for (var i = n; i >= 1900; i--)select.options.add(new Option(i, i));
+        };
+        window.onload = ComboFecha;
+    </script>
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
+     <style>
+      
+        @font-face {
+            font-family: 'IDAutomationHC39M';
+            src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+        }
+
+       
+    </style>
+      <script>
+
+        $(document).ready(function () {
+            $("#barracod").val("(" + $("#zamba_index_139630").val() + ")");
+        });
+        
+
+    </script>
+
+
+</head>
+
+<body>
+
+    <form name="frmMain" action="Libro Insert.html">
+        <div class="container-fluid">
+            
+            <ul class=" nav nav-tabs">
+                <li class=" active"><a href="#Principal" data-toggle="tab">Principal</a></li>
+
+               
+                <div class="col-md-8"></div>
+                <div class="col-md-2">
+                    <input id="barracod" class="form-control input-sm dataType length"
+                        style="font-family:'IDAutomationHC39M';font-size: 14pt;text-align: center;height: 50px;background: none; border: none"
+                        readonly="readonly">
+                </div>
+            </ul>
+
+            <div class="form-group row"></div>
+
+            <input id="hdnRuleId" type="hidden" />
+
+
+            <div class="tab-content">
+
+                <div id="Principal" class="tab-pane active">
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tipo</span>
+                                <select class="form-control input-sm" id="zamba_index_139623" name="zamba_index_139623"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Año</span>
+                                <select class="form-control input-sm " name="zamba_index_139618" id="SelectFecha"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tomo</span>
+                                <input class="form-control input-sm" id="zamba_index_139620"
+                                       name="zamba_index_139620" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">ID</span>
+                                <input class="form-control input-sm" id="zamba_index_139630" name="zamba_index_139630"
+                                       disabled />
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nombre</span>
+                                <input class="form-control input-sm" id="zamba_index_139593"
+                                       name="zamba_index_139593" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Departamento</span>
+                                <select class="form-control input-sm" id="zamba_index_139624"
+                                        name="zamba_index_139624"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Expediente</span>
+                                <input class="form-control input-sm" id="zamba_index_139616"
+                                       name="zamba_index_139616" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 40px;">
+                        <div class="col-xs-12 col-md-6 ">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!--Area texto Observacion-->
+                                    <div id="appObservaciones" ng-controller="ObservacionController">
+                                        <zamba-observaciones index-id="139606" entity-id="139096">
+                                        </zamba-observaciones>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6" style="position: relative; top: -20px;">
+
+                            <div class="row">
+                                <div class="col-xs-12" style=" margin-top: 37px; width: 92%;">
+                                    <!--DropZone-->
+                                    <div id="appblankID" ng-controller="appController">
+                                        <zamba-drop id="0"> </zamba-drop>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <center>
+                        <div>
+                            <button class="btn  btn-primary" id="zamba_rule_165630" name="zamba_rule_165630"
+                                    type="submit" onclick="SetRuleId(this);">
+                                Enviar a Revision
+                            </button>
+                            <!-- <button class="btn  btn-danger" id="zamba_rule_" name="zamba_rule_" type="submit"
+                 onclick="SetRuleId(this);">Cancelar</button> -->
+
+                        </div>
+                    </center>
+
+                    <div class="form-group row">
+                        <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                            <div class="row" style="height:100%">
+                                <iframe id="previewDocSearch" class="IframeClass" style="margin-top:30px"
+                                        src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- LOGOS  -->
+
+            <div class="row">
+                <center>
+                    <!-- <div class="col-md-2" style="position:relative;left:20px;">
+                                        <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                    </div> -->
+                    <div class="col-md-4"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">Libro Insert.html</span>
+                    </div>
+                    
+                </center>
+            </div>
+
+            <!-- ------------------------ -->
+
+
+
+
+
+        </div>
+    </form>
+
+</body>
+
+</html>

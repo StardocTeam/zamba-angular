@@ -1,0 +1,191 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	 
+	 
+	
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+		function zamba_save_onclick(sender){
+			setNumericos();
+			if (document.getElementById("zamba_index_80").value.trim() == ""){
+				alert("La Fecha de Embargo es un dato obligatorio.");
+				//document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+				document.getElementById("hdnRuleId").name = sender.id;
+				}else if (document.getElementById("zamba_index_82").value.trim() == ""){
+					alert("El Importe de Embargo es un dato obligatorio.");
+					//document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+					document.getElementById("hdnRuleId").name = sender.id;
+					/*}else if (document.getElementById("zamba_index_87").value.trim() == ""){
+						alert("Reservar es un dato obligatorio.");
+						document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+						}else if (document.getElementById("zamba_index_84").value.trim() == ""){
+							alert("Dar en Pago es un dato obligatorio.");
+							document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+							}else if (document.getElementById("zamba_index_85").value.trim() == ""){
+								alert("A Recuperar es un dato obligatorio.");
+								document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+								*/
+								}else if (ValidarImporteEmbargo() == false){
+									alert("No coinciden la sumatoria de los montos con el importe Embargo");
+									//document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+									document.getElementById("hdnRuleId").name = sender.id;
+									}else{
+										//document.getElementById("hdnRuleId").name = "zamba_rule_save";
+										document.getElementById("hdnRuleId").name = sender.id;
+										frmMain.submit();
+									}
+        }
+	    $(document).ready(function(){
+		    $(".solonums").each(function(){
+				$(this).keypress(function (e){
+					return IntegerCheck(e);
+				})
+		    });
+	    });
+		
+		/*La sumatoria de los tres importes Reservar, Dar en Pago, A recuperar 
+		  debe de ser igual a la de Importe Embargo*/
+		function ValidarImporteEmbargo(){
+			var success = false;
+			var importeEmbargo = parseFloat($('#zamba_index_82').val());
+			var montoTotal = 	parseFloat($('#zamba_index_87').val()) + 
+								parseFloat($('#zamba_index_84').val()) + 
+								parseFloat($('#zamba_index_85').val()) +
+								parseFloat($('#zamba_index_88').val()) +
+								parseFloat($('#zamba_index_89').val());
+			if(importeEmbargo == montoTotal){
+				success = true;
+			}
+			return success;
+		}
+		
+		function setNumericos(){
+			if($('#zamba_index_82').val()=="" || $('#zamba_index_82').val()== null ){
+				$('#zamba_index_82').val(0.00);
+			}
+			if($('#zamba_index_83').val()=="" || $('#zamba_index_83').val()== null ){
+				$('#zamba_index_83').val(0.00);
+			}
+			if($('#zamba_index_87').val()=="" || $('#zamba_index_87').val()== null ){
+				$('#zamba_index_87').val(0.00);
+			}
+			if($('#zamba_index_84').val()=="" || $('#zamba_index_84').val()== null ){
+				$('#zamba_index_84').val(0.00);
+			}
+			if($('#zamba_index_85').val()=="" || $('#zamba_index_85').val()== null ){
+				$('#zamba_index_85').val(0.00);
+			}
+			if($('#zamba_index_88').val()=="" || $('#zamba_index_88').val()== null ){
+				$('#zamba_index_88').val(0.00);
+			}
+			if($('#zamba_index_89').val()=="" || $('#zamba_index_89').val()== null ){
+				$('#zamba_index_89').val(0.00);
+			}			
+		}
+		
+		function FuncOnload(){
+			$('#zamba_index_80').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				showOn: 'button', 
+				buttonText: 'Abrir calendario',
+				buttonImage: 'calendar.png', 
+				buttonImageOnly: true,
+				yearRange: '-100:+0',
+				duration: ""
+			});		
+			
+			/*Importe de Embargo, importe neto embargo*/
+			$('#zamba_index_82').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});
+			$('#zamba_index_83').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});
+
+			/*Reservar, Dar en Pago, A Recuperar*/
+			$('#zamba_index_87').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});	
+			$('#zamba_index_84').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});		
+			$('#zamba_index_85').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});
+		
+			/*Pagado, Recuperado*/
+			$('#zamba_index_88').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});		
+			$('#zamba_index_89').on('keyup', function(){		
+				this.value = (this.value + '').replace(/[^0-9.]/g, '');
+			});
+			setNumericos();
+		}
+		window.onload=function(){
+			setTimeout(function(){FuncOnload();}, 100);
+		};
+	</script>
+</head>
+<body>
+    <form name="frmMain" action="Embargoweb.html">
+    <div id="design" width="90%">
+        Embargo
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblDemandado" >
+		<tr>
+			<td><label>Fecha de Embargo:</label> 
+			<td><input id="zamba_index_80" name="zamba_index_80" style="width:150px;"/>
+			<td class="separador">
+			<td><label>Banco:</label>
+			<td><select id="zamba_index_86" name="zamba_index_86" style="width:325px;"></select>
+        </tr>
+		<tr>
+			<td><label>Nro Comprobante:</label> 
+			<td><input id="zamba_index_81 solonums" name="zamba_index_81" class="solonums w150px" style="width:150px;"/>
+			<td class="separador">
+			<td><label>Importe Embargo:</label>
+			<td><input id="zamba_index_82" name="zamba_index_82" class="w150px"/>			
+		</tr>
+        <tr>
+			<td><label>Importe Neto Embargo:</label>
+			<td><input id="zamba_index_83" name="zamba_index_83" class="w150px" maxlength="200">
+			<td class="separador">
+			<td><label>Observaciones Embargo:</label>
+			<td><input id="zamba_index_64" name="zamba_index_64" style="width:300px;"/>
+        </tr>
+		<tr>			
+			<td><label>Reservar:</label>
+			<td><input id="zamba_index_87" name="zamba_index_87" style="width:100px;"/>
+			<td class="separador">
+		    <td><label>Dar en Pago:</label>
+			<td><input id="zamba_index_84" name="zamba_index_84" style="width:100px;"/>
+		</tr>
+		<tr>
+			<td><label>A recuperar:</label>
+			<td><input id="zamba_index_85" name="zamba_index_85" style="width:100px;"/>
+			<td class="separador">
+			<td><label>Pagado:</label>
+			<td><input id="zamba_index_88" name="zamba_index_88" style="width:100px;"/>
+		</tr>
+		<tr>
+			<td><label>Recuperado:</label>
+			<td><input id="zamba_index_89" name="zamba_index_89" style="width:100px;"/>
+		</tr>
+	</table>
+	<br><br>
+	<div><input id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick(this)" /></div>
+	</center>
+    </form>
+	
+	
+	
+</body>
+</html>

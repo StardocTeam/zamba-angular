@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsTaskToExpire" targetNamespace="http://tempuri.org/dsTaskToExpire.xsd" xmlns:mstns="http://tempuri.org/dsTaskToExpire.xsd" xmlns="http://tempuri.org/dsTaskToExpire.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsTaskToExpire" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsTaskToExpire" msprop:Generator_DataSetName="dsTaskToExpire">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtTaskToExpire" msprop:Generator_UserTableName="dtTaskToExpire" msprop:Generator_RowDeletedName="dtTaskToExpireRowDeleted" msprop:Generator_RowChangedName="dtTaskToExpireRowChanged" msprop:Generator_RowClassName="dtTaskToExpireRow" msprop:Generator_RowChangingName="dtTaskToExpireRowChanging" msprop:Generator_RowEvArgName="dtTaskToExpireRowChangeEvent" msprop:Generator_RowEvHandlerName="dtTaskToExpireRowChangeEventHandler" msprop:Generator_TableClassName="dtTaskToExpireDataTable" msprop:Generator_TableVarName="tabledtTaskToExpire" msprop:Generator_RowDeletingName="dtTaskToExpireRowDeleting" msprop:Generator_TablePropName="dtTaskToExpire">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TaskToExpire_Source" msprop:Generator_UserColumnName="TaskToExpire_Source" msprop:Generator_ColumnVarNameInTable="columnTaskToExpire_Source" msprop:Generator_ColumnPropNameInRow="TaskToExpire_Source" msprop:Generator_ColumnPropNameInTable="TaskToExpire_SourceColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="TaskToExpire_Count" msprop:Generator_UserColumnName="TaskToExpire_Count" msprop:Generator_ColumnVarNameInTable="columnTaskToExpire_Count" msprop:Generator_ColumnPropNameInRow="TaskToExpire_Count" msprop:Generator_ColumnPropNameInTable="TaskToExpire_CountColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

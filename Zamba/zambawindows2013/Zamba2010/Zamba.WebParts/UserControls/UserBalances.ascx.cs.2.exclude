@@ -1,0 +1,79 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Zamba.Core;
+using Zamba.Services;
+//using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_UserBalances : System.Web.UI.UserControl
+{
+
+    #region Eventos
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        InitializesComponents();
+        rpvUserBalance.Visible = false;
+    }
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        if (null != cmbUsers.SelectedValue)
+        {
+            dsUsersBalances dsTyped = new dsUsersBalances();
+
+            dsUsersBalances.dtUserBalanceRow dr1 = dsTyped.dtUserBalance.NewdtUserBalanceRow();
+            dsUsersBalances.dtUserBalanceRow dr2 = dsTyped.dtUserBalance.NewdtUserBalanceRow();
+            dsUsersBalances.dtUserBalanceRow dr3 = dsTyped.dtUserBalance.NewdtUserBalanceRow();
+
+
+            dr1.User_Task_state = "Tareas Inicializadas";
+            dr1.User_task_count = Zamba.Services.Tasks.GetInitializedTasksByUser(Int32.Parse(cmbUsers.SelectedValue));
+
+            dr2.User_Task_state = "Tareas Finalizadas";
+            dr2.User_task_count = Zamba.Services.Tasks.GetFinishedTasksByUser(Int32.Parse(cmbUsers.SelectedValue));
+
+            dr3.User_Task_state = "Tareas Rechazadas";
+            dr3.User_task_count = Zamba.Services.Tasks.GetRejectedTasksByUser(Int32.Parse(cmbUsers.SelectedValue));
+
+            dsTyped.Tables[0].Rows.Add(dr1);
+            dsTyped.Tables[0].Rows.Add(dr2);
+            dsTyped.Tables[0].Rows.Add(dr3);
+            dsTyped.AcceptChanges();
+
+            this.rpvUserBalance.LocalReport.DataSources.Clear();
+            ReportDataSource rptDatasource = new ReportDataSource("dsUsersBalances_dtUserBalance", dsTyped.Tables[0]);
+            this.rpvUserBalance.LocalReport.DataSources.Add(rptDatasource);
+            rpvUserBalance.Visible = true;
+
+
+        }
+    }
+    #endregion
+
+    #region Metodos
+
+    public void InitializesComponents()
+    {
+        DataSet UserList = new DataSet();
+        UserList = UserBusiness.GetUsersDatasetOrderbyName();
+
+
+        foreach (DataRow currentuser in UserList.Tables[0].Rows)
+            cmbUsers.Items.Add(new ListItem(currentuser[1].ToString(), currentuser[0].ToString()));
+
+    }
+
+    #endregion
+
+}

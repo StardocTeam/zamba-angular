@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsMessages" targetNamespace="http://tempuri.org/dsMessages.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/dsMessages.xsd" xmlns:mstns="http://tempuri.org/dsMessages.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsMessages" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Messages">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Msg_Id" type="xs:decimal" minOccurs="0" />
+							<xs:element name="msg_From" type="xs:decimal" minOccurs="0" />
+							<xs:element name="User_name" type="xs:string" minOccurs="0" />
+							<xs:element name="Subject" type="xs:string" minOccurs="0" />
+							<xs:element name="msg_Date" type="xs:date" minOccurs="0" />
+							<xs:element name="Reenvio" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Deleted" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Dest" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Dest_type" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Read" type="xs:decimal" minOccurs="0" />
+							<xs:element name="msg_Body" type="xs:string" minOccurs="0" />
+							<xs:element name="Dest_Name" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

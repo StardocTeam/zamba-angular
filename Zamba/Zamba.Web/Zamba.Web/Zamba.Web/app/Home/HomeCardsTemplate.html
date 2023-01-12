@@ -1,0 +1,79 @@
+﻿<style>
+    .news-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    md-content {
+        min-height: 280px !important;
+    }
+    @media only screen and (max-width: 1553px) {
+        .responseMdCard {
+            margin-bottom: 7px;
+        }
+    }
+</style>
+
+<div id="tabHomeWrapper" style="height: 100%; overflow: auto " ng-cloak>
+
+    <md-tabs id="tabsHomeWrapper" style="background-color: var(--ZBlue); color: white; text-align: center" ng-show="HomeTabsInitializing == false" ng-cloak>
+        <md-tab label="INICIO" class="active" ng-click="currentTabHome = 'HomeDash'; SetDefaultTabsHome('HomeDash');"></md-tab>
+        <md-tab label="GESTION" name="TABGESTION" ng-click="currentTabHome = 'HomeMain'; SetDefaultTabsHome('HomeMain');"></md-tab>
+    </md-tabs>
+
+    <div id="contentTabhomeMain" class="tab-content" style="padding-top: 10px; height:100%">
+
+        <div id="tabhomeMain" class="container-fluid" style="height: 100%;" ng-show="currentTabHome == 'HomeMain'">
+            <iframe src="../../content/Images/loading.gif" id="homePageFrame" style="height: 95%" "> </iframe>
+        </div>
+
+        <div id="tabhomeDash" class="container-fluid" style="height:100%;" ng-show="currentTabHome == 'HomeDash'">
+
+            <md-content class="row" style="background-color: #ebe7e4">
+                <div class="col-xs-12 col-sm-6 col-md-3" style="padding: 2px 2px 2px" ng-if="Tabs.includes('Novedades') || Tabs.includes('All');">
+                    <md-card class="responseMdCard">
+                        <md-card-content>
+                            <div id="tabhomeNews" ng-controller="NewsController">
+                                <zamba-news></zamba-news>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3" style="padding: 2px 2px 2px" ng-if="Tabs.includes('Importantes') || Tabs.includes('All');">
+
+                    <md-card>
+                        <div id="tabhomeBookmarks" class="tab-pane " ng-controller="GenericController" style="height:100%;">
+                            <zamba-generic gridType="bookmarks" title="Importantes" emptymessage=" Aca encontraras los documentos y tareas que marques como importantes."></zamba-generic>
+                        </div>
+                    </md-card>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3" style="padding: 2px 2px 2px" ng-if="Tabs.includes('Favoritos') || Tabs.includes('All');">
+                    <md-card>
+                        <div id="tabhomeFavorites" class="tab-pane " ng-controller="GenericController" style="height:100%;">
+                            <zamba-generic gridType="favorites" title="Favoritos" emptymessage=" Aca encontraras los documentos y tareas que marques como favoritos."></zamba-generic>
+                        </div>
+                    </md-card>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3" style="padding: 2px 2px 2px" ng-if="Tabs.includes('Recientes') || Tabs.includes('All');">
+
+                    <md-card>
+                        <div id="tabhomeRecents" class="tab-pane " ng-controller="GenericController" style="height:100%;">
+                            <zamba-generic gridType="recents" title="Recientes" emptymessage=" Aca encontraras los documentos y tareas que hayas consultado recientemente."></zamba-generic>
+                        </div>
+                    </md-card>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3" style="padding: 2px 2px 2px" ng-if="Tabs.includes('Recientes') || Tabs.includes('All');">
+
+                    <md-card>
+                        <div id="tabhomeLastSearch" class="tab-pane " ng-controller="LastSearchController" style="height:100%;" ng-if="Tabs.includes('Recientes') || Tabs.includes('All');">
+                            <zamba-lastsearch gridType="recents" title-busqueda="Ult Busquedas" emptymessage=" Aca encontraras las ultimas busquedas que realices."></zamba-lastsearch>
+                        </div>
+                    </md-card>
+                </div>
+            </md-content>
+
+
+        </div>
+    </div>
+</div>

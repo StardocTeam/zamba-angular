@@ -1,0 +1,32 @@
+﻿<div class="modal-header">
+    <button class="btn btn-primary" type="button" id="btnGardar" ng-click="ok()" disabled>Guardar Seleccionados</button>
+    <!--<button class="btn btn-danger" type="button" id="btnCancelar" ng-click="cancel()">Cancelar</button>-->
+</div>
+
+<div id="modal-body" style="overflow: visible; height: auto;">
+    <table class="table" id="tableModalShow" style="text-align:center">
+        <thead>
+            <tr>
+                <th scope="col" class="CenderColum">Seleccion</th>
+                <th scope="col" class="CenderColum" ng-repeat="(headElement, value) in data[0]">{{headElement}}</th>
+            </tr>
+        </thead>
+        <tbody class="buscar">
+            <tr mdbTableCol ng-repeat="data in List =(data | filter:searchText)">
+                <th style="text-align: center">
+                    <input type="checkbox" name="checkTable" value="{{$index}}" ng-click="checkoptions($index)">
+                </th>
+
+                <td ng-repeat="(columnName, value) in data">{{value}} </td>
+                <th style="text-align: center" ng-if="getEditable() == 'true'" ng-repeat=" (columnName, value) in data">
+                    <button class="btn btn-success" ng-if="(columnName == 'doc_id')" doc_id="{{data.doc_id}}" type="button" id="btnEdit" name="btnEdit" onclick="LoadIndexEdit(event)"> Editar</button>
+                </th>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" id="btnGuardar" ng-click="ok()" disabled>Guardar Seleccionados</button>
+    <!--<button class="btn btn-danger" type="button" id="btnCancelar" ng-click="cancel()">Cancelar</button>-->
+</div>

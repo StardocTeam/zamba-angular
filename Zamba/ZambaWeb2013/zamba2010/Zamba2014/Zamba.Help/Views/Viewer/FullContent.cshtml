@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutViewer.cshtml";
+}
+<script>
+    function Treedataurl() {
+        return "@Url.Content("~/viewer/gettreedata")";
+    }
+</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/fullcontent.js")"></script>
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="position: relative;    padding: 0;    margin: 0;">
+    <div class="container" style="padding-top: 5px;">
+
+        <span class="titleStyle" onclick="window.location.href='@Url.Action("fullcontent", "viewer")';">
+            <span class="glyphicon glyphicon-question-sign"></span>
+            Zamba Helper
+        </span>
+
+        <span class="IconsNavBar navbar-right glyphicon glyphicon-user" onclick="window.location.href='@Url.Action("Login", "Account", new { returnUrl = Request.RawUrl.ToString() })';"> @Session["UserName"]</span>
+    </div>
+</div>
+
+<div class="row" id="contentContainer" style="margin:0;height:700px;">
+    <div id="treeDiv">
+        <input type="text" style="display:inline;width:auto;" class="form-control" id="searchTreeView" placeholder="Buscar..." />
+        <button style="display:inline;" class="btn btn-danger btn-xs" onclick="RemoveSearch();" title="Eliminar busqueda">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button style="display:inline;" class="btn btn-primary btn-xs" onclick="ExpandSearch();" title="Expandir nodos">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <button style="display:inline;" class="btn btn-primary btn-xs" onclick="CollapseSearch();" title="Contraer nodos">
+            <span class="glyphicon glyphicon-minus"></span>
+        </button>
+        <div id="treeview"></div>
+        <div id="toogleTree" onclick="toogleTree(this);">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </div>
+    </div>
+    <div class="col-md-8 form-group frmSection" id="contentDiv">
+        <div id="htmlContent">
+            <div id="navigateContent" style="display:none;">
+                <iframe height=700 width="100%" src=""></iframe>
+            </div>
+            <div id="defaultContent">
+                @Html.Raw(ViewBag.Content)
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class='custom-menu'>
+    <li data-action="addRef">Agregar referencia</li>
+</ul>
+
+<style>
+    .list-group-item {
+        padding: 5px 1px;
+    }
+</style>

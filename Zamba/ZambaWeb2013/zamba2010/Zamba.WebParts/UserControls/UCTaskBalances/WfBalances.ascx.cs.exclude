@@ -1,0 +1,104 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Zamba.Core;
+using Zamba.Services;
+////using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_WfBalances : System.Web.UI.UserControl
+{
+
+    #region Eventos
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (cmbWorkflow.Items.Count == 0)
+        {
+            InitializesComponents();
+        }
+        rpvGrdWorkflowBalance.Visible = false;
+    }
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+    private void ShowReports()
+    {
+        if (!String.IsNullOrEmpty(cmbWorkflow.SelectedValue))
+        {
+            dsWorkflowBalance dsTyped = new dsWorkflowBalance();
+
+            dsWorkflowBalance.dtWorkflowBalanceRow dr1 = dsTyped.dtWorkflowBalance.NewdtWorkflowBalanceRow();
+            dsWorkflowBalance.dtWorkflowBalanceRow dr2 = dsTyped.dtWorkflowBalance.NewdtWorkflowBalanceRow();
+            dsWorkflowBalance.dtWorkflowBalanceRow dr3 = dsTyped.dtWorkflowBalance.NewdtWorkflowBalanceRow();
+
+
+            dr1.Workflow_task_State = "Tareas Inicializadas";
+            dr1.Workflow_task_Count = Tasks.GetInitializedTasksByWorkflow(Int64.Parse(cmbWorkflow.SelectedValue));
+
+            dr2.Workflow_task_State = "Tareas Finalizadas";
+            dr2.Workflow_task_Count = Tasks.GetFinishedTasksByWorkflow(Int64.Parse(cmbWorkflow.SelectedValue));
+
+            dr3.Workflow_task_State = "Tareas Rechazadas";
+            dr3.Workflow_task_Count = Tasks.GetRejectedTasksByWorkflow(Int64.Parse(cmbWorkflow.SelectedValue));
+
+            dsTyped.Tables[0].Rows.Add(dr1);
+            dsTyped.Tables[0].Rows.Add(dr2);
+            dsTyped.Tables[0].Rows.Add(dr3);
+            dsTyped.AcceptChanges();
+
+            this.rpvWorkflowBalance.LocalReport.DataSources.Clear();
+            this.rpvGrdWorkflowBalance.LocalReport.DataSources.Clear();
+            ReportDataSource rptDatasource = new ReportDataSource("dsWorkflowBalance_dtWorkflowBalance", dsTyped.Tables[0]);
+            if (rdbVerGrafico.Checked)
+            {
+                this.rpvWorkflowBalance.LocalReport.DataSources.Add(rptDatasource);
+                rpvWorkflowBalance.Visible = true;
+                rpvGrdWorkflowBalance.Visible = false;
+            }
+            else
+            {
+                this.rpvGrdWorkflowBalance.LocalReport.DataSources.Add(rptDatasource);
+                rpvWorkflowBalance.Visible = false;
+                rpvGrdWorkflowBalance.Visible = true;
+            }
+
+        }
+    }
+    #endregion
+
+    #region Metodos
+    public void InitializesComponents()
+    {
+        List<IWorkFlow> WFList = new List<IWorkFlow>();
+
+        WFList = Workflow.GetWorkflows();
+
+
+        foreach (IWorkFlow CurrentWorkflow in WFList)
+            cmbWorkflow.Items.Add(new ListItem(CurrentWorkflow.Name, CurrentWorkflow.ID.ToString()));
+
+        ShowReports();
+    }
+    #endregion
+    protected void rdbVerGrafico_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerTabla.Checked = false;
+        ShowReports();
+
+    }
+    protected void rdbVerTabla_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerGrafico.Checked = false;
+        ShowReports();
+    }
+}
+

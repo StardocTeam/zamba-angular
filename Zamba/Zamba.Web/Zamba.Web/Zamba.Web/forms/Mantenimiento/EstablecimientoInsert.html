@@ -1,0 +1,119 @@
+<html>
+	<head>
+		<title>Establecimiento</title>
+		<link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+		<link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+		<link href="demo_table.css" rel="stylesheet" type="text/css" />
+		<link href="demo_page.css" rel="stylesheet" type="text/css" />
+		<link href="thickbox.css" rel="Stylesheet" type="text/css"/>
+		<!--<link href="jquery-ui-1.8.6.css" rel="Stylesheet" type="text/css"/>-->
+		<link href="ZambaUIWeb.css" rel="Stylesheet" type="text/css"/>
+		<link href="ZambaUIWebTables.css" rel="Stylesheet" type="text/css"/>
+		<link href="jq_datepicker.css" rel="stylesheet" type="text/css"/>
+		<link href="GridThemes/WhiteChromeGridView.css" rel="Stylesheet" type="text/css"/>
+		<link href="tabber.css" rel="stylesheet" type="text/css" media="screen"/>
+		<link href="GridThemes/GridViewGray.css" rel="Stylesheet" type="text/css"/>
+		<link href="Zamba.css" rel="stylesheet" type="text/css"/>
+		<link href="Zamba_table.css" rel="stylesheet" type="text/css"/>
+
+		
+		<script src="jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="jquery-ui-1.8.6.min.js" type="text/javascript"></script>
+		<script src="jquery.layout-latest.js" type="text/javascript"></script>
+		<script src="jq_datepicker.js" type="text/javascript"></script>
+		<script src="thickbox-compressed.js" type="text/javascript"></script>
+		<script src="tabber.js" type="text/javascript"></script>
+		<script src="tabber.js" type="text/javascript"></script>
+		<script src="jquery.quicksearch.js" type="text/javascript"></script>
+		<script src="jquery.validate.min.js" type="text/javascript"></script>
+		<script src="jquery.decimalMask.1.1.1.min.js" type="text/javascript"></script>
+		<script src="jquery.dataTables.js" type="text/javascript"></script>
+		<script src="jquery.scrollTo.js" type="text/javascript"></script>
+		<script src="Zamba.js" type="text/javascript"></script>
+        <script src="Zamba.Fn.js" type="text/javascript"></script>
+		<script type="text/javascript" language="JavaScript">
+			function CompletCode() 
+			{
+				$("#zamba_index_601275").val($("#zamba_index_601273").val() + '-' + $("#zamba_index_601274").val() + '-' + $("#zamba_index_601277").val());
+			}
+			
+			$(document).ready(function() {
+				$("#ContentPlaceHolder_InsertControl_btn_insertar").onclick = ValidateBeforeSave;
+			});
+			
+			var itemToScroll = null;
+			function ValidateBeforeSave() {
+		    
+            var isValid = true;
+            var tabIndex = 0;
+			
+			//Recorro elementos del fieldset validando si se completaron
+            $('.GeneralFormControl').each(function(i, item) {
+                if (!$(item).valid()) 
+				{
+                    isValid = false;
+                }
+            }); 
+			
+            if (!isValid) {
+                alert('Faltan completar datos requeridos');
+            }
+            else {
+                __doPostBack('ctl00$ContentPlaceHolder$InsertControl$btn_insertar', '');
+            }
+        }
+		</script>
+	</head>
+	<body>
+	    <div id="container">
+			<form id="frmMain" name="frmMain" method="post" action="" style="width: 800px; height: 400px">
+				<div name="design" id="design">
+					Establecimiento
+				</div>
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<table cellpadding="4" >
+					<tr>
+						<td><label>Codigo Establecimiento: </label><input id="zamba_index_601273" name="zamba_index_601273" type="text" style="width: 20px" class="required GeneralFormControl ConvertToUpper"
+												onkeyup="CompletCode();" onkeypress="return ValidateLength(this, 2);"></input></td>
+						<td><label> Predio: </label><input id="zamba_index_601274" name="zamba_index_601274" type="text" class="required GeneralFormControl ConvertToUpper"
+													onkeyup="CompletCode();" onkeypress="return ValidateLength(this, 3);" style="width: 30px"></input></td>
+						<td><label> Cod Zona: </label><select id="zamba_index_601277" name="zamba_index_601277" style="width: 80px" class="required GeneralFormControl"
+						onchange="CompletCode();" ></select><td>
+					</tr>
+				</table>
+				</br>
+				<table cellpadding="4" width="100%">
+					<tr>
+						<td><label>Codigo </label></td>
+						<td><input id="zamba_index_601275" name="zamba_index_601275" type="text" style="background: light-gray;" readonly="true"
+													 class="required GeneralFormControl ConvertToUpper"></input></td>
+					</tr>
+					<tr>
+						<td><label>Nombre Establecimiento </label></td>
+						<td><input id="zamba_index_601272" name="zamba_index_601272" type="text" style="width: 365px" class="required GeneralFormControl"></input></td>
+					</tr>
+					<tr>
+						<td><label>Direccion </label></td>
+						<td><input id="zamba_index_601276" name="zamba_index_601276" type="text" class="required GeneralFormControl" style="width: 365px"></input></td>
+					</tr>
+					<tr>
+						<td><label>Region</label></td>
+						<td><select id="zamba_index_601278" name="zamba_index_601278" style="width: 100px" class="required GeneralFormControl" ></select></td>
+					</tr>
+					<tr>
+						<td><label>Referente local</label></td>
+						<td><input id="zamba_index_601279" name="zamba_index_601279" type="text" style="width: 365px"></input></td>
+					</tr>
+					<tr>
+						<td><label>Referente GAL</label></td>
+						<td><input id="zamba_index_601280" name="zamba_index_601280" type="text" style="width: 365px"></input></td>
+					</tr>
+				</table>
+				<center>
+					<input class=" submit" id="zamba_save"  name="zamba_save" type="submit" value="Guardar"></input>
+				</center>
+		    </form>
+		</div>
+	</body>
+</html>

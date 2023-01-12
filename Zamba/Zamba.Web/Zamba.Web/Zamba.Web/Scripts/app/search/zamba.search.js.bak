@@ -1,0 +1,5491 @@
+﻿app.factory('lastNodeObj', function () {
+    return {
+        LastNodes: '',
+        UserId: 0,
+    };
+});
+
+app.factory('Search', function () {
+    return {
+        SearchId: 0,
+        OrganizationId: 0,
+        DoctypesIds: [],
+        Indexs: [],
+        blnSearchInAllDocsType: true,
+        TextSearchInAllIndexs: '',
+        RaiseResults: false,
+        ParentName: '',
+        CaseSensitive: false,
+        MaxResults: 1000,
+        ShowIndexOnGrid: true,
+        UseVersion: false,
+        UserId: 0,
+        GroupsIds: [],
+        StepId: 0,
+        StepStateId: 0,
+        TaskStateId: 0,
+        WorkflowId: 0,
+        NotesSearch: '',
+        Textsearch: '',
+        SearchResults: null,
+        OrderBy: null,
+        Filters: [],
+
+    };
+});
+
+
+
+app.factory('FieldsService', function ($http) {
+    var BaseURL = '';
+    var fac = {};
+    fac.GetAll = function (IndexId) {
+        return $http.post(ZambaWebRestApiURL + '/search/FillIndex?IndexId=' + IndexId).then(function (response) {
+            return response;
+        },
+            function (response) {
+                var errors = [];
+                for (var key in response.data.modelState) {
+                    for (var i = 0; i < response.data.modelState[key].length; i++) {
+                        errors.push(response.data.modelState[key][i]);
+                    }
+                }
+                $scope.message = "Failed to register  due to:" + errors.join(' ');
+            });
+    }
+    return fac;
+});
+
+
+
+
+
+app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, EntityFieldsService, Search, lastNodeObj, $element, $timeout, $filter, $rootScope, authService, uiService, ruleExecutionService, ZambaUserService) {
+
+
+
+
+    $scope.EntitiesCheckEnable = false;
+
+    //Se utiliza para la busqueda de tareas
+    $scope.initSearch = function (d) {
+
+        var parameters = [];
+
+        setTimeout(function () {
+            try {
+                if ($("#previewDocSearch")[0] != undefined) {
+                    if ($("#previewDocSearch")[0].contentWindow.OpenUrl != undefined) {
+                        $("#previewDocSearch")[0].contentWindow.OpenUrl("_AboutBlank", 0)
+                    }
+                    else {
+                        //  $("#previewDocSearch")[0].OpenUrl("_AboutBlank", 0)
+                    }
+                }
+                ;
+            }
+            catch (error) {
+            }
+        }, 2);
+
+        $scope.onSelectionMode = false;
+        $scope.thumbSelectedIndexs = [];
+        $scope.Search.CreatedTodayCount = 0;
+
+        function parameter(editMode, id, name, type, operator, value, placeholder, value2) {
+            this.color = "b1";
+            this.editMode = editMode;
+            this.groupnum = 1;
+            this.id = id;
+            this.maingroup = type == 0 ? true : editMode;
+            this.name = name || "";
+            this.type = type;//0: palabra
+            this.operator = operator || "Empieza";
+            this.placeholder = placeholder || "";
+            this.value = value || "";
+            this.value2 = value2 || "";
+        }
+
+        function GetQSAttribute(d) {
+
+            var parameters = [];
+            var parametersIndexs = [];
+
+            var typesURL = URLParam.Types();
+            var searchsURL = URLParam.Search();
+            var attributesURL = URLParam.Attr();
+
+            var types = typesURL.split(",")
+            var attributes = attributesURL.split(",")
+            var searchs = searchsURL.split(",")
+
+            var attrExists = false;
+
+            for (var i = 0; i < d.length; i++) {
+
+                for (var h = 0; h < types.length; h++) {
+
+                    var type = d[i];
+
+                    if (types[h] == type.id) {
+
+                        attrExists = false;
+
+                        for (var j = 0; j < type.indexes.length; j++) {
+
+                            for (var k = 0; k < attributes.length; k++) {
+
+                                var index = type.indexes[j];
+                                if (attributes[k] == index.id) {
+                                    if (parametersIndexs.indexOf(attributes[k]) == -1) {
+
+                                        parameters.push(new parameter(true, attributes[k], index.name, 2, "Empieza", searchs[k]));
+                                        parametersIndexs.push(attributes[k]);
+                                        attrExists = true;
+                                        break;
+                                    }
+                                    else {
+                                        attrExists = true;
+                                    }
+                                }
+
+                                // falta seleccionar las entidades
+                                //  $scope.setSearchEntites(types.join(','));
+
+                                $scope.Search.DoctypesIds = types.join(',');
+
+                                //Asigno a los atributos del search de las entidades
+                                for (var i in $scope.Search.Indexs) {
+                                    if (attributes[k] == $scope.Search.Indexs[i].id) {
+                                        $scope.Search.Indexs[i].Data = searchs[k];
+                                        $scope.Search.usedFilters.push($scope.Search.Indexs[i].Name);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!attrExists) {
+                            throw "No se encontraron los atributos para el type " + type.id;
+                        }
+
+                        parameters.push(new parameter(false, types[h], type.name, 1));
+                        break;
+                    }
+                }
+            }
+
+            //Si no encontro ningun atributo lanzo error
+            if (true) {
+
+            }
+
+            return parameters;
+        }
+
+        var URLParam = {
+            Types: function () {
+                return getUrlParameters().types || "";
+            },
+            Attr: function () {
+                return getUrlParameters().attr || "";
+            },
+            Search: function () {
+                return getUrlParameters().search || "";
+            }
+        };
+
+        if (URLParam.Attr() == "" && URLParam.Types() == "") {
+            //Busqueda solo por palabras
+            var txt = URLParam.Search();
+            if (txt)
+                parameters.push(new parameter(false, 0, txt, 0, "Empieza", txt));
+        }
+        else {
+            try {
+                var parameters = GetQSAttribute(d);
+            } catch (e) {
+                toastr.error(e, "ERROR");
+            }
+
+            if (parameters == undefined) {
+                bootbox.alert("Parametros incorrectos");
+                return;
+            }
+        }
+
+        if (parameters.length) {
+            $scope.DoSearchByQS(parameters);
+        }
+        else {
+            GetDefaultView();
+        }
+    };
+
+    //-------------------- Rule excecution
+
+
+    $scope.setSearchEntites = function (DoctypesIds) {
+        $scope.Search.DoctypesIds = DoctypesIds;
+        var userId = parseInt(GetUID());
+
+        if (DoctypesIds.length > 0) {
+
+            if (localStorage) {
+                var localIndexsByDTIds = localStorage.getItem('localIndexsByDTIds' + Array.prototype.join.call(DoctypesIds, '-') /*DoctypesIds.join("-")*/ + "|" + userId);
+                if (localIndexsByDTIds != undefined && localIndexsByDTIds != null && localIndexsByDTIds.length > 0) {
+                    try {
+                        var data = JSON.parse(localIndexsByDTIds);
+                        $scope.Search.Indexs = data; // Success
+                        $scope.Search.Filters = [];
+                        $scope.Search.usedFilters = [];
+                        $scope.Search.OrderBy = '';
+                        $scope.Search.LastPage = 0;
+                    } catch (e) {
+                        console.log(e);
+                        $scope.LoadIndexsByDTIdsFromDB();
+                    }
+                }
+                else {
+                    $scope.LoadIndexsByDTIdsFromDB();
+                }
+            }
+            else {
+                $scope.LoadIndexsByDTIdsFromDB();
+            }
+        }
+        else {
+            $scope.Search.Indexs = [];
+            $scope.Search.Filters = [];
+            $scope.Search.usedFilters = [];
+            $scope.Search.OrderBy = '';
+            $scope.Search.LastPage = 0;
+        }
+    };
+
+
+    $scope.executeCurrentRule = function (ruleName) {
+        if ($scope.checkedIds != null && $scope.checkedIds.length > 0) {
+            var ruleIds = getRuleIdFromdictionaryByName(ruleName);
+            var resultIds = getSelectedDocids().toString();
+
+            var scope = angular.getElementById("panel_ruleActions").scope();
+            scope.Execute_ZambaRule(ruleIds, resultIds);
+        } else {
+            swal("No se a podido ejecutar la regla", "Seleccione al menos una tarea.", "warning");
+        }
+    }
+
+    function getSelectedDocids() {
+        var docIds = [];
+        for (i = 0; i < attachsIds.length; i++) {
+            docIds.push(attachsIds[i].Docid);
+        }
+        return docIds;
+    }
+
+    $scope.getRuleName = function () {
+        var names = [];
+        var d = ruleExecutionService.getRuleNames($scope.ruleIds)
+        var results = JSON.parse(d);
+        $scope.ruleDictionary = results;
+        for (var result in results) {
+            if (result.indexOf("id") == -1) {
+                names.push(results[result])
+            }
+        }
+        return names;
+    }
+
+    $scope.getRules = function () {
+        alert("ALGO de GETRULES()");
+        return "algo";
+    };
+
+    function getRuleIdFromdictionaryByName(ruleName) {
+        var ruleDictionary = $scope.ruleDictionary;
+        var ruleId = null;
+        for (var rule in ruleDictionary) {
+            if (ruleDictionary[rule] == ruleName) {
+                ruleId = rule;
+            }
+        }
+        return ruleId;
+    }
+
+
+    //--------------------
+
+    $scope.placeholder = $attrs.placeholder || 'Buscar ...';
+    $scope.message = '';
+    $scope.searchQuery = {};
+    $scope.Result = null;
+    $scope.setSearchFocus = false;
+    $scope.page = 0;
+    $scope.pageSize = 100;
+    $scope.isPagging = false;
+    $scope.isLastPage = false;
+
+    $scope.scrollHdlr = function ($event, $direct) {
+        $direct.preventDefault();
+        $direct.stopImmediatePropagation();
+        var c = $direct.currentTarget;
+        var scroll = c.scrollHeight - c.clientHeight - c.scrollTop;
+        if (scroll === 0) {
+            if ($scope.Search.SearchResults.length < $scope.Search.SearchResultsObject.total) {
+                if (localStorage && localStorage.getItem("tipoBusqueda").length && localStorage.getItem("tipoBusqueda") === "Atributos") {
+                    if ($scope.Search.SearchResultsObject.total > 100) {
+                        $scope.LastPage++;
+                        setPageNumber($scope.LastPage);
+                        $scope.DoSearch();
+                    }
+                }
+                else {
+                    if ($scope.Search.SearchResultsObject.total > 100) {
+                        this.isPagging = true;
+                        this.page++;
+                        $scope.doSearchGS();
+                    }
+                }
+            }
+        }
+        thumbButtonDisplay();
+        thumbPreviewButtonDisplay();
+    };
+
+    $scope.Search = Search;
+    $scope.lastNodeObj = lastNodeObj;
+
+    //Codifo para que funcione filtros de tereas
+    if (typeof (Sys) !== 'undefined') {
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function (sender, args) {
+            var elem = angular.element(document.getElementById("toolbarTabTasksList"));
+
+            elem.replaceWith($compile(elem)($scope));
+            $scope.$apply();
+
+        });
+    }
+
+    $scope.updateSelectedEntities = function (DoctypesIds, lastnodes) {
+        $scope.Search.DoctypesIds = DoctypesIds;
+        var userId = parseInt(GetUID());
+
+        if (DoctypesIds.length > 0) {
+
+            if (localStorage) {
+                var localIndexsByDTIds = localStorage.getItem('localIndexsByDTIds' + Array.prototype.join.call(DoctypesIds, '-')/*DoctypesIds.join("-")*/ + "|" + userId);
+                if (localIndexsByDTIds != undefined && localIndexsByDTIds != null) {
+                    try {
+                        var data = JSON.parse(localIndexsByDTIds);
+
+                        if (data.length > 0) {
+
+                            $scope.Search.Indexs = data; // Success
+
+                            if ($scope.Search.Indexs != null) {
+                                if ($scope.Search.Indexs[0] != null) {
+                                    $('#barratop').css('display', 'block');
+                                } else {
+                                    $('#barratop').css('display', 'none');
+                                }
+                            }
+                            $scope.Search.Filters = [];
+                            $scope.Search.usedFilters = [];
+                            $scope.Search.OrderBy = '';
+                            $scope.Search.LastPage = 0;
+
+                        }
+                        else {
+                            $scope.LoadIndexsByDTIdsFromDB();
+
+                        }
+                    } catch (e) {
+                        console.log(e);
+                        $scope.LoadIndexsByDTIdsFromDB();
+                    }
+                }
+                else {
+                    $scope.LoadIndexsByDTIdsFromDB();
+                }
+            }
+            else {
+                $scope.LoadIndexsByDTIdsFromDB();
+            }
+        }
+        else {
+            $scope.Search.Indexs = [];
+            $scope.Search.Filters = [];
+            $scope.Search.usedFilters = [];
+            $scope.Search.OrderBy = '';
+            $scope.Search.LastPage = 0;
+        }
+
+        $scope.lastNodeObj.LastNodes = lastnodes;
+        $scope.lastNodeObj.UserId = GetUID();
+
+
+        if (localStorage) {
+            var treeView = $("#treeview").data("kendoTreeView"),
+                nodeToLocalStorage = treeView.dataSource.options.data;
+            var localTreeData = JSON.stringify(nodeToLocalStorage);
+            if (localTreeData != undefined && localTreeData != null && localTreeData != '') {
+                localStorage.setItem('localTreeData|' + GetUID(), JSON.stringify(nodeToLocalStorage));
+            }
+        }
+    };
+
+    $scope.ResetFilters = function () {
+        if ($scope.Search.SearchResultsObject != undefined) {
+            $scope.Search.FiltersResetables = true;
+
+            $scope.Search.SearchResultsObject.entities.forEach(function (element, index) {
+                element.ResultsCount = 0;
+            });
+        }
+    }
+
+    function setNodesOnDB() {
+        var data = $scope.lastNodeObj;
+        $.ajax({
+            type: 'POST',
+            // dataType: 'json',
+            url: ZambaWebRestApiURL + '/search/SetLastNodes',
+            async: true,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8"
+        });
+    }
+
+    // Browser or Tab close event  
+    window.onbeforeunload = function () {
+        //  setNodesOnDB();
+        // localStorage.removeItem('localTreeData|' + GetUID());
+    }
+
+
+    function checkedNodeIdsfalse(nodes, checkedNodesfalse, DoctypesIdsfalse, DoctypesIds) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].checked == 'true' || nodes[i].checked == true) {
+                checkedNodesfalse.push(nodes[i].NodeType + "-" + nodes[i].id);
+                if (nodes[i].NodeType == "Entity") {
+                    if (DoctypesIds.indexOf(nodes[i].id) == -1) {
+                        DoctypesIds.push(nodes[i].id);
+                    }
+                }
+            }
+            if (nodes[i].hasChildren) {
+                checkedNodeIdsfalse(nodes[i].children.view(), checkedNodesfalse, DoctypesIdsfalse, DoctypesIds);
+            }
+        }
+    }
+
+    $scope.LoadStepsFromDB = function () {
+        try {
+            //if ($scope.Search != null)
+            //    EntityFieldsService.GetSteps().then(function (response) {
+            //        $scope.Steps = JSON.parse(response.data);
+            //    });
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+
+    $scope.LoadIndexsByDTIdsFromDB = function () {
+        var userId = parseInt(GetUID());
+
+        EntityFieldsService.GetAll($scope.Search.DoctypesIds).then(function (d) {
+            var results = JSON.parse(d.data);
+            var dtids = '';
+            if ($scope.Search.DoctypesIds.join == undefined) {
+                dtids = $scope.Search.DoctypesIds
+            }
+            else {
+                dtids = $scope.Search.DoctypesIds.join("-");
+            }
+            if (localStorage) {
+                localStorage.setItem('localIndexsByDTIds' + dtids + "|" + userId, d.data);
+            }
+            $scope.Search.Indexs = results; // Success
+            $scope.Search.Filters = [];
+            $scope.Search.usedFilters = [];
+            $scope.Search.OrderBy = '';
+            $scope.Search.LastPage = 0;
+        }, function (response) {
+            console.log(response);
+            $scope.Search.Indexs = [];
+            $scope.Search.Filters = [];
+            $scope.Search.OrderBy = '';
+            $scope.Search.LastPage = 0;
+            // alert('Error Occured !!!'); // Failed
+        });
+    }
+
+    $scope.subscribeDatepicker = function (id) {
+
+        if (!($("#" + id).hasClass("TengoCalendar"))) {
+            setTimeout(
+                function () {
+                    $(".datepicker").datepicker();
+                    $("#" + id).focus();
+                    $("#" + id).addClass("TengoCalendar");
+                }, 100);
+        }
+    };
+
+    $scope.saveData = function (Index, Value, Label) {
+        if (Value != undefined) //Valor por seleccion de typeahead o modal
+        {
+            if (Index.DropDown == 1) {
+                Index.dataDescription = Label;
+                Index.Data = Label;
+            }
+            else {
+                Index.dataDescription = Label;
+                Index.Data = Value;
+            }
+            if ($('#ModalSearch').hasClass('in')) {
+                $("#ModalSearch").modal("hide");
+                setTimeout(function () { $('#searchWrapper').focus(); }, 600);
+            }
+
+            if ($('#ModalSearch2').hasClass('in')) {
+                $("#ModalSearch2").modal("hide");
+                setTimeout(function () { $('#searchWrapper').focus(); }, 600);
+            }
+        }
+    };
+
+    $scope.CleanData = function (Index) {
+        if (Index !== undefined) {
+            Index.Data = "";
+            Index.dataDescription = "";
+        }
+    }
+
+    $scope.CleanData2 = function (Index) {
+        if (Index !== undefined) {
+            Index.Data2 = "";
+            Index.dataDescription2 = "";
+        }
+    }
+
+    $scope.saveDataBetween = function (Index, Value, Label) {
+        if (Value != undefined) //Valor por seleccion de typeahead o modal
+        {
+            Index.dataDescription2 = Label;
+            Index.Data2 = Value;
+            if ($('#ModalSearch').hasClass('in'))
+                $("#ModalSearch").modal("hide");
+            if ($('#ModalSearch2').hasClass('in'))
+                $("#ModalSearch2").modal("hide");
+
+        }
+    };
+
+    $scope.saveOperator = function (Index, Value) {
+        if (Value != undefined) {
+            if (Value != "Entre") {
+                Index.Data2 = "";
+                Index.dataDescription2 = "";
+            }
+            Index.Operator = Value;
+        }
+    };
+
+    $scope.loadOperator = function (Index) {
+        var opTxt = [{
+            Desc: 'Igual',
+            Oper: '='
+        }, {
+            Desc: 'Nulo',
+            Oper: 'Es nulo'
+        }, {
+            Desc: 'Alguno',
+            Oper: 'Alguno'
+        }, {
+            Desc: 'Contiene',
+            Oper: 'Contiene'
+        }, {
+            Desc: 'Termina',
+            Oper: 'Termina'
+        }, {
+            Desc: 'Empieza',
+            Oper: 'Empieza'
+        }];
+        var opNum = [{
+            Desc: 'Igual',
+            Oper: '='
+        }, {
+            Desc: 'Entre',
+            Oper: 'Entre'
+        }, {
+            Desc: 'Distinto',
+            Oper: 'Distinto'
+        }, {
+            Desc: 'Menor',
+            Oper: '<'
+        }, {
+            Desc: 'Menor igual',
+            Oper: '<='
+        }, {
+            Desc: 'Mayor',
+            Oper: '>'
+        }, {
+            Desc: 'Mayor igual',
+            Oper: '>='
+        }];
+        switch (Index.Type) {
+            case 1: case 2: case 3: case 4: case 5: case 6:
+                if (Index.DropDown == 2 || Index.DropDown == 4)
+                    $scope.Operators = opTxt;
+                else
+                    $scope.Operators = opNum;
+                break;
+            case 7: case 8:
+                $scope.Operators = opTxt;
+                break;
+        }
+    };
+
+    $scope.showlist = function (index, id) {
+        var SIndex = id == undefined ? index : Search.Indexs[id];
+        $scope.selectedIndex = SIndex;
+        Search.selectedIndex = SIndex;
+        if (!$('#ModalSearch').hasClass('in')) {
+            $("#ModalSearch").modal();
+            $("#ModalSearch").draggable();
+            $("#modalFormHome > div")[0].childNodes[1].value = "";
+        }
+        if (!$('#ModalSearch2').hasClass('in')) {
+            $("#ModalSearch2").modal();
+            $("#ModalSearch2").draggable();
+            $("#modalFormHome > div")[0].childNodes[1].value = "";
+        }
+        //alert('showlist');
+
+        //return
+        var LimitTo = 20;
+        var indexData = $http.post(ZambaWebRestApiURL + '/search/ListOptions', JSON.stringify({
+            IndexId: $scope.selectedIndex.ID,
+            Value: Search.selectedIndex.dataDescription,
+            LimitTo: LimitTo
+
+            // Trae como tope (LimitTo + 1) filas, en caso que haya LimitTo + 1 elimina el ultimo y muestra un mensaje que hubo mas resultados
+
+        })).then(function (response) {
+            var results = JSON.parse(response.data);
+            if (results.length > LimitTo) {
+                {
+                    $("#searchMoreResults").show();
+                    results.pop();
+                }
+            }
+            else {
+                $("#searchMoreResults").hide();
+            }
+
+            Search.selectedIndex.DropDownList = results;
+            BtnTrashHidden();
+            if (!$('#ModalSearch').hasClass('in')) {
+                $("#ModalSearch").modal();
+                $("#ModalSearch").draggable();
+                $("#modalFormHome > div")[0].childNodes[1].value = "";
+            }
+            if (!$('#ModalSearch2').hasClass('in')) {
+                $("#ModalSearch2").modal();
+                $("#ModalSearch2").draggable();
+                $("#modalFormHome > div")[0].childNodes[1].value = "";
+            }
+
+
+        });
+    };
+
+    //Muestra la lista desplegable otra vez al borrar los Datos del input
+    $scope.ShowListAfter = function () {
+
+        var indexData = $http.post(ZambaWebRestApiURL + '/search/ListOptions', JSON.stringify({
+            IndexId: $scope.selectedIndex.ID,
+            Value: Search.selectedIndex.dataDescription,//.DataTemp,
+            LimitTo: 10
+        })).then(function (response) {
+            var results = JSON.parse(response.data);
+
+            Search.selectedIndex.DropDownList = results;
+            if (!$('#ModalSearch').hasClass('in'))
+                $("#ModalSearch").modal();
+            if (!$('#ModalSearch2').hasClass('in'))
+                $("#ModalSearch2").modal();
+
+
+        });
+
+    }
+
+    $scope.CleanData = function (Index) {
+        if (Index !== undefined) {
+            Index.Data = "";
+            Index.dataDescription = "";
+        }
+    }
+
+    $scope.CleanData2 = function (Index) {
+        if (Index !== undefined) {
+            Index.Data2 = "";
+            Index.dataDescription2 = "";
+        }
+    }
+
+    $scope.LastPage = 0;
+    $scope.PageSize = 100;
+    $scope.Search.usedFilters = [];
+
+    $scope.DoPaging = function (page) {
+        $scope.LastPage = page - 1;
+        $scope.DoSearch();
+    }
+
+    $scope.LoadMoreResults = function () {
+        $scope.LastPage = $scope.LastPage + 1;
+        var desde = ($scope.PageSize * $scope.LastPage) + 1;
+        if (desde <= $scope.Search.SearchResultsObject.total) {
+            $scope.DoSearch();
+
+        } else {
+            toastr.info("No hay mas resultados para mostrar");
+            var input = document.querySelector('[name="dis"]');
+            input.setAttribute('disabled', true);
+        }
+
+    }
+
+    $scope.$on('filtersAdded', function (event, data) {
+        console.log('filtersAdded');
+        $scope.DoSearch();
+    });
+
+
+    $scope.DownloadFile = function (obj) {
+        var task = $scope.Search.SearchResults[obj];
+        var docId = task.DOC_ID;
+        var docTypeId = task.DOC_TYPE_ID;
+
+        var url = "../../Services/GetDownloadFile.ashx?DocTypeId=" + docTypeId + "&DocId=" + docId + "&UserID=" + GetUID() + "&ConvertToPDf=false";
+        //$(location).attr('href', url)
+        window.open(url);
+    }
+
+    $scope.Filter = function (filter) {
+
+        var filters;
+        if (filter["filter"] != null) {
+            filters = filter["filter"].filters;
+
+            $(filters).each(function (key, item) {
+                var isIndex = false;
+                for (var i in $scope.Search.Indexs) {
+                    if (item.field == $scope.Search.Indexs[i].Name.replace(/ /g, "_")) {
+                        $scope.Search.Indexs[i].Data = item.value;
+                        $scope.Search.usedFilters.push(item.field);
+                        isIndex = true;
+                        break;
+                    }
+                }
+                if (isIndex == false) {
+                    $scope.Search.Filters.push({ Field: item.field, Operator: item.operator, Value: item.value });
+                    $scope.Search.usedFilters.push(item.field);
+                }
+            });
+
+        }
+        else {
+            $scope.Search.Filters = [];
+            $scope.Search.usedFilters = [];
+        }
+        $scope.DoSearch();
+    }
+
+    $scope.Sorting = function (columm) {
+
+        if (columm.sort.dir == undefined) {
+            $scope.Search.OrderBy = "";
+        }
+        else {
+            $scope.Search.OrderBy = columm.sort.field + " " + columm.sort.dir;
+        }
+
+        $scope.LastPage = 0;
+        $scope.Search.columnFiltering = true;
+        $scope.DoSearch();
+    }
+
+    $scope.DoEndlessScroll = function (arg) {
+        $scope.LastPage++;
+        $scope.DoSearch();
+    }
+
+    $scope.SearchResultsObject = null;
+
+    $scope.DoSearchAttr = function () {
+
+        $rootScope.$broadcast('ClearFilters');
+        $scope.Search.AsignedTasks = false;
+        $scope.Search.View = "";
+        if ($('#ModalSearch2').hasClass('in')) {
+            $("#ModalSearch2").modal('hide');
+        }
+
+        $scope.Search.StepId = 0;
+        $(".ActualizarResultados").css("display", "none");
+        $scope.DoSearch();
+    };
+
+    $scope.SearchFrom = null;
+
+    $scope.entitieCounts_ForDoSearch = [];
+
+    //Obtiene la cantidad de registros que tiene la entidad iterada pasada por parametro.
+    $scope.RowCounter = function (Entidad) {
+        return $scope.entitieCounts_ForDoSearch[Search.SearchResultsObject.entities.indexOf(Entidad)];
+    }
+
+    $scope.DoSearch = function () {
+        if (localStorage) {
+            window.localStorage.setItem('tipoBusqueda', 'Atributos');
+        }
+        if ($('#ModalSearch').hasClass('in'))
+            $("#ModalSearch").modal("hide");
+
+        $scope.Search.UserId = GetUID();
+        $scope.Search.GroupsIds = GetGroupsIdsByUserId($scope.Search.UserId);
+
+        for (var i in $scope.Search.Indexs) {
+            $scope.Search.Indexs[i].DropDownList = []
+        }
+        $scope.Search.LastPage = $scope.LastPage;
+
+        $scope.Search.PageSize = 100;
+        var busqueda = toastr.info("Realizando la búsqueda");
+        toastr.options.timeOut = 20000;
+        //toastr.options.timeOut = 10000;
+        //$scope.Search = $scope.usedFilters;
+        return $http.post(ZambaWebRestApiURL + '/search/DoSearch', $scope.Search).then(function (response) {
+            $scope.Search.FiltersResetables = false;
+            var data = response.data;
+            data = data.replace(/&_/g, "");
+            var SearchResultsObject = JSON.parse(data);
+
+            if ($scope.entitieCounts_ForDoSearch.length == 0) {
+                SearchResultsObject.entities.forEach(function (Element) {
+                    $scope.entitieCounts_ForDoSearch.push(Element.ResultsCount)
+                })
+            }
+
+            $scope.Search.columnFiltering = false;
+
+            // Si no trajo resultados
+            if (SearchResultsObject == undefined || SearchResultsObject == null || SearchResultsObject.data == undefined || SearchResultsObject.data.length == 0) {
+
+                if ($scope.Search.AsignedTasks) {
+                    toastr.options.timeOut = 5000;
+                    toastr.warning("No tiene tareas asignadas");
+                    $scope.Search.AsignedTasks = true;
+                    $("#SearchControls").hide();
+                    $("#tabresults").show();
+
+                }
+                else {
+                    hideLoading();
+                    $scope.Search.SearchResults = [];
+                    $scope.Search.SearchResultsObject = null;
+                    $scope.LastPage = 0;
+                    CleanKGrid();
+                    $scope.FillFilters(null);
+                    toastr.options.timeOut = 5000;
+                    toastr.warning("Por favor intente redefiniendo sus parametros de busqueda", "No se encontro ningun resultado");
+                    return;
+                }
+            }
+
+            if ($scope.LastPage === 0 || $scope.Search.SearchResults == undefined || $scope.Search.SearchResultsObject == null) {
+
+                $scope.Search.SearchResults = SearchResultsObject.data;
+                $scope.Search.SearchResultsObject = SearchResultsObject;
+            }
+            else {
+                for (var i = 0; i < SearchResultsObject.data.length; i++) {
+                    $scope.Search.SearchResultsObject.data.push(SearchResultsObject.data[i]);
+                    $scope.Search.SearchResultsObject.total = SearchResultsObject.total;
+                }
+            }
+
+            ProcessResults($scope.Search);
+
+            //analizar la continuidad de estos metodos, que son de la interfaz vieja y algunas cosas de la nueva
+            if ($('#liResults').css('display') === 'none') {
+                $('#liResults').css('display', 'block');
+            }
+
+            if ($('#MainTabber').zTabs !== undefined) {
+                $('#MainTabber').zTabs("select", '#tabresults');
+            }
+            else {
+                $("#SearchControls").hide();
+                $("#tabresults").show();
+            }
+
+            if ($(".panel-body")[0] != undefined) {
+                var FilterCounBtn = $(".panel-body")[0].childElementCount;
+                if (FilterCounBtn > 0) {
+                    $("#CountFilter").css("display", "inline-block");
+                    $("#TextFilter")[0].innerText = "Filtros seleccionados: " + FilterCounBtn;
+                } else if (FilterCounBtn == 0) {
+                    $("#CountFilter").css("display", "none");
+                }
+            }
+
+
+            GoToUpGlobalSearch();
+
+            //if (SearchResultsObject.data[0]) {
+            //    //$("[ng-click='previewItem_ForDocumentViewer(result, $index, $event)']")[0].click();
+            //}
+            hideLoading();
+
+            var currentresult = $scope.Search.SearchResults[0];
+            var VirtualEntitiesArray = String(SearchResultsObject.VirtualEntities).split(',');
+            // || (currentresult.DOC_TYPE_ID == 2523 || currentresult.DOC_TYPE_ID == 10122 || currentresult.DOC_TYPE_ID == 18 || currentresult.DOC_TYPE_ID == 100 || currentresult.DOC_TYPE_ID == 112 || currentresult.DOC_TYPE_ID == 22 || currentresult.DOC_TYPE_ID == 139074 || currentresult.DOC_TYPE_ID == 139072 || currentresult.DOC_TYPE_ID == 139081 || currentresult.DOC_TYPE_ID == 139082 || currentresult.DOC_TYPE_ID == 139073)) {
+            if (($scope.Search.AsignedTasks && $scope.LastPage == 0) || VirtualEntitiesArray.includes(String(currentresult.DOC_TYPE_ID))) {
+                SearchFrom = "";
+                $("#tabhome").hide();
+                $("#tabInsert").hide();
+                $("#tabresults").show();
+
+                $("#SearchControls").hide();
+
+                $("#resultsGridSearchBox").hide();
+                $("#resultsGridSearchBoxThumbs").hide();
+                $("#resultsGridSearchBoxPreview").hide();
+                $("#resultsGridSearchGrid").show();
+                $("#Kgrid").show();
+
+                $(".switch").show();
+
+                //$scope.Search.AsignedTasks = false;
+            }
+            else {
+                TaskLoaded = false;
+                $("#tabhome").hide();
+                $("#tabInsert").hide();
+                $("#tabresults").show();
+
+                $("#SearchControls").hide();
+
+                $("#resultsGridSearchBox").hide();
+                $("#resultsGridSearchBoxThumbs").hide();
+
+
+            }
+
+
+            if ($scope.Search.LastPage == 0) {
+                $scope.RowCounter(SearchResultsObject.entities[2]);
+                KendoGrid($scope.Search.SearchResultsObject, $scope.Search.UserId);
+                $scope.FillFilters($scope.Search.SearchResultsObject)
+            }
+            else {
+                RefreshKGrid($scope.Search.SearchResultsObject);
+                $scope.FillFilters($scope.Search.SearchResultsObject)
+            }
+
+            $scope.MultipleSelection(false);
+
+            if ($scope.Search.SearchResults.length > 0) {
+                var currentresult = $scope.Search.SearchResults[0];
+                $scope.previewItem(currentresult, -1)
+            }
+
+            $scope.EntitiesCheckEnable = false;
+
+            //validateGridColumns(SearchResultsObject);
+            AdjustGridColumns();
+
+            if (ResizeResultsArea)
+                ResizeResultsArea();
+
+            toastr.clear(busqueda);
+
+
+            //setTimeout(function () { if (ResizeResultsArea) ResizeResultsArea(); }, 900);
+
+        }).then(function onSuccess(data, response) {
+            // Handle success
+            $scope.EntitiesCheckEnable = false;
+            ResetSwitch();
+            showBtns_ForResultsGrid();
+
+        }).catch(function (data, status, headers, config) {
+            $scope.Search.columnFiltering = false;
+            $scope.Search.AsignedTasks = false;
+            GSLoading.Hide();
+            $scope.message = data.data;
+            $scope.Search.SearchResultsObject = null;
+            $scope.Search.SearchResults = [];
+            $scope.LastPage = 0;
+            $scope.FillFilters(null);
+            CleanKGrid();
+            var r = data.data == undefined ? data.message : data.data.ExceptionMessage;
+            console.log(data.message);
+            toastr.options.timeOut = 5000;
+
+            $scope.EntitiesCheckEnable = false;
+
+            toastr.error("No se encontraron resultados");
+        });
+    };
+
+    //Reestablece el switch de la grilla de resultados
+    function ResetSwitch() {
+        try {
+            if ($("#chkThumbGrid")[0].checked == true)
+                $("#chkThumbGrid")[0].checked = false
+        } catch (e) {
+            console.log("ERROR: " + e.messages);
+        }
+    }
+
+    //Muestra una columna del KendoGrid.
+    function ShowColumn_Function(Column) {
+        try {
+            $('#Kgrid').data("kendoGrid").showColumn(Column)
+        }
+        catch (e) {
+            try {
+                $('#Kgrid').data("kendoGrid").showColumn(Column)
+            } catch (e) { }
+        }
+    }
+
+    //Oculta una columna del KendoGrid.
+    function hideColumn_Function(Column) {
+        try {
+            $('#Kgrid').data("kendoGrid").hideColumn(Column)
+        }
+        catch (e) {
+            try {
+                $('#Kgrid').data("kendoGrid").hideColumn(Column)
+            } catch (e) { }
+        }
+    }
+
+    //Obtiene la coleccion de columnas de DoSearch() y oculta las columnas que no existan de un lado o del otro.
+    function validateGridColumns(SearchResults_DoSearch) {
+
+        if ($("#Kgrid").css('display') === 'block') {
+
+            var gridColumns = $('#Kgrid').data("kendoGrid").columns;
+
+            var ColumnaExiste;
+            var field;
+            for (var i = 0; i < gridColumns.length; i++) {
+
+                ColumnaExiste = false;
+                field = gridColumns[i].field;
+
+                if (field != undefined && field.toLowerCase() != 'icon') {
+
+                    for (var j = 0; j < SearchResults_DoSearch.columns.length; j++) {
+
+                        if (SearchResults_DoSearch.columns[j].toLowerCase() == field.toLowerCase()) {
+                            ColumnaExiste = true;
+                            break;
+                        }
+                    }
+
+                    if (ColumnaExiste) {
+
+                        if (gridColumns[i].hidden == undefined || gridColumns[i].hidden == false || gridColumns[i].hidden == "false") {
+                            ShowColumn_Function(gridColumns[i]);
+                            gridColumns[i].hidden = "false";
+                        }
+                        else {
+                            hideColumn_Function(gridColumns[i]);
+                        }
+                    }
+                    else {
+                        hideColumn_Function(gridColumns[i]);
+                        gridColumns[i].hidden = "true";
+                    }
+
+                }
+            }
+
+            AdjustGridColumns();
+            //resizeGrid();
+        }
+    }
+
+    $scope.searchGridText = "";
+
+    $scope.FilterGrid = function () {
+        FilterKGrid($scope.searchGridText);
+    };
+
+    $scope.FilterIndexs = [];
+
+    $scope.FillFilters = function (response) {
+        if (response == null) {
+            $scope.FilterIndexs = [];
+            $scope.Filters = [];
+        }
+        else {
+            $scope.FilterIndexs = response.Indexs;
+        }
+    };
+
+    $scope.doSearchGS = function () {
+        searchModeGSFn(null, "search");
+        if (localStorage) {
+            window.localStorage.setItem('tipoBusqueda', 'Palabras');
+        }
+
+        $scope.Search.UserId = GetUID();
+
+        if ($scope.isPagging) {
+            $scope.isPagging = false;
+        }
+        else {
+            $scope.page = 0;
+            $scope.Search.SearchResults = [];
+            $scope.isLastPage = false;
+        }
+        if ($scope.isLastPage) return;
+
+        var busqueda = toastr.info("Buscando...");
+        toastr.options.timeOut = 20000;
+
+        var $p = (JSON.parse(JSON.stringify($scope.model.parameters)));
+        for (var i = 0; i <= $p.length - 1; i++) {
+            if ($p[i] != undefined && $p[i].type == 1 && $p[i].value != '' && $p[i].value.indexOf('| Empieza: ') != 1) {
+                $p[i].value = $p[i].value.replace('| Empieza: ', '');
+            }
+            if ($p[i] != undefined && $p[i].value2 != "") {
+                $p[i].value = $p[i].value.substr(0, $p[i].value.indexOf("-")).trim();
+            }
+        }
+        var filterCount = parseInt($("#filterCountDiv").attr("value"));
+        var parameters = { Parameters: $p, UserId: parseInt(GetUID()) };
+        parameters.SizePage = { LastPage: $scope.page, PageSize: $scope.pageSize };
+
+        var param = JSON.stringify($scope.parameters);
+        $scope.searchQuery = parameters;
+
+        selectDescGSFn($p);
+
+        $http({
+            method: 'POST',
+            dataType: 'json',
+            url: ZambaWebRestApiURL + '/search/Results',
+            data: parameters,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+        }).
+            then(function (d, status, headers, config) {
+
+                $scope.Search.AsignedTasks = false;
+                $scope.ProcessSearch(d.data);
+
+                if (d.data.total > 0)
+                    $scope.Search.SearchResults.total = d.data.total;
+                hideLoading();
+
+
+
+
+            }).then(function onSuccess(data, response) {
+                // Handle success
+                toastr.clear(busqueda);
+                var currentresult = $scope.Search.SearchResults[0];
+                var VirtualEntities = ZambaUserService.getSystemPreferences('VirtualEntities');
+                var VirtualEntitiesArray = String(VirtualEntities).split(',');
+                // || (currentresult.DOC_TYPE_ID == 2523 || currentresult.DOC_TYPE_ID == 10122 || currentresult.DOC_TYPE_ID == 18 || currentresult.DOC_TYPE_ID == 100 || currentresult.DOC_TYPE_ID == 112 || currentresult.DOC_TYPE_ID == 22 || currentresult.DOC_TYPE_ID == 139074 || currentresult.DOC_TYPE_ID == 139072 || currentresult.DOC_TYPE_ID == 139081 || currentresult.DOC_TYPE_ID == 139082 || currentresult.DOC_TYPE_ID == 139073)) {
+                if (($scope.Search.AsignedTasks && $scope.LastPage == 0) || VirtualEntitiesArray.includes(currentresult.DOC_TYPE_ID)) {
+                    SearchFrom = "";
+                    $("#resultsGridSearchBox").hide();
+                    $("#resultsGridSearchBoxThumbs").hide();
+                    $("#resultsGridSearchBoxPreview").hide();
+                    $("#resultsGridSearchGrid").show();
+                    $("#Kgrid").show();
+                    //$scope.Search.AsignedTasks = false;
+                }
+                else {
+                    $("#tabhome").hide();
+                    $("#tabInsert").hide();
+
+                    $("#tabresults").show();
+                    $("#SearchControls").hide();
+                    $("#resultsGridSearchBox").hide();
+                    $("#resultsGridSearchBoxThumbs").hide();
+                    $("#resultsGridSearchBoxPreview").show();
+                    $("#resultsGridSearchGrid").show();
+                    $("#Kgrid").hide();
+                    setTimeout(function () { $scope.GetNextUrl(-1); }, 900);
+                }
+
+                if ($("#Kgrid").css('display') === 'block') {
+                    AdjustGridColumns();
+                    resizeGrid()
+                }
+            }).catch(function (data, status, headers, config) {
+                GSLoading.Hide();
+                $scope.message = data.data;
+                $scope.Search.SearchResults = null;
+                var r = data.data == undefined ? data.message : data.data.ExceptionMessage;
+                console.log(data.message);
+                if (r != null) {
+                    var error = r.indexOf("\n") > -1 ? r.substring(0, r.indexOf("\n")) : r;
+                    toastr.warning("No se encontraron archivos", "Error al cargar indices");
+                }
+            });
+    };
+
+    $scope.myFunct = function (keyEvent) {
+        if (keyEvent.which === 13)
+            alert('I am an alert');
+    }
+
+
+
+    var addItem = function (item, list) {
+        list.push(item);
+    },
+        removeItem = function (item, list) {
+            for (listItem in list) {
+                if (list[listItem] == item) {
+                    list.splice(listItem, 1);
+                }
+            }
+        };
+
+
+    $scope.resetMultipleSelection = function () {
+        var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
+        thumbsCollection.addClass("glyphicon glyphicon-ok-circle");
+        thumbsCollection.removeClass("glyphicon-ok-sign");
+        $("#resultsGridSearchBoxThumbs").find(".glyphicon-info-sign").show();
+        $("#resultsGridSearchBoxThumbs").find(".glyphicon-zoom-in").show();
+        $("#resultsGridSearchBoxThumbs").find(".resultsGrid ").css("width", "150px");
+        $scope.thumbSelectedIndexs = [];
+        $("#multipleSelectionMenu").hide();
+        $(".filterFunc").show();
+    }
+
+    $scope.resetMultipleSelectionPreview = function () {
+        var thumbsCollection = $("#resultsGridSearchBoxPreview").find(".glyphicon-ok-sign");
+        thumbsCollection.addClass("glyphicon glyphicon-ok-circle");
+        thumbsCollection.removeClass("glyphicon-ok-sign");
+        $("#resultsGridSearchBoxPreview").find(".glyphicon-new-window").show();
+        $("#resultsGridSearchBoxPreview").find(".glyphicon-download-alt").show();
+        $scope.thumbSelectedIndexs = [];
+        $("#multipleSelectionPreview").hide();
+    }
+
+    $scope.DisableActions = function () {
+        try {
+            document.getElementById("BtnClearCheckbox").removeAttribute("disabled", "disabled");
+            document.getElementById("BtnSendEmail").removeAttribute("disabled", "disabled");
+            document.getElementById("OpenAllSelected").removeAttribute("disabled", "disabled");
+            document.getElementById("BtnSendZip").removeAttribute("disabled", "disabled");
+            document.getElementById("BtnDerivar").removeAttribute("disabled", "disabled");
+            document.getElementById("panel_ruleActions").removeAttribute("disabled", "disabled");
+
+            $("#Actions").css('display', 'inline');
+        } catch (e) {
+            console.log("ERROR: " + e.messages);
+        }
+    }
+
+    $scope.EnableActions_FromListIds = function (e) {
+        if ($scope.thumbSelectedIndexs.length > 0) {
+            document.getElementById("BtnClearCheckbox").removeAttribute("disabled");
+            document.getElementById("BtnSendEmail").removeAttribute("disabled");
+            document.getElementById("OpenAllSelected").removeAttribute("disabled");
+            document.getElementById("BtnSendZip").removeAttribute("disabled");
+            document.getElementById("BtnDerivar").removeAttribute("disabled");
+            document.getElementById("panel_ruleActions").removeAttribute("disabled");
+
+            $("#Actions").css('display', 'inline');
+        } else {
+            document.getElementById("BtnClearCheckbox").setAttribute("disabled", "disabled");
+            document.getElementById("BtnSendEmail").setAttribute("disabled", "disabled");
+            document.getElementById("OpenAllSelected").setAttribute("disabled", "disabled");
+            document.getElementById("BtnSendZip").setAttribute("disabled", "disabled");
+            document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
+            document.getElementById("panel_ruleActions").setAttribute("disabled", "disabled");
+
+            $("#Actions").css('display', 'none');
+        }
+    }
+
+    $scope.showSeletionModeByPreview = function (event, arg) {
+        var checkButton = null;
+        if ($(event.target).hasClass("glyphicon-ok-sign")) {
+            checkButton = $($(event.target).parents(".resultsGrid")[0]).find(".glyphicon-ok-sign");
+            checkButton.addClass("glyphicon glyphicon-ok-circle");
+            $(event.target).css("background-color", "#4285f4");
+            checkButton.removeClass("glyphicon-ok-sign");
+        } else {
+            checkButton = $($(event.target).parents(".resultsGrid")[0]).find(".glyphicon-ok-circle");
+            checkButton.addClass("glyphicon glyphicon-ok-sign");
+            $(event.target).css("background-color", "#4ca74c");
+            checkButton.removeClass("glyphicon-ok-circle");
+        }
+
+        var thumbsCollection = $("#resultsGridSearchBoxPreview").find(".glyphicon-ok-sign");
+
+        if (thumbsCollection.length > 0) {
+            $("#multipleSelectionPreview").fadeIn();
+            $("#resultsGridSearchBoxPreview").find(".glyphicon-new-window").hide();
+            $("#resultsGridSearchBoxPreview").find(".glyphicon-download-alt").hide();
+            //$("#multipleSelectionMenu").fadeIn();
+        } else {
+            $("#multipleSelectionPreview").fadeOut();
+            $("#resultsGridSearchBoxPreview").find(".glyphicon-new-window").show();
+            $("#resultsGridSearchBoxPreview").find(".glyphicon-download-alt").show();
+            //$("#multipleSelectionMenu").fadeOut();
+        }
+
+        if ($(event.target).hasClass("glyphicon-ok-sign")) {
+            addItem(arg, $scope.thumbSelectedIndexs);
+        } else {
+            removeItem(arg, $scope.thumbSelectedIndexs);
+        }
+
+        $scope.EnableActions_FromListIds();
+
+    }
+
+    $scope.showSeletionModeByCkeck = function (event, arg) {
+        thumbContainerResize(event.target);
+        thumbButtonDisplay();
+
+        if ($(event.target).hasClass("glyphicon-ok-sign")) {
+            addItem(arg, $scope.thumbSelectedIndexs);
+        } else {
+            removeItem(arg, $scope.thumbSelectedIndexs);
+        }
+
+        var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
+        if (thumbsCollection.length == 0) {
+            $(".filterFunc").show();
+        } else {
+            $(".filterFunc").hide();
+        }
+    }
+
+    $scope.HideGBModal = function (event, arg) {
+        showSeletionModeByimage(event.target);
+        var isGlobalSearch = false;
+        if ($(event.target).parents("#Advfilter1").length) isGlobalSearch = true;
+        if (isGlobalSearch && zambaApplication != "ZambaSearch") {
+            $('#Advfilter-modal-content').slideToggle();
+            $('#Advfilter2').fadeIn().css('display', 'inline-flex');
+            $('.favAdvSearch').fadeIn();
+            $('#Advfilter2').children('.advancedSearchBox').css({
+                display: 'block', width: 'auto'
+            });
+        }
+        if ($(event.target).parent(".photo").find(".glyphicon-ok-sign").length == 0) {
+            removeItem(arg, $scope.thumbSelectedIndexs);
+        } else {
+            addItem(arg, $scope.thumbSelectedIndexs);
+        }
+
+        var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
+        if (thumbsCollection.length == 0) {
+            $(".filterFunc").show();
+        } else {
+            $(".filterFunc").hide();
+        }
+    }
+
+    $scope.Opentask = function (arg) {
+        var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
+        $scope.thumbsCheckedCount = thumbsCollection.length;
+
+        if (thumbsCollection.length == 0) {
+            var result = $scope.Search.SearchResults[arg];
+            var userid = GetUID();
+            var stepid = result.STEP_ID;
+            var taskId = result.TASK_ID;
+
+            if (stepid == undefined) {
+                stepid = result.Step_Id;
+            }
+
+            if (taskId == undefined) {
+                taskId = result.Task_Id;
+            }
+
+            if (stepid != null && stepid != undefined && stepid != 0) {
+                var Url = (thisDomain + "/views/WF/TaskViewer.aspx?DocType=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&taskid=" + taskId + "&mode=s"
+                    + "&s=" + stepid + "&userId=" + userid + "&user=" + userid);
+            }
+            else {
+                var Url = (thisDomain + "/views/search/docviewer.aspx?DocType=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&mode=s"
+                    + "&userId=" + userid + "&user=" + userid + "&user=" + userid);
+
+            }
+            //var Url = (thisDomain + "/views/WF/TaskSelector.ashx?DocTypeId=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&taskid=" + result.TASK_ID
+            //    + "&wfstepid=" + stepid + "&userId=" + userid);
+
+            switch (zambaApplication) {
+                case "ZambaWeb":
+                    OpenDocTask3(result.TASK_ID, result.DOC_ID, result.DOC_TYPE_ID, false, "Reemplazar", Url, userid, 0);
+                    $('#Advfilter1').modal("hide");
+                    break;
+                case "ZambaWindows": case "ZambaHomeWidget": case "ZambaQuickSearch":
+                    winFormJSCall.openTask(result.DOC_TYPE_ID, result.DOC_ID, result.TASK_ID, result.STEP);
+                    $('#Advfilter1').modal("hide");
+                    break;
+                case "Zamba":
+                    //var token = $scope.GetTokenInfo().token;
+                    window.open(Url, '_blank');
+                    break;
+                case "ZambaSearch":
+                    //var token = $scope.GetTokenInfo().token;
+                    window.open(Url, '_blank');
+                    break;
+            }
+
+            try {
+                // Notificar la lectura del documento
+                //result.LEIDO == 0 && result.USER_ASIGNED == userid
+                if (result.ShowUnread) {
+
+                    //if (result.USER_ASIGNED == userid) {
+                    var url = ZambaWebRestApiURL + "/search/NotifyDocumentRead?" + jQuery.param({ UserId: userid, DocTypeId: result.DOC_TYPE_ID, DocId: result.DOC_ID });
+                    $.post(url, function myfunction() {
+                    }).success(function () {
+                        // Actualiza count de no leidas
+                        //   LoadMyTasksCount($('#MyTasksAnchor'));
+                    });
+                    //}
+
+                    // Actualiza estado de leido en thumbs y preview
+                    result.ShowUnread = false;
+                    $scope.$apply();
+                    // Actualizar estado de tareas en la grilla
+                    RefreshKGrid($scope.Search.SearchResultsObject);
+                    $scope.MultipleSelection(false);
+
+                }
+            } catch (e) {
+                console.log(e.message);
+            }
+
+
+        } else {
+            $scope.onSelectionMode = true;
+        }
+    };
+
+
+    $scope.MultipleSelection = function (obj) {
+        if (obj == true) {
+            localStorage.setItem("MultiSelectionIsActive", true);
+            $scope.ClearSelectedChecksBox();
+            CleanSelectedRows();
+
+            $(".k-checkbox-label").parent().show();
+            //$("#Kgrid").find('th').eq(0).children().hide();
+        } else {
+            localStorage.setItem("deseleccion", true);
+            var grid = $("#Kgrid").data("kendoGrid");
+            localStorage.setItem("MultiSelectionIsActive", false);
+            attachsIds = [];
+            CleanSelectedRows();
+
+            $scope.ClearSelectedChecksBox();
+            $(".k-checkbox-label").parent().hide();
+            //$("#Kgrid").find('th').eq(0).children().hide();
+        }
+        showBtns_ForResultsGrid();
+    };
+
+    $scope.OpenMultipleTask = function () {
+        OpenSelectedRows();
+    };
+
+    $scope.ShowchkMyTasks = true;
+    $scope.ShowchkMyTeam = true;
+    $scope.ShowchkMyAllTeam = true;
+    $scope.ShowchkViewAllMy = true;
+
+    $scope.chkMyTasks = true;
+    $scope.chkMyTeam = false;
+    $scope.chkMyAllTeam = false;
+    $scope.chkViewAllMy = false;
+
+    $scope.MyTasksText = 'Mis Tareas';
+    $scope.MyTeamTasksText = 'Tareas del Equipo';
+    $scope.MyAllTeamTasksText = 'Todo el Equipo';
+    $scope.AllTasksText = 'Mis Casos';
+
+    $scope.ValidateTask = false;
+
+    $scope.IdsAllTasks = '2523';
+    $scope.MydocumentTask = '';
+
+
+    $scope.LoadTaskFilterRights = function () {
+
+        try {
+            var userid = GetUID();
+
+            if (userid != null && userid != undefined && userid != 0) {
+                var TaskFilterConfig = localStorage.getItem("TaskFilterConfig-" + GetUID());
+
+                if (TaskFilterConfig == undefined || TaskFilterConfig == null || TaskFilterConfig == '') {
+
+                    TaskFilterConfig = uiService.LoadTaskFiltersConfig()
+
+                    $scope.SettasksFilters(TaskFilterConfig);
+
+
+                }
+                else {
+                    $scope.SettasksFilters(TaskFilterConfig);
+                }
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+
+    $scope.SettasksFilters = function (TaskFilterConfig) {
+        try {
+
+            if (TaskFilterConfig != null && TaskFilterConfig != undefined) {
+                var filters = JSON.parse(TaskFilterConfig);
+                //Obtengo los parametros que hacen visible a los checks por cada usuario, ver si hay que hacer algun casteo a bool
+                if (filters.Params['ShowMyTasks'].toLowerCase() == "true") {
+                    $scope.ShowchkMyTasks = true;
+                    if (filters.Params['MyTasksText'] == "") {
+                        $scope.MyTasksText = 'Mis Tareas';
+                    } else {
+                        $scope.MyTasksText = filters.Params['MyTasksText'];
+                    }
+                    if (filters.Params['ShowMyTeamTasks'].toLowerCase() != "true" && filters.Params['ShowMyAllTeamTasks'].toLowerCase() != "true" && filters.Params['ShowAllTasks'].toLowerCase() != "true") {
+                        $scope.ValidateTask = true;
+                    }
+
+                } else {
+                    $scope.ShowchkMyTasks = false;
+                    $scope.MyTasksText = "";
+                }
+
+
+                if (filters.Params['ShowMyTeamTasks'].toLowerCase() == "true") {
+                    $scope.ShowchkMyTeam = true;
+                    if (filters.Params['MyTeamTasksText'] == "") {
+                        $scope.MyTeamTasksText = 'Tareas del Equipo';
+                    } else {
+                        $scope.MyTeamTasksText = filters.Params['MyTeamTasksText'];
+                    }
+
+                } else {
+                    $scope.ShowchkMyTeam = false;
+                    $scope.MyTeamTasksText = "";
+                }
+
+                if (filters.Params['ShowMyAllTeamTasks'].toLowerCase() == "true") {
+                    $scope.ShowchkMyAllTeam = true;
+                    if (filters.Params['MyAllTeamTasksText'] == "") {
+                        $scope.MyAllTeamTasksText = 'Todo el Equipo';
+                    } else {
+                        $scope.MyAllTeamTasksText = filters.Params['MyAllTeamTasksText'];
+                    }
+
+                } else {
+                    $scope.ShowchkMyAllTeam = false;
+                    $scope.MyAllTeamTasksText = "";
+                }
+
+                if (filters.Params['ShowAllTasks'].toLowerCase() == "true") {
+                    $scope.ShowchkViewAllMy = true;
+                    $scope.IdsAllTasks = filters.Params['IdsAllTasks'];
+
+                    if (filters.Params['AllTasksText'] == "") {
+                        $scope.AllTasksText = 'Mis Casos';
+                    } else {
+                        $scope.AllTasksText = filters.Params['AllTasksText'];
+                    }
+
+                } else {
+                    $scope.ShowchkViewAllMy = false;
+                    $scope.AllTasksText = "";
+                }
+
+            }
+        } catch (e) {
+            console.error(e);
+        }
+
+    }
+
+    $scope.ApplyTaskFilter = function () {
+        $scope.Search.View = "";
+
+        //if ($scope.chkMyTasks == true) {
+        //    $scope.Search.View = "MyTasks";
+        //}
+        //if ($scope.chkMyTeam == true) {
+        //    $scope.Search.View += ",MyTeam";
+        //}
+        //if ($scope.chkViewAllMy == true) {
+        //    $scope.Search.View += ",ViewAllMy";
+
+        //}
+        //if ($scope.chkMyTasks == false && $scope.chkMyTeam == false && $scope.chkViewAllMy == false) {
+        //    $scope.Search.View = "";
+        //}
+
+
+        if ($("#chkMyTasks").is(":checked") == true) {
+            $scope.Search.View = "MyTasks";
+        } else if ($("#chkMyTeam").is(":checked") == true) {
+            $scope.Search.View += ",MyTeam";
+        } else if ($("#chkMyAllTeam").is(":checked") == true) {
+            $scope.Search.View += ",MyAllTeam";
+        } else if ($("#chkViewAllMy").is(":checked") == true) {
+            $scope.Search.View += ",ViewAllMy";
+
+        }
+        else {
+            $scope.Search.View = "MyTasks";
+        }
+        //if ($scope.chkMyTasks == false && $scope.chkMyTeam == false && $scope.chkViewAllMy == false) {
+        //    $scope.Search.View = "";
+        //}
+
+
+        $scope.Search.AsignedTasks = true;
+        $scope.Search.LastPage = 0;
+        $scope.LastPage = 0;
+        $scope.Search.OrderBy = "";
+        $scope.DoSearch();
+
+    };
+
+    $scope.ValidateCheckMyTasks = function () {
+
+        if ($("#chkMyTasks").is(":checked") == false) {
+            $("#chkMyTeam").prop('checked', false);
+            $("#chkMyAllTeam").prop('checked', false);
+            $("#chkViewAllMy").prop('checked', false);
+
+            $checkbox = $("#chkMyTasks");
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox)
+
+            updateDisplay($("#chkViewAllMy"))
+            updateDisplay($("#chkMyTeam"))
+            updateDisplay($("#chkMyAllTeam"))
+            $scope.ApplyTaskFilter();
+        } else {
+            //        $scope.ApplyTaskFilter();
+        }
+    };
+
+    $scope.ValidateCheckMyTeam = function () {
+        if ($("#chkMyTeam").is(":checked") == false) {
+            $("#chkMyTasks").prop('checked', false);
+            $("#chkMyAllTeam").prop('checked', false);
+            $("#chkViewAllMy").prop('checked', false);
+
+            $checkbox = $("#chkMyTeam");
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox)
+
+            updateDisplay($("#chkMyTasks"))
+            updateDisplay($("#chkMyAllTeam"))
+            updateDisplay($("#chkViewAllMy"))
+            $scope.ApplyTaskFilter();
+        } else {
+            //            $scope.ApplyTaskFilter();
+        }
+
+    };
+
+    $scope.ValidateCheckMyAllTeam = function () {
+        if ($("#chkMyAllTeam").is(":checked") == false) {
+            $("#chkMyTeam").prop('checked', false);
+            $("#chkMyTasks").prop('checked', false);
+            $("#chkViewAllMy").prop('checked', false);
+
+            $checkbox = $("#chkMyAllTeam");
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox)
+
+            updateDisplay($("#chkMyTasks"))
+            updateDisplay($("#chkMyTeam"))
+            updateDisplay($("#chkViewAllMy"))
+            $scope.ApplyTaskFilter();
+        } else {
+            //            $scope.ApplyTaskFilter();
+        }
+
+    };
+
+
+    $scope.ValidateCheckAllMy = function () {
+        if ($("#chkViewAllMy").is(":checked") == false) {
+            $("#chkMyTasks").prop('checked', false);
+            $("#chkMyTeam").prop('checked', false);
+            $("#chkMyAllTeam").prop('checked', false);
+
+            $checkbox = $("#chkViewAllMy");
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox)
+
+            updateDisplay($("#chkMyTasks"))
+            updateDisplay($("#chkMyTeam"))
+            updateDisplay($("#chkMyAllTeam"))
+            $scope.ApplyTaskFilter();
+        } else {
+            //          $scope.ApplyTaskFilter();
+        }
+
+    };
+
+    //Exporta Todo el contenido de la grilla de resultados en un Excel con formato .xlsx
+    $scope.ExportResultsGrid_ToExcel = function () {
+        try {
+            $scope.Search.UserId = GetUID();
+            $scope.Search.GroupsIds = GetGroupsIdsByUserId($scope.Search.UserId);
+            $scope.Search.Lista_ColumnasFiltradas = $scope.ColumnsAdvisor_ForResultsGrid();
+            $.ajax({
+                type: "POST",
+                url: ZambaWebRestApiURL + '/search/ExportToExcel',
+                contentType: 'application/json',
+                async: false,
+                data: JSON.stringify($scope.Search),
+                success: function (response) {
+                    var FileName = 'Zamba - Grilla de Resultados - ' + moment().format('YYYYMMDD_HHmmss') + ".xlsx";
+                    var dataBase64 = 'data:application/octet-stream;base64,' + response;
+
+                    if (navigator.userAgent.indexOf('MSIE') !== -1 ||
+                        navigator.appVersion.indexOf('Trident/') > 0 ||
+                        navigator.userAgent.toString().indexOf('Edge/') > 0) {
+                        //Sin Cabecera
+                        DownloadExcel_ForIE11(response, FileName);
+                    } else {
+                        //Con Cabecera
+                        DownloadExcel(dataBase64, FileName);
+                    }
+                }
+            });
+        } catch (e) {
+            console.log(e + " - Lanzado por: " + "[$scope.ExportResultsGrid_ToExcel]");
+        }
+    }
+
+    //Descarga un excel, para el IE11, pasandole base64 del archivo y su nombre con el cual se guardara.
+    function DownloadExcel_ForIE11(ObjBase64, Name) {
+        var byteCharacters = atob(ObjBase64);
+
+        var byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++)
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+
+        var byteArray = new Uint8Array(byteNumbers);
+        var blob = new Blob([byteArray], { type: "" });
+
+        window.navigator.msSaveOrOpenBlob(blob, Name);
+    }
+
+    //Descarga un excel pasandole base64 del archivo y su nombre con el cual se guardara.
+    function DownloadExcel(ObjBase64, Name) {
+        const elementA = window.document.createElement('a');
+        elementA.href = ObjBase64;
+        elementA.download = Name;
+        document.body.appendChild(elementA);
+        elementA.click();
+        document.body.removeChild(elementA);
+    }
+
+
+    //Obtiene la lista de columnas de la grilla de resultados y coteja cuales tienen el atributo "hidden" en "true", "false" o incluso si esta indefinido.
+    $scope.ColumnsAdvisor_ForResultsGrid = function () {
+        var _hiddenColumns = [];
+        var _visibleColumns = [];
+
+        $($('#Kgrid').data("kendoGrid").columns).each(function (index, columnaGrilla) {
+            if (columnaGrilla.field != undefined && columnaGrilla.field != "Icon") {
+                if (columnaGrilla.hidden == true) {
+                    _hiddenColumns.push(columnaGrilla.field);
+                } else if (columnaGrilla.hidden == false || columnaGrilla.hidden == undefined) {
+                    _visibleColumns.push(columnaGrilla.field);
+                }
+            }
+        });
+
+        console.log("Columnas Visibles por 'ZUserConfig':");
+        console.log(_visibleColumns);
+        console.log("Columnas Ocultadas por 'ZUserConfig':");
+        console.log(_hiddenColumns);
+
+        //Retornar variable con columnas deseadas
+        return _hiddenColumns;
+    }
+
+    $scope.RestrictionsViews = [];
+    $scope.RestrictionsViewClick = function (view) {
+    };
+
+    $scope.RestrictionsViews.push({
+        Name: 'test1',
+        Id: 1
+    });
+    $scope.RestrictionsViews.push({
+        Name: 'test2',
+        Id: 2
+    });
+
+    //-------------------------------------------------------------------------------------------------------
+
+    $scope.ValidateCheckEntities = function (Entity, event) {
+        $checkbox = $($($(angular.element(event.currentTarget))[0].nextElementSibling)[0]);
+        $checkbox.prop('checked', !$checkbox.is(':checked'));
+        $checkbox.triggerHandler('change');
+        updateDisplayEntities($checkbox)
+        Entity.enabled = $checkbox.is(':checked');
+        $scope.Search.entities = $scope.Search.SearchResultsObject.entities;
+
+        $scope.ApplyTaskFilter();
+    };
+
+
+    $scope.updateCheckDisplay = function () {
+        setTimeout(function () {
+            $('.button-checkbox-entities').each(function () {
+                var $widget = $(this),
+                    $button = $widget.find('button'),
+                    $checkbox = $widget.find('input:checkbox'),
+
+                    color = $button.data('color'),
+                    settings = {
+                        on: {
+                            icon: 'fa fa-check'
+                        },
+                        off: {
+                            icon: 'fa fa-square-o'
+                        }
+                    };
+
+                //$button.on('click', function () {
+                //    $checkbox.prop('checked', !$checkbox.is(':checked'));
+                //    $checkbox.triggerHandler('change');
+                //    updateDisplayEntitiesEntities($checkbox);
+                //});
+
+                $checkbox.on('change', function () {
+                    updateDisplayEntities($checkbox);
+                });
+
+                function updateDisplayEntities() {
+                    var isChecked = $checkbox.is(':checked');
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('btn-basic btn-disabled')
+                            .addClass('btn-' + color + ' active');
+                    }
+                    else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-basic btn-disabled');
+                    }
+                }
+                function init() {
+                    // Inject the icon if applicable
+                    updateDisplayEntities();
+                    if ($button.find('.state-icon').length == 0) {
+                        $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                    }
+
+                }
+                init();
+            });
+
+            if (ResizeResultsArea)
+                ResizeResultsArea();
+
+        }, 500);
+    };
+
+
+
+
+    function updateDisplay(checkbox) {
+        $parent = $(checkbox).parent();
+        $button = $parent.find('button');
+        $checkbox = checkbox;
+        color = $button.data('color');
+        settings = {
+            on: {
+                icon: 'fa fa-check'
+            },
+            off: {
+                icon: 'fa fa-square-o'
+            }
+        };
+
+        var isChecked = checkbox.is(':checked');
+        // Set the button's state
+        $button.data('state', (isChecked) ? "on" : "off");
+
+        // Set the button's icon
+        $button.find('.state-icon')
+            .removeClass()
+            .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+        // Update the button's color
+        if (isChecked) {
+            $button
+                .removeClass('btn-basic')
+                .addClass('btn-' + color + ' active');
+        }
+        else {
+            $button
+                .removeClass('btn-' + color + ' active')
+                .addClass('btn-basic');
+        }
+    }
+
+
+
+    function TypeaheadCtrl($scope, $http) {
+        $scope.selected = undefined;
+        $scope.Customer =
+            [
+                { CustomerID: 1, CustomerCode: 'C001', CustomerName: 'John Papa', City: 'RedMond' },
+
+                { CustomerID: 5, CustomerCode: ' C008', CustomerName: 'Bill Gates', City: 'Bangalore' },
+                { CustomerID: 6, CustomerCode: ' C009', CustomerName: 'Satya Nadella', City: 'Hyderabad' }
+            ];
+    }
+    $scope.formatInput = function ($model) {
+        var inputLabel = '';
+        angular.forEach($scope.Customer, function (Customer) {
+            if ($model === Customer.id) {
+                inputLabel = Customer.CustomerID + "-" + Customer.CustomerName;
+            }
+        });
+        return inputLabel;
+    }
+
+    $scope.onSelect = function ($item, $model, $label) {
+        $scope.$item = $item;
+        $scope.$model = $model;
+        $scope.$label = $label;
+        // Implement other logics
+    };
+    $scope.ClearSelectedChecksBox = function () {
+        CleanSelectedRows();
+        attachsIds = [];
+    };
+
+
+
+
+    var getCheckedDocumentId = function () {
+        var docIds = [];
+        $("#Kgrid").find("input:checked").each(function () {
+            var index = $(this).closest("tr").index();
+            docIds.push(($("#Kgrid").data("kendoGrid").dataSource._data[index].DOC_ID).toString());
+        });
+        return removeDuplicatesElementFromList(docIds);
+    },
+        removeDuplicatesElementFromList = function (list) {
+            var result = [];
+            $.each(list, function (index, element) {
+                if ($.inArray(element, result) == -1) result.push(element);
+            });
+            return result;
+        }
+
+
+    var executeRegularExpression = function (regularExpression, wordToValidate) {
+        return regularExpression.exec(wordToValidate);
+    }
+
+    var mailFormat = function (mailColection) {
+        //Validate: ejemplo@unEjemplo.com
+        var regEx1 = /([a-zA-Z0-9\_])+\@([a-zA-Z0-9]{3,})+\.([\w])+/;
+        //Validate: ejemplo@unEjemplo.com.ar
+        var regEx2 = /([a-zA-Z0-9\_])+\@([a-zA-Z0-9]{3,})+\.([\w])+\.([a-zA-Z0-9]{2,})/;
+        var isCorrectMailFormat = true;
+
+        for (var mail in mailColection) {
+            var regexExecuted1 = executeRegularExpression(regEx1, mailColection[mail]),
+                regexExecuted2 = executeRegularExpression(regEx2, mailColection[mail]);
+            if (regexExecuted1 == null) {
+                if (regexExecuted2 == null) {
+                    isCorrectMailFormat = false;
+                }
+            }
+        }
+        return isCorrectMailFormat;
+    }
+
+
+    var mailFormatFromAmail = function (mail) {
+        //Validate: ejemplo@unEjemplo.com
+        var regEx1 = /([a-zA-Z0-9\_])+\@([a-zA-Z0-9]{3,})+\.([\w])+/;
+        //Validate: ejemplo@unEjemplo.com.ar
+        var regEx2 = /([a-zA-Z0-9\_])+\@([a-zA-Z0-9]{3,})+\.([\w])+\.([a-zA-Z0-9]{2,})/;
+        var isCorrectMailFormat = true;
+        var regexExecuted1 = executeRegularExpression(regEx1, mail),
+            regexExecuted2 = executeRegularExpression(regEx2, mail);
+        if (regexExecuted1 == null) {
+            if (regexExecuted2 == null) {
+                isCorrectMailFormat = false;
+            }
+        }
+        return isCorrectMailFormat;
+    }
+
+    $scope.DeriveTasks = function () {
+        var userid = localStorage.getItem('TaskFilterConfig-' + GetUID());
+        var userid = JSON.parse(userid);
+        var userid = userid.UserId;
+        var userId = $(".selectedUser").attr("data-userId");
+        var docIds = GetDocIdFromList(attachsIds);
+        var docIds = JSON.stringify(docIds);
+        var _isUser = false;
+        if ($(".selectedUser").parent().hasClass("Users")) {
+            _isUser = true;
+        }
+
+        var Url = window.location.href;
+        Comments = $("#ModalDerivar").find("#deriveMessage").val();
+
+        $("#ModalDerivar").find(".derive").attr("disabled", true);
+        $("#ModalDerivar").find(".closeModal").attr("disabled", true);
+        $(".loadersmall").css("display", "block");
+
+
+
+        $.ajax({
+            type: "POST",
+            url: location.origin.trim() + '/ZambaWeb.RestApi/api/Tasks/DeriveTasks?' + jQuery.param({ docIds: docIds, userIDToAsign: userId, currentUserID: userid, isUser: _isUser, url: Url, comments: Comments }),
+            contentType: "application/json; charset=utf-8;",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                $("#liDerivar").css("display", "none");
+                //location.reload();
+                $('#ModalDerivar').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                toastr.success("La tarea se derivo correctamente");
+                $("#liDerivar").css("display", "none");
+                $("#ModalDerivar").find(".derive").removeAttr("disabled");
+                $("#ModalDerivar").find(".closeModal").removeAttr("disabled");
+                $(".loadersmall").css("display", "none");
+                RefreshOpenerGrid();
+                CloseCurrentTask();
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                console.log(err.Message);
+                $("#ModalDerivar").find(".derive").removeAttr("disabled");
+                $("#ModalDerivar").find(".closeModal").removeAttr("disabled");
+                $(".loadersmall").css("display", "none");
+            }
+        });
+
+    }
+
+
+
+    attachsIds = [];
+    $scope.GetTaskDocument = function (arg) {
+
+        for (i = 0; i < arg.length; i++) {
+            var result = $scope.Search.SearchResults[arg[i]];
+            if (result != undefined) {
+                if (checkValue(result.DOC_ID, attachsIds, "attach") != true) {
+                    var IdInfo = {};
+                    IdInfo.Docid = parseInt(result.DOC_ID);
+                    IdInfo.DocTypeid = parseInt(result.DOC_TYPE_ID);
+                    attachsIds.push(IdInfo);
+                }
+            }
+        }
+    }
+
+
+    $scope.RemoveAttach = function (arg) {
+        var IdToRemove = $scope.Search.SearchResults[arg];
+
+        if (IdToRemove != undefined) {
+            for (i = 0; i < attachsIds.length; i++) {
+                if (attachsIds[i].Docid == IdToRemove.DOC_ID) {
+                    attachsIds.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    $scope.optionClick = function () {
+        var display = $("#multipleSelectionMenu").find(".glyphicon-envelope").css("display");
+        console.log(display);
+        if (display == "none") {
+            $("#multipleSelectionMenu").find(".glyphicon-envelope").fadeIn();
+        } else {
+            $("#multipleSelectionMenu").find(".glyphicon-envelope").fadeOut();
+        }
+    }
+
+    $scope.SendEmailFromThumbsGrid = function () {
+        $scope.GetTaskDocument($scope.thumbSelectedIndexs);
+    }
+
+    $scope.SendEmail = function (obj) {
+        //obj antes llegaba indefinido.
+        $(".loadersmall").css("display", "block");
+        $("#btnMailZipSubmit").prop("disabled", true);
+        $("#btnMailZipMailClose").prop('disabled', true);
+        var emaildata = {};
+
+        if (attachsIds.length == 0)
+            $scope.GetTaskDocument($scope.thumbSelectedIndexs);
+
+        emaildata.Idinfo = attachsIds;
+
+        emaildata.MailTo = $("#destinatario").val()
+        emaildata.CC = $("#cc").val()
+        emaildata.CCO = $("#cco").val()
+        emaildata.Subject = $("#asunto").val()
+        emaildata.MessageBody = $("#cuerpoMensaje").val() || "<br>";
+
+        emaildata.UserId = GetUID();
+
+        var hasFile = $scope.getIFAnyTaskHasFile(emaildata);
+        var addLinks = $('input[name="addListLinks"]').prop("checked");
+        emaildata.AddLink = addLinks
+        var addLinks = $("#addListLinks").val()
+
+        if (hasFile || addLinks) {
+            $http({
+                method: 'POST',
+                dataType: 'json',
+                url: ZambaWebRestApiURL + '/Email/SendEmail',
+                data: emaildata,
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+            }).then(function (data, status, headers, config) {
+                ModalView(data);
+
+            }).catch(function (error) {
+                ModalView_Error(error);
+
+            });
+        } else {
+            ModalView_NoFile();
+        }
+    }
+
+    //Oculta el modal para enviar un correo asi como tambien resetea las tareas seleccionadas.
+    function ModalView(data) {
+        console.log(data);
+        if (data == false) {
+            toastr.error("Error al enviar Email");
+            $(".loadersmall").css("display", "none")
+            $("#btnMailZipMailClose").prop('disabled', false);
+            $("#btnMailZipSubmit").prop("disabled", false);
+            $("#ModalSendZip").modal('toggle');
+            $(".EmailInput").val("");
+        } else {
+            toastr.success("Email enviado con exito");
+            $(".loadersmall").css("display", "none");
+            $("#btnMailZipMailClose").prop('disabled', false);
+            $("#btnMailZipSubmit").prop("disabled", false);
+            $("#ModalSendZip").modal('toggle');
+            $(".EmailInput").val("");
+
+            CleanSelectedRows();
+            attachsIds = [];
+            $scope.inputs = null;
+        }
+    }
+
+
+    //Muestra un mensaje de error y deja el modal abierto para reparametrizar.
+    function ModalView_Error(error) {
+        console.log(error);
+        toastr.error(error.data.ExceptionMessage + ": " + error.data.InnerException.ExceptionMessage);
+        $(".loadersmall").css("display", "none");
+        $("#btnMailZipMailClose").prop('disabled', false);
+        $("#btnMailZipSubmit").prop("disabled", false);
+    }
+
+    //Muestra un mensaje de error y deja el modal abierto para reparametrizar.
+    function ModalView_NoFile() {
+        toastr.warning("Ninguna de las tareas posee archivo asociado.", "No se ha enviado el mail");
+        $(".loadersmall").css("display", "none");
+        $("#btnMailZipMailClose").prop('disabled', false);
+        $("#btnMailZipSubmit").prop("disabled", false);
+    }
+
+
+    function getListOfLinks(docIds) {
+        var allPathList = [];
+        $.ajax({
+            type: "POST",
+            url: ZambaWebRestApiURL + "/Email/getListOfLinks",
+            data: JSON.stringify(docIds),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success:
+                function (data, status, headers, config) {
+                    allPathList = data;
+                }
+        });
+        return allPathList;
+    }
+
+    function addAllCompletepath(pathList) {
+
+        for (var path in pathList) {
+            pathList[path] = thisDomain + pathList[path] + "<br>";
+        }
+    }
+
+    $scope.sendIsLoading = false;
+
+    $scope.SendZip = function (obj) {
+        $("#btnZipMailSubmit").prop('disabled', true);
+        $("#btnZipMailClose").prop('disabled', true);
+        $scope.sendIsLoading = true;
+        var zip = {};
+        zip.Idinfo = attachsIds;
+        zip.UserId = GetUID();
+        zip.MailTo = obj.for;
+        zip.CC = obj.cc;
+        zip.Subject = obj.subject || "Te han enviado archivo/s.";
+        zip.ZipName = obj.zipName || "Archivo";
+        zip.ZipPassword = obj.zipPasswd || "";
+        zip.MessageBody = obj.MessageBody || "<br >";
+
+        var anyTaskHasFile = $scope.getIFAnyTaskHasFile(zip);
+
+        if (anyTaskHasFile) {
+            $http({
+                method: 'POST',
+                dataType: 'json',
+                url: ZambaWebRestApiURL + '/Email/SendZipMail',
+                data: zip,
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+            }).then(function (data, status, headers, config) {
+                ModalSendZipView(data);
+
+            }).catch(function (error) {
+                ModalSendZipView_Error(error);
+            });
+        } else {
+            ModalSendZipView_NoFile();
+        }
+    }
+
+    //Oculta el modal para enviar archivos zips como un correo asi como tambien resetea las tareas seleccionadas.
+    function ModalSendZipView(data) {
+        $scope.sendIsLoading = false;
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
+        $("#btn btn-default cancelMailZipButton").prop('disabled', false);
+        if (data.data == false) {
+            toastr.error("Error al enviar email");
+            $("#btnZipMailSubmit").prop("disabled", false);
+            $("#btnZipMailClose").prop('disabled', false);
+            $(".zipinput").val("");
+            $(".loadersmall").css("display", "none");
+        } else {
+            toastr.success("Email enviado con exito");
+            $scope.zipInputs = null;
+            $(".loadersmall").css("display", "none");
+            $("#btnMailZipSubmit").prop("disabled", false);
+            $("#btnZipMailClose").prop('disabled', false);
+            $(".zipinput").val("");
+            $("#ModalSendMailZip").modal('toggle');
+        }
+    }
+
+    //Muestra un mensaje de error y deja el modal abierto para reparametrizar.
+    function ModalSendZipView_Error(error) {
+        $scope.sendIsLoading = false;
+        $(".loadersmall").css("display", "none");
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
+        toastr.error(error.data.ExceptionMessage + ": " + error.data.InnerException.ExceptionMessage);
+        $("#btnMailZipSubmit").prop("disabled", false);
+    }
+
+    //Muestra un mensaje de error y deja el modal abierto para reparametrizar.
+    function ModalSendZipView_NoFile() {
+        $scope.sendIsLoading = false;
+        $(".loadersmall").css("display", "none");
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
+        $("#btnMailZipSubmit").prop("disabled", false);
+        toastr.warning("Ninguna de las tareas posee un archivo asociado.");
+    }
+
+    $scope.getIFAnyTaskHasFile = function (mailData) {
+        var hasFile = false;
+        $.ajax({
+            "async": false,
+            "url": ZambaWebRestApiURL + "/Email/getIFAnyTaskHasFile",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/json"
+            },
+            "data": JSON.stringify(mailData),
+            "success":
+                function (data, status, headers, config) {
+                    hasFile = data;
+                },
+            "error":
+                function (data, status, headers, config) {
+                    console.log(data);
+                }
+        });
+        return hasFile;
+    }
+
+    //elimina todos los valores de los inputs
+    $scope.CleanAllInputs = function () {
+
+        for (var i = 0; i <= $scope.Search.Indexs.length - 1; i++) {
+            $scope.Search.Indexs[i].Data = "";
+            $scope.Search.Indexs[i].dataDescription = "";
+            $scope.Search.Indexs[i].Data2 = "";
+            $scope.Search.Indexs[i].dataDescription2 = "";
+            $('.activeIn').css({
+                'border': '',
+            });
+            $(".activeIn2").css('border-right', "none");
+        }
+    }
+
+    $scope.selectedIndex = null;
+    $scope.ListItems = [];
+
+    function constructMap(data, map) {
+        var objects = [];
+        $.each(data, function (i, object) {
+            map[object.Value] = object;
+            objects.push(object.Value);
+        });
+        return objects;
+    }
+
+    $scope.selectMatch = function (index) {
+        $scope.selectedIndex.Data = $scope.ListItems[index].Code;
+        $scope.selectedIndex.dataDescription = $scope.ListItems[index].Value;
+    };
+
+    $scope.getList = function (index, val) {
+        $scope.selectedIndex = index;
+
+        return $http.post(ZambaWebRestApiURL + '/search/ListOptions', JSON.stringify({
+            IndexId: $scope.selectedIndex.ID,
+            Value: val,
+            LimitTo: 10
+        })).then(function (response) {
+            var results = JSON.parse(response.data);
+            map = {};
+            $scope.ListItems = constructMap(results, map);
+            return results;
+        });
+    };
+
+    $scope.dateFields = [];
+
+    $scope.generateGrid = function (gridData) {
+
+        var model = $scope.generateModel(gridData[0]);
+
+        var parseFunction;
+        parseFunction = function (response) {
+            for (var i = 0; i < response.length; i++) {
+                for (var fieldIndex = 0; fieldIndex < $scope.dateFields.length; fieldIndex++) {
+                    var record = response[i];
+                    record[$scope.dateFields[fieldIndex]] = kendo.parseDate(record[$scope.dateFields[fieldIndex]]);
+                }
+            }
+            return response;
+        };
+        $('#MainTabber').zTabs("select", '#tabresults');
+    }
+
+    $scope.generateModel = function (gridData) {
+        var model = {};
+        model.id = "ID";
+        var fields = {};
+        for (var property in gridData) {
+            var propType = typeof gridData[property];
+
+            if (propType == "number") {
+                fields[property] = {
+                    type: "number",
+                    validation: {
+                        required: true
+                    }
+                };
+            } else if (propType == "boolean") {
+                fields[property] = {
+                    type: "boolean",
+                    validation: {
+                        required: true
+                    }
+                };
+            } else if (propType == "string") {
+                var parsedDate = kendo.parseDate(gridData[property]);
+                if (parsedDate) {
+                    fields[property] = {
+                        type: "date",
+                        validation: {
+                            required: true
+                        }
+                    };
+                    $scope.dateFields.push(property);
+                } else {
+                    fields[property] = {
+                        validation: {
+                            required: true
+                        }
+                    };
+                }
+            } else {
+                fields[property] = {
+                    validation: {
+                        required: true
+                    }
+                };
+            }
+        }
+        model.fields = fields;
+        return model;
+    }
+
+
+
+    //End Dosearch
+
+    $scope.ProcessSearch = function (results) {
+
+        var data = results.data;
+        // Si hay datos
+        if (data != null && data != undefined && data.length) {
+
+            // Si es la primer pagina
+            if ($scope.page === 0) {
+                $scope.Search.SearchResults = data;
+            }
+            else {
+                //Bug Zamba cuando busca paginado y no hay mas registros trae el ultimo                                            
+                var ld = data[data.length - 1];
+                var l = $scope.Search.SearchResults === undefined ? null : $scope.Search.SearchResults.length;
+                if ($scope.Search.SearchResults != null && l &&
+                    ld.DOC_ID === $scope.Search.SearchResults[l - 1].DOC_ID &&
+                    ld.DOC_TYPE_ID === $scope.Search.SearchResults[l - 1].DOC_TYPE_ID &&
+                    ld.Task_Id === $scope.Search.SearchResults[l - 1].Task_Id) {
+                    NoData();
+                    return;
+                }
+
+                function NoData() {
+                    hideLoading();
+                    // GSLoading.Hide();
+                    $scope.isLastPage = true;
+                    toastr.info("No se encontraron resultados", "Zamba");
+                }
+                if ($scope.Search.SearchResults == undefined) {
+                    $scope.Search.SearchResults = data;
+                }
+                else {
+                    for (var i = 0; i < data.length; i++) {
+                        $scope.Search.SearchResults.push(data[i]);
+                    }
+                }
+            }
+
+
+            if ($scope.Search.SearchResults == null || !$scope.Search.SearchResults.length) {
+                noResultsMsg();
+                return;
+            }
+
+            ProcessResults($scope.Search)
+
+            //analizar la continuidad de estos metodos, que son de la interfaz vieja y algunas cosas de la nueva
+            if ($('#liResults').css('display') === 'none') {
+                $('#liResults').css('display', 'block');
+            }
+
+            if ($('#MainTabber').zTabs !== undefined) {
+                $('#MainTabber').zTabs("select", '#tabresults');
+            }
+            else {
+                $("#SearchControls").hide();
+                $("#tabresults").show();
+            }
+
+            GoToUpGlobalSearch();
+
+            hideLoading();
+
+            //Para llamar a QuickSearch informando los resultados obtenidos
+            if (typeof (OpenResultsQuickSearch) == "function") {
+                SQqtity = data.length;
+                OpenResultsQuickSearch();
+            }
+        }
+        else {
+            $scope.Search.SearchResults = null;
+            $("#SearchControls").show();
+            $("#tabresults").hide();
+            hideLoading();
+            noResultsMsg();
+        }
+
+        // Usa esto para generar el esquema de la grilla, usa el response y vuelve a hacerle el mismo laburo a algunas columnas
+        for (var a = 0; a <= results.data.length - 1; a++) {
+            if (results.data[a].AsignedTo == " ") {
+                results.data[a].AsignedTo = "(Sin Asignar)";
+            }
+            results.data[a].Icon = GetImgIcon(results.data[a].ICON_ID);
+            results.data[a].FULLPATH = '';
+        }
+
+        if ($scope.Search.LastPage === undefined || $scope.Search.LastPage === 0) {
+            KendoGrid(results, $scope.Search.UserId);
+        }
+        else {
+            RefreshKGrid(results);
+        }
+
+
+
+        $("#Kgrid").find('th').eq(0).children().hide();
+
+        $scope.MultipleSelection(false);
+        $scope.FillFilters($scope.Search.SearchResultsObject);
+
+    };
+
+    $scope.enterEditMode = function (index) {
+        if (index === undefined)
+            return;
+
+        var searchParam = $scope.model.parameters[index];
+        if (searchParam.type == 2) {
+            searchParam.editMode = true;
+        }
+    };
+
+    $scope.leaveEditMode = function (index) {
+        if (index === undefined)
+            return;
+
+        var searchParam = $scope.model.parameters[index];
+        if (searchParam.editMode == false)
+            return;
+
+        searchParam.editMode = false;
+
+        if (!searchParam.value && searchParam.parent)
+            $scope.removeSearchParam(index);
+        //Al cambiar el valor del input que actualice la grilla de datos
+        $scope.doSearchGS();
+    };
+
+    $scope.previewItem = function (result, index, event) {
+        //Workaround JQuery desde Search.html no cambia valor NGSelectedRow en vista si desde NG
+        var $items = $("#resultsGridSearchBoxPreview>.previewListItems");
+        var $active = $items.children(".resultsGridActive").index();
+        $items.children().removeClass("resultsGridActive");
+        if (event != undefined) {
+            var item = this.Search.SearchResults[event == undefined ? index - 1 : index];
+
+            //this.Search.SearchResults.forEach(x => x.NGSelectedRow = false);
+
+            for (var i = 0; i < this.Search.SearchResults.length; i++) {
+                $scope.Search.SearchResults.NGSelectedRow = false;
+            }
+
+            item.NGSelectedRow = true;
+            if (event.type == "click" && event.target.tagName == "IMG") {
+                $(event.target).parents(".resultsGrid").addClass("resultsGridActive");
+            }
+        }
+        else {
+            if (index === -1) {
+                $active = -1;
+            }
+            var scrollPosition = $(".previewListItems").scrollTop() + ($active > -1 ? 223 : 0);
+            setTimeout(function () {
+                $($items.children()[$active + 1]).addClass("resultsGridActive");
+                $(".previewListItems").animate({
+                    scrollTop: scrollPosition
+                }, 300);
+            }, 100);
+
+        }
+
+        var currentresult = result; //$scope.Search.SearchResults[result];
+        var url = "../../Services/GetDocFile.ashx?DocTypeId=" + currentresult.DOC_TYPE_ID + "&DocId=" + currentresult.DOC_ID + "&UserID=" + GetUID() + "&ConvertToPDf=true";
+
+        try {
+            if ($("#previewDocSearch")[0] != undefined) $("#previewDocSearch")[0].contentWindow.OpenUrl(url, index);
+        }
+        catch (error) {
+        }
+        return url;
+    }
+
+    $scope.previewItem_ForDocumentViewer = function (result, index, event) {
+        angular.element(document.getElementById("DocumentViewerFromSearch")).scope().ShowDocument_FromItem(GetUID(), result.DOC_TYPE_ID, result.DOC_ID);
+    }
+
+    $scope.GetNextUrl = function (index) {
+        if ($scope.Search == undefined || $scope.Search.SearchResults == undefined) return;
+        index++;
+        var currentresult = $scope.Search.SearchResults[index];
+        $scope.previewItem(currentresult, index)
+    };
+    $rootScope.$on('GetNextUrl', function (type, data) {
+        $scope.GetNextUrl(data);
+    });
+
+    $scope.DoSearchByQS = function (d) {
+        $scope.model.parameters = d;
+        $scope.doSearchGS();
+        //searchModeGSFn(null, "global");
+
+    };
+    $rootScope.$on('DoSearchByQS', function (type, data) {
+        $scope.DoSearchByQS(data);
+    });
+
+    $scope.GetTokenInfo = function () {
+        return RestApiToken().getTokenInfo();
+    }
+
+    $scope.ShowResult = function (result, index, e) {
+        // var currentresult = result; 
+        var currentresult = typeof (result) == "number" ? $scope.Search.SearchResults[result] : result;
+        $scope.Result = currentresult;
+        $scope.Result.UserId = GetUID();
+        var taskId = $scope.Result.Task_Id;
+
+        var docId = $scope.Result.DOC_ID;
+        var docTypeId = $scope.Result.DOC_TYPE_ID;
+        var stepId = $scope.Result.STEP_ID;
+        if (stepId == undefined) {
+            stepId = $scope.Result.Step_Id;
+        }
+        if (taskId || stepId == null) {
+            taskId = 0;
+            stepId = 0;
+        }
+
+        $scope.Result.Url = "/views/WF/TaskSelector.ashx?DocTypeId=" + docTypeId + "&docid=" + docId + "&taskid=" + taskId + "&wfstepid=" + stepId + "&userId=" + GetUID();
+        switch (zambaApplication) {
+            case "ZambaWeb":
+                OpenDocTask3(taskId, docId, docTypeId, false, $scope.Result.Tarea, $scope.Result.Url, $scope.Result.UserId, 0);
+                $('#Advfilter1').modal("hide");
+                break;
+            case "ZambaWindows": case "ZambaHomeWidget": case "ZambaQuickSearch":
+                winFormJSCall.openTask(docTypeId, docId, taskId, stepId);
+                $('#Advfilter1').modal("hide");
+                break;
+            case "Zamba":
+                //var token = $scope.GetTokenInfo().token;
+                window.open(Url, '_blank');
+                break;
+            case "ZambaSearch":
+                //var token = $scope.GetTokenInfo().token;
+                window.open(Url, '_blank');
+                break;
+        }
+    }
+
+    $scope.ShowIndexs = function (result, index) {
+        event.stopPropagation();
+        event.preventDefault();
+        //A veces viene result como int(indice)
+        if (typeof (result) == "number")
+            result = $scope.Search.SearchResults[result];
+
+        var currentresult = result;
+        $scope.Result = currentresult;
+        $scope.Result.UserId = GetUID();
+        try {
+            $http.post(ZambaWebRestApiURL + '/search/GetIndexData', $scope.Result).then(function (response) {
+                $scope.Result.Indexs = JSON.parse(response.data);
+                if ($scope.Result.Indexs.length) {
+                    if (!$scope.Result.Indexs.filter(function (x) {
+                        return x.Data != ""
+                    }).length) {
+                        $scope.Result.NoIndex = "No hay indices para mostrar";
+                    }
+                    $("#searchResultModalGS").modal();
+                }
+            })
+                .catch(function (r) {
+                    var r = r.data.ExceptionMessage;
+                    var error = r.indexOf("\n") > -1 ? r.substring(0, r.indexOf("\n")) : r;
+                    toastr.error(error, "Error al cargar indices");
+                });
+        }
+        catch (ex) {
+            console.log(ex);
+        }
+    }
+
+    $scope.typeaheadOnSelect = function (item, model, label, event, e) {
+        $("#searchboxControl").find(".search-parameter-input").attr("placeholder", "Agregar nueva busqueda...");
+        var cn = $("body").data("colorNum");
+        if (cn == undefined || cn == 10)
+            cn = 1;
+        else
+            cn += 1;
+        $("body").data("colorNum", cn);
+        var color = 'b' + cn;
+
+        var groupnum = $("body").data("colorGroup");
+        $("body").data("colorGroup", groupnum == undefined ? 1 : groupnum + 1);
+        groupnum = $("body").data("colorGroup");
+        item.color = color;
+        item.groupnum = groupnum;
+
+        switch (item.type) {
+            case 1:
+                //seleccion de entidad
+                var $item = $("#item" + item.id);
+                var $filter = $item.children(".twitter-typeahead").children('.typeahead.thMain.tt-input');
+                if (!$filter.length) $filter = $item.children(".typeahead");
+
+                if ($filter.length && $filter.val().length >= 1) {
+                    item.maingroup = true;
+                    $scope.addSearchParam(item, "| Empieza: " + $filter.val());
+                }
+                else {
+                    item.maingroup = true;
+                    $scope.addSearchParam(item);
+                }
+
+                var $li = $item.children("ul").children("li");
+                for (var i = 0; i <= $li.length - 1; i++) {
+                    var $input = $($li[i]).children("input");
+                    if (!$input.length) $input = $($li[i]).children("span").children(".typeahead.th.tt-input");
+                    if ($input.css("display") != 'none' && $input.val().length >= 1) {
+                        var abort = false;
+                        for (var j = 0; j <= item.indexes.length - 1 && !abort; j++) {
+                            var $liItem = $($input.parents("li")[0]);
+                            if ($liItem.attr("id") == item.indexes[j].id) {
+                                item.indexes[j].color = color;
+                                item.indexes[j].groupnum = groupnum;
+                                item.indexes[j].maingroup = false;
+                                //Fecha, puede contenter "entre"
+                                switch (item.indexes[j].index_type) {
+                                    case 4: {
+                                        var $dC = $liItem.find(".dateCompare");
+                                        if ($liItem.find(".dateCompareChk input").is(":checked") && $dC.val() != "" && isDate($dC.val())) {
+                                            item.indexes[j].operator = "Entre";
+                                            item.indexes[j].value2 = $dC.val();
+                                            $input.val($input.val() + " - " + $dC.val());
+                                        }
+                                        else {
+                                            item.indexes[j].operator = "Empieza";
+                                            item.indexes[j].value2 = "";
+                                        }
+                                        break;
+                                    }
+                                    case 9: {//Checkbox
+                                        if ($input.is(":checked"))
+                                            $input.val(1);
+                                        else
+                                            continue;
+                                    }
+                                }
+                                $scope.addSearchParam(item.indexes[j], $input.val());
+                                abort = true;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 2:
+                //seleccion de atributo-indice
+                var $val = $("#index" + item.id).children(".typeahead").length != 0 ? $("#index" + item.id).children(".typeahead") :
+                    $("#index" + item.id).children(".twitter-typeahead").children(".typeahead.thMain.tt-input");
+                var txt = $val.val();
+                if (txt == undefined || txt == '')
+                    iMsgTxt.push("Por favor ingrese un valor al atributo: " + item.name);
+
+                item.maingroup = true;
+                //Fecha, puede contenter "entre"
+                if (item.index_type == 4) {
+                    var $dC = $val.parent().find(".dateCompare");
+                    if ($val.parent().find(".dateCompareChk input").is(":checked") && $dC.val() != "" && isDate($dC.val())) {
+                        item.operator = "Entre";
+                        item.value2 = $dC.val();
+                        $val.val($val.val() + " - " + $dC.val());
+                        txt = $val.val();
+                    }
+                    else {
+                        item.operator = "Empieza";
+                        item.value2 = "";
+                    }
+                }
+                $scope.addSearchParam(item, txt.length ? txt : null);
+
+                if (item.parentArray.length) {
+                    var $li = $("#index" + item.id).children("ul").children("li");
+                    for (var i in $scope.parameters) {
+                        for (var j = 0; j <= $li.length - 1; j++) {
+                            var $chk = $($li[j].children[0].children[0]);
+                            if ($chk.attr("value") == $scope.parameters[i].id && $chk.is(':checked')) {
+                                $scope.parameters[i].color = color;
+                                $scope.parameters[i].groupnum = groupnum;
+                                $scope.parameters[i].maingroup = false;
+                                $scope.addSearchParam($scope.parameters[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 0:
+                //seleccion de palabra   
+                item.maingroup = true;
+                $scope.addSearchParam(item, item.name);
+                break;
+        }
+        //Armo Advanced filter: etapa, asignado, estado
+        if (item.type == 1 || item.type == 2) {
+            var $a = item.type == 1 ? $("#item" + item.id) : $("#index" + item.id);
+            var $div = $a.children("ul").children(".advFilter").children("div");
+            for (var i = 0; i <= $div.length - 1; i++) {
+                var $inp = $($div[i]).children('input');
+                if (!$inp.length) $inp = $($div[i]).children("span").children(".tt-input");
+
+                if ($inp.css("display") != 'none' && $inp.val() != '') {
+                    var w = $inp.data("word");
+                    if (w != undefined && w.length) {
+                        for (var j = 0; j <= w.length - 1; j++) {
+                            if ($inp.val().toUpperCase() == w[j].toUpperCase()) {
+                                var name = $($div[i]).children('button').attr("id");
+                                var p = new FilterObj($inp.data("ids")[j], (name.charAt(0).toUpperCase() + name.slice(1)), $inp.val(), name, groupnum, false);
+                                p.color = color;
+                                $scope.addSearchParam(p, $inp.val());
+                                break;
+                            }
+                        }
+                    }
+                    else
+                        iMsgTxt.push("Por favor verifique el valor ingresado en: " + $($div[i]).children("button").attr("id"));
+                }
+            }
+        }
+        //Busca por palabra suelta
+        if (item.type == undefined) {
+            var inputTxt = inputGSTxt();
+
+            if (inputTxt == "") return;
+
+            var words = GetGSSuggestionWords();
+            if (words.length > 0) {
+                for (var i = 0; i <= words.length - 1; i++) {
+                    var w = words[i];
+
+                    if (w.word.indexOf(inputTxt) > -1) {
+                        item.Word = inputTxt;
+                        item.name = inputTxt;
+                        item.type = 0;
+                        item.DTID = w.dtid;
+                        item.IndexId = w.indexid;
+                        item.WordId = w.wordid;
+                        item.maingroup = true;
+                        $scope.addSearchParam(item, inputTxt);
+                        break;
+                    }
+                }
+
+                infoMsg(iMsgTxt);
+                $scope.model.query = '';
+                $scope.doSearchGS();
+            }
+            else {
+                toastr.warning("Sin resultados");
+            }
+        }
+    };
+
+    $scope.addSearchParam = function (searchParam, value, enterEditMode) {
+        //Establesco si es editable
+        if (enterEditMode === undefined)
+            //Solo indice, no palabra ni entidad
+            if (searchParam.parent && !searchParam.parentindex)
+                enterEditMode = true;
+            else
+                enterEditMode = false;
+
+        if (searchParam.placeholder === undefined)
+            searchParam.placeholder = '';
+
+        $scope.model.parameters.push({
+            id: searchParam.id,
+            name: searchParam.name,
+            placeholder: searchParam.placeholder,
+            value: value || '',
+            value2: searchParam.value2 || '',
+            operator: searchParam.operator || 'Empieza',
+            editMode: enterEditMode,
+            type: searchParam.type,
+            color: searchParam.color,
+            groupnum: searchParam.groupnum,
+            maingroup: searchParam.maingroup
+        });
+    };
+
+    $scope.removeSearchParam = function (index) {
+        if (index === undefined)
+            return;
+        $scope.Search.SearchResults = null;
+        $scope.page = 0;
+        $scope.isPagging = false;
+        $("#resultsGridSearchBox").css("height", "50px");
+        //$('#Advfilter1').find(".modal-dialog").css("width", "600px");
+        RemSP($scope.model.parameters, index, false);
+
+        if (!$scope.model.parameters.length) {
+            $("#searchboxControl").find(".search-parameter-input").attr("placeholder", "Buscar...");
+            $("#selectDescGS").data("desc", "");
+            $("#SearchControls").show();
+            $("#tabresults").hide();
+        }
+        else {
+            $scope.doSearchGS();
+        }
+    };
+
+    //Arma y guarda parametros para despues ser visualizados nuevamente en la lista desplegable
+    $scope.editgroup = function (i) {
+        if (i === undefined)
+            return;
+        event.stopPropagation();
+        var p = $scope.model.parameters;
+        var filters = [];
+        var filtersVal = [];
+        var $div = $(".search-parameter." + p[i].color);
+
+        var typeTxt;
+        switch (p[i].type) {
+            case 0:
+                typeTxt = "words";
+                var f = {
+                    name: p[i].name, value: p[i].value
+                };
+                break;
+            case 1:
+                typeTxt = "entity";
+                for (var j = 0; j <= $div.length - 1; j++) {
+                    if ($($div[j]).attr("colorgroup") == p[i].groupnum && $($div[j]).attr("class").indexOf(typeTxt) == -1) {
+                        filters.push($($div[j]).attr("id").replace("sel", ''));
+                        filtersVal.push($($div[j]).children(".value").text().trim());
+                    }
+                }
+                var value = p[i].value.replace("| Empieza: ", "");
+                var f = {
+                    id: p[i].id, name: p[i].name, value: value, type: p[i].type, filter: filters, filtersVal: filtersVal
+                };
+                break;
+            case 2:
+                typeTxt = "index";
+                for (var j = 0; j <= $div.length - 1; j++) {
+                    if ($($div[j]).attr("colorgroup") == p[i].groupnum) {
+                        filters.push($($div[j]).attr("id").replace("sel", ''));
+                    }
+                }
+                var f = {
+                    id: p[i].id, name: p[i].name, value: p[i].value, type: p[i].type, filter: filters
+                };
+                break;
+        }
+
+        for (var j = 0; j <= p.length - 1; j++) {
+            switch (p[j].type) {
+                case 5:
+                    f.etapa = p[j].value;
+                    f.etapaId = p[j].id;
+                    break;
+                case 6:
+                    f.estado = p[j].value;
+                    f.estadoId = p[j].id;
+                    break;
+                case 7:
+                    f.asignado = p[j].value;
+                    f.asignadoId = p[j].id;
+                    break;
+            }
+        }
+        $("body").data("filterBtn", typeTxt);
+        $("body").data("filters", f);
+        //Remueve los search parameters, los guarda en body-data para mostrar las mismas sugerencias
+        RemSP(p, i, true);
+    };
+
+    $scope.removeAll = function () {
+        if ($scope.Search !== undefined) $scope.Search.SearchResults = null;
+        $("#resultsGridSearchBox").css("height", "50px");
+        //$("#SearchControls").show();
+        //$("#tabresults").hide();
+        // $('#Advfilter1').find(".modal-dialog").css("width", "600px");
+        $scope.model.parameters.length = 0;
+        $("#selectDescGS").data("desc", "");
+        $scope.model.query = '';
+        // CleanKGrid();
+    };
+
+    $scope.editPrevious = function (currentindex) {
+        var i;
+        if (currentindex !== undefined) {
+            $scope.leaveEditMode(currentindex);
+            $scope.setSearchFocus = true;
+        }
+
+        //TODO: check if index == 0 -> what then?
+        if (currentindex > 0) {
+            $scope.enterEditMode(currentindex - 1);
+        } else if ($scope.model.parameters.length > 0) {
+            $scope.enterEditMode($scope.model.parameters.length - 1);
+        }
+    };
+
+    $scope.editNext = function (currentindex) {
+        if (currentindex === undefined)
+            return;
+
+        $scope.leaveEditMode(currentindex);
+
+        //TODO: check if index == array length - 1 -> what then?
+        if (currentindex < $scope.model.parameters.length - 1) {
+            $scope.enterEditMode(currentindex + 1);
+        } else {
+            $scope.setSearchFocus = true;
+        }
+    };
+
+    $scope.keydown = function (e, searchParamindex) {
+        if ($(e.target).val().length < 2) {
+            $("body").data('filterBtn', "all");
+            advFilterSelect($("#lblGSFilAll"));
+        }
+        var handledKeys = [8, 9, 13, 37, 39];
+        if (handledKeys.indexOf(e.which) === -1)
+            return;
+
+
+
+        var cursorPosition = getCurrentCaretPosition(e.target);
+
+        if (e.which == 8) { // backspace
+            //if (cursorPosition === 0) {
+            //    if (searchParamindex !== undefined && $scope.model.parameters[searchParamindex].value.length === 0) {
+            //        e.preventDefault();
+            //        $scope.model.parameters.splice(searchParamindex, 1);
+            //        $scope.setSearchFocus = true;
+            //    } else if ($scope.model.query.length === 0) {
+            //        $scope.model.parameters.pop();
+            //    }
+            //}
+
+        } else if (e.which == 9) { // tab
+            if (e.shiftKey) {
+                e.preventDefault();
+                $scope.editPrevious(searchParamindex);
+            } else {
+                e.preventDefault();
+                $scope.editNext(searchParamindex);
+            }
+
+        } else if (e.which == 13) { // enter
+            if (searchParamindex !== undefined)
+                $scope.editNext(searchParamindex);
+
+        } else if (e.which == 37) { // left
+            if (cursorPosition === 0)
+                $scope.editPrevious(searchParamindex);
+
+        } else if (e.which == 39) { // right
+            if (cursorPosition === e.target.value.length)
+                $scope.editNext(searchParamindex);
+        }
+
+    };
+
+    if ($scope.model === undefined) {
+        $scope.model = {
+        };
+        $scope.model.parameters = [];
+    }
+
+    function getCurrentCaretPosition(input) {
+        if (!input)
+            return 0;
+
+        // Firefox & co
+        if (typeof input.selectionStart === 'number') {
+            return input.selectionDirection === 'backward' ? input.selectionStart : input.selectionEnd;
+
+        } else if (document.selection) { // IE
+            input.focus();
+            var selection = document.selection.createRange();
+            var selectionLength = document.selection.createRange().text.length;
+            selection.moveStart('character', -input.value.length);
+            return selection.text.length - selectionLength;
+        }
+
+        return 0;
+    }
+    //});
+
+
+    //app.controller('resultscontroller', function ($scope, $http, $sce, EntityFieldsService, Search) {
+    //    $scope.Search = Search;
+
+
+    $scope.Result = {
+        Id: 0,
+        EntityId: 0,
+        Name: '',
+        UserId: 0,
+        Url: '',
+        Indexs: [],
+        TaskId: '',
+        StepId: ''
+    };
+
+    $scope.options = {
+        link: true,      //convert links into anchor tags 
+        linkTarget: '_self',   //_blank|_self|_parent|_top|framename 
+        pdf: {
+            embed: true                 //to show pdf viewer. 
+        },
+        image: {
+            embed: false                //to allow showing image after the text gif|jpg|jpeg|tiff|png|svg|webp. 
+        },
+        audio: {
+            embed: true                 //to allow embedding audio player if link to 
+        },
+        code: {
+            highlight: false,        //to allow code highlighting of code written in markdown 
+            //requires highligh.js (https://highlightjs.org/) as dependency. 
+            lineNumbers: false        //to show line numbers 
+        },
+        basicVideo: false,     //to allow embedding of mp4/ogg format videos 
+        gdevAuth: 'xxxxxxxx', // Google developer auth key for youtube data api 
+        video: {
+            embed: false,    //to allow youtube/vimeo video embedding 
+            width: null,     //width of embedded player 
+            height: null,     //height of embedded player 
+            ytTheme: 'dark',   //youtube player theme (light/dark) 
+            details: false,    //to show video details (like title, description etc.) 
+        },
+        tweetEmbed: false,
+        tweetOptions: {
+            //The maximum width of a rendered Tweet in whole pixels. Must be between 220 and 550 inclusive. 
+            maxWidth: 550,
+            //When set to true or 1 links in a Tweet are not expanded to photo, video, or link previews. 
+            hideMedia: false,
+            //When set to true or 1 a collapsed version of the previous Tweet in a conversation thread 
+            //will not be displayed when the requested Tweet is in reply to another Tweet. 
+            hideThread: false,
+            //Specifies whether the embedded Tweet should be floated left, right, or center in 
+            //the page relative to the parent element.Valid values are left, right, center, and none. 
+            //Defaults to none, meaning no alignment styles are specified for the Tweet. 
+            align: 'none',
+            //Request returned HTML and a rendered Tweet in the specified. 
+            //Supported Languages listed here (https://dev.twitter.com/web/overview/languages) 
+            lang: 'en'
+        },
+        twitchtvEmbed: true,
+        dailymotionEmbed: true,
+        tedEmbed: true,
+        dotsubEmbed: true,
+        liveleakEmbed: true,
+        soundCloudEmbed: true,
+        soundCloudOptions: {
+            height: 160, themeColor: 'f50000',   //Hex Code of the player theme color 
+            autoPlay: false,
+            hideRelated: false,
+            showComments: true,
+            showUser: true,
+            showReposts: false,
+            visual: false,         //Show/hide the big preview image 
+            download: false          //Show/Hide download buttons 
+        },
+        spotifyEmbed: true,
+        codepenEmbed: true,        //set to true to embed codepen 
+        codepenHeight: 300,
+        jsfiddleEmbed: true,        //set to true to embed jsfiddle 
+        jsfiddleHeight: 300,
+        jsbinEmbed: true,        //set to true to embed jsbin 
+        jsbinHeight: 300,
+        plunkerEmbed: true,        //set to true to embed plunker 
+        githubgistEmbed: true,
+        ideoneEmbed: true,        //set to true to embed ideone 
+        ideoneHeight: 300
+    };
+
+    $scope.setselected = function (id, entityid, name) {
+        $scope.Result.Id = id;
+        $scope.Result.EntityId = entityid;
+        $scope.Result.Name = name;
+        $scope.Result.UserId = GetUID();
+
+        $scope.Result.Url = (thisDomain + "/views/WF/TaskSelector.ashx?DocTypeId=" + entityid + "&docid=" + id + "&taskid=" + $scope.Result.TaskId + "&wfstepid=" + $scope.Result.StepId + "&userId=" + $scope.Result.UserId + "'," + $scope.Result.TaskId + ",'" + name + "'");//$sce.trustAsResourceUrl
+        OpenDocTask3($scope.Result.TaskId, id, entityid, false, name, $scope.Result.Url, $scope.Result.UserId, 0);
+    };
+
+    $scope.currentViewerUrl = null;
+
+    //$scope.previewItem = function (result, index, event) {
+    //    var isGlobalSearch = false;
+    //    if ($(event.target).parents("#Advfilter1").length) isGlobalSearch = true;
+    //    // if ($scope.Search.SearchResults == undefined) return;
+    //    var currentresult = result; //$scope.Search.SearchResults[result];
+
+    //    var url = ZambaWebRestApiURL + "/Services/GetDocFile.ashx?DocTypeId=" + currentresult.DOC_TYPE_ID + "&DocId=" + currentresult.DOC_ID + "&UserID=" + (currentresult.UserId || GetUID());
+    //    $scope.currentViewerUrl = url;
+
+    //    //var path = currentresult.FullPath;
+    //    //if (path.substring(path.length - 4) == ".pdf") {
+    //    //    if (event != null) {
+    //    //        var $el = $(event.target);
+    //    //        $el.parents(".resultsGrid").parent().children().css("background-color", "white");
+    //    //        $el.parents(".resultsGrid").css("background-color", "darkgray");
+    //    //    }
+    //    //}
+    //    var $rc = isGlobalSearch ? $("#previewDocSearch") : $("#ResultsCtrl").find("#previewDocSearch");
+    //    if (typeof ($rc.contentWindow) != "undefined")
+    //        $rc.contentWindow.OpenUrl(url);
+    //    else
+    //        $rc[0].contentWindow.OpenUrl(url);
+
+    //    return url;
+    //}
+
+    $scope.ShowResult = function (result) {
+        var currentresult = (typeof (result) == "number") ? $scope.Search.SearchResults[result] : result;
+        $scope.Result = currentresult;
+        $scope.Result.UserId = GetUID();
+        var taskId = $scope.Result.TASK_ID;
+        if (taskId == undefined) {
+            taskId = $scope.Result.Task_Id;
+        }
+        var docId = $scope.Result.DOC_ID;
+        var docTypeId = $scope.Result.DOC_TYPE_ID;
+        var stepId = $scope.Result.STEP_ID;
+
+        if (stepId == undefined) {
+            stepId = $scope.Result.Step_Id;
+        }
+        if (stepId === undefined) {
+            stepId = 0;
+        }
+        $scope.Result.Url = thisDomain + "/views/WF/TaskSelector.ashx?DocTypeId=" + docTypeId + "&docid=" + docId + "&taskid=" + taskId + "&wfstepid=" + stepId + "&userId=" + GetUID();
+
+        //No borrar, esto se usa en la Web
+        //OpenDocTask3(taskId, docId, docTypeId, false, $scope.Result.Name, $scope.Result.Url, $scope.Result.UserId,0);
+
+        if (!OpenDocTask3())
+            window.open($scope.Result.Url, '_blank');
+
+        //$('#Advfilter1').modal("hide");
+
+    }
+
+    $scope.ShowInsertBtn = false;
+
+    function ShowHideFilters(sender) {
+        if ($("#FiltersPanel").attr("display") == "none")
+            $("#FiltersPanel").show();
+        else
+            $("#FiltersPanel").hide();
+    };
+
+    function visualizerModeGSFn(_this, mode) {
+        var isGlobalSearch = false;
+        if (_this !== null && _this !== undefined && $(_this).parents("#Advfilter1").length) {
+            isGlobalSearch = true;
+        }
+
+        $("#resultsGridSearchBox").hide();
+        $("#resultsGridSearchBoxThumbs").hide();
+        $("#resultsGridSearchBoxPreview").hide();
+        $("#resultsGridSearchGrid").hide();
+        $("#Kgrid").hide();
+        //$("#resultsGridSearchBoxThumbs").find()
+        $("#multipleSelectionMenu").find(".activeButtonIconBar").click();
+        $(".filterFunc").show();
+
+        //$scope.DisableActions();
+
+        switch (mode) {
+            case "grid":
+                $("#resultsGridSearchGrid").show();
+                $("#Kgrid").show();
+                AdjustGridColumns();
+                break;
+            case "preview":
+                $("#resultsGridSearchBoxPreview").show();
+                $("#resultsGridSearchGrid").show();
+                break;
+            case "list":
+                $("#resultsGridSearchBox").show();
+                $("#resultsGridSearchGrid").show();
+                break;
+            case "thumbs":
+                $("#resultsGridSearchBoxThumbs").css("height", "75%").show();
+                $("#resultsGridSearchGrid").show();
+                break;
+        }
+    }
+
+    $scope.ShowIndexs = function (index) {
+        event.preventDefault();
+        event.stopPropagation();
+        var currentresult = $scope.Search.SearchResults[index];
+        $scope.Result = currentresult;
+        $scope.Result.UserId = GetUID();
+
+        $http.post(ZambaWebRestApiURL + '/search/GetIndexData', $scope.Result).then(function (response) {
+            $scope.Result.Indexs = JSON.parse(response.data);
+            if ($scope.Result.Indexs.length)
+                $("#searchResultModalGS").modal();
+        });
+    }
+
+    $scope.HideListIcon = "glyphicon glyphicon-chevron-left";
+    $scope.IsListHidden = false;
+    $scope.HideList = function () {
+        $scope.IsListHidden = !$scope.IsListHidden;
+        if ($scope.IsListHidden == true) { $scope.HideListIcon = "glyphicon glyphicon-chevron-right" } else { $scope.HideListIcon = "glyphicon glyphicon-chevron-left" };
+    };
+
+
+    $scope.GetEntities = function () {
+        if (enableGlobalSearch != undefined && enableGlobalSearch) {
+            window.load();
+            var userId = parseInt(GetUID());
+            if (isNaN(userId)) {
+                //$("#Advfilter1").hide();
+                //GSRedirectToLogin(); //bootbox.alert("Usuario incorrecto");
+            }
+            else {
+                if (localStorage) {
+                    var localEntities = localStorage.getItem('localEntities' + userId);
+                    if (localEntities != undefined && localEntities != null && localEntities != '' && localEntities.length > 0) {
+                        try {
+                            var data = JSON.parse(localEntities);
+                            //                            window.ready();
+                            if (data == null || data.length == 0) {
+                                $scope.LoadEntitiesFromDB();
+                                console.log("localEntities is null");
+                            }
+                            else {
+                                if ($scope.IsSearchModule()) {
+                                    $scope.availableSearchParams = data;
+                                    if ($scope.availableSearchParams != undefined) {
+                                        GetTree();
+                                        $scope.initSearch($scope.availableSearchParams);
+
+
+                                    }
+                                    else {
+                                        GetDefaultView();
+                                        searchModeGSFn(null, "all");
+                                    }
+                                }
+                            }
+
+                        } catch (e) {
+                            console.log(e);
+                            $scope.LoadEntitiesFromDB();
+                        }
+                    }
+                    else {
+                        $scope.LoadEntitiesFromDB();
+                    }
+
+                }
+                else {
+                    $scope.LoadEntitiesFromDB();
+                }
+
+            }
+        }
+    };
+
+    $scope.LoadEntitiesFromDB = function () {
+        var userId = parseInt(GetUID());
+
+        $http({
+            method: 'GET',
+            url: ZambaWebRestApiURL + "/Search/Entities",
+            crossDomain: true, // enable this            
+            params: { userId: userId },
+            dataType: 'json',
+            headers: { 'Content-Type': 'application/json' }
+        }).
+            then(function (data, status, headers, config) {
+                window.ready();
+                if (data == null) {
+                    if ($scope.IsSearchModule()) {
+                        $scope.availableSearchParams = data.data;
+                        if (localStorage) {
+                            localStorage.setItem('localEntities' + userId, JSON.stringify(data.data));
+                        }
+                        if ($scope.availableSearchParams != undefined) {
+                            GetTree();
+                            $scope.initSearch($scope.availableSearchParams);
+
+                        }
+                        else {
+                            GetDefaultView();
+                            searchModeGSFn(null, "all");
+                        }
+                    }
+                    bootbox.alert("No se encontraron entidades asignadas");
+                }
+                else {
+                    if ($scope.IsSearchModule()) {
+                        $scope.availableSearchParams = data.data;
+                        if (localStorage) {
+                            localStorage.setItem('localEntities' + userId, JSON.stringify(data.data));
+                            GetTree();
+                        }
+                        if ($scope.availableSearchParams != undefined) {
+
+                            $scope.initSearch($scope.availableSearchParams);
+                        }
+                        else {
+                            GetDefaultView();
+                            searchModeGSFn(null, "all");
+                        }
+                    }
+                }
+            }).
+            catch(function (data, status, headers, config) {
+                window.ready();
+                $scope.message = data;
+                if ($scope.IsSearchModule() && data.Message != undefined) {
+                    console.log(data.Message);
+                    //                    bootbox.alert(data.Message);
+                }
+                $scope.Logout();
+            });
+    }
+
+    $scope.IsSearchModule = function () {
+        return $scope.initSearch != undefined;
+    }
+
+    $rootScope.$on('GetEntities', function () {
+        $scope.GetEntities();
+        $scope.LoadTaskFilterRights();
+        $scope.LoadStepsFromDB();
+    });
+
+    //async function checkAuthentication() {
+    //    while (authService.authentication.isAuth == false) {
+    //        await rafAsync();
+    //    }
+    //    return true;
+    //};
+
+
+    var checkAuthenticationIE = setInterval(function () {
+        if (authService.authentication.isAuth == true) {
+            clearInterval(checkAuthenticationIE);
+            $scope.GetEntities();
+            $scope.LoadTaskFilterRights();
+            $scope.LoadStepsFromDB();
+        }
+    }, 100);
+
+    //var checkAuthentication =   checkAuthentication()
+    //    .then((element) => {
+    //        $scope.GetEntities();
+    //        GetTree();
+    //    });
+
+
+    //  checkAuthenticationIE();
+    //if (IsIE)
+    //{
+    //    checkAuthenticationIE();
+    //}
+    //else
+    //{
+    //    checkAuthentication();
+    //}
+
+
+    //function rafAsync() {
+    //    return new Promise(resolve => {
+    //        requestAnimationFrame(resolve); //faster than set time out
+    //    });
+    //};
+
+    //if (authService.authentication.isAuth == true) {
+    //    $scope.GetEntities();
+    //    GetTree();
+    //}
+
+
+    //al presionar enter realiza la busqueda
+    $scope.TriggerSearch = function (keyEvent) {
+        if (keyEvent.which === 13) {
+            $scope.Search.AsignedTasks = false;
+            $scope.DoSearch();
+            event.preventDefault();
+        }
+    }
+
+    var EntityCheckTime = null, EntityCheckDelay = 1500;
+
+
+    $scope.ShowHideFilters = function (sender) {
+        if ($("#FiltersPanel").attr("display") == "none")
+            $("#FiltersPanel").show();
+        else
+            $("#FiltersPanel").hide();
+    };
+
+    $scope.handleViewCheck = function (sender) {
+
+        $("#chkMyTeam").prop('checked', false);
+        $("#chkMyTasks").prop('checked', false);
+        $("#chkMyAllTeam").prop('checked', false);
+        $("#chkViewAllMy").prop('checked', false);
+
+        updateDisplay($("#chkViewAllMy"))
+        updateDisplay($("#chkMyTasks"))
+        updateDisplay($("#chkMyTeam"))
+        updateDisplay($("#chkMyAllTeam"))
+
+
+        var newValue = sender.name;
+
+        try {
+            //todo minuscula
+            newValue = (!newValue) ? '' : newValue.toLowerCase();
+            //espacios por guion medio
+            newValue = (!newValue) ? '' : newValue.replace(/ /g, '-');
+        } catch (e) {
+            newValue = value;
+        }
+
+        ViewCheckTime = undefined;
+
+        $checkbox = $('#chkv-' + sender.id);
+
+        if ($checkbox.is(":checked") == false) {
+
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox);
+            sender.enabled = true;
+            if (ViewCheckTime != undefined) clearTimeout(ViewCheckTime);
+            ViewCheckTime = setTimeout(function () {
+                $scope.ViewsCheckEnable = true;
+                $scope.Search.View = 'reportid' + sender.reportId;
+                $scope.DoSearch();
+            }, EntityCheckDelay);
+
+        } else {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox)
+            sender.enabled = false;
+            if (ViewCheckTime != undefined) clearTimeout(ViewCheckTime);
+            ViewCheckTime = setTimeout(function () {
+                $scope.ViewsCheckEnable = true;
+                $scope.Search.View = 'reportid' + sender.reportId;
+                $scope.DoSearch();
+            }, EntityCheckDelay);
+        }
+
+    }
+
+
+    $scope.handleViewCheckMultipleId = function (viewId, reportId) {
+
+        $("#chkMyTeam").prop('checked', false);
+        $("#chkMyTasks").prop('checked', false);
+        $("#chkMyAllTeam").prop('checked', false);
+        $("#chkViewAllMy").prop('checked', false);
+
+        updateDisplay($("#chkViewAllMy"))
+        updateDisplay($("#chkMyTasks"))
+        updateDisplay($("#chkMyTeam"))
+        updateDisplay($("#chkMyAllTeam"))
+
+        ViewCheckTime = undefined;
+        $checkbox = $('#chkv-' + viewId);
+        $checkbox.prop('checked', !$checkbox.is(':checked'));
+        $checkbox.triggerHandler('change');
+        //updateDisplay($checkbox);
+        //sender.enabled = true;
+        $scope.ViewsCheckEnable = true;
+        $scope.Search.View = 'reportid' + reportId;
+        $scope.DoSearch();
+
+    }
+
+    $scope.StepSelected = function (item, model) {
+
+        if ($scope.Search.StepId == null && $scope.Search.StepId == undefined) {
+            $scope.Search.StepId = 0;
+        }
+
+        $scope.DoSearch();
+    }
+
+    $scope.ClearStepSelected = function () {
+
+        $scope.Search.StepId = 0;
+
+        $scope.DoSearch();
+    }
+
+    $scope.handleEntityCheck = function (sender) {
+
+        var newValue = sender.name;
+
+        try {
+            //todo minuscula
+            newValue = (!newValue) ? '' : newValue.toLowerCase();
+            //espacios por guion medio
+            newValue = (!newValue) ? '' : newValue.replace(/ /g, '-');
+        } catch (e) {
+            newValue = value;
+        }
+
+
+
+        $checkbox = $('#chke-' + newValue);
+        EntityCheckTime = undefined;
+        if ($checkbox.is(":checked") == false) {
+
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox);
+            sender.enabled = true;
+            if (EntityCheckTime != undefined) clearTimeout(EntityCheckTime);
+            EntityCheckTime = setTimeout(function () {
+                $scope.EntitiesCheckEnable = true;
+                $scope.Search.entities = $scope.Search.SearchResultsObject.entities;
+                $scope.DoSearch();
+            }, EntityCheckDelay);
+
+        } else {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay($checkbox)
+            sender.enabled = false;
+
+            if (EntityCheckTime != undefined) clearTimeout(EntityCheckTime);
+            EntityCheckTime = setTimeout(function () {
+                $scope.EntitiesCheckEnable = true;
+                $scope.Search.entities = $scope.Search.SearchResultsObject.entities;
+                $scope.DoSearch();
+            }, EntityCheckDelay);
+        }
+
+    }
+
+
+    $scope.clear = function () {
+        $scope.option1 = [];
+    };
+
+    $scope.randomSelect = function () {
+        $scope.clear();
+        var arrSelected = [$scope.option1, $scope.option2, $scope.option3, $scope.option4, $scope.option5, $scope.option6, $scope.option7];
+        var arrOptions = [$scope.options1, $scope.options2, $scope.options2, $scope.options1, $scope.options1, $scope.options1, $scope.options2];
+        var arrIsSingle = [false, false, false, true, false, false, false];
+        var arrIsSimple = [true, true, false, false, true, true, true];
+
+        for (var i = 0; i < arrSelected.length; i++) {
+            var selected = arrSelected[i];
+            var options = arrOptions[i];
+            var isSingle = arrIsSingle[i];
+            var isSimple = arrIsSimple[i];
+            var min = 0;
+            var max = options.length - 1;
+            if (isSingle) {
+                var randIndex = getRandomInt(min, max);
+                if (isSimple) {
+                    selected.push(options[randIndex].key);
+                } else {
+                    selected.push(options[randIndex]);
+                }
+            }
+            else {
+                var toSelectIndexes = [];
+                var numItems = getRandomInt(0, options.length) + 1;
+                for (var j = 0; j < getRandomInt(1, numItems); j++) {
+                    var randIndex = getRandomInt(min, max);
+                    var arrIndex = toSelectIndexes.indexOf(randIndex);
+                    if (arrIndex == -1) {
+                        toSelectIndexes.push(randIndex);
+                        if (isSimple) {
+                            selected.push(options[randIndex].key);
+                        } else {
+                            selected.push(options[randIndex]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+
+
+app.controller('appFilterController', function ($scope, $http, $rootScope, FieldsService, Search) {
+    //Se utiliza para la busqueda de tareas
+    $scope.Search = Search;
+
+    //$scope.updateSelectedEntities2 = function (DoctypesIds) {
+
+    //    if ($scope.IndexId != null) {
+    //        FieldsService.GetAll($scope.IndexId).then(function (d) {
+    //            var results = JSON.parse(d.data);
+    //            $scope.Index = results; // Success
+    //        }, function () {
+    //            alert('Error Occured !!!'); // Failed
+    //        });
+    //    }
+    //    else {
+    //        $scope.Index = null;
+    //    }
+    //};
+
+    $scope.FiltersIndexSelected = function () {
+        $scope.Filter.ID = $scope.Filter.Index.ID;
+        $scope.Filter.Name = $scope.Filter.Index.Name;
+
+        if ($scope.Filter.ID != null) {
+            FieldsService.GetAll($scope.Filter.ID).then(function (d) {
+                var Index = JSON.parse(d.data);
+                $scope.Filter.Name = Index.Name;
+                $scope.Filter.Type = Index.Type;
+                //todo: ML
+                //Si el operador previamente seleccionado no es compatible con el tipo de indice, se debe rastaurar al por defecto de ese tipo.  $scope.Filter.CompareOperator = Index.Operator; //ver que esta linea borra el operador, lo setea pero no se ve como seleccionado en el combo.
+                $scope.Filter.DropDown = Index.DropDown;
+                $scope.Filter.DropDownList = Index.DropDownList;
+            }, function (e) {
+                console.log(e);
+            });
+        }
+        else {
+            $scope.Filter.Name = '';
+            $scope.Filter.Type = 0;
+            $scope.Filter.DropDown = 0;
+            $scope.Filter.DropDownList = [];
+            $scope.Filter.CompareOperator = "=";
+        }
+    };
+
+    $scope.FiltersOperatorSelected = function () {
+        console.log("Operador seleccionado: " + $scope.Filter.CompareOperator);
+    };
+
+    $scope.Filter = {
+        ID: 0,
+        Name: '',
+        CompareOperator: '=',
+        ValueString: '',
+        Value: '',
+        CurrentUserId: 0,
+        StepId: 0,
+        EntitiesIds: '',
+        DropDown: 0,
+        Type: 1,
+        DropDownList: [],
+        Index: null
+    };
+
+    $scope.TasksFilters = [{
+        column: 'assignedto',
+        checked: true,
+        name: "Asignadas a mi",
+        value: "Zamba.Me"
+    }, {
+        column: 'assignedto',
+        checked: true,
+        name: "Asignadas a mi Equipo",
+        value: "Zamba.MyTeam"
+    }, {
+        column: 'assignedto',
+        checked: true,
+        name: "Asignadas a",
+        value: "Zamba.Ask"
+    }];
+
+    $scope.TasksViews = [{
+        column: 'assignedto',
+        checked: true,
+        name: "Asignadas a mi",
+        value: "Zamba.Me"
+    }, {
+        column: 'assignedto',
+        checked: true,
+        name: "Asignadas a mi Equipo",
+        value: "Zamba.MyTeam"
+    }, {
+        column: 'assignedto',
+        checked: true,
+        name: "Asignadas a",
+        value: "Zamba.Ask"
+    }];
+
+
+    $scope.handleRadioClick = function (radius) {
+        alert(radius.price);
+    };
+
+
+
+
+    $scope.AddFilter = function () {
+        $scope.Filter.CurrentUserId = GetUID();
+
+        //        $scope.Filter.StepId = $("[id$=StepId]").val();
+        var dtids = '';
+        if ($scope.Search.DoctypesIds.join == undefined) {
+            dtids = $scope.Search.DoctypesIds
+        }
+        else {
+            dtids = $scope.Search.DoctypesIds.join(",");
+        }
+        $scope.Filter.EntitiesIds = dtids;
+
+        //if ($scope.Filter.dataDescription == undefined || $scope.Filter.dataDescription == '')
+        //    $scope.Filter.dataDescription = $scope.Filter.Data;
+
+        if ($('#ModalSearch2').hasClass('in'))
+            $("#ModalSearch2").modal("hide");
+
+
+        if ($scope.Filter.ID != 0) {
+            //$.ajax({
+            //    type: "POST",
+            //    url: "../../Services/TaskService.asmx/filterdata",
+            //    //data: "{CurrentUserId: " + CurrentUserId + ", ConnectionId: " + ConnectionId + "}",
+            //    //data: JSON.stringify("{data: " + obj + "}"),
+            //    data: "{filterdata:" + JSON.stringify($scope.Filter) + "}",
+            //    contentType: "application/json; charset=utf-8",
+            //    success: function (data) {
+            //        toastr.success("Filtro aplicado");
+            //        $("#IdSubList").val("");
+            //        $scope.GetUsedFilters();
+            //    },
+            //    error: function (xhr, ajaxOptions, thrownError) {
+            //        toastr.error('Error al aplicar filtro filtro');
+            //    }
+            //});
+
+            var isIndex = false;
+            for (var i in $scope.Search.Indexs) {
+                if ($scope.Filter.ID == $scope.Search.Indexs[i].ID) {
+                    $scope.Search.Indexs[i].Data = $scope.Filter.Data;
+                    $scope.Search.Indexs[i].dataDescription = $scope.Filter.dataDescription;
+                    $scope.Search.Indexs[i].Operator = $scope.Filter.CompareOperator;
+
+                    isIndex = true;
+                    break;
+                }
+            }
+            if (isIndex == false) {
+                $scope.Search.Filters.push({ Field: $scope.Filter.Name, Operator: $scope.Filter.CompareOperator, Value: $scope.Filter.Data });
+            }
+
+
+            $scope.usedFilters.push({ ID: $scope.Filter.ID, Name: $scope.Filter.Name, Data: $scope.Filter.Data, dataDescription: $scope.Filter.dataDescription, CompareOperator: $scope.Filter.CompareOperator, CurrentUserId: $scope.Filter.CurrentUserId, StepId: $scope.Filter.StepId, EntitiesIds: $scope.Filter.EntitiesIds });
+            $scope.Search.OrderBy = "";
+            $rootScope.$broadcast('filtersAdded');
+
+        }
+        else {
+            toastr.error('Complete todos los campos');
+        }
+
+    };
+
+    $scope.UpdateFiltersWithSearch = function (response) {
+        $scope.Filter.CurrentUserId = GetUID();
+        //        $scope.Filter.StepId = $("[id$=StepId]").val();
+        var dtids = '';
+        if ($scope.Search.DoctypesIds.join == undefined) {
+            dtids = $scope.Search.DoctypesIds
+        }
+        else {
+            dtids = $scope.Search.DoctypesIds.join(",");
+        }
+        $scope.Filter.EntitiesIds = dtids;
+
+        for (var i in $scope.Search.Indexs) {
+            if ($scope.Search.Indexs[i].Data != null || $scope.Search.Indexs[i].Data != '') {
+
+                $scope.Filter.ID = $scope.Search.Indexs[i].ID;
+                $scope.Filter.IndexName = $scope.Search.Indexs[i].Name;
+                $scope.Filter.CompareOperator = $scope.Search.Indexs[i].Operator;
+                $scope.Filter.dataDescription = $scope.Search.Indexs[i].dataDescription;
+                $scope.Filter.Data = $scope.Search.Indexs[i].Data;
+
+                if ($scope.Filter.dataDescription == undefined || $scope.Filter.dataDescription == '')
+                    $scope.Filter.dataDescription = $scope.Filter.Data;
+
+
+            }
+        }
+
+        $scope.usedFilters.push({ ID: $scope.Filter.ID, Name: $scope.Filter.Name, Data: $scope.Filter.Data, dataDescription: $scope.Filter.dataDescription, CompareOperator: $scope.Filter.CompareOperator, CurrentUserId: $scope.Filter.CurrentUserId, StepId: $scope.Filter.StepId, EntitiesIds: $scope.Filter.EntitiesIds });
+    };
+
+    $scope.DeleteFilter = function (filter) {
+
+        for (var f in $scope.usedFilters) {
+            if ($scope.usedFilters[f].ID == filter.ID) {
+                $scope.usedFilters.splice(f, 1);
+                break;
+            }
+        }
+
+        var isIndex = false;
+        for (var i in $scope.Search.Indexs) {
+            if (filter.ID == $scope.Search.Indexs[i].ID) {
+                $scope.Search.Indexs[i].Data = '';
+                $scope.Search.Indexs[i].dataDescription = '';
+                isIndex = true;
+                break;
+            }
+        }
+        if (isIndex == false) {
+            for (var f in $scope.Search.Filters) {
+                if ($scope.Search.Filters[f].ID == filter.ID) {
+                    $scope.Search.Filters.splice(f, 1);
+                    break;
+                }
+            }
+        }
+        if ($scope.Search.Filters.length = !0) {
+            $scope.Search.Filters = [];
+        }
+
+        $rootScope.$broadcast('filtersAdded');
+    };
+
+    $scope.DeleteFilters = function () {
+
+        var isIndex = false;
+        for (var u in $scope.usedFilters) {
+
+            for (var i in $scope.Search.Indexs) {
+                if ($scope.usedFilters[u].ID == $scope.Search.Indexs[i].ID) {
+                    $scope.Search.Indexs[i].Data = '';
+                    $scope.Search.Indexs[i].dataDescription = '';
+                    isIndex = true;
+                    break;
+                }
+            }
+            if (isIndex == false) {
+                for (var f in $scope.Search.Filters) {
+                    if ($scope.Search.Filters[f].ID == $scope.usedFilters[u].ID) {
+                        $scope.Search.Filters.splice(f, 1);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.usedFilters = [];
+        $scope.Filter.dataDescription = '';
+        $scope.Filter.Data = '';
+    };
+
+    $scope.$on('ClearFilters', function (event, data) {
+        console.log('ClearFilters');
+        $scope.DeleteFilters();
+    });
+
+    $scope.FilterDataChanged = function () {
+
+    };
+
+    $scope.subscribeItem_datepicker = function () {
+
+        if (!($(".fechaInput").hasClass("TengoCalendar"))) {
+            setTimeout(
+                function () {
+                    $(".datepicker").datepicker();
+                    $(".fechaInput").focus();
+                    $(".fechaInput").addClass("TengoCalendar");
+                }, 100);
+        }
+
+
+
+    };
+
+
+
+
+
+    $scope.usedFilters = [];
+    //obtengo los filtros aplicados y los muestro en el dropdown
+    $scope.GetUsedFilters = function () {
+        var usedfilters = [];
+        usedfilters.CurrentUserId = GetUID();
+        usedfilters.StepId = 0;
+        //var SubListName = sessionStorage.getItem('SubListName');
+
+        $.ajax({
+            type: "POST",
+            url: "../../Services/TaskService.asmx/getUsedFilters",
+            data: "{usedfilters:" + JSON.stringify(usedfilters) + "}",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $scope.usedFilters = data.d;
+            },
+        });
+    };
+
+
+    $scope.CleanData = function (Index) {
+        if (Index !== undefined) {
+            $scope.Index.Data = "";
+            $scope.Index.dataDescription = "";
+        }
+    }
+
+    $scope.CleanData2 = function (Index) {
+        if (Index !== undefined) {
+            Index.Data2 = "";
+            Index.dataDescription2 = "";
+        }
+    }
+
+    $scope.saveDataBetween = function (Index, Value, Label) {
+        if (Value != undefined) //Valor por seleccion de typeahead o modal
+        {
+            Index.dataDescription2 = Label;
+            Index.Data2 = Value;
+            if ($('#ModalSearch2').hasClass('in'))
+                $("#ModalSearch2").modal("hide");
+        }
+    };
+
+    //$scope.saveOperator = function (Index, Value) {
+    //    if (Value != undefined) {
+    //        if (Value != "Entre") {
+    //            Index.Data2 = "";
+    //           Index.dataDescription2 = "";
+    //        }
+    //        Index.Operator = Value;
+    //    }
+    //};
+
+    //Trae el modal con los datos
+    $scope.showlist = function (Filter) {
+
+        var indexData = $http.post(ZambaWebRestApiURL + '/search/ListOptions', JSON.stringify({
+            IndexId: Filter.ID,
+            Value: Filter.dataDescription,//.DataTemp,
+            LimitTo: 10
+        })).then(function (response) {
+            var results = JSON.parse(response.data);
+            Filter.DropDownList = results;
+            BtnTrashHidden();
+            if (!$('#ModalSearch2').hasClass('in')) {
+                $('#ModalSearch2').appendTo("#resultsGridSearchGrid");
+                $("#ModalSearch2").modal();
+            }
+        });
+    };
+
+    //Muestra la lista desplegable otra vez al borrar los Datos del input
+    //$scope.ShowListAfter = function () {
+    //    var indexData = $http.post(ZambaWebRestApiURL + '/search/ListOptions', JSON.stringify({
+    //        IndexId: Index.ID,
+    //        Value: Index.dataDescription,//.DataTemp,
+    //        LimitTo: 10
+    //    })).then(function (response) {
+    //        var results = JSON.parse(response.data);
+    //        Search.selectedIndex.DropDownList = results;
+    //        if (!$('#ModalSearch2').hasClass('in'))
+    //            $("#ModalSearch2").modal();
+    //    });
+    //}
+
+
+    $scope.CleanData = function (Index) {
+        if (Index !== undefined) {
+            $scope.Index.Data = "";
+            $scope.Index.dataDescription = "";
+        }
+    }
+
+    $scope.CleanData2 = function (Index) {
+        if (Index !== undefined) {
+            Index.Data2 = "";
+            Index.dataDescription2 = "";
+        }
+    }
+
+
+    $scope.selectedIndex = null;
+    $scope.ListItems = [];
+
+    function constructMap(data, map) {
+        var objects = [];
+        $.each(data, function (i, object) {
+            map[object.Value] = object;
+            objects.push(object.Value);
+        });
+        return objects;
+    }
+
+    $scope.selectMatch = function (Index) {
+        $scope.selectedIndex.Data = $scope.ListItems[Index].Code;
+        $scope.selectedIndex.dataDescription = $scope.ListItems[Index].Value;
+    };
+
+    $scope.dateFields = [];
+
+    $scope.generateGrid = function (gridData) {
+        var model = $scope.generateModel(gridData[0]);
+        var parseFunction;
+        parseFunction = function (response) {
+            for (var i = 0; i < response.length; i++) {
+                for (var fieldIndex = 0; fieldIndex < $scope.dateFields.length; fieldIndex++) {
+                    var record = response[i];
+                    record[$scope.dateFields[fieldIndex]] = kendo.parseDate(record[$scope.dateFields[fieldIndex]]);
+                }
+            }
+            return response;
+        };
+        $('#MainTabber').zTabs("select", '#tabresults');
+    }
+    $scope.generateModel = function (gridData) {
+        var model = {};
+        model.id = "ID";
+        var fields = {};
+        for (var property in gridData) {
+            var propType = typeof gridData[property];
+
+            if (propType == "number") {
+                fields[property] = {
+                    type: "number",
+                    validation: {
+                        required: true
+                    }
+                };
+            } else if (propType == "boolean") {
+                fields[property] = {
+                    type: "boolean",
+                    validation: {
+                        required: true
+                    }
+                };
+            } else if (propType == "string") {
+                var parsedDate = kendo.parseDate(gridData[property]);
+                if (parsedDate) {
+                    fields[property] = {
+                        type: "date",
+                        validation: {
+                            required: true
+                        }
+                    };
+                    $scope.dateFields.push(property);
+                } else {
+                    fields[property] = {
+                        validation: {
+                            required: true
+                        }
+                    };
+                }
+            } else {
+                fields[property] = {
+                    validation: {
+                        required: true
+                    }
+                };
+            }
+        }
+        model.fields = fields;
+        return model;
+    }
+
+
+
+
+
+});
+
+app.factory('FieldsTypesService', function ($http) {
+    var BaseURL = '';
+    var fac = {};
+    fac.GetAll = function () {
+        return $http.get(ZambaWebRestApiURL + '/FieldTypesApi');
+    }
+    return fac;
+});
+
+app.factory('userConfigService', function ($http) {
+    var BaseURL = '';
+    var fac = {};
+    fac.GetAll = function () {
+        return $http.get(ZambaWebRestApiURL + '/FieldTypesApi');
+    }
+    return fac;
+});
+
+
+var ztoken = '';
+app.factory('EntityFieldsService', function ($http) {
+    var BaseURL = '';
+    var fac = {};
+    fac.GetAll = function (SelectedDoctypesIds) {
+        return $http.post(ZambaWebRestApiURL + '/search/Indexs', SelectedDoctypesIds).then(function (response) {
+            return response;
+        });
+    }
+
+    fac.GetSteps = function () {
+        return $http.post(ZambaWebRestApiURL + '/search/GetStepsCount?userId=' + GetUID()).then(
+            function (response) {
+                return { data: response.data };
+            });
+    }
+    return fac;
+});
+
+app.filter('getFieldsByProperty', function () {
+    return function (propertyName, propertyValue, collection) {
+        var i = 0, len = collection.length;
+        for (; i < len; i++) {
+            if (collection[i][propertyName] == +propertyValue) {
+                return collection[i];
+            }
+        }
+        return null;
+    }
+});
+
+var searchtreeview;
+function GetTree() {
+
+
+    try {
+        if (localStorage) {
+            var localTreeData = localStorage.getItem('localTreeData|' + GetUID());
+            if (localTreeData != undefined && localTreeData != null && localTreeData != '') {
+                try {
+                    var treeData = JSON.parse(localTreeData);
+                    LoadTree(treeData);
+                } catch (e) {
+                    console.log(e);
+                    LoadTreeFromDB();
+                }
+            }
+            else {
+                LoadTreeFromDB();
+            }
+        }
+        else {
+            LoadTreeFromDB();
+        }
+    }
+    catch (e) {
+        console.error(e);
+    }
+}
+
+function LoadTreeFromDB() {
+    $.ajax({
+        url: "../../Services/IndexService.asmx/GetTree",
+        type: "POST",
+        dataType: "json",
+        cache: true,
+        data: "{token:''," + "currentuserid:" + GetUID() + "}",
+        contentType: "application/json; charset=utf-8",
+        success: GetComplete,
+        error: GetError
+    });
+};
+
+function GetComplete(data) {
+    if (data.d === "") {
+        //$("#SearchControl").css('display', 'none');
+        var msj = $('<p/>', { text: "No hay datos para mostrar" }).appendTo("#tabsearch");
+        msj.css({
+            'width': '50%',
+            'text-align': 'center',
+            'margin': 'auto',
+            'padding': '50px',
+            'font-size': '20px',
+            'font-weight': 'bold'
+        });
+        return;
+    }
+    var kdata = $.parseJSON(data.d);
+    LoadTree(kdata);
+    if (localStorage) {
+        localStorage.setItem('localTreeData|' + GetUID(), data.d);
+    }
+}
+
+function resizeGrid() {
+    var gridElement = $("#Kgrid");
+    var newHeight = $('#Kgrid').outerHeight(true) - $('#KendoGridButtons').outerHeight(true);
+    var otherElements = gridElement.children().not(".k-grid-content");
+    var otherElementsHeight = 0;
+
+    otherElements.each(function () {
+        otherElementsHeight += $(this).outerHeight();
+    });
+    var currentHeight = newHeight - otherElementsHeight;
+    if (currentHeight < 100)
+        currentHeight = 100;
+    gridElement.children(".k-grid-content").height(currentHeight);
+}
+
+function LoadTree(kdata) {
+
+    searchtreeview = $("#treeview").kendoTreeView({
+        check: onCheck,
+        checkboxes: {
+            template: "<input type='checkbox' name='#= item.id #' value='#= item.id #' #if(item.checked == 'true'){# checked class='expanded' #}#/>",
+            checkChildren: true
+        },
+        //dataBound: onDataBound,
+        dataSource: kdata,
+        scrollable: true,
+    });
+    // Default to expanded.
+    var searchtreeview = $("#treeview").data("kendoTreeView");
+    searchtreeview.expand(".expanded");
+    searchtreeview.expand(".k-item");
+    searchtreeview.expand(".k-first");
+    onCheck();
+}
+
+function GetError(e) {
+    console.log("Error: " + e.responseText + e.status + e.error);
+}
+
+/* show checked node IDs on datasource change */
+function onCheck() {
+
+    var checkedNodes = [];
+    var DoctypesIds = [];
+    var lastNodes = "";
+
+    var nodes = $("#treeview").data("kendoTreeView").dataSource.view();
+
+    checkedNodeIds(nodes, checkedNodes, DoctypesIds);
+
+    if (checkedNodes.length > 0) {
+        lastNodes = checkedNodes.join(",");
+    }
+
+    SetLastNodes(lastNodes, DoctypesIds);
+    StoreNodesOnDB(lastNodes);
+}
+
+/* function that gathers IDs of checked nodes*/
+function checkedNodeIds(nodes, checkedNodes, DoctypesIds) {
+
+    for (var i = 0; i < nodes.length; i++) {
+
+        var node = nodes[i];
+
+        if (node.checked == 'true' || node.checked == true) {
+
+            checkedNodes.push(node.NodeType + "-" + node.id);
+
+            if (node.NodeType == "Entity" && DoctypesIds.indexOf(node.id) == -1) {
+                DoctypesIds.push(nodes[i].id);
+            }
+        }
+
+        if (node.hasChildren) {
+            checkedNodeIds(node.children.view(), checkedNodes, DoctypesIds);
+        }
+    }
+}
+
+function SetLastNodes(lastnodes, DoctypesIds) {
+
+    var scope = angular.element(document.getElementById("EntitiesCtrl")).scope();
+    if (scope != undefined) {
+        scope.$apply(function () {
+            scope.updateSelectedEntities(DoctypesIds, lastnodes);
+        });
+    }
+}
+
+function StoreNodesOnDB(lastNodes) {
+
+    var lastNodeObj = {
+        LastNodes: lastNodes,
+        currentUserId: GetUID()
+    };
+
+    $.ajax({
+        url: "../../Services/IndexService.asmx/SetLastNodes",
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(lastNodeObj),
+        contentType: "application/json; charset=utf-8"
+    });
+
+}
+
+function selectNodes(option) {
+    var $in = $(".k-in").children();
+    for (var i = 0; i <= $in.length; i++) {
+        var $first = $($(".k-in")[i]).parents("li:first");
+        if ($first.length > 0)
+            $("#treeview").data("kendoTreeView").dataSource.getByUid($first.attr("data-uid")).set("checked", option);
+    }
+
+    onCheck();
+
+    var $li = $first.find("li");
+    for (var i = 0; i <= $li.length - 1; i++) {
+        var uId = $($li[i]).attr("data-uid");
+        $("#treeview").data("kendoTreeView").dataSource.getByUid(uId).set("checked", option);
+    }
+}
+
+function expandAllNodes() {
+    if (searchtreeview == undefined) searchtreeview = $("#treeview").data("kendoTreeView");
+    if (searchtreeview == undefined) return;
+    searchtreeview.expand(".k-item");
+}
+
+function collapseAllNodes() {
+    if (searchtreeview == undefined) searchtreeview = $("#treeview").data("kendoTreeView");
+    if (searchtreeview == undefined) return;
+
+    for (var i = 0; i <= $(".k-item").length - 1; i++) {
+
+        var item = $($(".k-item")[i]);
+        if (item.attr("data-uid") == $(".k-item:first").attr("data-uid")) {
+            $("#treeview").data("kendoTreeView").collapse($("#treeview").data("kendoTreeView").findByUid(item.attr("data-uid")));
+        }
+
+    }
+}
+
+function collapseNonSelectNodes() {
+    //collapseAllNodes();
+    var $inp = $(".k-checkbox").children();
+    for (var i = 0; i <= $inp.length; i++) {
+        var $thisInp = $($inp[i]);
+        if ($thisInp.is(':checked')) {
+            var p = $($thisInp.parents(".k-item")[1]).attr("data-uid");
+            $("#treeview").data("kendoTreeView").expand($("#treeview").data("kendoTreeView").findByUid(p));
+        }
+    }
+}
+
+function formatDate(d) {
+    return moment(d).format('DD MMM YYYY');
+}
+
+function onChange(arg) {
+    var selected = $.map(this.select(), function (item) {
+        var scope = angular.element(document.getElementById("ResultsCtrl")).scope();
+        scope.$apply(function () {
+            scope.setselected($(item).attr('data-uid'), $(item).attr('data-tid'), $(item).attr('data-name'));
+        });
+        return $(item);
+    });
+
+    console.log("Selected: " + selected.length + " item(s)");
+}
+
+//on dataBound event restore previous selected rows:
+function onDataBound(e) {
+    var view = this.dataSource.view();
+    CheckIsSet(view, this);
+}
+
+function CheckIsSet(view, tree) {
+    if (view.IsSet != undefined && view.IsSet == "true") {
+        if (tree.tbody != undefined)
+            tree.tbody.find("tr[data-uid='" + view.uid + "']")
+                .addClass("k-state-selected")
+                .find(".checkbox")
+                .attr("checked", "checked");
+    }
+
+    for (var i = 0; i < view.length; i++) {
+        var currentview = view[i];
+        if (currentview.IsSet == "true") {
+            tree.tbody.find("tr[data-uid='" + currentview.uid + "']")
+                .addClass("k-state-selected")
+                .find(".checkbox")
+                .attr("checked", "checked");
+        }
+        for (var x = 0; x < currentview.children._view.length; x++) {
+            var newview = currentview.children._view[x];
+            CheckIsSet(newview, tree);
+        }
+    }
+}
+
+function IframeautoResize(id) {
+    try {
+
+        var newheight;
+        var newwidth;
+
+        if (document.getElementById) {
+            newheight = document.getElementById(id).contentWindow.document.body.scrollHeight;
+            newwidth = document.getElementById(id).contentWindow.document.body.scrollWidth;
+        }
+
+        document.getElementById(id).height = (newheight) + "px";
+        document.getElementById(id).width = (newwidth) + "px";
+
+    } catch (e) {
+
+    }
+
+}
+
+try {
+
+    $(".affix").affix({ offset: { top: $("resultsDiv").outerHeight(true) } });
+} catch (e) {
+
+}
+
+
+
+//Configuracion sobre seleccion de nodos
+$(document).ready(function () {
+    //$(".dropdown-toggle.whiteText")[0].removeEventListener('click', getSelectedRows);
+
+    //$(".slider.round").each(function (index) {
+    //    $(this).on("click", function () {
+    //        scopeController();
+    //    });
+    //});
+
+    //$(".dropdown-toggle.whiteText").each(function (index) {
+    //    $(this).on("click", function () {
+    //        getSelectedRows();
+    //    });
+    //});
+
+
+    //alert(variableName);
+    //var RefreshDerive = localStorage.getItem("DeriveRefresh");
+    //if (RefreshDerive == "true" && RefreshDerive != "") {
+    //    $("#MyTasksAnchor").click();
+    //     localStorage.setItem("DeriveRefresh", "false");
+
+    //}
+
+
+
+    $("#OpenAllSelected").prop("disabled", true);
+    //$scope.MultipleSelection(false);
+
+
+
+    $(".k-in").off();
+    $(".k-checkbox").off();
+    //al seleccionar texto que seleccione tambien checkbox
+    $("body").on("click", ".k-in", function (evt) {
+        $(this).parent().find("input").click();
+        evt.stopImmediatePropagation();
+        //$(this).parent().find("input").prop("checked");
+    });
+    //Si selecciona el padre todos los hijos quedan seleccionados
+    $("body").on("click", ".k-checkbox", function () {
+        var dS = $("#treeview").data("kendoTreeView").dataSource;
+        if ($(this).parent().children(".k-icon").length) {
+            var chk = $(this).children().prop("checked");
+            var $li = $(this).parents("li:first").find("li");
+            for (var i = 0; i <= $li.length - 1; i++) {
+                var uId = $($li[i]).attr("data-uid");
+                dS.getByUid(uId).set("checked", chk);
+            }
+            //Muestra/oculta listas hijas
+            $(this).parent().parent().children("ul").css("display", chk ? "block" : "none");
+        }
+        //Si selecciono un hijo que el padre tambien se seleccione
+        var thisVal = $(this).children().prop("checked");
+        var thisParent = $($(this).parents("li")[1]);
+        var firstItem = $($("#treeview").find("li")[0]);
+        if (thisVal) {
+            if (thisParent.length) dS.getByUid(thisParent.attr("data-uid")).set("checked", true);//Marco el padre
+            dS.getByUid(firstItem.attr("data-uid")).set("checked", true);//Marco el nodo principal
+        }
+        else
+            //if (!thisParent.children("ul").find("input").prop("checked")) //Pregunto si todos los hijos estan destildados
+            //    if (dS.getByUid(thisParent.attr("data-uid")) != undefined) dS.getByUid(thisParent.attr("data-uid")).set("checked", false);//Desmarco el padre
+            //Si no hay ninguno seleccionado que desmarque el principal
+            if (!firstItem.children("ul").find("input").is(':checked')) {
+                dS.getByUid(firstItem.attr("data-uid")).set("checked", false);
+                if (!thisParent.children("ul").find("input").prop("checked"))
+                    if (dS.getByUid(thisParent.attr("data-uid")) != undefined) dS.getByUid(thisParent.attr("data-uid")).set("checked", false);
+            }
+    });
+
+    $("body").on("keyup", "#filterText", function () {
+        var filterText = $("#filterText").val();
+        var treeViewId = "#treeview";
+        var tv = $(treeViewId).data('kendoTreeView');
+        $(treeViewId + ' li.k-item').show();
+
+        $('span.k-in > span.highlight').each(function () {
+            var $icon = $(this).parent().children(".glyphicon");
+            var $tP = $(this).parent();
+            var txt = $tP.text();
+            $tP.html("");
+            $icon.appendTo($tP);
+            $tP.html($tP.html() + txt);
+
+        });
+
+        // ignore if no search term
+        if ($.trim($(this).val()) === '') {
+            return;
+        }
+
+        var term = this.value.toUpperCase();
+        var tlen = term.length;
+
+        $(treeViewId + ' span.k-in').each(function (index) {
+            var text = $(this).text();
+            var $span = $(this).children("span");
+            var html = '';
+            var q = 0;
+            var p;
+
+            while ((p = text.toUpperCase().indexOf(term, q)) >= 0) {
+                html += text.substring(q, p) + '<span class="highlight">' + text.substr(p, tlen) + '</span>';
+                q = p + tlen;
+            }
+
+            if (q > 0) {
+                html += text.substring(q);
+                $(this).html("");
+                $span.appendTo($(this));
+                $(this).html($(this).html() + html);
+
+                $(this).parentsUntil('.k-treeview').filter('.k-item').each(function (index, element) {
+                    tv.expand($(this));
+                    $(this).data('SearchTerm', term);
+                });
+            }
+        });
+        $(treeViewId + ' li.k-item:not(:has(".highlight"))').hide()
+    });
+
+    //reloadBootstrap();
+
+    $("body").on("click", "#btnTabSearch", function (event) {
+        collapseAllNodes();
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        //collapseNonSelectNodes();
+        $("#showSelectNodes").click();
+        $(".btn.btn-xs.btnBlue").tooltip();
+    });
+
+    $("#expandAllNodes").click(function (e) {
+        expandAllNodes();
+        //e.preventDefault();
+        //e.stopImmediatePropagation();
+    });
+
+    $("#collapseAllNodes").click(function (e) {
+        //e.preventDefault();
+        //e.stopImmediatePropagation();
+        collapseAllNodes();
+    });
+
+    $("#selectAllNodes").click(function (e) {
+        //e.preventDefault();
+        //e.stopImmediatePropagation();
+        selectNodes(true);
+        if ($('.smart-form.ng-pristine.ng-valid').children().children().length == 0) {
+            $('#barratop').css('display', 'none');
+            ;
+        }
+    });
+    $("#unSelectNodes").click(function (e) {
+        //e.preventDefault();
+        //e.stopImmediatePropagation();
+        var searchtreeview = $("#treeview").data("kendoTreeView");
+        selectNodes(false);
+    });
+
+    $("#showSelectNodes").click(function (e) {
+        //e.preventDefault();
+        //e.stopImmediatePropagation();
+        collapseNonSelectNodes();
+    });
+
+
+
+    collapseNonSelectNodes();
+
+    $('body').tooltip({ selector: '.ngtitle' });
+
+    setTabSearchSize();
+
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
+
+
+
+});
+
+//function scopeController() {
+//    var scope_taskController = angular.element($("#taskController")).scope();
+//    scope_taskController.getRulesForGridAction();
+//}
+
+function backToTopFn() {
+    if ($('#back-to-top').length) {
+        var scrollTrigger = 100, // px
+            backToTop = function () {
+                var scrollTop = $("#tabresults").scrollTop();
+                if (scrollTop > scrollTrigger) {
+                    $('#back-to-top').addClass('show');
+                    $('#back-to-top').tooltip();
+                } else {
+                    $('#back-to-top').removeClass('show');
+                }
+            };
+        backToTop();
+        $("#tabresults").on('scroll', function () {
+            backToTop();
+            $('#back-to-top').tooltip();
+        });
+        $('body').on('click', '#back-to-top', function (e) {
+            e.preventDefault();
+            $("#tabresults").animate({
+                scrollTop: 0
+            }, 500);
+        });
+    }
+}
+
+$(function () {//Para que cambie el texto del dropdown al seleccionarse
+    $('body').on('click', '.dropdown-menu li a', function () {
+        if ($(this).parents("div:first").attr("changeText") == "true") {
+            $(this).parents("div:first").find(".btn:first-child").text($(this).text());
+            $(this).parents("div:first").find(".btn:first-child").val($(this).text());
+        }
+    });
+});
+
+function GoToUpGlobalSearch() {
+    $('body').tooltip({ selector: '.ngtitle' });
+    if ($('#back-to-top').length) {
+        var scrollTrigger = 100, // px
+            backToTop = function () {
+                var scrollTop = $("#tabresults").scrollTop();
+                if (scrollTop > scrollTrigger) {
+                    $('#back-to-top').addClass('show');
+                    $('#back-to-top').tooltip();
+                } else {
+                    $('#back-to-top').removeClass('show');
+                }
+            };
+        backToTop();
+        $("#tabresults").on('scroll', function () {
+            backToTop();
+            $('#back-to-top').tooltip();
+        });
+        $('body').on('click', '#back-to-top', function (e) {
+            e.preventDefault();
+            $("#tabresults").animate({
+                scrollTop: 0
+            }, 500);
+        });
+    }
+}
+
+
+
+
+
+var enableGlobalSearch = "true", zambaApplication = "ZambaSearch";
+
+
+
+var SearchConfig = {
+    IsSearchConfig: function () {
+        return true;
+    },
+    UserId: function () {
+        return GetUID();
+    }
+};
+
+
+
+$(document).ready(function () {
+    localStorage.setItem("MultiSelectionIsActive", false);
+
+});
+
+
+
+
+
+//function ResetMyTasksCount(element) {
+
+//    var scope = angular.element(element).scope();
+//    if (scope !== null && scope != undefined) {
+//        scope.MyUnreadTasks = 0;
+//    }
+
+//}
+
+function LoadMyTasksCount(element) {
+
+    var scope = angular.element(element).scope();
+
+    if (scope !== null && scope != undefined) {
+        $.ajax({
+            type: 'GET',
+            url: ZambaWebRestApiURL + '/search/GetMyUnreadTasksCount?currentUserId=' + GetUID(),
+            async: true,
+            //data: { currentUserId: GetUID() },
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                //                scope.$apply();
+                if (scope.MyUnreadTasks != data && data != 0) {
+                    scope.MyUnreadTasks = data;
+                    setInterval(function () {
+                        var actualizada = toastr.info("Se ha agregado una nueva tarea");
+                        toastr.options.timeOut = 3000;
+                    }, 300000);
+                }
+            }
+        });
+    }
+
+}
+
+function GetGroupsIdsByUserId(id) {
+
+    var groups = [];
+    try {
+        if (localStorage) {
+            var localGroups = localStorage.getItem("localGroups" + GetUID());
+            if (localGroups != undefined && localGroups != null && localGroups.length > 0) {
+                groups = localGroups;
+                return groups;
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    if (groups.length == 0) {
+
+
+        $.ajax({
+            type: 'GET',
+            async: false,
+            url: ZambaWebRestApiURL + '/search/GetGroupsByUserIds',
+            data: { usrID: id },
+            success: function (data) {
+                if (data != undefined && data != null) {
+                    groups = data;
+                    try {
+                        if (localStorage) {
+                            localStorage.setItem("localGroups" + GetUID(), data);
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    return groups;
+}
+
+
+
+var SearchFrom = null;
+
+
+var HomeLoaded = false;
+var SearchLoaded = false;
+var TaskLoaded = false;
+
+function searchModeGSFn(_this, mode) {
+    $("#SearchControls").hide();
+    $("#tabresults").hide();
+    $("#tabhome").hide();
+    $("#tabInsert").hide();
+    // $("#multipleSelectionMenu").find(".activeButtonIconBar").click();
+    if ($("#chkThumbGrid").hasClass("ng-not-empty")) {
+        $("#chkThumbGrid").click();
+    }
+
+    switch (mode) {
+        case "MyTasks":
+            $("#SearchControls").hide();
+            $("#resultsGridSearchBox").hide();
+            $("#resultsGridSearchBoxThumbs").hide();
+            $("#resultsGridSearchBoxPreview").hide();
+            $("#tabresults").show();
+            $("#resultsGridSearchGrid").show();
+            $("#Kgrid").show();
+            $(".ActualizarResultados").css("display", "inline-block");
+
+            //Search.SearchResultsObject.entities = ["Mis Tareas"];
+            //var test = JSON.parse(response.data);
+
+            if (TaskLoaded == false) {
+                var ResultsCtrlScope = angular.element($("#EntitiesCtrl")).scope();
+                ResultsCtrlScope.Search.AsignedTasks = true;
+                ResultsCtrlScope.Search.Filters = [];
+
+                if ($("#chkMyTasks").is(":checked")) {
+                    ResultsCtrlScope.Search.View = "MyTasks";
+                }
+                else if ($("#chkMyTeam").is(":checked")) {
+                    ResultsCtrlScope.Search.View = "MyTeam";
+                }
+                else if ($("#chkMyAllTeam").is(":checked")) {
+                    ResultsCtrlScope.Search.View = "MyAllTeam";
+                }
+                else if ($("#chkViewAllMy").is(":checked")) {
+                    ResultsCtrlScope.Search.View = "MyAllTeam";
+                }
+                else {
+                    ResultsCtrlScope.Search.View = "MyTasks";
+                }
+
+                //ResultsCtrlScope.Search.View = "MyTasks,MyTeam";
+                ResultsCtrlScope.Search.usedFilters = [];
+                ResultsCtrlScope.Search.OrderBy = '';
+
+                ResultsCtrlScope.Search.LastPage = 0;
+                ResultsCtrlScope.LastPage = 0;
+                SearchFrom = "Mytask";
+                ResultsCtrlScope.CleanAllInputs();
+                ResultsCtrlScope.DoSearch();
+
+                if ($('#ModalSearch2').hasClass('in')) {
+                    $("#ModalSearch2").modal('hide');
+                }
+
+                ResultsCtrlScope.MultipleSelection(true);
+
+                TaskLoaded = true;
+
+
+            }
+            break;
+
+        case "search":
+
+            $("#showatributtes").empty();
+            var newbutton = "<button class='remove-all-icon btn btn-sm btn-primary fa fa-search' id='showpanel'  role='button' title='volver a la busqueda' onclick='ShowAtributtesPanel()'></button>";
+
+            $(newbutton).appendTo($("#showatributtes"));
+            var localSearchType;
+            if (localStorage) {
+                localSearchType = localStorage.getItem("tipoBusqueda");
+            }
+
+            if ($('#Kgrid').children().length > 0 && localSearchType === "Atributos") {
+                $("#tabresults").show();
+                $("#SearchControls").hide();
+            }
+            else {
+                $("#SearchControls").show();
+            }
+            break;
+
+        case "global":
+
+            $("#showatributtes").empty();
+            var localSearchType;
+            if (localStorage) {
+                localSearchType = localStorage.getItem("tipoBusqueda");
+            }
+            if ($('#Kgrid').children().length > 0 && localSearchType === "Palabras") {
+                $("#SearchControls").show();
+                $("#tabresults").show();
+                visualizerModeGSFn(_this, "grid")
+            }
+            else {
+                $("#SearchControls").show();
+            }
+            break;
+
+        case "Home":
+            if (HomeLoaded == false) {
+                setHomeIframeUrl();
+                HomeLoaded = true;
+                try {
+                    setDiagramsIframeUrl();
+                } catch (e) {
+
+                }
+            }
+            $("#tabhome").show();
+            break;
+
+        case "insert":
+
+            setInsertIframeUrl();
+            $("#tabInsert").show();
+            break;
+
+        case "all":
+
+            //setTimeout(function () { $('#searchWrapper').focus(); }, 10000);
+
+            var localSearchType;
+            if (localStorage) {
+                localSearchType = localStorage.getItem("tipoBusqueda");
+            }
+
+            $("#SearchControls").show();
+            $("#tabresults").hide();
+
+            if (_this === null) {
+                //searchModeGSFn(_this, "MyTasks");
+                // Llamar a servicio para obtener count.
+                //  LoadMyTasksCount($('#MyTasksAnchor'))
+            }
+
+            break;
+    }
+}
+
+
+function ShowAtributtesPanel() {
+    localStorage.setItem("MultiSelectionIsActive", false);
+
+    //Limpia Atributos y filtros de busqueda y grilla y paginacion.
+    //angular.element($("#ResultsCtrl")).scope().CleanAllInputs();
+    angular.element($("#ResultsCtrl")).scope().Search.Filters = [];
+    angular.element($("#ResultsCtrl")).scope().Search.usedFilters = [];
+    angular.element($("#ResultsCtrl")).scope().Search.OrderBy = '';
+    angular.element($("#ResultsCtrl")).scope().page = 0;
+    angular.element($("#ResultsCtrl")).scope().LastPage = 0;
+
+    $("#tabresults").hide();
+    $("#SearchControls").show();
+    $("#multipleSelectionMenu").find(".activeButtonIconBar").click();
+    if ($("#chkThumbGrid").hasClass("ng-not-empty")) {
+        $("#chkThumbGrid").click();
+    }
+}
+
+function ShowResultsPanel() {
+    $("#SearchControls").hide();
+    $("#tabresults").show();
+    if ($('#ModalSearch2').hasClass('in')) {
+        $("#ModalSearch2").modal('hide');
+    }
+
+    if ($('#Kgrid').css('display') === "block") {
+        ResizeResultsArea();
+
+    }
+}
+
+
+function CleanCache() {
+    if (localStorage) {
+        localStorage.clear();
+    }
+    //window.reload(true);
+    window.location.reload(true);
+
+}
+function CleanAllCache() {
+    if (localStorage) {
+        localStorage.clear();
+    }
+
+
+    window.location.reload(true);
+
+}
+
+
+function setInsertIframeUrl() {
+    $('#insertIframe').attr('src', "../../content/Images/loading.gif");
+    $('#insertIframe').attr('src', "../../Views/Insert/Insert.aspx?userid=" + GetUID());
+}
+
+
+//function setHomeIframeUrl() {
+//    $('#homePageFrame').attr('src', "../../content/Images/loading.gif");
+//    $('#homePageFrame').attr('src', "../../Views/UC/Home/HomePage.aspx?userid=" + GetUID());
+//}
+
+
+//function setHomePage(_this, mode) {
+//    $("#tabhomeMain").hide();
+//    $("#tabhomeReports").hide();
+//    $("#tabhomeCalendar").hide();
+//    $("#tabhomeNews").hide();
+
+//    switch (mode) {
+//        case "HomeMain":
+//            $("#tabhomeMain").show();
+//            break;
+//        case "HomeReports":
+//            $("#tabhomeReports").show();
+//            break;
+//        case "HomeCalendar":
+//            $("#tabhomeCalendar").show();
+//            break;
+//        case "HomeNews":
+//            $("#tabhomeNews").show();
+//    }
+
+//};
+
+// Funcion para el elemento ayuda (Menu superior derecho)
+function AyudaSearch() {
+    window.open('../../forms/Provincia/Manual_de_Usuario_Zamba_Web.pdf', '_blank');
+}
+
+//Thumb buttons - Start
+
+function thumbContainerResize(_this) {
+    var thumbContainer = $(_this).parents(".resultsGrid");
+    var thumb = $(_this).parent().parent().children(".document-photo-thumbs");
+    var $detailsButton = $($(_this).parents(".resultsGrid")[0]).find(".glyphicon-info-sign");
+    var $zoomButton = $($(_this).parents(".resultsGrid")[0]).find(".glyphicon-zoom-in");
+    var changeSizeButton;
+
+
+    if (thumbContainer.css("width") == "130px") {
+        $detailsButton.show();
+        $zoomButton.show();
+        changeSizeButton = $($(_this).parents(".resultsGrid")[0]).find(".glyphicon-ok-sign");
+        changeSizeButton.addClass("glyphicon glyphicon-ok-circle");
+        changeSizeButton.removeClass("glyphicon-ok-sign");
+        thumbContainer.css("width", "150px");
+    } else {
+        $detailsButton.hide();
+        $zoomButton.hide();
+        // $("#resultsGridSearchBoxThumbs").find(".document-photo-thumbs").attr("onclick", "showSeletionMode(this)");
+        changeSizeButton = $($(_this).parents(".resultsGrid")[0]).find(".glyphicon-ok-circle");
+        changeSizeButton.addClass("glyphicon glyphicon-ok-sign");
+        changeSizeButton.removeClass("glyphicon-ok-circle");
+        thumbContainer.css("width", "130px");
+    }
+}
+
+function thumbButtonDisplay() {
+    var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
+
+    if (thumbsCollection.length > 0) {
+        $("#resultsGridSearchBoxThumbs").find(".glyphicon-info-sign").hide();
+        $("#resultsGridSearchBoxThumbs").find(".glyphicon-zoom-in").hide();
+        $("#multipleSelectionMenu").fadeIn();
+    } else {
+        $("#resultsGridSearchBoxThumbs").find(".glyphicon-info-sign").show();
+        $("#resultsGridSearchBoxThumbs").find(".glyphicon-zoom-in").show();
+        $("#multipleSelectionMenu").fadeOut();
+    }
+}
+
+function thumbPreviewButtonDisplay() {
+    var thumbsCollection = $("#resultsGridSearchBoxPreview").find(".glyphicon-ok-sign");
+
+    if (thumbsCollection.length > 0) {
+        $("#resultsGridSearchBoxPreview").find(".glyphicon-download-alt").hide();
+        $("#resultsGridSearchBoxPreview").find(".glyphicon-new-window").hide();
+        $("#multipleSelectionPreview").fadeIn();
+    } else {
+        $("#resultsGridSearchBoxPreview").find(".glyphicon-download-alt").show();
+        $("#resultsGridSearchBoxPreview").find(".glyphicon-new-window").show();
+        $("#multipleSelectionPreview").fadeOut();
+    }
+}
+
+
+function showSeletionModeByimage(_this) {
+    var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
+    if (thumbsCollection.length > 0) {
+        thumbContainerResize(_this);
+        thumbButtonDisplay();
+    }
+}
+
+function thumbZoom(t) {
+    var rg = $(t).parents(".resultsGrid");
+    var dpt = $(t).parent().parent().children(".document-photo-thumbs");
+    var $detailsButton = $($(t).parents(".resultsGrid")[0]).find(".glyphicon-info-sign");
+    var $selectionButton = $($(t).parents(".resultsGrid")[0]).find(".glyphicon-ok-circle");
+    //var img = $(t).parent().parent().find("img");
+    if ($(t).attr("mode") === "normal") {
+
+        $detailsButton.hide();
+        $selectionButton.hide();
+        //$(t).css("margin-bottom", "600%");
+        $(t).parent().css("top", "-12px");
+        $(t).attr("class", "glyphicon glyphicon glyphicon-remove");
+        $(".resultsGrid.ng-scope").hide();
+        $(t).attr({ "mode": "zoom", "src": "../../GlobalSearch/Images/close.png" });
+
+        //se agrego ya que al tener una resolucion chica aparece un scroll que no debe aparecer
+        $("#resultsGridSearchBoxThumbs").css("overflow-y", "hidden")
+
+        //img.css("max-height", "100%");
+        rg.css("max-width", "500px").show();
+        dpt.css("max-height", "480px").show();
+        rg.animate({ width: "500px" }, 300);
+        dpt.animate({ width: "450px" }, 300);
+    }
+    else {
+        $detailsButton.show();
+        $selectionButton.show();
+        //$(t).css("margin-bottom", "0");
+        $(t).parent().css("top", "auto");
+        $(t).attr("class", "glyphicon glyphicon-zoom-in");
+        $(".resultsGrid.ng-scope").show();
+        $(t).attr({ "mode": "normal", "src": "../../GlobalSearch/Images/word.png" });
+        rg.css("max-width", "12.5%");
+        //img.css("max-height", "225px");
+        dpt.css("max-height", "225px");
+        dpt.animate({ width: "100%" }, 300);
+
+        $("#resultsGridSearchBoxThumbs").css("overflow-y", "visible");
+
+    }
+}
+
+function ShowThumbInfoGS(_this) {
+    var $zoomButton = $($(_this).parents(".resultsGrid")[0]).find(".glyphicon-zoom-in");
+    var $selectionButton = $($(_this).parents(".resultsGrid")[0]).find(".glyphicon-ok-circle");
+    var $showDiv = $($(_this).parents(".resultsGrid")[0]).find("#ShowThumbDetails");
+    var iconSpan = _this;
+
+    if ($showDiv.css("display") == "none") {
+        $zoomButton.hide();
+        $selectionButton.hide();
+
+        if ($(_this).hasClass('glyphicon-info-sign') === false) {
+            iconSpan = $(_this).find('.glyphicon-info-sign');
+        }
+        $(iconSpan).attr("class", "glyphicon glyphicon glyphicon-remove");
+        $showDiv.fadeIn().css("display", "table");
+
+        if ($(_this).find('.document-name-preview').length) {
+            $(_this).find('.document-name-preview').hide();
+        }
+    }
+    else {
+        $showDiv.fadeOut();
+        if ($(_this).hasClass('glyphicon-remove') === false) {
+            iconSpan = $(_this).find('.glyphicon-remove');
+        }
+        $(iconSpan).attr("class", "glyphicon glyphicon-info-sign");
+        $zoomButton.show();
+        $selectionButton.show();
+
+        if ($(_this).find('.document-name-preview').length) {
+            $(_this).find('.document-name-preview').show();
+        }
+    }
+}
+
+
+
+
+function GetDefaultView() {
+    var userid = parseInt(GetUID());
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ZambaWebRestApiURL + '/Account/GetView?' + jQuery.param({ UserId: userid }),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            if (response != "") {
+                //busco la vista configurada por el usuario,si la encuentra la seteo
+                searchModeGSFn(null, response);
+                $("." + response).addClass("Selected");
+            }
+            else {
+                //seteo la pantalla de inicio por defecto
+                SetDefaultview('Home');
+                $('.Home').addClass("Selected");
+            }
+
+        },
+    });
+
+
+
+
+
+}
+
+function SetDefaultview(view) {
+    var userid = parseInt(GetUID());
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ZambaWebRestApiURL + '/Account/SetView?' + jQuery.param({ UserId: userid, View: view }),
+        contentType: "application/json; charset=utf-8",
+    });
+}
+
+
+
+function UpdateDefaulView(button, view) {
+    //Saco el background a todos los botones
+    $(".BtnView").removeClass("Selected")
+
+    var userid = parseInt(GetUID());
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: ZambaWebRestApiURL + '/Account/UpdateView?' + jQuery.param({ UserId: userid, View: view }),
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+
+            //le aplico el background al boton seleccionado
+            $(button).addClass("Selected");
+
+        },
+    });
+}
+
+//Ajusta Correctamente las columnas obtenidas de la base.
+//function AdjustGridColumns() {
+//    if ($('#Kgrid').length && $('#Kgrid').data("kendoGrid") !== undefined) {
+//        var grid = $('#Kgrid').data("kendoGrid");
+
+
+//        if (columnsString != undefined || columnsString != null || columnsString != '') {
+//            for (var i = 1; i < 15; i++) {
+//                if (grid.columns[i].hidden != true) {
+//                    //console.log(grid.columns[i].field.toString() + " " + grid.columns[i].resizable.toString());
+//                    grid.autoFitColumn(i);
+//                }
+//            }
+//        }
+//        else {
+//            for (var i = 1; i < 7; i++) {
+//                if (grid.columns[i].hidden != true) {
+//                    grid.autoFitColumn(i);
+//                }
+//            }
+//        }
+//    }
+//}
+
+function GetDocIdFromList(list) {
+    var docIds = [];
+    for (var item in list) {
+        docIds.push(list[item].Docid);
+    }
+    return docIds;
+}
+
+
+app.filter('toid', function () {
+    return function (value) {
+
+        var newValue = value;
+
+        try {
+            //todo minuscula
+            newValue = (!newValue) ? '' : newValue.toLowerCase();
+            //espacios por guion medio
+            newValue = (!newValue) ? '' : newValue.replace(/ /g, '-');
+        } catch (e) {
+            newValue = value;
+        }
+
+        return newValue;
+    };
+
+});
+
+
+function ViewUpdatDisplayJS(id, reportId) {
+
+    var scope = angular.element(document.getElementById("EntitiesCtrl")).scope();
+    scope.handleViewCheckMultipleId(id, reportId);
+
+}
+

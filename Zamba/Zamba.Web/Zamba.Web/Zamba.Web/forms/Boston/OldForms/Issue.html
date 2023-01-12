@@ -1,0 +1,447 @@
+<html>
+     <head>
+          	<title>Inspeccion Siniestro</title>			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet"/>		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet"/>		
+		 	
+		<script src="Inspeccion Siniestro.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="tabber.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" type="text/css" media="screen"/>
+		<script type="text/javascript" language="JavaScript">
+
+		    function ZFUNCTION() {
+
+		    }
+
+		    function SetRuleId(sender) {
+		        document.getElementById("hdnRuleId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    
+		    function zamba_save_onclick() {
+		        document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		    }
+
+		    function SetAsocId(sender) {
+		        document.getElementById("hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    function makeCalendar(id) {
+		        $(function() {
+		            $('#' + id).datepicker({
+		                changeMonth: true,
+		                changeYear: true,
+		                showOn: 'button',
+		                buttonText: 'Abrir calendario',
+		                buttonImage: 'images/calendar.png',
+		                buttonImageOnly: true,
+		                duration: ""
+		            });
+		        });
+		    }
+
+
+		    $(document).ready(function() {
+		        ZFUNCTION();
+	//	        setTimeout("formatTime('_33645')", 100);
+	//	        setTimeout("formatTime('_33646')", 100);
+	//	        setTimeout("parseObservaciones()", 100);
+		    });
+
+		    function parseObservaciones() {
+		        var obs = $('#zamba_index_64').val();
+
+		        while (obs.indexOf("§") > 0)
+		            obs = obs.replace("§", "\n");
+
+		        while (obs.indexOf("<br>") > 0)
+		            obs = obs.replace("<br>", "\n");
+
+		        $('#zamba_index_64').val(obs);
+		    }
+
+		    function formatTime(id) {
+		        $('#' + id).val($('#zamba_index' + id).val());
+
+		        var ctrl = $('#' + id);
+		        var time = ctrl.val().replace(":", "");
+
+		        var h = time.substring(0, time.length - 2);
+		        var m = time.substring(time.length - 2, time.length);
+
+		        if (h != "" || m != "")
+		            ctrl.val(h + ":" + m);
+
+		        if ($('#zamba_index' + id).val() == 0)
+		            ctrl.val("00" + ":" + "00");
+
+		        if (h > 23 || m > 59)
+		            ctrl.addClass("error");
+		        else
+		            ctrl.removeClass("error");
+		    }
+
+		    function dateToString(date) {
+		        var dia = date.split("/")[0];
+		        var mes = date.split("/")[1];
+		        var ano = date.split("/")[2];
+
+		        dia = format(dia);
+		        mes = format(mes);
+
+		        return ano + mes + dia;
+		    }
+
+		    function format(txt) {
+		        if (txt.length == 1) txt = "0" + txt;
+
+		        return txt;
+		    }
+
+
+		    function addConsulta() {
+		        return true;
+
+		        //no validar si lo que presiono es el boton derivar
+		        if (document.getElementById("hdnRuleId").name == 'zamba_rule_56532')
+		            return true;
+
+		        var con = $('#zamba_index_1152').val();
+		        var obs = $('#zamba_index_64').val();
+
+		        if (con == '') {
+		            alert("Por favor, ingrese un comentario.");
+		            $('#zamba_index_1152').focus();
+		            return false;
+		        }
+		        else {
+		            //con = con + "§------------------------------------------------------------------------------------------------------------§§" + obs;
+
+		            //$('#txtconsulta').val("");
+		            //$('#zamba_index_64').val(con);
+
+		            //parseObservaciones();					
+		        }
+
+		        return true;
+		    }
+
+
+		    function validaDatos() {
+		        return true;
+		    }
+
+		    function loadTime(id) {
+		        document.getElementById(id).value = document.getElementById("zamba_index" + id).value.replace(":", "");
+		    }
+
+
+		    document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+
+		</script>
+		
+     </head>
+     <body>
+        <div id="container">
+			<form name="frmMain" method="post" onsubmit="return addConsulta()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				
+				<div name="design" id="design">
+					<strong>Issue</strong>
+				</div>
+				<br />
+
+<table id="table1" border="2" width="100%">
+<tr>
+
+<td >
+<label style="width:8em;">Id</label>
+<input type="text" id="ZAMBA_INDEX_77" name="Id" />
+</td>
+
+<td >
+
+<label style="width:8em;">Titulo</label>
+<input type="text" id="ZAMBA_INDEX_78" name="Titulo" />
+
+</td>
+</tr>	
+					
+</table>
+
+<br />
+				<div class="tabber">
+				<div class="tabbertab">
+				<h2>Detalle</h2>
+						<table>
+									<tr>
+					
+					
+<td >
+<label style="width:8em;">Proyecto</label>
+<select style="height: 21px; width: 290px" id="ZAMBA_INDEX_87" name="Proyecto" >
+<option value=""></option></select>
+
+
+</td>
+
+
+<td >
+<label style="width:8em;">Prioridad</label>
+<select style="height: 21px; width: 290px" id="ZAMBA_INDEX_84" name="Prioridad" >
+<option value=""></option></select>
+
+</td>
+
+<td >
+
+<label style="width:8em;">Reportado Por</label>
+<input type="text" id="ZAMBA_INDEX_79" name="Reportado Por" />
+
+</td>
+
+</tr>
+
+<tr>
+
+
+<td >
+
+<label style="width:8em;">Tipo Issue</label>
+<select style="height: 21px; width: 290px" id="ZAMBA_INDEX_83" name="Tipo Issue"></select>
+
+</td>
+
+</tr>
+<tr>
+
+
+<td >
+
+<label style="width:8em;">Requerido por</label>
+<select style="height: 21px; width: 290px" id="ZAMBA_INDEX_95" name="Requerido por" >
+<option value=""></option></select>
+
+
+</td>
+
+<td >
+
+<label style="width:8em;">Asignado</label>
+<select style="height: 21px; width: 290px" id="ZAMBA_INDEX_94" name="Asignado" >
+<option value=""></option></select>
+
+
+</td>
+
+</tr>
+
+<tr>
+
+
+<td colspan="3">
+
+<label style="width:8em;">Detalle</label>
+<textarea cols="120" rows="10" id="Textarea1" name="zamba_index_86" ></textarea>
+
+
+</td>
+
+</tr>
+
+<tr>
+
+
+<td >
+
+<label style="width:8em;">Entorno</label>
+<input type="text" id="ZAMBA_INDEX_89" name="Entorno" />
+
+</td>
+
+</tr>
+
+
+						</table> 
+						
+
+</div>
+
+
+				<div class="tabbertab">
+				<h2>Hs Aplicadas</h2>
+					
+				<table cellpadding="4">
+<tr>
+
+<td >
+
+<label style="width:8em;">HS.Estimadas</label>
+<input type="text" id="ZAMBA_INDEX_80" name="HS.Estimadas" />
+
+</td>
+
+</tr>
+<tr>
+
+
+<td >
+
+<label style="width:8em;">HS.Faltantes</label>
+<input type="text" id="ZAMBA_INDEX_81" name="HS.Faltantes" />
+
+</td>
+
+</tr>
+<tr>
+
+
+<td >
+
+<label style="width:8em;">HS.Utilizadas</label>
+<input type="text" id="ZAMBA_INDEX_82" name="HS.Utilizadas" />
+
+</td>
+
+</tr>
+
+						</table> 
+						
+
+</div>
+
+
+				<div class="tabbertab">
+				<h2>Observaciones</h2>
+					
+				<table cellpadding="4">
+<tr>
+
+
+<td colspan="3">
+
+<label style="width:8em;">Observaciones</label>
+<textarea cols="120" rows="10" id="zamba_index_29" name="zamba_index_29" ></textarea>
+
+
+</td>
+
+</tr>
+
+
+						</table> 
+						
+
+</div>
+
+
+				<div class="tabbertab">
+				<h2>Solucion/Resultado</h2>
+					
+				<table cellpadding="4">
+				
+				
+<tr>
+
+<td >
+
+<label style="width:8em;">Resolucion</label>
+<input type="text" id="ZAMBA_INDEX_92" name="Resolucion" />
+
+</td>
+
+</tr>
+<tr>
+
+<td colspan="3">
+
+<label style="width:8em;">Detalle Solucion</label>
+<textarea cols="120" rows="10" id="zamba_index_93" name="zamba_index_93" ></textarea></td> 
+
+
+</tr>
+<tr>
+
+
+<td >
+
+<label style="width:8em;">Fecha Estimada</label>
+<input class="Date" type="text" id="ZAMBA_INDEX_90" name="Fecha Estimada" />
+
+</td>
+
+</tr>
+
+						</table> 
+						
+
+</div>
+
+
+				<div class="tabbertab">
+				<h2>Relaciones/Links</h2>
+					
+				<table cellpadding="4">
+<tr>
+
+
+<td >
+
+<label style="width:8em;">Id Relacionado</label>
+<input type="text" id="ZAMBA_INDEX_88" name="Id Relacionado" />
+
+</td>
+
+</tr>
+
+						</table> 
+						
+
+</div>
+
+
+				<div class="tabbertab">
+				<h2>Adjuntos/Documentacion</h2>
+					
+					<table id="zamba_associated_documents_14" class="tablesorter"  style="width: 100%;" >
+					<tbody>
+					</tbody>
+				</table>
+				
+				</div>
+				
+				</div>
+
+             <table>
+                 <tr>
+                     <td>
+                         <input id="zamba_save" type="submit" value="Guardar" name="zamba_save"  />
+                     </td>
+                     <td>
+                         <input id="zamba_cancel" type="submit" value="Cancelar" name="zamba_cancel"/>
+                     </td>
+                 </tr>
+             </table>
+             <br />
+             <br />
+             
+             	<div name="logoUnion" id="logoUnion">	
+					<img src="/Zamba/Content/Images/Aysa.jpg" align="left" height="50" width="70"/>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="/Zamba/Content/Images/pwbyzamba.jpg"/>
+				</div>	
+
+         </form>
+         </div>
+         
+     </body></html>
+

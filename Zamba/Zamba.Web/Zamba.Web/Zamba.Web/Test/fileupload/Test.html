@@ -1,0 +1,184 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+       <div> 
+   
+          <center>
+        <input style="margin-top:50px" name="Upload" id="image"  onchange="UploadIMG(this)" type="file" /> </center>
+            
+           <center style="position:relative;right:80px;">
+               <label>UserId<input  class="form-control col-xs-3 " id="userid" value="3"/></label>
+               <label>Docid<input  class="form-control col-xs-3 " id="id" value="17"/></label></center>
+               <div id="" class=" col-xs-12 col-xs-offset-2">
+              
+                 <div class="col-xs-10">
+                 <div class="col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="102"/></div>
+                   <div class=" col-xs-4 indicesVal"> <label>  Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+              
+                <div class="col-xs-10">
+                 <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="3"/></div>
+                   <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+                <div class="col-xs-10">
+                 <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="25"/></div>
+                   <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+                <div class="col-xs-10">
+                 <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" /></div>
+                   <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+              <div class="row col-xs-12 col-xs-offset-2" style="margin-top:20px">
+                       <span id="sendinfo" class="btn btn-success col-xs-2" onclick="sendinfo()">Insertar</span>
+
+              </div>
+
+                            <div class="row col-xs-12 col-xs-offset-2" style="margin-top:20px">
+                       <span id="sendinfo" class="btn btn-success col-xs-2" onclick="sendTest()">Insertar</span>
+
+              </div>
+
+           </div>
+        </div>
+   
+</body>
+</html>
+
+<style>
+
+
+</style>
+
+<script>
+    var fileSelected = "";
+    var fileExtencion = "";
+    function UploadIMG(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img64 = e.target.result;
+                if (e.total > 400000) {
+                    var img = new Image();
+                    img.src = img64;
+                    var width = img.width;
+                    var height = img.height;
+                    widthext = 500;
+                    if (width > widthext) {
+                        var oc = document.createElement('canvas'), octx = oc.getContext('2d');
+                        oc.width = widthext;
+                        oc.height = img.height;
+                        octx.drawImage(img, 0, 0);
+                        while (oc.width * 0.5 > widthext) {
+                            oc.width *= 0.5;
+                            oc.height *= 0.5;
+                            octx.drawImage(oc, 0, 0, oc.width, oc.height);
+                        }
+                        oc.width = widthext;
+                        oc.height = oc.width * img.height / img.width;
+                        octx.drawImage(img, 0, 0, oc.width, oc.height);
+                        img64 = oc.toDataURL();
+                    }
+                }
+                fileSelected = img64;
+                fileExtencion = $("#image").val().split('.').pop();
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+    }
+
+
+    function sendinfo() {
+
+        var indexid = $(".indicesid :input"); 
+        var indexval = $(".indicesVal :input"); 
+        var listindex = [];
+ 
+        for (var i = 0; i < indexid.length; i++) {
+            for (var i = 0; i < indexval.length; i++) {
+                if (indexid[i].value && indexval[i].value != "")
+                    listindex.push({
+                        id: indexid[i].value,
+                        value: indexval[i].value
+                    });
+            }
+        }
+
+        var doctypeid = $("#id").val();
+        var CurrentUserId = $("#userid").val();
+        var File = { data: fileSelected, extension: fileExtencion }
+        var insert = { file: File, DocTypeId: doctypeid, userid: CurrentUserId, indexs: listindex };
+
+        //var resturl = "http://10.6.110.213/zambaweb.restapi/api/InsertFiles/";
+        //var resturl = "http://imageapp/zambaweb.restapi/api/InsertFiles/";
+
+
+           var settings = {
+                  "async": true,
+                  "crossDomain": true,
+                  "url": "http://imageapp/zambaweb.restapi/api/InsertFiles/UploadFile",
+                  "method": "POST",
+                  "headers": {
+                    "content-type": "application/json",
+                    "cache-control": "no-cache"
+                    
+                  },
+                  "processData": false,
+                  "data": JSON.stringify(insert)
+                 }
+
+                $.ajax(settings).done(function (response) {
+                  console.log(response);
+                        if(response == "true")
+                            toastr.success("archivo se inserto con exito");
+                        else
+                            toastr.error('Ocurrio un error en el proceso de su solicitud');
+                });
+        //var authorizationToken = JSON.parse(localStorage["ls.authorizationData"]).token;
+  
+            }
+
+
+            function sendTest()
+            {
+                var settings = {
+                  "async": true,
+                  "crossDomain": true,
+                  "url": "http://imageapp/zambaweb.restapi/api/InsertFiles/UploadFile",
+                  "method": "POST",
+				 
+                  "headers": {
+                    "content-type": "application/json",
+					'Access-Control-Allow-Origin': '*',
+                    "cache-control": "no-cache"
+                  },
+                  "processData": false,
+                  "data": "{\"file\":{\"data\":\"data:image/png;base64,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\",\"extension\":\"png\"},\"DocTypeId\":\"17\",\"userid\":\"3\",\"indexs\":[{\"id\":\"102\",\"value\":\"24328238\"}]}"
+                }
+
+                $.ajax(settings).done(function (response) {
+                                     if(response == "true")
+                            toastr.success("archivo se inserto con exito");
+                        else
+                            toastr.error('Ocurrio un error en el proceso de su solicitud');
+                });
+
+            }
+  
+</script>
+
+
+

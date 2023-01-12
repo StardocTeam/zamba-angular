@@ -1,0 +1,59 @@
+﻿<html>
+<head>
+    <title>Autorizacion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				return DecimalCheck($('#' + e.target.id))
+			})
+		});
+	});
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_Index_2783").value == ""){
+			alert("El valor maximo debe encontrarse completo");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if($('input[type=text]').hasClass('error')){
+			alert("Verifique que todos los datos de los campos sean válidos");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			alert("Datos guardados con exito");
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}
+	</script>
+ </head>
+<body>
+    <form name="frmMain" action="Autorizacion.html">
+    <div id="design" width="90%">
+        Autorizacion
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblAutorizacion" class="attributes_table">
+        <tr>
+			<td><label>Grupo:</label> 
+			<td><select id="zamba_index_2782" name="zamba_index_2782" style="width:250px;"></select>
+			<td width="94px;">
+			<td><label>Maximo: $</label>
+			<td><input id="zamba_index_2783" name="zamba_index_2783" style="width:125px;" class="moneda">
+        </tr>
+	</table>
+	<table id="tblNota" class="attributes_table">
+        <tr>
+			<td><label><i>Nota: El valor Maximo se incluye al verificar el tope del grupo.</i></label> 
+        </tr>
+	</table>
+	<br/>	
+	<div> 
+		<input id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick();">                      
+    </div>
+	</center>
+    </form>
+</body>
+</html>

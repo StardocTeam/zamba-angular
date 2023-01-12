@@ -1,0 +1,96 @@
+﻿
+<!DOCTYPE html>
+<html lang="en-us" class="no-js">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <title> SmartAdmin (AngularJS)</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- #CSS Links -->
+    <!-- Basic Styles -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/font-awesome.min.css">
+
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/smartadmin-skins.min.css">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/smartadmin-angular.css">
+
+    <!-- SmartAdmin RTL Support (Not using RTL? Disable the CSS below to save bandwidth) -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/smartadmin-rtl.min.css">
+
+    <!-- We recommend you use "your_style.css" to override SmartAdmin
+    specific styles this will also ensure you retrain your customization with each SmartAdmin update.
+    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
+    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/css/demo.min.css">
+
+    <!-- #FAVICONS -->
+    <link rel="shortcut icon" href="../styles/img/favicon/favicon.ico" type="image/x-icon">
+
+ 
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+</head>
+
+<body>
+
+    <!-- MAIN CONTENT -->
+    <div ng-app="app.graphs">
+        <div id="contentFlotCtrl" ng-controller="FlotCtrl">
+                               
+            <!-- widget grid -->
+            <section id="widget-grid" widget-grid>
+
+                <!-- row -->
+
+                <div class="row">
+
+                   
+                    <article class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div jarvis-widget id="auto-updating-chart-widget" data-widget-editbutton="false">
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-bar-chart-o"></i> </span>
+
+                                <h2>Pagos por Proveedor</h2>
+                            </header>
+
+                            <div>
+                                <div class="widget-body no-padding" style="min-height:100px;position:relative;padding-bottom:13px">
+                                    <flot-auto-updating-chart></flot-auto-updating-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+               
+
+                </div>
+
+                <!-- end row -->
+
+            </section>
+            <!-- end widget grid -->
+
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+    <script src="../build/vendor.js"></script>
+    <script src="../build/app.js"></script>
+
+
+</body>
+
+</html>

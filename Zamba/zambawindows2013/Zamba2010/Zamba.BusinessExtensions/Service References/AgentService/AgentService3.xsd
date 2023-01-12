@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Zamba.Core" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Zamba.Core" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://www.zambabpm.com.ar/Zamba.ControlPanel/WS/AgentService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfErrorReport">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ErrorReport" nillable="true" type="tns:ErrorReport" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfErrorReport" nillable="true" type="tns:ArrayOfErrorReport" />
+  <xs:complexType name="ErrorReport">
+    <xs:sequence>
+      <xs:element name="_Attachments" nillable="true" type="tns:ArrayOfErrorReportAttachment" />
+      <xs:element name="_Comments" nillable="true" type="xs:string" />
+      <xs:element name="_Created" type="xs:dateTime" />
+      <xs:element name="_Description" nillable="true" type="xs:string" />
+      <xs:element name="_Id" type="xs:long" />
+      <xs:element name="_Machine" nillable="true" type="xs:string" />
+      <xs:element name="_State" type="tns:ErrorReportStates" />
+      <xs:element name="_Subject" nillable="true" type="xs:anyType" />
+      <xs:element name="_Updated" type="xs:dateTime" />
+      <xs:element name="_UserId" type="xs:long" />
+      <xs:element name="_Version" nillable="true" type="xs:string" />
+      <xs:element name="_WinUser" nillable="true" type="xs:string" />
+      <xs:element name="disposedValue" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ErrorReport" nillable="true" type="tns:ErrorReport" />
+  <xs:complexType name="ArrayOfErrorReportAttachment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ErrorReportAttachment" nillable="true" type="tns:ErrorReportAttachment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfErrorReportAttachment" nillable="true" type="tns:ArrayOfErrorReportAttachment" />
+  <xs:complexType name="ErrorReportAttachment">
+    <xs:sequence>
+      <xs:element name="_File" nillable="true" type="xs:base64Binary" />
+      <xs:element name="_FileName" nillable="true" type="xs:string" />
+      <xs:element name="_Id" type="xs:long" />
+      <xs:element name="disposedValue" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ErrorReportAttachment" nillable="true" type="tns:ErrorReportAttachment" />
+  <xs:simpleType name="ErrorReportStates">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Nuevo">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Eliminado">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Pendiente">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Activo">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Suspendido">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Realizado">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ErrorReportStates" nillable="true" type="tns:ErrorReportStates" />
+</xs:schema>

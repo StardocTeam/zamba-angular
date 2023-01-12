@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2E90F5B-4733-4BAE-AEFA-5B63C794FCFD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Test.Zamba.Data</RootNamespace>
+    <AssemblyName>Test.Zamba.Data</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Zamba.Core, Version=1.6.7.0, Culture=neutral, PublicKeyToken=b1ef4682080379a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\compilado\Zamba.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Zamba.CoreDs, Version=1.6.7.0, Culture=neutral, PublicKeyToken=b1ef4682080379a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\compilado\Zamba.CoreDs.dll</HintPath>
+    </Reference>
+    <Reference Include="zamba.icore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b1ef4682080379a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\compilado\zamba.icore.dll</HintPath>
+    </Reference>
+    <Reference Include="Zamba.Server, Version=1.6.7.0, Culture=neutral, PublicKeyToken=b1ef4682080379a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\compilado\Zamba.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Zamba.Tools, Version=1.6.7.0, Culture=neutral, PublicKeyToken=b1ef4682080379a8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\compilado\Zamba.Tools.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionsFactoryTest.vb" />
+    <Compile Include="AutoSubstitutionDataFactoryTest.vb" />
+    <Compile Include="BarcodeFactoryTest.vb" />
+    <Compile Include="cExecuteSqlTest.vb" />
+    <Compile Include="CoreDataTablesTest.vb" />
+    <Compile Include="CoreDataTest.vb" />
+    <Compile Include="CreateTablesFactoryTest.vb" />
+    <Compile Include="DataBaseAccessFactoryTest.vb" />
+    <Compile Include="DataBaseIndexsFactoryTest.vb" />
+    <Compile Include="DBToolsFactoryTest.vb" />
+    <Compile Include="DocAsociatedFactoryTest.vb" />
+    <Compile Include="DocITest.vb" />
+    <Compile Include="DocTypesFactoryTest.vb" />
+    <Compile Include="DrITest.vb" />
+    <Compile Include="ExportFactoryTest.vb" />
+    <Compile Include="FormFactoryTest.vb" />
+    <Compile Include="HistoryAnalysisTest.vb" />
+    <Compile Include="IconsFactoryTest.vb" />
+    <Compile Include="ImportsFactoryTest.vb" />
+    <Compile Include="IndexFactoryTest.vb" />
+    <Compile Include="IndexLinkFactoryTest.vb" />
+    <Compile Include="Indexs_FactoryTest.vb" />
+    <Compile Include="IntegrityFactoryTest.vb" />
+    <Compile Include="LicensesFactoryTest.vb" />
+    <Compile Include="MessagesFactoryTest.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="NegociosIntegridadTest.vb" />
+    <Compile Include="NotesFactoryTest.vb" />
+    <Compile Include="NotifyFactoryTest.vb" />
+    <Compile Include="PostProcess_FactoryTest.vb" />
+    <Compile Include="PreProcess_FactoryTest.vb" />
+    <Compile Include="QueryStoreTest.vb" />
+    <Compile Include="QueryStore_WFRuleDataAccessTest.vb" />
+    <Compile Include="QueryStore_WFRuleITemsDataAccessTest.vb" />
+    <Compile Include="QueryStore_WFStepDataAccessTest.vb" />
+    <Compile Include="RemoteInsertFactoryTest.vb" />
+    <Compile Include="RequestActionFactoryTest.vb" />
+    <Compile Include="Results_FactoryTest.vb" />
+    <Compile Include="RightFactoryTest.vb" />
+    <Compile Include="SchedulerFactoryTest.vb" />
+    <Compile Include="SchedulesFactoryTest.vb" />
+    <Compile Include="SectionFactoryTest.vb" />
+    <Compile Include="ServersFactoryTest.vb" />
+    <Compile Include="ShapesFactoryTest.vb" />
+    <Compile Include="SingletonRightsTest.vb" />
+    <Compile Include="TemplatesFactoryTest.vb" />
+    <Compile Include="UcmFactoryTest.vb" />
+    <Compile Include="UpdateFactoryTest.vb" />
+    <Compile Include="UpdaterFactoryTest.vb" />
+    <Compile Include="UserComponentFactoryTest.vb" />
+    <Compile Include="UserFactoryTest.vb" />
+    <Compile Include="UserFactory_MailTest.vb" />
+    <Compile Include="UserGroupComponentFactoryTest.vb" />
+    <Compile Include="UserGroupFactoryTest.vb" />
+    <Compile Include="UserGroupsTest.vb" />
+    <Compile Include="VolumeListsFactoryTest.vb" />
+    <Compile Include="VolumesFactoryTest.vb" />
+    <Compile Include="WFFactoryTest.vb" />
+    <Compile Include="WFRulesFactoryTest.vb" />
+    <Compile Include="WFRulesParamItemsTest.vb" />
+    <Compile Include="WFStepsFactoryTest.vb" />
+    <Compile Include="WFStepStatesFactoryTest.vb" />
+    <Compile Include="WFTasksFactoryTest.vb" />
+    <Compile Include="WFTasksFactory_TaskLogInformationTest.vb" />
+    <Compile Include="WFUsersFactoryTest.vb" />
+    <Compile Include="ZForo_FactoryTest.vb" />
+    <Compile Include="ZOptFactoryTest.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AuthoringTests.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\Zamba.Data.accessor" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zamba.Data.vbproj">
+      <Project>{E92F8175-9484-4454-A8F0-9C2AB63714F5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

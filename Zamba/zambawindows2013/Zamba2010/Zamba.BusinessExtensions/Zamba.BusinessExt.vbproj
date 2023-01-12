@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{2DB9897D-B4BF-42EF-B769-88F694BE3868}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Zamba.Core</RootNamespace>
+    <AssemblyName>Zamba.BusinessExtensions</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>Off</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>41998,41999,42004,42016,42017,42018,42019,42020,42021,42022,42024,42025,42026,42029,42030,42031,42032,42036,42099,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DynamicPDF.Generator.Developer">
+      <HintPath>..\..\..\Assemblys\DynamicPDF.Generator.Developer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\Assemblys\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>.\Microsoft.Office.Interop.Outlook.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Email, Version=1.1.4.14040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Barcode\AutocompleteBC.vb" />
+    <Compile Include="Barcode\AutoCompleteBCBussines.vb" />
+    <Compile Include="Barcode\Barcode.vb" />
+    <Compile Include="Barcode\BarcodesBussines.vb" />
+    <Compile Include="Barcode\BarcodesFactory.vb" />
+    <Compile Include="Barcode\Barcode_Motor.vb" />
+    <Compile Include="Barcode\DocItem.vb" />
+    <Compile Include="BridgeBussinesToUI\Bussines.vb" />
+    <Compile Include="Buttons\ButtonDiagramBusiness.vb" />
+    <Compile Include="Cache\Simulation.vb" />
+    <Compile Include="DB\CreateTablesBussines.vb" />
+    <Compile Include="DB\DataGeneratorBusiness.vb" />
+    <Compile Include="DB\DBTools.vb" />
+    <Compile Include="DB\DBToolsExt.vb" />
+    <Compile Include="DocTypes\DocAsociated\DocAsociatedBussines.vb" />
+    <Compile Include="DocTypes\DocTypeBusinessExt.vb" />
+    <Compile Include="DocTypes\DocTypesBusiness.vb" />
+    <Compile Include="DocTypes\DocTypesRDocTypesBusinessExt.vb" />
+    <Compile Include="Entities\EntitiesDiagramBusiness.vb" />
+    <Compile Include="ErrorReporting\ErrorReportBusiness.vb" />
+    <Compile Include="Forms\FormBusinessExt.vb" />
+    <Compile Include="Forms\FormBussines.vb" />
+    <Compile Include="Forms\FormsAdditionalFilesBusiness.vb" />
+    <Compile Include="Foro\ZForoBusiness.vb" />
+    <Compile Include="Icons\IconsBussines.vb" />
+    <Compile Include="ImportBusiness\ErrorsManager.vb" />
+    <Compile Include="ImportBusiness\FactoryArchivos.vb" />
+    <Compile Include="ImportBusiness\ImportsBussines.vb" />
+    <Compile Include="ImportBusiness\LineImport.vb" />
+    <Compile Include="ImportBusiness\ProcessControler.vb" />
+    <Compile Include="ImportBusiness\ProcessEngine.vb" />
+    <Compile Include="ImportBusiness\ZProcessLine.vb" />
+    <Compile Include="ImportsData\FactoryProcessScheduler.vb" />
+    <Compile Include="ImportsData\ProcessFactory.vb" />
+    <Compile Include="ImportsData\ProcessHistories.vb" />
+    <Compile Include="ImportsData\ProcessLists.vb" />
+    <Compile Include="Indexs\AutoSubstitutionBussines.vb" />
+    <Compile Include="Indexs\IndexLinkFactory.vb" />
+    <Compile Include="Indexs\IndexsBussinesExt.vb" />
+    <Compile Include="Indexs\Indexs_Bussines.vb" />
+    <Compile Include="Indexs\IntegrityBussines.vb" />
+    <Compile Include="Message\AutoMailDBFacade.vb" />
+    <Compile Include="Message\LotusLibrary.vb" />
+    <Compile Include="Message\Message.vb" />
+    <Compile Include="Message\MessagesBussines.vb" />
+    <Compile Include="Message\Message_Factory.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="NewsAndRead\NewsBusiness.vb" />
+    <Compile Include="Notify\NotifyBusiness.vb" />
+    <Compile Include="PostProcess\Check.vb" />
+    <Compile Include="PostProcess\IPPostProcess.vb" />
+    <Compile Include="PostProcess\PostProcessBussines.vb" />
+    <Compile Include="PostProcess\SetODP_Zamba.vb" />
+    <Compile Include="PostProcess\SetORD_Inbroker.vb" />
+    <Compile Include="PostProcess\SetPol_Inbroker.vb" />
+    <Compile Include="PostProcess\SetSin_Inbroker.vb" />
+    <Compile Include="PreProcess\FolderPreProcessOBJ.vb" />
+    <Compile Include="PreProcess\FolPreProcess.vb" />
+    <Compile Include="PreProcess\IPPreProcess.vb" />
+    <Compile Include="Process\Process_Bussines.vb" />
+    <Compile Include="Project\ProjectBussines.vb" />
+    <Compile Include="RemoteInsert\RemoteInsert.vb" />
+    <Compile Include="RemoteInsert\RemoteInsertExt.vb" />
+    <Compile Include="RemoteInsert\RemoteValidation\RemoteValidation.vb" />
+    <Compile Include="Restrictions\RestrictionsFactory.vb" />
+    <Compile Include="Restrictions\RestrictionsMapper_Factory.vb" />
+    <Compile Include="ResultsAsociatedFactory.vb" />
+    <Compile Include="Result\DocumentLabelsBusiness.vb" />
+    <Compile Include="Result\IndexFileBusiness.vb" />
+    <Compile Include="Result\IndexServiceBusiness.vb" />
+    <Compile Include="Result\ResultBusinessExt.vb" />
+    <Compile Include="Result\ResultsComponent.vb" />
+    <Compile Include="Result\Results_Business.vb" />
+    <Compile Include="Search\LastSearchBusiness.vb" />
+    <Compile Include="Search\ModDocuments.vb" />
+    <Compile Include="Search\ModDocumentsExt.vb" />
+    <Compile Include="Sections\SectionDiagramBusiness.vb" />
+    <Compile Include="Security\ActionsBusiness.vb" />
+    <Compile Include="Security\Licencias\ClsActiveLic.vb" />
+    <Compile Include="Security\Options\SecurityOptions.vb" />
+    <Compile Include="Security\RightComponent.vb" />
+    <Compile Include="Security\RightsBusiness.vb" />
+    <Compile Include="Security\UserBusiness.vb" />
+    <Compile Include="Security\UserBusinessExt.vb" />
+    <Compile Include="Security\UserGroupBusiness.vb" />
+    <Compile Include="Security\UserGroupBusinessExt.vb" />
+    <Compile Include="Security\UserGroupComponent.vb" />
+    <Compile Include="Security\UserGroupsComponent.vb" />
+    <Compile Include="Security\ZSEG\ModulesRight.vb" />
+    <Compile Include="Security\ZUCM\ClsLic.vb" />
+    <Compile Include="Security\ZUCM\Ucm.vb" />
+    <Compile Include="Security\ZUCM\UcmServices.vb" />
+    <Compile Include="Service References\AgentService\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service\AgentBusinessExt.vb" />
+    <Compile Include="Service\AgentServiceBusiness.vb" />
+    <Compile Include="Service\ManagerBusiness.vb" />
+    <Compile Include="Service\ServiceBusiness.vb" />
+    <Compile Include="Service\ServiceBusinessExt.vb" />
+    <Compile Include="Service\WFServiceBussines.vb" />
+    <Compile Include="Service\WinWebServiceBusiness.vb" />
+    <Compile Include="Simulation\SimulationBusiness.vb" />
+    <Compile Include="Templates\TemplatesBusiness.vb" />
+    <Compile Include="TextoInteligente\AllObjects.vb" />
+    <Compile Include="TextoInteligente\TextoInteligente.vb" />
+    <Compile Include="Updater\UpdaterBusiness.vb" />
+    <Compile Include="Updates\Inicial2.vb" />
+    <Compile Include="Updates\UpdateBusiness.vb" />
+    <Compile Include="Updates\VersionObject.vb" />
+    <Compile Include="Versions\DocVersionBusiness.vb" />
+    <Compile Include="Volumes\VolumeListsBusiness.vb" />
+    <Compile Include="Volumes\VolumesBusiness.vb" />
+    <Compile Include="WF\WFBusinessExt.vb" />
+    <Compile Include="WF\WfBussines.vb" />
+    <Compile Include="WF\WFComponent.vb" />
+    <Compile Include="WF\WFIndexAndVariableBusiness.vb" />
+    <Compile Include="WF\WFlowDiagramBusiness.vb" />
+    <Compile Include="WF\WFRulesBusinessExt.vb" />
+    <Compile Include="WF\WFRulesBussines.vb" />
+    <Compile Include="WF\WFServiceManagerBussines.vb" />
+    <Compile Include="WF\WFShapes\WfShapesBusiness.vb" />
+    <Compile Include="WF\WFStepBussines.vb" />
+    <Compile Include="WF\WFStepsComponent.vb" />
+    <Compile Include="WF\WFStepStatesBussines.vb" />
+    <Compile Include="WF\WFStepStatesComponent.vb" />
+    <Compile Include="WF\WFTaskBussines.vb" />
+    <Compile Include="WF\WFTaskBussinesExt.vb" />
+    <Compile Include="WF\WFUserBussines.vb" />
+    <Compile Include="WF\WF\WFStepBusinessExt.vb" />
+    <Compile Include="ZCore.vb" />
+    <Compile Include="ZFeeds\ZFeedsBussines.vb" />
+    <Compile Include="ZObjTypesBussines.vb" />
+    <Compile Include="ZTC\TestCaseBusiness.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Updates\Inicial2.resx">
+      <DependentUpon>Inicial2.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Service References\AgentService\AgentService.wsdl" />
+    <None Include="Service References\AgentService\AgentService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AgentService\AgentService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AgentService\AgentService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AgentService\AgentService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FAD\Zamba.FAD.csproj">
+      <Project>{85AAE931-976F-4DA6-A8B0-23731DF01188}</Project>
+      <Name>Zamba.FAD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FDB\Zamba.FDB.csproj">
+      <Project>{857b9734-2013-439a-9ed8-d7cfe8802cb2}</Project>
+      <Name>Zamba.FDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\zambaframework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
+      <Project>{98dcc71c-e25b-414f-95ff-e5b98b5d529d}</Project>
+      <Name>Zamba.FWBC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ILM.LotusLibrary\ILM.LotusLibrary.vbproj">
+      <Project>{1070e03c-a4ca-419b-b59e-b4e692822036}</Project>
+      <Name>ILM.LotusLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Cache\Zamba.Cache.vbproj">
+      <Project>{bc8529ff-1c7f-4837-86f5-601e6eee6200}</Project>
+      <Name>Zamba.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ControlPrint\Zamba.ControlPrint.csproj">
+      <Project>{a20733a6-1679-41ef-81a6-75adb676fa8a}</Project>
+      <Name>Zamba.ControlPrint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2ab0ea3e-507b-47e6-bc37-0d203270aedd}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.DataExt\Zamba.DataExt.vbproj">
+      <Project>{9AEEC99B-FEB7-4A56-AA67-D52CE6F664DE}</Project>
+      <Name>Zamba.DataExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.DataWS\Zamba.DataWS.csproj">
+      <Project>{969F3428-0208-4D14-911E-FA98B6C9EF49}</Project>
+      <Name>Zamba.DataWS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{E92F8175-9484-4454-A8F0-9C2AB63714F5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
+      <Project>{c6b645ee-2668-404d-b41e-28d5ac6caeb6}</Project>
+      <Name>Zamba.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.FileTools\Zamba.FileTools.csproj">
+      <Project>{93c44ba5-4699-4764-85a3-35a6c1138dfb}</Project>
+      <Name>Zamba.FileTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Filters\Zamba.Filters.csproj">
+      <Project>{37BCAA25-1780-4CFF-AB59-864AFAF955F0}</Project>
+      <Name>Zamba.Filters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Office2010\Zamba.Office2010.vbproj">
+      <Project>{f84c7b9b-a21b-4989-b79b-a181b200108b}</Project>
+      <Name>Zamba.Office2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Outlook2010\Zamba.Outlook2010.csproj">
+      <Project>{02abb789-aabb-403c-9f32-5e5508ac19c7}</Project>
+      <Name>Zamba.Outlook2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Print\Zamba.Print.vbproj">
+      <Project>{b2bb0377-65ac-49ce-aea8-ab814965c405}</Project>
+      <Name>Zamba.Print</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{D349AB2A-B052-4307-B979-D397D10760A1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AgentService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AgentService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AgentService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AgentService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

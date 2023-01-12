@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{50039732-9ACB-4478-B4DA-6098B53CF6CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zamba.PreLoad</RootNamespace>
+    <AssemblyName>Zamba.PreLoad</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;TRACE</DefineConstants>
+    <WarningLevel>0</WarningLevel>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="AppIniManager.cs" />
+    <Compile Include="IECache.cs" />
+    <Compile Include="PreLoad.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RDB.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2DB9897D-B4BF-42EF-B769-88F694BE3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Cache\Zamba.Cache.vbproj">
+      <Project>{bc8529ff-1c7f-4837-86f5-601e6eee6200}</Project>
+      <Name>Zamba.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2ab0ea3e-507b-47e6-bc37-0d203270aedd}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{A706E6F9-436F-4761-AB28-30F99F1EF098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{E92F8175-9484-4454-A8F0-9C2AB63714F5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Filters\Zamba.Filters.csproj">
+      <Project>{37BCAA25-1780-4CFF-AB59-864AFAF955F0}</Project>
+      <Name>Zamba.Filters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Indexs\Zamba.Indexs.vbproj">
+      <Project>{D732408E-4384-4A04-9282-5F931140AC46}</Project>
+      <Name>Zamba.Indexs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{D349AB2A-B052-4307-B979-D397D10760A1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zambafav.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,117 @@
+﻿/*Modificaciones nov-2011*/
+
+
+.clientlogologin
+{
+     border: none;
+    cursor:pointer;
+    background: url("images/marsh_logo.gif") no-repeat left center;
+  
+    text-decoration: none;
+
+    position: absolute;
+	/*left: 29em;
+	top: 3.3em;*/
+	/*width: 7.5em;*/
+        width: 100%;
+	height: 7.5em;
+}
+
+
+/*Header*/
+#barra-Cabezera {
+	 display:none;
+}
+
+#divPwbyzambaCenter{
+    display:none;
+}
+
+.pwbyzamba {
+float:right;
+height:45px;
+position: relative;
+top: -1em;
+margin-right: 10px;
+}
+
+
+/*footer*/
+.LogIn {
+ bottom:0; width:100%; z-index: 99; text-align:center;vertical-align: middle;
+}
+
+/*Controles inicio sesion*/
+
+.PanelIniciarSesion
+{
+    text-align:center;
+}
+
+#CeldaBotonIniciarSesion
+{
+    text-align:center;
+    padding-top: 15px; 
+    padding-right:100px;
+}
+
+#controlMensaje
+{
+    text-align:center;
+    color:Black;
+}
+
+.text-box-inicio-sesion
+{
+    width:140px;
+}
+
+.label-inicio-sesion
+{
+    width:120px;
+}
+
+#Alinear-Div-Login
+{
+    width:100%;text-align:left;  
+}
+
+#Alinear-Div-Login table
+{
+    margin-left:auto;margin-right:auto;text-align:center;
+}
+
+.Line-horizontal
+{
+    color:#000000;
+    background-color:#000000;
+}
+
+.CeldaTextoInicioSesion
+{
+    width:300px;
+    text-align:left;
+}
+
+/*footer*/
+.FooterLogIn {
+position:fixed; bottom:0; width:100%; z-index: 99; text-align:center;font-size: 8pt; font-family: tahoma; vertical-align: middle;
+}
+
+.boton-iniciar-sesion2
+{
+    /*background-image: url("Images/IniciarSesion.png");*/
+    /*width:87px;
+    height:26px;*/    
+}
+@media (min-width: 992px) {
+.pnlZambaLogin {
+        margin-left: 35%;
+        width: 30%;
+    }
+
+    .nlZambaLogin {
+        margin-left: 35%;
+        width: 30%;
+    }
+}

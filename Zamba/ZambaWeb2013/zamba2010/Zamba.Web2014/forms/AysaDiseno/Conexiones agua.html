@@ -1,0 +1,136 @@
+<html>
+	<head>
+		<title>Datos Comerciales</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">		
+		<script src="Datos Comerciales.js" type="text/javascript" language="JavaScript"></script>
+        <script type="text/javascript" src="jquery.validate.min.js"></script>
+        
+        <script type="text/javascript" src="Aysa.js"></script>
+		<script type="text/javascript" language="JavaScript">
+		    function SetRuleId(sender) {
+		        $("#hdnRuleId").name = sender.id;
+		        frmMain.submit();
+		    }
+		    function SetAsocId(sender) {
+		        $("#hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    function zamba_save_onclick() {
+		        $("#hdnRuleId").name = "zamba_save";
+			ConvertToUpperForm();
+		    }
+
+		    $(document).ready(function () {
+		        makeCalendar('zamba_index_24');
+		        makeCalendar('zamba_index_25');
+
+		        makerequired();
+
+		        $("#zamba_save").click(ValidateBeforeSave);
+		    });
+
+		    //Crea las validaciones de los campos
+		    function makerequired() {
+		        $('#aspnetForm').validate(
+				{
+				    onsubmit: false,
+				    ignore: ".disabled",
+				    rules: {
+				    zamba_index_1235: {
+				            maxlength: 10
+				        }
+				    },
+				    messages: {
+				    zamba_index_1235: {
+				        maxlength: "Se ha exedido el l&iacute;mite de 10 caracteres."
+				        }
+				    }
+				});
+		    }
+
+		</script>
+	</head>	
+	<body>
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Conexiones de Agua</strong>
+				</div>
+				    <br />
+	<input id="zamba_rule_19762" class="submit ZambaRule DontSave " name="zamba_rule_19762"
+                                    type="submit" style="text-align: center; margin-right: 25px;"
+                                    value="Ir a industria" />
+ <div class="tabber">
+                    
+     <div class="tabbertab">
+                    <h2>Conexion a Agua</h2>
+
+				<div >
+						
+				
+						
+                        <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px; display:none;" />
+                                
+							<table cellpadding="4">
+								<tr>
+									<td><label>Medidor:</label></td>
+									<td><input type="text" id="zamba_index_1235" class="ConvertToUpper length" name="zamba_index_1235" style="width:150px;" length="10""/></td>
+																		<td><label>Ubicacion:</label></td>
+									<td><input type="text" id="zamba_index_300006" class="ConvertToUpper" name="zamba_index_300006" style="width:150px;"/></td>
+								</tr>	
+							</table>
+					</div>	
+
+</div>
+       
+
+                <div class="tabbertab">
+                    <h2>
+                        Documentacion</h2>
+                    <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit" value="Agregar Documentacion" name="zamba_rule_8062" /> 
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion asociada:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+</div>
+
+
+			
+			<br />
+				
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="Content/Images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="Content/Images/pwbyzamba.jpg">
+				</div>	
+                
+                				<div name="alignleft" id="alignleft">
+					<input type="submit" class="submit"  name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>				
+			</form>							
+	</body>
+</html>

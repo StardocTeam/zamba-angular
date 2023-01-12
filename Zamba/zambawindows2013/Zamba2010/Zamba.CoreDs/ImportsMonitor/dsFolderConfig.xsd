@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsFolderConfig" targetNamespace="http://tempuri.org/dsFolderConfig.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/dsFolderConfig.xsd" xmlns:mstns="http://tempuri.org/dsFolderConfig.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsFolderConfig" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IP_FolderConf">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Id_Carpeta" type="xs:decimal" />
+							<xs:element name="Timer" type="xs:long" />
+							<xs:element name="Alarma" type="xs:string" />
+							<xs:element name="Domingo" type="xs:boolean" />
+							<xs:element name="Lunes" type="xs:boolean" />
+							<xs:element name="Martes" type="xs:boolean" />
+							<xs:element name="Miercoles" type="xs:boolean" />
+							<xs:element name="Jueves" type="xs:boolean" />
+							<xs:element name="Viernes" type="xs:boolean" />
+							<xs:element name="Sabado" type="xs:boolean" />
+							<xs:element name="Tipo_Conf" type="xs:unsignedByte" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:unique name="dsFolderConfigKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:IP_FolderConf" />
+			<xs:field xpath="mstns:Id_Carpeta" />
+		</xs:unique>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,16 @@
+﻿<xml>
+    <script>
+        <id>1</id>
+        <tipo>SQL</tipo>
+        <name>Script de Ejemplo</name>
+        <descripcion>Script de Ejemplo</descripcion>
+        <obligatoriedad>Obligatorio</obligatoriedad>
+        <fecha>18/10/2012</fecha>
+        <consulta>
+            IF EXISTS (SELECT * FROM sysobjects WHERE name like 'SoyUnScriptDeDBToXML')
+            DROP PROCEDURE SoyUnScriptDeDBToXML
+
+            GO
+        </consulta>
+    </script>
+</xml>

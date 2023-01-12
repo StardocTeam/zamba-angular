@@ -1,0 +1,37 @@
+﻿
+    <div id="content" data-sparkline-container data-easy-pie-chart-container>
+        <!-- row -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="well well-sm">
+                    <!-- Timeline Content -->
+                    <div class="smart-timeline">
+                        <ul class="smart-timeline-list">
+                            <li ng-repeat="item in Results ">
+                                <div class="smart-timeline-icon">
+                                    <img src="item.avatar" width="32" height="32" alt="user">
+                                </div>
+                                <div class="smart-timeline-time">
+                                    <small>{{item.date}}</small>
+                                </div>
+                                <div class="smart-timeline-content">
+                                    <p>
+                                        <a href-void><strong>{{item.title}}</strong></a>
+                                    </p>
+                                    <p>
+                                        {{item.description}}
+                                    </p>
+                                    <p>
+                                        <a href-void class="btn btn-xs btn-primary"><i class="fa fa-file"></i> {{item.link}}</a>
+                                    </p>
+                                    <img src="item.thumb" alt="img" width="150">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END Timeline Content -->
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+    </div>

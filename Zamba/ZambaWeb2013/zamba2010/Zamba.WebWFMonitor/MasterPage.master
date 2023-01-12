@@ -1,0 +1,49 @@
+<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+<%@ Register TagPrefix="cc1" Namespace="Flanders.Componentes" Assembly="Cronometro" %>
+<%@ Register Src="~/UserControls/Filter.ascx" TagName="WUC_Filter" TagPrefix="uc5" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Untitled Page</title>
+    <link href="App_Themes/Styles.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="frmMain" runat="server" >
+        <div style="background-color: transparent; font-family: Verdana;">
+        
+            <div id="header">
+                <span class="title">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/App_GlobalResources/Logo.JPG" Width="120px" /></span>
+            </div>
+            <table >
+                <tr>
+                    <td colspan="2" rowspan="3" >
+                        <asp:Label ID="Label1" runat="server" Text="Refrescar cada"></asp:Label>
+                        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True">
+                            <asp:ListItem Value="1">1</asp:ListItem>
+                            <asp:ListItem Value="2" Selected="True">2</asp:ListItem>
+                            <asp:ListItem Value="3">3</asp:ListItem>
+                            <asp:ListItem Value="4">4</asp:ListItem>
+                            <asp:ListItem Value="5">5</asp:ListItem>
+                            <asp:ListItem Value="10">10</asp:ListItem>
+                            <asp:ListItem Value="15">15</asp:ListItem>
+                            <asp:ListItem Value="20">20</asp:ListItem>
+                            <asp:ListItem Value="25">25</asp:ListItem>
+                            <asp:ListItem Value="30">30</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:Label ID="Label2" runat="server" Text="minutos"></asp:Label>
+                        <asp:Button ID="Button1" runat="server" Text="Refrescar Ahora" Width="117px" />
+                        <cc1:Cronometro ID="Cronometro1" runat="server" Ascendente="False" Duracion="00:02:00"
+                            Mensaje="" OnTimeOut="Cronometro1_TimeOut" ScriptPath="~/scripts/" Style="visibility: hidden"
+                            Estilo=""></cc1:Cronometro>
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                        <asp:ContentPlaceHolder ID="Contentplaceholder2" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

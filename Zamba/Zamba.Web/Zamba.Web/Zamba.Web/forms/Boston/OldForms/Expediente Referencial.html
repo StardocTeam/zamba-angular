@@ -1,0 +1,149 @@
+<html>
+	<head>
+		<title>Expediente Referencial</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">		
+		 	
+		<script src="Expediente Referencial.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="tabber.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			
+		    function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+
+			function zamba_save_onclick(){
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_39');	
+				
+        });					
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>	
+	<body>
+			<div>
+		&nbsp;
+		 <input id="zamba_rule_49" style=" text-align: center; margin-right: 25px;"
+           type="submit" class="submit" value="Eliminar Expediente Referencial" name="zamba_rule_49" onclick="SetRuleId(this);"/> 
+		</div>
+		<br />
+		
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Expediente Referencial</strong>
+				</div>
+				<br />
+				<div name="floatleft" id="floatleft">
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>ID Expediente Referencial:</label></td>
+									<td><input type="text" id="zamba_index_65" name="zamba_index_65" size="5" readonly="true" class="readonly"/></td>
+									<td><label>Nro de Expediente Referencial:</label></td>
+									<td><input type="text" name="zamba_index_35" size="20"/></td>
+								</tr>
+								<tr>
+									<td><label>Id Calle: </label></td>
+									<td><input id="zamba_index_12" name="zamba_index_12" size="20" readonly="true" class="readonly"/></td>
+									<td><label>Calle: </label></td>
+									<td><input id="zamba_index_13" name="zamba_index_13" size="20" readonly="true" class="readonly"/></td>	
+									<td><label>Altura: </label></td>
+									<td><input id="zamba_index_14" name="zamba_index_14" size="5" readonly="true" class="readonly"/></td>										
+									
+								</tr>	
+								<tr>	
+									<td><label>Entre Calle 1: </label></td>
+									<td><select id="zamba_index_37" name="zamba_index_37" style="width:100px;"/> </select> </td>	
+									<td><label>Entre Calle 2: </label></td>
+									<td><select id="zamba_index_38" name="zamba_index_38" style="width:100px;"/> </select> </td>	
+								</tr>
+								<tr>	
+									<td><label>Fecha de Carga: </label></td>
+									<td><input id="zamba_index_39" name="zamba_index_39" size="20"/></td>
+									<td><label>Circunscripci&oacuten: </label></td>
+									<td><input id="zamba_index_42" name="zamba_index_42" size="20"/></td>
+								</tr>	
+								<tr>	
+									<td><label>Plano GeRed: </label></td>
+									<td><input id="zamba_index_40" name="zamba_index_40" size="20"/></td>	
+									<td><label>Plano Filcar: </label></td>
+									<td><input id="zamba_index_41" name="zamba_index_41" size="20"/></td>	
+								</tr>	
+								<tr>	
+									<td><label>Secci&oacuten: </label></td>
+									<td><input id="zamba_index_43" name="zamba_index_43" size="20"/></td>	
+									<td><label>Manzana: </label></td>
+									<td><input id="zamba_index_44" name="zamba_index_44" size="20"/></td>	
+								</tr>								
+								<tr>
+									<td><label>Obervaciones:</label></td>
+									<td colspan="4"><TEXTAREA COLS=100 ROWS=10 id="zamba_index_29" name="zamba_index_29"></TEXTAREA></td> 
+								</tr>
+
+							</table>
+					</div>	
+						<br />
+				
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+				
+			</form>						
+		</div>		
+	</body>
+</html>

@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11; IE=EDGE,chrome=1;IE=9;IE-8;IE-7;IE=EDGE,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="">
+
+    <script src="~/ChatJs/Scripts/jquery-2.2.2.min.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.fn.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/groups.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/collaboration.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.init.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambalink.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/jquery.chatjs.signalradapter.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.js" type="text/javascript"></script>
+
+    <script>
+        var URLServer, thisDomain;
+        var chatMode = "@System.Configuration.ConfigurationManager.AppSettings["chatMode"]";
+        var isCS = "@System.Configuration.ConfigurationManager.AppSettings["isCS"]";
+        var zCollServer = "@System.Configuration.ConfigurationManager.AppSettings["zCollServer"]";
+        var conString = "@System.Configuration.ConfigurationManager.ConnectionStrings["ChatContext"]";
+        var taskChat = false;
+        if (typeof winFormJSCall == "undefined") {
+            debbugModeZLink();
+        }
+        else {
+            var conf = winFormJSCall.confVal();
+            conf.then(function (confVal) {
+                confVal = JSON.parse(confVal);
+                zLinkURL = confVal.ZLinkURL;
+                zLinkWS = confVal.ZLinkWS;
+                zLenable = confVal.ZLenable;
+                zLuserId = confVal.ZLuserId;
+                zColl = confVal.ZColl;
+                URLServer = zLinkWS;
+                thisDomain = zLinkWS;
+
+                if (zLenable)
+                    LoadChat(zLuserId, URLServer, chatMode, "ZambaLink", thisDomain, zColl, isCS, zCollServer, taskChat);
+            });
+        }
+
+        function debbugModeZLink() {
+
+            var URLServer = "@System.Configuration.ConfigurationManager.AppSettings["URLServer"]";
+            var thisDomain = "@System.Configuration.ConfigurationManager.AppSettings["thisDomain"]";
+            var zColl = "@System.Configuration.ConfigurationManager.AppSettings["ZColl"]";
+            var zLinkURL = URLServer + "home/zlink";
+            var zLuserId = GetUID();
+            var taskChat = false;
+            alert(zLuserId + "\n" + URLServer + "\n" + thisDomain + "\n" + zColl + "\n" + zLinkURL);
+
+            $(document).ready(function () {
+                $("#loginZLink").hide();
+                LoadChat(zLuserId, URLServer, chatMode, "ZambaLink", thisDomain, zColl, isCS, zCollServer, taskChat);
+            });
+        }
+    </script>
+
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <div id="loadingZChat" style="text-align:center;padding-top:20px;">
+        <img style="width: 25px; height: 25px; margin-right:5px;" src="..\ChatJs\Images\wait.gif">
+        <hr />
+        <span id="loadingZChatp">
+            Inicializando chat...
+        </span>
+        <br />
+        <hr />
+        <br />
+    </div>
+</body>
+</html>

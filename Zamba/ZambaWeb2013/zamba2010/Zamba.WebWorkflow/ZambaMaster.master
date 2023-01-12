@@ -1,0 +1,128 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="ZambaMaster.master.cs"
+    Inherits="ZambaMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head runat="server">
+
+    <title>Zamba Web</title>
+    <link href="Default.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .style3
+        {
+            background-image: url( 'images/cap1.jpg' );
+            width: 1362px;
+            font-size: smaller;
+        }
+    </style>
+    
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+</head>
+
+<script language="javascript" type="text/javascript">
+
+    function preventPreviousPage()
+    {
+        // [Gaston] 
+        // Se obtiene el nombre de la computadora del usuario
+        if(history.length>0)
+            history.go(+1);
+    }
+
+</script>
+
+<body>
+    <div align="center" style="margin: 0px auto; height: 100%;">
+        <form id="form1" runat="server" style="padding: 0,0,0,0; margin: 0,0,0,0;">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" ></asp:ScriptManager>
+        <table border="0" runat="server" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tr>
+                <td valign="top" runat="server" style="background-image: images/topshape.jpg">
+                    <img alt="Logo" runat="server" src="images/bluebar.jpg" border="0" style="width: 100%;
+                        height: 43px;" />
+                </td>
+            </tr>
+            <tr style="padding: 0 ,width: 100%">
+                <td>
+                    <table runat="server" border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td valign="top" height="100%" style="width: auto">
+                                <table border="0" runat="server" cellpadding="0" cellspacing="0" height="100%" style="width: 100%">
+                                    <tr>
+                                        <td valign="top" style="width: 100%">
+                                            <table border="0" cellpadding="0" cellspacing="0" runat="server" style="width: 100%;
+                                                height: 22px;">
+                                                <tr>
+                                                    <td style="background-image: images/cap1.jpg;" class="BackBot">
+                                                        <div style="margin:0;padding:0;display:inline;float:right;">
+                                                            <font class="top"><a href="~/WebClient/Search/Search.aspx"
+                                                                id="LinkBusqueda" runat="server" class="top">Busqueda</a>
+                                                                <img id="Img2" runat="server" src="images/line1.gif" style="border: 0" align="middle"
+                                                                    width="5" height="36" />
+                                                                <a href="~/WebClient/Results/Results.aspx" id="LinkResultados" 
+                                                                runat="server" class="top">Resultados</a>
+                                                                <img id="Img3" runat="server" src="images/line1.gif" style="border: 0" align="middle"
+                                                                    width="5" height="36" />
+                                                                <a href="~/WebClient/Insert/Insert.aspx" id="LinkInsert" 
+                                                                runat="server" class="top">Insertar</a>                                                           
+                                                                <img id="Img4" runat="server" src="images/line1.gif" style="border: 0" align="middle"
+                                                                    width="5" height="36" />
+                                                                <%--<a href="~/WebClient/UserHistory.aspx" id="LinkUserHistory" 
+                                                                runat="server" class="top" >Historial de Usuario</a>
+                                                                <img id="Img5" runat="server" src="images/line1.gif" style="border: 0" align="middle"
+                                                                    width="5" height="36" />--%>
+                                                           </div>                                                        
+                                                        </td>
+                                                    <td align="right"  style="padding-left: 40px; background-image: images/cap1.jpg;" class="BackBot">
+                                                    <asp:LinkButton ID="btnLnkCloseSesion" runat="server"
+                                                        onclick="btnLnkCloseSesion_Click"><font class="top" >Cerrar Sesión</font></asp:LinkButton>
+                                                       
+                                                        <%--<a id="CloseSesion" runat="server" onclick="btnLnkCloseSesion_Click" >Cerrar Sesion</a>--%>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" height="100%">
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td valign="top" colspan="2">
+                                                        <div align="left" style="margin: 0px auto; height: 100%;">
+                                                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" 
+                                                                onload="ContentPlaceHolder1_Load" />
+                                                                
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td runat="server" class="BackBot" 
+                                            style="font-size: small; clip: rect(auto, auto, auto, auto); bottom: auto;" 
+                                            height="20 px" width="100%"
+                                            align="center">
+                                            <a href="#" onclick='window.open(" ../../Security/ManualUsuario.pdf")'>Ayuda</a><img
+                                                id="Img1" runat="server" src="images/line1.gif" style="border: 0" align="middle"
+                                                width="5" height="36" />
+                                            <%--<a href="ManualUsuario.pdf" class="bot">Manual de Usuario</a><img runat="server" src="images/line1.gif" style="border: 0"
+                                            align="middle" width="5" height="36" />--%><a href="#" onclick='window.open("../../Security/Licencia.rtf")'
+                                                class="bot" />Licencia de uso</a><img runat="server" src="images/line1.gif" style="border: 0"
+                                                    align="middle" width="5" height="36" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</body>
+</html>

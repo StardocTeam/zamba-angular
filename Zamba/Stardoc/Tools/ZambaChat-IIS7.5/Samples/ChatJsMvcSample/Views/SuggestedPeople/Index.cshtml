@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ChatJsMvcSample.Models.ViewModels.ChatUserVM>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html>
+<head>
+    <link type="text/css" href="~/ChatJs/Scripts/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/ChatJs/Scripts/Bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/ChatJs/Styles/toastr.css" rel="stylesheet" />
+    <link type="text/css" href="~/Content/Suggestions.css" rel="stylesheet" />
+    <script src="~/ChatJs/Scripts/jquery-2.2.2.min.js"></script>
+    <script src="~/ChatJs/Scripts/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/ChatJs/Scripts/toastr.js"></script>
+    <script src="~/Scripts/Suggestions.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>Personas que tal vez conozcas</title>
+    <script>
+        var zCollServer = "@System.Configuration.ConfigurationManager.AppSettings["zCollServer"]";
+    </script>
+</head>
+<body>    
+    <div class="titleDiv">
+        <div class="contentTitleDiv">
+            <span class="glyphicon glyphicon-search searchGlyph"></span>  Personas que tal vez conozcas
+        </div>
+        <input type="search" class="form-control" placeholder="Buscar..." id="searchPeople" />
+    </div>
+
+    <div class="containerUsersList">
+        @{ var @i = 1; var @usersByCompany = 10;}
+        @foreach (var item in Model)
+        {
+            {
+                if (@i == 1)
+                {
+                    <div class="companyNameDiv">
+                        <button class="btn btn-default btn-xs expContCompany" onclick="fadeCompUsers(this, '@item.Company');">
+                            <span id="rowExpColl" class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <span class="glyphicon glyphicon-briefcase"></span> @Html.DisplayFor(modelItem => item.Company)
+                    </div>
+                }
+                else if (i == usersByCompany)
+                {
+                    i = 0;
+                }
+                i++;
+            }
+            <div class="content well userContDiv" 
+                 userId="@item.Id" userName="@item.Name" userCompany="@item.Company" eMail="@item.Email">
+                <div class="avatarDiv">
+                    <img class="avatarImg" src="data:image/jpeg;base64,@item.Avatar" />
+                </div>
+                <div class="contentDiv">
+                    <span class="nameSpan">
+                        @item.Name.ToString().Split('/')[0]
+                    </span>                    
+                    <span class="subNameSpan">
+                       @if (@item.Name.ToString().Split('/').Count()>1){ @item.Name.ToString().Split('/')[1]}
+                    </span>
+                    <span class="companySpan">
+                        <span class="glyphicon glyphicon-briefcase"></span>
+                        @Html.DisplayFor(modelItem => item.Company)
+                    </span>
+                </div>             
+                <button class="btn btn-primary btn-xs btnAdd" onclick="addContact(this);">
+                    <span class="glyphicon glyphicon-user"></span> Añadir a contactos
+                </button>
+            </div>
+        }
+    </div>
+</body>
+</html>

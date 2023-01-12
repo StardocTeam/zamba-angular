@@ -1,0 +1,1469 @@
+﻿<!DOCTYPE HTML>
+<!--Fecha de Modificacion:26-6-20 --> <!--Modificado por:Eliseo -->
+<!--Tipo de Modificacion: Abogado Actor  , sacar Lupa y que sea de Input  -->
+
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Reclamo_Edt.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            <center>
+                <ul class=" nav nav-tabs">
+                    <li class=" active"><a href="#Reclamo" data-toggle="tab">Mediación/Juicio</a></li>
+                    <!--li><a href="#Estudios" data-toggle="tab">Estudios</a></li-->
+                    <!--li><a href="#Demandados" data-toggle="tab">Demandados</a></li-->
+                    <!--<li><a href="#Notificaciones" data-toggle="tab">Notif.</a></li>-->
+                    <!--<li><a href="#Baremos" data-toggle="tab">Baremos</a></li>
+                    <li><a href="#Pretensiones" data-toggle="tab">Pretens./Ofertas</a></li>
+                    <li><a href="#Sentencias" data-toggle="tab">Transacc./Sentencia  </a></li>
+                    <li><a href="#Cheques" data-toggle="tab">Pedido de Fondos</a></li>
+                    <li><a href="#Pagos" data-toggle="tab">Pagos</a></li>
+                    <li><a href="#Embargos" data-toggle="tab">Embargos</a></li>
+                    <li><a href="#Importantes" data-toggle="tab">Resumen</a></li>-->
+                    <li><a href="#Documentacion" data-toggle="tab">Expediente</a></li>
+                    <li><a href="#Solicitudes" data-toggle="tab">Solicitudes</a></li>
+
+                </ul>
+
+                <div class="tab-content" id="taskController" ng-controller="TaskController">
+                    <div class="tab-pane fade in active" id="Reclamo" style="font-size: 10px">
+                       
+
+                        <div>
+                            <div class="col-md-10" style="padding: 0 0 0 0;">
+                                <center>
+                                    <button class="btn  btn-warning" id="zamba_rule_11543851" name="zamba_rule_11543851"
+                                            type="submit" value="Verificar en Rector" onclick="SetRuleId(this);" style="display: none">
+                                        Verificar en Rector
+                                    </button>
+
+                                    <input class="btn  btn-primary" id="zamba_rule_1015840" name="zamba_rule_1015840"
+                                           type="submit" value="Buscar Siniestro / Póliza" onclick="SetRuleId(this);" />
+                                    <!--input class="btn  btn-primary" id="zamba_rule_11530316" name="zamba_rule_11530316" type="submit" value="Guardar Cambios" onclick="return zamba_save_onclick(this);" /-->
+                                    <input class="btn  btn-primary" id="zamba_rule_11544074" name="zamba_rule_11544074" type="submit" value="Guardar Cambios" onclick="return zamba_save_onclick(this);" />
+                                    <!--<input class="btn  btn-primary" id="zamba_rule_1013368" name="zamba_rule_1013368" type="submit" value="Guardar" onclick="return zamba_save_onclick(this)" />-->
+                                    <input class="btn  btn-success" id="zamba_rule_1016279" name="zamba_rule_1016279"
+                                           type="submit" value="Volver a Consulta" onclick="SetRuleId(this);" />
+                                    <input class="btn  btn-success" id="zamba_rule_11529273" name="zamba_rule_11529273"
+                                           type="submit" value="Derivar a Estudio" onclick="return zamba_save_onclick_For_Print(this)" />
+                                    <input name="zamba_cancel" id="zamba_cancel" onclick="window.close();" class="btn btn-primary"
+                                           type="submit" value="Salir">
+                                    <input class="btn btn-warning" id="zamba_rule_11529992" name="zamba_rule_11529992"
+                                           type="submit" value="Eliminar" style="display:none" onclick="return ExecutetaskRuleWithConfirmMessage('Queres Eliminar la Notificacion', 1122772, CloseCurrentTask);" />
+                                </center>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <!--ID Reclamo-->
+                                    <span class="input-group-addon" style="color:blue">ID Reclamo</span>
+                                    <input id="zamba_index_2677" name="zamba_index_2677" class="form-control " readonly
+                                        style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="form-group row"></div>
+
+                        </div>
+
+                        <div id="tblReclamo" class="attributes_table">
+                            <div class="form-group row">
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <!--Actor-->
+                                        <span class="input-group-addon">Actor</span>
+                                        <input id="zamba_index_59" name="zamba_index_59" class="form-control" readonly
+                                            style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Demandado-->
+                                        <span class="input-group-addon">Demandado</span>
+                                        <input id="zamba_index_60" name="zamba_index_60" class="form-control" readonly
+                                            style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Estado de la Notificación-->
+                                        <span class="input-group-addon">Estado Notif.</span>
+                                        <select class="form-control " id="zamba_index_10240" name="zamba_index_10240"
+                                            style="font-weight:600;" disabled readonly="readonly"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-1">
+                                    <div class="input-group">
+                                        <!--juicio o Mediacion -->
+                                        <span class="input-group-addon">J/M</span>
+                                        <input class="form-control" id="zamba_index_2681" name="zamba_index_2681"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-btn">
+                                                <!--RAJ = Nro Juicio/Mediacion-->
+                                                <span class="input-group-addon ">RAJ</span>
+                                            </div>
+                                            <input id="zamba_index_2695" name="zamba_index_2695" class="form-control input-sm"
+                                                type="text" style="font-weight:600;" />
+                                        </div>
+                                        <div class="input-group-btn">
+                                            <button class="btn  btn-success btn-sm" id="zamba_rule_1528622" name="zamba_rule_1528622"
+                                                type="submit" onclick="return AsigRajValidation(this);"><i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--juicio o Mediacion -->
+                                        <span class="input-group-addon">Lesiones</span>
+                                        <select id="zamba_index_2831" name="zamba_index_2831" class="form-control"
+                                            style="font-weight:600;"> </select>
+
+                                        <!--Siniestro-->
+                                        <span class="input-group-addon">F. Siniestro</span>
+                                        <input id="zamba_index_10180" name="zamba_index_10180" class="form-control"
+                                            style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Tipo de Notificación-->
+                                        <span class="input-group-addon">Tipo de Notif.</span>
+                                        <input id="zamba_index_1161" name="zamba_index_1161" class="form-control"
+                                            disabled style="font-weight:600;"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-1">
+                                    <div class="input-group">
+                                        <!--Compañia-->
+                                        <span class="input-group-addon" style="padding:1px">Cia</span>
+                                        <select id="zamba_index_10191" name="zamba_index_10191" size="1" class="form-control"
+                                            style="padding: 7px; font-weight: 550;"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--Ramo-->
+                                        <span class="input-group-addon">Ramo</span>
+                                        <select id="zamba_index_19" name="zamba_index_19" class="form-control parentId" onblur="setTaskData(this); getAttributeListMotivoDemanda(this);" 
+                                            withcode style="font-weight:600;"></select>
+                                        <!--onblur="setTaskData(this); getAttributeListMotivoDemanda(this);"-->
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--Siniestro-->
+                                        <span class="input-group-addon">Siniestro</span>
+                                        <input id="zamba_index_17" name="zamba_index_17" class="form-control" style="font-weight:600;"
+                                            onblur="setTaskData(this)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="input-group">
+                                        <!--SubSiniestro-->
+                                        <span class="input-group-addon" style="padding:1px;">SStro.</span>
+                                        <input id="zamba_index_2694" name="zamba_index_2694" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Nombre-->
+                                        <span class="input-group-addon">Nombre</span>
+                                        <input id="zamba_index_10231" name="zamba_index_10231" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--Poliza-->
+                                        <span class="input-group-addon">Póliza</span>
+                                        <input id="zamba_index_1020022" name="zamba_index_1020022" class="form-control"
+                                            style="font-weight:600;" onblur="setTaskData(this)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="input-group">
+                                        <!--Certificado-->
+                                        <span class="input-group-addon" style="padding:1px;">Certif.</span>
+                                        <input id="zamba_index_10165" name="zamba_index_10165" class="form-control "
+                                            style="font-weight:600;" onblur="setTaskData(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Tipo de Actuacion-->
+                                        <span class="input-group-addon">Tipo Act.</span>
+                                        <select id="zamba_index_10166" name="zamba_index_10166" class="form-control"
+                                            style="font-weight:600;"> </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+
+                                        <span class="input-group-addon">Expte. Jud.</span>
+                                        <input id="zamba_index_10163" name="zamba_index_10163" class="form-control"
+                                            style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Estado Procesal-->
+                                        <span class="input-group-addon">Estado Proc.</span>
+                                        <select id="zamba_index_2740" name="zamba_index_2740" class="form-control"
+                                            readonly style="font-weight:600;"> </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Mediacion Previa-->
+                                        <span class="input-group-addon">Med. Previa</span>
+                                        <input id="zamba_index_10167" name="zamba_index_10167" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Fuero-->
+                                        <span class="input-group-addon">Fuero</span>
+                                        <input id="zamba_index_10168" name="zamba_index_10168" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="Submit" name="zamba_rule_1015609"
+                                                    id="zamba_rule_1015609" onclick="SetRuleId(this);">
+                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                </button>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--Juzgado-->
+                                        <span class="input-group-addon">Juzgado</span>
+                                        <input id="zamba_index_2684" name="zamba_index_2684" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--Secretaria -->
+                                        <span class="input-group-addon">Secretaria</span>
+                                        <input id="zamba_index_10169" name="zamba_index_10169" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Jurisdiccion-->
+                                        <span class="input-group-addon">Jurisdicción</span>
+                                        <input id="zamba_index_2685" name="zamba_index_2685" class="form-control" style="font-weight:600;" />
+                                        <!--<span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013660" id="zamba_rule_1013660" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Estudio a Cargo-->
+                                        <span class="input-group-addon">Est. a Cargo</span>
+                                        <input id="zamba_index_2732" name="zamba_index_2732" class="form-control" style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                            <!--<span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" name="zamba_rule_1013003" id="zamba_rule_1013003" onclick="SetRuleId(this);">
+                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                </button>
+                                            </span>-->
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Estudio Negociador-->
+                                        <span class="input-group-addon">Est. Negociador</span>
+                                        <input id="zamba_index_10170" name="zamba_index_10170" class="form-control "
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Grupo Abogado-->
+                                        <span class="input-group-addon">Grupo Abogados</span>
+                                        <input id="zamba_index_10250" name="zamba_index_10250" class="form-control "
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Abogado Interno--->
+                                        <span class="input-group-addon">Resp. Interno</span>
+                                        <input id="zamba_index_1001011" name="zamba_index_1001011" class="form-control "
+                                            readonly style="font-weight:600;" />
+                                        <!--<span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013003" id="zamba_rule_1013003" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--F. Inicio-->
+                                        <span class="input-group-addon">F.Inicio</span>
+                                        <input id="zamba_index_10171" name="zamba_index_10171" class="form-control datepicker "
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--F. Notificacion-->
+                                        <span class="input-group-addon">F.Notif</span>
+                                        <input id="zamba_index_57" name="zamba_index_57" class="form-control" readonly
+                                            style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--F. Audiencia/Vencimiento--->
+                                        <span class="input-group-addon">F.Aud/Vto</span>
+                                        <input id="zamba_index_2705" name="zamba_index_2705" class="form-control "
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--F. Cierre--->
+                                        <span class="input-group-addon">F.Cierre</span>
+                                        <input id="zamba_index_1001012" name="zamba_index_1001012" class="form-control datepicker"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Motivo de Cierre-->
+                                        <span class="input-group-addon">Motivo Cierre</span>
+                                        <select id="zamba_index_10172" name="zamba_index_10172" class="form-control"
+                                            readonly style="font-weight:600;"> </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Motivo</span>
+                                        <!--input id="zamba_index_10173" name="zamba_index_10173" class="form-control"
+                                            style="font-weight:600;" readonly />-->
+                                        <!--ng-change="ObtenerDescripciondeMotivo()" />-->
+										<select  id="zamba_index_10173" name="zamba_index_10173" class="form-control" 
+                                            style="font-weight:600;" ></select>
+
+										
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-3" style="position:relative;left:-105px">
+                                    <div class="input-group">
+
+                                        <input id="zamba_index_10264" name="zamba_index_10264" class="form-control" readonly style="font-weight:600;" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1014484" id="zamba_rule_1014484" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>-->
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Monto</span>
+                                        <input id="zamba_index_2809" name="zamba_index_2809" class="form-control"
+                                            placeholder="$" style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tipo</span>
+                                        <select id="zamba_index_10186" name="zamba_index_10186" class="form-control"
+                                            style="font-weight:600;"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Abogado Actor -->
+                                        <span class="input-group-addon">Abogado Actor</span>
+                                        <input id="zamba_index_10174" name="zamba_index_10174" class="form-control"
+                                            style="font-weight:600;" />
+                                        <!--span class="input-group-btn">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="Submit" name="zamba_rule_1015746"
+                                                    id="zamba_rule_1015746" onclick="SetRuleId(this);">
+                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                </button>
+                                            </span>
+                                        </span-->
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Mediador-->
+                                        <span class="input-group-addon">Mediador</span>
+                                        <input id="zamba_index_10259" name="zamba_index_10259" class="form-control"
+                                            style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Asegurado --->
+                                        <span class="input-group-addon">Asegurado</span>
+                                        <input id="zamba_index_1020002" name="zamba_index_1020002" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Tipo Franquicia-->
+                                        <span class="input-group-addon">Franquicia</span>
+                                        <select id="zamba_index_10242" name="zamba_index_10242" class="form-control"
+                                            readonly style="font-weight:600;"> </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="position:relative;left:-87px">
+                                    <div class="input-group">
+                                        <!--Importe franquicia-->
+                                        <input id="zamba_index_2699" name="zamba_index_2699" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Franquicia Minima -->
+                                        <span class="input-group-addon">F. Min</span>
+                                        <input id="zamba_index_10175" name="zamba_index_10175" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Franquicia Maxima--->
+                                        <span class="input-group-addon">F. Max</span>
+                                        <input id="zamba_index_10176" name="zamba_index_10176" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Suma Asegurada-->
+                                        <span class="input-group-addon">Suma Asegurada</span>
+                                        <input id="zamba_index_2690" name="zamba_index_2690" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--LAA-->
+                                        <span class="input-group-addon">LAA</span>
+                                        <input id="zamba_index_10177" name="zamba_index_10177" class="form-control"
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <!--F. de Baja -->
+                                        <span class="input-group-addon">F. Baja</span>
+                                        <input id="zamba_index_10178" name="zamba_index_10178" class="form-control"
+                                            readonly style="font-weight:600;" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Motivo de Baja--->
+                                        <span class="input-group-addon">Motivo Baja</span>
+                                        <select id="zamba_index_10179" name="zamba_index_10179" class="form-control"
+                                            readonly style="font-weight:600;"> </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <div class="input-group" id="tipomediacion">
+                                        <!--Tipo de Mediación--->
+                                        <span class="input-group-addon">Tipo de Mediación</span>
+                                        <select id="zamba_index_10238" name="zamba_index_10238" class="form-control"
+                                            readonly style="font-weight:600;"> </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Fecha de Designación-->
+                                        <span class="input-group-addon" style="padding:2px;">F. Designación:</span>
+                                        <input id="zamba_index_10184" name="zamba_index_10184" class="form-control "
+                                            readonly style="font-weight:600;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!-- Fecha de Acuse--->
+                                        <span class="input-group-addon"> Fecha de Acuse:</span>
+                                        <input class="form-control input-sm dataType datepicker"
+                                            data-date-open-on-focus="true" id="zamba_index_10262" name="zamba_index_10262"
+                                            style="font-weight:600;" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <!--Area texto Observacion-->
+                                            <div id="appObservaciones" ng-controller="ObservacionController">
+                                                <zamba-observaciones index-id="2866" entity-id="2523"></zamba-observaciones>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row">
+                                        <div class="col-xs-12" style="position:relative;bottom:-40px;">
+                                            <!--DropZone-->
+                                            <div ng-controller="appController">
+                                                <zamba-drop id="2525" IndexIds="2728" ruleId="1224095"> </zamba-drop>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <HR>
+
+                        <div class="form-group row" style="position:relative;bottom:-15px">
+                            <center>
+                                <input class="btn  btn-info btn-sm" id="zamba_rule_1014207" name="zamba_rule_1014207"
+                                    type="submit" value="Consultar datos Siniestro" onclick="SetRuleId(this);" />
+                                <input class="btn  btn-info btn-sm" id="zamba_rule_1014206" name="zamba_rule_1014206"
+                                    type="submit" value="Consultar datos Póliza" onclick="SetRuleId(this);" />
+                               <!-- <input class="btn   btn-sm btn-success" id="zamba_rule_1016970" name="zamba_rule_1016970"
+                                    type="submit" value="Referenciaci&oacute;n" onclick="ValidarReferenciacion(this);"
+                                    style="display:inline" />
+-->
+                                    <!--<input class="btn  btn-info btn-sm" id="zamba_rule_1013" name="zamba_rule_1013" type="submit" value="Resumen" onclick="SetRuleId(this);" />
+                                <input class="btn  btn-info btn-sm" id="zamba_rule_13377" name="zamba_rule_13377" type="submit" value="Web Poder Judicial" onclick="SetRuleId(this);" />
+                                <input class="btn  btn-info btn-sm" id="zamba_rule_18120" name="zamba_rule_18120" type="submit" value="Denuncia" onclick="SetRuleId(this);" />
+                                <input class="btn  btn-info btn-sm" id="zamba_rule_1001078" name="zamba_rule_1001078" type="submit" value="Web Sanchez Negrete" onclick="SetRuleId(this);" />-->
+                            </center>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-2">
+                                <span style="color:whitesmoke">Reclamo_Edt</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                    <div class="tab-pane" id="Solicitudes">
+                        <p></p>
+                        <h5>Solicitudes</h5>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <h5>Internos</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Externos</h5>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+                                    <input name="zamba_rule_1015131" id="zamba_rule_1015131" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="INGRESO DE DENUNCIA (IN) - Autos"
+                                        style="display:none;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+                                    <input name="zamba_rule_1013427" id="zamba_rule_1013427" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="REVISACIÓN MÉDICA">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+
+                                    <input name="zamba_rule_1015134" id="zamba_rule_1015134" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="INGRESO DE DENUNCIA (IN) - Vida y AP"
+                                        style="display:none;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+                                    <input name="zamba_rule_1013430" id="zamba_rule_1013430" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="IMPUGNACIÓN DE PUNTOS DE PERICIA">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+                                    <input name="zamba_rule_1015144" id="zamba_rule_1015144" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="INGRESO DE DENUNCIA (IN) - Seg. Grales."
+                                        style="display:none;">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+                                    <input name="zamba_rule_1013203" id="zamba_rule_1013203" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="GESTION DE DENUNCIA ADMINISTRATIVA">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+                                    <input name="zamba_rule_1015161" id="zamba_rule_1015161" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="VERIFICACIÓN DE EXISTENCIA DE SEGURO (Vida - AP - Seg. Grales.)"
+                                        style="display:none;">
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group-btn">
+
+                                    <input name="zamba_rule_1015150" id="zamba_rule_1015150" onclick="SetRuleId(this);"
+                                        class="btn btn-info" type="submit" value="VERIFICACIÓN DE EXISTENCIA DE SEGURO (Autos)"
+                                        style="display:none;">
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="Documentacion">
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="2525" default-enable-mode="grid" table-height="400"
+                                    grid-title="Expediente">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="15" default-enable-mode="grid" table-height="400"
+                                    grid-title="Siniestro">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="2524" default-enable-mode="grid" table-height="400"
+                                    grid-title="Notificación">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="12" default-enable-mode="grid" table-height="400"
+                                    grid-title="Notificación">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="13" default-enable-mode="grid" table-height="400"
+                                    grid-title="Mediaciones">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="17" default-enable-mode="grid" table-height="400"
+                                    grid-title="Documentacion de Poliza"></zamba-associated>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <center>
+                            <div class="col-md-2" style="position:relative;left:20px;">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <span style="color:whitesmoke">Reclamo_Edt.html</span>
+                            </div>
+                            <div class="col-md-5">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                <div class="form-group row">
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+
+                <script src="../../Scripts/Lista.js?v=248"></script>
+
+                <style>
+                    .containerGrid {
+                        width: auto;
+                        overflow-x: auto;
+                        overflow-y: auto;
+                        height: 300px;
+                    }
+                </style>
+
+                <script src="scripts/ps-reclamos.js?v=50"></script>
+
+
+                <script type="text/javascript" language="JavaScript">
+
+
+
+
+                    //$(function () {
+                    //    if ($('#zamba_index_17').val() != '') {
+                    //        $('#zamba_index_10191').attr('readonly', 'readonly');
+                    //    }
+                    //});
+
+                    function FuncionValidarJM() {
+                        if ($('#zamba_index_2681').val() == 'M' && $('#zamba_index_10259').val() == '') {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+
+                    }
+                    function FuncionValidarCIA() {
+                        if ($('#zamba_index_17').val() == '') {
+                            if ($('#zamba_index_10191').val() == '') {
+                                return false;
+                            }
+                        }
+
+                    }
+
+                    function FuncionValidarCIAOnkey() {
+                        if ($('#zamba_index_17').val() != '') {
+                            $('#zamba_index_10191').attr('readonly', 'readonly');
+                            $('#zamba_index_3').val("");
+                            $('#zamba_index_1020022').val("");
+                            $('#zamba_index_3').attr('readonly', 'readonly');
+                            $('#zamba_index_1020022').attr('readonly', 'readonly');
+                        } else {
+                            $('#zamba_index_10191').removeAttr("readonly");
+                            $('#zamba_index_3').val("");
+                            $('#zamba_index_1020022').val("");
+                            $('#zamba_index_3').removeAttr("readonly");
+                            $('#zamba_index_1020022').removeAttr("readonly");
+                        }
+                    }
+
+                    function FuncionValidarEstadoNotificacion() {
+                        console.log('FuncionValidarEstadoNotificacion');
+
+                        //Si es REX se blanquea el RAJ y se deshabilita el RAJ
+
+                        if ($('#zamba_index_10240').val() == '3') {
+                            console.log('Es REX');
+                            $('#zamba_index_2695').val("");
+                            //$('#zamba_index_2695').attr('readonly', 'readonly');
+                            $('#zamba_index_2695').attr('disabled', 'disabled');
+                            $('#zamba_rule_1528622').hide();
+
+                            //habilitar todos los campos menos el 10240 estado de notificacion
+                            $("#zamba_index_2831").removeAttr('readonly');
+                            $("#zamba_index_10180").removeAttr('readonly');
+                            $("#zamba_index_10191").removeAttr('readonly');
+                            $("#zamba_index_19").removeAttr('readonly');
+                            $("#zamba_index_1020022").removeAttr('readonly');
+                            $("#zamba_index_10165").removeAttr('readonly');
+                            $("#zamba_index_10166").removeAttr('readonly');
+                            $("#zamba_index_10163").removeAttr('readonly');
+                            $("#zamba_index_2740").removeAttr('readonly');
+                            $("#zamba_index_2685").removeAttr('readonly');
+                            $("#zamba_index_2732").removeAttr('readonly');
+                            $("#zamba_index_2809").removeAttr('readonly');
+                            $("#zamba_index_10186").removeAttr('readonly');
+                            $("#zamba_index_10174").removeAttr('readonly');
+                            $("#zamba_index_10259").removeAttr('readonly');
+                            $("#zamba_index_10262").removeAttr('readonly');
+
+                            $('#zamba_rule_1015840').show(); //buscar sin pol
+                            $('#zamba_rule_1016970').show(); //referenciacion
+                            
+                            $('#zamba_rule_1016279').show(); // volver a consulta
+                            $('#zamba_rule_11529273').show(); //derivar a estudio
+                            $('#zamba_rule_11530316').show(); //guardar
+                        }
+                        else //Si es Mal notificada se blanquea el RAJ y se deshabilita el RAJ
+                            if ($('#zamba_index_10240').val() == '2') {
+                                console.log('Es MAL Notif');
+
+
+                                //todos los campos menos el 10240 estado de notificacion
+                                //$("#zamba_index_2695").attr('readonly', 'readonly');
+                                $("#zamba_index_2695").attr('disabled', 'disabled');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_2831").attr('readonly', 'readonly');
+                                console.log('Deshabilito zamba_index_2831');
+                                $("#zamba_index_10180").attr('readonly', 'readonly');
+                                console.log('Deshabilito zamba_index_10180');
+                                $("#zamba_index_10191").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_19").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_1020022").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10165").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10166").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10163").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_2740").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_2685").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_2732").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_2809").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10186").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10174").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10259").attr('readonly', 'readonly');
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_10262").attr('readonly', 'readonly'); //fecha acuse
+                                console.log('Deshabilito 2695');
+                                $("#zamba_index_17").attr('readonly', 'readonly'); //fecha acuse
+                                console.log('Deshabilito 17');
+
+
+                                $('#zamba_rule_1015746').hide(); //buscar sin pol
+                                $('#zamba_rule_1015609').hide(); //buscar sin pol
+                                $('#zamba_rule_1015840').hide(); //buscar sin pol
+                                $('#zamba_rule_1016970').hide(); //referenciacion
+                                $('#zamba_rule_1016279').hide(); // volver a consulta
+                                $('#zamba_rule_11529273').hide(); //derivar a estudio
+                                $('#zamba_rule_11530316').show(); //guardar
+                                $('#zamba_index_2695').val('');
+
+                            }
+                            else if ($('#zamba_index_10240').val() == '1') { //pendiente
+                                console.log("Habilito RAJ");
+
+                                $("#zamba_index_10240").attr('readonly', 'readonly');
+                                $("#zamba_index_10240").attr('disabled', 'disabled');
+
+                                $('#zamba_index_2695').removeAttr('readonly');
+                                $('#zamba_index_2695').removeAttr('disabled');
+                                $('#zamba_rule_1528622').show();
+
+                                //habilitar todos los campos menos el 10240 estado de notificacion
+                                $("#zamba_index_2831").removeAttr('readonly');
+                                $("#zamba_index_10180").removeAttr('readonly');
+                                $("#zamba_index_10191").removeAttr('readonly');
+                                $("#zamba_index_19").removeAttr('readonly');
+                                $("#zamba_index_1020022").removeAttr('readonly');
+                                $("#zamba_index_10165").removeAttr('readonly');
+                                $("#zamba_index_10166").removeAttr('readonly');
+                                $("#zamba_index_10163").removeAttr('readonly');
+                                $("#zamba_index_2740").removeAttr('readonly');
+                                $("#zamba_index_2685").removeAttr('readonly');
+                                $("#zamba_index_2732").removeAttr('readonly');
+                                $("#zamba_index_2809").removeAttr('readonly');
+                                $("#zamba_index_10186").removeAttr('readonly');
+                                $("#zamba_index_10174").removeAttr('readonly');
+                                $("#zamba_index_10259").removeAttr('readonly');
+                                $("#zamba_index_10262").removeAttr('readonly');
+
+                                $('#zamba_rule_1015840').show(); //buscar sin pol
+                                $('#zamba_rule_1016970').show(); //referenciacion
+                                $('#zamba_rule_1016279').show(); // volver a consulta
+                                $('#zamba_rule_11529273').show(); //derivar a estudio
+                                $('#zamba_rule_11530316').show(); //guardar
+                            }
+                            else if ($('#zamba_index_10240').val() == '4') {
+                                console.log('Es REC');
+
+                                $("#zamba_index_10240").attr('readonly', 'readonly');
+                                $("#zamba_index_10240").attr('disabled', 'disabled');
+
+                                console.log("Habilito RAJ");
+                                $('#zamba_index_2695').removeAttr('readonly');
+                                $('#zamba_rule_1528622').show();
+
+                                //habilitar todos los campos menos el 10240 estado de notificacion
+                                $("#zamba_index_2831").removeAttr('readonly');
+                                $("#zamba_index_10180").removeAttr('readonly');
+                                $("#zamba_index_10191").removeAttr('readonly');
+                                $("#zamba_index_19").removeAttr('readonly');
+                                $("#zamba_index_1020022").removeAttr('readonly');
+                                $("#zamba_index_10165").removeAttr('readonly');
+                                $("#zamba_index_10166").removeAttr('readonly');
+                                $("#zamba_index_10163").removeAttr('readonly');
+                                $("#zamba_index_2740").removeAttr('readonly');
+                                $("#zamba_index_2685").removeAttr('readonly');
+                                $("#zamba_index_2732").removeAttr('readonly');
+                                $("#zamba_index_2809").removeAttr('readonly');
+                                $("#zamba_index_10186").removeAttr('readonly');
+                                $("#zamba_index_10174").removeAttr('readonly');
+                                $("#zamba_index_10259").removeAttr('readonly');
+                                $("#zamba_index_10262").removeAttr('readonly');
+                                $('#zamba_rule_11530316').show(); //guardar
+                                $('#zamba_rule_1015840').show(); //buscar sin pol
+                                $('#zamba_rule_1016970').show(); //referenciacion
+                                $('#zamba_rule_1016279').show(); // volver a consulta
+                                $('#zamba_rule_11529273').show(); //derivar a estudio
+
+                            }
+
+                    }
+
+                    function FuncionValidarRAJ() {
+                        console.log("FuncionValidarRAJ");
+
+                        if ($('#zamba_index_2695').val() !== '') {
+                            $('#zamba_index_10240').attr('readonly', 'readonly');
+                            $('#zamba_index_10240').attr('disabled', 'disabled');
+                            EnableIfGroups('zamba_index_2695', '12943');
+                        }
+                        else {
+                            if (
+                                $("#zamba_index_10240 option:selected").text() != "Mal Notificada"
+                                &&
+                                $("#zamba_index_10240 option:selected").text() != "REX"
+                            ) {
+                                $('select[name="zamba_index_10240"]').find('option:contains("Pendiente")')[0].selected = true
+                            }
+                            $('select[name="zamba_index_10240"]').find('option:contains("Rec")').remove()
+                            $('#zamba_index_10240').removeAttr("readonly");
+                            $('#zamba_index_10240').removeAttr("disabled");
+                            $("#zamba_index_10240 option[value='']").remove();
+
+                            if ($('#zamba_index_2695').val() == '4') {
+                                console.log("Es REC");
+                                $("#zamba_index_10240").val('1');
+                            }
+                            else if ($('#zamba_index_10240').val() == '1') {
+                                console.log("Es Pendiente");
+                                $('select[name="zamba_index_10240"]').find('option:contains("Rec")').remove()
+                                $('#zamba_index_2695').removeAttr('readonly');
+                                $('#zamba_index_2695').removeAttr('disabled');
+                                $('#zamba_rule_1528622').show();
+                            }
+                            else {
+                                console.log("NO Es REC, NI Pendiente");
+                                $('#zamba_index_2695').attr('disabled', 'disabled');
+                                //$('#zamba_index_2695').attr('readonly', 'readonly');
+                                $('#zamba_rule_1528622').hide();
+                            }
+                        }
+
+                        
+                    }
+
+                    function FuncionValidarAsegurado() {
+                        if ($('#zamba_index_19').val() != '55') {
+                            if ($('#zamba_index_17').val() == '' && $('#zamba_index_3').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function FuncionValidarPoliza() {
+                        if ($('#zamba_index_19').val() != '55') {
+                            if ($('#zamba_index_17').val() == '' && $('#zamba_index_1020022').val() == '') {
+                                return false;
+                            }
+                        }
+
+                    }
+
+                    function FuncionValidarCertificado() {
+                        if ($('#zamba_index_10165').val() == '') {
+                            return false;
+                        }
+                    }
+
+                    function ValidarCamposEstadoNotificacionPoliza() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_1020022').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function ValidarCamposEstadoNotificacionTipoActuacion() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_10166').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionFuero() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_10168').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionJurisdiccion() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_2685').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionEst() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_2732').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionAbogadoInt() {
+                        if ($('#zamba_index_1001011').val() == '') {
+                            return false;
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionGrupoAbogado() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_10250').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionFechaInicio() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_10171').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionMotivo() {
+                        if ($("#zamba_index_2681").val() != undefined && $("#zamba_index_2681").val() != '' && $("#zamba_index_2681").val() == 'J') {
+                            if ($('#zamba_index_2831') == undefined || $('#zamba_index_2831').val() == '') {
+                                console.log("Debe marcar si existen lesiones o no");
+                                return false;
+                            }
+                        }
+                        return true;
+                        //if ($('#zamba_index_10173').val() == '') {
+                        //    console.log("Motivo de demanda vacio");
+                        //    return false
+                        //}
+                    }
+                    function ValidarCamposEstadoNotificacionMonto() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_2809').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarCamposEstadoNotificacionTipo() {
+                        if ($('#zamba_index_10240').val() == 4) {
+                            if ($('#zamba_index_10186').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function ValidarReferenciacion() {
+
+                        var valido = true;
+                        if (FuncionValidarCIA() == false) {
+                            swal("Por Favor ingrese la Compañia");
+                            valido = false;
+                        } else if (FuncionValidarPoliza() == false) {
+                            swal("Por favor ingrese el nro de poliza");
+                            valido = false;
+                        } else if (FuncionValidarCertificado() == false) {
+                            swal("Por favor ingrese el nro de certificado");
+                            valido = false;
+                        } else {
+                            SetRuleId(sender);
+                        }
+
+                    }
+                    function AsigRajValidation(sender) {
+                        var NroJM = $("#zamba_index_2695");
+                        var Jm = $("#zamba_index_2681");
+                        var Ramo = $("#zamba_index_19");
+                        var valido = false;
+                        if (NroJM.val() == null || NroJM.val() == "") {
+                            swal("", "El campo RAJ no puede estar vacio", "info");
+                            valido = false;
+                        }
+                        else if (Jm.val() == null || Jm.val() == "") {
+                            swal("", "Debe seleccionar J o M", "info");
+                            valido = false;
+                        }
+                        else if (Ramo.val() == null || Ramo.val() == "") {
+                            swal("", "Debe seleccionar un Ramo", "info");
+                            valido = false;
+                        }
+                        else {
+                            SetRuleId(sender);
+                            valido = true;
+                        }
+                        return valido;
+                    }
+
+                    function zamba_save_onclick_For_Print(sender) {
+
+                        var valido = true;
+
+                        if (FuncionValidarJM() == false) {
+                            swal("Por favor, Ingrese mediador");
+                            valido = false;
+                        } else if (FuncionValidarCIA() == false) {
+                            swal("Por favor, Ingrese CIA");
+                            valido = false;
+                        } else if (FuncionValidarAsegurado() == false) {
+                            swal("Por favor, Ingrese asegurado");
+                            valido = false;
+                        } else if (ValidarCamposEstadoNotificacionJurisdiccion() == false) {
+                            swal("Por favor, Ingrese Jurisdicción");
+                            valido = false;
+                            //} else if (ValidarSiEsRECRajCompleto() == false) {
+                            //    swal("Por favor, Ingrese el RAJ");
+                            //    valido = false;
+                        } else if (ValidarCamposEstadoNotificacionEst() == false) {
+                            swal("Por favor, Ingrese Est a Cargo");
+                            valido = false;
+                        } else if (ValidarCamposEstadoNotificacionMotivo() == false) {
+                            swal("Debe marcar si existen lesiones o no");
+                            valido = false;
+                        } else if (ValidarCamposEstadoNotificacionAbogadoInt() == false) {
+                            swal("Por favor, Ingrese Jurisdiccion - Estudio a Cargo");
+                            valido = false;
+                        } else if (ValidarCamposEstadoNotificacionGrupoAbogado() == false) {
+                            swal("Por favor, Ingrese Grupo Abogado");
+                            valido = false;
+                        } else {
+                            MontoReplace();
+                            SetRuleId(sender);
+                        }
+
+                        return valido;
+                    }
+
+                    //function zamba_save_onclick(sender) {
+
+                    //    var valido = true;
+
+                    //    if (FuncionValidarJM() == false) {
+                    //        swal("Por favor, Ingrese mediador");
+                    //        valido = false;
+                    //    } else if (FuncionValidarCIA() == false) {
+                    //        swal("Por favor, Ingrese CIA");
+                    //        valido = false;
+                    //    } else if (FuncionValidarAsegurado() == false) {
+                    //        swal("Por favor, Ingrese asegurado");
+                    //        valido = false;
+                    //    } else if (FuncionValidarPoliza() == false) {
+                    //        swal("Por favor, Ingrese poliza");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionPoliza() == false) {
+                    //        swal("Por favor, Ingrese Poliza");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionTipoActuacion() == false) {
+                    //        swal("Por favor, Ingrese tipo actuacion");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionFuero() == false) {
+                    //        swal("Por favor, Ingrese fuero");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionJurisdiccion() == false) {
+                    //        swal("Por favor, Ingrese Jurisdicción");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionEst() == false) {
+                    //        swal("Por favor, Ingrese Est a Cargo");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionAbogadoInt() == false) {
+                    //        swal("Por favor, Ingrese Abogado Interno");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionGrupoAbogado() == false) {
+                    //        swal("Por favor, Ingrese Grupo Abogado");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionFechaInicio() == false) {
+                    //        swal("Por favor, Ingrese fecha inicio");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionMotivo() == false) {
+                    //        swal("Por favor, Ingrese Motivo");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionMonto() == false) {
+                    //        swal("Por favor, Ingrese Monto");
+                    //        valido = false;
+                    //    } else if (ValidarCamposEstadoNotificacionTipo() == false) {
+                    //        swal("Por favor, Ingrese tipo");
+                    //        valido = false;
+                    //    } else {
+                    //        MontoReplace();
+                    //        SetRuleId(sender);
+                    //    }
+
+                    //    return valido;
+                    //}
+
+                    function MontoReplace() {
+                        $('#zamba_index_2809').val($('#zamba_index_2809').val().replace(/\./g, ''));
+                    }
+
+                    function getAttributeListMotivoDemanda(sender) {
+                        try {
+                            var scope = angular.element(document.getElementById("taskController")).scope();
+                            if ($(sender).val() != '')
+                                scope.getAttributeListMotivoDemanda(sender);
+
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }
+
+                    $(document).ready(function () {
+
+
+                        $('#zamba_rule_11530316').show(); //guardar
+
+                        $("#aspnetForm").submit(function (event) {
+                            $("#zamba_index_10240").prop("disabled", false);
+                        });
+                        try {
+                            if ($("#zamba_index_2695").val() == '') {
+                                $('select[name="zamba_index_10240"]').find('option:contains("Rec")').remove();
+                                if (
+                                    $("#zamba_index_10240 option:selected").text() != "Mal Notificada"
+                                    &&
+                                    $("#zamba_index_10240 option:selected").text() != "REX"
+                                ) {
+                                    $('select[name="zamba_index_10240"]').find('option:contains("Pendiente")')[0].selected = true
+                                }
+
+                            }
+                            else {
+                                $('select[name="zamba_index_10240"]').find('option:contains("Rec")')[0].selected = true
+                                $('select[name="zamba_index_10240"]').attr('disabled', 'disabled');
+                                $('select[name="zamba_index_2695"]').attr('disabled', 'disabled');
+
+                                EnableIfGroups('zamba_index_2695', '12943');
+
+                            }
+                            if ($("#zamba_index_2681").val() != undefined && $("#zamba_index_2681").val() != '' && $("#zamba_index_2681").val() == 'J') {
+                                $("#tipomediacion").hide();
+                            } else {
+                                $("#tipomediacion").show();
+                            }
+
+                            $("#zamba_index_2681").on({
+                                "keyup": function (event) {
+                                    if ($("#zamba_index_2681").val() != undefined && $("#zamba_index_2681").val() != '' && $("#zamba_index_2681").val() == 'J') {
+                                        $("#tipomediacion").hide();
+                                    } else {
+                                        $("#tipomediacion").show();
+                                    }
+
+                                }
+                            });
+
+                        } catch (e) {
+                            console.error(e);
+
+                        }
+
+
+                        $("#zamba_index_2809").on({
+                            "focus": function (event) {
+                                $(event.target).select();
+                            },
+                            "keyup": function (event) {
+                                $(event.target).val(function (index, value) {
+                                    return value.replace(/\D/g, "")
+                                        .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                                });
+                            }
+                        });
+
+                        document.getElementById("zamba_index_59").addEventListener("keypress", forceKeyPressUppercase, false);
+                        $('#zamba_index_2809').val($('#zamba_index_2809').val().replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.'));
+
+                        //LoadMotivoDemandaListAndDescription();
+
+                    });
+
+
+                    function EnableIfGroups(id, groups) {
+                        console.log('EnableIfGroups');
+                        try {
+                            var user = GetUID();
+                            var currentUserGrupsIds = GetGroupsIdsByUserId(user);
+                            console.log(currentUserGrupsIds);
+
+                            var JsonId = JSON.stringify(currentUserGrupsIds);
+
+                            if (JsonId.contains(groups)) {
+                                console.log('currentUserGrupsIds contine');
+                                $("#" + id).attr('disabled', 'disabled');
+                                $("#" + id).removeAttr('readonly');
+                                $("#" + id).removeAttr('disabled');
+                                $('#zamba_rule_1528622').show();
+                            }
+                            else {
+                                console.log('currentUserGrupsIds NO contine');
+                                $("#" + id).attr('disabled', 'disabled');
+                                $('#zamba_rule_1528622').hide();
+                            }
+
+
+                        }
+                        catch (e) {
+                            console.error(e);
+                        }
+
+                    };
+
+                    function ZFUNCTION() {
+                        console.log('ZF');
+                        document.getElementById("zamba_index_10240").addEventListener("change", FuncionValidarEstadoNotificacion, false);
+                       // document.getElementById("zamba_index_2695").addEventListener("keyup", FuncionValidarRAJ, false);
+
+                        if ($("#zamba_index_10240").val() != '4') {
+                            $("#zamba_index_10240 option[value='4']").remove();
+                        }
+
+                        $("#zamba_index_10240 option[value='']").remove();
+
+                        FuncionValidarEstadoNotificacion();
+                        FuncionValidarRAJ();
+
+                    };
+                    function forceKeyPressUppercase(e) {
+                        var charInput = e.keyCode;
+                        if ((charInput >= 97) && (charInput <= 122)) { // lowercase
+                            if (!e.ctrlKey && !e.shiftKey && !e.metaKey && !e.altKEY) { // no modifier key
+                                var newChar = charInput - 32;
+                                var start = e.target.selectionStart;
+                                var end = e.target.selectionEnd;
+                                e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+                                e.target.setSelectionRange(start + 1, start + 1);
+                                e.preventDefault();
+                            }
+                        }
+                    }
+
+                    document.getElementById("zamba_index_10231").addEventListener("keypress", forceKeyPressUppercase, false);
+                    document.getElementById("zamba_index_10174").addEventListener("keypress", forceKeyPressUppercase, false);
+                    document.getElementById("zamba_index_10259").addEventListener("keypress", forceKeyPressUppercase, false);
+                    document.getElementById("zamba_index_1020002").addEventListener("keypress", forceKeyPressUppercase, false);
+                    //document.getElementById("zamba_rule_10168").addEventListener("keypress", forceKeyPressUppercase, false);
+                    document.getElementById("zamba_index_2685").addEventListener("keypress", forceKeyPressUppercase, false);
+                    document.getElementById("zamba_index_2684").addEventListener("keypress", forceKeyPressUppercase, false);
+                    document.getElementById("zamba_index_10169").addEventListener("keypress", forceKeyPressUppercase, false);
+
+
+
+
+
+                </script>
+
+
+            </center>
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+ </head>
+<body>
+<form name="frmMain" action="Solicitud de Documentacion RO.html">
+    <div id="design" width="90%">
+        Solicitud de Documentacion
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center><br/>
+    <table id="tblDoc" class="attributes_table">
+        <tr>
+			<td><label>Tipo de Documentacion</label> 
+			<td><input id="zamba_index_2728" name="zamba_index_2728" class="w300px" disabled="disabled">
+			<td class="separador"></td>
+			<td><label>Vencimiento:</label>
+			<td><input id="zamba_index_2705" name="zamba_index_2705" style="width:68px;" disabled="disabled" />
+        </tr>
+		<tr>
+			<td><label>Estudio:</label>
+			<td><select id="zamba_index_2732" name="zamba_index_2732" class="w300px" disabled="disabled"></select>	
+		</tr>
+	</table><br/>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><input id="zamba_rule_11443" name="zamba_rule_11443" style="width:160px" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+		</tr>
+		<tr>
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 768px" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled" ></textarea> 
+		</tr>
+	</table>
+	<div>
+		<table style="width: 100%;" class="tablesorter" id="zamba_associated_documents_2523">
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	</center>
+	</form>
+</body>
+</html>

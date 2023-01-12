@@ -1,0 +1,61 @@
+using System;
+using Stardoc.HtmlEditor.Enumerators;
+
+namespace Stardoc.HtmlEditor
+{
+    /// <summary>
+    /// Struct used to define _frmRules Html Table
+    /// Html Defaults are based on FrontPage default table
+    /// </summary>
+    [Serializable]
+    public struct HtmlTableProperty
+    {
+        // properties defined for the table
+        public string CaptionText;
+        public HorizontalAlignOption CaptionAlignment;
+        public VerticalAlignOption CaptionLocation;
+        public byte BorderSize;
+        public HorizontalAlignOption TableAlignment;
+        public byte TableRows;
+        public byte TableColumns;
+        public ushort TableWidth;
+        public MeasurementOption TableWidthMeasurement;
+        public byte CellPadding;
+        public byte CellSpacing;
+
+
+        // constructor defining _frmRules base table with default attributes
+        public HtmlTableProperty(bool htmlDefaults)
+        {
+            //define base values
+            CaptionText = string.Empty;
+            CaptionAlignment = HorizontalAlignOption.Predeterminado;
+            CaptionLocation = VerticalAlignOption.Predeterminado;
+            TableAlignment = HorizontalAlignOption.Predeterminado;
+
+            // define values based on whether HTML defaults are required
+            if (htmlDefaults)
+            {
+                BorderSize = 2;
+                TableRows = 3;
+                TableColumns = 3;
+                TableWidth = 50;
+                TableWidthMeasurement = MeasurementOption.Porcentaje;
+                CellPadding = 1;
+                CellSpacing = 2;
+            }
+            else
+            {
+                BorderSize = 0;
+                TableRows = 1;
+                TableColumns = 1;
+                TableWidth = 0;
+                TableWidthMeasurement = MeasurementOption.Pixel;
+                CellPadding = 0;
+                CellSpacing = 0;
+            }
+        }
+
+    }
+
+}

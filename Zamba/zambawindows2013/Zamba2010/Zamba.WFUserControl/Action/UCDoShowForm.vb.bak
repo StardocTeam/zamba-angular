@@ -1,0 +1,167 @@
+Imports Zamba.Core
+Imports zamba.Indexs
+Imports Zamba.AppBlock
+Imports Zamba.WFUserControl
+Imports System.Windows.Forms
+Imports System.Collections.Generic
+
+Public Class UCDoShowForm
+    Inherits ZRuleControl
+
+    Private arrDocTypes As New ArrayList
+    Private m_bInit As Boolean = True
+    Private tmpRule As IDoShowForm
+
+    Public Sub New(ByVal _tmpRule As IDoShowForm, ByRef _wfPanelCircuit As IWFPanelCircuit)
+        MyBase.New(_tmpRule, _wfPanelCircuit)
+        Me.InitializeComponent()
+        Me.tmpRule = _tmpRule
+        this_load()
+    End Sub
+
+    ''' -----------------------------------------------------------------------------
+    ''' <summary>
+    ''' Obtiene un objeto DocType partiendo desde su Id
+    ''' </summary>
+    ''' <param name="p_iId">DocTypeId</param>
+    ''' <returns>DocType</returns>
+    ''' <remarks>
+    ''' </remarks>
+    ''' <history>
+    ''' 	[oscar]	16/08/2006	Created
+    ''' </history>
+    ''' -----------------------------------------------------------------------------
+    Private Function BuscarDocTypeById(ByVal p_iId As Int32) As Zamba.Core.DocType
+        Dim e As IEnumerator
+        Try
+            e = arrDocTypes.GetEnumerator
+            While e.MoveNext
+                If DirectCast(e.Current, Zamba.Core.DocType).Id = p_iId Then
+                    Return DirectCast(e.Current, Zamba.Core.DocType)
+                End If
+            End While
+            Return Nothing
+        Catch ex As Exception
+            zamba.core.zclass.raiseerror(ex)
+            Return Nothing
+        Finally
+            e = Nothing
+        End Try
+    End Function
+
+   
+
+    Private Sub LlenarCombo()
+        Dim doc As Zamba.Core.DocType = Nothing
+        Me.Cursor = Cursors.WaitCursor
+        'RemoveHandler Me.cmbForms.SelectedIndexChanged, AddressOf SelectedIndexChanged
+        Me.cmbForms.BeginUpdate()
+        Try
+            If Not IsNothing(arrDocTypes) Then
+                If arrDocTypes.Count > 0 Then
+                    Me.cmbForms.DataSource = arrDocTypes
+                    Me.cmbForms.DisplayMember = "Name"
+                    Me.cmbForms.ValueMember = "Id"
+                    If m_bInit Then
+                        Try
+                            'doc = BuscarDocTypeById(m_iDocTypeIdVirtual)
+                            If Not IsNothing(doc) Then
+                                Me.cmbForms.SelectedItem = doc
+                            End If
+                        Catch ex As Exception
+                            ZClass.raiseerror(ex)
+                        End Try
+                        m_bInit = False
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+        Me.cmbForms.EndUpdate()
+        'AddHandler Me.cmbForms.SelectedIndexChanged, AddressOf SelectedIndexChanged
+        Me.Cursor = Cursors.Arrow
+    End Sub
+
+    Private Sub UCDoShowForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        this_load()
+    End Sub
+
+    ''' <summary>
+    ''' Método que se ejecuta cuando se carga la regla DoShowForm
+    ''' </summary>
+    ''' <remarks></remarks>
+    ''' <history>
+    '''     [Gaston]	07/07/2008	Modified
+    '''                 18/07/2008	Modified
+    '''     [Sebastian] 31-08-09    Modified se agrego showdialog
+    '''     Marcelo     19/10/2009  Modified    Add Maximized Dialog CheckBox
+    ''' </history>
+    Private Sub this_load()
+
+        Me.cmbForms.DataSource = FormBusiness.GetForms()
+        Me.cmbForms.DisplayMember = "Name"
+        Me.cmbForms.ValueMember = "ID"
+        'arrDocTypes = Me.GetDocType()
+        'Me.LlenarCombo()
+
+        If Me.tmpRule.FormID > 0 Then
+            Me.cmbForms.SelectedValue = Int64.Parse(Me.tmpRule.FormID.ToString())
+        End If
+
+        chkAssociatedDocDataShow.Checked = Me.tmpRule.associatedDocDataShow
+
+        txtVarDoc_id.Text = Me.tmpRule.varDocId
+
+        chkShowDialogMaximized.Checked = Me.tmpRule.DontShowDialogMaximized
+        chkViewOriginal.Checked = Me.tmpRule.ViewOriginal
+        chkCerrarConCruz.Checked = Me.tmpRule.ControlBox
+        chkCloseFormAfterRuleExecution.Checked = Me.tmpRule.CloseFormWindowAfterRuleExecution
+        chkViewAsoc.Checked = Me.tmpRule.ViewAsociatedDocs
+    End Sub
+
+    ''' <summary>
+    ''' Evento que se ejecuta cuando se presiona el botón Aceptar
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    ''' <history>
+    '''     [Gaston]	07/07/2008	Modified
+    '''                 18/07/2008	Modified
+    '''     [Sebastian] 31-08-09    Modified se agrego para mostrar el form como showdialog
+    '''     Marcelo     19/10/2009  Modified    Add Maximized Dialog CheckBox, I remove showdialog, because it was never implemented
+    ''' </history>
+    Private Sub btnAceptar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAceptar.Click
+
+        Me.tmpRule.FormID = Me.cmbForms.SelectedValue
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 0, tmpRule.FormID)
+
+        Me.tmpRule.associatedDocDataShow = chkAssociatedDocDataShow.Checked
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 1, tmpRule.associatedDocDataShow)
+
+        Me.tmpRule.varDocId = txtVarDoc_id.Text
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 2, tmpRule.varDocId)
+
+        Me.tmpRule.DontShowDialogMaximized = chkShowDialogMaximized.Checked
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 3, tmpRule.DontShowDialogMaximized)
+
+        Me.tmpRule.ViewOriginal = chkViewOriginal.Checked
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 4, tmpRule.ViewOriginal)
+
+        Me.tmpRule.ControlBox = chkCerrarConCruz.Checked
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 5, tmpRule.ControlBox)
+
+        Me.tmpRule.CloseFormWindowAfterRuleExecution = chkCloseFormAfterRuleExecution.Checked
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 6, tmpRule.CloseFormWindowAfterRuleExecution)
+
+        Me.tmpRule.ViewAsociatedDocs = chkViewAsoc.Checked
+        WFRulesBusiness.UpdateParamItem(tmpRule.ID, 7, tmpRule.ViewAsociatedDocs)
+
+        UserBusiness.Rights.SaveAction(tmpRule.ID, Zamba.Core.ObjectTypes.WFRules, Zamba.Core.RightsType.Edit, "Se editaron los datos de la regla " & tmpRule.Name & "(" & tmpRule.ID & ")")
+    End Sub
+
+    Private Sub chkCerrarConCruz_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCerrarConCruz.CheckedChanged
+
+    End Sub
+End Class

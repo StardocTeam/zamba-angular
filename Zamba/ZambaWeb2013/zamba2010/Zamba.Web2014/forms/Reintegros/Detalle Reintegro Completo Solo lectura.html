@@ -1,0 +1,224 @@
+﻿<html>
+<head>
+    <title>Detalle</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet" />
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet" />
+    <link href="demo_table.css" rel="stylesheet" type="text/css" />
+    <link href="demo_page.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="jquery.validate.min.js"></script>
+    <script type="text/javascript" src="jquery.decimalMask.1.1.1.min.js"></script>
+    
+    <script type="text/javascript" src="jquery.dataTables.js"></script>
+    <script type="text/javascript" src="jquery.scrollTo.js"></script>
+
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function() {
+			ChangeMaxColor();
+		});
+
+		function ChangeMaxColor() {
+			var resultString = $("#zamba_index_33738").val();
+
+			if (resultString.toLowerCase().indexOf("supera") != -1) {
+				$("#zamba_index_33738").css("background-color", "ffdddd");
+				$("#zamba_index_33738").css("color", "#880f0f");
+				return;
+			}
+
+			if (resultString.toLowerCase().indexOf("dentro") != -1) {
+				$("#zamba_index_33738").css("background-color", "#ddffdd");
+				$("#zamba_index_33738").css("color", "#0f880f");
+				return;
+			}
+
+			$("#zamba_index_33738").css("background-color", "white");
+		}
+    </script>
+</head>
+<body>
+    <div id="container">
+        <form name="frmMain" method="post">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div id="design">
+            <strong>Reintegro</strong>
+        </div>
+        <br />
+        <div class="tabber">
+            <div class="tabbertab">
+                <h2>
+                    Informaci&oacute;n</h2>
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                PSC Nro:
+							</label>
+                        </td>
+                        <td>
+                            <input name="zamba_index_26450" id="zamba_index_26450" style="width: 250px" 
+								readonly="readonly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Titular:
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26314" id="zamba_index_26314" style="width: 250px" 
+								readOnly="readOnly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo Prestacion:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26232" name="zamba_index_26232" style="width: 250px" 
+								readOnly="readOnly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Beneficiario:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26321" name="zamba_index_26321" style="width: 250px" 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo de Comprobante:</label>
+                        </td>
+                        <td>
+                            <input name="zamba_index_26325" id="zamba_index_26325" style="width: 250px" 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Nro de Comprobante:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26323" name="zamba_index_26323" style="width: 250px" 
+                            readonly="readonly" maxlength="10" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fecha del Comprobante:</label>
+                        </td>
+                        <td>
+                            <input id="zamba_index_26326" name="zamba_index_26326" style="width: 250px 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Importe:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width:250px" 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Reintegro Obra Social:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33730" name="zamba_index_33730" style="width: 250px;"
+                                class="solonums ReadOnly" />
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Importe a Reintegrar:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26457" name="zamba_index_26457" style="width: 250px"
+                                class="solonums ReadOnly" readOnly="readOnly" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Importe Reintegrado:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33647" name="zamba_index_33647" style="width: 250px"
+                                class="solonums ReadOnly" readOnly="readOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Cantidad:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33742" name="zamba_index_33742" style="width: 250px;"
+                                class="solonums ReadOnly" readOnly="readOnly"/>
+                            <input type="text" id="zamba_ASOC_33087_index_33740" name="zamba_ASOC_33087_index_33740" style="width: 250px;display:none"
+                                class="solonums" /> 
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Dias:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33741" name="zamba_index_33741" style="width: 250px;"
+                                class="solonums ReadOnly" readOnly="readOnly"/>
+                            <input type="text" id="zamba_ASOC_33087_index_33737" name="zamba_ASOC_33087_index_33737" style="width: 250px;display:none"
+                                class="solonums" /> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Estado de Tope:</label>
+                        </td>
+                        <td colspan="4">
+                            <input type="text" id="zamba_index_33738" name="zamba_index_33738" style="width: 500px;
+                                color: Red" readOnly="readOnly" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+			<div class="tabbertab">
+				<h2>
+					Historial
+				</h2>
+				<span>
+					Historial de prestaciones reintegradas del beneficiario:
+				</span>
+				<table style="width: 90%;">
+					<tr>
+						<td>
+							<table class="tablesorter" id="zamba_associated_documents_26037">
+								<tbody>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+        </form>
+    </div>
+</body>
+</html>

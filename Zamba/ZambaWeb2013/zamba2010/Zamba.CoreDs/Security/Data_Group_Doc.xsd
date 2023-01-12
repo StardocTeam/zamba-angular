@@ -1,0 +1,53 @@
+<?xml version="1.0" standalone="yes" ?>
+<xs:schema id="Data_Group_Doc" targetNamespace="http://www.tempuri.org/Data_Group_Doc.xsd"
+	xmlns:mstns="http://www.tempuri.org/Data_Group_Doc.xsd" xmlns="http://www.tempuri.org/Data_Group_Doc.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+	attributeFormDefault="qualified" elementFormDefault="qualified">
+	<xs:element name="Data_Group_Doc" msdata:IsDataSet="true" msdata:Locale="es-ES">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Doc_Type">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Doc_Type_Name" type="xs:string" minOccurs="0" />
+							<xs:element name="Doc_Type_Group" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Doc_Type_Id" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Index">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Index_Id" type="xs:int" minOccurs="0" />
+							<xs:element name="Index_Name" type="xs:string" minOccurs="0" />
+							<xs:element name="Doc_Type_Id" type="xs:int" minOccurs="0" />
+							<xs:element name="Index_Len" type="xs:int" minOccurs="0" />
+							<xs:element name="Index_Type" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Doc_Type_Group">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Doc_Type_Group_ID" type="xs:decimal" />
+							<xs:element name="Doc_Type_Group_Name" type="xs:string" minOccurs="0" />
+							<xs:element name="Icon" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Parent_Id" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Object_Type_Id" type="xs:decimal" minOccurs="0" />
+							<xs:element name="User_Id" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Rights_Type" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="Data_Group_DocKey1">
+			<xs:selector xpath=".//mstns:Doc_Type_Group" />
+			<xs:field xpath="mstns:Doc_Type_Group_Id" />
+		</xs:key>
+		<xs:key name="Data_Group_DocKey2" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:Doc_Type" />
+			<xs:field xpath="mstns:Doc_Type_Id" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

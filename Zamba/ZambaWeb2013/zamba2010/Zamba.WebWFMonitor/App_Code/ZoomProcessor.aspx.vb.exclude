@@ -1,0 +1,64 @@
+Imports System.Drawing
+
+Partial Class ZoomProcessor
+    Inherits System.Web.UI.Page
+
+    Private Sub Page_Load(ByVal sender As System.Object, ByVal e As _
+    System.EventArgs) Handles MyBase.Load
+
+        'Create a new Image object from our source image
+        Dim i As System.Drawing.Image = _
+        System.Drawing.Image.FromFile(Server.MapPath("./" _
+        & Request("img") & ".jpg"))
+
+        'Create a workable bitmap image
+        Dim b As New System.Drawing.Bitmap(CInt(i.Width), _
+        CInt(i.Height), System.Drawing.Imaging.PixelFormat.Format24bppRgb)
+
+        'Place the bitmap image in a Graphics object
+        Dim g As Graphics = Graphics.FromImage(b)
+
+        'Set the default image background color 
+        g.Clear(Color.White)
+
+        'Crop the main image
+        'Get Coordinates and Zoom Values from querystring
+        Dim x As Integer = CInt(Request("X"))
+        Dim Y As Integer = CInt(Request("y"))
+        Dim Z As Integer = CInt(Request("z"))
+        'Create 2 rectangles.  We can grab a rectangle portion
+        'of the original image and stretch it to fit the size
+        'of the larger rectangle.
+        Dim src As New Rectangle()
+        Dim dst As New Rectangle()
+
+        'Set Source rectangle properties
+        src.X = x
+        src.Y = Y
+        src.Width = CInt(i.Width / Z) * 2
+        src.Height = CInt(i.Height / Z) * 2
+
+        'Set Destination rectangle properties
+        dst.X = 0
+        dst.Y = 0
+        dst.Width = CInt(i.Width)
+        dst.Height = CInt(i.Height)
+
+        'Create the image from our rectangles
+        g.DrawImage(i, dst, src, GraphicsUnit.Pixel)
+
+        'Set the content type  
+        Response.ContentType = "image/jpeg"
+
+        'Save the image as the Output of this page 
+        b.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg)
+
+        'Clean Up
+        src = Nothing
+        dst = Nothing
+        g = Nothing
+        b = Nothing
+        i = Nothing
+    End Sub
+
+End Class

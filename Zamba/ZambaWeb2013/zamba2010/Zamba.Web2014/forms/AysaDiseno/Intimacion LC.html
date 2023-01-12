@@ -1,0 +1,216 @@
+<html>
+<head>
+    <title>Intimaci&oacuten</title>
+    
+    
+	<script type="text/javascript" language="JavaScript">
+
+        function makeCalendar(id, limit) {
+            switch (limit) {
+                case "smaller": $(function () {
+                    $('#' + id).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showOn: 'both',
+                        buttonText: 'Abrir calendario',
+                        buttonImage: 'images/calendar.png',
+                        buttonImageOnly: true,
+                        duration: "",
+                        maxDate: '+0d',
+                        dateFormat: 'dd/mm/yy',
+                        constrainInput: true
+                    });
+                });
+                    break;
+                case "bigger": $(function () {
+                    $('#' + id).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showOn: 'both',
+                        buttonText: 'Abrir calendario',
+                        buttonImage: 'images/calendar.png',
+                        buttonImageOnly: true,
+                        duration: "",
+                        minDate: "+0d",
+                        dateFormat: 'dd/mm/yy',
+                        constrainInput: true
+                    });
+                });
+                    break;
+                case "normal": $(function () {
+                    $('#' + id).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showOn: 'both',
+                        buttonText: 'Abrir calendario',
+                        buttonImage: 'images/calendar.png',
+                        buttonImageOnly: true,
+                        duration: "",
+                        dateFormat: 'dd/mm/yy',
+                        constrainInput: true
+                    });
+                });
+                    break;
+            }
+        }
+		
+		        $(document).ready(function () {
+            makeCalendar('zamba_index_11317', "smaller");
+			makeCalendar('zamba_index_11318', "smaller");
+			        });
+	</script>
+</head>
+<body>
+    <form name="frmMain" method="post" style="width: 700px; height: 400px">
+    <input id="hdnRuleId" type="hidden" />
+	        <div name="design" id="design">
+            <strong>Intimaciones</strong>
+        </div>
+    <br />
+	<input id="zamba_rule_19762" class="submit ZambaRule DontSave " name="zamba_rule_19762"
+                                    type="submit" style="text-align: center; margin-right: 25px;"
+                                    value="Ir a industria" />
+    <div class="tabber">
+        <div class="tabbertab" id="tabGeneral">
+            <h2>
+                Datos de la intimaci&oacuten</h2>
+            <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px;
+                display: none;" />
+                <select id="zamba_index_1181" name="zamba_index_1181" style="width: 175px; display:none;"></select>
+        <input type="text" id="zamba_index_1192" name="zamba_index_1192" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1193" name="zamba_index_1193" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1187" name="zamba_index_1187" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1188" name="zamba_index_1188" style="width: 150px; display:none;" />
+		<input type="text" id="zamba_index_11310" name="zamba_index_11310" style="width: 150px; display:none;" />
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Tipo intimaci&oacuten:
+                        </label>
+                    </td>
+                    <td>
+                        <select type="text" id="zamba_index_11312" name="zamba_index_11312" style="width: 150px;"/>
+						</select>
+                    </td>
+                    <td>
+                        <label>
+                            Fecha &uacuteltima CN/CD:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_11318" name="zamba_index_11318" class="ConvertToUpper" style="width: 150px;" />
+                    </td>
+                </tr>
+                <tr>
+					                    <td>
+                        <label>
+                            &Uacuteltima fecha de muestra:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_11317" name="zamba_index_11317" class="ConvertToUpper" />
+                    </td>
+				                    <td>
+                        <label>
+                            Motivo de intimaci&oacuten:</label>
+                    </td>
+                    <td>
+                                       <select type="text" id="zamba_index_11297" name="zamba_index_11297" style="width: 350px;"/>
+						</select>
+                    </td>
+				</tr>
+				<tr>
+					                  <td>
+                        <label>
+                            Plazo establecido:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_11338" name="zamba_index_11338" style="width: 150px"/>
+                    </td>
+                </tr>
+				                <tr>
+                    <td>
+                        <label>
+                            Observaciones:</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_1229" class="ConvertToUpper" name="zamba_index_1229"></textarea>
+                    </td>
+                </tr>
+				<tr>
+					<td>
+						Parametros:
+					</td>
+					<td colspan="4">
+					                <table id="zamba_associated_documents_11078" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+					</td>
+				</tr>
+            </table>
+        </div>
+		<div class="tabbertab" id="tabGeneral">
+            <h2>
+                Notas</h2>
+				<input id="zamba_rule_18829" type="submit" style=" text-align: center; margin-right: 25px;"
+											 class="submit ZambaRule DontSave " value="Incorporar nota" name="zamba_rule_18829"/>							
+                                <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Notas asociadas a la intimacion:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_11076" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>   
+										</table>   
+        </div>
+				<div class="tabbertab" id="tabGeneral">
+            <h2>
+                Documentaci&oacuten</h2>
+            <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule DontSave " value="Agregar Documentacion" name="zamba_rule_8062"/>
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentaci&oacuten asociada a la intimaci&oacuten:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+						<tr>
+						<td>
+						                                <table id="zamba_associated_documents_11082" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+						</td>
+						</tr>
+                    </table>
+        </div>
+    </div>
+    <br />
+       <div style="text-align: center">
+        <input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />
+    </div>
+    </form>
+</body>
+</html>

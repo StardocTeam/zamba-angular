@@ -1,0 +1,56 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Upload.aspx.cs" Inherits="Upload" %>
+
+<%@ Register Assembly="SharpPieces.Web.Controls.Upload" Namespace="SharpPieces.Web.Controls"
+    TagPrefix="up" %>
+<%@ Register Src="~/ImageTemplate.ascx" TagPrefix="my" TagName="imageTemplate" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Upload</title>
+     <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/progress.css" type="text/css" media="screen" />
+<%--   <script type="text/javascript" src="js/prototype.js"></script>
+    <script type="text/javascript" src="js/scriptaculous.js?load=effects,builder"></script>
+
+    <script src="js/lightbox.js" type="text/javascript"></script>
+
+    <script src="js/upload.js" type="text/javascript"></script>--%>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <br />
+    <%--<div id="uploads">
+        <div id="uploadHeader">
+            <a id="uploadExpand" href="#">Mostrar archivos</a> <a id="uploadColapse" href="#">Ocultar
+                archivos</a>
+        </div>
+        <div id="uploadContent">
+        </div>
+    </div>
+    <div id="images">
+        <div id="imagesHeader">
+            <a id="imagesExpand" href="#">Mostrar imagenes</a> <a id="imagesColapse" href="#">Ocultar
+                imagenes</a>
+        </div>
+        <div id="imagesContent" runat="server">
+            <div style="vertical-align: bottom">
+                
+            </div>
+        </div>
+        <div style="vertical-align: bottom">
+            <asp:LinkButton Text="Refrescar" runat="server" ID="imagesRefresh" /></div>
+    </div>--%>
+    <asp:Table ID="tblImages" runat="server" />
+    <div>
+        <up:Upload runat="server" ID="fancyUpload" InstantStart="False" BrowseText="Seleccionar imagenes"
+            Trigger="btUpload" onfilereceived="fancyUpload_FileReceived1" />
+    </div>
+    <div style="width: 500px; height:100; background-color:White;">
+        <ul class="photoupload-queue" id="Ul1" />
+    </div>
+    <div>
+        <asp:Button ID="btUpload" runat="server" Text="Subir" />
+    </div>
+    </form>
+</body>
+</html>

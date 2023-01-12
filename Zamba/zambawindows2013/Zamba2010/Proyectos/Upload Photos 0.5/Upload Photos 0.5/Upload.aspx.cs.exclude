@@ -1,0 +1,123 @@
+﻿using System;
+using System.IO;
+using System.Web.UI.HtmlControls;
+using System.Web.UI;
+using System.Collections.Generic;
+using AdsBusiness;
+using System.Web.UI.WebControls;
+
+public partial class Upload
+    : Page
+{
+
+    private Int64? AdId
+    {
+        get
+        {
+            Int64? value = null;
+            Int64 TryValue;
+
+            if (Int64.TryParse(Request.QueryString["AdId"], out TryValue))
+                value = (Int64?)TryValue;
+                
+            return value;
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (AdId.HasValue)
+        {
+            LoadImages();
+        }
+    }
+
+   
+    private void LoadImages()
+    {
+
+        if (AdId.HasValue)
+        {
+            List<AdImage> ads = AdLogic.GetImages(AdId.Value);
+
+            if (ads != null && ads.Count > 0)
+            {
+                String AdsDirectory = Server.MapPath("~/temp/") + AdId.ToString();
+                Directory.CreateDirectory(AdsDirectory);
+
+                AdImage CurrentAd;
+
+                foreach (AdImage CurrentImage in ads)
+                    CurrentImage.WriteTo(AdsDirectory);
+
+                Control DynamicUserControl = null;
+                int j = 1;
+                TableRow CurrentRow = new TableRow();
+                TableCell CurrentCell = null;
+                FileInfo info = null;
+                foreach (String filePath in Directory.GetFiles(AdsDirectory))
+                {
+                    if (j > 8)
+                    {
+                        tblImages.Rows.Add(CurrentRow);
+                        CurrentRow = new TableRow();
+                        j = 1;
+                    }
+
+                    DynamicUserControl = LoadControl("ImageTemplate.ascx");
+                    info = new FileInfo(filePath);
+                    ((ImageTemplate)DynamicUserControl).ImagePath = "temp/" + AdId.Value + "\\" + info.Name;
+                    CurrentCell = new TableCell();
+                    CurrentCell.Controls.Add(DynamicUserControl);
+                    CurrentRow.Cells.Add(CurrentCell); 
+                    j++;
+                }
+                if (j != 0)
+                    tblImages.Rows.Add(CurrentRow);
+
+            }
+        }
+    }
+
+    private static void WriteImage(string path, byte[] image)
+    {
+        if (!File.Exists(path))
+        {
+            try
+            {
+                using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    using (BinaryWriter bw = new BinaryWriter(fs))
+                    {
+                        bw.Write(image);
+                        bw.Flush();
+                        bw.Close();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+    protected void fancyUpload_FileReceived(object sender, SharpPieces.Web.Controls.UploadEventArgs e)
+    {
+        String savedFilePath = Server.MapPath("~/temp/") + e.File.FileName;
+
+        //e.File.SaveAs(savedFilePath);
+
+        //Ad UploadedAd = new Ad(savedFilePath);
+        //UploadedAd.AdId = (Int64)AdId.Value;
+        //FileInfo info = new FileInfo(savedFilePath);
+        //UploadedAd.Name = info.Name.Remove(info.Name.Length - info.Extension.Length, info.Extension.Length);
+        //UploadedAd.Extension = info.Extension;
+        //AdLogic.Insert(UploadedAd);
+
+        //File.Delete(savedFilePath);
+    }
+    protected void fancyUpload_FileReceived1(object sender, SharpPieces.Web.Controls.UploadEventArgs e)
+    {
+        e.File.SaveAs((Server.MapPath("~/temp/") + e.File.FileName));
+
+    }
+}

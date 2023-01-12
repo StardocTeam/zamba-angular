@@ -1,0 +1,586 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ZambaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ZambaModelStoreContainer">
+          <EntitySet Name="DOC_TYPE" EntityType="ZambaModel.Store.DOC_TYPE" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="USRTABLE" EntityType="ZambaModel.Store.USRTABLE" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WFDocument" EntityType="ZambaModel.Store.WFDocument" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WFStep" EntityType="ZambaModel.Store.WFStep" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WFStepStates" EntityType="ZambaModel.Store.WFStepStates" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WFTask_States" EntityType="ZambaModel.Store.WFTask_States" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WFWorkflow" EntityType="ZambaModel.Store.WFWorkflow" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_WFDocument_WFStepStates" Association="ZambaModel.Store.FK_WFDocument_WFStepStates">
+            <End Role="WFStepStates" EntitySet="WFStepStates" />
+            <End Role="WFDocument" EntitySet="WFDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFDocument_WFTask_States" Association="ZambaModel.Store.FK_WFDocument_WFTask_States">
+            <End Role="WFTask_States" EntitySet="WFTask_States" />
+            <End Role="WFDocument" EntitySet="WFDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFStep_WFWorkflow" Association="ZambaModel.Store.FK_WFStep_WFWorkflow">
+            <End Role="WFWorkflow" EntitySet="WFWorkflow" />
+            <End Role="WFStep" EntitySet="WFStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFStepStates_WFStep" Association="ZambaModel.Store.FK_WFStepStates_WFStep">
+            <End Role="WFStep" EntitySet="WFStep" />
+            <End Role="WFStepStates" EntitySet="WFStepStates" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DOC_TYPE">
+          <Key>
+            <PropertyRef Name="DOC_TYPE_ID" />
+          </Key>
+          <Property Name="DOC_TYPE_ID" Type="numeric" Nullable="false" />
+          <Property Name="DOC_TYPE_NAME" Type="char" MaxLength="60" />
+          <Property Name="FILE_FORMAT_ID" Type="numeric" />
+          <Property Name="DISK_GROUP_ID" Type="numeric" />
+          <Property Name="THUMBNAILS" Type="numeric" />
+          <Property Name="ICON_ID" Type="numeric" />
+          <Property Name="CROSS_REFERENCE" Type="bit" />
+          <Property Name="LIFE_CYCLE" Type="bit" />
+          <Property Name="OBJECT_TYPE_ID" Type="numeric" Precision="4" />
+          <Property Name="AUTONAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="DOCCOUNT" Type="numeric" />
+          <Property Name="DocumentalId" Type="numeric" />
+          <Property Name="MB" Type="decimal" />
+        </EntityType>
+        <EntityType Name="USRTABLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Nullable="false" />
+          <Property Name="NAME" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="50" />
+          <Property Name="CRDATE" Type="datetime" />
+          <Property Name="LUPDATE" Type="datetime" />
+          <Property Name="STATE" Type="numeric" Precision="10" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="60" />
+          <Property Name="ADDRESS_BOOK" Type="varchar" MaxLength="255" />
+          <Property Name="EXPIRATIONTIME" Type="numeric" Precision="10" />
+          <Property Name="EXPIRATIONDATE" Type="datetime" />
+          <Property Name="NOMBRES" Type="varchar" MaxLength="50" />
+          <Property Name="APELLIDO" Type="varchar" MaxLength="50" />
+          <Property Name="CORREO" Type="varchar" MaxLength="50" />
+          <Property Name="TELEFONO" Type="varchar" MaxLength="20" />
+          <Property Name="PUESTO" Type="varchar" MaxLength="50" />
+          <Property Name="FIRMA" Type="varchar" MaxLength="255" />
+          <Property Name="FOTO" Type="varchar" MaxLength="255" />
+          <Property Name="CONF_BASEMAIL" Type="nvarchar" MaxLength="30" />
+          <Property Name="CONF_MAILSERVER" Type="nvarchar" MaxLength="50" />
+          <Property Name="CONF_MAILTYPE" Type="int" />
+          <Property Name="SMTP" Type="nvarchar" MaxLength="50" />
+          <Property Name="colegajo" Type="numeric" />
+        </EntityType>
+        <EntityType Name="WFDocument">
+          <Key>
+            <PropertyRef Name="Task_ID" />
+          </Key>
+          <Property Name="Doc_ID" Type="numeric" Nullable="false" />
+          <Property Name="DOC_TYPE_ID" Type="numeric" Nullable="false" />
+          <Property Name="Folder_ID" Type="numeric" Nullable="false" />
+          <Property Name="step_Id" Type="numeric" Nullable="false" />
+          <Property Name="Do_State_ID" Type="numeric" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="IconId" Type="numeric" Nullable="false" />
+          <Property Name="CheckIn" Type="datetime" Nullable="false" />
+          <Property Name="User_Asigned" Type="numeric" />
+          <Property Name="Exclusive" Type="numeric" />
+          <Property Name="ExpireDate" Type="datetime" Nullable="false" />
+          <Property Name="User_Asigned_By" Type="numeric" />
+          <Property Name="Date_Asigned_By" Type="datetime" />
+          <Property Name="Task_ID" Type="numeric" Nullable="false" />
+          <Property Name="Task_State_ID" Type="numeric" />
+          <Property Name="Remark" Type="numeric" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="250" />
+          <Property Name="work_id" Type="numeric" Nullable="false" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="Comments" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="WFStep">
+          <Key>
+            <PropertyRef Name="step_Id" />
+          </Key>
+          <Property Name="step_Id" Type="numeric" Nullable="false" />
+          <Property Name="work_id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Help" Type="varchar" MaxLength="2000" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ImageIndex" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="EditDate" Type="datetime" Nullable="false" />
+          <Property Name="LocationX" Type="decimal" Nullable="false" Precision="10" />
+          <Property Name="LocationY" Type="decimal" Nullable="false" Precision="10" />
+          <Property Name="max_Hours" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="max_docs" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="StartAtOpenDoc" Type="numeric" Nullable="false" />
+          <Property Name="Color" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Width" Type="numeric" Nullable="false" />
+          <Property Name="Height" Type="numeric" Nullable="false" />
+          <Property Name="Width2" Type="numeric" Nullable="false" />
+          <Property Name="Orden" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WFStepStates">
+          <Key>
+            <PropertyRef Name="Doc_State_ID" />
+          </Key>
+          <Property Name="Doc_State_ID" Type="numeric" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="Step_Id" Type="numeric" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Initial" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WFTask_States">
+          <Key>
+            <PropertyRef Name="Task_State_Id" />
+          </Key>
+          <Property Name="Task_State_Id" Type="numeric" Nullable="false" />
+          <Property Name="Task_State_Name" Type="nvarchar" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="WFWorkflow">
+          <Key>
+            <PropertyRef Name="work_id" />
+          </Key>
+          <Property Name="work_id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Wstat_id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Help" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="EditDate" Type="datetime" Nullable="false" />
+          <Property Name="Refreshrate" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="InitialStepId" Type="numeric" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_WFDocument_WFStepStates">
+          <End Role="WFStepStates" Type="ZambaModel.Store.WFStepStates" Multiplicity="1" />
+          <End Role="WFDocument" Type="ZambaModel.Store.WFDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFStepStates">
+              <PropertyRef Name="Doc_State_ID" />
+            </Principal>
+            <Dependent Role="WFDocument">
+              <PropertyRef Name="Do_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFDocument_WFTask_States">
+          <End Role="WFTask_States" Type="ZambaModel.Store.WFTask_States" Multiplicity="0..1" />
+          <End Role="WFDocument" Type="ZambaModel.Store.WFDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFTask_States">
+              <PropertyRef Name="Task_State_Id" />
+            </Principal>
+            <Dependent Role="WFDocument">
+              <PropertyRef Name="Task_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFStep_WFWorkflow">
+          <End Role="WFWorkflow" Type="ZambaModel.Store.WFWorkflow" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WFStep" Type="ZambaModel.Store.WFStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFWorkflow">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WFStep">
+              <PropertyRef Name="work_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFStepStates_WFStep">
+          <End Role="WFStep" Type="ZambaModel.Store.WFStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WFStepStates" Type="ZambaModel.Store.WFStepStates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFStep">
+              <PropertyRef Name="step_Id" />
+            </Principal>
+            <Dependent Role="WFStepStates">
+              <PropertyRef Name="Step_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZambaModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ZambaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="WFDocument" EntityType="ZambaModel.WFDocument" />
+          <EntitySet Name="WFStep" EntityType="ZambaModel.WFStep" />
+          <EntitySet Name="WFStepStates" EntityType="ZambaModel.WFStepStates" />
+          <EntitySet Name="WFTask_States" EntityType="ZambaModel.WFTask_States" />
+          <EntitySet Name="WFWorkflow" EntityType="ZambaModel.WFWorkflow" />
+          <AssociationSet Name="FK_WFDocument_WFStepStates" Association="ZambaModel.FK_WFDocument_WFStepStates">
+            <End Role="WFStepStates" EntitySet="WFStepStates" />
+            <End Role="WFDocument" EntitySet="WFDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFDocument_WFTask_States" Association="ZambaModel.FK_WFDocument_WFTask_States">
+            <End Role="WFTask_States" EntitySet="WFTask_States" />
+            <End Role="WFDocument" EntitySet="WFDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFStep_WFWorkflow" Association="ZambaModel.FK_WFStep_WFWorkflow">
+            <End Role="WFWorkflow" EntitySet="WFWorkflow" />
+            <End Role="WFStep" EntitySet="WFStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFStepStates_WFStep" Association="ZambaModel.FK_WFStepStates_WFStep">
+            <End Role="WFStep" EntitySet="WFStep" />
+            <End Role="WFStepStates" EntitySet="WFStepStates" />
+          </AssociationSet>
+          <EntitySet Name="DOC_TYPE" EntityType="ZambaModel.DOC_TYPE" />
+          <EntitySet Name="USRTABLE" EntityType="ZambaModel.USRTABLE" />
+        </EntityContainer>
+        <EntityType Name="WFDocument">
+          <Key>
+            <PropertyRef Name="Task_ID" />
+          </Key>
+          <Property Name="Doc_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DOC_TYPE_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Folder_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="step_Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Do_State_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="IconId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CheckIn" Type="DateTime" Nullable="false" />
+          <Property Name="User_Asigned" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Exclusive" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" />
+          <Property Name="User_Asigned_By" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Date_Asigned_By" Type="DateTime" />
+          <Property Name="Task_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Task_State_ID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Remark" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Tag" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="work_id" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LastUpdateDate" Type="DateTime" />
+          <Property Name="Comments" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="WFStepStates" Relationship="ZambaModel.FK_WFDocument_WFStepStates" FromRole="WFDocument" ToRole="WFStepStates" />
+          <NavigationProperty Name="WFTask_States" Relationship="ZambaModel.FK_WFDocument_WFTask_States" FromRole="WFDocument" ToRole="WFTask_States" />
+        </EntityType>
+        <EntityType Name="WFStep">
+          <Key>
+            <PropertyRef Name="step_Id" />
+          </Key>
+          <Property Name="step_Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="work_id" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Help" Type="String" MaxLength="2000" Unicode="false" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="ImageIndex" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="EditDate" Type="DateTime" Nullable="false" />
+          <Property Name="LocationX" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="LocationY" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="max_Hours" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="max_docs" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="StartAtOpenDoc" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Width" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Height" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Width2" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Orden" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="WFWorkflow" Relationship="ZambaModel.FK_WFStep_WFWorkflow" FromRole="WFStep" ToRole="WFWorkflow" />
+          <NavigationProperty Name="WFStepStates" Relationship="ZambaModel.FK_WFStepStates_WFStep" FromRole="WFStep" ToRole="WFStepStates" />
+        </EntityType>
+        <EntityType Name="WFStepStates">
+          <Key>
+            <PropertyRef Name="Doc_State_ID" />
+          </Key>
+          <Property Name="Doc_State_ID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Description" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="Step_Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Initial" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="WFDocument" Relationship="ZambaModel.FK_WFDocument_WFStepStates" FromRole="WFStepStates" ToRole="WFDocument" />
+          <NavigationProperty Name="WFStep" Relationship="ZambaModel.FK_WFStepStates_WFStep" FromRole="WFStepStates" ToRole="WFStep" />
+        </EntityType>
+        <EntityType Name="WFTask_States">
+          <Key>
+            <PropertyRef Name="Task_State_Id" />
+          </Key>
+          <Property Name="Task_State_Id" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Task_State_Name" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="WFDocument" Relationship="ZambaModel.FK_WFDocument_WFTask_States" FromRole="WFTask_States" ToRole="WFDocument" />
+        </EntityType>
+        <EntityType Name="WFWorkflow">
+          <Key>
+            <PropertyRef Name="work_id" />
+          </Key>
+          <Property Name="work_id" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="Wstat_id" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Help" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="EditDate" Type="DateTime" Nullable="false" />
+          <Property Name="Refreshrate" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="InitialStepId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="WFStep" Relationship="ZambaModel.FK_WFStep_WFWorkflow" FromRole="WFWorkflow" ToRole="WFStep" />
+        </EntityType>
+        <Association Name="FK_WFDocument_WFStepStates">
+          <End Role="WFStepStates" Type="ZambaModel.WFStepStates" Multiplicity="1" />
+          <End Role="WFDocument" Type="ZambaModel.WFDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFStepStates">
+              <PropertyRef Name="Doc_State_ID" />
+            </Principal>
+            <Dependent Role="WFDocument">
+              <PropertyRef Name="Do_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFDocument_WFTask_States">
+          <End Role="WFTask_States" Type="ZambaModel.WFTask_States" Multiplicity="0..1" />
+          <End Role="WFDocument" Type="ZambaModel.WFDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFTask_States">
+              <PropertyRef Name="Task_State_Id" />
+            </Principal>
+            <Dependent Role="WFDocument">
+              <PropertyRef Name="Task_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFStep_WFWorkflow">
+          <End Role="WFWorkflow" Type="ZambaModel.WFWorkflow" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WFStep" Type="ZambaModel.WFStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFWorkflow">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WFStep">
+              <PropertyRef Name="work_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFStepStates_WFStep">
+          <End Role="WFStep" Type="ZambaModel.WFStep" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WFStepStates" Type="ZambaModel.WFStepStates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFStep">
+              <PropertyRef Name="step_Id" />
+            </Principal>
+            <Dependent Role="WFStepStates">
+              <PropertyRef Name="Step_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DOC_TYPE">
+          <Key>
+            <PropertyRef Name="DOC_TYPE_ID" />
+          </Key>
+          <Property Type="Decimal" Name="DOC_TYPE_ID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="DOC_TYPE_NAME" MaxLength="60" FixedLength="true" Unicode="false" />
+          <Property Type="Decimal" Name="FILE_FORMAT_ID" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="DISK_GROUP_ID" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="THUMBNAILS" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="ICON_ID" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="CROSS_REFERENCE" />
+          <Property Type="Boolean" Name="LIFE_CYCLE" />
+          <Property Type="Decimal" Name="OBJECT_TYPE_ID" Precision="4" Scale="0" />
+          <Property Type="String" Name="AUTONAME" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="DOCCOUNT" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="DocumentalId" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="MB" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="USRTABLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Decimal" Name="ID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PASSWORD" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CRDATE" />
+          <Property Type="DateTime" Name="LUPDATE" />
+          <Property Type="Decimal" Name="STATE" Precision="10" Scale="0" />
+          <Property Type="String" Name="DESCRIPTION" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ADDRESS_BOOK" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="EXPIRATIONTIME" Precision="10" Scale="0" />
+          <Property Type="DateTime" Name="EXPIRATIONDATE" />
+          <Property Type="String" Name="NOMBRES" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="APELLIDO" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CORREO" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TELEFONO" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PUESTO" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FIRMA" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FOTO" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONF_BASEMAIL" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CONF_MAILSERVER" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CONF_MAILTYPE" />
+          <Property Type="String" Name="SMTP" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="colegajo" Precision="18" Scale="0" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZambaModelStoreContainer" CdmEntityContainer="ZambaEntities">
+          <EntitySetMapping Name="WFDocument"><EntityTypeMapping TypeName="ZambaModel.WFDocument"><MappingFragment StoreEntitySet="WFDocument">
+            <ScalarProperty Name="Doc_ID" ColumnName="Doc_ID" />
+            <ScalarProperty Name="DOC_TYPE_ID" ColumnName="DOC_TYPE_ID" />
+            <ScalarProperty Name="Folder_ID" ColumnName="Folder_ID" />
+            <ScalarProperty Name="step_Id" ColumnName="step_Id" />
+            <ScalarProperty Name="Do_State_ID" ColumnName="Do_State_ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="IconId" ColumnName="IconId" />
+            <ScalarProperty Name="CheckIn" ColumnName="CheckIn" />
+            <ScalarProperty Name="User_Asigned" ColumnName="User_Asigned" />
+            <ScalarProperty Name="Exclusive" ColumnName="Exclusive" />
+            <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+            <ScalarProperty Name="User_Asigned_By" ColumnName="User_Asigned_By" />
+            <ScalarProperty Name="Date_Asigned_By" ColumnName="Date_Asigned_By" />
+            <ScalarProperty Name="Task_ID" ColumnName="Task_ID" />
+            <ScalarProperty Name="Task_State_ID" ColumnName="Task_State_ID" />
+            <ScalarProperty Name="Remark" ColumnName="Remark" />
+            <ScalarProperty Name="Tag" ColumnName="Tag" />
+            <ScalarProperty Name="work_id" ColumnName="work_id" />
+            <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+            <ScalarProperty Name="Comments" ColumnName="Comments" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="WFStep"><EntityTypeMapping TypeName="ZambaModel.WFStep"><MappingFragment StoreEntitySet="WFStep">
+            <ScalarProperty Name="step_Id" ColumnName="step_Id" />
+            <ScalarProperty Name="work_id" ColumnName="work_id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Help" ColumnName="Help" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+            <ScalarProperty Name="ImageIndex" ColumnName="ImageIndex" />
+            <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+            <ScalarProperty Name="LocationX" ColumnName="LocationX" />
+            <ScalarProperty Name="LocationY" ColumnName="LocationY" />
+            <ScalarProperty Name="max_Hours" ColumnName="max_Hours" />
+            <ScalarProperty Name="max_docs" ColumnName="max_docs" />
+            <ScalarProperty Name="StartAtOpenDoc" ColumnName="StartAtOpenDoc" />
+            <ScalarProperty Name="Color" ColumnName="Color" />
+            <ScalarProperty Name="Width" ColumnName="Width" />
+            <ScalarProperty Name="Height" ColumnName="Height" />
+            <ScalarProperty Name="Width2" ColumnName="Width2" />
+            <ScalarProperty Name="Orden" ColumnName="Orden" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="WFStepStates"><EntityTypeMapping TypeName="ZambaModel.WFStepStates"><MappingFragment StoreEntitySet="WFStepStates">
+            <ScalarProperty Name="Doc_State_ID" ColumnName="Doc_State_ID" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Step_Id" ColumnName="Step_Id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Initial" ColumnName="Initial" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="WFTask_States"><EntityTypeMapping TypeName="ZambaModel.WFTask_States"><MappingFragment StoreEntitySet="WFTask_States">
+            <ScalarProperty Name="Task_State_Id" ColumnName="Task_State_Id" />
+            <ScalarProperty Name="Task_State_Name" ColumnName="Task_State_Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="WFWorkflow"><EntityTypeMapping TypeName="ZambaModel.WFWorkflow"><MappingFragment StoreEntitySet="WFWorkflow">
+            <ScalarProperty Name="work_id" ColumnName="work_id" />
+            <ScalarProperty Name="Wstat_id" ColumnName="Wstat_id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Help" ColumnName="Help" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+            <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+            <ScalarProperty Name="Refreshrate" ColumnName="Refreshrate" />
+            <ScalarProperty Name="InitialStepId" ColumnName="InitialStepId" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="DOC_TYPE">
+            <EntityTypeMapping TypeName="ZambaModel.DOC_TYPE">
+              <MappingFragment StoreEntitySet="DOC_TYPE">
+                <ScalarProperty Name="MB" ColumnName="MB" />
+                <ScalarProperty Name="DocumentalId" ColumnName="DocumentalId" />
+                <ScalarProperty Name="DOCCOUNT" ColumnName="DOCCOUNT" />
+                <ScalarProperty Name="AUTONAME" ColumnName="AUTONAME" />
+                <ScalarProperty Name="OBJECT_TYPE_ID" ColumnName="OBJECT_TYPE_ID" />
+                <ScalarProperty Name="LIFE_CYCLE" ColumnName="LIFE_CYCLE" />
+                <ScalarProperty Name="CROSS_REFERENCE" ColumnName="CROSS_REFERENCE" />
+                <ScalarProperty Name="ICON_ID" ColumnName="ICON_ID" />
+                <ScalarProperty Name="THUMBNAILS" ColumnName="THUMBNAILS" />
+                <ScalarProperty Name="DISK_GROUP_ID" ColumnName="DISK_GROUP_ID" />
+                <ScalarProperty Name="FILE_FORMAT_ID" ColumnName="FILE_FORMAT_ID" />
+                <ScalarProperty Name="DOC_TYPE_NAME" ColumnName="DOC_TYPE_NAME" />
+                <ScalarProperty Name="DOC_TYPE_ID" ColumnName="DOC_TYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USRTABLE">
+            <EntityTypeMapping TypeName="ZambaModel.USRTABLE">
+              <MappingFragment StoreEntitySet="USRTABLE">
+                <ScalarProperty Name="colegajo" ColumnName="colegajo" />
+                <ScalarProperty Name="SMTP" ColumnName="SMTP" />
+                <ScalarProperty Name="CONF_MAILTYPE" ColumnName="CONF_MAILTYPE" />
+                <ScalarProperty Name="CONF_MAILSERVER" ColumnName="CONF_MAILSERVER" />
+                <ScalarProperty Name="CONF_BASEMAIL" ColumnName="CONF_BASEMAIL" />
+                <ScalarProperty Name="FOTO" ColumnName="FOTO" />
+                <ScalarProperty Name="FIRMA" ColumnName="FIRMA" />
+                <ScalarProperty Name="PUESTO" ColumnName="PUESTO" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="EXPIRATIONDATE" ColumnName="EXPIRATIONDATE" />
+                <ScalarProperty Name="EXPIRATIONTIME" ColumnName="EXPIRATIONTIME" />
+                <ScalarProperty Name="ADDRESS_BOOK" ColumnName="ADDRESS_BOOK" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="LUPDATE" ColumnName="LUPDATE" />
+                <ScalarProperty Name="CRDATE" ColumnName="CRDATE" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Tasks" ZoomLevel="88">
+        <EntityTypeShape EntityType="ZambaModel.WFDocument" Width="1.5" PointX="7.5" PointY="1.875" Height="5.2494108072916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZambaModel.WFStep" Width="1.5" PointX="3" PointY="2.125" Height="4.8648079427083335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZambaModel.WFStepStates" Width="1.5" PointX="5.25" PointY="3.375" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZambaModel.WFTask_States" Width="1.5" PointX="5.25" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZambaModel.WFWorkflow" Width="1.5" PointX="0.75" PointY="3.125" Height="2.9417936197916652" IsExpanded="true" />
+        <AssociationConnector Association="ZambaModel.FK_WFDocument_WFStepStates" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="4.5574446614583328" />
+          <ConnectorPoint PointX="7.5" PointY="4.5574446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZambaModel.FK_WFDocument_WFTask_States" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="2.110341796875" />
+          <ConnectorPoint PointX="7.5" PointY="2.110341796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZambaModel.FK_WFStep_WFWorkflow" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.5958968098958328" />
+          <ConnectorPoint PointX="3" PointY="4.5958968098958328" />
+        </AssociationConnector>
+        <AssociationConnector Association="ZambaModel.FK_WFStepStates_WFStep" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="4.5574446614583328" />
+          <ConnectorPoint PointX="5.25" PointY="4.5574446614583328" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ZambaModel.DOC_TYPE" Width="1.5" PointX="0.75" PointY="7.75" Height="3.5186979166666674" />
+        <EntityTypeShape EntityType="ZambaModel.USRTABLE" Width="1.5" PointX="5.375" PointY="6" Height="5.2494108072916674" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,231 @@
+<html>
+     <head>
+         <link href="Union_styles.css"  type="text/css" rel="stylesheet"/>		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet"/>		
+		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" type="text/css" media="screen"/>
+		<script type="text/javascript" language="JavaScript">
+	
+
+       	    function SetRuleId(sender)
+       		 {
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+	    function zamba_save_onclick(){
+			
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+
+			}
+
+	    	    
+	    function formatTime(id)
+			{
+				$('#' + id).val($('#zamba_index' + id).val());
+			
+				var ctrl = $('#' + id);						
+				var time = ctrl.val().replace(":", "");
+				
+				var h = time.substring(0, time.length - 2);					
+				var m = time.substring(time.length - 2, time.length);
+				
+				if (h != "" || m != "")
+					ctrl.val(h + ":" + m);
+					
+				if ($('#zamba_index' + id).val() == 0)
+					ctrl.val("00" + ":" + "00");					
+					
+				if (h > 23 || m > 59)
+					ctrl.addClass("error");
+				else
+					ctrl.removeClass("error");
+			}
+			
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+
+			function zamba_save_onclick()
+			{	
+				if ($('#zamba_index_33731').val() == '')
+				{
+					alert("Ingrese la Fecha de Factura");
+					$('#_33731').focus();
+					return false;
+				}
+
+				try
+				{
+				
+				var currentTime = new Date();
+				var date_user = dateToString(document.getElementById('zamba_index_33731').value);	
+				var date_actual = dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+				if(parseInt(date_user) > parseInt(date_actual))
+				{
+					alert("La fecha de la factura debe ser menor o igual a la fecha de hoy.");
+					$('#zamba_index_33731').focus();
+					return false;
+				}
+				
+				}
+catch(Err)
+				{
+					alert("La fecha de la factura debe ser menor o igual a la fecha de hoy.");
+					return false;
+
+				}
+				
+				if ($('#zamba_index_33729').val() == '')
+				{
+					alert("Ingrese el concepto");
+					$('#_33729').focus();
+					return false;
+				}
+
+				if ($('#zamba_index_33732').val() == '')
+				{
+					alert("Ingrese el beneficiario");
+					$('#_33732').focus();
+					return false;
+				}
+				
+				if ($('#zamba_index_33730').val() == '')
+				{
+					alert("Ingrese el Nro de Factura");
+					$('#_33730').focus();
+					return false;
+				}
+
+				if ($('#zamba_index_26206').val() == '')
+				{
+					alert("Ingrese el Importe");
+				
+					return false;
+				}
+				
+				if (document.getElementById("zamba_index_26206").value <= 0){
+					alert("Verifique que el importe sea mayor a cero.");
+						$('#_26206').focus();
+						return false;
+				}
+				
+				return true;	
+			}
+					
+	</script>
+	
+     </head>
+     <body>
+     <div id="container">
+	 <FORM name=frmMain id=33303 >
+	
+	 
+
+		 				<div name="design" id="design">
+					<strong>Gasto de Recupero</strong>
+				</div>
+
+<table id="table1" >
+<tr>
+
+<td  >
+<br/>
+
+<label >Concepto de Gastos</label>
+</td >
+<td class="separador"></td>
+<td>
+
+<input type="text" style="width: 200px" id="zamba_index_33729" readonly="readonly" class="readonly" name="Concepto de Gastos" />
+</td>
+</tr>
+<tr>
+
+<td  >
+<label >Beneficiario por Gasto</label>
+</td >
+<td class="separador"></td>
+
+<td>
+<input type="text" id="zamba_index_33732" readonly="readonly" class="readonly" name="Beneficiario por Gasto" />
+</td>
+</tr>
+<tr>
+
+</tr>
+<tr>
+<td  >
+<label >Factura Nro</label>
+</td >
+<td class="separador"></td>
+
+<td>
+<input type="text" id="zamba_index_33730" readonly="readonly" class="readonly" name="Factura Nro" />
+</td>
+</tr>
+<tr>
+
+<td  >
+<label >Fecha de Factura</label>
+</td >
+<td class="separador"></td>
+
+<td>
+<input type="text" id="zamba_index_33731" readonly="readonly" class="readonly" name="Fecha de Factura" />
+</td>
+
+</tr>
+<tr>
+<td  >
+<label >Importe</label>
+</td >
+<td class="separador"></td>
+
+<td>
+<input type="text" id="zamba_index_26206" readonly="readonly" class="readonly" name="Importe" />
+</td>
+
+</tr>
+</table>
+<br/>
+             <table>
+                 <tr>
+                     <td>
+                         <input id="zamba_save" type="submit" value="Guardar" name="zamba_save"  onclick="return zamba_save_onclick()" />
+                     </td>
+                     <td>
+                         <input id="zamba_cancel" type="submit" value="Cancelar" name="zamba_cancel"/>
+                     </td>
+                 </tr>
+             </table>
+
+         </FORM>
+     </body></html>
+

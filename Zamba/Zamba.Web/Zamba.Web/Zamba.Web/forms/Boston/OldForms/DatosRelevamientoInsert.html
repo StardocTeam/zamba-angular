@@ -1,0 +1,197 @@
+<html>
+	<head>
+		<title>Datos Relevamiento</title>
+		<link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+		<link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+		<link href="demo_table.css" rel="stylesheet" type="text/css" />
+		<link href="demo_page.css" rel="stylesheet" type="text/css" />
+		<link href="thickbox.css" rel="Stylesheet" type="text/css"/>
+		<link href="jquery-ui-1.8.6.css" rel="Stylesheet" type="text/css"/>
+		<link href="ZambaUIWeb.css" rel="Stylesheet" type="text/css"/>
+		<link href="ZambaUIWebTables.css" rel="Stylesheet" type="text/css"/>
+		<link href="jq_datepicker.css" rel="stylesheet" type="text/css"/>
+		<link href="GridThemes/WhiteChromeGridView.css" rel="Stylesheet" type="text/css"/>
+		<link href="tabber.css" rel="stylesheet" type="text/css" media="screen"/>
+		<link href="GridThemes/GridViewGray.css" rel="Stylesheet" type="text/css"/>
+		<link href="Zamba.css" rel="stylesheet" type="text/css"/>
+		<link href="Zamba_table.css" rel="stylesheet" type="text/css"/>
+
+		<script src="jquery-1.4.2.min.js" type="text/javascript"></script>
+		<script src="jquery-ui-1.8.6.min.js" type="text/javascript"></script>
+		<script src="jquery.layout-latest.js" type="text/javascript"></script>
+		<script src="jq_datepicker.js" type="text/javascript"></script>
+		<script src="thickbox-compressed.js" type="text/javascript"></script>
+		<script src="tabber.js" type="text/javascript"></script>
+		<script src="tabber.js" type="text/javascript"></script>
+		<script src="jquery.quicksearch.js" type="text/javascript"></script>
+		<script src="jquery.validate.min.js" type="text/javascript"></script>
+		<script src="jquery.decimalMask.1.1.1.min.js" type="text/javascript"></script>
+		<script src="jquery.dataTables.js" type="text/javascript"></script>
+		<script src="jquery.scrollTo.js" type="text/javascript"></script>
+		<script src="Zamba.js" type="text/javascript"></script>
+		
+		 <script type="text/javascript" language="JavaScript">	
+		var temp_ArrayDataCod;
+		
+
+	$(function() {
+		$( "#slider" ).slider({
+			range: "max",
+			min: 0,
+			max: 100,
+			value: 0,
+			slide: function( event, ui ) {
+				$( "#zamba_index_601299" ).val( ui.value );
+			}
+		});
+		$( "#zamba_index_601299" ).val( $( "#slider" ).slider( "value" ) );
+	});
+
+		
+		$(document).ready(function() {
+			temp_ArrayDataCod = $("#zamba_index_601290 option");
+			Temp_ChangeCbox(document.getElementById('zamba_index_601289'));
+
+			$("#zamba_index_601301").keydown(function(event) {
+			    // Allow: backspace, delete, tab and escape
+			    if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
+			    // Allow: Ctrl+A
+            (event.keyCode == 65 && event.ctrlKey === true) ||
+			    // Allow: home, end, left, right
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+			        // let it happen, don't do anything
+			        return;
+			    }
+			    else {
+			        // Ensure that it is a number and stop the keypress
+			        if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+			            event.preventDefault();
+			        }
+			    }
+			});
+		});
+
+		function Temp_ShowDataCod(val) {
+            var html = "";
+			html = '<option value="Otro">Otro</option>' + html;
+            var valueArray;
+            switch (val) {
+                case "Fachadas":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "Revoque y pintura" || valueArray == "Revoque Simil piedra" || valueArray == "Revestimiento ceramico/azulejos" || valueArray == "Ladrillo visto")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+
+                    }
+                    break;
+                case "Cubiertas":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "Membrana asfaltica" || valueArray == "Chapa hierro acanalada" || valueArray == "Chapa fibrocemento" || valueArray == "Tejas")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "Cielorrasos":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "Placa de Yeso" || valueArray == "Aplicado a la cal/yeso" || valueArray == "Suspendido a la cal/yeso" || valueArray == "Varillas metalicas" || valueArray == "Entablonado Machiembrado" || valueArray == "Hormigon Visto")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "Muros/Paramentos":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "Placa de Yeso" || valueArray == "Revoque Grueso y fino" || valueArray == "Revestimiento ceramico / azulejo" || valueArray == "Revestimiento de madera")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "Solados":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "Baldosa granitica" || valueArray == "Ceramico / Porcelanato" || valueArray == "Entablonado de madera / parque" || valueArray == "Linoleum / plastico / vinilico" || valueArray == "Carpeta / Cemento alisado")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "Carpinterias":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "Hierro" || valueArray == "Aluminio" || valueArray == "Madera")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+
+                case "":
+                    break;
+            }
+
+            return html;
+
+        }
+		
+		function Temp_ChangeCbox(ctl) 
+		{
+            var objSelected = $("#" + ctl.id.toString() + " option:selected");
+            var html = Temp_ShowDataCod(objSelected.val());
+            $("#zamba_index_601290").html(html);
+        }
+	</script>
+	</head>
+	<body>
+	    <div id="container">
+			<form id="frmMain" name="frmMain" method="post" action="" style="width: 800px; height: 400px">
+				<div name="design" id="design">
+					Datos Relevamiento
+				</div>
+				</br>
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />			
+				<input id="zamba_index_601286" name="zamba_index_601286" type="text" style="display: none;"></input>
+				<table cellpadding="4" width="100%">
+					<tr>
+						<td><label>Codigo</label></td>
+						<td><input id="zamba_index_601275" name="zamba_index_601275" type="text" readonly="true"/></td>
+					</tr>
+					<tr>
+						<td><label>ID Relevamiento</label></td>
+						<td><input id="zamba_index_601284" name="zamba_index_601284" type="text" readonly="true"/></td>
+					</tr>
+					<tr>
+						<td><label>Tipo</label></td>
+						<td><select id="zamba_index_601289" name="zamba_index_601289" style="width: 200px" onchange="Temp_ChangeCbox(this)"></select></td>
+					</tr>
+					<tr>
+						<td><label>Descripcion</label></td>
+						<td><select id="zamba_index_601290" name="zamba_index_601290" style="width: 200px" ></select></td>
+					</tr>
+					<tr>
+						<td><label>Condiciones de Conservacion</label></td>
+						<td><select id="zamba_index_601300" name="zamba_index_601300" style="width: 200px" ></select></td>
+					</tr>
+					<tr>
+						<td><label>Estado de Conservacion:</label></td>
+						<td><input type="text" id="zamba_index_601299" readonly="true" style="background: light-gray;"/></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><div id="slider" style="width: 200px"></div></td>
+					</tr>
+					<tr>
+					    <td></td>
+						<td><label for="zamba_index_601299">0=Bueno &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 100=Obsoleto</label></td>
+					</tr>
+					<tr>
+						<td><label>Medidas (m2)</label></td>
+						<td><input id="zamba_index_601301" name="zamba_index_601301" type="text" /></td>
+					</tr>
+					<tr>
+						<td><label>Observaciones</label></td>
+						<td><textarea cols="100" rows="8" id="zamba_index_1229" name="zamba_index_1229"></textarea></td>
+					</tr>
+				</table>
+				<center>
+					<input class=" submit" id="zamba_save"  name="zamba_save" type="submit" value="Guardar"/>
+				</center>
+		    </form>
+		</div>
+	</body>
+</html>

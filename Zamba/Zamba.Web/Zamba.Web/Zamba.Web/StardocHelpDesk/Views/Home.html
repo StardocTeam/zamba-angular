@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+
+    <script src="../../Scripts/jquery-2.2.2.js"></script>
+    <link href="../Css/Styles.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="../../Scripts/dropzone.js"></script>
+</head>
+   
+<body>
+   
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <a class="navbar-brand " href="#" >
+                <img src="../Content/Images/zamba.png" style="display:inline-block;height:30px;bottom:5px;position:relative"/> 
+                <span style="display: inline-block;position:relative;bottom:3px;margin-left:10px;">Zamba Invitacion</span>
+                 </a>
+            </div>
+        </nav>
+    
+    <div id="FormNewUser" class="col-xs-10">
+        <div class="row ">
+            <form action="../../Services/FileUpload.ashx" class="col-xs-12 col-sm-3 col-xs-offset-3 ImageZone dropzone uploadWidget" id="my-awesome-dropzone">
+
+                <div class="fallback">
+                    <input name="file" type="file" multiple />
+                </div>
+
+            </form>
+            <br />
+            <div class="col-sm-offset-7">
+          
+                <input class="form-control col-xs-4  inputs Nombre" placeholder="Nombre" required />
+
+                <input class="form-control col-xs-4 inputs Apellido" placeholder="Apellido" required/>
+
+                <input class="form-control col-xs-4 inputs Cliente" placeholder="Cliente"required />
+
+                <input class="form-control col-xs-4 inputs Sector" placeholder="Sector" required/>
+
+                <input class="form-control col-xs-4 inputs Puesto" placeholder="Puesto" required/>
+
+                <input class="form-control col-xs-4 inputs Mail" placeholder="Mail"required />
+
+                <input class="form-control col-xs-4 inputs Telefono" placeholder="Telefono"required />
+
+                <input class="form-control col-xs-4 inputs Interno" placeholder="Interno " />
+
+                <input class="form-control col-xs-4 inputs Celular" placeholder="Celular " />
+
+                <input class="form-control col-xs-4 inputs Password" placeholder="Password " required />
+            </div>
+            <span type="submit"  class="btn col-xs-3 col-xs-offset-3 btn-lg btn-default btnRegistro" >Registrarse</span>
+
+        </div>
+    </div>
+</body>
+
+
+
+</html>
+<script type="text/javascript">
+
+    ZambaWebRestApiURL = 'http://localhost/ZambaWeb.RestApi/api'
+    var url = ZambaWebRestApiURL + "/InvitedUser/";
+
+    $(".btnRegistro").click(function () {
+        var InvitedUser = {};
+        InvitedUser.Nombre = $(".Nombre").val();
+        InvitedUser.Apellido = $(".Apellido").val();
+        InvitedUser.Cliente = $(".Cliente").val();
+        InvitedUser.Sector = $(".Sector").val();
+        InvitedUser.Puesto = $(".Puesto").val();
+        InvitedUser.Mail = $(".Mail").val();
+        InvitedUser.Telefono = $(".Telefono").val();
+        InvitedUser.Interno = $(".Interno").val();
+        InvitedUser.Celular = $(".Celular").val();
+        InvitedUser.Password = $(".Password").val();
+        $.ajax({
+            type: "POST",
+            crossDomain: true,
+            //async: false,
+            url: url + 'Create',
+            dataType: 'json',
+            contentType:"application/json",
+            //headers: { 'Content-Type': 'text/plain' },
+            data: JSON.stringify({ 'user': InvitedUser }),
+            //data: { 'userId': 10 },
+            success: function (result) {
+            
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                return;
+            }
+        });
+
+    })
+ 
+
+    Dropzone.options.uploadWidget = {
+        paramName: 'file',
+        maxFilesize: 2, // MB
+        maxFiles: 1,
+        dictDefaultMessage: 'Subir Imagen',
+        headers: {
+            'x-csrf-token': document.querySelectorAll('meta[name=csrf-token]')[0].getAttributeNode('content').value,
+        },
+        acceptedFiles: 'image/*',
+        init: function () {
+            this.on('success', function (file, resp) {
+                console.log(file);
+                console.log(resp);
+            });
+            this.on('thumbnail', function (file) {
+                if (file.width < 640 || file.height < 480) {
+                    file.rejectDimensions();
+                }
+                else {
+                    file.acceptDimensions();
+                }
+            });
+        },
+        accept: function (file, done) {
+            file.acceptDimensions = done;
+            file.rejectDimensions = function () {
+                done('The image must be at least 640 x 480px')
+            };
+        }
+    };
+</script>

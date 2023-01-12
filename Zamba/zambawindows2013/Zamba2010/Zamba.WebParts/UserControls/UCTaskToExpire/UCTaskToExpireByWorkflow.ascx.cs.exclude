@@ -1,0 +1,121 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Zamba.Core;
+using Zamba.Services;
+////using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UCTaskToExpireByWorkflow : System.Web.UI.UserControl
+{
+
+    #region Metodos
+
+    public void InitializesComponents()
+    {
+        List<IWorkFlow> WFList = new List<IWorkFlow>();
+
+        WFList = Workflow.GetWorkflows();
+
+
+        foreach (IWorkFlow CurrentWorkflow in WFList)
+            cmbWorkflow.Items.Add(new ListItem(CurrentWorkflow.Name, CurrentWorkflow.ID.ToString()));
+
+        ShowReports();
+    }
+    public bool IsNumeric(object Expression)
+    {
+        bool isNum;
+        double retNum;
+
+        isNum = Double.TryParse(Convert.ToString(Expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
+        return isNum;
+    }
+
+    private void ShowReports()
+    {
+        if (!String.IsNullOrEmpty(cmbWorkflow.SelectedValue))
+        {
+            if (IsNumeric(txtHoursToExpire.Text))
+            {
+
+                dsTaskToExpire dsTyped = new dsTaskToExpire();
+
+                dsTaskToExpire.dtTaskToExpireRow dr1 = dsTyped.dtTaskToExpire.NewdtTaskToExpireRow();
+
+
+                dr1.TaskToExpire_Source = "Workflow " + cmbWorkflow.SelectedItem.ToString();
+                //Diego: Hardcodeo con 0 el parametro para que la funcion me devuelva los registros
+                //desde este momento hasta lo que defina el usuario
+                dr1.TaskToExpire_Count = Tasks.GetTaskToExpireByWorkflow(Int64.Parse(cmbWorkflow.SelectedValue), 0, Int32.Parse(txtHoursToExpire.Text));
+
+                dsTyped.Tables[0].Rows.Add(dr1);
+                dsTyped.AcceptChanges();
+
+                this.rpvTaskToExpireByWorkflow.LocalReport.DataSources.Clear();
+                this.rpvGrdTaskToExpireByWorkflow.LocalReport.DataSources.Clear();
+                ReportDataSource rptDatasource = new ReportDataSource("dsTaskToExpire_dtTaskToExpire", dsTyped.Tables[0]);
+                if (rdbVerGrafico.Checked)
+                {
+                    this.rpvTaskToExpireByWorkflow.LocalReport.DataSources.Add(rptDatasource);
+                    rpvTaskToExpireByWorkflow.Visible = true;
+                    rpvGrdTaskToExpireByWorkflow.Visible = false;
+                }
+                else
+                {
+                    this.rpvGrdTaskToExpireByWorkflow.LocalReport.DataSources.Add(rptDatasource);
+                    rpvTaskToExpireByWorkflow.Visible = false;
+                    rpvGrdTaskToExpireByWorkflow.Visible = true;
+                }
+                
+            }
+
+        }
+    }
+
+    #endregion
+
+    #region Eventos
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (txtHoursToExpire.Text == string.Empty)
+            txtHoursToExpire.Text = "24";
+
+        if (cmbWorkflow.Items.Count == 0)
+        {
+            InitializesComponents();
+        }
+        rpvGrdTaskToExpireByWorkflow.Visible = false;
+       
+    }
+
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+#endregion
+
+
+    protected void rdbVerGrafico_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerTabla.Checked = false;
+        ShowReports();
+    }
+    protected void rdbVerTabla_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerGrafico.Checked = false;
+        ShowReports();
+    }
+    protected void cmbWorkflow_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+}

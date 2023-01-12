@@ -1,0 +1,388 @@
+<html>
+<head>
+    <title>Reclamo de Terceros</title>
+    <link href="Union_styles.css" type="text/css" rel="stylesheet">
+    <link href="Union_styles_table.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
+        }
+
+        $(document).ready(function () {
+            makeCalendar('zamba_index_1183');
+            makeCalendar('zamba_index_1192');
+        });
+
+
+        function formatTime(id) {
+            $('#' + id).val($('#zamba_index' + id).val());
+
+            var ctrl = $('#' + id);
+            var time = ctrl.val().replace(":", "");
+
+            var h = time.substring(0, time.length - 2);
+            var m = time.substring(time.length - 2, time.length);
+
+            if (h != "" || m != "")
+                ctrl.val(h + ":" + m);
+
+            if ($('#zamba_index' + id).val() == 0)
+                ctrl.val("00" + ":" + "00");
+
+            if (h > 23 || m > 59)
+                ctrl.addClass("error");
+            else
+                ctrl.removeClass("error");
+        }
+
+        function validaDatos() {
+            if ($('#zamba_index_26478').val() == '0 - Sin Definir' || $('#zamba_index_26478').val() == '0') {
+                alert("Debe seleccionar un responsable.");
+                $('#zamba_index_26478').focus();
+                return false;
+            }
+            return true;
+        }
+
+        document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+    </script>
+</head>
+<body>
+    <form name="frmMain" method="post">
+     <div id="container" style="width: 910px;">
+        <center>
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 33%">
+                        <img src="images/Banco_Provincia (1).jpg" />
+                    </td>
+                </tr>
+            </table>
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            <div name="design" id="design" style="width: 800px;">
+                <strong>Antecedentes Generales</strong>
+            </div>
+            <br />
+            <div name="floatleft" id="floatleft" style="margin: 10px;">
+                <input type="text" name="zamba_index_1180" id="zamba_index_1180" style="display: none" />
+                <table width="750px">
+                    <tr>
+                        <td>
+                            <table cellpadding="1" border="2px" style="width: 100%;">
+                                <tr>
+                                    <th>
+                                        NOMBRE EJCUTIVO
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="zamba_index_1245" id="zamba_index_1245" style="width: 98%" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table cellpadding="1" border="2px" style="width: 100%;">
+                                <tr>
+                                    <th>
+                                        FECHA CONTACTO
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="zamba_index_1183" id="zamba_index_1183" style="width: 98%" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table cellpadding="1" border="2px" style="width: 100%;">
+                                <tr>
+                                    <th>
+                                        Nº DE ACTA
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="zamba_index_1246" id="zamba_index_1246" style="width: 98%" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                </br>
+                <table width="750px">
+                    <tr>
+                        <td>
+                            <table cellpadding="1" border="2px" style="width: 100%;">
+                                <tr>
+                                    <th>
+                                        NOMBRE Y APELLIDO
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="zamba_index_1182" id="zamba_index_1182" style="width: 98%" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table cellpadding="1" border="2px" style="width: 100%;">
+                                <tr>
+                                    <th>
+                                        IDENTIFICACION TRIBUTARIA
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <label>
+                                            <input type="text" name="zamba_index_1247" id="zamba_index_1247" style="width: 40%" />
+                                            Nº:
+                                        </label>
+                                        <input type="text" name="zamba_index_1188" id="zamba_index_1188" style="width: 40%" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                </br>
+                <table>
+                    <tr>
+                        <td>
+                            <label>
+                                1 - ¿Se verifico que no existen antecedentes comerciales desfavorables?....</label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_1249" id="zamba_index_1249" style="width: 50px">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                2 - ¿Se verifico que el cliente no tiene otro tipo de financiamiento de acuerdo
+                                con la Comunicacion "A" Nº 4891 del B.C.R.A. ?</label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_1250" id="zamba_index_1250" style="width: 50px">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                3 - ¿Se dio cumplimiento al Score de Riesgo?</label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_1251" id="zamba_index_1251" style="width: 50px">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                4 - ¿Se verifico que el "legajo crediticio" ha sido cumplimentado integramente?
+                                (Para operaciones superiores a $30.000)</label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_1252" id="zamba_index_1252" style="width: 50px">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                5 - ¿Se verifico domicilio en lugar:</label>
+                        </td>
+                    </tr>
+                </table>
+                <table width="600px">
+                    <tr>
+                        <td>
+                            <label>
+                                Direccion:
+                            </label>
+                            <input type="text" name="zamba_index_1253" id="zamba_index_1253" style="width: 65%" />
+                        </td>
+                        <td>
+                            <label>
+                                Nº:
+                            </label>
+                            <input type="text" name="zamba_index_1254" id="zamba_index_1254" style="width: 65%" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Localidad:
+                            </label>
+                            <input type="text" name="zamba_index_1204" id="zamba_index_1204" style="width: 65%" />
+                        </td>
+                        <td>
+                            <label>
+                                CP:
+                            </label>
+                            <input type="text" name="zamba_index_1255" id="zamba_index_1255" style="width: 65%" />
+                        </td>
+                    </tr>
+                </table>
+                <table width="80%">
+                    <tr>
+                        <td style="width: 31%">
+                            <input type="checkbox" name="zamba_index_1223_" />
+                            <strong>Nuevo Credito</strong>
+                        </td>
+                        <td style="width: 31%">
+                        </td>
+                        <td style="width: 31%">
+                            <strong>Caja de Ahorro Nº: </strong>
+                            <input type="text" name="zamba_index_1265" id="zamba_index_1265" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="zamba_index_1223_" />
+                            <strong>Renovacion de Credito</strong>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="zamba_index_1223_" />
+                            <strong>CRN</strong>
+                        </td>
+                        <td>
+                            <label>
+                                Solicita apertura
+                            </label>
+                            <input type="checkbox" name="zamba_index_1223_" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="checkbox" name="zamba_index_1223_" />
+                            <strong>Refinanciacion:</strong> El cliente refinancia su deuda.
+                        </td>
+                        <td>
+                            <label>
+                                Tasa Preferencial:
+                            </label>
+                            <input type="checkbox" name="zamba_index_1223_" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Prestamo Nº:
+                            <input type="text" name="zamba_index_1263" id="zamba_index_1263" />
+                        </td>
+                        <td>
+                            <label>
+                                Con Fianza:
+                            </label>
+                            <input type="checkbox" name="zamba_index_1223_" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            Fecha canc. / Finaliz.::
+                            <input type="text" name="zamba_index_1264" id="zamba_index_1264" />
+                        </td>
+                    </tr>
+                </table>
+                <strong>Observaciones: </strong></br>
+                <textarea id="zamba_index_64" name="zamba_index_64" cols="110" rows="6"></textarea>
+                <br />
+                <br />
+                <div name="design2" id="design2" style="width: 800px;">
+                    <strong>Descripcion del credito:</strong>
+                </div>
+                <br />
+                <center>
+                    <table width="780px">
+                        <tr>
+                            <td>
+                               <input type="checkbox" name="zamba_index_1223_" />
+                                CAPITAL de TRABAJO
+                            </td>
+                            <td>
+                                <input type="checkbox" name="zamba_index_1223_" />
+                                ADQ. DE BIENES Y/O SERV.
+                            </td>
+                            <td>
+                                <input type="checkbox" name="zamba_index_1223_" />
+                                REFINANCIACION
+                            </td>
+                            <td>
+                                <input type="checkbox" name="zamba_index_1223_" />
+                                TARJETA CRED.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="4">
+                                DESCRIPCION DEL NEGOCIO
+                            </th>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <input type="text" name="zamba_index_1270" id="zamba_index_1270" style="width: 98%" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                MONTO DEL CREDITO
+                            </th>
+                            <th>
+                                FECHA 1º CUOTA
+                            </th>
+                            <th>
+                                PLAZO
+                            </th>
+                            <th>
+                                LIMITE TARJ. CREDITO
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="zamba_index_1271" id="zamba_index_1271" style="width: 98%" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1272" id="zamba_index_1272" style="width: 98%" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1273" id="zamba_index_1273" style="width: 98%" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1274" id="zamba_index_1274" style="width: 98%" />
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+                <div name="alignleft" id="alignleft">
+                    <input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" /> 
+                </div>
+        </center>
+    </div>
+    </form>
+</body>
+</html>

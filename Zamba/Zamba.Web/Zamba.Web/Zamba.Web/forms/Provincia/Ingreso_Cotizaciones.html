@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+	</head>
+
+<body>
+
+
+    <form name="frmMain" action="Ingreso_Cotizaciones.html">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div class="container">
+            <div class="form-group row"></div>
+            <center>
+                <h5>INGRESO DE COTIZACIONES</h5>
+            </center>
+            <div class="form-group row"></div>
+            <center>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="INGRESO DE COTIZACIONES">
+
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro de PDC-->
+                                    <span class="input-group-addon">Nro de PDC:</span>
+                                    <input id="zamba_index_168" name="zamba_index_168" size="1" class="form-control input-sm=" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro de Expediente-->
+                                    <span class="input-group-addon">Nro de Expediente:</span>
+                                    <input id="zamba_index_12" name="zamba_index_12" size="1" class="form-control input-sm=" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro de Solicitud-->
+                                    <span class="input-group-addon">Nro de Solicitud:</span>
+                                    <input id="zamba_index_16" name="zamba_index_16" size="1" class="form-control input-sm" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--ID trámite-->
+                                    <span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                    <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div id="file1" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="101" default-enable-mode="grid" table-height="400" grid-title="Cotizaciones">
+                                </zamba-associated>
+                            </div>
+                        </div>
+                        <!--<div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="tablesorter" id="zamba_associated_documents_101">
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="form-group row">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Recepcion-->
+                                    <span class="input-group-addon">Fecha de solicitud:</span>
+                                    <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-9">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--delegación-->
+                                    <span class="input-group-addon">Delegación:</span>
+                                    <select type="button" class="form-control input-sm" id="zamba_index_82" name="zamba_index_82" size="1"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Sector-->
+                                    <span class="input-group-addon">Sector:</span>
+                                    <select id="zamba_index_126" name="zamba_index_126" size="1" class="form-control input-sm"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tblObervaciones" class="attributes_table">
+                            <div class="form-group row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-1">
+                                    <input class="btn  btn-info btn-sm" id="zamba_rule_1014004" name="zamba_rule_1014004" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12 col-md-6 ">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <!--Observacion-->
+                                            <h5 align="center"></h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <!--Area texto Observacion-->
+                                            <textarea class="form-control TextStyle" style="width:100%" rows="6" id="zamba_index_84" name="zamba_index_84" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="row">
+                                        <!--div class="col-xs-12" >
+                                            <--Cedula>
+                                            <h5 align="center">Ingrese la Cedula de Notificacion:</h5>
+                                        </div-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12" style="position:relative;bottom:-12px">
+
+                                            <!--DropZone-->
+                                            <zamba-drop id="11" IndexIds="48">  </zamba-drop><!--Antes tenia zamba drop 0-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-xs-offset-3">
+                                                    <div class="input-group">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="position:relative;left:0px;">
+                                                    <!--Botones FORM-->
+                                                    <input name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Ingresar">
+                                                    <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="Baremos">
+
+                                <div class="form-group row">
+                                    <div id="file2" ng-controller="ZambaAssociatedController">
+                                        <zamba-associated entities="11" default-enable-mode="grid" table-height="400" grid-title="Expediente">
+                                        </zamba-associated>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="tablesorter" id="zamba_associated_documents_11">
+
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="row">
+                                    <center>
+                                        <div class="col-md-2" style="position:relative;left:20px;">
+                                            <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">
+                                            <span style="color:whitesmoke">Ingreso_Cotizaciones.html</span>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                            <div class="form-group row">
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <script type="text/javascript">
+            //angular.element(document).ready(function () {
+            //angular.bootstrap(document.getElementById('myBenefAppID'), ['myBenefApp']);
+            //angular.bootstrap(document.getElementById('file1'), ['ZambaAssociatedApp']);
+            //angular.bootstrap(document.getElementById('file2'), ['ZambaAssociatedApp']);
+            //angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+            //angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+                                //}
+        </script>
+    </form>
+
+</body>
+</html>
+
+<style>
+    .Inputselect {
+        width: 100px !important;
+    }
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

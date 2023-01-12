@@ -1,0 +1,52 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UCTaskToExpireByUser.ascx.cs"
+    Inherits="UserControls_UCTaskToExpire_UCTaskToExpireByUser" %>
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<table>
+    <tr>
+        <td>
+            <asp:Label runat="server" ID="Label1" Text="Usuario:" Font-Size="XX-Small" />
+        </td>
+        <td>
+            <asp:DropDownList ID="cmbUsers" AutoPostBack =true runat="server" Font-Size="XX-Small" Width="145px" OnSelectedIndexChanged="cmbUsers_SelectedIndexChanged">
+            </asp:DropDownList>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <asp:Label runat="server" ID="Label2" Text="Horas restantes para expirar:" Font-Size="XX-Small" />
+        </td>
+        <td>
+            <asp:TextBox ID="txtHoursToExpire" runat="server" Width="45px" Font-Size="XX-Small"></asp:TextBox>
+            <asp:Button ID="btnBuscar" runat="server" OnClick="btnBuscar_Click" Text="Aplicar" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            </td>
+        <td>
+            <asp:RadioButton ID="rdbVerGrafico" AutoPostBack = true runat="server" Checked="True" Font-Size="XX-Small"
+                Text="Ver Gráfico" OnCheckedChanged="rdbVerGrafico_CheckedChanged" />
+            <asp:RadioButton ID="rdbVerTabla" AutoPostBack = true runat="server" Font-Size="XX-Small" Text="Ver Tabla" OnCheckedChanged="rdbVerTabla_CheckedChanged" /></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <rsweb:ReportViewer ID="rpvTaskToExpireByUser" runat="server" ShowFindControls="False"
+                ShowPageNavigationControls="False" ShowPrintButton="False" ShowPromptAreaButton="False"
+                Font-Names="Verdana" Font-Size="8pt" Height="400px" Width="400px">
+                <LocalReport ReportPath="Reports\rptTaskToExpire.rdlc">
+                </LocalReport>
+            </rsweb:ReportViewer>
+        </td>
+        <td>
+            <rsweb:ReportViewer ID="rpvGrdTaskToExpireByUser" runat="server" ShowFindControls="False"
+                ShowPageNavigationControls="False" Font-Names="Verdana" Font-Size="8pt" Height="400px"
+                Width="400px">
+                <LocalReport ReportPath="Reports\RptGrdTaskToExpire.rdlc">
+                </LocalReport>
+            </rsweb:ReportViewer>
+        </td>
+    </tr>
+</table>

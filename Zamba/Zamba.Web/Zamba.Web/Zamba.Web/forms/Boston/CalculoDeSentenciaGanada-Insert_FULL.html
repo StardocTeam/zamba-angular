@@ -1,0 +1,315 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 12.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="stylesheet" href="boston_styles.css" type="text/css" /> -->
+    <!-- <link rel="stylesheet" href="boston_styles_table.css" type="text/css" /> -->
+    <!--   -->
+    <!-- <script src="Scripts/jq_datepicker.js" type="text/javascript" language="JavaScript"></script> -->
+    <!--  -->
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            //CargarFechasyBotones();
+            $(".solodecimals").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                    else
+                    {
+                        SumarCampos();
+                    }
+                })
+            });
+            
+            $(".moneda").each(
+                function () {
+                    $(this).keyup(function (e) {
+                        //Valida que sean numeros y algunos caracteres especiales
+                        if (e.which != 8 || e.which != 0 || e.which != 46 || ((e.which > 47 && e.which < 58) || (e.which > 95 && e.which < 106))) {
+                            SumarCampos();
+                        }
+                    })
+                }
+            );
+            $('#zamba_save').click(zamba_save_onclick);
+        });
+        function zamba_save_onclick(evt) {
+            if (document.getElementById("zamba_index_2704").value == "") {
+                alert("Por favor, complete la Fecha de Notificacion.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                evt.preventDefault();
+            } else if (document.getElementById("zamba_index_2799").value == "" && document.getElementById("zamba_index_2797").value == "") {
+                alert("Por favor, complete el campo Honorarios Boston.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                evt.preventDefault();
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        function CloseLoading() {
+            setTimeout("parent.hideLoading();", 500);
+        }
+        function SumarCampos() {
+            //Obtiene cada valor y lo convierte a decimal
+            var sum = parseFloat($("#zamba_index_2799").val().replace('', '0'));
+            
+            sum += parseFloat($("#zamba_index_2800").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2801").val().replace('', '0'));
+
+            //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(sum));
+        }
+        function ExecuteSI() {
+            //Se borra el atributo Honorarios s/regular y se habilitan el resto de los honorarios
+            $('#zamba_index_2797').val('');
+            $('#zamba_index_2798').removeAttr("disabled");
+            $('#zamba_index_2799').removeAttr("disabled");
+            $('#zamba_index_2800').removeAttr("disabled");
+            $('#zamba_index_2801').removeAttr("disabled");
+
+            //Se realiza la sumatoria de los campos actuales
+            SumarCampos();
+        }
+        function ExecuteNO() {
+            //Se blanquean los otros honorarios para no ser tomados en cuenta en la sumatoria
+            $('#zamba_index_2798').val('');
+            $('#zamba_index_2799').val('');
+            $('#zamba_index_2800').val('');
+            $('#zamba_index_2801').val('');
+            $('#zamba_index_2798').attr('disabled', 'disabled');
+            $('#zamba_index_2799').attr('disabled', 'disabled');
+            $('#zamba_index_2800').attr('disabled', 'disabled');
+            $('#zamba_index_2801').attr('disabled', 'disabled');
+
+            //Se realiza la sumatoria de los campos actuales
+            SumarCampos();
+
+            //Se obtiene el 20%, se guarda el resultado en el campo Honorarios
+            //s/regular y se hace la suma del total mas el 20%.
+            var total = parseFloat($("#zamba_index_2719").val());
+            var veintePorciento = total * 0.2;
+            $("#zamba_index_2797").val(Redondear(veintePorciento));
+            $("#zamba_index_2719").val(total + veintePorciento)
+        }
+        function CargarFechasyBotones() {
+            $(function () {
+                CargarFechaIndice('zamba_index_2704');
+                CargarFechaIndice('zamba_index_2796');
+                //CargarFechaIndice('zamba_index_2829');
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <form name="frmMain" action="CalculoDeSentenciaGanada-Insert.html">
+            <center style="font-family:'Times New Roman', Times, serif">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+                <center>
+                    <div>
+                         <h4 style="color: black;">Rubro</h4>
+                    </div>
+                </center>
+
+                <div id="tblRubro" >
+                    <div class="form-group row"> </div>
+                    <div class="form-group row">
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Valor Vida $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2789" name="zamba_index_2789" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Daño Físico $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2790" name="zamba_index_2790" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Daño Moral $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2791" name="zamba_index_2791" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Daño Material $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2792" name="zamba_index_2792" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Otros $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2745" name="zamba_index_2745" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Intereses $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2793" name="zamba_index_2793" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"  
+                                    id="basic-addon1">Fecha de Cálculo</span>
+                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2796" name="zamba_index_2796">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"  
+                                    id="basic-addon1">Fecha de Notific.</span>
+                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2704" name="zamba_index_2704">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Tipo de Tasa</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2795" name="zamba_index_2795" disabled></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row"> </div>
+                    <div id="tblHonorarios" >
+
+                        <div>
+                            <center>
+                                <div>
+                                     <h4 style="color: black;">Honorarios</h4>
+                                </div>
+                                <h4>
+                                    <button class="btn  btn-primary btn-md" id="btnSI" name="btnSI" onclick="ExecuteSI();">SI</button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button class="btn  btn-primary btn-md" id="btnNO" name="btnNO" onclick="ExecuteNO();">NO</button>
+                                </h4>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="form-group row"> </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Honorarios s/regular $</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2797" name="zamba_index_2797" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Honorarios Actora $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2798" name="zamba_index_2798" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Honorarios Boston $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2799" name="zamba_index_2799">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Honorarios Peritos $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2800" name="zamba_index_2800" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Honorarios Mediador $</span>
+                                <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2801" name="zamba_index_2801">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="   padding:1px;" id="basic-addon1">Fecha de Sentencia</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2829" name="zamba_index_2829" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style=";padding: 1px;" id="basic-addon1">Es Firme</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2830" name="zamba_index_2830" ></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Tasa y Gastos $</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2802 moneda" name="zamba_index_2802" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#b5b1b1" id="basic-addon1"><b>Total de Sentencia $</b></span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2719" name="zamba_index_2719" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row"> </div>
+
+                    <input class="btn  btn-primary btn-md" type="submit" style="margin-right:5px;" class="submit" name="zamba_save" id="zamba_save" value="Guardar" />
+                    <input class="btn  btn-primary btn-md" type="submit" class="submit" name="zamba_cancel" id="zamba_cancel" value="Cancelar" />
+
+
+
+                    <div class="form-group row"> </div>
+                    <div class="form-group row"> </div>
+                </div>
+            </center>
+            <center>
+                    <div class="col-md-4">
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <span style="color:white">CalculoDeSentenciaGanada-Insert.html</span>
+                    </div>
+                
+                    <div class="col-md-4">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+        </form>
+
+    </div>
+</body>
+</html>

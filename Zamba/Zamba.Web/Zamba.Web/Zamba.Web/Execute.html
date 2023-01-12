@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Zamba BPM</title>
+</head>
+<body>
+    <h4>No esta habilitada esta entidad para Aprobar o rechazar una Tarea, debe configurar las acciones previamente. Consulte con el administrador del sistema.</h4>
+    <h5>Debera acceder a la tarea para realizar la Accion.</h5>
+
+    <script>
+
+
+        function GetUID() {
+            var userid = 0;
+            userid = getUrlParameters().user;
+            if (userid > 0) return userid;
+            userid = getUrlParameters().userid;
+            if (userid > 0) return userid;
+            userid = getUrlParameters().u;
+            if (userid > 0) return userid;
+
+            var e = $('#hdnUserId');
+
+            if (e.length == 0) e = $('#ContentPlaceHolder_hdnUserId');
+            if (e.length == 0) e = $('#ctl00_hdnUserId');
+            if (e.length == 0) e = $('#hdnUserId');
+            if (e.length == 0) e = $('hdnUserId');
+
+            userid = $(e).val();
+            if (userid > 0) return userid;
+
+
+            var authData = window.localStorage.getItem('authorizationData');
+            if (authData == undefined || authData == null || authData == "[object Object]" || authData == "") {
+                return;
+            }
+
+            authData = JSON.parse(authData);
+            if (authData == null || authData.UserId == undefined) {
+                userid = authData.UserId;
+                if (userid > 0) return userid;
+
+            }
+
+            return;
+        };
+
+        function GetDOCID() {
+            var docid = 0;
+            docid = getUrlParameters().docid;
+            if (docid > 0) return docid;
+            docid = getUrlParameters().did;
+            if (docid > 0) return docid;
+            docid = getUrlParameters().doc_id;
+            if (docid > 0) return docid;
+            docid = Number($("[id$=Hiddendocid]").val());
+            if (docid > 0) return docid;
+            return 0;
+        }
+
+        function GetTASKID() {
+            var taskid = 0;
+            taskid = getUrlParameters().taskid;
+            if (taskid > 0) return taskid;
+            taskid = getUrlParameters().tid;
+            if (taskid > 0) return taskid;
+            taskid = getUrlParameters().task_id;
+            if (taskid > 0) return taskid;
+            return 0;
+        }
+
+        function GetDocTypeId() {
+
+            var docTypeId = 0;
+            try {
+
+                docTypeId = getUrlParameters().doctype;
+
+                if (docTypeId > 0)
+                    return docTypeId;
+
+                docTypeId = getUrlParameters().doc_type_id;
+
+                if (docTypeId > 0)
+                    return docTypeId;
+
+                docTypeId = getUrlParameters().dt_id;
+
+                if (docTypeId > 0)
+                    return docTypeId;
+
+                docTypeId = getUrlParameters().eid;
+
+                if (docTypeId > 0)
+                    return docTypeId;
+
+
+                return docTypeId;
+            } catch (e) {
+
+                console.error("No se pudo obtener el docTypeId", e);
+                return docTypeId;
+
+            }
+        }
+
+        function getUrlParameters() {
+            var pairs = window.location.search.substring(1).split(/[&?]/);
+            var res = {}, i, pair;
+            for (i = 0; i < pairs.length; i++) {
+                pair = pairs[i].toLowerCase().split('=');
+                if (pair[1])
+                    res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+            }
+            return res;
+        }
+
+
+        function getUrlParametersUser() {
+            var pairs = window.location.search.substring(1).split(/[&?]/);
+            var res = {}, i, pair;
+            for (i = 0; i < pairs.length; i++) {
+                pair = pairs[i].toLowerCase().split('=');
+                if (pair[1])
+                    res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+            }
+            return res;
+        }
+
+
+    </script>
+</body>
+</html>

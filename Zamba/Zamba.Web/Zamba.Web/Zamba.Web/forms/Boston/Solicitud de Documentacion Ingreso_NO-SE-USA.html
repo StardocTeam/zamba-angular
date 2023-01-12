@@ -1,0 +1,173 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="Solicitud de Documentacion RO.css" type="text/css" />
+	 
+	<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+	
+	<script type="text/javascript" language="JavaScript">
+	
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_index_2705").value == ""){
+			alert("Por favor, complete la Fecha de Vencimiento.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}
+	
+ 
+	function esDigito(sChr){
+		var sCod = sChr.charCodeAt(0);
+		return ((sCod > 47) && (sCod < 58));
+	}
+	function valSep(oTxt){
+		var sep;
+		//Busca algún caracter separador y lo guarda (acá podrían agregarse nuevos formatos)
+		if(oTxt.value.indexOf('/') > -1){
+			sep = '/';
+		} else if(oTxt.value.indexOf('-') > -1){
+			sep = '-';
+		}
+		//Verifica que haya encontrado algo
+		if(sep.length > 0){
+			//Verifica que haya más de un separador
+			if(oTxt.value.indexOf(sep) != oTxt.value.lastIndexOf(sep)){
+				//Verifica que existan dos digitos antes del primer separador
+				if(oTxt.value.indexOf(sep) != 2){
+					//En caso de no existir agrega un cero delante
+					oTxt.value = "0" + oTxt.value;
+					//Verifica nuevamente los dos dígitos
+					if(oTxt.value.indexOf(sep) != 2){
+						//Si pasa por acá es porque tenía más de 2 dígitos de entrada
+						return false;
+					}
+				}
+				//Verifica lo mismo pero con el siguiente separador
+				if(oTxt.value.lastIndexOf(sep) != 5){
+					var i = oTxt.value.substring(0,3);
+					var f = oTxt.value.substring(3);
+					oTxt.value = i + "0" + f;
+					if(oTxt.value.lastIndexOf(sep) != 5){
+						return false;
+					}
+				}
+				return true;
+			}
+		} else {
+			alert("Los días, meses y años deben estar separados por el caracter / o el -");
+			return false;
+		}
+	}
+	function finMes(oTxt){
+		var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+		var nRes = 0;
+		switch (nMes)
+		{
+			case 1: nRes = 31; break;
+			case 2: nRes = 29; break;
+			case 3: nRes = 31; break;
+			case 4: nRes = 30; break;
+			case 5: nRes = 31; break;
+			case 6: nRes = 30; break;
+			case 7: nRes = 31; break;
+			case 8: nRes = 31; break;
+			case 9: nRes = 30; break;
+			case 10: nRes = 31; break;
+			case 11: nRes = 30; break;
+			case 12: nRes = 31; break;
+		}
+		return nRes;
+	}
+	function valDia(oTxt){
+		var bOk = false;
+		var nDia = parseInt(oTxt.value.substr(0, 2), 10);
+		bOk = bOk || ((nDia >= 1) && (nDia <= finMes(oTxt)));
+		return bOk;
+	}
+	function valMes(oTxt){
+		var bOk = false;
+		var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+		bOk = bOk || ((nMes >= 1) && (nMes <= 12));
+		return bOk;
+	}
+	function valAno(oTxt){
+		var bOk = true;
+		var nAno = oTxt.value.substr(6);
+		bOk = bOk && ((nAno.length == 2) || (nAno.length == 4));
+		if (bOk)
+		{
+			for (var i = 0; i < nAno.length; i++)
+			{
+				bOk = bOk && esDigito(nAno.charAt(i));
+			}
+		}
+		return bOk;
+	}
+	function valFecha(oTxt){
+		var bOk = true;
+		if (oTxt.value != "")
+		{
+			bOk = bOk && (valSep(oTxt));
+			bOk = bOk && (valAno(oTxt));
+			bOk = bOk && (valMes(oTxt));
+			bOk = bOk && (valDia(oTxt));
+			
+			if (!bOk)
+			{
+				alert("La fecha ingresada es invalida");
+				oTxt.focus();
+			}
+		}
+	}
+	function comprobarSiBisisesto(anio){
+		if ( ( anio % 100 != 0) && ((anio % 4 == 0) || (anio % 400 == 0))) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}	
+	</script>
+ </head>
+<body onload="javascript:CargarFechasyBotones();">
+<form name="frmMain" action="Solicitud de Documentacion RO.html">
+    <div id="design" width="90%">
+        Solicitud de Documentacion
+    </div><BR>
+	<center>
+    <table id="tblDoc" cellspacing="2" cellpadding="1" border="0">
+        <tr>
+			<td>
+				<label>
+					Tipo de Documentacion</label> 
+			</td>
+			<td>
+				<input id="zamba_index_2728" name="zamba_index_2728" style="width:200px;">
+			</td>
+			<td class="separador"></td>
+			<td>
+				<label>
+					Vencimiento:</label>
+			</td>
+			<td>
+				<input id="zamba_index_2705" name="zamba_index_2705" style="width:100px;" onblur="valFecha(this)"/>
+			</td>
+        </tr>
+	</table><br>
+	<table cellspacing="2" cellpadding="1" border="0">
+		<tr>
+			<td>  
+			<center>
+					<input id="zamba_save" name="zamba_save" type="submit" value="Guardar" />
+			</center>                         
+			</td>
+		</tr> 
+    </table>
+	</center>
+	</form>
+</body>
+</html>

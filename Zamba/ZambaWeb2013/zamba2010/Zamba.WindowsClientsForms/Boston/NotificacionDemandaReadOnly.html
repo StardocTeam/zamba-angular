@@ -1,0 +1,69 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+</head>
+<body >
+    <form name="frmMain" action="NotificacionDemandaReadOnly.html">
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+	<div id="design" style="width:100%;">Notificación</div>
+    <table id="tblNotificacion" class="attributes_table">
+        <tr>
+			<td><label>Juicio / Mediación:</label> 
+			<td><select id="zamba_index_2681" size="1" name="zamba_index_2681" class="w100px" disabled="disabled"></select>
+			<td class="separador">			
+			<td><label>ID Reclamo:</label>
+			<td><input id="zamba_index_2677" name="zamba_index_2677" class="w150px" disabled="disabled">
+        </tr>
+        <tr>
+			<td><label>Tipo de Notificación:</label> 
+			<td><select id="zamba_index_2717" size="1" name="zamba_index_2717" class="w250px" disabled="disabled"></select>
+			<td class="separador">	
+			<td><label>Fecha de Notificación:</label>
+			<td><input id="zamba_index_2704" name="zamba_index_2704" class="w150px" disabled="disabled"/>
+        </tr>
+		<tr>
+			<td><label>ID Notificación:</label>
+			<td><input id="zamba_index_2702" name="zamba_index_2702" class="w100px" disabled="disabled" />
+			<td class="separador">	
+			<td><label>Fecha de Vencimiento:</label>
+			<td><input id="zamba_index_2705" name="zamba_index_2705" class="w150px" disabled="disabled"/>
+		</tr>
+		<tr>
+			<td><label>Datos Stro:</label>
+			<td><select id="zamba_index_1001010" name="zamba_index_1001010" class="w100px" disabled="disabled"></select>
+			<td class="separador">	
+			<td><td>
+		</tr>
+		<tr>
+			<td><label>Carátula:</label>
+			<td colspan="4"><input id="zamba_index_2701" name="zamba_index_2701" style="width:619px;" disabled="disabled"/>
+		</tr>
+	</table>
+	<br/>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><input id="zamba_rule_11443" name="zamba_rule_11443" style="width:160px" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+		</tr>
+		<tr>
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 680px" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled"></textarea> 
+		</tr>
+	</table>
+	<br/>
+	</center>
+    <center style="z-index: -1">
+        <iframe 
+			id="zamba_innerdoctype_original" 
+			align="middle" 
+			height="90%" 
+			title="Documento Original"
+			width="90%"              >
+		</iframe>
+	</center>
+    </form>
+</body>
+</html>

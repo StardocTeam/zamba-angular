@@ -1,0 +1,233 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+    </script>
+    <style type="text/css">
+        .style1
+        {
+            width: 837px;
+        }
+        .style2
+        {
+            width: 836px;
+        }
+        .style3
+        {
+            width: 735px;
+        }
+        #zamba_index_12373
+        {
+            width: 755px;
+        }
+        .style4
+        {
+            width: 638px;
+        }
+        .widthfield1
+        {
+            width:280px;    
+        }
+   
+        
+    </style>
+    
+     
+
+</head>
+<body>
+    <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Consulta Pedido AYSA</strong>
+    </div>
+    <table style="width: 98%;">
+        <tr>
+            <td colspan="3">
+                <div id="floatleft">
+                    <div id="TAB" class="tabber" style="">
+                        <div class="tabbertab" id="General">
+                            <h2>
+                                Pedido Interno
+                            </h2>
+                            <table style="width: 90%;">
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Numero de Pedido</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="zamba_index_12362" name="zamba_index_12362" disabled="disabled"  class="widthfield1" />
+                                    </td>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Usuario Solicitante</label>
+                                        </td>
+                                        <td>
+                                            <input type="text"  id="zamba_index_12368" name="zamba_index_12368"
+                                                disabled="disabled"  class="widthfield1" />
+                                        </td>
+                                    </p>
+                                </tr>
+                                <tr>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Direccion</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="zamba_index_12451" name="zamba_index_12451"
+                                                disabled="disabled" disabled="disabled"  class="widthfield1" />
+                                        </td>
+                                    </p>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Autorizante</label>
+                                        </td>
+                                        <td>
+                                            <select id="zamba_index_12433" name="zamba_index_12433" disabled="disabled"  class="widthfield1">
+                                            </select>
+                                        </td>
+                                    </p>
+                                </tr>
+
+                                 </tr>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Numero de Pedido de Utiles</label>
+                                    </td>
+                                    <td class="style2">
+                                        <input type="text" id="zamba_index_12475" name="zamba_index_12475" disabled="disabled"  class="widthfield1"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Fecha de Solicitud</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="zamba_index_12364" name="zamba_index_12364" disabled="disabled"  class="widthfield1"/>
+                                    </td>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Fecha de Entrega Estimada</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="zamba_index_12365" name="zamba_index_12365" disabled="disabled"  class="widthfield1"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Transporte para Despacho</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="zamba_index_12430" name="zamba_index_12430"
+                                            disabled="disabled"  class="widthfield1" />
+                                    </td>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Centro de Costo</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="zamba_index_12387" name="zamba_index_12387" disabled="disabled"  class="widthfield1" />
+                                        </td>
+                                    </p>
+                                </tr>
+                                <br />
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Sitio</label>
+                                    </td>
+                                    <td>
+                                        <select id="zamba_index_12427" name="zamba_index_12427" disabled="disabled"  class="widthfield1">
+                                        </select>
+                                    </td>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Deposito</label>
+                                    </td>
+                                    <td>
+                                        <select id="zamba_index_12428" name="zamba_index_12428" disabled="disabled"  class="widthfield1">
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            <hr />
+                            <h3>
+                                Productos del Pedido</h3>
+                            <br />
+                            <table id="zamba_zvar(ProductosdelPedido)" class="tablesorter">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tabbertab" id="Div1">
+                            <h2>
+                                Observaciones
+                            </h2>
+                            <table>
+                                <tr>
+                                    <p>
+                                        <td class="style4">
+                                            <label style="width: 14em;">
+                                                Observaciones</label>
+                                        </td>
+                                        <td colspan="4" class="style3">
+                                            <textarea rows="5" id="zamba_index_12373" name="zamba_index_12373" 
+                                                readonly="readonly"></textarea>
+                                        </td>
+                                    </p>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="tabbertab" id="Div2">
+                            <h2>
+                                Rechazos, Devoluciones
+                            </h2>
+                            <table>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Motivo de Rechazo</label>
+                                    </td>
+                                    <td>
+                                        <textarea cols="100" rows="5" id="zamba_index_12372" name="zamba_index_12372" readonly="readonly"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--Cierre de TabtDetalle de Pedido Interno-->
+                    </div>
+                </div>
+        </tr>
+        <tr>
+            <td>
+                <img src="images/logocliente.bmp" height="50" width="70" />
+                <img src="images/pwbyzamba.jpg" align="right" />
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

@@ -1,0 +1,120 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	    $(document).ready(function () {
+	        $(".solonums").each(function () {
+	            $(this).keypress(function (e) {
+	                return IntegerCheck(e);
+	            })
+	        });
+	        $(".sololectura").each(function () {
+	            $(this).keypress(function (e) {
+	                return false;
+	            })
+	        });
+	        $(".moneda").each(function () {
+	            $(this).keyup(function (e) {
+					if(e.which!=8 || e.which!=0 || e.which!=46 || ((e.which>47 && e.which<58) || (e.which>95 && e.which<106))){
+						SumarCampos();
+					}
+	            })
+	        });
+
+			$("#zamba_save").click(CheckData);
+			
+	        $('#zamba_index_2719').css("background-color", "lightgray");
+	        $('#zamba_index_2719').css("color", "gray");
+	        $('#zamba_index_2720').css("background-color", "lightgray");
+	        $('#zamba_index_2720').css("color", "gray");
+	        $('#zamba_index_2677').css("background-color", "lightgray");
+	        $('#zamba_index_2677').css("color", "gray");
+	        $('#zamba_index_64').css("background-color", "lightgray");
+	        $('#zamba_index_64').css("color", "gray");
+	    });
+	    function SumarCampos() {
+		    //Obtiene cada valor y lo convierte a decimal
+	        var cap = parseFloat($("#zamba_index_2744").val().replace('', '0').replace(',', '.'));
+	        var hon = parseFloat($("#zamba_index_2746").val().replace('', '0').replace(',', '.'));
+	        var otr = parseFloat($("#zamba_index_2745").val().replace('', '0').replace(',', '.'));
+	        var por = parseFloat($("#zamba_index_2836").val().replace('', '0').replace(',', '.'));
+
+		    //Verifica que se deba ajustar al porcentaje de honorarios
+		    if ($("#zamba_index_2836").value != "" && por > 0){
+			    //Si el porcentaje es invalido lo setea a cero
+			    if(por>100 || por<=0){
+				    hon = 0;
+				    $("#zamba_index_2836").val(0);
+				    $("#zamba_index_2746").val(0);
+				} else {
+				    hon = (por * cap) / 100;
+				    hon = Redondear(hon);
+				    $("#zamba_index_2746").val(hon.toString().replace('.', ','));
+			    }	
+		    }
+			
+		    //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(cap + hon + otr).toString().replace('.', ','));
+	    }
+	    function CheckData(evt) {
+		    if ($("#zamba_index_2719").value == "" || $("#zamba_index_2719").value <= 0){
+				ShowErrorMessage(evt, "Verifique que el Importe sea mayor que cero.");
+		    } else {
+			    SaveDocument(document);
+		    }
+	    }
+	</script>
+ </head>
+<body>
+    <form name="frmMain" action="PretOfer - Insert.html">
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblOferta" class="attributes_table">
+        <tr>
+			<td><label>ID Reclamo:</label> 
+			<td><input id="zamba_index_2677" name="zamba_index_2677" class="w175px readonly" readonly="readonly">
+			<td class="separador">
+			<td><td>
+        </tr>
+		<tr>
+			<td><label><b>Capital $:</b></label>
+			<td><input id="zamba_index_2744" name="zamba_index_2744" class="moneda w175px">
+			<td class="separador">
+			<td><label><b>Honorarios $:</b></label>
+			<td><input id="zamba_index_2746" name="zamba_index_2746" class="moneda w175px">
+		</tr>
+		<tr>
+			<td><label><b>Otros $:</b></label>
+			<td><input id="zamba_index_2745" name="zamba_index_2745" class="moneda w175px">
+			<td class="separador">
+			<td><label><b>Total:</b></label>
+			<td><input id="zamba_index_2719" name="zamba_index_2719" class="readonly w175px" readonly="readonly">
+		</tr>
+		<tr>
+			<td>&nbsp;<td>&nbsp;
+			<td class="separador">
+			<td>&nbsp;<td>&nbsp;
+		</tr>
+        <tr>
+			<td><label>Cantidad de días:</label>
+			<td><input id="zamba_index_2835" name="zamba_index_2835" class="w175px solonums"/>
+			<td class="separador">
+			<td><label>% Honorarios:</label>
+			<td><input id="zamba_index_2836" name="zamba_index_2836" class="w175px moneda dataType" dataType="decimal_2_16"/>
+        </tr>
+	</table>
+	<br>
+	<textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 660px" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea> 
+	<br>	
+<div style="text-align: center">
+<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/>
+<input type="submit" class="submit" name="zamba_cancel" id="zamba_cancel" value="CANCELAR" />
+</div>
+	</center>
+    </form>
+</body>
+</html>

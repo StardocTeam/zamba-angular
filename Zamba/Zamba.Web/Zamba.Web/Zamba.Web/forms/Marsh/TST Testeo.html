@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+ <title></title>
+<!--
+Version:2.0.0.0 Modifico:NA Fecha: 09/10/09 Comentarios: NA
+Version:2.0.0.1 Modifico:TT & SF Fecha: 01/07/09 Comentarios: Se modifico el calendario
+
+Ejemplo: Mantener Historial
+Version:2.0.0.0 Modifico:xxxxx Fecha:12/05/09 Comentarios:xxxxxxxx
+Version:1.9.0.1 Modifico:xxxxx Fecha:12/05/09 Comentarios:xxxxxxxx
+
+-->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+	<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+	
+	<script src="Seguimiento Denuncias.js" type="text/javascript" language="JavaScript"></script> 
+ 	<link rel="stylesheet" href="Seguimiento Denuncias.css" type="text/css"/>
+	
+
+	<script type="text/javascript" language="JavaScript">
+
+		function makeCalendar(id)
+		{
+			$(function() 
+			{
+				$('#' + id).datepicker({
+					changeMonth: true,
+					changeYear: true,
+					showOn: 'button', 
+					buttonText: 'Abrir calendario',
+					buttonImage: 'images/calendar.png', 
+					buttonImageOnly: true,
+					duration: ""
+				});
+			});
+		}
+
+		function CalculoParaOnLoad()
+		{
+			makeCalendar('zamba_Index_27');
+			makeCalendar('zamba_Index_3014');
+			makeCalendar('zamba_Index_3003');
+			makeCalendar('zamba_Index_3002');
+			makeCalendar('zamba_Index_2048');
+			makeCalendar('zamba_Index_3007');
+			makeCalendar('zamba_Index_2049');
+		}
+
+		
+ </script>
+    <style type="text/css">
+        .style1
+        {
+            width: 295px;
+        }
+        .style2
+        {
+            width: 222px;
+        }
+    </style>
+</head>
+<body style="background-color:#F4F5FF" onload="javascript:CalculoParaOnLoad();">
+   	    
+    <form name="frmMain" action="Seguimiento Denuncias.html">
+
+
+<table
+ style="width: 640px; text-align: left; margin-left: auto; margin-right: auto;">
+    <thead> <tr>
+      <td style="color: white; background-color: rgb(0, 102, 204);"
+ colspan="4"> </td>
+    </tr>
+    </thead> <tbody>
+
+       <tr>
+      </tr>
+
+    </tbody>
+  </table>
+  <table align="center" width="640">
+    <thead> 
+    <tr>
+      <td colspan="4" style="color: White;" bgcolor="#0066cc">TST Testeo</td>
+    </tr>
+    </thead> 
+   <tbody>
+<tr>
+        <td height="26" width="100">
+        <font face="Tahoma" size="2">ID: </font> 
+	</td>
+        <td> <input id="zamba_Index_126" style="width: 100px;" size="1"
+ name="zamba_Index_126" type="text"/> </td>
+    <td height="26"> <font face="Tahoma" size="2"> Proveedor </font> </td>
+        <td>
+        <select id="zamba_index_60" style="width: 200px; font-size: small;" />
+		</td>
+     </tr>		
+      <tr>
+        <td height="26"> <font face="Tahoma" size="2"> Tipo de Comprobante: </font>
+        </td>
+        <td>
+        <select id="zamba_index_246" style="width: 200px; font-size: small;" />
+        </td>
+		
+		
+		<td height="26" width="100">
+        <font face="Tahoma" size="2">Fecha: </font> </td>
+        <td> <input id="zamba_Index_30" style="width: 100px;" size="1"
+ name="zamba_Index_30" type="text" disabled="disabled"/> </td>
+		
+		        
+      </tr>
+
+
+     <tr>
+	 <td height="26"> <font face="Tahoma" size="2"> Importe: </font>
+        </td>
+        <td>
+        <input id="zamba_Index_65" style="width: 100px;" size="1"
+ name="zamba_Index_65" type="text"/> </td>
+        <td height="26" > <font face="Tahoma" size="2"> Moneda: </font>
+        </td>
+        <td colspan="4">
+        <select id="zamba_index_80" style="width: 200px; font-size: small;" />  </td>
+		
+		
+      </tr>
+
+  <thead> <tr>
+      <td style="color: white; background-color: rgb(0, 102, 204);"
+ colspan="4"> </td>
+    </tr>
+    </thead>
+<tr></tr>
+ 
+  <tr> 
+       <td height="26" > <font face="Tahoma" size="2"> Estado: </font>
+        </td>
+        <td  colspan="4">
+         <select id="zamba_index_503114" style="width: 250px; font-size: small;" />   </td>
+</tr>
+
+   
+    
+   <thead> <tr>
+      <td style="color: white; background-color: rgb(0, 102, 204);"
+ colspan="4"> </td>
+    </tr>
+    </thead>
+</tbody>
+</table>
+
+
+ 
+  <table align="center" width="640">
+    <tbody>
+   <tr>
+   <td height="56" width="116">
+    <font face="Tahoma" size="2">Detalle: </font> </td>
+   <td>
+     <textarea type="text" name="zamba_Index_33100" id="zamba_Index_3100" style=" width: 600px;">
+     </textarea>
+   </td>
+  </tr>
+
+ <tr></tr>
+<tr></tr>
+<tr></tr>
+
+  </tbody>
+
+</table>
+
+  <center>
+  <table>
+    <tbody>
+      <tr>
+        <td class="style1">
+        <center> <input id="zamba_save" style="font-weight: bold;"
+ value="Guardar" name="zamba_save" type="submit" /></center>
+        </td>
+        <td class="style2">
+        <input id="zamba_cancel" style="font-weight: bold;"
+ value="Cancelar" name="zamba_cancel" Readonly="readonly" type="submit" /></td>
+      </tr>
+    </tbody>
+  </table>
+  </center>
+</form>
+</body>
+</html>

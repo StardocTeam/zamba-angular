@@ -1,0 +1,278 @@
+<html>
+	<head>
+		<title>Indemnizaci&oacute;n/Gasto de Asegurado/Tercero</title>	
+		<!--
+		ID Form:
+		Creaci�n
+		Fecha de Creaci�n:13-11-2012
+		Autor de Creaci�n:GustavoR
+		Descripci�n: Basandonos en el form Gasto ing AT se crea este nuevo para RV en el cual se agregan
+		los siguientes atributos: Sector, causa del siniestro y cobertura afectada al pago.
+		Modificaci�n
+		Fecha de �ltima Modificaci�n:
+		Autor de �ltima Modificaci�n:
+		-->					
+		<!--<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">-->		
+		
+		<script src="Gasto.js" type="text/javascript" language="JavaScript"></script>
+		<!--<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+				
+		<script type="text/javascript" src="tabber.js"></script>
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">-->			
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender){
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function zamba_save_onclick(){
+				if ($("#zamba_index_26206").value == ""){
+					alert("Por favor, complete el Importe.");
+					$("#hdnRuleId").name = "zamba_rule_cancel";
+				} else if ($("#zamba_index_26206").value <= 0){
+					alert("Verifique que el importe sea mayor a cero.");
+					$("#hdnRuleId").name = "zamba_rule_cancel";
+				} else if ($("#zamba_index_26291").value == ""){
+					alert("Por favor, complete la Empresa.");
+					$("#hdnRuleId").name = "zamba_rule_cancel";
+				} else if ($("#zamba_index_26290").value == ""){
+					alert("Por favor, complete la Sucursal.");
+					$("#hdnRuleId").name = "zamba_rule_cancel";
+				} else {
+					var currentTime = new Date();
+					var date_user = dateToString($('#zamba_index_26326').value);	
+					var date_actual = dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+					if(parseInt(date_user) > parseInt(date_actual))
+					{
+						alert("La fecha del comprobante debe ser menor o igual a la fecha de hoy.");
+						$('#zamba_index_26326').focus();
+						$("#hdnRuleId").name = "zamba_rule_cancel";
+					} else {
+						$("#hdnRuleId").name = "zamba_rule_save";
+					}
+				}
+			}
+			function dateToString(date){
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			function format(txt){
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+			
+			}
+			$(document).ready(function(){							
+			   		
+				
+				// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Indemnizaci&oacute;n/Gasto de Asegurado/Tercero</strong>
+				</div>
+				<br />
+                	
+				<table cellpadding="4">
+					<tr>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+                        <td class="style1"></td>
+						<td class="style1"></td>
+					</tr>
+					
+					<tr>
+						<td class="style8" colspan="2">&nbsp;<label>Sector:</label></td>
+						<td class="style8" colspan="4"><input type="text" id="Text2" name="zamba_index_135512" size="50" readonly="true" class="readonly"/></td>
+                        <td class="style8">&nbsp;<label>Rama:</label></td>
+						<td class="style8"><input type="text" name="zamba_index_26294" size="50" readonly="true" class="readonly"/></td>
+				
+						<td><label id="label_Claims_Made">&nbsp;&nbsp;&nbsp; I/G con Inconvenientes:</label></td>
+						<td><input id="zamba_rule_233393" id="zamba_index_195552" name="zamba_index_195552" style="text-align:center; margin-right:25px;"
+						type="checkbox" value="I/G con Inconvenientes" onclick="SetRuleId(this);"/></td>
+					</tr>		
+				</div>
+				</table>
+                <div class="tabber">
+                    <div class="tabbertab">
+                        <h2>Informaci&oacute;n</h2>
+                        <table cellpadding="4">
+                            <tr>
+                                <td><label>ID Comprobante:</label></td>
+                                <td><input type="text" id="zamba_index_26446" name="zamba_index_26446" style="width:200px;" disabled="disabled" /></td>
+                                <td class="separador"></td>
+                                <td><label>Tipo de I-G:</label></td>
+                                <td><select name="zamba_index_60514" id="zamba_index_60514" style="width:200px;" disabled="disabled"></select></td>
+                            </tr>
+                            <tr>
+                                <td><label>Tipo de Beneficiario:</label></td>
+                                <td><select name="zamba_index_26324" id="zamba_index_26324" style="width:200px;" disabled="disabled"></select></td>
+                                <td class="separador"></td>
+                                <td><label>Beneficiario:</label></td>
+                                <td><input type="text" id="zamba_index_26447" name="zamba_index_26447" style="width:200px;" disabled="disabled" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Moneda:</label></td>
+                                <td><select type="text" id="zamba_index_26207" name="zamba_index_26207" style="width:200px;"></select></td>
+                                <td class="separador"></td>
+                                <td><label>Importe Bruto Total:</label></td>
+                                <td><input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width:200px;" class="solonums" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Fecha de Ingreso:</label></td>
+                                <td><input id="zamba_index_26327" name="zamba_index_26327" style="width:200px;" disabled="disabled" /></td>
+                                <td class="separador"></td>
+                                <td><label>Fecha del Comprobante:</label></td>
+                                <td><input id="zamba_index_26326" name="zamba_index_26326" style="width:200px;" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Empresa:</label></td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td><input type="text" id="zamba_index_26291" name="zamba_index_26291" style="width:68px;" disabled="disabled" /></td>
+                                            <td><label>Sucursal:</label></td>
+                                            <td><input type="text" id="zamba_index_26290" name="zamba_index_26290" style="width:68px;" disabled="disabled" /></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="separador"></td>
+                                <td><label>Pagado:</label></td>
+                                <td><input type="text" name="zamba_index_26415" id="Text1" style="width:50px;" disabled="disabled"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label>Copia u Original:</label></td>
+                                <td><select name="zamba_index_26488" id="zamba_index_26488" style="width:200px;"></select></td>
+                                <td class="separador"></td>
+                                <td><label>Asignado a Legales:</label></td>
+                                <td><select name="zamba_index_26495" id="zamba_index_26495" style="width:60px;" disabled="disabled"></select></td>
+                            </tr>
+                            <tr>
+                                <td><label>Nivel de Autorizaci&oacute;n:</label></td>
+                                <td><input type="text" name="zamba_index_26494" id="zamba_index_26494" style="width:280px;" disabled="disabled"></input></td>
+                                <td class="separador"></td>
+                                <td><label>Autorizado:</label></td>
+                                <td><input type="text" name="zamba_index_26413" id="zamba_index_26413" style="width:50px;" disabled="disabled"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label>Causa:</label></td>
+                                <td><select name="zamba_index_26181" id="zamba_index_26181" style="width:280px;" disabled="disabled"></select></td>
+
+                            </tr>
+                            <tr>
+                                <td><label>Coberturas Afectadas:</label></td>
+                                <td colspan="4"><textarea cols=100 rows=5 id="zamba_index_165539" name="zamba_index_165539"></textarea></td>
+                            </tr>
+                          
+                            <tr>
+                                <td><label>Obervaciones:</label></td>
+                                <td colspan="4"><textarea cols=100 rows=10 id="zamba_index_64" name="zamba_index_64"></textarea></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>	
+						<br />
+						<center>
+						<div name="aligncenter" id="aligncenter">
+							<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"  onclick="return zamba_save_onclick()" /> 
+						</div>
+						
+						<br />
+						<iframe id="zamba_innerdoctype_original" height="500px" title="Documento Original" style="margin-bottom:20px" width="96%" ></iframe>
+						</center>
+						<br />
+					</div>
+					<div class="tabbertab">
+						<h2>Reclamos</h2>
+                        <div style="overflow:auto; width: 900px">
+                            <table id="zamba_associated_documents_26027" class="tablesorter">
+                                <tbody></tbody>
+                            </table>
+                        </div>		
+                        </div>
+                    <div class="tabbertab">
+                        <h2>
+                            Consultas
+                        </h2>
+                        <table cellpadding="4">
+                            <tr>
+                                <td>
+                                    <label>
+                                        Consultas:
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="overflow:auto; width: 900px">
+                            <table id="zamba_associated_documents_26058" class="tablesorter">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <table cellpadding="4">
+                            <tr>
+                                <td>
+                                    <label>
+                                        Avisos al Reasegurador:
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="overflow:auto; width: 900px">
+                            <table id="zamba_associated_documents_295063" class="tablesorter">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    			<div class="tabbertab">
+						<h2>Documentaci&oacute;n</h2>
+                                <div style="overflow:auto; width: 900px">
+                                    <table id="zamba_zvar(documentacion)" class="tablesorter">
+                                        <tbody id="zamba_rule_37531/Ver/zvar(id=5)"></tbody>
+                                    </table>
+                                </div>					
+				
+				</div>
+
+
+				<br /><br />
+				<div name="logoUnion" id="logoUnion">	
+					<img src="//srvflow2/ZambaVolumenes/Produccion/templates/images/logocliente.jpg" align="left" height=50 width=70>
+				</div>
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>
+				</center>
+			</form>						
+		</div>
+	</body>
+</html>

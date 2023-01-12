@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar-->
+<head>
+    <title></title>
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+    <script src="../../Scripts/jquery-2.2.2.js"></script>
+    <script src="../../Scripts/angular.js"></script>
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../DropFiles/dropfiles.js"></script>
+    <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+</head>
+
+<body>
+    <center>
+        <div >
+            <div ng-controller="appController">
+                <div class="form-group row"></div>
+                <div class="col">
+                    <div class="cell panel">
+                        <form name="frmMain" action="Ratifica_Gestion.html">
+                            <div class="header background-blue">
+                                <h5 class="titleceneterDiv">RATIFICA GESTION</h5>
+                            </div>
+                            <input id="hdnRuleId" type="hidden" />
+                            <input id="hdnAsocId" type="hidden" />
+                            <div class="container">
+                                <center>
+                                    <div class="tab-pane active" id=">Informe de Audiencia">
+                                        <div class="form-group row">
+                                            <div class="PanelPrincipal">
+
+
+                                                <div style="text-align:justify; text-justify:inter-word">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <strong style="text-align:justify">Juz: </strong>
+                                                                <input type="text" style="width:50px" />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <strong style="text-align:justify">Expte:</strong>
+                                                                <input type="text" style="width:50px" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <h5 style="text-align:justify">Se&ntilde;or Juez:</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-md-3" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:280px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify">por derecho propio, con el patrocinio letrado del/la Dr./a.</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:285px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify">abogado/a Tomo</h6>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group row">
+
+                                                        <div class="col-md-1" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:80px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify">Folio</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:80px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify"> constituyendo   domicilio procesal   juntamente con el letrado  que  me   patrocina en: </h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:300px" />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify">en los autos caratulados: </h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:175px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify">C / </h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:175px" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify"> S/ DA&Ntilde;OS Y PERJUICIOS", a V.S. digo:</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:200px" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-md-11">
+                                                            <div class="input-group">
+                                                                <h6 style="text-align:justify">Que personalmente ratifico la totalidad de las gestiones realizadas en mi representaci&oacute;n en autos, por el gestor que invocara el art. 48 del CPCC a tal efecto, Dr./a.</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:100px" />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12" style="margin-top:7px">
+                                                            <div class="input-group">
+                                                                <input type="text" style="width:1000px" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <h5 style="text-align:justify">Por ello solicito a V.S. </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <h5 style="text-align:justify">a)	Me tenga por presentado/a por parte y por constituido el domicilio legal indicado;</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <h5 style="text-align:justify">b)	Se tenga por ratificada la gestiÃ³n realizada en autos en mi representaci&oacute;n.-</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <h5 style="text-align:justify">SERA JUSTICIA</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+
+                                                    <div class="row">
+                                                        <center>
+                                                            <div class="col-md-2" style="position:relative;left:20px;">
+                                                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                                            </div>
+                                                            <div class="col-md-10">
+                                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                                <div class="form-group row">
+                                                                </div>
+                                                            </div>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </center>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+<style>
+    .Inputselect {
+        width: 100px !important;
+    }
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+
+    input[type=text] {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #000000;
+    }
+</style>

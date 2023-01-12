@@ -1,0 +1,815 @@
+﻿.ui-icon {
+    width: 16px;
+    height: 16px;
+    background-image: url(http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/images/ui-icons_222222_256x240.png)
+}
+
+.ui-resizable {
+    position: relative
+}
+
+.ui-resizable-handle {
+    position: absolute;
+    font-size: .1px;
+    z-index: 99999;
+    display: block
+}
+
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle {
+    display: none
+}
+
+.ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0
+}
+
+.ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0
+}
+
+.ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%
+}
+
+.ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 100%
+}
+
+.ui-resizable-se {
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px
+}
+
+.ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px
+}
+
+.ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px
+}
+
+.ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px
+}
+
+.ui-icon-gripsmall-diagonal-se {
+    background-position: -64px -224px
+}
+
+#ContentPlaceHolder_TaskGrid_ucTaskGrid_pnlFilters .navbar-header .navbar-toggle .icon-bar {
+    background-color: black !important
+}
+
+body {
+    font-size: 14px !important
+}
+
+#MasterHeader {
+    padding: 0 15px 0 0
+}
+
+#rowTaskDetail {
+    margin-right: 0 !important
+}
+
+#ContentPlaceHolder_TaskGrid_ucTaskGrid_ucTaskGridFilter_btnFilter, #ContentPlaceHolder_TaskGrid_ucTaskGrid_ucTaskGridFilter_btnClear {
+    font-size: 20px;
+    top: -2px;
+    color: #009cc2;
+    padding: 0
+}
+
+#ContentPlaceHolder_TaskGrid_ucTaskGrid_pnlFilters {
+    min-height: 0;
+    margin: 0;
+    border-radius: 0 !important;
+    background-color: #ECECEC !important;
+    border-bottom: 1px solid #C7C7C7;
+    z-index: 1
+}
+
+#ContentPlaceHolder_TaskGrid_ucTaskGrid_ucTaskGridFilter_pnlFilter li {
+    height: 25px !important;
+    padding-left: 5px;
+    padding-top: 2px
+}
+
+    #ContentPlaceHolder_TaskGrid_ucTaskGrid_ucTaskGridFilter_pnlFilter li input {
+        height: 25px !important
+    }
+
+#ContentPlaceHolder_TaskGrid_ucTaskGrid_pnlFilters .navbar-brand, #ContentPlaceHolder_TaskGrid_ucTaskGrid_pnlFilters .navbar-nav li a {
+    text-decoration: none;
+    height: 31px;
+    padding: 0;
+    margin: 0;
+    display: inline
+}
+
+.sidePanelHidden {
+    width: 0 !important;
+    z-index: 0
+}
+
+.contentPanel {
+    width: 100% !important
+}
+
+.nonVisible {
+    display: none !important
+}
+
+@media (max-width:768px) {
+    #ContentPlaceHolder_TaskGrid_ucTaskGrid_pnlFilters .navbar-nav li {
+        width: 90%;
+        margin: 1% auto
+    }
+
+    #slideSidePanel {
+        position: fixed;
+        z-index: 10;
+        width: 100%;
+        left: -100%
+    }
+
+    #btnOpenSidePanel {
+        display: inline !important;
+        margin-right: 2em
+    }
+
+    #btnCloseSidePanel {
+        display: inline !important;
+        padding: 0;
+        margin: 0;
+        float: right
+    }
+
+    #btnCloseSidePanelTasksList {
+        display: inline !important;
+        padding: 0;
+        margin: 0;
+        float: right
+    }
+
+    #barraTopBtns {
+        padding-left: 0;
+        margin-left: 0
+    }
+}
+
+#btnSidePanelTasksList {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0
+}
+
+#imgBtnSidePanelTasksList {
+    padding-top: 5px
+}
+
+#sidebar {
+    z-index: 1 !important;
+    background-color: white !important
+}
+
+#tabhome, #tabnew, #tabsearch, #tabresults, #tabInsert, #tabtasklist, #tabtasks {
+    background-color: #f7f7f7
+}
+
+#TasksDiv > div {
+    height: 100%
+}
+
+#tabtasks {
+    margin: 0;
+    padding: 0;
+    border-radius: 0
+}
+
+#TasksDiv {
+    margin: 0;
+    padding: 0;
+    border-radius: 0
+}
+
+#dvDocTypesIndexs {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    background: #f7f7f7
+}
+
+#ui-datepicker-div {
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+    font-size: 1em;
+    border: 0 solid #a6c9e2;
+    background: #DCDCDC;
+    color: #222;
+    z-index: 9999999999999 !important
+}
+
+.Body-Master-Blanck {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0%;
+    /*overflow: hidden*/
+}
+
+.trClientData {
+    font-size: 12px
+}
+
+.field-validation-error {
+    color: #b94a48
+}
+
+.field-validation-valid {
+    display: none
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none
+}
+
+.validation-summary-errors {
+    color: #b94a48
+}
+
+.validation-summary-valid {
+    display: none
+}
+
+.footer {
+    background: #2E3137;
+    color: #888;
+    font-size: 13px;
+    padding: 50px 10px 0 10px;
+    -o-background-size: auto;
+    -moz-background-size: auto;
+    -webkit-background-size: auto
+}
+
+    .footer a {
+        color: inherit;
+        background: none !important
+    }
+
+        .footer a:hover {
+            color: #bbb;
+            text-decoration: underline
+        }
+
+    .footer .nav li + li {
+        margin-top: 5px
+    }
+
+    .footer .newsletter h3 {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 20px
+    }
+
+    .footer .newsletter form {
+        margin-top: 15px
+    }
+
+    .footer .newsletter input[type="text"] {
+        border-color: #fff;
+        padding: 10px;
+        height: 40px;
+        margin: 0
+    }
+
+    .footer .social a + a {
+        margin-left: 20px
+    }
+
+    .footer .end {
+        border-top: 1px solid rgba(255,255,255,.1);
+        padding-top: 30px;
+        margin-top: 30px
+    }
+
+.docToolbarTab {
+    float: left;
+    margin-left: .2em;
+    z-index: 1
+}
+
+.EmptyContentMessage {
+    margin: 50px;
+    font-size: medium
+}
+
+.white {
+    color: #fff
+}
+
+.body-Main {
+    -ms-overflow-style: none
+}
+
+.IFTaskContent {
+    width: 100%;
+    height: 100%
+}
+
+.task-tab-div {
+    padding: 0;
+    width: 100%
+}
+
+.header-Cabezera-Master {
+    left: 3px;
+    right: 3px
+}
+
+#tblUsuario {
+    padding-right: 15px
+}
+
+.newsGrid > tbody > tr > td {
+    white-space: normal
+}
+
+.newsGrid > tbody > tr :last-child {
+    max-width: 163px;
+    min-width: 162px;
+    white-space: nowrap
+}
+
+#tbDoc {
+    margin-left: 1px
+}
+
+.MainTabberTab {
+    height: 94%
+}
+
+.clientlogoxs {
+    padding-right: 5px;
+    padding-bottom: 5px;
+    float: right;
+    margin-top: -40px
+}
+
+.EntitiesSearch {
+    margin-top: 10px
+}
+
+.EntitiesTree {
+    background-color: #FFF;
+    padding: 0px !important
+}
+
+.TabSpace {
+    margin-bottom: 20px
+}
+
+#treeview .k-sprite {
+    line-height: 1;
+    font-size: 1.1em
+}
+
+.favAdvSearch {
+    background: none;
+    color: white;
+    margin-top: 20px
+}
+
+.adv2 {
+    display: flex;
+    margin-left: 0;
+    padding-left: 0
+}
+
+.mh-user {
+    z-index: 10000
+}
+
+iframe {
+    border: 0
+}
+
+#InsertIframeBody {
+    background-color: #ffffff;
+    height: 100%;
+    /*  margin-left: 20px;*/
+    padding: 0;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,.2);
+    z-index: 1
+}
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block
+    }
+
+.dropdown:hover .dropdown-content {
+    display: block
+}
+
+.ui-widget-overlay {
+    z-index: -1
+}
+
+.toogleIframe {
+    background-color: azure;
+    opacity: .8;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    cursor: pointer
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear
+}
+
+.typeaheadTR {
+    cursor: pointer
+}
+
+    .typeaheadTR :hover {
+        background-color: #DCDCDC
+    }
+
+.searchItemCode {
+    color: gray;
+    font-size: 10px
+}
+
+#ContentPlaceHolder_pnlHeaderButtons {
+    background-color: transparent;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important
+}
+
+    #ContentPlaceHolder_pnlHeaderButtons .DynamicBtnGroup {
+        position: initial;
+        font-size: 11px;
+        border-bottom: 2px solid #6583d8
+    }
+
+@-webkit-keyframes spin2 {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg)
+    }
+
+    to {
+        transform: scale(1) rotate(360deg)
+    }
+}
+
+#barratop {
+    background-color: #ECECEC !important;
+    position: relative !important;
+    padding: 1px !important;
+    border-bottom: 1px solid #C7C7C7;
+    height: 32px
+}
+
+#spnToolbar {
+    height: 32px;
+    border-radius: 0px !important;
+    background-color: #ECECEC !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid #C7C7C7;
+    margin: 0;
+    padding: 2px 0 0 0;
+    padding-top: 2px
+}
+
+#spnToolbarTasksTree {
+    height: 33px;
+    border-radius: 0px !important;
+    background-color: #ECECEC !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid #C7C7C7;
+    margin: 0;
+    padding: 2px 0 0 0;
+    padding-top: 2px
+}
+
+#dropCabezera {
+    background-image: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important
+}
+
+#UsuarioDrop {
+    background-image: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    display: -webkit-box;
+    display: -ms-inline-flexbox
+}
+
+.StepTreeNode {
+    color: #353535 !important
+}
+
+.grillaMini {
+    background-color: #f7f7f7 !important
+}
+
+.user-button-bgcolor {
+    color: #777777 !important;
+    background-color: #f7f7f7 !important
+}
+
+#divPager a {
+    color: #848484 !important
+}
+
+.DynamicBtnListGroup {
+    color: white
+}
+
+.icon-bar {
+    background-color: white !important
+}
+
+#mainMenu > li > a {
+    text-decoration: none !important;
+    background-color: rgba(255,255,255,0) !important
+}
+
+    #mainMenu > li > a:hover {
+        text-decoration: none !important;
+        background-color: rgba(255,255,255,0) !important
+    }
+
+.k-in > span.highlight {
+    background: #009DE0;
+    color: #fff;
+    border: 1px solid blue;
+    padding: 1px;
+    border-radius: 5px
+}
+
+.RowStyleTasks > td > a > img {
+    width: 15px;
+    height: 15px
+}
+
+#openModalIFContent iframe {
+    position: absolute !important;
+    display: block !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important
+}
+
+#openModalIFContentWF iframe {
+    position: absolute !important;
+    display: block !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important
+}
+
+#WFExecForEntryRulesFrame iframe {
+    position: absolute !important;
+    display: block !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important
+}
+
+#modalFormHome {
+    height: 90% !important;
+    width: 100% !important
+}
+
+#WFExecForEntryRulesFrame {
+    height: 90% !important
+}
+
+ul#divPager {
+    display: inline-block;
+    padding: 0;
+    margin: 0
+}
+
+    ul#divPager li {
+        display: inline
+    }
+
+        ul#divPager li a {
+            color: black;
+            padding: 2px 4px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd
+        }
+
+#divPager li:first-child a {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px
+}
+
+#divPager li:last-child a {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
+}
+
+ul#divPager li a.active {
+    background-color: #FF8A00;
+    color: white;
+    border: 1px solid #FF8A00
+}
+
+ul#divPager li a:hover:not(.active) {
+    background-color: #ddd
+}
+
+@media (max-width:400px) {
+    #openModalIFContent {
+        height: 100% !important
+    }
+}
+
+@media (max-width:400px) {
+    #openModalIFContentWF {
+        width: 340px !important;
+        height: 400px !important
+    }
+
+    #dropCabezera {
+        margin-left: 14px
+    }
+
+    #UsuarioDrop {
+        margin-left: 14px
+    }
+}
+
+#ContentPlaceHolder_lblUsuarioActual2 {
+    color: white !important;
+    background-color: rgba(255,255,255,0) !important
+}
+
+#InputSelec {
+    border: 1px solid #D6D6D6 !important;
+    background-color: aliceblue
+}
+
+.k-state-selected, .k-state-selected:link, .k-state-selected:visited, .k-list > .k-state-selected, .k-list > .k-state-highlight, .k-panel > .k-state-selected, .k-ghost-splitbar-vertical, .k-ghost-splitbar-horizontal, .k-draghandle.k-state-selected:hover, .k-scheduler .k-scheduler-toolbar .k-state-selected, .k-scheduler .k-today.k-state-selected, .k-marquee-color {
+    background-color: #FF8A00 !important;
+    border: none !important
+}
+
+#dropdown-user li a:hover {
+    color: black !important
+}
+
+.activeTaskTab {
+    color: white !important;
+    background-color: rgb(125,135,181) !important
+}
+
+.inActiveTaskTab {
+    color: white !important;
+    text-decoration: none;
+    background-color: #616161 !important
+}
+
+#TasksDivUL > li > a {
+    padding: 5px !important;
+    background-image: none
+}
+
+.btnDropFiltros {
+    background-image: none
+}
+
+.btntrash {
+    background-image: none
+}
+
+#exampleContainer {
+    height: 300px !important
+}
+
+.SelecRow InputSelec {
+    width: 194px
+}
+
+.SelecRow a {
+    position: absolute;
+    right: 30px;
+    margin: 3px 0
+}
+
+.pagerZmb {
+    margin-top: 4px;
+    background-color: #F7F7F7
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px white inset;
+    -webkit-text-fill-color: #333
+}
+
+#dZUpload {
+    width: 500px
+}
+
+@media screen and (min-width:768px) {
+    .modal-dialog {
+        left: 0% !important
+    }
+}
+
+.buttonblue {
+    background-color: #d4d4d4
+}
+
+#openModalIFContent {
+    height: 100% !important;
+    width: 100% !important
+}
+
+    #openModalIFContent > .modal-header {
+        padding: 0;
+        margin: 5px 0 2px 20px;
+        height: 20px !important
+    }
+
+#openModalIF {
+    overflow-y: hidden !important;
+    margin-top:50px;
+}
+
+.tabbertab > table, .tablesorter {
+    width: 95vw;
+    display: block
+}

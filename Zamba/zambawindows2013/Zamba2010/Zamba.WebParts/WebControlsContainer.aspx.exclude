@@ -1,0 +1,70 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="WebControlsContainer.aspx.cs"
+    Inherits="WebControlsContainer" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%--<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<%@ Register Src="~/UserControls/UCAverageTimeInSteps/UCAverageTimeInSteps.ascx"
+    TagPrefix="MyUcs" TagName="UCAverageTimeInSteps" %>
+<%@ Register Src="~/UserControls/UCTaskBalances/UCTaskBalances.ascx" TagPrefix="MyUcs"
+    TagName="UCTaskBalances" %>
+<%@ Register Src="~/UserControls/UCAsignedTasksCount/UCAsignedTasksCount.ascx" TagPrefix="MyUcs"
+    TagName="UCAsignedTasksCount" %>--%>
+<%@ Register Src="~/UserControls/UCTaskToExpire/UCTaskToExpire.ascx" TagPrefix="MyUcs"
+    TagName="UCTaskToExpire" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolKit" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Página sin título</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+<%--        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>--%>
+                <div>
+                    <table>
+                        <tr>
+                            <td valign="top">
+                            </td>
+                            <td valign="top">
+                                <asp:Table runat="server" ID="tblUcs" CellSpacing="15">
+                                    <asp:TableRow>
+                                        <asp:TableCell VerticalAlign="top" Height="50px" ID="td1">
+                                            <%--                                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                    <ContentTemplate>--%>
+                                            <%--<MyUcs:UCTaskBalances runat="server" ID="UCTaskBalances" />--%>
+                                            <%--                                </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+                                    <ContentTemplate>--%>
+                                            <%--<MyUcs:UCAverageTimeInSteps runat="server" ID="UCAverageTimeInSteps" />--%>
+                                            <%--                                   </ContentTemplate>
+                                </asp:UpdatePanel>--%>
+                                        </asp:TableCell>
+                                        <asp:TableCell VerticalAlign="top" Height="50px" ID="td2">
+                                            <%--                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                                   <ContentTemplate>--%>
+                                            <%--<MyUcs:UCAsignedTasksCount runat="server" ID="UCAsignedTasksCount" />--%>
+                                            <%--                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
+                                    <ContentTemplate>--%>
+                                            <MyUcs:UCTaskToExpire runat="server" ID="UCTaskToExpire" />
+                                            <%--                                    </ContentTemplate>
+                                </asp:UpdatePanel>--%>
+                                        </asp:TableCell>
+                                    </asp:TableRow>
+                                </asp:Table>
+                                <table>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+<%--            </ContentTemplate>
+        </asp:UpdatePanel>--%>
+    </form>
+</body>
+</html>

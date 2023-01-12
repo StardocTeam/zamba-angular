@@ -1,0 +1,104 @@
+﻿<html>
+	<head>
+		<title>Solicitud de ART</title>			
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+		
+			
+			$(document).ready(function()
+			{							
+			  
+				
+				// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				
+			
+                <div class="tabber">
+                    <div class="tabbertab">
+                        <h2>Solicitud Informacion</h2>
+                        <table cellpadding="10">
+                            <tr>
+                                <td><label>Cliente:</label></td>
+                                <td><input type="text" id="zamba_index_1362" name="zamba_index_1362" style="width:150px;" /></td>
+                           <td class="separator"></td>
+                                <td><label>Poliza:</label></td>
+                                <td><input name="zamba_index_1361" id="zamba_index_1361" style="width:150px;" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Seccion:</label></td>
+                                <td><select  id="zamba_index_1363" name="zamba_index_1363" style="width:150px;" /></select></td>
+                                <td class="separator"></td>
+                               <td><label>Compania Aseguradora:</label></td>
+                                <td><select id="zamba_index_1357" name="zamba_index_1357" style="width:150px;" /></select></td>
+                            </tr>
+                            <tr>
+                                <td><label>Apellido: </label></td>
+                                <td><input type="text" id="zamba_index_1355" name="zamba_index_1355" style="width:150px;" maxlength="200" /></td>
+                                <td class="separator"></td>
+                                <td><label>Nombre: </label></td>
+                                <td> <input type="text" id="zamba_index_1277" name="zamba_index_1277" style="width:150px;" maxlength="200" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>CUIL:</label></td>
+                                <td> <input type="text" id="zamba_index_1358" name="zamba_index_1358" style="width:150px;" /></td>
+                                <td class="separator"></td>
+                                <td><label>Numero de persona:</label></td>
+                                <td> <input type="text" id="zamba_index_1359" name="zamba_index_1359" style="width:150px;" class="solonums" /></td>
+                            </tr>
+
+                            <tr>
+                                <td><label>Fecha de Nacimiento:</label></td>
+                                <td><input id="zamba_index_1354" name="zamba_index_1354" style="width:150px;"></td>
+                                <td class="separator"></td>
+                                <td><label>Sede:</label></td>
+                                <td><input name="zamba_index_1356" id="zamba_index_1356" style="width:150px;"></td>
+                            </tr>
+
+                            <tr>
+                                <td><label>Fecha de Alta: </label></td>
+                                <td><input id="zamba_index_1360" name="zamba_index_1360" style="width:150px;" /></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input id="zamba_save" class="btn btn-primary" type="submit" value="Guardar" name="zamba_save" />
+                                    <input id="zamba_cancel" class="btn btn-primary" type="submit" value="Cancelar" name="zamba_cancel" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tabbertab">
+                        <h2>Documento</h2>
+                          <iframe id="zamba_innerdoctype_original" height="400px" title="Documento Adjunto" width="900px"></iframe>
+                    </div>
+                </div>
+    
+
+			</form>						
+		</div>
+	</body>
+</html>

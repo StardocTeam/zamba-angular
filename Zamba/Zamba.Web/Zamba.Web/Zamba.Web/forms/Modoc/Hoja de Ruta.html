@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+       
+
+    <style>
+        /* latin */
+        @font-face {
+            font-family: 'Libre Barcode 39';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Libre Barcode 39 Regular'), local('LibreBarcode39-Regular'), url(https://fonts.gstatic.com/s/librebarcode39/v8/-nFnOHM08vwC6h8Li1eQnP_AHzI2G_Bx0g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'IDAutomationHC39M';
+            src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+        }
+
+        .codebar39 {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 48px;
+        }
+
+        .modal-dialog.modal-lg {
+            margin-top: 55px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form name="frmMain" action="Guia_Despacho.html">
+
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div class="container-fluid">
+
+            	<div class="form-group row">
+											 <ul class=" nav nav-tabs">
+												<li class=" active"><a href="#Hoja" data-toggle="tab">Hoja de Ruta</a></li>
+												<!-- <li><a href="#Despacho" data-toggle="tab">Doc. Despacho</a></li> -->
+												<!-- <li><a href="#AvisodeRecepcion" data-toggle="tab">Recepcion de Despacho</a></li> -->
+												<!-- <li><a href="#AvisodeDigitaliza" data-toggle="tab">Digitalizacion de Despacho</a></li> -->
+												<!-- <li><a href="#AvisodeRevision" data-toggle="tab">Revision de Despacho</a></li> -->
+												<!-- <li style="background-color: lime"><a href="#Firma" data-toggle="tab">Firma y Aviso</a></li> -->
+												<!-- <li class="andreani" style="display:none"><a href="#Orden" data-toggle="tab">Orden Envio</a></li> -->
+												<!-- <li class="andreani" style="display:none"><a href="#Envio" data-toggle="tab">Envio</a></li> -->
+												<!-- <li class="andreani" style="display:none"><a href="#Tracking" data-toggle="tab">Tracking</a></li> -->
+												 <div class="col-md-8"></div>
+                    <div class="col-md-2">
+
+                        <input id="nrohojaruta" class="form-control input-sm dataType length" style="font-family:'IDAutomationHC39M';font-size: 16pt;text-align: center;height: 40px;background: none; border: none" readonly="readonly">
+                    </div>
+											</ul>
+											</div>
+			<div class="tab-content">
+			<div class="tab-pane active" id="Hoja">
+              
+                <div class="form-group row">
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--ID-->                                     		<span class="input-group-addon">Nro. Hoja de Ruta</span>
+                            <input id="zamba_index_139601" name="zamba_index_139601" class="form-control input-sm" disabled />
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <!--Conductor-->
+                            <span class="input-group-addon">Conductor (*)</span>
+                            <input id="zamba_index_139596" name="zamba_index_139596" class="form-control input-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Movil-->   	<span class="input-group-addon">Movil (*)</span>
+                            <input id="zamba_index_139595" name="zamba_index_139595" class="form-control input-sm " />
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Recepcion / Fecha-->   	<span class="input-group-addon" style="padding:3px;">Fecha de Creacion</span>
+                            <input id="zamba_index_139633" name="zamba_index_139633" class="form-control input-sm dateTimeToday" readonly style="font-weight:600;" />
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    <hr style="border: 0 ; border-top: 1px double gray; width: 91%;margin-top:12px;position: relative;left: 60px;">
+                </center>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <!--Personal de Retiro--><span class="input-group-addon">Personal de Retiro (*)</span>
+                            <input id="zamba_index_139597" name="zamba_index_139597" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <!--TLF Contacto-->   	<span class="input-group-addon">Telefono de Contacto (*)</span>
+                            <input id="zamba_index_26217" name="zamba_index_26217" class="form-control input-sm " />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Fecha-->                                  		<span class="input-group-addon" style="color:red;">Fecha Retiro (*)</span>
+                            <input id="zamba_index_139599" name="zamba_index_139599" size="1" class="form-control input-sm datepicker" style="font-weight:600;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <span><h5>Los datos marcados con (*) son datos obligatorios</h5></span>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row"></div>
+                <center>
+                    <!--<input name="zamba_rule_165710" id="zamba_rule_165710" onclick="SetRuleId(this);" class="btn-sm btn-success" type="submit" value="Agregar Guia">-->
+                   <div style="display: inline-block;">
+                        <div ng-controller="Modal as pc" class="modal-demo">
+                            <button type="button" class="btn btn-success" ng-click="pc.open('lg')" rule-id="175975">Agregar Despachante</button>
+                        </div>
+                    </div>
+                    <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn-sm btn-primary" type="submit" value="Guardar Borrador">
+                    <input name="zamba_rule_165711" id="zamba_rule_165711" onclick="return zamba_save_onclick(this)" class="btn-sm btn-warning" type="submit" value="Finalizar Hoja de Ruta">
+                    <!--<input type="button" onclick="window.print();" class="btn-sm btn-primary" value="Imprimir">-->
+                </center>
+
+
+                <div class="form-group row"></div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div id="File1" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="139081" default-enable-mode="grid" table-height="400" grid-title="Guias a Retirar">
+                            </zamba-associated>
+                        </div>
+                    </div>
+                </div>
+				</div>
+           
+
+
+
+
+                <div class="row">
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                            <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">
+                            <span style="color:whitesmoke">Hoja de Ruta.html</span>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+                </div>
+			</div>
+			
+            <!--Referencias DoShowTable-->
+            <script src="../../app/DoShowTable/DoShowTableController.js"></script>
+            <script src="../../app/DoShowTable/DoShowTableServices.js"></script>
+
+            <script>
+                function zamba_save_onclick(sender) {
+                    var valido = false;
+                    var currentDate = new Date();
+
+                    try {
+                        if (document.getElementById("zamba_index_139596").value == "") {
+                            swal("", "Por favor, Ingrese Conductor");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_139595").value == "") {
+                            swal("", "Por favor,Ingrese Movil");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_139597").value == "") {
+                            swal("", "Por favor, Personal de Retiro");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_26217").value == "") {
+                            swal("", "Por favor, Ingrese un Telefono de Contacto");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_139599").value == "") {
+                            swal("", "Por favor, Ingrese una Fecha de Retiro");
+                            valido = false;
+                        } else {
+                            SetRuleId(sender);
+                            valido = true;
+                        }
+                    }
+                    catch (ex) {
+                        swal("", "Por favor, verificar los datos ingresados");
+                        console.log(ex);
+                    }
+                    return valido;
+                }
+
+            </script>
+
+
+            <script type="text/javascript">
+                //angular.element(document).ready(function () {
+                //angular.bootstrap(document.getElementById('appID'), ['app']);
+                ////angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+                //angular.bootstrap(document.getElementById('timelineID'), ['timeline']);
+                ////angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+                //angular.bootstrap(document.getElementById('file1'), ['ZambaAssociatedApp']);
+                //}
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $("#nrohojaruta").val("(" + $("#zamba_index_139601").val() + ")");
+                });
+
+            </script>
+
+        </div>
+    </form>
+
+</body>
+</html>
+
+<style>
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        padding-right: 12px;
+        border-right-width: 1px;
+        margin-top: 30px;
+    }
+
+    div thead tr th {
+        font-size: x-small;
+        font-family: arial;
+        background-color: #1A5276;
+        color: white;
+    }
+
+    .containerGrid {
+        width: auto;
+        overflow-x: auto;
+        overflow-y: auto;
+        height: auto;
+    }
+</style>

@@ -1,0 +1,175 @@
+﻿<style>
+    .z-treeview-innerPanel {
+        display: none;
+        padding: 0px;
+    }
+
+    .z-secondNode {
+        margin-left: 8px !important;
+    }
+
+    .z-thirdNode {
+        margin-left: 40px !important;
+    }
+
+    .z-no-visible {
+        opacity: 0;
+    }
+
+    #z-treeview-header {
+        background-color: var(--ZBlue) !important
+    }
+
+    #z-treeview-subheader {
+        background-color: #32373d !important
+    }
+
+    #SidebarTree {
+        width: 0;
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        background-color: white;
+        overflow-x: hidden;
+        transition: 0.5s;
+        height: 100%;
+    }
+
+        #SidebarTree a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        #SidebarTree .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+    #SidebarTreeContent {
+        background-color: white;
+        overflow-y: auto;
+    }
+
+    md-list-item, md-list-item .md-list-item-inner {
+        min-height: 24px !important;
+        height: 24px !important;
+    }
+
+        md-list-item._md-button-wrap > div.md-button:first-child {
+            padding-left: 0;
+        }
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+        #SidebarTree a {
+            font-size: 18px;
+        }
+    }
+
+    .z-treeview-subtitle {
+        color: white;
+        background-color: transparent;
+        font-size: 20px;
+        letter-spacing: 0.005em;
+        padding: 0 16px;
+        margin: 0;
+        padding-right: 0 !important;
+    }
+
+    .z-index-100 {
+        z-index: 100 !important;
+    }
+
+    .selected-node-button-backcolor {
+        background-color: #5ca9de;
+    }
+
+    .selected-node-text-color {
+        color: white;
+    }
+
+    .z-tree-icon {
+        font-size: 28px !important;
+    }
+
+    .z-selectable-item-inner-content {
+        font-size: 12px;
+    }
+
+    .z-show-inner-panel-content {
+        display: block;
+    }
+    .notifStyleButton {
+        font-size: 13px !important;
+        width: 80px;
+        height: 25px;
+    }
+</style>
+<div id="SidebarTree" style="border-right: 1px solid grey; overflow-x: auto" layout="column">
+    <section layout="row" layout-align="start center" layout-wrap id="z-treeview-header" style="max-height:90px; min-width: 400px">
+        <div class="toolbar-color-search z-treeview-subtitle" layout-align="start center">
+
+            <span class="material-icons z-material-icons-align revertIcon">
+                menu_open
+            </span> Procesos
+        </div>
+
+
+        <md-button class="md-icon-button " layout-align="end center" aria-label="Settings" ng-click="RefreshZambaTreeview();">
+            <span class="material-icons" style="color: #f5f5f5">
+                <span class="material-icons" title="Refrescar Procesos">
+                    refresh
+                </span>
+            </span>
+        </md-button>
+        <input type="button" class="paddingActionsHeaderProcess3px btn btn-m btn-info notifStyleButton" ng-model="item" id={{UserActionsForTaskTree[0].ButtonId}} value="{{UserActionsForTaskTree[0].Caption}}" ng-click="executeButtonAction(UserActionsForTaskTree[0].RuleId)" ng-if="UserActionsForTaskTree.length == 1" />
+        <select class="form-control marginBottonActionsHeaderProcess" ng-if="UserActionsForTaskTree.length > 1" ng-model="item" ng-options="choice.Caption for choice in UserActionsForTaskTree" ng-change="executeActionTaskTree();">
+        </select>
+        
+    </section>
+    <div id="SidebarTreeContent" flex="95" style="min-width: 400px">
+        <!-- Workflows -->
+        <div ng-repeat="node1 in ChildsEntities" flex>
+            <md-list-item class="md-1-line z-selectable-item" id="{{'item-z-treeview-' + node1.ID}}" ng-class="{'selected-node-button-backcolor': node1.selected }">
+                <span class="material-icons z-index-100 z-selectable-item-inner-content z-tree-icon" ng-click="showInnerNodesPanel(node1.ID,true,node1);" ng-class="{'z-no-visible': node1.ChildsEntities.length == 0,'selected-node-text-color': node1.selected}" id="{{'icon-item-z-treeview-' + node1.ID}}">
+                    {{node1.opened ? 'arrow_drop_down':'arrow_right'}}
+                </span>
+                <div class="md-list-item-text z-index-100 z-selectable-item-inner-content" ng-click="showInnerNodesPanel(node1.ID,true,node1);" layout="column" id="{{'description-item-z-treeview-' + node1.ID}}" ng-class="{'selected-node-text-color': node1.selected }">
+                    {{node1.Nombre}} ({{node1.TasksCount}})
+                </div>
+            </md-list-item>
+            <!-- Etapas -->
+            <md-list ng-if="node1.ChildsEntities.length > 0" flex id="{{'innerNodePanel-' + node1.ID}}" class="z-treeview-innerPanel" ng-class="{'z-show-inner-panel-content': node1.opened}">
+                <div ng-repeat="node2 in node1.ChildsEntities">
+                    <md-list-item class="md-1-line z-selectable-item" id="{{'item-z-treeview-' + node2.ID}}" ng-class="{'selected-node-button-backcolor': node2.selected }">
+                        <span class="material-icons z-index-100 z-selectable-item-inner-content z-tree-icon z-secondNode" ng-click="showInnerNodesPanel(node2.ID,true,node2);" ng-class="{'z-no-visible': node2.ChildsEntities.length == 0,'selected-node-text-color': node2.selected}" id="{{'icon-item-z-treeview-' + node2.ID}}">
+                            {{node2.opened ? 'arrow_drop_down':'arrow_right'}}
+                        </span>
+                        <div class="md-list-item-text z-selectable-item-inner-content z-index-100" ng-dblclick="showInnerNodesPanel(node2.ID,true,node2);callDoSearch(node2.ID,0,node2,null);" ng-click="showInnerNodesPanel(node2.ID,true,node2);callDoSearch(node2.ID,0,node2,null);" layout="column" id="{{'description-item-z-treeview-' + node2.ID}}" ng-class="{'selected-node-text-color': node2.selected }">
+                            {{node2.Nombre}} ({{node2.TasksCount}})
+                        </div>
+                    </md-list-item>
+                    <!-- Estados -->
+                    <md-list ng-if="node2.ChildsEntities.length > 0" flex id="{{'innerNodePanel-' + node2.ID}}" class="z-treeview-innerPanel" ng-class="{'z-show-inner-panel-content': node2.opened}">
+                        <md-list-item class="md-1-line z-selectable-item" ng-click="showInnerNodesPanel(node3.ID,null,node3);callDoSearch(node2.ID,node3.ID,node3,node2);" ng-repeat="node3 in node2.ChildsEntities" id="{{'item-z-treeview-' + node3.ID}}" ng-class="{'selected-node-button-backcolor': node3.selected }">
+                            <span class="material-icons z-index-100 z-selectable-item-inner-content z-tree-icon z-thirdNode" ng-click="showInnerNodesPanel(node3.ID,null,node3);callDoSearch(node2.ID,node3.ID,node3,node2);" ng-class="{'z-no-visible': node3.ChildsEntities.length == 0, 'selected-node-text-color': node3.selected}" id="{{'icon-item-z-treeview-' + node3.ID}}">
+                                {{node3.opened ? 'arrow_drop_down':'arrow_right'}}
+                            </span>
+                            <div class="md-list-item-text z-selectable-item-inner-content z-index-100 ClassLvlTress" ng-dblclick="showInnerNodesPanel(node3.ID,null,node3);callDoSearch(node2.ID,node3.ID,node3,node2);" ng-click="showInnerNodesPanel(node3.ID,null,node3);callDoSearch(node2.ID,node3.ID,node3,node2);" layout="column" id="{{'description-item-z-treeview-' + node3.ID}}" ng-class="{'selected-node-text-color': node3.selected }">
+                                {{node3.Nombre}}
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+            </md-list>
+        </div>
+    </div>
+
+</div>

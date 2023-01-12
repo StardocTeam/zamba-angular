@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+	</head>
+
+<body>
+    <center>
+        <div class="form-group row"></div>
+        <div class="col">
+            <div class="cell panel">
+                <div class="header background-blue">
+                    <div class="form-group row">
+                    </div>
+                    <h5>FACTURA</h5>
+                </div>
+                <form name="frmMain" action="Ing_Fac.html">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <center>
+                            <div class="tab-pane active" id="FACTURA">
+                                <div class="form-group row">
+                                    <div class="PanelPrincipal">
+                                        <div class="form-group row"></div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+
+                                                    <!--CUIT-->
+                                                    <span class="input-group-addon">CUIT:</span>
+                                                    <input id="zamba_index_2" name="zamba_index_2" size="1" class="form-control" disabled />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button" name="zamba_rule_168" id="zamba_rule_168" onclick="SetRuleId(this);">
+                                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Nombre y Apellido-->
+                                                    <span class="input-group-addon">Nombre y Apellido o Razón Social:</span>
+                                                    <input id="zamba_index_105" name="zamba_index_105" size="1" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--ID trámite-->
+                                                    <span class="input-group-addon ">ID trámite:</span>
+                                                    <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Tipo:</span>
+                                                    <input class="form-control " id="zamba_index_107" name="zamba_index_107" disabled />
+                                                    <div class="input-group-btn">
+                                                        <!--Letra del Tipo de Comprobante-->
+                                                        <input class="form-control " id="zamba_index_106" name="zamba_index_106" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Suc y Nro Comprobante:</span>
+                                                    <div class="input-group-btn">
+                                                        <!--Punto de Venta-->
+                                                        <input id="zamba_index_72" name="zamba_index_72" class="form-control " onkeydown="return tab_btn(event);" disabled />
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <!--Nro de Comprobante-->
+                                                        <input id="zamba_index_10" name="zamba_index_10" class="form-control  " onkeydown="return tab_btn1(event);" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Recepcion-->
+                                                    <span class="input-group-addon">Recepción:</span>
+                                                    <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Fecha de Comprobante-->
+                                                    <span class="input-group-addon">Fecha Comprobante:</span>
+                                                    <input id="zamba_index_73" name="zamba_index_73" size="1" class="form-control input-sm dataType datepicker" autocomplete="off" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <!--Fecha Vto CAI-->
+                                                    <span class="input-group-addon">Vto CAI:</span>
+                                                    <input id="zamba_index_74" name="zamba_index_74" size="1" class="form-control input-sm dataType datepicker" autocomplete="off" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Moneda e Importe:</span>
+                                                    <div class="input-group-btn">
+                                                        <!-- Tipo de Documento-->
+                                                        <input class="btn btn-default form-control  " id="zamba_index_92" name="zamba_index_92" disabled />
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <input id="zamba_index_109" name="zamba_index_109" min="0" step="any" data-number-to-fixed="2" data-number-stepfactor="100"
+                                                               class="form-control " onkeydown="ponerdecimales(event);"
+                                                               onfocusout="ponerdecimales(event);" disabled />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--delegación-->
+                                                    <span class="input-group-addon">delegación:</span>
+                                                    <input type="button" class="form-control input-sm" id="zamba_index_82" name="zamba_index_82" size="1" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4 col-md-offset-2">
+                                                <div class="input-group">
+                                                    <!--Orden Nro de Compra-->
+                                                    <span class="input-group-addon">Orden de Compra Nro:</span>
+                                                    <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 ">
+                                                <div class="input-group" style="position:relative;">
+                                                    <!--Sector=GrupoZamba-->
+                                                    <span class="input-group-addon">Sector:</span>
+                                                    <input id="zamba_index_126" name="zamba_index_126" size="1" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Solicitante-->                                            <span class="input-group-addon">Solicitante</span>
+                                                    <input id="zamba_index_53" name="zamba_index_53" size="1" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Tipo de Gasto-->                                	<span class="input-group-addon">Tipo de Gasto:</span>
+                                                    <input id="zamba_index_110" name="zamba_index_110" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Concepto-->                                            <span class="input-group-addon">Concepto</span>
+                                                    <input id="zamba_index_2725" name="zamba_index_2725" size="1" class="form-control" disabled />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <!---------------------------------------------------------------------------------BOTON OBSERVA------------------------------------------------>
+
+
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding:0px">
+                                                <div class="col-xs-9" style=" bottom:95px">
+<!--Observacion-->                                 <span class="input-sm"><h5>Observaciones</h5></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding:0px;">
+                                                <div class="col-xs-9" style=" bottom:115px">
+<!--Area texto Observacion-->                     <textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84" disabled></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                    <div class="form-group row">
+                                        <div class="form-group row">
+                                        </div>
+                                        <div class="row">
+                                            <center>
+                                                <div>
+                                                    <img alt="" src="images/PSlogoLarge.png" height="50" width="140" style="float: left" />
+                                                    <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="140" style="float: right" />
+                                                    <div class="form-group row">
+                                                    </div>
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+<style>
+    .Inputselect {
+        width: 190px !important;
+    }
+
+    .Inputselect2 {
+        width: 65px;
+        position: relative;
+        left: 8px;
+    }
+
+    .Inputselect3 {
+        width: 85px !important;
+    }
+
+
+    .Inputselect4 {
+        width: 185px !important;
+    }
+
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

@@ -1,0 +1,1088 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TCModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="TCModelStoreContainer">
+          <EntitySet Name="OBJECTTYPES" EntityType="TCModel.Store.OBJECTTYPES" store:Type="Tables" store:Schema="dbo" store:Name="OBJECTTYPES" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+      [OBJECTTYPES].[OBJECTTYPES] AS [OBJECTTYPES], 
+      [OBJECTTYPES].[OBJECTTYPESID] AS [OBJECTTYPESID]
+      FROM [dbo].[OBJECTTYPES] AS [OBJECTTYPES]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PRJ_R_O" EntityType="TCModel.Store.PRJ_R_O" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="PRJ_TBL" EntityType="TCModel.Store.PRJ_TBL" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="USRGROUP" EntityType="TCModel.Store.USRGROUP" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="USRTABLE" EntityType="TCModel.Store.USRTABLE" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="WF_DT" EntityType="TCModel.Store.WF_DT" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="WFRules" EntityType="TCModel.Store.WFRules" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="WFStep" EntityType="TCModel.Store.WFStep" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="WFWorkflow" EntityType="TCModel.Store.WFWorkflow" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ZFrms" EntityType="TCModel.Store.ZFrms" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ZTC_CT" EntityType="TCModel.Store.ZTC_CT" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ZTC_EX" EntityType="TCModel.Store.ZTC_EX" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ZTC_RS" EntityType="TCModel.Store.ZTC_RS" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ZTC_ST" EntityType="TCModel.Store.ZTC_ST" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ZTC_TS" EntityType="TCModel.Store.ZTC_TS" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Ztype_Zfrms" EntityType="TCModel.Store.Ztype_Zfrms" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <AssociationSet Name="FK__PRJ_R_O__PRJID__4214210E" Association="TCModel.Store.FK__PRJ_R_O__PRJID__4214210E">
+            <End Role="PRJ_TBL" EntitySet="PRJ_TBL" />
+            <End Role="PRJ_R_O" EntitySet="PRJ_R_O" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ZTC_EX__TestCase__0298BA77" Association="TCModel.Store.FK__ZTC_EX__TestCase__0298BA77">
+            <End Role="ZTC_CT" EntitySet="ZTC_CT" />
+            <End Role="ZTC_EX" EntitySet="ZTC_EX" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ZTC_TS__TestCase__00B07205" Association="TCModel.Store.FK__ZTC_TS__TestCase__00B07205">
+            <End Role="ZTC_CT" EntitySet="ZTC_CT" />
+            <End Role="ZTC_TS" EntitySet="ZTC_TS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WF_DT_WFWorkflow" Association="TCModel.Store.FK_WF_DT_WFWorkflow">
+            <End Role="WFWorkflow" EntitySet="WFWorkflow" />
+            <End Role="WF_DT" EntitySet="WF_DT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFRules_WFStep" Association="TCModel.Store.FK_WFRules_WFStep">
+            <End Role="WFStep" EntitySet="WFStep" />
+            <End Role="WFRules" EntitySet="WFRules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFStep_WFWorkflow" Association="TCModel.Store.FK_WFStep_WFWorkflow">
+            <End Role="WFWorkflow" EntitySet="WFWorkflow" />
+            <End Role="WFStep" EntitySet="WFStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZTC_EX_ZTC_EX" Association="TCModel.Store.FK_ZTC_EX_ZTC_EX">
+            <End Role="ZTC_RS" EntitySet="ZTC_RS" />
+            <End Role="ZTC_EX" EntitySet="ZTC_EX" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZTC_EX_ZTC_TS" Association="TCModel.Store.FK_ZTC_EX_ZTC_TS">
+            <End Role="ZTC_TS" EntitySet="ZTC_TS" />
+            <End Role="ZTC_EX" EntitySet="ZTC_EX" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZTC_TS_ZTC_ST" Association="TCModel.Store.FK_ZTC_TS_ZTC_ST">
+            <End Role="ZTC_ST" EntitySet="ZTC_ST" />
+            <End Role="ZTC_TS" EntitySet="ZTC_TS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ztype_Zfrms_ZFrms" Association="TCModel.Store.FK_Ztype_Zfrms_ZFrms">
+            <End Role="ZFrms" EntitySet="ZFrms" />
+            <End Role="Ztype_Zfrms" EntitySet="Ztype_Zfrms" />
+          </AssociationSet>
+        </EntityContainer>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ZambaGec31102012.dbo.OBJECTTYPES' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="OBJECTTYPES">
+          <Key>
+            <PropertyRef Name="OBJECTTYPES" />
+            <PropertyRef Name="OBJECTTYPESID" />
+          </Key>
+          <Property Name="OBJECTTYPES" Type="nvarchar" Nullable="false" MaxLength="70" />
+          <Property Name="OBJECTTYPESID" Type="decimal" Nullable="false" Precision="4" />
+        </EntityType>
+        <EntityType Name="PRJ_R_O">
+          <Key>
+            <PropertyRef Name="PRJID" />
+            <PropertyRef Name="OBJID" />
+            <PropertyRef Name="OBJTYP" />
+          </Key>
+          <Property Name="PRJID" Type="numeric" Nullable="false" />
+          <Property Name="OBJID" Type="numeric" Nullable="false" />
+          <Property Name="OBJTYP" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRJ_TBL">
+          <Key>
+            <PropertyRef Name="Prj_ID" />
+          </Key>
+          <Property Name="Prj_ID" Type="numeric" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="USRGROUP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="NAME" Type="varchar" MaxLength="200" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="100" />
+          <Property Name="STATE" Type="char" Nullable="false" MaxLength="4" />
+        </EntityType>
+        <EntityType Name="USRTABLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Nullable="false" />
+          <Property Name="NAME" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="50" />
+          <Property Name="CRDATE" Type="datetime" />
+          <Property Name="LUPDATE" Type="datetime" />
+          <Property Name="STATE" Type="numeric" Precision="10" />
+          <Property Name="DESCRIPTION" Type="varchar" MaxLength="60" />
+          <Property Name="ADDRESS_BOOK" Type="varchar" MaxLength="255" />
+          <Property Name="EXPIRATIONTIME" Type="numeric" Precision="10" />
+          <Property Name="EXPIRATIONDATE" Type="datetime" />
+          <Property Name="NOMBRES" Type="varchar" MaxLength="50" />
+          <Property Name="APELLIDO" Type="varchar" MaxLength="50" />
+          <Property Name="CORREO" Type="varchar" MaxLength="50" />
+          <Property Name="TELEFONO" Type="varchar" MaxLength="20" />
+          <Property Name="PUESTO" Type="varchar" MaxLength="50" />
+          <Property Name="FIRMA" Type="varchar" MaxLength="255" />
+          <Property Name="FOTO" Type="varchar" MaxLength="255" />
+          <Property Name="CONF_BASEMAIL" Type="nvarchar" MaxLength="30" />
+          <Property Name="CONF_MAILSERVER" Type="nvarchar" MaxLength="50" />
+          <Property Name="CONF_MAILTYPE" Type="int" />
+          <Property Name="SMTP" Type="nvarchar" MaxLength="50" />
+          <Property Name="colegajo" Type="numeric" />
+        </EntityType>
+        <EntityType Name="WF_DT">
+          <Key>
+            <PropertyRef Name="WFId" />
+            <PropertyRef Name="DocTypeId" />
+          </Key>
+          <Property Name="WFId" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="DocTypeId" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WFRules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Name" Type="varchar" MaxLength="2000" />
+          <Property Name="step_Id" Type="numeric" />
+          <Property Name="Type" Type="numeric" Nullable="false" />
+          <Property Name="ParentId" Type="numeric" Nullable="false" />
+          <Property Name="ParentType" Type="numeric" Nullable="false" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="Enable" Type="numeric" Precision="10" />
+          <Property Name="Version" Type="numeric" Precision="10" />
+          <Property Name="IconId" Type="numeric" />
+        </EntityType>
+        <EntityType Name="WFStep">
+          <Key>
+            <PropertyRef Name="step_Id" />
+          </Key>
+          <Property Name="step_Id" Type="numeric" Nullable="false" />
+          <Property Name="work_id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Help" Type="varchar" MaxLength="2000" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="ImageIndex" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="EditDate" Type="datetime" Nullable="false" />
+          <Property Name="LocationX" Type="decimal" Nullable="false" Precision="10" />
+          <Property Name="LocationY" Type="decimal" Nullable="false" Precision="10" />
+          <Property Name="max_Hours" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="max_docs" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="StartAtOpenDoc" Type="numeric" Nullable="false" />
+          <Property Name="Color" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Width" Type="numeric" Nullable="false" />
+          <Property Name="Height" Type="numeric" Nullable="false" />
+          <Property Name="Width2" Type="numeric" Nullable="false" />
+          <Property Name="Orden" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WFWorkflow">
+          <Key>
+            <PropertyRef Name="work_id" />
+          </Key>
+          <Property Name="work_id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Wstat_id" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Help" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="EditDate" Type="datetime" Nullable="false" />
+          <Property Name="Refreshrate" Type="numeric" Nullable="false" Precision="10" />
+          <Property Name="InitialStepId" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZFrms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="numeric" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentId" Type="numeric" />
+          <Property Name="Type" Type="numeric" />
+          <Property Name="ObjectTypeId" Type="numeric" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="UseRuleRights" Type="numeric" Nullable="false" />
+          <Property Name="Updated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ZTC_CT">
+          <Key>
+            <PropertyRef Name="TestCaseId" />
+          </Key>
+          <Property Name="ObjectTypeID" Type="numeric" Nullable="false" />
+          <Property Name="ObjectID" Type="numeric" Nullable="false" />
+          <Property Name="VN" Type="numeric" Nullable="false" />
+          <Property Name="ParentNode" Type="numeric" Nullable="false" />
+          <Property Name="NodeType" Type="numeric" Nullable="false" />
+          <Property Name="TestCaseId" Type="numeric" Nullable="false" />
+          <Property Name="Author" Type="numeric" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="NodeName" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="NodeDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NodeID" Type="numeric" />
+          <Property Name="TestOrder" Type="numeric" />
+        </EntityType>
+        <EntityType Name="ZTC_EX">
+          <Key>
+            <PropertyRef Name="ExecutionId" />
+          </Key>
+          <Property Name="TestCaseID" Type="numeric" Nullable="false" />
+          <Property Name="UserId" Type="numeric" Nullable="false" />
+          <Property Name="ExecutionDate" Type="datetime" Nullable="false" />
+          <Property Name="ExecutionResultID" Type="numeric" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="ExecutionId" Type="numeric" Nullable="false" />
+          <Property Name="LastStepExecutionID" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZTC_RS">
+          <Key>
+            <PropertyRef Name="ExecutionResultID" />
+          </Key>
+          <Property Name="ExecutionResultID" Type="numeric" Nullable="false" />
+          <Property Name="ExecutionResultName" Type="nvarchar" Nullable="false" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="ZTC_ST">
+          <Key>
+            <PropertyRef Name="StepTypeID" />
+          </Key>
+          <Property Name="StepTypeID" Type="numeric" Nullable="false" />
+          <Property Name="StepTypeName" Type="nvarchar" Nullable="false" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="ZTC_TS">
+          <Key>
+            <PropertyRef Name="TestCaseID" />
+            <PropertyRef Name="StepId" />
+          </Key>
+          <Property Name="TestCaseID" Type="numeric" Nullable="false" />
+          <Property Name="StepId" Type="numeric" Nullable="false" />
+          <Property Name="StepDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StepObservation" Type="nvarchar(max)" />
+          <Property Name="StepTypeID" Type="numeric" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ztype_Zfrms">
+          <Key>
+            <PropertyRef Name="DocType_Id" />
+            <PropertyRef Name="Form_Id" />
+          </Key>
+          <Property Name="DocType_Id" Type="numeric" Nullable="false" />
+          <Property Name="Form_Id" Type="numeric" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__PRJ_R_O__PRJID__4214210E">
+          <End Role="PRJ_TBL" Type="TCModel.Store.PRJ_TBL" Multiplicity="1" />
+          <End Role="PRJ_R_O" Type="TCModel.Store.PRJ_R_O" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRJ_TBL">
+              <PropertyRef Name="Prj_ID" />
+            </Principal>
+            <Dependent Role="PRJ_R_O">
+              <PropertyRef Name="PRJID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ZTC_EX__TestCase__0298BA77">
+          <End Role="ZTC_CT" Type="TCModel.Store.ZTC_CT" Multiplicity="1" />
+          <End Role="ZTC_EX" Type="TCModel.Store.ZTC_EX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_CT">
+              <PropertyRef Name="TestCaseId" />
+            </Principal>
+            <Dependent Role="ZTC_EX">
+              <PropertyRef Name="TestCaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ZTC_TS__TestCase__00B07205">
+          <End Role="ZTC_CT" Type="TCModel.Store.ZTC_CT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZTC_TS" Type="TCModel.Store.ZTC_TS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_CT">
+              <PropertyRef Name="TestCaseId" />
+            </Principal>
+            <Dependent Role="ZTC_TS">
+              <PropertyRef Name="TestCaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WF_DT_WFWorkflow">
+          <End Role="WFWorkflow" Type="TCModel.Store.WFWorkflow" Multiplicity="1" />
+          <End Role="WF_DT" Type="TCModel.Store.WF_DT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFWorkflow">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WF_DT">
+              <PropertyRef Name="WFId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFRules_WFStep">
+          <End Role="WFStep" Type="TCModel.Store.WFStep" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WFRules" Type="TCModel.Store.WFRules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFStep">
+              <PropertyRef Name="step_Id" />
+            </Principal>
+            <Dependent Role="WFRules">
+              <PropertyRef Name="step_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFStep_WFWorkflow">
+          <End Role="WFWorkflow" Type="TCModel.Store.WFWorkflow" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WFStep" Type="TCModel.Store.WFStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFWorkflow">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WFStep">
+              <PropertyRef Name="work_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZTC_EX_ZTC_EX">
+          <End Role="ZTC_RS" Type="TCModel.Store.ZTC_RS" Multiplicity="1" />
+          <End Role="ZTC_EX" Type="TCModel.Store.ZTC_EX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_RS">
+              <PropertyRef Name="ExecutionResultID" />
+            </Principal>
+            <Dependent Role="ZTC_EX">
+              <PropertyRef Name="ExecutionResultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZTC_EX_ZTC_TS">
+          <End Role="ZTC_TS" Type="TCModel.Store.ZTC_TS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZTC_EX" Type="TCModel.Store.ZTC_EX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_TS">
+              <PropertyRef Name="TestCaseID" />
+              <PropertyRef Name="StepId" />
+            </Principal>
+            <Dependent Role="ZTC_EX">
+              <PropertyRef Name="TestCaseID" />
+              <PropertyRef Name="LastStepExecutionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZTC_TS_ZTC_ST">
+          <End Role="ZTC_ST" Type="TCModel.Store.ZTC_ST" Multiplicity="1" />
+          <End Role="ZTC_TS" Type="TCModel.Store.ZTC_TS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_ST">
+              <PropertyRef Name="StepTypeID" />
+            </Principal>
+            <Dependent Role="ZTC_TS">
+              <PropertyRef Name="StepTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ztype_Zfrms_ZFrms">
+          <End Role="ZFrms" Type="TCModel.Store.ZFrms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ztype_Zfrms" Type="TCModel.Store.Ztype_Zfrms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZFrms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ztype_Zfrms">
+              <PropertyRef Name="Form_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TCModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="TCEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="ZTC_CT" EntityType="TCModel.ZTC_CT" />
+          <EntitySet Name="ZTC_EX" EntityType="TCModel.ZTC_EX" />
+          <EntitySet Name="ZTC_RS" EntityType="TCModel.ZTC_RS" />
+          <EntitySet Name="ZTC_ST" EntityType="TCModel.ZTC_ST" />
+          <EntitySet Name="ZTC_TS" EntityType="TCModel.ZTC_TS" />
+          <AssociationSet Name="FK__ZTC_EX__TestCase__0298BA77" Association="TCModel.FK__ZTC_EX__TestCase__0298BA77">
+            <End Role="ZTC_CT" EntitySet="ZTC_CT" />
+            <End Role="ZTC_EX" EntitySet="ZTC_EX" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ZTC_TS__TestCase__00B07205" Association="TCModel.FK__ZTC_TS__TestCase__00B07205">
+            <End Role="ZTC_CT" EntitySet="ZTC_CT" />
+            <End Role="ZTC_TS" EntitySet="ZTC_TS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZTC_EX_ZTC_RS" Association="TCModel.FK_ZTC_EX_ZTC_RS">
+            <End Role="ZTC_RS" EntitySet="ZTC_RS" />
+            <End Role="ZTC_EX" EntitySet="ZTC_EX" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZTC_EX_ZTC_TS" Association="TCModel.FK_ZTC_EX_ZTC_TS">
+            <End Role="ZTC_TS" EntitySet="ZTC_TS" />
+            <End Role="ZTC_EX" EntitySet="ZTC_EX" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZTC_TS_ZTC_ST" Association="TCModel.FK_ZTC_TS_ZTC_ST">
+            <End Role="ZTC_ST" EntitySet="ZTC_ST" />
+            <End Role="ZTC_TS" EntitySet="ZTC_TS" />
+          </AssociationSet>
+          <EntitySet Name="OBJECTTYPES" EntityType="TCModel.OBJECTTYPES" />
+          <EntitySet Name="USRGROUP" EntityType="TCModel.USRGROUP" />
+          <EntitySet Name="USRTABLE" EntityType="TCModel.USRTABLE" />
+          <EntitySet Name="PRJ_TBL" EntityType="TCModel.PRJ_TBL" />
+          <EntitySet Name="WF_DT" EntityType="TCModel.WF_DT" />
+          <EntitySet Name="WFRules" EntityType="TCModel.WFRules" />
+          <EntitySet Name="WFStep" EntityType="TCModel.WFStep" />
+          <EntitySet Name="WFWorkflow" EntityType="TCModel.WFWorkflow" />
+          <EntitySet Name="ZFrms" EntityType="TCModel.ZFrms" />
+          <EntitySet Name="Ztype_Zfrms" EntityType="TCModel.Ztype_Zfrms" />
+          <AssociationSet Name="FK_WF_DT_WFWorkflow" Association="TCModel.FK_WF_DT_WFWorkflow">
+            <End Role="WFWorkflow" EntitySet="WFWorkflow" />
+            <End Role="WF_DT" EntitySet="WF_DT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFRules_WFStep" Association="TCModel.FK_WFRules_WFStep">
+            <End Role="WFStep" EntitySet="WFStep" />
+            <End Role="WFRules" EntitySet="WFRules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFStep_WFWorkflow" Association="TCModel.FK_WFStep_WFWorkflow">
+            <End Role="WFWorkflow" EntitySet="WFWorkflow" />
+            <End Role="WFStep" EntitySet="WFStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ztype_Zfrms_ZFrms" Association="TCModel.FK_Ztype_Zfrms_ZFrms">
+            <End Role="ZFrms" EntitySet="ZFrms" />
+            <End Role="Ztype_Zfrms" EntitySet="Ztype_Zfrms" />
+          </AssociationSet>
+          <EntitySet Name="PRJ_R_O" EntityType="TCModel.PRJ_R_O" />
+          <AssociationSet Name="FK__PRJ_R_O__PRJID__71A3389F" Association="TCModel.FK__PRJ_R_O__PRJID__71A3389F">
+            <End Role="PRJ_TBL" EntitySet="PRJ_TBL" />
+            <End Role="PRJ_R_O" EntitySet="PRJ_R_O" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ZTC_CT">
+          <Key>
+            <PropertyRef Name="TestCaseId" />
+          </Key>
+          <Property Name="ObjectTypeID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ObjectID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ParentNode" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="NodeType" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TestCaseId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Author" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" />
+          <Property Name="NodeName" Type="String" MaxLength="500" Unicode="true" FixedLength="false" Nullable="false" />
+          <Property Name="NodeDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="ZTC_EX" Relationship="TCModel.FK__ZTC_EX__TestCase__0298BA77" FromRole="ZTC_CT" ToRole="ZTC_EX" />
+          <NavigationProperty Name="ZTC_TS" Relationship="TCModel.FK__ZTC_TS__TestCase__00B07205" FromRole="ZTC_CT" ToRole="ZTC_TS" />
+          <Property Type="Decimal" Name="VN" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="NodeID" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="TestOrder" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="ZTC_EX">
+          <Key>
+            <PropertyRef Name="ExecutionId" />
+          </Key>
+          <Property Name="TestCaseID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="UserId" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ExecutionDate" Type="DateTime" Nullable="false" />
+          <Property Name="ExecutionResultID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ExecutionId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="LastStepExecutionID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="ZTC_CT" Relationship="TCModel.FK__ZTC_EX__TestCase__0298BA77" FromRole="ZTC_EX" ToRole="ZTC_CT" />
+          <NavigationProperty Name="ZTC_RS" Relationship="TCModel.FK_ZTC_EX_ZTC_RS" FromRole="ZTC_EX" ToRole="ZTC_RS" />
+          <NavigationProperty Name="ZTC_TS" Relationship="TCModel.FK_ZTC_EX_ZTC_TS" FromRole="ZTC_EX" ToRole="ZTC_TS" />
+        </EntityType>
+        <EntityType Name="ZTC_RS">
+          <Key>
+            <PropertyRef Name="ExecutionResultID" />
+          </Key>
+          <Property Name="ExecutionResultID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ExecutionResultName" Type="String" MaxLength="70" Unicode="true" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="ZTC_EX" Relationship="TCModel.FK_ZTC_EX_ZTC_RS" FromRole="ZTC_RS" ToRole="ZTC_EX" />
+        </EntityType>
+        <EntityType Name="ZTC_ST">
+          <Key>
+            <PropertyRef Name="StepTypeID" />
+          </Key>
+          <Property Name="StepTypeID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="StepTypeName" Type="String" MaxLength="70" Unicode="true" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="ZTC_TS" Relationship="TCModel.FK_ZTC_TS_ZTC_ST" FromRole="ZTC_ST" ToRole="ZTC_TS" />
+        </EntityType>
+        <EntityType Name="ZTC_TS">
+          <Key>
+            <PropertyRef Name="TestCaseID" />
+            <PropertyRef Name="StepId" />
+          </Key>
+          <Property Name="TestCaseID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="StepId" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="StepDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="false" />
+          <Property Name="StepObservation" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="StepTypeID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="ZTC_CT" Relationship="TCModel.FK__ZTC_TS__TestCase__00B07205" FromRole="ZTC_TS" ToRole="ZTC_CT" />
+          <NavigationProperty Name="ZTC_EX" Relationship="TCModel.FK_ZTC_EX_ZTC_TS" FromRole="ZTC_TS" ToRole="ZTC_EX" />
+          <NavigationProperty Name="ZTC_ST" Relationship="TCModel.FK_ZTC_TS_ZTC_ST" FromRole="ZTC_TS" ToRole="ZTC_ST" />
+        </EntityType>
+        <Association Name="FK__ZTC_EX__TestCase__0298BA77">
+          <End Role="ZTC_CT" Type="TCModel.ZTC_CT" Multiplicity="1" />
+          <End Role="ZTC_EX" Type="TCModel.ZTC_EX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_CT">
+              <PropertyRef Name="TestCaseId" />
+            </Principal>
+            <Dependent Role="ZTC_EX">
+              <PropertyRef Name="TestCaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ZTC_TS__TestCase__00B07205">
+          <End Role="ZTC_CT" Type="TCModel.ZTC_CT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZTC_TS" Type="TCModel.ZTC_TS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_CT">
+              <PropertyRef Name="TestCaseId" />
+            </Principal>
+            <Dependent Role="ZTC_TS">
+              <PropertyRef Name="TestCaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZTC_EX_ZTC_RS">
+          <End Role="ZTC_RS" Type="TCModel.ZTC_RS" Multiplicity="1" />
+          <End Role="ZTC_EX" Type="TCModel.ZTC_EX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_RS">
+              <PropertyRef Name="ExecutionResultID" />
+            </Principal>
+            <Dependent Role="ZTC_EX">
+              <PropertyRef Name="ExecutionResultID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZTC_EX_ZTC_TS">
+          <End Role="ZTC_TS" Type="TCModel.ZTC_TS" Multiplicity="1" />
+          <End Role="ZTC_EX" Type="TCModel.ZTC_EX" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_TS">
+              <PropertyRef Name="TestCaseID" />
+              <PropertyRef Name="StepId" />
+            </Principal>
+            <Dependent Role="ZTC_EX">
+              <PropertyRef Name="TestCaseID" />
+              <PropertyRef Name="LastStepExecutionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZTC_TS_ZTC_ST">
+          <End Role="ZTC_ST" Type="TCModel.ZTC_ST" Multiplicity="1" />
+          <End Role="ZTC_TS" Type="TCModel.ZTC_TS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZTC_ST">
+              <PropertyRef Name="StepTypeID" />
+            </Principal>
+            <Dependent Role="ZTC_TS">
+              <PropertyRef Name="StepTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OBJECTTYPES">
+          <Key>
+            <PropertyRef Name="OBJECTTYPES1" />
+            <PropertyRef Name="OBJECTTYPESID" />
+          </Key>
+          <Property Type="String" Name="OBJECTTYPES1" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="OBJECTTYPESID" Nullable="false" Precision="4" Scale="0" />
+        </EntityType>
+        <EntityType Name="USRGROUP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Decimal" Name="ID" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="NAME" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DESCRIPCION" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="STATE" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="USRTABLE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Decimal" Name="ID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PASSWORD" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CRDATE" />
+          <Property Type="DateTime" Name="LUPDATE" />
+          <Property Type="Decimal" Name="STATE" Precision="10" Scale="0" />
+          <Property Type="String" Name="DESCRIPTION" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ADDRESS_BOOK" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="EXPIRATIONTIME" Precision="10" Scale="0" />
+          <Property Type="DateTime" Name="EXPIRATIONDATE" />
+          <Property Type="String" Name="NOMBRES" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="APELLIDO" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CORREO" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TELEFONO" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PUESTO" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FIRMA" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FOTO" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CONF_BASEMAIL" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CONF_MAILSERVER" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CONF_MAILTYPE" />
+          <Property Type="String" Name="SMTP" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="colegajo" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="PRJ_TBL">
+          <Key>
+            <PropertyRef Name="Prj_ID" />
+          </Key>
+          <Property Type="Decimal" Name="Prj_ID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRJ_R_O" Relationship="TCModel.FK__PRJ_R_O__PRJID__71A3389F" FromRole="PRJ_TBL" ToRole="PRJ_R_O" />
+        </EntityType>
+        <EntityType Name="WF_DT">
+          <Key>
+            <PropertyRef Name="WFId" />
+            <PropertyRef Name="DocTypeId" />
+          </Key>
+          <Property Type="Decimal" Name="WFId" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="DocTypeId" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="WFWorkflow" Relationship="TCModel.FK_WF_DT_WFWorkflow" FromRole="WF_DT" ToRole="WFWorkflow" />
+        </EntityType>
+        <EntityType Name="WFRules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="Name" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="step_Id" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Type" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="ParentId" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="ParentType" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="Class" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="Enable" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="Version" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="IconId" Precision="18" Scale="0" />
+          <NavigationProperty Name="WFStep" Relationship="TCModel.FK_WFRules_WFStep" FromRole="WFRules" ToRole="WFStep" />
+        </EntityType>
+        <EntityType Name="WFStep">
+          <Key>
+            <PropertyRef Name="step_Id" />
+          </Key>
+          <Property Type="Decimal" Name="step_Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="work_id" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Help" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" />
+          <Property Type="Decimal" Name="ImageIndex" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="DateTime" Name="EditDate" Nullable="false" />
+          <Property Type="Decimal" Name="LocationX" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="LocationY" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="max_Hours" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="max_docs" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="StartAtOpenDoc" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="Color" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="Width" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Height" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Width2" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Orden" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="WFRules" Relationship="TCModel.FK_WFRules_WFStep" FromRole="WFStep" ToRole="WFRules" />
+          <NavigationProperty Name="WFWorkflow" Relationship="TCModel.FK_WFStep_WFWorkflow" FromRole="WFStep" ToRole="WFWorkflow" />
+        </EntityType>
+        <EntityType Name="WFWorkflow">
+          <Key>
+            <PropertyRef Name="work_id" />
+          </Key>
+          <Property Type="Decimal" Name="work_id" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="Wstat_id" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Help" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" />
+          <Property Type="DateTime" Name="EditDate" Nullable="false" />
+          <Property Type="Decimal" Name="Refreshrate" Nullable="false" Precision="10" Scale="0" />
+          <Property Type="Decimal" Name="InitialStepId" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="WF_DT" Relationship="TCModel.FK_WF_DT_WFWorkflow" FromRole="WFWorkflow" ToRole="WF_DT" />
+          <NavigationProperty Name="WFStep" Relationship="TCModel.FK_WFStep_WFWorkflow" FromRole="WFWorkflow" ToRole="WFStep" />
+        </EntityType>
+        <EntityType Name="ZFrms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Decimal" Name="Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="ParentId" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Type" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="ObjectTypeId" Precision="18" Scale="0" />
+          <Property Type="String" Name="Path" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="UseRuleRights" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="Updated" />
+          <NavigationProperty Name="Ztype_Zfrms" Relationship="TCModel.FK_Ztype_Zfrms_ZFrms" FromRole="ZFrms" ToRole="Ztype_Zfrms" />
+        </EntityType>
+        <EntityType Name="Ztype_Zfrms">
+          <Key>
+            <PropertyRef Name="DocType_Id" />
+            <PropertyRef Name="Form_Id" />
+          </Key>
+          <Property Type="Decimal" Name="DocType_Id" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Form_Id" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="ZFrms" Relationship="TCModel.FK_Ztype_Zfrms_ZFrms" FromRole="Ztype_Zfrms" ToRole="ZFrms" />
+        </EntityType>
+        <Association Name="FK_WF_DT_WFWorkflow">
+          <End Type="TCModel.WFWorkflow" Role="WFWorkflow" Multiplicity="1" />
+          <End Type="TCModel.WF_DT" Role="WF_DT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFWorkflow">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WF_DT">
+              <PropertyRef Name="WFId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFRules_WFStep">
+          <End Type="TCModel.WFStep" Role="WFStep" Multiplicity="0..1" />
+          <End Type="TCModel.WFRules" Role="WFRules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFStep">
+              <PropertyRef Name="step_Id" />
+            </Principal>
+            <Dependent Role="WFRules">
+              <PropertyRef Name="step_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WFStep_WFWorkflow">
+          <End Type="TCModel.WFWorkflow" Role="WFWorkflow" Multiplicity="1" />
+          <End Type="TCModel.WFStep" Role="WFStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WFWorkflow">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WFStep">
+              <PropertyRef Name="work_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ztype_Zfrms_ZFrms">
+          <End Type="TCModel.ZFrms" Role="ZFrms" Multiplicity="1" />
+          <End Type="TCModel.Ztype_Zfrms" Role="Ztype_Zfrms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZFrms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ztype_Zfrms">
+              <PropertyRef Name="Form_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PRJ_R_O">
+          <Key>
+            <PropertyRef Name="PRJID" />
+            <PropertyRef Name="OBJID" />
+            <PropertyRef Name="OBJTYP" />
+          </Key>
+          <Property Type="Decimal" Name="PRJID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="OBJID" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="OBJTYP" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="PRJ_TBL" Relationship="TCModel.FK__PRJ_R_O__PRJID__71A3389F" FromRole="PRJ_R_O" ToRole="PRJ_TBL" />
+        </EntityType>
+        <Association Name="FK__PRJ_R_O__PRJID__71A3389F">
+          <End Type="TCModel.PRJ_TBL" Role="PRJ_TBL" Multiplicity="1" />
+          <End Type="TCModel.PRJ_R_O" Role="PRJ_R_O" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRJ_TBL">
+              <PropertyRef Name="Prj_ID" />
+            </Principal>
+            <Dependent Role="PRJ_R_O">
+              <PropertyRef Name="PRJID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TCModelStoreContainer" CdmEntityContainer="TCEntities">
+          <EntitySetMapping Name="ZTC_CT"><EntityTypeMapping TypeName="TCModel.ZTC_CT"><MappingFragment StoreEntitySet="ZTC_CT">
+            <ScalarProperty Name="TestOrder" ColumnName="TestOrder" />
+                <ScalarProperty Name="NodeID" ColumnName="NodeID" />
+                <ScalarProperty Name="VN" ColumnName="VN" />
+                <ScalarProperty Name="ObjectTypeID" ColumnName="ObjectTypeID" />
+            <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
+            <ScalarProperty Name="ParentNode" ColumnName="ParentNode" />
+            <ScalarProperty Name="NodeType" ColumnName="NodeType" />
+            <ScalarProperty Name="TestCaseId" ColumnName="TestCaseId" />
+            <ScalarProperty Name="Author" ColumnName="Author" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+            <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+            <ScalarProperty Name="NodeName" ColumnName="NodeName" />
+            <ScalarProperty Name="NodeDescription" ColumnName="NodeDescription" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ZTC_EX"><EntityTypeMapping TypeName="TCModel.ZTC_EX"><MappingFragment StoreEntitySet="ZTC_EX">
+            <ScalarProperty Name="TestCaseID" ColumnName="TestCaseID" />
+            <ScalarProperty Name="UserId" ColumnName="UserId" />
+            <ScalarProperty Name="ExecutionDate" ColumnName="ExecutionDate" />
+            <ScalarProperty Name="ExecutionResultID" ColumnName="ExecutionResultID" />
+            <ScalarProperty Name="Comment" ColumnName="Comment" />
+            <ScalarProperty Name="ExecutionId" ColumnName="ExecutionId" />
+            <ScalarProperty Name="LastStepExecutionID" ColumnName="LastStepExecutionID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ZTC_RS"><EntityTypeMapping TypeName="TCModel.ZTC_RS"><MappingFragment StoreEntitySet="ZTC_RS">
+            <ScalarProperty Name="ExecutionResultID" ColumnName="ExecutionResultID" />
+            <ScalarProperty Name="ExecutionResultName" ColumnName="ExecutionResultName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ZTC_ST"><EntityTypeMapping TypeName="TCModel.ZTC_ST"><MappingFragment StoreEntitySet="ZTC_ST">
+            <ScalarProperty Name="StepTypeID" ColumnName="StepTypeID" />
+            <ScalarProperty Name="StepTypeName" ColumnName="StepTypeName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ZTC_TS"><EntityTypeMapping TypeName="TCModel.ZTC_TS"><MappingFragment StoreEntitySet="ZTC_TS">
+            <ScalarProperty Name="TestCaseID" ColumnName="TestCaseID" />
+            <ScalarProperty Name="StepId" ColumnName="StepId" />
+            <ScalarProperty Name="StepDescription" ColumnName="StepDescription" />
+            <ScalarProperty Name="StepObservation" ColumnName="StepObservation" />
+            <ScalarProperty Name="StepTypeID" ColumnName="StepTypeID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="OBJECTTYPES">
+            <EntityTypeMapping TypeName="TCModel.OBJECTTYPES">
+              <MappingFragment StoreEntitySet="OBJECTTYPES">
+                <ScalarProperty Name="OBJECTTYPESID" ColumnName="OBJECTTYPESID" />
+                <ScalarProperty Name="OBJECTTYPES1" ColumnName="OBJECTTYPES" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USRGROUP">
+            <EntityTypeMapping TypeName="TCModel.USRGROUP">
+              <MappingFragment StoreEntitySet="USRGROUP">
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USRTABLE">
+            <EntityTypeMapping TypeName="TCModel.USRTABLE">
+              <MappingFragment StoreEntitySet="USRTABLE">
+                <ScalarProperty Name="colegajo" ColumnName="colegajo" />
+                <ScalarProperty Name="SMTP" ColumnName="SMTP" />
+                <ScalarProperty Name="CONF_MAILTYPE" ColumnName="CONF_MAILTYPE" />
+                <ScalarProperty Name="CONF_MAILSERVER" ColumnName="CONF_MAILSERVER" />
+                <ScalarProperty Name="CONF_BASEMAIL" ColumnName="CONF_BASEMAIL" />
+                <ScalarProperty Name="FOTO" ColumnName="FOTO" />
+                <ScalarProperty Name="FIRMA" ColumnName="FIRMA" />
+                <ScalarProperty Name="PUESTO" ColumnName="PUESTO" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="NOMBRES" ColumnName="NOMBRES" />
+                <ScalarProperty Name="EXPIRATIONDATE" ColumnName="EXPIRATIONDATE" />
+                <ScalarProperty Name="EXPIRATIONTIME" ColumnName="EXPIRATIONTIME" />
+                <ScalarProperty Name="ADDRESS_BOOK" ColumnName="ADDRESS_BOOK" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="LUPDATE" ColumnName="LUPDATE" />
+                <ScalarProperty Name="CRDATE" ColumnName="CRDATE" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRJ_TBL">
+            <EntityTypeMapping TypeName="TCModel.PRJ_TBL">
+              <MappingFragment StoreEntitySet="PRJ_TBL">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Prj_ID" ColumnName="Prj_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WF_DT">
+            <EntityTypeMapping TypeName="TCModel.WF_DT">
+              <MappingFragment StoreEntitySet="WF_DT">
+                <ScalarProperty Name="DocTypeId" ColumnName="DocTypeId" />
+                <ScalarProperty Name="WFId" ColumnName="WFId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WFRules">
+            <EntityTypeMapping TypeName="TCModel.WFRules">
+              <MappingFragment StoreEntitySet="WFRules">
+                <ScalarProperty Name="IconId" ColumnName="IconId" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Enable" ColumnName="Enable" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="ParentType" ColumnName="ParentType" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="step_Id" ColumnName="step_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WFStep">
+            <EntityTypeMapping TypeName="TCModel.WFStep">
+              <MappingFragment StoreEntitySet="WFStep">
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Width2" ColumnName="Width2" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="StartAtOpenDoc" ColumnName="StartAtOpenDoc" />
+                <ScalarProperty Name="max_docs" ColumnName="max_docs" />
+                <ScalarProperty Name="max_Hours" ColumnName="max_Hours" />
+                <ScalarProperty Name="LocationY" ColumnName="LocationY" />
+                <ScalarProperty Name="LocationX" ColumnName="LocationX" />
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="ImageIndex" ColumnName="ImageIndex" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Help" ColumnName="Help" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="work_id" ColumnName="work_id" />
+                <ScalarProperty Name="step_Id" ColumnName="step_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WFWorkflow">
+            <EntityTypeMapping TypeName="TCModel.WFWorkflow">
+              <MappingFragment StoreEntitySet="WFWorkflow">
+                <ScalarProperty Name="InitialStepId" ColumnName="InitialStepId" />
+                <ScalarProperty Name="Refreshrate" ColumnName="Refreshrate" />
+                <ScalarProperty Name="EditDate" ColumnName="EditDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Help" ColumnName="Help" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Wstat_id" ColumnName="Wstat_id" />
+                <ScalarProperty Name="work_id" ColumnName="work_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZFrms">
+            <EntityTypeMapping TypeName="TCModel.ZFrms">
+              <MappingFragment StoreEntitySet="ZFrms">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="UseRuleRights" ColumnName="UseRuleRights" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ztype_Zfrms">
+            <EntityTypeMapping TypeName="TCModel.Ztype_Zfrms">
+              <MappingFragment StoreEntitySet="Ztype_Zfrms">
+                <ScalarProperty Name="Form_Id" ColumnName="Form_Id" />
+                <ScalarProperty Name="DocType_Id" ColumnName="DocType_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRJ_R_O">
+            <EntityTypeMapping TypeName="TCModel.PRJ_R_O">
+              <MappingFragment StoreEntitySet="PRJ_R_O">
+                <ScalarProperty Name="OBJTYP" ColumnName="OBJTYP" />
+                <ScalarProperty Name="OBJID" ColumnName="OBJID" />
+                <ScalarProperty Name="PRJID" ColumnName="PRJID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ModelTC" ZoomLevel="67">
+        <EntityTypeShape EntityType="TCModel.ZTC_CT" Width="1.5" PointX="0.5" PointY="0.5" Height="3.5186979166666656" IsExpanded="true" />
+        <EntityTypeShape EntityType="TCModel.ZTC_EX" Width="1.5" PointX="5.25" PointY="0.5" Height="2.5783902994791665" IsExpanded="true" />
+        <EntityTypeShape EntityType="TCModel.ZTC_RS" Width="1.5" PointX="5.25" PointY="3.875" Height="1.427958984375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TCModel.ZTC_ST" Width="1.5" PointX="5.25" PointY="6.25" Height="1.427958984375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TCModel.ZTC_TS" Width="1.5" PointX="2.25" PointY="5.375" Height="2.2496956380208326" IsExpanded="true" />
+        <AssociationConnector Association="TCModel.FK__ZTC_EX__TestCase__0298BA77" ManuallyRouted="false">
+          <ConnectorPoint PointX="2" PointY="1.4181295879364018" />
+          <ConnectorPoint PointX="5.25" PointY="1.4181295879364018" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK__ZTC_TS__TestCase__00B07205" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.25" PointY="4.0186979166666656" />
+          <ConnectorPoint PointX="1.25" PointY="6.6535953776041659" />
+          <ConnectorPoint PointX="2.25" PointY="6.6535953776041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK_ZTC_EX_ZTC_RS" ManuallyRouted="false">
+          <ConnectorPoint PointX="6" PointY="3.875" />
+          <ConnectorPoint PointX="6" PointY="3.4417936197916665" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK_ZTC_EX_ZTC_TS" ManuallyRouted="false">
+          <ConnectorPoint PointX="3" PointY="5.375" />
+          <ConnectorPoint PointX="3" PointY="2.4614394639078787" />
+          <ConnectorPoint PointX="5.25" PointY="2.4614394639078787" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK_ZTC_TS_ZTC_ST" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.25" PointY="6.9373478190104159" />
+          <ConnectorPoint PointX="3.75" PointY="6.9373478190104159" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="TCModel.OBJECTTYPES" Width="1.5" PointX="7.375" PointY="0.75" Height="1.4033821614583326" />
+        <EntityTypeShape EntityType="TCModel.USRGROUP" Width="1.5" PointX="7.375" PointY="3.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="TCModel.USRTABLE" Width="1.5" PointX="7.375" PointY="6.75" Height="5.2494108072916674" />
+        <EntityTypeShape EntityType="TCModel.PRJ_TBL" Width="1.5" PointX="0.75" PointY="8.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="TCModel.WF_DT" Width="1.5" PointX="11.625" PointY="1.125" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="TCModel.WFRules" Width="1.5" PointX="13.875" PointY="4.375" Height="3.1340950520833317" />
+        <EntityTypeShape EntityType="TCModel.WFStep" Width="1.5" PointX="11.625" PointY="3.5" Height="4.8648079427083326" />
+        <EntityTypeShape EntityType="TCModel.WFWorkflow" Width="1.5" PointX="9.375" PointY="3.25" Height="3.1340950520833388" />
+        <EntityTypeShape EntityType="TCModel.ZFrms" Width="1.5" PointX="9.375" PointY="10" Height="2.9417936197916674" />
+        <EntityTypeShape EntityType="TCModel.Ztype_Zfrms" Width="1.5" PointX="11.625" PointY="10.625" Height="1.5956835937500031" />
+        <AssociationConnector Association="TCModel.FK_WF_DT_WFWorkflow">
+          <ConnectorPoint PointX="10.125" PointY="3.25" />
+          <ConnectorPoint PointX="10.125" PointY="1.9228417968749998" />
+          <ConnectorPoint PointX="11.625" PointY="1.9228417968749998" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK_WFRules_WFStep">
+          <ConnectorPoint PointX="13.125" PointY="5.9420475260416659" />
+          <ConnectorPoint PointX="13.875" PointY="5.9420475260416659" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK_WFStep_WFWorkflow">
+          <ConnectorPoint PointX="10.875" PointY="4.9420475260416694" />
+          <ConnectorPoint PointX="11.625" PointY="4.9420475260416694" />
+        </AssociationConnector>
+        <AssociationConnector Association="TCModel.FK_Ztype_Zfrms_ZFrms">
+          <ConnectorPoint PointX="10.875" PointY="11.422841796875002" />
+          <ConnectorPoint PointX="11.625" PointY="11.422841796875002" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="TCModel.PRJ_R_O" Width="1.5" PointX="3" PointY="8.75" Height="1.7879850260416674" />
+        <AssociationConnector Association="TCModel.FK__PRJ_R_O__PRJID__71A3389F">
+          <ConnectorPoint PointX="2.25" PointY="9.6439925130208337" />
+          <ConnectorPoint PointX="3" PointY="9.6439925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

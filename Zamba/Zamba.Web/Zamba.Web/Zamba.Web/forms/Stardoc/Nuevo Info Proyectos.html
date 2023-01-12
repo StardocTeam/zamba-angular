@@ -1,0 +1,119 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+    </script>
+</head>
+<body>
+    <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Nueva Informacion de Proyecto</strong>
+    </div>
+    <table style="width: 98%;">
+        <tr>
+            <td colspan="3">
+                <div id="floatleft">
+                    <div id="TAB" class="tabber" style="">
+                        <div class="tabbertab" id="General">
+                            <h2>
+                                Informacion 
+                            </h2>
+                            <table style="width: 90%;">
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Cliente</label>
+                                    </td>
+                                    <td>
+                                        <select style="width: 25em;" id="zamba_index_1287" name="zamba_index_1287"></select>
+                                            
+                                    </td>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Proyecto</label>
+                                    </td>
+                                    <td>
+                                        <select style="width: 258px" id="zamba_index_1296" name="zamba_index_1296">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Tipo de Informacion</label>
+                                        </td>
+                                        <td>
+                                            <select style="width: 25em;" id="zamba_index_1324" name="zamba_index_1324"></select>
+                                        </td>
+                                    </p>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Fecha Finalizacion</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width: 20.2em;" id="zamba_index_1310" 
+                                                name="zamba_index_1310"/>
+                                        </td>
+                                    </p>
+                                </tr>
+                            </table>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Descripcion</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 62.8em;" id="zamba_index_1276" 
+                                            name="zamba_index_1276"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Proposito </label>
+                                        </td>
+                                        <td colspan="4">
+                                            <textarea cols="100" rows="5" id="zamba_index_1325" name="zamba_index_1325"></textarea>
+                                        </td>
+                                    </p>
+                                </tr>
+                            </table>
+                        </div>
+                        <center style="z-index: -1">
+                            <iframe id="zamba_innerdoctype_original" align="middle" height="100px" title="Documento Original"
+                                width="90%" src=""></iframe>
+                        </center>
+                    </div>
+                </div>
+        </tr>
+        <tr>
+            <td>
+                <img src="images/logocliente.bmp" height="50" width="70" />
+                <td>
+                    <td>
+                        <img src="images/pwbyzamba.jpg" align="right" />
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

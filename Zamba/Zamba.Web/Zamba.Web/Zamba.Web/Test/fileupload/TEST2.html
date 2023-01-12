@@ -1,0 +1,133 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+       <div> 
+   
+          <center>
+        <input style="margin-top:50px" name="Upload" id="image"  onchange="UploadIMG(this)" type="file" /> </center>
+            
+           <center style="position:relative;right:80px;">
+               <label>UserId<input  class="form-control col-xs-3 " id="userid" /></label>
+               <label>Docid<input  class="form-control col-xs-3 " id="id" /></label></center>
+               <div id="" class=" col-xs-12 col-xs-offset-2">
+              
+                 <div class="col-xs-10">
+                 <div class="col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" /></div>
+                   <div class=" col-xs-4 indicesVal"> <label>  Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+              
+                <div class="col-xs-10">
+                 <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" /></div>
+                   <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+                <div class="col-xs-10">
+                 <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" /></div>
+                   <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+                <div class="col-xs-10">
+                 <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" /></div>
+                   <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4"/></div>
+                  </div>
+              <div class="row col-xs-12 col-xs-offset-2" style="margin-top:20px">
+                       <span id="sendinfo" class="btn btn-success col-xs-2" onclick="sendinfo()">Insertar</span>
+
+              </div>
+
+           </div>
+        </div>
+   
+</body>
+</html>
+
+<style>
+
+
+</style>
+
+<script>
+    var fileSelected = "";
+    var fileExtencion = "";
+    function UploadIMG(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img64 = e.target.result;
+                if (e.total > 400000) {
+                    var img = new Image();
+                    img.src = img64;
+                    var width = img.width;
+                    var height = img.height;
+                    widthext = 500;
+                    if (width > widthext) {
+                        var oc = document.createElement('canvas'), octx = oc.getContext('2d');
+                        oc.width = widthext;
+                        oc.height = img.height;
+                        octx.drawImage(img, 0, 0);
+                        while (oc.width * 0.5 > widthext) {
+                            oc.width *= 0.5;
+                            oc.height *= 0.5;
+                            octx.drawImage(oc, 0, 0, oc.width, oc.height);
+                        }
+                        oc.width = widthext;
+                        oc.height = oc.width * img.height / img.width;
+                        octx.drawImage(img, 0, 0, oc.width, oc.height);
+                        img64 = oc.toDataURL();
+                    }
+                }
+                fileSelected = img64;
+                fileExtencion = $("#image").val().split('.').pop();
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+    }
+
+
+    function sendinfo() {
+	
+	        var resturl = "http://10.6.110.128/ZambaWeb.RestApi/api/search/Test";
+	
+	                $.ajax({
+                    type: "GET",
+                    url: resturl ,      
+	            		    dataType: 'jsonp',
+   		    headers: {
+                    'Access-Control-Allow-Origin': '*' , 'Access-Control-Allow-Headers': 'x-my-custom-header',
+'Access-Control-Allow-Methods': 'GET'               },					
+                    contentType: "application/jsonp",
+                    success: function () {
+					alert('hola');
+                        //if(data != false)
+                          //  toastr.success("archivo se inserto con exito");
+                        //else
+                          //  toastr.error('Ocurrio un error en el proceso de su solicitud');
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        toastr.error('Ocurrio un error en el proceso de su solicitud');
+                    },
+
+                    //beforeSend: function (request)
+                    //{
+                    //    if (authorizationToken) {
+                    //        request.withCredentials = true;
+                    //        request.setRequestHeader("Authorization", "Bearer " + authorizationToken);
+                    //    }
+                    //}
+                });
+
+      
+            }
+  
+</script>

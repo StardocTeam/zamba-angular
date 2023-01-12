@@ -1,0 +1,371 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<link rel="stylesheet" href="tabber.css" type="text/css" />
+</head>
+<body>
+    <form name="frmMain" action="ReclamoAltaJuicio.html">
+	<input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center>
+	<div id="TAB" class="tabber">
+		<div class="tabbertab" id="Reclamo">
+			<h2>Reclamo</h2>
+			<table id="tblReclamo" class="attributes_table">
+				<tr>
+					<td><label>Carátula:</label>
+					<td colspan="4"><input id="zamba_index_2701" name="zamba_index_2701" style="width:837px;"/>
+				</tr>
+				<tr>
+					<td><label>Juicio / Mediación:</label>
+					<td>
+						<select id="zamba_index_2681" name="zamba_index_2681"style="width:103px;" disabled="disabled"></select>
+						<label style="color:red">Nro Jui/Med:</label>
+						<input id="zamba_index_2695" name="zamba_index_2695" size="1" class="solonums" style="width:105px;"/>
+						<input id="zamba_rule_13193" name="zamba_rule_13193" type="submit" value="..." onclick="SetRuleId2(this);"/>
+					<td class="separador">
+					<td><label>ID Reclamo:</label>
+					<td><input id="zamba_index_2677" name="zamba_index_2677" class="w300px" disabled="disabled"/>
+				</tr>
+				<tr>
+					<td><label>Tipo de Proceso:</label> 
+					<td><select id="zamba_index_2739" name="zamba_index_2739" size="1" class="w300px"></select>
+					<td class="separador">
+					<td><label>Asegurado:</label>
+					<td><input id="zamba_index_3" name="zamba_index_3" class="w300px" disabled="disabled"/>
+				</tr>
+				<tr>
+					<td><label>Ejecutivo:</label> 
+					<td><select id="zamba_index_2735" name="zamba_index_2735" size="1" class="w300px"></select>
+					<td class="separador">
+					<td><label>Nro Póliza:</label>
+					<td><input id="zamba_index_34" name="zamba_index_34" class="w300px" disabled="disabled"/>
+				</tr>
+				<tr>
+					<td><label>Sección:</label>
+					<td><select id="zamba_index_2749" size="1" name="zamba_index_2749" class="w300px"></select>
+					<td class="separador">
+					<td><label>Fecha de Ocurrencia:</label>
+					<td><input id="zamba_index_2683" name="zamba_index_2683" class="w300px" disabled="disabled"/>
+				</tr>
+				<tr>
+					<td><label>Ejercicio:</label>
+					<td>
+						<input id="zamba_index_2736" name="zamba_index_2736" class="solonums" style="width:80px;"/>
+						<label>Nro de Siniestro:</label>
+						<input id="zamba_index_1147" name="zamba_index_1147" class="solonums" style="width:98px;"/>
+						<input id="zamba_rule_10474" name="zamba_rule_10474" type="submit" value="..." onclick="CargarSiniestro(this);"/>
+					<td class="separador">
+					<td><label>Fecha Primera Notificación:</label>
+					<td><input id="zamba_index_2682" name="zamba_index_2682" class="w100px" disabled="disabled"/>
+						<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Alta:</label>
+						<input id="zamba_index_2843" name="zamba_index_2843" class="w100px" disabled="disabled"/>
+				</tr>
+				<tr>
+					<td><label>Nro de Subsiniestro:</label>
+					<td>
+						<input id="zamba_index_2694" name="zamba_index_2694" class="solonums" style="width:80px;"/>
+						<input id="zamba_rule_9123" name="zamba_rule_9123" type="submit" value="Nuevo" onclick="SetRuleId(this);"/>
+						<label>Nro de Item:</label>
+						<input id="zamba_index_14" name="zamba_index_14" class="solonums" style="width:88px;"/>
+					<td class="separador">
+					<td><label>Fecha de Audiencia:</label>
+					<td><input id="zamba_index_2892" name="zamba_index_2892" class="w300px">
+				</tr>
+				<tr>
+					<td><label>Jurisdicción:</label>
+					<td><select id="zamba_index_2685" name="zamba_index_2685" class="w300px"></select>
+					<td class="separador">
+					<td><label>Patente:</label>
+					<td>
+						<input id="zamba_index_39" name="zamba_index_39" class="w150px" disabled="disabled"/>
+						<label>Póliza facultativa:</label>
+						<select id="zamba_index_2741" name="zamba_index_2741" style="width:50px;"></select>
+				</tr>
+				<tr>
+					<td><label>Juzgado:</label>
+					<td>
+						<textarea cols="1" rows="5" id="zamba_index_2684" name="zamba_index_2684" style="WIDTH: 282px" disabled="disabled"></textarea>
+						<input id="zamba_rule_11215" name="zamba_rule_11215" type="submit" value="..." onclick="SetRuleId(this);"/>
+					<td class="separador">
+					<td>
+						<table>
+							<tr><td><label>Productor:</label>
+							<tr><td><label>Suma Asegurada:</label>
+							<tr><td><label>Seguimiento Reaseguros:</label>
+						</table>
+					<td>
+						<table class="attributes_table"><tr><td>
+							<input id="zamba_index_4" name="zamba_index_4" style="width:75px;" disabled="disabled"/>
+							<input id="zamba_index_58" name="zamba_index_58" style="width:220px;" disabled="disabled"/>
+						<tr><td>
+							<input id="zamba_index_2690" name="zamba_index_2690" class="w300px" disabled="disabled"/>
+						<tr><td>
+							<select id="zamba_index_2698" name="zamba_index_2698" style="width:75px;" disabled="disabled"></select>
+						</table>
+				</tr>
+				<tr>
+					<td><label>Estado Procesal Boston:</label>
+					<td><select id="zamba_index_2740" name="zamba_index_2740" class="w300px"></select>
+						<select id="zamba_index_2875" name="zamba_index_2875" style="display:none"></select>
+					<td class="separador">
+					<td><label>Cobertura financiera:</label>
+					<td><select id="zamba_index_2743" name="zamba_index_2743" class="w300px"></select>
+				</tr>
+				<tr>
+					<td><label>Escribanía:</label>
+					<td><select id="zamba_index_2686" name="zamba_index_2686" class="w300px"/></select>
+					<td class="separador">
+					<td><label>Monto Reclamo:</label>
+					<td><input id="zamba_index_2691" name="zamba_index_2691" class="moneda w300px"/>
+				</tr>
+				<tr>
+					<td><label><b>Estudio Principal:</b></label>
+					<td><select id="zamba_index_2732" name="zamba_index_2732" class="w300px" disabled="disabled"/></select>
+					<td class="separador">
+					<td><label>Rechazo:</label>
+					<td><select id="zamba_index_2742" name="zamba_index_2742" class="w75px" onchange="VerificarHabilitacionRechazo();"/></select>
+						<select id="zamba_index_1000002" name="zamba_index_1000002" style="width:222px" /></select>
+				</tr>
+				<tr>
+					<td><label>Responsabilidad:</label>
+					<td><select id="zamba_index_2718" name="zamba_index_2718" class="w300px"></select>
+					<td class="separador">
+					<td><label>Estimación:</label>
+					<td><input id="zamba_index_2771" name="zamba_index_2771" class="moneda w300px"/>
+				</tr>
+				<tr>
+					<td><label>Tipo Cod Estado:</label>
+					<td><select id="zamba_index_2825" name="zamba_index_2825" style="width:165px;" onchange="HabilitarLesiones();"></select>
+						<select id="zamba_index_2886" name="zamba_index_2886" style="display:none"></select>
+					<td class="separador">
+					<td><label>Franquicia:</label>
+					<td><input id="zamba_index_2699" name="zamba_index_2699" class="moneda w300px" disabled="disabled"/>
+				</tr>
+				<tr>
+					<td><label>Lesiones:</label>
+					<td>
+						<select id="zamba_index_2831" name="zamba_index_2831" style="width:50px;" onchange="VerificarLesiones();"></select>
+						<label>%Inc. Cia:</label>
+						<input id="zamba_index_2832" name="zamba_index_2832" class="moneda" style="width:54px;" onclick="VerificarLesiones();"/>
+						<label>%Inc. Pericia:</label>
+						<input id="zamba_index_2833" name="zamba_index_2833" class="moneda" style="width:54px;" onclick="VerificarLesiones();"/>
+					<td class="separador">
+					<td><label>Daños Materiales:</label>
+					<td><input id="zamba_index_2792" name="zamba_index_2792" class="moneda w300px"/>
+				</tr>
+				<tr>
+					<td><label>Pericia Técnica:</label>
+					<td><select id="zamba_index_1000003" name="zamba_index_1000003" class="w300px"></select>
+					<td class="separador">
+					<td><label>Letrados parte actora:</label>
+					<td><input id="zamba_index_1001011" name="zamba_index_1001011" style="WIDTH: 282px" disabled="disabled"/>
+						<input id="zamba_rule_1002371" name="zamba_rule_1002371" type="submit" value="..." onclick="SetRuleId(this);"/>
+				</tr>
+			</table>
+			<br><br>
+			<div>
+				<center>
+					<input id="zamba_save" name="zamba_save" type="submit" style="width:100px" value="Guardar" onclick="zamba_save_onclick();" />
+				</center>
+			</div>
+			<br>
+			<table id="tblObervaciones" class="attributes_table">
+				<tr>
+					<td><input id="zamba_rule_13959" name="zamba_rule_13959" style="width:160px" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+				</tr>
+				<tr>
+					<td><textarea cols="1" rows="6" id="zamba_Index_2866" name="zamba_Index_2866" style="WIDTH: 900px" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled"></textarea> 
+				</tr>
+			</table>
+			<br>
+			<table class="attributes_table">
+				<tr>
+					<td><input id="zamba_rule_11558" name="zamba_rule_11558" type="submit" value="Pagos" onclick="SetRuleId(this);" />
+					<td><input id="zamba_rule_11528" name="zamba_rule_11528" type="submit" value="Resumen" onclick="SetRuleId(this);" />
+					<td><input id="zamba_rule_11148" name="zamba_rule_11148" type="submit" value="Endosos y Póliza" onclick="SetRuleId(this);" />
+					<td><input id="zamba_rule_13377" name="zamba_rule_13377" type="submit" value="Web Poder Judicial" onclick="SetRuleId(this);" />
+					<td><input id="zamba_rule_13727" name="zamba_rule_13727" type="submit" value="Denuncia" onclick="SetRuleId(this);" />
+				</tr>
+			</table>	
+		</div>
+	
+		<div class="tabbertab" id="Estudios">
+			<h2>Estudios</h2>
+			<input id="zamba_rule_10266" name="zamba_rule_10266" style="width:160px" type="submit" value="Agregar Estudio" onclick="SetRuleId(this);" />
+			<table class="tablesorter" id="zamba_associated_documents_2535">
+				<tbody>
+				</tbody>
+			</table>
+			<label>Para quitar un estudio o definir uno como principal del reclamo, debe acceder al estudio deseado desde el botón Ver.</label>
+		</div> 
+	
+		<div class="tabbertab" id="Demandados">
+			<h2>Demandados</h2>
+			<input id="zamba_rule_11927"  name="zamba_rule_11927" style="width:160px" type="submit" value="Agregar" onclick="SetRuleId(this);" />
+			<table class="tablesorter" id="zamba_associated_documents_2532">
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	
+		<div class="tabbertab" id="Notificaciones">
+			<h2>Notificaciones</h2>
+			<table class="tablesorter" id="zamba_associated_documents_2524">
+				<tbody>
+				</tbody>
+			</table>
+		</div> 
+		
+		<div class="tabbertab" id="Pretensiones/Ofertas">
+			<h2>Pretensiones/Ofertas</h2>
+			<input id="zamba_rule_10525" name="zamba_rule_10525" style="width:160px" type="submit" value="Agregar" onclick="SetRuleId(this);" />
+		   <table style="width: 100%;" class="tablesorter" id="zamba_associated_documents" name="doc_type_ids(2528,2529)">
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="tabbertab" id="Cheques">
+			<h2>Solicitudes de Cheque</h2>
+			<input id="zamba_rule_11703" name="zamba_rule_11703" style="width:160px" type="submit" value="Agregar" onclick="SetRuleId(this);" />
+			<table class="tablesorter" id="zamba_associated_documents_2544">
+				<tbody>
+				</tbody>
+			</table>
+		</div> 
+		
+		<div class="tabbertab" id="Sentencias">
+			<h2>Cálculos de Sentencia</h2>
+			<table class="tablesorter" id="zamba_associated_documents_2543">
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="tabbertab" id="Actores">
+			<h2>Actores</h2>
+			<input id="zamba_rule_14239" name="zamba_rule_14239" type="submit" value="Baremo Lesiones" onclick="SetRuleId(this);" /><br>
+			<table class="tablesorter" id="zamba_associated_documents_2552">
+				<tbody>
+				</tbody>
+			</table>				
+			<br><br>
+			<input id="zamba_rule_14285" name="zamba_rule_14285" type="submit" value="Baremo Muerte" onclick="SetRuleId(this);" /><br>
+			<table class="tablesorter" id="zamba_associated_documents_2553">
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="tabbertab" id="Importantes">
+			<h2>¡Importantes!</h2>
+			<table class="tablesorter" id="zamba_associated_documents_importants">
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+	</center>
+	</form>
+	
+	 
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script src="reclamo.js" type="text/javascript" language="JavaScript" charset="ISO-8859-1"></script>
+	<script type="text/javascript" language="JavaScript">
+	function SetRuleId2(sender){
+		VerificarHabilitacionSiniestro();
+		document.getElementById("hdnRuleId").name = sender.id;               
+	}
+	function zamba_save_onclick(sender) {
+		VerificarHabilitacionSiniestro();
+		CalcularEstimacion();
+
+		if (document.getElementById("zamba_index_2736").value == ""){
+			alert("Por favor, verifique el Ejercicio antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_1147").value == ""){
+			alert("Por favor, verifique Nro de Siniestro antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2694").value == ""){
+			alert("Por favor, verifique el Nro de Subsiniestro antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_14").value == ""){
+			alert("Por favor, verifique el Nro de Item antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2701").value == ""){
+			alert("Por favor, verifique la Carátula antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_34").value == ""){
+			alert("Por favor, verifique el Nro de Póliza antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2683").value == ""){
+			alert("Por favor, verifique la Fecha de Ocurrencia antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if ($('#zamba_index_2742').val() == "S" && $('#zamba_index_1000002').val() == null){
+			alert("Por favor, verifique el Motivo de Rechazo antes de continuar");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if ($('input[type=text]').hasClass('error')){
+			alert("Verifique que todos los datos de los campos sean válidos");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";               
+		}
+	}
+	$(function(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				return IntegerCheck(e);
+			})
+		});
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				return DecimalCheck($('#' + e.target.id))
+			})
+		});
+	});
+	function FuncionesPosCargaDeReclamo(){
+		if($('#zamba_index_2825').val() == 1){
+			$('#zamba_index_2831').removeAttr("disabled");
+			$('#zamba_index_2832').removeAttr("disabled");
+			$('#zamba_index_2833').removeAttr("disabled");
+		} else {
+			$('#zamba_index_2831').val('N');
+			$('#zamba_index_2832').val('');
+			$('#zamba_index_2833').val('');
+			$('#zamba_index_2831').attr('disabled', 'disabled');
+			$('#zamba_index_2832').attr('disabled', 'disabled');
+			$('#zamba_index_2833').attr('disabled', 'disabled');
+		}
+				
+		//Sirve para guardar los estados previos. Al detectar una modificacion desde 
+		//el evento indices de wf se impacta en SISE mediante webservices
+		$("#zamba_index_2875").val($("#zamba_index_2740").val());
+		$("#zamba_index_2886").val($("#zamba_index_2825").val());
+		
+		VerificarHabilitacionSiniestro();	
+		VerificarHabilitacionRechazo();
+	}
+	function VerificarLesiones(){
+		if($('#zamba_index_2825').val() == 1 && $('#zamba_index_2831').val() == "S"){
+			$('#zamba_index_2832').removeAttr("disabled");
+			$('#zamba_index_2833').removeAttr("disabled");
+		}
+		else{
+			$('#zamba_index_2832').val('');
+			$('#zamba_index_2833').val('');
+			$('#zamba_index_2832').attr('disabled', 'disabled');
+			$('#zamba_index_2833').attr('disabled', 'disabled');
+		}
+	}
+	window.onload=function(){
+		setTimeout(function(){FuncionesPosCargaDeReclamo();}, 500);
+	};
+	</script>
+	<script src="tabber.js" type="text/javascript" language="JavaScript"></script>
+</body>
+</html>

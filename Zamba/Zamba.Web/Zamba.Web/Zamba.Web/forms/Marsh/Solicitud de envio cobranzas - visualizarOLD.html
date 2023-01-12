@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+
+
+  <style type="text/css">
+.style1
+{
+width: 88px;
+}
+INPUT
+{
+font-size: small;
+width: 109px;
+height: 15px;
+}
+.style17
+{
+font-size: small;
+width: 240px;
+height: 15px;
+}
+.style16
+{
+width: 93px;
+}
+  </style>
+  <script src="prototype.js" type="text/javascript"></script>
+  <script src="prototype-base-extensions.js" type="text/javascript"></script>
+  <script src="prototype-date-extensions.js" type="text/javascript"></script>
+  <script src="datepicker.js" type="text/javascript"></script>
+  <link href="datepicker.css" type="text/css" rel="stylesheet" />
+
+  <script type="text/javascript" language="javascript">
+function CalculoParaOnLoad() {
+var c = new Control.DatePicker('zamba_index_2016', { icon: 'calendar.png', dateTimeFormat: 'dd-MM-yyyy HH:mm',
+dateFormat: 'dd-MM-yyyy',
+firstWeekDay: 1,
+weekend: [0, 6],
+language: 'es', months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+'Julio', 'Augosto', 'Septiembre', 'Octubre', 'Novimbre',
+'Diciembre'],
+days: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+strings: {
+'Now': 'Ahora',
+'Today': 'Hoy',
+'Time': 'Hora',
+'Exact minutes': 'Minuto exacto',
+'Select Date and Time': 'Selecciona Dia y Hora',
+'Open calendar': 'Abre calendario'
+}
+});
+}	
+    
+  </script>
+</head>
+
+
+<body onload="javascript:CalculoParaOnLoad();">
+
+<form name="frmMain" action="Solicitud de envio.htm">
+  <input id="hdnRuleId" type="hidden" />
+  <center>
+  <div><img src="http://www.zambabpm.com.ar/Marsh/HeaderZambaCobranzas.jpg" alt="Cobranzas Marsh"/></div>
+  <div id="Div4" style="width: 589px; color: white; background-color: rgb(65, 162, 197); font-family: gadugi, sans-serif;">Solicitud
+de env&iacute;o de Cobranzas</div>
+
+  <table style="text-align: left;" width="600">
+
+    <tbody>
+      <tr style="width: auto; height: auto;">
+        <td>
+			<table width="100%">
+		  <td>
+              <hr /> </td>
+	   </tr>
+		  <td style="font-size: small;">
+              
+			  <table>
+
+                <tbody>
+
+                  <tr>
+
+                    <td class="style16" > <label style="font-family: gadugi, sans-serif;"> Nro de solicitud: </label>
+                    </td>
+
+                    <td> <input id="zamba_index_15314" style="font-size: small;" disabled="disabled" type="text" />
+                    </td>         
+
+					<td class="style16"  style="padding-left: 25px;" > <label style="font-family: gadugi, sans-serif;"> Usuario: </label>
+                    </td>
+
+                    <td> <input id="zamba_index_1354" style="font-size: small;" disabled="disabled" type="text" />
+                    </td>      					
+
+                  </tr>
+
+                </tbody>
+              </table>
+			  
+			  
+
+	 
+              
+			  <table>
+
+                <tbody>
+
+                  <tr>	  
+
+					<td class="style16" > <label style="font-family: gadugi, sans-serif;"> Fecha de Env&iacute;o: </label>
+                    </td>
+
+                    <td> <input id="zamba_index_2016" style="font-size: small;" disabled="disabled" type="text" /> 
+					</td>
+					
+					<td class="style16" style="padding-left: 25px;"> <label style="font-family: gadugi, sans-serif;"> Remitente: </label>
+                    </td>
+
+                    <td> <input class="style17" size="10" id="zamba_index_29" style="font-size: small;" disabled="disabled" type="text"/>
+                    </td>      				
+
+                      </tr>
+	</tbody>
+              
+              </table>
+			    <br>
+			  
+				<font face="Tahoma" size="2" >Observaciones</font>
+				<textarea id="zamba_Index_48" name="zamba_Index_48" disabled="disabled" rows="15" cols="70">
+				</textarea>
+				  <center>
+
+				 
+
+  </center>
+
+</form>
+
+</body>
+</html>

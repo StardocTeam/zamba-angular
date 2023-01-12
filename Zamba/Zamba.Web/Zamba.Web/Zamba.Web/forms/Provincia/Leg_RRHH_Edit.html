@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:18/08/2018-->
+<!--Modificado por: -->
+<!--Fecha de Modificacion:-->
+<!--Cambio: -->
+<head>
+    <title></title>
+
+	</head>
+
+<body>
+    <center>
+        <div >
+            <div ng-controller="appController">
+                <div class="form-group row"></div>
+                <div class="col">
+                    <div class="cell panel">
+                        <form name="frmMain" action="Ing_Doc_Emision.html">
+                            <div class="header background-blue">
+                                <div class="form-group">
+                                </div>
+                                <h5 class="titleceneterDiv">INGRESO LEGAJOS RRHH</h5>
+                            </div>
+                            <input id="hdnRuleId" type="hidden" />
+                            <input id="hdnAsocId" type="hidden" />
+                            <div class="container">
+                                <center>
+                                    <div class="tab-pane active" id="INGRESO DOCUMENTOS DE EMISION">
+                                        <div class="form-group row">
+                                            <div class="PanelPrincipal">
+                                                <div class="form-group row">					                            
+													<div class="col-md-3"> 	
+														<div class="input-group"> 	
+<!--Nro de Legajo-->                              		
+															<span class="input-group-addon" style="font-weight:600">N° Leg:</span> 	
+															<input id="zamba_index_235" name="zamba_index_235" size="1" class="form-control" /> 	
+															<span class="input-group-btn"> 	
+																<button class="btn btn-default" type="button" name="zamba_rule_1020681" id="zamba_rule_1020681" onclick="SetRuleId(this);"> 	
+																	<img alt="" src="images/Lupa1.png (images/Lupa1.png)" height="15" width="15" /> 	
+																</button> 	
+															</span> 	
+														</div> 	
+													</div> 	
+													<div class="col-md-3">
+														<div class="input-group">
+<!--Nro de Documento-->                         
+															<span class="input-group-addon" style="font-weight:600"> N° Doc:</span>
+															<input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control"disabled />
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="input-group">
+<!--Estado-->                       	        	
+															<span class="input-group-addon" style="font-weight:600"> Estado:</span>
+															<select id="zamba_index_237" name="zamba_index_237" class="form-control input-sm"> </select>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="input-group">
+<!--Nro de Caja-->
+															<span class="input-group-addon style="font-weight:600""> N° Caja:</span>     
+															<input id="zamba_index_9" name="zamba_index_9" size="1" class="form-control" />
+														</div>
+													</div>  
+                                                </div>
+                                                <div class="form-group row">                                                         
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+<!--Nombre Apellido-->             
+															<span class="input-group-addon" style="font-weight:600">Nombre y Apellido:</span>                            
+															<input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control" disabled />
+                                                            <span class="input-group-btn"></span>
+                                                        </div>
+                                                    </div>   
+                                                    <div class="col-md-5">
+														<div class="input-group">
+<!--Tipo Doc RRHH--> 		                        
+															<span class="input-group-addon">Tipo Doc RRHH:</span>
+                                                            <select id="zamba_index_234" name="zamba_index_234" size="1" class="form-control input-sm"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+<!--Observaciones-->            
+                                                <div class="col-xs-12 col-md-6 ">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <!--Area texto Observacion-->
+                                                            <div id="appObservaciones" ng-controller="ObservacionController">
+                                                                <zamba-observaciones index-id="84" entity-id="234"></zamba-observaciones>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-md-6">
+                                                    <div class="row">
+                                                        <!--div class="col-xs-12" >
+                <--Cedula>
+                <h5 align="center">Ingrese la Cedula de Notificacion:</h5>
+            </div-->
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12" style=" margin-top: 37px; width: 92%;">
+                                                            <!--DropZone-->
+                                                            <div id="appblankID" ng-controller="appController">
+                                                                <zamba-drop id="108" IndexIds="234">  </zamba-drop>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+											
+												<div class="form-group row"></div>
+													<center>
+														<div class="form-group row">
+															<div class="col-md-2"></div>
+															<div class="col-md-10">
+																<div class="row">
+<!--Botones FORM-->                     				
+																	<div class="col-md-10">
+																		<input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Guardar">
+																		<input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</center>
+<!--IframeZone-->												
+											<div class="form-group row"></div>
+											<div class="row">
+                                                <iframe id="zamba_innerdoctype_original" align="middle" height="1500px" width="1200px" title="Documento Original" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                                            </div>
+											 <center>
+                                            <div>
+                                                <img alt="" src="images/PSlogoLarge.png" height="50" width="140" style="float: left" />
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="140" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </center>
+<!--IMPORTANTE  cambiar version al modificar formulario-->
+											<div class="row">
+												<div class="col-md-12">
+													<span class="colorVersion"> V. 1.1.1 </span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</center>	
+							</div>
+                            <script type="text/javascript">
+                                   //angular.element(document).ready(function () {
+                                   //angular.bootstrap(document.getElementById('myBenefAppID'), ['myBenefApp']);
+                                   ////angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+                                   //angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+                                //}
+                            </script>
+							
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+<style>
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

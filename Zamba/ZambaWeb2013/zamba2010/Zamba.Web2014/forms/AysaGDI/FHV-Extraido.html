@@ -1,0 +1,145 @@
+<html>
+<head>
+    <title>FHV</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="Scripts/Aysa.js"></script>	
+    <script type="text/javascript" language="JavaScript">
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+		$(document).ready(function () {
+		    LoadLoadingRuleButtons();
+			$("#zamba_rule_7925").click(ValidateBeforeSave);
+			$("#zamba_rule_7925").attr('value','Siguiente');
+		});
+		
+		function ValidateBeforeSave(evt) {
+    ConvertToUpperForm();
+    if (!$('#aspnetForm').valid()) {
+        evt.preventDefault();
+		setTimeout("parent.hideLoading();", 500);
+    }
+    else {
+        document.getElementById("hdnRuleId").name = "zamba_rule_7925";
+    }
+}
+    </script>
+</head>
+<body>
+    <form name="frmMain" method="post">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Industria - FHV</strong>
+    </div>
+    <br />
+    <div name="floatleft" id="floatleft">
+        <div class="tabber">
+            <div class="tabbertab" id="FHVPanel">
+                    <h2>
+                        FHV/ACV</h2>
+                    <fieldset class="GroupIngGen">
+                    <p>
+			<table cellpadding="4">
+				<tr>
+					<td>
+						<label>Raz&oacuten social:</label>
+					</td>
+					<td>
+						<input id="zamba_index_1188" name="zamba_index_1188" size="98" class="ConvertToUpper" disabled="disabled" />			
+					</td>
+				</tr>
+                        </table>
+			<br>
+						<table cellpadding="4">
+							<tr>
+								<td>
+									<input id="zamba_rule_7682" type="submit" style=" text-align: center; margin-right: 25px;" class="submit" value="Agregar" name="zamba_rule_7682"/> 
+								</td>
+							</tr>
+                        </table>
+                        <table cellpadding="4">
+							<tr>
+								<td>
+									<label>
+										FHV asociados a la Industria:</label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_1045" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								   
+								</td>
+							</tr>
+                    </table>
+                    <hr />
+                         <table cellpadding="4">
+                         <tr>
+                            <td class="style2">
+                                <label>
+                                    Autorizacion de Vuelco:</label>
+                            </td>
+                            <td>
+                                <select id="zamba_index_1219" name="zamba_index_1219" style="width: 185px;">
+                                </select>
+                            </td>
+                            <td class="style1">
+                                <label>
+                                    Nro Autorizacion:</label>
+                            </td>
+                            <td>
+                                <input id="zamba_index_1210" name="zamba_index_1210" size="28" class="ConvertToUpper"  onkeypress="return (ValidateLength(this, 10) && KeyIsValid(event,'numeric'));"/>
+                            </td>
+                        </tr>
+                    </table>
+                    </p>
+                    </fieldset>
+                </div>
+                                                          <div class="tabbertab">
+                    <h2>
+                        Documentacion</h2>
+                    <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule" value="Agregar Documentacion" name="zamba_rule_8062"/> 
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion asociada a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        </div>
+        <br />
+        <div name="logoAysa" id="logoAysa">
+            <img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+        </div>
+        <div name="logozamba" id="logozamba">
+            <img src="Content/Images/pwbyzamba.jpg">
+        </div>
+        <div name="alignleft" id="alignleft">
+            <input id="zamba_rule_7925" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule" value="Agregar" name="zamba_rule_7925"/>  
+        </div>
+    </form>
+</body>
+</html>

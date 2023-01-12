@@ -1,0 +1,92 @@
+@(Html.Kendo().Editor()
+    .Name("editor")
+    .PasteCleanup(p => p
+       .All(false)
+       .Css(false)
+       .KeepNewLines(false)
+       .MsAllFormatting(false)
+       .MsConvertLists(true)
+       .MsTags(true)
+       .None(false)
+       .Span(false)
+    )
+    .Value(@<text>
+        <p>
+           <img src="@Url.Content("~/content/web/editor/kendo-ui-web.png")" alt="Editor for ASP.NET MVC logo" style="display:block;margin-left:auto;margin-right:auto;" />
+        </p>
+        <p>
+            Kendo UI Editor allows your users to edit HTML in a familiar, user-friendly way.<br />
+            In this version, the Editor provides the core HTML editing engine, which includes basic text formatting, hyperlinks, lists,
+            and image handling. The widget <strong>outputs identical HTML</strong> across all major browsers, follows
+            accessibility standards and provides API for content manipulation.
+        </p>
+        <p>Features include:</p>
+        <ul>
+            <li>Text formatting &amp; alignment</li>
+            <li>Bulleted and numbered lists</li>
+            <li>Hyperlink and image dialogs</li>
+            <li>Cross-browser support</li>
+            <li>Identical HTML output across browsers</li>
+            <li>Gracefully degrades to a <code>textarea</code> when JavaScript is turned off</li>
+        </ul>
+        <p>
+            Read <a href="http://docs.telerik.com/kendo-ui">more details</a> or send us your
+            <a href="http://www.telerik.com/forums">feedback</a>!
+        </p>
+    </text>)
+)
+
+<div class="box wide">
+    <h2>Paste clean-up options:</h2>
+    <ul id="pasteCleanupList">
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="allCheck" value="all" />
+            <label class="k-checkbox-label" for="allCheck">all</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="cssCheck" value="css" />
+            <label class="k-checkbox-label" for="cssCheck">css</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="keepNewLinesCheck" value="keepNewLines" />
+            <label class="k-checkbox-label" for="keepNewLinesCheck" value="">keepNewLines</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="msAllFormattingCheck" value="msAllFormatting" />
+            <label class="k-checkbox-label" for="msAllFormattingCheck" value="">msAllFormatting</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="msConvertListsCheck" value="msConvertLists" checked="checked" />
+            <label class="k-checkbox-label" for="msConvertListsCheck" value="">msConvertLists</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="msTagsCheck" value="msTags" checked="checked" />
+            <label class="k-checkbox-label" for="msTagsCheck" value="">msTags</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="noneCheck" value="none" />
+            <label class="k-checkbox-label" for="noneCheck" value="">none</label>
+        </li>
+        <li>
+            <input type="checkbox" class="k-checkbox paste-option" id="spanCheck" value="span" />
+            <label class="k-checkbox-label" for="spanCheck" value="">span</label>
+        </li>
+    </ul>
+</div>
+
+<script>
+    $(".paste-option:checkbox").on("click", function() {
+        var editor = $("#editor").getKendoEditor();
+        editor.options.pasteCleanup[this.value] = this.checked;
+    });
+</script>
+<style>
+    #pasteCleanupList {
+        width: 50em;
+    }
+    #pasteCleanupList li {
+        float: left;
+        width: 15em;
+    }
+</style>
+</asp:Content>

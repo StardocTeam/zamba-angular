@@ -1,0 +1,293 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 26.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->       
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <script type="text/javascript" language="JavaScript">
+	
+
+        $(document).ready(function(){
+		
+			
+            $(".solonums").each(function(){
+                $(this).keypress(function (e){
+                    return IntegerCheck(e);
+                })
+            });
+            $(".moneda").each(function(){
+                $(this).keyup(function (e){
+                    return DecimalCheck($('#' + e.target.id))
+                })
+            });
+        });
+         
+        function zamba_save_onclick_Solicitud() {
+            if ($.trim($('#zamba_index_2722').val()) == '') {
+                swal("Verifique que el Beneficiario se encuentre completo");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+            } else if($.trim($('#zamba_index_2788').val()) == '') {
+                swal("Verifique que el Concepto se encuentre completo");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+
+        function CloseLoading() {
+            setTimeout("parent.hideLoading();", 500);
+        }
+        </script>
+
+    <style type="text/css">
+
+
+
+        #navbarNavDropdown {
+            list-style: none;
+        }
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+
+        #zamba_innerdoctype_original {
+            height: 500px;
+            width: 98%;
+        }
+
+        .buttonSelectionUl {
+            list-style-type: none;
+            margin: 2%;
+        }
+
+        ul.buttonSelectionUl > li input {
+            font-size: 10px;
+        }
+
+        .center {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+
+        .centerLastInput {
+            margin-left: 30%;
+            width: 80%;
+            padding: 10px;
+        }
+
+        /*input:disabled {
+            color: #090A0A;
+            font-weight: bold;
+        }*/
+
+        .formTabs {
+            font-size: 15px;
+        }
+
+        .maginBetweenInputs {
+            padding-top: 10px;
+        }
+
+        .marginlabel2 {
+            position: relative;
+            left: 100px;
+        }
+
+        .BTS1 {
+            position: relative;
+            top: -25px;
+        }
+
+        .BTS2 {
+            position: relative;
+            left: -70px;
+            position: relative;
+            top: -10px;
+        }
+
+        .marginlabel1 {
+            position: relative;
+            top: -50px;
+        }
+
+        .Grillaposition1 {
+            position: relative;
+            top: 45px;
+        }
+
+        .BTS3 {
+            position: relative;
+            left: 100px;
+            position: relative;
+            top: 25px;
+        }
+
+        .Grillaposition2 {
+            position: relative;
+            top: -10px;
+        }
+
+        .Visualizador1 {
+            position: relative;
+            top: 20px;
+        }
+
+        .textArea1 {
+            height: 70px;
+        }
+
+        .strong {
+            font-weight: 900
+        }
+
+        .smoke {
+            background-color: #e5e5e5
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="SolicitudDeChequeInsert.html">
+            <div>
+                
+                <input id="hdnRuleId" type="hidden" />
+
+                <div id="tblCheque" >
+				
+                    <div class="form-group row">
+						<div class="col-md-2"></div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">ID Reclamo:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" disabled="disabled" />
+                            </div>
+                        </div>
+						
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Nro Solicitud Cheque:</span>
+                                <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_2804" name="zamba_index_2804" />
+                            </div>
+                        </div>						
+						
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2"></div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">                       
+                            <div class="input-group">
+                                <span class="input-group-addon" style=" ">Fecha Solicitada:</span>
+                                <input class="form-control input-sm "  style=" color: #090A0A; font-weight: bold" id="zamba_index_2786" name="zamba_index_2786"  onblur="valFecha(this)"/>
+								
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Fecha Asignada:</span>
+                                <input class="form-control input-sm "  style=" color: #090A0A; font-weight: bold" id="zamba_index_2787" name="zamba_index_2787"  onblur="valFecha(this)"/>
+                            </div>
+                        </div>
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-2"></div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Importe $:</span>
+                                <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2785" name="zamba_index_2785"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row"></div>
+
+					<div id="tblObervaciones" >
+                       
+						<div class="form-group row"></div>
+							<div class="form-group row">
+								<div class="form-group">
+									<div class="col-md-2"></div>                           
+									<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+										<span class="input-group-addon" style="">Beneficiario:</span>
+									</div>
+							   
+									<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+										<span class="input-group-addon" style="">Concepto:</span>
+									</div>
+								</div>	
+							</div>
+							
+						<div class="form-group row"></div>
+							<div class="form-group row">
+								<div class="form-group">
+									<div class="col-md-2"></div>
+									<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+															  
+										<textarea class="form-control input-sm" cols="1" rows="5" id="zamba_index_2722" name="zamba_index_2722" maxlength="80" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" style=" color: #090A0A; font-weight: bold"></textarea>
+								  
+									</div>                       
+									<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+															 
+										<textarea class="form-control input-sm" cols="1" rows="5" id="zamba_index_2788" name="zamba_index_2788" maxlength="200"onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" style=" color: #090A0A; font-weight: bold"></textarea>
+								   
+									</div>
+								</div>
+							</div>						
+                        						
+                        <div class="form-group row">
+                            <div class="form-group">
+								<div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <span class="input-group-addon" style="">Observación:</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                        	<div class="col-md-2"></div>    
+                            <div class="col-md-8" style="position:relative;top:-20px">
+                                <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_Index_64" name="zamba_Index_64" maxlength="4000"
+                                          onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" style=" color: #090A0A; font-weight: bold"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                
+                <center>
+                    <div><input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick_Solicitud();"></div>
+                </center>
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">SolicitudDeChequeInsert.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+            </div>
+            
+        </form>
+
+    </div>
+
+</body>
+</html>

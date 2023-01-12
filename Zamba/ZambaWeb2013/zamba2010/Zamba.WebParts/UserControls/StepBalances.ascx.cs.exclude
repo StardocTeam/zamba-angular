@@ -1,0 +1,109 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Zamba.Core;
+using Zamba.Services;
+//using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_StepBalances : System.Web.UI.UserControl
+{
+
+    #region EVENTOS
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        InitializesComponents();
+        rpvStepsStates.Visible = false;
+    }
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        
+        DropEtapas.Items.Clear();
+        LoadSteps(Int64.Parse(DropWorkflows.SelectedValue.ToString()));
+    }
+    
+    protected void DropEtapas_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void BtnBuscar_Click(object sender, EventArgs e)
+    {
+        if (null != DropEtapas.SelectedValue)
+        {
+            DsStepBalance dsTyped = new DsStepBalance();
+
+            DsStepBalance.dtStepBalanceRow dr1 = dsTyped.dtStepBalance.NewdtStepBalanceRow();
+            DsStepBalance.dtStepBalanceRow dr2 = dsTyped.dtStepBalance.NewdtStepBalanceRow();
+            DsStepBalance.dtStepBalanceRow dr3 = dsTyped.dtStepBalance.NewdtStepBalanceRow();
+
+
+            dr1.Step_Task_State = "Inicializadas";
+            dr1.Step_Task_Count = Zamba.Services.Tasks.GetInitializedTasksByStep(Int32.Parse(DropEtapas.SelectedValue));
+
+            dr2.Step_Task_State = "Finalizadas";
+            dr2.Step_Task_Count = Zamba.Services.Tasks.GetFinishedTasksByStep(Int32.Parse(DropEtapas.SelectedValue));
+
+            dr3.Step_Task_State = "Rechazadas";
+            dr3.Step_Task_Count = Zamba.Services.Tasks.GetRejectedTasksByStep(Int32.Parse(DropEtapas.SelectedValue));
+
+            dsTyped.Tables[0].Rows.Add(dr1);
+            dsTyped.Tables[0].Rows.Add(dr2);
+            dsTyped.Tables[0].Rows.Add(dr3);
+            dsTyped.AcceptChanges();
+
+            this.rpvStepsStates.LocalReport.DataSources.Clear();
+            ReportDataSource rptDatasource = new ReportDataSource("DsStepBalance_dtStepBalance", dsTyped.Tables[0]);
+            this.rpvStepsStates.LocalReport.DataSources.Add(rptDatasource);
+            rpvStepsStates.Visible = true;
+                                    
+            }
+    }
+         
+    #endregion
+
+    #region METODOS
+
+    public void InitializesComponents()
+    {
+        List<IWorkFlow> WFList = new List<IWorkFlow>();
+
+        WFList = Workflow.GetWorkflows();
+        //todo: quitar la referencia dll que se agrego a mano para empezar a utilizar
+                //Zamba.Services
+
+        foreach (IWorkFlow CurrentWorkflow in WFList)
+            DropWorkflows.Items.Add(new ListItem(CurrentWorkflow.Name, CurrentWorkflow.ID.ToString()));
+        if (DropWorkflows.Items.Count > 0)
+        {
+            if (null != DropWorkflows.SelectedValue)
+            {
+                LoadSteps(Int64.Parse(DropWorkflows.SelectedValue.ToString()));
+            }
+            
+           
+        }
+    }
+
+    private void LoadSteps(Int64 workflowId)
+    {
+        List<IWFStep> StepList = new List<IWFStep>();//usar el metodo que corresponda de etapas
+        StepList = Zamba.Services.Steps.GetAllSteps(workflowId);
+        
+        foreach (IWFStep CurrentStep in StepList)
+            DropEtapas.Items.Add(new ListItem(CurrentStep.Name, CurrentStep.ID.ToString()));
+
+    }
+
+    #endregion
+
+}

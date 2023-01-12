@@ -1,0 +1,96 @@
+﻿<div class="box hidden-on-narrow" style="margin-bottom: 30px;">
+    <h4>Console log</h4>
+    <div class="console"></div>
+</div>
+
+<div id="example">
+    @(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Title("Software Update")
+        .Content("<p>A new version of <strong>Kendo UI</strong> is available. Would you like to download and install it now?<p>")
+        .Width(400)
+        .Modal(false)
+        .Actions(actions =>
+        {
+            actions.Add()
+            .Text("Cancel")
+            .Action("onCancel");
+            actions.Add().Text("OK")
+            .Primary(true)
+            .Action("onOK");
+        })
+        .Events(ev => ev
+        .InitOpen("onInitOpen")
+        .Open("onOpen")
+        .Show("onShow")
+        .Close("onClose")
+        .Hide("onHide")
+        )
+    )
+
+    @(Html.Kendo().Button()
+        .Name("showDialogBtn")
+        .HtmlAttributes(new { style = "display:none;", @class = "k-button hidden-on-narrow" })
+        .Content("Click here to open the dialog")
+        .Events(ev => ev.Click("showDialog"))
+    )
+</div>
+
+<script>
+    var dialog = $("#dialog");
+    var showBtn = $("#showDialogBtn");
+
+    function showDialog() {
+        dialog.data("kendoDialog").open();
+        showBtn.fadeOut();
+    }
+
+    function onInitOpen(e) {
+        kendoConsole.log("event :: initOpen");
+    }
+
+    function onOpen(e) {
+        kendoConsole.log("event :: open");
+    }
+
+    function onShow(e) {
+        kendoConsole.log("event :: show");
+    }
+
+    function onHide(e) {
+        kendoConsole.log("event :: hide");
+    }
+
+    function onClose(e) {
+        showBtn.fadeIn();
+        kendoConsole.log("event :: close");
+    }
+
+    function onCancel(e) {
+        kendoConsole.log("action :: Cancel");
+    }
+
+    function onOK(e) {
+        kendoConsole.log("action :: OK");
+    }
+
+</script>
+
+<style>
+    #example {
+        min-height: 150px;
+    }
+
+    #example .box {
+        margin: 0;
+    }
+
+    #showDialogBtn {
+        text-align: center;
+        position: absolute;
+        white-space: nowrap;
+        padding: 1em;
+        cursor: pointer;
+        margin-top: 30px;
+    }
+</style>

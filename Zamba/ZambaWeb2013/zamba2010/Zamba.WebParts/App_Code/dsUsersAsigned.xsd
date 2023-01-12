@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsUsersAsigned" targetNamespace="http://tempuri.org/dsUserAsigned.xsd" xmlns:mstns="http://tempuri.org/dsUserAsigned.xsd" xmlns="http://tempuri.org/dsUserAsigned.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsUsersAsigned" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsUsersAsigned" msprop:Generator_DataSetName="dsUsersAsigned">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtUserAsigned" msprop:Generator_UserTableName="dtUserAsigned" msprop:Generator_RowDeletedName="dtUserAsignedRowDeleted" msprop:Generator_RowChangedName="dtUserAsignedRowChanged" msprop:Generator_RowClassName="dtUserAsignedRow" msprop:Generator_RowChangingName="dtUserAsignedRowChanging" msprop:Generator_RowEvArgName="dtUserAsignedRowChangeEvent" msprop:Generator_RowEvHandlerName="dtUserAsignedRowChangeEventHandler" msprop:Generator_TableClassName="dtUserAsignedDataTable" msprop:Generator_TableVarName="tabledtUserAsigned" msprop:Generator_RowDeletingName="dtUserAsignedRowDeleting" msprop:Generator_TablePropName="dtUserAsigned">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UserAsigned_Source" msprop:Generator_UserColumnName="UserAsigned_Source" msprop:Generator_ColumnVarNameInTable="columnUserAsigned_Source" msprop:Generator_ColumnPropNameInRow="UserAsigned_Source" msprop:Generator_ColumnPropNameInTable="UserAsigned_SourceColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="UserAsigned_Count" msprop:Generator_UserColumnName="UserAsigned_Count" msprop:Generator_ColumnVarNameInTable="columnUserAsigned_Count" msprop:Generator_ColumnPropNameInRow="UserAsigned_Count" msprop:Generator_ColumnPropNameInTable="UserAsigned_CountColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

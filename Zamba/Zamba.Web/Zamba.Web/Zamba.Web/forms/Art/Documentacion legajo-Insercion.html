@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+
+<body>
+
+
+    <form name="frmMain" action="Documentacion legajo-Insercion.html">
+
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+
+              <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+            <a class="navbar-brand" >Legajo - Documentacion</a>
+			</div>
+ 
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+		       </div>
+         </nav>
+		
+        <div class="container">
+            <div class="form-group row"></div>
+
+            <!------------------------------------------------------------Desplegable--------------------------------------------------------------------------------->
+
+            <div class="form-group row">
+
+                <button type="button" class="col-md-12 btn btn-primary" title="Datos de Ingreso" onclick="iframetog()"><span style="font-size:14px;">Hace click aca para ver mas informacion</span> <i class="caret pull-right" style="border-top:15px dashed !important; border-right:15px solid transparent !important; border-left:15px solid transparent !important;"></i></button>
+
+
+            </div>
+
+            <!-------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <div class="PanelPrincipal">
+			 <div class="form-group row">
+                                                             <div class="col-md-4">
+                                                                 <div class="input-group">
+                                                                      <span class="input-group-addon">CUIT/CUIL:</span>
+                                                                         <input id="zamba_index_139615" name="zamba_index_139615" class="form-control input-sm" style="font-weight:600;" disabled/>
+                                                                 </div>
+                                                             </div>                                                  
+                                                         </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha:</span>
+                            <input id="zamba_index_139607" name="zamba_index_139607" class="form-control input-sm datetime" />
+                        </div>
+                    </div>
+					
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Tipo de Contrato:</span>
+                            <input id="zamba_index_139610" name="zamba_index_139610" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+				</div>
+					
+				<div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha Inicio:</span>
+                            <input id="zamba_index_139611" name="zamba_index_139611" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+					<div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha Fin:</span>
+                            <input id="zamba_index_139612" name="zamba_index_139612" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+					<div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Parte 1:</span>
+                            <input id="zamba_index_139613" name="zamba_index_139613" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+					<div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Parte 2:</span>
+                            <input id="zamba_index_139614" name="zamba_index_139614" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+                </div>
+				
+            </div>
+
+            <div class="form-group row" style="height:100%; display:none;" id="iframeStyle">
+                <div class="col-md-12 iframeClassPDF">
+                    <iframe id="previewDocSearch" class="IframeClass MargenIframe" style=" width:100%; height:1100px;" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                </div>
+            </div>
+
+<!--botones guardar y cancelar-->
+						 <div align=right>
+                                        <input id="zamba_save" class="btn btn-primary margenBtn" type="submit" value="Guardar" name="zamba_save" />
+                                        <input id="zamba_cancel" class="btn btn-primary margenBtn" type="submit" value="Cancelar" name="zamba_cancel" />
+                    </div>
+					
+					<!--Imagen del footer-->
+                        <div class="form-group row">
+                            <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+                            <center>
+                                <div class="col-md-10">
+                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                    <div class="form-group row">
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+
+        </div>
+    
+    </form>
+
+
+
+</body>
+</html>
+
+

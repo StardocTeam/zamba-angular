@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Font Name="Arial" Size="6.75" />
+  <Interface Name="Zamba.Core.ICore">
+    <Position X="13.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>ICore.vb</FileName>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IDocType">
+    <Position X="14.5" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>IDocType.vb</FileName>
+      <HashCode>AAAAAAAAAAAAgAIQAAAAgIlAAAAAAABRAEEQBACAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IFileResult">
+    <Position X="19.75" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>IFileResult.vb</FileName>
+      <HashCode>CQAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IImageResult">
+    <Position X="4.25" Y="10" Width="2" />
+    <TypeIdentifier>
+      <FileName>IImageResult.vb</FileName>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IIndex">
+    <Position X="4.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>IIndex.vb</FileName>
+      <HashCode>AgKMBAgQAAEACIAAAARAAAAIAAAAIDYIAQAIQAAAIAE=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IIndexable">
+    <Position X="19.75" Y="14" Width="2" />
+    <TypeIdentifier>
+      <FileName>IIndexable.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IPrintable">
+    <Position X="19.75" Y="17.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>IPrintable.vb</FileName>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAgAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IResult" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="14.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>IResult.vb</FileName>
+      <HashCode>ACACAAxAAAEACBCAAAAAAACAAIgEBAgJAAGQQAACxAA=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Zamba.Core.IResult.DocumentDates" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>IResult.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+  </Interface>
+  <Interface Name="Zamba.Core.ISchedulable">
+    <Position X="6.5" Y="10" Width="2" />
+    <TypeIdentifier>
+      <FileName>ISchedulable.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAIIAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.ITaskResult">
+    <Position X="9.25" Y="16.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>ITaskResult.vb</FileName>
+      <HashCode>EAAECAAIAAAAAIAAAAIAAAAEAAgEAAlAAAEABBIMAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IUser">
+    <Position X="13.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>IUser.vb</FileName>
+      <HashCode>IIAAgEAAAgBgAAAkAEAAAAAAAAAAAEAgAAAgAAAABAI=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IUserGroup">
+    <Position X="10.75" Y="6" Width="2" />
+    <TypeIdentifier>
+      <FileName>IUserGroup.vb</FileName>
+      <HashCode>AAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IUserRights">
+    <Position X="12.25" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>IUserRights.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABACAQAABAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IVolume">
+    <Position X="6.5" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>IVolume.vb</FileName>
+      <HashCode>AACAAAiAAAAAgAAAAAACAAAAAAAAAAIEAQAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+    <NestedTypes>
+      <Enum Name="Zamba.Core.IVolume.VolumeStates" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>IVolume.vb</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+  </Interface>
+  <Interface Name="Zamba.Core.IVolumeList">
+    <Position X="8.75" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>IVolumeList.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IWFRuleParent">
+    <Position X="12.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>IWFRuleParent.vb</FileName>
+      <HashCode>AAAIACgAAAgBAAAAAAAACAAAAAAAAAAAgQAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IWFStep">
+    <Position X="17.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>IWFStep.vb</FileName>
+      <HashCode>CwAAAGgABAEoAEAAAAIAAECAAIgACACAAAFJBIAIBIA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IWorkFlow">
+    <Position X="22.25" Y="10.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>IWorkFlow.vb</FileName>
+      <HashCode>AYABAAAAAAAoAAgAAAAAAAAEAAAACAEAAABBAAAAQAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IZambaCore">
+    <Position X="16.75" Y="6" Width="2" />
+    <TypeIdentifier>
+      <FileName>IZambaCore.vb</FileName>
+      <HashCode>AQAAAAAAAAAEEIgAAAYAQAAAAAAACAAIAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.IZBaseCore">
+    <Position X="2" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>IZBaseCore.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Zamba.Core.INewResult">
+    <Position X="2.5" Y="16.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>INewResult.vb</FileName>
+      <HashCode>AAEBAAAEAAAAAAEQAIAAAAIIAAAAAQAAAAIABABAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

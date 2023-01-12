@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>$.htmlInput</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery.htmlInput.js"></script>
+    <script type="text/javascript" src="jQuery.htmlClean/jquery.htmlClean.js"></script>
+
+	<link type="text/css" href="content/standard.css" rel="Stylesheet" />	
+	<link type="text/css" href="content/theme/ui.all.css" rel="Stylesheet" />	
+	<link type="text/css" href="content/ui.htmlInput.css" rel="Stylesheet" />	
+
+	<link type="text/css" href="content/site.css" rel="Stylesheet" />	
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // defaults
+            $.htmlClean.defaults.format = true;
+
+            $.ui.htmlInput.defaults.debug = true;
+            $.ui.htmlInput.defaults.styleUrl = "content/editor.css";
+            //$.ui.htmlInput.defaults.tools.bold = false;  // uncomment to remove button
+
+            // set up the html input
+            $("#Input").htmlInput();
+
+            // Theme roller (firefox only)
+            if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+                if (window.jquitr) {
+                    jquitr.addThemeRoller();
+                } else {
+                    jquitr = {};
+                    jquitr.s = document.createElement('script');
+                    jquitr.s.src = 'http://jqueryui.com/themeroller/developertool/developertool.js.php';
+                    document.getElementsByTagName('head')[0].appendChild(jquitr.s);
+                }
+            }
+        });
+    </script>
+<!--mstheme--><link rel="stylesheet" type="text/css" id="onetidThemeCSS" href="../../../../_themes/Obsidian/Obsi1011-65001.css"><meta name="Microsoft Theme" content="Obsidian 1011, default">
+</head>
+<body>
+    <form onsubmit="return false">
+        <p>
+        <textarea id="Input" rows="15" cols="80" class="html"><H1 class="header"><P>Nested P Test</H1>
+<p>An image test <img src="http://www.antix.co.uk/content/graphics/a.png" class="right" /></p>
+<P class="right">This is <i>an inline </i>tag<BR>test</p>
+<p>        Unnecessary white space test          </p>
+<P><em> an inline white space    </em> test</p>
+<p><b>Replace</b> test</p>
+<p><a href="http://www.antix.co.uk">link test</a></p>
+<ul>
+<li>Un-closed List Item Test 1
+<li>Un-closed List Item Test 2
+<ul>
+<li>Nested item</li>
+</ul>
+</ul>
+</textarea>
+        </p>
+        <p>jQuery.htmlInput test</p>
+        
+        <input type="submit" value="clean" />
+    </form>    
+</body>
+</html>

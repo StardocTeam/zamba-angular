@@ -1,0 +1,287 @@
+<html>
+<head>
+    <title>Indemnizacion/Gasto de Proveedor</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet" />
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet" />
+    <link href="demo_table.css" rel="stylesheet" type="text/css" />
+    <link href="demo_page.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="jquery.validate.min.js"></script>
+    <script type="text/javascript" src="jquery.decimalMask.1.1.1.min.js"></script>
+    
+    <script type="text/javascript" src="jquery.dataTables.js"></script>
+    <script type="text/javascript" src="jquery.scrollTo.js"></script>
+	
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+		
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+		
+        function zamba_save_onclick() {
+            if ($("#zamba_index_26206").value == "") {
+                alert("Por favor, complete el Importe.");
+                $("#hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($("#zamba_index_26206").value <= 0) {
+                alert("Verifique que el importe sea mayor a cero.");
+                $("#hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($("#zamba_index_26323").value == "") {
+                alert("Por favor, complete el Numero de Comprobante.");
+                $("#hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                var currentTime = new Date();
+                var date_user = dateToString($('#zamba_index_26326').value);
+                var date_actual = dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+                if (parseInt(date_user) > parseInt(date_actual)) {
+                    alert("La fecha del comprobante debe ser menor o igual a la fecha de hoy.");
+                    $('#zamba_index_26326').focus();
+                    $("#hdnRuleId").name = "zamba_rule_cancel";
+                } else {
+                    $("#hdnRuleId").name = "zamba_rule_save";
+                }
+            }
+        }
+        
+		function dateToString(date) {
+            var dia = date.split("/")[0];
+            var mes = date.split("/")[1];
+            var ano = date.split("/")[2];
+
+            dia = format(dia);
+            mes = format(mes);
+
+            return ano + mes + dia;
+        }
+        function format(txt) {
+            if (txt.length == 1) txt = "0" + txt;
+
+            return txt;
+        }
+		
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'both',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: "",
+                    maxDate: '+0d',
+                    dateFormat: 'dd/mm/yy',
+                    constrainInput: true
+                });
+            });
+        }
+        
+		$(document).ready(function() {
+            makeCalendar('zamba_index_26326');
+         
+            
+           
+            
+            $("#zamba_index_26326").change(function(evt){
+                ValidateTopDiferenceDates("","zamba_index_26326",90,"lblResult",
+                    "La fecha del comprobante supera la fecha permitida de ingreso.",evt);
+            });
+            
+            $("#zamba_save").click(function(evt){
+                ValidateTopDiferenceDates("","zamba_index_26326",90,"lblResult",
+                    "La fecha del comprobante supera la fecha permitida de ingreso.",evt);
+            });
+
+            // Valida solo numericos
+            // Agregar class="solonum" a todos los inputs que se quieran validar
+            $(".solonums").each(function() {
+                $(this).keypress(function(e) {
+                    if (e.which != 8 && e.which != 0 && e.which != 45 && e.which != 44 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+        });
+        
+        function ValidateTopDiferenceDates(objID1, objID2, topDays, errorLblID, phrase, evt){
+            var currentTime = new Date();
+if (objID1 != '')            var val1 = $("#" + objID1).val(); else val1 =   dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+            var val2 = $("#" + objID2).val();
+
+            var diffDays = DifferenceBetwenDatesInDays(val1, val2);
+            if(diffDays != null && diffDays > topDays)
+            {
+                $("#" + errorLblID).html(phrase);
+                $("#" + errorLblID).css("display","block");
+                evt.preventDefault();
+                setTimeout("parent.hideLoading()",500);
+            }
+            else
+            {
+                $("#" + errorLblID).css("display","none");
+            }
+        }		
+        
+        function DifferenceBetwenDatesInDays(strDate1 , strDate2)
+        {
+            if(strDate1 == null || strDate2 == null)
+                return null;
+
+            var oDate1 = strDate1; //dd/mm/yyyy
+            var oDate2 = strDate2; //dd/mm/yyyy
+
+            if (oDate1 == '' || oDate2 == '') return null;
+            
+            var arrDate1 = oDate1.split("/");
+            var arrDate2 = oDate2.split("/");
+
+           
+
+            var useDate1 = new Date(arrDate1[2], arrDate1[1] - 1, arrDate1[0]);
+            var useDate2 = new Date(arrDate2[2], arrDate2[1] - 1, arrDate2[0]);
+            //yyyy/mm/dd
+
+            var date1 = new Date(useDate1);
+            var date2 = new Date(useDate2);
+            var one_day=86400000;
+
+          
+            
+            return Math.ceil((date1.getTime()-date2.getTime())/(one_day));
+        }
+        
+        function ExecuteRule(RuleId){
+			parent.ShowLoadingAnimation();
+			$("#hdnRuleId").name = "zamba_rule_" + RuleId;
+			$('#aspnetForm').submit();
+		}	
+    </script>
+
+</head>
+<body>
+    <div id="container">
+        <form name="frmMain" method="post">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div id="design">
+            <strong>Ingreso de Prestacion al Reintegro</strong>
+        </div>
+        <br />
+        <div class="tabber">
+            <div class="tabbertab">
+                <h2>
+                    Informaci&oacute;n</h2>
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                PSC Nro:</label>
+                        </td>
+                        <td>
+                            <input name="zamba_index_26450" id="zamba_index_26450" style="width: 250px" readOnly="readOnly"
+                             class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Titular:
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26314" id="zamba_index_26314" style="width: 250px" 
+								readOnly="readOnly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo Prestacion:</label>
+                        </td>
+                        <td>
+                            <select id="zamba_index_26232" name="zamba_index_26232" style="width: 250px;" >
+                            </select>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Beneficiario:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26321" name="zamba_index_26321" style="width: 250px" 
+                                readonly="readonly" class="ReadOnly"/>
+                            <img id="table_filter_26321" onclick="ExecuteRule(59647);" style="height: 16px; margin-left:2px; cursor:pointer" alt="Filtrar" src="../../forms/images/UI_blue/search.gif"/>
+                            <input id="zamba_rule_59657" type="submit" style="text-align: center; margin-right: 25px;"
+                                class="submit" value="Ingresar Nuevo Beneficiario" name="zamba_rule_59657" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo de Comprobante:</label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_26325" id="zamba_index_26325" style="width: 250px;">
+                            </select>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Nro de Comprobante:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26323" name="zamba_index_26323" style="width: 250px;"
+                                maxlength="10" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fecha del Comprobante:</label>
+                        </td>
+                        <td>
+                            <input id="zamba_index_26326" name="zamba_index_26326" style="width: 235px;" readOnly="readOnly" readOnly="readOnly"/>
+                            <span style="color:red;display:none" id="lblResult">
+                            </span>
+                        </td>
+                       
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Importe del comprobante:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width: 250px;"
+                                class="solonums" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Reintegro otorgado por Obra Social:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33730" name="zamba_index_33730" style="width: 250px;"
+                                class="solonums" />
+                        </td>
+                    </tr>
+                </table>
+                <br />
+            </div>
+        </div>
+		<br/>
+		<div id="aligncenter">
+			<input type="submit" name="zamba_save" id="zamba_save" value="SIGUIENTE" onclick="return zamba_save_onclick();" />
+		</div>
+        </form>
+    </div>
+</body>
+</html>

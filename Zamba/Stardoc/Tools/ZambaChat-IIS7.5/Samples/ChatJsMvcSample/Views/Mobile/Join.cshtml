@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="">
+    <script src="~/ChatJs/Scripts/jquery-2.2.2.min.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.init.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.fn.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/groups.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/collaboration.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/jquery.chatjs.signalradapter.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.js" type="text/javascript"></script>
+
+    <script>
+        var conString="@System.Configuration.ConfigurationManager.ConnectionStrings["ChatContext"]";
+        var URLServer = "@System.Configuration.ConfigurationManager.AppSettings["URLServer"]";
+        var thisDomain = "@System.Configuration.ConfigurationManager.AppSettings["thisDomain"]";
+        var zColl = "@System.Configuration.ConfigurationManager.AppSettings["ZColl"]";
+        var appZChat = "ZambaMobile";
+        var chatMode = "@System.Configuration.ConfigurationManager.AppSettings["chatMode"]";
+        var isCS = "@System.Configuration.ConfigurationManager.AppSettings["isCS"]";
+        var zCollServer = "@System.Configuration.ConfigurationManager.AppSettings["zCollServer"]";
+        var taskChat = false;
+        var zLinkURL = URLServer + "home/zlink";
+        var zLenable = true;
+        var zLuserId;
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: thisDomain + 'collaboration/getuserid',
+                success: function (d) {
+                    if (d > 0)
+                        LoadChat(d, URLServer, chatMode, appZChat, thisDomain, zColl, isCS, zCollServer,taskChat);
+                    else
+                        LoadChatByQS();
+                },
+            });
+
+            function LoadChatByQS() {
+                var enc = getParameterByName("enc");
+                $.ajax({
+                    type: "GET",
+                    async: false,
+                    data: { enc: enc },
+                    url: thisDomain + 'collaboration/GetUserIdByEnc',
+                    success: function (d) {
+                        if (d > 0)
+                        LoadChat(d, URLServer, chatMode, appZChat, thisDomain, zColl, isCS, zCollServer,taskChat);
+                    },
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <br />
+    <br />
+    <br />
+    <div id="loadingZChat" style="text-align:center;padding-top:20px;">
+        <img style="width: 25px; height: 25px; margin-right:5px;" src="..\ChatJs\Images\wait.gif">
+        <hr />
+        <span id="loadingZChatp">
+            Inicializando chat...
+        </span>
+        <br />
+        <hr />
+        <br />
+    </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+﻿Para agregar nuevos diccionarios se deben modificar las siguientes clases y métodos:
+
+1) Agregar el enumerador en Zamba.ICore.Enumerators.DataGeneratorCategory.
+2) Agregar la descripcion del enumerador en Zamba.BusinessExt.DB.DataGeneratorBusiness.GetCategoryDescription()
+3) Agregar la inversa del punto 2 en Zamba.BusinessExt.DB.DataGeneratorBusiness.GetCategoryEnumerator()
+4) Agregar la obtención de los datos a generar en Zamba.BusinessExt.DB.DataGeneratorBusiness.LoadDictionary()
+5) Si requiere el uso de un diccionario de datos generados desde un TXT, se deben agregar a DataGenerator.Listas. 

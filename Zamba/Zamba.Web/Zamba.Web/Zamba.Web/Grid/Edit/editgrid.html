@@ -1,0 +1,113 @@
+﻿<form editable-form name="tableform" onaftersave="saveTable()" oncancel="cancel()" style="margin-bottom:20px">
+    <nav class="" style="border-radius: 10px; background-color:#337ab7; color: white; font-size:small ; padding: 0; margin-left: 10px; margin-right: 10px; height: 30px; ">
+        <div class="container-fluid StyleContainerElement">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <ul class="nav navbar-nav navbar-brand" style="padding: 0 0 0 0; height: 30px; display: flex; justify-content: center;">
+                <li>
+                    <span class="whiteText ng-binding" style="font-size: 15px;"> {{gridTitle}} </span><span class="badge ng-binding"> {{asociatedResults.length}}</span>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="padding: 0 0 0 0; height: 30px;">
+                <li>
+                    <!-- refresh -->
+                    <a ng-click="RefreshGrid();" title="Refrescar Grilla" role="button" style="text-decoration:none;padding-top: 5px;padding-bottom: 5px;" data-toggle="button" aria-pressed="false" class="BtnRefresh">
+                        <span class="remove-all-icon glyphicon glyphicon-refresh whiteText" style="color: #777;"> </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="contenedor" style="overflow-y: hidden;">
+        <table class="table table-striped" style="text-align:center; margin-top:20px;font-size: 11px;">
+            <thead>
+                <tr class="GenericStyleTable" ng-if="!asociatedResults.length == 0">
+                    <!--<th scope="col" class="CenderColum GenericStyleTableFont" ng-repeat="(headElement, value) in asociatedResults" ng-show="!(Validate.indexOf(headElement)!=-1)">{{headElement}}</th> -->
+                    <th scope="col" class="CenderColum BorderStyle GenericStyleTableFont" ng-repeat="records in asociatedResults[0]" ng-show="!(Validate.indexOf(records.Column)!=-1)">{{records.Column}} </th>
+                    <th ng-if="tableform.$visible"></th>
+                </tr>
+            </thead>
+            <tbody class="GridDinamicResult">
+                <tr mdbTableCol ng-repeat="data in List =(asociatedResults | filter:searchText)">
+
+                    <td ng-repeat="result in data" ng-if="!(Validate.indexOf(result.Column)!=-1)">
+
+                        <!-- NUMERIC -->
+                        <span e-class="FontStyle" e-style="min-width: 70px" e-onkeypress="soloNumeros(event, this)" ng-show="!tableform.$visible" e-form="tableform" editable-text="result.value" ng-if="TipeNumber(result.Type, result.DropDown)" onbeforesave="checkAttribute($data, result , result.DropDown) " id="{{result.ID}}" typeID="{{result.Type}}" Len="{{result.Len}}" DropDown="{{result.DropDown}}" Column="{{result.Column}}" IconId="{{result.IconId}}" e-maxlength="{{result.Len}}">
+                            {{ result.value || '' }}
+                        </span>
+                        <!-- MONEDA -->
+                        <span e-class="" e-style="min-width: 70px" e-onblur="render_Importe(event)" e-onkeypress="val_ImporteEvent(event)" ng-show="!tableform.$visible" e-form="tableform" e-id="number" editable-text="PaseNumber(result.value)" ng-if="Moneda(result.Type, result.DropDown)" onbeforesave="checkAttribute($data, result , result.DropDown) " id="{{result.ID}}" typeID="{{result.Type}}" Len="{{result.Len}}" DropDown="{{result.DropDown}}" Column="{{result.Column}}" IconId="{{result.IconId}}">
+                            {{ result.value || '' }}
+                        </span>
+                        <!-- TEXT -->
+                        <span e-class="FontStyle" e-style="min-width: 70px" ng-show="!tableform.$visible" e-form="tableform" ng-if="Tipetext(result.Type, result.DropDown)" onbeforesave="checkAttribute($data, result , result.DropDown) " editable-text="result.value" id="{{result.ID}}" typeID="{{result.Type}}" Len="{{result.Len}}" DropDown="{{result.DropDown}}" Column="{{result.Column}}" IconId="{{result.IconId}}" e-maxlength="{{result.Len}}">
+                            {{ result.value || '' }}
+                        </span>
+                        <!-- COMBO -->
+                        <span e-class="FontStyle" e-style="min-width: 70px" ng-show="!tableform.$visible" e-form="tableform" ng-if="TipeSelect(result.Type, result.DropDown)" onbeforesave="checkAttribute($data, result, result.DropDown) " editable-select="selectValueCheked(result.value, result.ID)" e-ng-change="" e-ng-options="s.Codigo as s.Descripcion for s in getColumn(result.ID,result.DropDown,result.Column)" typeID="{{result.Type}}" id="{{result.ID}}" Len="{{result.Len}}" DropDown="{{result.DropDown}}" Column="{{result.Column}}" IconId="{{result.IconId}}">
+                            {{ result.value || '' }}
+                        </span>
+                        <div>
+                            <!-- CALENDARIO -->
+                            <span e-class="FontStyle" e-style="min-width: 75px" ng-show="!tableform.$visible" e-form="tableform" ng-if="TipeCalendar(result.Type, result.DropDown)" onbeforesave="checkAttribute($data, result , result.DropDown) " editable-Datetime="result.value" e-datepicker-popup="dd/MM/yy" e-is-open="isOpen" e-ng-click="isOpen = !isOpen" e-showWeeks="false" e-startingDay="1" e-minDate="today" e-language="es">
+                                {{ result.value | date:'dd/MM/yy' }}
+                            </span>
+                        </div>
+                    
+                    <td ng-if="tableform.$visible">
+                        <button type="button" ng-click="deleteResult(data)" id="{{result.ID}} " class="btn btn-danger fa fa-trash"></button>
+
+                    </td>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- buttons -->
+    <div class="btn-edit" align="center">
+        <button type="button" class="btn btn-success" style="margin-top:10px" ng-show="!tableform.$visible" ng-click="tableform.$show()">
+            Editar
+        </button>
+    </div>
+    <div class="btn-form" ng-show="tableform.$visible" align="center" style="margin-top:10px">
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="addUser(asociatedResults.length)" class="btn btn-success pull-right">Agregar Nuevo</button>
+        <button type="submit" ng-disabled="tableform.$waiting" class="btn btn-primary">Guardar</button>
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="tableform.$cancel()" class="btn btn-danger">cancelar</button>
+    </div>
+    <style>
+        .StyleContainerElement{
+            background-image: linear-gradient(45deg, #337ab7, #fafafa);
+            border-radius: 9px;
+        }
+        .BorderStyle {
+            border: solid 1px #fafafa;
+        }
+        .FontStyle {
+            font-size: 9px !important;
+            color: #555 !important;
+            font-weight: normal !important;
+        }
+
+        tbody tr:hover {
+            color: #777 !important;
+        }
+        #contenedor::-webkit-scrollbar {
+          width: 5px;
+          height:10px;
+        }
+        #contenedor::-webkit-scrollbar-track {
+          border-radius: 10px;
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+        #contenedor::-webkit-scrollbar-thumb {
+          /*background-image: linear-gradient(45deg, #ccc, #2e2e2e);*/
+          background-color: #77777791;
+          border-radius: 10px;
+          -webkit-box-shadow: rgba(0,0,0,.12) 0 3px 13px 1px;
+        }
+
+    </style>
+</form>

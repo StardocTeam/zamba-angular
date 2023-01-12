@@ -1,0 +1,21 @@
+﻿Instructivo de uso:
+
+- Al iniciar la aplicación por primera vez, se podrá ver que la pantalla se encuentra dividida por 2 grandes sectores, el de tablas y el de columnas.
+- Las tablas mostradas son aquellas que correspondan a tablas de usuario y no de sistema.
+- Contiene un buscador de tablas por nombre. Se puede buscar tanto al presionar la tecla ENTER como con las flechas.
+- Al hacer click en una de las tablas listadas se cargarán sus columnas en la grilla de la derecha.
+- La previsualización se hara sobre la tabla seleccionada. Se pueden previsualizar 100 registros o toda la tabla. 
+- Al previsualizar una tabla la pantalla se dividirá a la mitad horizontalmente, mostrando en el sector inferior una grilla con los datos obtenidos.
+- La grilla es de telerik por ende se puede filtrar a gusto su contenido para buscar información sensible.
+- Los datos mostrados en la grilla de columnas son: nombre de columna, combo del tipo de dato que representa. 
+- El combo sirve para identificar que atributos serán procesados y configurar el tipo de dato que representa, pero a un nivel de categoría de información.
+- Las categorías creadas al momento son: nombre, apellido, nombre y apellido, apellido y nombre, direccion, numero, direccion y numero, dni, cuit, usuario, mail, patente, telefono, letras de patente, numeros de patente.
+- Al tener decidido que columnas de la tabla se modificarán, se debe presionar el botón Comenzar.
+- Esta acción se deshabilitará todos los controles del formulario y ejecutará la acción de modificación de datos en segundo plano.
+- La acción puede ser cancelada mediante el botón detener o al salir de la aplicación. Un mensaje siempre se mostrará para confirmar su decición.
+- Mientras el programa ejecuta la migración de datos, la barra inferior cercana al botón detener mostrará el progreso actual y sobre que tablas se encuentra trabajando.
+- Al finalizar, un mensaje avisará el resultado del proceso.
+
+//todavia no implementado
+- Al presionar el botón Comenzar, se guarda la configuración realizada sobre la tabla en un XML.
+- Este XML será leido la próxima vez que el programa se inicie completando toda configuración realizada.

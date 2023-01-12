@@ -1,0 +1,200 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" EnableViewState="false" %>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head2" runat="server">
+    <title title="Zamba Web"></title>
+    <asp:ContentPlaceHolder ID="header_css" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="shortcut icon" id="lnkWebIcon" runat="server" type="image/x-icon" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/thickbox.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/jquery-ui-1.8.6.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWeb.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWebTables.css" />
+    <link rel="stylesheet" type="text/css" href="Content/Styles/jq_datepicker.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/GridThemes/WhiteChromeGridView.css" />
+    <link rel="stylesheet" href="Content/Styles/tabber.css" type="text/css" media="screen" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/jquery.galleryview-3.0-dev.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/demo_table.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/demo_page.css" />
+    <script src="scripts/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery-ui-1.8.6.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.layout-latest.js" type="text/javascript"></script>
+    <script src="scripts/jq_datepicker.js" type="text/javascript"></script>
+    <script src="scripts/Zamba.js" type="text/javascript"></script>
+    <script src="scripts/jquery.caret.1.02.min.js" type="text/javascript"></script>
+    <script src="scripts/jquery.easing.1.3.js" type="text/javascript"></script>
+    <script src="scripts/jquery.galleryview-3.0-dev.js" type="text/javascript"></script>
+    <script src="scripts/jquery.timers-1.2.js" type="text/javascript"></script>
+    <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
+    <script>
+    function OpenHome() {
+            window.open($("#ctl00_hdnLink").val(), $("#ctl00_hdnTarget").val(), "", false);
+        }
+        </script>
+    <asp:ContentPlaceHolder ID="header_js" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        body
+        {
+            font-family: Tahoma, Verdana;
+            font-size: 11px;
+            font-weight: normal;
+        }
+        input, select, textarea, button, iframe
+        {
+            border: 1px solid #AAAAAA;
+        }
+        input[type=checkbox]
+        {
+            border: 0px;
+        }
+        a, img, imglink
+        {
+            text-decoration: none;
+            border: 0;
+        }
+        table
+        {
+            empty-cells: show;
+        }
+        .style1
+        {
+            width: 562px;
+        }
+        .style2
+        {
+            width: 143px;
+        }
+        .style3
+        {
+            width: 151px;
+        }
+    </style>
+</head>
+<body style="overflow: hidden">
+    <form id="form2" runat="server" class="form" enctype="multipart/form-data">
+    <script language="javascript" type="text/javascript">
+        function btnHelpCab_Click() {
+            window.open("../../forms/<%=Page.Theme%>/InstructivoZamba.pdf");
+        }
+
+        document.config = {
+            urlBase: "<%=GetAppRootUrl(False) %>"
+        };
+    </script>
+    
+    <input id="hdnLink" runat="server" style="display: none" />
+    <input id="hdnTarget" runat="server" style="display: none" />
+    <input id="hdnRefreshWF" runat="server" style="display: none" />
+    <div id="barra-Cabezera">
+        <table width="100%" style="text-align: right">
+            <tr>
+                <td style="color: white">
+                    Usuario:
+                    <asp:Label runat="server" ID="lblUsuarioActual"></asp:Label>
+                    <input id="btnCerrarSesionCab" type="button" onclick="location.href='../Security/Logout.aspx'" />
+                    <input id="btnHomeCab" type="button" onclick="HomeCabPresentation()" />
+                    <input id="btnMapaSitioCab" type="button" onclick="RedirectToSiteMap();" />
+                    <input id="btnHelpCab" type="button" onclick="btnHelpCab_Click();" />
+                    <asp:ContentPlaceHolder ID="ContentbarraCabezera" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="MasterHeader">
+        <asp:HiddenField ID="hdnUserID" runat="server" />
+        <asp:HiddenField ID="hdnConnectionId" runat="server" />
+        <asp:HiddenField ID="hdnComputer" runat="server" />
+        <div id="header-Cabezera-Master">
+            <table id="tblCabecera" style="width: 100%; height: 26px;">
+                <tr>
+                    <td style="width: 13%; background-color: Silver; white-space: nowrap">
+                        <div onclick="OpenHome();" class="HomeLink">
+                            <span style="float: left">Home </span>
+                            <img src="Content/Images/home_icon.png" alt="Home" style="float: right" />
+                        </div>
+                        <div onclick="HomeCabPresentation();" class="HomeButton" style="display: none">
+                            <span style="float: left">Home </span>
+                            <img src="Content/Images/home_icon.png" alt="Home" style="float: right" />
+                        </div>
+                    </td>
+                    <td style="width: 80%">
+                    </td>
+                    <%--<td class="style2" align="right">
+                        <table id="tblUsuario" style="width: 100%">
+                            <tr>
+                                <td style="white-space: nowrap">
+                                    Usuario:
+                                    <asp:Label runat="server" ID="lblUsuarioActual2"></asp:Label>
+                                </td>
+                                <td style="white-space: nowrap; padding-left: 10px">
+                                    <a href="#" style="text-decoration: none; color: Navy; font-size: 10px" onclick="ShowChangePassDlg();">
+                                        Cambiar contraseña </a>
+                                </td>
+                                <td style="white-space: nowrap; padding-left: 10px">
+                                    <a href="../Security/Logout.aspx" style="text-decoration: none; color: Navy">Cerrar
+                                        sesión </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>--%>
+                </tr>
+            </table>
+        </div>
+        <table class="topheader" cellpadding="0" cellspacing="0" width="100%" onclick="OpenHome();">
+            <tr>
+                <td>
+                    <div class="clientPhrase">
+                    </div>
+                    <div class="clientlogo" onclick="OpenHome();">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="loading" class="loading">
+        <table style="width: 100%; height: 100%">
+            <tr style="height: 50%">
+                <td>
+                </td>
+            </tr>
+            <tr style="height: 1%">
+                <td style="text-align: center">
+                    <img src="Content/images/Loader.gif" style="top: 50%" alt="Cargando..." />
+                </td>
+            </tr>
+            <tr style="height: 49%">
+                <td>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="div-presentation-Main" id="divPrimario">
+        <center style="height:100%">
+            <asp:ContentPlaceHolder ID="ContentdivpresentationMain" runat="server">
+            </asp:ContentPlaceHolder>
+            <div id="second-div-presentation-Main" class="second-div-presentation-Main">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolderHome" runat="server">
+                 </asp:ContentPlaceHolder>
+            </div>
+        </center>
+    </div>
+    <div class="div-tabl-principal-master" id="divSecundario">
+        <asp:Table ID="tblPrincipalMP" runat="server" Style="width: 100%;" Height="68px">
+            <asp:TableRow>
+                <asp:TableCell ID="col11MasterPage">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+                </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+    </div>
+   
+   <div style="botom:0px; ">
+     <asp:ContentPlaceHolder ID="ContentPlaceFooter" runat="server" >
+                    </asp:ContentPlaceHolder>
+   </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿@using Kendo.Mvc.UI
+
+<div class="demo-section k-content wide" style="max-width: 644px;">
+    @(Html.Kendo().MediaPlayer()
+        .Name("MediaPlayer")
+        .AutoPlay(true)
+        .Events(e => e.Play("onPlay").Pause("onPause").End("onEnd").Ready("onReady")
+            .TimeChange("onTimeChange").VolumeChange("onVolumeChange"))
+        .Media(m => m
+            .Title("Take a Tour of the Telerik Platform")
+            .Source("https://www.youtube.com/watch?v=rLtTuFbuf1c")
+        )
+        .HtmlAttributes(new { style = "height:360px" })
+    )
+</div>
+<div class="box wide" style="max-width:644px; text-align: center;">
+    <h4 class="title">Events log</h4>
+    <div class="console"></div>
+</div>
+
+<script>
+    function onPlay() {
+        kendoConsole.log("event :: play");
+    }
+
+    function onPause() {
+        kendoConsole.log("event :: pause");
+    }
+
+    function onEnd() {
+        kendoConsole.log("event :: end");
+    }
+
+    function onReady() {
+        kendoConsole.log("event :: ready");
+    }
+
+    function onTimeChange() {
+        kendoConsole.log("event :: timeChange");
+    }
+
+    function onVolumeChange() {
+        kendoConsole.log("event :: volumeChange");
+    }
+</script>

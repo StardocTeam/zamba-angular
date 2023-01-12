@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<title>Poliza</title>			
+	
+		<!--<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">-->		
+		
+		<script type="text/javascript" language="JavaScript">	
+				function SetRuleId(sender)
+				{
+					$("#hdnRuleId").name = sender.id;               
+					frmMain.submit();
+				 }
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+			
+			$(document).ready(function()
+			{							
+				
+			});					
+			
+			/* Optional: Temporarily hide the "tabber" class so it does not "flash"
+			   on the page as plain HTML. After tabber runs, the class is changed 
+			   to "tabberlive" and it will appear. */
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong> Datos de la P&oacuteliza </strong>
+				</div>
+				
+				
+						<table cellpadding="4">
+							<tr>
+								<td><label>Nro P&oacuteliza:</label></td>
+								<td><input type="text" name="zamba_index_26174" id="zamba_index_26174" size="15" /></td>
+								<td><label>Nro Superp&oacuteliza:</label></td>
+								<td><input type="text"  name="zamba_index_26293" id="zamba_index_26293" size="15"/></td>
+							</tr>
+							<tr>
+								<td><label>Fecha Facturaci&oacuten: </label></td>
+								<td><input id="zamba_index_26303" name="zamba_index_26303" style="width:170px;" /></td>
+								<td><label>Estado: </label></td>
+								<td><input type="text" name="zamba_index_26188" id="zamba_index_26188" size="20" /></td>
+							</tr>
+							<tr>
+								<td><label>Nro de Operacion: </label></td>
+								<td><input id="zamba_index_26409" name="zamba_index_26409" style="width:170px;" /></td>
+								<td><label>Suplemento de Superpoliza:</label></td>
+								<td><input type="text" name="zamba_index_26408" id="zamba_index_26408" style="size="20";"/></td>
+							</tr>
+							<tr>
+								<td><label>Productor:</label></td>
+								<td><input type="text" name="zamba_index_26233" id="zamba_index_26233" style="width:170px;" /></td>
+								<td><label>Nivel Productor:</label></td>
+								<td><input type="text" name="zamba_index_26301" id="zamba_index_26301" style="size="20";"/></td>
+							</tr>
+							<tr>
+								<td><label>Vigencia Desde: </label></td>
+								<td><input type="text" name="zamba_index_26249" id="zamba_index_26249" size="20" /></td>
+								<td><label>Vigencia Hasta: </label></td>
+								<td><input type="text" name="zamba_index_26187" id="zamba_index_26187" size="20" /></td>
+							</tr>
+							<tr>
+								<td><label>Asegurado:</label></td>
+								<td colspan=3><input name="zamba_index_26314" id="zamba_index_26314" size="80" /></td>
+							</tr>
+							<tr>
+								<td><label>Empresa:</label></td>
+								<td><input type="text" name="zamba_index_26291" id="zamba_index_26291" style="width:150px;" /></td>
+								<td><label>Sucursal:</label></td>
+								<td><input type="text" name="zamba_index_26290" id="zamba_index_26290" style="width:150px;" /></td>
+							</tr>
+							<tr>
+								<td><label>Rama:</label></td>
+								<td><input type="select" name="zamba_index_26294" id="zamba_index_index_26294" style="width:150px;" /></td>
+								<td><label>Art&iacuteculo: </label></td>
+								<td><input type="text" name="zamba_index_26292" id="zamba_index_26292" size="20" /></td>
+							</tr>
+						
+							<tr>	
+								<td style="padding:10px 0 10px 0" colspan="4">
+									<hr>
+								</td>
+							</tr>
+								
+						</table>
+						
+							<table cellpadding="4">
+							
+							<tr>
+								<td><label>Siniestros Asociados a la P&oacuteliza:</label></td>
+							</tr>	
+							<tr>
+								<td>
+                                    <div style="overflow:auto; width: 900px">
+                                        <table class="tablesorter" id="zamba_associated_documents_26028">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+</td>
+							</tr>
+						</table> 		
+				
+                	 </div>
+				<br/>
+				<div name="logoUnion" id="logoUnion">	
+					<img src="images/Union.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/> 
+				</div>
+
+			</form>						
+		</div>
+	</body>
+</html>

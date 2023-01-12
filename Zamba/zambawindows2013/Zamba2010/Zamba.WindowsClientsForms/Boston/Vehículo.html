@@ -1,0 +1,206 @@
+﻿<html>
+    <head>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+        <style type="text/css">
+            input {
+                font-size: x-small;
+            }
+            
+            p.description {
+                font-size: x-small;
+            } 
+            #zamba_associated_documents_1 #zamba_associated_documents_2 {
+                color: #333333;
+                font-size: xx-small;
+                font-weight: normal;
+                border-collapse: collapse;
+                border-style: dashed;
+            } #zamba_associated_documents th {
+                color: White;
+                background-color: #507CD1;
+                font-weight: bold;
+                font-size: xx-small;
+            } #zamba_associated_documents tr {
+                color: black;
+                font-size: xx-small;
+                background-color: rgb(239, 243, 251);
+            } #zamba_associated_documents_3 th {
+                color: White;
+                font-size: xx-small;
+                background-color: #507CD1;
+                font-weight: bold;
+            } #zamba_associated_documents_3 tr {
+                color: black;
+                font-size: xx-small;
+                background-color: rgb(239, 243, 251);
+            } #zamba_associated_documents_2 th {
+                color: White;
+                font-size: xx-small;
+                background-color: #507CD1;
+                font-weight: bold;
+            } #zamba_associated_documents_2 tr {
+                color: black;
+                font-size: xx-small;
+                background-color: rgb(239, 243, 251);
+            }
+        </style>
+
+        <script type="text/javascript">
+            function SetRuleId(sender){
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+            
+            function SetRuleId(sender){
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+            
+            window.onload = function(){
+                try {
+                    var hidden = document.getElementById("zamba_index_35");
+                    var hidden2 = document.getElementById("zamba_index_34");
+                    var first = document.getElementById("zamba_rule_1557");
+                    var second = document.getElementById("zamba_rule_1621");
+                    
+                    hidden2.style.visibility = 'hidden';
+                    hidden.style.visibility = 'hidden';
+                    
+                    if (hidden.value > '0') {
+                        first.style.visibility = 'visible';
+                    }
+                    else 
+                        first.style.visibility = 'hidden';
+                    if (hidden2.value > '0') {
+                        second.style.visibility = 'visible';
+                    }
+                    else 
+                        second.style.visibility = 'hidden';
+                } 
+                catch (ex) {
+                    alert(ex);
+                }
+            }
+        </script>
+    </head>
+    <BODY>
+        <FORM name="frmMain">
+            <DIV id=header style="WIDTH: 100%; COLOR: white; BACKGROUND-COLOR: #0066cc">
+                Vehiculo/Cobertura 
+            </DIV>
+            <hr/>
+            <TABLE cols=4  cellPadding=1  border=0>
+                <TBODY>
+                    <TR>
+                        <TD style="width:10%">
+                            <P class=description>
+                                Tipo Veh&iacuteculo:
+                            </P>
+                        </TD>
+                        <TD colspan="3">
+                            <INPUT id=zamba_Index_15 style="WIDTH: 100%" name=zamba_Index_15 ReadOnly="readonly"/>
+                        </TD>
+                    </TR>
+
+                    <TR>
+                        <TD>
+                            <P class=description>
+                                Modelo:
+                            </P>
+                        </TD>
+                        <TD colspan="3">
+                            <INPUT id=zamba_Index_16 style="WIDTH: 100%" name=zamba_Index_16 ReadOnly="readonly"/>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                            <P class=description>
+                                A&ntildeo:
+                            </P>
+                        </TD>
+                        <TD width="150">
+                            <INPUT id=zamba_Index_19 style="WIDTH: 100%" name=zamba_Index_19 ReadOnly="readonly"/>
+                        </TD>
+                        <td width="10%">
+                            <P class=description align="left">
+                                Uso:
+                            </P>
+                        </td>
+                        <td width="150">
+                            <INPUT id=zamba_Index_20 style="WIDTH: 100%" name=zamba_Index_20 ReadOnly="readonly"/>
+                        </TD>
+			 </tr>
+                   <TR>
+                        <TD>
+                            <P class=description>
+                                Patente:
+                            </P>
+                        </TD>
+                        <TD width="150">
+                            <INPUT id=zamba_Index_39 style="WIDTH: 100%" name=zamba_Index_39 ReadOnly="readonly"/>
+                        </TD>
+				<td width="10%">
+                            <P class=description align="left">
+                                Actividad:
+                            </P>
+                        </td>
+                        <td width = "250">
+                            <INPUT id=zamba_Index_2756 style="WIDTH: 100%" name=zamba_Index_2756 ReadOnly="readonly"/>
+                        </TD> 
+		   	</TR>
+                    
+			<TR>
+                        <TD>
+                            <P class=description>
+                                Cobertura:
+                            </P>
+                        </TD>
+                        <TD width = "250">
+                            <INPUT id=zamba_Index_21 style="WIDTH: 100%" name=zamba_Index_21 ReadOnly="readonly"/>
+                        </TD>
+                      <TD width="10%">
+				    <P class=description align="left">
+                                Suma Asegurada:
+                            </P>
+                        </TD>
+                        <TD width = "250">
+                            <INPUT id=zamba_Index_22 style="WIDTH: 100%" name=zamba_Index_22 ReadOnly="readonly"/>
+                        </td>
+                    </TR>
+
+			  <tr>
+				<TD>
+                            <P class=description>
+                                Accesorios:
+                            </P>
+                        </TD>
+                        <TD colspan="3">
+                            <INPUT id=zamba_Index_2757 style="WIDTH: 100%" name=zamba_Index_2757 ReadOnly="readonly"/>
+                        </td>				
+			  </TR>
+
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            <center>
+                                <INPUT id=zamba_rule_1621 onclick=SetRuleId(this); type=button value=P�lizas name=zamba_rule_1621 />
+                            </center>
+                        </td>
+                        <td>
+                        <center>
+                            <INPUT id=zamba_rule_1557 onclick=SetRuleId(this); type=button value="P�liza a renovar" name=zamba_rule_1557 />
+                        </center>
+                        </TD>
+                        <td>
+                        </td>
+                    </TR>
+
+                </TBODY>
+            </TABLE>
+            <br/>
+            <hr/>
+		<INPUT id=zamba_index_34 name=zamba_index_34><INPUT id=zamba_index_35 name=zamba_index_35 />
+               </FORM>
+    </BODY>
+</html>

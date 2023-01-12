@@ -1,0 +1,23 @@
+﻿Instructivo de uso:
+
+- Al iniciar la aplicación por primera vez, se podrá ver que la pantalla se encuentra dividida por 2 grandes sectores, el de atributos y el de entidades.
+- Los atributos mostrados son aquellos que se encuentren agregados a al menos una entidad.
+- Contiene un buscador de atributos que lo hace tanto por id como por nombre. Se puede buscar tanto al presionar la tecla ENTER como con las flechas.
+- Ademas del id y el nombre del atributo se muestra también en la grilla un combo y un filtro para completar. 
+- El combo sirve para identificar que atributos serán procesados y configurar el tipo de dato que representa, pero a un nivel de categoría de información.
+- Las categorías creadas al momento son: nombre, apellido, nombre y apellido, apellido y nombre, direccion, numero, direccion y numero, dni, cuit, usuario, mail, patente, telefono, letras de patente, numeros de patente.
+- El filtro es opcional y sirve para ingresar los codigos (claves primarias) de las descripciones que no deben ser modificadas. 
+- Se pueden agregar multiples filtros separados por punto y coma, sin dejar espacio.
+- Una vez que se haya seleccionado al menos un item del combo, presionar el boton Cargar Tablas.
+- Esto cargará en el listado de la derecha las tablas a previsualizar y luego modificar.
+- Al seleccionar una tabla automáticamente se tildará/destildará. Solo una tabla puede estar seleccionada, pero varias pueden estar tildadas.
+- La previsualización se hara sobre la tabla seleccionada. Se pueden previsualizar 100 registros o toda la tabla. 
+- Al previsualizar una tabla la pantalla se dividirá a la mitad horizontalmente, mostrando en el sector inferior una grilla con los datos obtenidos.
+- La grilla es de telerik por ende se puede filtrar a gusto su contenido para buscar información sensible.
+- Al tener decidido que tablas se modificarán, se debe presionar el botón Comenzar.
+- Esta acción se deshabilitará todos los controles del formulario y ejecutará la acción de modificación de datos en segundo plano.
+- La acción puede ser cancelada mediante el botón detener o al salir de la aplicación. Un mensaje siempre se mostrará para confirmar su decición.
+- Al presionar el botón Comenzar, se guarda la configuración realizada sobre el panel izquierdo (grilla de atributos) en un XML.
+- Este XML será leido la próxima vez que el programa se inicie completando toda configuración realizada. Solo completará lo que coincida con los atributos de la base de datos.
+- Mientras el programa ejecuta la migración de datos, la barra inferior cercana al botón detener mostrará el progreso actual y sobre que tablas se encuentra trabajando.
+- Al finalizar, un mensaje avisará el resultado del proceso.

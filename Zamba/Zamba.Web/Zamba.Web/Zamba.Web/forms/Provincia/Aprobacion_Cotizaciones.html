@@ -1,0 +1,184 @@
+﻿ <!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+ </head>
+
+<body>
+     <center>
+        <div class="form-group row"></div>
+         <div class="col">
+             <div class="cell panel">
+                 <div class="header background-blue">
+                     <h5>APROBACION DE COTIZACIONES</h5>
+                 </div>
+                 <form name="frmMain" action="Aprobacion_Cotizaciones.html">
+                     <input id="hdnRuleId" type="hidden" />
+                     <input id="hdnAsocId" type="hidden" />
+                     <div class="container">
+                         <center>
+                             <div class="tab-content">
+
+                                 <div class="tab-pane active" id="APROBACION DE COTIZACIONES">
+                                     <div class="form-group row">
+                                         <div class="PanelPrincipal">
+                                             <div class="form-group row">
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--Nro de PDC-->                             <span class="input-group-addon">Nro de PDC:</span>
+                                                         <input id="zamba_index_xx" name="zamba_index_xx" size="1" class="form-control" disabled />
+
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--Nro de Expediente-->                            <span class="input-group-addon">Nro de Expediente:</span>
+                                                         <input id="zamba_index_xx" name="zamba_index_xx" class="form-control input-sm" disabled />
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--Nro de Solicitud-->                                 <span class="input-group-addon">Nro de Solicitud:</span>
+                                                         <input id="zamba_index_xx" name="zamba_index_xx" size="1" class="form-control input-sm" disabled />
+
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--ID trámite-->                                       <span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                                         <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row">
+                                                 <div class="col-md-9">
+                                                 </div>
+
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--Fecha de Pedido-->                              <span class="input-group-addon">Fecha:</span>
+                                                         <input id="zamba_index_xx" name="zamba_index_xx" class="form-control input-sm dateTimeToday" disabled />
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row">
+                                                 <div class="col-md-9">
+                                                     <h4>Aca va la Grilla de Ingreso de Cotizaciones</h4>
+                                                 </div>
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--delegación-->
+                                                         <span class="input-group-addon">Delegación:</span>
+                                                         <input type="button" class="form-control input-sm" id="zamba_index_82" name="zamba_index_82" size="1" disabled />
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group row">
+                                                 <div class="col-md-9">
+                                                     <div class="input-group">
+                                                     </div>
+                                                 </div>
+                                                 <div class="col-md-3">
+                                                     <div class="input-group">
+                                                         <!--Sector-->
+                                                         <span class="input-group-addon">Sector:</span>
+                                                         <input id="zamba_index_126" name="zamba_index_126" size="1" class="form-control input-sm" disabled />
+                                                     </div>
+                                                 </div>
+                                             </div>
+
+
+                                             <div class="row">
+                                                 <div class="col-md-12" style="padding:0px">
+                                                     <div class="col-xs-9" style="position:relative; bottom:25px">
+                                                         <!--Observacion-->                                  <span class="input-sm"><h5>Observaciones</h5></span>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="row">
+                                                 <div class="col-md-12" style="padding:0px;">
+                                                     <div class="col-xs-9" style="position:relative; bottom:50px">
+                                                         <!--Area texto Observacion-->                         <textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84" disabled></textarea>
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                         <div class="form-group row" style="position:relative; bottom:65px">
+                                             <div class="form-group row">
+                                                 <div class="col-md-12">
+                                                     <div class="form-group row">
+                                                         <div class="col-md-12">
+                                                             <div class="row">
+                                                                 <div class="col-md-3 col-xs-offset-3">
+                                                                     <div class="input-group">
+                                                                     </div>
+                                                                 </div>
+                                                                 <div class="col-md-12" style="position:relative;left:-0px;">
+                                                                     <!--Botones FORM-->
+                                                                     <input name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Aprobar">
+                                                                     <input name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Rechazar">
+                                                                     <input name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Solicitar Informacion">
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                             <div class="row">
+                                                 <hr />
+                                                 <center>
+                                                     <iframe id="zamba_innerdoctype_original" height="90%" title="Imagenes de las Cotizaciones" width="98%" src="file:///C:\Users\bpm-1.UNUMSA\AppData\Roaming\Zamba Software\OfficeTemp\6343.PDF"></iframe>
+
+                                                 </center>
+                                             </div>
+                                             <div class="row">
+
+                                                 <center>
+                                                     <div class="col-md-2" style="position:relative;left:20px;">
+                                                         <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                                     </div>
+                                                     <div class="col-md-10">
+                                                         <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                         <div class="form-group row">
+                                                         </div>
+                                                     </div>
+                                                 </center>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 </div>
+</center>
+                     </div>
+
+                 </form>
+             </div>
+          </div>
+       </center>
+    </body>
+</html>
+
+<style>
+
+    .Inputselect {
+        width: 100px !important;
+    }
+    
+    
+    .inputEtiquetas{
+            width:30px !important;
+            } 
+    
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+   
+    .margenBtn {
+        position:relative;
+        left:90px;
+          }
+</style>

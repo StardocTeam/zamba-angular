@@ -1,0 +1,967 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Zamba.Core.AutocompleteBC" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Barcode\AutocompleteBC.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.AutoCompleteBarcode_Factory" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Barcode\AutocompleteBC.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.AutocompleteBCBusiness" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAgAAAAECAAAAYAAAAAACAAAAAAAABAAAEAAAAAAAA=</HashCode>
+      <FileName>Barcode\AutoCompleteBCBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.AutoCompleteBarcode_FactoryBusiness" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAABAAAAAAAAAACAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Barcode\AutoCompleteBCBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Barcode" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAIABAQCCAAAAAAAARAAAAAAAAAAAAIAAAgAAAAAgI=</HashCode>
+      <FileName>Barcode\Barcode.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.BarcodeRemark_Motor" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Barcode\Barcode.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Barcode_Motor" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Barcode\Barcode_Motor.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.BarcodesBusiness" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAEEAAACAGIAARAAAAEAIBALFAIBAAAAAIAAAAYAg=</HashCode>
+      <FileName>Barcode\BarcodesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DocItem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAQAAAAAQgAAAAAAQAAAABAAQgAAAAAAAAAAA=</HashCode>
+      <FileName>Barcode\DocItem.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.CoreBusiness" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreData.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DataBaseAccessBusiness" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAABAAAEAAAACAgAAAAAAAAAAQACA=</HashCode>
+      <FileName>DataBaseAccess\DataBaseAccessBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Section_Factory" Collapsed="true">
+    <Position X="17" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAEAAEAAAgAAAgAAAgAEAASAAAAAAAAACAIAI=</HashCode>
+      <FileName>DataPassthrow\DocGroups\Section_Factory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.CreateTablesBusiness" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIABABCSAMAAAAAAkAQABACAAAEIEAAAEgAAAgSAg=</HashCode>
+      <FileName>DB\CreateTablesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DBBusiness" Collapsed="true">
+    <Position X="15.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>DB\DBBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DBTools" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAjCgIAAAAAAAAAAAAAAACAAAAAAAAAAgAAA=</HashCode>
+      <FileName>DB\DBTools.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.DocAsociatedBusiness" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAGACAAADCAAAAAAAAAAQAAAAABEAAAEAAAAAA=</HashCode>
+      <FileName>DocAsociated\DocAsociatedBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DocTypesBusiness" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIOkAgAtgADSBJgRAIHFRKNEIDAEnCcAJI6AQCgTQMA=</HashCode>
+      <FileName>DocTypes\DocTypesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Export" Collapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Export.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.FoldersFactory" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FoldersFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.FormBusiness" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AggCAAAAACABABAAAAFgAAEEEAAAgQgAAEABBAAAgCg=</HashCode>
+      <FileName>Forms\FormBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ZForoBusiness" Collapsed="true">
+    <Position X="18.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAIAAABKAAAAAAAAAAAAAAAAAAAIAAAAAAAACAAAA=</HashCode>
+      <FileName>Foro\ZForoBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.GNotifierFactory" Collapsed="true">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GNotifierFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.HistoryAnalysisBusiness" Collapsed="true">
+    <Position X="13.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>HistoryAnalysisBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.IconsBusiness" Collapsed="true">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIRIAAAAKgAAQgAgAAAAAAEAAAAAAEQBCACAAAAAAA=</HashCode>
+      <FileName>Icons\IconsBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ErrorsManager" Collapsed="true">
+    <Position X="13.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImportBusiness\ErrorsManager.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.FactoryArchivos" Collapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAgACAAACAAwIAAAAAAAAAgAAAAAAQAAABAAAA=</HashCode>
+      <FileName>ImportBusiness\FactoryArchivos.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ImportsBusiness" Collapsed="true">
+    <Position X="17" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQAAAACIAACAAAAAAAAgAQQEAAAAAAAAA=</HashCode>
+      <FileName>ImportBusiness\ImportsBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.LineImport" Collapsed="true">
+    <Position X="15.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQACAAACAAQAAAIgAAAAQAAAAAAAAAAAAgAAAIAAA=</HashCode>
+      <FileName>ImportBusiness\LineImport.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProcessControler" Collapsed="true">
+    <Position X="18.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAgAAAAAAAAAAAAAABAABACAAAAA=</HashCode>
+      <FileName>ImportBusiness\ProcessControler.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProcessEngine" Collapsed="true">
+    <Position X="20.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JiRQAipAAqcAjCSCYkAAAwBCAGAAgARDQAAhQgWIALA=</HashCode>
+      <FileName>ImportBusiness\ProcessEngine.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ZProcessLine" Collapsed="true">
+    <Position X="22.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ImportBusiness\ZProcessLine.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.FactoryProcessScheduler" Collapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAgAAAAIAAAAAAAAAAgAQAAAAAAAAEAA=</HashCode>
+      <FileName>ImportsData\FactoryProcessScheduler.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProcessFactory" Collapsed="true">
+    <Position X="22.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAgAAkAEJgAGiACAAAKQCAAACAAAAIQAAAIAAA=</HashCode>
+      <FileName>ImportsData\ProcessFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProcessHistories" Collapsed="true">
+    <Position X="3" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAACAAAAAAAAAAAAAAAAQAAAAABAAAAAAAACEAA=</HashCode>
+      <FileName>ImportsData\ProcessHistories.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProcessLists" Collapsed="true">
+    <Position X="4.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAA=</HashCode>
+      <FileName>ImportsData\ProcessLists.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.AutoSubstitutionBusiness" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAIAAAAEAgAAACAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Indexs\AutoSubstitutionBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.IndexLinkBusiness" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAIEAAAAIAAAAACAAAAAGAECAAAAAAAAAIAAA=</HashCode>
+      <FileName>Indexs\IndexLinkFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.IndexsBusiness" Collapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KEoIFUFNlYAAICBQiQsAg6YGgAEjCIAJgAggSCIAS2g=</HashCode>
+      <FileName>Indexs\Indexs_Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.IntegrityBusiness" Collapsed="true">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAACA=</HashCode>
+      <FileName>Indexs\IntegrityBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DocI" Collapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAEAAAEAACAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Indexs\IntegrityBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DrI" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAFICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Indexs\IntegrityBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.NegociosIntegridad" Collapsed="true">
+    <Position X="4.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABCAAAAAAAAAAAAAAgCAAEAABAAAAAAQIA=</HashCode>
+      <FileName>Indexs\IntegrityBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.LazyLoadBusiness" Collapsed="true">
+    <Position X="13.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAAEAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>LazyLoadBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.AutoMailDBFacade" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAMAAAAAAAAAAAAAABCAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Message\AutoMailDBFacade.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.InternalMessage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAAjwIBRABAYAZGQAMBFlZAhAAEEgkMCIYAAIBABGQA=</HashCode>
+      <FileName>Message\Message.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.DisplayMessages" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQGAAQAAAAAAAAAAAAAAABREAAAAAAA=</HashCode>
+      <FileName>Message\Message.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.Message_Factory" Collapsed="true">
+    <Position X="17" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Message\Message_Factory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.MessagesBusiness" Collapsed="true">
+    <Position X="18.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAEAECQACRBAAEAIAAQQAAAACAAAAAABAACIAAA=</HashCode>
+      <FileName>Message\MessagesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.NotesBusiness" Collapsed="true">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAIQAACAAAAAAAACAAAAAAAEAAAAAAAgEAAAAAAA=</HashCode>
+      <FileName>Notes\NotesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.NotifyBusiness" Collapsed="true">
+    <Position X="8.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAEAAIAEACgAAAACAAIIAIQgAAgAAAggACgQAQ=</HashCode>
+      <FileName>Notify\NotifyBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Check" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQCAAAAAAAAAAAAAAIIAAAAAAAAIAAAAAAAACEA=</HashCode>
+      <FileName>PostProcess\Check.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.PostProcessBusiness" Collapsed="true">
+    <Position X="11.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PostProcess\PostProcessBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ippSetODP_Zamba" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQCAAAAAAAAAABAAAIYAAAAAAAAIAAAAAAAACEA=</HashCode>
+      <FileName>PostProcess\SetODP_Zamba.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.ippSetORD_Inbroker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQCAAAAAAAAAAAAAAIYAAAAAAAAIAAAAAAAACEA=</HashCode>
+      <FileName>PostProcess\SetORD_Inbroker.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.ippSetPol_Inbroker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQCAAAAAAAAAAAAAAIYAAAAAAAAIAAAAAAAACEA=</HashCode>
+      <FileName>PostProcess\SetPol_Inbroker.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.ippSetDoc_I58Inbroker" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAQCAAAAAAAAAAAAAAIYAAAAAAAAIAAAAAAAACEA=</HashCode>
+      <FileName>PostProcess\SetSin_Inbroker.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.FolderPreProcessOBJ" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIBAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>PreProcess\FolderPreProcessOBJ.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.FolPreProcess" Collapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAEAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PreProcess\FolPreProcess.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.PreProcessFactory" Collapsed="true">
+    <Position X="13.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAIACEEAIAQAAAAAIgAIAAAAAAQAAAEAAAIAAE=</HashCode>
+      <FileName>PreProcess\IPPreProcess.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProccessIdName" Collapsed="true">
+    <Position X="15.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAEAAAAIAQAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>PreProcess\IPPreProcess.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Process_Business" Collapsed="true">
+    <Position X="17" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAEAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Process\Process_Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ProxyServer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAARAAAAAAIAAAAAAgAAAAAAAI=</HashCode>
+      <FileName>ProxyServer.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.RemoteInsert" Collapsed="true">
+    <Position X="8.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAACAAAIAAAAAAAAQAAAAAAAIAA=</HashCode>
+      <FileName>RemoteInsert\RemoteInsert.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RemoteUpdate" Collapsed="true">
+    <Position X="10" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAABAAAAAAABAAAAAAAAAAAABAgAAAAgAAAAACACA=</HashCode>
+      <FileName>RemoteInsert\RemoteInsert.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RemoteValidation" Collapsed="true">
+    <Position X="11.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RemoteValidation\RemoteValidation.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ReplaceMsgBox" Collapsed="true">
+    <Position X="13.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAECAAAAAAAACAQDgCAAAEcAgAAAAAAAAAAAA=</HashCode>
+      <FileName>ReplaceMsgBox.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RequestActionBusiness" Collapsed="true">
+    <Position X="15.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KAQAAFEgAAAAAAIEgAQQgBAIEA0gTAhABACgAACAAAA=</HashCode>
+      <FileName>RequestAction\RequestActionBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RestrictionsFactory" Collapsed="true">
+    <Position X="17" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Restrictions\RestrictionsFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RestrictionsMapper_Factory" Collapsed="true">
+    <Position X="18.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAiAAAAAACAAAAACABAgQIAAAAAABAAAAAQAAAAAgAA=</HashCode>
+      <FileName>Restrictions\RestrictionsMapper_Factory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Results_Business" Collapsed="true">
+    <Position X="20.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>9H48HcTHjCQRUtKGgWJfbBZonkMByIMcY2vGaVdz5hM=</HashCode>
+      <FileName>Results\Results_Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ResultsComponent" Collapsed="true">
+    <Position X="3" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAUBCEACAAgAAAAAAAAAABAACAYAgAAAAAKAAA=</HashCode>
+      <FileName>Results\ResultsComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ResultsAsociatedFactory" Collapsed="true">
+    <Position X="22.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAiAAAAAAAAAAAAAAIACAAAA=</HashCode>
+      <FileName>ResultsAsociatedFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.SchedulesComponent" Collapsed="true">
+    <Position X="13.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schedule\SchedulesComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.SchedulesBusiness" Collapsed="true">
+    <Position X="11.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oAAAkEBAwAiohAACEAAIAARBAAAAgAAAABAAEAAAGAA=</HashCode>
+      <FileName>Schedule\SchedulesFactory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.LastSearchs_Factory" Collapsed="true">
+    <Position X="11.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAACABKEDAQQgAAAEAAAAAAIAAACAAAAEAAAAgAA=</HashCode>
+      <FileName>Search\LastSearchs_Factory.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ModDocuments" Collapsed="true">
+    <Position X="20.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACIAIAADAKDACAAAAACggAAARMQAAAHIBAIAAAAgA=</HashCode>
+      <FileName>Search\ModDocuments.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ActionsBusiness" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAgAAIQAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Security\ActionsBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ClsActiveLic" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAIAAAAAAAAAACAAAABAAgAAgAAAAAA=</HashCode>
+      <FileName>Security\Licencias\ClsActiveLic.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.SecurityOptions" Collapsed="true">
+    <Position X="18.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAjAAAAAAAgAAEAAAUAAJAAAEAAAAAAAQAAABAIAA=</HashCode>
+      <FileName>Security\Options\SecurityOptions.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Opciones" Collapsed="true">
+    <Position X="10" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAABAAgAggAEAAAAAICAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Security\Options\SecurityOptions.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RightComponent" Collapsed="true">
+    <Position X="4.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iEAAQQAAAIgAAAAAAAAEAAAAEBAAAAAAEAgAAAAAgAA=</HashCode>
+      <FileName>Security\RightComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.RightsBusiness" Collapsed="true">
+    <Position X="8.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Security\RightsBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UserBusiness" Collapsed="true">
+    <Position X="22.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oCWAARAIAIBAAAAAIEAEgAQBIAGACBIoABQAQADAIHA=</HashCode>
+      <FileName>Security\UserBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UserComponent" Collapsed="true">
+    <Position X="3" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCGAAAAAAITAAAAAIAAEAAAAAAEIABBAEAAAAEFAIEA=</HashCode>
+      <FileName>Security\UserComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UserGroupBusiness" Collapsed="true">
+    <Position X="4.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBUgQAUAAGAQIAAAAAAEAAAgAAAECAAAIBCSgAgAABA=</HashCode>
+      <FileName>Security\UserGroupBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UserGroupComponent" Collapsed="true">
+    <Position X="6.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAUgAAAAAEAAAAAAAAAEAAAAAAAAAAAAABCAgAgAABA=</HashCode>
+      <FileName>Security\UserGroupComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UserGroupsComponent" Collapsed="true">
+    <Position X="8.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAQACCAQAABAAAEAAAAIQAAAAAAIAAAAAAAIAE=</HashCode>
+      <FileName>Security\UserGroupsComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UserPreferences" Collapsed="true">
+    <Position X="10" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIACAAAAIAAAAAAAAAEAAAAAAAACAAAAA=</HashCode>
+      <FileName>Security\UserPreferences.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ModulesRight" Collapsed="true">
+    <Position X="22.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Security\ZSEG\ModulesRight.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UCUser" Collapsed="true">
+    <Position X="13.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAACAAECAAAJIAAACAAAACAAAAAAgAAAIAAAEQAAA=</HashCode>
+      <FileName>Security\ZSEG\UCUser.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UCUserGroup" Collapsed="true">
+    <Position X="15.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAMKgAABQAAACAAAACAAAAAAgAAAEAAAAQAIA=</HashCode>
+      <FileName>Security\ZSEG\UCUserGroup.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ClsLic" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACCAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Security\ZUCM\ClsLic.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Ucm" Collapsed="true">
+    <Position X="11.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAEgRAAEAEEAAgACCAAAAAAAAAAAAAAQAAFgAA=</HashCode>
+      <FileName>Security\ZUCM\Ucm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ServersBusiness" Collapsed="true">
+    <Position X="22.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAADAAAAAAIAAAAAAAAQAAAACAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Server\ServersBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ShapesBusiness" Collapsed="true">
+    <Position X="3" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Shapes\ShapesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ShortCutBusiness" Collapsed="true">
+    <Position X="4.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ShortCut\ShortCutBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.TemplatesBusiness" Collapsed="true">
+    <Position X="6.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAARAAAAAAAAAAABAAAAAAAAEAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Templates\TemplatesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.AllObjects" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AiAAAAQAAIIABABAEAAAEEgAAAAAAAAAAAAAAAAAEAQ=</HashCode>
+      <FileName>TextoInteligente\AllObjects.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.TextoInteligente" Collapsed="true">
+    <Position X="8.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAEAAAAQAAAAAAEgAgAAAAAAAAAAggAAA=</HashCode>
+      <FileName>TextoInteligente\TextoInteligente.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ToolsBusiness" Collapsed="true">
+    <Position X="10" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ToolsBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UpdaterBusiness" Collapsed="true">
+    <Position X="18.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAEAQAAAAAAAAIAAAAgAAAEAAgAEAIAgCCAAAAAA=</HashCode>
+      <FileName>Updater\UpdaterBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.UpdateBusiness" Collapsed="true">
+    <Position X="17" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEIAQACCAAAAQBAAAAQAgIAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Updates\UpdateBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.VolumeListsBusiness" Collapsed="true">
+    <Position X="13.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAUAAIgAACAAAQIAAEAACAAA=</HashCode>
+      <FileName>Volumes\VolumeListsBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.VolumesBusiness" Collapsed="true">
+    <Position X="17" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>HAAQEKAAASAAAQsAAQAIAgAgAgIgiASAAglgIAAAoAI=</HashCode>
+      <FileName>Volumes\VolumesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFPersistModel" Collapsed="true">
+    <Position X="22.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAABAAAAAAAAAAAAAAAAAABAAEAAAAAAAAAAgBA=</HashCode>
+      <FileName>WF\Persist\WFPersistModel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFBusiness" Collapsed="true">
+    <Position X="18.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4CRMJGxMHEhoADhEsAkWDgAAlAiYi1CrHCqBBAEo0AI=</HashCode>
+      <FileName>WF\WF\WfBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFComponent" Collapsed="true">
+    <Position X="20.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WF\WF\WFComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFRulesBusiness" Collapsed="true">
+    <Position X="3" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>LQfoIMIGcQwwCIwwWOCEzgQlABIi/AoiBEFLOUAoowg=</HashCode>
+      <FileName>WF\WF\WFRulesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFServiceBusiness" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAUgEACAREBAAAAAEAAAEIgAAEBAIQgAADEAAAAA=</HashCode>
+      <FileName>WF\WF\WFServiceBusiness.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zamba.Core.ExecutingObject" Collapsed="true">
+    <Position X="15.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAQ=</HashCode>
+      <FileName>WF\WF\WFServiceBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFStepBusiness" Collapsed="true">
+    <Position X="8.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAADAACSZABiAIgGQAARoFFAgAsmAEBEADhDFAAQgY=</HashCode>
+      <FileName>WF\WF\WFStepBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFStepsComponent" Collapsed="true">
+    <Position X="10" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CACADEAACCAIAIAAAAABQBAIEgAIAAAAAAAgCBAKAAA=</HashCode>
+      <FileName>WF\WF\WFStepsComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFStepStatesComponent" Collapsed="true">
+    <Position X="11.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAABBgEAAAEAAAAAAAAAIAAAABAAAKQA=</HashCode>
+      <FileName>WF\WF\WFStepStatesComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFTaskBusiness" Collapsed="true">
+    <Position X="13.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAJBwWJliTUQRAQimamFBKAhuHqiRlh0AsQhCEgBsAI=</HashCode>
+      <FileName>WF\WF\WFTaskBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFTasksComponent" Collapsed="true">
+    <Position X="15.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WF\WF\WFTasksComponent.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WFUserBusiness" Collapsed="true">
+    <Position X="17" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAEAAAQAAAAAAABAAAAACAAA=</HashCode>
+      <FileName>WF\WF\WFUserBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WfShapesBusiness" Collapsed="true">
+    <Position X="6.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQRBAAAEAAAAIgAEAAAAAAAAAAABAAwAEAACAAKAAA=</HashCode>
+      <FileName>WF\WFShapes\WfShapesBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.ZOptBusiness" Collapsed="true">
+    <Position X="20.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ZOptBusiness.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Access.Server" Collapsed="true">
+    <Position X="20.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQABAkI=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Access.utilities" Collapsed="true">
+    <Position X="11.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Users.Actions" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Users.Rights" Collapsed="true">
+    <Position X="6.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Users.User" Collapsed="true">
+    <Position X="20.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAABQAAAAAAAACAAAAAAAAgAAABAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Rights.Factory" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Indexs.Schema" Collapsed="true">
+    <Position X="15.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Indexs.DataBase" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAgAgAEEAAAAAAAAAACAAAAAAAIAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Indexs.DocType" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAABAAAAAAAAAAAAAgAAAAAAAAAAAAABA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DocTypes.Volumen" Collapsed="true">
+    <Position X="15.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAJA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DocTypes.DocTypeDataBase" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAACAAAAAAEAAAAABAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.DocTypes.DocType" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAYIIAAAEEAAABAAAAAACAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.BusinessControls.Barcodes" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.BusinessControls.Histories" Collapsed="true">
+    <Position X="11.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.Scheduler.SchedulerBusiness" Collapsed="true">
+    <Position X="10" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.MonitorBusiness.MonitorProcessBusiness" Collapsed="true">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>BridgeBusinessToUI\Business.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Zamba.Core.IPPostProcess" Collapsed="true">
+    <Position X="3" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQCAAAAAAAAAAAAAAIIAAAAAAAAIAAAAAAAACEA=</HashCode>
+      <FileName>PostProcess\IPPostProcess.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Module Name="Zamba.Core.ZCore" Collapsed="true">
+    <Position X="3" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAQIAAEAAAAchEAAAAACQAAMACEQIMGAAAgAAAQ=</HashCode>
+      <FileName>ZCore.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

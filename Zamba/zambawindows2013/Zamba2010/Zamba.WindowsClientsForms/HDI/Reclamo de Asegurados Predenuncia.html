@@ -1,0 +1,291 @@
+<html>
+	<head>
+		<title>Reclamo del Asegurado</title>			
+	<link rel="stylesheet" href="Union_styles.css" type="text/css" />
+    <link rel="stylesheet" href="Union_styles_table.css" type="text/css" />
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+	<link rel="stylesheet" type="text/css" href="images/UI_blue/DroplistFilter.css" />
+    <link rel="stylesheet" href="tabber.css" type="text/css" media="screen"/>
+	<script type="text/javascript" src="Scripts/jquery-1.11.1.min.js"></script>	
+	<script type="text/javascript" src="jquery-1.3.2.min.js" language="JavaScript"></script>
+	<script type="text/javascript" src="jq_datepicker.js" language="JavaScript"></script>
+    <script type="text/javascript" src="DroplistFilter.js"></script>
+    <script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+    <script type="text/javascript" src="Scripts/json2.js"></script>	
+	<script type="text/javascript" src="Scripts/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="Scripts/Zamba.js"></script>
+    <script type="text/javascript" src="Scripts/Zamba.Tables.js"></script>
+	<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+        
+         <script type="text/javascript" src="hdi.js"></script>
+
+		
+		
+        <script type="text/javascript" src="Scripts/ScriptLUnionGeneral.js"></script>
+		
+
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender)
+       		 {
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+        		 }
+				 
+			function SepararHoraMinutos(txt){
+				var len = txt.value;
+				if(len.length == 2)
+				{
+					txt.value = len + ":";
+				}
+			}
+			
+			function zamba_save_onclick(){
+				document.getElementById("zamba_index_26410").value = document.getElementById("zamba_index_26410").value.replace(":", "");
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_26427');			
+				makeCalendar('zamba_index_26201');
+				makeCalendar('zamba_ASOC_26031_index_26280');
+				makeCalendar('zamba_ASOC_26031_index_26281');
+				setTimeout("formatTime('_26410')", 100);
+				addDroplistFilter("zamba_index_26478");	
+	        });
+
+            $(window).load(function () {
+                HighlightJudgment();
+            });
+			
+		    function SetAsocId(sender)
+			{
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}			
+			
+			function formatTime(id)
+			{
+				$('#' + id).val($('#zamba_index' + id).val());
+			
+				var ctrl = $('#' + id);						
+				var time = ctrl.val().replace(":", "");
+				
+				var h = time.substring(0, time.length - 2);					
+				var m = time.substring(time.length - 2, time.length);
+				
+				if (h != "" || m != "")
+					ctrl.val(h + ":" + m);
+					
+				if ($('#zamba_index' + id).val() == 0)
+					ctrl.val("00" + ":" + "00");					
+					
+				if (h > 23 || m > 59)
+					ctrl.addClass("error");
+				else
+					ctrl.removeClass("error");
+			}				
+
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+
+			function validaDatos()
+			{		
+	
+				var currentTime = new Date();
+				var date_user = dateToString(document.getElementById('zamba_index_26427').value);	
+				var date_actual = dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+				if(parseInt(date_user) > parseInt(date_actual))
+				{
+					alert("La fecha de notificación debe ser menor o igual a la fecha de hoy.");
+					$('#zamba_index_26427').focus();
+					return false;
+				}
+			
+				var date_userSiniestro = dateToString(document.getElementById('zamba_index_26201').value);	
+				
+
+				if(parseInt(date_userSiniestro) > parseInt(date_actual))
+				{
+					alert("La fecha de Siniestro debe ser menor o igual a la fecha de hoy.");
+					$('#zamba_index_26201').focus();
+					return false;
+				}
+								
+				if(parseInt(date_user) < parseInt(date_userSiniestro))
+				{
+					alert("La fecha de notificación debe ser mayor o igual a la fecha de siniestro.");
+					$('#zamba_index_26427').focus();
+					return false;
+				}		
+				if($('#zamba_index_26478').val() == '0 - Sin Definir' || $('#zamba_index_26478').val() == '0')
+				{
+					alert("Debe seleccionar un responsable.");
+					$('#zamba_index_26478').focus();
+					return false;
+				}				
+			return true;		
+			}
+			
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>	
+		<body>
+		<br />
+		
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Reclamo de Asegurados</strong>
+				</div>
+				<br />
+
+			
+				<table cellpadding="4">
+					<tr>
+						<td><label>Id: </label></td>
+						<td><input type="text" id="zamba_index_26260" name="zamba_index_26260" size="10" readonly="readonly" class="readonly"/></td>
+						<td><label>Id Operaci&oacuten Siniestro: </label></td>
+						<td><input type="text" id="zamba_index_26261" name="zamba_index_26261" size="10" readonly="readonly" class="readonly"/></td>
+						<td><label>Nro de Siniestro:</label></td>
+						<td><input type="text" name="zamba_index_26247" size="12" readonly="readonly" class="readonly"/></td>
+					</tr>
+				
+					</table>
+				
+
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Informaci&oacuten.</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>Nro Reclamo:</label></td>
+									<td><input type="text" name="zamba_index_26178" size="10" readonly="readonly" class="readonly"/></td>
+									<td><label>Nro P&oacuteliza:</label></td>
+									<td><input type="text" name="zamba_index_26174" size="10"/></td>
+								</tr>
+								<tr>
+									<td><label>Fecha Siniestro: </label></td>
+									<td><input id="zamba_index_26201" name="zamba_index_26201" style="width:170px;" /></td>
+									<td><label>Hora Siniestro: </label></td>
+									<td>
+										<input id="_26410" name="_26410" style="width:170px;" maxlength="5" onkeyup="formatTime('_26410');"/>									
+										<input type="hidden" id="zamba_index_26410" name="zamba_index_26410" style="width:170px;"  />
+									</td>
+								</tr>	
+								<tr>	
+									<td><label>Fecha reclamo: </label></td>
+									<td><input id="zamba_index_26175" name="zamba_index_26175" style="width:170px;" readonly="readonly" class="readonly"/></td>
+									<td><label>Fecha Notificacion Siniestro: </label></td>
+									<td><input id="zamba_index_26427" name="zamba_index_26427" style="width:170px;"/></td>									
+								</tr>	
+								<tr>	
+									<td><label>Fecha Denuncia: </label></td>
+									<td><input id="zamba_index_26421" name="zamba_index_26421" style="width:170px;" readonly="readonly" class="readonly"/></td>	
+									<td><label>Monto Reclamo: </label></td>
+									<td><input id="zamba_index_26424" name="zamba_index_26424" style="width:100px;" readonly="readonly" class="readonly"/></td>									
+								</tr>	
+								<tr>	
+									<td><label>ID Componente: </label></td>
+									<td><input type="text" name="zamba_index_26304" id="zamba_index_26304" style="width:170px;" readonly="readonly" class="readonly"/></td>
+									<td><label>Valor Franquicia: </label></td>
+									<td><input id="zamba_index_26481" name="zamba_index_26481" style="width:100px;" readonly="readonly" class="readonly"/></td>									
+								</tr>
+								<tr>
+									<td><label>Responsable: </label></td>
+									<td><input id="zamba_index_26478" name="zamba_index_26478" style="width:170px;" readonly="readonly" class="readonly"/></td>
+								<td><label>Estado Reclamo: </label></td>
+									<td><input id="zamba_index_26313" name="zamba_index_26313" style="width:230px;" readonly="readonly" class="readonly"/></td>
+								</tr>
+                                <tr>
+									<td style="padding:10px 0 10px 0" colspan="6">
+									<hr/>
+									</td>
+								</tr>
+                                <tr>
+                                    <td>
+                                        <label>Nro de juicio:</label>
+                                    </td>
+                                    <td>
+                                        <input id="zamba_index_70516" name="zamba_index_70516" style="width:100px;" readonly="readonly" class="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Car&aacute;tula:</label>
+                                    </td>
+                                    <td colspan="3">
+                                        <input id="zamba_index_70517" name="zamba_index_70517"  size="80" readonly="readonly" class="readonly"/>
+                                    </td>
+                                </tr>						
+							</table>						
+							
+				</div>
+					<div class="tabbertab">
+					<h2>Resumen</h2>
+                   <button class="primary" id="zamba_rule_361842"   onclick="SetRuleId(this);" >Ingresar Novedad</button>
+
+      		<table id="ReqTable" class="zAjaxTable tablesorter newstable" source="zFillSelect(exec ZSP_WF_100_Novedades_Reclamos @Id|@Id)" filterfield="zamba_index_26260" showcolumns=" " editablecolumns="" editablecolumnsattributes="" additionalvalidationbutton="" postajaxfuncion="" entityId="doc_type_id" documentId="doc_id">
+                    <tbody></tbody>
+                    </table>
+				</div>
+				
+					<div class="tabbertab">
+						<h2>Documentaci&oacuten</h2>
+						<table id="zamba_associated_documents_26033" class="tablesorter"  style="width: 100%;" >
+							<tbody>
+							</tbody>
+						</table>
+					</div>					
+	
+                    </div>			<br />
+				
+				<div name="logocliente" id="logocliente">	
+					<img src="images/logocliente.jpg"  height="50" width="70">
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+			
+            </form>						
+		</div>
+	</body>
+</html>

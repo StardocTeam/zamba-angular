@@ -1,0 +1,55 @@
+Se debe crear una carpeta C:\Importacion y en la misma colocar el archivo ZImport.exe
+En la base central de Lotus Notes se debe apuntar a C:\Importacion\ZImports.exe 
+
+Se debe copiar dentro de la carpeta creada:
+  1- el archivo Importsconfig.xml 
+  2- app.ini 
+  3- Zcore.dll
+  4- Zptr.dll
+  5- ZGradient.dll
+  6- ZSvr.dll
+  7- ZIPPreprocess.dll
+  8- ZStorage.dll
+  9- ZUDB
+ 10- ZSMTP.dll
+ 11- ZPnlC.dll
+ 12- Zcfg.dll
+ 13- ZACR.dll
+ 14- Zini.dll
+ 15- ZSDB.dll
+ 16- Zcri.dll
+ 
+
+Abrir el archivo ImportsConfig.xml con Notepad y configurar lo siguiente:
+
+Se verá de la siguiente forma
+
+EJEMPLO:
+
+<?xml version="1.0" standalone="yes"?>
+<UserConfig xmlns="http://tempuri.org/UserConfig.xsd">
+  <UserConfig>
+    <UserId>7</UserId>
+    <DocTypeIdPrivate>61</DocTypeIdPrivate>
+    <DocTypeIdPublic>55</DocTypeIdPublic>
+    <BackupFolder>\\arbuedf01\zamba\backup\Prueba</BackupFolder>
+    <PathFile>C:\</PathFile>
+  </UserConfig>
+</UserConfig>
+
+En UserID se reemplaza el 7 por el Id de usuario de Zamba.
+En DOcTypeIdPrivate se reemplaza el 61 por el Id del "Mail de usuario"
+El DocTypeIdPublic debe dejarse en 55 ya que es el Id de Mail para Marsh Argentina.
+En BackupFolder de be completarse la carpeta donde el proceso debe realizar el backup. EJ: \\arbuedf01\zamba\backup\degenajp
+En PathFile debe completarse la carpeta donde Lotus realiza las exportaciones, EJ: \\arbuedf01\mails\degenajp. El pathfile debe coincidir
+con la Rutacompleta del Maestro.txt
+
+NOTA IMPORTANTE:
+El usuario debe tener permiso para crear documentos e Insertar en su mail privado.
+
+
+
+Enjoy.
+
+
+

@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<title>Alerta de Riesgo</title>		
+        <!--
+        ID Form:
+        Fecha de Creacion:
+        Autor de Creacion:
+        Modificacion:
+        Fecha de ultima Modificacion:06-11-2012
+        Autor de ultima Modificacion:GustavoR
+        Modificacion:Se agregaron los Atributos: Sector y Rama y se modifico la posición y tamaño del campo Observaciones
+    -->
+
+        <link rel="stylesheet" href="css/jq_datepicker.css" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="images/UI_blue/DroplistFilter.css" />
+        <link rel="stylesheet" href="css/tabber.css" type="text/css" media="screen" />
+        <script type="text/javascript" src="scripts/jquery-2.2.2.min.js" language="JavaScript"></script>
+      
+        <script type="text/javascript" src="scripts/jq_datepicker.js" language="JavaScript"></script>
+        <script type="text/javascript" src="scripts/DroplistFilter.js"></script>
+        <script type="text/javascript" src="scripts/ChequearIndicePorValorErroneo.js"></script>
+        <script type="text/javascript" src="Scripts/json2.js"></script>
+        <script type="text/javascript" src="Scripts/jquery.dataTables.min.js"></script>      
+        <script type="text/javascript" src="Scripts/Zamba.Tables.js"></script>
+        <script src="Scripts/Zamba.js" type="text/javascript"></script>
+        <script src="Scripts/Zamba.Fn.js" type="text/javascript"></script>
+        <script type="text/javascript" src="scripts/jsontable.js"></script>
+	
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
+        }
+
+        function zamba_save_onclick() {
+            document.getElementById("hdnRuleId").name = "zamba_rule_save";
+        }
+
+        $(document).ready(function () {
+            makeCalendar('zamba_index_1377');
+            makeCalendar('zamba_index_1378');
+            makeCalendar('zamba_index_1379');
+        });		
+
+
+        document.write('<style type="text/css">.tabber{display:none;}<\/style>');	
+
+    </script>
+	   
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div  id="design" class="style1">
+					<strong>Alerta de Riesgo</strong>
+				</div>
+				<br />
+				<center>
+				<table cellpadding="4">
+				 <tr>
+						<td><label>ID Usuario:</label></td>
+						<td><select id="zamba_index_1376" name="zamba_index_1376" style="width:280px;" ></select></td>		
+						<td class="separador">
+                        <td><label>ID Cliente:</label></td>
+						<td><select id="zamba_index_1375"  name="zamba_index_1375" style="width:280px"></select></td>	
+                        </td>
+						
+					</tr>
+					<tr>
+						<td><label>Fecha de Inicio:</label></td>
+						<td><input id="zamba_index_1377" name="zamba_index_1377" style="width:280px;" /></td>
+						<td class="separador"></td>
+						<td><label>Fecha Finalizacion:</label></td>
+						<td><input name="zamba_index_1378" id="zamba_index_1378" style="width:280px;"/></td>
+					</tr>
+
+					<tr>
+						<td><label>Vencimiento:</label></td>
+						<td><input id="zamba_index_1379" name="zamba_index_1379" style="width:280px;" /></td>
+						<td class="separador"></td>
+                        <td><label>Asunto:</label></td>
+						<td><input type="text" id="zamba_index_1380" name="zamba_index_1380" style="width:280px"/></td>
+					</tr>
+					<tr>
+						<td><label>Detalle:</label></td>
+						<td colspan="4"><textarea cols="125" ROWS="10" id="zamba_index_1381" name="zamba_index_1381"></textarea></td> 
+						<td></td>
+						<td></td>
+					</tr>
+					
+			    </table>
+				</center>
+				<br />
+				<center>
+				<div name="aligncenter" id="aligncenter">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"  /> 
+				</div>                         
+</td>
+					</tr>
+				</table>
+				<br />
+				</center>
+				<br />
+				<div  id="logo">	
+					&nbsp;<img src="images/pwbyzamba.jpg" style="float: right"></div>
+				<div  id="logozamba">
+					<img src="http://www.zambabpm.com.ar/Marsh/Logo_Marsh.gif" alt=""width="186" height="30"> </div>
+			</form>						
+		</div>
+	</body>
+</html> 

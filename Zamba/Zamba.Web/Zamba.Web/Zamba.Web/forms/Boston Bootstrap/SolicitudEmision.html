@@ -1,0 +1,76 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+	<!--<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>-->
+	<script type="text/javascript" language="JavaScript">
+	function FuncionesPosCargaDeReclamo(){
+		if($("#zamba_index_32").val() == null)
+			$("#zamba_index_32").val("4");
+			
+		if($("#zamba_index_38").val() == null)
+			$("#zamba_index_38").val("2");
+			
+		//Guarda la agencia actual y la emisora
+		var agencia = $("#zamba_index_60").val();
+		var seleccionado = $("#zamba_index_1001006").val();
+
+		//Elimina a todos los que no sean ninguno de los dos
+		$(".emisor option[value!=1][value!=" + agencia + "]")
+			.remove()
+			.end()
+			.val(seleccionado);
+	}
+	
+	window.onload=function(){
+		setTimeout(function(){FuncionesPosCargaDeReclamo();}, 500);
+	};
+	</script>
+</head>
+<body>
+    <form name="frmMain" action="SolicitudEmision.html">
+    <div id="header" style="width: 100%; color: white; background-color: #0066cc;">
+        Solicitud de Emision
+    </div>
+    <table class="attributes_table">
+        <tr>
+            <td><label>Seccion:</label>
+            <td><select id="zamba_index_32" class="w300px"  name="zamba_index_32"></select>
+			<td class="separador">
+            <td><label>Tipo de Movimiento:</label> 
+            <td><select id="zamba_index_38" class="w300px"  name="zamba_index_38"></select>
+        </tr>
+        <tr>
+            <td><label>Nro de Solicitud:</label>
+            <td><input id="zamba_index_1068" class="w150px" name="zamba_index_1068" readonly="readonly" />
+			<td class="separador">
+            <td><label>Nro de Solicitud Productor:</label>
+            <td><input id="zamba_index_1157" class="w150px" name="zamba_index_1157" />
+        </tr>
+		<tr>
+			<td><label>Coaseguro:</label>
+            <td><input id="zamba_index_1170" class="w150px" name="zamba_index_1170" readonly="readonly" />
+			<td class="separador">
+			<td><label>Solicitud de Anulacion:</label>
+            <td><input id="zamba_index_1173" class="w150px" name="zamba_index_1173" />
+		</tr>
+		<tr>
+			<td><label>Agencia Emisora:</label>
+            <td><select id="zamba_index_1001006" class="w300px emisor" name="zamba_index_1001006"></select>
+			<td class="separador">
+			<td><select id="zamba_index_60" name="zamba_index_60" style="visibility:hidden"></select>
+			<td>
+		</tr>
+    </table>
+	<center>
+		<input id="zamba_save" style="font-weight: bold" type="submit" value="Guardar" name="zamba_save" />
+	</center> 
+    <hr />
+    <center>
+        <iframe id="zamba_innerdoctype_original" height="90%" title="Documento Original" width="98%"  src="file:///C:\Users\bpm-1.UNUMSA\AppData\Roaming\Zamba Software\OfficeTemp\6343.PDF" />
+	</center>
+    </form>
+</body>
+</html>

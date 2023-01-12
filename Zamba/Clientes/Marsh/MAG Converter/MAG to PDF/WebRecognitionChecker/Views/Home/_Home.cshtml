@@ -1,0 +1,41 @@
+﻿<!-- ko with: home -->
+<div ng-controller="mainController">
+    <div class="jumbotron" >
+        <h1>Zamba Verifier</h1>
+        <p class="lead">.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Select your file {{name}}</h2>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+
+        <div id="container">
+             <div class="col-sm-12">
+                <flex-slider slider-id="slider" flex-slide="s in slides track by $index" animation="fade" animation-loop="false" sync="#carousel" slideshow="false" control-nav="false" init-delay="100">
+                    <li>
+                        <img ng-src="{{s}}">
+                    </li>
+
+                </flex-slider>
+            </div>
+
+            <div class="col-sm-12">
+                <flex-slider slider-id="carousel" flex-slide="s in slides track by $index" animation="slide" animation-loop="false" item-width="210" item-margin="5" as-nav-for="#slider" slideshow="false" control-nav="false">
+                    <li>
+                        <img ng-src="{{s}}">
+                    </li>
+                </flex-slider>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- /ko -->

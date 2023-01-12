@@ -1,0 +1,27 @@
+Imports System.Collections.Generic
+
+Public Interface CreateTables
+    Sub AddDocsTables(ByVal DocTypeId As Int64)
+    Sub AddIndexColumn(ByVal DocTypeId As Int64, ByVal IndexIdArray As ArrayList, ByVal IndexTypeArray As ArrayList, ByVal IndexLenArray As ArrayList)
+    Sub AddIndexList(ByVal IndexId As Int64, ByVal IndexLen As Integer)
+    Sub DelIndexColumn(ByVal DocTypeId As Int64, ByVal IndexIdArray As ArrayList)
+    Sub DelIndexList(ByVal IndexId As Int64)
+    Sub DelIndexItems(ByVal IndexId As Int64, ByVal IndexList As ArrayList)
+    Sub DeleteTable(ByVal Table As String)
+    Sub DelTempTables()
+    '    Sub ExecuteArchivo(ByVal path As String)
+    Sub CreateTextIndex(ByVal DocTypeId As Int64, ByVal IndexId As Int64)
+    Sub CreateSustitucionTable(ByVal Index As Int64, ByVal IndexLen As Int32, ByVal IndexType As Int32)
+    Sub BulkInsertSustitucionTable(ByVal FileName As String, ByVal separador As String, ByVal IndexId As Int64)
+    Sub ExportSustitucionTable(ByVal file As String, ByVal separador As String, ByVal IndexId As Int64)
+    Sub InsertIntoSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String)
+    Sub InsertIndexList(ByVal IndexId As Int64, ByVal IndexList As ArrayList)
+    Sub UpdateIntoSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String)
+    Sub DeleteFromSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String)
+    Sub DropSustitucionTable(ByVal IndexId As Int64)
+    Sub BorrarSustitucionTable(ByVal IndexId As Int64)
+    Sub Dispose()
+    'Sub CreateView(ByVal docTypeId as Int64)
+    Sub CreateView(ByVal docTypeId As Int64, ByVal lstColKeys As Dictionary(Of String(), String), ByVal lstColIndexs As Dictionary(Of String, String), ByVal lstColSelects As Dictionary(Of String, String()))
+    Sub DropView(ByVal DocTypeId As Int64)
+End Interface

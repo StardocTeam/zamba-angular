@@ -1,0 +1,40 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="shortcut icon" href="">
+    <script src="~/ChatJs/Scripts/jquery-2.2.2.min.js" type="text/javascript"></script>
+
+    @**@
+    <script src="~/ChatJs/Scripts/zambachat.fn.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/groups.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/collaboration.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.init.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambalink.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/jquery.chatjs.signalradapter.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/localStorage.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/debbug.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.js" type="text/javascript"></script>
+
+    <script>
+        var URLServer = "@System.Configuration.ConfigurationManager.AppSettings["URLServer"]";
+        var thisDomain = "@System.Configuration.ConfigurationManager.AppSettings["thisDomain"]";
+        var ZColl = "@System.Configuration.ConfigurationManager.AppSettings["ZColl"]";
+        var appZChat = "ZambaChat";
+        var chatMode = "@System.Configuration.ConfigurationManager.AppSettings["chatMode"]";
+        var isCS = "@System.Configuration.ConfigurationManager.AppSettings["isCS"]";
+        var zCollServer = "@System.Configuration.ConfigurationManager.AppSettings["zCollServer"]";
+        var conString = "@System.Configuration.ConfigurationManager.ConnectionStrings["ChatContext"]";
+        var taskChat = false;
+        var person = 4589;
+        //var person = 230;
+        //var person= prompt("Please enter your id", 10);
+        $(document).ready(function () {            
+            LoadChat(person, URLServer, chatMode, appZChat, thisDomain, ZColl, isCS, zCollServer, taskChat);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>

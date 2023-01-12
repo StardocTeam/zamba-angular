@@ -1,0 +1,124 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 27.07.2021 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: GR-->
+<!--Fue modificado: Se acomodaron los col-md para que se ajusta a una resolución mas baja-->
+<!-- Marca de Agua: Cargada--> 
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     
+    
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="SolicitudDeChequeRO.html">
+            
+            <div class="form-group row">
+                <div class="col-md-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">ID Reclamo:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" readonly="readonly">
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nro Solicitud Cheque:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2804" name="zamba_index_2804" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Fecha Solicitada:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2786" name="zamba_index_2786" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Fecha Asignada:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2787" name="zamba_index_2787" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Importe $:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2785" name="zamba_index_2785" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span class="input-group-addon" style="">Beneficiario:</span>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <span class="input-group-addon" style="">Concepto:</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_index_2722" name="zamba_index_2722" maxlength="80" onkeypress="return CheckMaxLength(this);" onblur="return (this);" style=" color: #090A0A; font-weight: bold" readonly></textarea>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_index_2788" name="zamba_index_2788" maxlength="200" onkeypress="return CheckMaxLength(this);" onblur="return (this);" style=" color: #090A0A; font-weight: bold" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="form-group row">
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <span class="input-group-addon" style="">Observación:</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8" style="position:relative;top:-20px">
+                    <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_Index_64" name="zamba_Index_64" maxlength="4000"
+                              onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" style=" color: #090A0A; font-weight: bold" readonly></textarea>
+                </div>
+            </div>
+            <center>
+                <div class="col-md-2" style="position:relative;left:20px;">
+
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:white">SolicitudDeChequeRO.html</span>
+                </div>
+                <div class="col-md-5">
+
+                    <div class="form-group row"></div>
+                </div>
+            </center>
+
+        </form>
+    </div>
+</body>
+
+</html>

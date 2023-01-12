@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>Poliza</title>			
+		
+		
+		<script type="text/javascript" language="JavaScript">	
+		       	function SetRuleId(sender)
+       		 	{
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+        		 }
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+			
+			$(document).ready(function()
+			{							
+				
+	        });					
+			
+			/* Optional: Temporarily hide the "tabber" class so it does not "flash"
+			   on the page as plain HTML. After tabber runs, the class is changed 
+			   to "tabberlive" and it will appear. */
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Caja Abierta</strong>
+				</div>
+				<br />
+
+						<table cellpadding="4">
+							<tr>
+								<td><label>Nro Caja: </label></td>
+								<td><input type="text" name="zamba_index_10586" id="zamba_index_10586" style="width:90px;"/></td>
+								<td><label>Sector:</label></td>
+                                <td colspan="3"><select name="zamba_index_135512"id="zamba_index_135512" style="width:515px;"></select></td>
+							</tr>
+						</table>
+		
+				
+					
+				<br/>
+				<br/>
+				<br/>
+				<div name="logoUnion" id="logoUnion">	
+					<img src="images/Union.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="aligncenter" id="aligncenter">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/> 
+				</div>
+
+			</form>						
+		</div>
+	</body>
+</html>

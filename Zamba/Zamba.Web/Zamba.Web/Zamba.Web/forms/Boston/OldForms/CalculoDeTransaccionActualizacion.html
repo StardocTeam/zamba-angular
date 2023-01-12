@@ -1,0 +1,132 @@
+<html>
+<head>
+    <title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	 
+	 
+	
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				if(DecimalCheck($('#' + e.target.id))){
+					SumarCampos();
+				}
+			})
+		});
+	});	
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value == "0"){
+			alert("Debe completar el Total de la Transacción");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if(document.getElementById("zamba_index_2838").value == "" ){
+			alert("Debe completar la Fecha de Actualización");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if($('input[type=text]').hasClass('error')){
+			alert("Verifique que todos los datos de los campos sean válidos");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}
+	function SumarCampos() {
+		//Obtiene cada valor y lo convierte a decimal
+		var sum = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+		sum += parseFloat($("#zamba_index_2813").val().replace('', '0'));
+		sum += parseFloat($("#zamba_index_2814").val().replace('', '0'));
+		sum += parseFloat($("#zamba_index_2815").val().replace('', '0'));
+		sum += parseFloat($("#zamba_index_2816").val().replace('', '0'));
+		sum += parseFloat($("#zamba_index_2817").val().replace('', '0'));
+		sum += parseFloat($("#zamba_index_2818").val().replace('', '0'));
+
+		//Suma los valores obtenidos y lo asigna al indice Total
+		$("#zamba_index_2719").val(Redondear(sum));
+	}
+	function CargarFechasyBotones(){
+		$('#zamba_index_2812').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			showOn: 'button', 
+			buttonText: 'Abrir calendario',
+			buttonImage: 'calendar.png', 
+			buttonImageOnly: true,
+			duration: "",
+			maxDate: new Date()
+		});	
+		CargarFechaIndice('zamba_index_2820');
+		CargarFechaIndice('zamba_index_2838');	
+	}
+	</script>
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="CalculoDeTransaccionActualizacion.html">
+    <input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center>
+	<div id="design"  style="width: 90%;">
+        Cálculo de Transacción
+    </div>
+	<br>
+    <table id="tblRubro" class="attributes_table">
+        <tr>
+			<td><label>Fecha de Transacción</label>
+			<td><input id="zamba_index_2812" name="zamba_index_2812" class="w175px" onblur="valFecha(this)">
+			<td class="separador">
+			<td><label>ID Reclamo</label>
+			<td><input id="zamba_index_2677" name="zamba_index_2677" class="w175px" readonly="readonly">
+        </tr>
+        <tr>
+			<td><label>Capital $</label>
+			<td><input id="zamba_index_2744" name="zamba_index_2744" class="w175px moneda">
+			<td class="separador">
+			<td><label>Letrado Req. $</label>
+			<td><input id="zamba_index_2813" name="zamba_index_2813" class="w175px moneda">
+        </tr>
+        <tr>
+			<td><label>Letrado Cia $</label>
+			<td><input id="zamba_index_2814" name="zamba_index_2814" class="w175px moneda">
+			<td class="separador">
+			<td><label>Mediador $</label>
+			<td><input id="zamba_index_2815" name="zamba_index_2815" class="w175px moneda">
+        </tr>
+		<tr>
+			<td><label>Peritos $</label>
+			<td><input id="zamba_index_2816" name="zamba_index_2816" class="w175px moneda">
+			<td class="separador">
+			<td><label>Tasa de Justicia $</label>
+			<td><input id="zamba_index_2817" name="zamba_index_2817" class="w175px moneda">
+        </tr>
+		<tr>
+			<td><label>Otros Gastos $</label>
+			<td><input id="zamba_index_2818" name="zamba_index_2818" class="w175px moneda">
+			<td class="separador">
+			<td><label>Copia de Convenio</label>
+			<td><select id="zamba_index_2819" name="zamba_index_2819" class="w175px"></select>
+        </tr>
+		<tr>
+			<td><label>Fecha de Recepción de Convenio</label>
+			<td><input id="zamba_index_2820" name="zamba_index_2820" class="w175px" onblur="valFecha(this)">
+			<td class="separador">
+			<td><label>Total de Transacción $</label>
+			<td><input id="zamba_index_2719" name="zamba_index_2719" class="w175px" readonly="readonly">
+        </tr>
+		<tr>
+			<td><label>Fecha de Actualización</label>
+			<td><input id="zamba_index_2838" name="zamba_index_2838" class="w175px" onblur="valFecha(this)">
+			<td class="separador">
+			<td>
+			<td>
+        </tr>
+	</table>
+	<br><br>
+	<div>
+		<input id="zamba_save" name="zamba_save" type="submit" onclick="return zamba_save_onclick();" value="Guardar" />
+    </div>
+	</center>
+    </form>
+</body>
+</html>

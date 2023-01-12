@@ -1,0 +1,135 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				return IntegerCheck(e);
+			})
+		});
+	});
+	function CompletarVto(){
+		if (document.getElementById("zamba_index_2704").value == ""){
+			$("#zamba_index_2704").addClass("error");
+		} else {
+			$("#zamba_index_2704").removeClass("error");
+			var dias = $("#txtCantHabiles").val();
+			var fecha = $("#zamba_index_2704").val();
+			fecha = CalcularLaborales(dias, fecha);
+			$("#zamba_index_2705").val(fecha);
+		}
+	}
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_index_2704").value == ""){
+			alert("Por favor, complete la Fecha de Notificación.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2705").value == ""){
+			alert("Por favor, complete la fecha de Vencimiento.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_64").length > document.getElementById("zamba_index_64").maxlength){
+			alert("El límite máximo de caracteres para el campo Observación es de " + document.getElementById("zamba_index_64").maxlength + ".\nPor favor, verifique dicho campo.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}
+	function CargarFechasyBotones() {
+		CargarFechaIndice('zamba_index_2704');
+		CargarFechaIndice('zamba_index_2705');			
+    }  
+	function VerificarJuiMed(sel){
+		if(sel.value == 'Juicio')
+			$("#zamba_index_2717").val(1);
+		else
+			$("#zamba_index_2717").val(4);
+	}
+	function VerificarTipoNotif(sel){
+		if(sel.value == 4)
+			$("#zamba_index_2681").val('Mediación');
+		else
+			$("#zamba_index_2681").val('Juicio');
+	}
+	function IngresoDeFecha(obj){
+		$('#zamba_index_2704').removeClass('error');
+		$('#txtCantHabiles').val('');
+		$('#zamba_index_2705').val('');
+		valFecha(obj);
+	}
+	</script>
+
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="NotificacionDemanda.html">
+	<center>
+	<input id="hdnRuleId" type="hidden" />
+	<div id="design" style="width: 100%;">
+        Notificación
+    </div>
+    <table id="tblNotificacion" class="attributes_table">
+        <tr>
+			<td><label>Juicio / Mediación:</label> 
+			<td><select id="zamba_index_2681" size="1" name="zamba_index_2681" class="w100px" onchange="VerificarJuiMed(this);"></select>
+			<td class="separador">			
+			<td><label>Fecha de Notificación:</label>
+			<td><input id="zamba_index_2704" name="zamba_index_2704" class="w175px" onblur="IngresoDeFecha(this);" />
+        </tr>
+        <tr>
+			<td><label>Tipo de Notificación:</label> 
+			<td><select id="zamba_index_2717" size="1" name="zamba_index_2717" class="w250px" onchange="VerificarTipoNotif(this);"></select>
+			<td class="separador">	
+			<td><label>Días hábiles:</label>
+			<td><input id="txtCantHabiles" class="w175px solonums" name="txtCantHabiles" onkeyup="CompletarVto();" />		
+        </tr>
+		<tr>
+			<td><label>ID Notificación:</label>
+			<td><input id="zamba_index_2702" name="zamba_index_2702" class="w100px" disabled="disabled" />
+			<td class="separador">	
+			<td><label>Fecha de Vencimiento:</label>
+			<td><input id="zamba_index_2705" name="zamba_index_2705" class="w175px" onblur="valFecha(this)" />
+		</tr>
+		<tr>
+			<td><label>Datos Stro:</label>
+			<td><select id="zamba_index_1001010" name="zamba_index_1001010" class="w100px"></select>
+			<td class="separador">	
+			<td><td>
+		</tr>
+        <tr>
+			<td><label>Carátula:</label>
+			<td colspan="4"><input id="zamba_index_2701" name="zamba_index_2701" style="width:625px;"/>
+		</tr>
+	</table>
+	<br/>
+	<div>
+		<input id="zamba_save" type="submit" value="Guardar" name="zamba_save" onclick="return zamba_save_onclick()" />
+    </div>
+	<br/>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><label>Observaciones:</label>
+		</tr>
+		<tr>
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 806px" maxlength="5000" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea> 
+		</tr>
+	</table>
+	<br/><hr />
+	</center>
+    <center style="z-index: -1">
+        <iframe 
+			id="zamba_innerdoctype_original" 
+			align="middle" 
+			height="90%" 
+			title="Documento Original"
+			width="90%"
+            ></iframe>
+	</center>
+    </form>
+</body>
+</html>

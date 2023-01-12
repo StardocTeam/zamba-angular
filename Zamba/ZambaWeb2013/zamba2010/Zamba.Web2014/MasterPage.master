@@ -1,0 +1,430 @@
+﻿<%@ Master Language="C#" CodeFile="MasterPage.master.cs" Inherits="MasterPage" EnableViewState="false" %>
+
+<%@ Import Namespace="System.Web.Optimization" %>
+<%@ Register Src="~/Views/UC/Home/UCHome.ascx" TagName="UCHome" TagPrefix="Zamba" %>
+
+<!DOCTYPE html>
+<html>
+<head id="Head2" runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9;IE-8;IE-7;IE=EDGE,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title title="Zamba Web"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon-precomposed" href="img/icon.png" />
+    <link rel="apple-touch-icon" href="img/icon.png" />
+    <link rel="apple-touch-startup-image" href="img/splash.png" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-icon-57x57-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-icon-114x114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-icon-144x144-precomposed.png" />
+
+    <!-- Startup splash screen images -->
+    <!-- iPhone 320x460 -->
+    <link href="<?php echo get_stylesheet_directory_uri() . '/images/startup-iphone.png'; ?>" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+    <!-- iPhone Retina 640x920 -->
+    <link rel="apple-touch-startup-image" href="<?php echo get_stylesheet_directory_uri() . '/images/startup-iphone-retina.png'; ?>" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPhone 5 640x1096 -->
+    <link rel="apple-touch-startup-image" href="<?php echo get_stylesheet_directory_uri() . '/images/startup-iphone5.png'; ?>" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPad Portrait 768x1004 -->
+    <link href="<?php echo get_stylesheet_directory_uri() . '/images/startup-ipad-portrait.png'; ?>" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+    <!-- iPad Landscape 748x1024 -->
+    <link href="<?php echo get_stylesheet_directory_uri() . '/images/startup-ipad-landscape.png'; ?>" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+    <!-- iPad Retina Portrait 1536x2008 -->
+    <link rel="apple-touch-startup-image" href="<?php echo get_stylesheet_directory_uri() . '/images/startup-ipad-retina-portrait.png'; ?>" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)">
+    <!-- iPad Retina Landscape 1496x2048 -->
+    <link rel="apple-touch-startup-image" href="<?php echo get_stylesheet_directory_uri() . '/images/startup-ipad-retina-landscape.png'; ?>" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)">
+     
+    <asp:ContentPlaceHolder ID="header_css" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="shortcut icon" id="lnkWebIcon" runat="server" type="image/x-icon" />
+
+    <asp:ContentPlaceHolder ID="header_js" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <asp:PlaceHolder runat="server">
+        <%: Styles.Render("~/bundles/Styles/normalize")%>
+        <%: Styles.Render("~/bundles/Styles/master")%>
+        <%: Styles.Render("~/bundles/Styles/jquery")%>
+        <%: Styles.Render("~/bundles/Styles/ZStyles")%>
+        <%: Styles.Render("~/bundles/Styles/grids")%>
+        <%: Styles.Render("~/Content/home.css")%>
+        <%: Styles.Render("~/Content/social.css")%>
+        <%: Styles.Render("~/Content/sortinggrid.css")%>
+
+        <%: Styles.Render("~/bundles/Styles/bootstrap")%>
+        <%: Styles.Render("~/Content/bootstrap-responsive.css")%>
+        <%: Styles.Render("~/Content/bootstrap-theme.css")%>
+        <%: Styles.Render("~/Content/themes/base/datepicker")%>
+        <%: Styles.Render("~/bundles/Styles/toastr")%>
+        <%: Styles.Render("~/bundles/Styles/kendo")%>
+        <%: Styles.Render("~/Content/css")%>
+
+        <%--Global Search Styles--%>
+        <%: Styles.Render("~/Content/font-awesome.min.css")%>
+        <%: Styles.Render("~/GlobalSearch/grid/grid.css")%>
+        <%: Styles.Render("~/GlobalSearch/search/searchbox.css")%>
+        <%: Styles.Render("~/bundles/ChatStyles")%>
+
+        <%-- Client Style Config --%>       
+      <%--  <%: Styles.Render( "~/bundles/Styles/Aysa")%>--%>
+
+    </asp:PlaceHolder>
+
+    <%--script para reconocer cuando se cierra el browser y cerrar sesion adecuadamente--%>
+    <script type="text/javascript">
+        var clicked = false;  
+        window.onbeforeunload = bodyUnload;
+        function CheckBrowser()  
+        {      
+            if (clicked == false)   
+            {      
+                //Browser closed   
+            }        else  
+            {  
+                //redirected
+                clicked = false; 
+            } 
+        }  
+        function bodyUnload() 
+        {      
+            if (clicked == false)//browser is closed  
+            {   
+                var request = GetRequest();  
+                request.open  ("GET", "../Security/Logout.aspx", true);    
+                request.send();    
+            } 
+        } 
+ 
+        function GetRequest()  
+        {       
+            var xmlHttp = null;
+            try {
+                // Firefox, Opera 8.0+, Safari
+                xmlHttp = new XMLHttpRequest();
+            }
+            catch (e) {
+                //Internet Explorer
+                try {
+                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                }
+                catch (e) {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            }
+            return xmlHttp;
+        }     
+    </script>
+
+</head>
+<body onbeforeunload="bodyUnload();" class="body-Main" onclick="clicked=true;" style="overflow: hidden"> 
+         <%       
+         loadChatZmb = Boolean.Parse(ConfigurationManager.AppSettings["Chat"].ToString());
+         loadGlobalSearch = Boolean.Parse(ConfigurationManager.AppSettings["GlobalSearch"].ToString());
+        %>
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        <%: GetJqueryCoreScript()%>
+    </asp:ContentPlaceHolder>
+   
+    <%--Busqueda global Modal--%>
+    <div id="Advfilter1">
+        <div id="modal-content" class="modal" style="display: none !important; overflow: hidden;" tabindex="-1" role="dialog">
+            <div ng-app="app" class="modal-dialog">
+                 <%  if (loadGlobalSearch == true)
+                     { %>
+                <div  ng-controller="appController" style="float: inherit;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="infoMsg"></span>
+                        </div>
+                        <div class="modal-body">
+                            <zamba-search ng-model="searchParams"
+                                parameters="availableSearchParams"
+                                placeholder="Buscar...">
+                                </zamba-search>
+                            <br />
+                            <zamba-grid></zamba-grid>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal" id="advSearchClose">Cerrar</a>
+                            <a href="#" class="btn btn-primary glyphicon glyphicon-star" id="advSearchSave">Guardar</a>
+                        </div>
+                    </div>
+                </div>
+                   <%  } %>
+            </div>      
+        </div>
+    </div>
+     
+    <form id="form2" runat="server" class="form" enctype="multipart/form-data" action="" method="post">
+        <asp:HiddenField ID="hdReload" runat="server" Value="false"></asp:HiddenField>
+        <asp:HiddenField ID="hdnUserId" runat="server" />
+        <asp:HiddenField ID="hdnConnectionId" runat="server" />
+        <asp:HiddenField ID="hdnComputer" runat="server" />
+        <input id="hdnLink" runat="server" style="display: none" />
+        <input id="hdnTarget" runat="server" style="display: none" />
+        <input id="hdnRefreshWF" runat="server" style="display: none" />
+
+        <asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release" EnablePageMethods="true">
+            <Services>
+                <asp:ServiceReference Path="~/Services/TasksService.asmx" />
+            </Services>
+        </asp:ScriptManager>
+        <div class="container-fluid mainContainer" style="height: 100%">
+            <%-- Barra de navegacion --%>
+            <div id="MasterHeader" class="navbar navbar-fixed-top" style="z-index: 999; height: 60px;">
+                <div class="row">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="col-md-2 mh-logo">
+                        <%--  <div class="navbar-header">--%>
+                        <%--                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>--%>
+                        <a href="#" class="navbar-brand HomeLink" id="tblCabecera" onclick="OpenHome();">
+                            <span class="clientlogo"></span>
+                        </a>
+                        <%--  </div>--%>
+                    </div>
+
+                    <%--Header fijo--%>
+                    <div class="col-xs-3 col-sm-3 col-md-3 mh-search" style="padding-left: 5px;">
+                        <div id="Advfilter2" class="adv2" style="display:none;">
+                            <img class="favAdvSearch" />
+                            <input class="advancedSearchBox" placeholder="Buscar...">
+                        </div>                    
+                    </div>
+
+                    <%--Header acciones/reglas--%>
+                    <div class="col-xs-3 col-sm-3 col-md-3 mh-search" style="padding-left: 5px;">
+                        <div id="dropdown-header" class="dropdown" style="margin-top: 10px; margin-left: 10px; display:none;"><%--btn-group--%>
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+                                <span class="glyphicon glyphicon-align-justify"></span> Acciones<span class="caret" style="left: 25px !important;"> </span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby = "dropdown-header">                         
+                                <asp:Panel ID="pnlHeaderButtons" runat="server">
+                                </asp:Panel>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="col-md-2 pull-right mh-user">
+                        <div id="header-Cabezera-Master clientPhrase" class="header-Cabezera-Master">
+                            <ul class="nav navbar-nav" id="MainNavBar">
+                                <li>
+                                    <div id="dynamicButtonContainer" runat="server" style=""></div>
+                                </li>
+                                <li class="dropdown" id="tblUsuario">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 5px; padding-bottom: 5px;">
+                                        <span class="glyphicon glyphicon-user icon-color" style="padding-right: 5px;"></span>
+                                        <p class="label label-primary user-button-bgcolor" runat="server" id="lblUsuarioActual2">
+                                            <%--data-bind=​"text:​ UserName"--%> <%--Removido, da error en KO--%>
+                                        </p>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" id="dropdown-user">
+                                        <li><a href="#" style="text-decoration: none; color:Navy;" onclick="ShowChangePassDlg();">Cambiar contraseña </a></li>
+                                        <li><a href="../Security/Logout.aspx" style="text-decoration: none; color: Navy" id="logOutSite">Cerrar sesión </a></li>                                      
+                                        <li><a id="btnMapaSitioCab" href="#" style="text-decoration: none; color: Navy;" onclick="RedirectToSiteMap();">Mapa de sitio</a></li>
+                                        <li><a id="btnHelpCab" href="#" style="text-decoration: none; color: Navy;" onclick="btnHelpCab_Click();">Ayuda</a></li>
+                                        <li class="divider"></li>
+                                        <li><span>Zamba Web Ver. <% =HttpContext.Current.Application["ZambaVersion"] %></span></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="openModalIFWF"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                <div class="modal-dialog">
+                    <div class="modal-content" id="openModalIFContentWF" style="height: 600px; width: 800px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                            <h4 class="modal-title" id="modalFormTitleWF"></h4>
+                        </div>
+                        <div class="modal-body" id="modalFormHomeWF">
+                            <div id="EntryRulesContent" style=" z-index: 997; top: 0; right: 120px;">
+                                <iframe id="WFExecForEntryRulesFrame" src="../WF/WFExecutionForEntryRules.aspx" style="height: 600px; width: 800px;"
+                                    runat="server"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="div-presentation-Main" id="divPrimario">
+                    <asp:ContentPlaceHolder ID="ContentdivpresentationMain" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <div id="second-div-presentation-Main" class="second-div-presentation-Main">
+                        <%-- <Zamba:UCHome ID="Home" runat="server"></Zamba:UCHome>--%>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="div-tabl-principal-master" id="divSecundario">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div class="row">
+                <div style="bottom: 0px;">
+                    <asp:ContentPlaceHolder ID="ContentPlaceFooter" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div class="row">
+                <div id="modalDialog" style="display: none; padding: 0"></div>
+            </div>
+        </div>
+    </form>
+
+
+    <main ui-view>
+
+    <%: Scripts.Render("~/bundles/jqueryAddIns") %>
+    <%: Scripts.Render("~/bundles/bootstrap") %>
+    <%: Scripts.Render("~/bundles/toastr") %>
+    <%: Scripts.Render("~/bundles/modernizr") %>
+    <%: Scripts.Render("~/bundles/tabber") %>
+    <%: Scripts.Render("~/bundles/ZScripts") %>
+    <%  if(loadChatZmb == true) { %>
+    <%: Scripts.Render("~/bundles/ChatJS") %>
+    <%  } %>
+    <%: Scripts.Render("~/bundles/Kendo") %>
+    <%: Scripts.Render("~/Scripts/angular.min.js") %> 
+    <%: Scripts.Render("~/Scripts/angular-cookies.min.js") %>
+    <%: Scripts.Render("~/Scripts/angular-resource.min.js") %>
+    <%: Scripts.Render("~/Scripts/angular-route.min.js") %>
+    <%: Scripts.Render("~/Scripts/toastr.js") %>
+    <%: Scripts.Render("~/bundles/Search") %>
+    <%: Scripts.Render("~/bundles/globalsearch") %>
+    <%: Scripts.Render("~/bundles/Aysa") %>
+
+    <%--Configuracion de pagina--%>
+    <script type="text/javascript">
+                        
+        var baseUrl = location.origin;
+        // var baseRestApiUrl = 'http://localhost:59762';
+
+        function GetUID() {
+            return $("#<%=hdnUserId.ClientID%>").val();
+        }
+        GetTree(GetUID(),"#treeview");
+        //28/07/11: se agrega la posibilidad que para todas las páginas hijas que tengan grillas con los estilos correspondientes, al presionar la row se abra el link
+        $(document).ready(function () {
+            var baseUrl = location.origin;
+           
+            loadCliksInRows();
+            //SetEntryRulesControlObserver();
+            StartObjectLoadingObserverById("ctl00_WFExecForEntryRulesFrame");
+            document.firstLoad = true;
+            setTimeout("SetLoadingAnimationObserver();", 5000);
+
+            setTimeout("keepSessionAlive()", document.config.sessionTimeOut * 60000 - 30000); //30 secconds before timeout
+
+            var now = new Date();
+            $("#start").html("<span>" + now + "</span>");
+        });
+        //At start set the expand clicked to false
+        var IsExpandClicked = false;
+
+        //If root node clicked set the IsExpandClicked to true
+        $('.RootAllKeys').click( function () {
+            IsExpandClicked = true;
+        });
+
+        //If root node clicked set the IsExpandClicked to true
+        $('.StepTreeNode').click(function () {
+            IsExpandClicked = true;
+        });
+        
+        //If parent node clicked set the IsExpandClicked to true
+        $('.ParentAllKeys').click( function () {
+            IsExpandClicked = true;
+        });
+
+        //23/08/11: se agregan métodos para finalizar las tareas que el usuario posea abiertas.
+        window.onunload = function () {            
+            if (showedDialog) {
+                var tabcount = $('#TasksDivUL').find("li").length;
+                if (tabcount > 0) {
+                    var userID = $('#ctl00_hdnUserId').value;
+                    try {
+                        if (userID != undefined)                        
+                            ScriptWebServices.TasksService.CloseAllAsignedTask(userID);
+    
+                    } catch (e) {}
+                }
+                var connectionId = $('#ctl00_hdnConnectionId').value;
+                var computer = $('#ctl00_hdnComputer').value;
+                try {
+                    if (connectionId != undefined &&  computer != undefined)                        
+                        ScriptWebServices.TasksService.RemoveConnectionFromWeb(connectionId, computer);
+
+                } catch (e) {}
+            }
+        };
+
+        function CloseModal(){
+            $('#modalDialog').dialog('close');
+        }
+
+        document.config = {
+            urlBase: "<%=GetAppRootUrl(false) %>",
+            showSessionRefreshLog: <%=GetShowSessionRefreshLog() %>,
+            sessionTimeOut: <%=GetSessionTimeOut() %>,
+            isOldBrowser: <%=GetIsOldBrowser()%>,
+        }        
+    </script>
+
+    <asp:ContentPlaceHolder ID="footer_js" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>
+
+<%--Variable y configuracion Chat/GlobalSearch--%>
+<script type="text/javascript">
+    var loadChatZmb= '<%=ConfigurationManager.AppSettings["Chat"].ToString() %>' === "true";
+    var enableGlobalSearch= '<%=ConfigurationManager.AppSettings["GlobalSearch"].ToString() %>' === "true";
+        if (!enableGlobalSearch){
+            $("#Advfilter1").hide();            
+            $("#Advfilter3").hide();
+        }
+        else
+            $("#Advfilter2").show();
+    </script>
+
+<%-- Inicializacion de Chat--%>
+<script type="text/javascript">   
+    $(document).ready(function () {             
+        var URLServer = "http://localhost/ZambaChat/";
+        var thisDomain = "http://localhost/Zamba";    
+      
+        if(loadChatZmb){
+            LoadChat(GetUID(), URLServer, thisDomain);
+            $("#logOutSite").click(function () {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: URLServer +  "Chat/CookieRemove",
+                    success: function (d) {   
+                        $.LogOut(GetUID());
+                    },
+                });
+            });   
+        }
+    });
+</script>

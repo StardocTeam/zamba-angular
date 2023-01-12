@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsIpIndex" targetNamespace="http://tempuri.org/DsIpIndex.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DsIpIndex.xsd" xmlns:mstns="http://tempuri.org/DsIpIndex.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsIpIndex" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IP_INDEX">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IP_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ARRAY_ID" type="xs:string" minOccurs="0" />
+							<xs:element name="INDEX_ID" type="xs:string" minOccurs="0" />
+							<xs:element name="INDEX_ORDER" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

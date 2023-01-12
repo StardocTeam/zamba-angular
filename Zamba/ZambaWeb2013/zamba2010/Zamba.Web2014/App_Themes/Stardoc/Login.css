@@ -1,0 +1,256 @@
+﻿#loginBody
+{
+	font-family: "Microsoft Sans Serif",Arial, Helvetica, Sans-Serif;
+	color: White;
+	background-color:#004a9b; 
+}
+
+/******************Header**********************/
+/*Cabecera imagen*/
+.cabecera-wrapper
+{
+	width: 100%;
+	height: 144px;
+}
+
+.cabecera-login
+{
+	background: url("../Stardoc/Images/logocliente.png") no-repeat;
+		height:144px;
+	background-position:center;
+}
+
+#divPwbyzambaCenter{
+    display:none;
+}
+
+/* Barra de controles con ul*/
+
+#barra-Cabezera {
+	width: 962px;
+	height: 20px;
+	margin: 0 auto;
+	padding-top:10px;
+	padding-right:0px;
+}
+
+#barra-Cabezera ul {
+	list-style: none;
+	float: right;
+	margin-right: 55px;
+}
+
+#barra-Cabezera ul li {
+	float: left;
+}
+
+#barra-Cabezera ul li a {
+	display: block;
+	padding: 4px 25px;
+	color: #FFF;
+	background-color: #009de2;
+	
+	margin: 0px 6px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+/*Barra de controles con botones*/
+#btnIniciarSesionCab
+{
+ background-image: url("../Stardoc/Images/IniciarSesion.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnHomeCab
+{
+ background-image: url("../Stardoc/Images/home.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnMapaSitioCab
+{
+ background-image: url("../Stardoc/Images/MapaDeSitio.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnHelpCab
+{
+ background-image: url("../Stardoc/Images/help.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnCerrarSesionCab
+{
+ background-image: url("../Stardoc/Images/CerrarSesion.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+/*Controles Inicio Sesion*/
+#divInicioSesion
+{     background-image: url("../Stardoc/Images/divinicio.png");
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      padding: 5px;
+      height: 300px;
+      width:100%;
+}
+
+#btnProductCatalogLogin
+{
+ background-color: #4f6db3;
+ color: White;
+ width:150px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnProductCatalogHome
+{
+ background-color: #302682;
+ color: White;
+ width:150px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+ font-size:smaller;
+}
+
+#CeldaBotonIniciarSesion
+{
+    text-align:right;
+    padding-top: 10px; 
+    padding-right:24px;
+}
+
+.PanelIniciarSesion
+{
+    text-align:right;
+    color:White;
+}
+
+
+#controlMensaje
+{
+    display:none;
+}
+
+.boton-iniciar-sesion {
+	-webkit-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	border-radius: 5px !important;
+	border: 0 !important;
+	cursor: pointer !important;
+	color: #FFF;
+	background-color: #009de0;
+	font-size:16px;
+	padding:3px 6px;
+    position:relative;
+    right:50px;
+}
+
+.boton-iniciar-sesion2
+{
+    background-image: url("../Stardoc/Images/IniciarSesion.png");
+    width:95px;
+    height:20px;
+    border:none;
+    padding:3px 6px;
+    position:relative;
+    right:50px;
+    color: transparent;
+    text-transform: capitalize;  /* Este es el parche para IE   */
+    cursor:pointer;
+}
+
+.text-box-inicio-sesion
+{
+    width:300px;
+    /*right: 100px;*/
+    height:18px;
+}
+
+.label-inicio-sesion
+{
+    width:100px;
+    right: 100px;
+    color:#ffffff;
+}
+
+
+#pnlZambaLogin
+{
+	width: 962px; 
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#Alinear-Div-Login
+{
+    width:100%;
+}
+
+#Alinear-Div-Login table
+{
+    position:relative;
+    float:right;
+}
+
+.CeldaTextoInicioSesion
+{
+    text-align:left;
+}
+
+.Line-horizontal
+{
+}
+
+/*footer*/
+.FooterLogIn {
+    position:fixed; 
+    bottom:0;
+    width:100%; 
+    z-index: 99; 
+    text-align:left;
+    font-size: 8pt; 
+    font-family: tahoma; 
+    vertical-align: middle;
+    padding-left:25px;
+    color: White;
+    display: block !important;
+}
+
+
+.divSlogan
+{
+    position:fixed;
+    bottom:8%;
+    left:75%;
+    display:block !important;
+    /**"background-image:url("images/clientPhraseSmall.png");"**/
+    height:14px;
+    width:238px;
+}

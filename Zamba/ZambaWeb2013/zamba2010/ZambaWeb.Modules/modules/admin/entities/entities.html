@@ -1,0 +1,70 @@
+<div class="advancedSearchBox" ng-class="{active:focus}" ng-init="focus = false" ng-click="setSearchFocus = true">
+    
+    <a ng-href="" ng-click="showHelp()" role="button">
+        <span class="glyphicon glyphicon-question-sign remove-all-icon"></span>
+    </a>
+        <a ng-href="" ng-show="model.parameters.length > 0 || model.query.length > 0" ng-click="removeAll()" role="button">
+            <span class="remove-all-icon glyphicon glyphicon-trash"></span>
+        </a>
+        <div id="searchboxControl">
+            <div class="search-parameter {{searchParam.color}}" colorgroup="{{searchParam.groupnum}}" ng-class="{ word:searchParam.type==0,entity:searchParam.type==1,index:searchParam.type==2, fetapa:searchParam.type==5,festado:searchParam.type==6,fasignado:searchParam.type==7}"
+                 ng-attr-id="sel{{searchParam.id}}" ng-click="enterEditMode($index);$event.stopPropagation();" ng-repeat="searchParam in model.parameters">
+
+                <div ng-class="{{searchParam.maingroup}} ? 'editremove' :''">
+                    <a ng-href="" ng-click="removeSearchParam($index)" role="button">
+                        <span class="remove glyphicon glyphicon-trash" style="float: left; padding-top: 3px;" ng-show="searchParam.maingroup"></span>
+                    </a>
+                    <a ng-href="" ng-click="editgroup($index)" editgroup role="button" title="Editar busqueda">
+                        <span class="remove glyphicon glyphicon-edit" style="float: left; padding-top: 3px;" ng-show="searchParam.maingroup"></span>
+                    </a>
+                </div>
+                <div>
+                    <img class="imgFlt" src="Content/images/word.png" ng-show="searchParam.type == 0">
+                    <img class="imgFlt" src="Content/images/entity.png" ng-show="searchParam.type == 1">
+                    <img class="imgFlt" src="Content/images/index.png" ng-show="searchParam.type == 2">
+                    <img class="imgFlt" src="Content/images/etapa.png" ng-show="searchParam.type == 5">
+                    <img class="imgFlt" src="Content/images/estado.png" ng-show="searchParam.type == 6">
+                    <img class="imgFlt" src="Content/images/asignado.png" ng-show="searchParam.type == 7">
+                </div>
+
+                <div class="key" ng-hide="searchParam.type == 0">
+                    {{searchParam.name |limitTo:28}}
+                    <span ng-show="searchParam.type == 2 ||searchParam.type == 5 ||searchParam.type == 6 ||searchParam.type == 7">:</span>
+                </div>
+
+                <div class="key" ng-show="searchParam.type == 0">
+                    Contiene: <!--{{searchParam.name |limitTo:28}}-->
+                </div>
+
+                <div class="value">
+                    <span ng-show="!searchParam.editMode" ng-click="enterEditMode($index),$event.stopPropagation();">{{searchParam.value}}</span>
+                    <input name="value"
+                           type="text"
+                           nit-auto-size-input="true"
+                           nit-set-focus="searchParam.editMode"
+                           ng-keydown="keydown($event, $index)"
+                           ng-blur="leaveEditMode($index)"
+                           ng-show="searchParam.editMode"
+                           ng-model="searchParam.value"
+                           autocomplete="off"
+                           placeholder="{{searchParam.placeHolder}}" />
+                </div>
+            </div>
+            <input name="searchbox"
+                   class="search-parameter-input"
+                   type="text"
+                   nit-set-focus="setSearchFocus"
+                   ng-keydown="keydown($event)"
+                   placeholder="{{placeholder}}"
+                   ng-focus="focus = true"
+                   ng-blur="focus = false"
+                   typeahead-on-select="typeaheadOnSelect($item, $model, $label, $event)"
+                   ng-model="model.query"
+                   ng-enter="doSearch()"
+                   typeahead-min-length="1"
+                   autocomplete="off"
+                   typeahead="parameter as parameter.name for parameter in parameters | showChilds:model.parameters | filter:{name:$viewValue} | uniqueName | limitTo:5" typeahead-template-url="itemtpl.html" />
+        </div>
+        <span ng-show="model.message.length > 0" class="searchMessage">{{model.message}}</span>
+</div>
+

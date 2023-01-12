@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: -->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<head>
+ <title></title>
+ <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+ <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+ <script src="../../Scripts/jquery-2.2.2.js"></script>
+ <script src="../../Scripts/angular.js"></script>
+ <script src="../../Scripts/angular.min.js"></script>
+ <script src="../../DropFiles/dropfiles.js"></script>
+ <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+</head>
+
+<body>
+ 
+ <div >
+ <div ng-controller="appController">
+ <div class="form-group row"></div>
+ <div class="col">
+ <div class="cell panel">
+ <form name="frmMain" action="Solicitud_Ingreso_Denuncia_AUTO_PROVEEDORES_Mail">
+ <div class="header background-blue">
+ <h5 class="titleceneterDiv">SOLICITUD DE INGRESO DE DENUNCIA AUTOS</h5>
+ </div>
+ <input id="hdnRuleId" type="hidden" />
+ <input id="hdnAsocId" type="hidden" />
+ <div class="container">
+ 
+ <div class="tab-pane active" id="SOLICITUD DE INGRESO DE DENUNCIA AUTOS">
+ <div class="form-group row">
+ <div class="PanelPrincipal">
+ <div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+<!--MED and JUI--> <span class="input-group-addon">J / M:</span>
+<<Tarea>>.<<IndiceDescripcion(Juicio o Mediacion)>> 
+
+ </div>
+ </div>
+</div>													
+ <div class="col-md-3">
+ <div class="input-group">
+ <!--RAJ--> 		<span class="input-group-addon">RAJ:</span>
+<<Tarea>>.<<Atributo(Nro Juicio Mediacion)>> 
+ 
+ </div>
+ </div>
+													
+ <div class="col-md-6">
+ <div class="input-group">
+<!--ESTUDIO--> 	 <span class="input-group-addon">Estudio a Cargo:</span>
+<<Tarea>>.<<IndiceDescripcion(Estudio)>> 
+
+ </div>
+ </div> 
+ </div>
+												
+ <div class="form-group row">
+ <div class="col-md-6">
+ <div class="input-group">
+<!--Actor--> 	 <span class="input-group-addon">Actor:</span>
+<<Tarea>>.<<IndiceDescripcion(Actor)>> 
+
+ </div>
+ </div> 
+ </div> 
+												
+												<div class="form-group row">
+ <div class="col-md-6">
+ <div class="input-group">
+<!--Demandado--> <span class="input-group-addon">Demandado:</span>
+<<Tarea>>.<<IndiceDescripcion(Demandado)>> 
+
+ </div>
+ </div> 
+ </div>
+												
+ <div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+<!--Ramo--> 			<span class="input-group-addon">Ramo:</span>
+<<Tarea>>.<<IndiceDescripcion(Ramo)>> 
+
+ </div>
+ </div>
+ <div class="col-md-3">
+ <div class="input-group">
+<!--Poliza--> 		<span class="input-group-addon">Póliza:</span>
+<<Tarea>>.<<IndiceDescripcion(Poliza)>>
+
+ </div>
+ </div>
+													
+ <div class="col-md-6">
+ <div class="input-group">
+<!--Certificado--> 	<span class="input-group-addon">Certificado:</span>
+<<Tarea>>.<<IndiceDescripcion(Certificado)>> 
+
+ <span class="input-group-btn"></span>
+ </div>
+ </div> 
+ </div>
+												
+ <div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+<!--Fecha H--> 	<span class="input-group-addon">Fecha del Hecho:</span>
+<<Tarea>>.<<IndiceDescripcion(Fecha de Siniestro)>> 
+
+ </div>														
+ </div>
+													
+ <div class="col-md-9">
+														<div class="input-group">
+<!--Asegurado--> 	<span class="input-group-addon">Asegurado:</span>
+<<Tarea>>.<<IndiceDescripcion(Asegurado)>> 
+
+														</div>
+ </div> 
+ </div>
+												 
+												<div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+<!--Patente--> 		<span class="input-group-addon">Patente:</span>
+<<Tarea>>.<<IndiceDescripcion(Dominio)>> 
+
+ </div>
+ </div>
+													
+ <div class="col-md-3">
+ <div class="input-group">
+<!--Marca--> 	<span class="input-group-addon">Marca:</span>
+<<Tarea>>.<<IndiceDescripcion(Marca)>> 
+
+ </div>
+ </div>
+ 
+ <div class="col-md-6">
+ <div class="input-group">
+<!--Modelo--> 		<span class="input-group-addon">Modelo:</span>
+<<Tarea>>.<<IndiceDescripcion(Modelo)>> 
+
+ </div>
+ </div> 
+ </div> 
+
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+<!--RECLA TERCERO--> 	<span class="input-group-addon">Reclamante / Tercero:</span>
+<<Tarea>>.<<IndiceDescripcion(Reclamante)>> 
+
+ </div>
+ </div> 
+ </div>
+
+ <div style="text-align:justify; text-justify:inter-word">
+													<div class="form-group row">
+														<div class="col-md-12">
+															<div class="input-group"> 
+																<h5>En virtud del reclamo iniciado por un tercero y ante la ausencia de denuncia por parte de nuestro asegurado, solicitamos se proceda a registrar un nuevo siniestro con los datos arriba mencionados.</h5> 
+															</div>
+														</div>
+													</div>
+													<div class="form-group row" style="position:relative;top:-20px">
+														<div class="col-md-12">
+															<div class="input-group"> 
+																<h5>Mediante el siguiente link podrá acceder a la información de la demanda / mediación para mayores datos.</h5> 
+															</div>
+														</div>
+													</div> 
+
+ </br>
+</br>
+<<FuncionesComunes>>.<<ObtenerLinkPublicoWeb(Abrir Solicitud)>>
+</br>
+</br>
+
+													
+ <div class="form-group row" style="position:relative;top:-30px">
+ <div class="col-md-12">
+ <div class="input-group">
+ <h5>Quedamos a la espera de lo solicitado.</h5>
+ </div>
+ </div>
+ </div>
+ <!--<div style="position:relative;bottom:70px">
+														<div class="form-group row">
+															<div class="form-group">
+																<div class="col-md-12" >
+ <!--Observacion-- 						<span class="input-sm"><h5><b>Observaciones:</b></h5></span>
+																</div>
+															</div>
+															<div class="form-group" >
+																<div class="col-md-12" style="padding:0px;">
+																	<div class="col-md-12">
+<!--Area texto Observacion--						<textarea cols="1" class="form-control" rows="6" id="zamba_index_64" name="zamba_index_64"></textarea>
+																	</div>
+																</div>
+															</div>
+														</div> 
+													</div>-->
+ <div class="form-group row" style="position:relative;top:-40px">
+ <div class="col-md-12">
+ <div class="input-group">
+ <div style="">
+ <h5>Cordiales saludos,</h5>
+ </div>
+ </div>
+ </div>
+ </div>
+													
+													<hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+ 
+													<div class="row">
+														
+															<div class="col-md-2" style="position:relative;left:20px;">
+																<img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+															</div>
+															<div class="col-md-10">
+																<img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+																<div class="form-group row"></div>
+															</div>
+														
+													</div>
+												</div>
+ </div>
+ </div>
+ </div>
+ 
+ </div>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+</body>
+</html>
+
+<style>
+ .Inputselect {
+ width: 100px !important;
+ }
+
+
+ .inputEtiquetas {
+ width: 30px !important;
+ }
+
+ /*.panel {
+ border: 1px solid rgb(21, 98, 142) !important;
+ }*/
+
+ .PanelPrincipal {
+ margin-top: 30px;
+ }
+
+ .margenBtn {
+ position: relative;
+ left: 90px;
+ }
+</style>

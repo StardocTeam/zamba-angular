@@ -1,0 +1,294 @@
+﻿<html>
+    <head>
+        <link rel="stylesheet" href="ExcepciónXPropuesta.css" type="text/css">
+        </link>
+        <script type="text/javascript">
+            function SetAsocId(sender){
+                document.getElementById("hdnAsocId").name = sender.id;
+                frmMain.submit();
+            }
+        </script>
+        <style type="text/css">
+            input {
+                font-size: x-small;
+            }
+            
+            p.description {
+                font-size: x-small;
+            } #zamba_associated_documents zamba_associated_documents_2 zamba_associated_documents_6 {
+                color: #333333;
+                font-size: xx-small;
+                font-weight: normal;
+                border-collapse: collapse;
+                border-style: dashed;
+            } #zamba_associated_documents th {
+                color: White;
+                background-color: #507CD1;
+                font-weight: bold;
+                font-size: xx-small;
+            } #zamba_associated_documents tr {
+                color: black;
+                font-size: xx-small;
+                
+            } #zamba_associated_documents_6 th {
+                color: White;
+                font-size: xx-small;
+                background-color: #507CD1;
+                font-weight: bold;
+            } #zamba_associated_documents_6 tr {
+                color: black;
+                font-size: xx-small;
+                
+            } #zamba_associated_documents_2 th {
+                color: White;
+                font-size: xx-small;
+                background-color: #507CD1;
+                font-weight: bold;
+            } #zamba_associated_documents_2 tr {
+                color: black;
+                font-size: xx-small;
+                
+            }
+        </style>
+
+        <script type="text/javascript">
+            function SetRuleId(sender){
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+            
+            function SetRuleId(sender){
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+            
+            window.onload = function(){
+                try {
+                    var hidden = document.getElementById("zamba_index_35");
+                    var hidden2 = document.getElementById("zamba_index_34");
+		            var hidden3 = document.getElementById("zamba_index_64");
+	                var hidden4 = document.getElementById("texto");
+		
+                    var first = document.getElementById("zamba_rule_1557");
+                    var second = document.getElementById("zamba_rule_1964");
+                    
+                    if (hidden.value > '0') {
+                        first.style.visibility = 'visible';
+                    }
+                    else
+{ 
+                        first.style.visibility = 'hidden';
+		    } 
+
+
+                    if (hidden2.value > '0') {
+                        second.style.visibility = 'visible';
+                    }
+                    else 
+{                        second.style.visibility = 'hidden';
+		    } 
+
+                    
+		            if (hidden3.value == '') {
+
+                     hidden3.style.visibility = 'hidden';
+		     hidden4.style.visibility = 'hidden';
+                    }
+                    else {
+
+                    hidden3.style.visibility = 'visible';
+		    hidden4.style.visibility = 'visible';
+		    } 
+                 } 
+                catch (ex) {
+                    alert(ex);
+                }
+            }
+        </script>
+
+    </head>
+    <BODY>
+        <FORM name=frmMain>
+            <INPUT id=hdnRuleId type=hidden>
+            </INPUT>
+            <DIV id=header 
+style="WIDTH: 100%; COLOR: white; BACKGROUND-COLOR: #0066cc">Propuesta </DIV>
+<HR>
+            <HR><INPUT id=hdnAsocId type=hidden>
+            </INPUT>
+            <TABLE cellSpacing=2 cols=4 cellPadding=1 width="100%" border=0>
+                 <TBODY>
+                    <TR>
+                        <TD>
+                            <P class=description>
+                                Nro. Propuesta:
+                            </P>
+                        </TD>
+                        <TD>
+                            <Input id="zamba_index_2" style="WIDTH: 80px" name="zamba_index_2" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                        <TD>
+                            <P class=description>
+                                Fecha Ingreso:
+                            </P>
+                        </TD>
+                        <TD>
+                            <INPUT id="zamba_index_1" style="WIDTH: 140px" name="zamba_index_1" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                    </TR>
+               <TR>
+                        <TD>
+                            <P class=description>
+                               Nro de P&oacuteliza:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id=zamba_index_34 style="WIDTH: 80px" name=zamba_index_34 ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                        <TD>
+                            <P class=description>
+                                Nro de P&oacuteliza a Renovar:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id="zamba_index_35" style="WIDTH: 80px" name="zamba_index_35" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TD>
+                            <P class=description>
+                                Asegurado:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id="zamba_index_58" style="WIDTH: 300px" name="zamba_index_58" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                        <TD>
+                            <P class=description>
+                                Productor:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id=zamba_index_58 style="WIDTH: 300px" name=zamba_index_58 ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                    </TR>
+  
+
+                    <TR>
+                        <TD>
+                            <P class=description>
+                                Grupo:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id="zamba_index_10" style="WIDTH: 300px" name="zamba_index_10" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                        <TD>
+                            <P class=description>
+                                Agencia:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id="zamba_index_11" style="WIDTH: 300px" name="zamba_index_11" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                    </TR>
+	           <TR>
+                        <TD>
+                            <P class=description>
+                                Tipo de Movimiento:
+                            </P>
+                        </TD>
+      
+                  <TD>
+                            <Input id="zamba_index_38" style="WIDTH: 150px" name="zamba_index_38" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+                       <TD>
+                            <P class=description>
+                                Emisor:
+                            </P>
+                        </TD>
+                        <TD>
+                            <input id="zamba_index_41" style="WIDTH: 300px" name="zamba_index_41" ReadOnly="readonly">
+                            <FONT color=black>
+                            </FONT>
+                        </TD>
+
+
+                    </TR>
+		<TR>
+    		<TD>
+    		  <P class=description> <label id="texto">Observaciones por Falla:</label> </P></TD>
+    <TD colspan = 3><TEXTAREA id="zamba_index_64" style="WIDTH: 100%" name="zamba_index_64" ReadOnly="readonly" type="text"> </TEXTAREA> 
+</TD></TR>
+                </TBODY>
+            </TABLE>
+            <HR>
+        </FORM>
+        <TABLE id=zamba_associated_documents_2>
+            <CAPTION>
+                Excepciones asociadas
+            </CAPTION>
+            <TBODY>
+            </TBODY>
+        </TABLE>
+        <hr>
+        <TABLE id=zamba_associated_documents_6>
+            <CAPTION>
+                Inspecciones Asociadas
+            </CAPTION>
+            <TBODY>
+            </TBODY>
+        </TABLE>
+        <INPUT id=hdnAsocId type=hidden>
+        </INPUT>
+    </BODY>
+
+
+            <TABLE cellSpacing=2 cols=4 cellPadding=1 width="100%" border=0>
+                 <TBODY>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                        <center>
+                            <INPUT id=zamba_rule_1856 onclick=SetRuleId(this); type=submit value="Inspección" name=zamba_rule_1856 />
+                        </center>
+                        </TD>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <center>
+                                <INPUT id=zamba_rule_1964 onclick=SetRuleId(this); type=submit value=Pólizas name=zamba_rule_1964 />
+                            </center>
+                        </td>
+                        <td>
+                        <center>
+                            <INPUT id=zamba_rule_1557 onclick=SetRuleId(this); type=submit value="Póliza a renovar" name=zamba_rule_1557 />
+                        </center>
+                        </TD>
+                        <td>
+                        </td>
+                    </TR>
+</TBODY>
+</Table>
+</html>

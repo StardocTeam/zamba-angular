@@ -1,0 +1,112 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 05.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <script type="text/javascript" language="JavaScript">
+        function FuncionesPosCargaDeReclamo() {
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("4");
+        }
+        window.onload = function () {
+            setTimeout(function () { FuncionesPosCargaDeReclamo(); }, 300);
+        };
+    </script>
+    <style>
+        div.InputCssForms > span {
+            background-color: #e5e5e5
+        }
+
+        div.InputCssForms > select {
+            font-weight: 900
+        }
+
+        div.InputCssForms > input {
+            font-weight: 900
+        }
+
+        .fontToInputTitle {
+            font-family: 'Times New Roman', Times, serif
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" class="fontToInputTitle" action="SolicitudNomina.html">
+
+            <div cellspacing="2" cellpadding="1" width="100%" border="0">
+                <div class="form-group row"></div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group InputCssForms">
+                            <span class="input-group-addon" style="background-color:#e5e5e5">Seccion</span>
+                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_32" readonly></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group InputCssForms">
+                            <span class="input-group-addon" style="background-color:#e5e5e5">Nro de Poliza</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_34" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group InputCssForms">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Nro de Solicitud</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_1068" name="zamba_index_1068"
+                                   readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <center>
+                        <input class="btn  btn-primary" id="zamba_save" type="submit" value="Guardar" name="zamba_save" />
+                    </center>
+                </div>
+            </div>
+
+            <hr />
+            <!-- <center> -->
+            <!-- <iframe id="zamba_innerdoctype_original" src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\OfficeTemp\4798.PDF" height="90%" title="Documento Original" width="90%">>>>></iframe> -->
+            <!-- </center> -->
+
+
+            <div class="col-md-12">
+                <center>
+                    <iframe id="zamba_innerdoctype_original"
+                            title="Documento Original"
+                            src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\OfficeTemp\4798.PDF"
+                            style="margin-top:30px; width:1820px; height:2500px">
+                    </iframe>
+                </center>
+            </div>
+            <center>
+                <div class="col-md-2" style="position:relative;left:20px;">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:whitesmoke">SolicitudNominaReadOnly.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </center>
+
+        </form>
+    </div>
+</body>
+</html>

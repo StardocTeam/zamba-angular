@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error al procesar su solicitud</title>
+</head>
+<body>
+    <hgroup>
+        <h1>Error al procesar su solicitud.</h1>
+        <h3>
+            Ha ocurrido un error al intentar abrir la página.
+        </h3>
+        <hr />
+        Detalle:
+        @Html.Label("errormessage", (string)ViewBag.Error)
+    </hgroup>
+    <hr />
+    @Html.ActionLink("Ir a inicio", "Index", "Home")
+</body>
+</html>

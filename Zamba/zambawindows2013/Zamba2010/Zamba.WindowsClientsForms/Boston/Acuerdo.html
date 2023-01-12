@@ -1,0 +1,246 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="Acuerdo.css" type="text/css" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	String.prototype.trim = function () {
+		return this.replace(/^\s*/, "").replace(/\s*$/, "");
+	}
+	function SetRuleId(sender){
+		document.getElementById("hdnRuleId").name = sender.id;               
+		frmMain.submit();
+	}		
+	function SetAsocId(sender){
+		document.getElementById("hdnAsocId").name = sender.id;
+		frmMain.submit();
+	}
+	function CargarFechasyBotones(){
+		$(function() 
+		{
+			$('#zamba_index_2720').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				showOn: 'button', 
+				buttonText: 'Abrir calendario',
+				buttonImage: 'calendar.png', 
+				buttonImageOnly: true,
+				duration: ""
+			});
+		});					
+	}
+	function esDigito(sChr){
+		var sCod = sChr.charCodeAt(0);
+		return ((sCod > 47) && (sCod < 58));
+	}
+	function valSep(oTxt){
+		var sep;
+		//Busca algún caracter separador y lo guarda (acá podrían agregarse nuevos formatos)
+		if(oTxt.value.indexOf('/') > -1){
+			sep = '/';
+		} else if(oTxt.value.indexOf('-') > -1){
+			sep = '-';
+		}
+		//Verifica que haya encontrado algo
+		if(sep.length > 0){
+			//Verifica que haya más de un separador
+			if(oTxt.value.indexOf(sep) != oTxt.value.lastIndexOf(sep)){
+				//Verifica que existan dos digitos antes del primer separador
+				if(oTxt.value.indexOf(sep) != 2){
+					//En caso de no existir agrega un cero delante
+					oTxt.value = "0" + oTxt.value;
+					//Verifica nuevamente los dos dígitos
+					if(oTxt.value.indexOf(sep) != 2){
+						//Si pasa por acá es porque tenía más de 2 dígitos de entrada
+						return false;
+					}
+				}
+				//Verifica lo mismo pero con el siguiente separador
+				if(oTxt.value.lastIndexOf(sep) != 5){
+					var i = oTxt.value.substring(0,3);
+					var f = oTxt.value.substring(3);
+					oTxt.value = i + "0" + f;
+					if(oTxt.value.lastIndexOf(sep) != 5){
+						return false;
+					}
+				}
+				return true;
+			}
+		} else {
+			alert("Los días, meses y años deben estar separados por el caracter / o el -");
+			return false;
+		}
+	}
+	function finMes(oTxt){
+		var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+		var nRes = 0;
+		switch (nMes)
+		{
+			case 1: nRes = 31; break;
+			case 2: nRes = 29; break;
+			case 3: nRes = 31; break;
+			case 4: nRes = 30; break;
+			case 5: nRes = 31; break;
+			case 6: nRes = 30; break;
+			case 7: nRes = 31; break;
+			case 8: nRes = 31; break;
+			case 9: nRes = 30; break;
+			case 10: nRes = 31; break;
+			case 11: nRes = 30; break;
+			case 12: nRes = 31; break;
+		}
+		return nRes;
+	}
+	function valDia(oTxt){
+		var bOk = false;
+		var nDia = parseInt(oTxt.value.substr(0, 2), 10);
+		bOk = bOk || ((nDia >= 1) && (nDia <= finMes(oTxt)));
+		return bOk;
+	}
+	function valMes(oTxt){
+		var bOk = false;
+		var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+		bOk = bOk || ((nMes >= 1) && (nMes <= 12));
+		return bOk;
+	}
+	function valAno(oTxt){
+		var bOk = true;
+		var nAno = oTxt.value.substr(6);
+		bOk = bOk && ((nAno.length == 2) || (nAno.length == 4));
+		if (bOk)
+		{
+			for (var i = 0; i < nAno.length; i++)
+			{
+				bOk = bOk && esDigito(nAno.charAt(i));
+			}
+		}
+		return bOk;
+	}
+	function valFecha(oTxt){
+		var bOk = true;
+		if (oTxt.value != "")
+		{
+			bOk = bOk && (valSep(oTxt));
+			bOk = bOk && (valAno(oTxt));
+			bOk = bOk && (valMes(oTxt));
+			bOk = bOk && (valDia(oTxt));
+			
+			if (!bOk)
+			{
+				alert("La fecha ingresada es invalida");
+				oTxt.focus();
+			}
+		}
+	}
+	function comprobarSiBisisesto(anio){
+		if ( ( anio % 100 != 0) && ((anio % 4 == 0) || (anio % 400 == 0))) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+	$(document).ready(function(){
+		// Valida solo numericos
+		// Agregar class="solonums" a todos los inputs que se quieran validar
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57)){
+					return false;
+				}
+			})
+		});
+	});
+	function CheckMaxLength(Object){
+		var len = parseInt(Object.getAttribute("maxlength"), 10); 
+		return (Object.value.length < len);
+	}
+	function CheckMaxLengthAfterLosingFocus(Object){
+		var len = parseInt(Object.getAttribute("maxlength"), 10); 
+		if (Object.value.length > len){
+			alert("Se ha superado el límite máximo de " + len + " caracteres.\Se truncará dicho texto hasta el límite.");
+			Object.value = Object.value.substring(0, len);
+		}
+	}
+	</script>
+ </head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="Acuerdo.html">
+    <div id="design" width="90%">
+        Acuerdo
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center>
+    <table id="tblAcuerdo" cellspacing="2" cellpadding="1" border="0">
+        <tr>
+			<td>
+				<label>
+					Beneficiario:</label>
+			</td>
+			<td>
+				<input id="zamba_index_2722" name="zamba_index_2722" style="width:300px;" >
+			</td>
+			<td class="separador"></td>
+			<td>
+				<label>
+					ID Reclamo:</label> 
+			</td>
+			<td>
+				<input id="zamba_index_2677" name="zamba_index_2677" style="width:150px;" disabled="disabled">
+			</td>
+        </tr>
+		<tr>
+			<td>
+				<label>
+					Fecha:</label>
+			</td>
+			<td>
+				<input id="zamba_index_2720" name="zamba_index_2720" style="width:150px;" onblur="valFecha(this)" />
+			</td>
+			<td class="separador"></td>
+			<td>
+				<label>
+					Importe:</label>
+			</td>
+			<td>
+				<input id="zamba_index_2719" name="zamba_index_2719" class="solonums" style="width:150px;" >
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td>
+				<label>
+					Detalle de cuotas:</label>
+			</td>
+			<td>  
+				<textarea cols="1" rows="5" id="zamba_index_2723" name="zamba_index_2723" style="WIDTH: 587px" maxlength="500" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea> 
+			</td>
+			<td width="34px"></td>
+		</tr>
+	</table>
+	<br/>	
+	<table cellspacing="2" cellpadding="1" border="0">
+		<tr>
+			<td>  
+			<center>
+					<input id="zamba_save" name="zamba_save" type="submit" value="Guardar" />
+			</center>                         
+			</td>
+		</tr> 
+    </table>
+	<br/>
+	</center>
+	<center style="z-index: -1">
+        <iframe id="zamba_innerdoctype_original" align="middle" height="90%" width="90%" title="Documento Original"
+                   src="file:///C:\Users\bpm-1.UNUMSA\AppData\Roaming\Zamba Software\OfficeTemp\Carta Modelo.docx" ></iframe>
+    </center>
+    </form>
+</body>
+</html>

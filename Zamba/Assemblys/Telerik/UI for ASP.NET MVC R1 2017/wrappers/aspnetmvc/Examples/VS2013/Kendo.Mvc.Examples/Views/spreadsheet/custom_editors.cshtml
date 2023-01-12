@@ -1,0 +1,68 @@
+﻿<div id="example">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.4.0/jszip.min.js"></script>
+
+   @(Html.Kendo().Spreadsheet()
+        .Name("spreadsheet")
+        .Rows(10)
+        .Columns(5)
+        .Sheetsbar(false)
+        // Required to enable Excel Export in some browsers
+        .HtmlAttributes(new { style = "width:100%" })
+        .Excel(excel => excel
+            .ProxyURL(Url.Action("Index_Save", "Spreadsheet"))
+        )
+        .Pdf(pdf => pdf
+            .ProxyURL(Url.Action("Index_Save", "Spreadsheet"))
+        )
+        .Sheets(sheets =>
+        {
+            sheets.Add()
+                .Columns(columns =>
+                {
+                    columns.Add().Width(100);
+                    columns.Add().Width(100);
+                })
+                .Rows(rows =>
+                {
+                    rows.Add().Cells(cells =>
+                    {
+                        cells.Add()
+                                .Value("Select date:")
+                                .Bold(true);
+
+                        cells.Add().Background("#fef0cd")
+                               .Format("mmmm d, yyyy")
+                               .Validation(validation => validation
+                                   .DataType("date")
+                                   .ShowButton(true)
+                                   .ComparerType("between")
+                                   .From("DATEVALUE(\"1/1/1900\")")
+                                   .To("DATEVALUE(\"1/1/2100\")")
+                                   .AllowNulls(true)
+                                   .Type("reject")
+                                   .TitleTemplate("Selected Date validation error")
+                                   .MessageTemplate("Selected Date should be between year 1900 and 2100.")
+                                );
+                    });
+
+                    rows.Add().Cells(cells =>
+                    {
+                        cells.Add()
+                                .Value("Select item:")
+                                .Bold(true);
+
+                        cells.Add().Background("#fef0cd")
+                               .Format("mmmm d, yyyy")
+                               .Validation(validation => validation
+                                   .DataType("list")
+                                   .ShowButton(true)
+                                   .ComparerType("list")
+                                   .From("{ \"Foo item 1\", \"Bar item 2\", \"Baz item 3\" }")
+                                   .AllowNulls(true)
+                                   .Type("reject")
+                                );
+                    });
+                });
+        })
+)
+</div>

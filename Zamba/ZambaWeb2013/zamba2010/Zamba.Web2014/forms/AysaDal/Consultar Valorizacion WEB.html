@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+
+        function SetGridValidation() {
+            var a = $($("#zamba_zvar(ProductosxValorizacion)")).find("tr").find("td:eq(3)").find("input");
+            a.addClass("dataType");
+            a.attr("dataType", "decimal_2_5");
+            a.addClass("haveMinValue");
+            a.attr("ZMinValue", "=0");
+            SetValidationsAction("InsertAll");
+        }
+
+        $(window).load(function () {
+            SetGridValidation();
+        });
+    </script>
+</head>
+<body>
+    <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Consultar Valorizacion</strong>
+    </div>
+    <table style="width: 98%;">
+        <tr>
+            <td colspan="3">
+                <div id="TAB" class="tabber" style="">
+                    <div class="tabbertab" id="General">
+                        <h2>
+                            Valorizacion
+                        </h2>
+                        <table style="width: 90%;">
+                            <tr>
+                                <td class="style1">
+                                    <label style="width: 12em;">
+                                        Numero de Valorizacion</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="zamba_index_12440" name="zamba_index_12440" disabled="disabled" />
+                                </td>
+                                <td class="style1">
+                                    <label style="width: 12em;">
+                                        Fecha de Actualizacion
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="zamba_index_12446" name="zamba_index_12446" disabled="disabled"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style1">
+                                    <label style="width: 12em;">
+                                        Orden de Compra
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" style="width: 17em;" id="zamba_index_12355" name="zamba_index_12355" disabled="disabled" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style1">
+                                    <label style="width: 12em;">
+                                        Proceso
+                                    </label>
+                                </td>
+                                <td>
+                                    <select style="width: 225px" id="zamba_index_12437" name="zamba_index_12437" disabled="disabled">
+                                    </select>
+                                </td>
+                                <td class="style1">
+                                    <label style="width: 12em;">
+                                        Familia de Productos</label>
+                                </td>
+                                <td>
+                                    <select style="width: 225px" id="zamba_index_12393" name="zamba_index_12393" disabled="disabled">
+                                    </select>
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                        <h3>
+                                  Valorizaciones ingresadas
+                        </h3>
+                        <br />
+                        <div>
+                            <br />
+                            
+                            <table id="zamba_zvar(valorizacionescargadas)" class="tablesorter">
+                                <tbody class="hideopentask" >
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </tr>
+        <tr>
+            <td>
+                <img src="images/logocliente.bmp" height="50" width="70" />
+            </td>
+            <td>
+                <img src="images/pwbyzamba.jpg" align="right" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

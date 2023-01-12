@@ -1,0 +1,55 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UCStepsPerformanceByStep.ascx.cs"
+    Inherits="UserControls_UCAsignedUsers_UCAsignedUsersByStep" %>
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<table>
+    <tr>
+        <td>
+            <asp:Label runat="server" ID="Label1" Text="Workflow:" Font-Size="XX-Small" />
+        </td>
+        <td style="width: 133px">
+            <asp:DropDownList ID="cmbWorkflows" runat="server" Width="145px" AutoPostBack="true"
+                OnSelectedIndexChanged="cmbWorkflows_SelectedIndexChanged" Font-Size="XX-Small">
+            </asp:DropDownList></td>
+    </tr>
+    <tr>
+        <td>
+            <asp:Label runat="server" ID="Label2" Text="Etapa:" Font-Size="XX-Small" />
+        </td>
+        <td style="width: 133px">
+            <asp:DropDownList ID="cmbEtapas" runat="server" Width="145px" Font-Size="XX-Small">
+            </asp:DropDownList></td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td style="width: 133px">
+            <asp:Button ID="BtnBuscar" runat="server" Text="Buscar" OnClick="BtnBuscar_Click" /></td>
+    </tr>
+    <tr>
+        <td>
+            <asp:RadioButton ID="rdbVerGrafico" runat="server" Checked="True" Font-Size="XX-Small"
+                Text="Ver Gráfico" /></td>
+        <td>
+            <asp:RadioButton ID="rdbVerTabla" runat="server" Font-Size="XX-Small" Text="Ver Tabla" /></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <rsweb:ReportViewer ID="rpvStepsPerformanceByStep" runat="server" Font-Names="Verdana"
+                Font-Size="8pt" Height="400px" Width="400px" ShowFindControls="False" ShowPageNavigationControls="False">
+                <LocalReport ReportPath="Reports\rptStepsPerformance.rdlc">
+                </LocalReport>
+            </rsweb:ReportViewer>
+        </td>
+        <td>
+            <rsweb:ReportViewer ID="rpvGrdStepsPerformanceByStep" runat="server" Font-Names="Verdana"
+                Font-Size="8pt" Height="400px" ShowFindControls="False" ShowPageNavigationControls="False"
+                Width="400px">
+                <LocalReport ReportPath="Reports\RptGrdStepsPerformance.rdlc">
+                </LocalReport>
+            </rsweb:ReportViewer>
+        </td>
+    </tr>
+</table>

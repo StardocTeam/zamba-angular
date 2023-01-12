@@ -1,0 +1,91 @@
+CREATE TRIGGER ti_37 ON DOC_I37 AFTER insert AS BEGIN update DOC_I37 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER tu_i37 ON DOC_I37 AFTER UPDATE AS BEGIN update DOC_I37 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i38 ON DOC_I38 AFTER UPDATE AS BEGIN update doc_i38 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_38 ON DOC_I38 AFTER insert AS BEGIN update DOC_I38 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i39 ON DOC_I39 AFTER UPDATE AS BEGIN update doc_i39 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_39 ON DOC_I39 AFTER insert AS BEGIN update DOC_I39 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i40 ON DOC_I40 AFTER UPDATE AS BEGIN update doc_i40 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_40 ON DOC_I40 AFTER insert AS BEGIN update DOC_I40 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END  
+GO
+CREATE TRIGGER  tu_i42 ON DOC_I42 AFTER UPDATE AS BEGIN update doc_i42 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_42 ON DOC_I42 AFTER insert AS BEGIN update DOC_I42 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i65 ON DOC_I65 AFTER UPDATE AS BEGIN update doc_i65 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_65 ON DOC_I65 AFTER insert AS BEGIN update DOC_I65 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i66 ON DOC_I66 AFTER UPDATE AS BEGIN update doc_i66 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_66 ON DOC_I66 AFTER insert AS BEGIN update DOC_I66 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i67 ON DOC_I67 AFTER UPDATE AS BEGIN update doc_i67 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_67 ON DOC_I67 AFTER insert AS BEGIN update DOC_I67 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i70 ON DOC_I70 AFTER UPDATE AS BEGIN update doc_i70 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_70 ON DOC_I70 AFTER insert AS BEGIN update DOC_I70 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i101 ON DOC_I101 AFTER UPDATE AS BEGIN update doc_i101 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_101 ON DOC_I101 AFTER insert AS BEGIN update DOC_I101 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i165 ON DOC_I165 AFTER UPDATE AS BEGIN update doc_i165 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_165 ON DOC_I165 AFTER insert AS BEGIN update DOC_I165 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i168 ON DOC_I168 AFTER UPDATE AS BEGIN update doc_i168 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_168 ON DOC_I168 AFTER insert AS BEGIN update DOC_I168 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i169 ON DOC_I169 AFTER UPDATE AS BEGIN update doc_i169 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_169 ON DOC_I169 AFTER insert AS BEGIN update DOC_I169 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i200 ON DOC_I200 AFTER UPDATE AS BEGIN update doc_i200 set lupdate=getdate() where doc_id in (select doc_id from inserted)END  
+GO
+CREATE TRIGGER  ti_200 ON DOC_I200 AFTER insert AS BEGIN update DOC_I200 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i201 ON DOC_I201 AFTER UPDATE AS BEGIN update doc_i201 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_201 ON DOC_I201 AFTER insert AS BEGIN update DOC_I201 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i743 ON DOC_I743 AFTER UPDATE AS BEGIN update doc_i743 set lupdate=getdate() where doc_id in (select doc_id from inserted) END     
+GO
+CREATE TRIGGER  ti_743 ON DOC_I743 AFTER insert AS BEGIN update DOC_I743 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i166 ON DOC_I166 AFTER UPDATE AS BEGIN update doc_i166 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_166 ON DOC_I166 AFTER insert AS BEGIN update doc_i166 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i721 ON DOC_I721 AFTER UPDATE AS BEGIN update doc_i721 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_721 ON DOC_I721 AFTER insert AS BEGIN update doc_i721 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i723 ON DOC_I723 AFTER UPDATE AS BEGIN update doc_i723 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_723 ON DOC_I723 AFTER insert AS BEGIN update doc_i723 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i30772 ON DOC_I30772 AFTER UPDATE AS BEGIN update doc_i30772 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_30772 ON DOC_I30772 AFTER insert AS BEGIN update doc_i30772 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i30773 ON DOC_I30773 AFTER UPDATE AS BEGIN update doc_i30773 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_30773 ON DOC_I30773 AFTER insert AS BEGIN update doc_i30773 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i30781 ON DOC_I30781 AFTER UPDATE AS BEGIN update doc_i30781 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_30781 ON DOC_I30781 AFTER insert AS BEGIN update doc_i30781 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  tu_i30782 ON DOC_I30782 AFTER UPDATE AS BEGIN update doc_i30782 set lupdate=getdate() where doc_id in (select doc_id from inserted) END 
+GO
+CREATE TRIGGER  ti_30782 ON DOC_I30782 AFTER insert AS BEGIN update doc_i30782 set lupdate=getdate(),crdate=getdate() where doc_id in (select doc_id from inserted) END 

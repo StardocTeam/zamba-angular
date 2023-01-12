@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creacion: 11.2018-->
+<!--Ultima Edicion: 18.04.2022 -->
+<!--Modificado por: GR - Se agrego el nuevo iFrameStyle. Se agregaron los Col para que sea responsive. Se inserto una linea en el header para separar el form de las acciones de usuarios. -->
+
+
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="Poder.css" type="text/css" />
+    <div class="form-group row"></div>
+	<div class="form-group row"></div>
+	<div class="form-group row"></div>
+	<div class="form-group row"></div>
+</head>
+
+<body>
+    <div class="container-fluid">
+		<form name="frmMain" action="Poder.html">
+		
+			<div>
+				<input id="hdnRuleId" type="hidden" />
+				<hr style="border: 0 ; border-top: 3px double blue; width: 100%;">
+				<center>                        	
+					<div id="tblPoder" >
+						<div class="form-group row">
+							<div class="col-md-3"></div>
+							<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+								<div class="input-group">
+									<span class="input-group-addon" style="">ID Reclamo:</span>
+									<input style=" color: #090A0A; font-weight: bold" class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677"
+										   disabled="disabled">
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+								<div class="input-group">
+									<span class="input-group-addon" style="">ID Demandado:</span>
+									<input style=" color: #090A0A; font-weight: bold" class="form-control input-sm" id="zamba_index_2731" class="solonums"
+										   name="zamba_index_2731" disabled="disabled" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-md-3"></div>
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon" style="">Nombre:</span>
+									<input style=" color: #090A0A; font-weight: bold" class="form-control input-sm" id="zamba_index_2706" name="zamba_index_2706"
+										   disabled="disabled"></input>
+								</div>
+							</div>
+
+							<div class="form-group row"></div>
+							<div class="form-group row"></div>
+							<hr style="border: 0 ; border-top: 1px double blue; width: 100%;">
+
+							<!-- <center> -->
+								<!-- <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:95%; height:1400px" -->
+										<!-- src="file:///C:\Users\bpm-1.UNUMSA\AppData\Roaming\Zamba Software\OfficeTemp\327349.docx" title="Documento Original"></iframe> -->
+							<!-- </center> -->
+
+							<center>
+								<div class="form-group row">
+								
+									<div class="12" id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+										<div class="row">
+											<zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+										</div>
+									</div>
+								</div>
+								<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
+							</center>
+
+							<!--Logos y nombre del Formulario-->
+							
+							<center>					
+								<div class="col-md-12">
+										<span style="color:white">Poder.html</span>																			
+								</div>
+							</center>
+						</div>
+					</div>
+				</center>
+			</div>     
+		</form>
+	</div>
+</body>
+
+</html>

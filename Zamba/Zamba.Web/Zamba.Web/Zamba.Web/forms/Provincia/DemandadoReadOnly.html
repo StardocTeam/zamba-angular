@@ -1,0 +1,173 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    if (DecimalCheck($('#' + e.target.id))) {
+                        SumarCampos();
+                    }
+                })
+            });
+            $(".sololectura").each(
+                function () {
+                    $(this).keypress(function (e) {
+                        return false;
+                    })
+                }
+            );
+        });
+        function SumarCampos() {
+
+            var cap = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+            var hon = parseFloat($("#zamba_index_2746").val().replace('', '0'));
+            var otr = parseFloat($("#zamba_index_2745").val().replace('', '0'));
+            var por = parseFloat($("#zamba_index_2836").val().replace('', '0'));
+
+            //Verifica que se deba ajustar al porcentaje de honorarios
+            if (document.getElementById("zamba_index_2836").value != "" && por > 0) {
+                //Si el porcentaje es invalido lo setea a cero
+                if (por > 100) {
+                    hon = 0;
+                    $("#zamba_index_2836").val();
+                    $("#zamba_index_2746").val();
+                } else {
+                    hon = (por * cap) / 100;
+                    hon = Redondear(hon);
+                    $("#zamba_index_2746").val(hon);
+                }
+            }
+
+            //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(cap + hon + otr));
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value <= "0") {
+                alert("Verifique que el Importe sea mayor que cero.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="DemandadoReadOnly.html">
+            <h4 class="text-center" id="header" width="90%">
+                Demandado
+            </h4>
+            <center>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Nombre:</span>
+                            <input class="form-control input-sm" id="zamba_index_2706" name="zamba_index_2706" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"> ID Demandado:</span>
+                            <input class="form-control input-sm" id="zamba_index_2731" name="zamba_index_2731" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">  ID Reclamo:</span>
+                            <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"> Dirección:</span>
+                            <input class="form-control input-sm" id="zamba_index_2708" name="zamba_index_2708" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"> DNI/CUIL/CUIT:</span>
+                            <input class="form-control input-sm" id="zamba_index_2710" name="zamba_index_2710" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Localidad:</span>
+                            <select class="form-control input-sm" id="zamba_index_39" name="zamba_index_39" disabled></select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Teléfono:</span>
+                            <input class="form-control input-sm" id="zamba_index_2711" name="zamba_index_2711" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Codigo Postal:</span>
+                            <input class="form-control input-sm" id="zamba_index_2765" name="zamba_index_2765" disabled />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Celular: </span>
+                            <input class="form-control input-sm" id="zamba_index_2712" name="zamba_index_2712" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"> Estado Civil:</span>
+                            <select class="form-control input-sm" id="zamba_index_2714" size="1" name="zamba_index_2714" disabled></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Provincia:</span>
+                            <select class="form-control input-sm" id="zamba_index_41" name="zamba_index_41" disabled></select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"> Fecha de Nacimiento:</span>
+                            <input class="form-control input-sm" id="zamba_index_2763" name="zamba_index_2763" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Nacionalidad:</span>
+                            <input class="form-control input-sm" id="zamba_index_2709" name="zamba_index_2709" disabled>
+                        </div>
+                    </div>                    
+                </div>
+            </center>
+        </form>
+    </div>
+
+</body>
+</html>

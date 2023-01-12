@@ -1,0 +1,938 @@
+﻿<!DOCTYPE html>
+
+<html style="height:100%">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11; IE=EDGE,chrome=1;IE=9;IE-8;IE-7;IE=EDGE,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title title="Zamba Web">Zamba BPM</title>
+
+
+    <link id="lnkWebIcon" rel="shortcut icon" runat="server" type="image/x-icon" />
+    <!-- Para incluir nuevas fuentes, hacerlo de la siguiente manera para evitar el FOIT/FOUT -->
+    <link rel="preload" href="../../Scripts/AngularResources/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+
+    <link rel="stylesheet" type="text/css" href="../../Content/styles/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/HomeWidget.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/toastr.css" />
+    <link rel="stylesheet" type="text/css" href="../../Scripts/ng-embed/ng-embed.min.css" />
+    <link rel="stylesheet" type="text/css" href="Filters.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css" />
+    <script src="../../Scripts/moment.js"></script>
+    <script src="../../Scripts/moment-with-locales.js"></script>
+
+
+
+
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.silver.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.mobile.all.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.flat.min.css" />
+
+
+
+
+
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.material.mobile.min.css" />
+
+
+
+    <link rel="stylesheet" type="text/css" href="searchbox.css?v=191" />
+    <link rel="stylesheet" type="text/css" href="../../Content/partialSearchIndexs.css?v=191" />
+
+
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../../Scripts/jquery-ui.min.js"></script>
+
+
+
+
+    <script src="../../Scripts/AngularResources/angular.min.js"></script>
+    <script src="../../Scripts/AngularResources/angular-route.min.js"></script>
+    <script src="../../Scripts/AngularResources/angular-touch.min.js"></script>
+    <script src="../../Scripts/AngularResources/angular-aria.min.js"></script>
+    <script src="../../Scripts/AngularResources/angular-animate.min.js"></script>
+
+    <script src="../../Scripts/angular-cookies.min.js"></script>
+    <script src="../../Scripts/angular-sanitize.min.js"></script>
+    <script src="../../GlobalSearch/services/angular-local-storage.min.js"></script>
+    <!--locale translate-->
+    <script src="../../Scripts/bower-angular-translate-2.9.0.1/angular-translate.js"></script>
+
+
+    <link href="../../Scripts/AngularResources/icon.css?family=Material+Icons" rel="stylesheet" />
+
+
+    <script src="../../Scripts/ng-embed/ng-embed.min.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="../../Scripts/ui-bootstrap-tpls-0.12.0.min.js"></script>
+    <script src="../../Scripts/bootstrap-waitingfor.js"></script>
+
+    <script src="../../Scripts/modernizr-custom.js"></script>
+    <script src="../../Scripts/bootbox.js"></script>
+    <script src="../../Scripts/toastr.min.js"></script>
+    <script src="../../Scripts/sweetalert.min.js"></script>
+    <script src="../../Scripts/moment.min.js"></script>
+    <script src="../../Scripts/lodash.min.js"></script>
+
+
+    <script src="../../GlobalSearch/services/authInterceptorService.js"></script>
+    <script src="../../Scripts/typeahead.bundle.js"></script>
+    <script src="../../Scripts/handlebars-v2.0.0.js"></script>
+    <script src="../../Scripts/underscore.min.js"></script>
+
+
+    <script src="../../Scripts/Zamba.js?v=191"></script>
+    <script src="../../Scripts/Zamba.Associated.js"></script>
+
+
+    <script src="../../Scripts/bootstrap-multiselect.js"></script>
+    <link href="../../Scripts/bootstrap-multiselect.css" rel="stylesheet" />
+
+    <link href="../../Scripts/angularjs-ui-select/select.min.css" rel="stylesheet" />
+    <script src="../../Scripts/angularjs-ui-select/select.min.js?v=191"></script>
+
+    <script src="../../Scripts/ConfiguracionUsuario/Configuracion.js"></script>
+
+
+    <script>
+
+        var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
+        var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
+        var zambaApplication = "Zamba";
+        var URLServer = thisDomain + "/ZambaChat/";
+        var urlGlobalSearch = thisDomain + "/Views/Search/";
+        var URLServer = thisDomain + "/ZambaChat/";
+
+
+        function getValueFromWebConfig(key) {
+            var pathName = null;
+            $.ajax({
+                "async": false,
+                "crossDomain": true,
+                "url": "../../Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
+                "method": "GET",
+                "headers": {
+                    "cache-control": "no-cache"
+                },
+                "success": function (response) {
+                    if (response.childNodes[0].innerHTML == undefined) {
+                        pathName = response.childNodes[0].textContent;
+                    } else {
+                        pathName = response.childNodes[0].innerHTML;
+                    }
+
+                },
+                "error": function (data, status, headers, config) {
+                    console.log(data);
+                }
+            });
+            return pathName;
+        }
+
+
+
+
+    </script>
+
+
+    <script src="../../Scripts/Zamba.Fn.js?v=191"></script>
+
+
+    <script src="../../GlobalSearch/search/searchbox-loader.js?v=191"></script>
+
+    <script src="../../app/i18n/i18n.js?v=191"></script>
+    <script src="../../GlobalSearch/services/authService.js?v=191"></script>
+
+    <script src="../../app/ToolbarSelectedEntitiesDisplay/ToolbarEntitiesDisplayController.js"></script>
+    <script src="../../app/ZambaFilters/ZambaFiltersController.js"></script>
+
+    <script src="../../GlobalSearch/search/search-directives.js?v=191"></script>
+    <script src="../../Scripts/app/search/zamba.search.js?v=191"></script>
+    <script src="../../Scripts/app/search/Zamba.Search.Common.js?v=191"></script>
+    <script src="../../GlobalSearch/scripts/zambasearch.js?v=191"></script>
+
+    <script src="../../app/ruleExecition/RuleExecutionService.js?v=191"></script>
+    <script src="../../app/user/Controller/UserController.js?v=191"></script>
+    <script src="../../app/user/Service/UserService.js?v=191"></script>
+
+
+    <script src="../../scripts/kendoui/js/kendo.all.min.js"></script>
+    <link href="../../Scripts/app/Grids/Zamba.KendoGrid.css?v=191" rel="stylesheet" />
+    <script src="../../Scripts/app/Grids/KendoGrid.js?v=191"></script>
+    <script src="../../Scripts/KendoUI/js/cultures/kendo.culture.es-AR.min.js"></script>
+
+    <script src="../../Scripts/Token.js?v=191"></script>
+
+    <script src="../../GlobalSearch/services/uiService.js?v=191"></script>
+
+    <script src="../../GlobalSearch/services/cacheService.js?v=191"></script>
+
+    <script src="../../Scripts/angular-messages.js"></script>
+
+    <script src="../../LineCalendar/LineCalendarController.js?v=191"></script>
+    <script src="../../LineCalendar/LineCalendarService.js?v=191"></script>
+
+    <script src="../../app/Tasks/Controller/TaskController.js?v=191"></script>
+    <script src="../../app/Tasks/Service/TaskService.js?v=191"></script>
+    <script src="../../Scripts/angular-multiselect/multiselect.js?v=191"></script>
+
+    <script src="../../app/DocumentViewer/DocumentViewerController.js?v=191"></script>
+    <script src="../../app/DocumentViewer/DocumentViewerService.js?v=191"></script>
+
+    <script src="../../app/NewsGrid/NewsDirective.js"></script>
+    <script src="../../app/NewsGrid/NewsService.js"></script>
+    <script src="../../app/NewsGrid/NewsController.js"></script>
+
+    <script src="../../app/GenericGrid/GenericDirective.js"></script>
+    <script src="../../app/GenericGrid/GenericService.js"></script>
+    <script src="../../app/GenericGrid/GenericController.js"></script>
+
+    <script src="../../app/Home/HomeDirective.js"></script>
+    <script src="../../app/Home/HomeService.js"></script>
+    <script src="../../app/Home/HomeController.js"></script>
+    <script src="../../Scripts/jquery.maskedinput.min.js"></script>
+
+    <!--<script src="../../Scripts/sweetalert2/sweetalert2.all.js"></script>
+    <script src="../../Scripts/sweetalert2/sweetalert2.js"></script>
+    <script src="../../Scripts/sweetalert2/sweetalert2.all.min.js"></script>-->
+
+    <script src="../../Scripts/GeneralConfiguration.js?v=191"></script>
+
+    <link href="../../Scripts/angular-material.min.css" rel="stylesheet" />
+    <script src="../../Scripts/angular-material.min.js?v=191"></script>
+
+    <script src="../../app/sidebar/sidebarController.js?v=191"></script>
+    <script src="../../app/sidebar/sidebarService.js?v=191"></script>
+
+    <link href="../../app/sidebar/sidebarstyle.css" rel="stylesheet" />
+
+    <script src="../../app/TreeView/treeViewController.js?v=191"></script>
+    <script src="../../app/TreeView/treeViewServices.js"></script>
+
+    <script src="../../Scripts/globalConstants.js"></script>
+
+    <script src="../../Scripts/GenericCalendar.js?v=191"></script>
+    <script src="../../app/sidebar/sidebarService.js"></script>
+
+    <script src="../../app/ModalVisualPreferences/ModalVisualPreferencesController.js"></script>
+    <script src="../../app/ModalVisualPreferences/ModalVisualPreferencesService.js"></script>
+
+    <script src="../../app/SearchObject/SearchObjectService.js"></script>
+
+
+
+</head>
+
+<body data-ng-app="app" ng-cloak style="height:100%;">
+    <div onclick="this.style.display='none'"
+         onMouseOut="this.style.opacity=.8"
+         onMouseOver="this.style.opacity=1"
+         id="popupslocked"
+         class="popupslocked-div">
+        <a class="popupslocked-a"
+           id="linkDownloadManual"
+           href="#" download="">
+            ¡ALERTA! Su navegador tiene las ventanas emergentes bloqueadas impidiendo que Zamba funcione correctamente. Haga click aquí para leer el manual de instrucciones y solucionar el problema.
+        </a>
+    </div>
+    <div id="usrController" ng-controller="UserController"></div>
+    <script type="text/javascript">
+        // Get IE or Edge browser version
+        var version = detectIE();
+
+        if (version === false) {
+            // toastr.info('<s>IE/Edge</s>');
+        } else if (version >= 12) {
+            // toastr.info('Edge ' + version);
+        } else {
+            if (version <= 8) {
+                alert('La version de Internet Explorer que esta utilizando no es compatible con Zamba, recomendamos actualizar a una version mas reciente o utilizar Chrome.');
+            }
+            if (version < 11) {
+                toastr.warning('La version de Internet Explorer que esta utilizando no es compatible con Zamba, recomendamos actualizar a una version mas reciente o utilizar Chrome.');
+            }
+            else {
+                // toastr.info('IE ' + version);
+            }
+        }
+
+        // add details to debug result
+        // toastr.info(window.navigator.userAgent);
+
+        /**
+        * detect IE
+        * returns version of IE or false, if browser is not Internet Explorer
+        */
+        function detectIE() {
+            var ua = window.navigator.userAgent;
+
+            // Test values; Uncomment to check result …
+
+            // IE 10
+            // ua = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
+
+            // IE 11
+            // ua = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
+
+            // Edge 12 (Spartan)
+            // ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0';
+
+            // Edge 13
+            // ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586';
+
+            var msie = ua.indexOf('MSIE ');
+            if (msie > 0) {
+                // IE 10 or older => return version number
+                return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+            }
+
+            var trident = ua.indexOf('Trident/');
+            if (trident > 0) {
+                // IE 11 => return version number
+                var rv = ua.indexOf('rv:');
+                return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+            }
+
+            var edge = ua.indexOf('Edge/');
+            if (edge > 0) {
+                // Edge (IE 12+) => return version number
+                return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+            }
+
+            // other browser
+            return false;
+        }
+
+
+
+        /**/</script>
+    <!-- modals -->
+    <div id="appIdController" data-ng-controller="appController" ng-cloak>
+
+        <md-toolbar style="display: none">
+            <nav id="MasterHeader" class="navbar navbar-toggleable-sm navbar-fixed-top navbar-Main ">
+                <div class="container-fluid">
+
+                    <div class="navbar-header" style="padding-top:2px">
+
+
+
+
+                        <button class="navbar-toggle collapsed navbar-toggler-right" type="button" data-toggle="collapse" data-target="#myNavigation" aria-controls="myNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a class="hidden-xs navbar-brand clientlogo " href="#" style="margin-top: 0"></a>
+
+
+                     
+                        <button id="liHome" class="btn btn-navbar " style="background-color: transparent" onclick="searchModeGSFn(this,'Home');">
+                            <a style="color:white; background-color: transparent" href="#tabHome" class="disable" id="btntabhome">
+                                <span class=" fa fa-home">  </span> <span class="hidden-xs">Inicio</span>
+
+                            </a>
+                        </button>
+                     
+
+                        <button class="navigation-item btn btn-navbar" style="background-color: transparent" onclick="searchModeGSFn(this,'search');">
+                            <a style="color:white" id="searchModeGS" title="Busqueda por atributos" role="button">
+                                <span class=" fa fa-search">  </span><span class="hidden-xs">Buscar</span>
+                            </a>
+                        </button>
+
+                     
+                        <button id="BtnHomeInsert" class="btn btn-navbar disableBtnInsert" style="background-color: transparent" onclick="searchModeGSFn(this, 'insert');">
+                            <a ng-href="" style="color:white;" class="disable" title="Insertar" role="button" id="liInsert">
+                                <span class=" fa fa-plus">  </span><span style="margin-left: 3px;" class="hidden-xs">Insertar</span>
+                            </a>
+                        </button>                  <button class="btn btn-navbar" style="background-color: transparent" onclick="searchModeGSFn(this, 'MyTasks');">
+                             <a style="color:white" href="#" class="disable" id="MyTasksAnchor">
+                                <span class=" fa fa-tasks"></span><span class="hidden-xs"> Tareas</span>
+
+                            </a>
+                        </button>
+
+                        <button id="liTasks" style="display: none; background-color: transparent" class="btn btn-navbar">
+                            <a id="anchorTabTasks" href="#tabtasks" class="disable" style="color:white; opacity:0.8;">Tareas</a>
+                        </button>
+
+                        <button id="liTabRule" style="display: none; background-color: transparent" class="btn btn-navbar">
+                            <a href="#tabRules" id="rule">Rule</a>
+                        </button>
+
+
+
+                    </div>
+
+                    <div class="navbar-collapse collapse" id="myNavigation" style="color: white">
+
+                        <ul id="userActionHeader" class="nav navbar-nav dropdown" data-toggle="dropdown " style="color:white; opacity:0.9; padding-top: 2px">
+
+                            <li id="dropdown-header">
+                                <a class="dropdown-toggle" id="dropCabezera" data-toggle="dropdown " href="#" style="color:white; opacity:0.9; padding: 6px 6px 6px 6px">Acciones<i class="caret"></i></a>
+                                <ul class="dropdown-menu " aria-labelledby="dropdown-header" id="pnlHeaderButtons" runat="server"></ul>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                </div>
+            </nav>
+        </md-toolbar>
+
+        <div class="modal fade" id="ModalCenterVersion" tabindex="-1" role="dialog" aria-labelledby="ModalCenterVersion" aria-hidden="true" style="margin-top: 10%;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    </div>
+                    <img src="../../Content/Images/logozamba.jpg" class="img-fluid center-block" alt="Responsive image" style="width: 50%;">
+
+                    <div class="modal-body">
+                        <div id="FechaIdVersion" class="login-font-size-30-mobile"></div>
+                        <div id="ZambaVersionSearch" class="login-font-size-30-mobile">Zamba Web Ver. 6.0.0.7</div>
+                        <div class="login-font-size-30-mobile">Copyright© 2020 Stardoc Argentina - Todos los derechos reservados.</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="ModalChangePassword" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form ng-submit="ChangePassword(inputs)">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cambiar contraseña</h4>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Contraseña Actual</label>
+                                <input class="form-control" ng-model="inputs.CurrentPassword" type="password" />
+                            </div>
+                            <div class="form-group">
+                                <label>Nueva contraseña</label>
+                                <input class="form-control" ng-model="inputs.NewPassword" type="password" />
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Nueva contraseña</label>
+                                <input class="form-control" ng-model="inputs.NewPassword2" type="password" />
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer" style=" padding: 7px">
+                            <input class="btn btn btn-default" type="submit" value="Guardar">
+                            <button type="button" class="btn btn-default modal-cancel-button" data-dismiss="modal">Cancelar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="ModalConfig" class="modal fade">
+            <div class="modal-dialog " style="width:90%">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header" style="background:#337ab7">
+                        <button type="button" class="close" data-dismiss="modal">
+                            &times;
+                        </button>
+                        <center><h5 style="color:white;margin-top: 0px;margin-bottom: 0px;">CONFIGURACIÓN DE OPCIONES PARA USUARIO</h5></center>
+                    </div>
+
+                    <div ng-cloak ng-show="UserView() == 'true'">
+                        <div class="col-md-6">
+                            <h4 class="text-center">Usuarios</h4>
+                            <input type="text" id="SearchUsersPanel" class="form-control" placeholder="Buscar Usuarios" autocomplete="off">
+                            <br />
+
+                            <div class="list-group UsersPanel ScrollDiv">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-center">Grupos</h4>
+                            <input type="text" id="SearchGoupsPanel" class="form-control" placeholder="Buscar Grupos" autocomplete="off">
+                            <br />
+                            <div class="list-group GroupsPanel ScrollDiv">
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div ng-cloak ng-show="UserView() == 'false'"> no pues hola </div>-->
+                    <div class="UserSelected" style="margin-bottom: 10px;text-align: center;font-size: initial;margin-top:10px">
+                    </div>
+                    <div id="PanelDeConfiguracion" style="display:none">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="tabbable-panel">
+                                        <div class="tabbable-line">
+                                            <ul class="nav nav-tabs ">
+                                                <li class="active">
+                                                    <a href="#tab_default_1" data-toggle="tab">
+                                                        Botones
+                                                    </a>
+                                                </li>
+                                                <!--<li>
+                                                    <a href="#tab_default_2" data-toggle="tab">
+                                                        Grilla
+                                                    </a>
+                                                </li>-->
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab_default_1">
+                                                    <div class="container">
+                                                        <table class="tablediv table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 10%;text-align: center"></th>
+                                                                    <th style="width: 15%;text-align: center">Visible</th>
+                                                                    <th style="width: 30%;text-align: center">Texto</th>
+                                                                    <th style="width: 14%;text-align: center">ID Entidad</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="text-align-last: center;"><button type="button" class="btn ng-binding btn-primary active" data-color="primary"><i class="state-icon fa fa-check"></i>&nbsp;Todos los Casos</button></td>
+                                                                    <td style="text-align-last: center;">
+                                                                        <label>
+                                                                            <div id="checkTodosLosCasos" class="switchUser"></div>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control" id="TextTodosLosCasos" placeholder="Todos Los Casos">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select id="multiple-checkboxes-TodosLosCasos" multiple="multiple"></select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align-last: center;"><button type="button" class="btn ng-binding btn-primary active" data-color="primary"><i class="state-icon fa fa-check"></i>&nbsp;Todo el Equipo</button></td>
+                                                                    <td style="text-align-last: center;">
+                                                                        <label>
+                                                                            <div id="checkTodosElEquipo" class="switchUser"></div>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control" id="TextTodoElEquipo" placeholder="Todos el Equipo">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select id="multiple-checkboxes-TodoElEquipo" multiple="multiple"></select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align-last: center;"><button type="button" class="btn ng-binding btn-primary active" data-color="primary"><i class="state-icon fa fa-check"></i>&nbsp;Mis Tareas</button></td>
+                                                                    <td style="text-align-last: center;">
+                                                                        <label>
+                                                                            <div id="checkMisTareas" class="switchUser"></div>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control" id="TextMisTareas" placeholder="Mis Tareas">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select id="multiple-checkboxes-MisTareas" multiple="multiple"></select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align-last: center;"><button type="button" class="btn ng-binding btn-primary active" data-color="primary"><i class="state-icon fa fa-check"></i>&nbsp;Tareas del equipo</button></td>
+                                                                    <td style="text-align-last: center;">
+                                                                        <label>
+                                                                            <div id="checkTareasEquipo" class="switchUser"></div>
+                                                                        </label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group">
+                                                                            <input type="text" class="form-control" id="TextTareasEquipo" placeholder="Tareas del Equipo">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select id="multiple-checkboxes-TextTareasEquipo" multiple="multiple"></select>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div style=" padding: 7px;text-align: center;margin-bottom: 10px;">
+                                                        <button type="button" class="btn btn-info" onclick="LoadUserConfigModul()">Guardar</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Salir</button>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tab_default_2">
+                                                    <center>
+                                                        <img src="../../Content/Images/en-construccion.png" style="width: 387px; height: 255px;">
+                                                    </center>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- main content: sidebar and tabs -->
+    <div class="container-fluid" id="EntitiesCtrl" data-ng-controller="maincontroller" style="height:97%; padding-right: 0px;">
+
+        <section layout="row" flex>
+            <div ng-controller="sidebarCtrl" id="pushPanel">
+                <!--<div ng-controller="sidebarCtrl" flex="5">-->
+                <zamba-sidebar></zamba-sidebar>
+            </div>
+
+            <md-content flex="" style="background-color:white !important;overflow-x:hidden">
+
+                <div id="tabresults" class="col-md-12" style="display: none;
+                        padding-left: 0px;
+                        padding-right: 0px;">
+                    <zamba-treeview ng-controller="TreeViewController" ng-If="currentMode == 'MyProcess'"></zamba-treeview>
+
+                    <div id="ResultsCtrl" ng-class="{'SideBarClass0': WFSideBarIsOpen == false && currentMode != 'MyProcess' }"  style="height:100%">
+                        <div class="wrapper">
+
+
+                            <md-content flex style="overflow: visible">
+                                <div layout="column" layout-align="top center" id="content">
+                                    <div class="col-md-12" style="height:100%; padding-left: 0px; padding-right: 0px;">
+                                        <results-grid id="resultsGrid" style="display:block;border-left: 1px solid grey;">
+                                        </results-grid>
+                                    </div>
+                                </div>
+                            </md-content>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Inicio-->
+                <div id="tabhome"  ng-controller="HomeController" ng-If="currentMode == 'Home'">
+                    <zamba-home></zamba-home>
+                </div>
+
+                <!-- Tab Busqueda-->
+                <div id="SearchControls" style="outline: 0px solid white">
+                    <md-toolbar>
+                        <div class="md-toolbar-tools toolbar-color-search" layout="row" layout-align="space-between center">
+                            <div layout-align="start center">
+                                <span class="material-icons z-material-icons-align">
+                                    search
+                                </span>
+                                <span style="font-size:20px">
+                                    Búsqueda
+                                </span>
+                            </div>
+
+                            <div id="Advfilter1" ng-cloak>
+                                <div id="Advfilter-modal-content" tabindex="1" role="dialog" style="width: 100%; padding: 0; height:55px; margin-top: 18px;outline: 0px solid white; margin-bottom: 20px">
+                                    <div id="appController" style="float: inherit; ">
+                                        <zamba-search id="zambasearchcontrol" ng-model="searchParams"
+                                                      parameters="availableSearchParams"
+                                                      placeholder="Escribi las palabras a buscar..."
+                                                      style="height:100%;">
+                                        </zamba-search>
+                                        <script>
+                                            function GetNextUrl() {
+                                                return angular.element($('#zambasearchcontrol')).scope().GetNextUrl($(".resultsGridActive").index());
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <md-button class="md-fab md-mini md-hue-3 color-help-search " onclick="OpenHelp('../../forms/Marsh/Manuales/Manual_de_Usuario_Zamba_Web.pdf', 'Busquedas');" aria-label="Favorite">
+                                <span class="material-icons" style="padding-top:8px">
+                                    help_outline
+                                </span>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+                    <div ng-controller="ToolbarDisplayEntitiesController">
+                        <display-entities></display-entities>
+                    </div>
+                    <div id="SearchControl" style="height: 100%;padding-left:50px ">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input id="txtMensajes" runat="server" style="display: none;" />
+                            </div>
+                        </div>
+
+                        <div id="searchWrapper" class="row" style="height: 100%;outline: 0px solid white" tabindex="-1" ng-keydown="TriggerSearch($event)">
+
+                            <div id="treeWrapper" class="col-xs-3 col-sm-3 col-md-3 EntitiesTree slideSidePanel" style="height:100%;">
+                                <nav class="navbar navbar-fixed-top " id="spnToolbar" style="margin-bottom: 0; min-height: 0; margin-left:3%; ">
+                                    <span id="expandAllNodes" style="display:none" class="btn btn-xs btnBlue btnLightblue" title="Expandir árbol" data-placement="right" data-toggle="tooltip">
+                                        <i class="fa fa-plus-square-o"></i>
+                                    </span>
+                                    <span id="collapseAllNodes" style="display:none" class="btn btn-xs btnBlue btnLightblue" title="Contraer árbol" data-placement="right" data-toggle="tooltip">
+                                        <i class="fa fa-minus-square-o"></i>
+                                    </span>
+
+                                    <span id="selectAllNodes" style="display:none" class="btn btn-xs btnBlue btnLightblue" title="Seleccionar todo" data-placement="right" data-toggle="tooltip">
+                                        <i class="fa fa-check-square-o"></i>
+                                    </span>
+                                    <span id="unSelectNodes" style="display:none" class="btn btn-xs btnBlue btnLightblue" title="Deseleccionar todo" data-placement="right" data-toggle="tooltip">
+                                        <i class="fa fa-square-o"></i>
+                                    </span>
+
+                                    <span id="showSelectNodes" style="display:none" class="btn btn-xs btnBlue btnLightblue" title="Mostrar seleccionados" data-placement="right" data-toggle="tooltip">
+                                        <i class="fa fa-star"></i>
+                                    </span>
+                                    <span id="ButtonNodes" style="display:none">
+                                        <input id="filterText" value="" class="k-textbox" placeholder="Buscar" style="height: 25px; width: 80px" />
+                                    </span>
+
+                                </nav>
+                                <div class="searchtreeview" id="treeview" style="height: 100%; padding: 37px 0 0 0;"></div>
+                                <!--<div id="toogleTree" onclick="toogleTree(this);">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </div>-->
+                            </div>
+
+
+                            <div class="col-xs-8 col-sm-9 col-md-9 searchsearchbox slideMainPanel" id="dvSearchBox" style="padding: 0px; height: 100%; z-index: 1">
+                                <!--<div class="row" style="display: none">
+                                    <div class="col-md-12" onclick="advanceSearch=true">
+                                        <label>Buscar</label>
+                                        <input id="TxtTextSearch" />
+                                    </div>
+                                </div>-->
+
+                                <div class="row" id="barratop" style="margin-bottom: 25px;">
+                                    <div id="barraTopBtns" class="col-md-10 col-sm-offset-2 col-xs-12 barraTopBtns">
+
+                                        <a id="btnCloseSidePanel" class="btn btn-md" style="display: none;">
+                                            <span id="imgBtnCloseSidePanel" class="glyphicon glyphicon-menu-left btnToggleSidePanel"></span>
+                                        </a>
+
+                                        <button class='btn btn-outline-success hidden-xs hidden-sm' id='GoBackToSearchResultsBtn' role='button' ng-click='GoBackToSearchResults()' title="var resultados" data-ng-if="Search.SearchResults != undefined && Search.SearchResults.length > 0 && currentMode == 'search'">
+                                            <span class="glyphicon glyphicon-circle-arrow-left white"></span><span class="white" style="padding-left: 5px;">ver resultados</span>
+                                        </button>
+
+                                        <input type="button" value="Buscar" ID="btnbusqueda" ng-click="DoSearchAttr();" class="btnBlueMaterialInBoostrap" style="width:498px" />
+
+
+                                        <button id="BtnClearIndex" type="button" class="btn-circleMaterialInBoostrap" onclick="CleanAllInputs()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+                                        <!--<md-icon> face </md-icon>-->
+                                        <!--<div class="md-button">
+                                        <a id="btnbusqueda2_2" class="btn btn-sm  btn-outline-primary" onclick="CleanAllInputs()" data-ng-if="Search.DoctypesIds.length > 0">-->
+                                        <!--<span class="glyphicon glyphicon-trash white"></span><span class="white hidden-xs" style="padding-left: 5px;">Limpiar</span>-->
+                                        <!--</a>
+                                        </div>-->
+                                        <!--<md-button class="btnBlueMaterialInBoostrap " aria-label="">
+                                        Limpiar-->
+                                        <!--<md-icon md-svg-src="your/icon.svg"></md-icon>-->
+                                        <!--</md-button>-->
+
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div id="NoResults" runat="server" style="display:none" class="NoResults">
+                                            <asp:LinkButton ID="lnkNoResults" runat="server" ForeColor="Red">NO SE ENCONTRARON RESULTADOS</asp:LinkButton>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="dvDocTypesIndexs" style="margin: 0; height:100%;margin-bottom: 20px;">
+                                    <div style="height: 100%;">
+                                        <search-indexslist></search-indexslist>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tab Listados -->
+                <!-- Tab Insercion -->
+                <div id="tabInsert" style="display: none" class="MainTabberTabs TabSpace">
+                    <iframe src="../../content/Images/loading.gif" ); runat="server" id="insertIframe" style="width: 100%; height: 700px; border:none;overflow-x:hidden"></iframe>
+                </div>
+
+                <!-- Modal TimeOut -->
+                <div class="modal fade" id="openModalTimeout" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden;">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="openModalIFTimeout" style="height: 300px; width: 500px; padding: 0">
+                            <div class="modal-header" style="background-color: #25557d; color: white; text-align: center;">
+                                <h4 class="modal-title" id="modalFormTitleTimeout">Página bloqueada - Tiempo de sesión caducado</h4>
+                            </div>
+
+                            <div class="modal-body" id="modalFormHomeTimeout" style="padding: 0; height: 350px; text-align: center;">
+                                <div id="TimeoutContent" style="margin-bottom: 10px;">
+                                    <br />
+
+                                    <div class="TimeOut-Logo"></div>
+                                    <br />
+                                    <input readonly="readonly" type="text" id="timeOutUserTxt" style="width: 380px; position: relative; bottom: 13px; left: 60px; padding-left: 10px;" class="form-control " placeholder="Ingrese su usuario">
+                                    <br />
+                                    <input type="password" id="timeOutPassTxt" style="width: 380px; position: relative; bottom: 25px; padding-left: 10px; left: 60px" class="form-control" placeholder="Ingrese su contraseña">
+                                    <br />
+                                    <div style="position: relative; bottom: 35px;">Por favor reingrese sus credenciales para continuar operando</div>
+                                    <button type="button" class="btn" style="color: white; position: relative; bottom: 25px; background-color: #25557d" id="timeOutBtn">Ingresar <span class="fa fa-sign-in"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </md-content>
+
+
+
+        </section>
+
+    </div>
+    <div ng-controller="ModalVisualPreferencesController">
+        <visual-preferences></visual-preferences>
+    </div>
+    <script>
+        
+
+        $(document).ready(function () {
+
+            setTimeout(
+                function () {
+                    ResizeCurrentTabHome($("#contentTabhomeMain"));
+                }, 1000);
+
+          
+
+            $('.switchUser').click(function () {
+                $(this).toggleClass("switchUserOn");
+            });
+            $('.switchUserBig').click(function () {
+                $(this).toggleClass("switchUserBigOn");
+            });
+
+            setTimeout(
+                function () {
+                    $(".md-datepicker-input").keypress(function (event) {
+                        event.preventDefault();
+                    });
+                    //$(".md-datepicker-input").click(function (event) {
+                    //    var openCalendarPane = "ctrl.openCalendarPane($event);";
+                    //    event.target.setAttribute("ng-click", openCalendarPane);
+                    //})
+                }, 1000);
+
+
+            setTimeout(
+                function () {
+                    addCalendarSearch();
+                }, 100);
+
+
+            // GetTree();
+            PermisosInsert();
+
+            $("#SearchUsersPanel").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".UsersPanel a").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("#SearchGoupsPanel").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".GroupsPanel a").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('.main-menu1').css("display", "none");
+            setTimeout(function () { $('#searchWrapper').focus(); }, 600);
+       
+
+
+        });
+
+        function viewMenuReport() {
+            $('.main-menu1').css("display", "none");
+        }
+        function viewBar() {
+            $('.main-menu1').css("display", "block");
+            var a = '';
+            var genericRequest = {
+                UserId: parseInt(GetUID()),
+                Params: {}
+            };
+
+            $.ajax({
+                type: "POST",
+                url: ZambaWebRestApiURL + '/search/GetResultsByAllReport',
+                data: JSON.stringify(genericRequest),
+
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success:
+                    function (data, status, headers, config) {
+                        a = data;
+                        var ElementoJson = JSON.parse(a);
+                        // console.log(ElementoJson.length);
+                        $('#AreaResult').empty();
+                        for (var i = 0; i < ElementoJson.Table.length; i++) {
+                            var name = ElementoJson.Table[i].NAME,
+                                id = ElementoJson.Table[i].ID;
+                            $('#AreaResult').append('<li class="ModalClassUlReport" id="' + id + '" name="' + name.toString() + '" onclick="NewViewReport(this);">' + name.toString() + '</li>');
+
+                        }
+                    }
+            });
+
+        }
+        function NewViewReport(sender) {
+            var ReportId = sender.id;
+            var User = parseInt(GetUID());
+            var url = thisDomain + '/Views/Reports/NewReports.html?id=' + ReportId + '';
+            window.localStorage.setItem("titulo", sender.attributes[2].nodeValue);
+            window.open('../../Views/Reports/NewReports.html?id=' + ReportId + '&User=' + User + '', "_blank");
+            //windows.open(url, "_blank");
+        }
+
+    </script>
+</body>
+
+</html>

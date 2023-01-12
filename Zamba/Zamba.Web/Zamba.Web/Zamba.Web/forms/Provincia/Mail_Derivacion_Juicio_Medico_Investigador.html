@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar-->
+<head>
+ <title></title>
+ <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+ <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+ <script src="../../Scripts/jquery-2.2.2.js"></script>
+ <script src="../../Scripts/angular.js"></script>
+ <script src="../../Scripts/angular.min.js"></script>
+ <script src="../../DropFiles/dropfiles.js"></script>
+ <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+</head>
+
+<body>
+ 
+ <div >
+ <div ng-controller="appController">
+ <div class="form-group row"></div>
+ <div class="col">
+ <div class="cell panel">
+ <form name="frmMain" action="Ing_Doc_Siniestro.html">
+ <div class="header background-blue">
+ <h5 class="titleceneterDiv">MAIL DERIVACION JUICIOS A MEDICO O INVESTIGADOR</h5>
+ </div>
+ <input id="hdnRuleId" type="hidden" />
+ <input id="hdnAsocId" type="hidden" />
+ <div class="container">
+ 
+ <div class="tab-pane active" id=">MAIL DERIVACION JUICIOS">
+ <div class="form-group row">
+ <div class="PanelPrincipal">
+ <div class="form-group row" style="position:relative;left:-50px">
+ <div class="col-md-2">
+ <div class="input-group">
+ <h5>Estimado:</h5> 
+ 
+ 
+  
+														
+
+ </div>
+												<div style="text-align:justify; text-justify:inter-word">
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <h5>Por medio del presente, le comunicamos que me hemos sido notificados de un nuevo Juicio, conforme el siguiente detalle:</h5>
+
+
+ </div>
+ </div>
+													</div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-6">
+ <div class="input-group">
+ <span class="input-group-addon">Actor:</span>
+<<Tarea>>.<<IndiceDescripcion(Actor)>> 
+
+ </div>
+ </div>
+													<div class="col-md-6">
+ <div class="input-group">
+ <span class="input-group-addon">Demandado:</span>
+<<Tarea>>.<<IndiceDescripcion(Demandado)>>
+
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <span class="input-group-addon">Juzgado interviniente:</span>
+ <<Tarea>>.<<IndiceDescripcion(Juzgado)>>
+
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <span class="input-group-addon">Jurisdicción:</span>
+<<Tarea>>.<<IndiceDescripcion(Jurisdiccion)>>
+
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <span class="input-group-addon">Fecha de notificación:</span>
+<<Tarea>>.<<IndiceDescripcion(Fecha de Notificacion)>>
+
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <span class="input-group-addon">Plazo de Traslado:</span>
+<<Tarea>>.<<IndiceDescripcion(Plazo Limite Cotizacion)>>
+
+ </div>
+ </div>
+ </div> 
+												<div style="text-align:justify; text-justify:inter-word">
+ <div class="form-group row">
+ <div class="col-md-7">
+ <div class="input-group">
+ <h5 style="text-align:justify">Mediante el siguiente link podrán acceder a la información correspondiente a sus efectos.</h5>
+ </div>
+ </div>
+ </div>
+  </br>
+</br>
+<<FuncionesComunes>>.<<ObtenerLinkWeb(Abrir Documento)>>
+</br>
+</br>
+ <div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+ <h5 style="text-align:justify">Atentamente;</h5>
+ </div>
+ </div>
+ </div>
+												 </div> 
+ <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+
+ <div class="row">
+ 
+ <div class="col-md-2" style="position:relative;left:20px;">
+ <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+ </div>
+ <div class="col-md-10">
+ <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+ <div class="form-group row">
+ </div>
+ </div>
+ 
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ </div>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+</body>
+</html>
+
+<style>
+ .Inputselect {
+ width: 100px !important;
+ }
+
+
+ .inputEtiquetas {
+ width: 30px !important;
+ }
+
+ /*.panel {
+ border: 1px solid rgb(21, 98, 142) !important;
+ }*/
+
+ .PanelPrincipal {
+ margin-top: 30px;
+ }
+
+ .margenBtn {
+ position: relative;
+ left: 90px;
+ }
+</style>

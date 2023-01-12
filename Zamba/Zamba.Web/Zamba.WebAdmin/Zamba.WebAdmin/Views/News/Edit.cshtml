@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Editar Noticia";
+}
+<script src="~/Scripts/News/Newsfn.js"></script>
+<script src="~/Scripts/News/NewsNG.js"></script>
+
+<form ng-submit="editSubmit()" class="form-horizontal" ng-controller="NewsEditController">
+    <div class="form-group frmSection">
+        <span class="spanSubTitle"> Noticia: {{id}} </span>
+        <hr style="margin:0;" />
+        <div class="row" style="margin: 5px;">
+            <div class="col-md-1">
+                <span class="spanSubTitle"> Titulo </span>
+            </div>
+            <div class="col-md-4">
+                <input type="text" ng-model="title" placeholder="Titulo" title="Titulo" class="form-control">
+            </div>
+            <div class="col-md-1">
+                <span class="spanSubTitle"> Repeticion </span>
+            </div>
+            <div class="col-md-2">
+                <input type="number" min="1" max="10" ng-model="repeat" ng-init="repeat=1" title="Repeticion" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <span class="spanSubTitle"> Importancia </span>
+            </div>
+            <div class="col-md-2">
+                <input type="number" min="1" max="10" ng-model="important" ng-init="important=5" title="Importancia" class="form-control">
+            </div> 
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active" onclick="ChangeEditorView(this,'short');"><a href="#">Contenido breve</a></li>
+        <li onclick="ChangeEditorView(this,'full');"><a href="#">Contenido completo</a></li>
+    </ul>
+    <div>
+        <textarea id="ShortContent" ng-model="ShortContent"></textarea>
+    </div>
+    <div style="display:none;">
+        <textarea id="FullContent" ng-model="FullContent"></textarea>
+    </div>
+    <br />
+    <div class="form-group">
+        @Html.ActionLink("Volver", "Index", "News", null, new { @class = "btn btn-default" })
+        <input type="submit" value="Guardar cambios" class="btn btn-success" />
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

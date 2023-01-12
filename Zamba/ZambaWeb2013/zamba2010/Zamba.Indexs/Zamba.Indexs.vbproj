@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D732408E-4384-4A04-9282-5F931140AC46}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Zamba.Indexs</AssemblyName>
+    <AssemblyOriginatorKeyFile>Stardoc.Zamba.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>Zamba.Indexs</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>Migrated rules for Zamba.Indexs.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\compilado\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IndexIntegrity\frmAyuda.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\ChkIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\ChkReadOnlyIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\frmInsertItemListaSustitucion.Designer.vb">
+      <DependentUpon>frmInsertItemListaSustitucion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Indices\Controls\frmInsertItemListaSustitucion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtDateTimeIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\DisplayindexCtl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\FrmBulkInsert.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\frmBulkInsertList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\FrmExportList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\frmIndexSubtitutiom.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\IndexController.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\ListViewResultComparer.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\SimpleIndexSearchCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\SimpleOperatorControl.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\SimpleSortButton.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\SortButton.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtBaseIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtDateIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtDropDownIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtLineIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtReadOnlyIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\txtSustIndexCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\UCListaSustitucion.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Controls\UCSearchIndexHyerachical.designer.vb">
+      <DependentUpon>UCSearchIndexHyerachical.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Indices\Controls\UCSearchIndexHyerachical.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Indices %28new%29\Indexwizard.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Indices\Indices %28new%29\UCRegularExpression.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Indices %28new%29\UcRequired.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indices\Indices %28new%29\UCVisible.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCIndexIndexerViewer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="IndexIntegrity\frmAyuda.resx">
+      <DependentUpon>frmAyuda.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\ChkIndexCtrl.resx">
+      <DependentUpon>ChkIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\ChkReadOnlyIndexCtrl.resx">
+      <DependentUpon>ChkReadOnlyIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\frmInsertItemListaSustitucion.resx">
+      <DependentUpon>frmInsertItemListaSustitucion.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtDateTimeIndexCtrl.resx">
+      <DependentUpon>txtDateTimeIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\DisplayindexCtl.resx">
+      <DependentUpon>DisplayindexCtl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\FrmBulkInsert.resx">
+      <DependentUpon>FrmBulkInsert.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\frmBulkInsertList.resx">
+      <DependentUpon>frmBulkInsertList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\FrmExportList.resx">
+      <DependentUpon>FrmExportList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\frmIndexSubtitutiom.resx">
+      <DependentUpon>frmIndexSubtitutiom.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\IndexController.resx">
+      <DependentUpon>IndexController.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\SimpleIndexSearchCtrl.resx">
+      <DependentUpon>SimpleIndexSearchCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\SimpleOperatorControl.resx">
+      <DependentUpon>SimpleOperatorControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\SimpleSortButton.resx">
+      <DependentUpon>SimpleSortButton.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\SortButton.resx">
+      <DependentUpon>SortButton.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtBaseIndexCtrl.resx">
+      <DependentUpon>txtBaseIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtDateIndexCtrl.resx">
+      <DependentUpon>txtDateIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtDropDownIndexCtrl.resx">
+      <DependentUpon>txtDropDownIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtIndexCtrl.resx">
+      <DependentUpon>txtIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtLineIndexCtrl.resx">
+      <DependentUpon>txtLineIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtReadOnlyIndexCtrl.resx">
+      <DependentUpon>txtReadOnlyIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\txtSustIndexCtrl.resx">
+      <DependentUpon>txtSustIndexCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\UCListaSustitucion.resx">
+      <DependentUpon>UCListaSustitucion.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Controls\UCSearchIndexHyerachical.resx">
+      <DependentUpon>UCSearchIndexHyerachical.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Indices %28new%29\UCRegularExpression.resx">
+      <DependentUpon>UCRegularExpression.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Indices %28new%29\UcRequired.resx">
+      <DependentUpon>UcRequired.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices\Indices %28new%29\UCVisible.resx">
+      <DependentUpon>UCVisible.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCIndexIndexerViewer.resx">
+      <DependentUpon>UCIndexIndexerViewer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Stardoc.Zamba.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{A706E6F9-436F-4761-AB28-30F99F1EF098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

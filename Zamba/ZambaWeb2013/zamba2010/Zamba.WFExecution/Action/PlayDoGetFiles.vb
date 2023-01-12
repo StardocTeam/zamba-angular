@@ -1,0 +1,110 @@
+Imports Zamba.Core
+Imports Zamba.Data
+Imports System.IO
+Imports Zamba.Tools
+Imports Zamba.Core.WF.WF
+
+Public Class PlayDoGetFiles
+
+    Private _myrule As IDoGetFiles
+    Private indexvalue As String
+
+
+    Public Sub New(ByVal rule As IDoGetFiles)
+        Me._myrule = rule
+
+    End Sub
+
+    Public Function Play(ByVal results As System.Collections.Generic.List(Of Core.ITaskResult)) As System.Collections.Generic.List(Of Core.ITaskResult)
+        Dim newResults As New System.Collections.Generic.List(Of Core.ITaskResult)
+        Dim files As Array
+        Dim ExtensionFile As Array
+        Dim t As Int16 = 1
+        Dim filePathnew As String = String.Empty
+        Dim FilteredFiles() As String
+        Try
+            'reconociendo texto inteligente
+            Dim filepath As String = Zamba.Core.TextoInteligente.ReconocerCodigo(_myrule.DirectoryRoute, results(0)).Trim
+            'reconociendo Zvar
+            If _myrule.DirectoryRoute.ToLower.Contains("zvar") = True Then
+                Dim VarInterReglas As New VariablesInterReglas()
+                filepath = VarInterReglas.ReconocerVariables(filepath).Trim
+                VarInterReglas = Nothing
+            End If
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Directorio: " & filepath)
+
+            If _myrule.ObtainOnlyRouteFiles Then
+                files = GetFilesRecursive(filepath).ToArray()
+            Else
+                files = Directory.GetFiles(filepath)
+            End If
+
+
+            If Not _myrule.Extensions.Contains("*.*") Then
+                ExtensionFile = _myrule.Extensions.Split(",")
+                For Each fi As String In files
+                    For Each extFi As String In ExtensionFile
+                        If fi.Substring(fi.Length - 4) = extFi.Remove(extFi.Length - 1).Substring(extFi.Length - 5).ToLower Then
+                            Array.Resize(FilteredFiles, t)
+                            FilteredFiles.SetValue(fi, t - 1)
+                            t = t + 1
+                        End If
+                    Next
+                Next
+
+                files = Nothing
+                files = FilteredFiles
+            End If
+
+
+            'Seteamos una variable que guarda el path del documento local
+            If VariablesInterReglas.ContainsKey(Me._myrule.VarName) = Nothing Then
+                VariablesInterReglas.Add(Me._myrule.VarName, files)
+            Else
+                VariablesInterReglas.Item(Me._myrule.VarName) = files
+            End If
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Nombre Variable: " & _myrule.VarName)
+
+
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+
+        Return results
+    End Function
+
+    Public Shared Function GetFilesRecursive(ByVal initial As String) As List(Of String)
+        ' This list stores the results.
+        Dim result As New List(Of String)
+
+        ' This stack stores the directories to process.
+        Dim stack As New Stack(Of String)
+
+        ' Add the initial directory
+        stack.Push(initial)
+
+        ' Continue processing for each stacked directory
+        Do While (stack.Count > 0)
+            ' Get top directory string
+            Dim dir As String = stack.Pop
+            Try
+                ' Add all immediate file paths
+                result.AddRange(Directory.GetFiles(dir, "*.*"))
+
+                ' Loop through all subdirectories and add them to the stack.
+                Dim directoryName As String
+                For Each directoryName In Directory.GetDirectories(dir)
+                    stack.Push(directoryName)
+                Next
+
+            Catch ex As Exception
+            End Try
+        Loop
+
+        ' Return the list
+        Return result
+    End Function
+
+
+End Class

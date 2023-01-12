@@ -1,0 +1,297 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Form: Baremo Lesiones -->
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:07/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<!--Version:1.0.0-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="BaremoLesiones.html">
+            <div id="ZFrmValidator" name="ZFrmValidator">
+                <input id="hdnRuleId" type="hidden" />
+
+                <ul class=" nav nav-tabs">
+                    <li class=" active"><a href="#Baremo" data-toggle="tab">Baremo</a></li>
+                    <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
+                </ul>
+
+                <div class="form-group row"></div>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="Baremo">
+
+                        <div class="form-group row">
+                            <center><span class="input-group-addon">Baremo - Lesiones</span></center>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">ID Reclamo</span>
+                                    <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677" maxlength="80" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Nombre</span>
+                                    <input class="form-control input-sm" id="zamba_index_2706" name="zamba_index_2706" maxlength="80" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Actividad</span>
+                                    <input class="form-control input-sm" id="zamba_index_2848" name="zamba_index_2848" maxlength="200" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <!--<div class="col-md-12 col-md-offset-2 col-sm-12 col-sm-offset-2 ">-->
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Fecha Nacimiento</span>
+                                    <input class="form-control input-sm dataType datepicker" data-date-open-on-focus="true" id="zamba_index_2763" name="zamba_index_2763" autocomplete="off" onfocusout="CompletarEdad();" disabled style="font-weight:600;">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Edad</span>
+                                    <input class="form-control input-sm" id="zamba_index_2846" name="zamba_index_2846" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Ingreso Anual</span>
+                                    <input class="form-control input-sm" id="zamba_index_2847" name="zamba_index_2847" disabled style="font-weight:600;" onkeypress="val_Importe(this, event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Nro Documento</span>
+                                    <input class="form-control input-sm" id="zamba_index_11" name="zamba_index_11" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Incapacidad</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">% Pericia Med Cia</span>
+                                    <input class="form-control input-sm" id="zamba_index_10232" name="zamba_index_10232" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">% Estimado PMO</span>
+                                    <input class="form-control input-sm" id="zamba_index_10233" name="zamba_index_10233" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">% Pericia Med Oficial</span>
+                                    <input class="form-control input-sm" id="zamba_index_10234" name="zamba_index_10234" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">% Pericia Psico Cia</span>
+                                    <input class="form-control input-sm" id="zamba_index_10235" name="zamba_index_10235" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">% Estimado PPO</span>
+                                    <input class="form-control input-sm" id="zamba_index_10236" name="zamba_index_10236" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">% Pericia Psico Oficial</span>
+                                    <input class="form-control input-sm" id="zamba_index_10237" name="zamba_index_10237" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Factor de Corrección</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Daños Materiales</span>
+                                    <input class="form-control input-sm" id="zamba_index_2792" name="zamba_index_2792" disabled style="font-weight:600;" onkeypress="val_Importe(this, event);" />
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Otros Gastos</span>
+                                    <input class="form-control input-sm" id="zamba_index_2818" name="zamba_index_2818" disabled style="font-weight:600;" onkeypress="val_Importe(this, event);" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon"></span>
+                        </div>
+                        <div style="position:relative;bottom:20px">
+                            <div class="form-group row">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <!--Observacion-->                           					<span class="input-sm"><h5><b>Observaciones:</b></h5></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12" style="padding:0px;">
+                                        <div class="col-md-12">
+                                            <!--Area texto Observacion-->                     					<textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane" id="Expediente">
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="2525" default-enable-mode="grid" table-height="400" grid-title="Expediente">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group row"> </div>
+
+                <div class="form-group row">
+                    <center>
+                        <div>
+                            <img alt="" src="images/PSlogoLarge.png" height="50" width="140" style="float: left" />
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="140" style="float: right" />
+                        </div>
+                    </center>
+                </div>
+                <div class="form-group row"> </div>
+                <div class="form-group row"> </div>
+
+
+
+            </div>
+
+            <script type="text/javascript" language="JavaScript">
+                $(document).ready(function () {
+                    //Establece Puntos millares y coma a los importes traidos del origen.
+                    setInputSeparator('zamba_index_2792');
+                    setInputSeparator('zamba_index_2818');
+                    setInputSeparator('zamba_index_2847');
+
+                    //*Renderizacion de valor numerico a importe.
+                    //*Validacion de caracteres ingresados.
+                    $("#zamba_index_2792").on({
+                        "focusout": render_Importe,
+                    });
+                    $("#zamba_index_2818").on({
+                        "focusout": render_Importe,
+                    });
+                    $("#zamba_index_2847").on({
+                        "focusout": render_Importe,
+                    });
+
+                    $(".solonums").each(function () {
+                        $(this).keypress(function (e) {
+                            return IntegerCheck($('#' + e.target.id));
+                        })
+                    });
+                    $(".moneda").each(function () {
+                        $(this).keyup(function (e) {
+                            return DecimalCheck($('#' + e.target.id))
+                        })
+                    });
+                    $(".porcentaje").each(function () {
+                        $(this).keyup(function (e) {
+                            return PorcentualCheck($('#' + e.target.id));
+                        })
+                    });
+                });
+                function zamba_save_onclick() {
+                    if ($('input[type=text]').hasClass('error')) {
+                        alert("Verifique que todos los datos de los campos sean válidos");
+                        document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    } else {
+                        document.getElementById("hdnRuleId").name = "zamba_rule_save";
+                    }
+                }
+                function BorrarPrimerHijo() {
+                    document.getElementById("zamba_index_2858").onclick = null;
+                    document.getElementById("zamba_index_2858").checked = false;
+                    document.getElementById("zamba_index_2858").onclick = BorrarSegundoHijo;
+                }
+                function BorrarSegundoHijo() {
+                    document.getElementById("zamba_index_2859").onclick = null;
+                    document.getElementById("zamba_index_2859").checked = false;
+                    document.getElementById("zamba_index_2859").onclick = BorrarPrimerHijo;
+                }
+
+                function CompletarEdad() {
+                    var fec = $("#zamba_index_13305").val();
+                    $("#zamba_index_2846").val(calcularEdad(fec));
+                }
+
+                function calcularEdad(fecha) {
+                    var hoy = new Date();
+                    var cumpleanos = new Date(fecha);
+                    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                    var m = hoy.getMonth() - cumpleanos.getMonth();
+
+                    if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                        edad--;
+                    }
+                    return edad;
+                }
+
+
+            </script>
+
+
+
+
+        </form>
+    </div>
+
+</body>
+</html>

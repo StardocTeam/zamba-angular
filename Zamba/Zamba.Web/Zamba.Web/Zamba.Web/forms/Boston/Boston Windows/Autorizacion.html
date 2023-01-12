@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Autorizacion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    return DecimalCheck($('#' + e.target.id))
+                })
+            });
+        });
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_Index_2783").value == "") {
+                alert("El valor maximo debe encontrarse completo");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                alert("Datos guardados con exito");
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="Autorizacion.html">
+            <div class="form-group row">
+                <center>
+                    <div class="col-md-12">
+
+                        <div>
+                            <h4 style="background-color:#418ad4;color: white;">Autorizacion</h4>
+                        </div>
+                </center>
+            </div>
+            <input id="hdnRuleId" type="hidden" />
+            
+                <div id="tblAutorizacion" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-addon">Grupo:</span>
+                                <select class="form-control input-sm" id="zamba_index_2782"
+                                    name="zamba_index_2782"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Maximo: $</span>
+                                <input class="form-control input-sm" id="zamba_index_2783" name="zamba_index_2783"
+                                    class="moneda">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tblNota" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                        <span class="input-group-addon"><i>Nota: El valor Maximo se incluye al verificar el tope del
+                                grupo.</i></span>
+                            </div>
+                    </div>
+                </div>
+                <center>
+                <div>
+                    <input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit" value="Guardar"
+                        onclick="return zamba_save_onclick();">
+                </div>
+            </center>
+            <div class="form-group row">
+                <div class="col-md-2" style="position:relative;left:20px;">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:white">Autorizacion.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </div>
+    </div>
+    </form>
+</body>
+
+</html>

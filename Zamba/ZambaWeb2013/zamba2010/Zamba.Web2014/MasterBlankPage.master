@@ -1,0 +1,158 @@
+﻿<%@ Master Language="C#" CodeFile="MasterBlankPage.master.cs" Inherits="MasterBlankPage" %>
+
+<%@ Import Namespace="System.Web.Optimization" %>
+<!DOCTYPE html>
+<html>
+<head id="Head2" runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE,chrome=1" />
+    <title title="Zamba Web"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <asp:ContentPlaceHolder ID="header_css" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="shortcut icon" id="lnkWebIcon" runat="server" type="image/x-icon" />
+
+    <asp:PlaceHolder runat="server">
+        <%: Styles.Render("~/bundles/Styles/masterblank")%>
+        <%: Styles.Render("~/bundles/Styles/jquery")%>
+        <%: Styles.Render("~/bundles/Styles/ZStyles")%>
+        <%: Styles.Render("~/Content/css")%>
+        <%: Styles.Render("~/bundles/Styles/bootstrap")%>
+        <%: Styles.Render("~/Content/bootstrap-responsive.css")%>
+        <%: Styles.Render("~/Content/themes/base/datepicker")%>
+        <%: Styles.Render("~/bundles/Styles/grids")%>
+        <%: GetJqueryCoreScript()%>
+        <%: Scripts.Render( "~/bundles/modernizr") %>
+        <%: Scripts.Render("~/bundles/jqueryAddIns") %>
+        <%: Scripts.Render("~/bundles/tabber") %>
+        <%: Scripts.Render("~/bundles/ZScripts") %>
+        <%: Scripts.Render("~/bundles/bootstrap") %>
+        <%--<%: Scripts.Render("~/bundles/moment") %>--%>
+        <%: Scripts.Render("~/bundles/Scripts/masterblank") %>
+
+      <script type="text/javascript">
+            $(document).ready(function () {
+                document.config = {
+                    urlBase: "<%=GetAppRootUrl(false) %>",
+                    isOldBrowser: "<%=GetIsOldBrowser()%>"
+                };
+            });
+
+        </script>
+    </asp:PlaceHolder>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            loadCliksInRows();
+        });
+        function ResizeCurrentTab(height, url) {
+            if (height > 0) {
+               
+                if (url.indexOf("TaskViewer") != -1 || url.indexOf("DocViewer") != -1) {
+                    if ($('#TasksDivUL').find(".ui-tabs-selected").find("a")[0] != undefined) {
+                        idTabSelected = $('#TasksDivUL').find(".ui-tabs-selected").find("a")[0].href;
+                        $(idTabSelected).height(height + 55);
+                    }
+                }
+            }
+        }
+
+        $(window).load(function () {
+            if (typeof parent.ResizeCurrentTab == 'function') {
+            
+            var v = $("#ctl00_hdReload").val();
+            if (v == "false") {
+                $("#ctl00_hdReload").val("true");
+                parent.ResizeCurrentTab($(document).height(), $(document).context.location.href);
+            }
+
+            t = setTimeout("hideLoading();", 500);
+            }
+        });
+
+        function CloseTask(taskid, isCloseFromButton) {
+            var id;
+
+            if (isCloseFromButton) {
+                id = $('#TasksDivUL').find(".ui-tabs-selected").find("a")[0].href;
+            }
+            else
+                id = '#T' + taskid;
+
+            if ($('#TasksDiv') != null) $('#TasksDiv').tabs("remove", id);
+
+            if ($('#T' + taskid) != null) $(id).remove();
+
+            if ($('#TasksDiv').tabs("length") == 0) {
+                $('#MainTabber').tabs("select", '#tabtasklist');
+            }
+        }
+
+        function CheckAnyTaskOpen() {
+            return ($('#TasksDiv').tabs("lenght") == 0);
+        }
+
+        function InsertOpen() {
+            var destinationURL = "../Views/Insert/Insert.aspx";
+            var newwindow = window.open(destinationURL, this.target, 'width=630,height=550,left=' + (screen.width - 600) / 2 + ',top=' + (screen.height - 580) / 2 + ',directories=no,status=no,menubar=no,toolbar=no,location=no,resizable=yes');
+        }
+
+        function InsertForm(formid, modal) {
+            parent.InsertForm(formid, modal);
+        }
+
+        function AsociateForm(formid, docid, doctypeid, taskid, continueWithCurrentTasks, dontOpenTaskAfterInsert, fillCommonAttributes, haveSpecificAtt) {
+            parent.AsociateForm(formid, docid, doctypeid, taskid, continueWithCurrentTasks, dontOpenTaskAfterInsert, fillCommonAttributes, haveSpecificAtt);
+        }
+
+        function ShowLoadingAnimation() {
+            if (parent != this)
+                parent.ShowLoadingAnimation();
+        }
+
+        function hideLoading() {
+            if (parent != this)
+                parent.hideLoading();
+        }
+
+        var t;
+
+        function ResizeTBIframe(width, height) {
+            try {
+               
+                if (parent !== this)
+                    ResizeTBIframe($("#design").parent().width(), $("#design").parent().height());
+            }
+            catch (e) { }
+        }
+
+        var baseUrl = location.origin;
+       // var baseRestApiUrl = 'http://localhost:49864';
+    </script>
+
+    <asp:ContentPlaceHolder ID="header_js" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+<body class="Body-Master-Blanck" style="overflow: auto;">
+    <div class="Div-principal-MasterBlank" id="divPrincipalMasterBlank">
+        <form id="form2" runat="server" class="form" enctype="multipart/form-data">
+            <asp:HiddenField ID="hdReload" runat="server" Value="false"></asp:HiddenField>
+            <asp:HiddenField ID="hdnUserId" runat="server" />
+            <asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release">
+                <Services>
+                    <asp:ServiceReference Path="~/Services/TasksService.asmx" />
+                </Services>
+            </asp:ScriptManager>
+                 <div class="container-fluid">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+            </asp:ContentPlaceHolder>
+                     </div>
+        </form>
+    </div>
+    <asp:ContentPlaceHolder ID="footer_js" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

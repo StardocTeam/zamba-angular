@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+        function FuncionesPosCargaDeReclamo() {
+            document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("4");
+            if ($("#zamba_index_38").val() == null)
+                $("#zamba_index_38").val("2");
+        }
+        window.onload = function () {
+            setTimeout(function () { FuncionesPosCargaDeReclamo(); }, 500);
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="AnalisisSolicitudInsercionInterior.html">
+            <input id="hdnRuleId" type="hidden" />
+
+            <div class="form-group row">
+                <center>
+                    <div class="col-md-12">
+
+                        <div>
+                            <h4 style="background-color:#418ad4;color: white;">Alta Rápida de Solicitud de Emision
+                                (Interior)</h4>
+                        </div>
+                </center>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Seccion:</span>
+                        <select class="form-control input-sm" id="zamba_index_32" name="zamba_index_32"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Solicitud de Anulacion:</span>
+                        <input class="form-control input-sm" id="zamba_index_1173" name="zamba_index_1173" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Tipo de Movimiento:</span>
+                        <select class="form-control input-sm" id="zamba_index_38" name="zamba_index_38"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nro de Solicitud Productor:</span>
+                        <input class="form-control input-sm" id="zamba_index_1157" name="zamba_index_1157" />
+                    </div>
+                </div>
+            </div>
+
+        
+            <CENTER>
+                <input class="btn  btn-primary sm" id="zamba_save" type="submit" value="Guardar"
+                    name="zamba_save" />
+            </CENTER> 
+            <div class="form-group row">
+                <div class="col-md-2" style="position:relative;left:20px;">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:white">AnalisisSolicitudInsercionInterior.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>

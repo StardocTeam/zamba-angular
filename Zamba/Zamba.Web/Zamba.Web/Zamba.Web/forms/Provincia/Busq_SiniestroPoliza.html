@@ -1,0 +1,264 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Busq_SiniestroPoliza.html">
+            <input id="hdnRuleId" type="hidden" />
+            <h4 class="text-center" id="header" width="90%">Búsqueda por Siniestro o Póliza</h4>
+            <center>
+
+                <div id="tblReclamo" class="attributes_table">
+
+
+
+
+                    <div class="form-group row">
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Ramo:</span>
+                                <select class="form-control input-sm" id="zamba_index_19" name="zamba_index_19" size="1"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Vida) Fallecido / Accidentado:</span>
+                                <input class="form-control input-sm" id="zamba_index_10206" name="zamba_index_10206" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014498" id="zamba_rule_1014498" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nro. de Siniestro:</span>
+                                <input class="form-control input-sm" id="zamba_index_17" name="zamba_index_17" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014063" id="zamba_rule_1014063" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Vida) DNI Fallecido / Accidentado:</span>
+                                <input class="form-control input-sm" id="zamba_index_10207" name="zamba_index_10207" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014321" id="zamba_rule_1014321" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nro. de Póliza:</span>
+                                <input class="form-control input-sm" id="zamba_index_1020022" name="zamba_index_1020022" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014087" id="zamba_rule_1014087" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nro. Certificado:</span>
+                                <input class="form-control input-sm" id="zamba_index_10165" name="zamba_index_10165" />
+                                <span class="input-group-btn">
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Vida) Nro. de Siniestro (Coaseguro):</span>
+                                <input class="form-control input-sm" id="zamba_index_10208" name="zamba_index_10208" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014333" id="zamba_rule_1014333" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Fecha del Siniestro:</span>
+                                <input class="form-control input-sm" id="zamba_index_10180" name="zamba_index_10180" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014125" id="zamba_rule_1014125" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Aero) Matrícula Aeronave:</span>
+                                <input class="form-control input-sm" id="zamba_index_10211" name="zamba_index_10211" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014357" id="zamba_rule_1014357" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Asegurado / Razon Social:</span>
+                                <input class="form-control input-sm" id="zamba_index_1020002" name="zamba_index_1020002" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014144" id="zamba_rule_1014144" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Cascos) Matrícula Embarcación:</span>
+                                <input class="form-control input-sm" id="zamba_index_10210" name="zamba_index_10210" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014369" id="zamba_rule_1014369" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tercero:</span>
+                                <input class="form-control input-sm" id="zamba_index_10202" name="zamba_index_10202" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014297" id="zamba_rule_1014297" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Cascos) Nombre Embarcación:</span>
+                                <input class="form-control input-sm" id="zamba_index_10261" name="zamba_index_10261" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014381" id="zamba_rule_1014381" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Autos) Patente del Asegurado:</span>
+                                <input class="form-control input-sm" id="zamba_index_1020025" name="zamba_index_1020025" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014175" id="zamba_rule_1014175" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Seg. Tec.) Patente Máquina:</span>
+                                <input class="form-control input-sm" id="zamba_index_10212" name="zamba_index_10212" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014393" id="zamba_rule_1014393" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Autos)  Patente del Tercero:</span>
+                                <input class="form-control input-sm" id="zamba_index_10215" name="zamba_index_10215" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014194" id="zamba_rule_1014194" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">(Autos) Conductor Asegurado:</span>
+                                <input class="form-control input-sm" id="zamba_index_10201" name="zamba_index_10201" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1014285" id="zamba_rule_1014285" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group-btn">
+                                <!--<input name="zamba_rule_1013562" id="zamba_rule_1013562" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Cargar Nuevo">-->
+                                <input name="zamba_cancel" id="zamba_cancel" onclick="window.close();" class="btn btn-primary" type="submit" value="Salir">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+
+            </center>
+            <script type="text/javascript" language="JavaScript">
+
+                  $(document).ready(function () {
+
+                      document.getElementById("zamba_index_1020002").addEventListener("keypress", forceKeyPressUppercase, false);
+
+                  });
+
+
+            </script>
+        </form>
+    </div>
+  
+
+</body>
+</html>

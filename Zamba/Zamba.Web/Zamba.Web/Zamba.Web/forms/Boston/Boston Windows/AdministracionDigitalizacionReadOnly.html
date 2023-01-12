@@ -1,0 +1,805 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+     
+    
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript"></script>
+    <script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+    
+    <link rel="stylesheet" href="AdministracionDigitalizacion.css" type="text/css" />
+    <script type="text/javascript" language="JavaScript">
+
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+
+        function zamba_save_onclick(sender) {
+            //Aca puedo realizar las contravalidaciones, osea ademas de realizar las validaciones campo por campo
+            //a su vez podria realizar una validacion general en este cuerpo.
+
+            //alert ('zamba_save_onclick');
+            var mensaje = MensajeError();
+            if (mensaje != "") {
+                alert(mensaje[0]);
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else {
+                //document.getElementById("hdnRuleId").name = "zamba_rule_save";
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+                alert("Se guardó de manera exitosa.");
+            }
+        }
+
+
+
+        function MensajeError() {
+            var mensaje = "";
+            //return mensaje;
+
+
+            //Validaciones por tipo de documentacion
+
+            var TipoDocumentacion = document.getElementById('zamba_index_191').value;
+
+            //alert ('MensajeError');
+            //alert(TipoDocumentacion);
+
+            //Tipo documentación
+            if (TipoDocumentacion == null || TipoDocumentacion == "" || TipoDocumentacion == 0) {
+
+                mensaje = ["El tipo de documentación es un dato obligatorio", "zamba_index_191"];
+            }
+
+
+            //alert(TipoDocumentacion);
+
+            if (TipoDocumentacion == 1) {
+
+                //$('#divFacturasAutorizadasFrame').show();
+
+                //Cuit
+                if (document.getElementById("zamba_index_179").value.trim() == "" || document.getElementById("zamba_index_179").value.trim() == 0)
+                    mensaje = ["El Cuit es un dato obligatorio", "zamba_index_179"];
+
+                //Nro Factura
+                if (document.getElementById("zamba_index_180").value.trim() == "" || document.getElementById("zamba_index_180").value.trim() == 0)
+                    mensaje = ["El nro de factura es un dato obligatorio", "zamba_index_180"];
+
+                //Fecha Factura
+                if (document.getElementById("zamba_index_189").value.trim() == "" || document.getElementById("zamba_index_189").value.trim() == 0)
+                    mensaje = ["La fecha de factura es un dato obligatorio", "zamba_index_189"];
+
+
+            }
+
+            if (TipoDocumentacion == 2) {
+
+                //$('#divChequesEntregadosPorTesoreriaFrame').show();
+                //Fecha de entrega
+                if (document.getElementById("zamba_index_181").value.trim() == "" || document.getElementById("zamba_index_181").value.trim() == 0)
+                    mensaje = ["La fecha de entrega es un dato obligatorio", "zamba_index_181"];
+
+            }
+
+            if (TipoDocumentacion == 3) {
+
+                //$('#divChequesRechazadosFrame').show();
+
+                //Nro de cheque
+                if (document.getElementById("zamba_index_182").value.trim() == "" || document.getElementById("zamba_index_182").value.trim() == 0)
+                    mensaje = ["El Nro de cheque es un dato obligatorio", "zamba_index_182"];
+
+                //Banco
+                if (document.getElementById("zamba_index_183").value.trim() == "" || document.getElementById("zamba_index_183").value.trim() == 0)
+                    mensaje = ["El banco es un dato obligatorio", "zamba_index_183"];
+
+                //Fecha rechazo
+                if (document.getElementById("zamba_index_190").value.trim() == "" || document.getElementById("zamba_index_190").value.trim() == 0)
+                    mensaje = ["La fecha de rechazo es un dato obligatorio", "zamba_index_190"];
+
+
+
+            }
+
+            if (TipoDocumentacion == 4) {
+                //$('#divPermisosDeEntregaDeChequesFrame').show();
+
+                //Cuit
+                if (document.getElementById("zamba_index_179").value.trim() == "" || document.getElementById("zamba_index_179").value.trim() == 0)
+                    mensaje = ["La fecha de factura es un dato obligatorio", "zamba_index_179"];
+
+                //Razon social
+                if (document.getElementById("zamba_index_184").value.trim() == "" || document.getElementById("zamba_index_184").value.trim() == 0)
+                    mensaje = ["La fecha de factura es un dato obligatorio", "zamba_index_184"];
+
+                //Fecha entrega
+                if (document.getElementById("zamba_index_191").value.trim() == "" || document.getElementById("zamba_index_191").value.trim() == 0)
+                    mensaje = ["La fecha de entrega es un dato obligatorio", "zamba_index_191"];
+
+            }
+
+            if (TipoDocumentacion == 5) {
+
+                //$('#divRemitosDeEntregaFrame').show();
+
+
+                //Fecha entrega
+                if (document.getElementById("zamba_index_191").value.trim() == "" || document.getElementById("zamba_index_191").value.trim() == 0)
+                    mensaje = ["La fecha de entrega es un dato obligatorio", "zamba_index_191"];
+
+            }
+
+            if (TipoDocumentacion == 6) {
+
+                //$('#divOrdenesDePagoPorTransferenciaManualFrame').show();
+
+                //Fecha de pago
+                if (document.getElementById("zamba_index_188").value.trim() == "" || document.getElementById("zamba_index_188").value.trim() == 0)
+                    mensaje = ["La fecha de pago es un dato obligatorio", "zamba_index_188"];
+
+            }
+
+            if (TipoDocumentacion == 7) {
+
+                //$('#divChequesRechazadosTranferenciaManualFrame').show();
+
+            }
+
+            if (TipoDocumentacion == 8) {
+
+                //$('#divChequesDiferidosFrame').show();
+
+                //Fecha de baja
+                if (document.getElementById("zamba_index_188").value.trim() == "" || document.getElementById("zamba_index_188").value.trim() == 0)
+                    mensaje = ["La fecha de baja es un dato obligatorio", "zamba_index_188"];
+
+                //Nro de cheque
+                if (document.getElementById("zamba_index_182").value.trim() == "" || document.getElementById("zamba_index_182").value.trim() == 0)
+                    mensaje = ["El nro de cheque es un dato obligatorio", "zamba_index_182"];
+
+            }
+
+
+            if (TipoDocumentacion == 9) {
+
+                //$('#divChequesAnuladosFrame').show();
+
+                //Fecha entrega
+                if (document.getElementById("zamba_index_191").value.trim() == "" || document.getElementById("zamba_index_191").value.trim() == 0)
+                    mensaje = ["La fecha de entrega es un dato obligatorio", "zamba_index_191"];
+
+            }
+
+
+
+            return mensaje;
+        }
+
+
+
+
+
+        /*
+        
+        function CargarFechasyBotones(){
+        $(function()
+        {
+        //---Setea valor N a Reintegro
+        mesa = $('#zamba_index_72').val();
+        if (mesa !== undefined ){
+        if(mesa == "" || mesa == null){
+        document.getElementById('zamba_index_72').value = "N";
+        }
+        }
+        //---Setea valor N a Original/Copia
+        original = $('#zamba_index_71').val();
+        //alert(original);
+        if (original !== undefined ){
+        if(original == "" || original == null){
+        document.getElementById('zamba_index_71').value = "N";
+        }
+        }
+        });
+        }
+        
+        */
+
+
+        function FuncionesPosCargaDeDocumento() {
+            //CargarFechasyBotones2();
+
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("0");
+
+            if ($("#zamba_index_38").val() == null)
+                $("#zamba_index_38").val("2");
+            //Guarda la agencia actual y la emisora
+            var agencia = $("#zamba_index_60").val();
+            var seleccionado = $("#zamba_index_1001006").val();
+
+            //Elimina a todos los que no sean ninguno de los dos
+            $(".emisor option[value!=1][value!=" + agencia + "]")
+                .remove()
+                .end()
+                .val(seleccionado);
+        }
+
+
+
+
+        function RemoveOnLoad() {
+            //CargarFechasyBotones2();
+            OcultarSegunTipoDocumento();
+        }
+
+        function OcultarSegunTipoDocumentoTest2() {
+            if ($("#zamba_index_109").val() == 'N') {
+                $('#zamba_rule_17473').css('display', 'none');
+            } else {
+                $('#zamba_rule_17473').css('display', 'block');
+                $("#zamba_index_109").css('float', 'left');
+            }
+        }
+
+
+        function LimpiarCampos() {
+            alert('LimpiarCampos');
+            $("#zamba_index_179").attr('value', '');
+            $("#zamba_index_182").attr('value', '');
+            $("#zamba_index_189").attr('value', '');
+            $("#zamba_index_183").attr('value', '');
+            $("#zamba_index_2785").attr('value', '');
+            $("#zamba_index_190").attr('value', '');
+            $("#zamba_index_184").attr('value', '');
+            $("#zamba_index_187").attr('value', '');
+            $("#zamba_index_188").attr('value', '');
+            $("#zamba_index_181").attr('value', '');
+
+        }
+
+
+        function DeshabilitarCampos() {
+
+
+            $("#zamba_index_179").attr('disabled', true);
+            $("#zamba_index_182").attr('disabled', true);
+            $("#zamba_index_60").attr('disabled', true);
+            $("#zamba_index_189").attr('disabled', true);
+            $("#zamba_index_183").attr('disabled', true);
+            $("#zamba_index_2785").attr('disabled', true);
+            $("#zamba_index_190").attr('disabled', true);
+            $("#zamba_index_184").attr('disabled', true);
+            $("#zamba_index_187").attr('disabled', true);
+            $("#zamba_index_188").attr('disabled', true);
+            $("#zamba_index_181").attr('disabled', true);
+            $("#zamba_save").attr('visible', false);
+
+        }
+
+
+        function OcultarSegunTipoDocumento() {
+
+            //if confirm ("Al cambiar el tipo de documentación se borrarán los campos cargados previamente, ¿desea continuar?")
+            //LimpiarCampos();
+
+
+
+            //Carga de valores del formulario
+
+            //Colocar default para Tipo de documentación
+            if (document.getElementById('zamba_index_191').value == null || document.getElementById('zamba_index_191').value == "") {
+                //document.getElementById('zamba_index_191').value = 0;
+            }
+            else {
+                var TipoDocumentacion = document.getElementById('zamba_index_191').value;
+
+                //alert(TipoDocumentacion);
+
+                //Validar y/o ocultar por tipo de doumento
+
+                if (TipoDocumentacion == null || TipoDocumentacion == "" || TipoDocumentacion == 0) {
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("");
+                    //$('#divTituloTipo').hide();
+                    $('#divCampos').hide();
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de factura
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').hide(); //Fecha de entrega
+
+                }
+                else {
+                    $('#divCampos').show();
+                }
+
+
+                if (TipoDocumentacion == 1) {
+
+                    //$('#divFacturasAutorizadasFrame').hide();
+
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Facturas autorizadas");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+                    $('#divCuit').show(); //Cuit
+                    $('#divNroFactura').show(); //Nro de factura
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divFechaFactura').show(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').hide(); //Fecha de entrega
+
+                }
+
+                if (TipoDocumentacion == 2) {
+
+                    //$('#divChequesEntregadosPorTesoreriaFrame').hide();
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Cheques entregados por tesorería");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de factura
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').show(); //Fecha de entrega
+
+                }
+
+                if (TipoDocumentacion == 3) {
+
+
+                    //$('#divChequesRechazadosFrame').hide();
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Cheques rechazados");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').show(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').show(); //Banco
+                    $('#divImporte').show(); //Importe
+                    $('#divFechaRechazo').show(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').hide(); //Fecha de entrega
+
+                }
+
+                if (TipoDocumentacion == 4) {
+
+                    //$('#divPermisosDeEntregaDeChequesFrame').hide();
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Permisos de entrega de cheques");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+                    $('#divCuit').show(); //Cuit
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').show(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').show(); //Fecha de entrega
+
+                }
+
+                if (TipoDocumentacion == 5) {
+
+
+                    //$('#divRemitosDeEntregaFrame').hide();
+
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Remitos de entrega");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').show(); //Fecha de entrega
+                }
+
+                if (TipoDocumentacion == 6) {
+                    //$('#divOrdenesDePagoPorTransferenciaManualFrame').hide();
+
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Ordenes de pago por transferencia manual");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').show(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').hide(); //Fecha de entrega
+
+                }
+
+                if (TipoDocumentacion == 7) {
+                    //$('#divChequesRechazadosFisicos').hide();
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Cheques rechazados fisicos");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').show(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').show(); //Banco
+                    $('#divImporte').show(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').hide(); //Fecha de entrega
+
+
+                }
+
+                if (TipoDocumentacion == 8) {
+                    //$('#divChequesDiferidosFrame').hide();
+
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Cheques anulados");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').show(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').show(); //Fecha de baja
+                    $('#divFechaEntrega').hide(); //Fecha de entrega
+                }
+
+
+                if (TipoDocumentacion == 7) {
+                    //$('#divChequesAnuladosFrame').hide();
+
+                    //Colocar subtitulo por tipo documentación
+                    $('#SubtituloTipoDocumentacion').text("Cheques diferidos");
+
+                    //Esconder SPAN de campos no utilizados por tipo documentación
+                    $('#divCuit').hide(); //Cuit
+                    $('#divNroCheque').hide(); //Nro de cheque
+                    $('#divNroFactura').hide(); //Nro de cheque
+                    $('#divFechaFactura').hide(); //Fecha de factura
+                    $('#divBanco').hide(); //Banco
+                    $('#divImporte').hide(); //Importe
+                    $('#divFechaRechazo').hide(); //Fecha rechazo
+                    $('#divRazonSocial').hide(); //Razon social
+                    $('#divFechaPago').hide(); //Fecha de pago
+                    $('#divFechaBaja').hide(); //Fecha de baja
+                    $('#divFechaEntrega').show(); //Fecha de entrega
+
+
+                }
+
+            }
+
+
+
+            /*var x = document.getElementById('zamba_index_68');
+            x.remove(0);
+            x.remove(0);
+            x.remove(0);
+            x.remove(0);
+            x.remove(0);
+            
+            x.remove(0);
+            x.remove(0);
+            x.remove(0);
+            x.remove(0);
+            x.remove(0);
+            
+            x.remove(0);
+            x.remove(0);
+            */
+
+
+            /*
+            if($('#zamba_index_78').val() == 'S'){
+            }else{
+            $('#EstaEnLegales').hide();
+            }
+            
+            if($('#zamba_index_79').val() == 'S'){
+            }else{
+            $('#EstaEnReaseguros').hide();
+            }
+            */
+
+        }
+
+        window.onload = function () {
+            setTimeout(function () { RemoveOnLoad(); }, 500);
+        };
+
+
+
+        function zamba_index_179_onclick() {
+
+        }
+
+        function Text1_onclick() {
+
+        }
+
+        function zamba_index_189_onclick() {
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+
+        <form name="frmMain" action="AdministracionDigitalizacion.html">
+            <div class="form-group row">
+                <center>
+                    <div class="col-md-12">
+
+                        <div>
+                            <h4 style="background-color:#418ad4;color: white;">Administración - Documentación </h4>
+                        </div>
+                </center>
+            </div>
+            <div class="form-group row">
+
+                <div class="col-md-3">
+
+                    <div>
+                        <h5 style="color :#418ad4;">Clasificación del documento</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">Tipo documentacion:</span>
+                        <select class="form-control input-sm" id="zamba_index_191" name="zamba_index_191"
+                            onchange="OcultarSegunTipoDocumento() " disabled></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Id documento:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_178" name="zamba_index_178" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de alta:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_2843" name="zamba_index_2843" disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Referencia</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <textarea cols="1" style="height: 40px; color: #090A0A; font-weight: bold" class="form-control"
+                            rows="3" style=" color: #090A0A; font-weight: bold" id="zamba_index_69"
+                            name="zamba_index_69" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+
+            <div class="form-group row">
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_179"
+                            style="background-color:#e5e5e5">CUIT:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_179" name="zamba_index_179" onclick="return zamba_index_179_onclick()"
+                            disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_182" style="background-color:#e5e5e5">Nro de
+                            cheque:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_182" name="zamba_index_182" disabled />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_180" style="background-color:#e5e5e5">Nro de
+                            factura:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="Text1"
+                            name="zamba_index_180" onclick="return Text1_onclick()" disabled />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_189"
+                            style="padding: 3px; background-color:#e5e5e5">Fecha de factura:</span>
+                        <input class="form-control  input-sm"
+                            style="padding: 3px; color: #090A0A; font-weight: bold" id="zamba_index_189"
+                            name="zamba_index_189" onclick="return zamba_index_189_onclick()" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_183"
+                            style="padding: 3px; background-color:#e5e5e5">Banco:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_183" name="zamba_index_183" style="padding: 3px;" disabled />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_2785 style="
+                            background-color:#e5e5e5">Importe:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_2785" name="zamba_index_2785" disabled />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_190" style="background-color:#e5e5e5">Fecha
+                            rechazo:</span>
+                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_190" name="zamba_index_190" disabled />
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_184" style="background-color:#e5e5e5">Razon
+                            social:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_184" name="zamba_index_184" disabled />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_187" style="background-color:#e5e5e5">Fecha de
+                            pago:</span>
+                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_187" name="zamba_index_187" disabled />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_188" style="background-color:#e5e5e5">Fecha de
+                            baja:</span>
+                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_188" name="zamba_index_188" disabled />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" for="zamba_index_181"
+                            style="padding: 3px; background-color:#e5e5e5">Fecha de entrega:</span>
+                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_181" name="zamba_index_181" disabled />
+                    </div>
+                </div>
+            </div>
+
+
+            <center>
+                <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:1830px; height:1500px"
+                    src="file:///C:\Users\mlopez\AppData\Roaming\Zamba Software\OfficeTemp\8557228.pdf"
+                    title="Documento Original"></iframe>
+            </center>
+            <div class="row">
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">AdministracionDigitalizacionReadOnly.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+            </div>
+
+    </div>
+    </form>
+
+</body>
+
+</html>

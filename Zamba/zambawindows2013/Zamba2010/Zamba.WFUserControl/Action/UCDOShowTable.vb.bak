@@ -1,0 +1,588 @@
+Imports Zamba.Core
+Imports Zamba.AppBlock
+
+
+Public Class UCDOShowTable
+    Inherits ZRuleControl
+
+
+#Region " Código generado por el Diseñador de Windows Forms "
+
+    'UserControl reemplaza a Dispose para limpiar la lista de componentes.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing Then
+            If Not (components Is Nothing) Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Requerido por el Diseñador de Windows Forms
+    Private components As System.ComponentModel.IContainer
+
+    'NOTA: el Diseñador de Windows Forms requiere el siguiente procedimiento
+    'Puede modificarse utilizando el Diseñador de Windows Forms. 
+    'No lo modifique con el editor de código.
+    Friend WithEvents BtnSave As Zamba.AppBlock.ZButton
+    Friend WithEvents lblQuery As System.Windows.Forms.LinkLabel
+    Friend WithEvents cboquery As System.Windows.Forms.ComboBox
+    Friend WithEvents txtVarSource As System.Windows.Forms.TextBox
+    Friend Shadows WithEvents Label1 As System.Windows.Forms.Label
+    Friend Shadows WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents txtVarDestiny As System.Windows.Forms.TextBox
+    Friend WithEvents ChkMultipleSelection As System.Windows.Forms.CheckBox
+    Friend WithEvents RdoAllColumns As System.Windows.Forms.RadioButton
+    Friend WithEvents RdoEspecificColumns As System.Windows.Forms.RadioButton
+    Friend WithEvents TxtSaveColumns As System.Windows.Forms.TextBox
+    Friend WithEvents TxtSourceColumns As System.Windows.Forms.TextBox
+    Friend WithEvents RdoSourceColumns As System.Windows.Forms.RadioButton
+    Friend WithEvents RdoSourceAllColumns As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents lblSourceColumns As System.Windows.Forms.Label
+    Friend WithEvents lblSaveColumns As System.Windows.Forms.Label
+    Friend WithEvents grpEspecificColumns As System.Windows.Forms.GroupBox
+    Friend WithEvents grpSourceColumns As System.Windows.Forms.GroupBox
+    Friend WithEvents grpAditionalCfg As System.Windows.Forms.GroupBox
+    Friend WithEvents chkShowCheckColumn As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowDataOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents lblCheckedItems As System.Windows.Forms.Label
+    Friend WithEvents txtCheckedItems As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents lblCheckItemsColumn As System.Windows.Forms.Label
+    Friend WithEvents txtCheckItemsColumn As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents txtEditColumns As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents btnTest As Zamba.AppBlock.ZButton
+
+    <System.Diagnostics.DebuggerStepThrough()> Private Overloads Sub InitializeComponent()
+        Me.BtnSave = New Zamba.AppBlock.ZButton()
+        Me.lblQuery = New System.Windows.Forms.LinkLabel()
+        Me.cboquery = New System.Windows.Forms.ComboBox()
+        Me.btnTest = New Zamba.AppBlock.ZButton()
+        Me.txtVarSource = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtVarDestiny = New System.Windows.Forms.TextBox()
+        Me.ChkMultipleSelection = New System.Windows.Forms.CheckBox()
+        Me.RdoAllColumns = New System.Windows.Forms.RadioButton()
+        Me.RdoEspecificColumns = New System.Windows.Forms.RadioButton()
+        Me.TxtSaveColumns = New System.Windows.Forms.TextBox()
+        Me.TxtSourceColumns = New System.Windows.Forms.TextBox()
+        Me.RdoSourceColumns = New System.Windows.Forms.RadioButton()
+        Me.RdoSourceAllColumns = New System.Windows.Forms.RadioButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtEditColumns = New Zamba.AppBlock.TextoInteligente()
+        Me.grpSourceColumns = New System.Windows.Forms.GroupBox()
+        Me.lblSourceColumns = New System.Windows.Forms.Label()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.grpEspecificColumns = New System.Windows.Forms.GroupBox()
+        Me.lblSaveColumns = New System.Windows.Forms.Label()
+        Me.grpAditionalCfg = New System.Windows.Forms.GroupBox()
+        Me.lblCheckItemsColumn = New System.Windows.Forms.Label()
+        Me.txtCheckItemsColumn = New Zamba.AppBlock.TextoInteligente()
+        Me.lblCheckedItems = New System.Windows.Forms.Label()
+        Me.txtCheckedItems = New Zamba.AppBlock.TextoInteligente()
+        Me.chkShowDataOnly = New System.Windows.Forms.CheckBox()
+        Me.chkShowCheckColumn = New System.Windows.Forms.CheckBox()
+		Me.lblCheckItemsColumn = New System.Windows.Forms.Label
+        Me.txtCheckItemsColumn = New Zamba.AppBlock.TextoInteligente
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        Me.grpSourceColumns.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.grpEspecificColumns.SuspendLayout()
+        Me.grpAditionalCfg.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.grpAditionalCfg)
+        Me.tbRule.Controls.Add(Me.GroupBox2)
+        Me.tbRule.Controls.Add(Me.GroupBox1)
+        Me.tbRule.Controls.Add(Me.Label3)
+        Me.tbRule.Controls.Add(Me.txtVarDestiny)
+        Me.tbRule.Controls.Add(Me.Label1)
+        Me.tbRule.Controls.Add(Me.txtVarSource)
+        Me.tbRule.Controls.Add(Me.btnTest)
+        Me.tbRule.Controls.Add(Me.cboquery)
+        Me.tbRule.Controls.Add(Me.lblQuery)
+        Me.tbRule.Controls.Add(Me.BtnSave)
+        Me.tbRule.Size = New System.Drawing.Size(507, 581)
+        '
+        'tbctrMain
+        '
+        Me.tbctrMain.Size = New System.Drawing.Size(515, 607)
+        '
+        'BtnSave
+        '
+        Me.BtnSave.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.BtnSave.Location = New System.Drawing.Point(421, 477)
+        Me.BtnSave.Name = "BtnSave"
+        Me.BtnSave.Size = New System.Drawing.Size(77, 22)
+        Me.BtnSave.TabIndex = 3
+        Me.BtnSave.Text = "Guardar"
+        '
+        'lblQuery
+        '
+        Me.lblQuery.AutoSize = True
+        Me.lblQuery.BackColor = System.Drawing.Color.Transparent
+        Me.lblQuery.Enabled = False
+        Me.lblQuery.Location = New System.Drawing.Point(14, 24)
+        Me.lblQuery.Name = "lblQuery"
+        Me.lblQuery.Size = New System.Drawing.Size(49, 13)
+        Me.lblQuery.TabIndex = 6
+        Me.lblQuery.TabStop = True
+        Me.lblQuery.Text = "Consulta"
+        Me.lblQuery.Visible = False
+        '
+        'cboquery
+        '
+        Me.cboquery.Enabled = False
+        Me.cboquery.FormattingEnabled = True
+        Me.cboquery.Location = New System.Drawing.Point(86, 21)
+        Me.cboquery.Name = "cboquery"
+        Me.cboquery.Size = New System.Drawing.Size(265, 21)
+        Me.cboquery.TabIndex = 11
+        Me.cboquery.Visible = False
+        '
+        'btnTest
+        '
+        Me.btnTest.DialogResult = System.Windows.Forms.DialogResult.None
+        Me.btnTest.Enabled = False
+        Me.btnTest.Location = New System.Drawing.Point(338, 477)
+        Me.btnTest.Name = "btnTest"
+        Me.btnTest.Size = New System.Drawing.Size(77, 22)
+        Me.btnTest.TabIndex = 16
+        Me.btnTest.Text = "Test"
+        '
+        'txtVarSource
+        '
+        Me.txtVarSource.Location = New System.Drawing.Point(6, 37)
+        Me.txtVarSource.Name = "txtVarSource"
+        Me.txtVarSource.Size = New System.Drawing.Size(224, 21)
+        Me.txtVarSource.TabIndex = 17
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Location = New System.Drawing.Point(6, 21)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(196, 13)
+        Me.Label1.TabIndex = 18
+        Me.Label1.Text = "Nombre de Variable de Origen de Datos"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Location = New System.Drawing.Point(14, 462)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(216, 13)
+        Me.Label3.TabIndex = 21
+        Me.Label3.Text = "Nombre de Variable de Destino de los Datos"
+        '
+        'txtVarDestiny
+        '
+        Me.txtVarDestiny.Location = New System.Drawing.Point(17, 478)
+        Me.txtVarDestiny.Name = "txtVarDestiny"
+        Me.txtVarDestiny.Size = New System.Drawing.Size(224, 21)
+        Me.txtVarDestiny.TabIndex = 20
+        '
+        'ChkMultipleSelection
+        '
+        Me.ChkMultipleSelection.AutoSize = True
+        Me.ChkMultipleSelection.Location = New System.Drawing.Point(11, 20)
+        Me.ChkMultipleSelection.Name = "ChkMultipleSelection"
+        Me.ChkMultipleSelection.Size = New System.Drawing.Size(109, 17)
+        Me.ChkMultipleSelection.TabIndex = 25
+        Me.ChkMultipleSelection.Text = "Selección multiple"
+        Me.ChkMultipleSelection.UseVisualStyleBackColor = True
+        '
+        'RdoAllColumns
+        '
+        Me.RdoAllColumns.AutoSize = True
+        Me.RdoAllColumns.Location = New System.Drawing.Point(11, 20)
+        Me.RdoAllColumns.Name = "RdoAllColumns"
+        Me.RdoAllColumns.Size = New System.Drawing.Size(119, 17)
+        Me.RdoAllColumns.TabIndex = 26
+        Me.RdoAllColumns.TabStop = True
+        Me.RdoAllColumns.Text = "Todas las Columnas"
+        Me.RdoAllColumns.UseVisualStyleBackColor = True
+        '
+        'RdoEspecificColumns
+        '
+        Me.RdoEspecificColumns.AutoSize = True
+        Me.RdoEspecificColumns.Location = New System.Drawing.Point(11, 47)
+        Me.RdoEspecificColumns.Name = "RdoEspecificColumns"
+        Me.RdoEspecificColumns.Size = New System.Drawing.Size(126, 17)
+        Me.RdoEspecificColumns.TabIndex = 27
+        Me.RdoEspecificColumns.TabStop = True
+        Me.RdoEspecificColumns.Text = "Columnas especificas"
+        Me.RdoEspecificColumns.UseVisualStyleBackColor = True
+        '
+        'TxtSaveColumns
+        '
+        Me.TxtSaveColumns.Location = New System.Drawing.Point(272, 14)
+        Me.TxtSaveColumns.Name = "TxtSaveColumns"
+        Me.TxtSaveColumns.Size = New System.Drawing.Size(129, 21)
+        Me.TxtSaveColumns.TabIndex = 28
+        '
+        'TxtSourceColumns
+        '
+        Me.TxtSourceColumns.Location = New System.Drawing.Point(272, 14)
+        Me.TxtSourceColumns.Name = "TxtSourceColumns"
+        Me.TxtSourceColumns.Size = New System.Drawing.Size(129, 21)
+        Me.TxtSourceColumns.TabIndex = 31
+        '
+        'RdoSourceColumns
+        '
+        Me.RdoSourceColumns.AutoSize = True
+        Me.RdoSourceColumns.Location = New System.Drawing.Point(11, 46)
+        Me.RdoSourceColumns.Name = "RdoSourceColumns"
+        Me.RdoSourceColumns.Size = New System.Drawing.Size(126, 17)
+        Me.RdoSourceColumns.TabIndex = 30
+        Me.RdoSourceColumns.Text = "Columnas especificas"
+        Me.RdoSourceColumns.UseVisualStyleBackColor = True
+        '
+        'RdoSourceAllColumns
+        '
+        Me.RdoSourceAllColumns.AutoSize = True
+        Me.RdoSourceAllColumns.Checked = True
+        Me.RdoSourceAllColumns.Location = New System.Drawing.Point(11, 20)
+        Me.RdoSourceAllColumns.Name = "RdoSourceAllColumns"
+        Me.RdoSourceAllColumns.Size = New System.Drawing.Size(119, 17)
+        Me.RdoSourceAllColumns.TabIndex = 29
+        Me.RdoSourceAllColumns.TabStop = True
+        Me.RdoSourceAllColumns.Text = "Todas las Columnas"
+        Me.RdoSourceAllColumns.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox1.Controls.Add(Me.txtEditColumns)
+        Me.GroupBox1.Controls.Add(Me.grpSourceColumns)
+        Me.GroupBox1.Controls.Add(Me.RdoSourceColumns)
+        Me.GroupBox1.Controls.Add(Me.RdoSourceAllColumns)
+        Me.GroupBox1.Location = New System.Drawing.Point(6, 64)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(495, 126)
+        Me.GroupBox1.TabIndex = 32
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Columnas a Mostrar"
+        Me.GroupBox1.Controls.SetChildIndex(Me.RdoSourceAllColumns, 0)
+        Me.GroupBox1.Controls.SetChildIndex(Me.RdoSourceColumns, 0)
+        Me.GroupBox1.Controls.SetChildIndex(Me.grpSourceColumns, 0)
+        Me.GroupBox1.Controls.SetChildIndex(Me.txtEditColumns, 0)
+        '
+        'txtEditColumns
+        '
+        Me.txtEditColumns.Location = New System.Drawing.Point(261, 97)
+        Me.txtEditColumns.MaxLength = 4000
+        Me.txtEditColumns.Name = "txtEditColumns"
+        Me.txtEditColumns.Size = New System.Drawing.Size(215, 21)
+        Me.txtEditColumns.TabIndex = 39
+        Me.txtEditColumns.Text = ""
+        '
+        'grpSourceColumns
+        '
+        Me.grpSourceColumns.Controls.Add(Me.lblSourceColumns)
+        Me.grpSourceColumns.Controls.Add(Me.TxtSourceColumns)
+        Me.grpSourceColumns.Location = New System.Drawing.Point(27, 46)
+        Me.grpSourceColumns.Name = "grpSourceColumns"
+        Me.grpSourceColumns.Size = New System.Drawing.Size(411, 45)
+        Me.grpSourceColumns.TabIndex = 35
+        Me.grpSourceColumns.TabStop = False
+        Me.grpSourceColumns.Text = "Columnas especificas"
+        '
+        'lblSourceColumns
+        '
+        Me.lblSourceColumns.AutoSize = True
+        Me.lblSourceColumns.Location = New System.Drawing.Point(6, 17)
+        Me.lblSourceColumns.Name = "lblSourceColumns"
+        Me.lblSourceColumns.Size = New System.Drawing.Size(260, 13)
+        Me.lblSourceColumns.TabIndex = 34
+        Me.lblSourceColumns.Text = "Ingresar el numero de columna separados por comas"
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
+        Me.GroupBox2.Controls.Add(Me.grpEspecificColumns)
+        Me.GroupBox2.Controls.Add(Me.RdoEspecificColumns)
+        Me.GroupBox2.Controls.Add(Me.RdoAllColumns)
+        Me.GroupBox2.Location = New System.Drawing.Point(3, 196)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(495, 100)
+        Me.GroupBox2.TabIndex = 33
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Columnas a Guardar"
+        '
+        'grpEspecificColumns
+        '
+        Me.grpEspecificColumns.Controls.Add(Me.lblSaveColumns)
+        Me.grpEspecificColumns.Controls.Add(Me.TxtSaveColumns)
+        Me.grpEspecificColumns.Location = New System.Drawing.Point(27, 47)
+        Me.grpEspecificColumns.Name = "grpEspecificColumns"
+        Me.grpEspecificColumns.Size = New System.Drawing.Size(411, 45)
+        Me.grpEspecificColumns.TabIndex = 36
+        Me.grpEspecificColumns.TabStop = False
+        Me.grpEspecificColumns.Text = "Columnas especificas"
+        '
+        'lblSaveColumns
+        '
+        Me.lblSaveColumns.AutoSize = True
+        Me.lblSaveColumns.Location = New System.Drawing.Point(6, 17)
+        Me.lblSaveColumns.Name = "lblSaveColumns"
+        Me.lblSaveColumns.Size = New System.Drawing.Size(260, 13)
+        Me.lblSaveColumns.TabIndex = 35
+        Me.lblSaveColumns.Text = "Ingresar el numero de columna separados por comas"
+        '
+        'grpAditionalCfg
+        '
+        Me.grpAditionalCfg.BackColor = System.Drawing.Color.Transparent
+        Me.grpAditionalCfg.Controls.Add(Me.lblCheckItemsColumn)
+        Me.grpAditionalCfg.Controls.Add(Me.txtCheckItemsColumn)
+        Me.grpAditionalCfg.Controls.Add(Me.lblCheckedItems)
+        Me.grpAditionalCfg.Controls.Add(Me.txtCheckedItems)
+        Me.grpAditionalCfg.Controls.Add(Me.chkShowDataOnly)
+        Me.grpAditionalCfg.Controls.Add(Me.chkShowCheckColumn)
+        Me.grpAditionalCfg.Controls.Add(Me.ChkMultipleSelection)
+        Me.grpAditionalCfg.Location = New System.Drawing.Point(3, 302)
+        Me.grpAditionalCfg.Name = "grpAditionalCfg"
+        Me.grpAditionalCfg.Size = New System.Drawing.Size(495, 147)
+        Me.grpAditionalCfg.TabIndex = 34
+        Me.grpAditionalCfg.TabStop = False
+        Me.grpAditionalCfg.Text = "Configuración adicional"
+        '
+        'lblCheckItemsColumn
+        '
+        Me.lblCheckItemsColumn.AutoSize = True
+        Me.lblCheckItemsColumn.Location = New System.Drawing.Point(8, 121)
+        Me.lblCheckItemsColumn.Name = "lblCheckItemsColumn"
+        Me.lblCheckItemsColumn.Size = New System.Drawing.Size(234, 13)
+        Me.lblCheckItemsColumn.TabIndex = 38
+        Me.lblCheckItemsColumn.Text = "Numero de columna por el cual se va comparar:"
+        '
+        'txtCheckItemsColumn
+        '
+        Me.txtCheckItemsColumn.Location = New System.Drawing.Point(248, 113)
+        Me.txtCheckItemsColumn.MaxLength = 4000
+        Me.txtCheckItemsColumn.Name = "txtCheckItemsColumn"
+        Me.txtCheckItemsColumn.Size = New System.Drawing.Size(231, 21)
+        Me.txtCheckItemsColumn.TabIndex = 37
+        Me.txtCheckItemsColumn.Text = ""
+        '
+        'lblCheckedItems
+        '
+        Me.lblCheckedItems.AutoSize = True
+        Me.lblCheckedItems.Location = New System.Drawing.Point(8, 95)
+        Me.lblCheckedItems.Name = "lblCheckedItems"
+        Me.lblCheckedItems.Size = New System.Drawing.Size(88, 13)
+        Me.lblCheckedItems.TabIndex = 36
+        Me.lblCheckedItems.Text = "Seleccion previa:"
+        '
+        'txtCheckedItems
+        '
+        Me.txtCheckedItems.Location = New System.Drawing.Point(102, 87)
+        Me.txtCheckedItems.MaxLength = 4000
+        Me.txtCheckedItems.Name = "txtCheckedItems"
+        Me.txtCheckedItems.Size = New System.Drawing.Size(377, 21)
+        Me.txtCheckedItems.TabIndex = 35
+        Me.txtCheckedItems.Text = ""
+        '
+        'chkShowDataOnly
+        '
+        Me.chkShowDataOnly.AutoSize = True
+        Me.chkShowDataOnly.Location = New System.Drawing.Point(11, 44)
+        Me.chkShowDataOnly.Name = "chkShowDataOnly"
+        Me.chkShowDataOnly.Size = New System.Drawing.Size(167, 17)
+        Me.chkShowDataOnly.TabIndex = 27
+        Me.chkShowDataOnly.Text = "Mostrar unicamente los datos"
+        Me.chkShowDataOnly.UseVisualStyleBackColor = True
+        '
+        'chkShowCheckColumn
+        '
+        Me.chkShowCheckColumn.AutoSize = True
+        Me.chkShowCheckColumn.Location = New System.Drawing.Point(11, 67)
+        Me.chkShowCheckColumn.Name = "chkShowCheckColumn"
+        Me.chkShowCheckColumn.Size = New System.Drawing.Size(228, 17)
+        Me.chkShowCheckColumn.TabIndex = 26
+        Me.chkShowCheckColumn.Text = "Agregar columna de selección de registros"
+        Me.chkShowCheckColumn.UseVisualStyleBackColor = True
+       
+		'
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(6, 100)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(249, 13)
+        Me.Label4.TabIndex = 40
+        Me.Label4.Text = "Nombres de Columnas Edicion separadas por coma"
+        '
+        'UCDOShowTable
+        '
+        Me.Name = "UCDOShowTable"
+        Me.Size = New System.Drawing.Size(515, 607)
+        Me.tbRule.ResumeLayout(False)
+        Me.tbRule.PerformLayout()
+        Me.tbctrMain.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.grpSourceColumns.ResumeLayout(False)
+        Me.grpSourceColumns.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.grpEspecificColumns.ResumeLayout(False)
+        Me.grpEspecificColumns.PerformLayout()
+        Me.grpAditionalCfg.ResumeLayout(False)
+        Me.grpAditionalCfg.PerformLayout()
+        Me.ResumeLayout(False)
+
+    End Sub
+
+#End Region
+
+#Region "Metodos Heredados"
+    'Constructor por defecto
+    Dim CurrentRule As IDOShowTable
+    Public Sub New(ByRef DOShowTable As IDOShowTable, ByRef _wfPanelCircuit As IWFPanelCircuit)
+        MyBase.New(DOShowTable, _wfPanelCircuit)
+        InitializeComponent()
+        Me.CurrentRule = DOShowTable
+        LoadRulesParams()
+    End Sub
+#End Region
+
+
+    Private Sub UCDOSelect_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Try
+            LoadRulesParams()
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub LoadRulesParams()
+        Try
+            Me.cboquery.Text = Me.CurrentRule.SQLSelectId
+            Me.txtVarSource.Text = Me.CurrentRule.VarSource
+            If String.IsNullOrEmpty(Me.CurrentRule.ShowColumns) Then
+                Me.RdoSourceAllColumns.Checked = True
+                Me.RdoSourceColumns.Checked = False
+                Me.TxtSourceColumns.Text = String.Empty
+                Me.TxtSourceColumns.Enabled = False
+                Me.lblSourceColumns.Enabled = False
+            Else
+                Me.RdoSourceAllColumns.Checked = False
+                Me.RdoSourceColumns.Checked = True
+                Me.TxtSourceColumns.Text = Me.CurrentRule.ShowColumns
+                Me.TxtSourceColumns.Enabled = True
+                Me.lblSourceColumns.Enabled = True
+            End If
+
+            Me.ChkMultipleSelection.Checked = Me.CurrentRule.SelectMultiRow
+            If String.IsNullOrEmpty(Me.CurrentRule.GetSelectedCols) Then
+                Me.RdoAllColumns.Checked = True
+                Me.RdoEspecificColumns.Checked = False
+                Me.TxtSaveColumns.Text = String.Empty
+                Me.TxtSaveColumns.Enabled = False
+                Me.lblSaveColumns.Enabled = False
+            Else
+                Me.RdoAllColumns.Checked = False
+                Me.RdoEspecificColumns.Checked = True
+                Me.TxtSaveColumns.Text = Me.CurrentRule.GetSelectedCols
+                Me.TxtSaveColumns.Enabled = True
+                Me.lblSaveColumns.Enabled = True
+            End If
+            Me.txtVarDestiny.Text = Me.CurrentRule.VarDestiny
+            Me.chkShowCheckColumn.Checked = Me.CurrentRule.ShowCheckColumn
+            Me.chkShowDataOnly.Checked = Me.CurrentRule.ShowDataOnly
+            Me.txtCheckedItems.Text = Me.CurrentRule.CheckedItems
+            Me.txtCheckItemsColumn.Text = Me.CurrentRule.CheckedItemsColumn
+            Me.txtEditColumns.Text = Me.CurrentRule.EditColumns
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+
+    End Sub
+
+    Private Sub btnTest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnTest.Click
+        Try
+            'ToDo: Falta implementación
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub BtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSave.Click
+        Try
+            If String.IsNullOrEmpty(Me.txtCheckedItems.Text) = False And String.IsNullOrEmpty(Me.txtCheckItemsColumn.Text) Then
+                MessageBox.Show("Debe completar la columna por la cual se compararan los items seleccionados", "Atencion", MessageBoxButtons.OK)
+            Else
+                If String.IsNullOrEmpty(Me.cboquery.Text) Then
+                    Me.CurrentRule.SQLSelectId = 0
+                Else
+                    Me.CurrentRule.SQLSelectId = Me.cboquery.Text
+                End If
+
+                Me.CurrentRule.VarSource = Me.txtVarSource.Text
+
+                If Me.RdoSourceAllColumns.Checked Then
+                    Me.CurrentRule.ShowColumns = String.Empty
+                Else
+                    Me.CurrentRule.ShowColumns = Me.TxtSourceColumns.Text
+                End If
+
+                If Me.RdoAllColumns.Checked Then
+                    Me.CurrentRule.GetSelectedCols = String.Empty
+                Else
+                    Me.CurrentRule.GetSelectedCols = Me.TxtSaveColumns.Text
+                End If
+
+                Me.CurrentRule.SelectMultiRow = Me.ChkMultipleSelection.Checked
+                Me.CurrentRule.ShowCheckColumn = Me.chkShowCheckColumn.Checked
+                Me.CurrentRule.VarDestiny = Me.txtVarDestiny.Text
+                Me.CurrentRule.ShowDataOnly = Me.chkShowDataOnly.Checked
+                Me.CurrentRule.CheckedItems = Me.txtCheckedItems.Text
+                Me.CurrentRule.CheckedItemsColumn = Me.txtCheckItemsColumn.Text
+                Me.CurrentRule.EditColumns = Me.txtEditColumns.Text
+
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 0, CurrentRule.SQLSelectId)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 1, CurrentRule.VarSource)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 2, CurrentRule.ShowColumns)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 3, CurrentRule.SelectMultiRow)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 4, CurrentRule.GetSelectedCols)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 5, CurrentRule.VarDestiny)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 6, CurrentRule.ShowCheckColumn)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 7, CurrentRule.ShowDataOnly)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 8, CurrentRule.CheckedItems)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 9, CurrentRule.CheckedItemsColumn)
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 10, CurrentRule.EditColumns)
+                UserBusiness.Rights.SaveAction(Rule.ID, Zamba.Core.ObjectTypes.WFRules, Zamba.Core.RightsType.Edit, "Se editaron los datos de la regla " & Rule.Name & "(" & Rule.ID & ")")
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub RdoSourceColumns_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RdoSourceColumns.CheckedChanged
+        lblSourceColumns.Enabled = RdoSourceColumns.Checked
+        TxtSourceColumns.Enabled = RdoSourceColumns.Checked
+    End Sub
+
+    Private Sub RdoEspecificColumns_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RdoEspecificColumns.CheckedChanged
+        lblSaveColumns.Enabled = RdoEspecificColumns.Checked
+        TxtSaveColumns.Enabled = RdoEspecificColumns.Checked
+    End Sub
+
+    Private Sub chkShowCheckColumn_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowCheckColumn.CheckedChanged
+        txtCheckedItems.Visible = chkShowCheckColumn.Checked
+        lblCheckedItems.Visible = chkShowCheckColumn.Checked
+        txtCheckItemsColumn.Visible = chkShowCheckColumn.Checked
+        lblCheckItemsColumn.Visible = chkShowCheckColumn.Checked
+    End Sub
+End Class

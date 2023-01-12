@@ -1,0 +1,87 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="SolicitudNomina.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="bootstrap.min.css" type="text/css" />
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+
+    <style type="text/css">
+        input {
+            font-size: xx-small;
+        }
+
+        p.description {
+            font-size: x-small;
+        }
+
+        .style11 {
+            width: 502px;
+        }
+    </style>
+    <script type="text/javascript" language="JavaScript">
+        function FuncionesPosCargaDeReclamo() {
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("4");
+        }
+        window.onload = function () {
+            setTimeout(function () { FuncionesPosCargaDeReclamo(); }, 300);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form name="frmMain" action="SolicitudNomina.html">
+            <h4 class="text-center" id="header">
+                Solicitud de Modificacion de Nomina
+            </h4>
+            <div cellspacing="2" cellpadding="1" width="100%" border="0">
+
+                <div class="form-group row">
+
+                    <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="font-size: x-small;">Seccion:</span>
+                            <select class="form-control input-sm" id="zamba_index_32" style="font-size: x-small;width: 300px" size="1" name="zamba_index_32"></select>
+                        </div>
+                    </div>
+
+
+                    <span class="input-group-addon" style="font-size: x-small;">
+                        Nro de Poliza:
+                    </span>
+                    <input class="form-control input-sm" id="zamba_index_34" style="font-size: x-small; width: 255px" size="1" name="zamba_index_34" />
+
+                </div>
+                <div class="form-group row">
+
+                    <span class="input-group-addon" style="font-size: x-small;">
+                        Nro de Solicitud:
+                    </span>
+                    <input class="form-control input-sm" id="zamba_index_1068" style="font-size: x-small; width: 255px" size="1"
+                           name="zamba_index_1068" disabled="disabled" />
+
+                </div>
+            </div>
+
+            <div cellspacing="2" cellpadding="1" width="100%" border="0">
+                <div class="form-group row">
+
+                    <center>
+                        <input class="btn  btn-primary" id="zamba_save" style="font-weight: bold" type="submit" value="Guardar" name="zamba_save" />
+                    </center>
+
+                </div>
+
+            </div>
+            <hr />
+            <hr /> <center>
+                <iframe id="zamba_innerdoctype_original" src="" height="90%" title="Documento Original" width="90%"></iframe>
+            </center>
+    </div>
+    </form>
+</body>
+</html>

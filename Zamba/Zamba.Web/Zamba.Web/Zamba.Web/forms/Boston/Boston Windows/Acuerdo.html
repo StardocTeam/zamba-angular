@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     
+    
+   
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+
+        function esDigito(sChr) {
+            var sCod = sChr.charCodeAt(0);
+            return ((sCod > 47) && (sCod < 58));
+        }
+        function valSep(oTxt) {
+            var sep;
+
+            if (oTxt.value.indexOf('/') > -1) {
+                sep = '/';
+            } else if (oTxt.value.indexOf('-') > -1) {
+                sep = '-';
+            }
+            //Verifica que haya encontrado algo
+            if (sep.length > 0) {
+
+                if (oTxt.value.indexOf(sep) != oTxt.value.lastIndexOf(sep)) {
+
+                    if (oTxt.value.indexOf(sep) != 2) {
+                        //En caso de no existir agrega un cero delante
+                        oTxt.value = "0" + oTxt.value;
+                        //Verifica nuevamente los dos dígitos
+                        if (oTxt.value.indexOf(sep) != 2) {
+                            //Si pasa por acá es porque tenía más de 2 dígitos de entrada
+                            return false;
+                        }
+                    }
+
+                    if (oTxt.value.lastIndexOf(sep) != 5) {
+                        var i = oTxt.value.substring(0, 3);
+                        var f = oTxt.value.substring(3);
+                        oTxt.value = i + "0" + f;
+                        if (oTxt.value.lastIndexOf(sep) != 5) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            } else {
+                alert("Los días, meses y años deben estar separados por el caracter / o el -");
+                return false;
+            }
+        }
+        function finMes(oTxt) {
+            var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+            var nRes = 0;
+            switch (nMes) {
+                case 1: nRes = 31; break;
+                case 2: nRes = 29; break;
+                case 3: nRes = 31; break;
+                case 4: nRes = 30; break;
+                case 5: nRes = 31; break;
+                case 6: nRes = 30; break;
+                case 7: nRes = 31; break;
+                case 8: nRes = 31; break;
+                case 9: nRes = 30; break;
+                case 10: nRes = 31; break;
+                case 11: nRes = 30; break;
+                case 12: nRes = 31; break;
+            }
+            return nRes;
+        }
+        function valDia(oTxt) {
+            var bOk = false;
+            var nDia = parseInt(oTxt.value.substr(0, 2), 10);
+            bOk = bOk || ((nDia >= 1) && (nDia <= finMes(oTxt)));
+            return bOk;
+        }
+        function valMes(oTxt) {
+            var bOk = false;
+            var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+            bOk = bOk || ((nMes >= 1) && (nMes <= 12));
+            return bOk;
+        }
+        function valAno(oTxt) {
+            var bOk = true;
+            var nAno = oTxt.value.substr(6);
+            bOk = bOk && ((nAno.length == 2) || (nAno.length == 4));
+            if (bOk) {
+                for (var i = 0; i < nAno.length; i++) {
+                    bOk = bOk && esDigito(nAno.charAt(i));
+                }
+            }
+            return bOk;
+        }
+        function valFecha(oTxt) {
+            var bOk = true;
+            if (oTxt.value != "") {
+                bOk = bOk && (valSep(oTxt));
+                bOk = bOk && (valAno(oTxt));
+                bOk = bOk && (valMes(oTxt));
+                bOk = bOk && (valDia(oTxt));
+
+                if (!bOk) {
+                    alert("La fecha ingresada es invalida");
+                    oTxt.focus();
+                }
+            }
+        }
+        function comprobarSiBisisesto(anio) {
+            if ((anio % 100 != 0) && ((anio % 4 == 0) || (anio % 400 == 0))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        $(document).ready(function () {
+            // Valida solo numericos
+            // Agregar class="solonums" a todos los inputs que se quieran validar
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+        });
+        function CheckMaxLength(Object) {
+            var len = parseInt(Object.getAttribute("maxlength"), 10);
+            return (Object.value.length < len);
+        }
+        function CheckMaxLengthAfterLosingFocus(Object) {
+            var len = parseInt(Object.getAttribute("maxlength"), 10);
+            if (Object.value.length > len) {
+                alert("Se ha superado el límite máximo de " + len + " caracteres.\Se truncará dicho texto hasta el límite.");
+                Object.value = Object.value.substring(0, len);
+            }
+        }
+    </script>
+</head>
+
+<body onload="javascript:CargarFechasyBotones();">
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="Acuerdo.html">
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <center>
+                        <div>
+                            <h4 style="background-color:#418ad4; color:white;">Acuerdo</h4>
+                        </div>
+                    </center>
+                </div>
+            </div>
+
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+
+
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">ID
+                            Reclamo</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_2677" name="zamba_index_2677" disabled="disabled">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5"
+                            id="basic-addon1">Beneficiario</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_2722" name="zamba_index_2722">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha</span>
+                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_2720" name="zamba_index_2720" onblur="valFecha(this)">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5"
+                            id="basic-addon1">Importe</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_2719" name="zamba_index_2719">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Detalle de
+                            cuotas:</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <textarea cols="1" style="height: 40px; color: #090A0A; font-weight: bold" class="form-control"
+                            rows="3" id="zamba_index_2723" name="zamba_index_2723" maxlength="500"
+                            onkeypress="return CheckMaxLength(this);"
+                            onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <center>
+                    <input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit" value="Guardar" />
+                </center>
+
+            </div>
+
+            <center>
+                <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:1830px; height:1500px"
+                    src="file:///C:\Users\bpm-1.UNUMSA\AppData\Roaming\Zamba Software\OfficeTemp\Carta Modelo.docx"
+                    title="Documento Original"></iframe>
+            </center>
+            <center>
+                <div class="col-md-2" style="position:relative;left:20px;">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:white">Acuerdo.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </center>
+    </div>
+    </form>
+</body>
+
+</html>

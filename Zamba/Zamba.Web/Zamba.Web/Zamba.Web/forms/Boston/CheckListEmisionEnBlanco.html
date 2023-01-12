@@ -1,0 +1,82 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="CheckListEmisionEnBlanco.css" type="text/css" />
+    <style type="text/css">
+        input
+        {
+            font-size: xx-small;
+        }
+        p.description
+        {
+            font-size: x-small;
+        }
+        .style1
+        {
+            width: 276px;
+        }
+        .style5
+        {
+            width: 155px;
+        }
+        .style8
+        {
+            width: 78px;
+        }
+        .style9
+        {
+            width: 42px;
+        }
+    </style>
+     <script type="text/javascript" language="JavaScript">
+        function OcultarBotones() 
+        {
+            if (document.getElementById("chkReadOnly").value=="1" || document.getElementById("chkReadOnly").value=="1 ")
+            {    
+                document.getElementById("zamba_save").disabled=true;
+                document.getElementById("zamba_cancel").disabled=true;
+            }    
+            if (document.getElementById("SolicitudFullpath").value== "" || document.getElementById("SolicitudFullpath").value==" ")
+                document.getElementById("showdoc").disabled=true;
+        }
+        
+        
+        function SetRuleId(sender)
+        {
+            document.getElementById("hdnRuleId").name = sender.id;               
+            frmMain.submit();
+        }
+        
+        function OpenWindowct()
+        {
+            if (document.getElementById("SolicitudFullpath").value!= "" && document.getElementById("SolicitudFullpath").value!=" ")
+            {   
+                var newwindowct = window.open(GetUrlcc(),"_Blank", 'resizable=1,width=620,height=600,left=' + (screen.width  - 620)/2 + ',top=' + (screen.height - 600)/2)
+                return false;
+            }
+        }
+
+        function GetUrlcc()
+        {
+            return 'file:///' + document.getElementById("SolicitudFullpath").value;
+        }
+</script>
+</head>
+<body onload="javascript:OcultarBotones();">
+    <form name="frmMain" action="CheckListEmisionEnBlanco.html">
+    <input id="hdnRuleId" type="hidden" />
+     <input id="showdoc" name="showdoc" style="text-align: center;" type="submit"
+                        value="Ver Documento" onclick="OpenWindowct();"  title="ASD"/>
+        <table style="width: 100%; " id="DynamicTable"></table>
+    <input id="ZAMBA_ZVAR(chkReadOnly)" style="width: 20px; visibility:hidden" name="ZAMBA_ZVAR(chkReadOnly)" 
+                        readonly="readonly" disabled="disabled" />
+        <input id="ZAMBA_ZVAR(SolicitudFullpath)" style="width: 20px; visibility:hidden" name="ZAMBA_ZVAR(SolicitudFullpath)" 
+                        readonly="readonly" disabled="disabled" />
+                <input id="zamba_save" style="font-weight: bold; text-align: center;"
+                    type="submit" value="Guardar" name="zamba_save" />
+                <input id="zamba_cancel" style="font-weight: bold; " type="submit"
+                    value="Cancelar" name="zamba_cancel" />
+    </form>
+</body>
+</html>

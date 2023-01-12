@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<title>Datos Comerciales</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">		
+		<script src="Datos Comerciales.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" language="JavaScript">
+		    function SetRuleId(sender) {
+		        document.getElementById("hdnRuleId").name = sender.id;
+		        frmMain.submit();
+		    }
+		    function SetAsocId(sender) {
+		        document.getElementById("hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+		    function makeCalendar(id) {
+		        $(function () {
+		            $('#' + id).datepicker({
+		                changeMonth: true,
+		                changeYear: true,
+		                showOn: 'button',
+		                buttonText: 'Abrir calendario',
+		                buttonImage: 'images/calendar.png',
+		                buttonImageOnly: true,
+		                duration: ""
+		            });
+		        });
+		    }
+
+
+		    function SetAsocId(sender) {
+		        document.getElementById("hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+
+		    function zamba_save_onclick() {
+		        document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		    }
+
+		    $(document).ready(function () {
+		        makeCalendar('zamba_index_24');
+		        makeCalendar('zamba_index_25');
+
+		    });
+
+		    			
+		</script>
+	</head>	
+	<body>
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Datos Comerciales</strong>
+				</div>
+				<br />
+				<div name="floatleft" id="floatleft">
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+                        <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px; display:none;" />
+							<table cellpadding="4">
+								<tr>
+									<td><label>Nro de Expediente Referencial:</label></td>
+									<td><input type="text" id="zamba_index_1231" name="zamba_index_1231" style="width:150px;"/></td>
+									<td><label>C&oacutedigo 24:</label></td>
+									<td><select id="zamba_index_1233" name="zamba_index_1233" style="width:150px;"></select></td>
+								</tr>
+								<tr>
+									<td><label>Grandes Usuarios: </label></td>
+									<td><select id="zamba_index_1232" name="zamba_index_1232" style="width:150px;"></select></td>									
+									<td><label>Vol&uacutemen de Descarga: </label></td>
+									<td><input type="text" id="zamba_index_1234" name="zamba_index_1234" style="width:150px;"/></td>									
+								</tr>	
+							</table>
+					</div>	
+						<br />
+				
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="../../forms/images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="../../forms/images/pwbyzamba.jpg">
+				</div>					
+			</form>							
+	</body>
+</html>

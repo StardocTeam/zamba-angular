@@ -1,0 +1,198 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				return IntegerCheck(e);
+			})
+		});
+	});	
+	function CompletarVto(){
+		if (document.getElementById("zamba_index_2704").value == ""){
+			$("#zamba_index_2704").addClass("error");
+		} else {
+			$("#zamba_index_2704").removeClass("error");
+			var dias = $("#txtCantHabiles").val();
+			var fecha = $("#zamba_index_2704").val();
+			fecha = CalcularLaborales(dias, fecha);
+			$("#zamba_index_2705").val(fecha);
+		}
+	}
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_index_2704").value == ""){
+			alert("Por favor, complete la Fecha de Notificación.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2705").value == ""){
+			alert("Por favor, complete la fecha de Vencimiento.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_64").length > document.getElementById("zamba_index_64").maxlength){
+			alert("El límite máximo de caracteres para el campo Observación es de " + document.getElementById("zamba_index_64").maxlength + ".\nPor favor, verifique dicho campo.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2677").value == ""){
+			alert("Por favor, identifique un reclamo.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}			
+	function CargarFechasyBotones(){
+		CargarFechaIndice('zamba_index_2704');
+		CargarFechaIndice('zamba_index_2705');			
+	}
+	function VerificarJuiMed(sel){
+		if(sel.value == 'Juicio')
+			$("#zamba_index_2717").val(1);
+		else
+			$("#zamba_index_2717").val(4);
+	}
+	function VerificarTipoNotif(sel){
+		if(sel.value == 4)
+			$("#zamba_index_2681").val('Mediación');
+		else
+			$("#zamba_index_2681").val('Juicio');
+	}
+	function IDReclamo_KeyPress(e){
+		if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57)){
+			return false;
+		}
+		var key = window.event ? e.keyCode : e.which;
+		if(key == 13){
+			document.getElementById("zamba_rule_11237").click();	
+		}
+	}
+	function Caratula_KeyPress(e){
+		var key = window.event ? e.keyCode : e.which;
+		if(key == 13){
+			document.getElementById("zamba_rule_9236").click();	
+		}
+	}
+	function Patente_KeyPress(e){
+		var key = window.event ? e.keyCode : e.which;
+		if(key == 13){
+			document.getElementById("zamba_rule_9147").click();	
+		}
+	}
+	function Asegurado_KeyPress(e){
+		var key = window.event ? e.keyCode : e.which;
+		if(key == 13){
+			document.getElementById("zamba_rule_9143").click();	
+		}
+	}
+	function IngresoDeFecha(obj){
+		$('#zamba_index_2704').removeClass('error');
+		$('#txtCantHabiles').val('');
+		$('#zamba_index_2705').val('');
+		valFecha(obj);
+	}
+	</script>
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="NotificacionDemandaIngreso.html">
+    <input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center>
+	<div id="design"  style="width: 100%;">
+        Notificación
+    </div>
+    <table id="tblNotificacion" class="attributes_table">
+        <tr>
+			<td><label style="width: 150px;">Juicio / Mediación:</label> 
+			<td><select id="zamba_index_2681" size="1" name="zamba_index_2681" class="w100px" onchange="VerificarJuiMed(this);"></select>
+			<td class="separador">				
+			<td style="width:150px;"><label>Fecha de Notificación:</label>
+			<td><input id="zamba_index_2704" name="zamba_index_2704" class="w175px" onblur="IngresoDeFecha(this);" />
+        </tr>
+        <tr>
+			<td><label>Tipo de Notificación:</label> 
+			<td><select id="zamba_index_2717" size="1" name="zamba_index_2717" class="w250px" onchange="VerificarTipoNotif(this);"></select>		
+			<td class="separador">
+			<td><label>Días hábiles:</label>
+			<td><input id="txtCantHabiles" class="w175px solonums" name="txtCantHabiles" onkeyup="CompletarVto();" />
+        </tr>
+		<tr>
+			<td><label>ID Notificación:</label>
+			<td><input id="zamba_index_2702" name="zamba_index_2702" class="w100px" disabled="disabled" /> 
+			<td class="separador">
+			<td><label>Fecha de Vencimiento:</label>
+			<td><input id="zamba_index_2705" name="zamba_index_2705" class="w175px" onblur="valFecha(this)" />
+		</tr>
+		<tr>
+			<td><label>Datos Stro:</label>
+			<td><select id="zamba_index_1001010" name="zamba_index_1001010" class="w100px"></select>
+			<td class="separador">	
+			<td><td>
+		</tr>
+	</table>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><input id="zamba_rule_11443" name="zamba_rule_11443" style="width:160px" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+		</tr>
+		<tr>
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 806px" maxlength="5000" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled" ></textarea> 
+		</tr>
+	</table>
+	<br/>
+	<div id="design"  style="width: 90%;">
+		Reclamo
+	</div>
+	<table id="tblReclamo" class="attributes_table">
+		<tr>
+			<td style="width:150px"><label>ID Reclamo:</label>
+			<td>
+				<input id="zamba_index_2677" name="zamba_index_2677" size="1" style="width:250px;" class="solonums" onkeypress="IDReclamo_KeyPress(event);" />
+				<button id="zamba_rule_11237" name="zamba_rule_11237" onclick="SetRuleId(this);" />Buscar</button>
+				<button id="zamba_rule_10756" name="zamba_rule_10756" onclick="SetRuleId(this);" style="width:58px;"/>Nuevo</button>
+			<td style="width:150px"><input id="hdnCaratulaFlag" size="1" name="hdnCaratulaFlag" style="visibility=hidden;"/>
+			<td style="width:190px">
+		</tr>
+		<tr>
+			<td style="width:150px"><label>Carátula:</label>
+			<td>
+				<input id="zamba_index_2701" name="zamba_index_2701" size="1" style="width:250px;" onkeypress="Caratula_KeyPress(event);"/>
+				<button id="zamba_rule_9236" name="zamba_rule_9236" onclick="SetRuleId(this);" />Buscar</button>
+			<td style="width:150px">
+			<td style="width:190px">
+		</tr>
+		<tr>
+			<td style="width:150px"><label>Patente:</label>
+			<td>
+				<input id="zamba_index_39" name="zamba_index_39" size="1" style="width:250px;" onkeypress="Patente_KeyPress(event);" />
+				<button id="zamba_rule_9147" name="zamba_rule_9147" onclick="SetRuleId(this);" />Buscar</button>
+			<td style="width:150px">
+			<td style="width:190px">
+		</tr>
+		<tr>
+			<td style="width:150px"><label>Asegurado:</label>
+			<td>
+				<input id="zamba_index_3" name="zamba_index_3" size="1" style="width:250px;" onkeypress="Asegurado_KeyPress(event);"/>
+				<button id="zamba_rule_9143" name="zamba_rule_9143" onclick="SetRuleId(this);" />Buscar</button>
+			<td style="width:150px">
+			<td style="width:190px">
+		</tr>
+	</table>
+	<br/>
+	<div>
+		<button id="zamba_save" name="zamba_save" onclick="return zamba_save_onclick();" />Guardar</button>
+    </div>
+	<br/><hr />
+	</center>
+    <center style="z-index: -1">
+        <iframe 
+			id="zamba_innerdoctype_original" 
+			align="middle" 
+			height="90%" 
+			title="Documento Original"
+			width="90%" ></iframe>
+    </center>
+    </form>
+</body>
+</html>

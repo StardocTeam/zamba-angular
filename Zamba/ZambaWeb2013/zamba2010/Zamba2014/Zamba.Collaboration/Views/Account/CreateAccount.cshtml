@@ -1,0 +1,193 @@
+﻿@model ChatJsMvcSample.Models.EditChatUser
+@using CaptchaMvc.HtmlHelpers
+
+@{
+    ViewBag.Title = "Crear cuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h3>Bienvenido <b>@Model.InvitedUser.Name</b></h3>*@
+@*<div style="margin-top:10px;background-color:#6198ec;border-radius:10px;">
+    <img src="data:image;base64,@Model.ThisUser.Avatar" style="border-radius: 50%;padding:3px;" width="50" height="50" />
+    <h4 style="display:inline;color:white">
+        <b>@Model.ThisUser.Name.Split('/')[0]</b>
+    </h4>
+    <h5 style="display:inline;color:white">(@Model.ThisUser.Email)</h5>
+    <h4 style="display:inline;color:white">te ha invitado a unirte a Zamba Link</h4>
+</div>*@
+
+@using (Html.BeginForm("CreateAccount", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.InvSenderId)
+    @Html.HiddenFor(x => x.Company)
+    @Html.HiddenFor(x => x.Email)
+    @Html.HiddenFor(x => x.Avatar)
+    <div id="formRequest tableCollaboration" class="form">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label  col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label  col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.Company, new { htmlAttributes = new { @class = "form-control input-sm", disabled = "disabled", title = "Contacte a un administrador para cambiar este campo" } })                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label  col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control input-sm", disabled = "disabled", title = "Contacte a un administrador para cambiar este campo" } })                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <img src="data:image;base64,@Model.Avatar" class="roundAvatar" />
+                @Html.LabelFor(model => model.Avatar, htmlAttributes: new { @class = "control-label  col-xs-10", style="padding-top:20px; padding-left:120px;" })
+            </div>
+        @*</div>
+        <div class="row">*@
+            <div class="form-group">
+                <div id="fileInput" class="dropzone">
+                    <div class="fallback">
+                        <input name="files" type="file" multiple />
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Opcionales*@   
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.Position, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.InternalPhone, htmlAttributes: new { @class = "control-label col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.InternalPhone, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.InternalPhone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CellPhone, htmlAttributes: new { @class = "control-label col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.CellPhone, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        @*Contraseña*@   
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-xs-10">Contraseña</label>
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control input-sm", @Value = "", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RetryPassword, htmlAttributes: new { @class = "control-label col-xs-10" })
+                    <div class="col-xs-10">
+                        @Html.EditorFor(m => m.RetryPassword, new { htmlAttributes = new { @class = "form-control input-sm", @Value = "", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.RetryPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.Captcha("Actualizar", "<label>Ingrese el codigo</label>", 5, "Error de codigo, por favor reintente", true)
+                <span class="field-validation-error text-danger">@TempData["Message"]</span>
+            </div>
+        </div>
+
+        <span class="field-validation-error text-danger">@ViewBag.PasswordError</span>
+        @*<br />
+        <hr />*@
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            <div class="col-md-1">
+                @Html.ActionLink("Volver", "Index", "Home")
+            </div>
+            <div class="col-md-offset-10 col-md-1">
+                @*@Html.ActionLink("Rechazar", "Dismiss", new { invitedUser = Model.Id, thisUser = Model.ThisUser.Id })*@
+                <input type="submit" value="Guardar" class="btnCreate btn btn-xl" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+        new Dropzone('#fileInput', {
+        url: '@(Url.Action("SaveAvatarFile", "account"))',
+        autoProcessQueue: true,
+        uploadMultiple: false,
+        addRemoveLinks: true,
+        autoDiscover: false,
+        parallelUploads: 1,
+        acceptedFiles: ".jpeg, .png, .gif, .jpg, .bmp, .div",
+        dictDefaultMessage: "Haga click o suelte aqui la imagen",        
+        dictFallbackMessage: "El explorador no soporta drap and drop.",
+        dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+        dictFileTooBig: "El archivo que intenta subir es muy grande ({{filesize}}MiB). Tamaño maximo: {{maxFilesize}}MiB.",
+        dictInvalidFileType: "No se pueden subir archivos de este tipo.",
+        dictResponseError: "Se produjo el siguiente error en el servidor: {{statusCode}}.",
+        dictCancelUpload: "Cancelar",
+        dictCancelUploadConfirmation: "Estas seguro de cancelar?",
+        dictRemoveFile: "Eliminar",
+        dictMaxFilesExceeded: "No se pueden subir mas archivos.",
+        init: function () {
+            var myDropzone = this;
+            //myDropzone.options.dzone = {
+            //    acceptedFiles: "image/jpeg,image/png,image/gif,image/jpg,image/bmp,image/dib"
+            //}
+            myDropzone.on("sending", function (file, xhr, formData) {
+                formData.append("userId", @Model.Id);
+                formData.append("file", file);
+            });
+            myDropzone.on("addedfile", function (event) {
+                $(".dz-progress").hide();
+            });
+            myDropzone.on("complete", function (data) {
+                //var res = eval('(' + data.xhr.responseText + ')');
+                var res = JSON.parse(data.xhr.responseText);
+            });
+        }
+    });
+</script>

@@ -1,0 +1,46 @@
+
+<div class="demo-section k-content wide">
+    <h4>Grid with single column sorting enabled</h4>
+    @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.OrderViewModel>()
+        .Name("singleSort")
+        .Columns(columns => {
+            columns.Bound(o => o.ShipCountry).Width(300);
+            columns.Bound(p => p.Freight).Width(300);
+            columns.Bound(p => p.OrderDate).Format("{0:dd/MM/yyyy}");
+        })
+        .Pageable(pageable => pageable.ButtonCount(5))
+        .Sortable(sortable => sortable.AllowUnsort(false))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(5)
+            .Read(read => read.Action("Orders_Read", "Grid"))
+         )
+    )
+</div>
+
+<div class="demo-section k-content wide">
+    <h4>Grid with multiple column sorting enabled</h4>
+    @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.OrderViewModel>()
+        .Name("multipleSort")
+        .Columns(columns => {
+            columns.Bound(o => o.ShipCountry).Width(300);
+            columns.Bound(p => p.Freight).Width(300);
+            columns.Bound(p => p.OrderDate).Format("{0:dd/MM/yyyy}");
+        })
+        .Pageable(pageable => pageable.ButtonCount(5))
+        .Sortable(sortable => sortable
+            .AllowUnsort(true)
+            .SortMode(GridSortMode.MultipleColumn))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(5)
+            .Read(read => read.Action("Orders_Read", "Grid"))
+         )
+    )
+</div>
+
+<style>
+    .demo-section h3 {
+        margin: 5px 0 15px 0;
+    }
+</style>

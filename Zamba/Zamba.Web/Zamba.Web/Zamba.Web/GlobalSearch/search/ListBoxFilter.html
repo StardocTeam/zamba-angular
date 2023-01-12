@@ -1,0 +1,264 @@
+﻿  <!--Botones superiores filtros-->
+<div class="btn-group btn-group-sm" data-toggle="buttons" style="position:relative;" ng-show="match.model.button">
+    <!--<label id="lblGSFilAll" style="font-size:14px" ng-class="match.model.buttonVal=='all'?'btn btn-default active btnSelected':'btn btn-default'" sel-button title="Todos los resultados">
+        <i class="glyphicons glyphicons-list IconsMainMenu" aria-hidden="true"></i>
+        <img src="../../GlobalSearch/Images/list-with-dots.png" style="height:20px;" />
+   
+        <input type="radio" id="btnAll" name="All" value="All" /> Todas las Coincidencias
+    </label>
+   
+    <label id="lblGSFilEnt" style="font-size:14px" ng-class="match.model.buttonVal=='entity'?'btn btn-default active btnSelected':'btn btn-default'" sel-button title="Filtrar solo entidades">
+      
+        <img src="../../GlobalSearch/Images/networking.png" style="height:20px;" />
+        <input type="radio" id="btnEntity" name="Entity" value="Entity" />Entidades Coincidentes
+    </label>
+
+    <label id="lblGSFilInd" style="font-size:14px" ng-class="match.model.buttonVal=='index'?'btn btn-default active btnSelected':'btn btn-default'" sel-button title="Filtrar solo atributos">
+
+        <img src="../../GlobalSearch/Images/savings.png" style="height:20px;"/>
+        <input type="radio" id="btnIndex" name="Index" value="Index" />Atributos Coincidentes
+    </label>-->
+
+    <label id="lblGSFilWord" style="font-size:14px" ng-class="match.model.buttonVal=='words'?'btn btn-default active btnSelected btnstyle':'btn btn-default'" sel-button title="Filtrar solo palabras">
+        <!--<img class="fimgword icosize">-->
+        <img src="../../GlobalSearch/Images/font-symbol-of-letter-a.png" style="height:18px;"/>
+        <!--<i class="fa fa-font IconsMainMenu"  aria-hidden="true"></i>-->
+        <input type="radio" id="btnWords" name="Words" value="Words" />Palabras Coincidentes
+    </label>
+</div>
+<div ng-show="match.model.total" class="descSpanE" >
+    Se encontraron {{match.model.total}} resultados
+    <!--<span ng-show="match.model.total >= 3">3</span>
+    <span ng-show="match.model.total < 3">{{match.model.total}}</span>
+    de {{match.model.total}} resultados-->
+</div>
+
+<!--PALABRAS 0-->
+<div class="rowWord gs-li-a"style="height:45px;" ng-show="match.model.type == 0" ng-attr-title="Contiene: {{match.model.name}}">
+    <!--<img class="fimgword imgFilter">-->
+    <i class="fa fa-font fa-2x IconsResults"  aria-hidden="true"></i>
+    <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query" style="color:black !important;position:relative;margin-left:16px"></span>
+    <span class="descSpanC">@Contiene</span>
+</div>
+
+<!--ENTIDAD 1 hide-show-input-->
+<div class="rowEntity gs-li-a" check-if-search data-placement="right" ng-show="match.model.type == 1" ng-attr-title="Entidad: {{match.model.name}}" ng-attr-id="item{{match.model.id}}">
+    <!--<img class="fimgent imgFilter" style="margin-left: 5px;">-->
+    <img src="../../GlobalSearch/Images/networking.png" style="height:30px;position:relative;top:9px;left:4px;" />
+    <!--<i class="fa fa-globe fa-2x IconsResults" aria-hidden="true"></i>-->
+    <span class="descSpanE">Entidad</span>    
+    <span ng-bind-html="match.model.name |limitTo: 28 | uibTypeaheadHighlight:query" style="color:black !important;margin-left:16px"></span>
+    <input autocomplete="off" class="typeahead " words-ent-select type="text"  style="color:#fd722f;width:460px" placeholder="Contiene..">
+   
+    <!--<i Show-Menu-Filters class="fa fa-filter" style="color:#6f6f6f;margin-left:10px;" aria-hidden="true"></i>-->
+
+
+    <span class="btn"><i class="fa fa-check fa-2x doGSSearch" style="color:#969696;" aria-hidden="true"></i></span>
+    <br />
+    
+    <div show-adv-f class="advFilter">
+        <div>
+            <span show-adv-f type="button" class="etapa" id="etapa">
+                <i class="fa fa-random"  style="color:#656565"  aria-hidden="true"></i>
+
+                <span  class="advFilterGSTxt">Buscar Etapa</span>
+            </span>
+            <input autocomplete="off" class="typeahead thMain" adv-filter type="text" placeholder="Etapa">
+        </div>
+        <div>
+            <span type="button" class="asig fa fa-user" style="color:#656565" id="asignado">
+                <span class="advFilterGSTxt">Buscar Asignado</span>
+            </span>
+            <input autocomplete="off" class="typeahead thMain" adv-filter type="text" placeholder="Asignado">
+        </div>
+        <div>
+            <span type="button" class="estado fa fa-info-circle" style="color:#656565" id="estado">
+                <span class="advFilterGSTxt">Buscar Estado</span>
+            </span>
+            <input autocomplete="off" class="typeahead thMain" adv-filter type="text" placeholder="Estado">
+        </div>
+        <div>
+            <span type="button" style="padding:0;" id="atributo" class="atributo" onclick="openGSAtr(this,event,'entity');">
+                <!--<img class="icon15size" src="../../Content/Images/index.png" />--> 
+                <!--<i class="fa fa-cogs" style="color:#656565" aria-hidden="true"></i>-->
+                <img src="../../GlobalSearch/Images/savings.png" style="height:18px;position:relative;bottom:3px;" />
+                <span class="advFilterGSTxt">Atributos de la entidad</span>
+                <span class="atrCountSpan">({{match.model.indexes.length}})</span>
+            </span>
+        </div>
+      
+    </div>
+
+    <!--<span class="fa fa-search searchEntInsideUL" ng-show="match.model.indexes.length >= 10" style="display:none;"></span>-->
+    <input autocomplete="off" class="entULFilter" style="display:none;"id="entULFilter" ng-show="match.model.indexes.length >= 10" ng-click="$event.stopPropagation();" placeholder="Buscar atributo" ng-model="searchEntText">
+    <!--<hr ng-show="match.model.indexes.length >= 10" style="margin:0;padding-top: 5px;" />-->
+    <ul class="ulAttr" style="display:none;">
+
+        <li class="innerTxt" style="color: #2134BE;" click-item ng-repeat="i in match.model.indexes | filter:{ name: searchEntText }" ng-show="$index<5" ng-attr-id="{{i.id}}" data-type="1">
+            <!--"i in match.model.indexes | orderBy:'name'"-->
+            <!--Checkbox (9)-->
+            <input type="checkbox" style="float:left;margin-right: 5px;margin-top: -2px;"  ng-if="i.index_type == 9" value="{{i.name}}" />
+          
+            <span>{{i.name}}</span>
+            <!--Numerico (1.2)-->
+            <input autocomplete="off" name="srch-term" class="typeahead th" onchange="InputSelec(this)" words-ent-index type="number"  ng-if="(i.index_type == 1 || i.index_type == 2)" formatNumber />
+            <!--Moneda y Decimal (3.6)-->
+            <input autocomplete="off" name="srch-term" class="typeahead th" onchange="InputSelec(this)" words-ent-index type="number"  ng-if="i.index_type == 3 || i.index_type == 6" formatNumber />
+            <!--Fecha y Fecha y Hora (4.5)-->
+            <input autocomplete="off" name="srch-term" class="typeahead th dateValueGS" onchange="InputSelec(this)" words-ent-index type="text"  ng-if="i.index_type == 4 || i.index_type == 5" data-smart-datepicker data-dateformat='dd/mm/yyyy' />
+            <!--Alfanumerico (7.8)-->
+            <input autocomplete="off" name="srch-term" class="typeahead th" onchange="InputSelec(this)" words-ent-index type="text"  ng-if="(i.index_type == 7 || i.index_type == 8)" />
+            <div class="dateCompareChk" onclick="showCompareDateGS(this, 'entity', event);" style="display:none;">
+                <div ng-if="i.index_type == 4 || i.index_type == 5" style="color:black;">(Entre)</div>
+                <input type="checkbox" style="float:left;margin-left: 10px;margin-top: -2px;" name="Entre" value="Entre" ng-if="i.index_type == 4 || i.index_type == 5" />
+            </div>
+            <!--Fecha y Fecha y Hora (4.5)-->
+            <input autocomplete="off" name="srch-term" style="visibility:hidden;" class="typeahead th dateCompare" onchange="InputSelec(this)" words-ent-index type="text" ng-if="i.index_type == 4 || i.index_type == 5" data-smart-datepicker data-dateformat='dd/mm/yyyy' />
+        </li>
+    </ul>
+    <div expand-items ng-show="match.model.indexes.length >= 6 || match.model.words.length >= 6" class="btnMore" data-toggle="tooltip" data-placement="right" data-html="true"><center><p>+ Ver mas...</p></center></div>
+    <!--<p class="footerTxt">Atributos:{{match.model.indexes.length}}</p>-->
+</div>
+
+<!--ATRIBUTO INDICE 2 -->
+<div class="rowIndex gs-li-a" check-if-search data-placement="right" ng-show="match.model.type == 2" ng-attr-title="Atributo: {{match.model.name}}" ng-attr-id="index{{match.model.id}}">
+    <img src="../../GlobalSearch/Images/savings.png" style="height:30px;position:relative;top:9px;left:4px;" />
+    <!--<i class="fa fa-cogs fa-2x IconsResults"  aria-hidden="true"></i>-->
+    <!--<span class="descSpanA" style="position:relative;margin-left:13px" >Atributo</span>-->
+    <span ng-bind-html="match.model.name |limitTo: 28 | uibTypeaheadHighlight:query" style="color:black !important;margin-left:10px"></span>
+    <!--<input autocomplete="off" class="typeahead thMain" words-attr-select type="text" placeholder="Ingrese busqueda">-->
+    <!--Numerico (1.2)-->
+    <input autocomplete="off" words-attr-select class="typeahead " type="number" style="color:#fd722f;width:460px;" placeholder="Ingrese busqueda" ng-if="(match.model.index_type == 1 || match.model.index_type == 2)" formatNumber />
+    <!--Moneda y Decimal (3.6)-->
+    <input autocomplete="off" words-attr-select class="typeahead " type="number" style="color:#fd722f;width:460px;" placeholder="Ingrese busqueda" ng-if="match.model.index_type == 3 || match.model.index_type == 6" formatNumber />
+    <!--Fecha y Fecha y Hora (4.5)-->
+    <input autocomplete="off" words-attr-select class="typeahead  dateValueGS" style="color:#fd722f;width:460px;" type="text" placeholder="Ingrese busqueda" ng-if="match.model.index_type == 4 || match.model.index_type == 5" data-smart-datepicker data-dateformat='dd/mm/yyyy' />
+    <!--Alfanumerico (7.8)-->
+    <input autocomplete="off" words-attr-select class="typeahead " type="text" style="color:#fd722f;width:460px;" placeholder="Ingrese busqueda" ng-if="(match.model.index_type == 7 || match.model.index_type == 8)" />
+
+    <div class="dateCompareChk" onclick="showCompareDateGS(this, 'index',event);" style="display:none;">
+        <div ng-if="match.model.index_type == 4 || match.model.index_type == 5" style="color:black;font-size: 10px;">(Entre)</div>
+        <input type="checkbox" style="float:left;margin-left: 10px;margin-top: -2px;" name="Entre" value="Entre" ng-if="match.model.index_type == 4 || match.model.index_type == 5" />
+    </div>
+    <!--Fecha y Fecha y Hora (4.5)-->
+    <input autocomplete="off" name="srch-term" style="visibility:hidden;" class="typeahead th dateCompare" onchange="InputSelec(this)" words-ent-index type="text" placeholder="{{match.model.name}}" ng-if="match.model.index_type == 4 || match.model.index_type == 5" data-smart-datepicker data-dateformat='dd/mm/yyyy' />
+   
+     <!--<a Show-Menu-Filters class="fa fa-filter" ng-click="Filters=true" style="color:#6f6f6f; margin-left:10px;" aria-hidden="true"></a>-->
+    
+    <span class="btn"><i class="fa fa-check fa-2x doGSSearch" style="color:#969696" aria-hidden="true"></i></span>
+
+    <br />
+    <span class="adv">Seleccione al menos una entidad para ver sugerencias</span>
+    
+    <div show-adv-f class="advFilter" >
+        <div>
+            <span show-adv-f type="button" class="etapa" id="etapa">
+                <i class="fa fa-random" style="color:#656565"  aria-hidden="true"></i>
+                <span class="advFilterGSTxt">Buscar Etapa</span>
+            </span>
+            <input autocomplete="off" class="typeahead thMain" adv-filter type="text" placeholder="Etapa">
+        </div>
+        <div>
+            <span type="button" class="asig fa fa-user" style="color:#656565" id="asignado">
+                <span  class="advFilterGSTxt">Buscar Asignado</span>
+            </span>
+            <input autocomplete="off" class="typeahead thMain" adv-filter type="text" placeholder="Asignado">
+        </div>
+        <div>
+            <span type="button" class="estado fa fa-info-circle" style="color:#656565" id="estado">
+                <span  class="advFilterGSTxt">Buscar Estado</span>
+            </span>
+            <input autocomplete="off" class="typeahead thMain" adv-filter type="text" placeholder="Estado">
+        </div>
+        <div>
+            <span type="button" style="padding:0;" id="atributo" class="atributo" onclick="openGSAtr(this,event,'index');">
+                
+                <!--<i class="fa fa-globe" style="color:#656565" aria-hidden="true"></i>-->
+                <img src="../../GlobalSearch/Images/networking.png" style="height:12px;" />
+                <span  class="advFilterGSTxt">Entidades Asociadas</span>
+                <span class="atrCountSpan">({{match.model.parentArray.length}})</span>
+            </span>
+        </div>
+        <!--<div>
+            <div class="btn doGSSearch" style="position:relative;color:#6da1d6;bottom:6px;">
+                <span class="fa fa-search"></span>
+            </div>
+        </div>-->
+    </div>
+    <div class="chkAllNone" ng-show="match.model.parentArray.length >= 2" chkbox-control data-type="2">
+        <label class="lblChk">
+            <input autocomplete="off" type="checkbox" name="all" value="all" checked>
+            <span style="margin: 4px;font-weight: bold;">Ninguno</span>
+        </label>
+    </div>
+    <!--<div class="titleTxt" style="display:inline;">Entidades</div>-->
+    <ul class="ulAttr">
+        <li class="innerTxt" style="color: #2134BE;" click-chk ng-repeat="j in match.model.parentArray | orderBy:'name'" ng-show="$index<5" data-type="2">
+            <label class="lblChk"><input type="checkbox" name={{j.id}} value={{j.id}} style="margin-right: 4px;position:relative;top:2px; " checked>{{j.name}}</label>
+        </li>
+    </ul>
+    <div expand-items ng-show="match.model.parentArray.length >= 6" class="btnMore" data-toggle="tooltip" data-placement="right" data-html="true"><p> Ver mas...</p></div>
+    <!--<p class="footerTxt">Entidades contenidas: {{match.model.parentArray.length}}</p>-->
+
+</div>
+
+<!--ETAPA 5 StepStateId-->
+<div class="rowWord gs-li-a" ng-show="match.model.type == 5" ng-attr-title="Contiene: {{match.model.name}}">
+    <img class="fimgword imgFilter">
+    <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+    <span class="descSpanC">@Contiene</span>
+</div>
+
+<!--ESTADO 6 TaskStateId-->
+<div class="rowWord" ng-show="match.model.type == 6" ng-attr-title="Contiene: {{match.model.name}}">
+    <img class="fimgword imgFilter">
+    <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+    <span class="descSpanC">@Contiene</span>
+</div>
+
+<!--ASIGNADO 7 UserId-->
+<div class="rowWord" ng-show="match.model.type == 7" ng-attr-title="Contiene: {{match.model.name}}">
+    <img class="fimgword imgFilter">
+    <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+    <span class="descSpanC">@Contiene</span>
+</div>
+
+<!--No se encontraron resultados-->
+<div ng-show="match.model.noresults" style="padding: 15px 15px 15px 15px;">
+    <span style="font-weight: bold;position:relative;left:90px">No se encontraron resultados</span>
+    <hr style="margin: 0px;" />
+    <div style="font-size: 12px;">
+        <p style="margin-top: 10px;position:relative;left:40px">Por favor tenga en cuenta:</p>
+        <ul style="line-height: 20px;">
+            <li>Verificar que haya escrito correctamente su búsqueda</li>
+            <li>Verificar filtros aplicados</li>
+            <li>Puede que no existan datos con esos parametros</li>
+            <li>Lista de sugerencias: tipear al menos 3 caracteres</li>
+            <li>Presione <span class="glyphicon glyphicon-question-sign"></span> si tiene alguna duda sobre como usar el buscador</li>
+        </ul>
+    </div>
+</div>
+<!--<hr class="hrDivision" />-->
+
+
+<style>
+
+    .btnstyle {
+        border-color: #fff;
+    }
+   
+
+</style>
+
+<!--Public Enum IndexDataType
+    None = 0
+    Numerico = 1
+    Numerico_Largo = 2
+    Numerico_Decimales = 3
+    Fecha = 4
+    Fecha_Hora = 5
+    Moneda = 6
+    Alfanumerico = 7
+    Alfanumerico_Largo = 8
+    Si_No = 9
+End Enum-->

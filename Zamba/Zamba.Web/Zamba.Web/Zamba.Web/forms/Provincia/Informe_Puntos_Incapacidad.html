@@ -1,0 +1,55 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by EEB-->
+<!--Fecha Creacion: 25/03/2020-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Busq_JuicioMediacion.html">
+            <input id="hdnRuleId" type="hidden" />
+            <h4 class="text-center" id="header" width="90%">Reporte de Puntos de Incapacidad</h4>
+            <center>
+                <div id="tblReclamo" class="attributes_table">
+                   
+                            <div class="form-group row">
+
+                                <h5>Cargar el rango de fechas a consultar  </h5>
+                                <div class="col-md-3"></div>
+                                <div class="col-xs-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha Desde:</span>
+                                        <!--input class="form-control input-sm dataType datepicker" autocomplete="off" id="zamba_index_1020123" name="zamba_index_1020123" /-->
+										     <input id="zvar(FechaDesde)" name="zvar(FechaDesde)" class="form-control input-sm dataType datepicker" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha Hasta:</span>
+                                        <!--input class="form-control input-sm dataType datepicker" autocomplete="off" id="zamba_index_1020124" name="zamba_index_1020124" /-->
+										<input id="zvar(FechaHasta)" name="zvar(FechaHasta)" class="form-control input-sm dataType datepicker" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row"></div>
+
+                            <div>
+                               	<button name="zamba_rule_11545113" id="zamba_rule_11545113" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Buscar">Buscar Puntos de Incapacidad</button>
+                                <button name="zamba_cancel" id="zamba_cancel" onclick="window.close();" class="btn btn-primary" type="submit" value="Salir">Salir</button>
+                            </div>
+                    
+                    </div>
+            </center>
+        </form>
+    </div>
+
+
+</body>
+</html>

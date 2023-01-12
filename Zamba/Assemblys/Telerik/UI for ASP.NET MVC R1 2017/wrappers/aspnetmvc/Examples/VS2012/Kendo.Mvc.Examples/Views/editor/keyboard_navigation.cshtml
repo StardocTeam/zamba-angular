@@ -1,0 +1,40 @@
+@(Html.Kendo().Editor()
+      .Name("editor")
+      .HtmlAttributes(new { style = "height:240px" })
+      .Resizable(resizable => resizable.Content(false).Toolbar(true))
+      .Value(@<text>
+            <p>
+               <img src="@Url.Content("~/content/web/editor/kendo-ui-web.png")" alt="Editor for ASP.NET MVC logo" style="display:block;margin-left:auto;margin-right:auto;" />
+            </p>
+            <p>
+                Kendo UI Editor allows your users to edit HTML in a familiar, user-friendly way.<br />
+                In this version, the Editor provides the core HTML editing engine, which includes basic text formatting, hyperlinks, lists,
+                and image handling. The widget <strong>outputs identical HTML</strong> across all major browsers, follows
+                accessibility standards and provides API for content manipulation.
+            </p>
+      </text>)
+)
+
+<div class="box wide">
+    <h4>Keyboard legend</h4>
+    <ul class="keyboard-legend">
+        <li>
+            <span class="button-preview">
+                <span class="key-button">Tab</span>
+            </span>
+            <span class="button-descr">
+                focuses next tool icon
+            </span>
+        </li>
+        <li>
+            <span class="button-preview">
+                <span class="key-button wide rightAlign">Shift</span>
+                +
+                <span class="key-button">Tab</span>
+            </span>
+            <span class="button-descr">
+                focuses previous tool icon
+            </span>
+        </li>
+    </ul>
+</div>

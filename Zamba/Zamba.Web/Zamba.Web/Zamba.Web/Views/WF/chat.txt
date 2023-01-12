@@ -1,0 +1,20 @@
+    <%-- Inicializacion de Chat--%>
+
+
+    <script type="text/javascript" src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ThisDomain","http://www.zamba.com.ar/zamba.web") %>/ChatJs/Scripts/jquery.signalR-2.2.0.min.js'></script>
+
+    <script src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ChatURLServerSR","http://www.zamba.com.ar/Zambachat/signalr/hubs") %>'></script>
+
+    <script type="text/javascript" src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ThisDomain","http://www.zamba.com.ar/zambastardoc") %>/ChatJs/Scripts/zambachat.js'></script>
+
+    <script type="text/javascript">   
+        var URLServer ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ChatURLServer","http://localhost/zamba.web/ZambaChat/") %>';
+        var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
+        var zCollServer ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
+
+        $(document).ready(function () {
+                LoadChat(GetUID(), URLServer, "compact", "ZambaWeb", thisDomain, ZCollLnk, false, zCollServer, false);
+        });
+    </script>
+
+    <%--    END CHAT--%>

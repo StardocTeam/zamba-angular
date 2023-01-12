@@ -1,0 +1,246 @@
+﻿/*****Formulario Search******/
+.Fielset-Frm-Search
+{
+    background-color:#F7FAFC;
+}
+
+#Table-Principal-Search
+{
+    width: 100%;
+    background-color:#F7FAFC;
+}
+
+.Fielset-Control-DocTypesIndex
+{
+
+	PADDING-BOTTOM: 2px; 
+	PADDING-LEFT: 2px; 
+	PADDING-RIGHT: 10px; 
+
+	PADDING-TOP: 2px;
+
+}
+
+#dropdown-user {
+
+    text-align:center;
+}
+
+
+
+
+.Legend-Control-DocTypesIndex {
+    border-style: none;
+    color: #0045D6;
+    margin-left: 5px;
+}
+
+#Table-Footer-Search
+{
+    background-color:#D1E5F5;
+}
+
+.chkBuscar-footer-search
+{
+    color:Black;
+}
+
+.Legend-search
+{
+    border-style: none;
+    color:#0045D6;
+    margin-left:5px
+}
+
+.searchButton
+{
+    height:22px;
+    width:132px;
+    cursor:pointer;
+}
+/***********Master Blank*******************/
+.Table-Principal-MasterBlank
+{
+   /*background-color:#F7FAFC;*/
+   width:100%;
+   
+}
+
+.Div-principal-MasterBlank
+{
+    /*background-color:#F7FAFC;*/
+    height:100%
+}
+
+
+/*******************Frm TaskDetail***************/
+.Table-Task-Detail
+{
+    background-color:White;
+}
+
+/*.TabDoc-Task-Detail
+{
+}*/
+
+.TabAsociate-Task-Detail
+{
+    overflow-y:visible;    
+}
+
+.TabForum-Task-Detail
+{
+    overflow-y:visible;
+}
+
+.TabHistory-Task-Detail
+{
+    overflow-y:visible;
+}
+
+.TabMails-Task-Detail
+{
+    overflow-y:visible;
+}
+
+/*****************Frm TaskHistory**********/
+.Frm-Task-History
+{
+    background-color:White;    
+}
+
+.pnlRespuesta-Frm-Forum
+{
+    background-color:White;
+}
+
+/*****************/
+.NewsTab .ajax__tab_header {font-family:verdana,tahoma,helvetica;background:url(images/tabs/tab-line.gif) repeat-x bottom;}
+.NewsTab .ajax__tab_outer {height:2em;padding-right:4px;background:url(images/tabs/tab-right.gif) no-repeat right top;}
+.NewsTab .ajax__tab_inner {padding-left:3px;background:url(images/tabs/tab-left.gif) no-repeat;}
+.NewsTab .ajax__tab_tab {height:2em;line-height:1.8em;padding:0 4px;margin:0!important;background:url(images/tabs/tab.gif) repeat-x;}
+.NewsTab .ajax__tab_hover .ajax__tab_outer {background:url(images/tabs/tab-hover-right.gif) no-repeat right top;}
+.NewsTab .ajax__tab_hover .ajax__tab_inner {background:url(images/tabs/tab-hover-left.gif) no-repeat;cursor:pointer;}
+.NewsTab .ajax__tab_hover .ajax__tab_tab {background:url(images/tabs/tab-hover.gif) repeat-x;}
+.NewsTab .ajax__tab_active .ajax__tab_outer {background:url(images/tabs/tab-active-right.gif) no-repeat right top;}
+.NewsTab .ajax__tab_active .ajax__tab_inner {background:url(images/tabs/tab-active-left.gif) no-repeat;}
+.NewsTab .ajax__tab_active .ajax__tab_tab {background:url(images/tabs/tab-active.gif) repeat-x;}
+.NewsTab .ajax__tab_body {font-family:verdana,tahoma,helvetica;border:0px solid #A3CEE0;border-top:0;padding:8px;background-color:#fff;}
+.NewsTab .ajax__tab_body ul {list-style-type:disc;line-height:1.5em;padding-left:1em;}
+.NewsTab .ajax__tab_body ul ul {list-style-type:square;}
+.NewsTab .ajax__tab_body p {text-indent:1em;line-height:1.3em;margin-bottom:1em;}
+
+/*****Frm TaskForm******/
+
+.Body-Task-Forum
+{
+    background-color:White;
+}
+
+/********Frm Default**********/
+.tabresults-Frm-Default
+{
+
+}
+
+/*****************Master Page*******************/
+
+.div-presentation-Main{ 
+ display:none;
+}
+
+/***********Controles****************/
+/*.Fielset-controles-UC
+{
+    
+
+}*/
+
+/**********Frm Views - Insert****************/
+.div-Frm-Views-Insert
+{
+    background-color: #EFEFEF;
+}
+
+.body-Frm-Views-Insert
+{
+    background-color: #EFEFEF;
+}
+
+/*************Master Blank******************/
+.Body-Master-Blanck
+{
+    /*background-color:#F7FAFC;*/
+}
+
+/*************Pagina TaskHistory*******************/
+.body-TaskHistory
+{
+    background-color:#FFFFFF;
+}
+
+/*************InsertControl*******************/
+.insertFormButton
+{
+    width:130px;
+    height:30px;
+    cursor:pointer;
+}
+
+/*************Indexs*******************/
+.popupButton
+{
+    cursor:pointer;
+}
+
+.OverflowAuto
+{
+    overflow:auto;
+}
+
+#tabhome
+{
+    background-color: white;
+}
+
+.navbar-toggle
+{
+    padding: 1px 5px;
+}
+
+.advancedSearchBox{
+
+    /*top:12px !important;*/
+    width:90%;
+}
+
+#ContentPlaceHolder_lblUsuarioActual2 {
+    color: #337ab7 !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+
+a#btnbusqueda, a#btnbusqueda2 {
+    background-color: #2e6da4;
+}
+
+.tasklogo {
+    border: none;
+    left:20px;
+    position: relative;
+    display: block;
+    background: url("images/webicon.jpg") no-repeat left center;
+    height: 35px;
+    width: 77px;
+    text-decoration: none;
+    background-size: contain;
+}
+@media (max-width: 767px) {
+    .tasklogo {
+        margin-top: -46px !important;
+        margin-left: 30px !important;
+    }
+}
+.fijo{
+    table-layout:fixed;
+    /*width:auto !important;*/
+}

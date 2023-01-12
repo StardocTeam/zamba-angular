@@ -1,0 +1,17 @@
+﻿
+<div class="row ">
+        <div class="list-group col-xs-12" style="margin-top:10px;" >
+            <a ng-repeat="g in GridData" id="Novedad" ng-click="OpenTask(this)" class="list-group-item container  col-xs-10 col-xs-offset-1">
+                <span class="col-xs-9" style="border-right:1px solid #cecece;padding:10px"><strong style="color:#428bca">Nombre :</strong> {{g.Name}}</span>
+                <span class="col-xs-3" style="padding:10px;"><strong style="color:#428bca;text-align:center;">Fecha :</strong> {{g.Time}}</span>
+            </a>
+        </div>
+</div>
+
+
+<style>
+    #Novedad
+    {
+        cursor: pointer;
+    }
+</style> 

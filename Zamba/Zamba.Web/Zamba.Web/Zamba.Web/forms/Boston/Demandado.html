@@ -1,0 +1,185 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creacion: 11.2018-->
+<!--Ultima Edicion: 18.04.2022 -->
+<!--Modificado por: GR - Se agrego una linea azul para separar el top del form de las acciones de usuarios -->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--  -->
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+		function zamba_save_onclick_demandado() {
+            if (document.getElementById("zamba_index_2706").value.trim() == ""){
+                swal("Verifique que el Nombre se encuentre completo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+            } else {
+                alert("Se guardo exitosamente.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+                frmMain.submit();	
+			}
+        }
+
+        function CloseLoading() {
+            setTimeout("parent.hideLoading();", 500);
+        }
+
+	    $(document).ready(function(){
+		    $(".solonums").each(function(){
+				$(this).keypress(function (e){
+					return IntegerCheck(e);
+				})
+		    });
+	    });
+		// function CargarFechasyBotones2(){
+		// 	$('#zamba_index_2763').datepicker({
+		// 		changeMonth: true,
+		// 		changeYear: true,
+		// 		showOn: 'button', 
+		// 		buttonText: 'Abrir calendario',
+		// 		buttonImage: 'calendar.png', 
+		// 		buttonImageOnly: true,
+		// 		yearRange: '-100:+0',
+		// 		duration: ""
+		// 	});			
+		// }
+		 function SeleccionarProvincia(){
+		 	$('#zamba_index_2766').text('');
+		 }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div>
+            <form name="frmMain" action="Demandado.html">
+				
+                <div>
+
+                    <div class="form-group row"></div>
+                    <input id="hdnRuleId" type="hidden" />
+					<hr style="border: 0 ; border-top: 3px double blue; width: 100%;">
+                    <center>
+                        <div id="tblDemandado" >
+                            <div class="form-group row">								
+                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="" id="basic-addon1">Nombre:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2706" name="zamba_index_2706">
+                                    </div>
+                                </div>                                
+                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style=""> ID Demandado:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2731" name="zamba_index_2731" disabled="disabled">
+                                    </div>
+                                </div>								
+								 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="   padding:2px;">ID Reclamo:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" disabled="disabled" />
+                                    </div>
+                                </div>								
+                            </div>
+							
+                            <div class="form-group row">								
+                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style=""> Dirección:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2708" name="zamba_index_2708">
+                                    </div>
+                                </div>
+                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style=""> DNI/CUIL/CUIT:</span>
+                                        <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_2710" name="zamba_index_2710">
+                                    </div>
+                                </div>
+                            </div>
+							
+                            <div class="form-group row">								
+								 <div class="col-lg-2 col-md-2col-sm-4 col-xs-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="">Codigo Postal:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2765" name="zamba_index_2765" />
+                                    </div>
+                                </div>
+                                 <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8">								
+									<div class="input-group">
+                                        <span class="input-group-addon" style="">Provincia:</span>
+                                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2764" name="zamba_index_2764" onchange="SeleccionarProvincia();"></select>
+                                    </div>
+                                </div> 
+								 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="">Teléfono:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2711" name="zamba_index_2711">
+                                    </div>
+                                </div>
+                            </div>
+							
+                            <div class="form-group row">								
+                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="">Localidad:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2766" name="zamba_index_2766" disabled="disabled"></>
+                                        
+										<span class="input-group-btn">
+                                            <button class="btn  btn-primary btn-sm" id="zamba_rule_11427" name="zamba_rule_11427" type="submit" title="Seleccionar Localidad..." onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="16" width="16"></button>											
+											
+                                        </span>
+                                    </div>
+                                </div>
+                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="">Celular: </span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2712" name="zamba_index_2712">
+                                    </div>
+                                </div>
+                            </div>
+							
+                            <div class="form-group row">								
+                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style=""> Fecha de Nacimiento:</span>
+                                        <input class="form-control input-sm datepicker" style=" color: #090A0A; font-weight: bold" id="zamba_index_2763" name="zamba_index_2763" onblur="valFecha(this)"/>                                    </div>
+                                </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="">Nacionalidad:</span>
+                                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2709" name="zamba_index_2709">
+                                    </div>
+                                </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style=""> Estado Civil:</span>
+                                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2714" size="1" name="zamba_index_2714"></select>
+                                    </div>
+                                </div>                               
+                                                                
+                            </div>
+                            
+                            <div class="form-group row"></div>
+                            <span class="input-group"></span>
+                            <div><input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick_demandado()" /></div>
+                        </div>
+                    </center>
+					
+					<div class="form-group row"> </div>
+					<center>						
+						<div class="">
+							<span style="color:white">Demandado.html</span>
+						</div>						
+					</center>					
+										  
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: -->
+<!--   -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+	
+    <script>
+	
+
+	
+        
+         function zamba_onclick(sender) {
+             var valido = false;
+             var currentDate = new Date();
+				
+             try {
+                 if (document.getElementById("zamba_index_1098").value == "") {
+                     swal("", "Por favor, Ingrese Persona que Envia");
+                     valido = false;
+                 } else if (document.getElementById("zamba_index_161667").value == "") {
+                     swal("", "Por favor,Ingrese La Empresa de Transporte");
+                     valido = false;
+                 } else if (document.getElementById("zamba_index_161666").value == "") {
+                     swal("", "Por favor, Ingrese Nro de Remito");
+                     valido = false;
+                 }
+                 else {
+                     
+					$("#zamba_rule_187368").click();
+					 
+					
+                 }
+             }
+             catch (ex) {
+                 swal("", "Por favor, verificar los datos ingresados");
+                 console.log(ex);
+             }
+             return valido;
+         }
+		 
+		 
+		  function zamba_onclick_regla(sender) {
+		  
+				SetRuleId(sender);
+              
+		  }
+		  
+		  $(document).ready(function(){
+
+		
+			const fecha = new Date();
+			if($("#zamba_index_161668").val() == ""){
+			
+				$("#zamba_index_161668").val(fecha.toLocaleDateString())
+			}
+			
+			
+		});
+    </script>	
+</head>
+<body>
+    <div>
+        <div ng-controller="appController">
+            <div class="form-group row">
+                <form name="frmMain" action="Remito_INS.html">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-2">
+                                <center>
+                                    <strong>Nuevo Remito</strong>
+                                </center>
+                            </div>
+                        </div>
+                       
+                    <div class="form-group row">
+
+                            <div class="form-group row"></div>
+						<div class="PanelPrincipal">
+                                <div class="form-group row">
+
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <!-- USUARIO QUE ENVIA--> 
+                                            <span class="input-group-addon">Enviado Por (*):</span>
+                                            <select id="zamba_index_1098" name="zamba_index_1098" class="form-control input-sm"/></select>
+                                        </div>
+                                    </div>
+                         							
+								
+									<div class="col-md-4">
+										<div class="input-group">
+											<!-- EMPRESA TRANSPORTE--> 
+											<span class="input-group-addon">Empresa de Transporte (*):</span>
+											<select id="zamba_index_161667" name="zamba_index_161667" class="form-control input-sm"/></select>
+										</div>
+									</div>
+									
+									<div class="col-md-4">
+                                        <div class="input-group">
+                                            <!-- FECHA DE ENVIO-->
+                                            <span class="input-group-addon">Fecha de Envío:</span>
+                                            <input id="zamba_index_161668" name="zamba_index_161668" size="1"
+                                                class="form-control input-sm dataType datepicker" autocomplete="off"/>
+                                        </div>
+                                    </div>
+									
+								</div>	
+                            
+                            <div class="form-group row"></div>
+							
+							 <div class="form-group row">
+								<div class="col-md-4">
+                                    <div class="input-group">
+                                        <!-- NUMERO DE REMITO DE EMPRESA TRANSPORTE -->
+                                        <span class="input-group-addon">Nro de Remito (*):</span>
+                                        <input id="zamba_index_161666" name="zamba_index_161666"
+                                            class="form-control input-sm"/>
+                                    </div>
+                                </div>
+							
+                           
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!-- NUMERO GUÍA--> <span class="input-group-addon">Nro de Guía:</span>
+                                        <input id="zvar(Nro Guia)" name="zvar(Nro Guia)" onkeypress="enterGuide(event, 'btnregla')"
+                                    class="form-control input-sm solonums"/>
+                                    </div>
+                                </div>
+								
+									<div class="form-group row">
+										<!-- BOTON INGRESAR GUIA VALIDA LOS CAMPOS-->
+										<button name="btnregla" id="btnregla" onclick="zamba_onclick(this);"
+										class="btn btn-primary btn-sm" type="button" value="Ingresar Guia" > Ingresar Guía </button>
+										
+										<!-- BOTON QUE APUNTA A LA REGLA-->
+										<button name="zamba_rule_187368" id="zamba_rule_187368" onclick="zamba_onclick_regla(this);"
+										class="btn btn-primary btn-sm"  style="display:none" type="submit" value="Ingresar Guia" > Ingresar Guía Boton oculto </button>
+									</div>
+								
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-3"></div>
+            
+                            </div>
+                        </div>
+                            <div class="form-group row">
+								<!-- BOTON GUARDAR-->
+                                <center>
+									<button name="zamba_rule_187420" id="zamba_rule_187420" onclick="SetRuleId(this);"
+                                        class="btn btn-success" type="submit" value="Guardar"> Guardar </button>
+                                </center>
+                            </div>
+							
+							
+                            <div class="row">
+                                <div class="col-xs-12">
+									<!--GRILLA ASOCIADOS---->
+                                    <div ng-controller="ZambaAssociatedController">
+                                        <zamba-associated entities="139081" rule-ids="187417" default-enable-mode="grid"
+                                            table-height="400" grid-title="Guías Asociadas al Remito">
+                                        </zamba-associated>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row"></div>
+							
+							
+								
+								<div class="form-group row"></div>
+
+                                <div class="form-group row">
+                                    <div class="col-xs-11 col-md-11">
+										<!--DROPZONE-->
+										<div id="appblankID" ng-controller="appController">
+										<zamba-drop id="0">  </zamba-drop>
+										</div>
+									</div>
+								</div>
+								
+								<!--ESPACIO ENTRE DROPZONE Y EL IFRAME-->
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+																
+														
+								<div class="form-group row">
+                                    <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                                        <div class="row" style="height:100%">
+                                        <!--IFRAME-->
+                                        <iframe id="previewDocSearch" class="IframeClass" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+							
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+								<div class="form-group row"></div>
+                            <div class="row">
+                                <center>
+                                    <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                        <img alt="" src="images/logo_modoc.png" height="50" width="85"
+                                            style="float: left" />
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-3">
+                                        <span style="color:whitesmoke">Remito_INS.html</span>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2">
+                                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135"
+                                            style="float: right" />
+                                        <div class="form-group row">
+                                        </div>
+                                    </div>
+                                </center>
+                            </div>
+                        
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

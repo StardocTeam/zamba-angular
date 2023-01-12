@@ -1,0 +1,41 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="ZambaMaster.master.cs" Inherits="ZambaMaster"  %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+<title>Reportes</title>
+<link type="text/css" rel="stylesheet" id="Style1" href="App_Themes/MainTheme/MainStyle.css" />
+<%--<style  type="text/css">
+.style1 {
+	background-image: url('~/images/fondoPantalla.jpg');
+	padding:0px; 
+}
+</style>--%>
+</head>
+
+<body>
+<form id="form1" runat="server">
+        <asp:Table runat="server" BackColor="White" ID="tblTot" BorderStyle="None" BorderWidth="0"
+            CellPadding="0" CellSpacing="0" Width="100%">
+            <asp:TableRow BorderStyle="None" BorderWidth="0px" runat="server">
+                <asp:TableCell BorderStyle="None" BorderWidth="0px" Width="75%" runat="server">
+        <img src="Banner2.JPG"/>
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow runat="server">
+            <asp:TableCell runat="server">
+            <asp:Label ID="Invisible" Width=20px runat="server" />
+			<asp:HyperLink ID="LinkMonitor" runat="server" NavigateUrl= "~/WorkflowList.aspx" Font-Overline="False" Font-Underline="False">Monitoreo</asp:HyperLink>
+			<asp:Label ID="Invisible2" Width=20px runat="server" />
+            <asp:HyperLink ID="LinkReports" runat="server" NavigateUrl="../WFReportes/ReportsViewer.aspx" Font-Overline="False" Font-Underline="False">Reportes</asp:HyperLink>            
+            </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+        
+<asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+</form>
+
+</body>
+
+</html>

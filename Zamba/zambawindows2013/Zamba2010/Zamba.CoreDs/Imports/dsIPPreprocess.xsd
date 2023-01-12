@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsIPPreprocess" targetNamespace="http://tempuri.org/dsIPPreprocess.xsd" xmlns:mstns="http://tempuri.org/dsIPPreprocess.xsd" xmlns="http://tempuri.org/dsIPPreprocess.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsIPPreprocess" msdata:IsDataSet="true" msdata:Locale="en-US" msprop:Generator_DataSetName="dsIPPreprocess" msprop:Generator_UserDSName="dsIPPreprocess">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Ip_Preprocess" msprop:Generator_TableClassName="Ip_PreprocessDataTable" msprop:Generator_TableVarName="tableIp_Preprocess" msprop:Generator_TablePropName="Ip_Preprocess" msprop:Generator_RowDeletingName="Ip_PreprocessRowDeleting" msprop:Generator_RowChangingName="Ip_PreprocessRowChanging" msprop:Generator_RowEvHandlerName="Ip_PreprocessRowChangeEventHandler" msprop:Generator_RowDeletedName="Ip_PreprocessRowDeleted" msprop:Generator_UserTableName="Ip_Preprocess" msprop:Generator_RowChangedName="Ip_PreprocessRowChanged" msprop:Generator_RowEvArgName="Ip_PreprocessRowChangeEvent" msprop:Generator_RowClassName="Ip_PreprocessRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IP_ID" msprop:Generator_ColumnVarNameInTable="columnIP_ID" msprop:Generator_ColumnPropNameInRow="IP_ID" msprop:Generator_ColumnPropNameInTable="IP_IDColumn" msprop:Generator_UserColumnName="IP_ID" type="xs:long" minOccurs="0" />
+              <xs:element name="PREPROCESSNAME" msprop:Generator_ColumnVarNameInTable="columnPREPROCESSNAME" msprop:Generator_ColumnPropNameInRow="PREPROCESSNAME" msprop:Generator_ColumnPropNameInTable="PREPROCESSNAMEColumn" msprop:Generator_UserColumnName="PREPROCESSNAME" type="xs:string" minOccurs="0" />
+              <xs:element name="PREPROCESSPARAM" msprop:Generator_ColumnVarNameInTable="columnPREPROCESSPARAM" msprop:Generator_ColumnPropNameInRow="PREPROCESSPARAM" msprop:Generator_ColumnPropNameInTable="PREPROCESSPARAMColumn" msprop:Generator_UserColumnName="PREPROCESSPARAM" type="xs:string" minOccurs="0" />
+              <xs:element name="ORDERpos" msprop:Generator_ColumnVarNameInTable="columnORDERpos" msprop:Generator_ColumnPropNameInRow="ORDERpos" msprop:Generator_ColumnPropNameInTable="ORDERposColumn" msprop:Generator_UserColumnName="ORDERpos" type="xs:integer" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

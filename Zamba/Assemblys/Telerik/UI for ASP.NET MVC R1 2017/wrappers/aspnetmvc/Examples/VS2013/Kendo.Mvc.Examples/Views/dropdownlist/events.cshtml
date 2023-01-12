@@ -1,0 +1,62 @@
+ <div class="demo-section k-content">
+    <h4 class="title">DropDownList</h4>
+    @(Html.Kendo().DropDownList()
+            .Name("dropdownlist")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .Filter("startswith")
+            .BindTo(new List<SelectListItem>()
+            {
+                new SelectListItem() {
+                    Text = "Item1", Value = "1"  
+                },
+                new SelectListItem() {
+                    Text = "Item2", Value = "2"  
+                },
+                new SelectListItem() {
+                    Text = "Item3", Value = "3"  
+                }
+            })
+            .Events(e =>
+            {
+                e.Change("onChange").Select("onSelect").Open("onOpen").Close("onClose").DataBound("onDataBound").Filtering("onFiltering");
+            })
+            .HtmlAttributes(new { style = "width: 100%" })
+    )
+ </div>
+<div class="box">                
+    <h4>Console log</h4>
+    <div class="console"></div>
+</div>
+<script>
+    function onOpen() {
+        kendoConsole.log("event: open");
+    }
+
+    function onClose() {
+        kendoConsole.log("event: close");
+    }
+
+    function onChange() {
+        kendoConsole.log("event: change");
+    }
+
+    function onDataBound() {
+        kendoConsole.log("event: dataBound");
+    }
+
+    function onFiltering() {
+        kendoConsole.log("event: filtering");
+    }
+
+    function onSelect(e) {
+    	if ("kendoConsole" in window) {
+    		if (e.item) {
+    			var dataItem = this.dataItem(e.item);
+    			kendoConsole.log("event :: select (" + dataItem.Text + " : " + dataItem.Value + ")");
+    		} else {
+    			kendoConsole.log("event :: select");
+    		}
+        }
+    }
+</script>

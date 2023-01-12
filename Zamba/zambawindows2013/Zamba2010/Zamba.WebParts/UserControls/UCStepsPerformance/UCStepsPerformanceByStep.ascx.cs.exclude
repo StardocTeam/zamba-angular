@@ -1,0 +1,94 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Zamba.Core;
+using Zamba.Services;
+////using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_UCAsignedUsers_UCAsignedUsersByStep : System.Web.UI.UserControl
+{
+#region Eventos
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (cmbEtapas == null && cmbEtapas.Items.Count == 0)
+        {
+            InitializesComponents();
+        }
+        rpvStepsPerformanceByStep.Visible = false;
+        rpvGrdStepsPerformanceByStep.Visible = false;
+    }
+    protected void cmbWorkflows_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        cmbEtapas.Items.Clear();
+        LoadSteps(Int64.Parse(cmbWorkflows.SelectedValue.ToString()));
+    }
+    protected void BtnBuscar_Click(object sender, EventArgs e)
+    {
+        if (!String.IsNullOrEmpty(cmbEtapas.SelectedValue))
+        {
+            dsStepsPerformance dsTyped = new dsStepsPerformance();
+           
+                dsStepsPerformance.dtStepsPerformanceRow dr1 = dsTyped.dtStepsPerformance.NewdtStepsPerformanceRow();
+
+                dr1.StepsPerformanceSource = "Etapa: " + cmbEtapas.SelectedItem.ToString();
+                dr1.AsignedUsersCount = Users.GetAsignedUsersCountByStep(Int64.Parse(cmbEtapas.SelectedValue.ToString()));
+                dr1.TasksCount = Tasks.GetTaskCountByStep(Int64.Parse(cmbEtapas.SelectedValue.ToString()));
+
+
+                dsTyped.Tables[0].Rows.Add(dr1);
+                dsTyped.AcceptChanges();
+
+                this.rpvStepsPerformanceByStep.LocalReport.DataSources.Clear();
+                this.rpvGrdStepsPerformanceByStep.LocalReport.DataSources.Clear();
+                ReportDataSource rptDatasource = new ReportDataSource("dsStepsPerformance_dtStepsPerformance", dsTyped.Tables[0]);
+                this.rpvStepsPerformanceByStep.LocalReport.DataSources.Add(rptDatasource);
+                this.rpvGrdStepsPerformanceByStep.LocalReport.DataSources.Add(rptDatasource);
+                this.rpvStepsPerformanceByStep.Visible = true;
+                this.rpvGrdStepsPerformanceByStep.Visible = true;
+
+        }
+    }
+    
+#endregion
+
+#region Metodos
+    public void InitializesComponents()
+    {
+        List<IWorkFlow> WFList = new List<IWorkFlow>();
+
+        WFList = Workflow.GetWorkflows();
+
+        foreach (IWorkFlow CurrentWorkflow in WFList)
+            cmbWorkflows.Items.Add(new ListItem(CurrentWorkflow.Name, CurrentWorkflow.ID.ToString()));
+        if (cmbWorkflows.Items.Count > 0)
+        {
+            if (null != cmbWorkflows.SelectedValue)
+            {
+                LoadSteps(Int64.Parse(cmbWorkflows.SelectedValue.ToString()));
+            }
+
+
+        }
+    }
+
+    private void LoadSteps(Int64 workflowId)
+    {
+        List<IWFStep> StepList = new List<IWFStep>();//usar el metodo que corresponda de etapas
+        StepList = Zamba.Services.Steps.GetAllSteps(workflowId);
+
+        foreach (IWFStep CurrentStep in StepList)
+            cmbEtapas.Items.Add(new ListItem(CurrentStep.Name, CurrentStep.ID.ToString()));
+
+    }    
+#endregion
+    
+}

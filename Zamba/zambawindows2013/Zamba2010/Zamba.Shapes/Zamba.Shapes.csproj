@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A5E9CF2B-22E6-40B6-92FA-A74C85387E8C}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Zamba.Shapes</AssemblyName>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Zamba.Shapes</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <WarningLevel>0</WarningLevel>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MindFusion.Common">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.EffectsProvider">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.EffectsProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.Export.Dxf">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.Export.Dxf.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.Export.Pdf">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.Export.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.Export.Svg">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.Export.Svg.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.Export.Visio">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.Export.Visio.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.Import.Visio">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.Import.Visio.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms.Design, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Mindfusion\Design\MindFusion.Diagramming.WinForms.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms.Overview">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.WinForms.Overview.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms.Ruler">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.WinForms.Ruler.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms.Ruler.Design, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Mindfusion\Design\MindFusion.Diagramming.WinForms.Ruler.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms.ShapeListBox">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.WinForms.ShapeListBox.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Diagramming.WinForms.ShapeToolBar">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Diagramming.WinForms.ShapeToolBar.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Graphs">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Installer">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Installer.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Pdf">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Scripting">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Svg">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Svg.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Tools.ShapeDesigner">
+      <HintPath>..\Zamba.Diagrams\Mindfusion\MindFusion.Tools.ShapeDesigner.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Configuration.Install">
+      <Name>System.Configuration.Install</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Telerik.WinControls, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\TelerikCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ActorsController.cs" />
+    <Compile Include="Controllers\DERController.cs" />
+    <Compile Include="Controllers\DocTypesController.cs" />
+    <Compile Include="Controllers\EntityFormsController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\InterfaceController.cs" />
+    <Compile Include="Controllers\RuleFormDetailsController.cs" />
+    <Compile Include="Controllers\RulesController.cs" />
+    <Compile Include="Controllers\StepActionsController.cs" />
+    <Compile Include="Controllers\WorkFlowStepsController.cs" />
+    <Compile Include="Controllers\WorkFlowController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\GenericController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Forms\OverviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OverviewForm.Designer.cs">
+      <DependentUpon>OverviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\DiagramsHelper.cs" />
+    <Compile Include="Interfaces\IGenericRuleShape.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Shapes\FormShape.cs" />
+    <Compile Include="Views\FrmRuleProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FrmRuleProperties.Designer.cs">
+      <DependentUpon>FrmRuleProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCRuleDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCRuleDetail.Designer.cs">
+      <DependentUpon>UCRuleDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AddRowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpers\AddRowForm.designer.cs">
+      <DependentUpon>AddRowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Shapes\ActorShape.cs" />
+    <Compile Include="Shapes\ButtonShape.cs" />
+    <Compile Include="Shapes\ConditionalRuleShape.cs" />
+    <Compile Include="Shapes\InterfaceShape.cs" />
+    <Compile Include="Shapes\DatabaseShape.cs" />
+    <Compile Include="Shapes\DocTypeShape.cs" />
+    <Compile Include="Shapes\EntityShape.cs" />
+    <Compile Include="Shapes\IndexShape.cs" />
+    <Compile Include="Shapes\SectionShape.cs" />
+    <Compile Include="Shapes\GenericShape.cs" />
+    <Compile Include="Shapes\RuleShape.cs" />
+    <Compile Include="Shapes\ServerShape.cs" />
+    <Compile Include="Shapes\StepShape.cs" />
+    <Compile Include="Shapes\UseCaseShape.cs" />
+    <Compile Include="Shapes\WebServiceShape.cs" />
+    <Compile Include="Shapes\WFShape.cs" />
+    <Compile Include="Shapes\WorkflowShape.cs" />
+    <Compile Include="Views\Diagram.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\DiagramTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\UCDiagrams.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCDiagrams.Designer.cs">
+      <DependentUpon>UCDiagrams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UcExportControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\UcExportControl.Designer.cs">
+      <DependentUpon>UcExportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCForm.Designer.cs">
+      <DependentUpon>UCForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCUseCase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\UCUseCase.Designer.cs">
+      <DependentUpon>UCUseCase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WfTreeDiagram.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\WfTreeDiagram.Designer.cs">
+      <DependentUpon>WfTreeDiagram.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\OverviewForm.resx">
+      <DependentUpon>OverviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Views\UCWfExportPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\UCWfExportPanel.Designer.cs">
+      <DependentUpon>UCWfExportPanel.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\FrmRuleProperties.resx">
+      <DependentUpon>FrmRuleProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCForm.resx">
+      <DependentUpon>UCForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCRuleDetail.resx">
+      <DependentUpon>UCRuleDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Helpers\AddRowForm.resx">
+      <DependentUpon>AddRowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\WfTreeDiagram.resx">
+      <DependentUpon>WfTreeDiagram.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="Resources\arrow_down.png" />
+    <None Include="Resources\arrow_up.png" />
+    <None Include="Resources\arrow_left.png" />
+    <None Include="Resources\arrow_right.png" />
+    <None Include="Resources\avatar.png" />
+    <None Include="Resources\cancel_sign.png" />
+    <None Include="Resources\checkmark.png" />
+    <None Include="Resources\email.png" />
+    <None Include="Resources\gears.png" />
+    <None Include="Resources\lock_open.png" />
+    <None Include="Resources\minus.png" />
+    <None Include="Resources\play_button.png" />
+    <None Include="Resources\pause_button.png" />
+    <None Include="Resources\stop_button.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\rss.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\paper_text.png" />
+    <None Include="Resources\paper_blank.png" />
+    <None Include="Resources\star.png" />
+    <None Include="Resources\paper_blank_pencil.png" />
+    <None Include="Resources\email_write.png" />
+    <None Include="Resources\email_add.png" />
+    <None Include="Resources\paper_text_chart.png" />
+    <None Include="Resources\email_delete.png" />
+    <None Include="Resources\paper_text_pencil.png" />
+    <None Include="Resources\File%2520Adobe%2520Illustrator%2520SVG-01.png" />
+    <None Include="Resources\Image%2520PNG-01.png" />
+    <None Include="Resources\pdfIcon.jpg" />
+    <None Include="Resources\svg-icon.png" />
+    <None Include="Resources\Process-Accept.png" />
+    <None Include="Resources\batch_process_icon.jpg" />
+    <None Include="Resources\database-process-icon.png" />
+    <None Include="Resources\Places-network-server-database-icon.png" />
+    <Content Include="Mindfusion\Design\MindFusion.Diagramming.WinForms.Design.dll" />
+    <Content Include="Mindfusion\Design\MindFusion.Diagramming.WinForms.Ruler.Design.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.EffectsProvider.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Dxf.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Pdf.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Svg.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Swf.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Swf.XML" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Visio.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Wmf.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Wmf.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Import.Visio.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.LayerListView.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.LayerListView.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.NodeListView.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.NodeListView.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.Overview.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.Ruler.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.ShapeListBox.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.ShapeToolBar.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.xml" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.xml" />
+    <Content Include="Mindfusion\MindFusion.Scripting.xml" />
+    <Content Include="Mindfusion\MindFusion.Swf.dll" />
+    <Content Include="Mindfusion\MindFusion.Tools.ShapeDesigner.xml" />
+    <Content Include="Mindfusion\ToolboxItems.xml" />
+    <Content Include="Resources\TestCase.png" />
+    <None Include="Resources\tools.png" />
+    <Content Include="Templates\diagramUseCaseStepsGrid.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\diagramUseCaseTemplate.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\diagramTemplate.htm" />
+    <Content Include="Templates\diagramRow.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\diagramStyleSheet.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\diagramTemplate.htm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Mindfusion\MindFusion.Common.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.EffectsProvider.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Dxf.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Pdf.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Svg.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Export.Visio.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.Import.Visio.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.Overview.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.Ruler.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.ShapeListBox.dll" />
+    <Content Include="Mindfusion\MindFusion.Diagramming.WinForms.ShapeToolBar.dll" />
+    <Content Include="Mindfusion\MindFusion.Graphs.dll" />
+    <Content Include="Mindfusion\MindFusion.Installer.dll" />
+    <Content Include="Mindfusion\MindFusion.Pdf.dll" />
+    <Content Include="Mindfusion\MindFusion.Scripting.dll" />
+    <Content Include="Mindfusion\MindFusion.Svg.dll" />
+    <Content Include="Mindfusion\MindFusion.Tools.ShapeDesigner.dll" />
+    <EmbeddedResource Include="Views\UCDiagrams.resx">
+      <DependentUpon>UCDiagrams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UcExportControl.resx">
+      <DependentUpon>UcExportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCUseCase.resx">
+      <DependentUpon>UCUseCase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UCWfExportPanel.resx">
+      <DependentUpon>UCWfExportPanel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2DB9897D-B4BF-42EF-B769-88F694BE3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2ab0ea3e-507b-47e6-bc37-0d203270aedd}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{E92F8175-9484-4454-A8F0-9C2AB63714F5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.FormulariosDinamicos\Zamba.FormulariosDinamicos\Zamba.FormulariosDinamicos.vbproj">
+      <Project>{C81ED0D7-432C-4139-8788-D7E5CA3A5740}</Project>
+      <Name>Zamba.FormulariosDinamicos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ReportBuilder.Business\Zamba.ReportBuilder.Business.vbproj">
+      <Project>{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}</Project>
+      <Name>Zamba.ReportBuilder.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{D349AB2A-B052-4307-B979-D397D10760A1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Viewers\Zamba.Viewers.vbproj">
+      <Project>{84EE77CB-ACA0-4F82-B5FB-1CE27F504156}</Project>
+      <Name>Zamba.Viewers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WFUserControl\Zamba.WFUserControl.vbproj">
+      <Project>{E97CE656-E031-43E9-8C8C-8A2D8EB33F4E}</Project>
+      <Name>Zamba.WFUserControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Demo\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

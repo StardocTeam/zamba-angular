@@ -1,0 +1,103 @@
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/InsertFiles/UploadFile")]
+        public string UploadFile([FromBody]insert insert)
+        {
+            UserBusiness UB;
+            string pathTemp = string.Empty;
+            try
+            {
+                pathTemp.ToList();
+                CopyFileBKP(ref pathTemp, insert);
+            }
+            catch (Exception ex)
+            {
+                Dictionary<object, object> datosInsert = new Dictionary<object, object>();
+                
+                ZClass.raiseerror(ex);                
+                ex.Data.Add("DocTypeId", insert.DocTypeId);
+                ex.Data.Add("UserId", insert.Userid);
+                foreach (var item in insert.indexs)
+                {
+                    ex.Data.Add("Id", item.id);
+                    ex.Data.Add("Value", item.value); 
+                }
+                
+                ex.Data.Add("File", insert.file.data);
+                ZClass.raiseerror(ex);
+                
+                return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+            }
+            if (insert != null)
+            {
+                var user = GetUser(insert.Userid);
+                if (user == null)
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                        new HttpError(StringHelper.InvalidUser))).ToString();
+                try
+                {
+                    SUsers us = new SUsers();
+                    List<IIndex> indexs = new List<IIndex>();
+                    SResult sResult = new SResult();
+                    InsertResult result = InsertResult.NoInsertado;
+                    INewResult newresult = new SResult().GetNewNewResult(insert.DocTypeId);
+                    foreach (var InsertIndex in insert.indexs)
+                    {
+                        foreach (var NewResultIndex in newresult.Indexs)
+                        {
+                            if (NewResultIndex.ID == InsertIndex.id)
+                            {
+                                NewResultIndex.Data = InsertIndex.value;
+                                NewResultIndex.DataTemp = InsertIndex.value;
+                                indexs.Add(NewResultIndex);
+                                break;
+                            }
+                        }
+                    }
+
+                    result = sResult.Insert(newresult, pathTemp, insert.DocTypeId, indexs, insert.Userid);
+
+                    if (result == InsertResult.Insertado)
+                    {
+                        return JsonConvert.SerializeObject(true, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        });
+                    }
+                    else
+                    {
+                        Exception ex = new Exception(result.ToString());
+                        ZClass.raiseerror(ex);
+                        return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        });
+
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    ZClass.raiseerror(ex);
+                    return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    });
+                }
+                finally
+                {
+                    File.Delete(pathTemp);
+                }
+            }
+            else
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+    new HttpError(StringHelper.BadInsertParameter))).ToString();
+
+        }

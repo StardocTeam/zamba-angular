@@ -1,0 +1,199 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Set padding to display errors that occur during databinding */
+.padding-error {
+    padding-top: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+    .nofloat {
+        float: none;
+        padding: 10px 15px;
+    }
+}
+
+.spanSubTitle {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.frmSection {
+    border-left: 1px solid gainsboro;
+    padding: 10px;
+}
+
+.titleStyle {
+    color: lightgrey;
+    font-size: 26px;
+    font-family: serif;
+    cursor: pointer;
+}
+
+.titleStyleBlack {
+    color: #54a7e2;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+}
+
+.indexStyle {
+    border: 1px solid #ccc;
+    margin: 5px;
+}
+
+#treeview {
+    height: 700px;
+    overflow: auto;
+}
+
+#contentDiv {
+    height: 700px;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+}
+
+.list-group-item.node-treeview {
+    font-size: 12px;
+}
+
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+    .custom-menu li {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+        .custom-menu li:hover {
+            background-color: #DEF;
+        }
+
+.allNews {
+    overflow: auto;
+     height: 100vh;
+}
+
+/*.allNews a {
+    height: 100vh;
+
+}*/
+
+.newItem {
+    height: 25%;
+    overflow: auto;
+    /*background-color: lightsteelblue;*/
+    padding: 3px;
+    margin-top: 5px;
+    border: 1px solid rgb(142, 199, 234);
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    overflow:hidden;
+}
+.readed {
+    border: 1px solid #c7c7c7;
+    /*border-bottom: 3px solid #c7c7c7;
+    border-top: 2px solid #c7c7c7;*/
+    opacity: 0.5;
+}
+
+.newItem >table, .newItem >div  {
+    zoom:50%;
+}
+.titleNewsView {
+    padding: 5px;
+    background-color:#ffffff;
+    width: 100%;
+    border: 1px solid #dcdcdc;
+    border-bottom:1px solid #dadada;
+    border-top: 1px solid #ddd;
+    border-radius:3px;
+    /*-webkit-border-radius: 10px;*/
+}
+.titleNews{
+    padding: 5px;
+     color: black;
+    font-size: 20px;
+    font-family: serif;
+}
+.tooltip{
+    z-index: 9999;
+}
+.legal{
+        font-size: 9px;
+}
+.countNews{
+     font-size:10px;
+     padding:10px;
+ }
+ input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+
+ #link td:hover{
+
+     text-decoration:none;
+
+ }
+
+.navbarMain {
+    background-color: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+}
+
+    .navbarMain a {
+        color: #3a9dfd;
+    }
+
+.table 
+{
+ border: 1px solid #dddddd;
+}
+
+/*.table tr
+{
+background-color: #f1f1f1;
+}
+
+.table tr td
+{
+background-color: white;
+}*/
+
+   

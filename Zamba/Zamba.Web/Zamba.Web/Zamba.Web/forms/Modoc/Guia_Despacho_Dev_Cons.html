@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+   
+
+    <style>
+        /* latin */
+        @font-face {
+            font-family: 'Libre Barcode 39';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Libre Barcode 39 Regular'), local('LibreBarcode39-Regular'), url(https://fonts.gstatic.com/s/librebarcode39/v8/-nFnOHM08vwC6h8Li1eQnP_AHzI2G_Bx0g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        
+		@font-face {
+		  font-family: 'IDAutomationHC39M';
+		  src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+		}
+		
+        .codebar39 {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 48px;
+        }
+		
+    </style>
+
+    <script>
+        function zamba_save_onclick(sender) {
+            var valido = false;
+            var currentDate = new Date();
+
+            try {
+                if (document.getElementById("zamba_index_139587").value == "") {
+                    swal("", "Por favor, Ingrese el Origen");
+                    valido = false;
+
+                    //} else if (document.getElementById("zamba_index_139579").value == "") {
+                    //    swal("", "Por favor,Ingrese El Nombre del Deschante");
+                    //    valido = false;
+                    //} else if (document.getElementById("zamba_index_26217").value == "") {
+                    //    swal("", "Por favor, Ingrese N° de Telefono");
+                    //    valido = false;
+                    //} else if (document.getElementById("zamba_index_139565").value == "") {
+                    //    swal("", "Por favor, Ingrese el Email");
+                    //    valido = false;
+                    //} else if (document.getElementById("zamba_index_139564").value == "") {
+                    //    swal("", "Por favor, ingrese Persona de Contacto");
+                    //    valido = false;
+                }
+                else {
+                    SetRuleId(sender);
+                    valido = true;
+                }
+            }
+            catch (ex) {
+                swal("", "Por favor, verificar los datos ingresados");
+                console.log(ex);
+            }
+            return valido;
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div  >
+        <div ng-controller="appController">
+
+            <form name="frmMain" action="Guia_Despacho.html">
+
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+                <div class="container">
+
+                    <div class="tab-pane active" id="Guia despacho">
+                        <div class="form-group row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-3">
+                                
+                                    <strong>Guia Despacho Devolucion consulta</strong>
+                                
+                            </div>
+                          <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <input id="nroguiaBC" class="form-control input-sm dataType length" style="font-family:IDAutomationHC39M, cursive;font-size: 16pt;text-align: center;height: 40px;background: none; border: none" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+						  <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Tipo de Guia-->                                  		<span class="input-group-addon">Tipo de Guia:</span>
+                                    <input id="zamba_index_149653" name="zamba_index_149653" class="form-control input-sm" disabled=disabled >
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-3">
+                                <div class="input-group" style="display: inline-block; vertical-align:middle;">
+                                    <!--Nro Guia-->                                          <span class="input-group-addon" style="color:blue;">Nro Guia:</span>
+                                    <input id="zamba_index_139614" name="zamba_index_139614" size="1" class="form-control input-sm dataType length" datatype="numeric" length="19" disabled style="/* font-size:20px; */text-align: center;background: none;" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-7">
+                                <div class="input-group">
+                                    <!--Despachante Nombre-->                                  		<span class="input-group-addon">Despachante Nombre:</span>
+                                    <select id="zamba_index_139645" name="zamba_index_139645" class="form-control input-sm" disabled=disabled></select>
+                                </div>
+                            </div>
+							 <div class="col-md-2"></div>
+                          <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Recepcion / Fecha-->   
+                            <span class="input-group-addon" style="padding:3px; color:red;">Fecha de Creacion</span>
+                            <input id="zamba_index_139633" name="zamba_index_139633" class="form-control input-sm" readonly style="font-weight:600;" />
+                        </div>
+                    </div>
+                        </div>
+                       
+						<div class="form-group row">
+                             <div class="col-md-12 ">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!--Area texto Observacion-->
+                                        <div id="appObservaciones" ng-controller="ObservacionController">
+                                            <zamba-observaciones index-id="64" entity-id="139081"></zamba-observaciones>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <center>
+                               
+                                <div ng-controller="Modal as pc" class="modal-demo">
+                                    <zamba-Doshowtable report-id="10034" rule-id="176040" vars="NroGuia=zamba_index_139614,CuitDespachante=zamba_index_139645" results-id="doc_id" value="Seleccionar Despachos para Devolucion">Seleccionar Despachos para Devolucion</zamba-Doshowtable>
+
+                                    <input type="button" name="zamba_rule_176016" id="zamba_rule_176016" onclick="SetRuleId(this);" class="btn-sm btn-success" value="Finalizar Devolucion">
+                                    <input type="button" name="zamba_rule_165842" id="zamba_rule_165842" onclick="SetRuleId(this);" class="btn-sm btn-warning" value="Eliminar Guia">
+                                </div>
+</center>
+                        </div>
+						 
+						<div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-11">
+							<div ng-app="ZambaAssociatedApp">
+                                <div id="File1" ng-controller="ZambaAssociatedController">
+                                    <zamba-associated entities="139072" default-enable-mode="grid" table-height="400" grid-title="Despachos para Devolucion">
+                                    </zamba-associated>
+                                </div>
+                             </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row"></div>
+
+   
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="row">
+                            <center>
+                                <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                    <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3">
+                                    <span style="color:whitesmoke">Guia_Despacho_Dev_Cons.html</span>
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-2">
+                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                    <div class="form-group row">
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function(){
+                        $("#nroguiaBC").val($("#zamba_index_139614").val());
+                    });
+					
+                </script>
+				 <script type="text/javascript" language="JavaScript">
+
+          //  angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+        //    angular.bootstrap(document.getElementById('ZambaAssociatedController'), ['Despachos para Devolucion']);
+			// angular.bootstrap(document.getElementById('File1'), ['ZambaAssociatedController']);
+				</script>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+    #zamba_innerdoctype_original {
+        height: 500px;
+        width: 98%;
+    }
+
+    div thead tr th {
+        font-size: x-small;
+        font-family: arial;
+        background-color: #1A5276;
+        color: white;
+    }
+
+        div thead tr th a {
+            font-size: x-small;
+            font-family: arial;
+            color: white;
+        }
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        padding-right: 12px;
+        border-right-width: 1px;
+        margin-top: 30px;
+    }
+</style>

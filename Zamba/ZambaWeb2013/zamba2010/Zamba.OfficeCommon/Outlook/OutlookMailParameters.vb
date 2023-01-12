@@ -1,0 +1,21 @@
+﻿Public Class OutlookMailParameters
+    Public Const [TO] As String = "To"
+    Public Const CC As String = "CC"
+    Public Const BCC As String = "OCC"
+    Public Const SUBJECT As String = "Subject"
+    Public Const BODY As String = "Body"
+    Public Const HTML_LINK As String = "htmlLink"
+    Public Const ATTACH_PATHS As String = "AttachPaths"
+    Public Const SEND_TIMEOUT As String = "sendTimeOut"
+    Public Const ENTRY_ID As String = "EntryId"
+    Public Const ITEMGUID As String = "ItemGuid"
+    Public Const MAPI_NAMESPACE As String = "MAPI"
+    Public Const RECEIVEDDATE As String = "receivedDate"
+    Public Const SENDER As String = "Sender"
+    Public Const HTML_BODY As String = "htmlBody"
+    Public Const LINK As String = "Link"
+    Public Const MSG_FULL_PATH As String = "MsgFullPath"
+    '[Tomas]    Por las dudas el de arriba no queria tocarlo, por eso cree uno nuevo.
+    Public Const REPLY_MSG_PATH As String = "ReplyMsgPath"
+    Public Const IS_REPLY As String = "ReplyMail"
+End Class

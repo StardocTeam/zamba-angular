@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="">
+    <Position X="0.619" Y="3.26" Height="0.263" Width="13.099" />
+  </Comment>
+  <Comment CommentText="Clases que abstraen los elementos HTML del API del mshtml. Las clases bases representan a elementos comunes de HTML y los derivados con prefijo Z representan a los elementos de HTML que representan atributos de Zamba">
+    <Position X="13.715" Y="3.254" Height="0.688" Width="4.018" />
+  </Comment>
+  <Comment CommentText="Interfaz comun a todos los elementos HTML del editor">
+    <Position X="7.201" Y="0.538" Height="0.263" Width="3.062" />
+  </Comment>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.CheckBoxItem">
+    <Position X="6.5" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAABAICMAABAAAQAAAAAAAAQAQAAAAIAAAA=</HashCode>
+      <FileName>HtmlControls\CheckBoxItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.OptionItem" BaseTypeListCollapsed="true">
+    <Position X="10" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABACIAAAAAAAAIAMAEBAIAQAAAAAAAAQAQAgAAAAQAA=</HashCode>
+      <FileName>HtmlControls\OptionItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.RadioButtonItem">
+    <Position X="4.5" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAABICMAERAAAQAAAAAAAAQAQAAAAIACAA=</HashCode>
+      <FileName>HtmlControls\RadioButtonItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.SelectItem">
+    <Position X="8.25" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAUAAAIAMAABAAAQAAAEAAAAQAQAAAABAAAA=</HashCode>
+      <FileName>HtmlControls\SelectItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.TableItem" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAIAMAABAAAQAAAAAAAAQAQAAAAAAAAA=</HashCode>
+      <FileName>HtmlControls\TableItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.TextAreaItem">
+    <Position X="2.5" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAACIEAAAEAAAIEMAABAAAQQQAFAAEIQSQIAABAAAgA=</HashCode>
+      <FileName>HtmlControls\TextAreaItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.TextBoxItem">
+    <Position X="0.75" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABACIAAAAAAAAIAMAEBAAAQAAABAAEEQAQAoAAAAAAA=</HashCode>
+      <FileName>HtmlControls\TextBoxItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.ZCheckBoxItem">
+    <Position X="6.5" Y="7.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <InheritanceLine Type="Stardoc.HtmlEditor.HtmlControls.CheckBoxItem" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="6.333" />
+        <Point X="7.25" Y="7.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HtmlControls\ZCheckBoxItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.ZRadioButtonItem">
+    <Position X="4.5" Y="7.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABAAAQAAAAAEAACEAAAAAAAAAAEAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>HtmlControls\ZRadioButtonItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.ZSelectItem">
+    <Position X="8.25" Y="7" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABAAAQQAAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HtmlControls\ZSelectItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.ZTextAreaItem">
+    <Position X="2.5" Y="7.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ABAAAQQAAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HtmlControls\ZTextAreaItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.HtmlControls.ZTextBoxItem">
+    <Position X="0.75" Y="7.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CBAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HtmlControls\ZTextBoxItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Stardoc.HtmlEditor.IHtmlElement">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>IHtmlElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

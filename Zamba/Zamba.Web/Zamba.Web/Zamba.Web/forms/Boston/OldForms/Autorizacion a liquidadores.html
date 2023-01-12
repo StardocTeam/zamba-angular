@@ -1,0 +1,267 @@
+<html>
+	<head>
+		<title>Autorizacion a liquidadores</title>
+<!--
+		ID Form:
+		Fecha de Creacion:
+		Autor de Creacion:
+        Modificacion:		
+ 		Fecha de ultima Modificacion:06-11-2012
+		Autor de ultima Modificacion:Benegui P
+	-->			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet" />		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet" />		
+		 	
+		<script src="Aviso Mayor.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>        
+        <script type="text/javascript" src="Scripts/ScriptLUnionGeneral.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen" />
+		<script type="text/javascript" language="JavaScript">
+		    function SetRuleId(sender) {
+		        document.getElementById("hdnRuleId").name = sender.id;
+		    }
+
+		    function SetAsocId(sender) {
+		        document.getElementById("hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    $(document).ready(function () {
+		        setTimeout("parseObservaciones()", 100);
+		    });
+
+		    function parseObservaciones() {
+		        var obs = $('#zamba_index_64').val();
+
+		        while (obs.indexOf("§") > 0)
+		            obs = obs.replace("§", "\n");
+
+		        while (obs.indexOf("<br/>") > 0)
+		            obs = obs.replace("<br/>", "\n");
+
+		        $('#zamba_index_64').val(obs);
+		    }
+
+		    function addConsulta() {
+		        return true;
+		        var con = $('#zamba_index_1152').val();
+		        var obs = $('#zamba_index_64').val();
+
+		        if (con == '') {
+		            alert("Por favor, ingrese un comentario.");
+		            $('#zamba_index_1152').focus();
+		            return false;
+		        }
+		        return true;
+		    }
+
+		    function format(txt) {
+		        if (txt.length == 1) txt = "0" + txt;
+
+		        return txt;
+		    }
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');		
+		</script>
+	    <style type="text/css">
+            .style1
+            {
+                width: 20px;
+            }
+            .style2
+            {
+            }
+            </style>
+	</head>	
+		<body>
+		<div id="container">
+            <form name="frmMain" method="post" onsubmit="return addConsulta()">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+                <div name="design" id="design">
+                    <strong>Autorizacion a liquidadores</strong>
+                </div>
+                <br />
+
+
+                <table cellpadding="4">
+
+                    <tr>
+                        <td class="style8"><label>ID Comprobante: </label></td>
+                        <td class="style10"><input type="text" id="zamba_index_26446" name="zamba_index_26446" size="20" readonly="readonly" class="readonly" /></td>
+                        <td class="style8"><label>Nro de Siniestro:</label></td>
+                        <td class="style1"><input type="text" name="zamba_index_26247" size="20" readonly="readonly" class="readonly" /></td>
+
+                    </tr>
+                    <tr>
+                        <td class="style8"><label>ID Consulta: </label></td>
+                        <td class="style10"><input type="text" id="zamba_index_26554" name="zamba_index_26554" size="20" readonly="readonly" class="readonly" /></td>
+                        <td class="style8"><label>Liquidador: </label></td>
+                        <td class="style8"><input type="text" id="zamba_index_26447" name="zamba_index_26447" size="50" readonly="readonly" class="readonly" /></td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td class="style8"><label>Rama:</label></td>
+                        <td class="style8"><input type="text" id="zamba_index_26294" name="zamba_index_26294" onchange="ValidacionPM()" size="50" readonly="readonly" class="readonly" /></td>
+                    </tr>
+                    <tr>
+
+                        <td class="style8"><label>Sector: </label></td>
+                        <td class="style8"><input type="text" id="zamba_index_135512" name="zamba_index_135512" onchange="ValidacionPM()" size="50" readonly="readonly" class="readonly" /></td>
+                    </tr>
+                </table>
+           
+        
+            
+                     <div class="tabber">
+                         <div class="tabbertab">
+                             <h2>Autorizacion a liquidador</h2>
+
+                             <table cellpadding="6">
+                                 <tr>
+                                     <td><label>Fecha de Siniestro: </label></td>
+                                     <td>
+                                         <input id="zamba_index_26201" name="zamba_index_26201" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+
+                                 <tr>
+                                     <td><label>Nro de Poliza: </label></td>
+                                     <td>
+                                         <input id="zamba_index_26174" name="zamba_index_26174" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+
+                                 <tr>
+                                     <td><label>Importe de Factura: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306021" name="zamba_index_306021" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+
+                                 <tr>
+                                     <td><label>Solicitado por: </label></td>
+                                     <td>
+                                         <input id="zamba_index_26420" name="zamba_index_26420" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+
+                                 <tr>
+                                     <td><label>Fecha de Solicitud: </label></td>
+                                     <td>
+                                         <input id="zamba_index_26405" name="zamba_index_26405" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Fecha de Finalizacion: </label></td>
+                                     <td>
+                                         <input id="zamba_index_33653" name="zamba_index_33653" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Estado de Solicitud: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306018" name="zamba_index_306018" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Motivo de Solicitud: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306017" name="zamba_index_306017" style="width:300px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Monto por daño: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306010" name="zamba_index_306010" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Honorarios: </label></td>
+                                     <td>
+                                         <input id="zamba_index_33629" name="zamba_index_33629" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Gastos: </label></td>
+                                     <td>
+                                         <input id="zamba_index_33616" name="zamba_index_33616" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+
+                                 <tr>
+                                     <td><label>Total honorarios y gastos: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306019" name="zamba_index_306019" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Total daño honorarios y gastos: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306020" name="zamba_index_306020" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Honorarios por Tabla: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306023" name="zamba_index_306023" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td><label>Gastos por Tabla: </label></td>
+                                     <td>
+                                         <input id="zamba_index_306024" name="zamba_index_306024" style="width:100px;"
+                                                readonly="readonly" class="readonly">
+                                     </td>
+                                 </tr>
+
+
+                             </table>
+                         </div>
+							
+							<br />
+							<br />
+				
+							<div name="logocliente" id="logocliente">	
+								<img src="images/logocliente.jpg" align="left" height=50 width=70>
+							</div>
+							
+							<div name="logozamba" id="logozamba">
+								<img src="images/pwbyzamba.jpg">
+							</div>
+							
+							<br />
+							<br />
+                            
+                            <br />
+                            <br />
+						
+					</div>	
+                  
+                    								
+			</form>						
+		</div>
+	</body>
+</html>

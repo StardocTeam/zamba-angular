@@ -1,0 +1,56 @@
+<div class="demo-section k-content">
+    <h4>Search for shipping name</h4>
+
+    @(Html.Kendo().AutoComplete()
+          .Name("orders")
+          .DataTextField("ShipName")
+          .MinLength(2)
+          .HtmlAttributes(new { style = "width:100%" })
+          .Placeholder("Type a ship name")
+          .Template("#= OrderID # | For: #= ShipName #, #= ShipCountry #")
+          .Height(520)
+          .DataSource(source => {
+              source.Custom()
+                  .ServerFiltering(true)
+                  .ServerPaging(true)
+                  .PageSize(80)
+                  .Type("aspnetmvc-ajax") //Set this type if you want to use DataSourceRequest and ToDataSourceResult instances
+                  .Transport(transport =>
+                  {
+                      transport.Read("Virtualization_Read", "AutoComplete");
+                  })
+                  .Schema(schema =>
+                  {
+                      schema.Data("Data") //define the [data](http://docs.telerik.com/kendo-ui/api/javascript/data/datasource#configuration-schema.data) option
+                            .Total("Total"); //define the [total](http://docs.telerik.com/kendo-ui/api/javascript/data/datasource#configuration-schema.total) option
+                  });
+          })
+          .Virtual(v => v.ItemHeight(26).ValueMapper("valueMapper"))
+    )
+    
+    <div class="demo-hint">Hint: type "an"</div>
+</div>
+<script>
+    function valueMapper(options) {
+        $.ajax({
+            url: "http://demos.telerik.com/kendo-ui/service/Orders/ValueMapper",
+            type: "GET",
+            data: convertValues(options.value),
+            success: function (data) {
+                options.success(data);
+            }
+        });
+    }
+
+    function convertValues(value) {
+        var data = {};
+
+        value = $.isArray(value) ? value : [value];
+
+        for (var idx = 0; idx < value.length; idx++) {
+            data["values[" + idx + "]"] = value[idx];
+        }
+
+        return data;
+    }
+</script>

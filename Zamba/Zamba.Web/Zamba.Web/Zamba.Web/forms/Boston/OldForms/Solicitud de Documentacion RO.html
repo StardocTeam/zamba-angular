@@ -1,0 +1,162 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        //function ZFUNCTION() {
+        //    var Historial = document.getElementById("zamba_Index_1148").value
+        //    while (Historial.indexOf(" ", 0) != -1) {
+        //        Historial = Historial.replace(" ", "\n");
+        //    }
+        //    document.getElementById("zamba_Index_1148").value = Historial;
+        //}
+        function prev(sender, path) {
+            var iframe = document.getElementById("zamba_innerdoctype_variable");
+            path = "file:///" + path;
+            path = path.replace(".msg", ".html");
+
+            if (iframe) {
+                iframe.setAttribute('src', path);
+            }
+            else {
+                alert("Se produjo un error al cargar la previsualizacion");
+            }
+        }
+    </script>
+
+    <style>
+
+        .navbar-nav li {
+            list-style: none;
+        }
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+
+        div thead tr th {
+            font-size: x-small;
+            font-family: arial;
+            background-color: #1A5276;
+            color: white;
+        }
+
+            div thead tr th a {
+                font-size: x-small;
+                font-family: arial;
+                color: white;
+            }
+
+        .stylearea {
+            margin-bottom: 20px;
+            height: 65px !important;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Solicitud de Documentacion RO.html">
+            <div style="font-family:'Times New Roman', Times, serif">
+                <div class="col-md-1"></div>
+
+                <div class="form-group row"></div>
+                <div class="form-group row"></div>
+
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+                <div id="tblDoc" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Tipo de Documentacion:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2728" name="zamba_index_2728" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Vencimiento:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2705" name="zamba_index_2705" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Estudio:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2732" name="zamba_index_2732" disabled="disabled"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Ejecutivo:</span> 
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2735" name="zamba_index_2735" disabled="disabled"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row"></div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-1">
+                        <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                    </div>
+                </div>
+              
+                <div class="form-group row">
+
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8" style="position:relative;bottom:10px">
+                        <textarea class="form-control input-sm" cols="1" rows="3" id="zamba_Index_64" name="zamba_Index_64" maxlength="4000"
+                                  onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled" style=" color: #090A0A; font-weight: bold"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+
+                    <div class="col-md-12">
+                        <div class="containerGrid">
+                            <div style="width: 100%;" class="ZKGrid table tablesorter table-bordered" id="zamba_associated_documents_2523">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

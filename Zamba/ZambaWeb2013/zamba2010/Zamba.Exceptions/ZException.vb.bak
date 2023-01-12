@@ -1,0 +1,128 @@
+Imports Zamba.Tools
+Imports Zamba.Membership
+
+Public Class ZException
+  Inherits System.Exception
+
+    Public Shared Event LogToDB(ByVal ex As Exception)
+    Private Shared logExceptions As Boolean = True
+
+    Public Shared Function BuildLog(ByVal ex As Exception, ByVal callStack As String) As String
+        Dim sb As New Text.StringBuilder
+
+        Try
+            sb.AppendLine(vbCrLf & "==========================================[ERROR]==========================================")
+            sb.AppendLine(ex.ToString)
+            sb.AppendLine(vbCrLf)
+            sb.AppendLine("Versión de Zamba: " & Application.ProductVersion)
+            sb.AppendLine("===========================================================================================" & vbCrLf)
+        Catch ex2 As Exception
+        End Try
+
+        Return sb.ToString()
+    End Function
+
+    Public Shared Sub Log(ByVal Ex As System.Exception)
+        If logExceptions Then
+            logExceptions = False
+
+            Try
+                Trace.WriteLine(Ex.ToString)
+                WriteFile(Ex)
+                RaiseEvent LogToDB(Ex)
+            Catch
+            End Try
+
+            logExceptions = True
+        End If
+    End Sub
+
+    Private Shared Sub WriteFile(ByVal ex As System.Exception)
+        If ex IsNot Nothing Then
+            Dim dsEx As DsExcep = Nothing
+            Dim dir As IO.DirectoryInfo
+            Dim file As IO.FileInfo
+            Dim fileName, winUser, machine As String
+
+            Try
+                winUser = Environment.UserName
+                machine = Environment.MachineName
+
+                dsEx = New DsExcep
+                dsEx.Excep.AddExcepRow(Now.ToString, winUser, ex.Message, ex.ToString, String.Empty, String.Empty, String.Empty, winUser, machine, Application.ProductVersion)
+                dsEx.AcceptChanges()
+
+                Try
+                    dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions")
+                    If dir.Exists = False Then
+                        dir.Create()
+                    End If
+                Catch
+                    Try
+                        dir = New IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath & "\Exceptions")
+                        If dir.Exists = False Then
+                            dir.Create()
+                        End If
+                    Catch
+                        'Si falla, lo mas probable es que no existan permisos en la carpeta de instalación de Zamba
+                    End Try
+                End Try
+
+                fileName = dir.FullName & GetExceptionFileName()
+                file = New IO.FileInfo(fileName)
+                dsEx.WriteXml(file.FullName, XmlWriteMode.IgnoreSchema)
+
+            Catch ex1 As Exception
+
+            Finally
+                file = Nothing
+                dir = Nothing
+                If dsEx IsNot Nothing Then
+                    dsEx.Dispose()
+                    dsEx = Nothing
+                End If
+            End Try
+        End If
+    End Sub
+
+    Private Shared Function GetExceptionFileName() As String
+        Return "\Excep " & Now.Day.ToString & "-" & Now.Month.ToString & "-" & Now.Year.ToString & "  " & Now.Hour.ToString & "-" & Now.Minute.ToString & "-" & Now.Second.ToString & ".txt"
+    End Function
+
+    ''' <summary>
+    ''' Loguea la exception no atrapada por Zamba en el trace y/o en un log de exception.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
+    Public Shared Sub ThreadExceptionHandler(ByVal sender As Object, ByVal e As EventArgs)
+        Dim stack As New System.Diagnostics.StackTrace()
+        Dim strErr As String = "=== Excepcion no controlada ===" & vbCrLf & stack.ToString
+
+        Try
+            Trace.WriteLine(strErr)
+        Catch ex As Exception
+        End Try
+
+        Log(New Exception(strErr))
+    End Sub
+
+      Public Shared Sub CleanExceptions()
+ Try    
+   
+        Dim Dir As  New IO.DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions")
+            If Dir.Exists = False Then
+                Dir.Create()
+            End If
+        Dim archivos() As IO.FileInfo = Dir.GetFiles
+
+            For each  fi As IO.FileInfo In Dir.GetFiles
+                If fi.CreationTime.Month < Now.Month Then
+                    fi.Delete()
+                End If
+            Next
+
+        Catch ex As Exception
+ End Try
+    End Sub
+End Class

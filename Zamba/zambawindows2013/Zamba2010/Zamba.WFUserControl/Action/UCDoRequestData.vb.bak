@@ -1,0 +1,391 @@
+Imports Zamba.Core
+Imports Zamba.Data
+'Imports Zamba.WFBusiness
+Imports system.Windows.Forms
+
+Public Class UCDoRequestData
+    Inherits ZRuleControl
+
+#Region " Código generado por el Diseñador de Windows Forms "
+
+
+    'Form reemplaza a Dispose para limpiar la lista de componentes.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing Then
+            If Not (components Is Nothing) Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Requerido por el Diseñador de Windows Forms
+    Private components As System.ComponentModel.IContainer
+
+    'NOTA: el Diseñador de Windows Forms requiere el siguiente procedimiento
+    'Puede modificarse utilizando el Diseñador de Windows Forms. 
+    'No lo modifique con el editor de código.
+    Friend Shadows WithEvents btnSeleccionar As System.Windows.Forms.Button
+    Friend Shadows WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents CboSeleccion As System.Windows.Forms.ComboBox
+    Friend WithEvents rdbTipoDeDocumento As System.Windows.Forms.RadioButton
+    Friend WithEvents rdbIndice As System.Windows.Forms.RadioButton
+    Friend WithEvents grpSolicitarDatos As System.Windows.Forms.GroupBox
+    Friend WithEvents btnAsignIndex As System.Windows.Forms.Button
+    Friend WithEvents PanelCheck As System.Windows.Forms.Panel
+
+    <System.Diagnostics.DebuggerStepThrough()> Private Overloads Sub InitializeComponent()
+        Me.btnSeleccionar = New System.Windows.Forms.Button
+        Me.CboSeleccion = New System.Windows.Forms.ComboBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.PanelCheck = New System.Windows.Forms.Panel
+        Me.rdbTipoDeDocumento = New System.Windows.Forms.RadioButton
+        Me.rdbIndice = New System.Windows.Forms.RadioButton
+        Me.grpSolicitarDatos = New System.Windows.Forms.GroupBox
+        Me.btnAsignIndex = New System.Windows.Forms.Button
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        Me.grpSolicitarDatos.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.btnAsignIndex)
+        Me.tbRule.Controls.Add(Me.grpSolicitarDatos)
+        Me.tbRule.Controls.Add(Me.PanelCheck)
+        Me.tbRule.Controls.Add(Me.Label1)
+        Me.tbRule.Controls.Add(Me.CboSeleccion)
+        Me.tbRule.Controls.Add(Me.btnSeleccionar)
+        Me.tbRule.Size = New System.Drawing.Size(394, 435)
+        '
+        'tbctrMain
+        '
+        Me.tbctrMain.Size = New System.Drawing.Size(402, 461)
+        '
+        'btnSeleccionar
+        '
+        Me.btnSeleccionar.Location = New System.Drawing.Point(201, 393)
+        Me.btnSeleccionar.Name = "btnSeleccionar"
+        Me.btnSeleccionar.Size = New System.Drawing.Size(60, 23)
+        Me.btnSeleccionar.TabIndex = 13
+        Me.btnSeleccionar.Text = "Guardar"
+        '
+        'CboSeleccion
+        '
+        Me.CboSeleccion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.CboSeleccion.Items.AddRange(New Object() {"Aumentar", "Disminuir"})
+        Me.CboSeleccion.Location = New System.Drawing.Point(20, 114)
+        Me.CboSeleccion.Name = "CboSeleccion"
+        Me.CboSeleccion.Size = New System.Drawing.Size(211, 21)
+        Me.CboSeleccion.TabIndex = 18
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(17, 91)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(128, 14)
+        Me.Label1.TabIndex = 19
+        Me.Label1.Text = "Entidad"
+        '
+        'PanelCheck
+        '
+        Me.PanelCheck.AutoScroll = True
+        Me.PanelCheck.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelCheck.Location = New System.Drawing.Point(20, 142)
+        Me.PanelCheck.Name = "PanelCheck"
+        Me.PanelCheck.Size = New System.Drawing.Size(241, 234)
+        Me.PanelCheck.TabIndex = 20
+        '
+        'rdbTipoDeDocumento
+        '
+        Me.rdbTipoDeDocumento.AutoSize = True
+        Me.rdbTipoDeDocumento.Checked = True
+        Me.rdbTipoDeDocumento.Location = New System.Drawing.Point(21, 30)
+        Me.rdbTipoDeDocumento.Name = "rdbTipoDeDocumento"
+        Me.rdbTipoDeDocumento.Size = New System.Drawing.Size(116, 17)
+        Me.rdbTipoDeDocumento.TabIndex = 21
+        Me.rdbTipoDeDocumento.TabStop = True
+        Me.rdbTipoDeDocumento.Text = "Entidad"
+        Me.rdbTipoDeDocumento.UseVisualStyleBackColor = True
+        '
+        'rdbIndice
+        '
+        Me.rdbIndice.AutoSize = True
+        Me.rdbIndice.Location = New System.Drawing.Point(143, 30)
+        Me.rdbIndice.Name = "rdbIndice"
+        Me.rdbIndice.Size = New System.Drawing.Size(54, 17)
+        Me.rdbIndice.TabIndex = 22
+        Me.rdbIndice.TabStop = True
+        Me.rdbIndice.Text = "Atributo"
+        Me.rdbIndice.UseVisualStyleBackColor = True
+        '
+        'grpSolicitarDatos
+        '
+        Me.grpSolicitarDatos.Controls.Add(Me.rdbTipoDeDocumento)
+        Me.grpSolicitarDatos.Controls.Add(Me.rdbIndice)
+        Me.grpSolicitarDatos.Location = New System.Drawing.Point(20, 17)
+        Me.grpSolicitarDatos.Name = "grpSolicitarDatos"
+        Me.grpSolicitarDatos.Size = New System.Drawing.Size(241, 62)
+        Me.grpSolicitarDatos.TabIndex = 23
+        Me.grpSolicitarDatos.TabStop = False
+        Me.grpSolicitarDatos.Text = "Solicitar Datos Por"
+        '
+        'btnAsignIndex
+        '
+        Me.btnAsignIndex.Location = New System.Drawing.Point(243, 113)
+        Me.btnAsignIndex.Name = "btnAsignIndex"
+        Me.btnAsignIndex.Size = New System.Drawing.Size(18, 23)
+        Me.btnAsignIndex.TabIndex = 24
+        Me.btnAsignIndex.Text = "V"
+        Me.btnAsignIndex.UseVisualStyleBackColor = True
+        '
+        'UCDoRequestData
+        '
+        Me.Color1 = System.Drawing.Color.White
+        Me.Color2 = System.Drawing.Color.Gainsboro
+        Me.Name = "UCDoRequestData"
+        Me.Size = New System.Drawing.Size(402, 461)
+        Me.tbRule.ResumeLayout(False)
+        Me.tbRule.PerformLayout()
+        Me.tbctrMain.ResumeLayout(False)
+        Me.grpSolicitarDatos.ResumeLayout(False)
+        Me.grpSolicitarDatos.PerformLayout()
+        Me.ResumeLayout(False)
+
+    End Sub
+
+#End Region
+
+    Private this As IDoRequestData
+    Private flag As Boolean = False
+    Dim UbicacionTop As Int32 = 5
+    Public Sub New(ByRef this As IDoRequestData, ByRef _wfPanelCircuit As IWFPanelCircuit)
+        MyBase.New(this, _wfPanelCircuit)
+        InitializeComponent()
+        btnAsignIndex.Visible = False
+        flag = True
+        Try
+            Me.this = this
+            If Me.this.DocTypeId > -1 Then
+                RemoveHandler rdbIndice.CheckedChanged, AddressOf rdbIndice_CheckedChanged
+                RemoveHandler rdbTipoDeDocumento.CheckedChanged, AddressOf rdbTipoDeDocumento_CheckedChanged
+                Me.rdbTipoDeDocumento.Checked = True
+                AddHandler rdbIndice.CheckedChanged, AddressOf rdbIndice_CheckedChanged
+                AddHandler rdbTipoDeDocumento.CheckedChanged, AddressOf rdbTipoDeDocumento_CheckedChanged
+                Me.LoadAllDocTypes()
+            Else
+                Label1.Text = "Atributo"
+                btnAsignIndex.Visible = True
+                RemoveHandler rdbIndice.CheckedChanged, AddressOf rdbIndice_CheckedChanged
+                RemoveHandler rdbTipoDeDocumento.CheckedChanged, AddressOf rdbTipoDeDocumento_CheckedChanged
+                Me.rdbIndice.Checked = True
+                AddHandler rdbIndice.CheckedChanged, AddressOf rdbIndice_CheckedChanged
+                AddHandler rdbTipoDeDocumento.CheckedChanged, AddressOf rdbTipoDeDocumento_CheckedChanged
+                Me.LoadAllIndexs()
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+
+
+#Region "DocTypes / Indexs"
+    Dim DsDocTypes As DSDOCTYPE
+    Private Sub LoadAllDocTypes()
+        Try
+            DsDocTypes = DocTypesFactory.GetDocTypesDsDocType()
+            If DsDocTypes.DOC_TYPE.Count <= 0 Then
+                MessageBox.Show("Error 013: No hay definidos Entidades para realizar la indexacion o no tiene Permisos para crear Documentos", "Zamba", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Exit Sub
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error: 014: Ocurrio un Error al cargar los Entidades para la Indexación ", "Zamba Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ZClass.raiseerror(ex)
+        End Try
+
+        Try
+            RemoveHandler CboSeleccion.SelectedIndexChanged, AddressOf SelectedIndexChanged
+            CboSeleccion.BeginUpdate()
+            CboSeleccion.DataSource = DsDocTypes.DOC_TYPE
+            CboSeleccion.DisplayMember = "DOC_TYPE_NAME"
+            CboSeleccion.ValueMember = "DOC_TYPE_ID"
+            CboSeleccion.EndUpdate()
+            AddHandler CboSeleccion.SelectedIndexChanged, AddressOf SelectedIndexChanged
+            Me.SelectDocType()
+        Catch ex As Exception
+            MessageBox.Show("Error: 014: Ocurrio un Error al cargar los Entidades ", "Zamba Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub SelectDocType()
+
+        If this.DocTypeId = 0 Then
+            Me.CboSeleccion.SelectedIndex = 0
+        Else
+            RemoveHandler CboSeleccion.SelectedIndexChanged, AddressOf SelectedIndexChanged
+            Me.CboSeleccion.SelectedValue = this.DocTypeId
+            AddHandler CboSeleccion.SelectedIndexChanged, AddressOf SelectedIndexChanged
+        End If
+
+        Me.SelectedIndexChanged(Me.CboSeleccion, New System.EventArgs)
+    End Sub
+    Private Sub LoadAllIndexs()
+        Try
+            Dim dsIndexs As DataSet = IndexsBusiness.GetIndex()
+            If Not IsNothing(dsIndexs.Tables(0)) AndAlso dsIndexs.Tables(0).Rows.Count > 0 Then
+                RemoveHandler CboSeleccion.SelectedIndexChanged, AddressOf SelectedIndexChanged
+                CboSeleccion.DataSource = dsIndexs.Tables(0)
+                CboSeleccion.DisplayMember = "Index_Name"
+                CboSeleccion.ValueMember = "Index_Id"
+                AddHandler CboSeleccion.SelectedIndexChanged, AddressOf SelectedIndexChanged
+                If Me.this.DocTypeId = -1 AndAlso Me.this.ArrayIds.Count > 0 Then
+                    For Each IndexId As Int64 In Me.this.ArrayIds
+                        Dim Chk As New CheckBox
+                        Chk.Text = IndexsBusiness.GetIndexNameById(IndexId)
+                        Chk.Tag = IndexId
+                        Chk.FlatStyle = FlatStyle.Flat
+                        Chk.Height = 18
+                        Chk.Checked = True
+                        Chk.Width = 205
+                        Chk.Left = 15
+                        Chk.Top = Top
+                        Top += 20
+                        Me.PanelCheck.Controls.Add(Chk)
+                        Me.UbicacionTop += 20
+                    Next
+                End If
+            Else
+                CboSeleccion.DataSource = Nothing
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error: 014: Ocurrio un Error al cargar los atributos ", "Zamba Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Try
+
+            If IsNothing(CboSeleccion.SelectedValue) Then Exit Sub
+            If rdbTipoDeDocumento.Checked Then
+                Dim ArrayIndices As ArrayList = IndexsBussinesExt.getAllIndexesByDocTypeID(CboSeleccion.SelectedValue)
+
+                Me.PanelCheck.Controls.Clear()
+                Dim Top As Int32 = 5
+
+                For Each Index As Zamba.Core.Index In ArrayIndices
+                    Dim Chk As New CheckBox
+                    Chk.Text = Index.Name
+                    Chk.Tag = Index.ID
+                    Chk.FlatStyle = FlatStyle.Flat
+                    Chk.Height = 18
+                    Chk.Width = 205
+                    Chk.Left = 15
+                    Chk.Top = Top
+                    Top += 20
+
+                    Me.PanelCheck.Controls.Add(Chk)
+                Next
+
+                If IsNothing(this.ArrayIds) = False AndAlso this.ArrayIds.Count > 0 Then
+                    '  Dim i As Int32
+                    For Each Chk As CheckBox In Me.PanelCheck.Controls
+                        If this.ArrayIds.Contains(Chk.Tag.ToString) OrElse this.ArrayIds.Contains(Chk.Tag) Then Chk.Checked = True
+                    Next
+                End If
+            End If
+
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+#End Region
+
+
+    Public Shadows ReadOnly Property MyRule() As IDoRequestData
+        Get
+            Return DirectCast(Me.Rule, IDoRequestData)
+        End Get
+    End Property
+
+#Region "Eventos"
+
+
+    Private Sub btnSeleccionar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSeleccionar.Click
+        Try
+            If Not IsNothing(CboSeleccion.SelectedValue) Then
+                If rdbTipoDeDocumento.Checked Then
+                    this.DocTypeId = Me.CboSeleccion.SelectedValue
+                Else
+                    this.DocTypeId = -1
+                End If
+
+                Dim ArrayIds As New ArrayList
+                For Each Chk As CheckBox In Me.PanelCheck.Controls
+                    If Chk.Checked = True Then ArrayIds.Add(Chk.Tag)
+                Next
+                this.ArrayIds = ArrayIds
+                WFRulesBusiness.UpdateParamItem(this, 0, this.DocTypeId)
+                WFRulesBusiness.UpdateParamItem(this, 1, this.JoinIds)
+                UserBusiness.Rights.SaveAction(this.ID, Zamba.Core.ObjectTypes.WFRules, Zamba.Core.RightsType.Edit, "Se editaron los datos de la regla " & this.Name & "(" & this.ID & ")")
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub rdbTipoDeDocumento_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbTipoDeDocumento.CheckedChanged
+        If flag = True Then
+            btnAsignIndex.Visible = False
+            Label1.Text = "Entidad"
+            Me.PanelCheck.Controls.Clear()
+            Me.LoadAllDocTypes()
+        End If
+    End Sub
+
+    Private Sub rdbIndice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbIndice.CheckedChanged
+        btnAsignIndex.Visible = True
+        Label1.Text = "Atributo"
+        Me.UbicacionTop = 5
+        Me.PanelCheck.Controls.Clear()
+        Me.LoadAllIndexs()
+    End Sub
+
+    Private Sub btnAsignIndex_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAsignIndex.Click
+        If Not IsNothing(CboSeleccion.SelectedValue) Then
+
+            Dim Chk As New CheckBox
+            Dim flagRepeated As Boolean = False
+            Chk.Text = Trim(CboSeleccion.Text)
+            Chk.Tag = CboSeleccion.SelectedValue
+
+            Chk.Top = UbicacionTop
+            Chk.FlatStyle = FlatStyle.Flat
+            Chk.Height = 18
+            Chk.Width = 205
+
+            Chk.Left = 15
+            Chk.Checked = True
+            For Each c As Control In PanelCheck.Controls
+                If c.Tag = Chk.Tag Then
+                    flagRepeated = True
+                End If
+            Next
+            If flagRepeated = False Then
+                Me.PanelCheck.Controls.Add(Chk)
+                UbicacionTop += 20
+            Else
+                MessageBox.Show("El Atributo ya  se encuentra agregado", "Zamba", MessageBoxButtons.OK)
+            End If
+        End If
+    End Sub
+
+#End Region
+
+End Class
