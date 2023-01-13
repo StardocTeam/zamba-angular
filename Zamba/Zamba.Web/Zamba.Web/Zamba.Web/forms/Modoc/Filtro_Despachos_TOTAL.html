@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title> 
+
+</head>
+
+<body>
+
+    <div  >
+        <div ng-controller="appController">
+            <div class="form-group row">
+
+                <form name="frmMain" action="Filtro_Despachos_FECHA.html">
+
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+
+
+
+                        <div class="form-group row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-5">
+                                <center>
+                                    <strong>Ingresar Fecha de Oficializacion para calcular total de Despachos</strong>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="PanelPrincipal">
+
+                            <div class="form-group row"></div>
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <!-- TIPO FECHA-->                                  		<span class="input-group-addon">Filtrar por:</span>
+                                    <select id="zamba_index_161662" name="zamba_index_161662" class="form-control input-sm"></select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Desde:</span>
+                                        <input id="zamba_index_26568" name="zamba_index_26568" class="form-control input-sm datepicker" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Hasta:</span>
+                                        <input id="zamba_index_26569" name="zamba_index_26569" class="form-control input-sm datepicker" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-1">
+                                    <button name="zamba_rule_196385" id="zamba_rule_196385" onclick="SetRuleId(this);" class="btn btn-primary" type="submit">Calcular</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button name="zamba_rule_186289" id="zamba_rule_186289" onclick="SetRuleId(this);" class="btn btn-success" type="submit">Descargar Excel</button>
+                                </div>
+                               
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!-- TOTAL-->                                  		<span class="input-group-addon">Total Despachos:</span>
+                                        <input id="zamba_index_160662" name="zamba_index_160662" class="form-control input-sm" style='font-size: 20px;' disabled />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- fin Grafico de barra -->
+                                <!-- Grafico de torta -->
+                                <div class="col-md-6" id="GraficoTorta1">
+                                    <div class="card border-secondary mb-3" style="max-width: 100%">
+                                        <div class="card-body text-secondary">
+                                            <canvas name="pieChart" data-visible="true" data-x="Estado" data-y="cantidad" data-report="10052" class="containerGraph" value-for-rule-query="FechaDesde=zamba_index_26568,FechaHasta=zamba_index_26569,TipoFiltro=zamba_index_161662"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="GraficoTorta">
+                                    <div class="card border-secondary mb-3" style="max-width: 100%">
+                                        <div class="card-body text-secondary">
+                                            <canvas name="pieChart" data-visible="true" data-x="Despachante" data-y="cantidad" data-report="10055" class="containerGraph" value-for-rule-query="FechaDesde=zamba_index_26568,FechaHasta=zamba_index_26569,TipoFiltro=zamba_index_161662" data-legend="false"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="GraficoTorta">
+                                    <div class="card border-secondary mb-3" style="max-width: 100%">
+                                        <div class="card-body text-secondary">
+                                            <canvas name="popChart" data-visible="true" data-x="Despachante" data-y="cantidad" data-report="10055" class="containerGraph" value-for-rule-query="FechaDesde=zamba_index_26568,FechaHasta=zamba_index_26569,TipoFiltro=zamba_index_161662"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="GraficoTorta">
+                                    <div class="card border-secondary mb-3" style="max-width: 100%">
+                                        <div class="card-body text-secondary">
+                                            <canvas name="popChart" data-visible="true" data-x="Fecha" data-y="Cantidad" data-report="10051" class="containerGraph" value-for-rule-query="FechaDesde=zamba_index_26568,FechaHasta=zamba_index_26569,TipoFiltro=zamba_index_161662"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row"></div>
+                            <div class="row">
+                                <center>
+
+                                    <div class="col-md-2">   <span style="        color:whitesmoke">zamba_rule_196385  zamba_rule_186289 </span> </div>
+                                    <div class="col-md-3">
+                                        <span style="        color:whitesmoke">Filtro_Despachos_TOTAL.html</span>
+                                    </div>
+
+                                </center>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <link href="../../app/GraficosZamba/main.css" rel="stylesheet" />
+                    <script src="../../app/GraficosZamba/src/chart.js/Chart.bundle.min.js"></script>
+                    <script src="../../app/GraficosZamba/src/chart.js/Chart.min.js"></script>
+                    <link href="../../app/GraficosZamba/src/chart.js/Chart.min.css" rel="stylesheet" />
+                    <script src="../../app/GraficosZamba/Service/service.js"></script>
+                    <script src="../../app/GraficosZamba/Controller/app.js?v=169"></script>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

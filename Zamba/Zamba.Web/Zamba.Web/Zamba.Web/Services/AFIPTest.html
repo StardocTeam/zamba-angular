@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11; IE=EDGE,chrome=1;IE=9;IE-8;IE-7;IE=EDGE,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title title="Zamba Web">Zamba BPM</title>
+
+    <link rel="stylesheet" type="text/css" href="../../Content/styles/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap-theme.css" />
+
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css" />
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+
+    <script src="../../Scripts/jquery-ui.min.js"></script>
+
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../Scripts/angular-route.min.js"></script>
+    <script src="../../Scripts/angular-cookies.min.js"></script>
+    <script src="../../Scripts/angular-sanitize.min.js"></script>
+    <script src="../../Scripts/angular-animate.min.js"></script>
+
+    <script src="../../Scripts/bootstrap.min.js"></script>
+
+    <script src="../../Scripts/sweetalert.min.js"></script>
+    <script src="../../Scripts/moment.min.js"></script>
+
+
+</head>
+
+<body>
+   
+
+
+
+    2. Al ejecutar el CP.DEPFIEL.002, el servicio abre un documento PDF digitalizado.
+
+
+
+    <FORM ID="formGETPDF2" METHOD="POST" ACTION="http://localhost/Zambaweb.restapi/api/afip/RequestDocument" target="_newPSAD">
+
+        <input type="text" name="token" value="PHJlcSB2ZXJzaW9uPSIyLjMiPg0KCTxpZCB1bmlxdWVfaWQ9IjkzMjk1NTM2NDY2NTQ2MTQiIHNyYz0iUFNBRF9WSVNVQUxJWkFET1IiIGRzdD0iMzA3MTQ0MzkzMDQiIGdlbi10aW1lPSIxNTU0NzM1Njk4IiBleHAtdGltZT0iMTU1NDczNTUyOCIgLz4NCgk8b3BlcmF0aW9uIHR5cGU9ImZvbGRlci1yZXEiIHJlc3BvbnNlPSJvbmxpbmUiPg0KCQk8Zm9sZGVyIGlkPSIxOTAwMUVDMDEwMDkzNDBHIiBjdWl0X2Rlc3A9IjAiIHNpZ2VhPSIiIGNvZGlnbz0iIiBucm9fdGlja2V0PSIiIGhhc2g9IiIgLz4NCgk8L29wZXJhdGlvbj4NCjwvcmVxPg==">
+
+        <input type="text" name="sign" value="HWpdDckAQPJUyInzXQMorcASaYa+Qzv6JQ0FkafUmRDqA0/3hkQj7+5CqI5sy3L5pxzo+Gu8YyJtvb1VGUOvc+KVJGwCoACGSYDzDwQn0yqs3hv/3v6aTjt8jsPIgkuOVhUgu6Y8uGYWK9yW92uULgFNZgHYzRd+FKplbxuFzFg=">
+        <button type="button" onclick="formGETPDF2.submit();">Original2</button>
+    </FORM>
+
+
+
+
+    3. Al ejecutar el CP.DEPFIEL.003, el servicio abre un documento PDF digitalizado.
+
+
+
+    <FORM ID="formGETPDF3" METHOD="POST" ACTION="http://localhost/Zambaweb.restapi/api/afip/RequestDocument" target="_newPSAD">
+
+        <input type="text" name="token" value="PHJlcSB2ZXJzaW9uPSIyLjMiPg0KCTxpZCB1bmlxdWVfaWQ9Ijc1ODk4NzA1MDg1NjkyNCIgc3JjPSJQU0FEX1ZJU1VBTElaQURPUiIgZHN0PSIzMDcxNDQzOTMwNCIgZ2VuLXRpbWU9IjE1NTQ3MzU2MTYiIGV4cC10aW1lPSIxNTU0NzM1NTA2IiAvPg0KCTxvcGVyYXRpb24gdHlwZT0iZm9sZGVyLXJlcSIgcmVzcG9uc2U9Im9ubGluZSI+DQoJCTxmb2xkZXIgaWQ9IjE5MDAxRUMwMTAwOTM0MEciIGN1aXRfZGVzcD0iMCIgc2lnZWE9IiIgY29kaWdvPSIiIG5yb190aWNrZXQ9IiIgaGFzaD0iIiAvPg0KCTwvb3BlcmF0aW9uPg0KPC9yZXE+">
+
+        <input type="text" name="sign" value="WfTjf30ARS5kyjvjRj5YV9+emOHxN8naqHGD5WDA7A3ScYbTfOS5iqFxucdkjjs6VrvF/YpvG7zJtCnjwxeOmmzoRWAKg+OkkyF023qAEdYABRkh1AQZ6uYnIW2XAf98l8nTD+KYemiVs62eD2CfXydYWZNTNwTJyuqcpp0qlVE=">
+        <button type="button" onclick="formGETPDF3.submit();">Original3</button>
+    </FORM>
+
+
+
+
+
+    4. Al ejecutar el CP.DEPFIEL.004, el servicio arroja el siguiente mensaje de error: {"Message":"Error."}
+
+
+
+    <FORM ID="formGETPDF4" METHOD="POST" ACTION="http://localhost/Zambaweb.restapi/api/afip/RequestDocument" target="_newPSAD">
+
+        <input type="text" name="token" value="PHJlcSB2ZXJzaW9uPSIyLjMiPg0KCTxpZCB1bmlxdWVfaWQ9IjUwOTM4Njc1NzE2MDI1MTQiIHNyYz0iUFNBRF9WSVNVQUxJWkFET1IiIGRzdD0iMzA3MTQ0MzkzMDQiIGdlbi10aW1lPSIxNTU0NzM1Njc0IiBleHAtdGltZT0iMTU1NDczNTgxNCIgLz4NCgk8b3BlcmF0aW9uIHR5cGU9ImZvbGRlci1yZXEiIHJlc3BvbnNlPSJvbmxpbmUiPg0KCQk8Zm9sZGVyIGlkPSIxOTAwMUVDMDEwMDkzNDBHIiBjdWl0X2Rlc3A9IjAiIHNpZ2VhPSIiIGNvZGlnbz0iIiBucm9fdGlja2V0PSIiIGhhc2g9IiIgLz4NCgk8L29wZXJhdGlvbj4NCjwvcmVxPg==">
+
+        <input type="text" name="sign" value="WoRLGRk7EKpkxF9Ri4R6rjI1m8ceezs5nALSTp5lNo=x37UEDJVaKA5Ll6PxhLdn0eCYrajCIiR7WtXjvq65iPv9gqoiMRq8tcjiy6BuBvp1egtvG8BhejrGxXMpyQt1mfJZSqlnMngDSiGmJw36AE9Fm9xbOqnlaGANS/K1YAWR">
+        <button type="button" onclick="formGETPDF4.submit();">Original4</button>
+    </FORM>
+
+
+
+
+    <FORM ID="formGETPDF" METHOD="POST" ACTION="http://localhost/Zambaweb.restapi/api/afip/RequestDocument" target="_newPSAD">
+
+        <input type="text" name="token" value="PHJlcSB2ZXJzaW9uPSIyLjMiPg0KCTxpZCB1bmlxdWVfaWQ9Ijc0ODA1MDg2NjUzMTIzMTkiIHNyYz0iUFNBRF9WSVNVQUxJWkFET1IiIGRzdD0iMzA3MTQ0MzkzMDQiIGdlbi10aW1lPSIxNTU0NDg5MDY0IiBleHAtdGltZT0iMTU1NDQ4OTIwNCIgLz4NCgk8b3BlcmF0aW9uIHR5cGU9ImZvbGRlci1yZXEiIHJlc3BvbnNlPSJvbmxpbmUiPg0KCQk8Zm9sZGVyIGlkPSIxOTAwMUVDMDEwMDkzNDBHIiBjdWl0X2Rlc3A9IjAiIHNpZ2VhPSIiIGNvZGlnbz0iIiBucm9fdGlja2V0PSIiIGhhc2g9IiIgLz4NCgk8L29wZXJhdGlvbj4NCjwvcmVxPg==">
+
+        <input type="text" name="sign" value="aJ+6C6JrjkrpIYrnRmG+6GmK2FYxPY07dRnJzwiPYN8hVmmDrE7kkAFuwIvSrz4+G8pDiUwraZSlukZbMSQufRpSIVk4vEp9BBDfs+YAduIk/B9MhCqnGzj1yAmhzF/sFbdD38gvZOat4pOPMlBZbuIKHhSF0CJ/bXOQQmtOMFk=">
+
+        <button type="button" onclick="formGETPDF.submit();">Original</button>
+    </FORM>
+
+
+    <FORM ID="formGETPDFN" METHOD="POST" ACTION="http://localhost/Zamba.web/services/afip.asmx/RequestDocumentB" target="_newPSAD">
+
+        <input type="hidden" name="token" value="PHJlcSB2ZXJzaW9uPSIyLjMiPg0KCTxpZCB1bmlxdWVfaWQ9Ijc0ODA1MDg2NjUzMTIzMTkiIHNyYz0iUFNBRF9WSVNVQUxJWkFET1IiIGRzdD0iMzA3MTQ0MzkzMDQiIGdlbi10aW1lPSIxNTU0NDg5MDY0IiBleHAtdGltZT0iMTU1NDQ4OTIwNCIgLz4NCgk8b3BlcmF0aW9uIHR5cGU9ImZvbGRlci1yZXEiIHJlc3BvbnNlPSJvbmxpbmUiPg0KCQk8Zm9sZGVyIGlkPSIxOTAwMUVDMDEwMDkzNDBHIiBjdWl0X2Rlc3A9IjAiIHNpZ2VhPSIiIGNvZGlnbz0iIiBucm9fdGlja2V0PSIiIGhhc2g9IiIgLz4NCgk8L29wZXJhdGlvbj4NCjwvcmVxPg==">
+
+        <input type="hidden" name="sign" value="aJ+6C6JrjkrpIYrnRmG+6GmK2FYxPY07dRnJzwiPYN8hVmmDrE7kkAFuwIvSrz4+G8pDiUwraZSlukZbMSQufRpSIVk4vEp9BBDfs+YAduIk/B9MhCqnGzj1yAmhzF/sFbdD38gvZOat4pOPMlBZbuIKHhSF0CJ/bXOQQmtOMFk=">
+
+        <button type="button" onclick="formGETPDFN.submit();">New</button>
+    </FORM>
+
+    <SCRIPT>
+
+
+
+    </SCRIPT>
+
+
+    <form>
+        <div class="container">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Url: </label><input id="url" type="text" value="http://localhost/Zamba.web/Services/AFIP.asmx/RequestDocument" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>token: </label><input id="token" type="text" value="PHJlcSB2ZXJzaW9uPSIzLjAiPg0KCTxpZCB1bmlxdWVfaWQ9IjEyMDQ0NTc1NTM2NjQ0MzYiIHNyYz0iUFNBRF9WSVNVQUxJWkFET1IiIGRzdD0iMCIgZ2VuLXRpbWU9IjE1NTQxMzc0MTMiIGV4cC10aW1lPSIxNTU0MTM3NTUzIiAvPg0KCTxvcGVyYXRpb24gdHlwZT0iZm9sZGVyLXJlcSIgcmVzcG9uc2U9Im9ubGluZSI+DQoJCTxmb2xkZXIgaWQ9IjE5MDAxRUMwMTAwOTA2M1giIGNvZGlnbz0iMDAwIiBzaWdlYT0iIiBucm9fdGlja2V0PSIwIiBoYXNoPSIiPg0KCQkJPGRvY3R5cGVzPg0KCQkJCTxkb2N0eXBlIGlkPSIwMSIgLz4NCgkJCQk8ZG9jdHlwZSBpZD0iMDIiIC8+DQoJCQk8L2RvY3R5cGVzPg0KCQk8L2ZvbGRlcj4NCgk8L29wZXJhdGlvbj4NCjwvcmVxPg==" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Sign: </label><input id="sign" type="text" value="GX3ALr72QgQswCabygjEJ4vr3cSEFRg5VOOUzMib8oXxqP2McpYCDbMnjEMxWUmJSAJnHLYl9v2R4lkFxoL/rltKZ0uufBr2X5wc2kCuWv20O1wNUC7UxC52Y8arBwEg3VZpds5edBzrEn0AloXf27ZuIYJfLAwWyC3evQ2Mvnk=" />
+                </div>
+            </div>
+
+            <div class="row col-md-12">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" type="button" onclick="return Send();">Hi</button>
+                    <button class="btn btn-primary" type="button" onclick="return Sendtoken();">Send Base64 POST</button>
+                    <button class="btn btn-primary" type="button" onclick="return SendtokenGET();">Send Base64 GET</button>
+                    <button class="btn btn-primary" type="button" onclick="return SendtokenBytes();">Send Bytes</button>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <iframe width="900" height="600" id="preview"></iframe>
+            </div>
+
+        </div>
+
+        <script>
+
+            function Send() {
+                var url = $("#url").val();
+                CallServiceHi(url);
+            }
+
+
+            function CallServiceHi(url) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    crossDomain: true,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    error: OnError
+                });
+
+            }
+
+        </script>
+
+
+        <script>
+
+            function Sendtoken() {
+                var url = $("#url").val();
+                var token = $("#token").val();
+                var sign = $("#sign").val();
+
+                //  token = Base64.encode(token);
+                //  sign = Base64.encode(sign);
+                CallService(url, token, sign);
+            }
+
+
+            function CallService(url, token, sign) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    crossDomain: true,
+                    data: '{token: "' + token + '", sign: "' + sign + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    error: OnError
+                });
+
+            }
+
+            function OnSuccess(data, status) {
+                console.log(data.d);
+                $("#preview").attr('src', "data:application/pdf;base64," + data.d);
+            }
+
+            function OnError(request, status, error) {
+                console.log(request);
+                console.log(status);
+                console.log(error);
+            }
+        </script>
+
+        <script>
+
+            function SendtokenGET() {
+                var url = $("#url").val();
+                var token = $("#token").val();
+                var sign = $("#sign").val();
+
+                //  token = Base64.encode(token);
+                //  sign = Base64.encode(sign);
+                CallServiceGET(url, token, sign);
+            }
+
+
+            function CallServiceGET(url, token, sign) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    crossDomain: true,
+                    data: '{token: "' + token + '", sign: "' + sign + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccess,
+                    error: OnError
+                });
+
+            }
+
+
+        </script>
+
+        <script>
+
+            function SendtokenBytes() {
+                var url = $("#url").val();
+                url = String(url).replace("RequestDocument", "RequestDocumentb");
+                var token = $("#token").val();
+                var sign = $("#sign").val();
+
+                //  token = Base64.encode(token);
+                //  sign = Base64.encode(sign);
+                CallServiceB(url, token, sign);
+            }
+
+
+            function CallServiceB(url, token, sign) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    crossDomain: true,
+                    data: '{token: "' + token + '", sign: "' + sign + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnSuccessB,
+                    error: OnError
+                });
+
+            }
+
+            function OnSuccessB(data, status) {
+                console.log(data.d);
+                $("#preview").attr('src', data);
+            }
+
+
+        </script>
+    </form>
+</body>
+</html>

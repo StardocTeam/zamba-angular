@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+    <title>External Search</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="text-center">External Search</h1>
+        <div class="col-md-12">
+            <div class="col-md-6">
+
+                <h3>Login</h3>
+                <button id="btn-login" class="btn btn-success btn-md">Login</button>
+                <div class="col-md-12" id="Divlogin" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="loginRequest" class="" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto; ">
+                    </div>
+                    <span>Response: </span>
+                    <div id="loginResult" class="" style="border: solid 1px #999; margin-top: 10px; margin-bottom:10px; max-width: 100%; overflow: auto;">
+
+                    </div>
+                </div>
+
+                <h3>Busqueda</h3>
+                <button id="btn-search" class="btn btn-primary btn-md">Busqueda</button>
+                <div class="col-md-12" id="Divsearch" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="searchRequest" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="searchResult" style="border: solid 1px #999; margin-top: 10px; margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                </div>
+
+
+                <h3>Descarga documento</h3>
+                <button id="btn-downloadDoc" class="btn btn-info btn-md">Descarga</button>
+                <div class="col-md-12" id="DivdownloadDoc" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="docFileRequest" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="docFileResult" style="border: solid 1px #999; margin-top: 10px; margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                </div>
+
+                <h3>Cierre sesion</h3>
+                <button id="btn-endSession" class="btn btn-secondary btn-md">Cierre</button>
+                <div class="col-md-12" id="DivendSession" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="EndSessionRequest" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="EndSessionResult" style="border: solid 1px #999; margin-top: 10px; margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                </div>
+            </div>
+
+            <!-- LISTA ERRORES -->
+
+
+            <div class="col-md-6">
+                <h3>Login</h3>
+                <button id="btn-loginInvalid" class="btn btn btn-danger btn-md">Login</button>
+                <div class="col-md-12" id="DivloginError" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="loginRequestInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="loginResultInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                </div>
+
+                <h3>Busqueda</h3>
+                <button id="btn-searchInvalid" class="btn btn btn-danger btn-md">Busqueda</button>
+                <div class="col-md-12" id="DivsearchError" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="searchRequestInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="searchResultInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                </div>
+
+                <h3>Descarga documento</h3>
+                <button id="btn-downloadDocInvalid" class="btn btn btn-danger btn-md">Descarga</button>
+                <div class="col-md-12" id="DivdownloadDocError" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="docFileRequestInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="docFileResultInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                </div>
+
+                <h3>Cierre sesion</h3>
+                <button id="btn-endSessionInvalid" class="btn btn btn-danger btn-md">Cierre</button>
+                <div class="col-md-12" id="DivendSessionError" style="margin-top: 10px; display:none">
+                    <span>Request: </span>
+                    <div id="EndSessionRequestInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+                    <span>Response: </span>
+                    <div id="EndSessionResultInvalid" style="border: solid 1px #999; margin-top: 10px;margin-bottom:10px; max-width: 100%; overflow: auto;"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+<script>
+
+    /// TOKEN VALIDO ///
+
+    var generatedToken;
+    var _userId;
+
+    $("#btn-login").click(function () {
+
+        $("#loginRequest").text("");
+        $("#loginResult").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/Login";
+        var data = {
+            UserName: "regueiram",
+            Password: "1234",
+            ComputerNameOrIp: "00000000"
+        }
+
+        $("#loginRequest").append("<p>" + JSON.stringify(data) + "</p>");
+        $("#Divlogin").css("display", "block");
+
+        $("#Divsearch").css("display", "none");
+        $("#DivdownloadDoc").css("display", "none");
+        $("#DivendSession").css("display", "none");
+
+
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function (data) {
+                generatedToken = data.token;
+                _userId = data.userID;
+                $("#loginResult").append("<p>" + JSON.stringify(data) + "</p>");
+            },
+            error: function (data) {
+                $("#loginResult").append("<p>" + JSON.stringify(data) + "</p>");
+            }
+        });
+    });
+
+
+    $("#btn-search").click(function () {
+
+        $("#searchRequest").text("");
+        $("#searchResult").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/SearchResults";
+        var data = {
+            ExternUserID: _userId,
+            DoctypesIds: [2523],
+            Indexs: [{ "id": 2695, "data": 345345 }]
+        }
+
+        $("#searchRequest").append(JSON.stringify(data));
+        $("#Divsearch").css("display", "block");
+        $("#Divlogin").css("display", "none");
+        $("#DivdownloadDoc").css("display", "none");
+        $("#DivendSession").css("display", "none");
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            headers: { "Authorization": generatedToken },
+            success: function (data) {
+
+                $("#searchResult").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#searchResult").append(JSON.stringify(data));
+            }
+        });
+    });
+
+    $("#btn-downloadDoc").click(function () {
+
+        $("#docFileRequest").text("");
+        $("#docFileResult").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/GetDocFile";
+        var data = {
+            //UserId: _userId,
+            Params: {
+                "ID": "6ARwbu5w0A8Q7b6H/BRCYQ==",
+                "ExternUserID": _userId,
+            }
+        }
+
+        $("#docFileRequest").append(JSON.stringify(data));
+        $("#DivdownloadDoc").css("display", "block");
+
+        $("#Divsearch").css("display", "none");
+        $("#Divlogin").css("display", "none");
+        $("#DivendSession").css("display", "none");
+
+
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            headers: { "Authorization": generatedToken },
+            success: function (data) {
+                $("#docFileResult").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#docFileResult").append(JSON.stringify(data));
+            }
+        });
+    });
+
+    $("#btn-endSession").click(function () {
+
+        $("#EndSessionRequest").text("");
+        $("#EndSessionResult").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/EndSession";
+        var data = {
+            Params: { "ExternUserID": _userId }
+        }
+
+        $("#EndSessionRequest").append(JSON.stringify(data));
+        $("#DivendSession").css("display", "block");
+        $("#DivdownloadDoc").css("display", "none");
+
+        $("#Divsearch").css("display", "none");
+        $("#Divlogin").css("display", "none");
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function (data) {
+                $("#EndSessionResult").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#EndSessionResult").append(JSON.stringify(data));
+            }
+        });
+    });
+
+
+    /// TOKEN INVALIDO ///
+
+    var generatedTokenInvalid;
+
+    $("#btn-loginInvalid").click(function () {
+
+        $("#loginRequestInvalid").text("");
+        $("#loginResultInvalid").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/Login";
+        var data = {
+            UserName: "seleme",
+            Password: "a123456",
+            ComputerNameOrIp: "00000000"
+        }
+
+        $("#loginRequestInvalid").append(JSON.stringify(data));
+
+        $("#loginRequestError").append("<p>" + JSON.stringify(data) + "</p>");
+        $("#DivloginError").css("display", "block");
+
+        $("#DivsearchError").css("display", "none");
+        $("#DivdownloadDocError").css("display", "none");
+        $("#DivendSessionError").css("display", "none");
+
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function (data) {
+                generatedToken = data.token;
+                $("#loginRequestInvalid").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#loginResultInvalid").append(JSON.stringify(data));
+            }
+        });
+    });
+
+    $("#btn-searchInvalid").click(function () {
+
+        $("#searchRequestInvalid").text("");
+        $("#searchResultInvalid").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/SearchResults";
+        var data = {
+            ExternUserID: _userId,
+            DoctypesIds: [233],
+            Indexs: []
+        }
+
+        $("#searchRequestInvalid").append(JSON.stringify(data));
+
+        $("#DivsearchError").css("display", "block");
+        $("#DivloginError").css("display", "none");
+        $("#DivdownloadDocError").css("display", "none");
+        $("#DivendSessionError").css("display", "none");
+
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            headers: { "Authorization": generatedToken },
+            success: function (data) {
+
+                $("#searchResultInvalid").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#searchResultInvalid").append(JSON.stringify(data));
+            }
+        });
+    });
+
+    $("#btn-downloadDocInvalid").click(function () {
+
+        $("#docFileRequest").text("");
+        $("#docFileResult").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/GetDocFile";
+        var data = {
+            Params: {
+                "id": "KKYRNJp5tqh1l72l7eIHiw==",
+                "externuserid": "",
+            }
+        }
+
+        $("#docFileRequestInvalid").append(JSON.stringify(data));
+        $("#DivdownloadDocError").css("display", "block");
+
+        $("#DivsearchError").css("display", "none");
+        $("#DivloginError").css("display", "none");
+        $("#DivendSessionError").css("display", "none");
+
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            headers: { "Authorization": generatedToken },
+            success: function (data) {
+                $("#docFileResultInvalid").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#docFileResultInvalid").append(JSON.stringify(data));
+            }
+        });
+    });
+
+    $("#btn-endSessionInvalid").click(function () {
+
+        $("#EndSessionRequestInvalid").text("");
+        $("#EndSessionResultInvalid").text("");
+
+        var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/EndSession";
+        var data = {
+            Params: { "externuserid": _userId }
+        }
+
+        $("#EndSessionRequestInvalid").append(JSON.stringify(data));
+
+        $("#DivdownloadDocError").css("display", "none");
+
+        $("#DivsearchError").css("display", "none");
+        $("#DivloginError").css("display", "none");
+        $("#DivendSessionError").css("display", "block");
+
+        $.ajax({
+            type: "post",
+            url: apiUrl,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function (data) {
+                $("#EndSessionResultInvalid").append(JSON.stringify(data));
+            },
+            error: function (data) {
+                $("#EndSessionResultInvalid").append(JSON.stringify(data));
+            }
+        });
+    });
+
+
+</script>

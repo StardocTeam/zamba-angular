@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+
+	</head>
+
+<body>
+    <center>
+        <div >
+            <div ng-controller="appController">
+                <div class="form-group row"></div>
+                <div class="cell panel">
+                    <form name="frmMain" action="Ing_Leg_RRHH.html">
+                        <div class="header background-blue">
+                            <div class="form-group">
+                            </div>
+                            <center>
+                                <h5>INGRESO LEGAJOS RRHH</h5>
+                            </center>
+                        </div>
+                        <input id="hdnRuleId" type="hidden" />
+                        <input id="hdnAsocId" type="hidden" />
+                        <div class="container">
+
+                            <div class="tab-pane active" id="INGRESO LEGAJOS RRHH">
+                                <div class="form-group row">
+                                    <div class="PanelPrincipal">
+
+                                        <div class="form-group row">
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Nro de Legajo-->                              <span class="input-group-addon">N° Leg:</span>
+                                                    <input id="zamba_index_235" name="zamba_index_235" size="1" class="form-control" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button" name="zamba_rule_2044" id="zamba_rule_2044" onclick="SetRuleId(this);"disabled>
+                                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <!--Nro de Documento-->                         <select class="btn btn-default Inputselect" id="zamba_index_108" name="zamba_index_108"> </select>
+                                                    </div>
+                                                    <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control"disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Tipo Doc RRHH--> 		                        <span class="input-group-addon">Tipo Doc RRHH:</span>
+                                                    <select id="zamba_index_234" name="zamba_index_234" size="1" class="form-control input-sm"></select>
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-1"></div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Nombre Apellido-->                             <span class="input-group-addon">Nombre y Apellido:</span>
+                                                    <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control" disabled />
+                                                    <span class="input-group-btn">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <!--Observaciones-->            <div id="tblObervaciones" class="attributes_table">
+                                            <div class="form-group row">
+                                                <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-5 col-sm-5">
+                                                    <textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_84" name="zamba_index_84" readonly="readonly"></textarea>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <!--DropZone-->                             <div style="position:relative; right: 85px"></div>
+                                                    <zamba-drop id="108" IndexIds="234">  </zamba-drop>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row"></div>
+
+                                        <div class="form-group row">
+
+                                            <!--Botones FORM-->
+                                            <input name="zamba_rule_23" id="zamba_rule_23" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Guardar">
+                                            <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+
+                                        </div>
+
+                                        <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+
+                                        <iframe src="pagina_fuente.html" width=1200 height=600>Texto para cuando el navegador no conoce la etiqueta iframe</iframe>
+
+                                        <div class="form-group row"></div>
+
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                            </div>
+                                            <div class="col-md-10"></div>
+                                            <div class="col-md-1">
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--IMPORTANTE  cambiar version al modificar formulario-->
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="colorVersion"> V. 4.6.6.5 </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+<style>
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

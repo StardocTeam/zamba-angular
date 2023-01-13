@@ -1,0 +1,20 @@
+        <table style="width: 1000px; height: 500px;">
+        <tr>
+        <td>
+       <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+       <ContentTemplate>
+        <ajaxToolkit:TabContainer runat="server" ID="TabInsert" Width="100%" 
+                 ActiveTabIndex="0">
+            <ajaxToolkit:TabPanel ID="InsertDocs" runat="server" HeaderText="Insertar Archivos">
+            <ContentTemplate>
+            <ZControls:InsertDoc ID="InsertDoc" runat="server" />
+            </ContentTemplate>
+            </ajaxToolkit:TabPanel>
+            <ajaxToolkit:TabPanel ID="Indexer" runat="server" HeaderText="Indexar">
+            </ajaxToolkit:TabPanel>
+        </ajaxToolkit:TabContainer>
+        </ContentTemplate>
+        </asp:UpdatePanel>
+        </td>
+        </tr>
+        </table>

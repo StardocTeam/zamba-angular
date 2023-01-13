@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E16279A2-165D-4D96-AD32-009874164C05}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Zamba.Core</RootNamespace>
+    <AssemblyName>Zamba.ICore</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42025,42030,42032,42036,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <CodeAnalysisRuleSet>Migrated rules for Zamba.ICore (2).ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42025,42030,42032,42036,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42025,42030,42032,42036,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>Migrated rules for Zamba.ICore (2).ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42025,42030,42032,42036,42104,42105,42106,42107,42108,42109,42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\ZambaWindows2013\Zamba2010\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Enumerators\AddRulesTypes.vb" />
+    <Compile Include="Enumerators\Borrados.vb" />
+    <Compile Include="Enumerators\ButtonPlace.vb" />
+    <Compile Include="Enumerators\CacheTypes.vb" />
+    <Compile Include="Enumerators\ErrorReportStates.vb" />
+    <Compile Include="Enumerators\FormTableTypes.vb" />
+    <Compile Include="Enumerators\GridColumns.vb" />
+    <Compile Include="Enumerators\IndexedState.vb" />
+    <Compile Include="Enumerators\Comparaciones.vb" />
+    <Compile Include="Enumerators\Comparators.vb" />
+    <Compile Include="Enumerators\Comparacion.vb" />
+    <Compile Include="Enumerators\LicenseType.vb" />
+    <Compile Include="Enumerators\FeedTypes.vb" />
+    <Compile Include="Enumerators\FormActions.vb" />
+    <Compile Include="Enumerators\FormGridType.vb" />
+    <Compile Include="Enumerators\GenericActions.vb" />
+    <Compile Include="Enumerators\RulePendingEvents.vb" />
+    <Compile Include="Enumerators\SearchType.vb" />
+    <Compile Include="Enumerators\TableType.vb" />
+    <Compile Include="Enumerators\GroupToNotifyTypes.vb" />
+    <Compile Include="Enumerators\MessageType.vb" />
+    <Compile Include="Enumerators\Comparadores.vb" />
+    <Compile Include="Enumerators\DayTypes.vb" />
+    <Compile Include="Enumerators\DocumentDates.vb" />
+    <Compile Include="Enumerators\FormTypes.vb" />
+    <Compile Include="Enumerators\IdTypes.vb" />
+    <Compile Include="Enumerators\IndexLinkFlag.vb" />
+    <Compile Include="Enumerators\IndexsType.vb" />
+    <Compile Include="Enumerators\OfficeTypes.vb" />
+    <Compile Include="Enumerators\ProcessTypes.vb" />
+    <Compile Include="Enumerators\MailType.vb" />
+    <Compile Include="Enumerators\MailTypes.vb" />
+    <Compile Include="Enumerators\NodeWFTypes.vb" />
+    <Compile Include="Enumerators\Propiedades.vb" />
+    <Compile Include="Enumerators\ResultActions.vb" />
+    <Compile Include="Enumerators\Results.vb" />
+    <Compile Include="Enumerators\ReturnType.vb" />
+    <Compile Include="Enumerators\RightsType.vb" />
+    <Compile Include="Enumerators\States.vb" />
+    <Compile Include="Enumerators\TaskStates.vb" />
+    <Compile Include="Enumerators\Tinterfaz.vb" />
+    <Compile Include="Enumerators\Tipo.vb" />
+    <Compile Include="Enumerators\TipoComparaciones.vb" />
+    <Compile Include="Enumerators\TMsg.vb" />
+    <Compile Include="Enumerators\TypesofRules.vb" />
+    <Compile Include="Enumerators\UserComparators.vb" />
+    <Compile Include="Enumerators\UserState.vb" />
+    <Compile Include="Enumerators\Usertypes.vb" />
+    <Compile Include="Enumerators\WebModuleFrom.vb" />
+    <Compile Include="Enumerators\WebFormsExtensions.vb" />
+    <Compile Include="Enumerators\WFStats.vb" />
+    <Compile Include="Enumerators\ZClassObjectTypes.vb" />
+    <Compile Include="Enumerators\ZFieldType.vb" />
+    <Compile Include="IAsociados.vb" />
+    <Compile Include="iAutoDescriptible.vb" />
+    <Compile Include="IAutoMail.vb" />
+    <Compile Include="IBarcodeRemark.vb" />
+    <Compile Include="IBaseImageFileResult.vb" />
+    <Compile Include="IBaseWFNode.vb" />
+    <Compile Include="IBlobDocument.vb" />
+    <Compile Include="ICorreo.vb" />
+    <Compile Include="ICsTarea.vb" />
+    <Compile Include="IDestinatario.vb" />
+    <Compile Include="IDisplayMessages.vb" />
+    <Compile Include="IDocD.vb" />
+    <Compile Include="IDocDIndex.vb" />
+    <Compile Include="IDocGroup.vb" />
+    <Compile Include="IDoc_Index.vb" />
+    <Compile Include="IDynamicButton.vb" />
+    <Compile Include="IEditStepNode.vb" />
+    <Compile Include="IResults_Business.vb" />
+    <Compile Include="ISendMailConfig.vb" />
+    <Compile Include="ITransaction.vb" />
+    <Compile Include="IZVarsRulesRepo.vb" />
+    <Compile Include="WF\IDOAproveMatrix.vb" />
+    <Compile Include="WF\IDoAsignToGroup.vb" />
+    <Compile Include="WF\IDoClearAttributeListCache.vb" />
+    <Compile Include="WF\IDoConsumeRestApi.vb" />
+    <Compile Include="WF\IDoConsumeWCF.vb" />
+    <Compile Include="WF\IDODecisionMatrix.vb" />
+    <Compile Include="WF\IDoExecuteScript.vb" />
+    <Compile Include="WF\IDoGenerateHTMLReport.vb" />
+    <Compile Include="WF\IDoGoHome.vb" />
+    <Compile Include="WF\IExecutionRequest.vb" />
+    <Compile Include="IFileResult.vb" />
+    <Compile Include="IFloatingNode.vb" />
+    <Compile Include="IfrmGrilla.vb" />
+    <Compile Include="IImageResult.vb" />
+    <Compile Include="IIndexable.vb" />
+    <Compile Include="IIndexLink.vb" />
+    <Compile Include="IIndexLinkInfo.vb" />
+    <Compile Include="IInitNode.vb" />
+    <Compile Include="IInternalMessage.vb" />
+    <Compile Include="ILastSearch.vb" />
+    <Compile Include="ILog.vb" />
+    <Compile Include="ILotusBtn.vb" />
+    <Compile Include="ILotusMail.vb" />
+    <Compile Include="Imessage.vb" />
+    <Compile Include="IMonitorStepNode.vb" />
+    <Compile Include="IndexEnums.vb" />
+    <Compile Include="INetMailMessage.vb" />
+    <Compile Include="INewResult.vb" />
+    <Compile Include="IRuleIFPlay.vb" />
+    <Compile Include="IZFeed.vb" />
+    <Compile Include="IZFormCondition.vb" />
+    <Compile Include="IZMessageForm.vb" />
+    <Compile Include="IOfficeDocumentInfo.vb" />
+    <Compile Include="IoLinked.vb" />
+    <Compile Include="Ipreprocess.vb" />
+    <Compile Include="IPrintable.vb" />
+    <Compile Include="Iprocess.vb" />
+    <Compile Include="IProcessHistory.vb" />
+    <Compile Include="IProcessList.vb" />
+    <Compile Include="IProcessTask.vb" />
+    <Compile Include="iprogramador.vb" />
+    <Compile Include="IPropiedadesTypeAttribute.vb" />
+    <Compile Include="Ipublishable.vb" />
+    <Compile Include="IPublishEvent.vb" />
+    <Compile Include="IPublishState.vb" />
+    <Compile Include="IRestriction.vb" />
+    <Compile Include="IResult.vb" />
+    <Compile Include="IRightNode.vb" />
+    <Compile Include="IRuleDescription.vb" />
+    <Compile Include="IRuleNode.vb" />
+    <Compile Include="IRuleTypeNode.vb" />
+    <Compile Include="ISchedulable.vb" />
+    <Compile Include="ISchedule.vb" />
+    <Compile Include="ISMTP_Validada.vb" />
+    <Compile Include="IWFStepState.vb" />
+    <Compile Include="IStepNode.vb" />
+    <Compile Include="ISustitutionItem.vb" />
+    <Compile Include="ITaskNode.vb" />
+    <Compile Include="ITaskResult.vb" />
+    <Compile Include="ITempTaskResult.vb" />
+    <Compile Include="IUser.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IUserGroup.vb" />
+    <Compile Include="IUserRights.vb" />
+    <Compile Include="IUserView.vb" />
+    <Compile Include="IViewTaskResult.vb" />
+    <Compile Include="IVolumeList.vb" />
+    <Compile Include="IWFNode.vb" />
+    <Compile Include="IWFRuleParent.vb" />
+    <Compile Include="IWFService.vb" />
+    <Compile Include="IWFStep.vb" />
+    <Compile Include="IWorkFlow.vb" />
+    <Compile Include="IZBatch.vb" />
+    <Compile Include="IZRemoting.vb" />
+    <Compile Include="IZResultsEnumerable.vb" />
+    <Compile Include="IZwebForm.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="IZPicture.vb" />
+    <Compile Include="IVolume.vb" />
+    <Compile Include="WF\IDoCompleteTableInWord.vb" />
+    <Compile Include="WF\IDoInsertDocToBlob.vb" />
+    <Compile Include="WF\IDoInsertTextInWord.vb" />
+    <Compile Include="WF\IDoReplaceTextInWord.vb" />
+    <Compile Include="WF\IDoDocToPDF.vb" />
+    <Compile Include="WF\IDoRefreshWfTree.vb" />
+    <Compile Include="WF\IDoSetRights.vb" />
+    <Compile Include="WF\IDoShowBinary.vb" />
+    <Compile Include="IFieldOptions.vb" />
+    <Compile Include="WF\IIfBranch.vb" />
+    <Compile Include="WF\IDoAddForumMessage.vb" />
+    <Compile Include="WF\IDOADDTOFOLDER.vb" />
+    <Compile Include="WF\IDOAsk.vb" />
+    <Compile Include="WF\IDoAudit.vb" />
+    <Compile Include="WF\IDoDeleteFile.vb" />
+    <Compile Include="WF\IDOExecuteQuery.vb" />
+    <Compile Include="WF\IDoExportToExcel.vb" />
+    <Compile Include="WF\IDoFindFile.vb" />
+    <Compile Include="WF\IDoForo.vb" />
+    <Compile Include="WF\IDoGenerateCoverPage.vb" />
+    <Compile Include="WF\IDOGetDocAsoc.vb" />
+    <Compile Include="WF\IDOGROUP.vb" />
+    <Compile Include="WF\IDoImport.vb" />
+    <Compile Include="WF\IDOInputDocument.vb" />
+    <Compile Include="WF\IDOINSERT.vb" />
+    <Compile Include="WF\IDOLookForAsociatedDoc.vb" />
+    <Compile Include="WF\IDOMail.vb" />
+    <Compile Include="WF\IDOCreateForm.vb" />
+    <Compile Include="WF\IDOInternalMessage.vb" />
+    <Compile Include="WF\IDOADDTOWF.vb" />
+    <Compile Include="WF\IDoReadFile.vb" />
+    <Compile Include="WF\IDoReport.vb" />
+    <Compile Include="WF\IDoRequestData.vb" />
+    <Compile Include="WF\IDoGetNewId.vb" />
+    <Compile Include="WF\IDoFillIndexDefault.vb" />
+    <Compile Include="WF\IDoChangeState.vb" />
+    <Compile Include="WF\IDoFillIndex.vb" />
+    <Compile Include="WF\IDoDelete.vb" />
+    <Compile Include="WF\IDOScan.vb" />
+    <Compile Include="WF\IDOSCREENMESSAGE.vb" />
+    <Compile Include="WF\IDOSEARCH.vb" />
+    <Compile Include="WF\IDOSELECT.vb" />
+    <Compile Include="WF\IDOExecuteRule.vb" />
+    <Compile Include="WF\IDoChangeExpireDate.vb" />
+    <Compile Include="WF\IDOAutoComplete.vb" />
+    <Compile Include="WF\IDoGetTask.vb" />
+    <Compile Include="WF\IDoAutoMail.vb" />
+    <Compile Include="WF\IDoAsign.vb" />
+    <Compile Include="WF\IDoAddAsociatedDocument.vb" />
+    <Compile Include="WF\IDoDistribuir.vb" />
+    <Compile Include="WF\IDoEnableRule.vb" />
+    <Compile Include="WF\IDoGenerateExcel.vb" />
+    <Compile Include="WF\IDOSERIALIZE.vb" />
+    <Compile Include="WF\IDOSHELL.vb" />
+    <Compile Include="WF\IDOSOTORE.vb" />
+    <Compile Include="WF\IDOUSERTASK.vb" />
+    <Compile Include="WF\IDoWaitForDocument.vb" />
+    <Compile Include="WF\IIfDates.vb" />
+    <Compile Include="WF\IIfDoAction.vb" />
+    <Compile Include="WF\IIfDocAsocExist.vb" />
+    <Compile Include="WF\IIfDOCUMENTSCOUNT.vb" />
+    <Compile Include="WF\IIfDocumentType.vb" />
+    <Compile Include="WF\IIfExpireDate.vb" />
+    <Compile Include="WF\IIfFileExists.vb" />
+    <Compile Include="WF\IIfFileSize.vb" />
+    <Compile Include="WF\IIfIndex.vb" />
+    <Compile Include="WF\IIfStepDateTime.vb" />
+    <Compile Include="WF\IIfTaskState.vb" />
+    <Compile Include="WF\IIfTaskStepState.vb" />
+    <Compile Include="WF\IIfTimePass.vb" />
+    <Compile Include="WF\IIfUser.vb" />
+    <Compile Include="WF\IIfUsers.vb" />
+    <Compile Include="WF\IDOCrearDocumento.vb" />
+    <Compile Include="WF\IIfWFDateTime.vb" />
+    <Compile Include="WF\IDoAddUser.vb" />
+    <Compile Include="WF\IRule.vb" />
+    <Compile Include="WF\IWFServiceZvarConfig.vb" />
+    <Compile Include="WF\IZRuleControl.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="Class Diagrams\HistoryAnalysis.cd" />
+    <None Include="Class Diagrams\Main Interfaces.cd" />
+    <None Include="Class Diagrams\Enumerators.cd" />
+    <None Include="Class Diagrams\Interfaces.cd" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls Interfaces\Tabs\IParentTabControl.vb" />
+    <Compile Include="Controls Interfaces\Viewer\IViewerContainer.vb" />
+    <Compile Include="Enumerators\HomeButtonType.vb" />
+    <Compile Include="Enumerators\RuleExecutionResult.vb" />
+    <Compile Include="Enumerators\ClientType.vb" />
+    <Compile Include="Enumerators\ServiceManagerAction.vb" />
+    <Compile Include="Enumerators\FileType.vb" />
+    <Compile Include="Enumerators\DocVersion.vb" />
+    <Compile Include="Enumerators\FileTypes.vb" />
+    <Compile Include="Enumerators\HelpTypes.vb" />
+    <Compile Include="Enumerators\ExcelExportTypes.vb" />
+    <Compile Include="Enumerators\formIndexDescriptionType.vb" />
+    <Compile Include="Enumerators\OfficeVersion.vb" />
+    <Compile Include="Enumerators\InsertResult.vb" />
+    <Compile Include="Enumerators\ServiceState.vb" />
+    <Compile Include="Enumerators\TypesofPermits.vb" />
+    <Compile Include="Enumerators\FWDataTypes.vb" />
+    <Compile Include="Enumerators\VolumeTypes.vb" />
+    <Compile Include="Enumerators\WFOutlookAppointment.vb" />
+    <Compile Include="Form\IDtoTag.vb" />
+    <Compile Include="Form\IFilter.vb" />
+    <Compile Include="Form\IFilterElem.vb" />
+    <Compile Include="Form\IFiltersComponent.vb" />
+    <Compile Include="WF\IDoExportHTMLToPDF.vb" />
+    <Compile Include="WF\IDoLoadDataSetFromXML.vb" />
+    <Compile Include="IPrintTreeViewHelper.vb" />
+    <Compile Include="IZControl.vb" />
+    <Compile Include="WF\IDoAddAsociatedForm.vb" />
+    <Compile Include="WF\IDoCloseTask.vb" />
+    <Compile Include="WF\IDoDecodeFile.vb" />
+    <Compile Include="WF\IDoInsertSLST.vb" />
+    <Compile Include="WF\IDOAutoName.vb" />
+    <Compile Include="WF\IDoOpenTask.vb" />
+    <Compile Include="WF\IDoAdminFiles.vb" />
+    <Compile Include="WF\IDoGetFiles.vb" />
+    <Compile Include="WF\IDoCloseZamba.vb" />
+    <Compile Include="WF\IDOEditTable.vb" />
+    <Compile Include="WF\IDoOpenUrl.vb" />
+    <Compile Include="WF\IDoRefreshTask.vb" />
+    <Compile Include="WF\IDOSaveFile.vb" />
+    <Compile Include="WF\IDOShowEditTable.vb" />
+    <Compile Include="WF\IDoGenerateBarcodeInWord.vb" />
+    <Compile Include="WF\IDoExecuteExplorer.vb" />
+    <Compile Include="WF\IDoInsertTable.vb" />
+    <Compile Include="WF\IDOCreateOutlookAppointment.vb" />
+    <Compile Include="WF\IDOCreateOutlookCalendar.vb" />
+    <Compile Include="WF\IDOGenerateOutlook.vb" />
+    <Compile Include="WF\IDoImportFromExcel.vb" />
+    <Compile Include="WF\IDoAttachToDocument.vb" />
+    <Compile Include="WF\IDoWait.vb" />
+    <Compile Include="WF\IIfWFPanelCircuit.vb" />
+    <Compile Include="WF\IDoCompare.vb" />
+    <Compile Include="WF\IDoGenerateDinamicForm.vb" />
+    <Compile Include="WF\IDoRemote.vb" />
+    <Compile Include="IWFNodeIdandName.vb" />
+    <Compile Include="IStepNodeIdAndName.vb" />
+    <Compile Include="Enumerators\UserOptTypes.vb" />
+    <Compile Include="Enumerators\PostProcessPreferences.vb" />
+    <Compile Include="Enumerators\GroupState.vb" />
+    <Compile Include="Enumerators\NotifyTypes.vb" />
+    <Compile Include="Enumerators\RulePreferences.vb" />
+    <Compile Include="Enumerators\DocTypeRights.vb" />
+    <Compile Include="Enumerators\RuleSectionOptions.vb" />
+    <Compile Include="HistoryAnalysis\ITaskAnalysis.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IIfRuleNodeHistory.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IDoRuleNode.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IDoRuleNodeHistory.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IIfRuleNode.vb" />
+    <Compile Include="HistoryAnalysis\IHistoryAnalysis.vb" />
+    <Compile Include="HistoryAnalysis\Rules\IRuleNode.vb" />
+    <Compile Include="HistoryAnalysis\IStepAnalysis.vb" />
+    <Compile Include="IMensajeForo.vb" />
+    <Compile Include="IZIndexReference.vb" />
+    <Compile Include="WF\IDoForEach.vb" />
+    <Compile Include="WF\IDoReplaceText.vb" />
+    <Compile Include="WF\IDOSearchDoc.vb" />
+    <Compile Include="WF\IDOAskDesition.vb" />
+    <Compile Include="WF\IDoConsumeWebService.vb" />
+    <Compile Include="WF\IDoDismemberObject.vb" />
+    <Compile Include="WF\IDoFillVar.vb" />
+    <Compile Include="WF\IDOIfQuery.vb" />
+    <Compile Include="WF\IDoDesign.vb" />
+    <Compile Include="WF\IDOShowXoml.vb" />
+    <Compile Include="WF\IDoFillIndexComplete.vb" />
+    <Compile Include="WF\IDoReportBuilder.vb" />
+    <Compile Include="WF\IIfGroups.vb" />
+    <Compile Include="WF\IDoExport.vb" />
+    <Compile Include="Enumerators\ControlPropertys.vb" />
+    <Compile Include="Enumerators\WebPartsControls.vb" />
+    <Compile Include="IOutLookMail.vb" />
+    <Compile Include="Enumerators\AttachTypes.vb" />
+    <Compile Include="Enumerators\DocumentsToInsertStatus.vb" />
+    <Compile Include="IRequestAction.vb" />
+    <Compile Include="WF\IDOGenerateTaskResult.vb" />
+    <Compile Include="WF\IDOInputIndex.vb" />
+    <Compile Include="WF\IDoMessageForo.vb" />
+    <Compile Include="WF\IDONewRule.vb" />
+    <Compile Include="WF\IDoRequestAction.vb" />
+    <Compile Include="WF\IDoShowForm.vb" />
+    <Compile Include="WF\IDOShowTable.vb" />
+    <Compile Include="WF\IIfDesign.vb" />
+    <Compile Include="WF\IIfValidateVar.vb" />
+    <Compile Include="WF\IDoGenerateExcelFromObject.vb" />
+    <Compile Include="WF\IMailConfigDocAsoc.vb" />
+    <Compile Include="WF\IResultActivity.vb" />
+    <Compile Include="WF\IWFPanelCircuit.vb" />
+    <Compile Include="WF\IWFTaskBusiness.vb" />
+    <Compile Include="Zamba.Services.Remoting.Interfaces.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2ab0ea3e-507b-47e6-bc37-0d203270aedd}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

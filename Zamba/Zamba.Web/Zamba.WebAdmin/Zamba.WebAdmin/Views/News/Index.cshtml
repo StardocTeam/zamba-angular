@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Zamba News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/News/Newsfn.js"></script>
+<script src="~/Scripts/News/NewsNG.js"></script>
+<script src="~/Scripts/News/CheckNews.js"></script>
+<base href='@Url.Content("~/news/index")/'>
+<br />
+<div class="indexNews" ng-controller="NewsIndexController">
+    <div class="row">
+        <div class="col-md-2">
+            <a href="~/News/Create" class="btn btn-primary" style="margin-bottom: 5px;">
+                <span class="glyphicon glyphicon-file"></span>Nuevo
+            </a>
+        </div>
+        <div class="col-md-3" style="display:inline-flex;">
+            <div style="padding:5px;">
+                Ordenar:
+            </div>
+            <select class="form-control" ng-change="changeFilter(this,SelectedItem);" ng-model="SelectedItem.id" ng-selected="1" ng-options="i.id as i.name for i in FilterOpt"></select>
+        </div>
+        <div class="col-md-3">
+            <input type="search" ng-model="searchnews.id" class="form-control" placeholder="Id" />
+        </div>
+        <div class="col-md-3">
+            <input  type="search" ng-model="searchnews.title" class="form-control" placeholder="Titulo" />
+        </div>
+    </div>
+    <div class="indexStyle" ng-cloak>
+        <table class="table table-striped" style="margin:0">
+            <thead class="thead-inverse">
+                <tr>
+                    <th ng-repeat="col in Columns">
+                        {{col}}
+                    </th>
+                    <th style="text-align:center;">
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tr ng-repeat="new in News  | filter:searchnews |orderBy:OrderType">
+                <th scope="row">{{new.id}}</th>
+                <td>{{new.title}}</td>
+                <td>{{new.repeat}}</td>
+                <td>{{new.important}}</td>
+                <td>{{new.created | date : "dd/MM/yyyy hh:mm" }}</td>
+                <td style="text-align:center;width: 160px;border:1px solid #dddddd;">
+                    <a href="~/news/edit/{{new.id}}" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-pencil"> </span> Editar
+                    </a>
+                    <span class="btn btn-danger btn-xs" confirmed-click="removeNew(new.id)"
+                          ng-confirm-click="Esta seguro de eliminar el registro?" style="display:inline-table">
+                        <span class="glyphicon glyphicon-remove"> </span>  Eliminar
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

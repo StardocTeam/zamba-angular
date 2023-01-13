@@ -1,0 +1,21 @@
+﻿<div id="example">
+    <div class="demo-section k-header">
+        <img src="~/Content/web/pdfprocessing/documentAjax.png" class="documentImage" />
+        @using (Html.BeginForm("Download_Document", "PdfProcessing"))
+        {
+            <input type="submit" value="Download Document" class="k-button downloadBtn" />
+        }
+
+    </div>
+</div>
+
+<style>
+    .downloadBtn {
+        margin: 0 auto;
+        display: block;
+    }
+
+    .documentImage {
+        width:100%;
+    }
+</style>

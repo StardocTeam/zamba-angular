@@ -1,0 +1,95 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_index_2706").value.trim() == ""){
+			alert("Verifique que el Nombre se encuentre completo.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";	
+		}
+	}
+	$(document).ready(function(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				return IntegerCheck(e);
+			})
+		});
+	});
+	function CargarFechasyBotones(){
+		$('#zamba_index_2763').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			showOn: 'button', 
+			buttonText: 'Abrir calendario',
+			buttonImage: 'calendar.png', 
+			buttonImageOnly: true,
+			yearRange: '-100:+0',
+			duration: ""
+		});
+		$('#zamba_index_2709').val("Argentino");
+		$('#zamba_index_2706').focus();			
+	}
+	</script>
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="Demandado - Insert.html">
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblDemandado" class="attributes_table">
+		<tr>
+			<td><label>Nombre:</label> 
+			<td colspan="4"><input id="zamba_index_2706" name="zamba_index_2706" style="width:632px;" maxlength="80"/>
+        </tr>
+        <tr>
+			<td><label>Dirección:</label>
+			<td><input id="zamba_index_2708" name="zamba_index_2708" class="w300px" maxlength="200"/>
+			<td class="separador">
+			<td><label>DNI/CUIL/CUIT:</label>
+			<td><input id="zamba_index_2710" class="solonums" name="zamba_index_2710" class="w150px" maxlength="15"/>
+        </tr>
+		<tr>
+			<td><label>Localidad:</label>
+			<td><input id="txtMessage" name="txtMessage" style="width:300px;font-style:italic" disabled="disabled" value="Podrá ser cargado una vez creado el demandado"/>
+			<td class="separador">
+		    <td><label>Teléfono:</label>
+			<td><input id="zamba_index_2711" name="zamba_index_2711" class="w150px" maxlength="30"/>
+		</tr>
+		<tr>
+			<td><label>C&oacutedigo Postal:</label>
+			<td><input id="zamba_index_2765" name="zamba_index_2765f" class="w150px" maxlength="20" />
+			<td class="separador">
+			<td><label>Celular:</label>
+			<td><input id="zamba_index_2712" name="zamba_index_2712" class="w150px" maxlength="30"/>
+		</tr>
+		<tr>
+			<td><label>Provincia:</label>
+			<td><input id="txtProv" name="txtProv" style="width:300px;font-style:italic" disabled="disabled" value="Podrá ser cargado una vez creado el demandado"/>
+			<td class="separador">
+			<td><label>Fecha de Nacimiento:</label>
+			<td><input id="zamba_index_2763" name="zamba_index_2763" style="width:68px;" onblur="valFecha(this)" />
+		</tr>
+		<tr>
+			<td><label>Nacionalidad:</label>
+			<td><input id="zamba_index_2709" name="zamba_index_2709" class="w300px" maxlength="80"/>
+			<td class="separador">
+			<td><label>Estado Civil:</label>
+			<td><select id="zamba_index_2714" size="1" name="zamba_index_2714" style="width:150px;"></select>
+		</tr>
+	</table>
+	<br><br>
+	<div>  
+		<input id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick()" />                  
+	</div>
+	</center>
+    </form>
+</body>
+</html>

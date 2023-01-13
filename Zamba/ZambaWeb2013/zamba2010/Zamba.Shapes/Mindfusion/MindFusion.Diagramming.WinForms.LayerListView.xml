@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MindFusion.Diagramming.WinForms.LayerListView</name>
+    </assembly>
+    <members>
+        <member name="T:MindFusion.Diagramming.WinForms.LayerListViewItem">
+            <summary>
+            Represents an item within a LayerListView control.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListViewItem.#ctor(MindFusion.Diagramming.WinForms.LayerListView,MindFusion.Diagramming.Layer)">
+            <summary>
+            Initializes a new instance of the LayerListViewItem class.
+            </summary>
+            <param name="parent">The parent control of this item.</param>
+            <param name="layer">The layer represented by this item.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListViewItem.Detach">
+            <summary>
+            Detaches this item from its associated layer and diagram.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListViewItem.OnSizeChanged(System.EventArgs)">
+            <summary>
+            Control.OnSizeChanged override.
+            </summary>
+            <param name="e">
+            An object that contains the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListViewItem.ProcessDialogKey(System.Windows.Forms.Keys)">
+            <summary>
+            Control.ProcessDialogKey override.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListViewItem.Index">
+            <summary>
+            Gets the index of this item.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListViewItem.Layer">
+            <summary>
+            Gets the layer object represented by this item.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.LayerListView">
+            <summary>
+            Represents a list box with MindFusion.Diagramming.Layer objects.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListView.#ctor">
+            <summary>
+            Initializes a new instance of the LayerListView class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListView.ProcessDialogKey(System.Windows.Forms.Keys)">
+            <summary>
+            Control.ProcessDialogKey override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.LayerListView.OnDiagramLayersChanged(System.Object,MindFusion.Diagramming.NotifyCollectionChangedEventArgs{MindFusion.Diagramming.Layer})">
+            <summary>
+            Handles the CollectionChanged event of the Diagram.Layers collection.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Diagramming.WinForms.LayerListView.SelectedItemChanged">
+            <summary>
+            Raised when the control's selected item has changed.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Diagramming.WinForms.LayerListView.AddButtonClick">
+            <summary>
+            Raised when the user clicks the control's add button.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Diagramming.WinForms.LayerListView.RemoveButtonClick">
+            <summary>
+            Raised when the user clicks the control's remove button.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.Diagram">
+            <summary>
+            Gets or sets the diagram this control is associated with.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.Items">
+            <summary>
+            Gets the collection of items for this control.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.ItemHeight">
+            <summary>
+            Gets or sets the height of the items.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.OverviewWidth">
+            <summary>
+            Gets or sets the width of the layer overview.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.SelectedColor">
+            <summary>
+            Gets or sets the color with which selected items' background is painted.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.ItemColor">
+            <summary>
+            Gets or sets the color with which items' background is painted.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.Images">
+            <summary>
+            Gets or sets the image list used in the control.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.DisplayText">
+            <summary>
+            Gets or sets a value indicating whether to paint the text
+            of items in the overview.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.AllowTitleEdit">
+            <summary>
+            Gets or sets a value indicating whether layer titles can be
+            in-place edited.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.ShowTooltips">
+            <summary>
+            Gets or sets a value indicating whether to display tooltips.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.AddLayerButtonTooltip">
+            <summary>
+            Gets or sets the tooltip for the 'Add Layer' button.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.RemoveLayerButtonTooltip">
+            <summary>
+            Gets or sets the tooltip for the 'Remove Layer' button.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.ActiveButtonTooltip">
+            <summary>
+            Gets or sets the tooltip for the 'Active Layer' button in each item.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.VisibleButtonTooltip">
+            <summary>
+            Gets or sets the tooltip for the 'Visible' button in each item.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.LayerListView.LockedButtonTooltip">
+            <summary>
+            Gets or sets the tooltip for the 'Locked' button in each item.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

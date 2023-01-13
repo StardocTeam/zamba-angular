@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+   
+</head>
+
+<body>
+    <form name="frmMain" action="Nuevo_Cliente.html">
+        <center>
+            <div  >
+                <div ng-controller="appController">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <center>
+                            <div class="tab-pane active" id="Nuevo Cliente">
+                                <div class="form-group row">
+                                    <div class="form-group row">
+                                        <strong>Nuevo Cliente</strong>
+                                    </div>
+                                    <div class="PanelPrincipal">
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--CUIT-->  
+                                                    <span class="input-group-addon">CUIT</span>
+                                                    <input id="zamba_index_26296" name="zamba_index_26296" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Razon Social--> 
+                                                    <span class="input-group-addon">Razon Social</span>
+                                                    <input id="zamba_index_139562" name="zamba_index_139562" class="form-control input-sm " />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Domicilio-->
+                                                     <span class="input-group-addon">Domicilio</span>
+                                                    <input id="zamba_index_139563" name="zamba_index_139563" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--TLF-->
+                                                    <span class="input-group-addon">Telefono</span>
+                                                    <input id="zamba_index_26217" name="zamba_index_26217" size="1" class="form-control input-sm solonums" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Contacto--> 
+                                                    <span class="input-group-addon">Contacto</span>
+                                                    <input id="zamba_index_139564" name="zamba_index_139564" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Mail/Correo--> 
+                                                    <span class="input-group-addon">Correo Electronico</span>
+                                                    <input id="zamba_index_139565" name="zamba_index_139565" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <!--<div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    Recepcion                                             		<span class="input-group-addon"> Recepción:</span>
+                                    <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled="disabled" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--CARATULA--> 
+                                                    <span class="input-group-addon">N° de Caratula</span>
+                                                    <input id="zamba_index_10589" name="zamba_index_10589" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <div class="form-group row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+
+                                                            <div class="col-md-4"></div>
+                                                            <div class="col-md-4">
+
+                                                                <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Guardar">
+                                                                <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <center>
+                                            <div class="col-md-2" style="position:relative;left:10px;">
+                                                <img alt="" src="images/logo_modoc.png" height="45" width="85" style="float: left" />
+                                            </div>
+                                            <div class="col-md-10">
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </form>
+</body>
+</html>
+

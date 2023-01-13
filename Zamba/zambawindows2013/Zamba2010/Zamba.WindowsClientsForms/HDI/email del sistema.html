@@ -1,0 +1,188 @@
+<html>
+	<head>
+		<title>e-Mail del Sistema</title>
+		<!--
+		ID Form:
+		Fecha de Creacion:08-11-2012
+		Autor de Creacion:GustavoR
+		Descripción:
+		Fecha de ultima Modificacion:08-11-2012
+		Autor de ultima Modificacion:GustavoR
+		-->			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet"/>		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet"/>		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script> <!-- Ver con GustavoY -->
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">
+		<script type="text/javascript" language="JavaScript">
+		
+		    function validaDatos()
+            {
+                return true;
+            }
+			
+       	    function SetRuleId(sender)
+       		{
+				document.getElementById("hdnRuleId").name = sender.id;               
+            	frmMain.submit();
+			}
+
+			function zamba_save_onclick()
+			{
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+						
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+				
+			
+			
+
+		</script>
+	    <style type="text/css">
+            .style1
+            {
+                width: 257px;
+            }
+            .style2
+            {
+                width: 173px;
+            }
+            .style3
+            {
+                width: 767px;
+            }
+            </style>
+	</head>	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()" />
+				<input id="hdnRuleId" type="hidden" />
+				
+				<div name="logostardoc" id="logostardoc">
+				</div>
+
+				<div name="design" id="design">
+					<strong>@-Mail del Sistema</strong>
+				</div>
+				<br />
+
+					
+
+				<table cellpadding="6">
+					 <tr>
+						<td><label>Id de e-Mail: </label></td>
+						<td><input type="text" id="zamba_index_135527" name="zamba_index_135527" size="10" readonly="readonly" class="readonly"/></td>
+						<td><label>Nombre del e-mail: </label></td>
+						<td><input type="text" id="zamba_index_135528" name="zamba_index_135528" size="76" readonly="readonly" class="readonly"/></td>
+					</tr>
+					 <tr>
+						<td></td>
+						<td></td>
+						<td><label>Reglas Asignadas: </label></td>
+						<td><input type="text" id="Text2" name="zamba_index_165534" size="76" readonly="readonly" class="readonly"/></td>
+					</tr>					
+              </table>      	
+			
+		
+
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>@-Mail</h2>
+						
+							<table cellpadding="4">
+								<table cellpadding="4">
+								<tr>
+									<td class="style3"><label>Para:</label></td>
+							    </tr>
+								<tr>
+									<td colspan="4" class="style3"><TEXTAREA cols=124 rows=2 id="zamba_index_1129" name="zamba_index_1129"></TEXTAREA></td> 
+								</tr>
+						        </table>
+						        
+						        <table cellpadding="4">
+								<tr>
+									<td class="style3"><label>CC:</label></td>
+							    </tr>
+								<tr>
+									<td colspan="4" class="style3"><TEXTAREA cols=124 rows=2 id="zamba_index_1130" name="zamba_index_1130"></TEXTAREA></td> 
+								</tr>
+						        </table>
+						        
+						        <table cellpadding="4">
+								<tr>
+									<td class="style3"><label>CCO:</label></td>
+							    </tr>
+								<tr>
+									<td colspan="4" class="style3"><TEXTAREA cols=124 rows=2 id="zamba_index_135529" name="zamba_index_135529"></TEXTAREA></td> 
+								</tr>
+						        </table>
+															
+																
+								<tr>
+									<td style="padding:10px 0 10px 0" colspan="4"> <hr align="left" style="width: 775px"></td>
+								</tr>
+							
+								<table cellpadding="4">
+								<tr>
+									<td class="style3"><label>Asunto:</label></td>
+							    </tr>
+								<tr>
+									<td colspan="4" class="style3"><TEXTAREA cols=124 rows=2 id="zamba_index_1131" name="zamba_index_1131"></TEXTAREA></td> 
+								</tr>
+						        </table>
+								
+								
+								<tr>
+									<td style="padding:10px 0 10px 0" colspan="4"> <hr align="left" style="width: 775px"></td>
+								</tr>
+							</table>
+
+							<table cellpadding="4">
+								<tr>
+									<td class="style3"><label>Cuerpo del e-mail:</label></td>
+							    </tr>
+								<tr>
+									<td colspan="4" class="style3"><TEXTAREA cols=124 rows=20 id="zamba_index_135530" name="zamba_index_135530"></TEXTAREA></td> 
+								</tr>
+						    </table>
+						    
+						    <table cellpadding="4">
+								<tr>
+									<td class="style3"><label>Firma del e-mail:</label></td>
+							    </tr>
+								<tr>
+									<td colspan="4" class="style3"><TEXTAREA cols=124 rows=10 id="zamba_index_135531" name="zamba_index_135531"></TEXTAREA></td> 
+								</tr>
+						    </table>				
+					
+				</div>				
+				<br />
+
+				<div name="logocliente" id="logocliente">	
+					<img src="images/logocliente.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>	
+				
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="Submit1" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>				
+				
+			 </form>						
+		</div>
+	</body>
+</html>

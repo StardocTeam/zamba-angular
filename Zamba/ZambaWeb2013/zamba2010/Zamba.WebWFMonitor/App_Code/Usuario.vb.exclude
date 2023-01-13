@@ -1,0 +1,20 @@
+Imports Microsoft.VisualBasic
+
+Public Class Usuario
+
+    Private _Nombre As String
+
+    Public Property Nombre() As String
+        Get
+            Return _Nombre
+        End Get
+		Set(ByVal value As String)
+			_Nombre = value
+		End Set
+    End Property
+
+	Public Sub New(ByVal Nombre As String)
+		Me.Nombre = Nombre
+	End Sub
+
+End Class

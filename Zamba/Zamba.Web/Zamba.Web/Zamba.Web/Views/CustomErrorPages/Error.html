@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <title>Ocurrió un error</title>
+
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css">
+
+    <style>
+
+        html, body {
+            height: 100%;
+        }
+
+        .zcontainer {
+            margin-top: 15%;
+        }
+
+        .zcontent {
+        }
+
+        .img {
+            max-width: 10rem;
+            display: inline-block;
+        }
+
+        .text {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    </style>
+
+</head>
+<body>
+    <div class="zcontainer container-fluid">
+        <div class="zcontent row">
+            <div class="col-xs-6 col-xs-offset-3">
+
+                <img class="img col-xs-3" src="../CustomErrorPages/error.png" />
+                <span class="text col-xs-9">
+                    Zamba no está disponible en este momento, por favor intenta de nuevo mas tarde o comunícate con el administrador. Disculpa las molestias.
+                </span>
+
+
+            </div>
+        </div>
+        <div class="zcontent row">
+            <div class="col-xs-6 col-xs-offset-3">
+
+
+                <span id="errormsg"></span>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+
+        function getElementFromQueryString(element) {
+            var url = window.location.href;
+
+            var segments = url.split("&");
+            var value = null;
+            segments.forEach(function (valor) {
+                if (valor.includes(element)) { value = valor.split("=")[1]; }
+            });
+            return value;
+        }
+
+        var showerror = function () {
+            try {
+
+                var errormsg = getElementFromQueryString('e');
+
+                var errormessage = document.getElementById('errormsg');
+
+                errormessage.innerText = errormsg;
+
+            } catch (e) {
+                console.error(e);
+            }
+
+        }
+
+        showerror();
+
+    </script>
+
+</body>
+</html>

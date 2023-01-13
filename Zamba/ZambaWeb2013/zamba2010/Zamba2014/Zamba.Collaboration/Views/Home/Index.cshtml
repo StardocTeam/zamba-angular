@@ -1,0 +1,44 @@
+﻿<div class="jumbotron">
+    <h2>Zamba Collaboration ®</h2>
+    <p class="lead">
+        Esta nueva herramiente le permitira comunicarse con varias personas mediante Zamba Link,
+        con el cual podra compartir información, documentación y cualquier archivo multimedia, tanto dentro, como fuera
+        de su empresa.
+        @ViewBag.Name
+    </p>
+    <a href="" class="btn btn-primary btn-lg">Leer más &raquo;</a>
+    @if (Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Iniciar >>", "Join", "Account", new { @mail = Session["userId"] }, new { @class = "btn btn-primary btn-lg" })     
+    }
+    <a href="http://zambalink.us/Zamba/ZambaLinkcollaboration.zip" class="btn btn-primary btn-lg">Descargar &raquo;</a>
+    @if (!Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Iniciar sesión >>", "Login", "Account",null, new { @class = "btn btn-primary btn-lg" })
+    }
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Como funciona</h2>
+        <p>
+            Solo se debe tener instalada una version de Zamba Link® y un usuario registrado,
+            podra acceder a agregar nuevos participantes en cualquier momento.
+        </p>
+        <p><a class="btn btn-default" href="">Leer más &raquo;</a></p>       
+    </div>
+    <div class="col-md-4">
+        <h2>Zamba Link ®</h2>
+        <p>
+            Zamba Link ® es una herramienta de comunicacion el cual integra funcionalidades integradas en Zamba
+        </p>
+        <p><a class="btn btn-default" href="">Leer más &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Novedades</h2>
+        <p>
+            Una de las posibilidades que le ofrece Zamba Collaboration ® es la comunicacion cross office, no siendo necesario estar dentro de la misma organizacion para poder comunicarse.
+        </p>
+        <p><a class="btn btn-default" href="">Leer más &raquo;</a></p>
+    </div>
+
+</div>

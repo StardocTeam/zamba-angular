@@ -1,0 +1,486 @@
+﻿<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+    <title>PolizaEmisionv4</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--<link rel="stylesheet" href="PolizaEmisionv4.css" type="text/css" />-->
+    <style type="text/css">
+        input
+        {
+            font-size: xx-small;
+        }
+        .container
+        {
+            width: 100%;
+                  height: 1024px;
+        }
+        p.description
+        {
+            font-size: x-small;
+            width:120px;
+                     height: 15px;
+        }
+        .longtext
+        {
+            font-size: x-small;
+            width:600px;
+                     height: 15px;
+        }
+        .shorttext
+        {
+            font-size: x-small;
+            width:180px;
+                     height: 15px;
+        }
+      
+        #zamba_innerdoctype_original
+        {
+            width: 98%;
+        }
+      
+        body
+        {
+            font-size: 13px;
+        }
+       
+      
+     
+       
+    </style>
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+
+    <script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+
+    <script type="text/javascript" language="JavaScript">
+	String.prototype.trim = function () {
+    		return this.replace(/^\s*/, "").replace(/\s*$/, "");
+	}
+
+
+        function SetRuleId(sender)
+        {
+            if (sender.id == "zamba_rule_5019")
+            {    
+                    document.getElementById("zamba_index_1139").value="0";
+            }
+            document.getElementById("hdnRuleId").name = sender.id;               
+            frmMain.submit();
+        }
+           
+        function ValidarSeccion(sender)
+        {
+            document.getElementById("hdnRuleId").name = "";
+
+            if (document.getElementById("zamba_index_1143").value.trim()=="")
+            {
+	             document.getElementById("zamba_index_1143").value="0";
+            }
+
+            
+            if (document.getElementById("zamba_index_32").value == "4 - AUTOMOTORES" && document.getElementById("zamba_index_5").value == 1)
+                if (document.getElementById("zamba_index_39").value.trim()=="")
+                {
+                    document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    alert("Por favor, complete la patente del vehículo");
+                }
+            
+            if (document.getElementById("zamba_index_3").value.trim()=="" && document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el nombre del asegurado");
+            }
+            
+            if ((document.getElementById("zamba_index_1127").value=="" || document.getElementById("zamba_index_1127").value=="0") && (document.getElementById("zamba_index_1128").value=="" || document.getElementById("zamba_index_1128").value=="0") && document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el DNI o el CUIT del asegurado");
+            }
+            
+            if ((document.getElementById("zamba_index_4").value.trim()=="" || document.getElementById("zamba_index_4").value.trim()=="0") && (document.getElementById("zamba_index_1139").value.trim()=="" || document.getElementById("zamba_index_1139").value.trim()=="0") && document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el código de productor, CUIT o seleccionelo con el botón Buscar");
+            }
+            
+            if ((document.getElementById("zamba_index_5").value=="" || document.getElementById("zamba_index_5").value<"1") && document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete la cantidad de items");
+            }
+            
+            if (document.getElementById("zamba_index_29").value=="" && document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete la fecha de vigencia de la póliza");
+            }
+        }
+        
+        function CerrarForm()
+        {
+            document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+        }
+        
+        function CargarFechasyBotones() 
+        {
+            if (document.getElementById("zamba_index_5").value=="" || document.getElementById("zamba_index_5").value=="0")
+            {
+                document.getElementById("zamba_index_5").value="1";
+            }
+            
+		    $(function() 
+		    {
+			    $('#zamba_index_29').datepicker({
+				    changeMonth: true,
+				    changeYear: true,
+                    showOn: 'button', 
+					buttonText: 'Abrir calendario',
+                    buttonImage: 'calendar.png', 
+                    buttonImageOnly: true,
+                    duration: ""
+			    });
+		    });				
+        }
+        
+        function esDigito(sChr)
+        {
+            var sCod = sChr.charCodeAt(0);
+            return ((sCod > 47) && (sCod < 58));
+        }
+
+        function valSep(oTxt)
+        {
+            var bOk = false;
+            bOk = bOk || ((oTxt.value.charAt(2) == "-") && (oTxt.value.charAt(5) == "-"));
+            bOk = bOk || ((oTxt.value.charAt(2) == "/") && (oTxt.value.charAt(5) == "/"));
+            return bOk;
+        }
+
+        function finMes(oTxt)
+        {
+            var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+            var nRes = 0;
+            switch (nMes)
+            {
+                case 1: nRes = 31; break;
+                case 2: nRes = 29; break;
+                case 3: nRes = 31; break;
+                case 4: nRes = 30; break;
+                case 5: nRes = 31; break;
+                case 6: nRes = 30; break;
+                case 7: nRes = 31; break;
+                case 8: nRes = 31; break;
+                case 9: nRes = 30; break;
+                case 10: nRes = 31; break;
+                case 11: nRes = 30; break;
+                case 12: nRes = 31; break;
+            }
+            return nRes;
+        }
+
+        function valDia(oTxt)
+        {
+            var bOk = false;
+            var nDia = parseInt(oTxt.value.substr(0, 2), 10);
+            bOk = bOk || ((nDia >= 1) && (nDia <= finMes(oTxt)));
+            return bOk;
+        }
+
+        function valMes(oTxt)
+        {
+            var bOk = false;
+            var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+            bOk = bOk || ((nMes >= 1) && (nMes <= 12));
+            return bOk;
+        }
+
+        function valAno(oTxt)
+        {
+            var bOk = true;
+            var nAno = oTxt.value.substr(6);
+            bOk = bOk && ((nAno.length == 2) || (nAno.length == 4));
+            if (bOk)
+            {
+                for (var i = 0; i < nAno.length; i++)
+                {
+                    bOk = bOk && esDigito(nAno.charAt(i));
+                }
+            }
+            return bOk;
+        }
+
+        function valFecha(oTxt)
+        {
+            var bOk = true;
+            if (oTxt.value != "")
+            {
+                bOk = bOk && (valAno(oTxt));
+                bOk = bOk && (valMes(oTxt));
+                bOk = bOk && (valDia(oTxt));
+                bOk = bOk && (valSep(oTxt));
+                if (!bOk)
+                {
+                    alert("La fecha ingresada es invalida");
+                    oTxt.value = "";
+                    oTxt.focus();
+                }
+            }
+        }
+ 
+        function comprobarSiBisisesto(anio)
+        {
+            if ( ( anio % 100 != 0) && ((anio % 4 == 0) || (anio % 400 == 0))) 
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+
+        function zamba_save_onclick() 
+        {
+            ValidarSeccion();
+            if (document.getElementById("zamba_index_58").value=="" && document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, verifique el nro de productor antes de continuar");
+            }
+            if (document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "";
+            }
+        }
+
+        function reload_onclick() 
+        {
+            ValidarSeccion();
+            if (document.getElementById("hdnRuleId").name !="zamba_rule_cancel")
+            {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+            if (document.getElementById("SolicitudFullpath").value== "" || document.getElementById("SolicitudFullpath").value==" ")
+                document.getElementById("showdoc").disabled=true;
+        }
+        
+        function reload()
+        {
+            frmMain.submit();
+	    }
+	    // Validar de valores solo numericos
+	    // Agregar class="solonum" a todos los inputs que se quieran validar
+	    $(document).ready(function()
+	    {
+		    $(".solonums").each(function()
+		    {
+			    $(this).keypress(function (e)
+			    {
+				    if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57))
+				    {
+					    return false;
+				    }
+			    })
+		    });
+	    });
+
+    function limpiarProductor() 
+    {
+        document.getElementById("zamba_index_58").value = "";
+    }
+
+function OpenWindowct()
+        {
+            if (document.getElementById("SolicitudFullpath").value!= "" && document.getElementById("SolicitudFullpath").value!=" ")
+            {   
+                var newwindowct = window.open(GetUrlcc(),"_Blank", 'resizable=1,width=620,height=600,left=' + (screen.width  - 620)/2 + ',top=' + (screen.height - 600)/2)
+                return false;
+            }
+        }
+
+        function GetUrlcc()
+        {
+            return 'file:///' + document.getElementById("SolicitudFullpath").value;
+        }
+    </script>
+
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:Client msdt:dt="string">Boston Seguros</mso:Client>
+<mso:ContentType msdt:dt="string">Document</mso:ContentType>
+<mso:Product msdt:dt="string">Zamba</mso:Product>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body onload="javascript:CargarFechasyBotones();" onunload="javascript:CerrarForm();">
+    <form name="frmMain" action="PolizaEmisionv4.html">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="zamba_index_32" style="width: 100px" name="zamba_index_32" type="hidden" />
+    <div class="container">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%; color: white; background-color: #0066cc">
+                    Solicitud de Emision de Poliza
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <table style="width: 100%; text-align: left">
+            <tr>
+                <td>
+                    <p class="description">
+                        Codigo Asegurado:
+                    </p>
+                </td>
+                <td  class="shorttext">
+                    <input id="zamba_index_1143" style="width: 203px" name="zamba_index_1143" class="solonums" />
+                </td>
+                 <td  class="shorttext">
+                    <input id="zamba_rule_6072" name="zamba_rule_6072" style="text-align: center;" type="submit"
+                        value="Verificar" onclick="SetRuleId(this);" />
+                    </td>
+                    <td style="width:100%"></td>
+            </tr>
+            </table>
+<table>
+            <tr>
+                <td >
+                    <p class="description">
+                        Asegurado:
+                    </p>
+                </td>
+                <td  class="longtext" >
+                    <input id="Text1" style="width: 536px" name="zamba_index_3" />
+                </td>
+                <td >
+                    <p class="description">
+                        Vigencia Desde:
+                    </p>
+                </td>
+                <td  class="shorttext">
+                    <input id="zamba_index_29" style="width: 135px; margin-left: 0px;" name="zamba_index_29"
+                        onblur="valFecha(this)" />
+                </td>
+                         <td style="width:100%"></td>
+            </tr>
+        </table>
+        <hr />
+        <table style="width: 100%;">
+            <tr>
+                <td >
+                    <p class="description">
+                        DNI Asegurado:
+                    </p>
+                </td>
+                <td class="longtext" >
+                    <input id="Text2" style="width: 260px" name="zamba_index_1127" class="solonums" />
+                </td>
+                <td>
+                    <label style="width:273px" id="asd"></label>
+                </td>
+                <td >
+                    <p class="description">
+                        CUIT Asegurado:
+                    </p>
+                </td>
+                <td class="shorttext" >
+                    <input id="Text3" style="width: 210px" name="zamba_index_1128" class="solonums" />
+                </td>
+                <td style="width:100%"></td>
+            </tr>
+        </table>
+        <hr />
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <p class="description">
+                        Codigo Productor:
+                    </p>
+                </td>
+                <td  class="shorttext">
+                    <input id="zamba_index_4" style="width: 261px" name="zamba_index_4" onkeypress="limpiarProductor()" class="solonums" />
+                </td>
+                <td>
+                    <label style="width:273px" id="Label1"></label>
+                </td>
+                <td >
+                    <p class="description">
+                        CUIT Productor:
+                    </p>
+                </td>
+                <td class="shorttext">
+                    <input id="zamba_index_1139" style="width: 185px" name="zamba_index_1139" onkeypress="limpiarProductor()"/>
+                    </td>
+                    <td>
+                    <input id="zamba_rule_5019" name="zamba_rule_5019" style="text-align: center;" type="submit"
+                        value="..." onclick="SetRuleId(this);" />
+                </td>
+                <td style="width:100%"></td>
+            </tr>
+            </table><table>
+            <tr>
+                <td >
+                    <p class="description">
+                        Nombre Productor:
+                    </p>
+                </td>
+                <td class="shorttext">
+                    <input id="zamba_index_58" name="zamba_index_58" style="width: 203px" readonly="readonly"
+                        disabled="disabled" /></td><td>
+                    <input id="zamba_rule_5035" name="zamba_rule_5035" style="text-align: center;" type="submit"
+                        value="Verificar" onclick="SetRuleId(this);" />
+                </td>
+                <td style="width:100%"></td>
+            </tr>
+        </table>
+        <hr />
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <p class="description">
+                        Cantidad de Items:
+                    </p>
+                </td>
+                <td class="shorttext">
+                    <input id="zamba_index_5" style="width: 261px" name="zamba_index_5" class="solonums" />
+                </td>
+                <td>
+                    <label style="width:273px" id="Label2"></label>
+                </td>
+                <td >
+                    <p class="description">
+                        Patente:
+                    </p>
+                </td>
+                <td class="shorttext">
+                    <input id="zamba_index_39" style="width: 210px" name="zamba_index_39" />
+                </td>
+                <td style="width:100%"></td>
+            </tr>
+        </table>
+        <hr />
+        <table style="width: 100%;">
+	<tr>    <td>
+<input id="showdoc" name="showdoc" style="text-align: center;" type="submit" value="Ver Original" onclick="OpenWindowct();"  title="Visualizar documento original"/></td>
+<td align="right">
+                    <input id="zamba_save" style="font-weight: bold; text-align: center; "
+                        type="submit" value="Guardar" name="zamba_save" onclick="return zamba_save_onclick()" />
+                </td>
+                <td>
+                </td>
+                <td  style="height: 10px">
+                    <input id="zamba_cancel" style="font-weight: bold; margin-left: 150px;" type="submit"
+                        value="Cancelar" name="zamba_cancel" />
+                </td>
+            </tr>
+        </table>
+        <center>
+            <iframe id="zamba_innerdoctype_original" height="90%" title="Documento Original"
+                width="90%"                     src="file:///\\buesrvdes01\ZambaVolumenes$\Test\Vol001\1011\20\14913.msg"   ></iframe>
+        </center>
+<input id="zvar(SolicitudFullpath)" style="width: 20px;visibility:hidden" name="zvar(SolicitudFullpath)" />
+    </div>
+    </form>
+</body>
+</html>

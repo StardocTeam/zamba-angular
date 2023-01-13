@@ -1,0 +1,208 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+		$(document).ready(function(){
+			$(".solonums").each(function(){
+				$(this).keypress(function (e){
+					return IntegerCheck($('#' + e.target.id));
+				})
+			});
+			$(".moneda").each(function(){
+				$(this).keyup(function (e){
+					return DecimalCheck($('#' + e.target.id))
+				})
+			});
+			$(".porcentaje").each(function(){
+				$(this).keyup(function (e){
+					return PorcentualCheck($('#' + e.target.id));
+				})
+			});
+		}); 
+		function zamba_save_onclick() {
+			if($('input[type=text]').hasClass('error')){
+				alert("Verifique que todos los datos de los campos sean válidos");
+				document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+			} else {
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+		}
+		function BorrarPrimerHijo() {
+			document.getElementById("zamba_index_2858").onclick = null; 
+			document.getElementById("zamba_index_2858").checked = false;
+			document.getElementById("zamba_index_2858").onclick = BorrarSegundoHijo; 
+		}
+		function BorrarSegundoHijo() {
+			document.getElementById("zamba_index_2859").onclick = null; 
+			document.getElementById("zamba_index_2859").checked = false;
+			document.getElementById("zamba_index_2859").onclick = BorrarPrimerHijo;		
+		}
+		function BorrarDiscapacidad() {
+			document.getElementById("zamba_index_2869").onclick = null; 
+			document.getElementById("zamba_index_2869").checked = false;
+			document.getElementById("zamba_index_2869").onclick = BorrarVictimaHijo; 
+		}
+		function BorrarVictimaHijo() {
+			document.getElementById("zamba_index_2870").onclick = null; 
+			document.getElementById("zamba_index_2870").checked = false;
+			document.getElementById("zamba_index_2870").onclick = BorrarDiscapacidad;		
+		}
+		function BorrarMayores() {
+			document.getElementById("zamba_index_2871").onclick = null; 
+			document.getElementById("zamba_index_2871").checked = false;
+			document.getElementById("zamba_index_2871").onclick = BorrarMenores; 
+		}
+		function BorrarMenores() {
+			document.getElementById("zamba_index_2872").onclick = null; 
+			document.getElementById("zamba_index_2872").checked = false;
+			document.getElementById("zamba_index_2872").onclick = BorrarMayores;		
+		}
+	</script>
+ </head>
+<body>
+	<form name="frmMain" action="BaremoMuerte.html">
+	<input id="hdnRuleId" type="hidden" />
+    <table class="attributes_table">
+        <tr>
+			<td colspan="5"><center><label class="sepTitle">Baremo - Muerte</label></center>
+        </tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td><label>Nombre</label>
+			<td colspan="4"><input id="zamba_index_2706" name="zamba_index_2706" style="width:100%" maxlength="80" 
+				onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" />
+        </tr>
+		<tr>
+			<td><label>Actividad</label>
+			<td colspan="4"><input  id="zamba_Index_2848" name="zamba_Index_2848" style="width:100%" maxlength="200" 
+				onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" />
+		</tr>
+		<tr>
+			<td><label>Edad</label>
+			<td><input id="zamba_index_2846" name="zamba_index_2846" class="w100px solonums" />
+			<td class="separador">
+			<td><label>Ingreso Anual</label> 
+			<td><input id="zamba_index_2847" name="zamba_index_2847" class="w100px moneda" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Beneficiarios</label> 
+        </tr>
+		<tr>
+			<td><label>Cónyuge</label>
+			<td><input id="zamba_Index_2876" name="zamba_Index_2876" class="w100px solonums" />
+			<td class="separador">
+			<td><label>Padre/Madre</label> 
+			<td><input id="zamba_Index_2879" name="zamba_Index_2879" class="w100px solonums" />
+		</tr>
+		<tr>
+			<td><label>Hijo Menor</label>
+			<td><input id="zamba_index_2877" name="zamba_index_2877" class="w100px solonums" />
+			<td class="separador">
+			<td><label>Hijo Mayor</label> 
+			<td><input id="zamba_index_2878" name="zamba_index_2878" class="w100px solonums" />
+		</tr>
+		<tr>
+			<td><label>Hermano</label>
+			<td><input id="zamba_index_2880" name="zamba_index_2880" class="w100px solonums" />
+			<td class="separador">
+			<td><label>Abuelo</label> 
+			<td><input id="zamba_index_2881" name="zamba_index_2881" class="w100px solonums" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Factor de Corrección</label>
+        </tr>
+		<tr>
+			<td><label>Perjuicios Económicos</label>
+			<td colspan="4"><input id="zamba_index_2852" name="zamba_index_2852" type="checkbox" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Circunstancias Familiares Especiales</label> 
+        </tr>
+		<tr>
+			<td><label>Discapacidad física o psíquica</label> 
+			<td><input id="zamba_index_2869" name="zamba_index_2869" type="checkbox" onclick="BorrarVictimaHijo();" />
+			<td class="separador">
+			<td><label>Víctima hijo único</label> 
+			<td><input id="zamba_index_2870" name="zamba_index_2870" type="checkbox" onclick="BorrarDiscapacidad();" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Fallecimiento de Ambos Padres</label> 
+        </tr>
+		<tr>
+			<td><label>Hijos Mayores</label> 
+			<td><input id="zamba_index_2871" name="zamba_index_2871" type="checkbox" onclick="BorrarMenores();" />
+			<td class="separador">
+			<td><label>Hijos Menores</label> 
+			<td><input id="zamba_index_2872" name="zamba_index_2872" type="checkbox" onclick="BorrarMayores();" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Víctima Embarazada</label> 
+        </tr>
+		<tr>
+			<td><label>Primer hijo</label> 
+			<td><input id="zamba_index_2858" name="zamba_index_2858" type="checkbox" onclick="BorrarSegundoHijo();" />
+			<td class="separador">
+			<td><label>Segundo hijo o posterior</label> 
+			<td><input id="zamba_index_2859" name="zamba_index_2859" type="checkbox" onclick="BorrarPrimerHijo();"/>
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+	    <tr>
+			<td colspan="5">&nbsp;
+        </tr>   	
+		<tr>
+			<td><label>Valor Vida</label>
+			<td colspan="4"><input id="zamba_index_2789" name="zamba_index_2789" class="w100px" readonly="readonly"/>
+		</tr>
+		<tr>
+			<td><label>Daño Moral</label> 
+			<td colspan="4"><input id="zamba_index_2791" name="zamba_index_2791" class="w100px" readonly="readonly"/>
+		</tr>
+		<tr>
+			<td><label>Factor de Corrección</label>
+			<td colspan="4"><input id="zamba_index_2862" name="zamba_index_2862" class="w100px" readonly="readonly"/>
+		</tr>
+		<tr>
+			<td><label><b>Monto de Indemnización</b></label> 
+			<td colspan="4"><input id="zamba_index_2873" name="zamba_index_2873" class="w100px" readonly="readonly"/>
+		</tr>
+	    <tr>
+			<td colspan="5"><hr/>
+        </tr> 	
+		<tr>
+			<td><label>Monto Ofrecido</label> 
+			<td colspan="4"><input id="zamba_index_2874" name="zamba_index_2874" class="w100px" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><center><input id="zamba_rule_14450" name="zamba_rule_14450" type="submit" value="Guardar y Calcular" onclick="SetRuleId(this);"/></center>
+        </tr>
+	</table> 
+	</form>
+</body>
+</html>

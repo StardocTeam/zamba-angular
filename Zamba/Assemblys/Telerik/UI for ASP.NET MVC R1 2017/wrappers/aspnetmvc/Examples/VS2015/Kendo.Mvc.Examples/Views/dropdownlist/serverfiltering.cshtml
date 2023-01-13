@@ -1,0 +1,17 @@
+<div class="demo-section k-content">
+    <h4>Products</h4>
+    @(Html.Kendo().DropDownList()
+          .Name("products")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .HtmlAttributes(new { style = "width:100%" })
+          .Filter("contains")
+          .DataSource(source => {
+              source.Read(read =>
+              {
+                  read.Action("GetProducts", "Home");
+              })
+              .ServerFiltering(true);
+          })
+    )
+</div>

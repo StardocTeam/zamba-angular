@@ -1,0 +1,272 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	
+	
+	<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+	<link rel="stylesheet" href="Digitalizacion.css" type="text/css" />
+	<script type="text/javascript" language="JavaScript">
+	String.prototype.trim = function () {
+		return this.replace(/^\s*/, "").replace(/\s*$/, "");
+	}
+	
+	function zamba_save_onclick() {
+		alert("Se guardó exitosamente.");
+		//Aca puedo realizar las contravalidaciones, osea ademas de realizar las validaciones campo por campo
+		//a su vez podria realizar una validacion general en este cuerpo.
+	}
+	
+	/*function CargarFechasyBotones(){
+		$(function() 
+		{
+			//---Setea valor N a Reintegro
+			mesa = $('#zamba_index_72').val();
+			if (mesa !== undefined ){
+				if(mesa == "" || mesa == null){
+					document.getElementById('zamba_index_72').value = "N";
+				}
+			}
+			//---Setea valor N a Original/Copia
+			original = $('#zamba_index_71').val();
+			//alert(original);
+			if (original !== undefined ){
+				if(original == "" || original == null){
+					document.getElementById('zamba_index_71').value = "N";
+				}
+			}
+		});					
+	}*/
+	
+	
+	function removeCombo(){
+		var y = document.getElementById('zamba_index_68').value;
+		if (y == "" || y ==null){
+			document.getElementById('zamba_index_68').value = 0;
+		}
+		var x = document.getElementById('zamba_index_68');
+		x.remove(0);
+		x.remove(0);
+		x.remove(0);
+		x.remove(0);
+		x.remove(0);
+		
+		x.remove(0);
+		x.remove(0);
+		x.remove(0);
+		x.remove(0);
+		x.remove(0);
+		
+		x.remove(0);
+		x.remove(0);
+		
+		if($('#zamba_index_78').val() == 'S'){
+		}else{
+			$('#EstaEnLegales').hide();
+		}
+		
+		if($('#zamba_index_79').val() == 'S'){
+		}else{
+			$('#EstaEnReaseguros').hide();
+		}
+		
+	}
+	window.onload=function(){
+		setTimeout(function(){removeCombo();}, 200);
+	};
+	
+	</script>
+ </head>
+<body>
+
+    <form name="frmMain" action="Digitalizacion.html">
+    <div id="design" width="90%">
+        Digitalización
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+    
+	<div id="tblBuscar" class="class_attributes">
+        <div id="fila1" class="fila_attributes">
+			
+			<div class="elemento_attributes">
+				<div class="class_label1">
+					<label for="zamba_index_32">Sección:<label>
+				</div>
+				<select id="zamba_index_32" name="zamba_index_32" style="width:150px;"></select>
+			</div>
+			<div class="elemento_attributes_long">
+				<div class="class_label1">
+					<label for="zamba_index_2736">Ejercicio:</label> 
+				</div>
+				<input id="zamba_index_2736" name="zamba_index_2736" style="width:60px;"/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label1">
+					<label for="zamba_index_17">Siniestro:</label>
+				</div>
+				<input id="zamba_index_17" name="zamba_index_17" style="width:100px;"/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label1">
+					<label for="zamba_index_34">Póliza:</label> 
+				</div>
+				<input id="zamba_index_34" name="zamba_index_34" style="width:130px;"/>
+			</div>
+		</div>
+		<div id="fila2" class="fila_attributes"> 
+			<div class="elemento_attributes">
+				<div class="class_label1">
+					<label for="zamba_index_39">Patente:</label> 
+				</div>
+				<input id="zamba_index_39" name="zamba_index_39" style="width:100px;"/>
+			</div>
+			<div class="elemento_attributes_long"> <!-- Long -->
+				<div class="class_label1">
+					<label for="zamba_index_1020002">Asegurado:</label>
+				</div>
+				<input id="zamba_index_1020002" name="zamba_index_1020002" style="width:300px;"/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label1">
+				<input id="zamba_rule_15491" name="zamba_rule_15491" type="submit" style="width:100px;" value="Buscar" onclick="SetRuleId(this);" />
+				</div>
+			</div>
+			<div class="elemento_attributes">
+				<div id="EstaEnLegales">
+					Legales
+					<input id="zamba_index_78" name="zamba_index_78" type="hidden"/>
+				</div>
+				<div id="EstaEnReaseguros">
+					Reaseguros
+					<input id="zamba_index_79" name="zamba_index_79" type="hidden"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="tblIngreso" class="class_attributes">
+		<div id="fila4" class="fila_attributes">
+			<div class="elemento_attributes_long"> <!-- Long 90+115+-->
+				<div class="class_label2">
+					<label>Caja:</label>
+				</div>
+				<input id="zamba_index_67" name="zamba_index_67" style="width:90px;"/>
+				<input id="zamba_rule_15790" name="zamba_rule_15790" type="submit" value="Actualizar Caja" style="width:135px;" onclick="SetRuleId(this);"/>
+			</div>
+			<div class="elemento_attributes_small">
+				<div class="class_label2_1">
+					<label>Original:</label>
+				</div>
+				<select id="zamba_index_71" name="zamba_index_71" style="width:40px;"></select>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label2_3">
+					<label>Mesa:</label>
+				</div>
+				<select id="zamba_index_68" name="zamba_index_68" style="width:180px;"></select>
+			</div>
+			<div class="elemento_attributes_medium">
+				<div class="class_label2_4">
+					<label>Responsable:</label>
+				</div>
+				<select id="zamba_index_73" name="zamba_index_73" style="width:200px;"></select>
+			</div>
+		</div>
+		<div id="fila5" class="fila_attributes">
+			<div class="elemento_attributes_long">  <!-- Long 230+115+-->
+				<div class ="class_label2">
+					<label>Tipo Documentación:</label>
+				</div>
+				<select id="zamba_index_70" name="zamba_index_70" style="width:230px;"></select>
+			</div>
+			<div class="elemento_attributes_long"> <!-- Long -->
+				<div class="class_label2_1">
+					<label>Referencia:</label>
+				</div>
+				<input id="zamba_index_69" name="zamba_index_69" style="width:300px;"/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label2_4">
+					<label>Reintegro:</label>
+				</div>
+				<select id="zamba_index_72" name="zamba_index_72" style="width:40px;"></select>
+			</div>
+		</div>
+	</div>
+	<div id="tblMuestraDatos" class="class_attributes">
+		<div id="fila6" class="fila_attributes">
+			<div class="elemento_attributes_small">
+				<div class="class_label3_1">
+					<label>Nro de Item:</label>
+				</div>
+				<input id="zamba_index_14" name="zamba_index_14" style="width:38px;" disabled/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label3">
+					<label>Subsiniestro:</label>
+				</div>
+				<input id="zamba_index_2694" name="zamba_index_2694" style="width:96px;"/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label3">
+					<label>Fecha Ocurrencia:</label>
+				</div>
+				<input id="zamba_index_58" name="zamba_index_58" style="width:100px;" disabled/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label3">
+					<label>Fecha Ingreso:</label> 
+				</div>
+				<input id="zamba_index_1" name="zamba_index_1" style="width:100px;" disabled/>
+			</div>
+			<div class="elemento_attributes">
+				<div class="class_label3">
+					<label>DNI Aseg:</label>
+				</div>
+				<input id="zamba_index_2710" name="zamba_index_2710" style="width:100px;" disabled/>
+			</div>
+		</div>
+		<div id="fila7" class="fila_attributes">
+			<div class="elemento_attributes_long">
+				<div class="class_label3_1">
+					<label>Productor:</label>
+				</div>
+				<input id="zamba_index_58" name="zamba_index_58" style="width:300px;" disabled/>
+			</div>
+		</div>
+	</div>
+	<center>
+	<div id="tblBotones">
+		<div id="fila7" class="fila_attributes">
+			<div class="elemento_attributes_small">
+				<input id="zamba_save" name="zamba_save" type="submit" style="width:100px;" value="Guardar" onclick="return zamba_save_onclick();"/>
+			</div>
+			<!--
+			<div class="elemento_attributes">
+				<input id="zamba_rule_15627" name="zamba_rule_15627" type="submit" value="Guardar" onclick="SetRuleId(this);"/>
+			</div>
+			-->
+			<div class="elemento_attributes_small">
+				<input id="zamba_rule_15601" name="zamba_rule_15601" type="submit" style="width:100px;" value="En Curso" onclick="SetRuleId(this);"/>
+			</div>
+			<div class="elemento_attributes_small">
+				<input id="zamba_rule_15520" name="zamba_rule_15520" type="submit" style="width:100px;" value="Terminar" onclick="SetRuleId(this);"/>
+			</div>
+			<div class="elemento_attributes_small">
+				<input id="zamba_rule_15655" name="zamba_rule_15655" type="submit" style="width:100px;" value="Subsiniestro" onclick="SetRuleId(this);"/>
+			</div>
+			<div class="elemento_attributes_small">
+				<input id="zamba_rule_15664" name="zamba_rule_15664" type="submit" style="width:100px;" value="Póliza" onclick="SetRuleId(this);"/>
+			</div>
+		</div>
+	</div>
+	</center>
+	<center style="z-index: -1">
+        <iframe id="zamba_innerdoctype_original" align="middle" height="400" width="960" title="Documento Original"  src="" ></iframe>
+    </center>
+    </form>
+
+</body>
+</html>

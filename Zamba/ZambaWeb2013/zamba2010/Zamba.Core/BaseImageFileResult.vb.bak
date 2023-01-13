@@ -1,0 +1,211 @@
+Imports System.IO
+
+<Serializable()> Public Class BaseImageFileResult
+    Inherits ZambaCore
+    Implements IBaseImageFileResult
+
+#Region "Atributos"
+    Private _originalName As String
+    Private _createdate As Date
+    Private _Disk_Group_Id As Int32
+    Private _Doc_File As String
+    Private _file As String
+    Private _OffSet As Int32
+    Private _DISK_VOL_PATH As String
+    Private _editdate As Date
+    Private _isLoaded As Boolean
+    Private _isFull As Boolean
+    Private Const _BARRA As String = "\"
+    Private _encodedFile As Byte()
+    Private _mimeType As String
+#End Region
+
+#Region "Propiedades"
+    Public Property Disk_Group_Id() As Int32 Implements IBaseImageFileResult.Disk_Group_Id
+        Get
+            Return _Disk_Group_Id
+        End Get
+        Set(ByVal Value As Int32)
+            _Disk_Group_Id = Value
+        End Set
+    End Property
+    Public Property Doc_File() As String Implements IBaseImageFileResult.Doc_File
+        Get
+            If IsNothing(_Doc_File) Then Return Nothing
+            Return _Doc_File.Trim
+        End Get
+        Set(ByVal Value As String)
+            _Doc_File = Value
+        End Set
+    End Property
+    Public Property OffSet() As Int32 Implements IBaseImageFileResult.OffSet
+        Get
+            Return _OffSet
+        End Get
+        Set(ByVal Value As Int32)
+            _OffSet = Value
+        End Set
+    End Property
+    Public Property DISK_VOL_PATH() As String Implements IBaseImageFileResult.DISK_VOL_PATH
+        Get
+            Return _DISK_VOL_PATH
+        End Get
+        Set(ByVal Value As String)
+            _DISK_VOL_PATH = Value
+        End Set
+    End Property
+    Public Property File() As String Implements IBaseImageFileResult.File
+        Get
+            Return _file
+        End Get
+        Set(ByVal Value As String)
+            _file = Value.Trim
+        End Set
+    End Property
+
+    ''' -----------------------------------------------------------------------------
+    ''' <summary>
+    ''' Devuelve la extensión del archivo
+    ''' </summary>
+    ''' <value></value>
+    ''' <remarks>
+    ''' </remarks>
+    ''' <history>
+    ''' 	[Hernan]	26/05/2006	Created
+    ''' 	[Diego]	13/11/2007	Modified - Se agrego un finally para liberar el archivo
+    ''' </history>
+    ''' -----------------------------------------------------------------------------
+    Public ReadOnly Property FileName() As String Implements IBaseImageFileResult.FileName
+        Get
+            Dim fileData As FileInfo = Nothing
+            Try
+                If Not IsNothing(Me.File) Then
+                    fileData = New FileInfo(Me.File)
+                    Return fileData.Name
+                End If
+            Catch
+                Return String.Empty
+            Finally
+                fileData = Nothing
+            End Try
+        End Get
+    End Property
+
+
+    <PropiedadesType(Propiedades.PropiedadPublica)> _
+    Public ReadOnly Property FullPath() As String Implements IFileResult.FullPath
+        Get
+            If Me.Disk_Group_Id = -1 Then
+                Return Me.Doc_File
+            ElseIf Me.Disk_Group_Id = 0 Then
+                Return Me.File
+            Else
+                Return Me.DISK_VOL_PATH & _BARRA & Me.Parent.ID & _BARRA & Me.OffSet & _BARRA & Me.Doc_File
+            End If
+        End Get
+    End Property
+    Public Property CreateDate() As DateTime Implements IFileResult.CreateDate
+        Get
+            Return _createdate
+        End Get
+        Set(ByVal value As DateTime)
+            _createdate = value
+        End Set
+    End Property
+    Public Property EditDate() As Date Implements IFileResult.EditDate
+        Get
+            Return _editdate
+        End Get
+        Set(ByVal value As Date)
+            _editdate = value
+        End Set
+    End Property
+    Public Property OriginalName() As String Implements IFileResult.OriginalName
+        Get
+            Return _originalName
+        End Get
+        Set(ByVal value As String)
+            _originalName = value
+        End Set
+    End Property
+    Public Overrides ReadOnly Property IsFull() As Boolean
+        Get
+            Return _isFull
+        End Get
+    End Property
+    Public Overrides ReadOnly Property IsLoaded() As Boolean
+        Get
+            Return _isLoaded
+        End Get
+    End Property
+    Public Property EncodedFile() As Byte() Implements IBaseImageFileResult.EncodedFile
+        Get
+            Return _encodedFile
+        End Get
+        Set(ByVal value As Byte())
+            _encodedFile = value
+        End Set
+    End Property
+    Public ReadOnly Property MimeType() As String Implements IBaseImageFileResult.MimeType
+        Get
+            If String.IsNullOrEmpty(_mimeType) Then
+                _mimeType = GetMimeType()
+            End If
+            Return _mimeType
+        End Get
+    End Property
+#End Region
+
+    Private Function GetMimeType() As String
+        Dim mimeType As String = "application/unknown"
+        Dim fI As FileInfo
+
+        If String.IsNullOrEmpty(Me.FullPath) Then
+            fI = New FileInfo(Me._Doc_File)
+        Else
+            fI = New FileInfo(Me.FullPath)
+        End If
+
+        If fI IsNot Nothing Then
+            Dim regKey As Microsoft.Win32.RegistryKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(fI.Extension.ToLower())
+
+            If regKey IsNot Nothing Then
+                Dim contentType As Object = regKey.GetValue("Content Type")
+
+                If contentType IsNot Nothing Then
+                    mimeType = contentType.ToString()
+                End If
+            End If
+        End If
+
+        Return mimeType
+    End Function
+
+    Private _disposed As Boolean
+    Public Overrides Sub Dispose() Implements IDisposable.Dispose
+        Dispose(True)
+
+        GC.SuppressFinalize(Me)
+    End Sub
+
+    Protected Overridable Overloads Sub Dispose(ByVal disposing As Boolean)
+        'Para evitar que se haga dispose 2 veces
+        If Not _disposed Then
+            If disposing Then
+
+            End If
+
+            ' Indicates that the instance has been disposed.
+            _disposed = True
+        End If
+    End Sub
+
+    Public Overrides Sub FullLoad()
+
+    End Sub
+    Public Overrides Sub Load()
+
+    End Sub
+
+
+End Class

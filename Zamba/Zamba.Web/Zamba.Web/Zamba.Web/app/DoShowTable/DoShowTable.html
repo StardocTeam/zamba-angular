@@ -1,0 +1,36 @@
+﻿<div class="modal-header" style="background-color: #337ab7;color: white;text-align: center;">
+    <h3 class="modal-title" id="modal-title">Mostrar Tabla de Datos</h3>
+</div>
+<div class="input-group">
+    <!--<input type="text" ng-model="searchText" class="form-control">
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Buscar</button>
+    </span>-->
+</div>
+<div class="modal-body" id="modal-body" style="overflow: scroll; height: 400px;">
+    <table class="table" style="text-align:center">
+        <thead>
+            <tr>
+                <!--<th ng-repeat="headElement in headElements ">{{headElement}} </th>-->
+                <th scope="col" class="CenderColum">Seleccion</th>
+                <th scope="col" class="CenderColum">Cuit</th>
+                <th scope="col" class="CenderColum">Despachante</th>
+                <th scope="col" class="CenderColum">Numero de guia</th>
+                <th scope="col" class="CenderColum">Direccion</th>
+            </tr>
+        </thead>
+        <tbody class="buscar">
+            <tr mdbTableCol ng-repeat="data in List =(pc.data | filter:searchText)">
+                <th style="text-align: center"><input type="checkbox" name="checkTable" value="{{data.NroGuia}}" ng-click="checkoptions(data.NroGuia)"></th>
+                <td>{{data.CuitDespachante}}</td>
+                <td>{{data.NombreDespachante}}</td>
+                <td>{{data.NroGuia}}</td>
+                <td>{{data.Direccion}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" id="btnGardar" ng-click="pc.ok()" disabled>Aceptar</button>
+    <button class="btn btn-danger" type="button" id="btnCancelar" ng-click="pc.cancel()">Cancelar</button>
+</div>

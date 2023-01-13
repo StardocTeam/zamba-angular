@@ -1,0 +1,220 @@
+﻿fec<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    
+    <style>
+
+        #navbarNavDropdown {
+            list-style: none;
+        }
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+
+        div thead tr th {
+            font-size: x-small;
+            font-family: arial;
+            background-color: #1A5276;
+            color: white;
+        }
+
+            div thead tr th a {
+                font-size: x-small;
+                font-family: arial;
+                color: white;
+            }
+
+        .stylearea {
+            margin-bottom: 20px;
+            height: 65px !important;
+        }
+    </style>
+</head>
+
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="CalculoDeSentenciaPerdida.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+
+            <center>
+                <div>
+                    <h4 style="background-color:#b5b1b1; font-weight: bold;">Rubro</h4>
+                </div>
+            </center>
+            <div class="form-group row"> </div>
+            <div class="form-group row">
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Valor Vida $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2789" name="zamba_index_2789">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Daño Físico $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2790" name="zamba_index_2790">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Daño Moral $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2791" name="zamba_index_2791">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Daño Material $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2792" name="zamba_index_2792">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Otros $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2745" name="zamba_index_2745">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Intereses $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2793" name="zamba_index_2793">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha de Cálculo</span>
+                        <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2796" name="zamba_index_2796">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha de Notific.</span>
+                        <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2704" name="zamba_index_2704">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Tipo de Tasa</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2795" name="zamba_index_2795"></select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row"> </div>
+
+            <div id="tblHonorarios" class="attributes_table">
+
+                <div>
+                    <center>
+                        <div>
+                            <h4 style="background-color:#b5b1b1; font-weight: bold;">Honorarios</h4>
+                        </div>
+                        <h4>
+                            <button class="btn  btn-primary btn-md" id="btnSI" name="btnSI" onclick="ExecuteSI();">SI</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="btn  btn-primary btn-md" id="btnNO" name="btnNO" onclick="ExecuteNO();">NO</button>
+                        </h4>
+                    </center>
+                </div>
+            </div>
+            <div class="form-group row"> </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Honorarios s/regular $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2797" name="zamba_index_2797" disabled="disabled">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Honorarios Actora $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2798" name="zamba_index_2798">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Honorarios Boston $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2799" name="zamba_index_2799">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Honorarios Peritos $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2800" name="zamba_index_2800">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Honorarios Mediador $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2801" name="zamba_index_2801">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5; padding:1px;" id="basic-addon1">Fecha de Sentencia</span>
+                        <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2829" name="zamba_index_2829">
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5;padding: 1px;" id="basic-addon1">Es Firme</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2830" name="zamba_index_2830"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Tasa y Gastos $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2802" name="zamba_index_2802">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#b5b1b1" id="basic-addon1"><b>Total de Sentencia $</b></span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2719" name="zamba_index_2719" disabled="disabled">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row"> </div>
+
+            <center>
+                <div class="input-group">
+                    <input class="btn  btn-primary btn-md" type="submit" style="margin-right:5px;" class="submit" name="zamba_save" id="zamba_save" value="Guardar" />
+                    <!--<input class="btn  btn-primary btn-sm " type="submit" class="submit" name="zamba_cancel" id="zamba_cancel" value="CANCELAR" />-->
+                </div>
+            </center>
+            <div class="form-group row"> </div>
+            <div class="form-group row"> </div>
+
+        </form>
+    </div>
+
+</body>
+
+
+</html>

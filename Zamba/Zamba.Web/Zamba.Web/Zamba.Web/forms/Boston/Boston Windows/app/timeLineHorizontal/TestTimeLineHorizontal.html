@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <title>TimeLineHorizontal Test</title>
+</head>
+
+<body ng-app='TimeLineHorizontal'>
+
+    <div class="container-fluid">
+
+        <div ng-controller="TimeLineHorizontalController">
+            <zamba-timeline-horizontal source="zamba_index_100" selected="zamba_index_102"></zamba-timeline-horizontal>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label for="zamba_index_100">Indice 100:</label>
+                <input type="text" id="zamba_index_100" name="zamba_index_100" class="form-control col-sm-4"
+                    value="32,2454,35,14752,34,14633" disabled />
+            </div>
+
+            <div class="form-group">
+                <label for="zamba_index_102">Indice 102:</label>
+                <input type="text" id="zamba_index_102" name="zamba_index_102" class="form-control col-sm-4"
+                    value="14752" disabled />
+            </div>
+        </form>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous">
+    </script>
+    <script src="./timeLineHorizontal.js"></script>
+    <script src="./TimeLineHorizontalService.js"></script>
+
+</body>
+
+</html>

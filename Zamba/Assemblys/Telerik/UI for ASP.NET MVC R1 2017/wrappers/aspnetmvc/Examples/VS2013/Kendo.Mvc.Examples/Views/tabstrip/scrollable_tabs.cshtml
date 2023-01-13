@@ -1,0 +1,31 @@
+<div class="demo-section k-content">
+
+@(Html.Kendo().TabStrip()
+    .Name("tabstrip")
+    .SelectedIndex(0)
+    .Items(items =>
+    {
+        items.Add().Text("Tab 1 with long text")
+                .Content(@<text>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer felis libero, lobortis ac rutrum quis, varius a velit.</p>
+                </text>);
+
+        items.Add().Text("Tab 2 with long text")
+                .Content(@<text>
+                    <p>Donec lacus erat, cursus sed porta quis, adipiscing et ligula. Duis volutpat, sem pharetra accumsan pharetra, mi ligula cursus felis, ac aliquet leo diam eget risus.</p>
+                </text>);
+
+        items.Add().Text("Tab 3 with long text")
+                .Content(@<text>
+                    <p>Integer facilisis, justo cursus venenatis vehicula, massa nisl tempor sem, in ullamcorper neque mauris in orci.</p>
+                </text>);
+    
+        items.Add().Text("Tab 4 with long text")
+                .Content(@<text>
+                    <p>Ut orci ligula, varius ac consequat in, rhoncus in dolor. Mauris pulvinar molestie accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+                </text>);
+    
+    })
+)
+
+</div>

@@ -1,0 +1,35 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Zamba - Servicios de Informacion</title>
+</head>
+<body topmargin="0">
+    <form id="form1" runat="server" style="background-image: url(images/fondo3.JPG);">
+        <asp:Table runat="server" ID="tblAll" Width="950" Height="530" >
+            <asp:TableRow>
+                <asp:TableCell>
+                    <asp:Table runat="server" ID="tblTot" BorderStyle="None" BorderWidth="0"
+                        CellPadding="0" CellSpacing="0" Width="100%" >
+                        <asp:TableRow BorderStyle="None" BorderWidth="0" BackColor="#edecf4">
+                            <asp:TableCell BorderStyle="None" BorderWidth="0" Width="75%">
+        <img src="images/top.jpg"/>
+                            </asp:TableCell>
+                        </asp:TableRow>
+                    </asp:Table>
+                    <asp:ScriptManager runat="server" ID="scrpManager" EnablePartialRendering="true"
+                        AsyncPostBackTimeout="36000" OnAsyncPostBackError="scrpManager_AsyncPostBackError">
+                    </asp:ScriptManager>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <ContentTemplate>
+                            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                            </asp:ContentPlaceHolder>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <img src="zambasoftware.JPG" style="background-color: Transparent" />
+                    <asp:Label ID="lvlInvisible" runat="server" Height="80"></asp:Label>
+                </asp:TableCell></asp:TableRow>
+        </asp:Table>
+    </form>
+</body>
+</html>

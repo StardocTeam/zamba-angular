@@ -1,0 +1,423 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: FelipeH -->
+<!--Fecha de Modificacion: 12/03/2018-->
+<!--Cambio: Se agrega el campo dropzone y se hacen ajustes visuales -->
+<head>
+    <title></title>
+
+    <script src="scripts/jquery-3.1.1.min.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+    <script src="../../DropFiles/dropfiles.js"></script>
+    <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+
+    <script language="JavaScript">
+
+        (function () {
+            getDateTimeToday();
+            //initQuantityOfTags();
+
+        })();
+
+        //function initQuantityOfTags() {
+        //    var inputValue = document.getElementById("zamba_index_87");
+        //    if (inputValue.value == null || inputValue.value == "" || inputValue.value == "0") {
+        //        document.getElementById("zamba_index_87").value = "1";
+        //    }
+        //}
+
+    </script>
+
+</head>
+<body>
+
+    <div >
+        <div ng-controller="appController">
+
+            <form name="frmMain" action="Ing_Fac.html">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+
+                <div class="container-fluid">
+                    <center>
+                        <div class="header background-blue">
+                            <h5 align="center">INGRESO FACTURA</h5>
+                        </div>
+                        <div class="tab-pane active" id="INGRESO FACTURA">
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+
+                                        <!--CUIT-->
+                                        <span class="input-group-addon">CUIT:</span>
+                                        <input id="zamba_index_2" name="zamba_index_2" size="1" class="form-control" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_168" id="zamba_rule_168" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Nombre y Apellido-->
+                                        <span class="input-group-addon">Nombre y Apellido o Razón Social:</span>
+                                        <input id="zamba_index_105" name="zamba_index_105" size="1" class="form-control input-sm" disabled />
+                                    </div>
+                                </div>
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--ID trámite-->
+                                        <span class="input-group-addon ">ID trámite:</span>
+                                        <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <div class="">
+                                        <div class="" style="position:relative;">
+                                            <div class="col-md-12" style="padding:0px;">
+                                                <div style="position:relative;">
+                                                    <!--LABEL Tipo y Letra de Comprobante-->
+                                                    <h5 style="margin-bottom: 5px;">
+                                                        Tipo y Letra de Comprobante
+                                                    </h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="padding:1px;"></span>
+                                                <select class="form-control " id="zamba_index_107" name="zamba_index_107"> </select>
+                                                <div class="input-group-btn">
+                                                    <!--Letra del Tipo de Comprobante-->
+                                                    <select class="form-control " id="zamba_index_106" name="zamba_index_106"> </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                <div class="col-md-3" style="position:relative;">
+                                    <div>
+                                        <div>
+                                            <!--LABEL Nro de Comprobante-->
+                                            <span>
+                                                <h5 class="StyleComrpobante" style="margin-top: 0px;margin-bottom: 5px;">Punto de Venta y Nro Comprobante</h5>
+                                            </span>
+                                        </div>
+                                        <span>
+                                            <!--Punto de Venta-->
+                                            <input id="zamba_index_72" name="zamba_index_72" class="form-control ConpobanteLeft" style="text-align: right; float:left;width:85px;margin-right:15px;" onkeydown="return tab_btn(event);" />
+                                        </span>
+                                        <!--Nro de Comprobante-->
+                                        <span>
+                                            <input id="zamba_index_10" name="zamba_index_10" class="form-control StyleImput ConpobanteRight" style=" text-align: right;  width:170px;" onkeydown="return tab_btn1(event);" />
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+
+                                        <div class="col-md-10" style="position:relative;top:-10px;">
+                                            <!--LABEL Tipo de Moneda y Monto-->
+                                            <span>
+                                                <h5>Tipo de Moneda y Monto</h5>
+                                            </span>
+                                        </div>
+
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <!-- Tipo de Moneda-->
+                                                <select class="btn btn-default form-control  " id="zamba_index_92" name="zamba_index_92"> </select>
+                                            </div>
+                                            <input id="zamba_index_109" name="zamba_index_109" min="0" step="any" data-number-to-fixed="2" data-number-stepfactor="100"
+                                                   class="form-control Inputselect4" onkeydown="ponerdecimales(event);"
+                                                   onfocusout="ponerdecimales(event);" style="position:relative;top:-15px;" />
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3" style="margin-top:20px">
+                                    <div class="row">
+                                        <div class="col-md-12" style="position:relative;">
+                                            <div class="input-group" style="position:relative;">
+                                                <!--Recepcion-->
+                                                <span class="input-group-addon">Recepción:</span>
+                                                <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="position:relative; ">
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Fecha de Comprobante-->
+                                        <span class="input-group-addon">Fecha Comprobante:</span>
+                                        <input id="zamba_index_73" name="zamba_index_73" size="1" class="form-control input-sm dataType datepicker" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Fecha Vto CAI-->
+                                        <span class="input-group-addon">Fecha Vto CAI:</span>
+                                        <input id="zamba_index_74" name="zamba_index_74" size="1" class="form-control input-sm dataType datepicker" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Orden Nro de Compra-->
+                                        <span class="input-group-addon">Orden de Compra Nro:</span>
+                                        <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--delegación-->
+                                        <span class="input-group-addon">delegación:</span>
+                                        <select type="button" class="form-control input-sm" id="zamba_index_82" name="zamba_index_82" size="1"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row"></div>
+                            <div class="form-group row">
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Tipo de Gasto-->                                	<span class="input-group-addon">Tipo de Gasto:</span>
+                                        <select id="zamba_index_110" name="zamba_index_110" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Tipo de Pago-->                                            <span class="input-group-addon">Tipo de Pago</span>
+                                        <select id="zamba_index_2725" name="zamba_index_2725" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Sector=GrupoZamba-->
+                                        <span class="input-group-addon">Sector:</span>
+                                        <select id="zamba_index_126" name="zamba_index_126" size="1" class="form-control input-sm"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Solicitante-->                                            <span class="input-group-addon">Solicitante</span>
+                                        <select id="zamba_index_53" name="zamba_index_53" size="1" class="form-control input-sm"></select>
+                                    </div>
+                                </div>                           
+                               
+
+                            </div>
+
+                            <div class="form-group row" style="position:relative">
+
+
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                <div class="col-md-9"></div>
+                                <div class="visible-sm visible-xs" style="height:5px;"></div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-xs-12 col-md-6 ">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <!--Observacion-->
+                                            <h5 align="center">Observaciones</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <!--Area texto Observacion-->
+                                            <textarea cols="1" class="form-control TextStyle" rows="6" id="zamba_index_84"
+                                                      name="zamba_index_84"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+
+                                    <div class="row">
+                                        <div class="col-xs-12" style="    width: 92%;
+    margin-top: 35px;">
+                                            <!--DropZone-->
+                                            <zamba-drop id="0">  </zamba-drop>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr {border: 0 ; border-top: 100px double blue; width: 100%; style="border-color:white;" }>
+                            <div class="form-group row" style="position:relative;">
+                                <div class="col-md-12 MargenCantidadEtiquetas">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="input-group MargenBTN">
+                                                <!--Cantidad de Etiquetas-->
+                                                <span class="input-group-addon">Cantidad de Etiquetas:</span>
+                                                <input id="zamba_index_87" name="zamba_index_87" class="form-control input-sm" />
+                                            </div>
+                                        </div>
+                                        <!--Botones FORM-->
+                                        <div class="col-md-4" style="position:relative;">
+                                            <input name="zamba_rule_170" id="zamba_rule_170" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Imprimir">
+                                            <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                                    <div class="row" style="height:100%">
+                                        <iframe id="previewDocSearch" class="IframeClass" style="margin-top:30px" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <center class="PiePaginaSep Piedepagina">
+                                        <div>
+                                            <img alt="" src="images/PSlogoLarge.png" height="50" width="140" style="float: left" />
+                                            <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="140" style="float: right" />
+                                            <div class="form-group row">
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                            <!--IMPORTANTE  cambiar version al modificar formulario-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="colorVersion"> V. 1.1.1 </span>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+
+                <script>
+
+                    var items = ["2-2-EMBARGOS A PROD. INST.",
+                        "2-3-REINTEGRO DE RETENCIONES A PROD. INST.",
+                        "3-6-HONORARIOS GCIA. ADM. FINANCIERA",
+                        "3-7-INSPECCIONES PREVIAS TODOS LOS RAMOS Y DELEG.",
+                        "3-8-REPARACION FLOTAS",
+                        "1-10-SICORE",
+                        "4-11-SISTEMA ALARMA Y ALERTA ASEGURADOS",
+                        "5-12-SERVICIOS TECNICOS ASEGURADOS",
+                        "3-16-PAGOS PATENTES AUTOS RECUPERADOS Y DE LA CIA.",
+                        "19-17-PAUTAS MARKETING",
+                        "10-18-GANANCIAS",
+                        "15-19-SERVICIO DE CORREO Y BOLSIN DELEGACIONES",
+                        "16-20-ADM. DE CARTERA",
+                        "1-21-SIRCAR  IMPUESTOS",
+                        "7-22-ASIENTO OBRA SOCIAL Impuestos",
+                        "4-23-DESINFECCION GRAL. EDIFICIOS Y DELEG.",
+                        "4-24-SERVICIO DE CORREO Y BOLSIN CASA CENTRAL",
+                        "9-28-REASEGUROS",
+                        "1-30-RETENCION ING. BRUTOS",
+                        "4-31-COCHERAS CASA CENTRAL",
+                        "4-32-SERVICIOS ASISTENCIA AL VIAJERO",
+                        "3-38-HONORARIOS GCIA. LEGALES",
+                        "19-39-SERVICIO CONTRATACION PASAJES AEREOS",
+                        "19-40-SPONSOREO GCIA. RELAC. INST.",
+                        "1-43-ASIENTO OBRA SOCIAL RRHH",
+                        "2-46-CONVENIOS DE REFINANCIACION",
+                        "8-50-ALQUILER DELEG. (Con OC)",
+                        "2-51-ADELANTOS DE COMISIONES (GCIA. ADM. FIN.)",
+                        "3-53-HONORARIOS ASESORAMIENTO FINANCIERO",
+                        "10-54-ING. BRUTOS DE PROD. Y PROVEE.",
+                        "4-55-AUXILIOS AERONAVEGACION",
+                        "4-56-AUXILIOS NAUTICOS",
+                        "4-57-LIMPIEZA CASA CENTRAL Y DELEG.",
+                        "3-61-GESTORIA AUTOS DE LA CIA.",
+                        "1-63-CONTRIBUCION DIF. CIAS. DE SEGUROS IMPUESTOS",
+                        "4-64-ARCHIVO DOC. GRAL. DE LA COMPAÑA",
+                        "4-65-REMOLQUES GRALES. S.O.S.",
+                        "4-66-VIGILACIA CASA CENTRAL",
+                        "3-72-FLETES CASA CENTRAL (HERRERA)",
+                        "19-73-CANJES INSTITUCIONALES",
+                        "19-74-CANJES PUBLICITARIOS",
+                        "17-75-ANTICIPOS SOLICITADOS POR TESORERIA",
+                        "17-76-REINTEGRO DE GASTOS DIARIOS SUBDIVISION CON FACTURAS A"];
+
+                    function setDropDownValues(tagId, options) {
+                        var optionsAsString = "";
+                        for (var i = 0; i < options.values.length; i++) {
+                            optionsAsString += "<option value='" + options.itemsFiltered[i] + "'>" + options.values[i] + "</option>";
+                        }
+                        tagId.append(optionsAsString);
+                    }
+
+                    function getArrayValues(idPadre) {
+                        options = {
+                            itemsFiltered: [],
+                            values: []
+                        };
+                        if (idPadre > 0) {
+                            var separator = "-";
+                            var itemsFiltered = [];
+                            for (var item in items) {
+                                var array = items[item].split(separator);
+                                if (array[0] == String(idPadre)) {
+                                    options.itemsFiltered.push(array[1]);
+                                    options.values.push(array[2]);
+                                }
+                            }
+                        }
+                        return options;
+                    };
+
+                    function cleanOptions(node) {
+                        node.empty();
+                    }
+
+
+                    $("#zamba_index_110").on("change", function (e) {
+                        var target = e.target;
+                        var childeNodeNumbreFromParent = target.getAttribute("childindexid");
+                        var parentTag = target.tagName.toLowerCase();
+                        var childNode = $('#zamba_index_' + childeNodeNumbreFromParent);
+                        var childOptions = {};
+                        cleanOptions(childNode)
+                        if (target.value == null || target.value == "") {
+                            childNode.prop('disabled', true);
+                            childOptions = getArrayValues(0);
+                        } else {
+                            childNode.prop('disabled', false);
+                            childOptions = getArrayValues(target.value);
+                        }
+                        setDropDownValues(childNode, childOptions);
+
+                    });
+
+
+
+                </script>
+
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

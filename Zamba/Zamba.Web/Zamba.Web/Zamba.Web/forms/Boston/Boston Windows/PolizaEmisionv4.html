@@ -1,0 +1,410 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 28.11.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: OK -->
+
+<head>
+    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     
+    
+    
+    <style type="text/css">
+        input {
+            font-size: xx-small;
+        }
+
+        .container {
+            width: 100%;
+            height: 1024px;
+        }
+
+        p.description {
+            font-size: x-small;
+            width: 120px;
+            height: 15px;
+        }
+
+        .longtext {
+            font-size: x-small;
+            width: 600px;
+            height: 15px;
+        }
+
+        .shorttext {
+            font-size: x-small;
+            width: 180px;
+            height: 15px;
+        }
+
+        #zamba_innerdoctype_original {
+            width: 98%;
+        }
+
+        body {
+            font-size: 13px;
+        }
+    </style> 
+
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+
+
+        function SetRuleId(sender) {
+            if (sender.id == "zamba_rule_5019") {
+                document.getElementById("zamba_index_1139").value = "0";
+            }
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function ValidarSeccion(sender) {
+            document.getElementById("hdnRuleId").name = "";
+
+            if (document.getElementById("zamba_index_1143").value.trim() == "") {
+                document.getElementById("zamba_index_1143").value = "0";
+            }
+
+
+            if (document.getElementById("zamba_index_32").value == "4 - AUTOMOTORES" && document.getElementById("zamba_index_5").value == 1)
+                if (document.getElementById("zamba_index_39").value.trim() == "") {
+                    document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    alert("Por favor, complete la patente del vehículo");
+                }
+
+            if (document.getElementById("zamba_index_3").value.trim() == "" && document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el nombre del asegurado");
+            }
+
+            if ((document.getElementById("zamba_index_1127").value == "" || document.getElementById("zamba_index_1127").value == "0") && (document.getElementById("zamba_index_1128").value == "" || document.getElementById("zamba_index_1128").value == "0") && document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el DNI o el CUIT del asegurado");
+            }
+
+            if ((document.getElementById("zamba_index_4").value.trim() == "" || document.getElementById("zamba_index_4").value.trim() == "0") && (document.getElementById("zamba_index_1139").value.trim() == "" || document.getElementById("zamba_index_1139").value.trim() == "0") && document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el código de productor, CUIT o seleccionelo con el botón Buscar");
+            }
+
+            if ((document.getElementById("zamba_index_5").value == "" || document.getElementById("zamba_index_5").value < "1") && document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete la cantidad de items");
+            }
+
+            if (document.getElementById("zamba_index_29").value == "" && document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete la fecha de vigencia de la póliza");
+            }
+        }
+
+        function CerrarForm() {
+            document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+        }
+
+        function CargarFechasyBotones() {
+            if (document.getElementById("zamba_index_5").value == "" || document.getElementById("zamba_index_5").value == "0") {
+                document.getElementById("zamba_index_5").value = "1";
+            }
+
+
+
+        }
+
+        function esDigito(sChr) {
+            var sCod = sChr.charCodeAt(0);
+            return ((sCod > 47) && (sCod < 58));
+        }
+
+        function valSep(oTxt) {
+            var bOk = false;
+            bOk = bOk || ((oTxt.value.charAt(2) == "-") && (oTxt.value.charAt(5) == "-"));
+            bOk = bOk || ((oTxt.value.charAt(2) == "/") && (oTxt.value.charAt(5) == "/"));
+            return bOk;
+        }
+
+        function finMes(oTxt) {
+            var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+            var nRes = 0;
+            switch (nMes) {
+                case 1: nRes = 31; break;
+                case 2: nRes = 29; break;
+                case 3: nRes = 31; break;
+                case 4: nRes = 30; break;
+                case 5: nRes = 31; break;
+                case 6: nRes = 30; break;
+                case 7: nRes = 31; break;
+                case 8: nRes = 31; break;
+                case 9: nRes = 30; break;
+                case 10: nRes = 31; break;
+                case 11: nRes = 30; break;
+                case 12: nRes = 31; break;
+            }
+            return nRes;
+        }
+
+        function valDia(oTxt) {
+            var bOk = false;
+            var nDia = parseInt(oTxt.value.substr(0, 2), 10);
+            bOk = bOk || ((nDia >= 1) && (nDia <= finMes(oTxt)));
+            return bOk;
+        }
+
+        function valMes(oTxt) {
+            var bOk = false;
+            var nMes = parseInt(oTxt.value.substr(3, 2), 10);
+            bOk = bOk || ((nMes >= 1) && (nMes <= 12));
+            return bOk;
+        }
+
+        function valAno(oTxt) {
+            var bOk = true;
+            var nAno = oTxt.value.substr(6);
+            bOk = bOk && ((nAno.length == 2) || (nAno.length == 4));
+            if (bOk) {
+                for (var i = 0; i < nAno.length; i++) {
+                    bOk = bOk && esDigito(nAno.charAt(i));
+                }
+            }
+            return bOk;
+        }
+
+        function valFecha(oTxt) {
+            var bOk = true;
+            if (oTxt.value != "") {
+                bOk = bOk && (valAno(oTxt));
+                bOk = bOk && (valMes(oTxt));
+                bOk = bOk && (valDia(oTxt));
+                bOk = bOk && (valSep(oTxt));
+                if (!bOk) {
+                    alert("La fecha ingresada es invalida");
+                    oTxt.value = "";
+                    oTxt.focus();
+                }
+            }
+        }
+
+        function comprobarSiBisisesto(anio) {
+            if ((anio % 100 != 0) && ((anio % 4 == 0) || (anio % 400 == 0))) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function zamba_save_onclick() {
+            ValidarSeccion();
+            if (document.getElementById("zamba_index_58").value == "" && document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, verifique el nro de productor antes de continuar");
+            }
+            if (document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "";
+            }
+        }
+
+        function reload_onclick() {
+            ValidarSeccion();
+            if (document.getElementById("hdnRuleId").name != "zamba_rule_cancel") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+            if (document.getElementById("SolicitudFullpath").value == "" || document.getElementById("SolicitudFullpath").value == " ")
+                document.getElementById("showdoc").disabled = true;
+        }
+
+        function reload() {
+            frmMain.submit();
+        }
+        // Validar de valores solo numericos
+        // Agregar class="solonum" a todos los inputs que se quieran validar
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+        });
+
+        function limpiarProductor() {
+            document.getElementById("zamba_index_58").value = "";
+        }
+
+        function OpenWindowct() {
+            if (document.getElementById("SolicitudFullpath").value != "" && document.getElementById("SolicitudFullpath").value != " ") {
+                var newwindowct = window.open(GetUrlcc(), "_Blank", 'resizable=1,width=620,height=600,left=' + (screen.width - 620) / 2 + ',top=' + (screen.height - 600) / 2)
+                return false;
+            }
+        }
+
+        function GetUrlcc() {
+            return 'file:///' + document.getElementById("SolicitudFullpath").value;
+        }
+    </script>
+
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="ReclamoAltaJuicio.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+            <div class="form-group row"></div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Codigo Asegurado:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_1143" name="zamba_index_1143" />
+                            <span class="input-group-btn">
+                                <span class="input-group-btn">
+                        <button class="btn  btn-primary btn-sm" id="zamba_rule_6072" name="zamba_rule_6072"
+                            type="button" onclick="SetRuleId(this);">Verificar</button>
+                        </span>
+                    </span>
+                    </div>
+                </div>               
+         
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Asegurado:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_3" name="zamba_index_3"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Vigencia Desde:</span>
+                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_29" name="zamba_index_29" />
+                    </div>
+                </div>
+            </div>
+
+          
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">DNI Asegurado:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_1127" name="zamba_index_1127" />
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">CUIT Asegurado:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_1128" name="zamba_index_1128" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+
+          
+
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Codigo Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_4" name="zamba_index_4" />
+                    </div>
+                </div>
+               
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">CUIT Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_1139" name="zamba_index_1139"/>
+                            <span class="input-group-btn">
+                                <span class="input-group-btn">
+                        <button class="btn  btn-primary btn-sm" id="zamba_rule_5019" name="zamba_rule_5019"
+                            type="button" onclick="SetRuleId(this);">
+                            <img alt="" src="images/Lupa.png" height="11" width="11" /></button>
+                        </span>
+                    </span>
+                    </div>
+                </div>
+         
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5"> Nombre Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_58" name="zamba_index_58" />
+                            <span class="input-group-btn">
+                                <span class="input-group-btn">
+                        <button class="btn  btn-primary btn-sm" id="zamba_rule_5035" name="zamba_rule_5035"
+                            type="button" onclick="SetRuleId(this);">Verificar</button>
+                        </span>
+                    </span>
+                    </div>
+                </div>
+          
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Cantidad de Items:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_5" name="zamba_index_5"/>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Patente:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_39" name="zamba_index_39"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row"></div>
+
+            <div class="form-group row">
+                <center>
+                    <input class="btn btn-primary btn-md" id="showdoc" name="showdoc" type="submit" value="Ver Original"
+                    onclick="OpenWindowct();"  title="Visualizar documento original"/>
+                    <input class="btn btn-primary btn-md" id="zamba_save" type="submit" value="Guardar"
+                        name="zamba_save" onclick="SetRuleId(this);"/>
+                    <input class="btn btn-primary btn-md" id="zamba_cancel" type="submit" value="Cancelar"
+                        name="zamba_cancel"/>
+                </center>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                    <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:1830px; height:1500px"
+                        src="file://C:\Users\Stardoc\AppData\Roaming\Zamba Software\OfficeTemp\4348211.pdf"
+                        class="IframeClass MargenIframe">
+                    </iframe>
+                </div>
+            </div>
+            <div class="row">
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">PolizaEmisionv4.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+            </div>
+            <input id="SolicitudFullpath" style="width: 20px;visibility:hidden" name="zvar(SolicitudFullpath)" />
+        </form>
+    </div>
+
+</body>
+
+</html>

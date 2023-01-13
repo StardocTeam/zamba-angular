@@ -1,0 +1,69 @@
+    @(Html.Kendo().Grid<Kendo.Mvc.Examples.Models.ProductViewModel>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.ProductName).Title("Product Name");
+            columns.Bound(p => p.UnitPrice).Title("Unit Price");
+            columns.Bound(p => p.UnitsInStock).Title("Units In Stock");
+        })
+        .Pageable()
+        .Sortable()
+        .Filterable()
+        .Groupable()
+        .Scrollable()
+        .Selectable(selectable => selectable
+            .Mode(GridSelectionMode.Multiple)
+            .Type(GridSelectionType.Cell))
+        .Events(events => events
+            .Change("onChange")
+            .DataBound("onDataBound")
+            .DataBinding("onDataBinding")
+            .Sort("onSorting")
+            .Filter("onFiltering")
+            .Group("onGrouping")
+            .Page("onPaging")
+        )
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Products_Read", "Grid"))
+         )
+    )
+ <div class="box wide">
+    <h4>Console log</h4>
+    <div class="console"></div>
+</div>
+
+<script type="text/javascript">
+
+    function onChange(arg) {
+        var selected = $.map(this.select(), function (item) {
+            return $(item).text();
+        });
+
+        kendoConsole.log("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+    }
+
+    function onDataBound(arg) {
+        kendoConsole.log("Grid data bound");
+    }
+
+    function onDataBinding(arg) {
+        kendoConsole.log("Grid data binding");
+    }
+
+    function onSorting(arg) {
+        kendoConsole.log("Sorting on field: " + arg.sort.field + ", direction:" + (arg.sort.dir || "none"));
+    }
+
+    function onFiltering(arg) {
+        kendoConsole.log("Filter on " + kendo.stringify(arg.filter));
+    }
+
+    function onPaging(arg) {
+        kendoConsole.log("Paging to page index:" + arg.page);
+    }
+
+    function onGrouping(arg) {
+        kendoConsole.log("Group on " + kendo.stringify(arg.groups));
+    }
+</script>

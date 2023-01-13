@@ -1,0 +1,243 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creacion: 11.2018-->
+<!--Ultima Edicion: 07.04.2022 -->
+<!--Modificado por: GR - se inserto una linea en el header para separar el form de las acciones de usuarios. Se agrego el nuevo iFrameStyle-->
+
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+	<script src="NotificacionDemandaIngreso.js"></script>
+</head>
+
+<body>
+    <div>
+        <div class="container-fluid">
+            <form name="frmMain" action="NotificacionDemandaIngreso.html">
+                <input id="hdnRuleId" type="hidden" />
+              			
+				<div class="form-group row">                    			
+					<div class="col-md-12">
+						<div>
+							<center>
+								<h4 style="background-color:#418ad4;color: white;">Notificación</h4>
+							</center>
+						</div>
+					</div>                        
+                </div>
+				
+             
+
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">ID Notificación:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2702" size="1" name="zamba_index_2702" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style=""
+                                    id="basic-addon1">Juicio / Mediación:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2681" size="1" name="zamba_index_2681"
+                                    onchange="VerificarJuiMed(this);"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Fecha de Notificación:</span>
+                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2704" name="zamba_index_2704" onblur="IngresoDeFecha(this);" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Tipo de Notificación:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2717" size="1" name="zamba_index_2717"
+                                    onchange="VerificarTipoNotif(this);"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Días Hábiles</span>
+                                <input class="form-control input-sm solonums" style="color: #090A0A;font-weight: bold"
+                                    id="txtCantHabiles" name="txtCantHabiles" onkeyup="CompletarVtoNotificacionDemanda();" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Fecha de Vencimiento:</span>
+                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2705" name="zamba_index_2705" onblur="valFecha(this)" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Datos del Siniestro:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_1001010" size="1" name="zamba_index_1001010"></select>
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="form-group row"></div>                        
+					<div class="form-group row" style="margin-bottom: 40px;">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+							<div class="row">
+								<span class="input-group-addon" style=""> Observaciones:</span>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<!--Area texto Observacion-->
+									<div id="appObservaciones" ng-controller="ObservacionController">
+										<zamba-observaciones index-id="64" entity-id="2524"></zamba-observaciones>
+									</div>
+								</div>
+							</div>    
+						</div>                        
+					</div>  
+
+                    <div class="form-group row">                    			
+						<div class="col-md-12">
+							<div>
+								<center>
+									<h4 style="background-color:#418ad4;color: white;">Reclamo</h4>
+								</center>
+							</div>
+						</div>                        
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon" style="" id="basic-addon1">ID Reclamo:</span>
+								<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" size="1" onkeypress="IDReclamo_KeyPress(event);" />
+								<span class="input-group-btn">
+									<span class="input-group-btn sm">
+										<button class="btn  btn-primary" type="submit" id="zamba_rule_11237" name="zamba_rule_11237" onclick="SetRuleId(this);">
+											<img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+									</span>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<button class="btn btn-info btn-md" id="zamba_rule_10756" name="zamba_rule_10756" onclick="SetRuleId(this);">Nuevo</button>
+						</div>
+						<input id="hdnCaratulaFlag" size="1" name="hdnCaratulaFlag" style="visibility:hidden;"/>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon" style="" id="basic-addon1">Carátula:</span>
+								<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2701" name="zamba_index_2701" size="1" onkeypress="Caratula_KeyPress(event);" />
+								<span class="input-group-btn">
+									<span class="input-group-btn sm">
+										<button class="btn  btn-primary" type="submit" id="zamba_rule_9236" name="zamba_rule_9236" onclick="SetRuleId(this);">
+											<img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon" style="" id="basic-addon1">Patente:</span>
+								<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_39" name="zamba_index_39" size="1" onkeypress="Patente_KeyPress(event);" />
+								<span class="input-group-btn">
+									<span class="input-group-btn sm">
+										<button class="btn  btn-primary" type="submit" id="zamba_rule_9147" name="zamba_rule_9147" onclick="SetRuleId(this);">
+											<img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon" style="" id="basic-addon1">Asegurado:</span>
+								<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_3" name="zamba_index_3" size="1" onkeypress="Asegurado_KeyPress(event);" />
+								<span class="input-group-btn">
+									<span class="input-group-btn sm">
+										<button class="btn  btn-primary" type="submit" id="zamba_rule_9143" name="zamba_rule_9143" onclick="SetRuleId(this);">
+											<img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class=" form-group row">
+						<div class="col-md-3">
+							<div class="input-group md">
+								<span class="input-group-addon md" style="   padding: -1px;" id="basic-addon1">Siniestro   Sec:</span>
+								<select class="form-control input-md" style=" color: #090A0A; font-weight: bold;"id="zamba_index_32" size="1" name="zamba_index_32"></select>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="input-group">
+								<span class="input-group-addon" style="" id="basic-addon1">Ej:</span>
+								<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2736" name="zamba_index_2736" size="1"/>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="input-group">
+								<span class="input-group-addon" style="" id="basic-addon1">Stro:</span>
+								<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_1147" name="zamba_index_1147" size="1"/>
+								<span class="input-group-btn">
+									<span class="input-group-btn sm">
+										<button class="btn  btn-primary" type="submit" id="zamba_rule_18353" name="zamba_rule_18353" onclick="SetRuleId(this);">
+											<img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class=" form-group row"></div>
+					<div class="form-group row">
+						<center>
+							<input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick_Notificacion_Demanda();">
+						</center>
+					</div>
+					
+					<div class="form-group row"></div>
+					<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
+					<div class="form-group row">
+                        <div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+                            <div class="row">
+                                <zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">            
+			
+				<div class="form-group row"> 
+					<center>						
+						<div class="col-md-12">
+							<span style="color:whitesmoke">NotificacionDemandaIngreso.html</span>
+						</div>
+					</center>
+				</div>
+			
+				
+			</form>
+		</div>
+    </div>
+</body>
+
+</html>

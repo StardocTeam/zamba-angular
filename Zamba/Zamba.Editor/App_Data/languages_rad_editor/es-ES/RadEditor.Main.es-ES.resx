@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ReservedResource" xml:space="preserve">
+    <value>Please, do not delete this string. RadEditor needs it to determine if an external resource file is present in App_GlobalResources.</value>
+  </data>
+  <data name="AddCustomColor" xml:space="preserve">
+    <value>Personalizar color...</value>
+  </data>
+  <data name="AddCustomHexColor" xml:space="preserve">
+    <value>Pridať hexa farbu...</value>
+  </data>
+  <data name="AddCustomWordSuccess" xml:space="preserve">
+    <value>se agregó al diccionario</value>
+  </data>
+  <data name="AddToDictionary" xml:space="preserve">
+    <value>Agregar al diccionario</value>
+  </data>
+  <data name="AskWordCleaning" xml:space="preserve">
+    <value>Obsah, ktorý sa pokúšate prilepiť má formátovanie MS Word. Chcete ho zrušiť?</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="CancelTable" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="CellProperties" xml:space="preserve">
+    <value>Vlastnosti bunky</value>
+  </data>
+  <data name="CellWarning" xml:space="preserve">
+    <value>Prosím, vyberte bunku, ktorej vlastnosti chcete upraviť!</value>
+  </data>
+  <data name="ChangeWordString" xml:space="preserve">
+    <value>Cambiar manualmente</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>CSS trieda</value>
+  </data>
+  <data name="ClearAllHtmlTags" xml:space="preserve">
+    <value>Všetky HTML značky</value>
+  </data>
+  <data name="ClearCssFormatting" xml:space="preserve">
+    <value>Kaskádové štýly</value>
+  </data>
+  <data name="ClearFontTags" xml:space="preserve">
+    <value>Značky Font</value>
+  </data>
+  <data name="ClearFormatting" xml:space="preserve">
+    <value>Zrušiť formátovanie</value>
+  </data>
+  <data name="ClearSpanTags" xml:space="preserve">
+    <value>Značky Span</value>
+  </data>
+  <data name="ClearStyle" xml:space="preserve">
+    <value>Zrušiť štýl</value>
+  </data>
+  <data name="ClearWordFormatting" xml:space="preserve">
+    <value>Formátovanie Microsoft Word</value>
+  </data>
+  <data name="CorrectSpelling" xml:space="preserve">
+    <value>Zmena kontroly pravopisu</value>
+  </data>
+  <data name="CreateLink" xml:space="preserve">
+    <value>Vytvoriť odkaz</value>
+  </data>
+  <data name="DialogToolbar" xml:space="preserve">
+    <value>Dialógy</value>
+  </data>
+  <data name="DropdownToolbar" xml:space="preserve">
+    <value>Roletové menu</value>
+  </data>
+  <data name="EnhancedEditToolbar" xml:space="preserve">
+    <value>Rozšírené úpravy</value>
+  </data>
+  <data name="FileOpen" xml:space="preserve">
+    <value>Otvoriť súbor..</value>
+  </data>
+  <data name="FileSaveAs" xml:space="preserve">
+    <value>Uložiť ako...</value>
+  </data>
+  <data name="FormButton" xml:space="preserve">
+    <value>Tlačidlo</value>
+  </data>
+  <data name="FormCheckbox" xml:space="preserve">
+    <value>Zaškrtávacie tlačidlo</value>
+  </data>
+  <data name="FormForm" xml:space="preserve">
+    <value>Formulár</value>
+  </data>
+  <data name="FormHidden" xml:space="preserve">
+    <value>Skrytý prvok</value>
+  </data>
+  <data name="FormPassword" xml:space="preserve">
+    <value>Pole s heslom</value>
+  </data>
+  <data name="FormRadio" xml:space="preserve">
+    <value>Výberové tlačidlo</value>
+  </data>
+  <data name="FormReset" xml:space="preserve">
+    <value>Tlačidlo vyčistenia formulára</value>
+  </data>
+  <data name="FormSelect" xml:space="preserve">
+    <value>Tlačidlo výberu</value>
+  </data>
+  <data name="FormSubmit" xml:space="preserve">
+    <value>Tlačidlo potvrdenia formulára</value>
+  </data>
+  <data name="FormText" xml:space="preserve">
+    <value>Textové pole</value>
+  </data>
+  <data name="FormTextarea" xml:space="preserve">
+    <value>Textová oblasť</value>
+  </data>
+  <data name="HtmlMode" xml:space="preserve">
+    <value>HTML režim</value>
+  </data>
+  <data name="IgnoreAllString" xml:space="preserve">
+    <value>Ignorar todos</value>
+  </data>
+  <data name="IgnoreString" xml:space="preserve">
+    <value>Ignorar palabra</value>
+  </data>
+  <data name="ImageMapWarning" xml:space="preserve">
+    <value>Prosím, vyberte obrázok, ktorého vlastnosti chcete upraviť!</value>
+  </data>
+  <data name="IndentHtml" xml:space="preserve">
+    <value>Odsadiť HTML</value>
+  </data>
+  <data name="InsertToolbar" xml:space="preserve">
+    <value>Vložiť</value>
+  </data>
+  <data name="MainToolbar" xml:space="preserve">
+    <value>Hlavný panel nástrojov</value>
+  </data>
+  <data name="MoreThanOnceMessage" xml:space="preserve">
+    <value>Toto slovo sa vyskytuje v texte viackrát. Chcete nahradiť všetky jeho výskyty?</value>
+  </data>
+  <data name="MoveCommand" xml:space="preserve">
+    <value>Presunúť</value>
+  </data>
+  <data name="NoSpellingMistakes" xml:space="preserve">
+    <value>Ya no hay mas errores ortográficos.</value>
+  </data>
+  <data name="NoSuggestions" xml:space="preserve">
+    <value>(žiadne návrhy)</value>
+  </data>
+  <data name="PromptColor" xml:space="preserve">
+    <value>Prosím, zadajte hodnotu vlastnej hexa farby:</value>
+  </data>
+  <data name="RadEditorDesignMode" xml:space="preserve">
+    <value>Návrh</value>
+  </data>
+  <data name="RadEditorHtmlMode" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="RadEditorPreviewMode" xml:space="preserve">
+    <value>Náhľad</value>
+  </data>
+  <data name="ResizeCommand" xml:space="preserve">
+    <value>Zmeniť rozmery objektu</value>
+  </data>
+  <data name="SetHtml" xml:space="preserve">
+    <value>Nastaviť HTML</value>
+  </data>
+  <data name="ShowToolbarTooltip" xml:space="preserve">
+    <value>Ukázať panel nástrojov</value>
+  </data>
+  <data name="SpellCheckComplete" xml:space="preserve">
+    <value>Revisión ortográfica finalizada</value>
+  </data>
+  <data name="SpellCheckEnd" xml:space="preserve">
+    <value>Finalizar revisión ortográfica</value>
+  </data>
+  <data name="SpellingChange" xml:space="preserve">
+    <value>Zmena kontroly pravopisu</value>
+  </data>
+  <data name="SpellingInProgress" xml:space="preserve">
+    <value>Prebieha kontrola pravopisu...</value>
+  </data>
+  <data name="SpellingMode" xml:space="preserve">
+    <value>Modo de revisión ortográfica. Las palabras incorrectas se resaltan en amarillo.</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Tabuľka</value>
+  </data>
+  <data name="TableToolbar" xml:space="preserve">
+    <value>Nástroje tabuliek</value>
+  </data>
+  <data name="TableWarning" xml:space="preserve">
+    <value>Prosím, vyberte tabuľku, ktorej vlastnosti chcete upraviť!</value>
+  </data>
+  <data name="ToolbarCaption" xml:space="preserve">
+    <value>Nástroje RadEditor</value>
+  </data>
+  <data name="ToolNotSupportedByNetscape" xml:space="preserve">
+    <value>Tento nástroj nie je podporovaný prehliadačmi Mozilla/Netscape.</value>
+  </data>
+  <data name="Typing" xml:space="preserve">
+    <value>Písanie...</value>
+  </data>
+  <data name="UndoDisabledMessage" xml:space="preserve">
+    <value>Nie je možné vrátiť zmeny pokiaľ sa kontroluje pravopis. Prosím, ukončite najprv kontrolu pravopisu.</value>
+  </data>
+  <data name="UpdateButton" xml:space="preserve">
+    <value>Uložiť</value>
+  </data>
+  <data name="UseCtrlC" xml:space="preserve">
+    <value>Použite Ctrl+C na kopírovanie</value>
+  </data>
+  <data name="UseCtrlV" xml:space="preserve">
+    <value>Použite Ctrl+V na prilepenie</value>
+  </data>
+  <data name="UseCtrlX" xml:space="preserve">
+    <value>Použite Ctrl+X na vystrihnutie</value>
+  </data>
+  <data name="ClearClass" xml:space="preserve">
+    <value>Zrušiť triedu</value>
+  </data>
+  <data name="ExceededHtmlLength" xml:space="preserve">
+    <value>Vkladaný HTML kód presahuje povolenú dĺžku znakov</value>
+  </data>
+  <data name="ExceededTextLength" xml:space="preserve">
+    <value>Vkladaný text presahuje povolenú dĺžku znakov</value>
+  </data>
+  <data name="ReduceTheConentLength" xml:space="preserve">
+    <value>Prosím, skráťte obsah poľa</value>
+  </data>
+</root>

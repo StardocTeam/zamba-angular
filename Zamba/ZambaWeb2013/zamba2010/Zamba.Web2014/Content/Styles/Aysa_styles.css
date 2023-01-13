@@ -1,0 +1,205 @@
+body, label, input, select, textarea, td, th, button
+{
+	font-family: Verdana;
+	font-size: 10px;
+	color: #333;
+}
+
+label
+{
+	font-family: Verdana;
+	font-size: 10px;
+	color: #333;
+}
+
+.separador
+{
+	width: 50px;
+}
+
+.readonly
+{
+	background-color: #eeeeee;	
+	color: #808080;	
+}
+
+
+/*input, select, textarea, iframe, .plano
+{
+	border: 1px solid #AAAAAA;
+}*/
+
+textarea
+{
+	padding: 5px;
+}
+
+table
+{
+	border-collapse: collapse;  
+	empty-cells: show;
+}
+
+.tabla_detalle th
+{
+	color: #000;
+	background-color: #D4D0C8;
+	font-weight: normal;
+	text-align: left;
+	padding: 5px;
+}
+
+.botones_manuales
+{
+	background-color: #DDDDEE; 
+	padding: 8px;
+}
+
+.tabla_detalle
+{
+	padding: 5px;
+	border: 0px;
+	height: 2px;	
+	margin-bottom: 10px;
+}
+
+.tabla_detalle td
+{
+	padding: 8px;
+	background-color: #ECEBE8;
+	border-bottom: 1px solid thin #A0A0A0;
+	vertical-align: top;
+}
+
+.tabla_detalle tr:hover
+{
+	background-color: #D4D0C8;
+}
+
+.warning
+{
+	background-image: url(images/error.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	padding-left: 25px;
+}
+
+.error
+{
+	color: red;
+	background-image: url(images/warning_2.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	padding-left: 25px;
+	vertical-align: middle;
+}
+
+#cuadro_detalle
+{
+	width: 99%;
+	overflow: auto;
+	overflow-y: hidden;	
+}
+
+#container
+{
+	width: 100%;
+	margin: 0 auto;
+}
+
+#logoAysa
+{	
+	width:160px;
+	height:56px;
+	float:left;
+}
+
+#logostardoc
+{
+}
+
+#logozamba
+{
+	width:88px;
+	height:37px;
+	float:right;
+	margin-top: 20px;
+}
+
+#design
+{
+	height:18px;
+	background-color:#062A82;
+	text-align:center;
+	color:white;
+	padding-top: 2px;
+	margin: 0 auto;
+}
+
+#designspace
+{
+	height:60px;
+}
+
+#space
+{
+	height:30px;
+}
+
+#floatleft
+{
+	float:left;
+	text-align:left;
+	font-family:arial;
+	font-size: 10px;
+}
+
+#floatright
+{
+	float:right;
+	text-align:right;
+	font-family:arial;
+	font-size: 10px;
+}
+
+#regla
+{
+	color:#3366CC;
+	background-color:#3366CC;
+	border:0px;
+	height:1px;	
+	margin-bottom: 7px;
+	margin-top: 2px;
+}
+
+#aligncenter
+{
+	text-align:center;
+}
+
+#span
+{
+	width:80px;	
+}
+
+#span00
+{
+	width:49px;	
+}
+
+.submit
+{ 
+	color: #000000; 
+	font: bold 90% 'trebuchet ms',helvetica,sans-serif; 
+	background-color: #D8D8E8; 
+	cursor: hand;
+	border-bottom: 1px solid #000;
+	border-right: 1px solid #000;
+	width: auto;
+}
+
+/**********Upper input************/
+.ConvertToUpper
+{
+    text-transform:uppercase;
+}

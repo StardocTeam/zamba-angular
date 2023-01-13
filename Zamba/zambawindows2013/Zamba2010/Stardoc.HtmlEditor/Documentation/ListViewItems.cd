@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="">
+    <Position X="4.017" Y="3.142" Height="0.263" Width="9.29" />
+  </Comment>
+  <Comment CommentText="Listviews de controles HTML de Zamba">
+    <Position X="4.639" Y="3.772" Height="0.263" Width="2.251" />
+  </Comment>
+  <Comment CommentText="Listviews de controles de HTML comunes&#xD;&#xA;">
+    <Position X="4.602" Y="1.554" Height="0.439" Width="1.484" />
+  </Comment>
+  <Comment CommentText="Estas clases representan los ListViewItems que se cargan en el listado de controles HTMLs. Cada uno contiene el control HTML internamente y tienen implementado el metodo HTML , que el Control padre utiliza para recibir el codigo HTML del control interno.">
+    <Position X="3.023" Y="0.5" Height="0.598" Width="5.681" />
+  </Comment>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.CheckBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\CheckBox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.ZTextBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="4" Width="1.5" />
+    <InheritanceLine Type="System.Windows.Forms.ListViewItem" ManuallyRouted="true">
+      <Path>
+        <Point X="13.5" Y="1.262" />
+        <Point X="13.5" Y="3.621" />
+        <Point X="17.25" Y="3.621" />
+        <Point X="17.25" Y="4" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAgAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\ZTextBox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.RadioButton" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\RadioButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.Select" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\Select.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.Table" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\Table.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.TextArea" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\TextArea.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.TextBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\TextBox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.ZCheckBox" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\ZCheckBox.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.ZRadioButton" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAgAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\ZRadioButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.ZSelect" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABEAAAAAAAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\ZSelect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Stardoc.HtmlEditor.ListViewItems.ZTextArea" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="13" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAgAAAAAFAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListViewItems\ZTextArea.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Forms.ListViewItem" Collapsed="true">
+    <Position X="12.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Stardoc.HtmlEditor.IHtmlWritable">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>IHtmlWritable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Stardoc.HtmlEditor.IZambaHtmlControls">
+    <Position X="3" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IZambaHtmlControls.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

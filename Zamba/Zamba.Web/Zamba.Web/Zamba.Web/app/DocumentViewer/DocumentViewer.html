@@ -1,0 +1,293 @@
+﻿<div id="divFileDownload" style="height:auto">
+    <div id="MSG" style="display:none">
+        <html xmlns="http://www.w3.org/1999/xhtml">
+
+        <head>
+            <title>Zamba - Msg Viewer</title>
+            <link href="../../Content/bootstrap.css" rel="stylesheet" />
+            <!--<script src="../../Scripts/pdf.js"></script>-->
+            <style>
+                .alert {
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+
+                .pointer {
+                    cursor: pointer;
+                }
+
+                .iframeClassPDF {
+                    height: 882px;
+                }
+
+                @media (max-height: 700px) {
+                    .iframeClassPDF {
+                        height: 582px;
+                    }
+                }
+
+                @media (max-height: 450px) {
+                    .iframeClassPDF {
+                        height: 350px;
+                    }
+                }
+
+                @media (max-height: 300px) {
+                    .iframeClassPDF {
+                        height: 230px;
+                    }
+                }
+
+                .iframeNav {
+                    /*background-color: #ccc;*/
+                    height: 30px;
+                    text-align: initial;
+                }
+
+                .btn-circle {
+                    width: 41px;
+                    height: 35px;
+                    text-align: center;
+                    font-size: 17px;
+                    line-height: 1.42;
+                    box-shadow: 2px 2px 5px;
+                    margin-top: 7px;
+                }
+
+
+
+                /* Chrome, Edge, and Safari */
+                *::-webkit-scrollbar {
+                    width: 10px;
+                    height: 10px;
+                }
+
+                *::-webkit-scrollbar-track {
+                    background: #ffffff;
+                }
+
+                *::-webkit-scrollbar-thumb {
+                    background-color: #337ab7;
+                    border-radius: 5px;
+                    border: 0px solid #ffffff;
+                }
+
+                .StyleBtnPrevAndNext {
+                    border: none;
+                    font-size: 15px;
+                    -webkit-box-shadow: none;
+                    color: #756a6a;
+                }
+
+
+                .IFrameAsocHeight {
+                    height: 52rem !important;
+                    width: 100%;
+                }
+
+                @media (min-width: 1800px){
+                    .IFrameAsocHeight2 {
+                        height: 82rem !important;
+                        width: 100%;
+                    } 
+                }
+
+
+                .IFrameHeight {
+                    height: 58rem;
+                    width: 100%;
+                }
+
+
+                @media (min-width: 1600px) {
+                    .IFrameHeight {
+                        height: 72rem;
+                        width: 100%;
+                    }
+                }
+
+                @media (min-width: 1800px) {
+                    .IFrameHeight {
+                        height: 90rem;
+                        width: 100%;
+                    }
+                }
+            </style>
+        </head>
+
+        <body>
+            <!--En modo preview del resultado de busqueda-->
+            <div ng-show="preview != 'true'">
+                <form id="frmMsgViewer">
+                    <div class="form-group alert" style="margin-top: 15px; border-style: groove;">
+                        <div class="form-group">
+                            <div class="form-group alert">
+                                <h1>{{subject}}</h1>
+                                <hr />
+                                <!--"Correo de" y Fecha-->
+                                <div class="row">
+                                    <!--Correo de:-->
+                                    <div class="col-md-6">
+                                        <strong><span>Correo de: </span></strong>{{from}}
+
+                                    </div>
+                                    <!--Fecha-->
+                                    <div class="col-md-6">
+                                        <strong><span>Fecha: </span></strong>{{date}}
+
+                                    </div>
+                                </div>
+
+                                <!--Para:-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong><span>Para: </span></strong>
+                                        <span ng-repeat="item in to">
+                                            {{item}}<span ng-if="commaSeparator(to, item)">; </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <!--Descripcion:-->
+                            <div class="row">
+                                <div class="col-md-12" ng-switch="height">
+
+                                    <!--Altura de txtAreaBody para Historial de Mails-->
+                                    <iframe ng-switch-when="mailHistory"
+                                            id="txtAreaBody" class="form-control alert alert-primary" style="resize:vertical; height: 200px; background-color: #fff;"></iframe>
+
+                                    <!--Altura de txtAreaBody por defecto-->
+                                    <iframe ng-switch-default
+                                            id="txtAreaBody" class="form-control alert alert-primary" style="resize:vertical; height: 500px; background-color: #fff;"></iframe>
+
+                                    <!--Archivos:-->
+                                    <div id="FileContent" ng-repeat="item in attachs">
+                                        <!--Recorrer Lista de Archivos-->
+                                        <div class="col-md-2">
+                                            <div class="alert alert-danger" role="alert">
+                                                {{item.FileName}} <br />
+                                                {{fileSize_Format(item.Size, "Kb")}} <br />
+
+                                                <a id={{item.Id}} download={{item.FileName}} style="display:none;" />
+                                                <a class="pointer" ng-click="downloadfile(item);" title="{{item.FileName}}">Descargar</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div ng-show="preview == 'true'">
+                <form id="frmMsgViewerDos" style="overflow-y: scroll;height: 430px;" onmousewheel="Scroll_DocumentViewer(event)">
+                    <div class="form-group alert" style="margin-top: 15px; border-style: groove;">
+                        <div class="form-group">
+                            <div class="form-group alert">
+                                <h1>{{subject}}</h1>
+                                <hr />
+                                <!--"Correo de" y Fecha-->
+                                <div class="row">
+                                    <!--Correo de:-->
+                                    <div class="col-md-6">
+                                        <strong><span>Correo de: </span></strong>{{from}}
+
+                                    </div>
+                                    <!--Fecha-->
+                                    <div class="col-md-6">
+                                        <strong><span>Fecha: </span></strong>{{date}}
+
+                                    </div>
+                                </div>
+
+                                <!--Para:-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong><span>Para: </span></strong>
+                                        <span ng-repeat="item in to">
+                                            {{item}}<span ng-if="commaSeparator(to, item)">; </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <!--Descripcion:-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <iframe id="txtAreaBody" class="form-control alert alert-primary" style="resize:vertical; height: 500px; background-color: #fff;"></iframe>
+
+                                    <!--Archivos:-->
+                                    <div id="FileContent" ng-repeat="item in attachs">
+                                        <!--Recorrer Lista de Archivos-->
+                                        <div class="col-md-2">
+                                            <div class="alert alert-danger" role="alert">
+                                                {{item.FileName}} <br />
+                                                {{fileSize_Format(item.Size, "Kb")}} <br />
+
+                                                <a id={{item.Id}} download={{item.FileName}} style="display:none;" />
+                                                <a class="pointer" ng-click="downloadfile(item);" title="{{item.FileName}}">Descargar</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <script src="../../Scripts/toastr.js"></script>
+
+        </body>
+    </html>
+</div>
+
+<div id="PDF" style="display:none">
+    <iframe id="iframeID" height="600px" width="100%"></iframe>
+</div>
+
+
+
+<div id="PDFForIE" class="PDFForIE" style="display:none">
+
+    <div class="form-group row" style="height:100%">
+        <div class="col-xs-12 iframeClassPDF" id="iframeStyle" style="overflow-x: auto; overflow-y: hidden">
+            <div class="row iframeNav" ng-if="showEditor && showBtnEditor ">
+                <div class="col-md-12">
+                    <a id="BtnZeditor" ng-if="showBtnEditor" href="" onclick="openZambaEditor()" class="btn btn-default btn-circle" data-toggle="tooltip" title="Editar documento"><i class="fa fa-pencil-square-o"></i></a>
+
+                </div>
+            </div>
+            <iframe id="previewDocIframe" class="IframeClass MargenIframe IFrameHeight" allowfullscreen webkitallowfullscreen src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+            <!--<div>
+
+                <button type="button" class="btn btn-default btn-lg StyleBtnPrevAndNext" id="prev">
+                    <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Anterior
+                </button>
+
+                <button type="button" class="btn btn-default btn-lg StyleBtnPrevAndNext"  id="next">
+                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Siguiente
+                </button>
+
+                <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+            </div>
+            <canvas id="the-canvas"></canvas>-->
+        </div>
+    </div>
+</div>
+
+<div id="Error404" style="display:none">
+    <img src="../../Content/Images/icon-no-file.svg" style="width:300px;position:relative;" />
+</div>
+
+<div id="ErrorPreview" style="display:none">
+    <img src="../../Content/Images/errorPreview.png" style="width:300px;position:relative;left:40%;margin-top:10%" />
+</div>
+
+</div>

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.default.mobile.min.css" />
+    <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
+
+    <script src="../../scripts/jquery-3.1.1.min.js"></script>
+    <script src="../../scripts/angular.min.js"></script>
+    <script src="../../scripts/kendoui/js/kendo.all.min.js"></script>
+    <script src="EditorScripts.js"></script>
+
+    <style>
+        /*Estilo para ellipse boton "Guardar"*/
+        .k-editor .k-i-Guardar:before {
+            font-family: Glyphicons Halflings;
+            content: "\e172";
+            font-size: 16px;
+            color: white;
+        }
+    </style>
+
+    <title>Zamba - Editor Web</title>
+
+</head>
+<body>
+
+    <!--Etiqueta en la que se inicializa el editor-->
+    <textarea id="editor" style="height: 100%;"></textarea>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Inicializa el editor
+            $("#editor").kendoEditor({
+                tools: [
+                    {
+                        name: "Guardar",
+                        tooltip: "Guardar documento",
+                        exec: function (e) {
+                            SaveEditorContent(getParameterByName('docid'), getParameterByName('doctypeid'), editor.value());
+                        }
+                    },
+                    "pdf",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "justifyLeft",
+                    "justifyCenter",
+                    "justifyRight",
+                    "justifyFull",
+                    "insertUnorderedList",
+                    "insertOrderedList",
+                    "indent",
+                    "outdent",
+                    "createLink",
+                    "unlink",
+                    "insertImage",
+                    "insertFile",
+                    "subscript",
+                    "superscript",
+                    "tableWizard",
+                    "createTable",
+                    "addRowAbove",
+                    "addRowBelow",
+                    "addColumnLeft",
+                    "addColumnRight",
+                    "deleteRow",
+                    "deleteColumn",
+                    "viewHtml",
+                    "formatting",
+                    "cleanFormatting",
+                    "fontName",
+                    "fontSize",
+                    "foreColor",
+                    "backColor",
+                    "print"
+                ]
+            });
+
+            SetEditorHeigth();
+            $(window).on("load resize", SetEditorHeigth);
+            SetSaveBtnColor();
+
+            // Carga el html del documento
+            var editor = $("#editor").data("kendoEditor");
+            editor.value(LoadResultHtml(getParameterByName('docid'), getParameterByName('doctypeid')));
+            editor.refresh();
+
+        });
+    </script>
+
+</body>
+</html>

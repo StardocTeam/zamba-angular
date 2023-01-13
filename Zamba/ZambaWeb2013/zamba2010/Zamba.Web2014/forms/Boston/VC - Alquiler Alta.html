@@ -1,0 +1,73 @@
+﻿<html>
+	<head>
+		<title>Alquiler de Pelìculas</title>			
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+		
+			
+			$(document).ready(function()
+			{							
+			  
+				
+				// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+			<h2> <center> 
+                Alquiler de películas
+            </center></h2>
+
+				</div>
+				<br />
+				
+				<table cellpadding="4">
+					<tr>
+						<td><label>Cliente:</label></td>
+						<td><select id="zamba_index_1001016" name="zamba_index_1001016" style="width:280px;" class="ReadOnly"></select></td>
+						<td class="separador"></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><label>Fecha de Alquiler:</label></td>
+						<td><input id="text" name="zamba_index_1001022" id="zamba_index_1001022" style="width:280px;" class="ReadOnly"></td>
+						<td class="separador"></td>
+						<td><label>Alquiler Nº:</label></td>
+						<td><input type ="text" name="zamba_index_1001023" id="zamba_index_1001023" style="width:280px;" class="ReadOnly" ></td>
+					</tr>
+                    <tr>
+                        <td><input id="zamba_rule_1003087" name="zamba_rule_1003087" style="width:160px" type="submit" value="Agregar Alquiler" onclick="SetRuleId(this);" />
+                    </tr>
+	
+			<tr>
+            <input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" />
+            <input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" />
+			</tr>
+  
+</table>
+			</form>						
+		</div>
+	</body>
+</html>

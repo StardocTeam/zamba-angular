@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{848729D5-9661-4D42-AB10-02F00E48ADC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Zamba.WFExecution</RootNamespace>
+    <AssemblyName>Zamba.WFExecution</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <WarningLevel>0</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <Optimize>false</Optimize>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>false</DebugSymbols>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.WinControls, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="Zamba.AppBlock" />
+    <Import Include="Zamba.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Action\PlayDOAproveMatrix.vb" />
+    <Compile Include="Action\PlayDoExecuteScript.vb" />
+    <Compile Include="Action\PlayDoGoHome.vb" />
+    <Compile Include="Action\PlayDODecisionMatrix.vb" />
+    <Compile Include="Action\PlayDoUnZip.vb" />
+    <Compile Include="Action\PlayDoAddUser.vb" />
+    <Compile Include="Action\PlayDoAsignToGroup.vb" />
+    <Compile Include="Action\PlayDoClearAttributeListCache.vb" />
+    <Compile Include="Action\PlayDoCompleteTableInWord.vb" />
+    <Compile Include="Action\PlayDoConsumeWCF.vb" />
+    <Compile Include="Action\PlayDoGenerateHTMLReport.vb" />
+    <Compile Include="Action\PlayDoIndexFile.vb" />
+    <Compile Include="Action\PlayDoInsertDocToBlob.vb" />
+    <Compile Include="Action\PlayDoInsertTextInWord.vb" />
+    <Compile Include="Action\PlayDoConsumeRestApi.vb" />
+    <Compile Include="Action\PlayDoOpenUrl.vb" />
+    <Compile Include="Action\PlayDoReadInboxMail.vb" />
+    <Compile Include="Action\PlayDoReplaceTextInWord.vb" />
+    <Compile Include="Action\PlayDoSaveFile.vb" />
+    <Compile Include="Action\PlayDoSetRights.vb" />
+    <Compile Include="Action\PlayDoRefreshWfTree.vb" />
+    <Compile Include="Action\PlayDoDocToPDF.vb" />
+    <Compile Include="Action\PlayDoShowBinary.vb" />
+    <Compile Include="Action\PlayDoExportHTMLToPDF.vb" />
+    <Compile Include="Action\PlayDoAddAsociatedForm.vb" />
+    <Compile Include="Action\PlayDoCloseTask.vb" />
+    <Compile Include="Action\PlayDoDecodeFile.vb" />
+    <Compile Include="Action\PlayDoInsertSLST.vb" />
+    <Compile Include="Action\PlayDoAutoName.vb" />
+    <Compile Include="Action\PlayDoLoadDataSetFromXML.vb" />
+    <Compile Include="Action\PlayDoOpenTask.vb" />
+    <Compile Include="Action\PlayDoAdminFiles.vb" />
+    <Compile Include="Action\PlayDoGetFiles.vb" />
+    <Compile Include="Action\PlayDoCloseZamba.vb" />
+    <Compile Include="Action\PlayDOEDITTABLE.vb" />
+    <Compile Include="Action\PlayDOSHOWEDITTABLE.vb" />
+    <Compile Include="Action\PlayDoGenerateBarcodeInWord.vb" />
+    <Compile Include="Action\PlayDoExecuteExplorer.vb">
+    </Compile>
+    <Compile Include="Action\PlayDoInsertTable.vb" />
+    <Compile Include="Action\PlayDOCreateOutlookCalendar.vb" />
+    <Compile Include="Action\PlayDoGenerateOutlook.vb" />
+    <Compile Include="Action\FrmAttachDocument.Designer.vb">
+      <DependentUpon>FrmAttachDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\FrmAttachDocument.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Action\PlayDoAttachToDocument.vb" />
+    <Compile Include="Action\PlayDoCompare.vb" />
+    <Compile Include="Action\PlayDoGenerateDinamicForm.vb" />
+    <Compile Include="Action\PlayDoForEach.vb" />
+    <Compile Include="Action\PlayDoGenerateExcelFromObject.vb" />
+    <Compile Include="Action\PlayDoConsumeWebService.vb" />
+    <Compile Include="Action\FrmAskDesition.Designer.vb">
+      <DependentUpon>FrmAskDesition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\FrmAskDesition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Action\PlayDOAskDesition.vb" />
+    <Compile Include="Action\PlayDoDismemberObject.vb" />
+    <Compile Include="Action\PlayDoFillVar.vb" />
+    <Compile Include="Action\PlayDoDesign.vb" />
+    <Compile Include="Action\PlayDOIfQuery.vb" />
+    <Compile Include="Action\FrmInputText.Designer.vb">
+      <DependentUpon>FrmInputText.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\FrmInputText.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Action\PlayDoExecuteReport.vb" />
+    <Compile Include="Action\PlayDoExport.vb" />
+    <Compile Include="Action\PlayDOGenerateTaskResult.vb" />
+    <Compile Include="Action\PlayDoImportFromExcel.vb" />
+    <Compile Include="Action\PlayDoReplaceText.vb" />
+    <Compile Include="Action\PlayDoShowForm.vb" />
+    <Compile Include="Action\PlayDOCreateOutlookAppointment.vb" />
+    <Compile Include="Action\PlayDOSHOWTABLE.vb" />
+    <Compile Include="Action\PlayDoForo.vb" />
+    <Compile Include="Action\PlayDOInputIndex.vb" />
+    <Compile Include="Action\PlayDoRequestData.vb" />
+    <Compile Include="Action\PlayDOMail.vb" />
+    <Compile Include="Action\PlayDoImport.vb" />
+    <Compile Include="Action\PlayDoGetNewId.vb" />
+    <Compile Include="Action\PlayDoGetTask.vb" />
+    <Compile Include="Action\PlayDoGenerateCoverPage.vb" />
+    <Compile Include="Action\PlayDoFillIndexDefault.vb" />
+    <Compile Include="Action\PlayDoFillIndex.vb" />
+    <Compile Include="Action\PlayDOExportToExcel.vb" />
+    <Compile Include="Action\PlayDoEnableRule.vb" />
+    <Compile Include="Action\PlayDoChangeState.vb" />
+    <Compile Include="Action\PlayDoChangeExpireDate.vb" />
+    <Compile Include="Action\PlayDOShell.vb" />
+    <Compile Include="Action\PlayDOSELECT.vb" />
+    <Compile Include="Action\PlayDOScreenMessage.vb" />
+    <Compile Include="Action\PlayDOGetDocAsoc.vb" />
+    <Compile Include="Action\PlayDOGenerateExcel.vb" />
+    <Compile Include="Action\PlayDOExecuteRule.vb" />
+    <Compile Include="Action\PlayDODistribuir.vb" />
+    <Compile Include="Action\PlayDODELETE.vb" />
+    <Compile Include="Action\PlayDOCreateForm.vb" />
+    <Compile Include="Action\PlayDOCrearDocumento.vb" />
+    <Compile Include="Action\PlayDOAutoMail.vb" />
+    <Compile Include="Action\PlayDOAutoComplete.vb" />
+    <Compile Include="Action\PlayDOAsk.vb" />
+    <Compile Include="Action\PlayDoAsign.vb" />
+    <Compile Include="Action\PlayDOADDTOWF.vb" />
+    <Compile Include="Action\PlayDoSignPDF.vb" />
+    <Compile Include="Action\PlayDOWait.vb" />
+    <Compile Include="Action\PlayDoWaitForDocument.vb" />
+    <Compile Include="Condition\PlayIfDesign.vb" />
+    <Compile Include="Condition\PlayIfGroups.vb" />
+    <Compile Include="Condition\PlayIfBranch.vb" />
+    <Compile Include="Condition\PlayIfValidateVar.vb" />
+    <Compile Include="Condition\PlayIfUsers.vb" />
+    <Compile Include="Condition\PlayIfUser.vb" />
+    <Compile Include="Condition\PlayIfTimePass.vb" />
+    <Compile Include="Condition\PlayIfTaskStepState.vb" />
+    <Compile Include="Condition\PlayIfIndex.vb" />
+    <Compile Include="Condition\PlayIfTaskState.vb" />
+    <Compile Include="Condition\PlayIfFileExists.vb" />
+    <Compile Include="Condition\PlayIfExpireDate.vb" />
+    <Compile Include="Condition\PlayIfDocAsocExist.vb" />
+    <Compile Include="Condition\PlayIfDocumentType.vb" />
+    <Compile Include="Condition\PlayIfDates.vb" />
+    <Compile Include="Action\PlayDOAddAsociatedDocument.vb" />
+    <Compile Include="InputBoxDoAsk.Designer.vb">
+      <DependentUpon>InputBoxDoAsk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="InputBoxDoAsk.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ZambaWFCore.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Action\FrmAskDesition.resx">
+      <DependentUpon>FrmAskDesition.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\FrmAttachDocument.resx">
+      <DependentUpon>FrmAttachDocument.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\FrmInputText.resx">
+      <DependentUpon>FrmInputText.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputBoxDoAsk.resx">
+      <DependentUpon>InputBoxDoAsk.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RuleExportTemplates\Rule_ExportMail.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Cache\Zamba.Cache.vbproj">
+      <Project>{bc8529ff-1c7f-4837-86f5-601e6eee6200}</Project>
+      <Name>Zamba.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Office2010\Zamba.Office2010.vbproj">
+      <Project>{f84c7b9b-a21b-4989-b79b-a181b200108b}</Project>
+      <Name>Zamba.Office2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.OfficeCommon\Zamba.OfficeCommon.vbproj">
+      <Project>{156cd7d3-b738-4221-b33d-6ccea6b4062d}</Project>
+      <Name>Zamba.OfficeCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.AdminControls\Zamba.AdminControls.vbproj">
+      <Project>{5cf0d10d-990a-4e7e-b21c-41d5ae3408c3}</Project>
+      <Name>Zamba.AdminControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2db9897d-b4bf-42ef-b769-88f694be3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952c9b3b-3d9e-4ae2-a823-6b8e1f4f4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{e92f8175-9484-4454-a8f0-9c2ab63714f5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.FileTools\Zamba.FileTools.csproj">
+      <Project>{93c44ba5-4699-4764-85a3-35a6c1138dfb}</Project>
+      <Name>Zamba.FileTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Filters\Zamba.Filters.csproj">
+      <Project>{37bcaa25-1780-4cff-ab59-864afaf955f0}</Project>
+      <Name>Zamba.Filters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.FormulariosDinamicos\Zamba.FormulariosDinamicos\Zamba.FormulariosDinamicos.vbproj">
+      <Project>{c81ed0d7-432c-4139-8788-d7e5ca3a5740}</Project>
+      <Name>Zamba.FormulariosDinamicos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Grid\Zamba.Grid.csproj">
+      <Project>{d966ce6d-a8b8-46f8-80b2-f9c3e768630f}</Project>
+      <Name>Zamba.Grid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{e16279a2-165d-4d96-ad32-009874164c05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Indexer\Zamba.ClientControls.vbproj">
+      <Project>{d8c5cef6-da9f-43d6-af8c-9054bac1f065}</Project>
+      <Name>Zamba.ClientControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.PDFSigner\Zamba.PDFSigner.csproj">
+      <Project>{c892fa61-c495-4f30-8799-a198f89f23f4}</Project>
+      <Name>Zamba.PDFSigner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ReportBuilder.Business\Zamba.ReportBuilder.Business.vbproj">
+      <Project>{9dc92bca-0aec-4de3-8a09-3c985241e2cc}</Project>
+      <Name>Zamba.ReportBuilder.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{fc85cbef-6baf-4796-a6c2-9eaef956479e}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{d349ab2a-b052-4307-b979-d397d10760a1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Viewers\Zamba.Viewers.vbproj">
+      <Project>{84ee77cb-aca0-4f82-b5fb-1ce27f504156}</Project>
+      <Name>Zamba.Viewers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{befabc7f-fc94-41b4-ba0e-412914a549a0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WorkFlow.SQLExecution\Zamba.WorkFlow.Execution.Business\Zamba.WorkFlow.Business.csproj">
+      <Project>{9a8c8793-c6ae-4b87-ab76-6bc6fcbc9e2e}</Project>
+      <Name>Zamba.WorkFlow.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

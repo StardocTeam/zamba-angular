@@ -1,0 +1,488 @@
+﻿
+        
+            /* GLOBAL STYLES */
+/* Padding below the footer and lighter body text */
+
+    /*body {
+      padding-bottom: 40px;
+      color: #5a5a5a;
+    }*/
+
+
+
+    /* CUSTOMIZE THE NAVBAR
+    -------------------------------------------------- */
+
+    /* Special class on .container surrounding .navbar, used for positioning it into place. */
+    .navbar-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      margin-top: 20px;
+      margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+    }
+
+    .navbar-wrapper .navbar {
+    }
+
+    /* Remove border and change up box shadow for more contrast */
+    .navbar .navbar-inner {
+      border: 0;
+      -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+         -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+              box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    }
+
+    /* Downsize the brand/project name a bit */
+    .navbar .brand {
+      padding: 14px 20px 16px; /* Increase vertical padding to match navbar links */
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+    }
+
+    /* Navbar links: increase padding for taller navbar */
+    .navbar .nav > li > a {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    /* Offset the responsive button for proper vertical alignment */
+    .navbar .btn-navbar {
+      margin-top: 10px;
+    }
+
+
+
+    /* CUSTOMIZE THE CAROUSEL
+    -------------------------------------------------- */
+
+    /* Carousel base class */
+    .carousel {
+    display: block;
+      margin-bottom: 60px;
+       width: 100%;
+    max-width: 100%;
+         }
+
+    .carousel .container {
+      position: relative;
+      z-index: 9;
+    }
+
+    .carousel-control {
+      height: 80px;
+      margin-top: 120px;
+      font-size: 120px;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+      background-color: transparent;
+      border: 0;
+      z-index: 10;
+    }
+
+    .carousel .item {
+        width: 100%;
+      height: 500px;
+    }
+
+    .carousel img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      height: 500px;
+    }
+
+     .carouselsearch {
+         -webkit-background-clip: border-box;
+-webkit-background-origin: padding-box;
+-webkit-background-size: auto;
+background-attachment: scroll;
+background-clip: border-box;
+background-color: rgba(0, 0, 0, 0);
+background-origin: padding-box;
+background-size: auto;
+display: block;
+left: auto;
+margin-top: 0px;
+opacity: 1;
+outline-color: rgb(255, 255, 255);
+outline-style: none;
+outline-width: 0px;
+position: absolute;
+right: 5px;
+top: 329.59375px;
+z-index: 10;
+      }
+
+       .carousel-title {
+         -webkit-background-clip: border-box;
+-webkit-background-origin: padding-box;
+-webkit-background-size: auto;
+background-attachment: scroll;
+background-clip: border-box;
+background-color: rgba(0, 0, 0, 0);
+background-origin: padding-box;
+background-size: auto;
+display: block;
+left: auto;
+margin-top: 0px;
+opacity: 1;
+outline-color: rgb(255, 255, 255);
+outline-style: none;
+outline-width: 0px;
+position: absolute;
+top: 25px;
+z-index: 10;
+color: white;
+margin-left: 20px;
+      }
+
+    .carousel-caption {
+      background-color: transparent;
+      position: static;
+      max-width: 100%;
+      padding: 0 20px;
+      margin-top: 100px;
+    }
+
+    .carousel-caption h1,
+    .carousel-caption .lead {
+      margin: 0;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    }
+
+    .carousel-caption .btn {
+      margin-top: 10px;
+    }
+
+.carousel.fade {
+    opacity: 1;
+    /*.item
+    {
+        -moz-transition: opacity ease-in-out .7s;
+        -o-transition: opacity ease-in-out .7s;
+        -webkit-transition: opacity ease-in-out .7s;
+        transition: opacity ease-in-out .7s;
+        left: 0 !important;
+        opacity: 0;
+        top:0;
+        position:absolute;
+        width: 100%;
+        display:block !important;
+        z-index:1;
+        &:first-child{
+            top:auto;
+            position:relative;
+        }
+
+        &.active
+        {
+            opacity: 1;
+            -moz-transition: opacity ease-in-out .7s;
+            -o-transition: opacity ease-in-out .7s;
+            -webkit-transition: opacity ease-in-out .7s;
+            transition: opacity ease-in-out .7s;
+            z-index:2;
+        }
+    }*/
+}
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    /*.marketing .col-md-3 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .col-md-3 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }*/
+
+
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 80px 0; /* Space out the Bootstrap <hr> more */
+    }
+
+    .featurette {
+      padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+
+    .featurette-image {
+      margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 40px;
+    }
+
+    .featurette-image.pull-right {
+      margin-left: 40px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      font-size: 50px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+
+
+    /* RESPONSIVE CSS
+    -------------------------------------------------- */
+
+    
+@media (min-width: 1200px) {
+    .marketing {
+        margin-top: 0px;
+        margin-left: 20px;
+    }
+}
+
+    @media (max-width: 979px) {
+
+      .container.navbar-wrapper {
+        margin-bottom: 0;
+        width: auto;
+      }
+
+      .navbar-inner {
+        border-radius: 0;
+        margin: -20px 0;
+      }
+
+      .carousel .item {
+        height: 500px;
+      }
+
+      .carousel img {
+        width: auto;
+        height: 500px;
+      }
+
+      .featurette {
+        height: auto;
+        padding: 0;
+      }
+
+      .featurette-image.pull-left,
+      .featurette-image.pull-right {
+        display: block;
+        float: none;
+        max-width: 40%;
+        margin: 0 auto 20px;
+      }
+    }
+
+
+    @media (max-width: 767px) {
+
+      .navbar-inner {
+        margin: -20px;
+      }
+
+      .carousel {
+        margin-left: -20px;
+        margin-right: -20px;
+      }
+
+      .carousel .container {
+        }
+  
+      .carousel .item {
+        height: 300px;
+      }
+
+      .carousel img {
+        height: 300px;
+      }
+
+      .carousel-caption {
+        width: 100%;
+        padding: 0 70px;
+        margin-top: 100px;
+      }
+     
+    
+      .carousel-caption h1 {
+        font-size: 30px;
+      }
+
+      .carousel-caption .lead,
+      .carousel-caption .btn {
+        font-size: 18px;
+      }
+
+      .marketing .col-md-3 + .col-md-3 {
+        margin-top: 20px;
+        margin-left: 20px;
+      }
+
+
+      .featurette-heading {
+        font-size: 30px;
+      }
+
+      .featurette .lead {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+    }
+        
+    h1 {
+    font-family: 'Droid Serif', Georgia, Times, serif;
+    font-size: 49px;
+    line-height: 65px;
+}
+ 
+p {
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+    /*Muy grande ademas se utiliza para conversaciones de chat*/
+    /*font-size: 14px;
+    line-height: 25px;*/
+}
+
+.search-query {
+min-width: 240px;
+}
+
+.container {
+    max-width: 100%;
+width: 100%;
+}
+
+
+
+        /* Header Menu p dispositivos moviles  */
+        /* Clearfix */
+    .clear:before, .clear:after {
+        content: " ";
+        display: table;
+    }
+ 
+    .clear:after {
+        clear: both;
+    }
+ 
+    .clear {
+        *zoom: 1;
+    }
+
+    #headerMenu {
+        display: none;   
+            text-indent: 38px !important;
+    }
+ 
+    a#headerMenu {
+        display: none;
+    }
+
+#headerNav {
+    width: 100%;
+    background: white;
+    position: relative;
+}
+ 
+#headerNav ul {
+    margin: 0 auto;
+}
+ 
+#headerNav li {
+    display: inline;
+    float: left;
+}
+ 
+#headerNav a {
+    display: inline-block;
+}
+ 
+#headerNav li:last-child a {
+    border-right: 0;
+}
+
+@media only screen and (max-width : 767px) {
+    #headerNav {
+        border-bottom: 0;
+        height: auto;
+        margin-top: -5px;
+    }
+
+        #headerNav ul {
+            display: none;
+            height: auto;
+            width: 100%;
+        }
+
+        #headerNav li {
+            width: 50%;
+            float: left;
+            position: relative;
+        }
+
+        #headerNav a {
+            text-align: left;
+            width: 100%;
+            text-indent: 25px;
+        }
+        /*#headerMenu {
+            float: left;
+    z-index: 10;
+    width: 50%;
+    }*/
+            #headerNav a#headerMenu {
+                display: block;
+                background-color: white;
+                width: 232px;
+                
+                height: 45px;
+
+                display: table-cell !important;
+                vertical-align: middle;
+                /*width: 100%;*/
+                position: relative;
+            }
+
+                #headerNav a#headerMenu:after {
+                    content: "";
+                    background: url('../Content/Images/nav-icon.png') no-repeat;
+                    width: 30px;
+                    height: 30px;
+                    display: inline-block;
+                    position: absolute;
+                    left: 10px;
+                }
+
+    .RowStyleTasks td, .AltRowStyleTasks td, .HeaderStyle, #divPager, .Section-treeView{
+
+    }
+
+    /*#Advfilter2 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }*/
+    .advancedSearchBox{
+            min-height: 30px !important;
+                line-height: normal !important;
+    }
+    #Advfilter-modal-content{
+            z-index: 100000;
+            margin-bottom: 20px;
+    }
+
+
+}

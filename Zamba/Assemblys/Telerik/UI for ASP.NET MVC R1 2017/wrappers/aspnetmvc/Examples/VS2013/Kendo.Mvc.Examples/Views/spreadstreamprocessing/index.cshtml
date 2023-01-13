@@ -1,0 +1,53 @@
+﻿
+<div class="demo-section custom-width">
+    <div class="imageContainer">
+        <img src="~/Content/web/spreadstreamprocessing/large-document-export.png" />
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    @using (Html.BeginForm("GenerateDocument", "SpreadStreamProcessing"))
+    {
+        @(Html.Label("Rows count: "))
+
+        @(Html.Kendo().NumericTextBox()
+                .Name("rowsCount")
+                .Decimals(0)
+                .Format("#")
+                .Value(5000)
+                .HtmlAttributes(new { style = "width: 120px;" })
+        )
+
+        @(Html.Label("File extension: "))
+
+        @(Html.Kendo().DropDownList()
+            .Name("fileType")
+            .BindTo(new[] {
+                new DropDownListItem() {Text="XLSX", Value="xlsx" },
+                new DropDownListItem() {Text="CSV", Value="csv" },
+            })
+            .HtmlAttributes(new { style = "width: 100px;" })
+        )
+
+        <input type="submit" class="k-button k-primary wide-btn" name="Submit" value="Export" />
+    }
+</div>
+
+
+<style>
+    .custom-width {
+        min-width: 900px;
+        text-align: center;
+    }
+
+    .k-numerictextbox,
+    .k-dropdown {
+        margin-right: 20px;
+    }
+
+    .k-dropdown {
+        width: 150px;
+    }
+</style>

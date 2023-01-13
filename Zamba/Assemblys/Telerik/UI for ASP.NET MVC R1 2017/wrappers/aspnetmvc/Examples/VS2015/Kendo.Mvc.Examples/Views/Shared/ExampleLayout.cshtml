@@ -1,0 +1,275 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadContent {
+    @RenderSection("HeadContent", false)
+}
+<script>
+    window.kendoTheme = "@ViewBag.Theme";
+    window.kendoCommonFile = "@ViewBag.CommonFile";
+</script>
+
+<script src="@Url.Content("~/Scripts/theme-chooser.js")"></script>
+
+@Html.Partial("WebSearchScript")
+<div id="example-sidebar">
+    <div id="example-search-wrapper" class="search-wrapper">
+        <div class="search">
+            <input id="example-search" placeholder="Search demos" />
+        </div>
+    </div>
+    <div id="example-nav-bar">
+        <a href="#" title="See all components" id="back-forward" class="back-nav">All Components</a>
+    </div>
+    <div id="nav-wrapper">
+        <div id="nav">
+            <div id="root-nav">
+                @foreach (IGrouping<string, NavigationWidget> category in ViewBag.WidgetCategories)
+                {
+                    <ul class="root-nav-categories">
+                        @if (category.Any(c => c.ShouldInclude()))
+                        {
+                            <li>
+                                <h3>@category.Key</h3>
+                                <ul class="root-nav-widgets">
+                                    @foreach (var widget in category)
+                                    {
+                                        if (widget.ShouldInclude())
+                                        {
+                                            <li>@Html.WidgetLink(widget, (string)ViewBag.NavProduct)</li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+            <div id="example-nav">
+                <h3>@ViewBag.CurrentWidget.Text</h3>
+                <ul>
+                    @foreach (NavigationExample example in ViewBag.CurrentWidget.Items)
+                    {
+                        if (example.ShouldInclude())
+                        {
+                            if (!string.IsNullOrEmpty(example.Group))
+                            {
+                                <li><span class="group">@example.Group</span></li>
+                            }
+                            <li>@Html.ExampleLink(example)</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <script>
+            $("#back-forward").on("click", function (e) {
+                if ($(this).hasClass("back-nav")) {
+                    $(this).removeClass("back-nav").addClass("forward-nav").text("@ViewBag.CurrentWidget.Text").attr("title", "See @ViewBag.CurrentWidget.Text demos");
+                    $("#nav").addClass("root");
+
+                }
+                else {
+                    $(this).removeClass("forward-nav").addClass("back-nav").text("All Components").attr("title", "See all components");
+                    $("#nav").removeClass("root");
+                }
+
+                e.preventDefault();
+            });
+
+            function setSearchListWidth() {
+                $("#example-search").data("kendoExampleSearch");
+            }
+
+            $(document).ready(function () {
+                resizeContainers();
+                setSearchListWidth();
+            });
+        </script>
+    </div>
+</div>
+<div id="main">
+    <a href="#" id="sidebar-toggle"><span></span></a>
+
+    @Html.Partial("ThemeChooser")
+
+    <h1 id="exampleTitle">
+        @if (ViewBag.CurrentExample != null)
+        {
+            <span class="exampleIcon @ViewBag.CurrentWidget.SpriteCssClass"></span>
+            <strong>@ViewBag.CurrentWidget.Text @(ViewBag.CurrentExample.Url.Contains("dashboard") ? "" : "/")</strong> @ViewBag.CurrentExample.Text
+        }
+    </h1>
+
+    <div id="exampleWrap">
+        <script>$("#exampleWrap").css("visibility", "hidden");</script>
+
+        @{
+            <div id="example">
+                @RenderBody()
+            </div>
+
+            if (ViewBag.Description != null)
+            {
+                <div class="box demo-description wide">
+                    <h4>Description</h4>
+                    @Html.Raw(ViewBag.Description)
+                </div>
+            }
+        }
+        <script>
+            $(function(){ $("#exampleWrap").css("visibility", ""); });
+        </script>
+    </div>
+
+
+
+    @{
+        NavigationExample currentExample = ViewBag.CurrentExample;
+        NavigationWidget currentWidget = ViewBag.CurrentWidget;
+        var html = currentWidget.ShouldInclude("online");
+        var php = currentWidget.ShouldInclude("php");
+        var jsp = currentWidget.ShouldInclude("jsp");
+    }
+
+    @if (ViewBag.ShowCodeStrip == true)
+    {
+
+        <div id="wrappers-source-code">
+            <h2>ASP.NET MVC source</h2>
+
+            @if (html || php || jsp)
+            {
+                <div class="other-source">
+                    <h4>Also available for:</h4>
+                    <ul>
+                        @if (html)
+                    {
+                            <li><a href="@Html.ProductExampleUrl(currentExample, "kendo-ui")">HTML5 / JavaScript</a></li>
+                        }
+                        @if (jsp)
+                    {
+                            <li><a href="@Html.ProductExampleUrl(currentExample, "jsp-ui")">JSP</a></li>
+                        }
+                        @if (php)
+                    {
+                            <li><a href="@Html.ProductExampleUrl(currentExample, "php-ui")">PHP</a></li>
+                        }
+                    </ul>
+                </div>
+            }
+
+        </div>
+
+        <div id="codeStrip">
+            <div class="buttons-wrap">
+                @if (!string.IsNullOrEmpty(ViewBag.Api))
+                {
+                    <a class="documentation-link k-link" href="@ViewBag.Api">API Reference</a>
+                }
+
+                @{
+                    IEnumerable<ExampleFile> examples = ViewBag.ExampleFiles;
+                }
+            </div>
+
+            @if (examples.Any())
+            {
+                <div id="source-code">
+                    <ul>
+                        @foreach (ExampleFile file in examples)
+                        {
+                            <li>@file.Name</li>
+                        }
+                    </ul>
+                    @foreach (ExampleFile file in examples)
+                    {
+                        <div></div>
+                    }
+                </div>
+                <script>
+                   (function () {
+                       var ts = $("#source-code").kendoTabStrip({
+                           animation: {
+                               open: {
+                                   effects: "fadeIn"
+                               }
+                           },
+                           contentUrls: [
+                                @Html.Raw(String.Join(",", examples.Select(file => "\"" + Url.Action("Index", "Source", new { path = file.Url } ) + "\"").ToArray()))
+                           ],
+                           contentLoad: function (e) {
+                               var content = $(e.contentElement);
+                               if (content.is("#source-code-1")) {
+                                   var html = content.find('.prettyprint').text();
+                                   content.data("html", content.find('.prettyprint').text());
+                               }
+
+                               prettyPrint();
+                           }
+                       }).data("kendoTabStrip");
+
+                       ts.select(0);
+                       $(window).resize(function () {
+                           ts.resize();
+                       });
+                   })();
+
+                </script>
+            }
+        </div>
+    }
+    <div id="resources-technologies" class="box">
+        @if (ViewBag.Forum != null || ViewBag.Documentation != null || ViewBag.CodeLibrary != null)
+        {
+            <div id="learning-resources" class="box-col">
+                <h4>Support & learning resources</h4>
+                <ul>
+                    @if (ViewBag.Forum != null)
+                {
+                        <li><a href="@ViewBag.Forum">Forums</a></li>
+                    }
+                    @if (ViewBag.CodeLibrary != null)
+                {
+                        <li><a href="@ViewBag.CodeLibrary">Code Libraries</a></li>
+                    }
+                    @if (ViewBag.Documentation != null)
+                {
+                        <li><a href="@ViewBag.Documentation">Documentation</a></li>
+                    }
+                </ul>
+            </div>
+        }
+        <div id="technologies" class="box-col">
+
+
+            @if (html || php || jsp)
+            {
+                <h4>@ViewBag.CurrentWidget.Text for other technologies</h4>
+                <ul>
+                    @if (html)
+                    {
+                        <li><a href="@Html.ProductExampleUrl(currentExample, "kendo-ui")">HTML5 / JavaScript</a></li>
+                    }
+                    @if (jsp)
+                    {
+                        <li><a href="@Html.ProductExampleUrl(currentExample, "jsp-ui")">JSP</a></li>
+                    }
+                    @if (php)
+                    {
+                        <li><a href="@Html.ProductExampleUrl(currentExample, "php-ui")">PHP</a></li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    @Html.Partial("Footer")
+</div>
+
+<script>
+    $(window).on("resize", function() {
+      kendo.resize($(".k-chart"));
+    });
+
+    setTimeout(function(){ prettyPrint(); }, 100);
+</script>

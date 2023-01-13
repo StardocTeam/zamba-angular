@@ -1,0 +1,875 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+
+</head>
+
+<body>
+    <center>
+        <form name="frmMain" action="Edt_Notificacion.html">
+            <div class="container-fluid">
+
+
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+                <!--Botones FORM-->
+                <div class="form-group row">
+
+                    <div class="col-md-6 panel panel-primary" >
+                        <center>
+                            <div class="">
+                                <b>Asociar a Juicio o Mediacion existente</b>
+                            </div>
+                            <div class="" style="padding: 5px 0 5px 0;">
+                                <div class="col-md-3 ">
+                                    <div class="input-group">
+                                        <!--juicio o Mediacion -->
+                                        <span class="input-group-addon">J o M</span>
+                                        <select class="form-control input-sm" id="zamba_index_2681" name="zamba_index_2681"> </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <!--RAJ = Nro Juicio/Mediacion-->
+                                            <span class="input-group-addon ">RAJ</span>
+                                        </div>
+                                        <input id="zamba_index_2695" name="zamba_index_2695" class="form-control input-sm" type="text" onchange="HabilitarDerivar();" />
+                                        <div class="input-group-btn">
+                                            <!--<button name="zamba_rule_1013575" id="zamba_rule_1013575" onclick="SetRuleId(this);" class="btn btn-sm btn-primary" type="submit" style="display:none"><i class="fa fa-eye"></i></button>-->
+                                            <!--span class="input-group-btn">
+                                                <button class="btn btn-default btn-sm" type="button" name="zamba_rule_1013024" id="zamba_rule_1013024" onclick="SetRuleId(this);">
+                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                </button>
+                                            </span-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--BTON Derivar-->
+
+                                        <input name="zamba_rule_11529753" id="zamba_rule_11529753" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Asociar y Derivar"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-md-2 panel panel-primary" id="zambarule1013562" >
+                        <center>
+                            <div class="">
+                                <b>Crear Nuevo Juicio o Mediacion</b>
+                            </div>
+                            <div class="" style="padding: 5px 0 5px 0;">
+                                <input name="zamba_rule_1013562" id="zamba_rule_1013562" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Cargar Nuevo J/M" style="display:none"/>
+                            </div>
+                        </center>
+                    </div>
+
+
+                    <div class="col-md-4  panel panel-primary">
+                        <center>
+                            <div class="x-panel-heading">
+                                <b>Herramientas de Busqueda</b>
+                            </div>
+                            <div class="" style="padding: 5px 0 5px 0;">
+                                <input name="zamba_rule_1528713" id="zamba_rule_1528713" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="GO">
+                                <input class="btn  btn-primary" id="zamba_rule_1013372" name="zamba_rule_1013372" type="submit" value="Buscar RAJ" onclick="SetRuleId(this);" style="display:none" />
+                                <input class="btn  btn-primary" id="zamba_rule_1016376" name="zamba_rule_1016376" type="submit" value="Buscar Notificación Previa" onclick="SetRuleId(this);" />
+                            </div>
+                            <!--<input class="btn  btn-primary" id="zamba_Rule_1013373" name="zamba_Rule_1013373" type="submit" value="Buscar Siniestro/Poliza" onclick="SetRuleId(this);" /> -->
+                        </center>
+                    </div>
+
+
+                </div>
+                <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+
+                <div class="tab-pane active" id="INGRESO DOCUMENTOS DE JUICIOS y MEDIACIONES">
+
+
+
+                    <div class="form-group row">
+                        <div class="PanelPrincipal">
+                            <div class="form-group row">
+
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon input-sm" style="color:blue">ID Reclamo</span>
+                                            <input id="zamba_index_2677" name="zamba_index_2677" class="form-control input-sm " disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-check" style="position:relative;bottom:5px;">
+                                            <input type="checkbox" class="form-check-input"
+                                                   id="zamba_index_1220201"
+                                                   name="zamba_index_1220201" style="height: 30px; width: 30px;" /> <span style="vertical-align:super"><b>2do VTO/2da AUD</b></span>
+                                        </div>
+										
+                            <div class="form-check"enableGroups="12943"  style="display: none;">
+                                <input type="checkbox" class="form-check-input" id="zamba_index_11535242"
+                                    name="zamba_index_11535242" style="height: 20px; width: 20px;" />
+                                <span><b>Visible para Auditor </b></span>
+                            </div>
+                        
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon input-sm" style="color:blue">Estado Notificacion</span>
+                                            <input id="zamba_index_10240" name="zamba_index_10240" class="form-control input-sm " disabled />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Expte. Jud.</span>
+                                            <!--Expediente-->
+                                            <input id="zamba_index_10163" name="zamba_index_10163" size="1" class="form-control" type="text" />
+                                            <!--span class="input-group-btn">
+                <button class="btn btn-default" type="button" name="zamba_rule_10163" id="zamba_rule_10163" onclick="SetRuleId(this);">
+                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                </button>
+            </span-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!--ID Notificacion-->
+                                            <span class="input-group-addon input-sm" style="color:blue">ID Notificación</span>
+                                            <input id="zamba_index_2702" name="zamba_index_2702" class="form-control input-sm " disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-3">
+                                                            <div class="input-group">
+        <--Nro de Caja>		                                   <span class="input-group-addon">Nro de Caja</span>
+                                                                <input id="zamba_index_9" name="zamba_index_9" size="1" class="form-control input-sm" disabled/>
+                                                            </div>
+                                                        </div>-->
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!--Ramo-->
+                                            <span class="input-group-addon">Ramo</span>
+                                            <select id="zamba_index_19" name="zamba_index_19" class="form-control input-sm" withcode> </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!--Siniestro-->
+                                            <span class="input-group-addon">Siniestro</span>
+                                            <input id="zamba_index_17" name="zamba_index_17" size="1" class="form-control" />
+                                            <!--span class="input-group-btn">
+                        <button class="btn btn-default" type="button" name="zamba_rule_18353" id="zamba_rule_18353" onclick="SetRuleId(this);">
+                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                        </button>
+                    </span-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!--Poliza-->
+                                            <span class="input-group-addon">Póliza</span>
+                                            <input id="zamba_index_1020022" name="zamba_index_1020022" size="1" class="form-control" />
+                                            <!--span class="input-group-btn">
+                        <button class="btn btn-default" type="button" name="zamba_rule_796" id="zamba_rule_796" onclick="SetRuleId(this);">
+                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                        </button>
+                    </span-->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!--Recepcion-->
+                                            <span class="input-group-addon">Recepción</span>
+                                            <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <div class="">
+                                            <div class="">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <!--Tipo de Documento-->
+                                                        <select class="btn btn-default Inputselect" id="zamba_index_108" name="zamba_index_108"> </select>
+                                                    </div>
+                                                    <!--Nro de Documento-->
+                                                    <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control" />
+                                                    <!--span class="input-group-btn">
+                                <button class="btn btn-default" type="button" name="zamba_rule_797" id="zamba_rule_797" onclick="SetRuleId(this);">
+                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                </button>
+                            </span-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <!--Cliente-->
+                                            <span class="input-group-addon">Cliente</span>
+                                            <input id="zamba_index_1020002" name="zamba_index_1020002" size="1" class="form-control" />
+                                            <!--span class="input-group-btn">
+                        <button class="btn btn-default" type="button" name="zamba_rule_9143" id="zamba_rule_9143" onclick="SetRuleId(this);">
+                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                        </button>
+                    </span-->
+                                        </div>
+                                    </div><div class="col-md-2">
+                                        <div class="input-group">
+                                            <!--Cliente-->
+                                            <span class="input-group-addon">Nro de Caja</span>
+                                            <input id="zamba_index_9" name="zamba_index_9" size="1" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!--Sector-->
+                                            <span class="input-group-addon">Sector</span>
+                                            <input id="zamba_index_126" name="zamba_index_126" size="1" class="form-control input-sm" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!--Actor-->
+                                            <span class="input-group-addon">Actor</span>
+                                            <input id="zamba_index_59" name="zamba_index_59" size="1" class="form-control" />
+                                            <!--span class="input-group-btn">
+                        <button class="btn btn-default" type="button" name="zamba_rule_1012909" id="zamba_rule_1012909" onclick="SetRuleId(this);">
+                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                        </button>
+                    </span-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!--Demandado-->
+                                            <span class="input-group-addon">Demandado</span>
+                                            <input id="zamba_index_60" name="zamba_index_60" size="1" class="form-control" />
+                                            <!--span class="input-group-btn">
+                        <button class="btn btn-default" type="button" name="zamba_rule_1012910" id="zamba_rule_1012910" onclick="SetRuleId(this);">
+                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                        </button>
+                    </span-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <!--Tipo de Documentacion Notificación-->
+                                            <span class="input-group-addon">Tipo de Documentación</span>
+                                            <Select id="zamba_index_1161" name="zamba_index_1161" class="form-control input-sm"> </Select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!--Origen de la Notificacion-->
+                                            <span class="input-group-addon">Origen de la Notificación</span>
+                                            <select class="form-control input-sm" id="zamba_index_66" name="zamba_index_66"></select>
+                                        </div>
+                                    </div>
+                                    <!--F. de Notificacion-->
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">F. Notificación</span>
+                                            <input class="form-control input-sm dataType datepicker" autocomplete="off" id="zamba_index_57" name="zamba_index_57" onchange="CompletarVto();valFecha(this); validarFechaNotificacionValida();">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!--Dias Habiles-->
+                                            <span class="input-group-addon">Días hábiles</span>
+                                            <input class="form-control input-sm" id="zamba_index_1525190" name="zamba_index_1525190" onchange="CompletarVto();" /> <!--id="txtCantHabiles" name="txtCantHabiles" onkeyup="CompletarVto();"-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <!--F. de Vencimiento/Audiencia-->
+                                            <span class="input-group-addon">F. Vto / Audiencia</span>
+                                            <input class="form-control input-sm dataType datepicker" data-date-open-on-focus="true" id="zamba_index_2705" name="zamba_index_2705" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--<div class="form-group row">
+            <div id="tblObervaciones" class="attributes_table">
+                <input class="btn  btn-info btn-sm" id="zamba_rule_1014004" name="zamba_rule_1014004" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+            </div>
+            <div class="form-group row">
+            </div>
+        </div>-->
+                                <div class="form-group row">
+                                    <div class="col-xs-4 col-md-offset-4 ">
+
+                                        <input class="btn  btn-primary" id="zamba_rule_11543807" name="zamba_rule_11543807" type="submit" value="Guardar cambios" onclick="SetRuleId(this);" />
+										<button class="btn  btn-primary" id="zamba_rule_1017071" name="zamba_rule_1017071" type="submit" value="Abrir Reclamo" onclick="SetRuleId(this);" >Abrir Reclamo</button>
+										<button class="btn  btn-primary" id="zamba_rule_11533715" name="zamba_rule_11533715" type="submit" value="Mal Notificada" onclick="SetRuleId(this);" >Mal Notificada</button>
+										<input class="btn btn-warning" id="zamba_rule_11529992" name="zamba_rule_11529992" type="submit" value="Eliminar" style="display:none" onclick="return ExecutetaskRuleWithConfirmMessage('Queres Eliminar la Notificacion', 1122772, CloseCurrentTask);" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-xs-12 col-md-12 ">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <!--Area texto Observacion-->
+                                                <div id="appObservaciones" ng-controller="ObservacionController">
+                                                    <zamba-observaciones index-id="84" entity-id="2524"></zamba-observaciones>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                                    <!--<div class="col-md-6">-->
+                                    <!--DropZone-->
+                                    <!--<div style="position:relative; right: 85px">
+                    <zamba-drop id="0">  </zamba-drop>
+                </div>
+            </div>-->
+                                </div>
+                            </div>
+
+                    <div class="form-group row" style="height:100%">
+                        <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                            <iframe id="previewDocSearch" class="IframeClass MargenIframe" style="margin-top:50px; width:100%" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="form-group row"></div>
+
+                    <div class="form-group row"></div>
+
+
+                    <div class="row">
+                        <center>
+                            <div class="col-md-2" style="position:relative;left:20px;">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <span style="color:whitesmoke">Edt_Notificacion.html</span>
+                            </div>
+                            <div class="col-md-5">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                <div class="form-group row">
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+
+
+
+
+                <script>
+
+                    $(function () {
+                        ValidarTipoDocumentacion();
+
+                    });
+
+                    function Deshabilita() {
+                        $('zamba_rule_1015272').attr('disabled', 'disabled');
+                    }
+
+                    function ValidarPolizaCompleto() {
+                        //if ($('#zamba_index_34').val() != '' && $('#zamba_index_2681').val() == '' && $('#zamba_index_2695').val() == '' && $('#zamba_index_19').val() == '' && $('#zamba_index_17').val() == '' && $('#zamba_index_59').val() == '') {
+
+                        //} else {
+                        if ($('#zamba_index_34').val() != '' && $('#zamba_index_2681').val() != '' && $('#zamba_index_2695').val() != '' && $('#zamba_index_19').val() != '' && $('#zamba_index_17').val() != '' && $('#zamba_index_59').val() != '') {
+                            $('#zamba_index_2681').attr('disabled', 'disabled');
+                            $('#zamba_index_2695').attr('disabled', 'disabled');
+                            $('#zamba_index_19').attr('disabled', 'disabled');
+                            $('#zamba_index_59').attr('disabled', 'disabled');
+                            $('#zamba_index_17').attr('disabled', 'disabled');
+                        } else {
+                            $('#zamba_index_2681').removeAttr("disabled");
+                            $('#zamba_index_2695').removeAttr("disabled");
+                            $('#zamba_index_19').removeAttr("disabled");
+                            $('#zamba_index_17').removeAttr("disabled");
+                            $('#zamba_index_59').removeAttr("disabled");
+                        }
+                        //}
+
+                    }
+
+                    function ValidarDemandadoCompleto() {
+                        if ($('#zamba_index_60').val() != '' && $('#zamba_index_2681').val() != '' && $('#zamba_index_2695').val() != '' && $('#zamba_index_19').val() != '' && $('#zamba_index_17').val() != '' && $('#zamba_index_59').val() != '') {
+                            $('#zamba_index_2681').attr('disabled', 'disabled');
+                            $('#zamba_index_2695').attr('disabled', 'disabled');
+                            $('#zamba_index_19').attr('disabled', 'disabled');
+                            $('#zamba_index_59').attr('disabled', 'disabled');
+                            $('#zamba_index_17').attr('disabled', 'disabled');
+                        } else {
+                            $('#zamba_index_2681').removeAttr("disabled");
+                            $('#zamba_index_2695').removeAttr("disabled");
+                            $('#zamba_index_19').removeAttr("disabled");
+                            $('#zamba_index_17').removeAttr("disabled");
+                            $('#zamba_index_59').removeAttr("disabled");
+                        }
+
+                        $('#zamba_index_60').val($('#zamba_index_60').val().toUpperCase());
+
+                    }
+
+                    function ValidarClienteCompleto() {
+                        if ($('#zamba_index_1020002').val() != '' && $('#zamba_index_2681').val() != '' && $('#zamba_index_2695').val() != '' && $('#zamba_index_19').val() != '' && $('#zamba_index_17').val() != '' && $('#zamba_index_59').val() != '') {
+                            $('#zamba_index_2681').attr('disabled', 'disabled');
+                            $('#zamba_index_2695').attr('disabled', 'disabled');
+                            $('#zamba_index_19').attr('disabled', 'disabled');
+                            $('#zamba_index_59').attr('disabled', 'disabled');
+                            $('#zamba_index_17').attr('disabled', 'disabled');
+                        } else {
+                            $('#zamba_index_2681').removeAttr("disabled");
+                            $('#zamba_index_2695').removeAttr("disabled");
+                            $('#zamba_index_19').removeAttr("disabled");
+                            $('#zamba_index_17').removeAttr("disabled");
+                            $('#zamba_index_59').removeAttr("disabled");
+                        }
+                    }
+
+                    function ValidarActorCompleto() {
+                        if ($('#zamba_index_59').val() != '' && $('#zamba_index_2681').val() != '' && $('#zamba_index_2695').val() != '' && $('#zamba_index_19').val() != '' && $('#zamba_index_17').val() != '' && $('#zamba_index_60').val() != '') {
+                            $('#zamba_index_2681').attr('disabled', 'disabled');
+                            $('#zamba_index_2695').attr('disabled', 'disabled');
+                            $('#zamba_index_19').attr('disabled', 'disabled');
+                            $('#zamba_index_60').attr('disabled', 'disabled');
+                            $('#zamba_index_17').attr('disabled', 'disabled');
+                        } else {
+                            $('#zamba_index_2681').removeAttr("disabled");
+                            $('#zamba_index_2695').removeAttr("disabled");
+                            $('#zamba_index_19').removeAttr("disabled");
+                            $('#zamba_index_17').removeAttr("disabled");
+                            $('#zamba_index_60').removeAttr("disabled");
+                        }
+
+                        $('#zamba_index_59').val($('#zamba_index_59').val().toUpperCase());
+                    }
+                    function ValidarTipoDocumentacion() {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            $('#NotificacionArea').removeAttr("style");
+                            $('#NotificacionArea').css('display', 'block');
+                        } else {
+                            $('#NotificacionArea').css('display', 'none');
+                        }
+
+                        if ($('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            $('#zamba_rule_1012897').removeAttr("style");
+                            $('#zamba_rule_1012897').css('display', 'true');
+                            $('#zamba_rule_1014947').removeAttr("style");
+                            $('#zamba_rule_1014947').css('display', 'true');
+                            $('#zamba_rule_1020561').removeAttr("style");
+                            $('#zamba_rule_1020561').css('display', 'true');
+                            $('#zamba_rule_1020563').removeAttr("style");
+                            $('#zamba_rule_1020563').css('display', 'true');
+                        } else {
+                            $('#zamba_rule_1012897').removeAttr("style");
+                            $('#zamba_rule_1012897').css('display', 'none');
+                            $('#zamba_rule_1014947').removeAttr("style");
+                            $('#zamba_rule_1014947').css('display', 'none');
+                            $('#zamba_rule_1020561').removeAttr("style");
+                            $('#zamba_rule_1020561').css('display', 'none');
+                            $('#zamba_rule_1020563').removeAttr("style");
+                            $('#zamba_rule_1020563').css('display', 'none');
+                        }
+                    }
+
+                    function ValidarCampoDocumentacion() {
+                        if ($('#zamba_index_1161').val() == 'AN' && $('#zamba_index_1525190').val() == '') {
+                            return false;
+                        }
+                    }
+
+                    function ValidarFechaNotificacion() {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            if ($('#zamba_index_57').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function ValidarFechaVtoAudiencia() {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AN') {
+                            if ($('#zamba_index_2705').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+                    function ValidarRajObligatorio() {
+                        if ($('#zamba_index_1161').val() != 'AJ' && $('#zamba_index_1161').val() != 'AM' && $('#zamba_index_1161').val() != 'AN' && $('#zamba_index_1161').val() != 'AK') {
+                            if ($('#zamba_index_2695').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function ValidarNotificacionMediacion() {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            if ($('#zamba_index_66').val() == '') {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function ValidarTipoDocumentoJuicioMediacion() {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AK' || $('#zamba_index_1161').val() == 'AL') {
+                            if ($("#zamba_index_2681").val() == 'M') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                        else {
+                            if ($('#zamba_index_1161').val() == 'AC' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN' || $('#zamba_index_1161').val() == 'AO' || $('#zamba_index_1161').val() == 'AP' || $('#zamba_index_1161').val() == 'AQ' || $('#zamba_index_1161').val() == 'AR' || $('#zamba_index_1161').val() == 'AS' || $('#zamba_index_1161').val() == 'AT' || $('#zamba_index_1161').val() == 'AU' || $('#zamba_index_1161').val() == 'AV' || $('#zamba_index_1161').val() == 'AX' || $('#zamba_index_1161').val() == 'AZ' || $('#zamba_index_1161').val() == 'BA' || $('#zamba_index_1161').val() == 'BB') {
+                                if ($("#zamba_index_2681").val() == 'J') {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
+                            else {
+                                return true;
+                            }
+                        }
+                    }
+
+
+                    $(document).ready(function () {
+                        $(".solonums").each(function () {
+                            $(this).keypress(function (e) {
+                                return IntegerCheck(e);
+                            })
+                        });
+
+                        document.getElementById("zamba_index_59").addEventListener("keypress", forceKeyPressUppercase, false);
+
+                        document.getElementById("zamba_index_60").addEventListener("keypress", forceKeyPressUppercase, false);
+                        document.getElementById("zamba_index_1020002").addEventListener("keypress", forceKeyPressUppercase, false);
+
+
+                    });
+
+
+                    function validarFechaNotificacionValida() {
+                        var validated = ValidarFechaMenorIgualActual($('#zamba_index_57').val());
+                        if (validated == false) {
+                            swal("Por favor, complete con una Fecha de Notificación  menor o igual a la del día de hoy.");
+                            $('#zamba_index_57').val('')
+                            $('#zamba_index_2705').val('')
+                            return;
+                        }
+
+                        if ($('#zamba_index_57').val() == undefined || $('#zamba_index_57').val() == null || $('#zamba_index_57').val() == '') {
+                            swal("Por favor, complete con una Fecha de Notificación");
+                            $('#zamba_index_57').val('')
+                            $('#zamba_index_2705').val('')
+                            return;
+                        }
+
+                        if ($('#zamba_index_2705').val() != undefined && $('#zamba_index_2705').val() != null && $('#zamba_index_2705').val() != '') {
+                            if (ValidarFechaNotioficacionMenorAVto($('#zamba_index_57').val(), $('#zamba_index_2705').val()) == false) {
+                                swal("Por favor, complete con una Fecha de Notificación menor a la Fecha de Vencimiento/Audiencia.");
+                                // $('#zamba_index_57').val('')
+                                //  $('#zamba_index_2705').val('')
+                                return;
+                            }
+                        }
+                    }
+
+                    function CompletarVto() {
+                        if ($('#zamba_index_57').val() == undefined || $('#zamba_index_57').val() == null || $('#zamba_index_57').val() == '') {
+                            $("#zamba_index_57").addClass("error");
+                            $("#zamba_index_2705").val('');
+                        } else {
+                            $("#zamba_index_57").removeClass("error");
+                            var dias = $("#zamba_index_1525190").val();
+                            var fecha = $("#zamba_index_57").val();
+                            fecha = CalcularLaborales(dias, fecha);
+                            $("#zamba_index_2705").val(fecha);
+                        }
+                    }
+
+
+                    function validarFechaVto() {
+                        if ($('#zamba_index_57').val() == undefined || $('#zamba_index_57').val() == null || $('#zamba_index_57').val() == '') {
+                            var validated = ValidarFechaNotioficacionMenorAVto($('#zamba_index_57').val(), $('#zamba_index_2705').val());
+                            if (validated == false) {
+                                swal("Por favor, complete con una Fecha de Notificación menor a la Fecha de Vencimiento/Audiencia.");
+                            }
+                        }
+                    }
+
+
+
+                    function ValidarFechaVencimiento() {
+                        var date_ini = new Date($('#zamba_index_57').val()).getTime();
+                        var date_end = new Date($('#zamba_index_2705').val()).getTime();
+                        if (isNaN(date_ini)) {
+                            // error date_ini;
+                            return false;
+                        }
+                        if (isNaN(date_end)) {
+                            // error date_end;
+                            return false;
+                        }
+                        if (date_ini > date_end) {
+                            swal("Complete F. de Vto./Audiencia");
+                            document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    function ValidarFechaMenorIgualActual(valueDate) {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            var currentDate = new Date();
+                            var dateParts = valueDate.split('/');
+                            var validateDate = new Date(dateParts[1] + "/" + dateParts[0] + "/" + dateParts[2]);
+
+                            if (Date.parse(currentDate) >= Date.parse(validateDate)) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function zamba_save_onclick(sender) {
+                        var valido = true;
+                        //if (document.getElementById("zamba_index_57").value == "") {
+                        //    swal("Por favor, complete la Fecha de Notificación.");
+                        //    valido = false;
+                        //} else if (document.getElementById("zamba_index_2705").value == "") {
+                        //    swal("Por favor, complete la fecha de Vencimiento.");
+                        //    valido = false;
+                        //} else
+                        if (document.getElementById("zamba_index_2702").value == "") {
+                            swal("Por favor, identifique un reclamo.");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_2681").value == "") {
+                            swal("Por favor, ingrese si es Juicio o Mediación.");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_60").value == "") {
+                            swal("Por favor, ingrese si el DEMANDADO.");
+                            valido = false;
+                        } else if (document.getElementById("zamba_index_59").value == "") {
+                            swal("Por favor, ingrese el Actor.");
+                            valido = false;
+                            //} else if (document.getElementById("zamba_index_66").value == "") {
+                            //                         swal("Por favor, ingrese el Origen de la Notificación");
+                            //                         valido = false;
+                        } else if (document.getElementById("zamba_index_1161").value == "") {
+                            swal("Ingrese Tipo de Documentación");
+                            valido = false;
+                        } else if (ValidarTipoDocumentacion() == false) {
+                            swal("Por favor, Ingrese los dias habiles");
+                            valido = false;
+                            //} else if (document.getElementById("zamba_index_10188").value == "") {
+                            //    swal("Por favor, ingrese la Cantidad de Etiquetas");
+                            //    valido = false;
+                            //} else if (ValidarFechaVencimiento() == false) {
+                            //    valido = false;
+                        } else if (ValidarFechaNotificacion() == false) {
+                            swal("Por favor, complete la Fecha de notificación.");
+                            valido = false;
+                        } else if (ValidarFechaVtoAudiencia() == false) {
+                            swal("Por favor, Complete F. de Vto./Audiencia.");
+                            valido = false;
+                        } else if (ValidarRajObligatorio() == false) {
+                            swal("Por favor, complete el RAJ.");
+                            valido = false;
+                        } else if (ValidarNotificacionMediacion() == false) {
+                            swal("Por favor, Ingrese origen de la notificación.");
+                            valido = false;
+                        } else if (ValidarFechaMenorIgualActual($('#zamba_index_57').val()) == false) {
+                            swal("La Fecha de notificación no puede ser mayor a la del día de hoy.");
+                            valido = false;
+                        } else if ($('#zamba_index_1161').val() != 'AM' && ValidarFechaNotioficacionMenorAVto($('#zamba_index_57').val(), $('#zamba_index_2705').val()) == false) {
+                            swal("La Fecha de Vencimiento/Audiencia no puede ser menor que la Fecha de notificación.");
+                            valido = false;
+                        } else if (ValidarTipoDocumentoJuicioMediacion() == false) {
+                            swal("No coincide el tipo de Documento con la seleccion de Juicio/Mediación");
+                            valido = false;
+                        } else {
+                            SetRuleId(sender);
+                        }
+                        return valido;
+                    }
+                    function CargarFechasyBotones() {
+                        //CargarFechaIndice('zamba_index_57');
+                        //CargarFechaIndice('zamba_index_2705');
+                    }
+                    function VerificarJuiMed(sel) {
+                        if (sel.value == 'Juicio')
+                            $("#zamba_index_2717").val(1);
+                        else
+                            $("#zamba_index_2717").val(4);
+                    }
+                    function VerificarTipoNotif(sel) {
+                        if (sel.value == 4)
+                            $("#zamba_index_2681").val('Mediación');
+                        else
+                            $("#zamba_index_2681").val('Juicio');
+                    }
+                    function IDReclamo_KeyPress(e) {
+                        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                            return false;
+                        }
+                        var key = window.event ? e.keyCode : e.which;
+                        if (key == 13) {
+                            document.getElementById("zamba_rule_11237").click();
+                        }
+                    }
+                    function Caratula_KeyPress(e) {
+                        var key = window.event ? e.keyCode : e.which;
+                        if (key == 13) {
+                            document.getElementById("zamba_rule_9236").click();
+                        }
+                    }
+                    function Patente_KeyPress(e) {
+                        var key = window.event ? e.keyCode : e.which;
+                        if (key == 13) {
+                            document.getElementById("zamba_rule_9147").click();
+                        }
+                    }
+                    function Asegurado_KeyPress(e) {
+                        var key = window.event ? e.keyCode : e.which;
+                        if (key == 13) {
+                            document.getElementById("zamba_rule_9143").click();
+                        }
+                    }
+
+                    function ValidarFechaMenorIgualActual(valueDate) {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            var currentDate = new Date();
+                            var fecha = cambiarFormatoFechaAMDY(valueDate);
+                            if (Date.parse(currentDate) >= Date.parse(fecha)) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function ValidarFechaNotioficacionMenorAVto(FechaNotificacion, FechaVto) {
+                        if ($('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN') {
+                            var FechaNotificaccionFormateada = cambiarFormatoFechaAMDY(FechaNotificacion),
+                                FechaVtoFormateada = cambiarFormatoFechaAMDY(FechaVto);
+                            if (Date.parse(FechaVtoFormateada) > Date.parse(FechaNotificaccionFormateada)) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+
+                    function cambiarFormatoFechaAMDY(fecha) {
+                        var PartesFecha = fecha.split('/');
+                        var validateDate = new Date(PartesFecha[1] + "/" + PartesFecha[0] + "/" + PartesFecha[2]);
+                        return validateDate;
+                    }
+
+
+                    function ZFUNCTION() {
+
+                        EnableAttributeBIfAttributeAIsNotEmpty($('#zamba_index_2695'), $('#zamba_rule_1013575'));
+                        EnableAttributeBIfAttributeAIsNotEmpty($('#zamba_index_2695'), $('#zamba_rule_1528619'));
+
+                        EnableAttributeBIfAttributeAIsNotEmpty($('#zamba_index_2695'), $('#zamba_rule_1528619'));
+                        EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zamba_rule_1013372'));
+                        EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zamba_rule_1013373'));
+                        EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zambarule1013562'));
+                        EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zamba_rule_1013562'));
+
+                        //Habilita Buscar Mediacion Previa si es 1er Informe
+                        /* if ($('#zamba_index_1161').val() == 'AK') {
+                             $('#zamba_rule_1016376').css('display', 'true');
+                             $('#zamba_rule_1013372').css('display', 'none');
+                             $('#zamba_rule_1013562').css('display', 'none');
+                         } else {
+                             $('#zamba_rule_1016376').css('display', 'none');
+                         }
+            */
+                        var timerid;
+                        $("#zamba_index_2695").on("input", function (e) {
+                            var value = $(this).val();
+                            if ($(this).data("lastval") != value) {
+                                $(this).data("lastval", value);
+
+
+                                clearTimeout(timerid);
+                                timerid = setTimeout(function () {
+
+                                    //change action
+                                    EnableAttributeBIfAttributeAIsNotEmpty($('#zamba_index_2695'), $('#zamba_rule_1013575'));
+                                    EnableAttributeBIfAttributeAIsNotEmpty($('#zamba_index_2695'), $('#zamba_rule_1528619'));
+
+                                    EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zamba_rule_1013372'));
+                                    EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zamba_rule_1013373'));
+                                    EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zambarule1013562'));
+                                    EnableAttributeBIfAttributeAIsEmpty($('#zamba_index_2695'), $('#zamba_rule_1013562'));
+
+                                }, 100);
+
+                            };
+                        });
+                    };
+
+
+                    $(document).ready(function () {
+                        $(".solonums").each(function () {
+                            $(this).keypress(function (e) {
+                                return IntegerCheck(e);
+                            })
+                        });
+
+                        document.getElementById("zamba_index_59").addEventListener("keypress", forceKeyPressUppercase, false);
+
+                        document.getElementById("zamba_index_60").addEventListener("keypress", forceKeyPressUppercase, false);
+                        document.getElementById("zamba_index_1020002").addEventListener("keypress", forceKeyPressUppercase, false);
+                    });
+
+                    function HabilitarDerivar() {
+                        if ($('#zamba_index_2695').val == "")
+                            $('#zamba_rule_1528619').hide();
+                        else
+                            $('#zamba_rule_1528619').show();
+                    }
+
+
+                </script>
+
+
+
+
+
+            </div>
+        </form>
+    </center>
+</body>
+</html>

@@ -1,0 +1,144 @@
+﻿<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+</button>-->
+<link href="../../app/Login/login.css" rel="stylesheet" />
+
+<link href="../../Content/Login/animate/animate.css" rel="stylesheet" />
+<link href="../../Content/Login/animsition/css/animsition.min.css" rel="stylesheet" />
+<link href="../../Content/Login/select2/select2.min.css" rel="stylesheet" />
+
+<link href="../../Content/Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="../../Content/Login/fonts/iconic/css/material-design-iconic-font.min.css" rel="stylesheet" />
+
+<link href="../../Content/Login/css/util.css" rel="stylesheet" />
+<link href="../../Content/Login/css/main.css" rel="stylesheet" />
+<link href="../../Content/toastr.css" rel="stylesheet" />
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+           
+            <div class="modal-body bg">
+                <div class="limiter">
+                    <div class="container-login84">
+                        <div class="wrap-login100" id="loginContainer">
+                            <form id="form2" runat="server" role="form" defaultbutton="btnLogin" class="login100-form validate-form">
+
+
+                                <div class="">
+                                    <img id="clientlogo" class="img-responsive  cabecera-login-boston"  height="180">
+                                </div>
+
+
+                                <div class="row">
+                                    <div id="controlMensaje" class="controlMensaje">
+                                        <asp:Label ID="lblMensajeLogin" Font-Bold="false" Visible="true" runat="server" Font-Size="Small" Text="" />
+                                    </div>
+                                </div>
+
+                                <div id="pnlZambaLogin" runat="server">
+
+                                    <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+                                        <input runat="server" class="input100 login-font-size-25-mobile" type="text" name="email" id="txtUserName" autocomplete="off" placeholder="Usuario">
+                                        <span class="focus-input100"></span>
+
+                                    </div>
+
+
+                                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+
+                                        <input class="input100 login-font-size-50-mobile" runat="server" id="txtPassword" type="password" name="pass" placeholder="Clave" autocomplete="off">
+                                        <span class="focus-input100"></span>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="container-login100-form-btn">
+                                    <div class="wrap-login100-form-btn">
+                                        <div class="login100-form-bgbtn"></div>
+                                        <asp:LinkButton runat="server" class="login100-form-btn" OnClick="btnLoginZamba_Click" ID="btnLogin" OnClientClick="return showSpinnerLogin();">
+                                            Ingresar
+                                        </asp:LinkButton>
+                                    </div>
+                                </div>
+
+
+                                <h5 align="center">
+                                    <label align="center" id="lblError" runat="Server" style="color: red;"></label>
+                                </h5>
+                                <div id="spinner-box-container">
+                                    <img id="z-img-spinner">
+                                </div>
+                                <div class="p-t-10">
+                                    <div class="login-font-size-30-mobile" style="font-size: x-small;">Zamba Web Ver. {{version}}</div>
+                                    <div class="login-font-size-30-mobile" style="font-size: x-small;">Copyright© {{CurrentDate | date:'yyyy-MM-dd'}} Stardoc Argentina - Todos los derechos reservados.</div>
+                                </div>
+
+
+                                <div style="display: none">
+
+                                    <div class="row bannerHeader">
+
+                                    </div>
+
+
+
+                                    <div id="">
+                                        <div class="row">
+                                            <div class=" col-xs-12 col-md-offset-4 col-md-4">
+
+
+                                            </div>
+                                            <div class=" col-xs-12 col-md-offset-4 col-md-4 ">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <asp:Panel ID="pnlWindowsLogin" runat="server">
+                                            <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile col-xs-offset-5 btn btn-primary" OnClick="btnLoginWindows_Click" ID="btnLoginWindows">
+                                                Ingresar <span class="glyphicon glyphicon-log-in"></span>
+                                            </asp:LinkButton>
+                                        </asp:Panel>
+                                    </div>
+
+                                    <div class="row hidden-xs">
+                                        <div class="FooterLogIn">
+                                            <div class="divSlogan" style="display: none">
+                                                <p id="version" style="display: none">V.- 1.0</p>
+                                            </div>
+                                            &nbsp;
+                                        </div>
+                                        <div>
+                                            <%-- <img class="pwbyzamba" src="../../Content/Images/pwbyzamba.png" alt="" />--%>
+                                            <div class="hidden-xs ">
+                                                <div class="legal">
+                                                    <div class="login-font-size-30-mobile">Zamba Web Ver. <% =ConfigurationManager.AppSettings["ZambaVersion"].ToString() %></div>
+                                                    <div class="login-font-size-30-mobile">Copyright© <% =DateTime.Now.ToString("yyyy") %> Stardoc Argentina - Todos los derechos reservados.</div>
+                                                </div>
+                                                <br />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

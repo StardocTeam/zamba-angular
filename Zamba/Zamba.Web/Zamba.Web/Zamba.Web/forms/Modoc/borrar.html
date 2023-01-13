@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+
+  
+</head>
+
+<body>
+
+    <div  >
+        <div ng-controller="appController">
+            <div class="form-group row">
+
+                <form name="frmMain" action="Filtro_Guia_FECHA.html">
+
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+
+                      
+
+                            <div class="form-group row">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-2">
+                                    <center>
+                                        <strong>Filtro Guiassss</strong>
+                                    </center>
+                                </div>                              
+                            </div>
+                            <div class="PanelPrincipal">
+
+                                <div class="form-group row"></div>
+                                
+                               
+                                <div class="form-group row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Desde:</span>
+                                            <input id="zamba_index_139551" name="zamba_index_139551" class="form-control input-sm datepicker" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Hasta:</span>
+                                            <input id="zamba_index_139645" name="zamba_index_139645" class="form-control input-sm datepicker" />
+                                        </div>
+                                    </div>
+                                </div>                                                               
+
+                                <div class="form-group row">
+                                    <center>
+                                        <button name="zamba_rule_" id="zamba_rule_" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" >Buscar</button>
+                                        <!-- <input type="button" name="zamba_close" id="zamba_close" onclick="SetRuleId(this);" class="btn-sm btn-primary" value="Cancelar"> -->
+                                    </center>
+                                </div>
+
+                              
+                                <div class="form-group row"></div>
+                                <div class="row">
+                                    <center>
+                                        <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                            <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <span style="color:whitesmoke">Filtro_Guia_FECHA.html</span>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">
+                                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                            <div class="form-group row">
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                      
+                    </div>
+
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

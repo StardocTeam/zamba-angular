@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{417665A3-41B6-4ED7-90AC-30B9C23608CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zamba.Simulator</RootNamespace>
+    <AssemblyName>Zamba.Simulator</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Zamba.Simulator.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Zamba.Simulator.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks">
+      <HintPath>..\..\..\Assemblys\Microsoft.VisualBasic.PowerPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Model\TestCase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextBoxStreamWriter.cs" />
+    <Compile Include="UcSimulationABM.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcSimulationABM.Designer.cs">
+      <DependentUpon>UcSimulationABM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSimulationDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSimulationDebug.Designer.cs">
+      <DependentUpon>FrmSimulationDebug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcSimulationExecution.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcSimulationExecution.Designer.cs">
+      <DependentUpon>UcSimulationExecution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcSimulationManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcSimulationManager.Designer.cs">
+      <DependentUpon>UcSimulationManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmSimulationStatistics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSimulationStatistics.Designer.cs">
+      <DependentUpon>FrmSimulationStatistics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Dictionary.cs" />
+    <Compile Include="Model\Process.cs" />
+    <Compile Include="FrmDictionaryABM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDictionaryABM.Designer.cs">
+      <DependentUpon>FrmDictionaryABM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDictionarySelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDictionarySelection.Designer.cs">
+      <DependentUpon>FrmDictionarySelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmProcess.Designer.cs">
+      <DependentUpon>FrmProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Simulation.cs" />
+    <Compile Include="FrmTaskSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTaskSelection.Designer.cs">
+      <DependentUpon>FrmTaskSelection.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="UcSimulationABM.resx">
+      <DependentUpon>UcSimulationABM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSimulationDebug.resx">
+      <DependentUpon>FrmSimulationDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcSimulationExecution.resx">
+      <DependentUpon>UcSimulationExecution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcSimulationManager.resx">
+      <DependentUpon>UcSimulationManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSimulationStatistics.resx">
+      <DependentUpon>FrmSimulationStatistics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="FrmDictionaryABM.resx">
+      <DependentUpon>FrmDictionaryABM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDictionarySelection.resx">
+      <DependentUpon>FrmDictionarySelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmProcess.resx">
+      <DependentUpon>FrmProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTaskSelection.resx">
+      <DependentUpon>FrmTaskSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checkmark-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\run_command-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_property-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_property-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_property-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_sign-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\maximize_window-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minimize_window-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\outline-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings2-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_window-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reglas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checkmark-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_file-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_file-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_file-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\todo_list-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bug-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tear_off_calendar-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\timer-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\statistics-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus2_math-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus_math-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus_math-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sinchronize-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\debug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\diagrama.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Proyectos\DataGenerator\DataGenerator\Zamba.DataGenerator.vbproj">
+      <Project>{ab97e9e6-a283-435c-a7e1-7affa8fbc10c}</Project>
+      <Name>Zamba.DataGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2db9897d-b4bf-42ef-b769-88f694be3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952c9b3b-3d9e-4ae2-a823-6b8e1f4f4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{e16279a2-165d-4d96-ad32-009874164c05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

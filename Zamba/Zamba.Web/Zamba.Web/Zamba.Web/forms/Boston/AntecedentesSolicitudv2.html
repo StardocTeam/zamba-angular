@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="AntecedentesSolicitudv2.css" type="text/css" />
+    <style type="text/css">
+        input {
+            font-size: xx-small;
+        }
+
+        p.description {
+            font-size: x-small;
+            width: 121px;
+            height: 15px;
+        }
+
+        #zamba_innerdoctype_original {
+            width: 98%;
+        }
+
+        .style24 {
+            height: 53px;
+        }
+
+        body {
+            font-size: 13px;
+        }
+    </style>
+     
+
+    
+    <script src="AntecedentesSolicitudv2.js" type="text/javascript" language="JavaScript"></script>
+    
+
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="AntecedentesSolicitudv2.html">
+            <input id="hdnRuleId" type="hidden" />
+
+            <div class="form-group row">
+
+                <div class="col-md-12">
+
+                    <div>
+                        <h4 style="color: black;">Solicitud de Emision de Poliza - Antecedentes Completos</h4>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group row">
+            <div class="col-md-1">
+                <input class="btn btn-primary btn-md" id="zamba_rule_5304" type="submit" value="Volver" name="zamba_rule_5304" onclick="SetRuleId(this);" />
+            </div>
+        </div>
+         
+                <div class="form-group row">
+
+                    <div id="zamba_zvar(PolizasanterioresS)">
+                       <center>
+                            Antecedentes
+                        </center>
+                        <tbody id="zamba_rule_5323/Poliza/zvar(polizaSolicitud=2)zvar(seccionSolicitud=1)">
+                        </tbody>
+                    </div>
+
+                </div>          
+
+   
+
+    </form>
+        </div>
+</body>
+
+</html>

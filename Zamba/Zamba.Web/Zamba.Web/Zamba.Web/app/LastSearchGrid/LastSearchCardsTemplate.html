@@ -1,0 +1,165 @@
+﻿
+<style>
+
+    #wrapperNews {
+        height: 90%;
+        width: 98%;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        font-family: Tahoma;
+    }
+
+    #news-wrapper {
+        flex-grow: 1;
+        margin-top: 1em;
+        height: 250px;
+        overflow-y: scroll;
+    }
+
+    #wrapperNews > .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+        #wrapperNews > .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            border-color: #269abc;
+        }
+
+    #wrapperNews > .card-container {
+        width: 100%;
+        padding: 5px 5px 5px 5px;
+    }
+
+    #wrapperNews > .btn-toolbar {
+        margin-bottom: 5px;
+        padding-right: 10px;
+    }
+
+    #wrapperNews > .unread {
+        border-left: 3px solid red;
+    }
+
+    #wrapperNews > .unread-title {
+        font-weight: bold;
+    }
+
+    #wrapperNews > .btn-info, .btn-info:focus {
+        background-color: transparent !important;
+        color: gray !important;
+        border-color: gray !important;
+    }
+
+        #wrapperNews > .btn-info.active, .btn-info.active:focus {
+            background-color: #269abc !important;
+            color: white !important;
+            border-color: #269abc !important;
+        }
+
+    #wrapperNews > .toast {
+        opacity: 1;
+    }
+
+    #wrapperNews > #toast-container > div {
+        opacity: 1;
+    }
+
+    #wrapperNews > .input-xs {
+        height: 27px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
+    #wrapperNews > .btn-xs {
+        font-size: 13px !important;
+        padding: 3px 8px 3px 8px;
+    }
+
+    .news-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    md-card-header {
+        padding: 8px 8px 8px 8px !important;
+    }
+
+    md-card-content {
+        padding: 0 8px 4px 8px !important;
+    }
+
+    md-list {
+        max-height: 250px !important;
+        overflow-y: auto !important;
+        padding: 0 0 0 0 !important;
+    }
+
+        md-list h3 {
+            font-size: 1.2rem !important;
+        }
+
+        md-list p {
+            font-size: 1.05rem !important;
+        }
+
+    .searchCardInput {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0px 2px 2px !important;
+        margin-top: -5px !important;
+    }
+
+    md-list-item._md-button-wrap > div.md-button:first-child {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+</style>
+
+
+<md-card-header ng-cloak>
+    <md-card-header-text>
+        <div class="row">
+            <span class="col-xs-4" style="font-size:14px">{{title}} <span style="font-size:12px">({{DataCount}})</span></span>
+       
+            <div class="col-xs-5">
+                
+                <form autocomplete="off" method="post" action="">
+                   
+                    <input type="search" autocomplete="false" class="form-control input-xs searchCardInput" placeholder="Buscar...                         " ng-model="searchCardText" />
+                </form>
+</div>
+            <div class="col-xs-3">
+                <span class="fa fa-trash-o searchTrashClass z-cardstemplate-icons" type="reset" aria-hidden="true" role="button" title="Borrar búsqueda" ng-click="clearSearch()"></span>
+                <span class="material-icons z-cardstemplate-icons searchTrashClass" title="Actualizar" ng-click="Reload(null)">
+                    autorenew
+                </span>
+            </div>
+        </div>
+
+
+    </md-card-header-text>
+</md-card-header>
+<md-card-content>
+    <md-content>
+        <md-divider></md-divider>
+        <h6 style=" text-align: center; margin-top: 50px;" ng-if="DataCount == 0"><b>No tenemos registros por ahora.</b> <br />  <br /> {{emptyMessage}}</h6>
+
+        <md-list flex>
+            <md-list-item class="md-2-line" ng-repeat="news in LastSearchData | filter:searchCardText" tooltip="{{news.Name}}" ng-dblclick="ExeccuteSearch(news)">
+                <div class="md-list-item-text" layout="column" >
+                    <h3 class="unread-title news-title">{{news.Name}}</h3>
+                    <p>
+                        <span class="glyphicon glyphicon-calendar" style="margin-left:5px; margin-right: 3px"></span>{{FormatDateTimeDDMMYYYYHHMM(news.SearchDate)}}
+                    </p>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</md-card-content>
+

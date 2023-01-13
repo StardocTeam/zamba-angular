@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsMails" targetNamespace="http://tempuri.org/DsMails.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DsMails.xsd" xmlns:mstns="http://tempuri.org/DsMails.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsMails" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="DsMails">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Usuario" type="xs:string" minOccurs="0" />
+							<xs:element name="Cantidad" type="xs:int" minOccurs="0" />
+							<xs:element name="Adjuntos" type="xs:int" minOccurs="0" />
+							<xs:element name="Fecha" type="xs:string" minOccurs="0" />
+							<xs:element name="Publicos" type="xs:int" minOccurs="0" />
+							<xs:element name="Privados" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DsMailsImportados">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Usuario" type="xs:string" minOccurs="0" />
+							<xs:element name="Fecha" type="xs:string" minOccurs="0" />
+							<xs:element name="Cantidad" type="xs:integer" minOccurs="0" />
+							<xs:element name="Adjuntos" type="xs:integer" minOccurs="0" />
+							<xs:element name="DocI" type="xs:int" minOccurs="0" />
+							<xs:element name="Publicos" type="xs:integer" minOccurs="0" />
+							<xs:element name="Privados" type="xs:integer" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CheckMailTable">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MSG" type="xs:int" minOccurs="0" />
+							<xs:element name="EMaestro" type="xs:boolean" minOccurs="0" />
+							<xs:element name="EFiVolumen" type="xs:boolean" minOccurs="0" />
+							<xs:element name="EFIMaestro" type="xs:boolean" minOccurs="0" />
+							<xs:element name="PrivOrPub" type="xs:string" minOccurs="0" />
+							<xs:element name="MAdjuntos" type="xs:integer" minOccurs="0" />
+							<xs:element name="PathMaestro" type="xs:string" minOccurs="0" />
+							<xs:element name="PathVolume" type="xs:string" minOccurs="0" />
+							<xs:element name="MestroLine" type="xs:string" minOccurs="0" />
+							<xs:element name="EZamba" type="xs:boolean" minOccurs="0" />
+							<xs:element name="CantZambaxfolder" type="xs:integer" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="VolFiles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FileName" type="xs:string" minOccurs="0" />
+							<xs:element name="Offset" type="xs:integer" minOccurs="0" />
+							<xs:element name="Doc_id" type="xs:integer" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="dsMailMaster">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Fecha" type="xs:string" minOccurs="0" />
+							<xs:element name="Por" type="xs:string" minOccurs="0" />
+							<xs:element name="Para" type="xs:string" minOccurs="0" />
+							<xs:element name="CC" type="xs:string" minOccurs="0" />
+							<xs:element name="BCC" type="xs:string" minOccurs="0" />
+							<xs:element name="Asunto" type="xs:string" minOccurs="0" />
+							<xs:element name="Cliente" type="xs:integer" minOccurs="0" />
+							<xs:element name="Poliza" type="xs:integer" minOccurs="0" />
+							<xs:element name="Path" type="xs:string" minOccurs="0" />
+							<xs:element name="PubOPriv" type="xs:string" minOccurs="0" />
+							<xs:element name="MSG" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MailsInsertados">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IDs" type="xs:integer" minOccurs="0" />
+							<xs:element name="Por" type="xs:string" minOccurs="0" />
+							<xs:element name="Fecha" type="xs:string" minOccurs="0" />
+							<xs:element name="Para" type="xs:string" minOccurs="0" />
+							<xs:element name="CC" type="xs:string" minOccurs="0" />
+							<xs:element name="BCC" type="xs:string" minOccurs="0" />
+							<xs:element name="Asunto" type="xs:string" minOccurs="0" />
+							<xs:element name="Cliente" type="xs:integer" minOccurs="0" />
+							<xs:element name="Poliza" type="xs:integer" minOccurs="0" />
+							<xs:element name="Folder" type="xs:integer" minOccurs="0" />
+							<xs:element name="Grupo" type="xs:integer" minOccurs="0" />
+							<xs:element name="NombreGrupo" minOccurs="0" type="xs:string" />
+							<xs:element name="Volume" type="xs:integer" minOccurs="0" />
+							<xs:element name="Path" type="xs:string" minOccurs="0" />
+							<xs:element name="Files" type="xs:string" minOccurs="0" />
+							<xs:element name="Offset" type="xs:integer" minOccurs="0" />
+							<xs:element name="FileName" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

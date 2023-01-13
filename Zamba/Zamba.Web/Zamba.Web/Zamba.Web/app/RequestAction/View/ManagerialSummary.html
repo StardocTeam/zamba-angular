@@ -1,0 +1,705 @@
+﻿<div class=''>
+    <div class='wrapper'>
+        <nav class="navbar  navbar-expand   navbar-light bg-light">
+            <div ng-if="selectedSummary == null">
+                <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white;margin-left: 15px;margin-right: -10px;margin-top: 8px;" role="button" tabindex="0"></i>
+                <a ng-click="setUrlParameters()" class="nav-link" href="#" style="color: white;margin-left: 20px;margin-top: -30px;">
+                    Atras
+                </a>
+            </div>
+            <div class="container-fluid">
+                <div ng-if="selectedSummary == null">
+                    <a class="navbar-brand" href="#" style="color: white;  font-size: 16px;">
+
+                        <div>
+                            <div id="MenuOpciones" class="my-fixed-item" style="display:none">
+                                <li class="LielementStyle" data-toggle="modal" data-target="#keyChange" ng-click="CierreMenu()">Cambio de Clave</li>
+                            </div>
+                        </div>
+
+                        <div style="display: inline-block;" ng-click="Openopcionmenu()">
+                            <img ng-cloak ng-if="thumphoto != null "
+                                 ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
+                            <img ng-cloak ng-if="thumphoto == null "
+                                 src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
+                                 class=" img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-top: 0px;margin-left:-5px; border-radius: 17px;" />
+                        </div>
+
+
+
+
+                        <span style=" line-height: inherit;" class="badge bg-danger">
+                            {{SummaryList.length}}
+                        </span>
+
+                    </a>
+
+                </div>
+                <ul class="navbar-nav" style=" flex-direction: row">
+                    <li class="nav-item">
+                        <div ng-if="selectedSummary != null">
+                            <a ng-click="goToBack()" class="nav-link" href="#" style="color: white;">
+                                <i class="fa fa-arrow-left" aria-hidden="true" style="color: white;"></i>
+                                Atras
+                            </a>
+                        </div>
+                    </li>
+
+                    <li ng-if="selectedSummary != null && showPreviewSummary != null" class="nav-item centerFix">
+                        <button class="btn btn-success btn-sm" type="button" role="button" aria-haspopup="true" aria-expanded="false" ng-click="AprobarResumenGerencial(selectedSummary.DOC_ID, '')" style="margin-right: 5px;margin-top: 5px;">
+                            Aprobar
+                        </button>
+                    </li>
+
+
+                    <li ng-if="selectedSummary != null && showPreviewSummary != null" class="nav-item">
+                        <button class="btn btn-danger btn-sm" type="button" role="button" aria-haspopup="true" aria-expanded="false" ng-click="DevolverResumenGerencial(selectedSummary.DOC_ID, '')" style="margin-top: 5px;">
+                            Devolver
+                        </button>
+                    </li>
+
+
+                </ul>
+
+                <ul class="navbar-nav pull-right" style=" flex-direction: row">
+                    <li class="nav-item" ng-if="selectedSummary == null">
+                        <a ng-click="btnRefresh()" class="nav-link" href="#">
+                            <i class="fa fa-refresh" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" ng-if="selectedSummary == null">
+                        <a ng-click="SignOut()" class="nav-link" href="#">
+                            <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                    </li>
+
+
+
+
+                    <li ng-if="selectedSummary != null" class="nav-item">
+                        <button class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" ng-click="MenuAncla()">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true" style="color: white;"></i>
+                        </button>
+                    </li>
+                </ul>
+
+            </div>
+
+
+
+
+
+            <div class="row">
+                <div class="">
+                    <div id="MenuOpcionesAncla" class="card text-white bg-primary my-fixed-dropdown" style="display:none">
+                        <ul class="list-group list-group-flush">
+                            <a class="list-group-item bg-primary text-white" href="#" ng-click="CerrarMenuAncla()">Resumen</a>
+                            <a class="list-group-item bg-primary text-white" href="#Responsabilidad" ng-click="CerrarMenuAncla()">Responsabilidad</a>
+                            <a class="list-group-item bg-primary text-white" href="#VictimasYReclamantes" ng-click="CerrarMenuAncla()">Victimas Y Reclamantes</a>
+                            <a class="list-group-item bg-primary text-white" href="#MontosDetallados" ng-click="CerrarMenuAncla()">MontosDetallados</a>
+
+                            <a class="card-footer list-group-item bg-primary text-white" href="#Aprobaciones" ng-click="CerrarMenuAncla()">
+                                Aprobaciones
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="first-item-separator"></div>
+
+    <div ng-if="selectedSummary == null">
+        <button class="btn btn-outline-info" ng-if="SummaryList.length == 0" style="margin-top: 15px;"> No hay resumenes pendientes </button>
+
+        <div ng-if="SummaryList.length != 0" class="card">
+            <!-- Listado de resumenes -->
+            <div ng-repeat="summary in SummaryList" ng-click="setSelectedSummary(summary, $event)" class="custom-card shadow">
+
+                <div id="{{summary.ID}}" class="card-body" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 header-margin text-center">
+                                <h6> <b> Resumen Gerencial del RAJ {{summary.NRO_JUICIO_MEDIACION}} </b></h6>
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class="control-label ColorText">Propuesta Actual</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{Formatter(summary.PROPUESTA_ACTUAL)}}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label class="control-label ColorText">Neto a cargo Cía.</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{Formatter(summary.NETO_A_CARGO_DE_LA_CIA)}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class="control-label ColorText">Fecha de Siniestro</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{FormatterDate(summary.FECHA_DE_SINIESTRO)}}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label class="control-label ColorText">Total Capital</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{Formatter(summary.TOTAL_CAPITAL)}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class="control-label ColorText">Monto Demanda</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{Formatter(summary.MONTO_DEMANDA)}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="control-label ColorText">Costas</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{Formatter(summary.COSTAS)}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label class=" control-label ColorText">Suma Asegurada</label>
+                                <div class="col-lg-10">
+                                    <p class="card-text">{{Formatter(summary.SUMA_ASEGURADA)}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-6">
+                                <button class="btn devolverStyleButton" style="margin-top: 10px; background: #337ab7; color: white" ng-click="DevolverResumenGerencialAnterior(summary.DOC_ID, $event)"> R.G. Aprobado Anteriormente  </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Listado Summary -->
+        </div>
+    </div>
+
+    <div ng-if="selectedSummary != null">
+        <!-- Resumen seleccionado -->
+        <div class="card" style="border: none; margin-top: -10px;">
+            <div id="{{selectedSummary.ID}}" class="card-body" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="container-fluid">
+
+                    <!-- Resumen -->
+                    <div class="row">
+                        <div class="col-4"><hr></div>
+
+                        <div id="Resumen" class="col centeredText">
+                            <h5>Resumen Aprobado Anterior</h5>
+                        </div>
+
+                        <div class="col-4"><hr></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Propuesta Actual</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.PROPUESTA_ACTUAL)}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Neto acargo Cia.</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.NETO_A_CARGO_DE_LA_CIA)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Area</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{selectedSummary.Area}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Total Capital</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.TOTAL_CAPITAL)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Monto Demanda</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.MONTO_DEMANDA)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Costas</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.COSTAS)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+
+                        <div class="form-group col-6">
+                            <label class=" control-label ColorText">Suma Asegurada</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.SUMA_ASEGURADA)}}</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-6 overflow-auto">
+                            <label class=" control-label ColorText">Jurisdiccion</label>
+                            <div class="col-lg-10 ">
+                                <p class="card-text ">{{selectedSummary.JURISDICCION}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- Resumen -->
+                    <!-- Responsabilidad -->
+                    <div class="segmentReposition" id="Responsabilidad"></div>
+                    <div class="row">
+                        <div class="col-3"><hr></div>
+
+                        <div class="col centeredText">
+                            <h5> Responsabilidad</h5>
+                        </div>
+
+                        <div class="col-3"><hr></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class=" control-label ColorText">Mecanica del Accidente</label>
+                            <div class="col-lg-10">
+                                <textarea id="" readonly ng-click="OpenReadingMode(selectedSummary.MECANICA_DEL_ACCIDENTE, 'Mecanica del Accidente')"
+                                class="form-control" style="resize: none" rows="3"  data-toggle="modal" data-target="#MSModal">
+                                {{selectedSummary.MECANICA_DEL_ACCIDENTE}}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <label class=" control-label ColorText">Responsabilidad</label>
+                            <div class="col-lg-10">
+                                <input id="" readonly type="text" class="form-control mb-2 mr-sm-2" ng-model="selectedSummary.RESPONSABILIDAD" >
+                            </div>
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label class=" control-label ColorText">Recupero</label>
+                            <div class="col-lg-10">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="SwitchRecupero" disabled>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Responsabilidad -->
+                    <!-- Victimas Y Reclamantes -->
+                    <div class="segmentReposition" id="VictimasYReclamantes"></div>
+                    <div class="row">
+                        <div class="col-2"><hr></div>
+
+                        <div class="col centeredText">
+                            <h5> Victimas Y Reclamantes </h5>
+                        </div>
+
+                        <div class="col-2"><hr></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class=" control-label ColorText">Víctimas</label>
+                            <div class="col-lg-10">
+                                <textarea id="" readonly ng-click="OpenReadingMode(selectedSummary.VICTIMAS, 'Victimas')"
+                                 class="form-control" style="resize: none" rows="3" data-toggle="modal" data-target="#MSModal">
+                                 {{selectedSummary.VICTIMAS}}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class=" control-label ColorText">Reclamantes</label>
+                            <div class="col-lg-10">
+                                <textarea id="" readonly ng-click="OpenReadingMode(selectedSummary.RECLAMANTE, 'Reclamantes')"
+                                 class="form-control" style="resize: none" rows="3"  data-toggle="modal" data-target="#MSModal" >
+                                 {{selectedSummary.RECLAMANTE}}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class=" control-label ColorText">Negociación / Observacion</label>
+                            <div class="col-lg-10">
+                                <textarea id="" readonly ng-click="OpenReadingMode(selectedSummary.NEGOCIACION, 'Negociación / Observacion')"
+                                 class="form-control" style="resize: none" rows="3"  data-toggle="modal" data-target="#MSModal">
+                                 {{selectedSummary.NEGOCIACION}}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Vincimas Y Reclamantes -->
+                    <!-- Montos Detallados -->
+                    <div class="segmentReposition" id="MontosDetallados"></div>
+                    <div class="row">
+                        <div class="col-2"><hr></div>
+
+                        <div class="col centeredText">
+                            <h5> Montos Detallados </h5>
+                        </div>
+
+                        <div class="col-2"><hr></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-5">
+                            <label class=" control-label ColorText">Incapacidad Fisica</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.INCAPACIDAD_FISICA)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-7">
+                            <label class=" control-label ColorText">Incapacidad Psicologica</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.INCAPACIDAD_PSICOLOGICA_TOTAL)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-5">
+                            <label class="control-label ColorText">Daño Moral</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary["DAÑO_MORAL"])}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-7">
+                            <label class="control-label ColorText">Daño Material</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary["DAÑO_MATERIAL"])}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label class="control-label ColorText">Intereses</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.INTERESES)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="control-label ColorText">Otros Gastos</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.OTROS_GASTOS)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="control-label ColorText">Monto Demanda</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.MONTO_DEMANDA)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="control-label ColorText">Costas</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.COSTAS)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="control-label ColorText"> <b>Total Capital</b> </label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.TOTAL_CAPITAL)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12">
+                            <label class="control-label ColorText"> <b> Total Capital + Costas</b> </label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{sumaTotal(selectedSummary)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Propuesta Actual</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.PROPUESTA_ACTUAL)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Propuesta anterior</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.PROPUESTA_ANTERIOR)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Reserva</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.RESERVA)}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Pagos Realizados</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.PAGOS_REALIZADOS)}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Costo Siniestro</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.COSTO_DEL_SINIESTRO)}}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="control-label ColorText">Neto a Cargo de la Cia</label>
+                            <div class="col-lg-10">
+                                <p class="card-text">{{Formatter(selectedSummary.NETO_A_CARGO_DE_LA_CIA)}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Montos Detallados -->
+
+                    <div class="segmentReposition" id="Aprobaciones"></div>
+                    <!-- Aprobaciones -->
+                    <div class="row">
+                        <div class="col-2"><hr></div>
+
+                        <div class="col centeredText">
+                            <h5> Aprobaciones </h5>
+                        </div>
+
+                        <div class="col-2"><hr></div>
+                    </div>
+
+                    <!------------campo observaciones--------------->
+                    <div class="row">
+                        <textarea id="ComentarioResumenId" class="form-control" style="resize: none"
+                        rows="2" ng-model="ComentarioResumen" placeholder="Comentario">
+                        </textarea>
+                    </div>
+                    <br>
+                    <!------------Boton Observaciones observaciones--------------->
+                    <div class="row">
+                        <button class="btn btn-success input-group-append" value="Agregar comentario" ng-click="ComentarResumenGerencial(selectedSummary.DOC_ID, '', ComentarioResumen)">
+                            Agregar comentario
+                        </button>
+                    </div>
+
+                    <div id="TimelineController" class="row">
+                        <div ng-controller="TimelineController">
+                            <zamba-timeline entity-id="11535046"
+                                            timeline-type="Aprobaciones"
+                                            result-id="{{selectedSummary.DOC_ID}}"
+                                            parent-entity-id="11535045">
+                            </zamba-timeline>
+                        </div>
+                    </div>
+                    <!-- Aprobaciones -->
+
+
+  <!-- MS Modal -->
+  <div class="modal fade" id="MSModal" tabindex="-1" aria-labelledby="MSModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title" id="MSModalLabel" style="color:white;"> {{MS_Modal_Title}} </h5>
+          <button type="button" class="close" data-dismiss="modal"  style="color:white;" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            {{MS_Modal_Body}} 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="CloseReadingMode()" >Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Resumen seleccionado -->
+    </div>
+
+    <style>
+
+        .badge {
+            font-size: 17px !important;
+            padding-bottom: 0px !important;
+            padding-top: 0px !important;
+        }
+
+        .bg-light {
+            /*background-color: #0a58ca !important;*/
+            /* background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%); */
+            background: linear-gradient(135deg, #00adff 0%,#012ca5 100%);
+            margin-bottom: 25px;
+        }
+
+        .first-item-separator {
+            margin-top: 67px;
+        }
+
+        #accordionExample {
+            width: 90%;
+            margin-top: 4%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        .header-margin {
+            margin-top: 15px;
+        }
+
+        .custom-card {
+            margin: 10px;
+        }
+
+/*
+Full screen Modal 
+*/
+.fullscreen-modal .modal-dialog {
+  margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .fullscreen-modal .modal-dialog {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .fullscreen-modal .modal-dialog {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .fullscreen-modal .modal-dialog {
+     width: 1170px;
+  }
+}
+
+        .SombraBtn {
+            box-shadow: 6px 6px 20px -1px rgba(13, 110, 253, .25), -6px -6px 20px -1px #6c757d;
+        }
+
+        .ColorText {
+            color: #0d5ef1;
+            font-size: 1rem;
+        }
+
+        .my-fixed-item {
+            position: fixed;
+            min-height: 27%;
+            width: 195px;
+            text-align: center;
+            word-wrap: break-word;
+            background-color: #0a58ca;
+            margin-top: 45px;
+            margin-left: -12px;
+            border-radius: 7px;
+            color: white;
+        }
+
+        .centerFix {
+            margin-left: 35px;
+        }
+
+        .my-fixed-dropdown {
+            position: fixed;
+            right: 10px;
+            min-height: 27%;
+            width: 195px;
+            text-align: center;
+            word-wrap: break-word;
+            margin-top: 39px;
+            border-radius: 7px;
+            background-color: #0d6efd;
+        }
+
+        .centeredText {
+            text-align: center;
+        }
+
+        .segmentReposition {
+            margin-bottom: 60px;
+        }
+
+        .LielementStyle {
+            color: white;
+            margin-top: 13px;
+            border-bottom: solid 1px hsl(0deg 17% 72%);
+            padding-bottom: 5px;
+        }
+        .devolverStyleButton:hover {
+            background-color: #e5e5e5;
+        }
+    </style>
+</div>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsForms" targetNamespace="http://tempuri.org/DsForms.xsd" xmlns:mstns="http://tempuri.org/DsForms.xsd" xmlns="http://tempuri.org/DsForms.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsForms" msdata:IsDataSet="true" msdata:Locale="en-US" msprop:Generator_DataSetName="DsForms" msprop:Generator_UserDSName="DsForms">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ZViewForms" msprop:Generator_TableClassName="ZViewFormsDataTable" msprop:Generator_TableVarName="tableZViewForms" msprop:Generator_TablePropName="ZViewForms" msprop:Generator_RowDeletingName="ZViewFormsRowDeleting" msprop:Generator_UserTableName="ZViewForms" msprop:Generator_RowChangingName="ZViewFormsRowChanging" msprop:Generator_RowEvHandlerName="ZViewFormsRowChangeEventHandler" msprop:Generator_RowDeletedName="ZViewFormsRowDeleted" msprop:Generator_RowEvArgName="ZViewFormsRowChangeEvent" msprop:Generator_RowChangedName="ZViewFormsRowChanged" msprop:Generator_RowClassName="ZViewFormsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NAME" msprop:Generator_ColumnVarNameInTable="columnNAME" msprop:Generator_ColumnPropNameInRow="NAME" msprop:Generator_ColumnPropNameInTable="NAMEColumn" msprop:Generator_UserColumnName="NAME" type="xs:string" />
+              <xs:element name="PARENTID" msprop:Generator_ColumnVarNameInTable="columnPARENTID" msprop:Generator_ColumnPropNameInRow="PARENTID" msprop:Generator_ColumnPropNameInTable="PARENTIDColumn" msprop:Generator_UserColumnName="PARENTID" type="xs:decimal" />
+              <xs:element name="TYPE" msprop:Generator_ColumnVarNameInTable="columnTYPE" msprop:Generator_ColumnPropNameInRow="TYPE" msprop:Generator_ColumnPropNameInTable="TYPEColumn" msprop:Generator_UserColumnName="TYPE" type="xs:decimal" />
+              <xs:element name="OBJECTTYPEID" msprop:Generator_ColumnVarNameInTable="columnOBJECTTYPEID" msprop:Generator_ColumnPropNameInRow="OBJECTTYPEID" msprop:Generator_ColumnPropNameInTable="OBJECTTYPEIDColumn" msprop:Generator_UserColumnName="OBJECTTYPEID" type="xs:decimal" />
+              <xs:element name="PATH" msprop:Generator_ColumnVarNameInTable="columnPATH" msprop:Generator_ColumnPropNameInRow="PATH" msprop:Generator_ColumnPropNameInTable="PATHColumn" msprop:Generator_UserColumnName="PATH" type="xs:string" />
+              <xs:element name="DESCRIPTION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPTION" msprop:Generator_ColumnPropNameInRow="DESCRIPTION" msprop:Generator_ColumnPropNameInTable="DESCRIPTIONColumn" msprop:Generator_UserColumnName="DESCRIPTION" type="xs:string" />
+              <xs:element name="FORM_ID" msprop:Generator_ColumnVarNameInTable="columnFORM_ID" msprop:Generator_ColumnPropNameInRow="FORM_ID" msprop:Generator_ColumnPropNameInTable="FORM_IDColumn" msprop:Generator_UserColumnName="FORM_ID" type="xs:decimal" />
+              <xs:element name="DOCTYPE_ID" msprop:Generator_ColumnVarNameInTable="columnDOCTYPE_ID" msprop:Generator_ColumnPropNameInRow="DOCTYPE_ID" msprop:Generator_ColumnPropNameInTable="DOCTYPE_IDColumn" msprop:Generator_UserColumnName="DOCTYPE_ID" type="xs:decimal" />
+              <xs:element name="UPDATED" msprop:Generator_ColumnVarNameInTable="columnUPDATED" msprop:Generator_ColumnPropNameInRow="UPDATED" msprop:Generator_ColumnPropNameInTable="UPDATEDColumn" msprop:Generator_UserColumnName="UPDATED" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="USEBLOB" msprop:Generator_ColumnVarNameInTable="columnUSEBLOB" msprop:Generator_ColumnPropNameInRow="USEBLOB" msprop:Generator_ColumnPropNameInTable="USEBLOBColumn" msprop:Generator_UserColumnName="USEBLOB" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

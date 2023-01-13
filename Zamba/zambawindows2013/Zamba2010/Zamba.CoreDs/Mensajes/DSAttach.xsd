@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DSAttach" targetNamespace="http://tempuri.org/DSAttach.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DSAttach.xsd" xmlns:mstns="http://tempuri.org/DSAttach.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DSAttach" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="MSG_ATTACH">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MSG_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="DOC_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="DOC_TYPE_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="FOLDER_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="INDEX_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="NAME" type="xs:string" minOccurs="0" />
+							<xs:element name="ICON" type="xs:decimal" minOccurs="0" />
+							<xs:element name="VolumeListId" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Doc_File" type="xs:string" minOccurs="0" />
+							<xs:element name="Offset" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Disk_Vol_path" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

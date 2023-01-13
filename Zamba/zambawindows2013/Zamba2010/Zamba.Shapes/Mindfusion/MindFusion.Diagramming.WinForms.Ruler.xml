@@ -1,0 +1,767 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MindFusion.Diagramming.WinForms.Ruler</name>
+    </assembly>
+    <members>
+        <member name="T:MindFusion.Diagramming.WinForms.Ruler">
+            <summary>
+            The Ruler control provides horizontal and vertical scales
+            that helps users measure diagram items.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.#ctor">
+            <summary>
+            Initializes a new instance of the Ruler class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Dispose(System.Boolean)">
+            <summary>
+            Control.Dispose override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Set(MindFusion.Diagramming.WinForms.DiagramView)">
+            <summary>
+            Sets the document from the OnControlAdded event handler.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Unset">
+            <summary>
+            Unsets the document, (i.e. set it to null)
+            from the OnControlAdded event handler.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Control.OnPaint override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnBackgroundImageChanged(System.EventArgs)">
+            <summary>
+            Control.OnBackgroundImageChanged override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnFontChanged(System.EventArgs)">
+            <summary>
+            Control.OnFontChanged override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnMouseUp(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Handles the MouseUp event on both scales.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnTimer(System.Object,System.EventArgs)">
+            <summary>
+            Handles the Tick event of the main timer.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnControlAdded(System.Object,System.Windows.Forms.ControlEventArgs)">
+            <summary>
+            Handles the Control.ControlAdded event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnControlRemoved(System.Object,System.Windows.Forms.ControlEventArgs)">
+            <summary>
+            Handles the Control.ControlRemoved event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentPaint(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Handles the DiagramView.Paint event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentNodeActivated(System.Object,MindFusion.Diagramming.NodeEventArgs)">
+            <summary>
+            Handles the Diagram.NodeActivated event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentNodeDeactivated(System.Object,MindFusion.Diagramming.NodeEventArgs)">
+            <summary>
+            Handles the Diagram.NodeDeactivated event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentNodeDeleted(System.Object,MindFusion.Diagramming.NodeEventArgs)">
+            <summary>
+            Handles the Diagram.NodeDeleted event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentScrollChanged(System.Object,System.EventArgs)">
+            <summary>
+            Handles the DiagramView.ScrollChanged event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentZoomFactorChanged(System.Object,System.EventArgs)">
+            <summary>
+            Handles the DiagramView.ZoomFactorChanged event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentDocExtentsChanged(System.Object,System.EventArgs)">
+            <summary>
+            Handles the DiagramView.BoundsChanged event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentMeasureUnitChanged(System.Object,System.EventArgs)">
+            <summary>
+            Handles the DiagramView.MeasureUnitChanged event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentMouseEnter(System.Object,System.EventArgs)">
+            <summary>
+            Handles the DiagramView.MouseEnter event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentMouseMove(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Handles the DiagramView.MouseMove event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.OnDocumentMouseLeave(System.Object,System.EventArgs)">
+            <summary>
+            Handles the DiagramView.MouseLeave event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.RefreshScales(System.Boolean)">
+            <summary>
+            Refreshes the scales of the ruler either
+            unconditionally (if always is set to true)
+            or only if the document is being modified
+            by the user (if set to false).
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.RefreshScales">
+            <summary>
+            Refreshes the scales of the ruler unconditionally.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.Ruler._timer">
+            <summary>
+            This timer is intended to perform update operations
+            on regular intervals of time, thus fixing repaint
+            issues when diagram is modified programmatically.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.DiagramView">
+            <summary>
+            Gets or sets the DiagramView document this
+            ruler is associated with.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Controls">
+            <summary>
+            Hide the base Controls property. It should not be used from external code.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.HorizontalScaleAlignment">
+            <summary>
+            Gets or sets the alignment of the horizontal scale of the ruler.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.VerticalScaleAlignment">
+            <summary>
+            Gets or sets the alignment of the vertical scale of the ruler.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.VerticalScaleVisible">
+            <summary>
+            Specifies whether the vertical ruler scale is visible.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.HorizontalScaleVisible">
+            <summary>
+            Specifies whether the horizontal ruler scale is visible.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.ContextMenu">
+            <summary>
+            Specifies the context menu associated with the ruler.
+            We supply our own implementation of the context menu to
+            avoid popping it up when the right button is pressed over
+            the document area.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Text">
+            <summary>
+            Gets or sets the text displayed in the ruler.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Unit">
+            <summary>
+            Gets or sets the measure unit used by the ruler.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.ProjectionColor">
+            <summary>
+            Gets or sets the color used to paint
+            the projection of the active node.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.EnableGuides">
+            <summary>
+            Gets or sets a value indicating whether
+            alignment guides are active.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.GuideColor">
+            <summary>
+            Gets or sets the color used to paint guides.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.ForeColor">
+            <summary>
+            Gets or sets the color of the ruler marks.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.ShowIcon">
+            <summary>
+            Gets or sets a value indicating whether to show the icon
+            between the horizontal and vertical scales.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.TextColor">
+            <summary>
+            Gets or sets the color used to paint texts in the ruler.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.PointerColor">
+            <summary>
+            Gets or sets the color used to paint cursor projections.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.Ruler.Scale">
+            <summary>
+            Represents either horizontal or vertical scale in a ruler control.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.#ctor(MindFusion.Diagramming.WinForms.Ruler,MindFusion.Diagramming.Orientation)">
+            <summary>
+            Scales are instantiated only by the ruler.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Control.OnPaint override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.OnPaintBackground(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Control.OnPaintBackground override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.OnMouseDown(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Control.OnMouseDown override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.OnMouseMove(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Control.OnMouseMove override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.OnMouseUp(System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Control.OnMouseUp override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.OnDocumentPaint(System.Drawing.Graphics)">
+            <summary>
+            Invoked by the container when the document raises its Paint event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.Draw(System.Drawing.Graphics)">
+            <summary>
+            Draws the scale in the specified target.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.DrawProjection(System.Drawing.Graphics)">
+            <summary>
+            Draws the projection of the active node (if any).
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.DrawMarks(System.Drawing.Graphics)">
+            <summary>
+            Draws the division marks and numbers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.DrawCursorProjection(System.Drawing.Graphics)">
+            <summary>
+            Draws the projection of the cursor over this scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.CalcPixelsPerUnit">
+            <summary>
+            Computes a value representing how many pixels
+            are needed to display single unit of the current
+            units of measure of the scale (i.e. when the scale
+            unit is inches, returns how many pixels equal 1 Inch).
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.CalcUnitInterval(System.Single)">
+            <summary>
+            Calculates the interval (in units) between
+            two consecutively displayed numbers on the scale,
+            ensuring perspicuity.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.Ruler.Scale.GetThresh">
+            <summary>
+            Gets a threshold value.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.Alignment">
+            <summary>
+            Gets or sets the alignment of the scale.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.Unit">
+            <summary>
+            Gets or sets the measure unit used by the scale.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.ProjectionColor">
+            <summary>
+            Gets or sets the color used to paint
+            the projection of the active node.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.EnableGuides">
+            <summary>
+            Gets or sets a value indicating whether
+            alignment guides are active.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.GuideColor">
+            <summary>
+            Gets or sets the color used to paint guides.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.TextColor">
+            <summary>
+            Gets or sets the color used to paint texts.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.Ruler.Scale.CursorColor">
+            <summary>
+            Gets or sets the color used to paint cursor projections.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.Alignment">
+            <summary>
+            Generalized alignment enum.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.Alignment.Near">
+            <summary>
+            Specifies that alignment is towards the origin of the layout rectangle.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.Alignment.Far">
+            <summary>
+            Specifies that alignment is to the far extent of the layout rectangle.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.MeasureUnit">
+            <summary>
+            Specifies units of measure.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.#ctor(System.Int32,System.String,MindFusion.Diagramming.WinForms.MeasureUnitType,System.Double,System.Int32)">
+            <summary>
+            Initializes one of the built-in units of measure.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.#ctor(System.Int32,System.String,MindFusion.Diagramming.WinForms.MeasureUnitType,System.Double,System.Int32,MindFusion.Diagramming.WinForms.IMeasureUnitConverter)">
+            <summary>
+            Initializes one of the built-in units of measure.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.#ctor(System.String,MindFusion.Diagramming.WinForms.MeasureUnit,System.Double)">
+            <summary>
+            Initializes a new instance of the MeasureUnit class with
+            the specified unit of measure as a base.
+            </summary>
+            <param name="name">
+            The name of the new unit.
+            </param>
+            <param name="baseUnit">
+            The base of the new unit.
+            </param>
+            <param name="scale">
+            The scale of the new unit, relatively to the base.
+            </param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.#ctor(System.String,MindFusion.Diagramming.WinForms.MeasureUnit,System.Double,System.Int32)">
+            <summary>
+            Initializes a new instance of the MeasureUnit class with
+            the specified unit of measure as a base.
+            </summary>
+            <param name="name">
+            The name of the new unit.
+            </param>
+            <param name="baseUnit">
+            The base of the new unit.
+            </param>
+            <param name="scale">
+            The scale of the new unit, relatively to the base.
+            </param>
+            <param name="standardDivisions">
+            The number of divisions of the new unit.
+            </param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.#ctor(System.String,System.Double)">
+            <summary>
+            Initializes a new instance of the MeasureUnit class with
+            the specified amount.
+            </summary>
+            <param name="name">
+            The name of the new unit.
+            </param>
+            <param name="unitsPerInch">
+            The amount of the new unit that is equal to one inch.
+            </param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.#ctor(System.String,System.Double,System.Int32)">
+            <summary>
+            Initializes a new instance of the MeasureUnit class with
+            the specified amount.
+            </summary>
+            <param name="name">
+            The name of the new unit.
+            </param>
+            <param name="unitsPerInch">
+            The amount of the new unit that is equal to one inch.
+            </param>
+            <param name="standardDivisions">
+            The number of divisions of the new unit.
+            </param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.ToString">
+            <summary>
+            Object.ToString override.
+            </summary>
+            <returns>
+            The name of the unit.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.GetHashCode">
+            <summary>
+            Object.GetHashCode override.
+            </summary>
+            <returns>
+            A hash code for the current unit.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.Equals(System.Object)">
+            <summary>
+            Object.Equals override.
+            </summary>
+            <param name="obj">
+            The object to compare with the current unit.
+            </param>
+            <returns>
+            true if the specified object is the same as or is equal to the current unit;
+            otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.op_Equality(MindFusion.Diagramming.WinForms.MeasureUnit,MindFusion.Diagramming.WinForms.MeasureUnit)">
+            <summary>
+            Compares two MeasureUnit objects for equality.
+            </summary>
+            <param name="a">
+            The first MeasureUnit to compare.
+            </param>
+            <param name="b">
+            The second MeasureUnit to compare.
+            </param>
+            <returns>
+            true if the specified arguments are equal; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.op_Inequality(MindFusion.Diagramming.WinForms.MeasureUnit,MindFusion.Diagramming.WinForms.MeasureUnit)">
+            <summary>
+            Compares two MeasureUnit objects for inequality.
+            </summary>
+            <param name="a">
+            The first MeasureUnit to compare.
+            </param>
+            <param name="b">
+            The second MeasureUnit to compare.
+            </param>
+            <returns>
+            true if the specified arguments are not equal; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.Convert(System.Double,MindFusion.Diagramming.WinForms.MeasureUnit,MindFusion.Diagramming.WinForms.DiagramView)">
+            <summary>
+            Converts the specified value from this unit to the specified unit.
+            </summary>
+            <param name="value">
+            The value to convert, expressed in the current measure unit.
+            </param>
+            <param name="targetUnit">
+            The target measure unit.
+            </param>
+            <param name="view">
+            A parameter that is used when converting from logical units (such as
+            inches and millimeters) to device units (such as pixels) or special units
+            (such as percents).
+            </param>
+            <returns>
+            The converted value.
+            </returns>
+            <remarks>
+            If the target represents logical unit (such as millimeter, inch, point) or
+            a unit derived from a logical unit, and the current unit is not logical
+            (for example pixel or percent), the third parameter is required to
+            perform the conversion.
+            </remarks>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.Convert(System.Double,MindFusion.Diagramming.WinForms.MeasureUnit,MindFusion.Diagramming.WinForms.DiagramView,MindFusion.Diagramming.WinForms.Axis)">
+            <summary>
+            Converts the specified value from this unit to the specified unit.
+            </summary>
+            <param name="value">
+            The value to convert, expressed in the current measure unit.
+            </param>
+            <param name="targetUnit">
+            The target measure unit.
+            </param>
+            <param name="view">
+            A parameter that is used when converting from logical units (such as
+            inches and millimeters) to device units (such as pixels) or special units
+            (such as percents).
+            </param>
+            <param name="axis">
+            One of the coordinate axes.
+            </param>
+            <returns>
+            The converted value.
+            </returns>
+            <remarks>
+            If the target represents logical unit (such as millimeter, inch, point) or
+            a unit derived from a logical unit, and the current unit is not logical
+            (for example pixel or percent), the third parameter is required to
+            perform the conversion.
+            </remarks>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.Convert(System.Drawing.PointF,MindFusion.Diagramming.WinForms.MeasureUnit,MindFusion.Diagramming.WinForms.DiagramView)">
+            <summary>
+            Converts the specified point from this unit to the specified unit.
+            </summary>
+            <param name="p">
+            The point to convert, expressed in the current measure unit.
+            </param>
+            <param name="targetUnit">
+            The target measure unit.
+            </param>
+            <param name="view">
+            A parameter that is used when converting from logical units (such as
+            inches and millimeters) to device units (such as pixels) or special units
+            (such as percents).
+            </param>
+            <returns>
+            The converted point.
+            </returns>
+            <remarks>
+            If the target represents logical unit (such as millimeter, inch, point) or
+            a unit derived from a logical unit, and the current unit is not logical
+            (for example pixel or percent), the third parameter is required to
+            perform the conversion. If both units are of the same generic type,
+            view is ignored.
+            </remarks>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.Convert(System.Drawing.RectangleF,MindFusion.Diagramming.WinForms.MeasureUnit,MindFusion.Diagramming.WinForms.DiagramView)">
+            <summary>
+            Converts the specified rectangle from this unit to the specified unit.
+            </summary>
+            <param name="r">
+            The rectangle to convert, expressed in the current measure unit.
+            </param>
+            <param name="targetUnit">
+            The target measure unit.
+            </param>
+            <param name="view">
+            A parameter that is used when converting from logical units (such as
+            inches and millimeters) to device units (such as pixels) or special units
+            (such as percents).
+            </param>
+            <returns>
+            The converted rectangle.
+            </returns>
+            <remarks>
+            If the target represents logical unit (such as mm, inch, point) or
+            a unit derived from a logical unit, and the current unit is not logical
+            (for example pixel or percent), the third parameter is required to
+            perform the conversion. If both units are of the same generic type,
+            view is ignored.
+            </remarks>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.FromId(System.Int32)">
+            <summary>
+            Returns a MeasureUnit from its integer identifier.
+            </summary>
+            <param name="id">
+            The identifier of one of the built-in measure units.
+            </param>
+            <returns>
+            The built-in MeasureUnit corresponding to the specified identifier.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.MeasureUnit.FromGraphicsUnit(System.Drawing.GraphicsUnit)">
+            <summary>
+            Returns the measure unit corresponding to the specified graphics unit.
+            </summary>
+            <param name="unit">
+            One of the GraphicsUnit values.
+            </param>
+            <returns>
+            The built-in MeasureUnit corresponding to the specified graphics unit.
+            If unit is World, this method returns null. If unit is Display, this
+            method returns Pixel.
+            </returns>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.Millimeter">
+            <summary>
+            Specifies millimeters as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.Inch">
+            <summary>
+            Specifies inches as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.Point">
+            <summary>
+            Specifies printer's points (1/72 inch) as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.Pixel">
+            <summary>
+            Specifies device pixels as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.Document">
+            <summary>
+            Specifies document units (1/300 inch) as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.WpfPoint">
+            <summary>
+            Specifies device-independent pixels (1/96 inch) as the unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnit.Percent">
+            <summary>
+            Specifies percents as the unit of measure.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.MeasureUnit.DefaultUnits">
+            <summary>
+            Gets a collection with all built-in measure units.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.MeasureUnit.Id">
+            <summary>
+            Gets the unit identifier.
+            </summary>
+            <remarks>
+            This property returns -1 for custom MeasureUnit objects.
+            </remarks>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.MeasureUnit.Name">
+            <summary>
+            Gets the name of the unit.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.MeasureUnit.Type">
+            <summary>
+            Gets the generic type of the unit.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.MeasureUnit.Amount">
+            <summary>
+            Gets the unit's amount.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.MeasureUnit.StandardDivisions">
+            <summary>
+            Gets the number of subunits that measures of this unit type are commonly divided to.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.MeasureUnitType">
+            <summary>
+            Specifies the type of a unit of measure.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnitType.Logical">
+            <summary>
+            Indicates logical unit of measure, expressed as units-per-inch.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnitType.Device">
+            <summary>
+            Indicates device-dependent unit of measure, expressed in device pixels.
+            </summary>
+            <remarks>
+            Converting from/to device units requires as additional information
+            the DPI of the target device.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.MeasureUnitType.Special">
+            <summary>
+            Indicates special unit of measure, such as percent.
+            </summary>
+            <remarks>
+            Converting from/to special units is performed through a user-supplied delegate.
+            </remarks>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.IMeasureUnitConverter">
+            <summary>
+            Provides means to convert between cross-type measure units.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.PixelConverter">
+            <summary>
+            Represents a converter that can transform pixel values from/to
+            logical units.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.PercentConverter">
+            <summary>
+            Represents converter that can transform percent values from/to
+            device and logical units.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.MeasureUnitConverter">
+            <summary>
+            Represents a TypeConverter for MeasureUnit objects.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Diagramming.WinForms.Axis">
+            <summary>
+            Specifies a coordinate axis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.Axis.X">
+            <summary>
+            Indicates the x-coordinate exis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.Axis.Y">
+            <summary>
+            Indicates the y-coordinate exis.
+            </summary>
+        </member>
+    </members>
+</doc>

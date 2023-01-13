@@ -1,0 +1,90 @@
+﻿<html>
+<head>
+    <title>Manuales y Procedimientos</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+	<link href="content/styles/tabber.css" type="text/css" rel="stylesheet"/>
+
+	    
+	
+	
+	<script type="text/javascript" language="JavaScript">
+		var textAreaMaxChars = 2000;
+
+		function limit(element) {
+		    if (element.value.length > textAreaMaxChars)
+		        element.value = element.value.substr(0, textAreaMaxChars);
+		}
+
+		$(window).load(function () {
+		    $(".tabbernav li a").click(function () {
+		        if ((this.outerText) == "Datos Generales") {
+		            $("#zamba_innerdoctype_original").css("display", "none");
+		        }
+		        if ((this.outerText) == "Archivo ") {
+		            $("#zamba_innerdoctype_original").css("display", "block");
+		        }
+
+
+		    });
+		});
+
+		function maxLengthPaste(field) {
+		    event.returnValue = false;
+		    if ((field.value.length + window.clipboardData.getData("Text").length) > textAreaMaxChars) {
+		        return false;
+		    }
+		    event.returnValue = true;
+		}
+    </script>
+</head>
+<body>
+    <div id="container">
+        <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+        <div name="design" id="design">
+            <strong>Documento anexo</strong>
+        </div>
+        
+			<div id="TAB" class="tabber" style="">
+                <div class="tabbertab" id="General">
+                    <h2>
+                        Datos Generales
+                    </h2>
+					<div>
+						<label>
+							Nombre del documento:
+						</label>
+						<input type="text" id="zamba_index_11279" name="zamba_index_11279" size="80" class="required"/>
+					</div>
+					</br>
+					<label>
+						Descripcion:
+					</label>
+					<center>
+					<table>
+							<tr>
+							<td colspan="4">
+								<textarea cols="100" rows="10" id="zamba_index_11288" onkeypress="limit(this);" onPaste="return maxLengthPaste(this);" name="zamba_index_11288" ></textarea>								
+							</td>
+						</tr>
+					</table>
+					<div name="alignleft" id="alignleft">
+						</br>
+						<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" /> 
+					</div>
+					</center>
+				</div>
+				<div class="tabbertab" id="Archivo">
+					<h2>
+						Archivo
+					</h2>
+					<center>
+						<iframe id="zamba_innerdoctype_original" src="file:///C:\Users\bpm-1.UNUMSA\AppData\Roaming\Zamba Software\OfficeTemp\4913.PDF" title="Documento Original"
+							width="900" height="800" ></iframe>
+					</center>
+				</div>
+			</div>
+        </form>
+    </div>
+</body>
+</html>

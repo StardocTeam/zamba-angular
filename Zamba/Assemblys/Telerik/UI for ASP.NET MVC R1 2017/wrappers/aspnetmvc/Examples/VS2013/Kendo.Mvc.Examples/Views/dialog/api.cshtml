@@ -1,0 +1,40 @@
+﻿<div id="example">
+    @(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Title("Software Update")
+        .Content("<p>A new version of <strong>Kendo UI</strong> is available. Would you like to download and install it now?<p>")
+        .Width(400)
+        .Modal(false)
+        .Closable(true)
+        .Actions(actions =>
+        {
+            actions.Add().Text("Cancel");
+            actions.Add().Text("Ok").Primary(true);
+        })
+    )
+
+    <div class="box wide" style="z-index:10000">
+        <div class="box-col">
+            <h4>API Functions</h4>
+            @Html.Kendo().Button().Name("openDialogBtn").Content("Open").Events(ev => ev.Click("openDialog"))
+            @Html.Kendo().Button().Name("closeDialogBtn").Content("Close").Events(ev => ev.Click("closeDialog"))
+        </div>
+    </div>
+
+    <div class="responsive-message"></div>
+</div>
+<script>
+    function openDialog(e) {
+        $("#dialog").data("kendoDialog").open();
+    }
+
+    function closeDialog(e) {
+        $("#dialog").data("kendoDialog").close();
+    }
+</script>
+<style>
+    #example {
+        min-height: 200px;
+    }
+</style>
+

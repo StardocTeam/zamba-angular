@@ -1,0 +1,139 @@
+<html>
+<head>
+    <title>Conexiones a Cloaca</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="Scripts/Aysa.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        //Crea las validaciones de los campos
+        function makerequired() {
+            $('#aspnetForm').validate(
+				{
+				    onsubmit: false,
+				    ignore: ".disabled",
+				    rules: {
+				        zamba_index_1238: {
+				            maxlength: 150
+				        },
+				        zamba_index_1247: {
+				            maxlength: 7
+				        }
+				    },
+				    messages: {
+				        zamba_index_1238: {
+				            maxlength: "Se ha exedido el l&iacute;mite de 150 caracteres."
+				        },
+				        zamba_index_1247: {
+				            maxlength: "Se ha exedido el l&iacute;mite de 7 caracteres."
+				        }
+				    }
+				});
+        }
+
+        $(document).ready(function() {
+            makerequired();
+
+            $("#zamba_save").click(ValidateBeforeSave);
+        });
+        					
+    </script>
+</head>
+<body>
+        <form name="frmMain" method="post">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div name="design" id="design">
+            <strong>CTM</strong>
+        </div>
+		    <br />
+	<input id="zamba_rule_19762" class="submit ZambaRule DontSave " name="zamba_rule_19762"
+                                    type="submit" style="text-align: center; margin-right: 25px;"
+                                    value="Ir a industria" />
+        <div class="tabber">
+                    
+     <div class="tabbertab">
+                    <h2>CTM</h2>
+
+        <div >
+           
+                        <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px;
+                            display: none;" />
+                        <table cellpadding="4">
+                            <tr>
+                                <td>
+                                    <label>
+                                        Ubicaci&oacuten de descarga:</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="zamba_index_1238" name="zamba_index_1238" class="ConvertToUpper length" style="width: 150px;" length="150"/>
+                                </td>
+                                <td>
+                                    <label>
+                                        Destino:
+                                    </label>
+                                </td>
+                                <td>
+                                    <select id="zamba_index_1252" name="zamba_index_1252" style="width: 150px;"></select>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+
+</div>
+       
+
+              <div class="tabbertab">
+                    <h2>
+                        Documentacion</h2>
+                    <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule DontSave " value="Agregar Documentacion" name="zamba_rule_8062" /> 
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion asociada:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+</div>
+
+                <br />
+                <div name="logoAysa" id="logoAysa">
+                    <img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+                </div>
+                <div name="logozamba" id="logozamba">
+                    <img src="Content/Images/pwbyzamba.jpg">
+                </div>
+                <div name="alignleft" id="alignleft">
+                    <input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/>
+                </div>
+        </form>
+</body>
+</html>

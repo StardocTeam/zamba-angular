@@ -1,0 +1,154 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+
+    <script type="text/javascript" language="JavaScript">
+
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    if (DecimalCheck($('#' + e.target.id))) {
+                        SumarCampos();
+                    }
+                })
+            });
+            $(".sololectura").each(
+                function () {
+                    $(this).keypress(function (e) {
+                        return false;
+                    })
+                }
+            );
+        });
+        function SumarCampos() {
+           
+            var cap = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+            var hon = parseFloat($("#zamba_index_2746").val().replace('', '0'));
+            var otr = parseFloat($("#zamba_index_2745").val().replace('', '0'));
+            var por = parseFloat($("#zamba_index_2836").val().replace('', '0'));
+
+            //Verifica que se deba ajustar al porcentaje de honorarios
+            if (document.getElementById("zamba_index_2836").value != "" && por > 0) {
+                //Si el porcentaje es invalido lo setea a cero
+                if (por > 100) {
+                    hon = 0;
+                    $("#zamba_index_2836").val();
+                    $("#zamba_index_2746").val();
+                } else {
+                    hon = (por * cap) / 100;
+                    hon = Redondear(hon);
+                    $("#zamba_index_2746").val(hon);
+                }
+            }
+
+            //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(cap + hon + otr));
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value <= "0") {
+                alert("Verifique que el Importe sea mayor que cero.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="PretOfer.html">
+            <h4 class="text-center" id="header" width="90%">
+                Pretensión / Oferta
+            </h4>
+            <input id="hdnRuleId" type="hidden" />
+            <center>
+                <div id="tblOferta" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">ID Reclamo:</span>
+                                <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Fecha:</span>
+                                <input class="form-control input-sm" id="zamba_index_143" name="zamba_index_143" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><b>Capital $:</b></span>
+                                <input class="form-control input-sm" id="zamba_index_2744" name="zamba_index_2744" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><b>Honorarios $:</b></span>
+                                <input class="form-control input-sm" id="zamba_index_2746" name="zamba_index_2746" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><b>Otros $:</b></span>
+                                <input class="form-control input-sm" id="zamba_index_2745" name="zamba_index_2745" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><b>Total $:</b></span>
+                                <input class="form-control input-sm" id="zamba_index_2719" name="zamba_index_2719" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">                   
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Cantidad de días:</span>
+                                <input class="form-control input-sm" id="zamba_index_2835" name="zamba_index_2835" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">% Honorarios:</span>
+                                <input class="form-control input-sm" id="zamba_index_2836" name="zamba_index_2836" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tblObervaciones" class="attributes_table">
+                    <div class="form-group row">
+                        <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                    </div>
+                    <div class="form-group">
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_84" name="zamba_index_84" readonly="readonly"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <input class="btn  btn-primary" id="zamba_rule_1017071" name="zamba_rule_1017071" type="submit" value="Consultar RAJ" onclick="SetRuleId(this);" />
+    <input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick();">
+               
+                </div>
+            </center>
+        </form>
+    </div>
+    
+</body>
+</html>

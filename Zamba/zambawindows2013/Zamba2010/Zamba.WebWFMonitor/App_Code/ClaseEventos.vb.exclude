@@ -1,0 +1,105 @@
+Imports Microsoft.VisualBasic
+Imports Zamba.Core
+Imports Zamba
+Imports Zamba.WFBusiness
+Imports System.Collections.Generic
+
+Public Class Eventos
+    ''' <summary>
+    ''' Devuelve todas las tareas de una etapa de un un workflow
+    ''' </summary>
+    ''' <param name="wfId">El ID del Workkflow</param>
+    ''' <param name="stepId">El ID de la Etapa</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetTasks(ByVal wfId As Int32, ByVal stepId As Int32) As SortedList
+
+        Dim Wf As WorkFlow
+        WFBusiness.ValidateUser("Hernan", "1")
+        Dim DsAllWfs As Zamba.Core.DsWF = WFBusiness.GetAllWorkflows()
+
+        For Each Row As Zamba.Core.DsWF.WFRow In DsAllWfs.WF
+            If Row.Item(0) = wfId Then
+                Wf = WFBusiness.GetWf(Row)
+                WFBusiness.GetFullMonitorWF(Wf)
+                Exit For
+            End If
+        Next
+
+        If IsNothing(Wf) Then Return Nothing
+
+        Dim TaskList As New SortedList
+        For Each WfStep As WFStep In Wf.Steps.Values()
+            If WfStep.ID = stepId Then
+                For Each taskResult As TaskResult In WfStep.Tasks.Values()
+                    TaskList.Add(taskResult.ID, taskResult)
+                Next
+                Exit For
+            End If
+        Next
+        Return TaskList
+
+    End Function
+    ''' <summary>
+    ''' Devuelve una lista de eventos de las tareas de acuerdo a el Workflow y la Etapa
+    ''' </summary>
+    ''' <param name="WfId"></param>
+    ''' <param name="StepId"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetEventos(ByVal WfId As Int32, ByVal StepId As Int32) As List(Of Evento)
+        Try
+            Dim EventList As New Generic.List(Of Evento)
+            Dim TasksList As SortedList = GetTasks(WfId, StepId)
+            For Each taskResult As TaskResult In TasksList.Values
+                EventList.Add(New Evento(taskResult))
+            Next
+            Return EventList
+        Catch ex As Exception
+            RaiseError(ex)
+        End Try
+        Return Nothing
+    End Function
+
+End Class
+
+Public Class Evento
+    Private _result As Result
+
+    Public Property Result() As Result
+        Get
+            Return _result
+        End Get
+        Set(ByVal value As Result)
+            _result = value
+        End Set
+    End Property
+
+    Public ReadOnly Property StartTime() As DateTime
+        Get
+            Return Result.Fecha_Inicio
+        End Get
+    End Property
+
+    Public ReadOnly Property EndTime() As DateTime
+        Get
+            Return Result.Fecha_Fin
+        End Get
+    End Property
+
+    Public ReadOnly Property Name() As String
+        Get
+            Return Result.Name
+        End Get
+    End Property
+
+    Public ReadOnly Property Id() As Long
+        Get
+            Return Result.ID
+        End Get
+    End Property
+
+    Public Sub New(ByVal T As TaskResult)
+        Me.Result = T
+    End Sub
+End Class

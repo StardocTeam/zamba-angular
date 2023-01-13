@@ -1,0 +1,185 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class=" row col-xs-10 col-xs-offset-2">
+            <h4>URL: </h4> <input id="url" type="text" style="width:500px" value="http://imageapt/zamba.restapi/api/InsertFiles/UploadFileWithIndexReturn" />
+        </div>
+        
+        <div class=" row col-xs-10 col-xs-offset-2">
+            <h4>           urlPRD   http://imageapp/zamba.restapi/api/InsertFiles/UploadFileWithIndexReturn  </h4>
+        </div>
+        
+        <div class=" row col-xs-10 col-xs-offset-2">
+            <h4>      urlTEST   http://imageapt/zamba.restapi/api/InsertFiles/UploadFileWithIndexReturn  </h4>
+        </div>
+
+        <div class=" row col-xs-10 col-xs-offset-2">
+            <h4>        urlDESA   http://imageapd/zamba.restapi/api/InsertFiles/UploadFileWithIndexReturn  </h4>
+        </div>
+
+
+        <div class=" row col-xs-10 col-xs-offset-2">
+            <input name="Upload" id="image" onchange="UploadIMG(this)" type="file" />
+        </div>
+
+        <div class=" row col-xs-10 col-xs-offset-2">
+            <label>UserId<input class="form-control col-xs-4" id="userid" value="3" /></label>
+
+            <label>EntityId<input class="form-control col-xs-4 " id="id" value="26" /></label>
+        </div>
+        <div id="" class="  col-xs-offset-2">
+
+            <div class=" row col-xs-10">
+                <div class="col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="10" /></div>
+                <div class=" col-xs-4 indicesVal"> <label>  Valor del indice</label><input class="form-control col-xs-4" /></div>
+            </div>
+
+            <div class=" row col-xs-10">
+                <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="72" /></div>
+                <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4" /></div>
+            </div>
+            <div class=" row col-xs-10">
+                <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="2" /></div>
+                <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4" /></div>
+            </div>
+            <div class=" row col-xs-10">
+                <div class=" col-xs-4 indicesid"><label>ID del indice</label><input class="form-control" value="109" /></div>
+                <div class=" col-xs-4 indicesVal"> <label> Valor del indice</label><input class="form-control col-xs-4" /></div>
+            </div>
+
+            <div class=" row col-xs-10">
+                <div class=" col-xs-4"><label>originalFileName</label><input id="originalFileName" class="form-control" value="" /></div>
+            </div>
+
+            <div class=" row col-xs-10">
+                <div class=" col-xs-4"><label>ID del indice de retorno</label><input id="returnId" class="form-control" value="86" /></div>
+            </div>
+
+
+            <div class="row col-xs-10 col-xs-offset-2" style="margin-top:20px">
+                <span id="sendinfo" class="btn btn-success col-xs-2" onclick="sendinfo()">Insertar</span>
+
+            </div>
+            <div class="row col-xs-6 ">
+
+                <label>ResultValue</label> <input class="form-control " id="resultValue" value="" type="text" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<style>
+</style>
+
+<script>
+    var fileSelected = "";
+    var fileExtencion = "";
+    function UploadIMG(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img64 = e.target.result;
+                if (e.total > 400000) {
+                    var img = new Image();
+                    img.src = img64;
+                    var width = img.width;
+                    var height = img.height;
+                    widthext = 500;
+                    if (width > widthext) {
+                        var oc = document.createElement('canvas'), octx = oc.getContext('2d');
+                        oc.width = widthext;
+                        oc.height = img.height;
+                        octx.drawImage(img, 0, 0);
+                        while (oc.width * 0.5 > widthext) {
+                            oc.width *= 0.5;
+                            oc.height *= 0.5;
+                            octx.drawImage(oc, 0, 0, oc.width, oc.height);
+                        }
+                        oc.width = widthext;
+                        oc.height = oc.width * img.height / img.width;
+                        octx.drawImage(img, 0, 0, oc.width, oc.height);
+                        img64 = oc.toDataURL();
+                    }
+                }
+                fileSelected = img64;
+                fileExtencion = $("#image").val().split('.').pop();
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+    }
+
+    $(document).ready(function () {
+        $("#url").val("http://imageapt/zamba.restapi/api/InsertFiles/UploadFileWithIndexReturn");
+    });
+
+    function sendinfo() {
+
+        var indexid = $(".indicesid :input");
+        var indexval = $(".indicesVal :input");
+        var listindex = [];
+
+        var returnId = $("#returnId").val();
+
+        for (var i = 0; i < indexid.length; i++) {
+            for (var i = 0; i < indexval.length; i++) {
+                if (indexid[i].value && indexval[i].value != "")
+                    listindex.push({
+                        id: indexid[i].value,
+                        value: indexval[i].value
+                    });
+            }
+        }
+
+        var originalFileName = $("#originalFileName").val();
+        var doctypeid = $("#id").val();
+        var CurrentUserId = $("#userid").val();
+        var File = { data: fileSelected, extension: fileExtencion }
+        var insert = { file: File, DocTypeId: doctypeid, userid: CurrentUserId, indexs: listindex, returnId: returnId, OriginalFileName: originalFileName };
+        var url = $("#url").val();
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": url,
+            "method": "POST",
+            "headers": {
+                "content-type": "application/json",
+                "cache-control": "no-cache"
+
+            },
+            "processData": false,
+            "data": JSON.stringify(insert)
+        }
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            var result = JSON.parse(response);
+            if (result.msg == "OK") {
+                $("#resultValue").val(result.ReturnValue);
+                toastr.success("archivo se inserto con exito");
+            }
+            else
+                toastr.error('Ocurrio un error en el proceso de su solicitud');
+        }).fail(function (data) {
+            alert(data);
+        });
+
+    }
+
+
+
+</script>
+
+
+

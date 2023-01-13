@@ -1,0 +1,44 @@
+﻿@model ChatJsMvcSample.Models.ChatUser
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <div id="formRequest tableCollaboration" class="form">
+        <h3><strong>Iniciar sesión</strong></h3>    
+        <hr />
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label  col-xs-10" })
+                <div class="col-md-6 col-xs-10">
+                    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control input-sm", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label  col-xs-10" })
+                <div class="col-md-6 col-xs-10">
+                    @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "form-control input-sm", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="editor-label">
+            @Html.CheckBoxFor(u => u.RememberMe)
+            @Html.LabelFor(u => u.RememberMe)
+        </div>
+
+        <input type="submit" value="Iniciar Sesión" class="btnCreate btn btn-xl" />
+        <br />
+        @Html.ActionLink("Olvide mi contraseña", "ForgotPassword", "UserAccount")
+        <br />
+        <span class="field-validation-error text-danger">
+            @Html.ValidationSummary(true, "Error al iniciar sesión.")
+        </span>
+    </div>
+}

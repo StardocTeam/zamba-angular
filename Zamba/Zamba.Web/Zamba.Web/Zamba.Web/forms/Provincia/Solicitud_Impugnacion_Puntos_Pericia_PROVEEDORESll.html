@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 27/06/2018-->
+<!--Cambio: Se agrego Nro de Solicitud y el Boton Cancelar-->
+<head>
+ <title></title>
+ <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+ <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+ <script src="../../Scripts/jquery-2.2.2.js"></script>
+ <script src="../../Scripts/angular.js"></script>
+ <script src="../../Scripts/angular.min.js"></script>
+ <script src="../../DropFiles/dropfiles.js"></script>
+ <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+</head>
+
+<body>
+ <center>
+ <div >
+ <div ng-controller="appController">
+ <div class="form-group row"></div>
+ <div class="col">
+ <div class="cell panel">
+ <form name="frmMain" action="Solicitud_Impugnacion_pericia_PROVEEDORES">
+ <div class="header background-blue">
+ <h5>SOLICITUD DE IMPUGNACION DE PUNTOS DE PERICIA</h5>
+ </div>
+ <input id="hdnRuleId" type="hidden" />
+ <input id="hdnAsocId" type="hidden" />
+ <div class="container">
+ <center>
+ <div class="tab-pane active" id="SOLICITUD DE IMPUGNACION DE PUNTOS DE PERICIA">
+ <div class="form-group row">
+ <div class="PanelPrincipal">
+												<div class="form-group row">
+													<div class="col-md-10"></div>
+ <div class="col-md-2">
+ <div class="input-group">
+<!--NRO DE SOLICITUD-->										<span class="input-group-addon">N° de Solicitud:</span>
+															<input id="zamba_index_10278" name="zamba_index_10278" class="form-control input-sm" disabled />
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+<!--TIPO PERICIA--> <span class="input-group-addon">Tipo de Pericia:</span>
+ <select id="zamba_index_10267" name="zamba_index_10267" class="form-control input-sm"></select>
+ </div>
+ </div>
+ 
+													<div class="col-md-2">
+ <div class="input-group">
+<!--Vencimiento--> 				<span class="input-group-addon">Vto:</span>
+ <input id="zamba_index_2705" name="zamba_index_2705" class="form-control input-sm" />
+ </div>
+ </div>
+ 
+													<div class="col-md-2">
+ <div class="input-group">
+<!--RAJ / Nro Juicio/Mediacion--> <span class="input-group-addon">RAJ:</span>
+ <input id="zamba_index_2695" name="zamba_index_2695" class="form-control input-sm" disabled />
+ </div>
+ </div>
+													
+													<div class="col-md-3">
+ <div class="input-group">
+<!--RAMO--> <span class="input-group-addon">Ramo:</span>
+ <input id="zamba_index_19" name="zamba_index_19" class="form-control input-sm" disabled />
+ </div>
+ </div>
+													<div class="col-md-2">
+ <div class="input-group">
+<!--Nro de SINIESTRO--> <span class="input-group-addon">Siniestro:</span>
+															<input id="zamba_index_17" name="zamba_index_17" class="form-control input-sm" disabled/>
+ </div>
+ </div>
+
+ </div>
+ <div class="form-group row">
+ <div class="col-md-6">
+ <div class="input-group">
+<!--Actor--> <span class="input-group-addon">Actor:</span>
+ <input id="zamba_index_59" name="zamba_index_59" class="form-control input-sm" disabled />
+ </div>
+ </div>
+													<div class="col-md-6">
+ <div class="input-group">
+<!--Demandado--> <span class="input-group-addon">Demandado:</span>
+ <input id="zamba_index_60" name="zamba_index_60" class="form-control input-sm" disabled />
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-6">
+ <div class="input-group">
+<!--EST. a Cargo--> <span class="input-group-addon">Estudio a Cargo:</span>
+ <input id="zamba_index_2732" name="zamba_index_2732" class="form-control input-sm" disabled />
+ </div>
+ </div>
+ 
+ 
+ <div class="col-md-6">
+ <div class="input-group">
+<!--Abogado INT --> <span class="input-group-addon">Referente Interno:</span>
+ <input id="zamba_index_1001011" name="zamba_index_1001011" class="form-control input-sm" disabled />
+ </div>
+ </div>
+ </div>
+												<!--div style="text-align:justify; text-justify:inter-word">
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <h5>Atentamente</h5>
+ </div>
+ </div>
+ </div> 
+ </div--
+												
+											
+												 <div style="position:relative">
+ <div class="form-group row">
+ </div>
+ </div>
+ <div id="tblObervaciones" class="attributes_table">
+ <div class="form-group row">
+ <div class="col-md-2"></div>
+ <div class="col-md-1">
+ <input class="btn btn-info btn-sm" id="zamba_rule_1014004" name="zamba_rule_1014004" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-6">
+<!--Area texto Observacion--
+														<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_64" name="zamba_index_64" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);" style="resize:none" disabled></textarea>
+													</div> -->
+													
+	<div style="text-align:justify; text-justify:inter-word">
+<div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <div style="">
+ <h5>Nos dirijimos a Ud., a fin de informarle que hemos recibido traslado de la pericia para su impugnación y/o pedido de explicaciones.</h5>
+ </div>
+ </div>
+
+ </div>
+ </div>
+ 
+ <div class="form-group row">
+ <div class="form-group">
+ <div class="col-md-12" >
+ <!--Observacion--> 			<span class="input-sm"><h5>Observaciones:</h5></span>
+ </div>
+ </div>
+ <div class="form-group" >
+ <div class="col-md-12" style="padding:0px;">
+ <div class="col-md-12">
+<!--Area texto Observacion--> <textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84"></textarea>
+ </div>
+ </div>
+ </div>
+ </div>	
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <h5>Atentamente</h5>
+ </div>
+ </div>
+ </div>
+ </div>												
+													
+													<div class="col-md-6">
+<!--DropZone-->
+														<div>
+															<zamba-drop id="2525" IndexIds="2728"> </zamba-drop>
+														</div>
+													</div>
+												</div>
+												<div> 
+													<div class="form-group row">
+ <div class="col-md-6">
+															<input name="zamba_rule_1015198" id="zamba_rule_1015198" onclick="return ValidarCampoVacio(this);" class="btn btn-primary" type="submit" value="Enviar">
+															<input name="zamba_rule_1015989" id="zamba_rule_1015989" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+														</div>
+													</div>	
+ </div>
+
+ <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+
+ <div class="row">
+ <center>
+ <div class="col-md-2" style="position:relative;left:20px;">
+ <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+ </div>
+ <div class="col-md-10">
+ <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+ <div class="form-group row">
+ </div>
+ </div>
+ </center>
+ </div>
+ </div>
+ </div>
+ </div>
+ </center>
+ </div>
+							<script type="text/javascript" language="JavaScript">
+ function ValidarCompleto(){
+	 
+ }	 
+ 
+ function ValidarCampoVacio(button){
+	 // Si la fecha del hecho 
+
+var valido = false;
+		 
+	 if ($('#zamba_index_10267').val() == '' ){
+		 alert("El campo Tipo de Pericia no puede ser vacío");
+			 valido = false;
+ 
+		}	
+		 else
+ {
+		 
+			SetRuleId(button);
+		 valido = true;
+		 }
+		 
+		 return valido;
+		 
+	 }
+
+
+		
+	 
+		
+	 
+	 
+ 
+
+ </script>
+<style>
+ .Inputselect {
+ width: 100px !important;
+ }
+
+
+ .inputEtiquetas {
+ width: 30px !important;
+ }
+
+ /*.panel {
+ border: 1px solid rgb(21, 98, 142) !important;
+ }*/
+
+ .PanelPrincipal {
+ margin-top: 30px;
+ }
+
+ .margenBtn {
+ position: relative;
+ left: 90px;
+ }
+</style>
+
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ </center>
+</body>
+</html>
+
+

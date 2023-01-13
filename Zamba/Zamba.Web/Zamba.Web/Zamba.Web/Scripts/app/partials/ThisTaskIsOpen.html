@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="../../../Scripts/angular.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="ThisTaskIsOpen.js"></script>
+
+</head>
+<body id="BodyThisTaskOpen" ng-controller="maincontroller">
+    <style>
+        mat-card-content {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 46%;
+            margin-top: 46%;
+        }
+
+        .textFormat {
+            font-style: normal;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        @media (max-height: 300px) {
+            mat-card-content {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 10%;
+                margin-top: 12%;
+            }
+        }
+
+        @media (max-height: 700px) {
+            mat-card-content {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 10%;
+                margin-top: 12%;
+            }
+        }
+    </style>
+
+    <mat-card>
+        <mat-card-content>
+            <div>
+                <h3 class="textFormat">
+                    La tarea esta abierta por fuera. Haga clic en el boton
+                    <button id="btnOpenTask" class="btn btn-primary" onclick="OpenTaskOnBrowser()"> Ver </button>
+                    para poder verla.
+                </h3>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</body>
+</html>

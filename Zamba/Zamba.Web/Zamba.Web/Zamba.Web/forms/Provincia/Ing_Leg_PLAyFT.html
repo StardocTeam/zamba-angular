@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:William-->
+<!--Fecha Creacion:15/06/2022-->
+<!--PBI 139610-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+</head>
+
+<body>
+
+    <form name="frmMain" id="frmMain" action="Ing_Leg_PLAyFT.html">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+
+
+        <center>
+            <ul class=" nav nav-tabs">
+                <li class="active"><a href="#FACTURA" data-toggle="tab">INGRESO DOC PLA</a></li>
+                
+
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane active" id="FACTURA">
+                    <div class="form-group row"></div>
+                    <!--------------------------------------------------------Primera fila de atributos-------------------------------------------------------------------------------->
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+
+                                <!--CUIT-->
+                                <span class="input-group-addon">CUIT:</span>
+                                <input id="zamba_index_2" name="zamba_index_2" size="1"
+                                    class="form-control autoSave " />
+                                <div class="input-group-addon"
+                                    style="padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+                                    <button class="btn btn-success" type="submit" name="zamba_rule_11550651"
+                                        id="zamba_rule_11550651" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Nro de DNI-->
+                                <span class="input-group-addon">Nro de DNI:</span>
+                                <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control input-sm"/>
+                                <div class="input-group-addon"
+                                    style="padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+                                    <button class="btn btn-success" type="submit" name="zamba_rule_11550653"
+                                        id="zamba_rule_11550653" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Nro de Cliente-->
+                                <span class="input-group-addon">Nro de Cliente:</span>
+                                <input id="zamba_index_5" name="zamba_index_5" size="1" class="form-control input-sm"/>
+                                <div class="input-group-addon"
+                                    style="padding-left: 0px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px;">
+                                    <button class="btn btn-success" type="submit" name="zamba_rule_11550652"
+                                        id="zamba_rule_11550652" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--ID trámite-->
+                                <span class="input-group-addon ">ID trámite:</span>
+                                <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm "
+                                    disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <!--------------------------------------------------------Segunda fila de atributos-------------------------------------------------------------------------------->
+                    <div class="form-group row">
+
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <!--Nombre y Apellido-->
+                                <span class="input-group-addon">Nombre y Apellido o Razón Social:</span>
+                                <input id="zamba_index_238" name="zamba_index_238" size="1"
+                                    class="form-control input-sm" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Recepcion-->
+                                <span class="input-group-addon">Recepción:</span>
+                                <input id="zamba_index_4" name="zamba_index_4"
+                                    class="form-control input-sm dateTimeToday" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <!--------------------------------------------------------Tercera fila de atributos-------------------------------------------------------------------------------->
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <!--Tipo de Documentacion-->
+                                <span class="input-group-addon">Tipo de Documentacion:</span>
+                                <select id="zamba_index_1020090" name="zamba_index_1020090" size="1"
+                                    class="form-control input-sm "></select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Año-->
+                                <span class="input-group-addon">Año:</span>
+                                <select id="zamba_index_117" name="zamba_index_117" size="1"
+                                    class="form-control input-sm "></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--------------------------------------------------------Area de Observaciones y Dropzone-------------------------------------------------------------------------------->
+
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-md-6 ">
+                            <div class="row">
+                                <!--Area texto Observacion-->
+                                <div id="appObservaciones" ng-controller="ObservacionController">
+                                    <zamba-observaciones index-id="84" entity-id="11535055"></zamba-observaciones>
+                                </div>
+                            </div>
+                        </div>
+                       
+                            <div class="col-xs-12 col-md-6">
+                                <div class="row">
+                                    <div class="col-xs-12" style="  width: 92%;">
+                                        <div>
+                                            <div ng-controller="appController">
+                                                <zamba-drop id="11535056" IndexIds="1020090"></zamba-drop>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <!--------------------------------------------------------Area de Botones-------------------------------------------------------------------------------->
+                    <div class="form-group row">
+
+
+                        <div class="col-xs-2 col-md-offset-10">
+                            <button name="zamba_rule_11550647" id="zamba_rule_11550647" onclick="SetRuleId(this);"
+                                class="btn btn-primary" type="submit" value="Guardar">Guardar</button>
+                        
+                            <button name="zamba_rule_11550649" id="zamba_rule_11550649" onclick="SetRuleId(this);"
+                                class="btn btn-primary" type="submit" value="Cancelar">Cancelar</button>
+                        </div>
+
+
+                    </div>
+                    <!--------------------------------------------------------Area de Grilla de Asociados-------------------------------------------------------------------------------->
+                    <div class="form-group row">
+                        <div class="form-group row">
+                            <div id="file1" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="11535056" default-enable-mode="grid" table-height="400"
+                                    grid-title="Legajos">
+                                </zamba-associated>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="tab-pane" id="Expediente">
+
+            </div>
+
+            <div class="row">
+                <center>
+                    <div class="col-md-12">
+                        <span style="color:whitesmoke">Ing_Leg_PLAyFT.html</span>
+                    </div>
+                </center>
+            </div>
+            <!--IMPORTANTE  cambiar version al modificar formulario-->
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="colorVersion"> V. 1.1.2 </span>
+                </div>
+            </div>
+        </center>
+    </form>
+
+</body>
+
+</html>

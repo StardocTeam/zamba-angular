@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DSIpType" targetNamespace="http://tempuri.org/DSIpType.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DSIpType.xsd" xmlns:mstns="http://tempuri.org/DSIpType.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DSIpType" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IP_TYPE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IP_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_NAME" type="xs:string" minOccurs="0" />
+							<xs:element name="IP_PATH" type="xs:string" minOccurs="0" />
+							<xs:element name="IP_CHR" type="xs:string" minOccurs="0" />
+							<xs:element name="IP_GROUP" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_DOCTYPEID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_BACKUPPATH" type="xs:string" minOccurs="0" />
+							<xs:element name="IP_VERIFY" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_ACEPTBLANK" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_BACKUP" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_DELSOURCE" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_SOURCEVARIABLE" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_MULTIPLEFILES" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_MULTIPLECHR" type="xs:string" minOccurs="0" />
+							<xs:element name="IP_MOVE" type="xs:decimal" minOccurs="0" />
+							<xs:element name="IP_CHECKBATCH" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="DSIpTypeKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:IP_TYPE" />
+			<xs:field xpath="mstns:IP_ID" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

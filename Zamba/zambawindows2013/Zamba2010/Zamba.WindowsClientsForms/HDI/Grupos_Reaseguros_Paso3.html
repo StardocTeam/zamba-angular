@@ -1,0 +1,269 @@
+<html>
+	<head>
+		<title>Configuracion de grupos de aviso a reaseguros</title>			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">			
+		<script type="text/javascript" language="JavaScript">	
+       	    function SetRuleId(sender)
+			{
+	            document.getElementById("hdnRuleId").name = sender.id;               
+           		frmMain.submit();
+        	}
+			
+			function SetAsocId(sender)
+			{
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}		
+
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+
+			$(document).ready(function () 
+			{
+				setTimeout("loadTime('_26464')", 100);	
+				setTimeout("loadTime('_26465')", 100);
+				setTimeout("formatTime('_26464')", 100);					
+				setTimeout("formatTime('_26465')", 100);				
+			});		
+			
+			function loadTime(id)
+			{
+				document.getElementById(id).value = document.getElementById("zamba_index" + id).value.replace(":", "");
+			}
+			
+			function formatTime(id)
+			{
+				var ctrl = $('#' + id);						
+				var time = ctrl.val().replace(":", "");
+				
+				var h = time.substring(0, time.length - 2);					
+				var m = time.substring(time.length - 2, time.length);
+				
+				if (h != "" || m != "")
+					ctrl.val(h + ":" + m);
+					
+				if (h > 23 || m > 59)
+					ctrl.addClass("error");
+				else
+					ctrl.removeClass("error");
+			}				
+
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+
+			function validaDatos()
+			{	
+				var currenttime = new Date();
+				
+				if($('#zamba_index_26560').val() == '')
+				{
+					alert("Por favor ingrese un valor para titulo");
+        	        $('#zamba_index_26560').focus();
+                	return false;				
+				}				
+				
+				if($('#zamba_index_26568').val() == '')
+				{
+					alert("Por favor ingrese un valor para Fecha Desde");
+        	        $('#zamba_index_26568').focus();
+                	return false;				
+				}
+				
+				if($('#_26464').val() == '')
+				{
+					alert("Por favor ingrese un valor para Hora Desde");
+        	        $('#_26464').focus();
+                	return false;				
+				}				
+				
+				if($('#zamba_index_26569').val() == '')
+				{
+					alert("Por favor ingrese un valor para Fecha Hasta");
+        	        $('#zamba_index_26569').focus();
+                	return false;				
+				}	
+
+				if($('#_26465').val() == '')
+				{
+					alert("Por favor ingrese un valor para Hora Hasta");
+        	        $('#_26465').focus();
+                	return false;				
+				}					
+				
+				var fecha_desde = dateToString($('#zamba_index_26568').val());	
+				var fecha_hasta = dateToString($('#zamba_index_26569').val());	
+				
+				var date_actual = dateToString(currenttime.getDate() + "/" + (currenttime.getMonth() + 1) + "/" + currenttime.getFullYear());
+
+				if(parseInt(fecha_desde) > parseInt(date_actual))
+				{
+					alert("El campo Fecha Desde debe ser anterior a la fecha actual.");
+					$('#zamba_index_26568').focus();
+					return false;
+				}
+				
+				if(parseInt(fecha_desde) > parseInt(fecha_hasta))
+				{
+					alert("El campo Fecha Hasta debe ser posterior al campo Fecha Desde.");
+					$('#zamba_index_26569').focus();
+					return false;
+				}				
+	
+	            if($('#_26464').attr('class') == 'error')
+                {
+   		            alert("La hora es invalida");
+        	        $('#_26464').focus();
+                	return false;
+                } 
+
+	            if($('#_26465').attr('class') == 'error')
+                {
+   		            alert("La hora es invalida");
+        	        $('#_26465').focus();
+                	return false;
+                } 
+				
+				document.getElementById('zamba_index_26464').value = document.getElementById('_26464').value.replace(":", "");
+				document.getElementById('zamba_index_26465').value = document.getElementById('_26465').value.replace(":", "");
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";		
+						
+				return true;
+			}	
+		
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');	
+
+		</script>
+	</head>	
+	<body>
+			
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />				
+			
+				<div name="design" id="design">
+					<strong>Configuraci&oacute;n de grupos de aviso a reaseguros</strong>
+				</div>
+				
+				<br />
+			
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Datos del grupo</h2>
+						<p>
+							<table cellpadding="6" border=0>
+								<tr>
+									<td><label>Id Grupo:</label></td>
+									<td colspan=3><input type="text" name="zamba_index_26572" id="zamba_index_26572" size="25" readonly="readonly" class="readonly"/></td>
+								</tr>
+								<tr>
+									<td><label>Titulo:</label></td>
+									<td colspan="3"><input type="text" name="zamba_index_26560" id="zamba_index_26560" style="width:395px" readonly="readonly" class="readonly"/></td>
+								</tr>
+								<tr>
+                                    <td><label>Fecha desde:</label></td>
+									<td><input id="zamba_index_26568" name="zamba_index_26568" style="width:166px;" readonly="readonly" class="readonly"></td>
+									<td><label>Hora desde:</label></td>
+									<td>
+										<input id="_26464" name="_26464" style="width:70px;" maxlength="5" onkeyup="formatTime('_26464');" readonly="readonly" class="readonly"/>
+										<input type="text"  id="zamba_index_26464" name="zamba_index_26464" style="display:none"/>
+									</td>
+								</tr>
+								<tr>
+                                    <td><label>Fecha hasta:</label></td>
+									<td><input id="zamba_index_26569" name="zamba_index_26569" style="width:166px;" readonly="readonly" class="readonly"></td>
+									<td><label>Hora hasta:</label></td>
+									<td>
+										<input id="_26465" name="_26465" style="width:70px;" maxlength="5" onkeyup="formatTime('_26465');" readonly="readonly" class="readonly" />
+										<input type="text"  id="zamba_index_26465" name="zamba_index_26465" style="display:none"/>
+									</td>
+								</tr>
+								<tr>
+                                    <td><label>Rama:</label></td>
+									<td colspan="3"><select id="zamba_index_26294" name="zamba_index_26294" style="width:396px;" disabled class="readonly"></select></td>
+								</tr>	
+								<tr>
+                                    <td><label>Importe Suma Siniestrada:</label></td>
+									<td><input id="zamba_index_27584" name="zamba_index_27584" style="width:166px;" readonly="readonly" class="readonly"></td>
+								</tr>								
+								<tr>
+                                    <td valign="top"><label>Causas asignadas:</label></td>
+									<td colspan="3">
+										<table id="zamba_zvar(CausasAsignadas)" class="tablesorter">
+											<tbody>
+											</tbody>
+										</table>	
+									</td>
+								</tr>	
+							</table>
+						</p>
+					</div>
+							
+					<div class="tabbertab">
+						<h2>Reclamos Afectados</h2>						
+						<table id="zamba_associated_documents_26027" class="tablesorter" >
+							<tbody>
+							</tbody>
+						</table>			
+					</div>
+							
+					<br />
+					<br />
+		
+					<div name="logocliente" id="logocliente">	
+						<img src="images/logocliente.jpg" align="left" height=50 width=70>
+					</div>
+					
+					<div name="logozamba" id="logozamba">
+						<img src="images/pwbyzamba.jpg">
+					</div>					
+
+					<div name="alignleft" id="alignleft">								
+					</div>
+					
+					<br />
+					<br />
+					<br />
+					<br />
+
+				</div>					
+			</form>						
+		</div>
+	</body>
+</html>

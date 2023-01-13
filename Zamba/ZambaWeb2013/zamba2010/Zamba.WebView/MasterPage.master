@@ -1,0 +1,47 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+</head>
+<body topmargin="0">
+    <form id="form1" runat="server">
+        <asp:Table runat="server" BackColor="#edecf4" ID="tblTot" BorderStyle="None" BorderWidth="0"
+            CellPadding="0" CellSpacing="0" Width="100%">
+            <asp:TableRow BorderStyle="None" BorderWidth="0">
+                <asp:TableCell BorderStyle="None" BorderWidth="0" Width="75%">
+        <img src="images/ClienteBanner.jpg"/>
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow BackColor="#ffcc66">
+                <asp:TableCell ColumnSpan="2" HorizontalAlign="Left" Width="100%">
+                <asp:Label id="Invisible" Font-Size="Small" Width="15" runat="server"></asp:Label>
+                    <asp:Label ID="LblTitle" runat="server" Font-Size="Small" ForeColor="navy" ></asp:Label>
+                </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+        
+        <%--<asp:ScriptManager runat="server" ID="scrpManager" EnablePartialRendering="true"
+            AsyncPostBackTimeout="36000" OnAsyncPostBackError="scrpManager_AsyncPostBackError">
+        </asp:ScriptManager>   --%>     
+<%--        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>--%>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+<%--            </ContentTemplate>
+        </asp:UpdatePanel>--%>
+        
+        
+        <asp:Table runat="server" BackColor="white" ID="Table2" BorderStyle="None" BorderWidth="0"
+            CellPadding="3" CellSpacing="3" Width="100%">
+            <asp:TableRow BorderStyle="None" BorderWidth="0"  >
+           <asp:TableCell HorizontalAlign="Left" VerticalAlign="Middle" Width="150" ColumnSpan="20" RowSpan = "20" >
+               <img src="images/ZambaLogo.JPG"/>
+                </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+        
+    </form>
+</body>
+</html>

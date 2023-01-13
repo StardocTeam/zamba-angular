@@ -1,0 +1,23 @@
+﻿@{
+    var ProductNames = new Dictionary<string, string> {
+        { "kendo-ui", "Kendo UI" },
+        { "php-ui", "UI for PHP" },
+        { "aspnet-mvc", "UI for ASP.NET MVC" },
+        { "jsp-ui", "UI for JSP" },
+        { "themebuilder", "ThemeBuilder" },
+        { "mobile-themebuilder", "Mobile ThemeBuilder" }
+    };
+}
+
+<div id="header">
+    <div id="logo-bar">
+        <a href="@Url.Content("~")">
+            <img alt="@(ProductNames[ViewBag.Product]) logo" class="@Url.Content(ViewBag.Product) logo" src="@Url.Content("~/content/shared/images/logos/" + ViewBag.Product + ".png")" />
+        </a>
+    </div>
+    <div class="nav-buttons">
+        <a id="about" href="http://www.telerik.com/@ViewBag.Product/" class="btn">About</a>
+        <a id="pricing" href="http://www.telerik.com/purchase/@ViewBag.Product" class="btn">Pricing</a>
+        <a id="get-kendoui" href="http://www.telerik.com/download/@ViewBag.Product" class="btn btn-primary">Try now</a>
+    </div>
+</div>

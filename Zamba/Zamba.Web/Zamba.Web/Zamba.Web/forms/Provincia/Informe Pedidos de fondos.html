@@ -1,0 +1,61 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Busq_JuicioMediacion.html">
+            <input id="hdnRuleId" type="hidden" />
+            <h4 class="text-center" id="header" width="90%">Informe Diario Actividad referente</h4>
+            <center>
+                <div id="tblReclamo" class="attributes_table">
+                   
+                            <div class="form-group row">
+
+                                <h5>Cargar el rango de fechas</h5>
+                                <div class="col-md-3"></div>
+                                <div class="col-xs-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha Desde:</span>
+                                        <input class="form-control input-sm dataType datepicker" autocomplete="off" id="zamba_index_1020123" name="zamba_index_1020123" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha hasta:</span>
+                                        <input class="form-control input-sm dataType datepicker" autocomplete="off" id="zamba_index_1020124" name="zamba_index_1020124" />
+                                    </div>
+                                </div>
+                            </div>
+							<div class="form-group row"></div>
+                            <div>
+                            <button name="zamba_rule_11544569" id="zamba_rule_11544569" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Buscar">Buscar Por Fecha de Creacion</button>
+                            </div>
+
+                            <div class="form-group row"></div>
+                            <div>
+                            <button name="zamba_rule_11544576" id="zamba_rule_11544576" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Buscar">Buscar Por Fecha de Aprobacion</button>
+                            </div>
+
+							<div class="form-group row"></div>
+							</div>
+							<button name="zamba_rule_11544583" id="zamba_rule_11544583" onclick="SetRuleId(this);" class="btn btn-danger" type="submit" value="Buscar">Generar Reporte sin rango de fechas</button>
+							<button name="zamba_cancel" id="zamba_cancel" onclick="window.close();" class="btn btn-primary" type="submit" value="Salir">Salir</button>
+							</div>
+                    
+                    </div>
+            </center>
+        </form>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,676 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+
+</head>
+
+<body>
+    <center>
+
+        <form name="frmMain" action="Ing_Doc_Emision.html">
+
+
+            <center>
+                <h5>INGRESO DOCUMENTO DE EMISION</h5>
+            </center>
+
+            <div class="form-group"></div>
+
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            <div class="container-fluid">
+                <center>
+                    <div class="tab-pane active" id="INGRESO DOCUMENTOS DE EMISION">
+
+
+
+                        <div class="form-group row">
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <!--Este es el campo que permite buscar por nro o nombre de productor-->
+                                    <span class="input-group-addon">Buscar Productor:</span>
+                                    <input id="zvar(productorabuscar)" placeholder="Ingrese el nombre o parte" name="zvar(productorabuscar)" class="form-control UPPER">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" name="zamba_rule_2044" id="zamba_rule_2044" onclick="SetRuleId(this);" onkeyup="this.value = this.value.toUpperCase();">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--ID trámite-->
+                                    <span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                    <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled="disabled" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro Productor-->
+                                    <span class="input-group-addon">Nro Productor:</span>
+                                    <input id="zamba_index_95" name="zamba_index_95" size="1" class="form-control  input-md solonums" type="text" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" name="zamba_rule_1021032" id="zamba_rule_1021032" onclick="SetRuleId(this);" onkeyup="this.value = this.value.toUpperCase();">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--Este ID corresponde al Agente de Venta-->
+                                    <span class="input-group-addon">Productor:</span>
+                                    <input id="zamba_index_35" name="zamba_index_35" disabled="disabled" size="1" class="form-control  input-sm">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <!--Recepcion-->                                            <span class="input-group-addon">Recepción:</span>
+                                            <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Ramo-->                                         <span class="input-group-addon">Ramo:</span>
+                                    <!--<select id="zamba_index_19" name="zamba_index_19" class="form-control input-sm"> </select>-->
+
+
+                                    <select id="zamba_index_19" name="zamba_index_19" class="form-control input-sm" withcode></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Poliza-->                                       <span class="input-group-addon">Póliza:</span>
+                                    <input id="zamba_index_14" name="zamba_index_14" size="1" class="form-control solonums" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" name="zamba_rule_2310" id="zamba_rule_2310" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Certificado-->                                         <span class="input-group-addon">Certificado:</span>
+                                    <input id="zamba_index_10165" name="zamba_index_10165" class="form-control input-sm solonums" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--delegación-->                                          <span class="input-group-addon" style="padding:1px;">Delegación:</span>
+                                    <select id="zamba_index_82" name="zamba_index_82" class="form-control input-sm" withcode> </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <!--<div class="col-md-3">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="input-group">
+                            <--Nro de Caja>
+                                                                                            <span class="input-group-addon">Nro de Caja:</span>
+                                                                                            <input id="zamba_index_9" name="zamba_index_9" class="form-control input-sm" disabled="disabled"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>-->
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Producto--><span class="input-group-addon">Producto:</span>
+                                    <!-- <select id="zamba_index_81" name="zamba_index_81" size="1" class="form-control input-sm"></select>-->
+
+                                    <select id="zamba_index_81" name="zamba_index_81" size="1" class="form-control input-sm" withcode disabled></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--Nom y Apell--><span class="input-group-addon">Apellido y Nombre Cliente:</span>
+                                    <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control UPPER " />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" name="zamba_rule_1020848" id="zamba_rule_1020848" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Codigo Der--> <span class="input-group-addon">Codigo:</span>
+                                    <input id="zamba_index_5" name="zamba_index_5" class="form-control input-sm" disabled="disabled" />
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-1" style="position:relative;left:-10px">
+                                <div class="input-group">
+                                    <!--Tipo de Documento-->
+                                    <select class="btn btn-default Inputselect btn-md" id="zamba_index_108" name="zamba_index_108"> </select>
+
+                                </div>
+                            </div>
+                            <!--Nro de Documento-->                                <div class="col-md-2">
+                                <div class="input-group">
+                                    <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control solonums" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" name="zamba_rule_1020849" id="zamba_rule_1020849" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Patente-->                                              <span class="input-group-addon">Patente:</span>
+                                    <input id="zamba_index_1020025" name="zamba_index_1020025" class="form-control input-sm" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Inspec-->                                              <span class="input-group-addon">Nro de Inspección:</span>
+                                    <input id="zamba_index_102" name="zamba_index_102" class="form-control input-sm solonums" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Cantidad de Cert-->                                     <span class="input-group-addon">Cantidad de Certificados:</span>
+                                    <input id="zamba_index_151" name="zamba_index_151" class="form-control input-sm solonums" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Este es el campo que permite buscar por nro o nombre de productor-->
+                                    <span class="input-group-addon">CUIT/CUIL:</span>
+                                    <input id="zamba_index_2" placeholder="Ingrese el CUIT/CUIL" name="zamba_index_2" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit" name="zamba_rule_1300130" id="zamba_rule_1300130" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="input-group">
+                                    <!--Tipo de Documentacion-->                                <span class="input-group-addon">Tipo de Documentación:</span>
+                                    <select id="zamba_index_25" name="zamba_index_25" class="form-control input-sm" withcode></select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--NID--> <span class="input-group-addon">NID:</span>
+                                    <input id="zamba_index_7" name="zamba_index_7" class="form-control input-sm" disabled="disabled" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!------------------------------------------------------------------->
+
+                    <div class="form-group row">
+                        <div class="col-xs-6 col-md-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!--Area texto Observacion-->
+                                    <div>
+                                        <div ng-controller="ObservacionController">
+                                            <zamba-observaciones index-id="84" entity-id="17"></zamba-observaciones>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-6 col-md-6">
+                            <div class="row">
+                                <div class="col-xs-12" style=" margin-top: 37px; width: 92%; margin-left:-40px;">
+                                    <!--DropZone-->
+                                    <div id="appblankID" ng-controller="appController">
+									 <zamba-drop id="11525023" indexIds="25" >  </zamba-drop>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!------------------------------------------------------------------->
+                   
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Usuario-->
+                                <span class="input-group-addon">Usuario:</span>
+                                <input id="zamba_index_137" name="zamba_index_137" class="form-control input-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <!--Derivado a-->
+                                <span class="input-group-addon">Derivar a:</span>
+                                <select id="zamba_index_1020170" name="zamba_index_1020170" size="1" class="form-control input-sm" withcode></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <center>
+
+                        <input name="zamba_rule_23" id="zamba_rule_23" onclick="$(this).hide();SetRuleId(this);" class="btn btn-primary" type="submit" value="Aceptar">
+
+                        <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+
+                    </center>
+
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+
+                    <!--<div class="row">
+                        <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                            <div class="row" style="height:100%">
+                                <iframe id="previewDocSearch" class="IframeClass" style="margin-top:30px" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="11525023" default-enable-mode="grid" table-height="400" grid-title="Emision">
+                            </zamba-associated>
+                        </div>
+                    </div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+
+
+                   
+
+
+                </center>
+            </div>
+            <script type="text/javascript" language="JavaScript">
+                function ZFUNCTION() {
+
+                    //  $(".UPPER").each(function (index) { $(this).on("keypress", forceKeyPressUppercase) });
+                };
+                function forceKeyPressUppercase(e) {
+                    var charInput = e.keyCode;
+                    if ((charInput >= 97) && (charInput <= 122)) { // lowercase
+                        if (!e.ctrlKey && !e.shiftKey && !e.metaKey && !e.altKEY) { // no modifier key
+                            var newChar = charInput - 32;
+                            var start = e.target.selectionStart;
+                            var end = e.target.selectionEnd;
+                            e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+                            e.target.setSelectionRange(start + 1, start + 1);
+                            e.preventDefault();
+                        }
+                    }
+                }
+                
+
+            </script>
+
+            <script type="text/javascript" language="JavaScript">
+                $(document).ready(function () {
+                    $(".UPPER").each(function (index) {
+                        console.log(this);
+                        if (this != undefined && this != null)
+                            this.addEventListener("keypress", forceKeyPressUppercase, false);
+                        else
+                            console.log("this es nulo para UPPER");
+                    });
+
+                });
+
+            </script>
+
+            <script>
+
+                var items = ["1-10009-TRO PYME",
+						"1-10007-INCENDIO VIVIENDAS FAMILIARES",
+						"1-10030-INCENDIO DC",
+						"1-10003-CREDITO HIPOTECARIO",
+						"1-10006-POLIZA DECLARACION",
+						"1-10005-INCENDIO BANCO NACION",
+						"1-10004-VISA DORADA",
+						"1-10002-TODO RIESGO OPERATIVO",
+						"1-10001-INCENDIO",
+						"1-10011-MINI TRO PYME",
+						"1-10010-TU CASA 120",
+						"1-10008-INCENDIO CERRADO",
+						"2-20004-ANUALIDAD FLOTANTE",
+						"2-20003-VIAJE EXPORTACION / IMPORTACION",
+						"2-20005-ANUALIDAD DECLARACION",
+						"2-20030-TRANSPORTES DC",
+						"2-20006-VEHICULO DETERMINADO",
+						"2-20002-POR VIAJE TERRESTRE",
+						"2-20001-ANUALIDAD VEHICULO DETERMINADO",
+						"2-20008-CEREAL / FERTILIZANTE Y GANADO",
+						"2-20007-TRANSPORTE DE CEREALES",
+						"3-30030-AERONAVEGACION DC",
+						"3-30002-TERCEROS SUPERFICIARIOS",
+						"3-30001-AGROQUIMICOS",
+						"3-30009-AEROAPLICADORES",
+						"3-30003-DAÑOS A LA AERONAVE",
+						"3-30008-LIMITE UNICO COMBINADO",
+						"3-30007-COBERTURA ARIEL",
+						"3-30006-LIMITE UNICO COMBINADO CERTIFICADO",
+						"3-30005-R.C. PASAJEROS TRANSPORTADOS",
+						"3-30004-ACCIDENTES PERSONALES",
+						"4-04200-SEGURO DE REGISTRO",
+						"4-04400-AUTOMOTORES TIERRA DEL FUEGO",
+						"4-04100-AUTOMOTORES",
+						"4-04500-AUTOMOTORES PROVINCIA LEASING",
+						"4-04990-AUTOMOTORES MEDIOS MAGNETICOS",
+						"4-04800-AUTOMOTORES",
+						"4-04950-AUTOMOTORES CORTE CARTERA",
+						"4-04900-AUTOS COASEGURO ACEPTADO",
+						"4-04700-AUTOPLANES TIERRA DEL FUEGO",
+						"4-04600-AUTOPLANES",
+						"5-50001-CRISTALES",
+						"5-50030-CRISTALES DC",
+						"6-60016-ROBO DE BICICLETAS",
+						"6-60011-APROPIACION INDEBIDA",
+						"6-60012-ANSES ROBO CAJEROS AUTOMATICOS",
+						"6-60010-ROBO RIESGOS COMBINADOS",
+						"6-60013-ROBO ATM BANCO CIUDAD",
+						"6-60030-ROBO DC",
+						"6-60005-ROBO OBJETOS DIVERSOS",
+						"6-60002-ROBO LOCAL DE COMERCIO",
+						"6-60009-ROBO COLMENAS",
+						"6-60008-ROBO TARJETAS",
+						"6-60007-ROBO INTEGRAL BANCARIA",
+						"6-60006-ROBO FIDELIDAD DE EMPLEADOS",
+						"6-60004-ROBO DINERO EN TRANSITO",
+						"6-60003-ROBO CAJA FUERTE",
+						"6-60001-ROBO CASA DE FAMILIA",
+						"6-60014-PROTECCION DE CARTERAS",
+						"6-60015-PROT.ELEMENTOS DE ESTUDIO Y TRABAJO",
+						"7-70035-OPERADORES TURISTICOS",
+						"7-70033-RC BICICLETAS",
+						"7-70037-RC DE ADMINISTRADORES DE CONSORCIOS",
+						"7-70032-ESTABLECIMIENTOS EDUCATIVOS CERRADO",
+						"7-70034-COMPRENSIVA 2016",
+						"7-70005-EMPR.PROV.SERV.ELECTRICOS",
+						"7-70028-RC PATRONAL",
+						"7-70031-MALA PRAXIS PROFESIONAL",
+						"7-70029-LABORATORIOS",
+						"7-70036-VEHICULOS AEREOS PILOT. A DISTANCIA",
+						"7-70001-BASICA",
+						"7-70002-HECHOS PRIVADOS",
+						"7-70003-ZANJEO",
+						"7-70008-VARIOS",
+						"7-70004-GANADO",
+						"7-70007-MAQUINARIAS",
+						"7-70006-SERV.DE ASCENSORES",
+						"7-70009-TINTORERIAS",
+						"7-70010-DEMOLICIONES",
+						"7-70011-CALDERAS",
+						"7-70012-CARTELES",
+						"7-70013-ASCENSORES",
+						"7-70014-CLINICAS",
+						"7-70015-ESTABLECIMIENTOS EDUCATIVOS",
+						"7-70016-CONSTRUCCIONES",
+						"7-70017-GUARDA DE VEHICULOS",
+						"7-70018-COMPRENSIVA",
+						"7-70019-REFACCIONES",
+						"7-70020-DESTREZA CRIOLLA",
+						"7-70021-TORNEOS",
+						"7-70022-TENDIDO DE LINEAS",
+						"7-70023-MANTENIMIENTO DE ASCENSORES",
+						"7-70024-ESPECTADORES",
+						"7-70900-RESPONSABILIDAD CIVIL",
+						"7-70025-PASANTIAS",
+						"7-70026-PRACTICOS",
+						"7-70027-ACTIVIDADES PORTUARIAS",
+						"7-70030-RESPONSABILIDAD CIVIL DC",
+						"8-80019-HOGAR GISA",
+						"8-80015-COMBINADO FAMILIAR TRADICIONAL WEB",
+						"8-80061-ASISTENCIA AL VIAJERO",
+						"8-80006-COMBINADO FAMILIAR MADERA ABIERTO",
+						"8-80007-COMBINADO FAMILIAR MADERA CERRADO",
+						"8-80008-CF TRADICIONAL BPBA",
+						"8-80151-INTEGRAL DE HOTELERIA CERRADO",
+						"8-80010-CF PLAN MADERA ISLA",
+						"8-80057-INTEGRAL HANGARES",
+						"8-80014-CF TRADICIONAL POR MODULOS",
+						"8-80056-IC PATAGONICO",
+						"8-80009-CF PLAN MADERA ISLA MODULOS",
+						"8-80011-CF TRADICIONAL BPBA EQ.MOVILES",
+						"8-80013-ESTABLECIMIENTO AGROPECUARIO",
+						"8-80012-COMBINADO FAMILIAR HOGAR TOTAL",
+						"8-80016-COMBINADO FAMILIAR TRADICIONAL 2016",
+						"8-80099-PRUEBA",
+						"8-80059-INTEGRAL DE COMERCIO MICRO EMPRESAS",
+						"8-80018-CF HIPOTECARIO",
+						"8-80060-INTEGRAL DE COMERCIO FOODS TRUCKS",
+						"8-80017-CF MADERA 2016",
+						"8-80058-INTEGRAL DE COMERCIO ANUAL",
+						"8-80001-COMBINADO FAMILIAR TRADICIONAL",
+						"8-80003-PLANES PROPORCIONALES",
+						"8-80050-INT. DE COMERCIO IC98",
+						"8-80052-INT.DE COMERCIO ISLA",
+						"8-80100-CONSORCIO COPRPIETARIOS T.ABIERTA",
+						"8-80150-INTEGRAL DE HOTELERIA",
+						"8-80200-CLIPPER CONTAR",
+						"8-80002-COMBINADO FAMILIAR PATAGONICO",
+						"8-80004-COMB.FAMILIAR COLECTIVA EMPL.BCO.",
+						"8-80101-CONSORCIO CONS02",
+						"8-80053-INTEGRAL DE COMERCIO PROMOCIONES",
+						"8-80030-COMBINADO FAMILIAR DC",
+						"8-80031-INTEGRAL DE COMERCIO DC",
+						"8-80032-INTEGRAL DE CONSORCIO DC",
+						"8-80054-INTEGRAL DE OFICINAS",
+						"8-80055-INTEGRAL DE ESTANCIAS",
+						"8-80005-PLANES PROPORCIONALES 2005",
+						"8-80051-INT. DE COMERCIO TASA ABIERTA",
+						"8-80300-VACACIONAR SEGUROS",
+						"9-9002-GRUPO FAMILIAR",
+						"9-9003-SEPELIO COASEGUROS",
+						"9-9001-SEPELIO",
+						"10-100010-INCENDIO FORESTAL",
+						"10-100007-GRANIZO CERRADO",
+						"10-100006-MULTIRIESGO GLOBAL",
+						"10-100009-GRANIZO CERRADO WEB",
+						"10-100008-GRANIZO EN PLANTACIONES DE OLIVARES",
+						"10-100002-GRANIZO EN PLANTACIONES DE FRUTALES",
+						"10-100003-MULTIRIESGO PLAN FERTIL",
+						"10-100004-MULTIRIESGO POR HIST.E INDICES",
+						"10-100001-GRANIZO CEREALES Y OLEAGINOSAS",
+						"10-100005-GRANIZO COSECHAS FINA Y GRUESA",
+						"13-130006-CD COMPUTADORAS PORTATILES",
+						"13-130007-EQUIPO CONTRATISTA BPBA PL",
+						"13-130001-CORRIENTE DEBIL",
+						"13-130002-EQUIPO CONTRATISTA",
+						"13-130003-ROTURA DE MAQUINARIA",
+						"13-130004-SEGURO DE MONTAJE",
+						"13-130005-TODO RIESGO CONSTRUCCIONES",
+						"13-130030-SEGURO TECNICO DC",
+						"14-14003-TODO RIESGO INSTRUMENTOS MUSICALES",
+						"14-14004-TODO RIESGO INSTRUMENTOS MUSICALES",
+						"14-14005-COMPRA PROTEGIDA",
+						"14-14006-CONSUMO GARANTIZADO",
+						"14-14002-RIESGOS VARIOS JUGADORES DE GOLF",
+						"14-14001-RIESGOS VARIOS",
+						"14-14030-RIESGOS VARIOS DC",
+						"15-15003-CAUCION COLEGIO UNICO DE CORREDORES",
+						"15-15004-GARANTIA DE ALQUILERES",
+						"15-15005-CAUCION AMBIENTAL",
+						"15-15001-CAUCION",
+						"15-15002-CAUCION DIRECTORES",
+						"16-16026-AP ESPECIALES",
+						"16-16027-AP EVENTOS",
+						"16-16021-AP MAS AUTOS",
+						"16-16016-AP PARA TODOS",
+						"16-16013-NOMINADOS TASA ABIERTA",
+						"16-16015-AP COASEGURO",
+						"16-16031-PS X 3",
+						"16-16014-CUIDADOS PROLONGADO POR ACCIDENTE",
+						"16-16017-MAS PARA VOS",
+						"16-16005-ANDAR SEGURO",
+						"16-16024-EMPLEADOS BANCO PROVINCIA",
+						"16-16023-PROVINCIA SELECCION",
+						"16-16012-TAMBEROS X NOMINAS",
+						"16-16018-ACC. PERS. VENTA DIRECTA",
+						"16-16019-AP TELEMARKETER",
+						"16-16028-AP COUNTRY",
+						"16-16001-ACCIDENTES PERSONALES CONTINGENTES",
+						"16-16002-ESCOLARES",
+						"16-16003-AP INDIVIDUALES",
+						"16-16004-CARITAS",
+						"16-16006-AP COLECTIVO",
+						"16-16009-TAMBEROS",
+						"16-16007-JINETEADAS",
+						"16-16008-LIGAS Y CLUBES",
+						"16-16030-EX VANGUARDIA",
+						"16-16020-ESCOLARES NUEVO",
+						"16-16080-ACCIDENTES PERSONALES LIGAS/CLUBES",
+						"16-16010-CONTINGENTES",
+						"16-16100-INTA",
+						"16-16011-CLIENTES DE BPBA",
+						"16-16029-PROTECCION FAMILIAR",
+						"17-17024-VIDA CERRADO PYME",
+						"17-17019-MINIGRUPOS PROMOCION",
+						"17-17018-AMPARO FAMILIAR PROMOCION",
+						"17-17021-AMPARO FAMILIAR COASEGURO",
+						"17-17020-VIDA COLECTIVO COASEGURO",
+						"17-17022-SALDOS DEUDORES",
+						"17-17023-PROVINCIA SELECCION",
+						"17-17001-VIDA COLECTIVO",
+						"17-17002-CLUB DE VIDA TITULARES",
+						"17-17003-CLUB DE VIDA CONYUGES",
+						"17-17004-VIDA FACIL",
+						"17-17005-CONTINUACIONES",
+						"17-17006-LEY DE CONTRATO DE TRABAJO",
+						"17-17007-CONVENIOS LABORALES",
+						"17-17014-JUBILADOS BPBA",
+						"17-17008-MINIGRUPOS",
+						"17-17009-VIDA COLECTIVO CON CERTIFICADOS",
+						"17-17010-DEUDORES DE UN ACREEDOR",
+						"17-17011-PERSONAL ACTIVO BPBA",
+						"17-17012-BECA ESTUDIANTIL",
+						"17-17013-AMPARO FAMILIAR",
+						"17-17015-LEY DE CONTRATO DE TRABAJO TARIFADO",
+						"17-17016-DEUDORES PAGO UNICO",
+						"17-17017-CONTINUACIONES POR LICENCIAS",
+						"18-180007-BUILDERS RISKS",
+						"18-180006-CASCO MOTOS DE AGUA/ JETSKI",
+						"18-180001-CASCOS BUQUES",
+						"18-180002-CASCOS EMBARCACIONES DE PLACER",
+						"18-180003-CASCOS SAN BLAS",
+						"18-180030-CASCOS DC",
+						"18-180004-PROTECTION & INDEMNITY",
+						"18-180005-R.C. REPARADORES DE BUQUES",
+						"21-21002-PERSONAL DOMESTICO",
+						"21-21001-VIDA OBLIGATORIO",
+						"22-02100-MOTOVEHICULOS",
+						"22-02400-MOTOVEHICULOS TIERRA DEL FUEGO",
+						"22-02500-MOTOVEHICULOS PROVINCIA LEASING",
+						"22-02800-MOTOVEHICULOS"];
+
+                function setDropDownValues(tagId, options) {
+                    var optionsAsString = "";
+                    for (var i = 0; i < options.values.length; i++) {
+                        optionsAsString += "<option value='" + options.values[i] + "'>" + options.itemsFiltered[i] + "</option>";
+                    }
+                    tagId.append(optionsAsString);
+                }
+
+                function getArrayValues(idPadre) {
+                    options = {
+                        itemsFiltered: [],
+                        values: []
+                    };
+                    if (idPadre > 0) {
+                        var separator = "-";
+                        var itemsFiltered = [];
+                        for (var item in items) {
+                            var array = items[item].split(separator);
+                            if (array[0] == String(idPadre)) {
+                                options.itemsFiltered.push(array[1] + '-' + array[2]);
+                                options.values.push(array[1]);
+                            }
+                        }
+                    }
+                    return options;
+                };
+
+                function cleanOptions(node) {
+                    node.empty();
+                }
+
+
+                $("#zamba_index_19").on("change", function (e) {
+                    // toastr.info('Cambio el Ramo');
+                    var target = e.target;
+                    var childeNodeNumbreFromParent = target.getAttribute("childindexid");
+                    var parentTag = target.tagName.toLowerCase();
+                    var childNode = $('#zamba_index_' + childeNodeNumbreFromParent);
+                    var childOptions = {};
+                    cleanOptions(childNode)
+                    if (target.value == null || target.value == "") {
+                        childNode.prop('disabled', true);
+                        childOptions = getArrayValues(0);
+                    } else {
+                        childNode.prop('disabled', false);
+                        childOptions = getArrayValues(target.value);
+                    }
+                    setDropDownValues(childNode, childOptions);
+
+                });
+
+
+
+            </script>
+
+            <style>
+                .inputEtiquetas {
+                    width: 30px !important;
+                }
+
+                /*.panel {
+                                    border: 1px solid rgb(21, 98, 142) !important;
+                                }*/
+
+                .PanelPrincipal {
+                    margin-top: 30px;
+                }
+
+                .margenBtn {
+                    position: relative;
+                    left: 90px;
+                }
+            </style>
+        </form>
+    </center>
+</body>
+</html>
+

@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--Referencias Genericas-->
+    <!--CCS-->
+    <!--<link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css">-->
+    <!--JS-->
+    <!--<script src="../../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../../scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../DropFiles/dropfiles.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../Scripts/angular-xeditable-0.8.1/js/xeditable.min.js"></script>
+    <script src="../../Scripts/sweetalert.min.js"></script>
+    <script src="../../Scripts/KendoUI/js/kendo.all.min.js"></script>
+    <script src="../../Scripts/jq_datepicker.js"></script>
+    <script src="../../Scripts/Zamba.Fn.min.js"></script>
+    <script src="../../Scripts/app/search/Zamba.Search.Common.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/jquery-2.2.2.js"></script>
+    <script src="../../Scripts/angular.js"></script>-->
+    <!--Referencias Observaciones-->
+    <!--<script src="../../app/Observaciones/observacionesController.js"></script>
+    <script src="../../app/Observaciones/observacionesservices.js"></script>
+    <script src="../../Scripts/sweetalert.min.js"></script>-->
+    <!--Referencias Grilla de Asociados-->
+    <!--CCS-->
+    <!--<link href="../../app/Grid/CSS/GridDirective.css" rel="stylesheet" />
+    <link href="../../app/Grid/CSS/GridKendo.css" rel="stylesheet" />
+    <link href="../../app/Grid/CSS/GridThumb.css" rel="stylesheet" />-->
+    <!--JS-->
+    <!--<script src="../../app/Grid/Controller/GridController.js?v=248"></script>
+    <script src="../../app/Grid/Service/GridService.js"></script>
+    <script src="../../app/Grid/JS/ui-bootstrap-tpls-1.2.4.js"></script>
+    <script src="../../app/ruleExecition/RuleExecutionService.js"></script>-->
+
+
+
+</head>
+
+<body>
+
+
+    <form name="frmMain" action="Legajo-Insercion.html">
+
+               <input id="hdnRuleId" type="hidden" />
+               <input id="hdnAsocId" type="hidden" />
+
+		 <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+            <a class="navbar-brand" >Zamba - Legajos</a>
+			</div>
+ 
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+		
+			<ul class="nav navbar-nav">
+			
+			
+            <li class=" active"><a href="#Legajo" data-toggle="tab">Legajo</a></li>
+            <li><a href="#Documentacion" data-toggle="tab">Documentacion</a></li>
+            <li><a href="#Detalle" data-toggle="tab">Detalle</a></li>
+          
+         </ul>
+         </div>
+         </nav>
+
+         <div class="container">
+
+            <center>
+                 <div class="tab-content">
+                    <div class="tab-pane fade in active" id="Legajo">
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <!--Recla Tercero--> <span class="input-group-addon">CUIT/CUIL:</span>
+                                            <input id="zamba_index_139615" name="zamba_index_139615" class="form-control input-sm" style="font-weight:600;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            
+							<div class="col-md-6">
+                                <div class="input-group">
+                                    <!--Asegurado--> <span class="input-group-addon">Fecha:</span>
+                                    <input id="zamba_index_139607" name="zamba_index_139607" class="form-control input-sm" style="font-weight:600;" />
+                                </div>
+                            </div>
+							
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--RAJ--> <span class="input-group-addon">Nombre:</span>
+                                    <input id="zamba_index_139593" name="zamba_index_139593" class="form-control input-sm" style="font-weight:600;" />
+                                </div>
+                            </div>
+							
+							
+							
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-4">
+							<div class="input-group">
+                                <span class="input-group-addon">EMAIL:</span>
+                                    <input id="zamba_index_139601" name="zamba_index_139601" class="form-control input-sm" style="font-weight:600;" />
+                                </div>
+								</div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <!--Siniestro--> <span class="input-group-addon">Direccion:</span>
+                                    <input id="zamba_index_139599" name="zamba_index_139599" class="form-control input-sm" style="font-weight:600;" />
+                                </div>
+                            </div>
+
+                                  <div class="col-md-4">
+                                <div class="input-group">
+                                    <!--Poliza--> <span class="input-group-addon">Numero de Telefono:</span>
+                                    <input id="zamba_index_139600" name="zamba_index_139600" class="form-control input-sm" style="font-weight:600;" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                         <div class="form-group row">
+                            <div class="col-xs-12 col-md-6 ">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!--Area texto Observacion-->
+                                        <div id="appObservaciones" ng-controller="ObservacionController">
+                                            <zamba-observaciones index-id="139606" entity-id="139091"></zamba-observaciones>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="row">
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-11" style="position:relative;bottom:-35px;">
+                                        <!--DropZone-->
+										<div ng-app="appblank" >
+											<div  ng-controller="appController">
+												<zamba-drop id="139093" IndexIds="139610">  </zamba-drop>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<!--botones guardar y cancelar-->
+						 <div align=right>
+                                        <input id="zamba_save" class="btn btn-primary margenBtn" type="submit" value="Guardar" name="zamba_save" />
+                                        <input id="zamba_cancel" class="btn btn-primary margenBtn" type="submit" value="Cancelar" name="zamba_cancel" />
+                    </div>
+					
+					
+
+                    </div>
+				
+                    <!--SEGUNDA TAB-->
+
+                    <div class="tab-pane" id="Documentacion">
+                      
+                        <div class="form-group row"></div>
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="139093" default-enable-mode="thumb" table-height="400" grid-title="Expediente">
+                                </zamba-associated>
+                            </div>
+                        </div>
+						
+                    </div>
+
+
+
+                    <!--TERCERA TAB-->
+
+                    <div class="tab-pane" id="Detalle">
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="139094" default-enable-mode="grid" table-height="200" grid-title="Detalle Legajo">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                       
+                            <!--Aca llamo al formulario para cargar nuevo detalle??-->
+                            <input name="zamba_rule_165596" id="zamba_rule_165596" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Nuevo Detalle">
+
+
+                        </div>
+				
+                    </div>
+
+
+                
+
+         </div>
+
+
+
+    </form>
+
+
+
+
+</body>
+</html>
+
+

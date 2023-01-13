@@ -1,0 +1,254 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript" language="JavaScript">
+
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    return DecimalCheck($('#' + e.target.id))
+                })
+            });
+        });
+
+        function CargarFechasyBotones() {
+            $('#zamba_index_2786').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                duration: "",
+                onSelect: function (dateText, inst) {
+                    var lockDate = new Date($('#zamba_index_2786').datepicker('getDate'));
+                    $('#zamba_index_2787').datepicker('option', 'minDate', lockDate);
+                },
+                minDate: '-20Y',
+                maxDate: '+1D'
+
+            });
+
+            $('#zamba_index_2787').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                duration: "",
+                minDate: '-20Y',
+                maxDate: '+1D'
+            });
+        }
+
+        function activarZona(){
+            if ($('#zamba_index_1020125').val() == 'DIL'  ) {
+                   $('#DocumentacionArea').removeAttr("style");
+                   $('#DocumentacionArea').css('display','block');
+                   $('#FechasArea').removeAttr("style");
+                   $('#FechasArea').css('display','block');
+                   $('#title').text('Reporte de Documentación Mesa de Entrada Juicios & Mediaciones');
+            }
+
+            if ($('#zamba_index_1020125').val() == 'NOT'  ) {
+                   $('#NotificacionArea').removeAttr("style");
+                   $('#NotificacionArea').css('display','block');
+                   $('#FechasArea').removeAttr("style");
+                   $('#FechasnArea').css('display','block');
+                   $('#title').text('Reporte de Notificaciones Ingresadas Mesa de Entrada Juicios & Mediaciones');
+            }
+
+            if ($('#zamba_index_1020125').val() == 'DND'  ) {
+                   $('#DocNoDigArea').removeAttr("style");
+                   $('#DocNoDigArea').css('display','block');
+                   $('#title').text('Reporte de Documentación Mesa de Entrada NO Digitalizada');
+            }
+ 
+            if ($('#zamba_index_1020125').val() == 'NND'  ) {
+                   $('#NotNoDigArea').removeAttr("style");
+                   $('#NotNoDigArea').css('display','block');
+                   $('#title').text('Reporte de Notificaciones Mesa de Entrada NO Digitalizada');
+            }
+
+
+        }
+
+        function zamba_save_onclick() {
+            if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($.trim($('#zamba_index_2722').val()) == '') {
+                alert("Verifique que el Beneficiario se encuentre completo");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($.trim($('#zamba_index_2788').val()) == '') {
+                alert("Verifique que el Concepto se encuentre completo");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+    </script>
+
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <div class="container-fluid">
+        <form name="frmMain" action="Filtro_Reporte_Legales.html">
+         <input id="zamba_index_1020125" name="zamba_index_1020125" class="form-control input-sm" type="hidden" />    
+         
+
+         <h4 class="text-center" id="header" width="90%">
+           <span id="title"></span>
+         </h4>
+
+        <!--Area de Documentos por Rango de Fechas -->
+        <div class="form-group" id="FechasArea" style="display:none" >
+            <div id="tblCheque" class="attributes_table">
+                <div class="form-group row" >
+                    <div class="col-md-12 col-sm-12">
+                        <div class="col-md-3 col-sm-3">
+                         </div>   
+                        <div class="col-md-3 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Fecha Desde:</span>
+                                <input class="form-control input-sm dataType datepicker" id="zamba_index_1020123" name="zamba_index_1020123" autocomplete="false" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Fecha Hasta:</span>
+                                <input class="form-control input-sm dataType datepicker" id="zamba_index_1020124" name="zamba_index_1020124" autocomplete="false" />
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                         </div>   
+
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <!-- Fin de Area de Fechas    
+
+         <!--Area de Documentos por Rango de Fechas -->
+         <div class="form-group" id="DocumentacionArea" style="display:none" >    
+            <input id="hdnRuleId" type="hidden" />
+            <center>
+                <div id="tblObervaciones" class="attributes_table">
+                    <div class="form-group row">
+                        <input class="btn  btn-info btn-sm" id="zamba_rule_1020648" name="zamba_rule_1020648" type="submit" onclick="SetRuleId(this)" value="Salida por Pantalla" />
+                        <input class="btn  btn-info btn-sm" id="zamba_rule_1020649" name="zamba_rule_1020649" type="submit" onclick="SetRuleId(this)" value="Salida a Excel"  />
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <center>
+                        <div class="col-md-2">
+                            <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                        </div>
+                        <div class="col-md-10">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                        </div>
+                    </center>
+                </div>
+            </center>
+          </div>  
+         <!-- Fin del Area de Documentos x rango de fechas -->
+
+         <!-- Area de Notificaciones por Rango de Fechas -->
+          <div class="form-group" id="NotificacionArea" style="display:none" >    
+                <input id="hdnRuleId" type="hidden" />
+                <center>
+    
+                    <div id="tblObervaciones" class="attributes_table">
+                        <div class="form-group row">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_1020692" name="zamba_rule_1020692" type="submit" onclick="SetRuleId(this)" value="Salida por Pantalla" />
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_1020686" name="zamba_rule_1020686" type="submit" onclick="SetRuleId(this)" value="Salida a Excel"  />
+                        </div>
+    
+                    </div>
+                    <div class="form-group row">
+                        <center>
+                            <div class="col-md-2">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-10">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            </div>
+                        </center>
+                    </div>
+                </center>
+              </div>  
+              <!-- Fin del Area -->
+
+              <!-- Area de reporte de Documentacion NO digitalizada -->
+              <div class="form-group" id="DocNoDigArea" style="display:none" >    
+                <input id="hdnRuleId" type="hidden" />
+                <center>
+    
+                    <div id="tblObervaciones" class="attributes_table">
+                        <div class="form-group row">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_1020943" name="zamba_rule_1020943" type="submit" onclick="SetRuleId(this)" value="Salida por Pantalla" />
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_1020942" name="zamba_rule_1020942" type="submit" onclick="SetRuleId(this)" value="Salida a Excel"  />
+                        </div>
+    
+                    </div>
+                    <div class="form-group row">
+                        <center>
+                            <div class="col-md-2">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-10">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            </div>
+                        </center>
+                    </div>
+                </center>
+              </div>  
+              <!-- Fin de Area de Documentacion NO digitalizada -->
+
+              <!-- Area de Notificaciones NO digitalizadas -->
+              <div class="form-group" id="NotNoDigArea" style="display:none" >    
+                <input id="hdnRuleId" type="hidden" />
+                <center>
+    
+                    <div id="tblObervaciones" class="attributes_table">
+                        <div class="form-group row">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_1020962" name="zamba_rule_1020962" type="submit" onclick="SetRuleId(this)" value="Salida por Pantalla" />
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_1020958" name="zamba_rule_1020958" type="submit" onclick="SetRuleId(this)" value="Salida a Excel"  />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <center>
+                            <div class="col-md-2">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-10">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            </div>
+                        </center>
+                    </div>
+                </center>
+              </div>  
+
+              <!-- Fin de Area de Notificaciones No digitalizadas -->
+
+              <script>
+                $(document).ready(function(){
+                    activarZona();                 
+                 });
+              </script>
+
+        </form>
+    </div>
+
+</body>
+</html>

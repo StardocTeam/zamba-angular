@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        /**
+        * Download a list of files.
+        * @author speedplane
+        */
+        function download_files(files) {
+            function download_next(i) {
+                if (i >= files.length) {
+                    return;
+                }
+                var a = document.createElement('a');
+                a.href = files[i].download;
+                a.target = '_parent';
+                // Use a.download if available, it prevents plugins from opening.
+                if ('download' in a) {
+                    a.download = files[i].filename;
+                }
+                // Add a to the doc for click to work.
+                (document.body || document.documentElement).appendChild(a);
+                if (a.click) {
+                    a.click(); // The click method is supported by most browsers.
+                } else {
+                    $(a).click(); // Backup using jquery
+                }
+                // Delete the temporary link.
+                a.parentNode.removeChild(a);
+                // Download the next file with a small timeout. The timeout is necessary
+                // for IE, which will otherwise only download the first file.
+                setTimeout(function () {
+                    download_next(i + 1);
+                }, 2000);
+            }
+            // Initiate the first download.
+            download_next(0);
+        }
+
+    </script>
+
+
+    <script>
+        // Here's a live example that downloads three test text files:
+        function do_dl() {
+            download_files([
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.black.min.css', filename: 'kendo.black.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.black.min.css.map', filename: 'kendo.black.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.black.mobile.min.css', filename: 'kendo.black.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.black.mobile.min.css.map', filename: 'kendo.black.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.blueopal.min.css', filename: 'kendo.blueopal.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.blueopal.min.css.map', filename: 'kendo.blueopal.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.blueopal.mobile.min.css', filename: 'kendo.blueopal.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.blueopal.mobile.min.css.map', filename: 'kendo.blueopal.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.bootstrap-v4.min.css', filename: 'kendo.bootstrap-v4.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.bootstrap-v4.min.css.map', filename: 'kendo.bootstrap-v4.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.bootstrap.min.css', filename: 'kendo.bootstrap.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.bootstrap.min.css.map', filename: 'kendo.bootstrap.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.bootstrap.mobile.min.css', filename: 'kendo.bootstrap.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.bootstrap.mobile.min.css.map', filename: 'kendo.bootstrap.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-bootstrap.core.min.css', filename: 'kendo.common-bootstrap.core.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-bootstrap.core.min.css.map', filename: 'kendo.common-bootstrap.core.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-bootstrap.min.css', filename: 'kendo.common-bootstrap.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-bootstrap.min.css.map', filename: 'kendo.common-bootstrap.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-fiori.min.css', filename: 'kendo.common-fiori.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-fiori.min.css.map', filename: 'kendo.common-fiori.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-material.core.min.css', filename: 'kendo.common-material.core.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-material.core.min.css.map', filename: 'kendo.common-material.core.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-material.min.css', filename: 'kendo.common-material.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-material.min.css.map', filename: 'kendo.common-material.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-nova.core.min.css', filename: 'kendo.common-nova.core.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-nova.core.min.css.map', filename: 'kendo.common-nova.core.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-nova.min.css', filename: 'kendo.common-nova.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-nova.min.css.map', filename: 'kendo.common-nova.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-office365.min.css', filename: 'kendo.common-office365.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common-office365.min.css.map', filename: 'kendo.common-office365.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common.core.min.css', filename: 'kendo.common.core.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common.core.min.css.map', filename: 'kendo.common.core.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common.min.css', filename: 'kendo.common.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.common.min.css.map', filename: 'kendo.common.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.black.min.css', filename: 'kendo.dataviz.black.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.black.min.css.map', filename: 'kendo.dataviz.black.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.blueopal.min.css', filename: 'kendo.dataviz.blueopal.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.blueopal.min.css.map', filename: 'kendo.dataviz.blueopal.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.bootstrap.min.css', filename: 'kendo.dataviz.bootstrap.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.bootstrap.min.css.map', filename: 'kendo.dataviz.bootstrap.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.default.min.css', filename: 'kendo.dataviz.default.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.default.min.css.map', filename: 'kendo.dataviz.default.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.fiori.min.css', filename: 'kendo.dataviz.fiori.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.fiori.min.css.map', filename: 'kendo.dataviz.fiori.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.flat.min.css', filename: 'kendo.dataviz.flat.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.flat.min.css.map', filename: 'kendo.dataviz.flat.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.highcontrast.min.css', filename: 'kendo.dataviz.highcontrast.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.highcontrast.min.css.map', filename: 'kendo.dataviz.highcontrast.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.material.min.css', filename: 'kendo.dataviz.material.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.material.min.css.map', filename: 'kendo.dataviz.material.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.materialblack.min.css', filename: 'kendo.dataviz.materialblack.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.materialblack.min.css.map', filename: 'kendo.dataviz.materialblack.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.metro.min.css', filename: 'kendo.dataviz.metro.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.metro.min.css.map', filename: 'kendo.dataviz.metro.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.metroblack.min.css', filename: 'kendo.dataviz.metroblack.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.metroblack.min.css.map', filename: 'kendo.dataviz.metroblack.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.min.css', filename: 'kendo.dataviz.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.min.css.map', filename: 'kendo.dataviz.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.mobile.min.css', filename: 'kendo.dataviz.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.mobile.min.css.map', filename: 'kendo.dataviz.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.moonlight.min.css', filename: 'kendo.dataviz.moonlight.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.moonlight.min.css.map', filename: 'kendo.dataviz.moonlight.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.nova.min.css', filename: 'kendo.dataviz.nova.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.nova.min.css.map', filename: 'kendo.dataviz.nova.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.office365.min.css', filename: 'kendo.dataviz.office365.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.office365.min.css.map', filename: 'kendo.dataviz.office365.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.silver.min.css', filename: 'kendo.dataviz.silver.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.silver.min.css.map', filename: 'kendo.dataviz.silver.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.uniform.min.css', filename: 'kendo.dataviz.uniform.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.dataviz.uniform.min.css.map', filename: 'kendo.dataviz.uniform.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.default-v2.min.css', filename: 'kendo.default-v2.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.default-v2.min.css.map', filename: 'kendo.default-v2.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.default.min.css', filename: 'kendo.default.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.default.min.css.map', filename: 'kendo.default.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.default.mobile.min.css', filename: 'kendo.default.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.default.mobile.min.css.map', filename: 'kendo.default.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.fiori.min.css', filename: 'kendo.fiori.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.fiori.min.css.map', filename: 'kendo.fiori.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.fiori.mobile.min.css', filename: 'kendo.fiori.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.fiori.mobile.min.css.map', filename: 'kendo.fiori.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.flat.min.css', filename: 'kendo.flat.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.flat.min.css.map', filename: 'kendo.flat.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.flat.mobile.min.css', filename: 'kendo.flat.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.flat.mobile.min.css.map', filename: 'kendo.flat.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.highcontrast.min.css', filename: 'kendo.highcontrast.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.highcontrast.min.css.map', filename: 'kendo.highcontrast.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.highcontrast.mobile.min.css', filename: 'kendo.highcontrast.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.highcontrast.mobile.min.css.map', filename: 'kendo.highcontrast.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.min.css', filename: 'kendo.material.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.min.css.map', filename: 'kendo.material.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.mobile.min.css', filename: 'kendo.material.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.material.mobile.min.css.map', filename: 'kendo.material.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.materialblack.min.css', filename: 'kendo.materialblack.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.materialblack.min.css.map', filename: 'kendo.materialblack.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.materialblack.mobile.min.css', filename: 'kendo.materialblack.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.materialblack.mobile.min.css.map', filename: 'kendo.materialblack.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metro.min.css', filename: 'kendo.metro.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metro.min.css.map', filename: 'kendo.metro.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metro.mobile.min.css', filename: 'kendo.metro.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metro.mobile.min.css.map', filename: 'kendo.metro.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metroblack.min.css', filename: 'kendo.metroblack.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metroblack.min.css.map', filename: 'kendo.metroblack.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metroblack.mobile.min.css', filename: 'kendo.metroblack.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.metroblack.mobile.min.css.map', filename: 'kendo.metroblack.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.all.min.css', filename: 'kendo.mobile.all.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.all.min.css.map', filename: 'kendo.mobile.all.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.android.dark.min.css', filename: 'kendo.mobile.android.dark.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.android.dark.min.css.map', filename: 'kendo.mobile.android.dark.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.android.light.min.css', filename: 'kendo.mobile.android.light.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.android.light.min.css.map', filename: 'kendo.mobile.android.light.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.blackberry.min.css', filename: 'kendo.mobile.blackberry.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.blackberry.min.css.map', filename: 'kendo.mobile.blackberry.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.common.min.css', filename: 'kendo.mobile.common.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.common.min.css.map', filename: 'kendo.mobile.common.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.fiori.min.css', filename: 'kendo.mobile.fiori.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.fiori.min.css.map', filename: 'kendo.mobile.fiori.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.flat.min.css', filename: 'kendo.mobile.flat.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.flat.min.css.map', filename: 'kendo.mobile.flat.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.ios.min.css', filename: 'kendo.mobile.ios.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.ios.min.css.map', filename: 'kendo.mobile.ios.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.material.min.css', filename: 'kendo.mobile.material.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.material.min.css.map', filename: 'kendo.mobile.material.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.meego.min.css', filename: 'kendo.mobile.meego.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.meego.min.css.map', filename: 'kendo.mobile.meego.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.nova.min.css', filename: 'kendo.mobile.nova.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.nova.min.css.map', filename: 'kendo.mobile.nova.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.office365.min.css', filename: 'kendo.mobile.office365.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.office365.min.css.map', filename: 'kendo.mobile.office365.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.wp8.min.css', filename: 'kendo.mobile.wp8.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.mobile.wp8.min.css.map', filename: 'kendo.mobile.wp8.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.moonlight.min.css', filename: 'kendo.moonlight.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.moonlight.min.css.map', filename: 'kendo.moonlight.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.moonlight.mobile.min.css', filename: 'kendo.moonlight.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.moonlight.mobile.min.css.map', filename: 'kendo.moonlight.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.nova.min.css', filename: 'kendo.nova.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.nova.min.css.map', filename: 'kendo.nova.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.nova.mobile.min.css', filename: 'kendo.nova.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.nova.mobile.min.css.map', filename: 'kendo.nova.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.office365.min.css', filename: 'kendo.office365.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.office365.min.css.map', filename: 'kendo.office365.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.office365.mobile.min.css', filename: 'kendo.office365.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.office365.mobile.min.css.map', filename: 'kendo.office365.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.rtl.min.css', filename: 'kendo.rtl.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.rtl.min.css.map', filename: 'kendo.rtl.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.silver.min.css', filename: 'kendo.silver.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.silver.min.css.map', filename: 'kendo.silver.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.silver.mobile.min.css', filename: 'kendo.silver.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.silver.mobile.min.css.map', filename: 'kendo.silver.mobile.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.uniform.min.css', filename: 'kendo.uniform.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.uniform.min.css.map', filename: 'kendo.uniform.min.css.map' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.uniform.mobile.min.css', filename: 'kendo.uniform.mobile.min.css' },
+                { download: 'https://kendo.cdn.telerik.com/2017.3.1026/styles/kendo.uniform.mobile.min.css.map', filename: 'kendo.uniform.mobile.min.css.map' },
+
+
+            ]);
+        };
+    </script>
+    <button onclick="do_dl();">Test downloading 3 text files.</button>
+
+
+</body>
+</html>

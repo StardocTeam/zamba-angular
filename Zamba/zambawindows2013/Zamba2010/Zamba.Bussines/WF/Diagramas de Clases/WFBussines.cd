@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="Zamba.WFBusiness.WFBusiness">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>WF\WfBusiness.vb</FileName>
+      <HashCode>QCAMBGxMEEBgECgAkAkEDAAAlAAYA0ALHCCARgEo0AI=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.WFBusiness.WFRulesBusiness">
+    <Position X="3.5" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFRulesBusiness.vb</FileName>
+      <HashCode>DQaICEQEEAQABAwwUAAEDAQkAAAAZAAgBEDKMUAIogg=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.WFBusiness.WFStepBusiness">
+    <Position X="15.25" Y="7.5" Width="4" />
+    <TypeIdentifier>
+      <FileName>WF\WFStepBusiness.vb</FileName>
+      <HashCode>AAAABAAADAAAAAIAAAAABAAAAgAEAAAAEABhCAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.WFBusiness.WFTaskBusiness">
+    <Position X="11" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <FileName>WF\WFTaskBusiness.vb</FileName>
+      <HashCode>AABBgSJlCCRAFAQCiSEBBKAAGGKCQlAwCIRkCEAAkQA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zamba.Core.WorkFlow">
+    <Position X="8.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier />
+    <NestedTypes>
+      <Enum Name="Zamba.Core.WorkFlow.WFStats" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+    </NestedTypes>
+  </Class>
+  <Class Name="Zamba.Core.WFStep">
+    <Position X="15.25" Y="0.5" Width="4" />
+    <TypeIdentifier />
+    <NestedTypes>
+      <Delegate Name="Zamba.Core.WFStep.CountOfDocumentsChangedEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="Zamba.Core.WFStep.SendMsg2ClientEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="Zamba.Core.WFStep.State" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+  </Class>
+  <Class Name="Zamba.Core.TaskResult">
+    <Position X="8.25" Y="4.25" Width="2.5" />
+    <TypeIdentifier />
+    <NestedTypes>
+      <Enum Name="Zamba.Core.TaskResult.TaskStates" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+      <Class Name="Zamba.Core.TaskResult.ViewTaskResult" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="Zamba.Core.TaskResult.TempTaskResult" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+  </Class>
+</ClassDiagram>

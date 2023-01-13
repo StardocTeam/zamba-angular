@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Zamba Helper</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @*No incluir en bundle*@
+    <script type="text/javascript" src="~/Scripts/tinymce/tinymce.js"></script>
+    @Scripts.Render("~/bundles/tinymce")
+
+    @Scripts.Render("~/bundles/NGScripts")
+    @Scripts.Render("~/bundles/Scripts")
+    @Scripts.Render("~/bundles/toastr")
+    @RenderSection("scripts", required: false)
+
+
+    <script>
+        function LocalhostURL() {
+            return location.protocol + '//' + location.hostname + '@Url.Content("~")';
+        }
+      
+        $(document).ready(function () {
+            bootbox.setDefaults({
+                locale: "es"
+            });
+        });
+
+    </script>
+
+    <style>
+        .tooltip-inner {
+            max-width: 600px;
+            width: 600px;
+        }
+    </style>
+</head>
+<body style="margin:0!important;padding:0!important" ng-app="helperApp">
+    <div ng-controller="HelperSharedController">
+        <div class="navbar navbar-inverse navbar-fixed-top" id="navBarTitle">
+            <div class="container" style="padding-top: 5px;">
+
+                <span zamba-help="34,color=white,position:bottom," class="titleStyle" onclick="window.location.href='@Url.Action("fullcontent", "viewer")';">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    Zamba Helper
+                </span>
+
+            </div>
+        </div>
+        <div class="container body-content" ng-cloak>
+            @*style="margin-top: 60px;"*@
+            @RenderBody()
+        </div>
+
+        @*Para carga de imagen post conversion b64 tinymce*@
+        <form id="my_form" action="" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+            <input name="image" type="file" onchange="UploadIMG(this);this.value='';">
+        </form>
+
+        <!-- Modal  ABM App, Mod, Fun -->
+        <div class="modal fade" id="editOptionsModal" role="dialog">
+            <div class="modal-dialog" style="width:500px;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="modal-title ng-binding">Editar aplicaciones</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="ApplicationEdit" ng-show="ModuleType=='Application'">
+                            <input type="text" ng-model="NewApp" class="form-control input-sm" style="display:inline;" placeholder="Aplicacion" />
+                            <button class="btn btn-default  btn-xs" ng-click="NewApplication()">
+                                <span class="glyphicon glyphicon-plus" style="color:green;"></span>
+                            </button>
+                            <hr />
+                            <div ng-repeat="a in Data.Applications()">
+                                <input type="text" class="form-control input-sm" style="display:inline;" ng-model="a.Application" value="{{a.Application}}" />
+                                <button class="btn btn-default btn-xs" ng-click="EditApp(a)">
+                                    <span class="glyphicon glyphicon-pencil" style="color:blue;"></span>
+                                </button>
+                                <button class="btn btn-default btn-xs" ng-click="RemoveApp(a)">
+                                    <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="ModuleEdit" ng-show="ModuleType=='Module'">
+                            <input type="text" ng-model="NewMod" class="form-control" style="display:inline;" placeholder="Modulo" />
+                            <button class="btn btn-default" ng-click="NewModule(Application)">
+                                <span class="glyphicon glyphicon-plus" style="color:green;"></span>
+                            </button>
+                            <hr />
+                            <div ng-repeat="m in Data.Modules()">
+                                <input type="text" class="form-control input-sm" style="display:inline;" ng-model="m.Module" value="{{m.Module}}" />
+                                <button class="btn btn-default btn-xs" ng-click="EditMod(m)">
+                                    <span class="glyphicon glyphicon-pencil" style="color:blue;"></span>
+                                </button>
+                                <button class="btn btn-default btn-xs" ng-click="RemoveMod(m)">
+                                    <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="FunctionEdit" ng-show="ModuleType=='Function'">
+                            <input type="text" ng-model="NewFun" class="form-control" style="display:inline;" placeholder="Funcion" />
+                            <button class="btn btn-default" ng-click="NewFunction(Module)">
+                                <span class="glyphicon glyphicon-plus" style="color:green;"></span>
+                            </button>
+                            <hr />
+                            <div ng-repeat="f in Data.Functions()">
+                                <input type="text" class="form-control input-sm" style="display:inline;" ng-model="f.Function" value="{{f.Function}}" />
+                                <button class="btn btn-default btn-xs" ng-click="EditFun(f)">
+                                    <span class="glyphicon glyphicon-pencil" style="color:blue;"></span>
+                                </button>
+                                <button class="btn btn-default btn-xs" ng-click="RemoveFun(f)">
+                                    <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal  Help reference -->
+        <div class="modal fade" id="helpReferenceModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="height: 660px; width: 900px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Seleccionar ayuda</h4>
+                    </div>
+                    <div class="modal-body" style="padding:0">
+                        <iframe src="~/Viewer/FullContent" style="height: 600px;width: 895px;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

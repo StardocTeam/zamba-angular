@@ -1,0 +1,470 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+    <!-- HEADER -->
+    <div class="header accent p-24 h-160" fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="secondary-text s-18">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Cliente IMAP</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">{{componentName}}</span>
+            </div>
+            <div class="h1 mt-16">{{componentName}}</div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- CONTENT -->
+    <div class="content p-24">
+        <div class="horizontal-stepper-wrapper">
+
+            <!-- HORIZONTAL STEPPER EXAMPLE -->
+            <mat-horizontal-stepper class="mat-elevation-z4" [linear]="true">
+
+                <mat-step [stepControl]="horizontalStepperStep1">
+
+                    <form fxLayout="column" [formGroup]="horizontalStepperStep1">
+
+                        <ng-template matStepLabel>Complete los datos del usuario</ng-template>
+
+                        <div fxFlex="1 0 auto" fxLayout="column">
+
+                            <h1>Nombre del proceso</h1>
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="processsname" required>
+                                <mat-error>Ingrese un nombre de proceso válido!</mat-error>
+                            </mat-form-field>
+
+                            <h1>Datos del Usuario</h1>
+
+                            
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Nombre del usuario</mat-label>
+                                <input matInput formControlName="username" required>
+                                <mat-error>Ingrese un nombre!</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Correo electrónico</mat-label>
+                                <input matInput formControlName="email" required>
+                                <mat-error>Ingrese un e-mail válido!</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Contraseña</mat-label>
+                                <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required>
+                                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </button>
+                            </mat-form-field>
+
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <mat-checkbox class="example-margin px-8" formControlName="GenericInbox" >Casilla Generica</mat-checkbox>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button mat-raised-button matStepperNext type="button" color="accent">
+                                Siguiente
+                            </button>
+                        </div>
+
+                    </form>
+
+                </mat-step>
+
+                <mat-step [stepControl]="horizontalStepperStep2">
+                    <form fxLayout="column" [formGroup]="horizontalStepperStep2">
+                        <ng-template matStepLabel>Complete los datos de la conexión</ng-template>
+
+
+
+                        <h1>Datos de Conexión</h1>
+
+                        <div fxFlex="1 0 auto" fxLayout="column">
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Dirección del servidor</mat-label>
+                                <input matInput formControlName="ipAddress" required>
+                                <mat-error>La dirección del servidor es obligatoria</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Puerto</mat-label>
+                                <input type="number" matInput formControlName="port" required>
+                                <mat-error>El puerto es obligatorio</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="px-8" appearance="outline" fxFlex="30">
+                                <mat-label>Protocolo</mat-label>
+                                <mat-select formControlName="protocol" required>
+                                    <mat-option *ngFor="let protocolOption of FilterProtocolOptions" [value]="protocolOption">{{protocolOption}}</mat-option>
+                                </mat-select>
+                                <mat-error>Seleccione un protocolo!.</mat-error>
+                            </mat-form-field>
+                            
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                Atrás
+                            </button>
+                            
+                            <button class="mr-8" mat-raised-button type="button" color="warn" (click)="GetConection()">
+                                Testear Conexion
+                            </button>
+
+                            <button mat-raised-button matStepperNext type="button" color="accent">
+                                Siguiente
+                            </button>
+                        </div>
+
+                    </form>
+
+                </mat-step>
+
+
+
+
+
+                <mat-step [stepControl]="horizontalStepperStep3">
+                    <form fxLayout="column" [formGroup]="horizontalStepperStep3">
+                        <ng-template matStepLabel>Filtros</ng-template>
+                        <h1>Carpeta y adjuntos</h1>
+                        <div fxFlex="1 0 auto" fxLayout="column">
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Carpeta de origen</mat-label>
+                                    <input matInput formControlName="Folder_Name" required>
+                                    <mat-error>Ingrese un nombre de carpeta valido!</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Carpeta destino</mat-label>
+                                    <input matInput formControlName="Folder_Name_Dest" required>
+                                    <mat-error>Ingrese un nombre de carpeta valido!</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <mat-checkbox class="example-margin px-8" formControlName="ExportAttachment" [(ngModel)]="ExportAttachment">Exportar adjunto por separado</mat-checkbox>
+                            </div>
+                        </div>
+                        <h1>Filtros</h1>
+                        <div fxFlex="1 0 auto" fxLayout="column">
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <mat-radio-group class="px-8" aria-label="Selecciones una opcion" formControlName="Filter" required>
+                                    <mat-radio-button class="px-8" value="0" [checked]="!NgFilter" >Todos</mat-radio-button>
+                                    <mat-radio-button class="px-8" value="1" [checked]="NgFilter" >Filtrado</mat-radio-button>
+                                </mat-radio-group>
+
+                            </div>
+
+                            <br>
+
+                            <div *ngIf="this.horizontalStepperStep3.value.Filter == '1'">
+                                <div fxFlex="1 0 auto" fxLayout="row">
+                                    <mat-form-field class="px-8" appearance="fill" fxFlex="30">
+                                        <mat-label>Campo</mat-label>
+                                        <mat-select formControlName="Filter_Field">
+                                            <mat-option *ngFor="let filterOption of FilterFieldOptions" [value]="filterOption">{{filterOption}}</mat-option>
+                                            <mat-error>Seleccione un campo para filtrar!.</mat-error>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="px-8" appearance="outline" fxFlex="70">
+                                        <mat-label>Valor de filtro</mat-label>
+                                        <input matInput formControlName="Filter_Value">
+                                        <mat-error>Ingrese un valor por el cual filtrar!</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                        
+                        <h1>Filtro por tiempo</h1>
+                        <div fxFlex="1 0 auto" fxLayout="column">
+                            <div fxFlex="1 0 auto" fxLayout="row">
+                                <mat-checkbox class="example-margin px-8" formControlName="Filter_Recents">Reciente (de hace 3 dias)</mat-checkbox>
+                                <mat-checkbox class="example-margin px-8" formControlName="Filter_NotReads">Nuevos</mat-checkbox>
+                            </div>
+                        </div>
+
+
+
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                Atras
+                            </button>
+                            <button mat-raised-button matStepperNext type="button" color="accent">
+                                Siguiente
+                            </button>
+                        </div>
+
+                    </form>
+                </mat-step>
+
+                <mat-step [stepControl]="horizontalStepperStep4">
+                    <form fxLayout="column" [formGroup]="horizontalStepperStep4">
+
+                        <ng-template matStepLabel>Entidad </ng-template>
+
+                        <h1>Correos: Entidad</h1>
+
+                        <div fxFlex="1 0 auto" fxLayout="column">
+
+
+
+                            <mat-form-field appearance="outline" fxFlex="500">
+                                <mat-label>Seleccione una entidad</mat-label>
+                                <mat-select [(value)]="selectedEntity" (selectionChange)="SelectIndices($event.value)"  formControlName="Entity" required>
+                                    <mat-option *ngFor="let item of EntitiesValue" [value]="item.ID">{{item.TEXT}}</mat-option>
+                                </mat-select>
+                                <mat-error>Debe seleccionar una entidad!</mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <div *ngIf="selectedEntity != '' && selectedEntity != 'Ninguna'">
+
+                            <div fxLayout="column">
+
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" class="">
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>Enviado por</mat-label>
+                                        <mat-select formControlName="SentBy" required>
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo enviado por!</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>Para</mat-label>
+                                        <mat-select formControlName="To" required>
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo para!</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+
+                            <div fxLayout="column">
+
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" class="">
+
+
+
+                                    <mat-form-field appearance="outline" fxFlex="50">
+                                        <mat-label>CC</mat-label>
+                                        <mat-select formControlName="CC">
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo CC!</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>BCC</mat-label>
+                                        <mat-select formControlName="BCC">
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo BCC!</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div fxLayout="column">
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" class="">
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>Asunto</mat-label>
+                                        <mat-select formControlName="Subject" required>
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo Asunto!</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>Cuerpo del Mensaje</mat-label>
+                                        <mat-select formControlName="Body">
+                                             <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo Cuerpo del mensaje!</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                            <div fxLayout="column">
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" class="">
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>Fecha</mat-label>
+                                        <mat-select formControlName="Date" required>
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo Cuerpo del fecha!</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>Usuario Zamba</mat-label>
+                                        <mat-select formControlName="UserZamba">
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo Cuerpo del Usuario zamba!</mat-error>
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+
+
+                            <div fxLayout="column">
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" class="">
+
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>Codigo Mail</mat-label>
+                                        <mat-select formControlName="CodMail">
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo Cuerpo de Codigo Mail!</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>Tipo Exportacion</mat-label>
+                                        <mat-select formControlName="TipoExportacion" disabled>
+                                            <mat-option *ngFor="let exportType of ExportationType" [value]="exportType.id" >{{exportType.text}}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Ingrese el campo Cuerpo de Tipo Exportacion!</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                            <div fxLayout="column">
+                                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto" class="">
+
+
+
+
+                                    <mat-form-field appearance="outline" fxFlex="100">
+                                        <mat-label>AutoIncremento</mat-label>
+                                        <mat-select formControlName="AutoIncrement">
+                                            <mat-option *ngFor="let index of IndicesValue" [value]="index.INDEX_ID">{{index.INDEX_NAME}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
+                                Atras
+                            </button>
+                            
+                            <button class="mr-8" mat-raised-button matStepperNext type="button" color="accent" (click)="verFormulario()">
+                                Siguiente
+                            </button>
+                        </div>
+
+
+
+
+
+                    </form>
+
+                </mat-step>
+
+                <mat-step [stepControl]="horizontalStepperStep5">
+                    <form fxLayout="column">
+                        <ng-template matStepLabel>Test</ng-template>
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <button class="mr-8" mat-raised-button matStepperNext type="button" color="accent" [disabled]="waitingResponse" (click)="Confirm_ObjectImap()">
+                                {{waitingResponse  == true? 'Guardando el proceso...': 'Confirmar'}}
+                            </button>
+
+
+                            <button class="mr-8" mat-raised-button type="button" (click)="GetEMails()" color="primary">
+                                Obtener Mails
+                            </button>
+
+                            
+                            <!-- <button class="mr-8" mat-raised-button type="button" (click)="InsertMails()" color="warn">
+                                Insertar Mails
+                            </button> -->
+                        </div>
+                        
+                        <div *ngIf="ShowMailsGrid" class="Style-Result"> 
+                            Cantidad de correos obtenidos:  {{datalenght}} 
+                        </div>
+
+                                <br>    
+
+                            <div *ngIf="ShowMailsGrid" class="mat-elevation-z8 MargenesTable">
+
+                             
+
+                                <table mat-table [dataSource]="dataSourceMails" matSort>
+
+                                    <!-- ID Column -->
+                                    <!-- <ng-container matColumnDef="UniqueId">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.UniqueId}} </td>
+                                    </ng-container> -->
+
+                                    <!-- Date Column -->
+                                    <ng-container matColumnDef="Date">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.Date}}</td>
+                                    </ng-container>
+
+                                    <!-- Sender Column -->
+                                    <ng-container matColumnDef="Sender">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> De </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.Sender}}</td>
+                                    </ng-container>
+
+                                    <!-- Subject -->
+                                     <ng-container matColumnDef="Subject">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Asunto </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.Subject}} </td>
+                                    </ng-container> 
+
+                                    <!-- Actions Column -->
+                                    <!-- <ng-container matColumnDef="color">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <button mat-button class="btnEditClass" aria-label="Modificar" (click)="ModifyOnClick(row)">Modificar</button>
+                                            <button mat-button class="warn" aria-label="Eliminar">Eliminar</button>
+                                        </td>
+                                    </ng-container> -->
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+
+                                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                            </div>
+
+
+
+
+
+
+                    </form>
+                </mat-step>
+
+
+
+            </mat-horizontal-stepper>
+            <!-- / HORIZONTAL STEPPER EXAMPLE -->
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>
+
+
+

@@ -1,0 +1,56 @@
+﻿<br />
+<div class="row">
+
+    <div class="col-md-1">
+        <a id="btnCreate" href="~/home/create" class="btn btn-primary" style="margin-bottom: 5px;">
+            <span class="glyphicon glyphicon-file"></span>Nuevo
+            <span zamba-help="32, display=inline"></span>
+        </a>
+    </div>
+    <div class="col-md-2">
+        <input type="search" ng-model="search.HelpFunction.HelpModule.HelpApplication.Application" class="form-control" placeholder="Aplicacion" />
+    </div>
+    <div class="col-md-3">
+        <input type="search" ng-model="search.Title" class="form-control" placeholder="Titulo" />
+    </div>
+    <div class="col-md-3">
+        <input type="search" ng-model="search.Name" class="form-control" placeholder="Nombre" />
+    </div>
+    <div class="col-md-3">
+        <input type="search" ng-model="search.HelpFunction.Function" class="form-control" placeholder="Funcion" />
+    </div>
+</div>
+<div ng-controller="HelperIndexController" class="indexStyle" ng-cloak>
+    <table class="table table-striped" style="margin:0">
+        <thead class="thead-inverse">
+            <tr>
+                <th ng-repeat="col in Columns">
+                    {{col}}
+                </th>
+                <th ng-if="CanEdit ||CanDelete" colspan="2" style="text-align:center;">
+                    Acciones
+                    <span zamba-help="33"></span>
+                </th>
+            </tr>
+        </thead>
+        <tr ng-repeat="helper in Helpers | filter:search">
+            <th scope="row">{{helper.Id}}</th>
+            <td>{{helper.Code}}</td>
+            <td>{{helper.Title}}</td>
+            <td>{{helper.Name}}</td>
+            <td>{{helper.HelpType.Type }}</td>
+            <td>{{helper.HelpFunction.HelpModule.HelpApplication.Application}}</td>
+            <td>{{helper.HelpFunction.HelpModule.Module}}</td>
+            <td>{{helper.HelpFunction.Function}}</td>
+            <td style="text-align:center;width: 160px;border:1px solid #dddddd;" ng-if="CanEdit ||CanDelete">
+                <a href="~/home/edit/{{helper.Id}}" class="btn btn-default btn-xs" ng-if="CanEdit">
+                    <span class="glyphicon glyphicon-pencil"> </span> Editar
+                </a>
+                <span class="btn btn-danger btn-xs" confirmed-click="removeHelper(helper.Id)"
+                      ng-confirm-click="Esta seguro de eliminar el registro?" ng-if="CanDelete" style="display:inline-table">
+                    <span class="glyphicon glyphicon-remove"> </span>  Eliminar
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>

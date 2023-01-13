@@ -1,0 +1,127 @@
+/* Generado por Herramientas de desarrollo. Es posible que ésta no sea una representación precisa del archivo de origen original */
+#myGallery {
+	DISPLAY: none
+}
+.gv_galleryWrap {
+	POSITION: relative; BACKGROUND: #222; FONT-SIZE: 10pt
+}
+.gv_gallery {
+	POSITION: relative; OVERFLOW: hidden
+}
+.gv_imageStore {
+	POSITION: absolute; VISIBILITY: hidden; TOP: -10000px; LEFT: -10000px
+}
+.gv_panelWrap {
+	POSITION: absolute; FILTER: inherit; OVERFLOW: hidden
+}
+.gv_panel-loading {
+	BACKGROUND: url(img-loader.gif) #aaa no-repeat 50% 50%
+}
+.gv_frame-loading {
+	BACKGROUND: url(img-loader.gif) #aaa no-repeat 50% 50%
+}
+.gv_panel {
+	Z-INDEX: 100; POSITION: absolute; FILTER: inherit; OVERFLOW: hidden; TOP: 0px; LEFT: 0px
+}
+.gv_panel IMG {
+	POSITION: absolute
+}
+.gv_overlay {
+	Z-INDEX: 200; POSITION: absolute; BACKGROUND: #222; COLOR: white
+}
+.gv_showOverlay {
+	Z-INDEX: 200; POSITION: absolute; WIDTH: 20px; BACKGROUND: url(../Content/Images/info.png) #222; HEIGHT: 20px; CURSOR: pointer
+}
+.gv_overlay H4 {
+	MARGIN: 1em; COLOR: white; FONT-WEIGHT: bold
+}
+.gv_overlay P {
+	MARGIN: 1em; COLOR: white
+}
+.gv_infobar {
+	Z-INDEX: 2000; POSITION: absolute; PADDING-BOTTOM: 0px; LINE-HEIGHT: 1.5em; PADDING-LEFT: 0.5em; BOTTOM: 0px; PADDING-RIGHT: 0.5em; DISPLAY: none; BACKGROUND: #222; HEIGHT: 1.5em; COLOR: white; FONT-SIZE: 10pt; VERTICAL-ALIGN: middle; RIGHT: 0px; FONT-WEIGHT: bold; PADDING-TOP: 0px
+}
+.gv_filmstripWrap {
+	POSITION: absolute; OVERFLOW: hidden
+}
+.gv_filmstrip {
+	POSITION: absolute; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; TOP: 0px; PADDING-TOP: 0px; LEFT: 0px
+}
+.gv_frame {
+	POSITION: relative; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FLOAT: left; CURSOR: pointer; PADDING-TOP: 0px
+}
+.gv_frame .gv_thumbnail {
+	POSITION: relative; OVERFLOW: hidden !important
+}
+.current.gv_frame .gv_thumbnail {
+	
+}
+.gv_frame IMG {
+	BORDER-BOTTOM: medium none; POSITION: absolute; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none
+}
+.gv_frame .gv_caption {
+	TEXT-ALIGN: center; LINE-HEIGHT: 14px; HEIGHT: 14px; COLOR: white; FONT-SIZE: 10px
+}
+.current.gv_frame .gv_caption {
+	
+}
+.gv_pointer {
+	BORDER-BOTTOM-COLOR: black; BORDER-TOP-COLOR: black; BORDER-RIGHT-COLOR: black; BORDER-LEFT-COLOR: black
+}
+.gv_navWrap {
+	POSITION: absolute; TEXT-ALIGN: center
+}
+.gv_navPlay {
+	FILTER: alpha(opacity=30); ZOOM: 1; DISPLAY: inline-block; VERTICAL-ALIGN: middle; opacity: 0.3; -moz-opacity: 0.3; -khtml-opacity: 0.3
+}
+.gv_navPause {
+	FILTER: alpha(opacity=30); ZOOM: 1; DISPLAY: inline-block; VERTICAL-ALIGN: middle; opacity: 0.3; -moz-opacity: 0.3; -khtml-opacity: 0.3
+}
+.gv_navNext {
+	FILTER: alpha(opacity=30); ZOOM: 1; DISPLAY: inline-block; VERTICAL-ALIGN: middle; opacity: 0.3; -moz-opacity: 0.3; -khtml-opacity: 0.3
+}
+.gv_navPrev {
+	FILTER: alpha(opacity=30); ZOOM: 1; DISPLAY: inline-block; VERTICAL-ALIGN: middle; opacity: 0.3; -moz-opacity: 0.3; -khtml-opacity: 0.3
+}
+.gv_navPlay:hover {
+	FILTER: alpha(opacity=80); opacity: 0.8; -moz-opacity: 0.8; -khtml-opacity: 0.8
+}
+.gv_navPause:hover {
+	FILTER: alpha(opacity=80); opacity: 0.8; -moz-opacity: 0.8; -khtml-opacity: 0.8
+}
+.gv_navNext:hover {
+	FILTER: alpha(opacity=80); opacity: 0.8; -moz-opacity: 0.8; -khtml-opacity: 0.8
+}
+.gv_navPrev:hover {
+	FILTER: alpha(opacity=80); opacity: 0.8; -moz-opacity: 0.8; -khtml-opacity: 0.8
+}
+.gv_panelNavPrev {
+	Z-INDEX: 200; POSITION: absolute; FILTER: alpha(opacity=50); DISPLAY: none; opacity: 0.50; -moz-opacity: 0.50; -khtml-opacity: 0.50
+}
+.gv_panelNavNext {
+	Z-INDEX: 200; POSITION: absolute; FILTER: alpha(opacity=50); DISPLAY: none; opacity: 0.50; -moz-opacity: 0.50; -khtml-opacity: 0.50
+}
+.gv_panelNavPrev:hover {
+	FILTER: alpha(opacity=90); opacity: 0.9; -moz-opacity: 0.9; -khtml-opacity: 0.9
+}
+.gv_panelNavNext:hover {
+	FILTER: alpha(opacity=90); opacity: 0.9; -moz-opacity: 0.9; -khtml-opacity: 0.9
+}
+.gv_navPlay {
+	WIDTH: 30px; BACKGROUND: url(../Content/Images/play-big.png) no-repeat left top; HEIGHT: 30px; CURSOR: pointer; float:left;
+}
+.gv_navPause {
+	WIDTH: 30px; BACKGROUND: url(../Content/Images/pause-big.png) no-repeat left top; HEIGHT: 30px; CURSOR: pointer; float:left;
+}
+.gv_navNext {
+	WIDTH: 20px; BACKGROUND: url(../Content/Images/next.png) no-repeat left top; HEIGHT: 20px; CURSOR: pointer; float:left;
+}
+.gv_navPrev {
+	WIDTH: 20px; BACKGROUND: url(../Content/Images/prev.png) no-repeat right top; HEIGHT: 20px; CURSOR: pointer; float:left;
+}
+.gv_panelNavNext {
+	WIDTH: 20px; BACKGROUND: url(../Content/Images/panel-next.png) no-repeat left top; HEIGHT: 20px; CURSOR: pointer
+}
+.gv_panelNavPrev {
+	WIDTH: 20px; BACKGROUND: url(../Content/Images/panel-prev.png) no-repeat right top; HEIGHT: 20px; CURSOR: pointer
+}

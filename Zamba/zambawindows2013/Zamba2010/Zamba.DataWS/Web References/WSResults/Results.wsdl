@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetWebDocFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DocTypeId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="DocId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWebDocFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetWebDocFileResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyBlobToVolume">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="docId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="docTypeId" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyBlobToVolumeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CopyBlobToVolumeResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertDocFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="docID" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="docTypeId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="file" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertDocFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertDocFileResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertForumAttach">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MessageID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="file" type="s:base64Binary" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertForumAttachResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="InsertForumAttachResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttachFileByMessageIdAndName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MessageId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttachFileByMessageIdAndNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAttachFileByMessageIdAndNameResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttachsNamesByMessageId">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MessageId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserId" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAttachsNamesByMessageIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAttachsNamesByMessageIdResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SaveMailHistory">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CCO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Attachs" type="tns:ArrayOfString" />
+            <s:element minOccurs="1" maxOccurs="1" name="DocId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="DocTypeID" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="ExportPath" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveMailHistoryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SaveMailHistoryResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="userId" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMailResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveMessageFileBlob">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="file" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveMessageFileBlobResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SaveMessageFileBlobResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZSendMail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="smtp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="port" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cco" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attachs" type="tns:ArrayOfString" />
+            <s:element minOccurs="1" maxOccurs="1" name="userid" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="originalFile" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="originalFileName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="enableSsl" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZSendMailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ZSendMailResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZSendMailWithAttaches">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="from" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="smtp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="port" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cco" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="attachs" type="tns:ArrayOfBlobDocument" />
+            <s:element minOccurs="1" maxOccurs="1" name="userid" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="enableSsl" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBlobDocument">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BlobDocument" nillable="true" type="tns:BlobDocument" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BlobDocument">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BlobFile" type="s:base64Binary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="UpdateDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Updateuser" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ZSendMailWithAttachesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ZSendMailWithAttachesResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigPath">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetConfigPathResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigPathResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStartUpPath">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetStartUpPathResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStartUpPathResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppTempPath">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAppTempPathResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAppTempPathResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetWebDocFileSoapIn">
+    <wsdl:part name="parameters" element="tns:GetWebDocFile" />
+  </wsdl:message>
+  <wsdl:message name="GetWebDocFileSoapOut">
+    <wsdl:part name="parameters" element="tns:GetWebDocFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyBlobToVolumeSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyBlobToVolume" />
+  </wsdl:message>
+  <wsdl:message name="CopyBlobToVolumeSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyBlobToVolumeResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertDocFileSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertDocFile" />
+  </wsdl:message>
+  <wsdl:message name="InsertDocFileSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertDocFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertForumAttachSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertForumAttach" />
+  </wsdl:message>
+  <wsdl:message name="InsertForumAttachSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertForumAttachResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAttachFileByMessageIdAndNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttachFileByMessageIdAndName" />
+  </wsdl:message>
+  <wsdl:message name="GetAttachFileByMessageIdAndNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttachFileByMessageIdAndNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAttachsNamesByMessageIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAttachsNamesByMessageId" />
+  </wsdl:message>
+  <wsdl:message name="GetAttachsNamesByMessageIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAttachsNamesByMessageIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveMailHistorySoapIn">
+    <wsdl:part name="parameters" element="tns:SaveMailHistory" />
+  </wsdl:message>
+  <wsdl:message name="SaveMailHistorySoapOut">
+    <wsdl:part name="parameters" element="tns:SaveMailHistoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMailSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMail" />
+  </wsdl:message>
+  <wsdl:message name="GetMailSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveMessageFileBlobSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveMessageFileBlob" />
+  </wsdl:message>
+  <wsdl:message name="SaveMessageFileBlobSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveMessageFileBlobResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZSendMailSoapIn">
+    <wsdl:part name="parameters" element="tns:ZSendMail" />
+  </wsdl:message>
+  <wsdl:message name="ZSendMailSoapOut">
+    <wsdl:part name="parameters" element="tns:ZSendMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZSendMailWithAttachesSoapIn">
+    <wsdl:part name="parameters" element="tns:ZSendMailWithAttaches" />
+  </wsdl:message>
+  <wsdl:message name="ZSendMailWithAttachesSoapOut">
+    <wsdl:part name="parameters" element="tns:ZSendMailWithAttachesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigPathSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigPath" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigPathSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigPathResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStartUpPathSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStartUpPath" />
+  </wsdl:message>
+  <wsdl:message name="GetStartUpPathSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStartUpPathResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAppTempPathSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAppTempPath" />
+  </wsdl:message>
+  <wsdl:message name="GetAppTempPathSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAppTempPathResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ResultsSoap">
+    <wsdl:operation name="GetWebDocFile">
+      <wsdl:input message="tns:GetWebDocFileSoapIn" />
+      <wsdl:output message="tns:GetWebDocFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyBlobToVolume">
+      <wsdl:input message="tns:CopyBlobToVolumeSoapIn" />
+      <wsdl:output message="tns:CopyBlobToVolumeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocFile">
+      <wsdl:input message="tns:InsertDocFileSoapIn" />
+      <wsdl:output message="tns:InsertDocFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertForumAttach">
+      <wsdl:input message="tns:InsertForumAttachSoapIn" />
+      <wsdl:output message="tns:InsertForumAttachSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachFileByMessageIdAndName">
+      <wsdl:input message="tns:GetAttachFileByMessageIdAndNameSoapIn" />
+      <wsdl:output message="tns:GetAttachFileByMessageIdAndNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachsNamesByMessageId">
+      <wsdl:input message="tns:GetAttachsNamesByMessageIdSoapIn" />
+      <wsdl:output message="tns:GetAttachsNamesByMessageIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMailHistory">
+      <wsdl:input message="tns:SaveMailHistorySoapIn" />
+      <wsdl:output message="tns:SaveMailHistorySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMail">
+      <wsdl:input message="tns:GetMailSoapIn" />
+      <wsdl:output message="tns:GetMailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveMessageFileBlob">
+      <wsdl:input message="tns:SaveMessageFileBlobSoapIn" />
+      <wsdl:output message="tns:SaveMessageFileBlobSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZSendMail">
+      <wsdl:input message="tns:ZSendMailSoapIn" />
+      <wsdl:output message="tns:ZSendMailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZSendMailWithAttaches">
+      <wsdl:input message="tns:ZSendMailWithAttachesSoapIn" />
+      <wsdl:output message="tns:ZSendMailWithAttachesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigPath">
+      <wsdl:input message="tns:GetConfigPathSoapIn" />
+      <wsdl:output message="tns:GetConfigPathSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStartUpPath">
+      <wsdl:input message="tns:GetStartUpPathSoapIn" />
+      <wsdl:output message="tns:GetStartUpPathSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAppTempPath">
+      <wsdl:input message="tns:GetAppTempPathSoapIn" />
+      <wsdl:output message="tns:GetAppTempPathSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ResultsSoap" type="tns:ResultsSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetWebDocFile">
+      <soap:operation soapAction="http://tempuri.org/GetWebDocFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyBlobToVolume">
+      <soap:operation soapAction="http://tempuri.org/CopyBlobToVolume" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocFile">
+      <soap:operation soapAction="http://tempuri.org/InsertDocFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertForumAttach">
+      <soap:operation soapAction="http://tempuri.org/InsertForumAttach" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachFileByMessageIdAndName">
+      <soap:operation soapAction="http://tempuri.org/GetAttachFileByMessageIdAndName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachsNamesByMessageId">
+      <soap:operation soapAction="http://tempuri.org/GetAttachsNamesByMessageId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMailHistory">
+      <soap:operation soapAction="http://tempuri.org/SaveMailHistory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMail">
+      <soap:operation soapAction="http://tempuri.org/GetMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMessageFileBlob">
+      <soap:operation soapAction="http://tempuri.org/SaveMessageFileBlob" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZSendMail">
+      <soap:operation soapAction="http://tempuri.org/ZSendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZSendMailWithAttaches">
+      <soap:operation soapAction="http://tempuri.org/ZSendMailWithAttaches" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigPath">
+      <soap:operation soapAction="http://tempuri.org/GetConfigPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartUpPath">
+      <soap:operation soapAction="http://tempuri.org/GetStartUpPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppTempPath">
+      <soap:operation soapAction="http://tempuri.org/GetAppTempPath" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ResultsSoap12" type="tns:ResultsSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetWebDocFile">
+      <soap12:operation soapAction="http://tempuri.org/GetWebDocFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyBlobToVolume">
+      <soap12:operation soapAction="http://tempuri.org/CopyBlobToVolume" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertDocFile">
+      <soap12:operation soapAction="http://tempuri.org/InsertDocFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertForumAttach">
+      <soap12:operation soapAction="http://tempuri.org/InsertForumAttach" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachFileByMessageIdAndName">
+      <soap12:operation soapAction="http://tempuri.org/GetAttachFileByMessageIdAndName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAttachsNamesByMessageId">
+      <soap12:operation soapAction="http://tempuri.org/GetAttachsNamesByMessageId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMailHistory">
+      <soap12:operation soapAction="http://tempuri.org/SaveMailHistory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMail">
+      <soap12:operation soapAction="http://tempuri.org/GetMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveMessageFileBlob">
+      <soap12:operation soapAction="http://tempuri.org/SaveMessageFileBlob" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZSendMail">
+      <soap12:operation soapAction="http://tempuri.org/ZSendMail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZSendMailWithAttaches">
+      <soap12:operation soapAction="http://tempuri.org/ZSendMailWithAttaches" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigPath">
+      <soap12:operation soapAction="http://tempuri.org/GetConfigPath" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStartUpPath">
+      <soap12:operation soapAction="http://tempuri.org/GetStartUpPath" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppTempPath">
+      <soap12:operation soapAction="http://tempuri.org/GetAppTempPath" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Results">
+    <wsdl:port name="ResultsSoap" binding="tns:ResultsSoap">
+      <soap:address location="http://localhost:2323/Results.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ResultsSoap12" binding="tns:ResultsSoap12">
+      <soap12:address location="http://localhost:2323/Results.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

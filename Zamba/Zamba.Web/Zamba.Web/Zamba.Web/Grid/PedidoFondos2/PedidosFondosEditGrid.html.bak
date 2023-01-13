@@ -1,0 +1,399 @@
+﻿<div>
+
+    <div style="text-align:left" ng-show="IsViewMode">
+
+        <div ng-show="asociatedResults.length > 0">
+            <span class="input-group-addon" style="background:#BEBDBD;"><strong>Beneficiarios {{asociatedResults.length}}</strong></span>
+        </div>
+        <div ng-repeat="(key, value) in asociatedResults |  groupBy: 'data.favorTo'">
+            <hr />
+            <div class="row">
+                <div class="col-xs-6">
+                    Beneficiario: <b>{{ key }}</b> {{ subtotal }}
+                </div>
+                <div class="col-xs-4">
+                    CUIT: <b>{{value[0].data.cuit}}</b>
+                </div>
+                <div class="col-xs-2">
+                    Nro Persona: <b>{{value[0].data.personNumber}}</b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                   
+                        Metodo de Pago: <b>    {{value[0].data.payMethod}}</b>
+                </div>
+                <div class="col-xs-4">
+                    CBU:   <b>
+                         {{value[0].data.cbu}}
+                    </b>
+                </div>
+                <div class="col-xs-4">
+                    email:  <b>
+                         {{value[0].data.email}}
+                    </b>
+                </div>
+            </div>
+            <div ng-repeat="conceptos in value | orderBy: sorterFunc" ng-init="$parent.subtotal = $parent.subtotal + +conceptos.data.realamount ">
+                <div class="row">
+                    <div class="col-xs-4">
+                        Concepto: <b>
+                            {{ conceptos.data.concept}}
+                        </b>
+                    </div>
+                    <div class="col-xs-4">
+                        Importe: <b>{{ conceptos.data.amount }}</b>
+                    </div>
+                    <div class="col-xs-4">
+                        Compromiso: <b>{{ conceptos.data.commitmentNumber }}</b>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="form-group" ng-repeat="benef in asociatedResults | orderBy: sorterFunc">
+
+        <!-- View -->
+        <div ng-show="IsViewMode">
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--A favor-->
+                        <span class="input-group-addon">A favor de: </span>
+                        <input class="form-control input-sm" disabled="disabled" value="{{ benef.data.favorTo || '' }}" />
+                        <!--<input name="zamba_index_10289" ng-model="resultToInsert.favorTo" size="1" class="form-control" />-->
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Concepto-->
+                        <div class="input-group-addon">Concepto/s:</div>
+                        <input class="form-control input-sm" disabled="disabled" value="{{ benef.data.concept || '' }}" />
+                        <!--<select name="zamba_index_2788" ng-model="resultToInsert.concept" size="1" class="form-control"></select>-->
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Importe-->
+                        <span class="input-group-addon">Importe:</span>
+                        <input class="form-control input-sm" disabled="disabled" value=" {{ benef.data.amount || '' }}" />
+
+                        <!--<input name="zamba_index_109" ng-model="resultToInsert.amount" size="1" class="form-control" />-->
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Importe-->
+                        <span class="input-group-addon">Compromiso Nro.:  </span>
+                        <input class="form-control input-sm" disabled="disabled" value=" {{ benef.data.commitmentNumber || '' }}" />
+                        <!--<input name="zamba_index_10318" ng-model="resultToInsert.commitmentNumber" size="1" class="form-control" />-->
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Metodo-->
+                        <span class="input-group-addon">Método de Pago:</span>
+
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.payMethod || '' }} " />
+                        <!-- <select name="zamba_index_10251" ng-model="resultToInsert.payMethod" size="1" class="form-control"></select>-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Compromiso Nro.-->
+                        <span class="input-group-addon">Nro. de Persona:</span>
+                        <input name="zamba_index_10318" disabled="disabled" value=" {{ benef.data.personNumber || '' }}" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CBU-->
+                        <span class="input-group-addon">CBU: </span>
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cbu || '' }} " onkeypress="getValidate()" />
+                        <!--<input name="zamba_index_10290" ng-model="resultToInsert.cbu" size="1" class="form-control" />-->
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CUIT-->
+                        <span class="input-group-addon">CUIT:</span>
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cuit || '' }} " onkeypress="getValidate()" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Mail-->
+                        <span class="input-group-addon">Email:</span>
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.email || '' }} " />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End View -->
+        <!-- Edit -->
+        <div ng-show="IsEditingMode">
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--A favor-->
+                        <span class="input-group-addon">A favor de:</span>
+                        <input name="zamba_index_10289" ng-disabled="BenefAllInputEnable" ng-model="benef.data.favorTo" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Concepto-->
+                        <div class="input-group-addon">Concepto/s:</div>
+                        <select name="zamba_index_2788" ng-disabled="BenefAllInputEnable" ng-model="benef.data.concept" size="1" class="form-control" ng-options="item as item for item in ConceptoAttributeLists"></select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" ng-show="benef.data.concept == '22-Otros'">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">Otro Concepto:</span>
+                        <input ng-model="benef.data.alternativeConcept"
+                               class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Importe-->
+                        <span class="input-group-addon">Importe:</span>
+                        <input name="zamba_index_109" ng-disabled="BenefAllInputEnable" ng-model="benef.data.amount" size="1" class="form-control" ng-Blur="setElementPartNumber(benef)"  autocomplete="off" />
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Compromiso Nro.-->
+                        <span class="input-group-addon">Compromiso Nro.:</span>
+                        <input name="zamba_index_10318" ng-disabled="!BenefCompromisoEnable" ng-model="benef.data.commitmentNumber" size="1" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Metodo-->
+                        <span class="input-group-addon">Método de Pago:</span>
+                        <select name="zamba_index_10251" ng-disabled="BenefAllInputEnable" ng-model="benef.data.payMethod" size="1" class="form-control" ng-options="item as item for item in MetodoAttributeLists"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Nro. de Persona.-->
+                        <span class="input-group-addon">Nro. de Persona:</span>
+                        <input name="zamba_index_10318" ng-disabled="!BenefNroPersonaEnable" ng-model="benef.data.personNumber" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CBU-->
+                        <span class="input-group-addon">CBU:</span>
+                        <input name="zamba_index_10290" ng-disabled="BenefAllInputEnable" ng-model="benef.data.cbu" class="form-control" ng-Blur="ValidateCharacters(22,benef.data.cbu,'CBU')" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CUIT-->
+                        <span class="input-group-addon">CUIT:</span>
+                        <input name="zamba_index_1128" ng-disabled="BenefAllInputEnable" ng-model="benef.data.cuit" size="1" class="form-control" ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" />
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CUIT-->
+                        <span class="input-group-addon">EMAIL:</span>
+                        <input ng-model="benef.data.email" ng-disabled="BenefAllInputEnable" size="1" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="button" ng-click="deleteResult(benef)" class="btn btn-danger fa fa-trash pull-right col-md-offset-4"></button>
+                </div>
+            </div>
+            <!--<div class="form-group row">
+                <div>
+                    <button type="button" ng-click="EditResult(benef)" class="btn btn-primary fa fa-pencil"></button>
+                </div>
+
+            </div>-->
+
+        </div>
+        <!-- End Edit -->
+        <!-- Insert -->
+        <div ng-show="IsInsertingMode">
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--A favor-->
+                        <span class="input-group-addon">A favor de:</span>
+                        <input name="zamba_index_10289" ng-model="benef.data.favorTo" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Concepto-->
+                        <div class="input-group-addon">Concepto/s:</div>
+                        <select name="zamba_index_2788" ng-model="benef.data.concept" size="1" class="form-control" ng-options="item as item for item in ConceptoAttributeLists"></select>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row" ng-show="benef.data.concept == '22-Otros'">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">Otro Concepto:</span>
+                        <input ng-model="benef.data.alternativeConcept"
+                               class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Importe-->
+                        <span class="input-group-addon">Importe:</span>
+                        <input name="zamba_index_109" ng-model="benef.data.amount" size="1" class="form-control" ng-blur="setElementPartNumber(benef)"  autocomplete="off" />
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Importe-->
+                        <span class="input-group-addon">Compromiso Nro.:</span>
+                        <input name="zamba_index_10318" ng-disabled="!BenefCompromisoEnable" ng-model="benef.data.commitmentNumber" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Metodo-->
+                        <span class="input-group-addon">Método de Pago:</span>
+                        <select name="zamba_index_10251" ng-model="benef.data.payMethod" size="1" class="form-control" ng-options="item as item for item in MetodoAttributeLists"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Nro. de Persona.-->
+                        <span class="input-group-addon">Nro. de Persona:</span>
+                        <input name="zamba_index_10318" ng-disabled="!BenefNroPersonaEnable" ng-model="benef.data.personNumber" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CBU-->
+                        <span class="input-group-addon">CBU:</span>
+                        <input name="zamba_index_10290" ng-model="benef.data.cbu" size="1" class="form-control" ng-Blur="ValidateCharacters(22,benef.data.cbu,'CBU')" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--CUIT-->
+                        <span class="input-group-addon">CUIT:</span>
+                        <input name="zamba_index_1128" ng-model="benef.data.cuit" size="1" class="form-control" ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--EMAIL-->
+                        <span class="input-group-addon">EMAIL:</span>
+                        <input name="zamba_index_1128" ng-model="benef.data.email" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Insert -->
+
+    </div>
+
+
+    <!--<div class="form-group row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-small" ng-click="add()">Generar Nuevo</button>
+        </div>
+
+    </div>-->
+
+    <div class="form-group row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">Total:</span>
+                <input ng-model="total" ng-disabled="true" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-edit" ng-show="!IsInsertingMode && !IsEditingMode && !deleteItems">
+                <button type="button" ng-show="!firtTime && (!isReadOnly)" class="btn btn-warning pull-right" ng-click="EditResultMode()">
+                    Editar
+                </button>
+                <button type="button" ng-show="!isReadOnly && !isEditOnly" ng-click="addResult()" style="margin-left:5px" class="btn btn-success pull-right">
+                    Agregar Beneficiario
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="btn-form" ng-show="IsInsertingMode || IsEditingMode || deleteItems">
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="saveTable()" class="btn btn-primary send" style="display:none;">Guardar Beneficiarios</button>
+                    <button type="button" ng-disabled="tableform.$waiting" ng-click="cancelModification()" class="btn btn-default pull-right">Cancelar Cambios</button>
+    </div>
+</div>

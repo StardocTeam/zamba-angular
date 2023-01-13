@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<title>MacroCuenca</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">		
+		 	
+		<script src="MacroCuenca.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="tabber.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			
+		    function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+
+			function zamba_save_onclick(){
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_18');			
+
+        });					
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>	
+	<body>
+			<div>
+		&nbsp;
+				 <input id="zamba_rule_40" style=" text-align: center; margin-right: 25px;"
+            type="submit" class="submit" value="Eliminar MacroCuenca" name="zamba_rule_40" onclick="SetRuleId(this);"/> 
+		</div>
+		<br />
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>MacroCuenca</strong>
+				</div>
+				<br />
+				<div name="floatleft" id="floatleft">
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>ID MacroCuenca:</label></td>
+									<td><input type="text" id="zamba_index_67" name="zamba_index_67" size="5" readonly="true" class="readonly"/></td>
+								</tr>
+								<tr>
+									<td><label>C&oacutedigo MAC:</label></td>
+									<td><input type="text" id="zamba_index_60" name="zamba_index_60" size="20"/></td>
+								</tr>
+							</table>		
+					</div>	
+				</p>							
+				</div>
+				<br />
+				
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+				
+			</form>						
+		</div>		
+	</body>
+</html>

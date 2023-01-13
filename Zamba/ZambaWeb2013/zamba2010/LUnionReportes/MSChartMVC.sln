@@ -1,0 +1,161 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{293D44C3-3233-453B-ACEB-0ED015433B21}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.ReportBuilder.Business", "..\Zamba.ReportBuilder.Business\Zamba.ReportBuilder.Business.vbproj", "{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Core", "..\Zamba.Core\Zamba.Core.vbproj", "{A706E6F9-436F-4761-AB28-30F99F1EF098}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Bussines", "..\Zamba.Bussines\Zamba.Bussines.vbproj", "{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Data", "..\Zamba.Data\Zamba.Data.vbproj", "{E92F8175-9484-4454-A8F0-9C2AB63714F5}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Exceptions", "..\Zamba.Exceptions\Zamba.Exceptions.vbproj", "{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.ICore", "..\Zamba.ICore\Zamba.ICore.vbproj", "{E16279A2-165D-4D96-AD32-009874164C05}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.CoreDs", "..\Zamba.CoreDs\Zamba.CoreDs.vbproj", "{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Tools", "..\Zamba.Tools\Zamba.Tools.vbproj", "{D349AB2A-B052-4307-B979-D397D10760A1}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Server", "..\Zamba.Server\Zamba.Server.vbproj", "{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zamba.Membership", "..\Zamba.Membership\Zamba.Membership.csproj", "{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zamba.DataExt", "..\Zamba2013\Zamba.DataExt\Zamba.DataExt.csproj", "{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 13
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://win-gs9gmujits8:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Web\\Web.csproj
+		SccProjectName1 = Web
+		SccLocalPath1 = Web
+		SccProjectUniqueName2 = ..\\Zamba.ReportBuilder.Business\\Zamba.ReportBuilder.Business.vbproj
+		SccProjectName2 = ../Zamba.ReportBuilder.Business
+		SccAuxPath2 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath2 = ..\\Zamba.ReportBuilder.Business
+		SccProjectUniqueName3 = ..\\Zamba.Core\\Zamba.Core.vbproj
+		SccProjectName3 = ../Zamba.Core
+		SccAuxPath3 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath3 = ..\\Zamba.Core
+		SccProjectUniqueName4 = ..\\Zamba.Bussines\\Zamba.Bussines.vbproj
+		SccProjectName4 = ../Zamba.Bussines
+		SccLocalPath4 = ..\\Zamba.Bussines
+		SccProjectUniqueName5 = ..\\Zamba.Data\\Zamba.Data.vbproj
+		SccProjectName5 = ../Zamba.Data
+		SccAuxPath5 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath5 = ..\\Zamba.Data
+		SccProjectUniqueName6 = ..\\Zamba.Exceptions\\Zamba.Exceptions.vbproj
+		SccProjectName6 = ../Zamba.Exceptions
+		SccAuxPath6 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath6 = ..\\Zamba.Exceptions
+		SccProjectUniqueName7 = ..\\Zamba.ICore\\Zamba.ICore.vbproj
+		SccProjectName7 = ../Zamba.ICore
+		SccLocalPath7 = ..\\Zamba.ICore
+		SccProjectUniqueName8 = ..\\Zamba.CoreDs\\Zamba.CoreDs.vbproj
+		SccProjectName8 = ../Zamba.CoreDs
+		SccAuxPath8 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath8 = ..\\Zamba.CoreDs
+		SccProjectUniqueName9 = ..\\Zamba.Tools\\Zamba.Tools.vbproj
+		SccProjectName9 = ../Zamba.Tools
+		SccAuxPath9 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath9 = ..\\Zamba.Tools
+		SccProjectUniqueName10 = ..\\Zamba.Server\\Zamba.Server.vbproj
+		SccProjectName10 = ../Zamba.Server
+		SccAuxPath10 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath10 = ..\\Zamba.Server
+		SccProjectUniqueName11 = ..\\Zamba.Membership\\Zamba.Membership.csproj
+		SccProjectName11 = ../Zamba.Membership
+		SccAuxPath11 = http://www.stardocteam.com.ar:8080/tfs/defaultcollection
+		SccLocalPath11 = ..\\Zamba.Membership
+		SccProjectUniqueName12 = ..\\Zamba2013\\Zamba.DataExt\\Zamba.DataExt.csproj
+		SccProjectName12 = ../Zamba2013/Zamba.DataExt
+		SccLocalPath12 = ..\\Zamba2013\\Zamba.DataExt
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release Sin Trace|Any CPU = Release Sin Trace|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{293D44C3-3233-453B-ACEB-0ED015433B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293D44C3-3233-453B-ACEB-0ED015433B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293D44C3-3233-453B-ACEB-0ED015433B21}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{293D44C3-3233-453B-ACEB-0ED015433B21}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{293D44C3-3233-453B-ACEB-0ED015433B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293D44C3-3233-453B-ACEB-0ED015433B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A706E6F9-436F-4761-AB28-30F99F1EF098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E16279A2-165D-4D96-AD32-009874164C05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D349AB2A-B052-4307-B979-D397D10760A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release Sin Trace|Any CPU.ActiveCfg = Release Sin Trace|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release Sin Trace|Any CPU.Build.0 = Release Sin Trace|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}.Release Sin Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}.Release Sin Trace|Any CPU.Build.0 = Release|Any CPU
+		{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2942D5D6-7F59-4F5A-BA38-963DCC986BE7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

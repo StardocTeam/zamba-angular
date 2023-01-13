@@ -1,0 +1,226 @@
+<html>
+     <head>
+         	<title>Inspeccion Siniestro</title>			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet"/>		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet"/>		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" type="text/css" media="screen"/>
+		<script type="text/javascript" language="JavaScript">
+
+		    function ZFUNCTION() 
+			{
+
+
+		        if (document.getElementById("zamba_index_33610").value == "1 - Inspeccion Asegurado" && document.getElementById("zamba_index_33622").value != "3 - Final" ) 
+				{
+		            document.getElementById("zamba_index_33612TD").style.visibility = 'visible';
+		            document.getElementById("zamba_index_33612SLCT").style.visibility = 'visible';
+				}
+				else
+					if (document.getElementById("zamba_index_33610").value == "1 - Inspeccion Asegurado" && document.getElementById("zamba_index_33622").value == "3 - Final" ) 
+                {
+					document.getElementById("zamba_index_33612TD").style.visibility = 'hidden';
+		            document.getElementById("zamba_index_33612SLCT").style.visibility = 'hidden';
+				}
+		        else 
+	               if (document.getElementById("zamba_index_33610").value != "1 - Inspeccion Asegurado") 
+				{
+		            document.getElementById("zamba_index_33612TD").style.visibility = 'hidden';
+		            document.getElementById("zamba_index_33612SLCT").style.visibility = 'hidden';
+		        }
+				
+		    }
+
+		    function SetRuleId(sender) {
+		        document.getElementById("hdnRuleId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    function SetAsocId(sender) {
+		        document.getElementById("hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+
+		    function zamba_save_onclick() {
+		        document.getElementById('zamba_index_33645').value = document.getElementById('_33645').value.replace(":", "");
+		        document.getElementById('zamba_index_33646').value = document.getElementById('_33646').value.replace(":", "");
+		        document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		    }
+
+		    function makeCalendar(id) {
+		        $(function() {
+		            $('#' + id).datepicker({
+		                changeMonth: true,
+		                changeYear: true,
+		                showOn: 'button',
+		                buttonText: 'Abrir calendario',
+		                buttonImage: 'images/calendar.png',
+		                buttonImageOnly: true,
+		                duration: ""
+		            });
+		        });
+		    }
+
+		    
+		    $(document).ready(function()
+		    {	
+		    makeCalendar('zamba_index_26234');	
+		    setTimeout("formatTime('_33645',1)", 100);					
+		    setTimeout("formatTime('_33646',1)", 100);
+		    });					
+		    
+
+		    function loadTime(id) {
+		        document.getElementById(id).value = document.getElementById("zamba_index" + id).value.replace(":", "");
+		    }
+
+            
+		    function formatTime(id, event) {
+		        
+		            if ($('#zamba_index' + id).val() != "" && event == 1)
+                    {
+                        $('#' + id).val($('#zamba_index' + id).val());
+                    }
+                             
+		            var ctrl = $('#' + id);
+		            var time = ctrl.val().replace(":", "");
+
+		            var h = time.substring(0, time.length - 2);
+		            var m = time.substring(time.length - 2, time.length);
+
+		            if (h != "" || m != "")
+		                ctrl.val(h + ":" + m);
+
+		            //if ($('#zamba_index' + id).val() == 0)
+		                //ctrl.val("00" + ":" + "00");
+
+		            if (h > 23 || m > 59)
+		                ctrl.addClass("error");
+		            else
+		                ctrl.removeClass("error");
+                
+		    }
+
+
+		    function dateToString(date) {
+		        var dia = date.split("/")[0];
+		        var mes = date.split("/")[1];
+		        var ano = date.split("/")[2];
+
+		        dia = format(dia);
+		        mes = format(mes);
+
+		        return ano + mes + dia;
+		    }
+
+		    function format(txt) {
+		        if (txt.length == 1) txt = "0" + txt;
+
+		        return txt;
+		    }
+
+
+		    function validaDatos() {
+		        return true;
+
+		    }
+
+		    document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+
+		</script>
+		
+     </head>
+     <body> 
+        <div id="container">
+				<div name="design" id="design">
+					<strong>Inspecci&oacuten Siniestro</strong>
+				</div>
+				<br />
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				
+				
+				<div class="tabber">
+				<div class="tabbertab">
+				<h2>Datos inspecci&oacuten</h2>
+					
+				<table cellpadding="4">
+
+					<tr>
+						<td id="zamba_index_33612TD" style="font-size:smaller"><label style="width:15em;">Orden de Trabajo</label></td>
+						<td id="zamba_index_33612SLCT"><select id="zamba_index_33612" name="zamba_index_33612" style="width:250px;"></select></td>
+					</tr>
+					<tr>
+						<td style="font-size:smaller"><label style="width:15em;">Inspector</label></td>
+						<td><select type="text" id="zamba_index_26195" name="zamba_index_26195" style="width:250px;"></select></td>
+						<td style="font-size:smaller"><label style="width:15em;">Proveedor/Taller</label></td>
+						<td><input type="text" id="zamba_index_26204" name="zamba_index_26204" size="40"/></td>
+					</tr>
+
+					<tr>
+						<td  style="font-size:smaller"><label style="width:15em;">Direcci&oacuten de inspecci&oacuten</label>
+						</td>
+						<td colspan="3"><input type="text" style="width:700px"  id="zamba_index_26461" name="zamba_index_26461"/>
+						</td>
+					</tr>
+					<tr>
+						<td style="font-size:smaller"><label style="width:15em;">Fecha Inspecci&oacuten</label></td>
+						<td><input type="text" id="zamba_index_26234" name="zamba_index_26234" /></td>
+						<td  style="font-size:smaller"><label style="width:15em;">Tel&eacutefono</label>
+						</td>
+						<td ><input type="text" style="width:200px"  id="zamba_index_33642" name="zamba_index_33642"/>
+						</td>						
+					</tr>
+		</table>
+
+<table cellpadding="4">
+<tr>
+	<td><label>Hora Desde:</label></td>
+	<td><input id="_33645" name="_33645" style="width:50px;" maxlength="5"  onkeyup="formatTime('_33645',2);" class="solonums"/>
+	<input type="text"  id="zamba_index_33645" name="zamba_index_33645" style="display:none"/></td>
+	<td><label>Hora Hasta:</label></td>
+	<td><input id="_33646" name="_33646" style="width:50px;" maxlength="5" onkeyup="formatTime('_33646',2);" class="solonums"/>
+	<input type="text"  id="zamba_index_33646" name="zamba_index_33646" style="display:none"/></td>
+</tr>
+</table>
+			<br />
+<table>
+	<tr>
+						<td><label>Observaciones:</label>
+
+						<br />
+						<TEXTAREA COLS=150 ROWS=10 id="zamba_index_64" name="zamba_index_64"></TEXTAREA></td> 
+				</tr>
+					<tr>
+					<input type="text" id="zamba_index_33610" name="zamba_index_33610" readonly="readonly" style="display:none;" class="readonly" size="50">
+				</tr>
+				<tr>
+					<input type="text" id="zamba_index_33622" name="zamba_index_33622" readonly="readonly" style="display:none;" class="readonly" size="50">
+				</tr>
+</table>	
+</div>
+	</div>
+				<div name="logocliente" id="logocliente">	
+					<img src="images/logocliente.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+         </form>
+         </div>
+     </body></html>
+

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="Zamba.Core.BaseWFNode">
+    <Position X="11" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.InitNode">
+    <Position X="17.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="13" Y="1.125" />
+        <Point X="18.5" Y="1.125" />
+        <Point X="18.5" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.WFNode">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="11" Y="0.812" />
+        <Point X="1.25" Y="0.812" />
+        <Point X="1.25" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.StepNode">
+    <Position X="2.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAAAgAAAAAgAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="11" Y="1.062" />
+        <Point X="3.5" Y="1.062" />
+        <Point X="3.5" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.TaskNode">
+    <Position X="5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="11" Y="1.375" />
+        <Point X="5.75" Y="1.375" />
+        <Point X="5.75" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.EditStepNode">
+    <Position X="7.25" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>kAEACgAAgBAAAAAAQAAABAUACwAAAACQKgEABAAAAIA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="11" Y="1.562" />
+        <Point X="8.125" Y="1.562" />
+        <Point X="8.125" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.RuleTypeNode">
+    <Position X="9" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAAAAAQAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="11" Y="1.688" />
+        <Point X="10" Y="1.688" />
+        <Point X="10" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.RuleNode">
+    <Position X="13.25" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAIAAAAEAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="13" Y="1.625" />
+        <Point X="14.125" Y="1.625" />
+        <Point X="14.125" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.FloatingNode">
+    <Position X="13.25" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAIAAAAEAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.RightNode">
+    <Position X="15.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true">
+      <Path>
+        <Point X="13" Y="1.438" />
+        <Point X="16.25" Y="1.438" />
+        <Point X="16.25" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Zamba.Core.MonitorStepNode">
+    <Position X="19.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>WF\WFNodes.vb</FileName>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAEAAAAQAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <InheritanceLine Type="Zamba.Core.BaseWFNode" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13" Y="0.812" />
+        <Point X="20.438" Y="0.812" />
+        <Point X="20.438" Y="6.75" />
+      </Path>
+    </InheritanceLine>
+    <Lollipop Position="0.2" />
+  </Class>
+</ClassDiagram>

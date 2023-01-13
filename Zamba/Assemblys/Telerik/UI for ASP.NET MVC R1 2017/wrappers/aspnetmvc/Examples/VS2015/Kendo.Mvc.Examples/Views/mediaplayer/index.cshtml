@@ -1,0 +1,12 @@
+<div class="demo-section k-content wide" style="max-width: 644px;">
+    @(Html.Kendo().MediaPlayer()
+            .AutoPlay(true)
+            .Navigatable(true)
+            .Media(m => m
+                .Title("Recap of Progress Ringing The Bell at Nasdaq (2016)")
+                .Source("https://www.youtube.com/watch?v=tc3xhD24iTU")
+            )
+            .Name("mediaPlayer")
+            .HtmlAttributes(new { style = "height:360px" })
+    )
+</div> 

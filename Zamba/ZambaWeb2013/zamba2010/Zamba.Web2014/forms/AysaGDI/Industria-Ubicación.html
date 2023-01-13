@@ -1,0 +1,1058 @@
+<html>
+<head>
+    <title>Industria</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="Scripts/Aysa.js"></script>	
+
+    <script type="text/javascript" language="JavaScript">
+        //Ezequiel: Funcion que selecciona automaticamente los valores relacionados en dos indices
+        function AssociateIndexs(index1, index2) {
+            $("#" + index1).change(
+                    function() {
+                        $("#" + index2 + " option").each(
+                          function() {
+                              if ($(this).val().trim() == $("#" + index1 + " option:selected").val().trim()) {
+                                  $(this).attr("selected", "selected");
+                              }
+                          }
+                       );
+                        $("#" + index2).valid();
+                    }
+                );
+        }
+
+        //Función que evalua si habilitar o no un control en base a uno o dos valores
+        function ConditionalEnable(ObjSource, ObjDestiny, Value, Value2) {
+            if ($("#" + ObjSource).val() == Value || (Value2 != undefined && $("#" + ObjSource).val() == Value2)) {
+
+                //Quita la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).removeClass("disable");
+                $("#" + ObjDestiny).valid();
+                //Habilita el datepicker
+                $("#" + ObjDestiny).datepicker("enable");
+                //Muestra el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).show();
+                $("#" + ObjDestiny).attr('disabled', '');
+
+//                if ($("#" + ObjDestiny).datepicker("option", "disabled") === undefined) {
+//                    $("#" + ObjDestiny).attr('disabled', 'disabled');
+//                }
+            }
+            else {
+                $("#" + ObjDestiny).attr('disabled', 'disabled');
+                $("#" + ObjDestiny).val("");
+                if($("#" + ObjDestiny)[0].length > 1)
+                {
+					var i;
+					for(i = 0; i < $("#" + ObjDestiny)[0].length;i++)
+						if($("#" + ObjDestiny)[0][i].innerHTML == "A Definir")
+							$("#" + ObjDestiny)[0][i].selected = true;
+						else
+							$("#" + ObjDestiny)[0][i].selected = false;
+                }
+                //document.getElementById("ObjDestiny").selectedIndex = -1;
+                //Agrega la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).addClass("disable");
+                $("#" + ObjDestiny).valid();
+                //Oculta el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).hide();
+                //deshabilita el datepicker
+                $("#" + ObjDestiny).datepicker("disable");
+                $("#" + ObjDestiny).change();
+            }
+        }
+
+        //Crea las validaciones de los campos
+        function makerequired() {
+            $('#aspnetForm').validate(
+				{
+				    onsubmit: false,
+				    ignore: ".disable",
+				    rules: {
+				        //Region
+				        zamba_index_1181: {
+				            required: true,
+				            digits: true
+				        },
+				        //Distrito
+				        zamba_index_1183: {
+				            required: true,
+				            digits: true
+				        },
+				        //Calle
+				        zamba_index_1192: {
+				            required: true,
+				            maxlength: 50
+				        },
+				        //Num
+				        zamba_index_1193: {
+				            required: true,
+				            maxlength: 5,
+				            digits: true
+				        },
+				        //Localidad
+				        zamba_index_1202: {
+				            required: true,
+				            maxlength: 30
+				        },
+				        //Cod.Region
+				        zamba_index_1221: {
+				            required: true,
+				            digits: true
+				        },
+				        //Cod.Distrito
+				        zamba_index_1222: {
+				            required: true,
+				            digits: true
+				        },
+				        //Calle Alternativa 1
+				        zamba_index_1194: {
+				            maxlength: 50
+				        },
+				        //Num alternativo 1
+				        zamba_index_1198: {
+				            maxlength: 5,
+				            digits: true
+				        },
+				        //Calle Alternativa 2
+				        zamba_index_1195: {
+				            maxlength: 50
+				        },
+				        //Num alternativo 2
+				        zamba_index_1199: {
+				            maxlength: 5,
+				            digits: true
+				        },
+				        //Calle Alternativa 3
+				        zamba_index_1196: {
+				            maxlength: 50
+				        },
+				        //Num alternativo 3
+				        zamba_index_1200: {
+				            maxlength: 5,
+				            digits: true
+				        },
+				        //Calle Alternativa 4
+				        zamba_index_1197: {
+				            maxlength: 50
+				        },
+				        //Num alternativo 4
+				        zamba_index_1201: {
+				            maxlength: 5,
+				            digits: true
+				        },
+				        //Codigo postal
+				     //   zamba_index_1203: {
+				      //      required: true,
+				       //     maxlength: 10
+				     //   },
+				        //Fecha baja
+				        zamba_index_1215: {
+				            maxlength: 10,
+				            date: true
+				        }
+				    },
+				    messages: {
+				        //Cod.Region
+				        zamba_index_1221: {
+				            required: "Es necesario una region valida.",
+				            digits: "Es necesario una region valida."
+				        },
+				        //Region
+				        zamba_index_1181: {
+				            required: "Es necesario una region valida.",
+				            digits: "Es necesario una region válida."
+				        },
+				        //Cod.Distrito
+				        zamba_index_1222: {
+				            required: "Es necesario un distrito valido.",
+				            digits: "Es necesario un distrito valido."
+				        },
+				        //Distrito
+				        zamba_index_1183: {
+				            required: "Es necesario un distrito valido.",
+				            digits: "Es necesario un distrito valido."
+				        },
+				        //Calle
+				        zamba_index_1192: {
+				            required: "Es necesario una calle.",
+				            maxlength: "Se ha exedido el limite de 50 caracteres."
+				        },
+				        //Num
+				        zamba_index_1193: {
+				            required: "Es necesario un numero de calle.",
+				            maxlength: "Se ha exedido el limite de 5 caracteres.",
+				            digits: "Debe ingresar solo numeros."
+				        },
+				        //Calle Alternativa 1
+				        zamba_index_1194: {
+				            maxlength: "Se ha exedido el limite de 50 caracteres."
+				        },
+				        //Num alternativo 1
+				        zamba_index_1198: {
+				            maxlength: "Se ha exedido el limite de 5 caracteres.",
+				            digits: "Debe ingresar solo numeros."
+				        },
+				        //Calle Alternativa 2
+				        zamba_index_1195: {
+				            maxlength: "Se ha exedido el limite de 50 caracteres."
+				        },
+				        //Num alternativo 2
+				        zamba_index_1199: {
+				            maxlength: "Se ha exedido el limite de 5 caracteres.",
+				            digits: "Debe ingresar solo numeros."
+				        },
+				        //Calle Alternativa 3
+				        zamba_index_1196: {
+				            maxlength: "Se ha exedido el límite de 50 caracteres."
+				        },
+				        //Num alternativo 3
+				        zamba_index_1200: {
+				            maxlength: "Se ha exedido el limite de 5 caracteres.",
+				            digits: "Debe ingresar solo numeros."
+				        },
+				        //Calle Alternativa 4
+				        zamba_index_1197: {
+				            maxlength: "Se ha exedido el limite de 50 caracteres."
+				        },
+				        //Num alternativo 4
+				        zamba_index_1201: {
+				            maxlength: "Se ha exedido el limite de 5 caracteres.",
+				            digits: "Debe ingresar solo numeros."
+				        },
+				        //Localidad
+				        zamba_index_1202: {
+				            maxlength: "Se ha exedido el limite de 30 caracteres.",
+				            required: "Es necesario una localidad."
+				        },
+				        //Codigo postal
+				       // zamba_index_1203: {
+				      //      maxlength: "Se ha exedido el limite de 10 caracteres.",
+				      //      required: "Es necesario un codigo postal."
+				     //   },
+				        //Fecha baja
+				        zamba_index_1215: {
+				            maxlength: "Se ha exedido el limite de 10 caracteres.",
+				            date: "Debe ingresar una fecha."
+				        }
+				    }
+				}
+				);
+        }
+
+        function ajustarselects() {
+            if ($.browser !=undefined && $.browser.msie) {
+                $('select').each(function() {
+                    if ($(this).attr('multiple') == false) {
+                        $(this).mousedown(function() {
+                            if ($(this).css("width") != "auto") {
+                                var width = $(this).width();
+                                $(this).data("origWidth", $(this).css("width")).css("width", "auto");
+
+                                // If the width is now less than before then undo 
+                                if ($(this).width() < width) {
+                                    $(this).unbind('mousedown');
+                                    $(this).css("width", $(this).data("origWidth"));
+                                }
+                            }
+                        })
+
+                        // Handle blur if the user does not change the value 
+                .blur(function() {
+                    $(this).css("width", $(this).data("origWidth"));
+                })
+
+                        // Handle change of the user does change the value 
+                .change(function() {
+                    $(this).css("width", $(this).data("origWidth"));
+                });
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            //	$("#zamba_index_1181 option").each(function() {
+            //  alert($(this).val() + " - " + $(this).text());
+            //});  
+
+            ajustarselects();
+            makeCalendar('zamba_index_1215');
+            makerequired();
+            AssociateIndexs("zamba_index_1181", "zamba_index_1221");
+            AssociateIndexs("zamba_index_1221", "zamba_index_1181");
+            AssociateIndexs("zamba_index_1183", "zamba_index_1222");
+            AssociateIndexs("zamba_index_1222", "zamba_index_1183");
+            AssociateIndexs("zamba_index_1260", "zamba_index_1259");
+            AssociateIndexs("zamba_index_1259", "zamba_index_1260");
+            $("#zamba_rule_7915").click(ValidateBeforeSave);
+
+
+            //ConditionalEnable("zamba_index_1219", "zamba_index_1210", "00");
+            //$("#zamba_index_1219").change(function() {
+            //    ConditionalEnable("zamba_index_1219", "zamba_index_1210", "00");
+            //});
+
+            //document.getElementById("ctl00_ContentPlaceHolder_InsertControl_btn_insertar").onclick = ValidateBeforeSave;
+			LoadLoadingRuleButtons();
+			$("#zamba_rule_7915").attr('value','Siguiente');
+
+            var tempValue = $("#zamba_index_1222").val();
+            var tempValue3 = $("#zamba_index_1259").val();
+            var tempValue2 = $("#zamba_index_1183").val();
+            var tempValue4 = $("#zamba_index_1260").val();
+			var tempValue5 = $("#zamba_index_1261").val();
+			var tempValue6 = $("#zamba_index_1262").val();
+            Temp_SaveData();
+            Temp_ChangeCbox(document.getElementById('zamba_index_1221'));
+//            $("#zamba_index_1222").val(tempValue);
+//            $("#zamba_index_1259").val(tempValue3);
+//            $("#zamba_index_1183").val(tempValue2);
+//            $("#zamba_index_1260").val(tempValue4);
+            /////////Temporal Modifid: 15-11-2011
+            $("#zamba_index_1222").change(LoadAsociateSelectGestion);
+            $("#zamba_index_1183").change(LoadAsociateSelectGestion);
+            $("#zamba_index_1261").change(LoadCodPatido);
+            $("#zamba_index_1262").change(LoadPartidoByCodPartido);
+			
+			
+			$("#zamba_index_1222").val(tempValue);
+            $("#zamba_index_1259").val(tempValue3);
+            $("#zamba_index_1183").val(tempValue2);
+            $("#zamba_index_1260").val(tempValue4);
+            LoadPartido();
+			$("#zamba_index_1261").val(tempValue5);
+			$("#zamba_index_1262").val(tempValue6);
+            /////////
+
+        });
+
+        function ValidacionPersonalizada(evt) {
+            var isValid = true;
+            //Recorro elementos del fieldset validando si se completaron
+            $('.GeneralFormControl').each(function(i, item) {
+                if (!$(item).valid()) {
+                    isValid = false;
+                }
+            });
+
+
+            if (!isValid) {
+                evt.preventDefault();
+            }
+            else {
+                document.getElementById('TAB').tabber.tabShow(1);
+            }
+        }
+
+		var itemToScroll = null; 
+        function ValidateBeforeSave(evt) {
+
+			var NumCall = $("#zamba_index_1193").val();
+			var CallDesde = $("#zamba_index_1263").val();
+			var CallHasta = $("#zamba_index_1264").val();
+			if (CallDesde != null && CallHasta != null && !(parseInt(NumCall) >= parseInt(CallDesde) && parseInt(NumCall) <= parseInt(CallHasta)))
+			{
+				alert('La altura debe estar entre los valores ' + CallDesde + ' y ' + CallHasta);
+				setTimeout("parent.hideLoading();", 1000);
+				evt.preventDefault();
+			}
+            var isValid = true;
+            var tabIndex = 0;
+			
+            //Recorro elementos del fieldset validando si se completaron
+            $('.GeneralFormControl').each(function(i, item) {
+                if (!$(item).valid()) {
+                    isValid = false;
+					if(itemToScroll === null)
+						itemToScroll = $(item);
+                }
+            });     
+
+			if(itemToScroll != null){
+				$.scrollTo(itemToScroll,600);
+				setTimeout("itemToScroll.focus();itemToScroll=null;",600);
+			}
+
+			if (!isValid) {
+			    setTimeout("parent.hideLoading();", 1000);
+			    evt.preventDefault();
+			}
+			else {
+			    ConvertToUpperForm();
+			    document.getElementById("hdnRuleId").name = "zamba_rule_7915";
+			}
+        }
+
+        ////////////Estas funciones son temporalres
+        var temp_ArrayData;
+        var temp_ArrayDataCod;
+        var temp_ArrayDataCodGest;
+        function Temp_SaveData() {
+            temp_ArrayData = $("#zamba_index_1183 option");
+            temp_ArrayDataGest = $("#zamba_index_1260 option");
+            temp_ArrayDataCod = $("#zamba_index_1222 option");
+            temp_ArrayDataCodGest = $("#zamba_index_1259 option");
+            //alert(temp_ArrayData.length);
+//            $("#zamba_index_1183").html("");
+//            $("#zamba_index_1183").html('<option value="">A Definir</option>');
+//            
+//            $("#zamba_index_1260").html("");
+//            $("#zamba_index_1260").html('<option value="">A Definir</option>');
+
+//            $("#zamba_index_1222").html("");
+//            $("#zamba_index_1222").html('<option value="">A Definir</option>');
+//            
+//            $("#zamba_index_1259").html("");
+
+//            //Modify 15-11-2011
+//            $("#zamba_index_1259").html('<option value="" selected="selected">A Definir</option>');
+//            $("#zamba_index_1259").html('<option value="" selected="selected">A Definir</option>');
+            
+        }
+
+        function Temp_ShowData(val) {
+            //alert(temp_ArrayData[i].innerHTML);
+            //alert(temp_ArrayData[i].value);
+
+            var html = "";
+            var valueArray;
+            switch (val) {
+                case "1":
+                    for (var i = 0; i < temp_ArrayData.length; i++) {
+                        valueArray = temp_ArrayData[i].value;
+                        if (valueArray == "101" || valueArray == "102" || valueArray == "103" || valueArray == "201" || valueArray == "202" || valueArray == "203")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayData[i].text + '</option>';
+
+                    }
+                    break;
+                case "2":
+                    for (var i = 0; i < temp_ArrayData.length; i++) {
+                        valueArray = temp_ArrayData[i].value;
+                        if (valueArray == "116" || valueArray == "118" || valueArray == "154" || valueArray == "141" || valueArray == "136")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayData[i].text + '</option>';
+                    }
+                    break;
+                case "3":
+                    for (var i = 0; i < temp_ArrayData.length; i++) {
+                        valueArray = temp_ArrayData[i].value;
+                        if (valueArray == "006" || valueArray == "069" || valueArray == "301")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayData[i].text + '</option>';
+                    }
+                    break;
+                case "4":
+                    for (var i = 0; i < temp_ArrayData.length; i++) {
+                        valueArray = temp_ArrayData[i].value;
+                        if (valueArray == "076" || valueArray == "003" || valueArray == "161" || valueArray == "130")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayData[i].text + '</option>';
+                    }
+                    break;
+                case "5":
+                    for (var i = 0; i < temp_ArrayData.length; i++) {
+                        valueArray = temp_ArrayData[i].value;
+                        if (valueArray == "155" || valueArray == "086" || valueArray == "166" || valueArray == "157")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayData[i].text + '</option>';
+                    }
+                    break;
+                case "0":
+                    for (var i = 0; i < temp_ArrayData.length; i++) {
+                        valueArray = temp_ArrayData[i].value;
+                        if (valueArray == "000")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayData[i].text + '</option>';
+                    }
+                    break;
+
+                case "":
+                    //html = '<option value="">A Definir</option>';
+                    break;
+            }
+            html = '<option value="">A Definir</option>' + html;
+
+
+
+
+            return html;
+
+        }
+
+
+        function Temp_ShowDataCod(val) {
+            //alert(temp_ArrayData[i].innerHTML);
+            //alert(temp_ArrayData[i].value);
+
+            var html = "";
+            var valueArray;
+            switch (val) {
+                case "1":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "101" || valueArray == "102" || valueArray == "103" || valueArray == "201" || valueArray == "202" || valueArray == "203")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+
+                    }
+                    break;
+                case "2":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "116" || valueArray == "118" || valueArray == "154" || valueArray == "141" || valueArray == "136")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "3":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "006" || valueArray == "069" || valueArray == "301")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "4":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "076" || valueArray == "003" || valueArray == "161" || valueArray == "130")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "5":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "155" || valueArray == "086" || valueArray == "166" || valueArray == "157")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+                case "0":
+                    for (var i = 0; i < temp_ArrayDataCod.length; i++) {
+                        valueArray = temp_ArrayDataCod[i].value;
+                        if (valueArray == "000")
+                            html += '<option value="' + valueArray + '">' + temp_ArrayDataCod[i].text + '</option>';
+                    }
+                    break;
+
+                case "":
+                    //html = '<option value="">A Definir</option>';
+                    break;
+            }
+
+            html = '<option value="">A Definir</option>' + html;
+
+
+            return html;
+
+        }
+
+
+
+        function Temp_ChangeCbox(ctl) {
+            var id = ctl.id == undefined ? $(ctl).attr("id") : ctl.id.toString();
+            var objSelected = $("#" + id + " option:selected");
+            //alert(objSelected.text());
+            //alert(objSelected.val());
+            var html = Temp_ShowData(objSelected.val());
+            $("#zamba_index_1183").html(html);
+            var html = Temp_ShowData(objSelected.val());
+            $("#zamba_index_1260").html(html);
+            var html = Temp_ShowDataCod(objSelected.val());
+            $("#zamba_index_1222").html(html);
+            var html = Temp_ShowDataCod(objSelected.val());
+            $("#zamba_index_1259").html(html);
+            LoadPartido();
+
+        }
+
+
+
+        function LoadPartido() {
+            //alert("load partido");
+            var id_distrito = $("#zamba_index_1222").val();
+            var html = '<option value="">A Definir</option>';
+            switch (id_distrito) {
+                case "000":
+                    $("#zamba_index_1262").html(html+'<option value="000">000</option>');
+                    $("#zamba_index_1261").html(html + '<option value="000">Fuera del área de concesión</option>');
+                    break;
+                case "003":
+                    $("#zamba_index_1262").html(html + '<option value="3">3</option>');
+                    $("#zamba_index_1261").html(html + '<option value="3">ALMIRANTE BROWN</option>');
+                    break;
+                case "006":
+                    $("#zamba_index_1262").html(html + '<option value="4">4</option>');
+                    $("#zamba_index_1261").html(html + '<option value="4">AVELLANEDA</option>');
+                    break;
+                case "069":
+                    $("#zamba_index_1262").html(html + '<option value="25">25</option>');
+                    $("#zamba_index_1261").html(html + '<option value="25">LANUS</option>');
+                    break;
+                case "076":
+                    $("#zamba_index_1262").html(html + '<option value="63">63</option>');
+                    $("#zamba_index_1261").html(html + '<option value="63">LOMAS DE ZAMORA</option>');
+                    break;
+                case "086":
+                    //html = "";
+                    html += '<option value="101">101</option>';
+                    html += '<option value="135">135</option>';
+                    html += '<option value="136">136</option>';
+
+                    $("#zamba_index_1262").html(html);
+                    html = '<option value="">A Definir</option>';
+                    html += '<option value="101">MORON</option>';
+                    html += '<option value="135">HURLINGHAM</option>';
+                    html += '<option value="136">ITUZAINGO</option>';
+
+                    $("#zamba_index_1261").html(html);
+                    break;
+                case "101":
+                case "102":
+                case "103":
+                    $("#zamba_index_1262").html(html + '<option value="990">990</option>');
+                    $("#zamba_index_1261").html(html + '<option value="990">CAPITAL FEDERAL</option>');
+                    break;
+                case "116":
+                    $("#zamba_index_1262").html(html + '<option value="96">96</option>');
+                    $("#zamba_index_1261").html(html + '<option value="96">SAN FERNANDO</option>');
+                    break;
+                case "118":
+                    $("#zamba_index_1262").html(html + '<option value="97">97</option>');
+                    $("#zamba_index_1261").html(html + '<option value="97">SAN ISIDRO</option>');
+                    break;
+                case "130":
+                    $("#zamba_index_1262").html(html + '<option value="130">130</option>');
+                    $("#zamba_index_1261").html(html + '<option value="130">EZEIZA</option>');
+                    break;
+                case "136":
+                    $("#zamba_index_1262").html(html + '<option value="57">57</option>');
+                    $("#zamba_index_1261").html(html + '<option value="57">TIGRE</option>');
+                    break;
+                case "141":
+                    $("#zamba_index_1262").html(html + '<option value="110">110</option>');
+                    $("#zamba_index_1261").html(html + '<option value="110">VICENTE LOPEZ</option>');
+                    break;
+                case "154":
+                    $("#zamba_index_1262").html(html + '<option value="47">47</option>');
+                    $("#zamba_index_1261").html(html + '<option value="47">SAN MARTIN</option>');
+                    break;
+                case "155":
+                    $("#zamba_index_1262").html(html + '<option value="70">70</option>');
+                    $("#zamba_index_1261").html(html + '<option value="70">LA MATANZA</option>');
+                    break;
+                case "157":
+                    $("#zamba_index_1262").html(html + '<option value="117">117</option>');
+                    $("#zamba_index_1261").html(html + '<option value="117">TRES DE FEBRERO</option>');
+                    break;
+                case "160":
+                    $("#zamba_index_1262").html(html + '<option value="70">70</option>');
+                    $("#zamba_index_1261").html(html + '<option value="70">LA MATANZA</option>');
+                    break;
+                case "161":
+                    //html = "";
+                    html += '<option value="30">30</option>';
+                    html += '<option value="130">130</option>';
+                    $("#zamba_index_1262").html(html);
+
+                    html = '<option value="">A Definir</option>';
+                    html += '<option value="30">ESTEBAN ECHEVERRIA</option>';
+                    html += '<option value="130">EZEIZA</option>';
+                    $("#zamba_index_1261").html(html);
+                    break;
+                case "166":
+                    $("#zamba_index_1262").html(html + '<option value="70">70</option>');
+                    $("#zamba_index_1261").html(html + '<option value="70">LA MATANZA</option>');
+                    break;
+                case "201":
+                case "202":
+                case "203":
+                    $("#zamba_index_1262").html(html + '<option value="990">990</option>');
+                    $("#zamba_index_1261").html(html + '<option value="990">CAPITAL FEDERAL</option>');
+                    break;
+                case "301":
+                    $("#zamba_index_1262").html(html + '<option value="86">86</option>');
+                    $("#zamba_index_1261").html(html + '<option value="86">QUILMES</option>');
+                    break;
+                case "":
+                    $("#zamba_index_1262").html(html + '<option value="">A Definir</option>');
+                    $("#zamba_index_1261").html(html + '<option value="">A Definir</option>');
+                    break;
+                default:
+                    $("#zamba_index_1262").html(html + '<option value=""></option>');
+                    $("#zamba_index_1261").html(html + '<option value=""></option>');
+                    break;
+            }
+
+        }
+
+        function LoadCodPatido() {
+            $("#zamba_index_1262").val($("#zamba_index_1261").val());
+        }
+
+        function LoadPartidoByCodPartido() {
+            $("#zamba_index_1261").val($("#zamba_index_1262").val());
+        }
+
+        function LoadAsociateSelectGestion() {
+            //Cargamos los partidos asociados
+            LoadPartido();
+
+            //Cargamos el codigo de distrito gestion a partir del cbox de gestion
+            SelectCodDistritoGestionByGestion();
+
+            //Cargamos el distrito gestion a partir del cbox de gestion
+            SelectDistritoGestionByGestion();
+        }
+
+        function SelectCodDistritoGestionByGestion() {
+            $("#zamba_index_1259").val($("#zamba_index_1222").val());
+        }
+
+        function SelectDistritoGestionByGestion() {
+            $("#zamba_index_1260").val($("#zamba_index_1222").val());
+        }
+
+        function LoadCodDistritoGestionByGestion() {
+            $("#zamba_index_1259").val($("#zamba_index_1260").val());
+        }
+
+        function LoadGestionByCodDistritoGestion() {
+            $("#zamba_index_1260").val($("#zamba_index_1259").val());
+        }
+        
+        function ExecuteRule(RuleId){
+        if (RuleId == 7859 && (document.getElementById("zamba_index_1221").value == null || document.getElementById("zamba_index_1222").value == null || document.getElementById("zamba_index_1262").value == null || document.getElementById("zamba_index_1221").value == '' || document.getElementById("zamba_index_1222").value == '' || document.getElementById("zamba_index_1262").value == ''))
+             {
+             alert('Deben estar completos los campos Region, Distrito y Partido.');
+             }
+             else if (RuleId == 7835 && (document.getElementById("zamba_index_1221").value == null || document.getElementById("zamba_index_1222").value == null || document.getElementById("zamba_index_1262").value == null || document.getElementById("zamba_index_1221").value == '' || document.getElementById("zamba_index_1222").value == '' || document.getElementById("zamba_index_1262").value == '' || document.getElementById("zamba_index_1202").value == '' || document.getElementById("zamba_index_1202").value == null))
+             {
+                  alert('Deben estar completos los campos Region, Distrito, Partido y Localidad.');
+             }
+             else {
+			parent.ShowLoadingAnimation();
+			document.getElementById("hdnRuleId").name = "zamba_rule_" + RuleId;
+			$('#aspnetForm').submit();
+			}
+		}
+        
+        
+        //Funciones agregadas 23-11-2011
+        function ConvertToUpperForm() {
+            $('.ConvertToUpper').each(function(i, item) {
+                var cadena = $(item).val();
+                cadena = cadena.toUpperCase();
+                $(item).val(cadena);
+            });
+        }
+		
+    </script>
+
+    <style type="text/css">
+        .style1
+        {
+            width: 119px;
+        }
+        .style2
+        {
+            width: 178px;
+        }
+		.linkCursor
+		{
+			cursor:pointer;
+		}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <form id="frmMain" name="frmMain" method="post" action="">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <input id="zamba_index_1265" name="zamba_index_1265" size="30" style="display:none;"/>
+        <div id="dynamic_filter">
+        </div>
+        <div name="design" id="design">
+            <strong>Industria<br/>Datos Generales</strong>
+        </div>
+        <div name="floatleft" id="floatleft">
+            <div id="TAB" class="tabber" style="">
+                <div class="tabbertab" id="General">
+                    <h2>
+                        Ubicaci&oacuten
+                    </h2>
+                            <div class="tabber">
+                                <div class="tabbertab">
+                                    <h2>
+                                        Inf. General</h2>
+                                    <table cellpadding="4">
+                                        <tr>
+                                            <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Cod Region:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1221" name="zamba_index_1221" style="width: 184px" class="GeneralFormControl" onchange="Temp_ChangeCbox(this)">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Region:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1181" name="zamba_index_1181" style="width: 184px" class="GeneralFormControl" onchange="Temp_ChangeCbox(this)">
+                                                </select>
+                                            </td>
+                                            <td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Cod Distrito:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1222" name="zamba_index_1222" style="width: 184px;" class="GeneralFormControl">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Distrito:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1183" name="zamba_index_1183" style="width: 184px;" class="GeneralFormControl">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                          <tr>
+                                            <td>
+                                                <label>
+                                                    Cod Distrito Gestion:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1259" name="zamba_index_1259" style="width: 184px;" class="GeneralFormControl">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    Distrito Gestion:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1260" name="zamba_index_1260" style="width: 184px;" class="GeneralFormControl">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>&nbsp;&nbsp;
+                                                    Cod Partido:</label>
+                                            </td>
+                                            <td>
+                                                <select id="zamba_index_1262" name="zamba_index_1262" style="width: 184px;" class="GeneralFormControl">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <label>&nbsp;&nbsp;
+                                                    Partido:</label>
+                                            </td>
+                                            <td>
+												<select id="zamba_index_1261" name="zamba_index_1261" style="width: 184px;" 
+                                                    class="GeneralFormControl">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Localidad:</label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1202" name="zamba_index_1202" size="30" onkeypress="return ValidateLength(this, 30);"
+                                                    class="GeneralFormControl ConvertToUpper" style="background: silver;" readonly="true"/>
+												<img id="Img1" onclick="ExecuteRule(7859);" style="height: 16px; margin-left:10px;" alt="Filtrar" src="../../forms/images/UI_blue/search.gif" class="linkCursor"/>
+                                            </td>
+                                            <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Calle:</label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1192" name="zamba_index_1192" size="30" onkeypress="return ValidateLength(this, 50);"
+                                                    class="GeneralFormControl ConvertToUpper" style="background: silver;" readonly="true"/>
+												<img id="table_filter_1192" onclick="ExecuteRule(7835);" style="height: 16px; margin-left:10px;" alt="Filtrar" src="../../forms/images/UI_blue/search.gif" class="linkCursor"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>
+                                                <label style="color: Red">
+                                                    *
+                                                </label>
+                                                <label>
+                                                    Numero:</label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1193" name="zamba_index_1193" size="10" onkeypress="return (ValidateLength(this, 5) && KeyIsValid(event,'numeric'));"
+                                                    class="GeneralFormControl" /> <label>   Desde:</label>  <input id="zamba_index_1263" name="zamba_index_1263" readonly="readonly" size="5" /><label>   Hasta:</label>  <input id="zamba_index_1264" name="zamba_index_1264" readonly="readonly" size="5" />
+                                            </td>
+                                          
+                                            <td>
+                                                <label>
+                                                    Contacto:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1191" name="zamba_index_1191" size="30" class="ConvertToUpper"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Telefono:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1190" name="zamba_index_1190" size="30" />
+                                            </td>
+                                              <td>
+                                                <label style="display:none;">
+                                                    Cod. Postal:</label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1203" name="zamba_index_1203" style="display:none;" size="30" onkeypress="return ValidateLength(this, 10);"
+                                                    class="GeneralFormControl ConvertToUpper" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="tabbertab">
+                                    <h2>
+                                        Direcciones alternativas</h2>
+                                    <table cellpadding="4">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Calle Alternativa 1:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1194" name="zamba_index_1194" size="30" onkeypress="return ValidateLength(this, 50);" />
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    Numero Alternativo 1:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1198" name="zamba_index_1198" size="30" onkeypress="return (ValidateLength(this, 5) && KeyIsValid(event,'numeric'));" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Calle Alternativa 2:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1195" name="zamba_index_1195" size="30" onkeypress="return ValidateLength(this, 50);" />
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    Numero Alternativo 2:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1199" name="zamba_index_1199" size="30" onkeypress="return (ValidateLength(this, 5) && KeyIsValid(event,'numeric'));" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Calle Alternativa 3:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1196" name="zamba_index_1196" size="30" onkeypress="return ValidateLength(this, 50);" />
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    Numero Alternativo 3:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1200" name="zamba_index_1200" size="30" onkeypress="return (ValidateLength(this, 5) && KeyIsValid(event,'numeric'));" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Calle Alternativa 4:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1197" name="zamba_index_1197" size="30" onkeypress="return ValidateLength(this, 50);" />
+                                            </td>
+                                            <td>
+                                                <label>
+                                                    Numero Alternativo 4:
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="zamba_index_1201" name="zamba_index_1201" size="30" onkeypress="return (ValidateLength(this, 5) && KeyIsValid(event,'numeric'));" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        Documentacion</h2>
+                    <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule" value="Agregar Documentacion" name="zamba_rule_8062"/> 
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion asociada a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+				</br>
+                <div name="logoAysa" id="logoAysa">
+                    <img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+                </div>
+                <div name="logozamba" id="logozamba">
+                    <img src="Content/Images/pwbyzamba.jpg">
+                </div>
+                <div name="alignleft" id="alignleft">
+					<input id="zamba_rule_7915" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule" value="Agregar" name="zamba_rule_7915"/>  
+				</div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

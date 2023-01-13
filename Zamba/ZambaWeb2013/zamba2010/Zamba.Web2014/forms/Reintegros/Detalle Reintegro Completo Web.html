@@ -1,0 +1,533 @@
+<html>
+<head>
+    <title>Detalle</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet" />
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet" />
+    <link href="demo_table.css" rel="stylesheet" type="text/css" />
+    <link href="demo_page.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="jquery.validate.min.js"></script>
+    <script type="text/javascript" src="jquery.decimalMask.1.1.1.min.js"></script>
+    
+    <script type="text/javascript" src="jquery.dataTables.js"></script>
+    <script type="text/javascript" src="jquery.scrollTo.js"></script>
+
+    <script type="text/javascript" language="JavaScript">
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'both',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: "",
+                    maxDate: '+0d',
+                    dateFormat: 'dd/mm/yy',
+                    constrainInput: true
+                });
+            });
+        }
+
+        function MakeCalendarAfterValue(idSource, idDestiny) {
+            var mindate = $("#" + idSource).val().split("/");
+            $('#' + idDestiny).datepicker("option", "minDate", new Date(mindate[2], mindate[1] - 1, mindate[0]));
+        }
+
+        //Ezequiel: Funcion que selecciona automaticamente los valores relacionados en dos indices
+        function AssociateIndexs(index1, index2) {
+            $("#" + index1).change(
+                    function () {
+                        $("#" + index2 + " option").each(
+                          function () {
+                              if ($(this).val().trim() == $("#" + index1 + " option:selected").val().trim()) {
+                                  $(this).attr("selected", "selected");
+                              }
+                          }
+                       );
+                        $("#" + index2).valid();
+                    }
+                );
+        }
+
+        //Función que evalua si habilitar o no un control en base a uno o dos valores
+        function ConditionalEnable(ObjSource, ObjDestiny, Value, Value2) {
+            if ($("#" + ObjSource).val() == Value || (Value2 != undefined && $("#" + ObjSource).val() == Value2)) {
+
+                //Quita la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).removeClass("disable");
+                $("#" + ObjDestiny).removeClass("ReadOnly");
+                $("#" + ObjDestiny).valid();
+                //Habilita el datepicker
+                $("#" + ObjDestiny).datepicker("enable");
+                //Muestra el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).show();
+                $("#" + ObjDestiny).attr('disabled', '');
+            }
+            else {
+                $("#" + ObjDestiny).attr('disabled', 'disabled');
+                $("#" + ObjDestiny).val("");
+                if ($("#" + ObjDestiny)[0].length > 1) {
+                    var i;
+                    for (i = 0; i < $("#" + ObjDestiny)[0].length; i++)
+                        if ($("#" + ObjDestiny)[0][i].innerHTML == "A Definir")
+                            $("#" + ObjDestiny)[0][i].selected = true;
+                        else
+                            $("#" + ObjDestiny)[0][i].selected = false;
+                }
+                //Agrega la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).addClass("disable");
+                $("#" + ObjDestiny).addClass("ReadOnly");
+                $("#" + ObjDestiny).valid();
+                //Oculta el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).hide();
+                //deshabilita el datepicker
+                $("#" + ObjDestiny).datepicker("disable");
+                $("#" + ObjDestiny).change();
+            }
+        }
+
+        //Crea las validaciones de los campos
+        function makerequired() {
+            $('#aspnetForm').validate(
+				{
+				    onsubmit: false,
+				    ignore: ".disable",
+				    rules: {
+				        //Razon social
+				        zamba_index_26028: {
+				            required: true,
+				            maxlength: 150
+				        }
+				    },
+				    messages: {
+				        //Tipo de industria
+				        zamba_index_26028: {
+				            required: "Debe seleccionar el Titular.",
+				            digits: "Debe seleccionar el Titular."
+				        }
+				    }
+				}
+				);
+        }
+
+        function ajustarselects() {
+            if ($.browser !=undefined && $.browser.msie) {
+                $('select').each(function () {
+                    if ($(this).attr('multiple') == false) {
+                        $(this).mousedown(function () {
+                            if ($(this).css("width") != "auto") {
+                                var width = $(this).width();
+                                $(this).data("origWidth", $(this).css("width")).css("width", "auto");
+
+                                // If the width is now less than before then undo 
+                                if ($(this).width() < width) {
+                                    $(this).unbind('mousedown');
+                                    $(this).css("width", $(this).data("origWidth"));
+                                }
+                            }
+                        })
+
+                        // Handle blur if the user does not change the value 
+                .blur(function () {
+                    $(this).css("width", $(this).data("origWidth"));
+                })
+
+                        // Handle change of the user does change the value 
+                .change(function () {
+                    $(this).css("width", $(this).data("origWidth"));
+                });
+                    }
+                });
+            }
+        }
+
+        function ValidacionPersonalizada(evt) {
+            var isValid = true;
+            //Recorro elementos del fieldset validando si se completaron
+            $('.GeneralFormControl').each(function (i, item) {
+                if (!$(item).valid()) {
+                    isValid = false;
+                }
+            });
+
+
+            if (!isValid) {
+                evt.preventDefault();
+            }
+            else {
+                $('#TAB').tabber.tabShow(1);
+            }
+        }
+
+        var itemToScroll = null;
+        function ValidateBeforeSave() {
+
+            var isValid = true;
+            var tabIndex = 0;
+
+            //Recorro elementos del fieldset validando si se completaron
+            $('.GeneralFormControl').each(function (i, item) {
+                if (!$(item).valid()) {
+                    isValid = false;
+                    if (itemToScroll === null)
+                        itemToScroll = $(item);
+                }
+            });
+
+            if (itemToScroll != null) {
+                $.scrollTo(itemToScroll, 600);
+                setTimeout("itemToScroll.focus();itemToScroll=null;", 600);
+            }
+
+            if (!isValid) {
+                $('#TAB').tabber.tabShow(tabIndex);
+                setTimeout("parent.hideLoading();", 1000);
+            }
+            else {
+                ConvertToUpperForm();
+                __doPostBack('ctl00$ContentPlaceHolder$InsertControl$btn_insertar', '');
+            }
+        }
+
+        //Funciones agregadas 15-11-211
+
+        function GetCurrentDate() {
+
+            var myDate = new Date();
+            var d = myDate.getDate() + '/' + (myDate.getMonth() + 1) + '/' + myDate.getFullYear();
+            //Asignamos a fecha de alta el valor actual
+            $("#zamba_index_26028").val(d);
+        }
+
+        function SelectActiveState() {
+//            var option = $("#zamba_index_1211").find("option[value='Activa']");
+//            if (option != null)
+//                option.attr("selected", "selected");
+        }
+
+        //Funciones agregadas 23-11-2011
+
+        function ConvertToUpperForm() {
+//            $('.ConvertToUpper').each(function (i, item) {
+//                var cadena = $(item).val();
+//                cadena = cadena.toUpperCase();
+//                $(item).val(cadena);
+//            });
+        }
+        
+		function SetRuleId(sender) {
+			$("#hdnRuleId").name = sender.id;
+			frmMain.submit();
+		}
+		
+		function SetAsocId(sender) {
+			$("#hdnAsocId").name = sender.id;
+			frmMain.submit();
+		}
+		
+		function zamba_save_onclick() {
+
+		}
+
+		function dateToString(date) {
+			var dia = date.split("/")[0];
+			var mes = date.split("/")[1];
+			var ano = date.split("/")[2];
+
+			dia = format(dia);
+			mes = format(mes);
+
+			return ano + mes + dia;
+		}
+
+		function format(txt) {
+			if (txt.length == 1) txt = "0" + txt;
+
+			return txt;
+		}
+		
+		//Función que evalua si habilitar o no un control en base a uno o dos valores(evalua por distinto)
+        function ConditionalEnableFalse(ObjSource, ObjDestiny, Value, Value2) {
+            if ($("#" + ObjSource).val() != Value && !(Value2 != undefined && $("#" + ObjSource).val() != Value2)) {
+
+                //Quita la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).removeClass("readOnly");
+                $("#" + ObjDestiny).valid();
+                //Habilita el datepicker
+                $("#" + ObjDestiny).datepicker("enable");
+                //Muestra el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).show();
+                $("#" + ObjDestiny).attr('readOnly', '');
+
+                if ($("#" + ObjDestiny).datepicker("option", "disabled") === undefined) {
+                    $("#" + ObjDestiny).attr('disabled', 'disabled');
+                }
+            }
+            else {
+                $("#" + ObjDestiny).attr('readOnly', 'readOnly');
+                $("#" + ObjDestiny).val("");
+                //Agrega la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).addClass("readOnly");
+                $("#" + ObjDestiny).valid();
+                //Oculta el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).hide();
+                //deshabilita el datepicker
+                $("#" + ObjDestiny).datepicker("disable");
+            }
+        }
+
+		$(document).ready(function() {
+
+			// Valida solo numericos
+			// Agregar class="solonum" a todos los inputs que se quieran validar
+			$(".solonums").each(function() {
+				$(this).keypress(function(e) {
+					if (e.which != 8 && e.which != 0 && e.which != 45 && e.which != 44 && (e.which < 48 || e.which > 57)) {
+						return false;
+					}
+				})
+			});
+
+			//    ajustarselects();
+			//makeCalendar('zamba_index_26326');
+
+			ChangeMaxColor();
+			SetDayOrAmount();
+			ConditionalEnableFalse("zamba_index_26457", "zamba_index_33647", "");
+		});
+
+		function ChangeMaxColor() {
+			var resultString = $("#zamba_index_33738").val();
+
+			if (resultString.toLowerCase().indexOf("supera") != -1) {
+				$("#zamba_index_33738").css("background-color", "ffdddd");
+				$("#zamba_index_33738").css("color", "#880f0f");
+				return;
+			}
+
+			if (resultString.toLowerCase().indexOf("dentro") != -1) {
+				$("#zamba_index_33738").css("background-color", "#ddffdd");
+				$("#zamba_index_33738").css("color", "#0f880f");
+				return;
+			}
+
+			$("#zamba_index_33738").css("background-color", "white");
+		}
+		
+		function SetDayOrAmount(){
+		    if($("#zamba_ASOC_33087_index_33740").val() == '' || $("#zamba_ASOC_33087_index_33740").val() == ' '){
+		        $("#zamba_index_33742").attr("readOnly","readOnly");
+				$("#zamba_index_33742").addClass("readOnly");		        
+		    }
+		    else{
+		        $("#zamba_index_33742").removeAttr("readOnly");
+				$("#zamba_index_33742").removeClass("readOnly");
+		    }
+		    
+		    if($("#zamba_ASOC_33087_index_33737").val() == '' || $("#zamba_ASOC_33087_index_33737").val() == ' '){
+		        $("#zamba_index_33741").attr("readOnly","readOnly");
+				$("#zamba_index_33741").addClass("readOnly");
+		    }
+		    else{
+		        $("#zamba_index_33741").removeAttr("readOnly");
+				$("#zamba_index_33741").removeClass("readOnly");
+		    }
+		}
+    </script>
+</head>
+<body>
+    <div id="container">
+        <form name="frmMain" method="post">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div id="design">
+            <strong>Reintegro</strong>
+        </div>
+        <br />
+        <div class="tabber">
+            <div class="tabbertab">
+                <h2>
+                    Informaci&oacute;n</h2>
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                PSC Nro:
+							</label>
+                        </td>
+                        <td>
+                            <input name="zamba_index_26450" id="zamba_index_26450" style="width: 250px" 
+								readonly="readonly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Titular:
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26314" id="zamba_index_26314" style="width: 250px" 
+								readOnly="readOnly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo Prestacion:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26232" name="zamba_index_26232" style="width: 250px" 
+								readOnly="readOnly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Beneficiario:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26321" name="zamba_index_26321" style="width: 250px" 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo de Comprobante:</label>
+                        </td>
+                        <td>
+                            <input name="zamba_index_26325" id="zamba_index_26325" style="width: 250px" 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Nro de Comprobante:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26323" name="zamba_index_26323" style="width: 250px" 
+                            readonly="readonly" maxlength="10" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fecha del Comprobante:</label>
+                        </td>
+                        <td>
+                            <input id="zamba_index_26326" name="zamba_index_26326" style="width: 250px 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Importe:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width:250px" 
+                            readonly="readonly" class="ReadOnly"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Reintegro Obra Social:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33730" name="zamba_index_33730" style="width: 250px;"
+                                class="solonums ReadOnly" />
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Importe a Reintegrar:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26457" name="zamba_index_26457" style="width: 250px"
+                                class="solonums ReadOnly" readOnly="readOnly" />
+                            <input id="zamba_rule_59646" type="submit" style="text-align: center; margin-right: 25px;"
+                                class="submit" value="Calcular Importe y Tope" name="zamba_rule_59646" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Importe Reintegrado:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33647" name="zamba_index_33647" style="width: 250px"
+                                class="solonums" />
+                            <input id="zamba_rule_59591" type="submit" style="text-align: center; margin-right: 25px;"
+                                class="submit" value="Recalcular tope" name="zamba_rule_59591" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Cantidad:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33742" name="zamba_index_33742" style="width: 250px;"
+                                class="solonums" />
+                            <input type="text" id="zamba_ASOC_33087_index_33740" name="zamba_ASOC_33087_index_33740" style="width: 250px;display:none"
+                                class="solonums" /> 
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Dias:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33741" name="zamba_index_33741" style="width: 250px;"
+                                class="solonums" />
+                            <input type="text" id="zamba_ASOC_33087_index_33737" name="zamba_ASOC_33087_index_33737" style="width: 250px;display:none"
+                                class="solonums" /> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Estado de Tope:</label>
+                        </td>
+                        <td colspan="4">
+                            <input type="text" id="zamba_index_33738" name="zamba_index_33738" style="width: 500px;
+                                color: Red" readOnly="readOnly" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+			<div class="tabbertab">
+				<h2>
+					Historial
+				</h2>
+				<span>
+					Historial de prestaciones reintegradas del beneficiario:
+				</span>
+				<table style="width: 90%;">
+					<tr>
+						<td>
+							<table class="tablesorter" id="zamba_associated_documents_26037">
+								<tbody>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<br/>
+        <div id="aligncenter">
+            <input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />
+        </div>
+        </form>
+    </div>
+</body>
+</html>

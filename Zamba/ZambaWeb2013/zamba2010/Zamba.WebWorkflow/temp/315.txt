@@ -1,0 +1,41 @@
+Codigo
+
+------
+
+
+<div id="ShowNews" runat="server" visible="false" style=" background-color:Activeborder;border:solid 1px black;position:absolute;width:400px;height:350px; top:20%; left:30%; vertical-align:middle;font-family: 'Arial'; font-size:small; font-weight:normal; font-style: normal; font-variant: normal; text-transform: none; color: #FF0000">
+  <table width="100%">
+  <tr>
+  <td style="padding-top:15px;padding-left:10px;padding-right:10px" align="center" valign="top">
+  <div style="height:280px;overflow:auto;width:100%">
+  <asp:Label ID="NewsTitle" runat="server" Font-Bold="true" Font-Size="Small" ForeColor="#3333cc" Font-Underline="true"></asp:Label>
+  <br />
+  <div style="text-align:left;padding-top:15px">
+  <asp:Label ID="NewsMsg" runat="server" Font-Size="Small" ForeColor="Black"></asp:Label>
+  </div>
+  </div>
+  </td>
+  </tr>
+  </table>
+    <br />
+    <div style="text-align:center">
+  <asp:Button ID="btnCloseNews" runat="server" Text="Cerrar" />
+  </div>
+  </div>
+
+
+-------
+
+
+
+
+        private void ViewNews(object sender, EventArgs e)
+        {
+            if (CurrentNews.Count > 0)
+            {
+                int Id = Convert.ToInt32(((LinkButton)sender).ID) - 1;
+                this.NewsTitle.Text = CurrentNews[Id].Split('@')[1];
+                this.NewsMsg.Text = CurrentNews[Id].Split('@')[2];
+                this.ShowNews.Visible = true;
+            }
+        }

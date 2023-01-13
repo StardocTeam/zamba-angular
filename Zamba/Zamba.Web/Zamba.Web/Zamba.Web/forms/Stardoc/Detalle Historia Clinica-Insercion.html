@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+ </head>
+
+ <body>
+     <center>
+             <div ng-controller="appController">
+                 <div class="form-group row"></div>
+                 <div class="col">
+
+                     <form name="frmMain" action="Detalle Historia Clinica-Insercion.html">
+
+                         <input id="hdnRuleId" type="hidden" />
+                         <input id="hdnAsocId" type="hidden" />
+
+                         <nav class="navbar navbar-default" role="navigation">
+						 <div class="navbar-header">
+					     <a class="navbar-brand" >HC - Detalle</a>
+						 </div>
+ 						 <div class="collapse navbar-collapse navbar-ex1-collapse">
+					     </div>
+						 </nav>
+
+                         <div class="container">
+
+                            <center>
+                                 <div class="tab-content">
+                                     <div class="tab-pane fade in active" id="detalle">
+                                         <div class="form-group row">
+                                             <div class="PanelPrincipal">
+                                                 <div class="form-group row">
+                                                     <div class="col-md-9"></div>
+                                                     <div class="col-md-3">
+                                                         <div class="form-group row">
+                                                             <div class="col-md-12">
+                                                                 <div class="input-group">
+                                                                      <span class="input-group-addon">Nro de Legajo:</span>
+                                                                         <input id="zamba_index_139591" name="zamba_index_139591" class="form-control input-sm" style="font-weight:600;" disabled />
+                                                                 </div>
+                                                             </div>                                                  
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 
+                                              
+                                                 <div class="form-group row">
+                                                        <div class="col-md-3">
+                                                                <div class="input-group">
+                                                                    <!--Caratula--> <span class="input-group-addon">Fecha:</span>
+																	<input id="zamba_index_139607" name="zamba_index_139607" class="form-control input-sm datetime" />
+                                                                </div>
+                                                            </div>
+															
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Caratula--> <span class="input-group-addon">Documento:</span>
+                                                             <input id="zamba_index_139594" name="zamba_index_139594" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+													 
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Caratula--> <span class="input-group-addon">Profesional:</span>
+                                                             <input id="zamba_index_139602" name="zamba_index_139602" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                                                                  
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Siniestro--> <span class="input-group-addon">Tipo Detalle:</span>
+															 <input id="zamba_index_139605" name="zamba_index_139605" class="form-control input-sm" style="font-weight:600;">
+                                                           </div>
+                                                     </div>
+
+                                                
+
+                                                 <div class="form-group row"></div>
+                                                 <div class="col-lg-12">
+                                                    <div class="input-group">
+                                                        <!--Asegurado--> <span class="input-group-addon">Detalle:</span>
+                                                        <input id="zamba_index_139604" name="zamba_index_139604" rows="3" class="form-control input-sm" style="font-weight:600;" />
+                                                    </div>
+                                                </div>
+												</div>
+                                            
+                                            </div>
+
+                                             <div class="form-group row">
+                                                <div class="col-xs-12 col-md-12 ">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <!--Area texto Observacion-->
+                                                             <div id="appObservaciones" ng-controller="ObservacionController">
+                                                             <zamba-observaciones index-id="139606" entity-id="139086"></zamba-observaciones>
+                                                             </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												
+                                               
+                                     <!--botones guardar y cancelar-->
+						 <div align=right>
+                                        <input id="zamba_rule_165585" onclick="SetRuleId(this);" class="btn btn-primary margenBtn" type="submit" value="Guardar" name="zamba_rule_165585" />
+                                        <input id="zamba_cancel" class="btn btn-primary margenBtn" type="submit" value="Cancelar" name="zamba_cancel" />
+                    </div>
+					
+					<!--Imagen del footer-->
+                        <div class="form-group row">
+                            <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+                            <center>
+                                <div class="col-md-10">
+                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                    <div class="form-group row">
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+
+                                                                       
+                                                                                      
+                         </div>
+
+                     </form>    
+                 </div>
+           
+                            
+</body>
+</html>
+
+

@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+
+	</head>
+
+<body>
+    <form name="frmMain" action="Ing_RRHH_ING.html">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <input id="hdnCount" type="hidden" />
+
+        <div class="container-fluid">
+            <center>
+                <h5>INGRESO LEGAJOS RRHH</h5>
+            </center>
+            <div class="tab-pane active" id="INGRESO LEGAJOS RRHH">
+                <div class="form-group row">
+                    <div class="PanelPrincipal">
+
+                        <div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro de Legajo-->                              <span class="input-group-addon" style="font-weight:600">N° Leg:</span>
+                                    <input id="zamba_index_235" name="zamba_index_235" size="1" class="form-control" disabled />
+                                    <span class="input-group-btn">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <!--Nro de Documento-->                         <select class="btn btn-default Inputselect" id="zamba_index_108" name="zamba_index_108" style="font-weight:600"> </select>
+                                    </div>
+                                    <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <!--<div class="col-md-4">
+                                <div class="input-group">
+                                    Tipo Doc RRHH
+                                    <span class="input-group-addon">Tipo Doc RRHH:</span>
+                                    <select id="zamba_index_234" name="zamba_index_234" size="1" class="form-control input-sm"></select>
+                                </div>
+                            </div>-->
+
+
+
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <!--Nombre Apellido-->                             <span class="input-group-addon" style="font-weight:600">Nombre y Apellido:</span>
+                                    <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control" disabled />
+                                    <span class="input-group-btn">
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-6 ">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!--Area texto Observacion-->
+                                    <div id="appObservaciones" ng-controller="ObservacionController">
+                                        <zamba-observaciones index-id="84" entity-id="234"></zamba-observaciones>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row">
+                                <!--div class="col-xs-12" >
+                                    <--Cedula>
+                                    <h5 align="center">Ingrese la Cedula de Notificacion:</h5>
+                                </div-->
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12" style=" margin-top: 37px; width: 92%;">
+                                    <!--DropZone
+                                    <div id="appblankID" ng-controller="appController">-->
+                                    <div >
+                                        <div ng-controller="appController">
+                                            <zamba-drop id="108" IndexIds="234">  </zamba-drop>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div id="tblObervaciones" class="attributes_table">
+                    <div class="form-group row">
+                        <center>
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                        </center>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5 col-sm-5">
+                            <textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_84" name="zamba_index_84" readonly="readonly"></textarea>
+                        </div>
+                        <div class="col-md-5">
+                                                      <div style="position:relative; right: 85px"></div>
+                                <zamba-drop id="108" IndexIds="234">  </zamba-drop>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+
+
+                    <center>
+
+                        <!--Botones FORM-->
+                        <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Guardar">
+                        <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                    </center>
+
+
+
+                    <div class="tab-pane" id="Documentacion">
+                        <h5>Legajos</h5>
+                        <div class="tablesorter" id="zamba_associated_documents_108">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                        </div>
+                        <div class="col-md-10"></div>
+                        <div class="col-md-1">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!--IMPORTANTE  cambiar version al modificar formulario-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <span class="colorVersion"> V. 4.6.6.6 </span>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            //angular.element(document).ready(function () {
+            //angular.bootstrap(document.getElementById('myBenefAppID'), ['myBenefApp']);
+            ////angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+            //angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+                                //}
+        </script>
+
+        <!--</div>
+        </div>-->
+    </form>
+</body>
+</html>
+
+

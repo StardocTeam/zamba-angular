@@ -1,0 +1,56 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UCAverageTimeInStepsByStep.ascx.cs"
+    Inherits="UserControls_UCAverageTimeInSteps_UCAverageTimeInStepsByStep" %>
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<table>
+    <tr>
+        <td>
+            <asp:Label runat="server" ID="Label2" Text="Workflow:" Font-Size="XX-Small" />
+        </td>
+        <td>
+            <asp:DropDownList ID="cmbWorkflows" runat="server" AutoPostBack="true" Width="145px"
+                OnSelectedIndexChanged="cmbWorkflows_SelectedIndexChanged" Font-Size="XX-Small">
+            </asp:DropDownList></td>
+    </tr>
+    <tr>
+        <td>
+            <asp:Label runat="server" ID="Label1" Text="Etapa:" Font-Size="XX-Small" />
+        </td>
+        <td>
+            <asp:DropDownList ID="cmbEtapas" runat="server" Width="145px" Font-Size="XX-Small">
+            </asp:DropDownList></td>
+    </tr>
+    <tr>
+        <td style="width: 9px">
+        </td>
+        <td>
+            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" /></td>
+    </tr>
+    <tr>
+        <td>
+            <asp:RadioButton ID="rdbVerGrafico" runat="server" Checked="True" Text="Ver Gráfico" Font-Size="XX-Small" />
+        </td>
+        <td>
+            <asp:RadioButton ID="rdbVerTabla" runat="server" Text="Ver Tabla" Font-Size="XX-Small" /></td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td>
+            <rsweb:ReportViewer ID="rpvAverageTimeInSteps" runat="server" ShowFindControls="False"
+                ShowPageNavigationControls="False" Font-Names="Verdana" Font-Size="8pt" Height="400px"
+                Width="400px">
+                <LocalReport ReportPath="Reports\rptAverageTimeInSteps.rdlc">
+                </LocalReport>
+            </rsweb:ReportViewer>
+        </td>
+        <td>
+            <rsweb:ReportViewer ID="rpvGrdAverageTimeInSteps" runat="server" Font-Names="Verdana"
+                Font-Size="8pt" Height="400px" ShowFindControls="False" ShowPageNavigationControls="False"
+                Width="400px">
+                <LocalReport ReportPath="Reports\RptGrdAverageTimeInSteps.rdlc">
+                </LocalReport>
+            </rsweb:ReportViewer>
+        </td>
+    </tr>
+</table>

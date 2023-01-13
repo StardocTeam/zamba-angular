@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+    <style>
+        /* latin */
+        @font-face {
+            font-family: 'Libre Barcode 39';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Libre Barcode 39 Regular'), local('LibreBarcode39-Regular'), url(https://fonts.gstatic.com/s/librebarcode39/v8/-nFnOHM08vwC6h8Li1eQnP_AHzI2G_Bx0g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'IDAutomationHC39M';
+            src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+        }
+
+        .codebar39 {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 48px;
+        }
+    </style>
+</head>
+
+<body>
+    <form name="frmMain" action="Nuevo_Despacho_Ing.html">
+        <center>
+            <div>
+                <div ng-controller="appController">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container-fluid">
+                        <center>
+                           
+                                <div class="form-group row">
+                                     <div class="col-md-9">
+									<ul class=" nav nav-tabs">
+										<li class=" active"><a href="#Nuevo" data-toggle="tab">Nuevo Despacho</a></li>
+										<!-- <li><a href="#Solicitud" data-toggle="tab"></a>Solicitud</li>-->
+									</ul>
+									</div>
+                                   <!-- <div class="col-md-3">
+                                        <input id="nroguiaBC" class="form-control input-sm dataType length" style="font-family:'IDAutomationHC39M';font-size: 16pt;text-align: center;height: 40px;background: none; border: none" readonly="readonly">
+                                    </div> -->
+                                   
+                                </div>
+                                <div class="PanelPrincipal">
+                                    
+                                  
+                                            <!-- <div class="form-group row">
+                                                <div class="col-md-9"></div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group"> -->
+                                                        <!--Guia-->                                  		
+														<!-- <span class="input-group-addon">Nro Guia:</span>
+                                                        <input id="zamba_index_139614" name="zamba_index_139614" size="1" class="form-control input-sm" /> 
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+
+                                            <div class="form-group row">
+                                                <div class="col-md-3" id="heralchical">
+                                                    <div class="input-group" ng-controller="ZambaHerarchicalTagsController" ng-init="setChildList(139600)">
+													
+                                                        <!--CUIT Despachante-->  
+														<span class="input-group-addon">CUIT Despachante</span>
+                                                        <input id="zamba_index_139600" name="zamba_index_139600" class="form-control" />
+                                                    </div>
+                                                </div>
+												
+												
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <!--Despachante Nombre-->                                  		
+														<span class="input-group-addon">Despachante Nombre:</span>
+                                                        <select id="zamba_index_139645" name="zamba_index_139645" childindexid="149651" size="1" class="form-control input-sm" /></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Recepcion / Fecha-->   	
+														<span class="input-group-addon" style="padding:3px;">Fecha de Creacion</span>
+                                                        <input id="zamba_index_10589" name="zamba_index_10589" class="form-control input-sm dateTimeToday" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+												<div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--N° Despacho-->                                  		
+														<span class="input-group-addon">N° Despacho:</span>
+                                                        <input id="zamba_index_139548" name="zamba_index_139548" size="1" class="form-control input-sm" type="text"  />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <!--Seleccion Impo/Expo-->                                  		
+														<span class="input-group-addon">Impo/Expo</span>
+                                                        <select id="zamba_index_149651" name="zamba_index_149651" class="form-control withcode"> </select>
+                                                    </div>
+                                                </div>                                               
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Tipo Despacho-->                                  		
+														<span class="input-group-addon">Tipo Despacho:</span>
+                                                        <select id="zamba_index_139588" name="zamba_index_139588" class="form-control"> </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <!--Codigo-->                     
+														<span class="input-group-addon">Codigo:</span>
+                                                        <select id="zamba_index_139603" name="zamba_index_139603" class="form-control withcode"> </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Fecha de Despacho-->
+                                                        <span class="input-group-addon">Fecha de Despacho:</span>
+                                                        <input id="zamba_index_139551" name="zamba_index_139551" size="1" class="form-control input-sm dataType datepicker" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--CUIT ATA-->                                  		
+														<span class="input-group-addon">Fecha Vto Embarque:</span>
+                                                        <input id="zamba_index_149662" name="zamba_index_149662" size="1" class="form-control input-sm dataType datepicker" autocomplete="off" />
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--CUIT ATA-->                                  		
+														<span class="input-group-addon">CUIT ATA:</span>
+                                                        <input id="zamba_index_1139" name="zamba_index_1139" size="1" class="form-control input-sm" onfocusout="validateCuit(event)" oninput="maxLengthCheck(this)" type="number" maxlength="11" min="00000000000" max="99999999999">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Doc. Transporte-->                                     		
+														<span class="input-group-addon">Doc. Transporte</span>
+                                                        <input id="zamba_index_139582" name="zamba_index_139582" class="form-control input-sm" />
+                                                    </div>
+                                                </div>
+												
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Monto FOB-->                                  		
+														<span class="input-group-addon">Monto FOB:</span>
+                                                        <input id="zamba_index_139559" name="zamba_index_139559" size="1" class="form-control input-sm"  />
+                                                    </div>
+                                                </div>
+												
+												<div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Nro Interno-->                                  		
+														<span class="input-group-addon">Nro Interno:</span>
+                                                        <input id="zamba_index_160660" name="zamba_index_160660" size="1" class="form-control input-sm" />
+                                                    </div>
+                                                </div>
+												
+                                                <!-- <div class="col-md-3">
+                                                    <div class="input-group"> -->
+                                                        <!--Nro de Interno-->                                  		
+														<!-- <span class="input-group-addon">Nro de Interno:</span>
+                                                        <input id="zamba_index_33705" name="zamba_index_33705" size="1" class="form-control input-sm" />
+                                                    </div>
+                                                </div> -->
+
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Nro Sigea-->                                  		
+														<span class="input-group-addon">Nro Sigea:</span>
+                                                        <input id="zamba_index_139578" name="zamba_index_139578" size="1" class="form-control input-sm" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Nro Factura-->                                  		
+														<span class="input-group-addon">Nro Factura:</span>
+                                                        <input id="zamba_index_139583" name="zamba_index_139583" size="1" class="form-control input-sm" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Aduanas-->                                  		
+														<span class="input-group-addon">Aduanas</span>
+                                                        <select id="zamba_index_139550" name="zamba_index_139550" class="form-control input-sm"> </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Estado del Despacho-->               	
+														<span class="input-group-addon">Estado del Despacho:</span>
+                                                        <input id="zamba_index_139638" name="zamba_index_139638" size="1" class="form-control input-sm" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row"></div>
+                                            <div class="form-group row"></div>
+
+                                            <div class="form-group row">
+                                                <div class="row">
+
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-9">
+
+                                                        <button name="zamba_save" id="zamba_save" style="display:none" onclick="SetRuleId(this);" class="btn-sm btn-primary">Guardar como borrador</button>
+                                                        
+														<button name="zamba_rule_187232" id="zamba_rule_187232" onclick="return zamba_save_onclick(this);" class="btn-sm btn-success">Dar de Alta</button>
+                                                        
+														<button name="zamba_close" id="zamba_close" style="display:none" onclick="SetRuleId(this);" class="btn-sm btn-primary">Cancelar</button>                                                         
+                                                        <button name="zamba_rule_165814" id="zamba_rule_165814" onclick="SetRuleId(this);" class="btn-sm btn-warning"  >Eliminar Despacho</button>
+														
+														<button name="zamba_rule_176194" id="zamba_rule_176194" style="display:none" onclick="SetRuleId(this);" class="btn-sm btn-danger">Retornar a Pend. Alta</button>                                                    
+														
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row"></div>
+                                            <div class="form-group row"></div>
+                                            <p></p>
+
+                                    <div class="form-group row"></div>
+                                    <div class="form-group row"></div>
+                                    <div class="form-group row"></div>
+                                    <div class="form-group row"></div>
+                                     <div class="row">
+                                    <center>
+                                        <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                            <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <span style="color:whitesmoke">Nuevo_Despacho_Ing_Comercial.html</span>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">
+                                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                            <div class="form-group row">
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                                </div>
+                            
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </center>
+
+        <script src="../../app/HerarchicalTags/CuitDespachante/Controller/CuitDespachanteController.js"></script>
+        <script src="../../app/HerarchicalTags/CuitDespachante/Service/CuitDespachanteService.js"></script>
+
+        <script>
+
+            function maxLengthCheck(object) {
+                if (object.value.length > object.maxLength)
+                    object.value = object.value.slice(0, object.maxLength)
+            }
+
+            angular.bootstrap(document.getElementById('heralchical'), ['ZambaHerarchicalTagsApp']);
+
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#nroguiaBC").val("(" + $("#zamba_index_139614").val() + ")");
+				$("#zamba_index_160660").attr("readonly", false);
+				$("#zamba_index_160660").prop( "disabled", false );
+            });
+			<!-- Permite alinear el boton "Eliminar" en la misma linea del resto de los botones -->			
+			setTimeout (function(){ 
+			
+			$("#zamba_rule_165814").css("display","inline")
+			}, 2000)
+			
+
+        </script>
+
+        <!--<script>
+                function soloLetras(e) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toLowerCase();
+            letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+            especiales = [8, 37, 39, 46];
+
+            tecla_especial = false
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+
+            if (letras.indexOf(tecla) == -1 && !tecla_especial)
+                return false;
+        }
+
+        function limpia() {
+            var val = document.getElementById("zamba_index_0").value;
+            var tam = val.length;
+            for (i = 0; i < tam; i++) {
+                if (!isNaN(val[i]))
+                    document.getElementById("zamba_index_0").value = '';
+            }
+        }
+    </script>-->
+
+        <script>
+            function zamba_save_onclick(sender) {
+                var valido = false;
+                var currentDate = new Date();
+
+                try {
+                    if (document.getElementById("zamba_index_1139").value == ""
+                        && document.getElementById("zamba_index_1139").value.length < 11
+                        && document.getElementById("zamba_index_1139").value.length > 0) {
+                        swal("", "Por favor, El campo CUIT debe tener 11 digitos");
+                        valido = false;
+                    } else if (document.getElementById("zamba_index_149651").value == "" || document.getElementById("zamba_index_149651").value == "A definir") {
+                        swal("", "Por favor, Seleccione Impo/Expo");
+                        valido = false;
+                    } else if (document.getElementById("zamba_index_139548").value == "") {
+                        swal("", "Por favor,Ingrese El Numero de Despacho");
+                        valido = false;
+
+                    } else if (document.getElementById("zamba_index_139588").value == "" || document.getElementById("zamba_index_139588").value == "A Definir") {
+                        swal("", "Por favor, Seleccione el Tipo de Despacho");
+                        valido = false;
+                    } else if (document.getElementById("zamba_index_139603").value == "" || document.getElementById("zamba_index_139603").value == "A Definir") {
+                        swal("", "Por favor,Ingrese un codigo");
+                        valido = false;
+                    } else {
+                        SetRuleId(sender);
+                        valido = true;
+                    }
+                }
+                catch (ex) {
+                    swal("", "Por favor, verificar los datos ingresados");
+                    console.log(ex);
+                }
+                return valido;
+            }
+
+            function validateCuit(e) {
+                var value = e.target.value;
+                if (String(value).length < 11 && String(value).length > 0 && value != null) {
+                    swal("", "El campo CUIT debe tener 11 digitos", "warning");
+                    return;
+                }
+            }
+			 $(document).ready(function () {
+			 $("#zamba_index_139559").on({
+                        "focus": function (event) {
+                            $(event.target).select();
+                        },
+                        "focusout": function (event) {
+                            var target = event.target;
+                            if (target != undefined) {
+                                var targetId = target.getAttribute("id");
+                                if (targetId != undefined) {
+                                    if ($("#" + targetId).val() != '') {
+                                        var indexValue = parseFloat(target.value.replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+                                        $("#" + targetId).val(String(indexValue.toFixed(2)).replace('.', ',')
+                                            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
+                                    }
+                                }
+                            }
+                        }
+                    });
+			var total =  parseFloat($("#zamba_index_139559").val());
+           $("#zamba_index_139559").val(String(total.toFixed(2)).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));			
+			if( $("#zamba_index_139559").val() == 'NaN') {
+			$("#zamba_index_139559").val('');
+			} 
+			 });
+
+        </script>
+
+    </form>
+</body>
+
+
+</html>
+
+<style>
+    .Inputselect {
+        width: 190px !important;
+    }
+
+    .Inputselect2 {
+        width: 65px;
+        position: relative;
+        left: 8px;
+    }
+
+    .Inputselect3 {
+        width: 70px !important;
+    }
+
+
+    .Inputselect4 {
+        width: 200px !important;
+    }
+
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+	
+	
+</style>

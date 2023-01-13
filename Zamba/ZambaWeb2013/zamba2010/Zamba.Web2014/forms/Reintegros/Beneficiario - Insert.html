@@ -1,0 +1,241 @@
+<html>
+	<head>
+		<title>Titular</title>			
+		
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/thickbox.css" />	
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/jquery-ui-1.8.6.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWeb.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWebTables.css" />
+    <link rel="stylesheet" type="text/css" href="Content/Styles/jq_datepicker.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/GridThemes/WhiteChromeGridView.css" />	
+    <link rel="stylesheet" type="text/css" href="Content/Styles/tabber.css" media="screen"/>       
+        
+     
+    <script type="text/javascript" src="scripts/jquery-ui-1.8.6.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.layout-latest.js"></script>
+    <script type="text/javascript" src="scripts/jq_datepicker.js"></script>
+    <script type="text/javascript" src="scripts/Zamba.js"></script>   
+    
+    <script type="text/javascript" src="scripts/thickbox-compressed.js"></script>   
+    
+    <script type="text/javascript" src="scripts/jquery.validate.min.js"></script>  
+    
+    <script type="text/javascript" src="scripts/jquery.validate.min.js"></script>
+    
+				
+		<script type="text/javascript" language="JavaScript">	
+			function SetRuleId(sender)
+			{
+				$("#hdnRuleId").name = sender.id;               
+				frmMain.submit();
+			}
+			
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+
+			$(document).ready(function() {
+			    DeleteData();
+			    SetType();
+			    ajustarselects();
+			});
+
+			function SetType() {
+			    if ($("#zamba_index_26314").val() != '' && ($("#zamba_index_26324").val() == '' || $("#zamba_index_26324").val() == ' ')) {
+			        $("#zamba_index_26324").html('');
+			        var html = '<option value="2">Hijos</option>';
+			        html += '<option value="3">Padres</option>';
+			        html += '<option value="5">Esposo/a</option>';
+			        html += '<option value="4">Otros</option>';
+			        $("#zamba_index_26324").html(html);
+			    }
+			}
+			
+			function ajustarselects() {
+				if ($.browser !=undefined && $.browser.msie) {
+					$('select').each(function () {
+						if ($(this).attr('multiple') == false) {
+							$(this).mousedown(function () {
+								if ($(this).css("width") != "auto") {
+									var width = $(this).width();
+									$(this).data("origWidth", $(this).css("width")).css("width", "auto");
+
+									// If the width is now less than before then undo 
+									if ($(this).width() < width) {
+										$(this).unbind('mousedown');
+										$(this).css("width", $(this).data("origWidth"));
+									}
+								}
+							})
+
+							// Handle blur if the user does not change the value 
+					.blur(function () {
+						$(this).css("width", $(this).data("origWidth"));
+					})
+
+							// Handle change of the user does change the value 
+					.change(function () {
+						$(this).css("width", $(this).data("origWidth"));
+					});
+						}
+					});
+				}
+			}
+			
+			function DeleteData(){
+			    $("#zamba_index_26399").val("");
+			    $("#zamba_index_26324").val(' ');
+			    $("#zamba_index_26236").val(' ');
+			    $("#zamba_index_26248").val("");
+			    $("#zamba_index_26296").val("");
+			    $("#zamba_index_33744").val("");
+			}					
+		</script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Datos del Beneficiario</strong>
+				</div>
+				
+				<br />
+				
+				<div class="tabber">
+					<div class="tabbertab">
+						<table cellpadding="4">
+							<tr>
+								<td>
+									<label>
+										Titular:
+									</label>
+								</td>
+								<td colspan="3">
+									<input type="text" name="zamba_index_26314" id="zamba_index_26314" size="90" readonly="readonly"
+										class="ReadOnly"/>
+								</td>
+							</tr>
+							<tr>	
+								<td>
+									<label>
+										Nombre del beneficiario: 
+									</label>
+								</td>
+								<td>
+									<input type="text" name="zamba_index_26399" id="zamba_index_26399" size="20" style="width:200px;"/>
+								</td>								
+								
+							<tr>
+								<td>
+									<label>
+										Tipo Doc: 
+									</label>
+								</td>
+								<td>
+									<select name="zamba_index_26236" id="zamba_index_26236" style="width:200px;">
+									</select>
+								</td>
+								<td>
+									<label>
+										Nro. Doc: 
+									</label>
+								</td>
+								<td>
+									<input type="text" name="zamba_index_26248" id="zamba_index_26248" size="30" style="width:200px;"/>
+								</td>
+							</tr>
+							<tr>	
+															
+								<td>
+									&nbsp;</td>
+								<td>
+									&nbsp;</td>
+							</tr>
+							<tr>
+								<td>
+									<label>
+										Tel&eacutefono: 
+									</label>
+								</td>
+								<td>
+									<input name="zamba_index_26217" id="zamba_index_26217" size="20"  style="width:200px;"/>
+								</td>
+								<td>
+									<label>
+										Direccion: 
+									</label>
+								</td>
+								<td>
+									<input type="text" id="zamba_index_26216" name="zamba_index_26216" size="30" style="width:200px;"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>
+										Localidad: 
+									</label>
+								</td>
+								<td>
+									<input type="text" id="zamba_index_26215" name="zamba_index_26215" style="width:200px;"/></td>
+								<td>
+									<label>
+										Provincia: 
+									</label>
+									</td>
+								<td>
+									<select id="zamba_index_26283" name="zamba_index_26283" style="width:200px;">
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>
+										Cod.Postal: 
+									</label>
+								</td>
+								<td>
+									<input id="zamba_index_26285" name="zamba_index_26285" size="10" style="width:200px;"/>
+								</td>
+								<td>
+									<label>
+										Mail: 
+									</label>
+								</td>
+								<td>
+									<input id="zamba_index_26317" name="zamba_index_26317" size="10" style="width:200px;"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				
+					<div name="alignleft" id="alignleft">
+						<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/> 
+					</div>
+				</div>
+			</form>	
+		</div>
+	</body>
+</html>

@@ -1,0 +1,177 @@
+<html>
+	<head>
+		<title>Ingreso de Gasto</title>			
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+		
+			
+			$(document).ready(function()
+			{							
+			  
+				
+				// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Ingreso de Gasto</strong>
+				</div>
+				<br />
+				<center>
+				<table cellpadding="4">
+					<tr>
+						<td><label>ID Comprobante:</label></td>
+						<td><input type="text" id="zamba_index_26446" name="zamba_index_26446" style="width:280px;" disabled="disabled"/></td>
+						<td class="separador"></td>
+						<td><label>Tipo de Comprobante:</label></td>
+						<td><select name="zamba_index_26325" id="zamba_index_26325" style="width:280px;" ></select></td>
+					</tr>
+					<tr>
+						<td><label>Sucursal de Factura <b>*</b>:</label></td>
+						<td><input type="text" id="zamba_index_26433" name="zamba_index_26433" style="width:280px;" maxlength="4" class="solonums"/></td>
+						<td class="separador"></td>
+						<td><label>Nro de Comprobante <b>*</b>:</label></td>
+						<td><input type="text" id="zamba_index_26323" name="zamba_index_26323" style="width:280px;" maxlength="10" class="solonums"/></td>
+					</tr>
+					<tr>
+						<td><label>Moneda:</label></td>
+						<td><select type="text" id="zamba_index_26207" name="zamba_index_26207" style="width:280px;" ></select></td>		
+						<td class="separador"></td>
+						<td><label>Importe bruto total:</label></td>
+						<td><input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width:280px;" class="solonums"/></td>
+					</tr>
+					<tr>
+						<td><label>Global:</label></td>
+						<td><select name="zamba_index_26414" id="zamba_index_26414" style="width:50px;" ></select></td>
+						<td class="separador"></td>
+						<td><label>Beneficiario:</label></td>
+						<td><input name="zamba_index_26447" id="zamba_index_26447" style="width:280px;" disabled="disabled"></td>
+					</tr>
+
+					<tr>
+						<td><label>Fecha del Comprobante:</label></td>
+						<td><input id="zamba_index_26326" name="zamba_index_26326" style="width:280px;" /></td>
+						<td class="separador"></td>
+						<td><label>Fecha de ingreso:</label></td>
+						<td><input id="zamba_index_26327" name="zamba_index_26327" style="width:280px;" /></td>
+					</tr>
+					<tr>
+						<td><label>Empresa:</label></td>
+						<td><input type="text" id="zamba_index_26291" name="zamba_index_26291" style="width:280px;" /></td>
+						<td class="separador"></td>
+						<td><label>Sucursal:</label></td>
+						<td><input type="text" id="zamba_index_26290" name="zamba_index_26290" style="width:280px;" /></td>
+					</tr>
+					<tr>
+						<td><label>Rama:</label></td>
+						<td><select type="text" id="zamba_index_26294" style="width:280px;" name="zamba_index_26294" disabled="disabled"></select></td>
+						<td class="separador"></td>
+					</tr>
+					<tr>
+						<td><label>Codigo mayor auxiliar:</label></td>
+						<td><input type="text" id="zamba_index_26431" name="zamba_index_26431" style="width:280px;"/></td>
+						<td class="separador"></td>
+						<td><label>Nro mayor auxiliar:</label></td>
+						<td><input type="text" id="zamba_index_26432" name="zamba_index_26432" style="width:280px;" /></td>
+					</tr>
+					<tr>
+						<td><label>Copia u Original:</label></td>
+						<td><select name="zamba_index_26488" id="zamba_index_26488" style="width:280px;" ></select></td>
+						<td class="separador"></td>
+					</tr>
+					<tr>
+						<td><label>Nivel de Autorizacion:</label></td>
+						<td><input type="text" name="zamba_index_26494" id="zamba_index_26494" style="width:280px;" disabled="disabled"></input></td>
+						<td class="separador"></td>
+					</tr>
+					<tr>
+						<td><label>Autorizado:</label></td>
+						<td><input type="text" name="zamba_index_26413" id="zamba_index_26413" style="width:280px;" disabled="disabled"></input></td>
+						<td class="separador"></td>
+						<td><label>Pagado:</label></td>
+						<td><input  type="text" name="zamba_index_26415" id="zamba_index_26415" style="width:50px;" disabled="disabled"></input></td>
+					</tr>	
+					<tr>
+						<td><label>Nro Orden de Pago:</label></td>
+						<td><input name="zamba_index_26450" id="zamba_index_26450" style="width:280px;" disabled="disabled"></td>
+						<td class="separador"></td>
+						<td><label>Cotizacion:</label></td>
+						<td><input name="zamba_index_26443" id="zamba_index_26443" style="width:280px;" disabled="disabled"></td>
+					</tr>	
+					<tr>	
+									<td ><label>Hecho Generador: </label></td>
+									<td  colspan="3"><input type="text" id="zamba_index_26312" name="zamba_index_26312" size="50" readonly="true" class="readonly" /></td>
+					</tr>
+					<tr>	
+								<td ><label>Proveedor: </label></td>
+								<td colspan="3"><input type="text" id="zamba_index_26204" name="zamba_index_26204" size="50" readonly="true" class="readonly" /></td>
+							    </tr>
+					<tr>
+						<td><label>Obervaciones:</label></td>
+						<td colspan="4"><TEXTAREA COLS=125 ROWS=10 id="zamba_index_64" name="zamba_index_64"></TEXTAREA></td> 
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><label><b>(*) Campos obligatorios.</label></td>
+						<td></td>
+						<td class="separador"></td>
+						<td></td>
+						<td></td>
+					</tr>	
+					
+				</table>
+				</center>
+				<br />
+				<center>
+				<div name="aligncenter" id="aligncenter">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"  onclick="return zamba_save_onclick()" /> 
+				</div>
+				<br /><hr />
+				<table style="width: 96%;">
+					<caption>Items del Gasto</caption>
+					<tr>
+						<td>
+                            <div style="overflow:auto; width: 900px">
+                                <table class="tablesorter" id="zamba_associated_documents_26046">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+</td>
+					</tr>
+				</table>
+				<br />
+				<iframe id="zamba_innerdoctype_original" height="90%" title="Documento Original" width="96%"                                                                                                                                                                      ></iframe>
+				</center>
+				<br />
+				<div name="logoUnion" id="logoUnion">	
+					<img src="//srvflow2/ZambaVolumenes/Produccion/templates/images/Union.jpg" align="left" height=50 width=70>
+				</div>
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>
+			</form>						
+		</div>
+	</body>
+</html>

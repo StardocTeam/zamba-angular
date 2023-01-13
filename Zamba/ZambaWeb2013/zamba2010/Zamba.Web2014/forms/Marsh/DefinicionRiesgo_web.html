@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<title>Definici&oacute;n de Riesgo</title>		
+        <!--
+        ID Form:
+        Fecha de Creacion:
+        Autor de Creacion:
+        Modificacion:
+        Fecha de ultima Modificacion:06-11-2012
+        Autor de ultima Modificacion:GustavoR
+        Modificacion:Se agregaron los Atributos: Sector y Rama y se modifico la posición y tamaño del campo Observaciones
+    -->
+
+	
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
+        }
+
+        function zamba_save_onclick() {
+            document.getElementById("hdnRuleId").name = "zamba_rule_save";
+        }
+
+        $(document).ready(function () {
+            makeCalendar('zamba_index_1372');
+        
+        });
+
+
+        document.write('<style type="text/css">.tabber{display:none;}<\/style>');	
+
+    </script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Definici&oacute;n de Riesgo</strong>
+				</div>
+				<br />
+				<center style="text-align: left">
+				<table cellpadding="4">
+				 <tr>
+						<td><label>ID Definici&oacute;n:</label></td>
+						<td><input type="text" id="zamba_index_1365" name="zamba_index_1365" style="width:100px;" /></td>		
+						<td class="separador"></td>
+						<td><label>Nombre:</label></td>
+						<td><input type="text" id="zamba_index_1277" name="zamba_index_1277" style="width:150px;"/></td>
+					</tr>
+					<tr>
+						<td><label>Habilitada:</label></td>
+						<td><input type="text" id="zamba_index_1373" name="zamba_index_1373" style="width:100px;" /></td>
+						<td class="separador"></td>
+						<td><label>Fecha:</label></td>
+						<td><input id="zamba_index_1372" name="zamba_index_1372" style="width:100px;" /></td>
+					</tr>
+
+					<tr>
+						<td><label>Acci&oacute;n:</label></td>
+						<td><select type="text" id="zamba_index_1374" style="width:100px;" name="zamba_index_1374" /></select></td>
+						<td class="separador"></td
+					</tr>
+					
+
+				</table>
+				</center>
+				<br />
+				<center>
+				<div name="aligncenter" id="aligncenter">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"  onclick="return zamba_save_onclick()" /> 
+				</div>
+				<br /><hr />
+				<table style="width: 96%;">
+					<caption>Parametros de Riesgo</caption>
+					<tr>
+						<td>
+                            <div style="overflow:auto; width: 900px">
+                                <table class="tablesorter" id="zamba_associated_documents_1068">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+</td>
+					</tr>
+				</table>
+				</div>
+				<div name="logozamba" id="logozamba">
+					&nbsp;<img src="http://www.zambabpm.com.ar/Marsh/Logo_Marsh.gif" alt=""width="186" height="30"></div>
+			</form>						
+		</div>
+	</body>
+</html>

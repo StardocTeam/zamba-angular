@@ -1,0 +1,141 @@
+la flaca duerme de dia... y bailar y tomar y tomar
+
+---------------------
+Función de JavaScript
+---------------------
+
+"showuser()"
+
+Sitio de confianza para que se active el ActiveX ???? y de esta forma de el nombre de usuario
+
+Hi,
+
+You can download an Installer to add this script to the Tools menu of Internet Explorer from 
+
+http://www.iecustomizer.com/?url=iemenus/?txtProvider=37
+
+Here is the script
+
+<script language="javascript">
+
+var wshShell = new ActiveXObject("WScript.Shell");
+var sdomain = wshShell.ExpandEnvironmentStrings("%USERDOMAIN%");
+var sUserName = wshShell.ExpandEnvironmentStrings("%USERNAME%");
+var sComputerName = wshShell.ExpandEnvironmentStrings("%COMPUTERNAME%");
+alert('Domain= ' + sdomain + '\nUserName= ' + sUserName + '\nComputer Name= ' + sComputerName);
+</script>
+
+ 
+
+Regards.
+
+
+
+
+---------------------------------------------
+---------------------------------------------
+Obtener nombre de usuario y nombre de máquina
+---------------------------------------------
+---------------------------------------------
+
+<script language="javascript" type="text/javascript">
+
+    function showuser()
+    {
+        var wshshell
+        
+        try
+        {
+    	    wshshell=new ActiveXObject("WScript.Shell");
+        }
+        catch(err)
+        {
+        }
+        
+        if (wshshell!=null)
+        {
+    	    var username =wshshell.ExpandEnvironmentStrings("%username%");
+    	    hs = document.getElementById("vUserName");
+		    hs.value = username;
+		    otroHs = document.getElementById("lblLoginWindows");
+		    otroHs.innerHTML = 'Bienvenido ' + hs.value + ', haga click en el botón para ingresar con su usuario Windows, o puede elegir entrar con otro usuario de Zamba.';
+    		
+    		// [Gaston] 
+    		// Se obtiene el nombre de la computadora del usuario
+		    var computerName = wshshell.ExpandEnvironmentStrings("%computername%");
+		    // Se obtiene la variable vComputerName
+		    hs = document.getElementById("vComputerName")
+		    // Se asigna a la propiedad value de vComputerName el nombre de la computadora del usuario ...
+		    hs.value = computerName
+		    
+		    // ... para después utilizar dicho valor en el código del servidor haciendo lo siguiente:
+		    
+		    // HtmlInputHidden varComputerName;                                 Declaración de una variable de tipo HtmlInputHidden en el código del servidor
+		    // varComputerName = (HtmlInputHidden)FindControl("vUserName");     El contenido de vComputerName pasa a varComputerName
+		    // varComputerName.Value                                            Nombre de la computadora del usuario
+	    }
+    }
+    
+
+</script>
+
+
+....
+....
+....
+....
+
+<body topmargin="0" id="loginBody" runat="server" >
+<div align="center" style="margin:0px auto;height:100%;">
+    <form id="form1" runat="server" style="background-image: url(images/fondoPantalla.JPG);" defaultbutton="Submit2">
+    <input id="vUserName" runat="server" type="hidden" />
+    <input id="vMachineName" runat="server" type="hidden" />
+
+
+
+
+
+
+
+-------------------
+-------------------
+CODIGO DEL SERVIDOR
+-------------------
+-------------------
+
+    /// <summary>
+    /// Método que sirve para comprobar si la propiedad LoadWindowsUser está en true. Si está en true entonces se obtiene el nombre de la cuenta de 
+    /// usuario de Windows y el nombre de su computadora (si es que no se encuentran vacíos)
+    /// </summary>
+    /// <history>
+    ///     [Gaston]  08/01/2009  Modified
+    /// </history>
+    protected Boolean IsLoadWindowsUserTrue()
+    {
+        if (Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadWindowsUser"]))
+        {
+            varUserName = (HtmlInputHidden)FindControl("vUserName");
+            varComputerName = (HtmlInputHidden)FindControl("vComputerName");
+
+            if ((varUserName != null) && (varComputerName != null))
+            {
+                if ((String.IsNullOrEmpty(varUserName.Value) == false) && (String.IsNullOrEmpty(varComputerName.Value) == false))
+                {
+                    if (UserBusiness.GetUserByName(varUserName.Value) != null)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,221 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="AnalisisSolicitudReadOnlySinAntecedentes.css" type="text/css" />
+    <style type="text/css">
+        input
+        {
+            font-size: xx-small;
+        }
+        p.description
+        {
+            font-size: x-small;
+            width: 121px;
+            height: 15px;
+        }
+        .style13
+        {
+            height: 23px;
+            width: 113px;
+        }
+        #zamba_innerdoctype_original
+        {
+            width: 98%;
+            height: 107%;
+        }
+        .style24
+        {
+            height: 53px;
+        }
+        .style25
+        {
+            height: 23px;
+            width: 314px;
+        }
+        body
+        {
+            font-size: 13px;
+        }
+        .style27
+        {
+            width: 160px;
+        }
+        .style28
+        {
+            height: 23px;
+            width: 255px;
+        }
+        .style29
+        {
+            height: 23px;
+            width: 101px;
+        }
+        .style30
+        {
+            width: 161px;
+        }
+    </style>
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+
+    <script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+    <script src="AnalisisSolicitudReadOnlySinAntecedentes.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender)
+        {
+            document.getElementById("hdnRuleId").name = sender.id;               
+            frmMain.submit();
+        }
+            
+        function SetAsocId(sender)
+        {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+    </script>
+</head>
+<body>
+    <form name="frmMain" action="AnalisisSolicitudReadOnly.html">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <input id="zamba_asoc_1015_index_1068" type="hidden"/>
+    <input id="zamba_asoc_1016_index_1068" type="hidden"/>
+    <input id="zamba_asoc_1018_index_1068" type="hidden"/>
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 100%; color: white; background-color: #0066cc">
+                Solicitud de Emision de Poliza
+            </td>
+        </tr>
+    </table>
+        <table style="width: 100%;">
+            <tr>
+                   <td>
+                    <label style="font-size: x-small;">
+                        Seccion:
+                        </label>
+</td>
+                <td>
+                    <input id="zamba_index_32" style="width: 379px" name="zamba_index_32" 
+                        readonly="readonly" disabled="disabled" />
+                </td>
+                <td>
+                    <label style="font-size: x-small;">
+                        Tipo de Movimiento:
+                        </label> 
+</td>
+                <td>
+                    <input id="zamba_index_38" name="zamba_index_38" style="width: 128px"
+                        readonly="readonly" disabled="disabled" />
+                </td>
+            </tr>
+            <tr>
+                <td class="style30">
+                    <p class="description">
+                        Asegurado:                     </p>
+                </td>
+                <td>
+                    <input id="zamba_index_3" style="width: 379px" name="zamba_index_3" 
+                        readonly="readonly" disabled="disabled" />
+                </td>
+		<td class="style13" id="tdCodProd">
+                <p class="description">
+                    Nro Emision Prod:
+                </p>
+            </td>
+            <td class="style25">
+                <input id="zamba_index_1157" style="width: 128px" name="zamba_index_1157" 
+                    readonly="readonly" disabled="disabled"/>
+
+            </td>
+            </tr>
+        <tr>
+            <td class="style29">
+                <p class="description">
+                    Nombre Productor:
+                </p>
+            </td>
+            <td class="style28">
+                <input id="zamba_index_58" style="width: 379px" name="zamba_index_58"  
+                    readonly="readonly" disabled="disabled" />
+            </td>
+            <td class="style13" id="tdCodProd">
+                <p class="description">
+                    Codigo Productor:
+                </p>
+            </td>
+            <td class="style25">
+                <input id="zamba_index_4" style="width: 128px" name="zamba_index_4" 
+                    readonly="readonly" disabled="disabled"/>
+            </td></tr>
+        <tr>
+		<td><p class="description" style="margin-right: 50px;">	Coaseguro:</p></td>
+                <td  class="shorttext"><input id="zamba_index_1170" style="font-size: x-small; width: 60px;margin-right: 25px;" name="zamba_index_1170" disabled="disabled"/>
+		   <label style="font-size: x-small;">Anulacion:</label>
+		<input id="zamba_index_1173" style="font-size: x-small;width: 60px;" name="zamba_index_1173"  disabled="disabled" /></td>
+		<td ><p class="description">    Vigencia Desde:</p></td>
+                <td  class="shorttext"><input id="zamba_index_29" style="font-size: x-small;width: 70px;" name="zamba_index_29"      disabled="disabled" /></td>
+		</tr>
+<tr id="tablaNroPolizaRenovar">
+                <td class="style27">
+                    <p class="description">
+                        Nro Poliza a Renovar:
+                        </p>
+                </td>
+                <td>
+                    <input id="zamba_index_35" style="width: 379px" name="zamba_index_35" 
+                        readonly="readonly" disabled="disabled" />
+                </td>
+</tr>
+<tr id="tablaNroPoliza">
+                <td class="style27">
+                    <p class="description">
+                        Nro Poliza:
+                        </p>
+                </td>
+                <td>
+                    <input id="zamba_index_34" style="width: 379px" name="zamba_index_34" 
+                        readonly="readonly" disabled="disabled" />
+                </td>
+
+
+</tr>
+
+</table>
+    <table style="width: 100%; ">
+        <tr>
+            <td class="style24">
+                <table id="zamba_associated_documents_WF">
+                    <caption style="font-size:x-small">
+                        Otros Datos
+                    </caption>
+                    <tbody>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br />
+Observaciones<br />
+<textarea cols="1" rows="3" id="zamba_index_64" style="WIDTH: 100%" name="zamba_index_64" readonly="readonly" ></textarea> 
+    <br />
+    <input id="zamba_rule_5140" style=" text-align: center; margin-right: 25px;"
+        type="submit" value="Abrir SISE" name="zamba_rule_5140" onclick="SetRuleId(this);" />&nbsp;&nbsp;
+    <input id="zamba_rule_5114" style=" text-align: center; margin-right: 25px;"
+        type="submit" value="Infoauto" name="zamba_rule_5114" onclick="SetRuleId(this);"/>
+    <input id="zamba_rule_5315" style=" text-align: center; margin-right: 25px;"
+        type="submit" value="Poliza a Renovar" name="zamba_rule_5181" onclick="SetRuleId(this);"/>
+    <input id="zamba_rule_5118" style=" text-align: center; margin-right: 25px;"
+        type="submit" value="Veraz" name="zamba_rule_5118" onclick="SetRuleId(this);"/>&nbsp;
+	<input id="zamba_rule_6632" style=" text-align: center; margin-right: 25px;"
+        type="submit" value="Ingresar Observacion" name="zamba_rule_6632" onclick="SetRuleId(this);"/>
+        <center>
+        <iframe id="zamba_innerdoctype_original" 
+                 title="Documento Original"
+            width="90%"         src="file:///\\buesrvbpm01\ZambaVolumenes$\Test\Vol001\1011\3\4594.PDF"        ></iframe>
+    </center>
+    </form>
+</body>
+</html>

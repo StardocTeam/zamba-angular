@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsCaratulasIngresadas" targetNamespace="http://tempuri.org/dsCaratulasIngresadas.xsd"
+	elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/dsCaratulasIngresadas.xsd"
+	xmlns:mstns="http://tempuri.org/dsCaratulasIngresadas.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsCaratulasIngresadas" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Caratulas">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="Fecha" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="DOC_TYPE_NAME" type="xs:string" minOccurs="0" />
+							<xs:element name="DESCRIPTION" type="xs:string" minOccurs="0" />
+							<xs:element name="SC" type="xs:string" minOccurs="0" />
+							<xs:element name="SCANNEDD" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="DOC_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="BATCH" type="xs:string" minOccurs="0" />
+							<xs:element name="BOX" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,87 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				return IntegerCheck(e);
+			})
+		});
+	});
+	function CargarFechasyBotones(){
+		$(function() 
+		{
+			$('#zamba_index_2786').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				showOn: 'button', 
+				buttonText: 'Abrir calendario',
+				buttonImage: 'calendar.png', 
+				buttonImageOnly: true,
+				duration: "",
+				onSelect: function(dateText, inst) {
+					var lockDate = new Date($('#zamba_index_2786').datepicker('getDate'));
+					//lockDate.setDate(lockDate.getDate() + 1);
+					$('#zamba_index_2787').datepicker('option', 'minDate', lockDate);
+				}
+			});
+		});	
+		var f = new Date();
+		$('#zamba_index_2786').val(f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());
+
+		CargarFechaIndice('zamba_index_2787');
+	}
+	function zamba_save_onclick() {
+		$("#hdnRuleId").name = "zamba_rule_save";
+	}
+	</script>
+ </head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="SolicitudDeChequeInsert.html">
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblCheque" class="attributes_table">
+        <tr>
+			<td><label>Importe $:</label>
+			<td><input id="zamba_index_2785" name="zamba_index_2785" class="w175px"/>
+			<td class="separador">
+			<td><label>ID Reclamo:</label>
+			<td><input id="zamba_index_2677" name="zamba_index_2677" class="w175px readonly" readonly="readonly"/>
+        </tr>
+        <tr>
+			<td><label>Fecha Solicitada:</label>
+			<td><input id="zamba_index_2786" name="zamba_index_2786" class="w175px" onblur="valFecha(this)"/>
+			<td class="separador">
+			<td><label>Fecha Asignada:</label>
+			<td><input id="zamba_index_2787" name="zamba_index_2787" class="w175px" onblur="valFecha(this)"/>
+        </tr>
+	</table>
+	<br>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><label>Beneficiario:</label>
+			<td><textarea cols="1" rows="3" id="zamba_index_2722" name="zamba_index_2722" style="width:630px" maxlength="80" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+		</tr>
+		<tr>
+			<td><label>Concepto:</label>
+			<td><textarea cols="1" rows="6" id="zamba_index_2788" name="zamba_index_2788" style="width:630px" maxlength="200" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+		</tr>
+		<tr>
+			<td><label>Observaciones:</label>
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 630px" maxlength="5000" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea> 
+		</tr>
+	</table>
+	<br>
+	<div style="text-align: center">
+		<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick();"/>
+		<input type="submit" class="submit" name="zamba_cancel" id="zamba_cancel" value="CANCELAR" />
+	</div>
+	</center>
+    </form>
+</body>
+</html>

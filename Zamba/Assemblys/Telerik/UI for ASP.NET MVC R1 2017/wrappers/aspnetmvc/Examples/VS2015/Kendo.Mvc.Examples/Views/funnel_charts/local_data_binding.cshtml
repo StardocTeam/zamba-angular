@@ -1,0 +1,66 @@
+<div class="demo-section k-content wide">
+    <h4>Website optimization stats</h4>
+    @(
+        Html.Kendo().Chart((IEnumerable<Kendo.Mvc.Examples.Models.SiteOptimizationItem>)ViewData["before"]).Name("before")
+        .Series(srs =>                
+            srs.Funnel(
+                m => m.Visitors,
+                m => m.Description
+            )
+            .DynamicSlope(true)
+            .DynamicHeight(false)
+            .Labels(
+                lbls=>lbls
+                    .Color("black")
+                    .Visible(true)
+                    .Background("transparent")
+                    .Template("#= category #: #= value #")
+                    .Align(ChartFunnelLabelsAlign.Left)
+            )
+        )
+        .Title("Before optimization")
+        .Legend(false)
+        .Tooltip(
+            tt=>tt.Visible(true).Template("#= category # #= kendo.format('{0:p}',value/dataItem.parent()[0].Visitors)#")
+        )
+    )
+    @(
+        Html.Kendo().Chart((IEnumerable<Kendo.Mvc.Examples.Models.SiteOptimizationItem>)ViewData["after"]).Name("after")
+        .Series(srs =>                
+            srs.Funnel(
+                m => m.Visitors,
+                m => m.Description
+            )
+            .DynamicSlope(true)
+            .DynamicHeight(false)
+            .Labels(
+                lbls=>lbls
+                    .Color("black")
+                    .Visible(true)
+                    .Background("transparent")
+                    .Template("#= category #: #= value #")
+                    .Align(ChartFunnelLabelsAlign.Left)
+            )
+        )
+        .Title("After optimization")
+        .Legend(false)
+        .Tooltip(
+            tt=>tt.Visible(true).Template("#= category # #= kendo.format('{0:p}',value/dataItem.parent()[0].Visitors)#")
+        )
+    )
+</div>
+<style>
+   .demo-section {
+        text-align: center;
+    }
+
+    .k-chart {
+        display: inline-block;
+        width: 30%;
+        height: 350px;
+    }
+
+    #before {
+        margin-right: 20px;
+    }
+</style>

@@ -1,0 +1,162 @@
+﻿<!doctype html>
+<html>
+<head>
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="AndreaniDespachosController.js"></script>
+    <script src="../../Scripts/Zamba.js?v=257"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        function ActualizarCodigoBarra() {
+            var nro_tracking = $("#envio_id").val();
+            $("#nro_tracking_code_bar")[0].src = "https://developers.andreani.com/herramientas/barcode?codigo=" + nro_tracking + "&height=30";
+        }
+        $(document).ready(function () {
+            ActualizarCodigoBarra();
+        });
+    </script>
+</head>
+<body>
+    <center>
+        <u><h1> Test Andreani integracion de servicios</h1></u>
+    </center>
+    <table border="1">
+
+        <tr>
+            <td style="vertical-align:top">
+
+        </tr>
+        <tr>
+            <td style="vertical-align:top">
+                <u><h2> Test </h2></u>
+                data 1:
+                <input id="data_1" />
+
+                <br />
+                <input type="button" id="test" value="test" />
+            </td>
+            <td style="vertical-align:top">
+                <u><h2> Response </h2></u>
+
+
+                </select>
+                <textarea style="height:300px;width:700px" id="respuesta_test" readonly="readonly"></textarea>
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td style="vertical-align:top">
+                <img id="nro_tracking_code_bar" src="https://developers.andreani.com/herramientas/barcode?codigo=123456&height=30" alt="123456" />
+                <u><h2> Login </h2></u>
+                <br />
+                <label>User:</label>
+                <input type="text" id="user" value="modoc_ws" />
+                <br />
+                <label>Password:</label>
+                <input type="text" id="password" value="werb4648!" />
+                <br />
+                <br />
+                <input type="button" id="login" value="login" />
+            </td>
+            <td style="vertical-align:top">
+                <u><h2> Response</h2></u>
+
+                <textarea style="height:300px;width:700px" id="respuesta_login" readonly="readonly"></textarea>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">
+                <u><h2>Orden </h2></u>
+                <br />
+                <br />
+                Nro guia:
+                <input id="nro_guia" value="456" /><br />
+                <!-- guias: 456,462,471,473,480,487,498,499,506,517,518,519,521,522,523,524,527,531,536,537,538,541-->
+                <br />
+                Nueva orden:
+                <input type="button" id="nueva_orden" value="crear" />
+                <br />
+                <br />
+                <hr />
+                orden id:
+                <input id="orden_id" value="310000008110039" />
+                <input id="obtenerorden" type="button" value="Obtener orden" />
+
+
+
+                <br />
+            </td>
+            <td style="vertical-align:top">
+                <u><h2> Response </h2></u>
+
+                <textarea style="height:300px;width:700px" id="respuesta_orden" readonly="readonly"></textarea>
+
+            </td>
+        </tr>
+        <tr style="height:100%">
+            <td style="vertical-align:top;height:100%" ">
+                <!--<u><h2> Provincias y sucursales </h2></u>
+
+                Lista de Provincias<select id="items_provincia" />-->
+
+                <br />Sucursales:
+                <input id="listar_sucursales" type="button" value="Listar sucursales" />
+                <br />
+
+                <br />Provincias:
+                <input id="listar_provincias" type="button" value="Listar provincias" />
+                <br />
+                <br />
+                Lista de Sucursales<select id="items_sucursales">
+
+
+
+
+
+            </td>
+            <td style="vertical-align:top">
+
+                <br />
+
+                <br />
+                <u><h2> Response </h2></u>
+
+                <textarea style="height:300px;width:700px" id="respuesta_provincias_sucursales" readonly="readonly"></textarea>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">
+                <u><h2> Envios </h2></u>
+                envio id:
+                <input id="envio_id" value="310000008110039" />
+
+                <input id="obtener_envio" type="button" value="Obtener envio" />
+                <input id="buscar_envio" type="button" value="Buscar envio" />
+                <input id="obtener_envio_trazas" type="button" value="Obtener trazas de envio" />
+                <br />
+                <hr />
+                Codigo cliente: <input type="text" id="CodigoCliente" /><br />
+                Id del producto: <input type="text" id="IdProducto" /><br />
+                Numero De Documento Destinatario: <input type="text" id="NroDocDestinatario" /><br />
+                Fecha creacion desde:<input type="text" id="FechaCreacionDesde" /><br />
+                Fecha creacion hasta:<input type="text" id="FechaCreacionHasta" /><br />
+                <input id="buscar_envio" type="button" value="BuscaEnvio" /><br />
+                <br />
+
+            </td>
+            <td style="vertical-align:top">
+                <u><h2> Response </h2></u>
+
+                <textarea style="height:300px;width:700px" id="respuesta_envio" readonly="readonly"></textarea>
+
+            </td>
+
+
+        </tr>
+    </table>
+</body>
+</html>

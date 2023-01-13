@@ -1,0 +1,8 @@
+<script  type="text/javascript">
+function abrir_ventana(url) // url es la url de la página que quieres abrir
+{
+ var prop ="";
+ prop = "toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=100height=100"; 
+  window.open (url,"",prop);
+}
+</script>

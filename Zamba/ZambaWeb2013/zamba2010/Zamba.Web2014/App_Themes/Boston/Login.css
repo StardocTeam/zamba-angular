@@ -1,0 +1,179 @@
+﻿/*Modificaciones nov-2011*/
+
+
+
+/*Header*/
+#barra-Cabezera {
+	 display:none;
+}
+
+.pwbyzamba {
+float:right;
+height:45px;
+position: relative;
+margin-right: 3%;
+right:5em;
+}
+
+
+.cabecera-login2
+{
+    background: url("Images/LogoBoston2.jpg") no-repeat ;
+    width:150px ;
+	height: 248px;
+   position:absolute;
+    
+}
+
+.cabecera-login
+{   background: url("Images/LogoBoston1.jpg") no-repeat;
+    width: 342px;
+    height: 200px;
+    background-position:center;
+    margin-top:3%;
+  
+  
+    
+}
+
+@media (min-width:100px) {
+   .cabecera-login{
+         position:relative;
+         margin-left:42%;
+     
+    }
+   }
+
+
+
+/*logo pelota*/
+
+@media (min-width: 1000px) {
+   .cabecera-login2{
+        
+        right:60%;
+     
+    }
+   }
+
+
+
+
+@media (max-width: 1000px) {
+   .cabecera-login2{
+         
+        left:36%;
+     
+    }
+   }
+
+
+@media (min-width: 1000px) {
+   #divPwbyzambaCenter{
+    display:block;
+    height:50px !important;
+   
+}
+   }
+
+@media (max-width: 1000px) {
+   #divPwbyzambaCenter{
+    display:block;
+    height:250px !important;
+   
+}
+   }
+
+
+#divPwbyzambaCenter{
+    display:block;
+    height:250px;
+   
+}
+
+.pwbyzambaCenter
+{
+    display:none;
+}
+
+#loginBody{
+    padding:20px;
+}
+
+/*footer
+.LogIn {
+position:fixed; bottom:0; width:100%; z-index: 99; text-align:center;font-size: 8pt; font-family: tahoma; vertical-align: middle;
+}
+
+/*Controles inicio sesion*/
+
+.PanelIniciarSesion
+{
+    text-align:center;
+}
+
+#CeldaBotonIniciarSesion
+{
+    text-align:center;
+    padding-top: 15px; 
+    padding-right:100px;
+}
+
+#controlMensaje
+{
+    text-align:center;
+    color:Black;
+}
+
+.text-box-inicio-sesion
+{
+    width:140px;
+}
+
+.label-inicio-sesion
+{
+    width:120px;
+}
+
+/*#Alinear-Div-Login
+{
+    width:100%;text-align:left;  
+}*/
+
+#Alinear-Div-Login table
+{
+    margin-left:auto;margin-right:auto;text-align:center;
+}
+
+.Line-horizontal
+{
+    color:#000000;
+    background-color:#000000;
+}
+
+.CeldaTextoInicioSesion
+{
+    width:300px;
+    text-align:left;
+}
+
+
+
+/*footer*/
+.FooterLogIn {
+position:fixed;left:4%; bottom:0; width:100%; z-index: 99; text-align:center;font-size: 8pt; font-family: tahoma; vertical-align: middle;
+}
+
+
+@media (min-width: 992px) {
+
+.pnlZambaLogin {
+        margin-left: 35%;
+        width: 30%;
+    }
+
+    .nlZambaLogin {
+        margin-left: 35%;
+        width: 30%;
+    }
+}

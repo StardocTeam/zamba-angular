@@ -1,0 +1,314 @@
+<html>
+<head>
+    <title>Reintegros</title>
+    <link href="Union_styles.css" type="text/css" rel="stylesheet">
+    <link href="Union_styles_table.css" type="text/css" rel="stylesheet">
+    <script src="Gasto.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" src="tabber.js"></script>
+    <link rel="stylesheet" href="tabber.css" type="text/css" media="screen">
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
+        }
+        $(document).ready(function () {
+            // Valida solo numericos
+            // Agregar class="solonum" a todos los inputs que se quieran validar
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && e.which != 45 && e.which != 44 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+        });			
+    </script>
+</head>
+<body>
+    <div id="container">
+        <form name="frmMain" method="post">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div name="design" id="design">
+            <strong>Reintegro</strong>
+        </div>
+        <br />
+        <div class="tabber">
+            <div class="tabbertab">
+                <h2>
+                    Informaci&oacute;n</h2>
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                Reintegro Nro:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26446" name="zamba_index_26446" style="width: 200px;"
+                                disabled="disabled" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Tipo Prestacion:</label>
+                        </td>
+                        <td>
+                            <select type="text" id="zamba_index_26232" name="zamba_index_26232" style="width: 250px;">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Afiliado:
+                            </label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_26314" id="zamba_index_26314" style="width: 250px;" disabled="disabled">
+                            </select>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Beneficiario:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26321" name="zamba_index_26321" style="width: 250px;"
+                                disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo de Comprobante:</label>
+                        </td>
+                        <td>
+                            <select name="zamba_index_26325" id="zamba_index_26325" style="width: 200px;">
+                            </select>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Nro de Comprobante:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26323" name="zamba_index_26323" style="width: 200px;"
+                                maxlength="10" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fecha del Comprobante:</label>
+                        </td>
+                        <td>
+                            <input id="zamba_index_26326" name="zamba_index_26326" style="width: 200px;" disabled="disabled" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Importe:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width: 200px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Reintegro Obra Social:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33730" name="zamba_index_33730" style="width: 200px;"
+                                class="solonums" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Importe a Reintegrar:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_26457" name="zamba_index_26457" style="width: 200px;"
+                                class="solonums" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Cantidad:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33742" name="zamba_index_33742" style="width: 200px;"
+                                class="solonums" />
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Dias:</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_33741" name="zamba_index_33741" style="width: 200px;"
+                                class="solonums" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Estado de Tope:</label>
+                        </td>
+                        <td colspan="4">
+                            <input type="text" id="Text1" name="zamba_index_33738" style="width: 500px; color: Red"
+                                class="solonums" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tabbertab">
+                <h2>
+                    Datos de Pago</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <label>
+                                Nro Orden de Pago:</label>
+                        </td>
+                        <td>
+                            <input name="zamba_index_26450" id="zamba_index_26450" style="width: 200px;">
+                        </td>
+                        <td class="separador">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Tipo Autorizacion:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26494" id="zamba_index_26494" style="width: 200px;"
+                                disabled="disabled"></input>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Autorizado:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26413" id="zamba_index_26413" style="width: 200px;"
+                                disabled="disabled"></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Fecha de Pago:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26469" id="zamba_index_26469" style="width: 200px;"></input>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Forma de Pago:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26479" id="zamba_index_26479" style="width: 200px;"></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Transferencia Numero:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26467" id="zamba_index_26467" style="width: 200px;"></input>
+                        </td>
+                        <td class="separador">
+                        </td>
+                        <td>
+                            <label>
+                                Cheque Numero:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="zamba_index_26466" id="zamba_index_26466" style="width: 200px;"></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Obervaciones:</label>
+                        </td>
+                        <td colspan="4">
+                            <textarea cols="100" rows="10" id="zamba_index_64" name="zamba_index_64"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tabbertab">
+                <h2>
+                    Documentacion</h2>
+                <table style="width: 90%;">
+                    <caption>
+                        Documentacion
+                    </caption>
+                    <tr>
+                        <td>
+                            <table class="tablesorter" id="zamba_associated_documents_26033">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div name="aligncenter" id="aligncenter">
+            <input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />
+        </div>
+        <hr />
+        <table style="width: 90%;">
+            <caption>
+                Reintegros
+            </caption>
+            <tr>
+                <td>
+                    <table class="tablesorter" id="zamba_associated_documents_26037">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <div name="logoUnion" id="logoUnion">
+            <img src="images/Union.jpg" align="left" height="50" width="70">
+        </div>
+        </form>
+    </div>
+</body>
+</html>

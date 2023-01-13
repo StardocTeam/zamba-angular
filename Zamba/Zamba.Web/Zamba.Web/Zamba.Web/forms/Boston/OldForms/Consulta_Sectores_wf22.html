@@ -1,0 +1,249 @@
+<html>
+	<head>
+		<title>Reclamo del Asegurado</title>			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">		
+		 	
+		<script src="Reclamo de Asegurados Alta Realizada.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="tabber.js"></script>
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">		
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<script type="text/javascript" language="JavaScript">	
+       	    function SetRuleId(sender)
+			{
+	            document.getElementById("hdnRuleId").name = sender.id;               
+           		
+				//if (addConsulta())				
+				//	frmMain.submit();
+        	}
+			
+			function SetAsocId(sender)
+			{
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}			
+
+			$(document).ready(function () 
+			{
+				setTimeout("parseObservaciones()", 100);	
+			});		
+			
+			function parseObservaciones()
+			{
+				var obs = $('#zamba_index_64').val();
+				
+				while(obs.indexOf("§") > 0)
+					obs = obs.replace("§", "\n");
+				
+				while(obs.indexOf("<br>") > 0)
+					obs = obs.replace("<br>", "\n");				
+				
+				$('#zamba_index_64').val(obs);			
+			}
+			
+			function addConsulta()
+			{
+					return true;
+
+			//no validar si lo que presiono es el boton derivar
+				if(document.getElementById("hdnRuleId").name == 'zamba_rule_44431')
+					return true;
+			
+				var con = $('#zamba_index_1152').val();
+				var obs = $('#zamba_index_64').val();
+								
+				if(con == '')
+				{
+					alert("Por favor, ingrese un comentario.");
+					$('#zamba_index_1152').focus();
+					return false;
+				}
+				else
+				{
+					//con = con + "§------------------------------------------------------------------------------------------------------------§§" + obs;
+
+					//$('#txtconsulta').val("");
+					//$('#zamba_index_64').val(con);
+
+					//parseObservaciones();					
+				}
+				
+				return true;
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');	
+
+		</script>
+	</head>	
+	<body>
+			
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return addConsulta()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />				
+			
+				<div name="design" id="design">
+					<strong>Consulta a Sectores</strong>
+				</div>
+				
+				<br />
+			
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Datos de la consulta</h2>
+						<table cellpadding="6" border="0">
+							
+							
+							<tr>
+								<td><label>Asunto:</label></td>
+								<td colspan="2"><input type="text" name="zamba_index_1131" readonly="true" class="readonly" size="67"/></td>
+								<td><label>Requiere Aprobacion: </label>
+								<input id="zamba_index_26564"  name="zamba_index_26564" type="checkbox" disabled class="readonly" /></td>
+							</tr>	
+</table>
+						<table cellpadding="6" border="0">
+							
+							<tr>	
+								<td><label>Creado por: </label></td>
+								<td colspan=1><select name="zamba_index_26472" id="zamba_index_26472" style="width:250px;" disabled class="readonly"></select></td>
+								<td ><label>Tipo de comunicacion:</label></td>
+								<td ><select name="zamba_index_1153"id="zamba_index_1153" style="width:200px;" disabled class="readonly"></select></td>
+							</tr>									
+</table>
+						<table cellpadding="6" border="0">
+						<tr>	
+								<td><label>Consulta a: </label></td>
+								<td colspan=1><select name="zamba_index_27580" id="zamba_index_27580" style="width:250px;" disabled class="readonly"></select></td>
+								<td valign="top"><label>Creacion: </label></td>
+								<td valign="top"><input id="zamba_index_26556" name="zamba_index_26556" style="width:136px;" readonly="true" class="readonly"/></td>
+								<td><label>Vencimiento: </label></td>
+								<td><input id="zamba_index_26561" name="zamba_index_26561" style="width:136px;" readonly="true" class="readonly"/></td>		
+
+								</tr>									
+		
+	<tr>
+	<td colspan="7">
+		<hr/>
+	</td>
+</tr>
+</table>
+						<table cellpadding="6" border="0">
+
+							<tr>
+								<td><label>Nro Poliza:</label></td>
+								<td><input type="text" name="zamba_index_26174" size="20" readonly="true" class="readonly"/></td>
+								<td><label>Nro de Siniestro:</label></td>
+								<td><input type="text" name="zamba_index_26247" size="20" readonly="true" class="readonly"/></td>											
+							</tr>
+							<tr>
+								<td><label>Reclamo:</label></td>
+								<td><input type="text" name="zamba_index_26328" size="20" readonly="true" class="readonly"/></td>									
+								<td><label>Reclamo de:</label></td>
+								<td><input type="text" name="zamba_index_26232" size="20" readonly="true" class="readonly"/></td>										
+								<td><label>Indeminzacion/Gasto:</label></td>
+								<td><input type="text" name="zamba_index_26446" size="20" readonly="true" class="readonly"/></td>											
+							</tr>
+							<tr>
+								<td><label>Importe a Abonar:</label></td>
+								<td><input type="text" name="zamba_index_26457" size="20" readonly="true" class="readonly"/></td>										
+								<td><label>Deuda por Poliza:</label></td>
+								<td><input type="text" name="zamba_index_60515" size="20" readonly="true" class="readonly"/></td>											
+							</tr>
+	<tr>
+	<td colspan="7">
+		<hr/>
+	</td>
+</tr>
+</table>
+						<table cellpadding="6" border="0">
+
+						<tr>	
+								<td valign="top" colspan=1 rowspan="2">
+									<br>
+									<input type="submit" name="zamba_rule_44474" id="zamba_rule_44474" value="Agregar comentario" class="submit" onclick="SetRuleId(this);"/>
+								</td>
+								<td colspan="4" ><TEXTAREA COLS=77 ROWS=3 id="zamba_index_1152" name="zamba_index_1152"></TEXTAREA></td> 													
+							</tr>
+</table>
+						<table cellpadding="6" border="0">
+							<tr>
+								<td colspan="1">
+									<input type="submit" name="zamba_rule_37469" id="zamba_rule_37469" value="Aprobar" class="submit" onclick="SetRuleId(this);"/>
+									<input type="submit" name="zamba_rule_37470" id="zamba_rule_37470" value="Rechazar" class="submit" onclick="SetRuleId(this);"/>
+									<input type="submit" name="zamba_rule_37471" id="zamba_rule_37471" value="Finalizar" class="submit" onclick="SetRuleId(this);"/>
+									<input type="submit" name="zamba_rule_44431" id="zamba_rule_44431" value="Derivar" class="submit" onclick="SetRuleId(this);"/>
+								</td>
+								<td valign="top" rowspan=6 colspan=6>
+									<TEXTAREA COLS=97 ROWS=15 id="zamba_index_64" name="zamba_index_64" readonly="true"></TEXTAREA>
+								</td>								
+							</tr>	
+							<tr>
+								<td valign="top">
+&nbsp;
+								</td>								
+
+							</tr>	
+
+							</table>	
+						
+						<br />
+						<br />
+			
+						<div name="logoUnion" id="logoUnion">	
+							<img src="//srvflow2/ZambaVolumenes/Produccion/templates/images/Union.jpg" align="left" height=50 width=70>
+						</div>
+						
+						<div name="logozamba" id="logozamba">
+							<img src="images/pwbyzamba.jpg">
+						</div>					
+
+						<div name="alignleft" id="alignleft">
+							
+						</div>
+						
+						<br />
+						<br />
+						<br />
+						<br />
+					</div>
+					<div class="tabbertab">
+						<h2>Documentos</h2>
+						<p>
+							<b>Documentos del reclamo:</b><br>
+							<table id="zamba_zvar(DocumentosConsulta)" class="tablesorter">
+								<tbody id="zamba_rule_37531/Ver/zvar(id=1)">
+								</tbody> 
+							</table>
+							<br>
+							<input id="zamba_rule_37502" name="zamba_rule_37502" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Agregar" onclick="SetRuleId(this);"/>
+							<input id="zamba_rule_37536" name="zamba_rule_37536" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Eliminar" onclick="SetRuleId(this);"/>
+							<br>
+							<br>
+							<br>
+							<br>
+							<b>Indemnizaciones o gastos:</b><br>
+							<table id="zamba_zvar(indeminizaciones)" class="tablesorter">
+								<tbody id="zamba_rule_37531/Ver/zvar(id=1)">
+								</tbody> 
+							</table>							
+							<br>
+							<input id="zamba_rule_37553" name="zamba_rule_37553" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Agregar" onclick="SetRuleId(this);"/>
+							<input id="zamba_rule_37559" name="zamba_rule_37559" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Eliminar" onclick="SetRuleId(this);"/>
+						</p>
+					</div>
+				</div>	
+
+			</form>						
+		</div>
+	</body>
+</html>

@@ -1,0 +1,72 @@
+﻿<form editable-form name="tableform" onaftersave="saveTable()" oncancel="cancel()">
+
+    <!-- table -->
+    <table class="table table-bordered table-hover table-condensed">
+        <tr style="font-weight: bold">
+            <th style="width:400px" ng-repeat="column in asociatedColumns">{{column.Name}}</th>
+            <th style="width:200px">Acciones</th>
+        </tr>
+        <tr ng-repeat="result in asociatedResults">
+            
+            <!-- Cuando carga por primera vez -->
+            <td ng-show="isMainView">
+                <span editable-text="result.Data.reclaimentType" e-form="tableform">
+                    {{ result.data.reclaimentType || '' }}
+                </span>
+            </td>
+            <td ng-show="isMainView">
+                <span editable-text="result.Data.reclaimantName" e-form="tableform">
+                    {{ result.data.reclaimantName || '' }}
+                </span>
+            </td>
+            <td ng-show="isMainView">
+                <button type="button"  ng-click="deleteResult(result.id)" class="btn btn-danger fa fa-trash">
+                </button>
+            </td>
+            
+            <!-- Al editar un reclamante -->
+            <td ng-show="isEditing">
+                <select class="form-control input-sm" 
+                        ng-model="result.data.reclaimentType" 
+                        ng-options="item as item for item in AttributeLists">                    
+                    
+                </select>
+            </td>
+            <td ng-show="isEditing">
+                <input ng-model="result.data.reclaimantName" class="form-control input-sm" />
+            </td>
+            <!--<td ng-show="isEditing">
+                <button type="button"  ng-click="EditResult(result.id, result.data.reclaimantName, result.data.reclaimentType)" class="btn btn-primary fa fa-pencil"></button>                
+            </td>-->          
+            
+        </tr>
+        <tr>
+            <!-- Al insertar un nuevo reclamante -->
+            <td ng-show="isInserting">
+                <select class="form-control input-sm" ng-model="resultToInsert.reclaimentType"  onshow="$parent.loadAttributeList(attribute.Id)" ng-options="item as item for item in AttributeLists"></select>
+            </td>
+            <td ng-show="isInserting">
+                <input ng-model="resultToInsert.reclaimentName" class="form-control input-sm" />
+            </td>
+            <td ng-show="isInserting">
+                <button type="button" ng-click="insertResult(resultToInsert)" class="btn btn-primary glyphicon glyphicon-ok"></button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- buttons -->
+    <div class="btn-edit" ng-show="!isInserting && !isEditing && !deleteItems">
+        <button type="button" class="btn btn-default pull-right" ng-click="EditResultMode()">
+            Editar
+        </button>
+        <button type="button" ng-click="addResult()" style="margin-left:5px" class="btn btn-default pull-right">
+            Nuevo
+        </button>
+
+    </div>
+    <div class="btn-form" ng-show="isInserting || isEditing || deleteItems">
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="saveTable()" class="btn btn-primary">Guardar Cambios</button>
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="cancelModification()" class="btn btn-default">Cancelar Cambios</button>
+    </div>
+
+</form>

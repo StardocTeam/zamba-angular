@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Página sin título</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+  <table bgcolor="#0099cc" width="100%">
+  <tr>
+  <td bgcolor="#ffffff" style="width: 21%; height: 45px">
+        <asp:Image ID="Image1" runat="server" ImageUrl="~/j2d22.tmp.jpg" Height="39px" Width="173px" />
+ 
+  </td>
+  <td bgcolor="#0099cc" width="100%" style="height: 45px">
+  
+  </td>
+  
+  </tr>
+  
+  </table>
+  
+  
+ 
+  
+  
+        <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+        </asp:contentplaceholder>
+  <table bgcolor="#0099cc" width="100%">
+  <tr>
+  <td bgcolor="#0099cc" width="100%">
+ 
+  </td>
+  <td bgcolor="#0099cc" width="100%">
+  
+  </td>
+  
+  </tr>
+  
+  </table>
+    </div>
+    </form>
+</body>
+</html>

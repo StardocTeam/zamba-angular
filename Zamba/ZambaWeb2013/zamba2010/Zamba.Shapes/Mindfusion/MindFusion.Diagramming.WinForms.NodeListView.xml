@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MindFusion.Diagramming.WinForms.NodeListView</name>
+    </assembly>
+    <members>
+        <member name="T:MindFusion.Diagramming.WinForms.NodeListView">
+            <summary>
+            Represents a list box with MindFusion.Diagramming.DiagramNode objects.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.#ctor">
+            <summary>
+            Initializes a new instance of the NodeListView class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.AddNode(MindFusion.Diagramming.DiagramNode)">
+            <summary>
+            Adds a new node to the end of the list view.
+            </summary>
+            <param name="node">The node to add.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.AddNode(MindFusion.Diagramming.DiagramNode,System.String)">
+            <summary>
+            Adds a new node to the end of the list view.
+            </summary>
+            <param name="node">The node to add.</param>
+            <param name="label">The text to be displayed for the node.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.AddNodes(MindFusion.Diagramming.DiagramNodeCollection)">
+            <summary>
+            Adds the specified nodes to the end of the list box.
+            </summary>
+            <param name="nodes">The collection of nodes to add.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.AddNodes(MindFusion.Diagramming.DiagramNodeCollection,System.String[])">
+            <summary>
+            Adds the specified nodes to the end of the list box.
+            </summary>
+            <param name="nodes">The collection of nodes to add.</param>
+            <param name="labels">The array of texts to be displayed for the nodes.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.AddNodes(MindFusion.Diagramming.DiagramNode[],System.String[])">
+            <summary>
+            Adds the specified nodes to the end of the list box.
+            </summary>
+            <param name="nodes">The array of nodes to add.</param>
+            <param name="labels">The array of texts to be displayed for the nodes.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.InsertNode(System.Int32,MindFusion.Diagramming.DiagramNode)">
+            <summary>
+            Inserts the node at the specified position.
+            </summary>
+            <param name="index">The zero-based index at which the node should be inserted.</param>
+            <param name="node">The node to insert.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.InsertNode(System.Int32,MindFusion.Diagramming.DiagramNode,System.String)">
+            <summary>
+            Inserts the node at the specified position.
+            </summary>
+            <param name="index">The zero-based index at which the node should be inserted.</param>
+            <param name="node">The node to insert.</param>
+            <param name="label">The text to be displayed for the node.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.RemoveNodeAt(System.Int32)">
+            <summary>
+            Removes the node at the specified position.
+            </summary>
+            <param name="index">The zero-based index of the node to remove.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.ClearNodes">
+            <summary>
+            Removes all nodes from the list view.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.GetNodeAt(System.Int32)">
+            <summary>
+            Gets the node at the specified position.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.OnNodeSelected(MindFusion.Diagramming.DiagramNodeEventArgs)">
+            <summary>
+            Invoked when the user selects a node in this list box.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.OnNodeRemoved(MindFusion.Diagramming.DiagramNodeEventArgs)">
+            <summary>
+            Invoked when the user removes a node from the list view.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Diagramming.WinForms.NodeListView.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:MindFusion.Diagramming.WinForms.NodeListView.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.NodeListView.MeasureUnit">
+            <summary>
+            Gets or sets the unit of measure used when drawing nodes.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.NodeListView.IconSize">
+            <summary>
+            Gets or sets the size of the nodes displayed in the view.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.NodeListView.IconMargin">
+            <summary>
+            Gets or sets the horizontal and vertical margins around the nodes.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.NodeListView.DefaultNodeSize">
+            <summary>
+            Gets or sets the default size with which nodes dragged onto a diagram will be created.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.NodeListView.AllowRemove">
+            <summary>
+            Allow deletion of nodes by pressing Del.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Diagramming.WinForms.NodeListView.NodesCount">
+            <summary>
+            Gets the number of nodes in the list view.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Diagramming.WinForms.NodeListView.NodeSelected">
+            <summary>
+            Raised when the user selects a node in the list view.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Diagramming.WinForms.NodeListView.NodeRemoved">
+            <summary>
+            Raised when the user removes a node from the list view.
+            </summary>
+        </member>
+    </members>
+</doc>

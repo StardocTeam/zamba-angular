@@ -1,0 +1,371 @@
+﻿.advancedSearchBox {
+    display: block;
+    position: relative;
+    margin: 5px 0 0 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+   
+    padding: 0 9px;
+    background-color: #fff;
+    cursor: text;
+    line-height: 38px;
+}
+.advancedSearchBox.active {
+    border-color: #66afe9;
+}
+.advancedSearchBox .search-icon {
+    float: right;
+    padding: 10px 0 0 10px;
+}
+.advancedSearchBox .remove-all-icon {
+    float: right;
+    padding: 10px 0 0 10px;
+    cursor: pointer;
+}
+.advancedSearchBox .search-parameter {
+    /*border background*/
+        padding: 3px !important;
+    height: 35px !important;  
+    margin: 0px !important;
+    border-radius: 0px !important;
+
+    display: inline-block;
+    height: 24px;
+    margin: 0 7px 0 0;
+    padding: 0 5px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    line-height: 24px;
+    cursor: default;
+    transition: box-shadow 100ms linear;
+}
+.advancedSearchBox .search-parameter:hover {
+    box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+}
+.advancedSearchBox .search-parameter div {
+    float: left;
+    margin: 0 2px;
+}
+.advancedSearchBox .search-parameter .remove {
+    color: #fff;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.advancedSearchBox .search-parameter .key {
+    color: #fff;
+}
+.advancedSearchBox .search-parameter .value span {
+    color: #fff;
+}
+.advancedSearchBox .search-parameter .value input {
+    height: 24px;
+}
+.advancedSearchBox .search-parameter-input {
+    display: inline-block;
+    width: auto;
+    height: 24px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.advancedSearchBox .search-parameter-input:focus {
+    box-shadow: none;
+    outline: none;
+}
+.advancedSearchBox .search-parameter-suggestions {
+    cursor: auto;
+    display: block;
+}
+.advancedSearchBox .search-parameter-suggestions .title {
+    display: block;
+    float: left;
+    height: 25px;
+    margin: 7px 7px 0 0;
+    background-color: transparent;
+    color: #888;
+    font-weight: bold;
+    padding: 0 5px;
+    font-size: 14px;
+    line-height: 25px;
+}
+.advancedSearchBox .search-parameter-suggestions .search-parameter {
+    cursor: pointer;
+    background-color: #bdbdbd;
+    color: #fff;
+}
+.entity {
+    background-color: black;  
+}
+
+.index {
+    background-color: #86898B; /*#5bc0de*/   
+}
+.word {
+    background-color: lightgray;  
+}
+.fetapa{
+    background-color:cornflowerblue;
+}
+
+.festado{
+    background-color:mediumslateblue;
+}
+
+.fasignado{
+    background-color:cadetblue;
+}
+
+.rowWord {
+    padding: 2px !important;
+    color: lightgray;
+    -webkit-border-radius: 5px 10px; /* Safari  */
+    -moz-border-radius: 5px 10px; /* Firefox */
+    margin-top: 1px;
+        /*background-color: white;*/
+}
+.rowEntity {
+    padding: 2px !important;
+    cursor:pointer;
+    color: #86898B;/*#83cf5f*/
+    -webkit-border-radius: 5px 10px; /* Safari  */
+    -moz-border-radius: 5px 10px; /* Firefox */
+    margin-top: 1px;
+    /*height:150px;*/
+        /*background-color: white;*/
+}
+.rowIndex {
+    padding: 2px !important;
+    -webkit-border-radius: 5px 10px; /* Safari  */
+    -moz-border-radius: 5px 10px; /* Firefox */
+    margin-top: 1px;
+    /*z-index:1;*/
+        /*background-color: white;*/
+}
+.tt-dataset{
+    color:black;
+        background-color: white;
+    border-style: solid;
+    cursor: pointer;
+}
+
+.tt-suggestion{
+    font-size: 12px !important;
+    margin-left: 5px;
+    border-bottom: 1px solid gray;
+}
+.thMain {
+    height: 15px;
+    width: 90px;
+    display: none; /*inline-block*/
+    margin-left: 5px;
+    color: blue;
+    font-size: 10px;
+    vertical-align: text-bottom;
+}
+
+.th {
+    height: 15px;
+    width: 90px;
+    display: none;
+    margin-left: 5px;
+    color: blue;
+    font-size: 10px;
+}
+.descSpanA {   
+    color: #86898B;/*#5bc0de*/
+    font-size: 12px;
+}
+.containTxt {
+    /*text-align: center;*/
+    display: table-cell;
+    padding-left: 30px;
+    font-size: 9px;
+    color: #2134BE; 
+}
+.containTxt:hover{
+        text-decoration: underline;
+        cursor: pointer;
+    }
+.footerTxt {
+    text-align: center;
+    color: #8899a6;
+    font-size: 9px;
+    margin: 0px;
+        /*margin-top: -15px;*/
+}
+.ulAttr{
+    padding-left: 60px; margin-top: -12px; display: inline-block;
+}
+.btnMore{/*position: relative;*/ left: 90%; margin-top: -10px; }
+
+.innerTxt {
+    color: #86898B;
+    font-size: 10px;
+    display:flex;
+        display:flexbox;
+    margin: 0px;
+    /*position:relative;*/
+}
+
+.parentTxt {
+    /*background:-webkit-linear-gradient(right,white, #5bc0de) ;*/
+    color: gray;
+    font-size: 10px;
+    /*display: -webkit-inline-box;*/
+    margin: 0px;
+    /*position:relative;*/
+}
+
+.innerTxt:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.descSpanE {
+    /*background:-webkit-linear-gradient(right,white, #83cf5f) ;*/
+    color: #86898B;/*#83cf5f*/
+    font-size: 12px;
+}
+.descSpanC {
+    /*background:-webkit-linear-gradient(right,white, #5bc0de) ;*/
+    color: lightgray;
+    font-size: 12px;
+}
+.imgFilter{
+    width:40px;
+        /*vertical-align: text-top;*/
+}
+.adv {
+  color: red;
+    font-size: 10px;
+        display: none;/*flex*/
+    padding-left: 60px;
+        padding-bottom: 10px;
+}
+
+
+.twitter-typeahead {
+    /*float: left;
+    width: 100%;*/
+}
+.dropdown-menu {
+     width: 422px;
+}
+.tt-dropdown-menu {
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,2);
+}
+.tt-suggestion {
+    padding: 3px 20px;
+    font-size: 18px;
+    line-height: 24px;
+}
+.tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
+}
+.hidden{
+    display:none;
+}
+
+.editremove{
+        border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    padding-top: -1px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+}
+
+.imgFlt{
+        width: 20px;
+            margin-top: -7px;
+    /*float: left;*/
+}
+.b1 {
+        border: 5px solid lightblue;   
+}
+.b2 {
+        border: 5px solid lightcoral;   
+}
+.b3 {
+        border: 5px solid lightgreen;   
+}
+.b4 {
+        border: 5px solid yellow;   
+}
+.b5 {
+        border: 5px solid blue;   
+}
+.b6 {
+        border: 5px solid red;   
+}
+.b7 {
+        border: 5px solid #337ab7;   /*azul francia*/
+}
+.b8 {
+        border: 5px solid green;   
+}
+.b9 {
+        border: 5px solid lightpink;   
+}
+.b10 {
+        border: 5px solid brown;   
+}
+.tooltip-inner {
+    white-space:pre;
+    max-width:none;
+}
+.advFilter{
+        display: flex;
+        margin-top: 3px;
+           margin-bottom: 3px;
+}
+.etapa{
+    margin-right: 5px;
+        text-indent: 5px;
+    display: flex;
+}
+.asig{
+    margin-right: 5px;
+        text-indent: 5px;
+    display: flex;
+}
+.estado{
+    margin-right: 5px;
+        text-indent: 5px;
+    display: flex;
+}
+input{    
+-webkit-text-fill-color: black !important;
+}
+.infoMsg {
+    display: table;
+    margin: 0 auto;
+    padding-top: 10px;
+    color: crimson;
+    font-weight: bold;
+}
+
+.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus{
+    color:black;text-decoration:none;background-color:#337ab7;outline:0}
+.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus{
+    background-color:#2e6da4;background-image:-webkit-linear-gradient(top,#337ab7 0,#2e6da4 100%);
+    background-image:-o-linear-gradient(top,#337ab7 0,#2e6da4 100%);
+    background-image:-webkit-gradient(linear,left top,left bottom,from(#337ab7),to(#2e6da4));
+    background-image: linear-gradient(to bottom,white,lightblue 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);
+    background-repeat:repeat-x}

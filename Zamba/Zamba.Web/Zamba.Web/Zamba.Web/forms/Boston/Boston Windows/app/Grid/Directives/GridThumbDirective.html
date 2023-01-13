@@ -1,0 +1,81 @@
+﻿<div class="resultsGridSearchBoxThumbs_{{gridIndex}}" ng-style="thumbStyle">
+
+    <div class="resultsGrid_{{gridIndex}} img-thumbnail" ng-repeat="result in  Search.SearchResults  track by $index" style=" max-width:150px; display:inline-block; margin:0.5%; position: relative; font-size: 12px;">
+
+        <!--<span ng-show="result.USER_ASIGNED == Search.UserId && result.LEIDO == 0" title="No Leido" class="fa fa-exclamation notReadIcon"></span>-->
+        <span ng-show="result.ShowUnread" title="No Leido" class="glyphicon glyphicon-asterisk notReadIcon pull-right"></span>
+        <span class="ngtitle document-name" title="Ver tarea: {{result.Tarea}}" data-placement="bottom" data-toggle="tooltip">
+            <span class="ngtitle" title="Ver tarea: {{result.Tarea}}" data-placement="top" data-toggle="tooltip" style="line-height:1;display:inline-block;">{{result.Tarea}}</span>
+        </span>
+
+        <div class="photo">
+
+            <!--Si no hay thumbs muestra icono-->
+            <img style="max-height: 225px;" ng-if="result.THUMB==null && result.ThumbImg==null" ng-dblclick="Opentask($index);HideGBModal($event, $index);" ng-click="onThumbClick(result,$index,$event)" class="document-photo-thumbs" ng-src="../../Content/{{result.Icon}}" />
+
+            <!--Thumb de la base-->
+            <img style="max-height:225px;" ng-if="result.THUMB!==null" ng-dblclick="Opentask($index);HideGBModal($event, $index);" ng-click="onThumbClick(result,$index,$event)" class="document-photo-thumbs" ng-src="data:image/jpeg;base64,{{result.THUMB}}" />
+
+            <!--Thumb en FileSystem-->
+            <img style="max-height: 225px;" ng-if="result.ThumbImg!==null && result.THUMB==null" ng-dblclick="Opentask($index);HideGBModal($event, $index);" ng-click="onThumbClick(result,$index,$event)" class="document-photo-thumbs" ng-src="{{result.ThumbImg}}" />
+
+            <!--Botones thumb-->
+            <div id="btnDetailsContainer">
+                <span title="Más info" ng-hide="mulipleSelectionGridActive" class="glyphicon glyphicon-info-sign"
+                      ng-click="ShowThumbInfoGS(result)">
+                </span>
+                <span title="Agrandar" ng-hide="mulipleSelectionGridActive" mode="normal" class="glyphicon glyphicon-zoom-in" ng-click="thumbZoom(result);"></span>
+                <span ng-show="mulipleSelectionGridActive" class="glyphicon glyphicon-ok-circle {{thumbSelectionClass}}" ng-click="showSeletionModeByCkeck($event, $index);"></span>
+            </div>
+
+        </div>
+        <div id="ShowThumbDetails" style="display:none;padding: 5%;">
+            <hr style="margin:0" />
+            <div ng-click="Opentask($index);HideGBModal($event, $index);">
+                <div>
+                    <span class="document-name-details">
+                        <span style="display:inline-block;">{{result.Tarea}}</span>
+                    </span>
+                </div>
+                <div>
+                    <span class="document-entity ngtitle" title="Indice: {{result.Entidad}}" data-placement="top" data-toggle="tooltip" style="font-weight: bolder;line-height: 12px;    display: inline-block;">{{result.Entidad}}</span>
+                </div>
+                <div>
+                    <a class="document-index ngtitle" title="Más info" data-placement="top" data-toggle="tooltip" ng-click="ShowIndexs($index)" onclick="$('#searchResultModalGS').modal().draggable();">Ver más info</a>
+                </div>
+                <div>
+                    <ul style="list-style-type: none; ">
+                        <li>
+                            <span class="glyphicon glyphicon-user glypResult"> </span>
+                            <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                        </li>
+                        <li>
+                            <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                            <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Fecha de Creacion: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <ul style="list-style-type: none;">
+                                <li>
+                                    <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                    <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} <span ng-if="result.State!='' && result.State!=undefined && result.State!=null">({{result.State}})</span></span>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                    <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Ultima modificacion: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

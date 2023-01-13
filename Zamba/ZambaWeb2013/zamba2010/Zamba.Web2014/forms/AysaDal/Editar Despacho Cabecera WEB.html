@@ -1,0 +1,144 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+
+
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+
+    </script>
+</head>
+<body>
+    <form id="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div id="design">
+        <strong>Editar Despacho</strong>
+    </div>
+    <table style="width: 98%;">
+        <tr>
+            <td colspan="3">
+                <table style="width: 90%;">
+                    <tr>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Nro de Despacho</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_12353" name="zamba_index_12353" readonly="readonly"
+                                class="readOnly" />
+                        </td>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Fecha de Ingreso</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_12354" name="zamba_index_12354" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Proveedor</label>
+                        </td>
+                        <td>
+                            <select style="width: 225px" id="zamba_index_12381" name="zamba_index_12381">
+                            </select>
+                        </td>
+                        <td>
+                            <label style="width: 12em;">
+                                Dias maximos de entrega</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_12445" name="zamba_index_12445" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Deposito</label>
+                        </td>
+                        <td>
+                            <select style="width: 225px" id="zamba_index_12380" name="zamba_index_12380" disabled="disabled">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <hr />
+                    <h3>
+                        Solicitar Productos </h3>
+                    <table>
+                        <tr>
+                            <td class="style1">
+                                <label style="width: 14em;">
+                                    Proceso</label>
+                                <select id="zamba_index_12437" name="zamba_index_12437" style="width: 300px" disabled="disabled">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style1">
+                                <label style="width: 14em;">
+                                    Familia</label>
+                                <select id="zamba_index_12393" name="zamba_index_12393" style="width: 300px">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style1">
+                                <label style="width: 14em;">
+                                    Productos</label>
+                                <br />
+                                <br />
+                                <input id="insertPrd" type="submit" style="text-align: center; margin-right: 25px;"
+                                    class="submit" value="Ingresar Productos Solicitados" onclick="SetRuleIdAndGrid($('#InsertAll'),'zamba_rule_21402','zvar(productosingreso[0][1][2])', 'prdTable');" />
+                                <br />
+                                <table id="prdTable" class="zAjaxTable tablesorter" source="zFillSelect(exec zsp_dal_100_getProductsByFamilyAndOffice @productFamily,@officeId|@productFamily,@officeId)"
+                                    filterfield="zamba_index_12393|zamba_index_12353" showcolumns="idProd|descProd|stockActual"
+                                    editablecolumns="3" editablecolumnsattributes="[3|class:dataType haveMinValue length|dataType:numeric|ZMinValue:=0|length:10]"
+                                    additionalvalidationbutton="insertPrd" postajaxfuncion="">
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <hr />
+                    <h3>
+                        Productos Solicitados</h3>
+                    <table id="zamba_associated_documents_12104" class="tablesorter">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img alt="" src="images/logocliente.bmp" height="50" width="70" />
+            </td>
+            <td>
+                <center>
+                    <input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" />
+                    <input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" /></center>
+            </td>
+            <td>
+                <img alt="" src="images/pwbyzamba.jpg" style="float: right" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

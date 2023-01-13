@@ -1,0 +1,153 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Zamba.Core;
+using Zamba.Services;
+////using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_UCTaskToExpire_UCTaskToExpireByStep : System.Web.UI.UserControl
+{
+
+    #region EVENTOS
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (txtHoursToExpire.Text == string.Empty)
+            txtHoursToExpire.Text = "24";
+        rpvTaskToExpireByUser.Visible = false;
+
+        if (cmbEtapas.Items.Count == 0)
+        {
+            InitializesComponents();
+        }
+                
+    }
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        cmbEtapas.Items.Clear();
+        LoadSteps(Int64.Parse(cmbWorkflows.SelectedValue.ToString()));
+    }
+
+    protected void DropEtapas_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+
+    protected void BtnBuscar_Click(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+
+    #endregion
+
+    #region METODOS
+
+    private void ShowReports()
+    {
+
+        if (!String.IsNullOrEmpty(cmbEtapas.SelectedValue))
+        {
+            if (IsNumeric(txtHoursToExpire.Text))
+            {
+
+                dsTaskToExpire dsTyped = new dsTaskToExpire();
+
+                dsTaskToExpire.dtTaskToExpireRow dr1 = dsTyped.dtTaskToExpire.NewdtTaskToExpireRow();
+
+                dr1.TaskToExpire_Source = "Etapa: " + cmbEtapas.SelectedItem.ToString();
+                //Diego: Hardcodeo con 0 el parametro para que la funcion me devuelva los registros
+                //desde este momento hasta lo que defina el usuario
+                dr1.TaskToExpire_Count = Tasks.GetTaskToExpireByStep(Int64.Parse(cmbEtapas.SelectedValue.ToString()), 0, Int32.Parse(txtHoursToExpire.Text));
+
+
+
+                dsTyped.Tables[0].Rows.Add(dr1);
+                dsTyped.AcceptChanges();
+
+                this.rpvTaskToExpireByUser.LocalReport.DataSources.Clear();
+                this.rpvGrdTaskToExpireByUser.LocalReport.DataSources.Clear();
+                ReportDataSource rptDatasource = new ReportDataSource("dsTaskToExpire_dtTaskToExpire", dsTyped.Tables[0]);
+
+                if (rdbVerGrafico.Checked)
+                {
+                    this.rpvTaskToExpireByUser.LocalReport.DataSources.Add(rptDatasource);
+                    rpvTaskToExpireByUser.Visible = true;
+                    rpvGrdTaskToExpireByUser.Visible = false;
+                }
+                else
+                {
+                    this.rpvGrdTaskToExpireByUser.LocalReport.DataSources.Add(rptDatasource);
+                    rpvTaskToExpireByUser.Visible = false;
+                    rpvGrdTaskToExpireByUser.Visible = true;
+                }
+                
+            }
+
+        }
+    }
+
+
+    public void InitializesComponents()
+    {
+        List<IWorkFlow> WFList = new List<IWorkFlow>();
+
+        WFList = Workflow.GetWorkflows();
+        //todo: quitar la referencia dll que se agrego a mano para empezar a utilizar
+        //Zamba.Services
+
+        foreach (IWorkFlow CurrentWorkflow in WFList)
+            cmbWorkflows.Items.Add(new ListItem(CurrentWorkflow.Name, CurrentWorkflow.ID.ToString()));
+        if (cmbWorkflows.Items.Count > 0)
+        {
+            if (null != cmbWorkflows.SelectedValue)
+            {
+                LoadSteps(Int64.Parse(cmbWorkflows.SelectedValue.ToString()));
+            }
+
+
+        }
+    }
+    public bool IsNumeric(object Expression)
+    {
+        bool isNum;
+        double retNum;
+
+        isNum = Double.TryParse(Convert.ToString(Expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
+        return isNum;
+    }
+
+    private void LoadSteps(Int64 workflowId)
+    {
+        List<IWFStep> StepList = new List<IWFStep>();//usar el metodo que corresponda de etapas
+        StepList = Zamba.Services.Steps.GetAllSteps(workflowId);
+
+        foreach (IWFStep CurrentStep in StepList)
+            cmbEtapas.Items.Add(new ListItem(CurrentStep.Name, CurrentStep.ID.ToString()));
+
+        ShowReports();
+    }
+
+    #endregion
+
+    protected void rdbVerGrafico_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerTabla.Checked = false;
+        ShowReports();
+
+    }
+    protected void rdbVerTabla_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerGrafico.Checked = false;
+        ShowReports();
+    }
+}

@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../MailTo/MailTo.js"></script>
+    <script src="../ClientIMAP/ClientIMAP.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <div class="col-md-12" style="background-color: dodgerblue;">
+        <h1>Template Formulario de configuracion</h1>
+    </div>
+
+
+    <div class="col-md-6" style="background-color: antiquewhite;">
+        <br />
+        <div class="row col-md-12">
+            <div class="col-md-6">
+                <label> Dato 1 </label>
+                <input class="form-control" type="text" id="TboxUser" placeholder="Ingrese Dato 1" />
+
+            </div>
+
+            <div class="col-md-6">
+                <label> Dato 2 </label>
+                <input class="form-control" type="text" id="TboxPass" placeholder="Ingrese Dato 2" />
+
+            </div>
+        </div>
+
+        <div class="row col-md-12">
+            <div class="col-md-6">
+                <label> Dato 3 </label>
+                <input class="form-control" type="text" id="TboxUser" placeholder="Ingrese Dato 3" />
+
+            </div>
+
+            <div class="col-md-6">
+                <label> Dato 4 </label>
+                <input class="form-control" type="email" id="TboxPass" placeholder="Ingrese casillas destino." />
+
+            </div>
+        </div>
+
+        <div class="row col-md-12">
+            <div class="col-md-12">
+                <label> Dato 5 </label>
+                <textarea class="form-control" type="text" id="TboxUser" placeholder="Ingrese contenido del correo." /></textarea>
+
+                <label> Dato 6 </label>
+                <input class="form-control" type="password" id="TboxPass" placeholder="Ingrese valor deseado tipo contraseña" />
+            </div>
+        </div>
+
+
+
+        <div class="row col-md-12">
+            <div class="col-md-12">
+                <br />
+                <input class="btn btn-primary" type="button" id="BtnSubmit" value="Guardar configuracion" onclick="alert('Configuracion guardada exitosamente (PRUEBA)... ver consola'); console.log('No se guardo nada')" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-6" style="background-color: lightskyblue;">
+        <br />
+        <div class="row col-md-12">
+            <div class="col-md-6">
+                <label> Dato 1 </label>
+                <input class="form-control" type="text" id="TboxUser" placeholder="Ingrese Dato 1" />
+
+            </div>
+
+            <div class="col-md-6">
+                <label> Dato 2 </label>
+                <input class="form-control" type="text" id="TboxPass" placeholder="Ingrese Dato 2" />
+
+            </div>
+        </div>
+
+        <div class="row col-md-12">
+            <div class="col-md-6">
+                <label> Dato 3 </label>
+                <input class="form-control" type="text" id="TboxUser" placeholder="Ingrese Dato 3" />
+
+            </div>
+
+            <div class="col-md-6">
+                <label> Dato 4 </label>
+                <input class="form-control" type="email" id="TboxPass" placeholder="Ingrese casillas destino." />
+
+            </div>
+        </div>
+
+        <div class="row col-md-12">
+            <div class="col-md-12">
+                <label> Dato 5 </label>
+                <textarea class="form-control" type="text" id="TboxUser" placeholder="Ingrese contenido del correo."></textarea>
+
+                <label> Dato 6 </label>
+                <input class="form-control" type="password" id="TboxPass" placeholder="Ingrese valor deseado tipo contraseña" />
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

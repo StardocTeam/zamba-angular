@@ -1,0 +1,163 @@
+<html>
+	<head>
+		<title>Nota</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">		
+		 	
+		<script src="Nota.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="tabber.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			
+		    function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+
+			function zamba_save_onclick(){
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_92');			
+				makeCalendar('zamba_index_75');
+				makeCalendar('zamba_index_10119');
+				makeCalendar('zamba_index_101');				
+        });					
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Nota</strong>
+				</div>
+				<br />
+				<div name="floatleft" id="floatleft">
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Informaci&oacuten</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>Nro Nota:</label></td>
+									<td><input type="text" name="zamba_index_108" size="10"/></td>
+									<td><label>Entrada/Salida:</label></td>
+									<td><input type="text" name="zamba_index_109" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label>A&ntildeo:</label></td>
+									<td><input name="zamba_index_10118" id="zamba_index_10118" size="5"/></td>
+								</tr>
+								<tr>
+									<td><label>Remitente: </label></td>
+									<td><input id="zamba_index_112" name="zamba_index_112" size="30"/></td>
+									<td><label>Destinatario: </label></td>
+									<td><input id="zamba_index_113" name="zamba_index_113" size="30"/></td>									
+								</tr>	 
+								<tr>	
+									<td><label>Nombre del Proyecto: </label></td>
+									<td><input id="zamba_index_114" name="zamba_index_114" size="30"/></td>
+									<td><label>Nro de Proyecto/P3: </label></td>
+									<td><select id="zamba_index_3" name="zamba_index_3" style="width: 100px; height: 2px;">
+                                        </select>
+									</td>	
+								</tr>
+								<tr>	
+									<td><label>Asunto/Referencia: </label></td>
+									<td><input id="zamba_index_115" name="zamba_index_115" size="30"/></td>
+									<td><label>Descripci&oacuten: </label></td>
+									<td><input id="zamba_index_85" name="zamba_index_85" size="30"/></td>	
+								</tr>							
+								<tr>	
+									<td><label>Fecha de Nota: </label></td>
+									<td><input id="zamba_index_92" name="zamba_index_92" style="width:170px;"/></td>	
+									<td><label>Fecha de Recepci&oacuten: </label></td>
+									<td><input id="zamba_index_75" name="zamba_index_75" style="width:170px;"/></td>	
+								</tr>
+								<tr>	
+									<td><label>Fecha de Salida: </label></td>
+									<td><input id="zamba_index_10119" name="zamba_index_10119" style="width:170px;"/></td>	
+									<td><label>Fecha de Vencimiento: </label></td>
+									<td><input id="zamba_index_101" name="zamba_index_101" style="width:170px;"/></td>	
+								</tr>
+							</table>
+							</div>
+					</p>
+					
+					<iframe id="zamba_innerdoctype_original" height="500px" title="Documento Original" style="margin-bottom:20px" width="96%"></iframe>
+
+					</p>
+			
+					<table cellpadding="4">
+							<tr>
+								<td><label>Notas de Respuestas:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_10028" class="tablesorter" >
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+					</table> 							
+					</p>	
+				</p>							
+				</div>
+				<br />
+				
+				<div name="logoAysa" id="logoAysa">	
+					<img src="images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+				
+			</form>						
+		</div>		
+	</body>
+</html>

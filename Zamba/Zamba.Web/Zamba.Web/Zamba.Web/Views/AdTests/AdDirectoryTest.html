@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../../Scripts/jquery-2.2.2.js"></script>
+    <link href="../../Content/bootstrap.css" rel="stylesheet" />
+    <link href="../../Content/toastr.css" rel="stylesheet" />
+    <script src="../../Scripts/toastr.js"></script>
+    <script src="../../Scripts/ADScript.js"></script>
+</head>
+
+<body >
+    <nav class="navbar navbar-default navbar-fixed-top ">
+        <a href="#" class="navbar-brand" onclick="">Active Directory Test</a>
+
+    </nav>
+    <div class="row col-xs-12 " style="position:relative;margin-top:100px;">
+        <div class="col-xs-3">
+            <label>Validacion de Usuario</label>
+            <input type="text" class="form-control " id="name" />
+            <!--<label>Contraseña</label>
+            <input class="form-control " type="password" name="name" value="" id="pass" disabled />-->
+            <span class="btn btn-default BtnMargin" onclick="Login()">Ingresar</span>
+        </div>
+        <div class="col-xs-3 col-xs-offset-1">
+            <label>Obtener todos los usuarios</label>
+            <!--<input  class="form-control" type="text"/>-->
+            <div>
+                <span class="btn btn-default" onclick="GetAllUsers()">Obtener</span>
+                <span class="btn btn-default" onclick="cleanListUser()">Limpiar</span>
+            </div>
+
+            <ul id="userlist">
+
+            </ul>
+        </div>
+
+        <div class="col-xs-3 col-xs-offset-1">
+            <label>Obtener todos los grupos</label>
+            <!--<input  class="form-control" type="text"/>-->
+            <div>
+                <span class="btn btn-default" onclick="GetAllGroups()">Obtener</span>
+                <span class="btn btn-default" onclick="cleanListGroups()">Limpiar</span>
+            </div>
+            <ul id="grouplist">
+            </ul>
+        </div>
+
+        <div class="row col-xs-12">
+            <div class="col-xs-3">
+                <label>Obtener grupo de un usuario</label>
+                <input class="form-control" id="username" />
+              
+                <input class="form-control" id="Usergroup"  disabled/>
+                <span class="btn btn-default BtnMargin" onclick="GetUserGroup()">Obtener</span>
+
+            </div>
+
+
+            <div class="col-xs-3 col-xs-offset-1">
+                <label>Obtener Usuarios de un grupo</label>
+                <input class="form-control" id="groupname" />
+                <div>
+                    <span class="btn btn-default BtnMargin" onclick="GetUsersFromGroup()">Obtener</span>
+                    <span class="btn btn-default BtnMargin" onclick="cleanUsersFromGroup()">Limpiar</span>
+
+                </div>
+                    <ul id="usersfromgroup"></ul>
+
+                </div>
+        </div>
+    </div>
+   
+</body>
+</html>
+
+<style>
+    .BtnMargin{
+
+        margin-top:5px;
+    }
+
+</style>

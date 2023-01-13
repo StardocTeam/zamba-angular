@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsHistorialAcciones" targetNamespace="http://tempuri.org/DsHistorialAcciones.xsd"
+	elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/DsHistorialAcciones.xsd"
+	xmlns:mstns="http://tempuri.org/DsHistorialAcciones.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsHistorialAcciones" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Nada">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Algo" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USR_GROUP">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="USER_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="USER_NAME" type="xs:string" minOccurs="0" />
+							<xs:element name="GROUP_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="GROUP_NAME" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OBJECTTYPES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OBJECTTYPES" type="xs:string" minOccurs="0" />
+							<xs:element name="OBJECTTYPESID" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OBJECTID">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OBJECTTYPE" type="xs:string" minOccurs="0" />
+							<xs:element name="OBJECTTYPEID" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USR_HST">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="USER_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ACTION_DATE" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="ACTION_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="OBJECT_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="OBJECT_TYPE_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ACTION_TYPE" type="xs:decimal" minOccurs="0" />
+							<xs:element name="S_OBJECT_ID" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RIGHTSTYPE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RIGHTSTYPE" type="xs:string" minOccurs="0" />
+							<xs:element name="RIGHTSTYPEID" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

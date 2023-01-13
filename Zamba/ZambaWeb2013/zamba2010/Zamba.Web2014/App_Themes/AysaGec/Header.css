@@ -1,0 +1,208 @@
+﻿.clientlogo {
+    background: url("../AysaGec/Images/logoAysa4.png") no-repeat;
+    /* background-position: center; */
+    float: none;
+    margin: 0 auto;
+    margin-top: -5px;
+    height: 54px;
+    margin-left: 20px;
+    cursor: pointer;
+    width: 113px;
+    position: absolute;
+    top: 0;
+    left: 3px;
+}
+
+
+/*.navbar-fixed-top {
+    background-color: rgb(0, 157, 224);
+}*/
+
+.clientPhrase {
+}
+
+.topheader {
+    background: url("../AysaGec/Images/logoAysa.png") no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    height: 100px;
+    cursor: pointer;
+}
+
+.divExternToolbar {
+    background: #5c9ccc url("../Aysa/Images/logoAysa.png") repeat-x;
+    border: solid 1px #4297d7;
+    color: #ffffff;
+    display: block;
+    font-family: Verdana;
+    font-size: 10px;
+    font-weight: 700;
+    height: 100%;
+    margin: 0px 0px 1px;
+    padding: 0.1em;
+}
+
+.divToolbar a {
+    color: #ffffff;
+}
+
+.divInternToolbar {
+    border-color: #ffffff;
+    color: #ffffff;
+    display: block;
+    float: left;
+    margin: auto 1.5em auto auto;
+    padding: 0px 0px 0px 1px;
+}
+
+.toolbarButton {
+    background: #dfeffc url("../Aysa/images/Button-Default.gif") repeat-x 50% 50%;
+    border: solid 1px #c5dbec;
+    color: #2e6e9e;
+    cursor: pointer;
+    float: left;
+    font-family: Verdana;
+    font-size: 9px;
+    font-weight: 700;
+    left: 400px;
+    margin: 0px 4px 0px 0px;
+    padding: 0.4em 1em;
+    text-decoration: none;
+}
+
+    .toolbarButton:hover {
+        border: 1px solid #79b7e7;
+        background: #d0e5f5 url("../Aysa/images/Button-Hover.png") 50% 50% repeat-x;
+        font-weight: bold;
+        color: #1d5987;
+        cursor: pointer;
+        float: left;
+        font-family: Verdana;
+        font-size: 9px;
+        left: 412px;
+        margin: 0px 4px 0px 0px;
+        padding: 0.4em 1em;
+        text-decoration: none;
+    }
+
+.HomeLink {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 10pt;
+}
+
+.tdUser {
+    font-size: 10pt;
+    white-space: nowrap;
+}
+
+
+/*****Agregado  04-11-2011*****/
+#header-Cabezera-Master {
+    display: none;
+}
+
+.header-currentuser {
+    color: #302682;
+}
+
+.header-closesession {
+    display: none;
+}
+
+.header-changepassword {
+    display: none;
+}
+
+
+#tblCabecera {
+    padding: 15px 0px;
+}
+
+#MasterHeader {
+    padding-top: 0px;
+    margin-top: 0px;
+    min-height: 0px;
+    margin-bottom: 0px;
+}
+
+#headerNav {
+    background: #009DE0 !important;
+}
+
+.advancedSearchBox {
+    width: 100%;
+    margin: 3px !important;
+}
+
+.mh-logo {
+    position: fixed !important;
+    height: 40px !important;
+    width: 40px !important;
+    padding: 0 !important;
+    left: -20px !important;
+    top: 0% !important;
+}
+
+.mh-user {
+    position: fixed !important;
+    right: 0% !important;
+    top: 0% !important;
+}
+
+.mh-search {
+    padding: 0 !important;
+}
+
+@media (max-width: 467px) {
+    .mh-search {
+        width: 90% !important;
+        padding-top: 50px !important;
+    }
+}
+
+@media (min-width: 468px) and (max-width:767px) {
+    .mh-search {
+        /*position: fixed !important;*/
+        top: 4px !important;
+        width: 50% !important;
+        margin-left: 23% !important;
+        margin-right: 10% !important;
+    }
+    /*#MasterHeader {
+        margin-top: -49px !important;
+    }*/
+
+}
+
+/* col-sm */
+@media (min-width:768px) and (max-width:979px) {
+    .mh-search {
+        left: 34% !important;
+        width: 50% !important;
+        top: 3px;
+    }
+    /*#MasterHeader {
+        margin-top: -49px !important;
+    }*/
+}
+
+@media (min-width: 980px) and (max-width:991px) {
+    .mh-search {
+        left: 34% !important;
+        width: 50% !important;
+        top: 53px;
+    }
+
+    #MasterHeader {
+        margin-top: -49px !important;
+    }
+}
+/* col-md y col-lg*/
+@media (min-width:992px) {
+    .mh-search {
+        left: 35% !important;
+        width: 40% !important;
+        top: 6px;
+    }
+}

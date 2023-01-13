@@ -1,0 +1,224 @@
+﻿
+<link rel="stylesheet" type="text/css" href="../../Content/partialSearchIndexs.css?v=248">
+<script src="../../Scripts/partialSearchIndexs.js" type="text/javascript"></script>
+<div>
+    <a ng-href="" id="visualizerModeGS" onclick="visualizerModeGSFn(this, 'partialSearchResults');" title="Cambiar modo de visualizacion" role="button">
+        <span class="remove-all-icon fa fa-th fa-2x" style="margin:10px;" mode="thumbs"></span>
+    </a>
+</div>
+<hr style="margin:0" />
+
+<div id="resultsGridSearchBox" >
+    <div class="resultsGrid" ng-repeat="result in Search.SearchResults" ng-class-odd="'alt'">
+        <div id="gridcontainer"></div>
+        <div class="row">
+            <div class="col-xs-7 col-sm-1 photo">
+                <img ng-if="result.THUMB==null" class="document-photo" style="right:0" ng-src="../../Content/{{result.Icon}}" />
+                <img ng-if="result.THUMB!=null" class="document-photo" style="right:0" ng-src="data:image/jpeg;base64,{{result.THUMB}}" />
+
+            </div>
+            <div class="col-xs-11 details">
+                <div class="row" ng-click="ShowResult($index)">
+                    <div class="col-xs-6">
+                        <span class="document-name">
+                            <!--<span class="ngtitle" title="Ver tarea: {{result.Name}}{{result.Nombre}}" data-placement="right" data-toggle="tooltip">{{result.Name}}</span>-->
+                            <span class="ngtitle" title="Ver tarea: {{result.Tarea}}" data-placement="right" data-toggle="tooltip">{{result.Tarea}}</span>
+                        </span>
+                    </div>
+                    <div class="row col-xs-3">
+                        <span class="document-entity ngtitle" title="Índice: {{result.Entidad}}" data-placement="right" data-toggle="tooltip" style="font-weight: bolder;">{{result.Entidad}}</span>
+                    </div>
+                    <div class="row col-xs-2">
+                        <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                        <span class="document-dates ngtitle" data-placement="right" data-toggle="tooltip" title="Fecha de Creación: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <div class="row col-xs-6">
+                            <a class="document-index ngtitle" title="Ver índices" data-placement="right" data-toggle="tooltip" ng-click="ShowIndexs($index)" onclick="$('#searchResultModal').modal(); $('#searchResultModal').draggable();">Indices</a>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="row">
+                                <span class="glyphicon glyphicon-user glypResult"> </span>
+                                <span class="document-dates ngtitle" data-placement="right" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                            </div>
+                            <div class="row" ng-if="result.State!=''">
+                                <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                <span class="document-dates ngtitle" data-placement="right" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} ({{result.State}}) </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="row">
+                                <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                <span class="document-dates ngtitle" data-placement="right" data-toggle="tooltip" title="Última modificación: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                            <!--<div class="row ngtitle" title="Ultima modificación: {{result.Modificado}}">
+                                <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                <span class="document-dates">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="resultsGridSearchBoxThumbs" style="display:none">
+    <div class="resultsGrid" ng-repeat="result in Search.SearchResults" style="width:25%;display:inline-block;">
+        <div style="margin-left:0;">
+            <!--class="row"-->
+            <div class="photo">
+                <img ng-if="result.THUMB==null" ng-click="ShowResult($index)" class="document-photo-thumbs" ng-src="../../Content/{{result.Icon}}"  style="height:0"/>
+                <img ng-if="result.THUMB!=null" ng-click="ShowResult($index)" class="document-photo-thumbs" ng-src="data:image/jpeg;base64,{{result.THUMB}}"  style="height:0"/>
+                <span class="document-name" onclick="ShowThumbInfoGS(this);">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                    <span class="ngtitle" title="Ver informacion" data-placement="bottom" data-toggle="tooltip" style="line-height:1;display:inline-block;">
+                        {{result.Tarea  | limitTo: 20 }}...
+                    </span>
+                </span>
+            </div>
+
+            <div id="ShowThumbDetails" style="display:none;">
+                <hr style="margin:0" />
+                <div ng-click="ShowResult($index)">
+                    <div>
+                        <span class="document-name">
+                            <span class="ngtitle" title="Ver tarea: {{result.Tarea}}" data-placement="top" data-toggle="tooltip" style="line-height:1;display:inline-block;">{{result.Name}}</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="document-entity ngtitle" title="Indice: {{result.Entidad}}" data-placement="top" data-toggle="tooltip" style="font-weight: bolder;line-height: 12px;    display: inline-block;">{{result.Entidad}}</span>
+                    </div>
+                    <div>
+                        <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                        <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Fecha de Creacion: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <a class="document-index ngtitle" title="Ver indices" data-placement="top" data-toggle="tooltip" ng-click="ShowIndexs($index)" onclick="$('#searchResultModalGS').modal(); $('#searchResultModalGS').draggable();">Ver indices</a>
+                        </div>
+                        <div>
+                            <div>
+                                <span class="glyphicon glyphicon-user glypResult"> </span>
+                                <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                            </div>
+                            <div ng-if="result.State!=''">
+                                <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} ({{result.State}}) </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Ultima modificacion: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="resultsGridSearchBoxPreview" style="display:none" class="row" >
+    <div class="col-md-10">
+        <iframe id="previewDocSearch" style="height: 600px; width: 100%;" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+        
+    </div>
+    <div class="col-md-2" style="height: 600px;padding: 0;overflow: auto;">
+        <div class="resultsGrid" ng-repeat="result in Search.SearchResults" style="display:inline-block;">
+
+            <div style="margin-left:0;">
+                <div class="">
+                    <div class="photo" ng-click="$parent.previewItem(result)">
+                        <img ng-if="result.THUMB==null" class="document-photo-thumbs" ng-src="../../Content/{{result.Icon}}" />
+                        <img ng-if="result.THUMB!=null" class="document-photo-thumbs" ng-src="data:image/jpeg;base64,{{result.THUMB}}" />
+                        <span class="document-name" onclick="ShowThumbInfoGS(this);">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                            <span class="ngtitle" title="Ver informacion" data-placement="bottom" data-toggle="tooltip" style="line-height:1;display:inline-block;">
+                                {{result.Tarea  | limitTo: 20 }}...
+                            </span>
+                        </span>
+                    </div>
+
+                    <div id="ShowThumbDetails" style="display:none;">
+                        <hr style="margin:0" />
+                        <div ng-click="$parent.ShowResult($index)">
+                            <div>
+                                <span class="document-name">
+                                    <span class="ngtitle" title="Ver tarea: {{result.Tarea}}" data-placement="top" data-toggle="tooltip" style="line-height:1;display:inline-block;">{{result.Name}}</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="document-entity ngtitle" title="Indice: {{result.Entidad}}" data-placement="top" data-toggle="tooltip" style="font-weight: bolder;line-height: 12px;    display: inline-block;">{{result.Entidad}}</span>
+                            </div>
+                            <div>
+                                <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                                <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Fecha de Creacion: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>
+                                    <a class="document-index ngtitle" title="Ver indices" data-placement="top" data-toggle="tooltip" ng-click="$parent.ShowIndexs($index)" onclick="$('#searchResultModalGS').modal(); $('#searchResultModalGS').draggable();">Ver indices</a>
+                                </div>
+                                <div>
+                                    <div>
+                                        <span class="glyphicon glyphicon-user glypResult"> </span>
+                                        <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                                    </div>
+                                    <div ng-if="result.State!=''">
+                                        <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                        <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} ({{result.State}}) </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                        <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Ultima modificacion: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="back-to-top" title="Ir arriba" data-placement="left" data-toggle="tooltip">
+    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-chevron-up"></span></button>
+</div>
+
+<div class="modal fade" id="searchResultModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalSRLabel">{{Result.Tarea}}</h4>
+            </div>
+            <div class="modal-body" style="padding:0;">
+                <div class="">
+                    <ul>
+                        <li ng-repeat="index in Result.Indexs" ng-show="index.Data != ''">
+                            <p style="margin-bottom: 0;">
+                                <b>{{index.Name}}</b>:  <span ng-show="index.dataDescription != ''">{{index.dataDescription}}</span>
+                                <span ng-show="index.dataDescription == ''">{{index.Data}}</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:5px;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

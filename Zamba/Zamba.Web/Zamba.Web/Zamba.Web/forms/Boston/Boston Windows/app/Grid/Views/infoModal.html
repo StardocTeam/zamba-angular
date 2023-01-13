@@ -1,0 +1,14 @@
+﻿<div class="container-fluid">   
+    <div class="modal-body">
+        <!--<ul>-->
+        <div class="form-group row" ng-repeat="(attr, value) in resultDetails">
+            <div class="col-md-12 input-group">
+                <span class="input-group-addon"> {{attr}}: </span>
+                <input class="form-control" value="{{value}}" title="{{value}}" readonly style="font-weight:600;" />
+            </div>
+        </div>    
+    </div>    
+    <div class="modal-footer">
+        <button class="btn btn-primary pull-right" ng-click="cancel()">Cerrar</button>
+    </div>
+</div>

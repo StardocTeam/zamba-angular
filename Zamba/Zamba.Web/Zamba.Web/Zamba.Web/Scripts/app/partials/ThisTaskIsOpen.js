@@ -1,0 +1,3 @@
+﻿function OpenTaskOnBrowser() {
+    parent.OpenTaskOnBrowser();
+}

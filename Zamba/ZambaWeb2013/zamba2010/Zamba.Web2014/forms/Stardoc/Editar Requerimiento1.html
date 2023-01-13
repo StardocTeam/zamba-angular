@@ -1,0 +1,335 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+        }
+    </script>
+    <style>
+        .widthfield1
+        {
+            width: 280px;
+        }
+    </style>
+</head>
+<body>
+    <form id="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div id="design">
+        <strong>Editar Requerimiento </strong>
+    </div>
+    <div id="TAB" class="tabber" style="">
+        <div class="tabbertab" id="General">
+            <h2>
+                Informacion Cliente
+            </h2>
+            <table style="width: 90%;">
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Nro de Requerimiento</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1288" name="zamba_index_1288" disabled="disabled"
+                            class="widthfield1" />
+                    </td>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Nro de Referencia (OT, Issues, etc)</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1329" name="zamba_index_1329" class="widthfield1" />
+                    </td>
+                </tr>
+                <tr>
+                <td class="style1">
+                        <label style="width: 14em;">
+                            Ingresado por
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1292" name="zamba_index_1292" 
+                            class="widthfield1" />
+                    </td>
+                    <td>
+                        <label style="width: 14em;">
+                            Fecha de Ingreso</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1289" name="zamba_index_1289" readonly="readonly"
+                            class="readonly" class="widthfield1" />
+                    </td>
+
+                </tr>
+                <tr>
+                    
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Usuario Solicitante</label>
+                    </td>
+                     <td>
+                        <select id="zamba_index_1301" name="zamba_index_1301" class="widthfield1"> 
+                        </select>
+                    </td>
+               
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Usuario Final</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1330" name="zamba_index_1330" class="widthfield1"/>
+                    </td>
+
+                     </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Cliente</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1287" name="zamba_index_1287" class="widthfield1">
+                        </select>
+                    </td>
+                
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Proyecto</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1296" name="zamba_index_1296" class="widthfield1">
+                        </select>
+                    </td>
+
+                    </tr>
+                <tr>
+
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Producto</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1295" name="zamba_index_1295" class="widthfield1">
+                        </select>
+                    </td>
+
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Modulo Zamba</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1340" name="zamba_index_1340" class="widthfield1">
+                        </select>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Ambiente</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1327" name="zamba_index_1327" class="widthfield1">
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Version Release</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1328" name="zamba_index_1328" class="widthfield1"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Tipo de Requerimiento</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1297" name="zamba_index_1297" class="widthfield1">
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Severidad</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1326" name="zamba_index_1326" class="widthfield1">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <hr style="width: 950px" />
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Descripcion del Requerimiento</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_1276" name="zamba_index_1276" disabled="disabled"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+        <div class="tabbertab" id="Div1">
+            <h2>
+                Informacion Stardoc
+            </h2>
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Horas Estimadas</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1298" name="zamba_index_1298" class="widthfield1" disabled="disabled" />
+                    </td>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Fecha Estimada de Resolucion</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1332" name="zamba_index_1332" class="widthfield1" disabled="disabled" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Prioridad</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1311" name="zamba_index_1311" class="widthfield1" disabled="disabled">
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Area de Incumbencia</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1331" name="zamba_index_1331" class="widthfield1" disabled="disabled">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Diagnostico</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_1333" name="zamba_index_1333" disabled="disabled"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tabbertab" id="Div2">
+            <h2>
+                Informacion Requerimiento
+            </h2>
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Fecha de Fin</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1310" name="zamba_index_1310" class="widthfield1" disabled="disabled"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Tipo de Solucion</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1335" name="zamba_index_1335" class="widthfield1" disabled="disabled">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Origen del Error</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1336" name="zamba_index_1336" class="widthfield1" disabled="disabled">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <hr />
+            <br />
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Solucion</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_1334" name="zamba_index_1334" disabled="disabled"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tabbertab" id="Div3">
+            <h2>
+                Observaciones
+            </h2>
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Ingresar Observacion</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="3" id="zamba_index_1338" name="zamba_index_1338"></textarea>
+                    </td>
+                    <td class="style1">
+                        <label style="width: 5em;">
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_rule_7861" type="submit" style="text-align: center; margin-right: 25px;"
+                            class="submit ZambaRule DontSave " value="Agregar Observaciones" name="zamba_rule_7861" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <br />
+            <hr />
+            <br />
+            <br />
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Observaciones</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_1337" name="zamba_index_1337" disabled="disabled"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <img alt="" src="images/logocrm.bmp" height="50" width="70" style="float: left" />
+        <center>
+            <input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" />
+            <input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" />
+        </center>
+        <img alt="" src="images/pwbyzamba.jpg" style="float: right" />
+    </div>
+    </form>
+</body>
+</html>

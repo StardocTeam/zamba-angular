@@ -1,0 +1,118 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript" >
+    
+function clearindexcache(indexid)
+{
+$.ajax({
+            type: 'POST',
+            url: '../../Services/IndexsService.asmx/ClearIndexCache',           
+            data: "{'IndexId':" + indexid + "}",
+            contentType: 'application/json; utf-8',
+            dataType: 'json',
+            success: function (data) {
+                if (data.d != null) {
+                    alert(data.d);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {               
+            }
+ 
+        });
+
+       
+}
+    </script>
+</head>
+<body>
+    <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Editar Familia de Productos</strong>
+    </div>
+    <br />
+    <table style="width: 98%;">
+        <tr>
+            <td colspan="3">
+                <div id="floatleft">
+                    <div id="TAB" class="tabber" style="">
+                        <div class="tabbertab" id="General">
+                            <h2>
+                                Informacion
+                            </h2>
+                            <table style="width: 90%;">
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 9em;">
+                                            Codigo</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="zamba_index_12338" name="zamba_index_12338" readonly="readonly" class="readOnly" />
+                                    </td>
+                                    <td class="style1">
+                                        <label style="width: 9em;">
+                                            Descripcion</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 17em;" id="zamba_index_12344" name="zamba_index_12344" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 9em;">
+                                            Es Gerico:</label>
+                                    </td>
+                                    <td>
+                                        <select style="width: 225px" id="zamba_index_12486" name="zamba_index_12486">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 9em;">
+                                            Proceso
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <select style="width: 225px" id="zamba_index_12437" name="zamba_index_12437">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 9em;">
+                                            Ultimo Codigo de Producto
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 17em;" id="zamba_index_12455" name="zamba_index_12455" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="images/logocliente.bmp" height="50" width="70" />
+            </td>
+            <td>
+                <center>
+                    <input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" onclick="clearindexcache('12393');" />
+                    <input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" /></center>
+            </td>
+            <td>
+                <img src="images/pwbyzamba.jpg" align="right" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

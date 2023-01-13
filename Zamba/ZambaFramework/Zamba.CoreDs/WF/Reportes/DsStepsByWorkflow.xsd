@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="StepsByWorkflow" targetNamespace="http://tempuri.org/StepsByWorkflow.xsd" xmlns:mstns="http://tempuri.org/StepsByWorkflow.xsd" xmlns="http://tempuri.org/StepsByWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="zambatstConnectionString" ConnectionStringObject="" IsAppSettingsProperty="True" Modifier="Assembly" Name="zambatstConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Zamba.Core.My.MySettings.GlobalReference.Default.zambatstConnectionString" Provider="System.Data.SqlClient">
+          </Connection>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="StepsByWorkflow" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="StepsByWorkflow" msprop:Generator_DataSetName="StepsByWorkflow">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DsStepsByWorkflow" msprop:Generator_UserTableName="DsStepsByWorkflow" msprop:Generator_RowDeletedName="DsStepsByWorkflowRowDeleted" msprop:Generator_RowChangedName="DsStepsByWorkflowRowChanged" msprop:Generator_RowClassName="DsStepsByWorkflowRow" msprop:Generator_RowChangingName="DsStepsByWorkflowRowChanging" msprop:Generator_RowEvArgName="DsStepsByWorkflowRowChangeEvent" msprop:Generator_RowEvHandlerName="DsStepsByWorkflowRowChangeEventHandler" msprop:Generator_TableClassName="DsStepsByWorkflowDataTable" msprop:Generator_TableVarName="tableDsStepsByWorkflow" msprop:Generator_RowDeletingName="DsStepsByWorkflowRowDeleting" msprop:Generator_TablePropName="DsStepsByWorkflow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="step_Id" msprop:Generator_UserColumnName="step_Id" msprop:Generator_ColumnVarNameInTable="columnstep_Id" msprop:Generator_ColumnPropNameInRow="step_Id" msprop:Generator_ColumnPropNameInTable="step_IdColumn" type="xs:decimal" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="WFWorkflowID" msprop:Generator_UserColumnName="WFWorkflowID" msprop:Generator_ColumnVarNameInTable="columnWFWorkflowID" msprop:Generator_ColumnPropNameInRow="WFWorkflowID" msprop:Generator_ColumnPropNameInTable="WFWorkflowIDColumn" type="xs:decimal" />
+              <xs:element name="WFWorkflowName" msprop:Generator_UserColumnName="WFWorkflowName" msprop:Generator_ColumnVarNameInTable="columnWFWorkflowName" msprop:Generator_ColumnPropNameInRow="WFWorkflowName" msprop:Generator_ColumnPropNameInTable="WFWorkflowNameColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DsStepsByWorkflowKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DsStepsByWorkflow" />
+      <xs:field xpath="mstns:step_Id" />
+      <xs:field xpath="mstns:WFWorkflowID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

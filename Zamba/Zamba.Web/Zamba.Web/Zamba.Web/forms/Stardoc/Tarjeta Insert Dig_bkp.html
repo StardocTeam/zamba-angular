@@ -1,0 +1,292 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Form: LIBRO -->
+<!--Autor:Stardoc-->
+<!--Fecha Creacion:20/08/2020-->
+<!--Modificado por: STARDOC-->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<!--Version:1.0.0-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../DropFiles/dropfiles.js"></script>
+    <link href="../../Content/partialSearchIndexs.css" rel="stylesheet" />
+    <script src="../../app/Observaciones/observacionesController.js"></script>
+    <script src="../../app/Observaciones/observacionesservices.js"></script>
+    <script src="../../Scripts/sweetalert.min.js"></script>
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+    <script src="../../Scripts/angular-xeditable-0.8.1/js/xeditable.min.js"></script>
+    <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
+
+
+    <style>
+        @font-face {
+            font-family: 'IDAutomationHC39M';
+            src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+            $("#barracod").val("(" + $("#zamba_index_139630").val() + ")");
+        });
+
+
+    </script>
+
+</head>
+
+<body>
+
+    <form name="frmMain" action="Tarjeta Insert Dig.html">
+        <div class="container-fluid">
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <!-- <h4 class="text-center" id="header" width="90%">
+               Titulo en caso de necesitarlo
+            </h4> -->
+            <ul class=" nav nav-tabs">
+                <li class=" active"><a href="#Principal" data-toggle="tab">Principal</a></li>
+                <li><a href="#Secundaria" data-toggle="tab">Secundaria</a></li>
+                <li><a href="#Adicional" data-toggle="tab">Adicional</a></li>
+                <!-- <li><a href="#Resumen" data-toggle="tab">Resumen</a></li> -->
+                <div class="col-md54"></div>
+                <div class="col-md-2">
+                    <input id="barracod" class="form-control input-sm dataType length"
+                        style="font-family:'IDAutomationHC39M';font-size: 14pt;text-align: center;height: 50px;background: none; border: none"
+                        readonly="readonly">
+                </div>
+            </ul>
+
+            <div class="form-group row"></div>
+
+            <input id="hdnRuleId" type="hidden" />
+
+
+            <div class="tab-content">
+
+                <!-- Pestaña 2 -->
+                <div class="tab-pane" id="Secundaria">
+                    <div class="form-group row"></div>
+
+                    <h4 class="text-center" id="header" width="90%">
+                        Grilla y Dropzone
+                    </h4>
+
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="139096" default-enable-mode="grid" table-height="400"
+                                    grid-title="Documentos Anexos">
+                                </zamba-associated>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+
+                    <div class="row">
+                        <div class="col-xs-12" style=" margin-top: 37px; width: 92%;">
+                            <!--DropZone-->
+                            <div id="appblankID" ng-controller="appController">
+                                <zamba-drop id="139096"> </zamba-drop>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <!-- ---------------- -->
+
+                <!-- Pestaña 3 -->
+                <div class="tab-pane" id="Adicional">
+                    <div class="form-group row"></div>
+
+                    <h4 class="text-center" id="header" width="90%">
+                        Timeline
+                    </h4>
+                    <div class="col-md-12 col-xs-12">
+                        <div>
+                            <div ng-controller="TimelineController">
+                                <zamba-timeline entity-id="139101" timeline-type="Tracking" parent-entity-id="139096">
+                                </zamba-timeline>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Pestaña 4 -->
+                <div class="tab-pane" id="Resumen">
+                    <div class="form-group row"></div>
+
+                    <h4 class="text-center" id="header" width="90%">
+                        Resumen
+                    </h4>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Detalles</span>
+                                <input class="form-control input-sm" id="zamba_index_139604"
+                                    name="zamba_index_139604" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Hojas</span>
+                                <input class="form-control input-sm" id="zamba_index_139627"
+                                    name="zamba_index_139627" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Imagenes</span>
+                                <input class="form-control input-sm" id="zamba_index_139632"
+                                    name="zamba_index_139632" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Estado</span>
+                                <select class="form-control input-sm" id="zamba_index_139634"
+                                    name="zamba_index_139634"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Pestaña PRINCIPAL -->
+
+                <div id="Principal" class="tab-pane active">
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nombre</span>
+                                <input class="form-control input-sm" id="zamba_index_139593" name="zamba_index_139593"
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Año</span>
+                                <input class="form-control input-sm" id="zamba_index_139618" name="zamba_index_139618"
+                                    disabled />
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tomo</span>
+                                <input class="form-control input-sm" id="zamba_index_139620" name="zamba_index_139620"
+                                    disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">  
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Departamento</span>
+                                <input class="form-control input-sm" id="zamba_index_139624" name="zamba_index_139624"
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Expediente</span>
+                                <input class="form-control input-sm" id="zamba_index_139616" name="zamba_index_139616"
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="display: none;">
+                            <div class="input-group">
+                                <span class="input-group-addon">ID</span>
+                                <input class="form-control input-sm" id="zamba_index_139630" name="zamba_index_139630"
+                                    disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="margin-bottom: 40px;">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!--Area texto Observacion-->
+                                    <div id="appObservaciones" ng-controller="ObservacionController">
+                                        <zamba-observaciones index-id="139606" entity-id="139096">
+                                        </zamba-observaciones>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <center>
+
+                    <button class="btn  btn-primary" id="zamba_rule_165651" name="zamba_rule_165651" type="submit"
+                        onclick="SetRuleId(this);">Enviar a Asesor</button>
+                    <button class="btn  btn-primary" id="zamba_rule_165652" name="zamba_rule_165652" type="submit"
+                        onclick="SetRuleId(this);">Enviar a Inscripto</button>
+                    <button class="btn  btn-primary" id="zamba_rule_165653" name="zamba_rule_165653" type="submit"
+                        onclick="SetRuleId(this);">Enviar a Verificador</button>
+
+
+                </center>
+
+            </div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+            <div class="form-group row"></div>
+
+            <!-- LOGOS  -->
+
+            <div class="row">
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                                        <img alt="" src="latina.png" height="45" width="135" style="float: left" />
+                                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">Tarjeta Insert DIG.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+            </div>
+
+            <!-- ------------------------ -->
+
+
+
+
+
+        </div>
+    </form>
+
+</body>
+
+</html>

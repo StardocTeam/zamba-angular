@@ -1,0 +1,21 @@
+<div class="demo-section k-content">
+    <h4>Find a product</h4>
+
+    @(Html.Kendo().ComboBox()
+          .Name("products")
+          .Placeholder("Select product")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .HtmlAttributes(new { style = "width:100%;" })
+          .Filter("contains")
+          .AutoBind(false)
+          .MinLength(3)
+          .DataSource(source => {
+              source.Read(read =>
+              {
+                  read.Action("GetProducts", "Home");
+              })
+              .ServerFiltering(true);
+          })
+    )
+</div>

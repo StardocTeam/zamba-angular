@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3CE335A-D01D-4D77-B748-921693A9903B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zamba._2Home</RootNamespace>
+    <AssemblyName>Zamba.2Home</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Zamba.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.ChartView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.RadChart.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.RadDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.Scheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon">
+      <HintPath>..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\TelerikCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChartViewExample\ChartViewRotateExampleUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChartViewExample\ChartViewRotateExampleUserControl.Designer.cs">
+      <DependentUpon>ChartViewRotateExampleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartViewExample\ChartViewZoomScrollExampleUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChartViewExample\ChartViewZoomScrollExampleUserControl.Designer.cs">
+      <DependentUpon>ChartViewZoomScrollExampleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GridExample\GridCustomRowElement.cs" />
+    <Compile Include="GridExample\GridExampleUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GridExample\GridExampleUserControl.Designer.cs">
+      <DependentUpon>GridExampleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MagnifierExample\Magnifier.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MagnifierExample\MagnifierElement.cs" />
+    <Compile Include="MagnifierExample\MagnifierExampleUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MagnifierExample\MagnifierExampleUserControl.Designer.cs">
+      <DependentUpon>MagnifierExampleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MagnifierExample\MagnifierLayout.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulerExample\SchedulerExampleUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SchedulerExample\SchedulerExampleUserControl.Designer.cs">
+      <DependentUpon>SchedulerExampleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeExample\TreeExampleUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TreeExample\TreeExampleUserControl.designer.cs">
+      <DependentUpon>TreeExampleUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcHome.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UcHome.Designer.cs">
+      <DependentUpon>UcHome.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CarRentalImages\alfaromeo_147_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\alfaromeo_159_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\audi_a3_2003.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\audi_a4_2002.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\audi_Q7_2007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\bmw_320d_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\bmw_535d_2005.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\bmw_x3_2007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\chrysler_300_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\citroen_evasion_1998.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\ford_galaxy_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\hatchback.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\honda_accord_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\honda_civic_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\honda_cr-z_2010.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\hyundai_i30_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\hyundai_santafe_2007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\lancia_ypsilon_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\limousine.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\lincoln_2011towncar_2010.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\lincoln_towncar_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\mercedesbenz_aclass.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\mercedesbenz_bclass_lorinzer.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\mercedesbenz_S600_pullman_guard.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\mitsubishi_lancer_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\nissan_almera_2001.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\nissan_qashqai_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\opel_corsa_2004.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\opel_vectra_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\peoplecarrier.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\peugeot_407_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\renault_laguna_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\saloon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\suv.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\toyota_avensis_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\toyota_corolla_spacio_2007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\toyota_landcruiser100_2005.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\van.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\volvo_c30_2009.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\volvo_s60_2010.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\volvo_xc90_2006.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\vw_golf_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\vw_passat_2005.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\vw_phaeton_2005.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\vw_touareg_2010.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CarRentalImages\vw_touran_2008.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icon.ico" />
+    <None Include="app.config" />
+    <None Include="Resources\vsb-icon.png" />
+    <None Include="Resources\vsb-bg.png" />
+    <None Include="Resources\TV_search.png" />
+    <None Include="Resources\TreeView.png" />
+    <None Include="Resources\tiles-icon.png" />
+    <None Include="Resources\ThViewer-icon.png" />
+    <None Include="Resources\ThViewer-bg.png" />
+    <None Include="Resources\store.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\Scheduler.png" />
+    <None Include="Resources\Rss-reader-icon.png" />
+    <None Include="Resources\qsf-icon.png" />
+    <None Include="Resources\qsf-bg.png" />
+    <None Include="Resources\panorama.jpg" />
+    <None Include="Resources\movieLab-bg.png" />
+    <None Include="Resources\minimize-btn.png" />
+    <None Include="Resources\maximize-btn.png" />
+    <None Include="Resources\magnifier-icon.png" />
+    <None Include="Resources\magnifier-bg.png" />
+    <None Include="Resources\ListView.png" />
+    <None Include="Resources\list-icon.png" />
+    <None Include="Resources\level3.png" />
+    <None Include="Resources\level2.png" />
+    <None Include="Resources\level1.png" />
+    <None Include="Resources\img5.png" />
+    <None Include="Resources\img4.png" />
+    <None Include="Resources\img3.png" />
+    <None Include="Resources\img2.png" />
+    <None Include="Resources\img1.png" />
+    <None Include="Resources\ie-logo.png" />
+    <None Include="Resources\ie.png" />
+    <None Include="Resources\icon.ico" />
+    <None Include="Resources\hunt.png" />
+    <None Include="Resources\GridView.png" />
+    <None Include="Resources\file-explorer-icon.png" />
+    <None Include="Resources\details-icon.png" />
+    <None Include="Resources\close-btn.png" />
+    <None Include="Resources\clock.png" />
+    <None Include="Resources\Chart.png" />
+    <None Include="Resources\bug-tracker-icon.png" />
+    <None Include="Resources\bg-pattern.png" />
+    <None Include="Resources\Background.png" />
+    <None Include="Resources\back.png" />
+    <None Include="Resources\AllTelerikProducts.png" />
+    <None Include="Resources\5.png" />
+    <None Include="Zamba.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ChartViewExample\ChartViewRotateExampleUserControl.resx">
+      <DependentUpon>ChartViewRotateExampleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartViewExample\ChartViewZoomScrollExampleUserControl.resx">
+      <DependentUpon>ChartViewZoomScrollExampleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GridExample\GridExampleUserControl.resx">
+      <DependentUpon>GridExampleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MagnifierExample\MagnifierExampleUserControl.resx">
+      <DependentUpon>MagnifierExampleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SchedulerExample\SchedulerExampleUserControl.resx">
+      <DependentUpon>SchedulerExampleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TreeExample\TreeExampleUserControl.resx">
+      <DependentUpon>TreeExampleUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcHome.resx">
+      <DependentUpon>UcHome.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MagnifierExample\OfficeGlass.tssp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ZambaWindows2013\Zamba2010\Zamba.AdminControls\Zamba.AdminControls.vbproj">
+      <Project>{5CF0D10D-990A-4E7E-B21C-41D5AE3408C3}</Project>
+      <Name>Zamba.AdminControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ZambaWindows2013\Zamba2010\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

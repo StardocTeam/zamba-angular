@@ -1,0 +1,106 @@
+<html>
+<head>
+	<script type="text/javascript">
+		function SetruleId(sender)
+		{
+		}
+		
+		$(document).ready(function(){
+		    $("#zamba_save").click(ValidateBeforeSave);
+		});
+		
+		function ValidateBeforeSave(evt) {
+            var isValid = true;
+
+			if (!isValid) {
+			    setTimeout("parent.hideLoading();", 1000);
+			    evt.preventDefault();
+			}
+			else {
+			    $("#hdnRuleId").name = "zamba_save";
+			}
+        }
+	</script>
+</head>
+	<BODY>
+		<FORM id=33310 name=frmMain>
+		    <input id="hdnRuleId" type="hidden" />
+			<div name="design" id="design">
+				<strong>Configuracion de topes</strong>
+			</div>
+			<TABLE id=table1 width="100%">
+				<TBODY>
+					<tr>
+						<td style="">
+							<label style="">
+								Tipo de Prestacion
+							</label>
+						</td>
+						<td>
+							<select style="WIDTH: 290px; HEIGHT: 21px" id="zamba_index_26232" name="zamba_index_26232">
+							</select>
+						</td>
+						<td style="">
+							<label style="">
+								Tipo Reintegro
+							</label>
+						</td>
+						<td>
+							<select style="WIDTH: 290px; HEIGHT: 21px" id="zamba_index_33739" name="zamba_index_33739">
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label style="">
+								Tipo Tope
+							</label>
+						</td>
+						<td>
+							<select style="WIDTH: 290px; HEIGHT: 21px" id="zamba_index_33735" name="zamba_index_33735">
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="">
+							<label style="">
+								Tope Cantidad
+							</label>
+						</td>
+						<td>
+							<INPUT id="zamba_index_33740" name="zamba_index_33740">
+						</td>
+						<td style="">
+							<label style="">
+								Tope Dias
+							</label>
+						</td>
+						<td>
+							<INPUT id="zamba_index_33737" name="zamba_index_33737">
+						</td>
+					</tr>
+					<tr>
+						<td style="">
+							<label style="">
+								Tope Porcentaje
+							</label> 
+						</td>
+						<td>
+							<INPUT id="zamba_index_33732" name="zamba_index_33732"> 
+						</td>
+						<td style="">
+							<label style="">
+								Tope Importe
+							</label>
+						</td>
+						<td>
+							<INPUT id="zamba_index_33734" name="zamba_index_33734">
+						</td>
+					</tr>
+				</TBODY>
+			</TABLE>
+			<hr/>
+			<input type="submit" class="btn btn-primary" name="zamba_save" id="zamba_save" value="GUARDAR" /> 
+		</FORM>
+	</BODY>
+</html>

@@ -1,0 +1,100 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="LogIn.aspx.cs" Inherits="LogIn" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head id="Head1" runat="server">
+  <title>Iniciar Sesión</title>
+</head>
+
+<body width="20">
+
+  <form id="form1" runat="server">
+  
+  
+
+
+<asp:Panel id="pnlName"
+		BackColor="#F7F6F3"
+		BorderColor="#E6E2D8"
+		BorderStyle="Solid" 
+		BorderWidth="1px"
+		
+        style="Z-INDEX: 101; LEFT: 20px; POSITION: absolute; TOP: 64px"
+        runat="server"
+        Height="205px"
+        Width="285px">
+        
+            <table  cellspacing="14" cellpadding="1" width="440">   
+		<tr>
+		<asp:TextBox ID="txtText" runat="server" align="center" Text="                      Iniciar sesión" Width="282px" BackColor="#5D7B9D" Font-Bold="True" Font-Size="0.9em" ForeColor="White"/>
+		</tr>
+		
+		<tr>
+					<td>
+			<asp:Label ID="lblUsuario" Text="Usuario:" runat="server" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#333333" />
+			</td>
+			<td>
+			<asp:TextBox ID="txtUserName" runat="server" />
+			</td>
+			<td>
+				<asp:RequiredFieldValidator ID="RequiredFieldValidator1" 
+					ControlToValidate="txtUserName"
+					Display="Dynamic" 
+					ErrorMessage="* Completar este campo." 
+					Font-Size="Small"
+					runat="server" />
+			</td>
+		
+		</tr>
+		<tr>
+        <td>
+			<asp:Label ID="lblContra" Text="Contraseña:" runat="server" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#333333" />
+			
+        </td>
+        <td>
+			<asp:TextBox ID="txtUserPass" TextMode="Password" 
+				runat="server" />
+        </td>
+		
+        <td>
+			<asp:RequiredFieldValidator ID="RequiredFieldValidator2" 
+				ControlToValidate="txtUserPass"
+				ErrorMessage="* Completar este campo." 
+				Font-Size="Small"
+				runat="server" />
+        </td>
+     </tr>
+
+     <tr>
+     
+        <td>
+        <asp:Label ID="lblRecordar" Text="Recordarme?" runat="server" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#333333" />
+	    </td>
+  <td>
+     	  <asp:CheckBox ID="chkPersist" runat="server"/>
+        </td>
+
+     </tr>
+    
+     <tr>
+        <td colspan="2" align="right">
+        <asp:Button ID="Submit1" OnClick="Logon_Click" Text="Ingresar" BackColor="#FFFBFF" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px"
+                Font-Names="Verdana" Font-Size="0.8em" ForeColor="#284775" runat="server"/>
+        </td>
+        </tr>
+     
+   
+  
+     </table>
+
+     </asp:Panel>
+
+    <p>
+      <asp:Label ID="Msg" ForeColor="red" Font-Size="Small" runat="server" />
+    </p>
+         
+     </form>
+  
+</body>
+</html>

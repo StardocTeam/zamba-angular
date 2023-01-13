@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<title>Inspecci&oacuten</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">		
+		<script src="Inspeccion.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+						
+
+			function zamba_save_onclick(){
+				$("#hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_1225');	
+				makeCalendar('zamba_index_1226');					
+
+        });					
+	
+		</script>
+	</head>	
+	<body>
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Inspecci&oacuten</strong>
+				</div>
+				<br />
+				
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>Nro de ODT:</label></td>
+									<td><input type="text" id="zamba_index_1224" style="width:150px;"/></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><label>Fecha Inspecci&oacuten: </label></td>
+									<td><input id="zamba_index_1225" style="width:150px;"/></td>
+									<td><label>Fecha Pr&oacutexima Inspecci&oacuten: </label></td>
+									<td><input id="zamba_index_1226" style="width:150px;"/></td>									
+								</tr>	
+								<tr>	
+									<td><label>Resultado: </label></td>
+									<td><select id="zamba_index_1227" style="width:150px;"/> </select> </td>	
+									<td><label>Motivo: </label></td>
+									<td><select id="zamba_index_1228" style="width:150px;"/> </select></td>	
+								</tr>		
+								<tr>
+									<td><label>Obervaciones:</label></td>
+									<td colspan="4"><TEXTAREA COLS=100 ROWS=10 id="zamba_index_29" ></TEXTAREA></td> 
+								</tr>
+
+							</table>
+					</div>	
+						<br />
+				
+			
+				<!--<div name="logoAysa" id="logoAysa">	
+					<img src="images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>		-->			
+				
+			</form>							
+	</body>
+</html>

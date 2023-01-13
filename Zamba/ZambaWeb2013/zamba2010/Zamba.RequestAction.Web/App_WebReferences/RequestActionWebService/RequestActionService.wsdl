@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="ExecuteRule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ruleId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="taskId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="stepId" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteRuleResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ExecuteRules">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ruleId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="tasksId" type="tns:ArrayOfLong" />
+            <s:element minOccurs="1" maxOccurs="1" name="stepId" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfLong">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="long" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ExecuteRulesResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ExecuteRuleWithIndexs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ruleId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="taskId" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="stepId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="indexIds" type="tns:ArrayOfLong" />
+            <s:element minOccurs="0" maxOccurs="1" name="IndexValues" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ExecuteRuleWithIndexsResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExecuteRuleSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteRule" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteRuleSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteRuleResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteRulesSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteRules" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteRulesSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteRulesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteRuleWithIndexsSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteRuleWithIndexs" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteRuleWithIndexsSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteRuleWithIndexsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="RequestActionServiceSoap">
+    <wsdl:operation name="ExecuteRule">
+      <wsdl:input message="tns:ExecuteRuleSoapIn" />
+      <wsdl:output message="tns:ExecuteRuleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteRules">
+      <wsdl:input message="tns:ExecuteRulesSoapIn" />
+      <wsdl:output message="tns:ExecuteRulesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteRuleWithIndexs">
+      <wsdl:input message="tns:ExecuteRuleWithIndexsSoapIn" />
+      <wsdl:output message="tns:ExecuteRuleWithIndexsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RequestActionServiceSoap" type="tns:RequestActionServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExecuteRule">
+      <soap:operation soapAction="http://tempuri.org/ExecuteRule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteRules">
+      <soap:operation soapAction="http://tempuri.org/ExecuteRules" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteRuleWithIndexs">
+      <soap:operation soapAction="http://tempuri.org/ExecuteRuleWithIndexs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RequestActionServiceSoap12" type="tns:RequestActionServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExecuteRule">
+      <soap12:operation soapAction="http://tempuri.org/ExecuteRule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteRules">
+      <soap12:operation soapAction="http://tempuri.org/ExecuteRules" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteRuleWithIndexs">
+      <soap12:operation soapAction="http://tempuri.org/ExecuteRuleWithIndexs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RequestActionService">
+    <wsdl:port name="RequestActionServiceSoap" binding="tns:RequestActionServiceSoap">
+      <soap:address location="http://localhost:1483/Zamba.RequestAction.WebService/RequestActionService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RequestActionServiceSoap12" binding="tns:RequestActionServiceSoap12">
+      <soap12:address location="http://localhost:1483/Zamba.RequestAction.WebService/RequestActionService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

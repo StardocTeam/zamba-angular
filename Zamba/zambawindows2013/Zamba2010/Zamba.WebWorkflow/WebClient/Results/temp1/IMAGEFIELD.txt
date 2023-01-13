@@ -1,0 +1,213 @@
+ImageList para ZIconList !!!!!!!!!!
+
+ImageList ZIconList
+
+[[[[Icono.aspx]]]]
+
+protected void Page_Load(object sender, EventArgs e)
+
+
+
+
+
+public void LoadGridview(DataTable dt, string SortBy)
+
+    	    ImageField: Representa un campo que se muestra como una imagen en un control enlazado a datos. 
+
+	    ImageField es la clase que utilizan los controles enlazados a datos (como GridView y DetailsView) para presentar una imagen para cada registro 
+            mostrado. El objeto ImageField se muestra de forma diferente en función del control enlazado a datos en el que se utilice. Por ejemplo, el 
+            control GridView muestra un objeto ImageField como una columna, mientras que el control DetailsView lo muestra como una fila.
+
+            Para mostrar imágenes, debe enlazar un objeto ImageField a un campo de un origen de datos que contenga la dirección URL de una imagen. 
+            Esto se consigue estableciendo la propiedad DataImageUrlField. Se puede dar formato al valor URL utilizando la propiedad 
+            DataImageUrlFormatString. Cada imagen también puede tener texto alternativo asociado. Este texto se muestra cuando no se puede cargar una 
+            imagen, o si no está disponible. Los exploradores que admiten la función ToolTips también muestran este texto como información sobre 
+            herramientas. Puede especificar un texto alternativo para la imagen mostrada mediante uno de los métodos siguientes:
+
+            ImageField Imagen_doc = new ImageField ();
+            Imagen_doc.ShowHeader = true;
+            Imagen_doc.HeaderText = "Icono";
+            Imagen_doc.ItemStyle.HorizontalAlign = HorizontalAlign.Center;
+            Imagen_doc.ItemStyle.VerticalAlign = VerticalAlign.Middle;
+
+
+
+
+	    Obtiene o establece el nombre del campo del origen de datos que contiene los valores que se van a enlazar a la propiedad ImageUrl de cada 
+	    imagen de un objeto ImageField. 
+            Imagen_doc.DataImageUrlField = "Icono";	// Icono sera la columna ????
+
+	    ________________
+   	    ________________
+	    ________________
+	    ________________
+	    Obtiene o establece la cadena que especifica el formato con que se representa la dirección URL para cada imagen de un objeto ImageField. 
+
+	    Utilice la propiedad DataImageUrlFormatString para especificar un formato personalizado para las direcciones URL de las imágenes presentadas 
+	    en un objeto ImageField. Es útil cuando se necesita generar una dirección URL, como en los casos en que el objeto ImageField simplemente 
+	    contiene el nombre de archivo. Si no se establece la propiedad DataImageUrlFormatString, los valores de dirección URL no tienen ningún formato especial.
+
+
+   	    // Le pasa el camino con el id de icono que haya en el datatable a la página web icono.aspx que se carga en el evento Load ????
+            Imagen_doc.DataImageUrlFormatString ="../../icono.aspx?id={0}"; 
+
+            ________________
+	    ________________
+	    ________________
+	    ________________
+
+
+
+
+
+
+	    // Agrega la columna a un datagridview 	??????
+            this.gvDocuments.Columns.Add(Imagen_doc) ;
+
+
+	    SE AGREGAN LAS COLUMNAS DEL DATATABLE AL GRIDVIEW
+
+	            foreach (DataColumn c in dt.Columns)
+            {  
+                BoundField f = new BoundField();
+                f.DataField = c.Caption;
+                f.ShowHeader = true;
+                f.HeaderText = c.Caption;
+                f.SortExpression = c.Caption + " ASC";
+                if (c.Caption == "Icono" )
+                {
+                    f.Visible = false;
+                }                
+                this.gvDocuments.Columns.Add(f);
+                this.cmbFilter.Items.Add(c.Caption);
+            
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+____________
+____________
+Results.aspx
+____________
+____________
+
+private void LoadGrid()
+{
+	DataTable DTResults = MakeDataTable(this.Results);
+        ResultsGrid.ShowResults(DTResults);
+        ResultsGrid.HideColumn(FULL_PATH_COLUMN_NAME);
+        ResultsGrid.HideColumn(DOC_ID_COLUMN_NAME);   
+}
+
+--------------------
+--------------------
+Método MakeDataTable
+--------------------
+--------------------
+
+Por cada documento (en este caso 5)
+
+	Se agrega la columna Icono al datatable DT	. Debería hacerlo una vez	
+
+Por cada documento (en este caso 5)
+
+	Se crea una fila
+	
+	else
+
+		DR["Icono"] = R.IconId.ToString();	Es el id del icono!!!!!!!!!!	
+
+		[[[[falta el primero]]]]
+		id del icono 1
+		id del icono 2
+		id del icono 7
+		id del icono 2		WORD 2
+
+	Se agrega la fila al datatable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+____________
+____________
+WCResults.aspx
+____________
+____________
+
+
+
+
+
+ public void ShowResults(DataTable DTResults)
+    {
+        Session["PageSize"] = GetPageSize();
+        Session["PagingId"] = 1;
+        Session["ResultsCount"] = 0;
+        Session["ShowDocuments"] = ResultsLoadType.ALL;
+        Session["SortSTR"] = string.Empty;
+    // -------------------------------------------[sebastian 09/01/2009]----------------------------------
+
+	LE PASA COMO PARAMETRO EL DATATABLE
+        //le paso el valor de orden jarcodeado para que siempre la primera vez ordene por nombre de doc.
+        LoadGridview(DTResults,"Nombre Documento");
+
+
+
+        CurrentDataTable = DTResults;//guardo el dt para luego usarlo para ordenar la grilla.
+        //cargo el combo que tiene los valores por el cual se puede ordenar
+        foreach (DataColumn  CurrentColumnName in DTResults.Columns )
+        {
+            //no cargo los nombres de las columnas que se ocultan en la grilla.
+            if(string.Compare(CurrentColumnName.ColumnName.ToLower(),"fullpath")!=0 && string.Compare(CurrentColumnName.ColumnName.ToLower (),"docid")!=0)
+                
+                dplstColumName.Items.Add(CurrentColumnName.ColumnName);
+        }
+     // -----------------------------------------------------------------------------  
+        
+    }
+
+
+
+
+

@@ -1,0 +1,1971 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About_Copyright" xml:space="preserve">
+    <value>Copyright 2002-2012 ©Telerik</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>RadEditor Telerik</value>
+  </data>
+  <data name="Common_AddCustomTarget" xml:space="preserve">
+    <value>[pridať vlastný cieľ...]</value>
+  </data>
+  <data name="Common_AllowedExtensions" xml:space="preserve">
+    <value>Povolené typy súborov</value>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
+    <value>Späť</value>
+  </data>
+  <data name="Common_BackgroundColor" xml:space="preserve">
+    <value>Farba pozadia</value>
+  </data>
+  <data name="Common_BackgroundImage" xml:space="preserve">
+    <value>Obrázok pozadia</value>
+  </data>
+  <data name="Common_Black" xml:space="preserve">
+    <value>Čierna</value>
+  </data>
+  <data name="Common_Blue" xml:space="preserve">
+    <value>Modrá</value>
+  </data>
+  <data name="Common_BorderColor" xml:space="preserve">
+    <value>Color de borde</value>
+  </data>
+  <data name="Common_BorderWidth" xml:space="preserve">
+    <value>Hrúbka orámovania</value>
+  </data>
+  <data name="Common_Bottom" xml:space="preserve">
+    <value>Abajo</value>
+  </data>
+  <data name="Common_bytes" xml:space="preserve">
+    <value>bytov</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Common_CellCss" xml:space="preserve">
+    <value>CSS bunky</value>
+  </data>
+  <data name="Common_ClassID" xml:space="preserve">
+    <value>Zadať ID triedy</value>
+  </data>
+  <data name="Common_ClassIDText" xml:space="preserve">
+    <value>ID triedy</value>
+  </data>
+  <data name="Common_Client_AlertFile" xml:space="preserve">
+    <value>Prosím, vyberte súbor na odoslanie!</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Zatvoriť</value>
+  </data>
+  <data name="Common_ConfirmDelete" xml:space="preserve">
+    <value>Ste si istý, že chcete odstrániť vybratú položku?
+Nebude viac použiteľná. Ak ju odstránite, niektoré stránky nemusia byť správne zobrazené.
+Stlačte "OK" na potvrdenie odstránenia.</value>
+  </data>
+  <data name="Common_ConstrainProportions" xml:space="preserve">
+    <value>Obmedziť proporcie?</value>
+  </data>
+  <data name="Common_ControlButtons" xml:space="preserve">
+    <value>Control Tlačidlá</value>
+  </data>
+  <data name="Common_Create" xml:space="preserve">
+    <value>Nový</value>
+  </data>
+  <data name="Common_CreateNewFolder" xml:space="preserve">
+    <value>Zadajte meno nového priečinka</value>
+  </data>
+  <data name="Common_CreateThumbnail" xml:space="preserve">
+    <value>Nová miniatúra</value>
+  </data>
+  <data name="Common_CssClass" xml:space="preserve">
+    <value>Clase CSS</value>
+  </data>
+  <data name="Common_CustomTargets" xml:space="preserve">
+    <value>Vlastné ciele</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Odstrániť</value>
+  </data>
+  <data name="Common_DimensionUnit" xml:space="preserve">
+    <value>Rozmerová jednotka</value>
+  </data>
+  <data name="Common_FileExists" xml:space="preserve">
+    <value>Súbor s tým istým názvom ako cieľ už existuje!</value>
+  </data>
+  <data name="Common_Green" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="Common_Height" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="Common_Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Common_ImageAltText" xml:space="preserve">
+    <value>Texto alternativo</value>
+  </data>
+  <data name="Common_ImageEditor" xml:space="preserve">
+    <value>Editor obrázkov</value>
+  </data>
+  <data name="Common_ImageFieldSet" xml:space="preserve">
+    <value>Vlastnosti obrázka</value>
+  </data>
+  <data name="Common_Insert" xml:space="preserve">
+    <value>Vložiť</value>
+  </data>
+  <data name="Common_InvalidCharactersInPath" xml:space="preserve">
+    <value>Neplatné znaky v názve priečinka.</value>
+  </data>
+  <data name="Common_InvalidFileExtension" xml:space="preserve">
+    <value>Neplatný typ odosielaného súboru. Prosím, vyberte platný súbor!</value>
+  </data>
+  <data name="Common_InvalidFileSize" xml:space="preserve">
+    <value>Veľkosť odosielaného súboru prekračuje maximum.</value>
+  </data>
+  <data name="Common_Kilobytes" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="Common_Left" xml:space="preserve">
+    <value>Vľavo</value>
+  </data>
+  <data name="Common_LookIn" xml:space="preserve">
+    <value>Dnu</value>
+    <comment>Not sure. (Look in)</comment>
+  </data>
+  <data name="Common_MaxFileSize" xml:space="preserve">
+    <value>Povolená veľkosť súboru</value>
+  </data>
+  <data name="Common_Megabytes" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="Common_MessageCannotWriteToFolder" xml:space="preserve">
+    <value>Nemožno zapisovať do cieľového priečinka!</value>
+  </data>
+  <data name="Common_MessageNoValidDimensions" xml:space="preserve">
+    <value>Prosím, zadajte platnú veľkosť obrázka</value>
+  </data>
+  <data name="Common_MessageSourceNotLocal" xml:space="preserve">
+    <value>Špecifikovaný súbor bol premiestnený na iný server!</value>
+  </data>
+  <data name="Common_Middle" xml:space="preserve">
+    <value>Stred</value>
+  </data>
+  <data name="Common_NameExists" xml:space="preserve">
+    <value>Objekt s takýmto názvom už v priečinku existuje!</value>
+  </data>
+  <data name="Common_NewFolder" xml:space="preserve">
+    <value>Nový priečinok</value>
+  </data>
+  <data name="Common_NewImageName" xml:space="preserve">
+    <value>Nový názov obrázka</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="Common_NoColor" xml:space="preserve">
+    <value>Žiadna farba</value>
+  </data>
+  <data name="Common_None" xml:space="preserve">
+    <value>Nič (bez)</value>
+  </data>
+  <data name="Common_NoPermissionsToCreateFolder" xml:space="preserve">
+    <value>Zvolený priečinok nemohol byť vytvorený pretože aplikácia nemá dostatočné práva. Prosím, kontaktujte administrátora.</value>
+  </data>
+  <data name="Common_NoPermissionsToDeleteFile" xml:space="preserve">
+    <value>Zvolený súbor nemohol byť odstránený pretože aplikácia nemá dostatočné práva. Prosím, kontaktujte administrátora.</value>
+  </data>
+  <data name="Common_NoPermissionsToDeleteFolder" xml:space="preserve">
+    <value>Zvolený priečinok nemohol byť odstránený pretože aplikácia nemá dostatočné práva. Prosím, kontaktujte administrátora.</value>
+  </data>
+  <data name="Common_NoUploadedFile" xml:space="preserve">
+    <value>Prosím, vyberte súbor na odoslanie!</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="Common_Orange" xml:space="preserve">
+    <value>Oranžová</value>
+  </data>
+  <data name="Common_OverwriteExisting" xml:space="preserve">
+    <value>Prepísať jestvujúci súbor?</value>
+  </data>
+  <data name="Common_Paste" xml:space="preserve">
+    <value>Prilepiť</value>
+  </data>
+  <data name="Common_PasteHtmlMessage" xml:space="preserve">
+    <value>Prosím, vložte Html obsah, ktorý chcete prilepiť</value>
+  </data>
+  <data name="Common_Percent" xml:space="preserve">
+    <value>Percent</value>
+  </data>
+  <data name="Common_Pixel" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="Common_PresetTargets" xml:space="preserve">
+    <value>Predvolené ciele</value>
+  </data>
+  <data name="Common_Preview" xml:space="preserve">
+    <value>Náhľad</value>
+  </data>
+  <data name="Common_Properties" xml:space="preserve">
+    <value>Vlastnosti</value>
+  </data>
+  <data name="Common_PropertiesPanel" xml:space="preserve">
+    <value>Panel vlastností</value>
+  </data>
+  <data name="Common_Red" xml:space="preserve">
+    <value>Červená</value>
+  </data>
+  <data name="Common_Refresh" xml:space="preserve">
+    <value>Obnoviť</value>
+  </data>
+  <data name="Common_Right" xml:space="preserve">
+    <value>Derecha</value>
+  </data>
+  <data name="Common_SelectFile" xml:space="preserve">
+    <value>Vybrať súbor</value>
+  </data>
+  <data name="Common_SortByExt" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="Common_SortByExtTitle" xml:space="preserve">
+    <value>Triedenie podľa typu</value>
+  </data>
+  <data name="Common_SortByFilename" xml:space="preserve">
+    <value>Názov</value>
+  </data>
+  <data name="Common_SortByFilenameTitle" xml:space="preserve">
+    <value>Triedenie podľa názvu</value>
+  </data>
+  <data name="Common_SortBySize" xml:space="preserve">
+    <value>Veľkosť</value>
+  </data>
+  <data name="Common_SortBySizeTitle" xml:space="preserve">
+    <value>Triedenie podľa veľkosti</value>
+  </data>
+  <data name="Common_TableCss" xml:space="preserve">
+    <value>Tabuľka CSS</value>
+  </data>
+  <data name="Common_Target" xml:space="preserve">
+    <value>Cieľ</value>
+  </data>
+  <data name="Common_TargetBlank" xml:space="preserve">
+    <value>Nové okno</value>
+  </data>
+  <data name="Common_TargetMedia" xml:space="preserve">
+    <value>Panel médií</value>
+  </data>
+  <data name="Common_TargetParent" xml:space="preserve">
+    <value>Rodičovské okno</value>
+  </data>
+  <data name="Common_TargetSearch" xml:space="preserve">
+    <value>Panel vyhľadávania</value>
+  </data>
+  <data name="Common_TargetSelf" xml:space="preserve">
+    <value>Rovnaké okno</value>
+  </data>
+  <data name="Common_TargetTop" xml:space="preserve">
+    <value>Okno prehliadača</value>
+  </data>
+  <data name="Common_Top" xml:space="preserve">
+    <value>Tope</value>
+  </data>
+  <data name="Common_Up" xml:space="preserve">
+    <value>Nahor</value>
+  </data>
+  <data name="Common_Upload" xml:space="preserve">
+    <value>Odoslať</value>
+  </data>
+  <data name="Common_UploadFile" xml:space="preserve">
+    <value>Odoslať súbor</value>
+  </data>
+  <data name="Common_Uploading" xml:space="preserve">
+    <value>Odosielanie...</value>
+  </data>
+  <data name="Common_Url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="Common_UseControlVMessage" xml:space="preserve">
+    <value>Prosím, použite CTRL + V na prilepenie pod obsah, ktorý chcete vyčistiť</value>
+  </data>
+  <data name="Common_White" xml:space="preserve">
+    <value>Blanco</value>
+  </data>
+  <data name="Common_Width" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="Common_Yellow" xml:space="preserve">
+    <value>Amarillo</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="DocumentManager_DocumentPropertiesLegend" xml:space="preserve">
+    <value>Vlastnosti dokumentu</value>
+  </data>
+  <data name="DocumentManager_Title" xml:space="preserve">
+    <value>Správca dokumentov</value>
+  </data>
+  <data name="DocumentManager_Tooltip" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="FindAndReplace_CaseSensitive" xml:space="preserve">
+    <value>Citlivosť na veľké/malé písmená</value>
+  </data>
+  <data name="FindAndReplace_Down" xml:space="preserve">
+    <value>Abajo</value>
+  </data>
+  <data name="FindAndReplace_EntireText" xml:space="preserve">
+    <value>Celý text</value>
+  </data>
+  <data name="FindAndReplace_Find" xml:space="preserve">
+    <value>Nájdi</value>
+  </data>
+  <data name="FindAndReplace_FindNext" xml:space="preserve">
+    <value>Nájdi ďalší</value>
+  </data>
+  <data name="FindAndReplace_MatchCase" xml:space="preserve">
+    <value>Citlivosť na veľké/malé písmená</value>
+  </data>
+  <data name="FindAndReplace_MatchWholeWords" xml:space="preserve">
+    <value>Len celé slová</value>
+  </data>
+  <data name="FindAndReplace_Replace" xml:space="preserve">
+    <value>Nahradiť</value>
+  </data>
+  <data name="FindAndReplace_ReplaceAll" xml:space="preserve">
+    <value>Nahradiť všetko</value>
+  </data>
+  <data name="FindAndReplace_ReplaceWith" xml:space="preserve">
+    <value>Nahradiť s</value>
+  </data>
+  <data name="FindAndReplace_Search" xml:space="preserve">
+    <value>Vyhľadať</value>
+  </data>
+  <data name="FindAndReplace_SearchDirection" xml:space="preserve">
+    <value>Smer</value>
+  </data>
+  <data name="FindAndReplace_SearchIn" xml:space="preserve">
+    <value>Vyhľadať v</value>
+  </data>
+  <data name="FindAndReplace_SearchOptions" xml:space="preserve">
+    <value>Možnosti vyhľadávania</value>
+  </data>
+  <data name="FindAndReplace_SearchText" xml:space="preserve">
+    <value>Nájsť</value>
+  </data>
+  <data name="FindAndReplace_Selection" xml:space="preserve">
+    <value>Výber</value>
+  </data>
+  <data name="FindAndReplace_Title" xml:space="preserve">
+    <value>Nájsť &amp;amp; Nahradiť</value>
+  </data>
+  <data name="FlashManager_AlertClassID" xml:space="preserve">
+    <value>Prosím, zadajte ID triedy!</value>
+  </data>
+  <data name="FlashManager_AlertWidthHeight" xml:space="preserve">
+    <value>Prosím, zadajte šírku a výšku flash súboru!</value>
+  </data>
+  <data name="FlashManager_Baseline" xml:space="preserve">
+    <value>Základňa</value>
+  </data>
+  <data name="FlashManager_CenterBottom" xml:space="preserve">
+    <value>Nastred nadol</value>
+  </data>
+  <data name="FlashManager_CenterCenter" xml:space="preserve">
+    <value>Nastred</value>
+  </data>
+  <data name="FlashManager_CenterTop" xml:space="preserve">
+    <value>Nastred nahor</value>
+  </data>
+  <data name="FlashManager_Custom" xml:space="preserve">
+    <value>Vlastné</value>
+  </data>
+  <data name="FlashManager_FlashAlign" xml:space="preserve">
+    <value>Zarovnanie flashu</value>
+  </data>
+  <data name="FlashManager_FlashMenu" xml:space="preserve">
+    <value>Flash menu</value>
+  </data>
+  <data name="FlashManager_FlashPropertiesLegend" xml:space="preserve">
+    <value>Vlastnosti flash animácie</value>
+  </data>
+  <data name="FlashManager_High" xml:space="preserve">
+    <value>Vysoko</value>
+  </data>
+  <data name="FlashManager_HtmlAlign" xml:space="preserve">
+    <value>Zarovnanie HTML</value>
+  </data>
+  <data name="FlashManager_Left" xml:space="preserve">
+    <value>Izquierda</value>
+  </data>
+  <data name="FlashManager_LeftBottom" xml:space="preserve">
+    <value>Vľavo nadol</value>
+  </data>
+  <data name="FlashManager_LeftCenter" xml:space="preserve">
+    <value>Vľavo nastred</value>
+  </data>
+  <data name="FlashManager_LeftTop" xml:space="preserve">
+    <value>Vľavo nahor</value>
+  </data>
+  <data name="FlashManager_Loop" xml:space="preserve">
+    <value>Sľučka</value>
+  </data>
+  <data name="FlashManager_Low" xml:space="preserve">
+    <value>Nízko</value>
+  </data>
+  <data name="FlashManager_Medium" xml:space="preserve">
+    <value>Médium</value>
+  </data>
+  <data name="FlashManager_Middle" xml:space="preserve">
+    <value>Stredne</value>
+  </data>
+  <data name="FlashManager_Play" xml:space="preserve">
+    <value>Prehrať</value>
+  </data>
+  <data name="FlashManager_Quality" xml:space="preserve">
+    <value>Kvalita</value>
+  </data>
+  <data name="FlashManager_Right" xml:space="preserve">
+    <value>Vpravo</value>
+  </data>
+  <data name="FlashManager_RightBottom" xml:space="preserve">
+    <value>Vpravo nadol</value>
+  </data>
+  <data name="FlashManager_RightCenter" xml:space="preserve">
+    <value>Vpravo nastred</value>
+  </data>
+  <data name="FlashManager_RightTop" xml:space="preserve">
+    <value>Vpravo nahor</value>
+  </data>
+  <data name="FlashManager_TextTop" xml:space="preserve">
+    <value>Navrch textu</value>
+  </data>
+  <data name="FlashManager_Title" xml:space="preserve">
+    <value>Správca flashov</value>
+  </data>
+  <data name="FlashManager_Top" xml:space="preserve">
+    <value>Nahor</value>
+  </data>
+  <data name="FlashManager_Transparent" xml:space="preserve">
+    <value>Priesvitný</value>
+  </data>
+  <data name="FormatCodeBlock_DisplayLineNumbers" xml:space="preserve">
+    <value>Zobraziť čísla riadkov</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageCS" xml:space="preserve">
+    <value>C#</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageCss" xml:space="preserve">
+    <value>CSS</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageDelphi" xml:space="preserve">
+    <value>Delphi</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageJavascript" xml:space="preserve">
+    <value>Javascript</value>
+  </data>
+  <data name="FormatCodeBlock_LanguagePhp" xml:space="preserve">
+    <value>Php</value>
+  </data>
+  <data name="FormatCodeBlock_LanguagePython" xml:space="preserve">
+    <value>Python</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageSQL" xml:space="preserve">
+    <value>SQL</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageVB" xml:space="preserve">
+    <value>VB</value>
+  </data>
+  <data name="FormatCodeBlock_LanguageXml" xml:space="preserve">
+    <value>Značky - (x)HTML, XML, ASPX, ...</value>
+  </data>
+  <data name="FormatCodeBlock_MaxSnippetHeight" xml:space="preserve">
+    <value>Maximálna výška kódu</value>
+  </data>
+  <data name="FormatCodeBlock_MaxSnippetWidth" xml:space="preserve">
+    <value>Maximálna šírka kódu</value>
+  </data>
+  <data name="FormatCodeBlock_PasteSourceCode" xml:space="preserve">
+    <value>Prilepiť zdrojový kód pod</value>
+  </data>
+  <data name="FormatCodeBlock_SelectLanguage" xml:space="preserve">
+    <value>Vybrať jazyk</value>
+  </data>
+  <data name="ImageEditor_Crop" xml:space="preserve">
+    <value>Vyrezať</value>
+  </data>
+  <data name="ImageEditor_Flip" xml:space="preserve">
+    <value>Prevrátiť</value>
+  </data>
+  <data name="ImageEditor_FlipBoth" xml:space="preserve">
+    <value>Prevrátiť obojako</value>
+  </data>
+  <data name="ImageEditor_FlipHorizontal" xml:space="preserve">
+    <value>Prevrátiť vodorovne</value>
+  </data>
+  <data name="ImageEditor_FlipVertical" xml:space="preserve">
+    <value>Prevrátiť zvisle</value>
+  </data>
+  <data name="ImageEditor_Opacity" xml:space="preserve">
+    <value>Opacita</value>
+  </data>
+  <data name="ImageEditor_Resize" xml:space="preserve">
+    <value>Zmeniť veľkosť</value>
+  </data>
+  <data name="ImageEditor_Reset" xml:space="preserve">
+    <value>Obnoviť pôvodný</value>
+  </data>
+  <data name="ImageEditor_Rotate" xml:space="preserve">
+    <value>Otočiť</value>
+  </data>
+  <data name="ImageEditor_Save" xml:space="preserve">
+    <value>Uložiť</value>
+  </data>
+  <data name="ImageEditor_SaveAs" xml:space="preserve">
+    <value>Uložiť ako...</value>
+  </data>
+  <data name="Common_ActualSize" xml:space="preserve">
+    <value>Tamaño actual</value>
+  </data>
+  <data name="ImageManager_AlertDimensions" xml:space="preserve">
+    <value>Prosím, zadajte šírku alebo výšku miniatúry.</value>
+  </data>
+  <data name="ImageManager_AlertHeight" xml:space="preserve">
+    <value>Prosím, zadajte platnú výšku obrázka.</value>
+  </data>
+  <data name="ImageManager_AlertWidth" xml:space="preserve">
+    <value>Prosím, zadajte platnú šírku obrázka.</value>
+  </data>
+  <data name="Common_BestFit" xml:space="preserve">
+    <value>Prispôsobiť</value>
+  </data>
+  <data name="ImageManager_Title" xml:space="preserve">
+    <value>Správca obrázkov</value>
+  </data>
+  <data name="Common_ZoomIn" xml:space="preserve">
+    <value>Priblížiť</value>
+  </data>
+  <data name="Common_ZoomOut" xml:space="preserve">
+    <value>Vzdialiť</value>
+  </data>
+  <data name="ImageMap_AlertDeleteAllAreas" xml:space="preserve">
+    <value>Ste si istý, že chcete odstrániť všetky oblasti.</value>
+  </data>
+  <data name="ImageMap_AlertDeleteArea" xml:space="preserve">
+    <value>Ste si istý, že chcete odstrániť túto oblasť.</value>
+  </data>
+  <data name="ImageMap_AreaFieldSet" xml:space="preserve">
+    <value>Vlastnosti vybratej oblasti</value>
+  </data>
+  <data name="ImageMap_ChooseImage" xml:space="preserve">
+    <value>Zvoľte obrázok</value>
+  </data>
+  <data name="ImageMap_Circle" xml:space="preserve">
+    <value>Kružnica</value>
+  </data>
+  <data name="ImageMap_AlertInvalidAreaProperties" xml:space="preserve">
+    <value>Chybné vlastnosti oblasti. Prosím zadajte url.</value>
+  </data>
+  <data name="ImageMap_AlertInvalidProperties" xml:space="preserve">
+    <value>Neplatné vlastnosti!</value>
+  </data>
+  <data name="ImageMap_AlertWrongAreaDimensions" xml:space="preserve">
+    <value>Nesprávne rozmery oblasti. Preskakujem túto oblasť.</value>
+  </data>
+  <data name="ImageMap_Comment" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="ImageMap_DefineAreaPropertiesLegend" xml:space="preserve">
+    <value>Určiť vlastnosti oblasti</value>
+  </data>
+  <data name="ImageMap_HowToAdd" xml:space="preserve">
+    <value>Ťahaním cez obrázok vytvoríte novú oblasť.</value>
+  </data>
+  <data name="ImageMap_NewArea" xml:space="preserve">
+    <value>Nová oblasť</value>
+  </data>
+  <data name="ImageMap_Polygon" xml:space="preserve">
+    <value>Mnohouholník</value>
+  </data>
+  <data name="ImageMap_Rectangle" xml:space="preserve">
+    <value>Obdĺžnik</value>
+  </data>
+  <data name="ImageMap_RemoveAllAreas" xml:space="preserve">
+    <value>Odstrániť všetko</value>
+  </data>
+  <data name="ImageMap_RemoveArea" xml:space="preserve">
+    <value>Odstrániť oblasť</value>
+  </data>
+  <data name="ImageMap_SelectAreaShape" xml:space="preserve">
+    <value>Vybrať tvar oblasti</value>
+  </data>
+  <data name="ImageMap_SelectImage" xml:space="preserve">
+    <value>Prosím zvoľte obrázok na vytvorenie obrázkovej mapy.</value>
+  </data>
+  <data name="ImageMap_ShapeAlt" xml:space="preserve">
+    <value>Ťahaním pravého dolného rohu zmeníte veľkosť oblasti.</value>
+  </data>
+  <data name="ImageMap_UpdateArea" xml:space="preserve">
+    <value>Uložiť oblasť</value>
+  </data>
+  <data name="LinkManager_AnchorTab" xml:space="preserve">
+    <value>Kotva</value>
+  </data>
+  <data name="LinkManager_EmailTab" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="LinkManager_ExistingAnchor" xml:space="preserve">
+    <value>Jestvujúca kotva</value>
+  </data>
+  <data name="LinkManager_HyperlinkTab" xml:space="preserve">
+    <value>Odkaz</value>
+  </data>
+  <data name="LinkManager_LinkAddress" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="LinkManager_LinkName" xml:space="preserve">
+    <value>Názov</value>
+  </data>
+  <data name="LinkManager_LinkSubject" xml:space="preserve">
+    <value>Predmet</value>
+  </data>
+  <data name="LinkManager_LinkTarget" xml:space="preserve">
+    <value>Cieľ</value>
+  </data>
+  <data name="LinkManager_LinkText" xml:space="preserve">
+    <value>Text odkazu</value>
+  </data>
+  <data name="LinkManager_LinkTooltip" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="LinkManager_LinkType" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="LinkManager_LinkUrl" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="LinkManager_Other" xml:space="preserve">
+    <value>iný</value>
+  </data>
+  <data name="LinkManager_Title" xml:space="preserve">
+    <value>Správca odkazov</value>
+  </data>
+  <data name="MediaManager_AlertValue" xml:space="preserve">
+    <value>Prosím, zadajte správnu hodnotu!</value>
+  </data>
+  <data name="MediaManager_AlertWidthHeight" xml:space="preserve">
+    <value>Prosím, zadajte šírku a výšku mediálneho súboru!</value>
+  </data>
+  <data name="MediaManager_Align" xml:space="preserve">
+    <value>Zarovnať</value>
+  </data>
+  <data name="MediaManager_AllowChangeDisplaySize" xml:space="preserve">
+    <value>Táto vlastnosť určuje, či môže byť zmenená veľkosť zobrazenia.</value>
+  </data>
+  <data name="MediaManager_AllowScan" xml:space="preserve">
+    <value>Táto vlastnosť určuje, či je povolené skenovanie pre súbory, ktoré skenovanie podporujú (rýchly posun vpred a prevíjanie).</value>
+  </data>
+  <data name="MediaManager_AnimationAtStart" xml:space="preserve">
+    <value>Táto vlastnosť určuje, či má bežať animácia pred zobrazením prvého snímka.</value>
+  </data>
+  <data name="MediaManager_Arrowhourglass" xml:space="preserve">
+    <value>Štandartná šípka a malé hodiny</value>
+  </data>
+  <data name="MediaManager_AudioStream" xml:space="preserve">
+    <value>Táto vlastnosť určuje číslo prúdu v aktuálnom audio prúde.</value>
+  </data>
+  <data name="MediaManager_AutoRewind" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player sa automaticky vráti na začiatok klipu keď sa tento skončí alebo má byť zastavený.</value>
+  </data>
+  <data name="MediaManager_AutoSize" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player sa prispôsobí veľkosťou aktuálnemu médiu na veľkosť špecifikovanú vlastnosťou &lt;B&gt;DisplaySize&lt;B&gt;.</value>
+  </data>
+  <data name="MediaManager_AutoStart" xml:space="preserve">
+    <value>Táto vlastnosť určuje či sa má klip začať prehrávať automaticky.</value>
+  </data>
+  <data name="MediaManager_Balance" xml:space="preserve">
+    <value>Táto vlastnosť určuje hodnotu stereo vyváženia.</value>
+  </data>
+  <data name="MediaManager_Baseline" xml:space="preserve">
+    <value>Základňa</value>
+  </data>
+  <data name="MediaManager_Bottom" xml:space="preserve">
+    <value>Spodok</value>
+  </data>
+  <data name="MediaManager_Caption2" xml:space="preserve">
+    <value>Titulok2</value>
+  </data>
+  <data name="MediaManager_CCActive" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je zapnuté alebo vypnuté uzavreté titulkovanie.</value>
+  </data>
+  <data name="MediaManager_ClickToPlay" xml:space="preserve">
+    <value>Táto vlastnosť určuje či používateľ môže ovládať prehrávanie pomocou kliknutia na video.</value>
+  </data>
+  <data name="MediaManager_ColorKey" xml:space="preserve">
+    <value>Táto vlastnosť určuje kľúč farieb použitý pri prehrávaní DVD.</value>
+  </data>
+  <data name="MediaManager_Crosshair" xml:space="preserve">
+    <value>Vlasový kríž</value>
+  </data>
+  <data name="MediaManager_CurrentAngle" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálny uhol kamery.</value>
+  </data>
+  <data name="MediaManager_CurrentAudioStream" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálny audio prúd.</value>
+  </data>
+  <data name="MediaManager_CurrentCCService" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálnu uzavretú titulkovaciu službu.</value>
+  </data>
+  <data name="MediaManager_CurrentMarker" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálne číslo značkovača.</value>
+  </data>
+  <data name="MediaManager_CurrentPosition" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálnu pozíciu klipu v sekundách.</value>
+  </data>
+  <data name="MediaManager_CurrentSubpictureStream" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálny prúd podobrázka.</value>
+  </data>
+  <data name="MediaManager_CursorType" xml:space="preserve">
+    <value>Táto vlastnosť určuje typ kurzora.</value>
+  </data>
+  <data name="MediaManager_Custom" xml:space="preserve">
+    <value>Vlastné</value>
+  </data>
+  <data name="MediaManager_Customh" xml:space="preserve">
+    <value>Vlastné -</value>
+  </data>
+  <data name="MediaManager_DefaultCaption1" xml:space="preserve">
+    <value>Predvolené. Titulok1</value>
+  </data>
+  <data name="MediaManager_DefaultFrame" xml:space="preserve">
+    <value>Táto vlastnosť určuje predvolený cieľ HTTP rámu.</value>
+  </data>
+  <data name="MediaManager_Description" xml:space="preserve">
+    <value>&lt;br /&gt;&lt;b&gt;Popis: &lt;/b&gt;</value>
+  </data>
+  <data name="MediaManager_DesignTime" xml:space="preserve">
+    <value>Veľkosť zadaná v čase návrhu.</value>
+  </data>
+  <data name="MediaManager_DisplayBackColor" xml:space="preserve">
+    <value>Táto vlastnosť určuje farbu pozadia pre panel zobrazenia.</value>
+  </data>
+  <data name="MediaManager_DisplayForeColor" xml:space="preserve">
+    <value>Táto vlastnosť určuje farbu popredia pre panel zobrazenia.</value>
+  </data>
+  <data name="MediaManager_DisplayMode" xml:space="preserve">
+    <value>Táto vlastnosť určuje či stavový riadok zobrazuje aktuálnu pozíciu v sekundách (Áno) alebo snímky (Nie).</value>
+  </data>
+  <data name="MediaManager_DisplaySize" xml:space="preserve">
+    <value>Táto vlastnosť určuje veľkosť panela zobrazenia.</value>
+  </data>
+  <data name="MediaManager_DoublepointedNESW" xml:space="preserve">
+    <value>Dvojsmerná šípka SV-JZ</value>
+  </data>
+  <data name="MediaManager_DoublepointedNS" xml:space="preserve">
+    <value>Dvojsmerná šípka S-J</value>
+  </data>
+  <data name="MediaManager_DoublepointedNWSE" xml:space="preserve">
+    <value>Dvojsmerná šípka SZ-JV</value>
+  </data>
+  <data name="MediaManager_DoublepointedWE" xml:space="preserve">
+    <value>Dvojsmerná šípka Z-V</value>
+  </data>
+  <data name="MediaManager_DoubleSourceImage" xml:space="preserve">
+    <value>Dvojnásobná veľkosť zdrojového obrazu.</value>
+  </data>
+  <data name="MediaManager_EnableContextMenu" xml:space="preserve">
+    <value>Táto vlastnosť určuje či sa má zobraziť kontextová ponuka ak používateľ klikne pravým tlačidlom myši.</value>
+  </data>
+  <data name="MediaManager_Enabled" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je povolený Windows Media Player.</value>
+  </data>
+  <data name="MediaManager_EnableFullScreenControls" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je povolený Windows Media Player.</value>
+  </data>
+  <data name="MediaManager_EnablePositionControls" xml:space="preserve">
+    <value>Táto vlastnosť určuje či sú povolené posuvníky na ovládacom paneli.</value>
+  </data>
+  <data name="MediaManager_EnableTracker" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je povolený prvok panel stôp.</value>
+  </data>
+  <data name="MediaManager_EntireScreen" xml:space="preserve">
+    <value>Veľkosť celej obrazovky.</value>
+  </data>
+  <data name="MediaManager_ExtendedDataServices" xml:space="preserve">
+    <value>Rozšírené dátové služby (XDS)</value>
+  </data>
+  <data name="MediaManager_Fourpointedarrow" xml:space="preserve">
+    <value>Štvorsmerná šípka</value>
+  </data>
+  <data name="MediaManager_HalfScreen" xml:space="preserve">
+    <value>Polovičná veľkosť obrazovky</value>
+  </data>
+  <data name="MediaManager_HalfSourceImage" xml:space="preserve">
+    <value>Š a V sú polovičnej veľkosti zdrojového obrazu</value>
+  </data>
+  <data name="MediaManager_Handpointing" xml:space="preserve">
+    <value>Ruka s ukazovateľom na obsah</value>
+  </data>
+  <data name="MediaManager_Hidden" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je prerávač viditeľný v prehliadači.</value>
+  </data>
+  <data name="MediaManager_Hourglass" xml:space="preserve">
+    <value>Presýpacie hodiny</value>
+  </data>
+  <data name="MediaManager_InvokeURLs" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player automaticky prepisuje URL adresy v prehliadači (URL flipping).</value>
+  </data>
+  <data name="MediaManager_Language" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálne nastavenie národnej jazykovej podpory.</value>
+  </data>
+  <data name="MediaManager_MediaPropertiesLegend" xml:space="preserve">
+    <value>Vlastnosti média</value>
+  </data>
+  <data name="MediaManager_Middle" xml:space="preserve">
+    <value>Nastred</value>
+  </data>
+  <data name="MediaManager_Mute" xml:space="preserve">
+    <value>Táto vlastnosť určuje aktuálny stav stlmenia zvuku (mute) Windows Media Playera.</value>
+  </data>
+  <data name="MediaManager_NA" xml:space="preserve">
+    <value>Bez významu</value>
+  </data>
+  <data name="MediaManager_None" xml:space="preserve">
+    <value>Žiaden</value>
+  </data>
+  <data name="MediaManager_Nosubpicturestream" xml:space="preserve">
+    <value>Nenašiel sa žiaden prúd podobrázka</value>
+  </data>
+  <data name="MediaManager_PlayCount" xml:space="preserve">
+    <value>Táto vlastnosť určuje počet opakovaní klipu</value>
+  </data>
+  <data name="MediaManager_PreviewMode" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je Windows Media Player v náhľadovom režime.</value>
+  </data>
+  <data name="MediaManager_QuarterScreen" xml:space="preserve">
+    <value>Štvrtinová veľkosť obrazovky</value>
+  </data>
+  <data name="MediaManager_Rate" xml:space="preserve">
+    <value>Táto vlastnosť určuje opakovaciu frekvenciu prehrávania klipu.</value>
+  </data>
+  <data name="MediaManager_Right" xml:space="preserve">
+    <value>Vpravo</value>
+  </data>
+  <data name="MediaManager_Samesize" xml:space="preserve">
+    <value>Rovnaká veľkosť ako zdrojový obraz</value>
+  </data>
+  <data name="MediaManager_SelectionEnd" xml:space="preserve">
+    <value>Táto vlastnosť určuje čas, po ktorom bude ukončené prehrávanie aktuálneho klipu. Táto vlastnosť nemôže byť nastavená alebo získaná pokiaľ vlastnosť &lt;B&gt;ReadyState&lt;/B&gt; (len na čítanie) obasuje hodnotu 4.</value>
+  </data>
+  <data name="MediaManager_SelectionStart" xml:space="preserve">
+    <value>Táto vlastnosť určuje čas, po ktorom bude začaté prehrávanie aktuálneho klipu.</value>
+  </data>
+  <data name="MediaManager_SelectProperty" xml:space="preserve">
+    <value>Vybrať vlastnosť</value>
+  </data>
+  <data name="MediaManager_SendErrorEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela chybové udalosti.</value>
+  </data>
+  <data name="MediaManager_SendKeyboardEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela udalosti klávesnice.</value>
+  </data>
+  <data name="MediaManager_SendMouseClickEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela udalosti  kliknutia myšou.</value>
+  </data>
+  <data name="MediaManager_SendMouseMoveEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela udalosti  pohybu myšou.</value>
+  </data>
+  <data name="MediaManager_SendOpenStateChangeEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela udalosti zmeny stavu otvorenia.</value>
+  </data>
+  <data name="MediaManager_SendPlayStateChangeEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela udalosti zmeny stavu prehrávania.</value>
+  </data>
+  <data name="MediaManager_SendWarningEvents" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player odosiela varovné udalosti.</value>
+  </data>
+  <data name="MediaManager_ShowAudioControls" xml:space="preserve">
+    <value>Táto vlastnosť určuje či sa audio prvky zobrazujú v ovládacom paneli.</value>
+  </data>
+  <data name="MediaManager_ShowCaptioning" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je povolená uzatvorená titulkovacia oblasť.</value>
+  </data>
+  <data name="MediaManager_ShowControls" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je viditeľný ovládací panel.</value>
+  </data>
+  <data name="MediaManager_ShowDisplay" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je viditeľný zobrazovací panel.</value>
+  </data>
+  <data name="MediaManager_ShowGotoBar" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je viditeľný Go To panel.</value>
+  </data>
+  <data name="MediaManager_ShowPositionControls" xml:space="preserve">
+    <value>Táto vlastnosť určuje či sa prvky ovládania umiestnenia zobrazujú v ovládacom paneli.</value>
+  </data>
+  <data name="MediaManager_ShowStatusBar" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je viditeľný stavový riadok.</value>
+  </data>
+  <data name="MediaManager_ShowTracker" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je viditeľný panel stôp.</value>
+  </data>
+  <data name="MediaManager_SixteenthScreen" xml:space="preserve">
+    <value>Šestnástinová veľkosť obrazovky</value>
+  </data>
+  <data name="MediaManager_SlashedCircle" xml:space="preserve">
+    <value>Šrafovaný kruh</value>
+  </data>
+  <data name="MediaManager_Standardarrow" xml:space="preserve">
+    <value>Štandartná šípka</value>
+  </data>
+  <data name="MediaManager_Streamisvalid" xml:space="preserve">
+    <value>Prúd je platný</value>
+  </data>
+  <data name="MediaManager_SubpictureOn" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je zobrazený podobrázok.</value>
+  </data>
+  <data name="MediaManager_Text1" xml:space="preserve">
+    <value>Text1</value>
+  </data>
+  <data name="MediaManager_Text2" xml:space="preserve">
+    <value>Text2</value>
+  </data>
+  <data name="MediaManager_TextIbeam" xml:space="preserve">
+    <value>Text I-lúč</value>
+  </data>
+  <data name="MediaManager_TextTop" xml:space="preserve">
+    <value>TextTop</value>
+  </data>
+  <data name="MediaManager_Title" xml:space="preserve">
+    <value>Správca médií</value>
+  </data>
+  <data name="MediaManager_TransparentAtStart" xml:space="preserve">
+    <value>Táto vlastnosť určuje či Windows Media Player je priesvitný pred začiatím prehrávania a po je ho skončení</value>
+  </data>
+  <data name="MediaManager_ValidateAudio" xml:space="preserve">
+    <value>Prosím, zadajte hodnotu od nuly po sedem definujúcu aktuálny prúd, alebo 0xFFFFFFFF ak nie je vzbratý žiaden prúd.</value>
+  </data>
+  <data name="MediaManager_ValidateLCID" xml:space="preserve">
+    <value>Prosím, zadajte číselnú hodnotu korešpodujúcu s nejakým LCID identifikátorom pre podporu národného jazykového prostredia.</value>
+  </data>
+  <data name="MediaManager_ValidateNumber" xml:space="preserve">
+    <value>Prosím, zadajte len číselnú hodnotu.</value>
+  </data>
+  <data name="MediaManager_ValidateNumber10" xml:space="preserve">
+    <value>Prosím, zadajte hodnotu od –10,00 do 10,00.</value>
+  </data>
+  <data name="MediaManager_ValidateNumber10000" xml:space="preserve">
+    <value>Prosím, zadajte hodnotu od –10 000 do 10 000.</value>
+  </data>
+  <data name="MediaManager_ValidateNumberHex" xml:space="preserve">
+    <value>Prosím, zadajte hexadecimálnu hodnotu.</value>
+  </data>
+  <data name="MediaManager_Value" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="MediaManager_Verticalarrow" xml:space="preserve">
+    <value>Zvislá šípka</value>
+  </data>
+  <data name="MediaManager_VideoBorder3D" xml:space="preserve">
+    <value>Táto vlastnosť určuje či je povolený trojrozmerný efekt pre orámovanie videa.</value>
+  </data>
+  <data name="MediaManager_VideoBorderColor" xml:space="preserve">
+    <value>Táto vlastnosť určuje farbu orámovania videa.</value>
+  </data>
+  <data name="MediaManager_VideoBorderWidth" xml:space="preserve">
+    <value>Táto vlastnosť určuje hrúbku orámovania videa v pixeloch.</value>
+  </data>
+  <data name="MediaManager_Volume" xml:space="preserve">
+    <value>Táto vlastnosť určuje hlasitosť v stovkách decibeloch.</value>
+  </data>
+  <data name="PageProperties_BackColor" xml:space="preserve">
+    <value>Farba pozadia</value>
+  </data>
+  <data name="PageProperties_BaseLocation" xml:space="preserve">
+    <value>Umiestnenie základne</value>
+  </data>
+  <data name="PageProperties_BodyAttributes" xml:space="preserve">
+    <value>Atribúty obsahu</value>
+  </data>
+  <data name="PageProperties_BottomMargin" xml:space="preserve">
+    <value>Spodný okraj</value>
+  </data>
+  <data name="PageProperties_ClassName" xml:space="preserve">
+    <value>Názov triedy</value>
+  </data>
+  <data name="PageProperties_Description" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="PageProperties_Keywords" xml:space="preserve">
+    <value>Kľúčové slová</value>
+  </data>
+  <data name="PageProperties_LeftMargin" xml:space="preserve">
+    <value>Ľavý okraj</value>
+  </data>
+  <data name="PageProperties_PageAttributes" xml:space="preserve">
+    <value>Atribúty stránky</value>
+  </data>
+  <data name="PageProperties_PageTitle" xml:space="preserve">
+    <value>Titulok stránky</value>
+  </data>
+  <data name="PageProperties_RightMargin" xml:space="preserve">
+    <value>Pravý okraj</value>
+  </data>
+  <data name="PageProperties_TopMargin" xml:space="preserve">
+    <value>Horný okraj</value>
+  </data>
+  <data name="ReservedResource" xml:space="preserve">
+    <value>Please, do not delete this string. RadEditor needs it to determine if an external resource file is present in App_GlobalResources.</value>
+  </data>
+  <data name="SetImageProperties_Constrain" xml:space="preserve">
+    <value>Obmedzenie</value>
+  </data>
+  <data name="SetImageProperties_HorizontalSpacing" xml:space="preserve">
+    <value>Vodorovný spacing</value>
+  </data>
+  <data name="SetImageProperties_ImageAlignment" xml:space="preserve">
+    <value>Alineamiento</value>
+  </data>
+  <data name="SetImageProperties_ImageSrc" xml:space="preserve">
+    <value>Elegir imagen</value>
+  </data>
+  <data name="SetImageProperties_LongDescription" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="SetImageProperties_Title" xml:space="preserve">
+    <value>Vlastnosti obrázka</value>
+  </data>
+  <data name="SetImageProperties_VerticalSpacing" xml:space="preserve">
+    <value>Zvislý spacing</value>
+  </data>
+  <data name="Common_AddCustomColor" xml:space="preserve">
+    <value>Agregar color personalizado</value>
+  </data>
+  <data name="TableWizard_AddHexColor" xml:space="preserve">
+    <value>Pridať hexa farbu...</value>
+  </data>
+  <data name="TableWizard_Additional" xml:space="preserve">
+    <value>Dodatočný</value>
+  </data>
+  <data name="TableWizard_Alignment" xml:space="preserve">
+    <value>Zarovnanie</value>
+  </data>
+  <data name="TableWizard_AllFourSides" xml:space="preserve">
+    <value>Všetky štyri strany</value>
+  </data>
+  <data name="TableWizard_AllRowsAndColomns" xml:space="preserve">
+    <value>Všetky riadky a stĺpce</value>
+  </data>
+  <data name="TableWizard_AssociateCellsWithHeaders" xml:space="preserve">
+    <value>Združiť bunky s hlavičkou</value>
+  </data>
+  <data name="StyleBuilder_BackgroundTab" xml:space="preserve">
+    <value>Pozadie</value>
+  </data>
+  <data name="TableWizard_Baseline" xml:space="preserve">
+    <value>Základňa</value>
+  </data>
+  <data name="TableWizard_Betweenall" xml:space="preserve">
+    <value>Medzi všetky riadky a stĺpce</value>
+  </data>
+  <data name="TableWizard_BetweenColumns" xml:space="preserve">
+    <value>Medzi stĺpce</value>
+  </data>
+  <data name="TableWizard_Betweengroup" xml:space="preserve">
+    <value>Medzi riadky a skupinu stĺpcov</value>
+  </data>
+  <data name="TableWizard_BetweenRows" xml:space="preserve">
+    <value>Medzi riadky</value>
+  </data>
+  <data name="TableWizard_Border" xml:space="preserve">
+    <value>Orámovanie</value>
+  </data>
+  <data name="TableWizard_Bottom" xml:space="preserve">
+    <value>Spodok</value>
+  </data>
+  <data name="TableWizard_BottomSide" xml:space="preserve">
+    <value>Iba spodná strana</value>
+  </data>
+  <data name="TableWizard_Caption" xml:space="preserve">
+    <value>Titulok</value>
+  </data>
+  <data name="TableWizard_CaptionAlign" xml:space="preserve">
+    <value>Zarovnanie titulku</value>
+  </data>
+  <data name="TableWizard_CellPadding" xml:space="preserve">
+    <value>Padding bunky</value>
+  </data>
+  <data name="TableWizard_CellSpacing" xml:space="preserve">
+    <value>Spacing bunky</value>
+  </data>
+  <data name="TableWizard_Center" xml:space="preserve">
+    <value>Nastred</value>
+  </data>
+  <data name="TableWizard_Columns" xml:space="preserve">
+    <value>Stĺpce</value>
+  </data>
+  <data name="TableWizard_ColumnSettings" xml:space="preserve">
+    <value>Počet a spájanie stĺpcov</value>
+  </data>
+  <data name="TableWizard_ColumnSpan" xml:space="preserve">
+    <value>Spájanie stĺpcov</value>
+  </data>
+  <data name="TableWizard_Content" xml:space="preserve">
+    <value>Obsah</value>
+  </data>
+  <data name="TableWizard_ContentAlignment" xml:space="preserve">
+    <value>Zarovnanie obsahu</value>
+  </data>
+  <data name="TableWizard_Custom" xml:space="preserve">
+    <value>Vlastný</value>
+  </data>
+  <data name="TableWizard_Customh" xml:space="preserve">
+    <value>Vlastný -</value>
+  </data>
+  <data name="TableWizard_Dimensions" xml:space="preserve">
+    <value>Rozmery</value>
+  </data>
+  <data name="TableWizard_Frame" xml:space="preserve">
+    <value>Rám</value>
+  </data>
+  <data name="TableWizard_HeadingColumns" xml:space="preserve">
+    <value>Stĺpce hlavičky</value>
+  </data>
+  <data name="TableWizard_HeadingRows" xml:space="preserve">
+    <value>Riadky hlavičky</value>
+  </data>
+  <data name="TableWizard_HeadingsLabel" xml:space="preserve">
+    <value>Hlavičky</value>
+  </data>
+  <data name="TableWizard_Horizontal" xml:space="preserve">
+    <value>Vodorovný</value>
+  </data>
+  <data name="TableWizard_InvalidCellHeight" xml:space="preserve">
+    <value>Neplatná výška bunky.</value>
+  </data>
+  <data name="TableWizard_InvalidCellWidth" xml:space="preserve">
+    <value>Neplatná šírka bunky.</value>
+  </data>
+  <data name="TableWizard_InvalidTableHeight" xml:space="preserve">
+    <value>Neplatná výška tabuľky.</value>
+  </data>
+  <data name="TableWizard_InvalidTableWidth" xml:space="preserve">
+    <value>Neplatná šírka tabuľky.</value>
+  </data>
+  <data name="TableWizard_Layout" xml:space="preserve">
+    <value>Rozmiestnenie</value>
+  </data>
+  <data name="TableWizard_LeftAndRightSide" xml:space="preserve">
+    <value>Len pravá a ľavá strana</value>
+  </data>
+  <data name="TableWizard_LeftSide" xml:space="preserve">
+    <value>Ľavá strana</value>
+  </data>
+  <data name="TableWizard_Middle" xml:space="preserve">
+    <value>Nastred</value>
+  </data>
+  <data name="TableWizard_NoBorders" xml:space="preserve">
+    <value>Bez orámovania</value>
+  </data>
+  <data name="TableWizard_NoInteriorBorders" xml:space="preserve">
+    <value>Bez vnútorného orámovania</value>
+  </data>
+  <data name="TableWizard_NoTextWrapping" xml:space="preserve">
+    <value>nezalamovať text</value>
+  </data>
+  <data name="TableWizard_NoWrapping" xml:space="preserve">
+    <value>Nezalamovať</value>
+  </data>
+  <data name="TableWizard_OtherOptionsLabel" xml:space="preserve">
+    <value>Iné možnosti</value>
+  </data>
+  <data name="TableWizard_PixelsOrPercents" xml:space="preserve">
+    <value>pixelov, %</value>
+  </data>
+  <data name="TableWizard_PromptColor" xml:space="preserve">
+    <value>Prosím, zadajte vlastnú hodnotu hexa farby</value>
+  </data>
+  <data name="TableWizard_Right" xml:space="preserve">
+    <value>Vpravo</value>
+  </data>
+  <data name="TableWizard_RightSide" xml:space="preserve">
+    <value>Len napravo</value>
+  </data>
+  <data name="TableWizard_Rows" xml:space="preserve">
+    <value>Riadky</value>
+  </data>
+  <data name="TableWizard_RowSettings" xml:space="preserve">
+    <value>Počet a spájanie riadkov</value>
+  </data>
+  <data name="TableWizard_RowSpan" xml:space="preserve">
+    <value>Spájanie riadkov</value>
+  </data>
+  <data name="TableWizard_Size" xml:space="preserve">
+    <value>Veľkosť</value>
+  </data>
+  <data name="TableWizard_Summary" xml:space="preserve">
+    <value>Sumár</value>
+  </data>
+  <data name="TableWizard_Tab1HeaderText" xml:space="preserve">
+    <value>Návrh tabuľky</value>
+  </data>
+  <data name="TableWizard_Tab2HeaderText" xml:space="preserve">
+    <value>Vlastnosti tabuľky</value>
+  </data>
+  <data name="TableWizard_Tab3HeaderText" xml:space="preserve">
+    <value>Vlastnosti bunky</value>
+  </data>
+  <data name="TableWizard_Tab4HeaderText" xml:space="preserve">
+    <value>Dostupnosť</value>
+  </data>
+  <data name="TableWizard_TableBorderControlSizeOverflow" xml:space="preserve">
+    <value>Pokúšate sa nastaviť veľkosť orámovania viac ako je maximu (1000). Použije sa 1000.</value>
+  </data>
+  <data name="TableWizard_TableControls" xml:space="preserve">
+    <value>Prvky tabuľky</value>
+  </data>
+  <data name="TableWizard_TableDesignPreviewLabel" xml:space="preserve">
+    <value>Náhľad návrhu tabuľky</value>
+  </data>
+  <data name="TableWizard_Title" xml:space="preserve">
+    <value>Sprievodca tabuľkou</value>
+  </data>
+  <data name="TableWizard_TopAndBottomSide" xml:space="preserve">
+    <value>Len horná a dolná strana</value>
+  </data>
+  <data name="TableWizard_TopSide" xml:space="preserve">
+    <value>Len horná strana</value>
+  </data>
+  <data name="TableWizard_UseColor" xml:space="preserve">
+    <value>Použiť farbu</value>
+  </data>
+  <data name="TableWizard_Vertical" xml:space="preserve">
+    <value>Zvislý</value>
+  </data>
+  <data name="Common_Rename" xml:space="preserve">
+    <value>Premenovať</value>
+  </data>
+  <data name="Common_Add" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="Common_Clear" xml:space="preserve">
+    <value>Vyčistiť</value>
+  </data>
+  <data name="Common_Remove" xml:space="preserve">
+    <value>Odstrániť</value>
+  </data>
+  <data name="Common_Select" xml:space="preserve">
+    <value>Vybrať</value>
+  </data>
+  <data name="Common_Open" xml:space="preserve">
+    <value>Otvoriť</value>
+  </data>
+  <data name="SilverlightManager_AutoUpgrade" xml:space="preserve">
+    <value>Automatický upgrade</value>
+  </data>
+  <data name="SilverlightManager_EnableHtmlAccess" xml:space="preserve">
+    <value>Povoliť Html prístup</value>
+  </data>
+  <data name="SilverlightManager_MinVersion" xml:space="preserve">
+    <value>Minimálna runtime verzia</value>
+  </data>
+  <data name="SilverlightManager_Windowless" xml:space="preserve">
+    <value>Bez okna</value>
+  </data>
+  <data name="Common_StyleBuilder" xml:space="preserve">
+    <value>Tvorca štýlov</value>
+  </data>
+  <data name="TableWizard_AccessibilityOptions" xml:space="preserve">
+    <value>Možnosti dostupnosti</value>
+  </data>
+  <data name="TableWizard_ApplySpecialFormatsTo" xml:space="preserve">
+    <value>Použiť zvláštne formátovanie na</value>
+  </data>
+  <data name="TableWizard_FirstColumn" xml:space="preserve">
+    <value>Prvý stĺpec</value>
+  </data>
+  <data name="TableWizard_HeadingRow" xml:space="preserve">
+    <value>Riadok hlavičky</value>
+  </data>
+  <data name="TableWizard_LastColumn" xml:space="preserve">
+    <value>Posledný stĺpec</value>
+  </data>
+  <data name="TableWizard_LastRow" xml:space="preserve">
+    <value>Posledný riadok</value>
+  </data>
+  <data name="TableWizard_NoCSSClassLayout" xml:space="preserve">
+    <value>Bez CSS layout triedy</value>
+  </data>
+  <data name="FindAndReplace_AllReplaced" xml:space="preserve">
+    <value>{0} výskytov v texte bolo nahradených!</value>
+  </data>
+  <data name="FindAndReplace_NotFound" xml:space="preserve">
+    <value>Hľadaný reťazec sa nenašiel.</value>
+  </data>
+  <data name="FindAndReplace_NotSupported" xml:space="preserve">
+    <value>Funkcia vyhľadávania nie je podporovaná v tomto prehliadači!</value>
+  </data>
+  <data name="Common_Forward" xml:space="preserve">
+    <value>Dopredu</value>
+  </data>
+  <data name="Common_ApplyClass" xml:space="preserve">
+    <value>Použiť triedu</value>
+  </data>
+  <data name="Common_ClearClass" xml:space="preserve">
+    <value>Vyčistiť triedu</value>
+  </data>
+  <data name="Common_Decrease" xml:space="preserve">
+    <value>Znížiť</value>
+  </data>
+  <data name="Common_Increase" xml:space="preserve">
+    <value>Zvýšiť</value>
+  </data>
+  <data name="Common_GridPagerText" xml:space="preserve">
+    <value>{4} Strana &lt;strong&gt;{0}&lt;/strong&gt; z &lt;strong&gt;{1}&lt;/strong&gt;. Položky &lt;strong&gt;{2}&lt;/strong&gt; z &lt;strong&gt;{3}&lt;/strong&gt; z &lt;strong&gt;{5}&lt;/strong&gt;</value>
+  </data>
+  <data name="Common_GridSortedAscToolTip" xml:space="preserve">
+    <value>Triediť vzostupne</value>
+  </data>
+  <data name="Common_GridSortedDescToolTip" xml:space="preserve">
+    <value>Triediť zostupne</value>
+  </data>
+  <data name="Common_GridSortToolTip" xml:space="preserve">
+    <value>Kliknite tu pre triedenie</value>
+  </data>
+  <data name="TableWizard_SelectAll" xml:space="preserve">
+    <value>Vybrať všetko</value>
+  </data>
+  <data name="Common_Margin" xml:space="preserve">
+    <value>Okraj</value>
+  </data>
+  <data name="SetImageProperties_LinkToOriginal" xml:space="preserve">
+    <value>Prepojiť na pôvodný</value>
+  </data>
+  <data name="SetImageProperties_OpenInNewWindow" xml:space="preserve">
+    <value>Otvoriť v novom okne</value>
+  </data>
+  <data name="Common_AllProperties" xml:space="preserve">
+    <value>Propiedades...</value>
+  </data>
+  <data name="Common_Copy" xml:space="preserve">
+    <value>Kopírovať</value>
+  </data>
+  <data name="StyleBuilder_Absolute" xml:space="preserve">
+    <value>Absolútne</value>
+  </data>
+  <data name="StyleBuilder_Bold" xml:space="preserve">
+    <value>Tučné</value>
+  </data>
+  <data name="StyleBuilder_Bolder" xml:space="preserve">
+    <value>Tučnejšie</value>
+  </data>
+  <data name="StyleBuilder_BorderTab" xml:space="preserve">
+    <value>Orámovanie</value>
+  </data>
+  <data name="StyleBuilder_Capitalization" xml:space="preserve">
+    <value>Veľké písmená</value>
+  </data>
+  <data name="StyleBuilder_Capitalize" xml:space="preserve">
+    <value>Veľké písmená</value>
+  </data>
+  <data name="StyleBuilder_Color" xml:space="preserve">
+    <value>Farba</value>
+  </data>
+  <data name="StyleBuilder_EdgesTab" xml:space="preserve">
+    <value>Hrany</value>
+  </data>
+  <data name="StyleBuilder_Effects" xml:space="preserve">
+    <value>Efekty</value>
+  </data>
+  <data name="StyleBuilder_FontAttributes" xml:space="preserve">
+    <value>Atribúty písma</value>
+  </data>
+  <data name="StyleBuilder_FontFamily" xml:space="preserve">
+    <value>Písmo</value>
+  </data>
+  <data name="StyleBuilder_FontName" xml:space="preserve">
+    <value>Názov písma</value>
+  </data>
+  <data name="StyleBuilder_FontSize" xml:space="preserve">
+    <value>Veľkosť</value>
+  </data>
+  <data name="StyleBuilder_FontTab" xml:space="preserve">
+    <value>Písmo</value>
+  </data>
+  <data name="StyleBuilder_Italics" xml:space="preserve">
+    <value>Šikmé</value>
+  </data>
+  <data name="StyleBuilder_Larger" xml:space="preserve">
+    <value>Väčšie</value>
+  </data>
+  <data name="StyleBuilder_LayoutTab" xml:space="preserve">
+    <value>Rozmiestnenie</value>
+  </data>
+  <data name="StyleBuilder_Lighter" xml:space="preserve">
+    <value>Tenšie</value>
+  </data>
+  <data name="StyleBuilder_ListsTab" xml:space="preserve">
+    <value>Zoznamy</value>
+  </data>
+  <data name="StyleBuilder_Lowercase" xml:space="preserve">
+    <value>Malé písmená</value>
+  </data>
+  <data name="StyleBuilder_Normal" xml:space="preserve">
+    <value>Normálne</value>
+  </data>
+  <data name="StyleBuilder_NotSet" xml:space="preserve">
+    <value>&amp;lt;Nenastavené&amp;gt;</value>
+  </data>
+  <data name="StyleBuilder_Overline" xml:space="preserve">
+    <value>Overline</value>
+  </data>
+  <data name="StyleBuilder_Relative" xml:space="preserve">
+    <value>Relatívne</value>
+  </data>
+  <data name="StyleBuilder_SmallCaps" xml:space="preserve">
+    <value>Malé ako veľké</value>
+  </data>
+  <data name="StyleBuilder_Smaller" xml:space="preserve">
+    <value>Menšie</value>
+  </data>
+  <data name="StyleBuilder_Specific" xml:space="preserve">
+    <value>Špecifický</value>
+  </data>
+  <data name="StyleBuilder_Strikethrough" xml:space="preserve">
+    <value>Preškrtnuté</value>
+  </data>
+  <data name="StyleBuilder_TextTab" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="StyleBuilder_Underline" xml:space="preserve">
+    <value>Podčiarknuté</value>
+  </data>
+  <data name="StyleBuilder_Uppercase" xml:space="preserve">
+    <value>Veľké písmená</value>
+  </data>
+  <data name="StyleBuilder_Bulleted" xml:space="preserve">
+    <value>Odrážkový</value>
+  </data>
+  <data name="StyleBuilder_Bullets" xml:space="preserve">
+    <value>Odrážky</value>
+  </data>
+  <data name="StyleBuilder_Circle" xml:space="preserve">
+    <value>Kružnica</value>
+  </data>
+  <data name="StyleBuilder_CustomBullet" xml:space="preserve">
+    <value>Vlastná odrážka</value>
+  </data>
+  <data name="StyleBuilder_Disk" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="StyleBuilder_Inside" xml:space="preserve">
+    <value>Inside (neodsadený text)</value>
+  </data>
+  <data name="StyleBuilder_Outside" xml:space="preserve">
+    <value>Zvonka (text je zarovnaný dnu)</value>
+  </data>
+  <data name="StyleBuilder_Position" xml:space="preserve">
+    <value>Umiestnenie</value>
+  </data>
+  <data name="StyleBuilder_Square" xml:space="preserve">
+    <value>Štvorec</value>
+  </data>
+  <data name="StyleBuilder_Style" xml:space="preserve">
+    <value>Štýl</value>
+  </data>
+  <data name="StyleBuilder_UnBulleted" xml:space="preserve">
+    <value>Bez odrážok</value>
+  </data>
+  <data name="StyleBuilder_Alignment" xml:space="preserve">
+    <value>Zarovnanie</value>
+  </data>
+  <data name="StyleBuilder_AllowFloatingObjects" xml:space="preserve">
+    <value>Povoliť obtekajúce objekty</value>
+  </data>
+  <data name="StyleBuilder_AllowTextToFlow" xml:space="preserve">
+    <value>Povoliť obtekajúci text</value>
+  </data>
+  <data name="StyleBuilder_AlwaysUseScrollbars" xml:space="preserve">
+    <value>Vždy použiť posuvníky</value>
+  </data>
+  <data name="StyleBuilder_Baseline" xml:space="preserve">
+    <value>Základňa</value>
+  </data>
+  <data name="StyleBuilder_Block" xml:space="preserve">
+    <value>Ako prvok block</value>
+  </data>
+  <data name="StyleBuilder_Both" xml:space="preserve">
+    <value>Oboje</value>
+  </data>
+  <data name="StyleBuilder_Center" xml:space="preserve">
+    <value>Vystrediť</value>
+  </data>
+  <data name="StyleBuilder_Clipping" xml:space="preserve">
+    <value>Orezanie</value>
+  </data>
+  <data name="StyleBuilder_Collapse" xml:space="preserve">
+    <value>Kolabovať</value>
+  </data>
+  <data name="StyleBuilder_CollapseBorder" xml:space="preserve">
+    <value>Kolabované orámovanie</value>
+  </data>
+  <data name="StyleBuilder_Collapsed" xml:space="preserve">
+    <value>Kolabované</value>
+  </data>
+  <data name="StyleBuilder_Content" xml:space="preserve">
+    <value>Obsah</value>
+  </data>
+  <data name="StyleBuilder_ContentIsClipped" xml:space="preserve">
+    <value>Obsah je orezaný</value>
+  </data>
+  <data name="StyleBuilder_ContentIsNotClipped" xml:space="preserve">
+    <value>Obsah nie je orezaný</value>
+  </data>
+  <data name="StyleBuilder_Custom" xml:space="preserve">
+    <value>Vlastný</value>
+  </data>
+  <data name="StyleBuilder_Dashed" xml:space="preserve">
+    <value>Čiarkovaný</value>
+  </data>
+  <data name="StyleBuilder_Display" xml:space="preserve">
+    <value>Zobraziť</value>
+  </data>
+  <data name="StyleBuilder_DoNotAllow" xml:space="preserve">
+    <value>Nepovoliť</value>
+  </data>
+  <data name="StyleBuilder_DoNotUseBgrImage" xml:space="preserve">
+    <value>Nepoužiť obrázok pozadia</value>
+  </data>
+  <data name="StyleBuilder_DontAllowTextOnSides" xml:space="preserve">
+    <value>Nepovoliť text po stranách</value>
+  </data>
+  <data name="StyleBuilder_Dotted" xml:space="preserve">
+    <value>Bodkovaný</value>
+  </data>
+  <data name="StyleBuilder_DoubleLine" xml:space="preserve">
+    <value>Dvojitá čiara</value>
+  </data>
+  <data name="StyleBuilder_FixedBackground" xml:space="preserve">
+    <value>Pevné pozadie</value>
+  </data>
+  <data name="StyleBuilder_FlowControl" xml:space="preserve">
+    <value>Riadenie obtekania</value>
+  </data>
+  <data name="StyleBuilder_Groove" xml:space="preserve">
+    <value>Ryha</value>
+  </data>
+  <data name="StyleBuilder_Hidden" xml:space="preserve">
+    <value>Skrytý</value>
+  </data>
+  <data name="StyleBuilder_Horizontal" xml:space="preserve">
+    <value>Vodorovne</value>
+  </data>
+  <data name="StyleBuilder_Image" xml:space="preserve">
+    <value>Obrázok</value>
+  </data>
+  <data name="StyleBuilder_Indentation" xml:space="preserve">
+    <value>Odsadenie</value>
+  </data>
+  <data name="StyleBuilder_Inline" xml:space="preserve">
+    <value>Ako inflow prvok</value>
+  </data>
+  <data name="StyleBuilder_Inset" xml:space="preserve">
+    <value>Inset</value>
+  </data>
+  <data name="StyleBuilder_Justification" xml:space="preserve">
+    <value>Rozloženie</value>
+  </data>
+  <data name="StyleBuilder_Justify" xml:space="preserve">
+    <value>Rozložiť</value>
+  </data>
+  <data name="StyleBuilder_LeftToRight" xml:space="preserve">
+    <value>Zľava doprava</value>
+  </data>
+  <data name="StyleBuilder_Letters" xml:space="preserve">
+    <value>Písmená</value>
+  </data>
+  <data name="StyleBuilder_Lines" xml:space="preserve">
+    <value>Čiary</value>
+  </data>
+  <data name="StyleBuilder_Medium" xml:space="preserve">
+    <value>Stredný</value>
+  </data>
+  <data name="StyleBuilder_Middle" xml:space="preserve">
+    <value>Nastred</value>
+  </data>
+  <data name="StyleBuilder_OnEitherSide" xml:space="preserve">
+    <value>Na každej strane</value>
+  </data>
+  <data name="StyleBuilder_OnlyOnLeft" xml:space="preserve">
+    <value>Len vľavo</value>
+  </data>
+  <data name="StyleBuilder_OnlyOnRight" xml:space="preserve">
+    <value>Len vpravo</value>
+  </data>
+  <data name="StyleBuilder_Outset" xml:space="preserve">
+    <value>Len vpravo</value>
+  </data>
+  <data name="StyleBuilder_Overflow" xml:space="preserve">
+    <value>Prekrytie</value>
+  </data>
+  <data name="StyleBuilder_Padding" xml:space="preserve">
+    <value>Padding</value>
+  </data>
+  <data name="StyleBuilder_Ridge" xml:space="preserve">
+    <value>Ryha</value>
+  </data>
+  <data name="StyleBuilder_RightToLeft" xml:space="preserve">
+    <value>Sprava doľava</value>
+  </data>
+  <data name="StyleBuilder_SameForAll" xml:space="preserve">
+    <value>Rovnaké pre všetko</value>
+  </data>
+  <data name="StyleBuilder_Scrolling" xml:space="preserve">
+    <value>Rolovanie</value>
+  </data>
+  <data name="StyleBuilder_ScrollingBackground" xml:space="preserve">
+    <value>Rolujúce pozadie</value>
+  </data>
+  <data name="StyleBuilder_SolidLine" xml:space="preserve">
+    <value>Plná čiara</value>
+  </data>
+  <data name="StyleBuilder_SpacingBetween" xml:space="preserve">
+    <value>Spacing medzi</value>
+  </data>
+  <data name="StyleBuilder_Sub" xml:space="preserve">
+    <value>Dolný index</value>
+  </data>
+  <data name="StyleBuilder_Super" xml:space="preserve">
+    <value>Horný index</value>
+  </data>
+  <data name="StyleBuilder_TextBottom" xml:space="preserve">
+    <value>Text-dole</value>
+  </data>
+  <data name="StyleBuilder_TextDirection" xml:space="preserve">
+    <value>Smer textu</value>
+  </data>
+  <data name="StyleBuilder_TextFlow" xml:space="preserve">
+    <value>Obtekanie textu</value>
+  </data>
+  <data name="StyleBuilder_TextTop" xml:space="preserve">
+    <value>Text-hore</value>
+  </data>
+  <data name="StyleBuilder_Thick" xml:space="preserve">
+    <value>Hrubý</value>
+  </data>
+  <data name="StyleBuilder_Thin" xml:space="preserve">
+    <value>Tenký</value>
+  </data>
+  <data name="StyleBuilder_Tiling" xml:space="preserve">
+    <value>Dlaždice</value>
+  </data>
+  <data name="StyleBuilder_ToTheLeft" xml:space="preserve">
+    <value>Doľava</value>
+  </data>
+  <data name="StyleBuilder_ToTheRight" xml:space="preserve">
+    <value>Doprava</value>
+  </data>
+  <data name="StyleBuilder_UseScrollbarsIfNeeded" xml:space="preserve">
+    <value>Použiť posuvníky ak je to potrebné</value>
+  </data>
+  <data name="StyleBuilder_Vertical" xml:space="preserve">
+    <value>Zvislo</value>
+  </data>
+  <data name="StyleBuilder_Visibility" xml:space="preserve">
+    <value>Viditeľnosť</value>
+  </data>
+  <data name="StyleBuilder_Visible" xml:space="preserve">
+    <value>Viditeľný</value>
+  </data>
+  <data name="StyleBuilder_Words" xml:space="preserve">
+    <value>Slová</value>
+  </data>
+  <data name="ImageEditor_AddText" xml:space="preserve">
+    <value>Pridať text</value>
+  </data>
+  <data name="ImageEditor_Print" xml:space="preserve">
+    <value>Tlačiť obrázok</value>
+  </data>
+  <data name="ImageEditor_Redo" xml:space="preserve">
+    <value>Znova</value>
+  </data>
+  <data name="ImageEditor_RotateLeft" xml:space="preserve">
+    <value>Otočiť doľava o 90 stupňov</value>
+  </data>
+  <data name="ImageEditor_RotateRight" xml:space="preserve">
+    <value>Otočiť doprava o 90 stupňov</value>
+  </data>
+  <data name="ImageEditor_Undo" xml:space="preserve">
+    <value>Späť</value>
+  </data>
+  <data name="ImageEditor_Zoom" xml:space="preserve">
+    <value>Lupa</value>
+  </data>
+  <data name="ImageEditor_AddText_Color" xml:space="preserve">
+    <value>Farba</value>
+  </data>
+  <data name="ImageEditor_AddText_ColorToolTip" xml:space="preserve">
+    <value>Farba pridávaného textu</value>
+  </data>
+  <data name="ImageEditor_AddText_CurrentColorText" xml:space="preserve">
+    <value>(Aktuálna farba je {0})</value>
+  </data>
+  <data name="ImageEditor_AddText_FontFamily" xml:space="preserve">
+    <value>Písmo</value>
+  </data>
+  <data name="ImageEditor_AddText_FontFamilyToolTip" xml:space="preserve">
+    <value>Písmo pridávaného textu</value>
+  </data>
+  <data name="ImageEditor_AddText_FontSize" xml:space="preserve">
+    <value>Veľkosť písma</value>
+  </data>
+  <data name="ImageEditor_AddText_FontSizeToolTip" xml:space="preserve">
+    <value>Veľkosť písma pridávaného textu</value>
+  </data>
+  <data name="ImageEditor_AddText_PickColorToolTip" xml:space="preserve">
+    <value>Nabrať farbu</value>
+  </data>
+  <data name="ImageEditor_AddText_SampleText" xml:space="preserve">
+    <value>Váš text tu...</value>
+  </data>
+  <data name="ImageEditor_AddText_Title" xml:space="preserve">
+    <value>Pridanie textu</value>
+  </data>
+  <data name="ImageEditor_Common_Position" xml:space="preserve">
+    <value>Umiestnenie</value>
+  </data>
+  <data name="ImageEditor_Common_SliderDrag" xml:space="preserve">
+    <value>Zmeňte hodnotu ťahaním</value>
+  </data>
+  <data name="ImageEditor_Common_SwapWidthHeight" xml:space="preserve">
+    <value>Zameniť šírku a výšku</value>
+  </data>
+  <data name="ImageEditor_Common_X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="ImageEditor_Common_Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="ImageEditor_Crop_AspectRatio" xml:space="preserve">
+    <value>Mierka</value>
+  </data>
+  <data name="ImageEditor_Crop_AspectRatioToolTip" xml:space="preserve">
+    <value>Vybrať mierku</value>
+  </data>
+  <data name="ImageEditor_Crop_Button" xml:space="preserve">
+    <value>Vyrezať</value>
+  </data>
+  <data name="ImageEditor_Crop_Title" xml:space="preserve">
+    <value>Výrez obrázka</value>
+  </data>
+  <data name="ImageEditor_Flip_None" xml:space="preserve">
+    <value>Neprevracať</value>
+  </data>
+  <data name="ImageEditor_Flip_Title" xml:space="preserve">
+    <value>Prevrátenie</value>
+  </data>
+  <data name="ImageEditor_Opacity_TextboxToolTip" xml:space="preserve">
+    <value>Zadajte hodnotu medzi 0 a 100%</value>
+  </data>
+  <data name="ImageEditor_Opacity_Title" xml:space="preserve">
+    <value>Opacita</value>
+  </data>
+  <data name="ImageEditor_Print_Button" xml:space="preserve">
+    <value>Tlačiť</value>
+  </data>
+  <data name="ImageEditor_Print_Title" xml:space="preserve">
+    <value>Tlač obrázka</value>
+  </data>
+  <data name="ImageEditor_Resize_Button" xml:space="preserve">
+    <value>Zmeniť veľkosť</value>
+  </data>
+  <data name="ImageEditor_Resize_Percentage" xml:space="preserve">
+    <value>Pomer</value>
+  </data>
+  <data name="ImageEditor_Resize_PercentageToolTip" xml:space="preserve">
+    <value>Pomer pôvodného Šírka x Výška [0,100%]</value>
+  </data>
+  <data name="ImageEditor_Resize_PresetSizes" xml:space="preserve">
+    <value>Prednastaviť veľkosť</value>
+  </data>
+  <data name="ImageEditor_Resize_PresetSizesToolTip" xml:space="preserve">
+    <value>Vyberte prednastavenú Šírku x Výšku</value>
+  </data>
+  <data name="ImageEditor_Resize_Title" xml:space="preserve">
+    <value>Zmena veľkosti</value>
+  </data>
+  <data name="ImageEditor_Rotate_DropDownToolTip" xml:space="preserve">
+    <value>Vyberte uhol otočenia</value>
+  </data>
+  <data name="ImageEditor_Rotate_Title" xml:space="preserve">
+    <value>Otočenie</value>
+  </data>
+  <data name="ImageEditor_Save_ClientRadioText" xml:space="preserve">
+    <value>Prevziať obrázok</value>
+  </data>
+  <data name="ImageEditor_Save_FileNameLabel" xml:space="preserve">
+    <value>Názov súboru</value>
+  </data>
+  <data name="ImageEditor_Save_FileNameToolTip" xml:space="preserve">
+    <value>Zadajte názov súboru</value>
+  </data>
+  <data name="ImageEditor_Save_ServerRadioText" xml:space="preserve">
+    <value>Uložiť obrázok na server</value>
+  </data>
+  <data name="ImageEditor_Save_Title" xml:space="preserve">
+    <value>Uloženie obrázka</value>
+  </data>
+  <data name="ImageEditor_StatusBar_LastAction" xml:space="preserve">
+    <value>Posledná akcia</value>
+  </data>
+  <data name="ImageEditor_StatusBar_Position" xml:space="preserve">
+    <value>Pozícia</value>
+  </data>
+  <data name="ImageEditor_StatusBar_Size" xml:space="preserve">
+    <value>Veľkosť</value>
+  </data>
+  <data name="ImageEditor_StatusBar_Zoom" xml:space="preserve">
+    <value>Zväčšenie</value>
+  </data>
+  <data name="ImageEditor_Zoom_ActualSizeToolTip" xml:space="preserve">
+    <value>Zväčšiť na 100%</value>
+  </data>
+  <data name="ImageEditor_Zoom_BestFitToolTip" xml:space="preserve">
+    <value>Prispôsobiť editačnej oblasti</value>
+  </data>
+  <data name="ImageEditor_Zoom_TextboxToolTip" xml:space="preserve">
+    <value>Zadajte hodnotu medzi 0 a 100%</value>
+  </data>
+  <data name="ImageEditor_Zoom_Title" xml:space="preserve">
+    <value>Zväčšenie</value>
+  </data>
+  <data name="TrackChangesDialog_InitialContent" xml:space="preserve">
+    <value>Inicializačný obsah</value>
+  </data>
+  <data name="TrackChangesDialog_TrackChanges" xml:space="preserve">
+    <value>Stopovať zmeny</value>
+  </data>
+  <data name="ImageEditor_InsertImage_Title" xml:space="preserve">
+    <value>Vloženie obrázka</value>
+  </data>
+  <data name="Common_Set" xml:space="preserve">
+    <value>Nastaviť</value>
+  </data>
+</root>

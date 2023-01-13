@@ -1,0 +1,110 @@
+<div>
+
+    <nav class="" id="GlobalSearchNavBar">
+        <div class="container-fluid" style="width:100%;">
+            <div class="row">
+               
+                <div class="col-xs-12 col-sm-7">
+                    <form class="navbar navbar-form" >
+                        <div class="container-fluid" >
+                            <div class="advancedSearchBox" ng-class="{active:focus}" ng-init="focus = false" ng-click="setSearchFocus = true">
+                                <a ng-href="" id="advSearchRemAll" title="Quitar filtros" ng-show="model.parameters.length > 0 || model.query.length > 0" ng-click="removeAll()" role="button">
+                                    <span class="remove-all-icon fa fa-trash-o fa-2x"></span>
+                                </a>
+                                <!--<a ng-href="" id="advSearchSave" title="Guardar busqueda" role="button">
+                    <span class="remove-all-icon fa fa-filter fa-2x"></span>
+                </a>-->
+                                <!--<a ng-href="" id="selectDescGS" onclick="showDescGsFn();" title="Ver busqueda realizada" role="button">
+                    <span class="remove-all-icon fa fa-eye fa-2x"></span>
+                </a>-->
+                                <div id="searchboxControl" style="padding: 3px;">
+                                    <div class="search-parameter {{searchParam.color}}" colorgroup="{{searchParam.groupnum}}"
+                                         ng-class="{ word:searchParam.type==0,entity:searchParam.type==1,index:searchParam.type==2, fetapa:searchParam.type==5,festado:searchParam.type==6,fasignado:searchParam.type==7}"
+                                         ng-attr-id="sel{{searchParam.id}}" ng-click="enterEditMode($index);$event.stopPropagation();" ng-repeat="searchParam in model.parameters"
+                                         ng-show="!(searchParam.type==1 && searchParam.maingroup==false)">
+
+                                        <div>
+                                            <img class="imgFlt fimgword" ng-show="searchParam.type == 0">
+                                            <img class="imgFlt fimgent" ng-show="searchParam.type == 1">
+                                            <img class="imgFlt fimgind" ng-show="searchParam.type == 2">
+                                            <img class="imgFlt fimgeta" ng-show="searchParam.type == 5">
+                                            <img class="imgFlt fimgest" ng-show="searchParam.type == 6">
+                                            <img class="imgFlt fimgasi" ng-show="searchParam.type == 7">
+                                        </div>
+
+                                        <div class="key" ng-hide="searchParam.type == 0">
+                                            {{searchParam.name |limitTo:28}}
+                                            <span ng-show="searchParam.type == 2 ||searchParam.type == 5 ||searchParam.type == 6 ||searchParam.type == 7">:</span>
+                                        </div>
+
+                                        <div class="key" ng-show="searchParam.type == 0">
+                                            Empieza: <!--{{searchParam.name |limitTo:28}}-->
+                                        </div>
+
+                                        <div class="value">
+                                            <span ng-show="!searchParam.editMode" ng-click="enterEditMode($index);$event.stopPropagation();">{{searchParam.value}}</span>
+                                            <input name="value"
+                                                   type="text"
+                                                   nit-auto-size-input="true"
+                                                   nit-set-focus="searchParam.editMode"
+                                                   ng-keydown="keydown($event, $index)"
+                                                   ng-blur="leaveEditMode($index)"
+                                                   ng-show="searchParam.editMode"
+                                                   ng-model="searchParam.value"
+                                                   autocomplete="off"
+                                                   autofocus
+                                                   placeholder="{{searchParam.placeHolder}}" />
+                                        </div>
+
+                                        <div ng-class="{{searchParam.maingroup}} ? 'editremove' :''">
+                                            <a ng-href="" ng-click="editgroup($index)" edit-group role="button" title="Editar busqueda">
+                                                <span class="remove glyphicon glyphicon-edit" style="float: left; padding-top: 3px; color:#615f5f" ng-show="searchParam.maingroup"></span>
+                                            </a>
+                                            <a ng-href="" ng-click="removeSearchParam($index)" role="button">
+                                                <span class="remove glyphicon glyphicon-remove" style="float: left; padding-top: 3px;color:#615f5f"></span><!--ng-show="searchParam.maingroup"-->
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <input name="searchbox"
+                                           class="search-parameter-input cuadro-buscar"
+                                           type="text"
+                                           nit-set-focus="setSearchFocus"
+                                           ng-keydown="keydown($event)"
+                                           placeholder="{{placeholder}}"
+                                           ng-focus="focus = true"
+                                           ng-blur="focus = false"
+                                           typeahead-on-select="typeaheadOnSelect($item, $model, $label)"
+                                           ng-model="model.query"
+                                           ng-enter="doSearchGS()"
+                                           autocomplete="off"
+                                           typeahead-min-length="1"
+                                           autofocus
+                                           typeahead="parameter as parameter.name for parameter in parameters | showChilds:model.parameters | filter:{name:$viewValue} | uniqueName "
+                                           typeahead-template-url="../../GlobalSearch/search/ListBoxFilter.html" />
+                                </div>
+                                <span ng-show="model.message.length > 0" class="searchMessage">{{model.message}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="globalSearchModalLoading" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-m">
+            <div class="modal-content" style="margin-top:-30px;">
+                <div class="modal-header" style="display: block;">
+                    <h3 id="txtToShow" style="margin: 0px;" />
+                </div><div class="modal-body">
+                    <div class="progress progress-striped active" style="margin-bottom:0;">
+                        <div class="progress-bar" style="width: 100%; float: right;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<results-grid style="display:block;"></results-grid>-->
+
+</div>

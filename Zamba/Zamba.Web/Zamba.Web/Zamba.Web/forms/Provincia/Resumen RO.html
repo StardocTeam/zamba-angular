@@ -1,0 +1,240 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    return DecimalCheck($('#' + e.target.id))
+                })
+            });
+        });
+        function zamba_save_onclick() {
+            if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        function CargarFechasyBotones() {
+            $(function () {
+                CargarFechaIndice('zamba_index_2781');
+                CargarFechaIndice('zamba_index_2784');
+            });
+        }
+    </script>
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <div class="container-fluid">
+        <form name="frmMain" action="Resumen.html">
+            <h4 class="text-center" id="header" width="90%">
+                Resumen
+            </h4>
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+            <div class="attributes_table">
+                <div class="form-group row">
+                    <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                        <div class="input-group">
+                            <span class="input-group-addon">Carátula:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2701" name="zamba_ASOC_2523_index_2701" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Nro Jui/Med:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2695" name="zamba_ASOC_2523_index_2695" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Sección:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_32" name="zamba_ASOC_2523_index_32" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Monto Reclamo: $</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2691" name="zamba_ASOC_2523_index_2691" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Ejercicio:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2736" name="zamba_ASOC_2523_index_2736" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Jurisdicción:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2685" name="zamba_ASOC_2523_index_2685" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Nro de Siniestro:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_17" name="zamba_ASOC_2523_index_17" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Asegurado:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_1020002" name="zamba_ASOC_2523_index_1020002" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Nro de Subsiniestro:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2694" name="zamba_ASOC_2523_index_2694" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Estudio Principal:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2732" name="zamba_ASOC_2523_index_2732" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Nro de Item:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_14" name="zamba_ASOC_2523_index_14" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                        <div class="input-group">
+                            <span class="input-group-addon">Franquicia: $</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2699" name="zamba_ASOC_2523_index_2699" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                        <div class="input-group">
+                            <span class="input-group-addon">Estado Procesal Boston:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2740" name="zamba_ASOC_2523_index_2740" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha de Ocurrencia:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2683" name="zamba_ASOC_2523_index_2683" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="form-group">
+                    <h5>Hechos</h5>
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_2772" name="zamba_index_2772" readonly="readonly"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <h5>Actor:</h5>
+<textarea class="form-control input-sm" cols="1" rows="4" id="zamba_index_2774" name="zamba_index_2774" readonly="readonly"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <h5>Causa Penal:</h5>
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_2773" name="zamba_index_2773" readonly="readonly"></textarea>
+                </div>
+                <div class="form-group">
+                    <h5>Analisis de responsabilidad del asegurado:</h5>
+
+<textarea class="form-control input-sm" cols="1" rows="8" id="zamba_index_2775" name="zamba_index_2775" readonly="readonly"></textarea>
+                </div>
+                <div class="form-group">
+                    <h5>Pericia Medica:</h5>
+
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_2776" name="zamba_index_2776" readonly="readonly"></textarea>
+                </div>
+                <div class="form-group">
+                    <h5>Testigos:</h5>
+
+<textarea class="form-control input-sm" cols="1" rows="4" id="zamba_index_2778" name="zamba_index_2778" readonly="readonly"></textarea>
+                </div>
+                <div class="form-group">
+                    <h5>Sugerencia:</h5>
+
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_2779" name="zamba_index_2779" readonly="readonly"></textarea>
+                </div>
+            </div>
+
+            <div class="attributes_table">
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Reserva: $</span>
+                            <input class="form-control input-sm" id="zamba_index_2780" name="zamba_index_2780" class="moneda w150px">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha de Reserva:</span>
+                            <input class="form-control input-sm" id="zamba_index_2784" name="zamba_index_2784">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Estimación: $</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2771" name="zamba_ASOC_2523_index_2771" readonly="readonly">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha de Informe:</span>
+                            <input class="form-control input-sm" id="zamba_index_2781" name="zamba_index_2781">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                        <div class="input-group">
+                            <span class="input-group-addon">Confeccionó:</span>
+                            <input class="form-control input-sm" id="zamba_ASOC_2523_index_2735" name="zamba_ASOC_2523_index_2735" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_64" name="zamba_index_64" readonly="readonly"></textarea>
+            </div>
+            <div class="col-lg-6 col-md-offset-3">
+                <div class="input-group">
+                    <span class="input-group-addon">Fecha de Observaciones</span>
+                    <input class="form-control input-sm" id="zamba_index_2838" name="zamba_index_2838" readonly="readonly">
+                </div>
+            </div>          
+        </form>
+    </div>
+</body>
+</html>

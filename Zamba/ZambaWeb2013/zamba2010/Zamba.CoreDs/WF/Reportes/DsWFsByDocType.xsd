@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsWFsByDocType" targetNamespace="http://tempuri.org/DsWFsByDocType.xsd" xmlns:mstns="http://tempuri.org/DsWFsByDocType.xsd" xmlns="http://tempuri.org/DsWFsByDocType.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="zambatstConnectionString" ConnectionStringObject="" IsAppSettingsProperty="True" Modifier="Assembly" Name="zambatstConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Zamba.Core.My.MySettings.GlobalReference.Default.zambatstConnectionString" Provider="System.Data.SqlClient">
+          </Connection>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsWFsByDocType" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DsWFsByDocType" msprop:Generator_DataSetName="DsWFsByDocType">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DsWFsByDocType" msprop:Generator_UserTableName="DsWFsByDocType" msprop:Generator_RowDeletedName="DsWFsByDocTypeRowDeleted" msprop:Generator_RowChangedName="DsWFsByDocTypeRowChanged" msprop:Generator_RowClassName="DsWFsByDocTypeRow" msprop:Generator_RowChangingName="DsWFsByDocTypeRowChanging" msprop:Generator_RowEvArgName="DsWFsByDocTypeRowChangeEvent" msprop:Generator_RowEvHandlerName="DsWFsByDocTypeRowChangeEventHandler" msprop:Generator_TableClassName="DsWFsByDocTypeDataTable" msprop:Generator_TableVarName="tableDsWFsByDocType" msprop:Generator_RowDeletingName="DsWFsByDocTypeRowDeleting" msprop:Generator_TablePropName="_DsWFsByDocType">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="work_id" msprop:Generator_UserColumnName="work_id" msprop:Generator_ColumnPropNameInRow="work_id" msprop:Generator_ColumnVarNameInTable="columnwork_id" msprop:Generator_ColumnPropNameInTable="work_idColumn" type="xs:decimal" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn" type="xs:string" />
+              <xs:element name="WFDocumentName" msprop:Generator_UserColumnName="WFDocumentName" msprop:Generator_ColumnVarNameInTable="columnWFDocumentName" msprop:Generator_ColumnPropNameInRow="WFDocumentName" msprop:Generator_ColumnPropNameInTable="WFDocumentNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Doc_ID" msprop:Generator_UserColumnName="Doc_ID" msprop:Generator_ColumnVarNameInTable="columnDoc_ID" msprop:Generator_ColumnPropNameInRow="Doc_ID" msprop:Generator_ColumnPropNameInTable="Doc_IDColumn" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DsWFsByDocTypeKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DsWFsByDocType" />
+      <xs:field xpath="mstns:work_id" />
+      <xs:field xpath="mstns:Doc_ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

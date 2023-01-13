@@ -1,0 +1,85 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class UCDoForEach
+    Inherits ZRuleControl
+
+    'UserControl overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Shadows Sub InitializeComponent()
+        Me.btnAcept = New System.Windows.Forms.Button
+        Me.lblValue = New System.Windows.Forms.Label
+        Me.txtValue = New System.Windows.Forms.TextBox
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.txtValue)
+        Me.tbRule.Controls.Add(Me.lblValue)
+        Me.tbRule.Controls.Add(Me.btnAcept)
+        Me.tbRule.Size = New System.Drawing.Size(553, 143)
+        '
+        'tbctrMain
+        '
+        Me.tbctrMain.Size = New System.Drawing.Size(561, 169)
+        '
+        'btnAcept
+        '
+        Me.btnAcept.Location = New System.Drawing.Point(247, 77)
+        Me.btnAcept.Name = "btnAcept"
+        Me.btnAcept.Size = New System.Drawing.Size(75, 23)
+        Me.btnAcept.TabIndex = 0
+        Me.btnAcept.Text = "Aceptar"
+        Me.btnAcept.UseVisualStyleBackColor = True
+        '
+        'lblValue
+        '
+        Me.lblValue.AutoSize = True
+        Me.lblValue.Location = New System.Drawing.Point(23, 24)
+        Me.lblValue.Name = "lblValue"
+        Me.lblValue.Size = New System.Drawing.Size(188, 13)
+        Me.lblValue.TabIndex = 1
+        Me.lblValue.Text = "Nombre de Variable Con la Cual Iterar"
+        '
+        'txtValue
+        '
+        Me.txtValue.Location = New System.Drawing.Point(26, 50)
+        Me.txtValue.Name = "txtValue"
+        Me.txtValue.Size = New System.Drawing.Size(296, 21)
+        Me.txtValue.TabIndex = 2
+        Me.txtValue.Tag = ""
+        '
+        'UCDoForEach
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Name = "UCDoForEach"
+        Me.Size = New System.Drawing.Size(561, 169)
+        Me.tbRule.ResumeLayout(False)
+        Me.tbRule.PerformLayout()
+        Me.tbctrMain.ResumeLayout(False)
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents btnAcept As System.Windows.Forms.Button
+    Friend WithEvents txtValue As System.Windows.Forms.TextBox
+    Friend WithEvents lblValue As System.Windows.Forms.Label
+
+End Class

@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	 
+	 
+	
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	function zamba_save_onclick(){
+	if (document.getElementById("zamba_index_97").value.trim() == ""){
+		alert("La Fecha de Ingreso es un dato obligatorio.");
+		document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		}else if (document.getElementById("zamba_index_101").value.trim() == ""){
+		alert("La Prima es un dato obligatorio.");
+		document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		}else if (document.getElementById("zamba_index_94").value.trim() == ""){
+		alert("El ejecutivo comercial es un dato obligatorio.");
+		document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		}else{
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			alert("Se guardó exitosamente.");
+			frmMain.submit();
+		}
+    }
+	
+	function SetRuleId2(sender){
+		document.getElementById("hdnRuleId").name = sender.id;               
+		frmMain.submit();
+	}
+	
+	function OcultarBotonSegunFlota(){
+		if($("#zamba_index_109").val() == 'N'){
+			$('#zamba_rule_17473').css('display', 'none');
+		}else{
+			$('#zamba_rule_17473').css('display', 'block');
+			$("#zamba_index_109").css('float', 'left');
+		}
+	}
+	
+	function FuncionesPosCargaDeReclamo(){
+		CargarFechasyBotones2();
+		if($("#zamba_index_109").val() == 'N'){
+			$('#zamba_rule_17473').css('display', 'none');
+		}
+		if($("#zamba_index_109").val() == 'S'){
+			$('#zamba_rule_17473').css('display', 'block');
+			$("#zamba_index_109").css('float', 'left');
+		}
+	}
+	function CargarFechasyBotones2(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				if( e.which!=8 && e.which!=0 && (e.which<48 || e.which>57)){
+					return false;
+				}
+			})
+		});
+		$(".solodecimals").each(function(){
+			$(this).keypress(function (e){
+				if( e.which!=8 && e.which!=0 && e.which!=46 && (e.which<48 || e.which>57)){
+					return false;
+				}
+			})
+		});
+	}
+	window.onload=function(){
+		setTimeout(function(){FuncionesPosCargaDeReclamo();}, 50);
+	};
+	</script>
+</head>
+<body>
+    <form name="frmMain" action="CotizacionTecnica.html">
+    <div id="design" width="90%">
+        Cotización
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+    <table class="attributes_table">
+		<tr>
+            <td><label>Fecha Ingreso Técnica:</label>
+            <td><input id="zamba_index_97" style="width:68px;" name="zamba_index_97" onblur="valFecha(this)" disabled="disabled"/>
+			<td class="separador">
+            <td><label>Prima:</label>
+            <td><input id="zamba_index_101" class="solodecimals" name="zamba_index_101" style="width:68px;float:left;" />
+            <select id="zamba_index_105" name="zamba_index_105" style="width:140px;"></select>
+        </tr>
+		<tr>
+			<td><label>Suscriptor:</label>
+            <td><select id="zamba_index_100" class="w300px" name="zamba_index_100" disabled="disabled"/></select>
+			<td class="separador">
+            <td><label>Actividad:</label>
+            <td><input id="zamba_index_1178" name="zamba_index_1178" class="w300px" />
+        </tr>
+		<tr>
+			<td><label>Flota:</label>
+            <td><select id="zamba_index_109" style="width:40px;" name="zamba_index_109" onchange="OcultarBotonSegunFlota()"></select>
+			<input id="zamba_rule_17473" name="zamba_rule_17473" style="width:100px;" type="submit" value="Cotizar Flota" style="display:none;" onclick="SetRuleId2(this);" />
+			<td class="separador">
+            <td><label>Condiciones:</label>
+            <td><input id="zamba_index_110" name="zamba_index_110" class="w300px" />
+		</tr>
+		<tr>
+			<td><label>Ejecutivo Comercial:</label> 
+            <td><select id="zamba_index_94" class="w300px"  name="zamba_index_94"></select>
+		</tr>
+    </table>
+			<input id="zamba_rule_17463" name="zamba_rule_17463" class="w150px" type="submit" value="Agregar Observacion" onclick="SetRuleId2(this);" />
+			<br>
+			<textarea cols="1" rows="6" id="zamba_index_64" name="zamba_index_64" style="WIDTH: 800px" class="readonly" readonly="readonly"></textarea> 
+			<br>
+			<br>
+	<center>
+			<input id="zamba_save" name="zamba_save" style="font-weight: bold" type="submit" value="Guardar" onclick="zamba_save_onclick(this);"/>
+	</center> 
+			<br>
+    <center>
+        <iframe id="zamba_innerdoctype_original" height="90%" title="Documento Original" width="98%"  src="file:///c:\users\nmedina\appdata\roaming\zamba software\officetemp\3774193.html" />
+	</center>
+    </form>
+</body>
+</html>

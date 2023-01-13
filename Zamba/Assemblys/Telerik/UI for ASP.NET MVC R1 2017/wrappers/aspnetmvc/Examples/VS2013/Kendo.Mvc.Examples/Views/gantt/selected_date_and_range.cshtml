@@ -1,0 +1,174 @@
+﻿@using Kendo.Mvc.Examples.Models.Gantt;
+
+<div class="box wide">
+    <div class="box-col">
+        <h4>Set Visible Range</h4>
+        <p>Start date of range</p>
+        @(Html.Kendo().DatePicker()
+              .Name("start-range")
+              .Value("6/1/2014")
+              .DisableDates("startDisabledDatesHandler")
+              .Events(e => e.Open("openHandler").Change("changeStartHandler"))
+        )
+        <br />
+        <br />
+        <p>End date of range</p>
+        @(Html.Kendo().DatePicker()
+              .Name("end-range")
+              .Value("7/13/2014")
+              .DisableDates("endDisabledDatesHandler")
+              .Events(e => e.Open("openHandler").Change("changeEndHandler"))
+        )
+    </div>
+    <div class="box-col">
+        <h4>Set Selected Date</h4>
+        <br />
+        @(Html.Kendo().DatePicker()
+              .Name("selected-date")
+              .Value("6/1/2014")
+              .DisableDates("dateDisabledDatesHandler")
+              .Events(e => e.Open("openHandler").Change("changeDateHandler"))
+        )
+    </div>
+</div>
+
+
+@(Html.Kendo().Gantt<TaskViewModel, DependencyViewModel>()
+    .Name("gantt")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.TaskID).Title("ID").Width(50);
+        columns.Bound("title");
+        columns.Bound("start").Title("Start Time").Format("{0:MM/dd/yyyy}").Width(100);
+        columns.Bound("end").Title("End Time").Format("{0:MM/dd/yyyy}").Width(100);
+    })
+    .Views(views =>
+    {
+        views.DayView(d => d
+            .Date(new DateTime(2014, 6, 2))
+            .Range(r =>
+                r.Start(new DateTime(2014, 6, 2))
+                .End(new DateTime(2014, 6, 8))
+        ));
+        views.WeekView(w => w
+            .Date(new DateTime(2014, 6, 1))
+            .Range(r =>
+                r.Start(new DateTime(2014, 6, 1))
+                .End(new DateTime(2014, 7, 13))
+            )
+            .Selected(true)
+        );
+        views.MonthView(m => m
+            .Date(new DateTime(2014, 5, 18))
+            .Range(r =>
+                r.Start(new DateTime(2014, 5, 18))
+                .End(new DateTime(2014, 8, 3))
+        ));
+    })
+    .Editable(false)
+    .Height(700)
+    .ShowWorkHours(false)
+    .ShowWorkDays(false)
+    .Snap(false)
+    .DataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.TaskID);
+            m.ParentId(f => f.ParentID);
+            m.OrderId(f => f.OrderId);
+            m.Field(f => f.Expanded).DefaultValue(true);
+        })
+        .Read("ReadTasks", "Gantt")
+    )
+    .DependenciesDataSource(d => d
+        .Model(m =>
+        {
+            m.Id(f => f.DependencyID);
+            m.PredecessorId(f => f.PredecessorID);
+            m.SuccessorId(f => f.SuccessorID);
+            m.Type(f => f.Type);
+        })
+        .Read("ReadDependencies", "Gantt")
+    )
+    .Events(e => e.Navigate("onNavigate"))
+)
+
+<script>
+    var gantt, startRange, endRange, date;
+
+    function onNavigate(e) {
+        var viewsOptions = e.sender.options.views;
+        viewsOptions.forEach(function (view) {
+            if (view.type === e.view) {
+                startRange.value(view.range.start);
+                endRange.value(view.range.end);
+                date.value(view.date);
+                return;
+            }
+        });
+    }
+
+    function openHandler(e) {
+        e.sender.setOptions(e.sender.options);
+    };
+
+    function startDisabledDatesHandler(date) {
+        var end = endRange ? endRange.value() : new Date("2014/7/13");
+
+        if (date >= end) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    function changeStartHandler(e) {
+        var range = gantt.range();
+        range.start = this.value();
+        gantt.range(range);
+        if (this.value() > date.value()) {
+            date.value("");
+        }
+    };
+
+    function endDisabledDatesHandler(date) {
+        var start = startRange ? startRange.value() : new Date("2014/6/1");
+
+        if (date <= start) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    function changeEndHandler(e) {
+        var range = gantt.range();
+        range.end = this.value();
+        gantt.range(range);
+        if (this.value() <= date.value()) {
+            date.value("");
+        }
+    };
+
+    function dateDisabledDatesHandler(date) {
+        var start = startRange ? startRange.value() : new Date("2014/6/1");
+        var end = endRange ? endRange.value() : new Date("2014/7/13");
+
+        if (date < start || date >= end) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    function changeDateHandler(e) {
+        gantt.date(this.value());
+    };
+
+    $(document).ready(function () {
+        gantt = $('#gantt').data('kendoGantt');
+        startRange = $('#start-range').data('kendoDatePicker');
+        endRange = $('#end-range').data('kendoDatePicker');
+        date = $('#selected-date').data('kendoDatePicker');
+    });
+</script>

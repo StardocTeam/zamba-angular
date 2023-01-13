@@ -1,0 +1,65 @@
+﻿
+
+<script type="text/javascript">
+
+    function ClearFilters() {
+        $(".filtersfield").val("");
+        return true;
+    }
+</script>
+
+<div data-ng-controller="appFilterController" id="filterController">
+
+    <div style="margin: 0;padding: 0;">
+
+        <select ng-model="Filter.Index" placeholder="Selecciona un filtro" ng-change="FiltersIndexSelected()" class="btn btn-group-xs filter-select z-select-filter" style="border-color: dodgerblue;text-align:left;" ng-options="option.Name for option in Search.SearchResultsObject.filterIndexs | orderBy:'Name' track by option.ID">
+            {{findex.Name}}
+            <option value="" disabled selected> - Seleccionar Atributo -</option>
+        </select>
+
+        <select id="DropVal" class="btn btn-group-xs filter-select z-operator-filter" ng-model="Filter.CompareOperator" ng-change="FiltersOperatorSelected()" ng-keypress="searchFiltersByEnter($event)" ng-disabled="Filter == null" style="border-color: dodgerblue;">
+            <option value="=">=</option>
+            <option value=">">></option>
+            <option value="<"><</option>
+            <option value=">=">>=</option>
+            <option value="<="><=</option>
+            <option value="<>"><></option>
+            <option value="Es Nulo">Es nulo</option>
+            <option value="No es Nulo">No es Nulo</option>
+            <option value="empieza">Inicia</option>
+            <option value="termina">Termina</option>
+            <option value="No Contiene">No contiene</option>
+            <option value="Contiene">Contiene</option>
+        </select>
+
+        <input id="IndexValue" style="display: none;" />
+        <input id="IdSubList" style="display: none; " />
+        <input id="SubListName" style="display: none;" />
+        <div ng-if="showFilterIndex" style="display:inline">
+            <filter-index></filter-index>
+        </div>
+        <button ng-if="!showFilterIndex" class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" ng-show="Filter != null" ng-click="AddFilter()">
+            <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt" title="Agregar">
+                add
+            </md-icon>
+        </button>
+        <!--<button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" ng-show="Filter != null" ng-click="AddFilter()">
+        <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt" title="Agregar">
+            add
+        </md-icon>
+    </button>-->
+    </div>
+<style>
+    .z-select-filter {
+        height: 29px !important;
+        width: 180px !important;
+        text-align: left !important;
+        font-size: 11px !important;
+    }
+    .z-operator-filter {
+        height: 29px !important;
+        width: 107px;
+        text-align: center;
+        font-size: 11px !important;
+    }
+</style>

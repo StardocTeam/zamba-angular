@@ -1,0 +1,253 @@
+<html>
+<head>
+    <title>Inspecci&oacuten</title>
+    <link href="Content/Styles/Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Content/Styles/Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="Scripts/Aysa.js"></script> 
+    <script type="text/javascript" language="JavaScript">
+
+        function makeCalendar(id, limit) {
+            switch (limit) {
+                case "smaller": $(function () {
+                    $('#' + id).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showOn: 'both',
+                        buttonText: 'Abrir calendario',
+                        buttonImage: 'images/calendar.png',
+                        buttonImageOnly: true,
+                        duration: "",
+                        maxDate: '+0d',
+                        dateFormat: 'dd/mm/yy',
+                        constrainInput: true
+                    });
+                });
+                    break;
+                case "bigger": $(function () {
+                    $('#' + id).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showOn: 'both',
+                        buttonText: 'Abrir calendario',
+                        buttonImage: 'images/calendar.png',
+                        buttonImageOnly: true,
+                        duration: "",
+                        minDate: "+0d",
+                        dateFormat: 'dd/mm/yy',
+                        constrainInput: true
+                    });
+                });
+                    break;
+                case "normal": $(function () {
+                    $('#' + id).datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showOn: 'both',
+                        buttonText: 'Abrir calendario',
+                        buttonImage: 'images/calendar.png',
+                        buttonImageOnly: true,
+                        duration: "",
+                        dateFormat: 'dd/mm/yy',
+                        constrainInput: true
+                    });
+                });
+                    break;
+            }
+        }
+
+        //Función que evalua si habilitar o no un control en base a si el control fuente está vacio
+        function ConditionalEnable(ObjSource, ObjDestiny) {
+            if ($("#" + ObjSource).val() != "") {
+
+                //Quita la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).removeClass("disable");
+                $("#" + ObjDestiny).valid();
+                //Habilita el datepicker
+                $("#" + ObjDestiny).datepicker("enable");
+                //Muestra el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).show();
+               // $("#" + ObjDestiny).attr('disabled', '');
+
+               // if ($("#" + ObjDestiny).datepicker("option", "disabled") === undefined) {
+               //     $("#" + ObjDestiny).attr('disabled', 'disabled');
+               // }
+            }
+            else {
+               // $("#" + ObjDestiny).attr('disabled', 'disabled');
+                $("#" + ObjDestiny).val("");
+                //Agrega la clase que ignora el validate y valida el control nuevamente
+                $("#" + ObjDestiny).addClass("disable");
+                $("#" + ObjDestiny).valid();
+                //Oculta el asterisco para marcar que es un campo requerido.
+                $("#lbl_" + ObjDestiny).hide();
+                //deshabilita el datepicker
+                $("#" + ObjDestiny).datepicker("disable");
+            }
+        }
+
+        //Crea las validaciones de los campos
+        function makerequired() {
+            $('#aspnetForm').validate(
+				{
+				    onsubmit: false,
+				    ignore: ".disabled",
+				    rules: {
+				        zamba_index_1224: {
+				            required: true,
+				            maxlength: 14
+				        },
+				        zamba_index_1229: {
+				            maxlength: 300
+				        },
+						zamba_index_1225: {
+				            required: true
+				        },
+						zamba_index_1227: {
+				            required: true
+				        },
+						zamba_index_1228: {
+				            required: true
+				        }
+				    },
+				    messages: {
+				        zamba_index_1224: {
+				            required: "Es necesario un n&uacute;mero de ODT.",
+				            maxlength: "Se ha exedido el l&iacute;mite de 14 caracteres."
+				        },
+				        zamba_index_1229: {
+				            maxlength: "Se ha exedido el l&iacute;mite de 300 caracteres."
+				        },
+						zamba_index_1225: {
+						    required: "Es necesario el campo Fecha inspecci&oacute;n."
+				        },
+						zamba_index_1227: {
+				            required: "Es necesario el campo Resultado."
+				        },
+						zamba_index_1228: {
+				            required: "Es necesario el campo Motivo."
+				        }
+				    }
+				});
+        }
+
+        $(document).ready(function () {
+            makeCalendar('zamba_index_1225', "smaller");
+            makeCalendar('zamba_index_1226', "bigger");
+
+            makerequired();
+
+            ConditionalEnable('zamba_index_1225', 'zamba_index_1226');
+
+            $("#zamba_save").onclick = ValidateBeforeSaveInsert;
+
+            $("#zamba_save").click(function () {
+				ShowLoadingAnimation();
+			});
+        });
+    </script>
+
+</head>
+<body>
+    <form name="frmMain" method="post" style="width: 700px; height: 400px">
+    <input id="hdnRuleId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Inspecci&oacuten</strong>
+    </div>
+    <br />
+    <div class="tabber">
+        <div class="tabbertab" id="tabGeneral">
+            <h2>
+                Informaci&oacuten General</h2>
+            <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px;
+                display: none;" />
+                <select id="zamba_index_1181" name="zamba_index_1181" style="width: 175px; display:none;"></select>
+        <input type="text" id="zamba_index_1192" name="zamba_index_1192" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1193" name="zamba_index_1193" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1187" name="zamba_index_1187" style="width: 150px; display:none;" />
+        <input type="text" id="zamba_index_1188" name="zamba_index_1188" style="width: 150px; display:none;" />
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Nro de ODT:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1224" name="zamba_index_1224" class="ConvertToUpper" style="width: 150px;"  onkeypress="return ValidateLength(this, 14);"/>
+                    </td>
+                    <td>
+                        <label>
+                            Inspector:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1239" name="zamba_index_1239" class="ConvertToUpper" style="width: 150px;" />
+                    </td>
+                </tr>
+			
+                <tr>
+                    <td>
+                        <label>
+                            Fecha Inspecci&oacuten:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1225" name="zamba_index_1225" style="width: 150px" onchange="ConditionalEnable('zamba_index_1225','zamba_index_1226');"/>
+                    </td>
+                    <td>
+                        <label>
+                            Fecha Pr&oacutexima Inspecci&oacuten:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1226" name="zamba_index_1226" style="width: 150px;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Resultado:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1227" name="zamba_index_1227" style="width: 150px;">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Motivo:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1228" name="zamba_index_1228" style="width: 150px;">
+                        </select>
+                    </td>
+                </tr>
+				<tr>
+				<td class="style2">
+                                <label>
+                                    Firm&oacute CN:
+								</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="zamba_index_11337" name="zamba_index_11337" size="28" />
+                            </td>
+				</tr>
+                <tr>
+                    <td>
+                        <label>
+                            Obervaciones:</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="10" id="zamba_index_1229" class="ConvertToUpper" name="zamba_index_1229" onkeypress="return ValidateLength(this, 300);"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div style="text-align: center">
+        <input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />
+        <input type="submit" class="submit" name="zamba_cancel" id="zamba_cancel" value="CANCELAR" />
+    </div>
+    </form>
+</body>
+</html>

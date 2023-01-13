@@ -1,0 +1,808 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.props" Condition="Exists('..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.props')" />
+  <Import Project="..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.props" Condition="Exists('..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.props')" />
+  <Import Project="..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.props" Condition="Exists('..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.props')" />
+  <Import Project="..\..\..\packages\cef.redist.x86.79.1.36\build\cef.redist.x86.props" Condition="Exists('..\..\..\packages\cef.redist.x86.79.1.36\build\cef.redist.x86.props')" />
+  <Import Project="..\..\..\packages\cef.redist.x64.79.1.36\build\cef.redist.x64.props" Condition="Exists('..\..\..\packages\cef.redist.x64.79.1.36\build\cef.redist.x64.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0FAB0D42-88B2-44D0-8EA2-700D19B9C256}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zamba.ZChromium</RootNamespace>
+    <AssemblyName>Zamba.ZChromium</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>\\Win-gs9gmujits8\iis\Zamba\Zamba.ZChromium\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://www.zamba.com.ar/zamba.zchromium/</InstallUrl>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Zamba.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CefSharp">
+      <HintPath>..\..\..\..\..\Assemblys\CefSharp\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Core">
+      <HintPath>..\..\..\..\..\Assemblys\CefSharp\CefSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.WinForms">
+      <HintPath>..\..\..\..\..\Assemblys\CefSharp\CefSharp.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Wpf">
+      <HintPath>..\..\..\..\..\Assemblys\CefSharp\CefSharp.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\ControlExtensions.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_News.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_News.Designer.cs">
+      <DependentUpon>Frm_News.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphViewer.Designer.cs">
+      <DependentUpon>GraphViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZChromium.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_News.resx">
+      <DependentUpon>Frm_News.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphViewer.resx">
+      <DependentUpon>GraphViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <Content Include="cef.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharp.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharp.WinForms.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef_100_percent.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef_200_percent.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef_extensions.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="devtools_resources.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icudtl.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.manifest" />
+    <None Include="locales\am.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ar.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\bg.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\bn.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ca.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\cs.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\da.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\de.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\el.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\en-GB.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\en-US.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\es-419.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\es.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\et.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\fa.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\fi.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\fil.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\fr.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\gu.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\he.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\hi.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\hr.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\hu.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\id.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\it.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ja.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\kn.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ko.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\lt.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\lv.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ml.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\mr.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ms.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\nb.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\nl.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\pl.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\pt-BR.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\pt-PT.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ro.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ru.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\sk.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\sl.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\sr.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\sv.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\sw.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\ta.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\te.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\th.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\tr.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\uk.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\vi.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\zh-CN.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="locales\zh-TW.pak">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="natives_blob.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Content Include="snapshot_blob.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="web\styles\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="web\styles\fonts\FontAwesome.otf" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome4.2\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome4.2\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome4.2\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome4.2\FontAwesome.otf" />
+    <EmbeddedResource Include="web\styles\fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="web\styles\fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="web\styles\fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="web\styles\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Zamba.snk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CefSharp.BrowserSubprocess.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CefSharp.BrowserSubprocess.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="d3dcompiler_43.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="d3dcompiler_47.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libcef.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libEGL.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libGLESv2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="web\build\app.js" />
+    <EmbeddedResource Include="web\build\vendor.datatables.js" />
+    <EmbeddedResource Include="web\build\vendor.graphs.js" />
+    <EmbeddedResource Include="web\build\vendor.js" />
+    <EmbeddedResource Include="web\build\vendor.ui.js" />
+    <EmbeddedResource Include="web\controllers\FlotCtrl.js" />
+    <Content Include="web\directives\chartjs\chartjsBarChart.js" />
+    <Content Include="web\directives\chartjs\chartjsDoughnutChart.js" />
+    <Content Include="web\directives\chartjs\chartjsLineChart.js" />
+    <Content Include="web\directives\chartjs\chartjsPieChart.js" />
+    <Content Include="web\directives\chartjs\chartjsPolarChart.js" />
+    <Content Include="web\directives\chartjs\chartjsRadarChart.js" />
+    <Content Include="web\directives\dygraphs\DygraphsDataDemo.js" />
+    <Content Include="web\directives\dygraphs\dygraphsNoRollPeriod.js" />
+    <Content Include="web\directives\dygraphs\dygraphsNoRollTimestamp.js" />
+    <Content Include="web\directives\flot\flotAutoUpdatingChart.js" />
+    <Content Include="web\directives\flot\flotBarChart.js" />
+    <Content Include="web\directives\flot\flotBasic.js" />
+    <Content Include="web\directives\flot\FlotConfig.js" />
+    <Content Include="web\directives\flot\flotFillChart.js" />
+    <Content Include="web\directives\flot\flotHorizontalBarChart.js" />
+    <Content Include="web\directives\flot\flotPieChart.js" />
+    <Content Include="web\directives\flot\flotSalesChart.js" />
+    <Content Include="web\directives\flot\flotSinChart.js" />
+    <Content Include="web\directives\flot\flotSiteStatsChart.js" />
+    <Content Include="web\directives\highchart\highchartTable.js" />
+    <Content Include="web\directives\inline\easyPieChartContainer.js" />
+    <Content Include="web\directives\inline\sparklineContainer.js" />
+    <Content Include="web\directives\morris\morrisAreaGraph.js" />
+    <Content Include="web\directives\morris\morrisBarGraph.js" />
+    <Content Include="web\directives\morris\morrisDonutGraph.js" />
+    <Content Include="web\directives\morris\morrisLineGraphA.js" />
+    <Content Include="web\directives\morris\morrisLineGraphB.js" />
+    <Content Include="web\directives\morris\morrisLineGraphC.js" />
+    <Content Include="web\directives\morris\morrisNoGridGraph.js" />
+    <Content Include="web\directives\morris\morrisNormalBarGraph.js" />
+    <Content Include="web\directives\morris\morrisSalesGraph.js" />
+    <Content Include="web\directives\morris\morrisStackedBarGraph.js" />
+    <Content Include="web\directives\morris\morrisTimeGraph.js" />
+    <Content Include="web\directives\morris\morrisYearGraph.js" />
+    <Content Include="web\directives\vectormap\vectorMap.js" />
+    <EmbeddedResource Include="web\styles\css\bootstrap.min.css" />
+    <EmbeddedResource Include="web\styles\css\demo.min.css" />
+    <EmbeddedResource Include="web\styles\css\font-awesome.min.css" />
+    <EmbeddedResource Include="web\styles\css\invoice.min.css" />
+    <EmbeddedResource Include="web\styles\css\lockscreen.min.css" />
+    <EmbeddedResource Include="web\styles\css\smartadmin-angular.css" />
+    <EmbeddedResource Include="web\styles\css\smartadmin-production-plugins.min.css" />
+    <EmbeddedResource Include="web\styles\css\smartadmin-production.min.css" />
+    <EmbeddedResource Include="web\styles\css\smartadmin-rtl.min.css" />
+    <EmbeddedResource Include="web\styles\css\smartadmin-skins.min.css" />
+    <EmbeddedResource Include="web\styles\css\your_style.css" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome4.2\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="web\styles\fonts\fontawesome4.2\readme.txt" />
+    <EmbeddedResource Include="web\styles\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="web\styles\img\ajax-loader.gif" />
+    <Content Include="web\styles\img\alpha.png" />
+    <Content Include="web\styles\img\avatars\1.png" />
+    <Content Include="web\styles\img\avatars\2.png" />
+    <Content Include="web\styles\img\avatars\3.png" />
+    <Content Include="web\styles\img\avatars\4.png" />
+    <Content Include="web\styles\img\avatars\5.png" />
+    <Content Include="web\styles\img\avatars\copyright.txt" />
+    <Content Include="web\styles\img\avatars\female.png" />
+    <Content Include="web\styles\img\avatars\index.php" />
+    <Content Include="web\styles\img\avatars\male.png" />
+    <Content Include="web\styles\img\avatars\sunny-big.png" />
+    <Content Include="web\styles\img\avatars\sunny.png" />
+    <Content Include="web\styles\img\blank.gif" />
+    <Content Include="web\styles\img\clear.png" />
+    <Content Include="web\styles\img\colorblind-friendly\pt1.png" />
+    <Content Include="web\styles\img\colorblind-friendly\pt2.png" />
+    <Content Include="web\styles\img\colorblind-friendly\pt3.png" />
+    <Content Include="web\styles\img\cover.png" />
+    <Content Include="web\styles\img\demo\64x64.png" />
+    <Content Include="web\styles\img\demo\basic.png" />
+    <Content Include="web\styles\img\demo\chat.png" />
+    <Content Include="web\styles\img\demo\copyright.txt" />
+    <Content Include="web\styles\img\demo\demo-smartbig-alert.png" />
+    <Content Include="web\styles\img\demo\demo-smartmedium-alert.png" />
+    <Content Include="web\styles\img\demo\demo-smartsmall-alert.png" />
+    <Content Include="web\styles\img\demo\e-comm\1.png" />
+    <Content Include="web\styles\img\demo\e-comm\2.png" />
+    <Content Include="web\styles\img\demo\e-comm\3.png" />
+    <Content Include="web\styles\img\demo\e-comm\4.png" />
+    <Content Include="web\styles\img\demo\e-comm\5.png" />
+    <Content Include="web\styles\img\demo\e-comm\6.png" />
+    <Content Include="web\styles\img\demo\e-comm\7.png" />
+    <Content Include="web\styles\img\demo\e-comm\8.png" />
+    <Content Include="web\styles\img\demo\e-comm\9.png" />
+    <Content Include="web\styles\img\demo\e-comm\detail-1.png" />
+    <Content Include="web\styles\img\demo\e-comm\detail-2.png" />
+    <Content Include="web\styles\img\demo\e-comm\detail-3.png" />
+    <Content Include="web\styles\img\demo\hero.png" />
+    <Content Include="web\styles\img\demo\image-placeholder-64x64.png" />
+    <Content Include="web\styles\img\demo\index.php" />
+    <Content Include="web\styles\img\demo\iphoneview.png" />
+    <Content Include="web\styles\img\demo\layout-skins\layout-collapse-minified.png" />
+    <Content Include="web\styles\img\demo\layout-skins\layout-collapse.png" />
+    <Content Include="web\styles\img\demo\layout-skins\layout-hidden.png" />
+    <Content Include="web\styles\img\demo\layout-skins\layout-menutop.png" />
+    <Content Include="web\styles\img\demo\layout-skins\layout-rtl-menutop.png" />
+    <Content Include="web\styles\img\demo\layout-skins\layout-rtl.png" />
+    <Content Include="web\styles\img\demo\layout-skins\skin-dark.png" />
+    <Content Include="web\styles\img\demo\layout-skins\skin-default.png" />
+    <Content Include="web\styles\img\demo\layout-skins\skin-glass.png" />
+    <Content Include="web\styles\img\demo\layout-skins\skin-google.png" />
+    <Content Include="web\styles\img\demo\layout-skins\skin-pixel.png" />
+    <Content Include="web\styles\img\demo\layout-skins\skin-ultralight.png" />
+    <Content Include="web\styles\img\demo\m1.jpg" />
+    <Content Include="web\styles\img\demo\m2.jpg" />
+    <Content Include="web\styles\img\demo\m3.jpg" />
+    <Content Include="web\styles\img\demo\newsletter.png" />
+    <Content Include="web\styles\img\demo\responseimg.png" />
+    <Content Include="web\styles\img\demo\s1.jpg" />
+    <Content Include="web\styles\img\demo\s2.jpg" />
+    <Content Include="web\styles\img\demo\s3.jpg" />
+    <Content Include="web\styles\img\demo\sa-demo.png" />
+    <Content Include="web\styles\img\demo\sample.jpg" />
+    <Content Include="web\styles\img\demo\sidebar.png" />
+    <Content Include="web\styles\img\demo\sidebarhero.png" />
+    <Content Include="web\styles\img\demo\site-1.jpg" />
+    <Content Include="web\styles\img\demo\site-2.jpg" />
+    <Content Include="web\styles\img\demo\video.png" />
+    <Content Include="web\styles\img\demo\widget-colorpicker.png" />
+    <Content Include="web\styles\img\dropzone\index.php" />
+    <Content Include="web\styles\img\dropzone\spritemap%402x.png" />
+    <Content Include="web\styles\img\dropzone\spritemap.png" />
+    <Content Include="web\styles\img\favicon\1favicon.ico" />
+    <EmbeddedResource Include="web\styles\img\favicon\favicon.ico" />
+    <Content Include="web\styles\img\favicon\favicon.png" />
+    <Content Include="web\styles\img\favicon\index.php" />
+    <Content Include="web\styles\img\flags\de.png" />
+    <Content Include="web\styles\img\flags\es.png" />
+    <Content Include="web\styles\img\flags\flags.png" />
+    <Content Include="web\styles\img\flags\us.png" />
+    <Content Include="web\styles\img\glass-image-copyright.txt" />
+    <Content Include="web\styles\img\glass.jpg" />
+    <Content Include="web\styles\img\gradient\index.php" />
+    <Content Include="web\styles\img\gradient\login.png" />
+    <Content Include="web\styles\img\hue.png" />
+    <Content Include="web\styles\img\invoice\americanexpress.png" />
+    <Content Include="web\styles\img\invoice\index.php" />
+    <Content Include="web\styles\img\invoice\license.txt" />
+    <Content Include="web\styles\img\invoice\mastercard.png" />
+    <Content Include="web\styles\img\invoice\paypal.png" />
+    <Content Include="web\styles\img\invoice\visa.png" />
+    <Content Include="web\styles\img\jcrop\Jcrop.gif" />
+    <Content Include="web\styles\img\jqueryui\index.php" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_flat_0_999999_40x100.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_glass_75_ffffff_1x400.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="web\styles\img\jqueryui\ui-bg_inset-soft_95_fef1ec_1x100.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_222222_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_2e83ff_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_428bca_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_454545_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_555555_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_888888_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_999999_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_f0ad4e_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_f6cf3b_256x240.png" />
+    <Content Include="web\styles\img\jqueryui\ui-icons_ffffff_256x240.png" />
+    <Content Include="web\styles\img\loading.gif" />
+    <Content Include="web\styles\img\logo-blacknwhite.png" />
+    <Content Include="web\styles\img\logo-blue.png" />
+    <Content Include="web\styles\img\logo-o.png" />
+    <Content Include="web\styles\img\logo-pale.png" />
+    <Content Include="web\styles\img\logo-white.png" />
+    <Content Include="web\styles\img\logo.png" />
+    <Content Include="web\styles\img\mappin-default.png" />
+    <Content Include="web\styles\img\minus.png" />
+    <Content Include="web\styles\img\mybg.png" />
+    <Content Include="web\styles\img\pattern\divider.jpg" />
+    <Content Include="web\styles\img\pattern\graphy-xs.png" />
+    <Content Include="web\styles\img\pattern\graphy.png" />
+    <Content Include="web\styles\img\pattern\index.php" />
+    <Content Include="web\styles\img\pattern\license-info.txt" />
+    <Content Include="web\styles\img\pattern\lightpaperfibers.png" />
+    <Content Include="web\styles\img\pattern\movable.png" />
+    <Content Include="web\styles\img\pattern\nistri-xs.png" />
+    <Content Include="web\styles\img\pattern\nistri.png" />
+    <Content Include="web\styles\img\pattern\overlay-pattern.png" />
+    <Content Include="web\styles\img\pattern\paper-xs.png" />
+    <Content Include="web\styles\img\pattern\paper.png" />
+    <Content Include="web\styles\img\pattern\pattern.png" />
+    <Content Include="web\styles\img\pattern\sneaker_mesh_fabric-xs.png" />
+    <Content Include="web\styles\img\pattern\sneaker_mesh_fabric.png" />
+    <Content Include="web\styles\img\pattern\tileable_wood_texture-xs.png" />
+    <Content Include="web\styles\img\pattern\tileable_wood_texture.png" />
+    <Content Include="web\styles\img\plus.png" />
+    <Content Include="web\styles\img\realestate\1.png" />
+    <Content Include="web\styles\img\realestate\2.png" />
+    <Content Include="web\styles\img\realestate\3.png" />
+    <Content Include="web\styles\img\realestate\4.png" />
+    <Content Include="web\styles\img\realestate\5.png" />
+    <Content Include="web\styles\img\realestate\6.png" />
+    <Content Include="web\styles\img\ribbon.png" />
+    <Content Include="web\styles\img\sa-dark.png" />
+    <Content Include="web\styles\img\sa-default.png" />
+    <Content Include="web\styles\img\saturation.png" />
+    <Content Include="web\styles\img\select2-spinner.gif" />
+    <Content Include="web\styles\img\sort_asc.png" />
+    <Content Include="web\styles\img\sort_asc_disabled.png" />
+    <Content Include="web\styles\img\sort_both.png" />
+    <Content Include="web\styles\img\sort_desc.png" />
+    <Content Include="web\styles\img\sort_desc_disabled.png" />
+    <Content Include="web\styles\img\splash\ipad-landscape.png" />
+    <Content Include="web\styles\img\splash\ipad-portrait.png" />
+    <Content Include="web\styles\img\splash\iphone.png" />
+    <Content Include="web\styles\img\splash\sptouch-icon-iphone.png" />
+    <Content Include="web\styles\img\splash\touch-icon-ipad-retina.png" />
+    <Content Include="web\styles\img\splash\touch-icon-ipad.png" />
+    <Content Include="web\styles\img\splash\touch-icon-iphone-retina.png" />
+    <Content Include="web\styles\img\superbox\index.php" />
+    <Content Include="web\styles\img\superbox\superbox-full-1.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-10.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-11.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-12.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-13.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-14.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-15.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-16.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-17.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-18.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-19.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-2.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-20-bw.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-20.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-21.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-22.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-23.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-24.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-3.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-4.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-5.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-6.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-7.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-8.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-full-9.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-1.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-10.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-11.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-12.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-13.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-14.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-15.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-16.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-17.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-18.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-19.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-2.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-20.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-21.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-22.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-23.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-24.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-3.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-4.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-5.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-6.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-7.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-8.jpg" />
+    <Content Include="web\styles\img\superbox\superbox-thumb-9.jpg" />
+    <Content Include="web\styles\img\versions\ajaxversion.png" />
+    <Content Include="web\styles\img\versions\angularversion.png" />
+    <Content Include="web\styles\img\versions\dotnetversion.png" />
+    <Content Include="web\styles\img\versions\htmlversion.png" />
+    <Content Include="web\styles\img\versions\phpversion.png" />
+    <Content Include="web\styles\img\versions\reactversion.png" />
+    <Content Include="web\styles\img\violate.jpg" />
+    <Content Include="web\styles\img\voicecommand\active-btn.gif" />
+    <Content Include="web\styles\img\vt-menu.png" />
+    <Content Include="web\views\chartjs-charts.html" />
+    <Content Include="web\views\dygraphs-charts.html" />
+    <Content Include="web\views\easy-pie-charts.html" />
+    <EmbeddedResource Include="web\views\flot-charts.html" />
+    <Content Include="web\views\highchart-tables.html" />
+    <Content Include="web\views\morris-charts.html" />
+    <Content Include="web\views\sparkline.html" />
+    <Content Include="widevinecdmadapter.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\ZambaFramework\Zamba.FDB\Zamba.FDB.csproj">
+      <Project>{857b9734-2013-439a-9ed8-d7cfe8802cb2}</Project>
+      <Name>Zamba.FDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\ZambaFramework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
+      <Project>{98dcc71c-e25b-414f-95ff-e5b98b5d529d}</Project>
+      <Name>Zamba.FWBC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.AdminControls\Zamba.AdminControls.vbproj">
+      <Project>{5cf0d10d-990a-4e7e-b21c-41d5ae3408c3}</Project>
+      <Name>Zamba.AdminControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2db9897d-b4bf-42ef-b769-88f694be3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952c9b3b-3d9e-4ae2-a823-6b8e1f4f4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{e16279a2-165d-4d96-ad32-009874164c05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.PreLoad\Zamba.PreLoad\Zamba.BusinessComponents.csproj">
+      <Project>{50039732-9acb-4478-b4da-6098b53cf6cc}</Project>
+      <Name>Zamba.BusinessComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{fc85cbef-6baf-4796-a6c2-9eaef956479e}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.WFActivity.Regular\Zamba.WFActivity.Regular.vbproj">
+      <Project>{E1CE5F3A-1FC3-4FAB-ADF6-384B1BF40BDA}</Project>
+      <Name>Zamba.WFActivity.Regular</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\cef.redist.x64.79.1.36\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\cef.redist.x64.79.1.36\build\cef.redist.x64.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\cef.redist.x86.79.1.36\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\cef.redist.x86.79.1.36\build\cef.redist.x86.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.targets'))" />
+  </Target>
+  <Import Project="..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.targets" Condition="Exists('..\..\..\packages\CefSharp.Common.79.1.360\build\CefSharp.Common.targets')" />
+  <Import Project="..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.targets" Condition="Exists('..\..\..\packages\CefSharp.WinForms.79.1.360\build\CefSharp.WinForms.targets')" />
+  <Import Project="..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.targets" Condition="Exists('..\..\..\packages\CefSharp.Wpf.79.1.360\build\CefSharp.Wpf.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

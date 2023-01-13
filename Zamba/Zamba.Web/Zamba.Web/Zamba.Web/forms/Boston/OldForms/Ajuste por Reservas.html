@@ -1,0 +1,215 @@
+<html>
+	<head>
+		<title>Ajuste por Reservas</title>
+<!--
+		ID Form:
+		Fecha de Creacion:
+		Autor de Creacion:
+        Modificacion:		
+ 		Fecha de ultima Modificacion:06-11-2012
+		Autor de ultima Modificacion:Benegui P
+	-->			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet" />		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet" />		
+		 	
+		<script src="Aviso Mayor.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>        
+        <script type="text/javascript" src="Scripts/ScriptLUnionGeneral.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen" />
+		<script type="text/javascript" language="JavaScript">
+		    function SetRuleId(sender) {
+		        document.getElementById("hdnRuleId").name = sender.id;
+		    }
+
+		    function SetAsocId(sender) {
+		        document.getElementById("hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    $(document).ready(function () {
+		        setTimeout("parseObservaciones()", 100);
+		    });
+
+		    function parseObservaciones() {
+		        var obs = $('#zamba_index_64').val();
+
+		        while (obs.indexOf("§") > 0)
+		            obs = obs.replace("§", "\n");
+
+		        while (obs.indexOf("<br/>") > 0)
+		            obs = obs.replace("<br/>", "\n");
+
+		        $('#zamba_index_64').val(obs);
+		    }
+
+		    function addConsulta() {
+		        return true;
+		        var con = $('#zamba_index_1152').val();
+		        var obs = $('#zamba_index_64').val();
+
+		        if (con == '') {
+		            alert("Por favor, ingrese un comentario.");
+		            $('#zamba_index_1152').focus();
+		            return false;
+		        }
+		        return true;
+		    }
+
+		    function format(txt) {
+		        if (txt.length == 1) txt = "0" + txt;
+
+		        return txt;
+		    }
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');		
+		</script>
+	    <style type="text/css">
+            .style1
+            {
+                width: 20px;
+            }
+            .style2
+            {
+            }
+            </style>
+	</head>	
+		<body>
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return addConsulta()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Ajuste Automatico por Reservas</strong>
+				</div>
+				<br />
+
+
+				 <table cellpadding="4">
+		                
+                    <tr>
+                        <td class="style8"><label>Id por Ajuste: </label></td>
+						<td class="style10"><input type="text" id="zamba_index_305005" name="zamba_index_305005" size="10" readonly="readonly" class="readonly"/></td>
+						<td class="style8"><label>Id Operaci&oacute;n Siniestro: </label></td>
+						<td class="style8"><input type="text" id="zamba_index_26261" name="zamba_index_26261" size="10" readonly="readonly" class="readonly"/></td>
+						<td class="style8"><label>Nro de Siniestro:</label></td>
+						<td class="style1"><input type="text" name="zamba_index_26247" size="12" readonly="readonly" class="readonly"/></td>
+                        
+					</tr>
+					<tr>
+                        <td class="style8"><label>Id Inspeccion: </label></td>
+						<td class="style10"><input type="text" id="zamba_index_33608" name="zamba_index_33608" size="10" readonly="readonly" class="readonly"/></td>
+						<td class="style8"><label>Id Solicitud de Repuestos: </label></td>
+						<td class="style8"><input type="text" id="zamba_index_33632" name="zamba_index_33632" size="10" readonly="readonly" class="readonly"/></td>
+						
+					</tr>
+					
+					<tr>
+														
+                        <td class="style8"><label>Rama:</label></td>
+						<td class="style8"><input type="text" id="zamba_index_26294" name="zamba_index_26294" onchange="ValidacionPM()" size="50" readonly="readonly" class="readonly"/></td>
+                    </tr>
+					<tr>
+														
+                        <td class="style8"><label>Sector: </label></td>
+						<td class="style8"><input type="text" id="zamba_index_135512" name="zamba_index_135512" onchange="ValidacionPM()" size="50" readonly="readonly" class="readonly"/></td>
+                    </tr>
+            </table>
+            
+                     <div class="tabber">
+						<div class="tabbertab">
+                        <h2>Ajuste Automatico por Reservas</h2>
+						<p>
+							<table cellpadding="6">	
+							    <tr>
+                                    <td><label>Empresa: </label></td>
+									<td><input id="zamba_index_26291" name="zamba_index_26291" style="width:100px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								<tr>
+								<tr>
+                                    <td><label>Sucursal: </label></td>
+									<td><input id="zamba_index_26290" name="zamba_index_26290" style="width:100px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								
+								<tr>
+                                    <td><label>Nro de Persona: </label></td>
+									<td><input id="zamba_index_195547" name="zamba_index_195547" style="width:400px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								
+								<tr>
+                                    <td><label>Nro de Reclamo: </label></td>
+									<td><input id="zamba_index_26178" name="zamba_index_26178" style="width:400px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								
+								<tr>
+                                    <td><label>Tipo de Beneficiario: </label></td>
+									<td><select name="zamba_index_26324" id="zamba_index_26324" style="width:400px;" disabled
+                                            readonly="readonly" class="readonly"></select></td>
+								</tr>
+								<tr>
+                                    <td><label>Hecho Generador: </label></td>
+									<td><select name="zamba_index_26312" id="zamba_index_26312" style="width:400px;" disabled
+                                            readonly="readonly" class="readonly"></select></td>
+								</tr>
+								<tr>
+                                    <td><label>Tipo de Importe: </label></td>
+									<td><input id="zamba_index_305001" name="zamba_index_305001" style="width:400px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								<tr>
+                                    <td><label>Importe: </label></td>
+									<td><input id="zamba_index_305002" name="zamba_index_305002" style="width:400px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								<tr>
+                                    <td><label>Fecha de Movimiento: </label></td>
+									<td><input id="zamba_index_305003" name="zamba_index_305003" style="width:400px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								<tr>
+                                    <td><label>Procesado: </label></td>
+									<td><input id="zamba_index_305004" name="zamba_index_305004" style="width:100px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+								
+								<tr>
+                                    <td><label>Accion por Ajuste: </label></td>
+									<td><input id="zamba_index_305007" name="zamba_index_305007" style="width:100px;" 
+                                            readonly="readonly" class="readonly"></td>
+								</tr>
+                                
+							</table>	
+							
+							<br />
+							<br />
+				
+                            <div name="logocliente" id="logocliente">
+                                <img src="images/logocliente.jpg" align="left" height=50 width=70>
+                            </div>
+							
+							<div name="logozamba" id="logozamba">
+								<img src="images/pwbyzamba.jpg">
+							</div>
+							
+							<br />
+							<br />
+                            
+                            <br />
+                            <br />
+						</p>
+					</div>	
+                  </div>
+                    								
+			</form>						
+		</div>
+	</body>
+</html>

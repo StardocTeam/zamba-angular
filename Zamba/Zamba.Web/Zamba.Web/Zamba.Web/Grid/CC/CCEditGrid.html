@@ -1,0 +1,220 @@
+﻿<div>
+
+    <div ng-show="asociatedResults.length > 0" >
+        <p>Cantidad de Productos: {{asociatedResults.length}}</p>
+    </div>
+    <div class="form-group" ng-repeat="Productos in asociatedResults">
+
+        <!-- View -->
+        <div ng-show="IsViewMode">
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+            <div class="form-group row">
+                <div class="col-md-1">
+                    <div class="input-group">
+                        <!--Linea-->
+                        <span class="input-group-addon">Linea: </span>
+                        <input class="form-control input-sm" disabled="disabled" value="{{ Productos.data.Linea || '' }}"/>
+                        <!--<input name="zamba_index_10289" ng-model="resultToInsert.Linea" size="1" class="form-control" />-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <!--Producto-->
+                        <div class="input-group-addon">Producto:</div>
+                        <input class="form-control input-sm" disabled="disabled" value="{{ Productos.data.Producto || '' }}" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="input-group">
+                        <!--Moneda-->
+                        <span class="input-group-addon">Moneda:  </span>
+                        <input class="form-control input-sm" disabled="disabled" value=" {{ Productos.data.Moneda || '' }}" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <!--Precio Unitario-->
+                        <span class="input-group-addon">Precio Unitario:</span>
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ Productos.data.PrecioUnitario || '' }} " />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <!--Unidad-->
+                        <span class="input-group-addon">Unidad: </span>
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ Productos.data.Unidad || '' }} " />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="input-group">
+                        <!--Cantidad-->
+                        <span class="input-group-addon">Cantidad: </span>
+                        <input class="form-control input-sm" disabled="disabled" value="  {{ Productos.data.Cantidad || '' }} " />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">Precio:</span>
+                        <input class="form-control input-sm" disabled="disabled" value=" {{ Productos.data.Precio || '' }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End View -->
+
+        <!-- Edit -->
+        <div ng-show="IsEditingMode"> 
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Linea-->
+                        <span class="input-group-addon">Linea</span>
+                        <input name="zamba_index_10289" ng-disabled="isEditOnly" ng-model="Productos.data.Linea" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Producto-->
+                        <div class="input-group-addon">Producto:</div>
+                        <select name="zamba_index_2788" ng-disabled="isEditOnly" ng-model="Productos.data.Producto" size="1" class="form-control" ng-options="item as item for item in ProductoAttributeLists"></select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Metodo-->
+                        <span class="input-group-addon">Moneda</span>
+                        <select name="zamba_index_10251" ng-disabled="isEditOnly" ng-model="Productos.data.Moneda" size="1" class="form-control"   ng-options="item as item for item in MonedaAttributeLists"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--PrecioUnitario-->
+                        <span class="input-group-addon">Precio Unitario</span>
+                        <input name="zamba_index_10290" ng-disabled="isEditOnly" ng-model="Productos.data.PrecioUnitario" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Cuit-->
+                        <span class="input-group-addon">Cantidad:</span>
+                        <input  ng-model="Productos.data.Cantidad" ng-disabled="isEditOnly" size="1" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Precio-->
+                        <span class="input-group-addon">Precio:</span>
+                        <input name="zamba_index_109" ng-disabled="isEditOnly" ng-model="Productos.data.Precio" size="1" class="form-control" />
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" ng-click="deleteResult(Productos)" class="btn btn-danger fa fa-trash pull-right col-md-offset-4"></button>
+                </div>
+            </div>
+        </div>
+        <!-- End Edit -->
+
+        <!-- Insert -->
+        <div ng-show="IsInsertingMode">
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Linea-->
+                        <span class="input-group-addon">Linea</span>
+                        <input name="zamba_index_10289" ng-model="Productos.data.Linea" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <!--Producto-->
+                        <div class="input-group-addon">Producto</div>
+                        <select name="zamba_index_2788" ng-model="Productos.data.Producto" size="1" class="form-control" ng-options="item as item for item in ProductoAttributeLists"></select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Metodo-->
+                        <span class="input-group-addon">Moneda</span>
+                        <select name="zamba_index_10251" ng-model="Productos.data.Moneda" size="1" class="form-control" ng-options="item as item for item in MonedaAttributeLists"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--PrecioUnitario-->
+                        <span class="input-group-addon">Precio Unitario</span>
+                        <input name="zamba_index_10290" ng-model="Productos.data.PrecioUnitario" size="1" class="form-control" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Cantidad-->
+                        <span class="input-group-addon">Cantidad:</span>
+                        <input name="zamba_index_1128" ng-model="Productos.data.Cantidad" size="1" class="form-control" />
+
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <!--Precio-->
+                        <span class="input-group-addon">Precio:</span>
+                        <input name="zamba_index_109" ng-model="Productos.data.Precio" size="1" class="form-control" />
+                    </div>
+                </div>
+
+            </div>
+         
+        </div>
+        <!-- End Insert -->
+
+    </div>
+
+
+    <!--<div class="form-group row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-small" ng-click="add()">Generar Nuevo</button>
+        </div>
+
+    </div>-->
+
+
+    <div class="btn-edit" ng-show="!IsInsertingMode && !IsEditingMode && !deleteItems">
+        <button type="button" ng-show="!firtTime"  class="btn btn-warning pull-right" ng-click="EditResultMode()">
+            Editar
+        </button>
+        <button type="button" ng-show="!isReadOnly && !isEditOnly" ng-click="addResult()" style="margin-left:5px" class="btn btn-success pull-right">
+            Nuevo
+        </button>
+
+    </div>
+
+    <div class="btn-form" ng-show="IsInsertingMode || IsEditingMode || deleteItems">
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="saveTable()" class="btn btn-primary">Guardar Cambios</button>
+        <button type="button" ng-disabled="tableform.$waiting" ng-click="cancelModification()" class="btn btn-default">Cancelar Cambios</button>
+    </div>
+</div>

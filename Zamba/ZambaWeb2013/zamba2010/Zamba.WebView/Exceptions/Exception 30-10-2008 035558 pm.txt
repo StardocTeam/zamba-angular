@@ -1,0 +1,11 @@
+Error: Error de sintaxis al convertir el valor varchar 'sebabs' para una columna de tipo de datos int. Trace:    at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlDataReader.HasMoreRows()
+   at System.Data.SqlClient.SqlDataReader.ReadInternal(Boolean setTimeout)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at Zamba.Data.Results_Factory.getResultsAndPageQueryResults(Int16 PageId, Int16 PageSize, Int32 docTypeId, Int64 indexId, List`1 genIndex, String RestrictionAndSortExpression, String SymbolToReplace, String BySimbolReplace)
+   at Zamba.Core.Results_Business.getResultsAndPageQueryResults(Int16 PageId, Int16 PageSize, Int32 docTypeId, Int64 indexId, List`1 genIndex, Int32 UserId, String comparateValue, String comparateDateValue, String Operation, Boolean searchValue, String SortExpression, String SymbolToReplace, String BySimbolReplace) in D:\Zamba2008\Zamba.Bussines\Results\Results_Business.vb:line 432
+   at Zamba.Services.Result.getResultsAndPageQueryResults(Int16 PageId, Int16 PageSize, Int32 docTypeId, Int64 indexId, List`1 genIndex, Int32 UserId, String comparateValue, String ComparateDateValue, String Operation, Boolean filter, String SortExpression, String SymbolToReplace, String BySimbolReplace) in D:\Zamba2008\Zamba.Services\Result.cs:line 38
+   at Main.getDocs(Boolean refreshCombo, Boolean useFilter, Boolean LoadGrid, String SortExpression) in d:\Zamba2008\Zamba.WebView\Main.aspx.cs:line 932

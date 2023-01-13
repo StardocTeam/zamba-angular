@@ -1,0 +1,8 @@
+﻿# Como generar un instalador:
+
+1. Modificar la versión del instalador desde PROYECTO \ PROPERTIES \ PUBLISH \ PUBLISH VERSION. Esta versión es la que figura en el instalador.
+2. Modificar la versión de GlobalAssemblyInfo.cs. Esta versión es la que figura en la versión de la solapa Zamba dentro del addin.
+3. Verificar que todos los prerequisitos no presenten fallas (simbolo de alerta). Si alguno de estos presenta error, primero verificar si debería
+	ser un prerequisito o no, ya que con el paso del tiempo puede que sea prescindible. Si el prerequisito es necesario y figura con error entonces
+	seguir los pasos de la siguiente guia (a mi me funcionó a la perfección): http://rapiddg.com/blog-post/clickonce-prerequisite-not-available-bootstrapping
+3. Click derecho sobre el proyecto \ Publish...

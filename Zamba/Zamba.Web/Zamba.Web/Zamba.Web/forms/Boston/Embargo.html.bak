@@ -1,0 +1,291 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 29.07.2021 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: GR-->
+<!--Se ha Modificado: Centrado de campos - Marca de Agua-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        function zamba_save_onclick_Embargo(sender) {
+            setNumericos();
+            if (document.getElementById("zamba_index_80").value.trim() == "") {
+                swal("La Fecha de Embargo es un dato obligatorio.");
+                //document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                document.getElementById("hdnRuleId").name = sender.id;
+                CloseLoading();
+                event.preventDefault();
+            } else if (document.getElementById("zamba_index_82").value.trim() == "") {
+                swal("El Importe de Embargo es un dato obligatorio.");
+               // document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+                document.getElementById("hdnRuleId").name = sender.id;
+
+            } else if (ValidarImporteEmbargo() == false) {
+                swal("No coinciden la sumatoria de los montos con el importe Embargo");
+               // document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else if (validarForm() == 0 || validarForm() == null) {
+                swal("Faltan cargar valores.");
+                //document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+                //document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                document.getElementById("hdnRuleId").name = sender.id;
+            } else {
+
+                swal("Se guardo exitosamente.");
+                document.getElementById("hdnRuleId").name = sender.id;
+                frmMain.submit();
+            }
+        }
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+        });
+
+        function CloseLoading() {
+            setTimeout("parent.hideLoading();", 500);
+        }
+
+
+        function ValidarImporteEmbargo() {
+            var success = false;
+
+            var importeEmbargo = parseFloat($('#zamba_index_82').val());
+
+            var montoTotal = parseFloat($('#zamba_index_87').val()) +
+                parseFloat($('#zamba_index_84').val()) +
+                parseFloat($('#zamba_index_85').val()) +
+                parseFloat($('#zamba_index_88').val()) +
+                parseFloat($('#zamba_index_89').val());
+            if (importeEmbargo == montoTotal) {
+                success = true;
+            }
+            return success;
+        }
+
+        function validarForm() {
+            var montoTotal = parseFloat($('#zamba_index_87').val()) +
+                parseFloat($('#zamba_index_84').val()) +
+                parseFloat($('#zamba_index_85').val()) +
+                parseFloat($('#zamba_index_88').val()) +
+                parseFloat($('#zamba_index_89').val());
+            return montoTotal;
+        }
+
+        function setNumericos() {
+            if ($('#zamba_index_82').val() == "" || $('#zamba_index_82').val() == null) {
+                $('#zamba_index_82').val(0.00);
+            }
+            if ($('#zamba_index_83').val() == "" || $('#zamba_index_83').val() == null) {
+                $('#zamba_index_83').val(0.00);
+            }
+            if ($('#zamba_index_87').val() == "" || $('#zamba_index_87').val() == null) {
+                $('#zamba_index_87').val(0.00);
+            }
+            if ($('#zamba_index_84').val() == "" || $('#zamba_index_84').val() == null) {
+                $('#zamba_index_84').val(0.00);
+            }
+            if ($('#zamba_index_85').val() == "" || $('#zamba_index_85').val() == null) {
+                $('#zamba_index_85').val(0.00);
+            }
+            if ($('#zamba_index_88').val() == "" || $('#zamba_index_88').val() == null) {
+                $('#zamba_index_88').val(0.00);
+            }
+            if ($('#zamba_index_89').val() == "" || $('#zamba_index_89').val() == null) {
+                $('#zamba_index_89').val(0.00);
+            }
+        }
+
+        //function FuncOnload() {
+        //    $('#zamba_index_80').datepicker({
+        //        changeMonth: true,
+        //        changeYear: true,
+        //        showOn: 'button',
+        //        buttonText: 'Abrir calendario',
+        //        buttonImage: 'calendar.png',
+        //        buttonImageOnly: true,
+        //        yearRange: '-100:+0',
+        //        duration: ""
+        //    });
+
+        /*Importe de Embargo, importe neto embargo*/
+        $('#zamba_index_82').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+        $('#zamba_index_83').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+
+        /*Reservar, Dar en Pago, A Recuperar*/
+        $('#zamba_index_87').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+        $('#zamba_index_84').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+        $('#zamba_index_85').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+
+        /*Pagado, Recuperado*/
+        $('#zamba_index_88').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+        $('#zamba_index_89').on('keyup', function () {
+            this.value = (this.value + '').replace(/[^0-9.]/g, '');
+        });
+
+        //window.onload = function () {
+        //    setTimeout(function () { FuncOnload(); }, 100);
+        //};
+
+    </script>
+    <style>
+        .zoom {
+            min-width: 50%;
+            max-width: 100%;
+        }
+    </style>
+
+</head>
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid zoom">
+        <div>
+            <form name="frmMain" action="Embargo.html">
+                <input id="hdnRuleId" type="hidden" />
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div>
+                            <center>
+                                <h4 style="background-color:#418ad4;color: white;">Embargo</h4>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    <div id="tblDemandado">
+
+                        <div class="form-group row"></div>
+                        <div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-3 col-md-3 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Fecha de Embargo:</span>
+                                    <input class="form-control  input-sm" id="zamba_index_80" name="zamba_index_80" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Banco:</span>
+                                    <select class="form-control input-sm" id="zamba_index_86" name="zamba_index_86" style=" color: #090A0A; font-weight: bold"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Nro Comprobante:</span>
+                                    <input class="form-control input-sm solonums" id="zamba_index_81" name="zamba_index_81" w150px style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-5 col-md-5 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Importe Embargo:</span>
+                                    <input class="form-control input-sm" id="zamba_index_82" name="zamba_index_82" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Importe Neto Embargo:</span>
+                                    <input class="form-control input-sm" id="zamba_index_83" name="zamba_index_83" maxlength="200" style=" color: #090A0A; font-weight: bold">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Reservar:</span>
+                                    <input class="form-control input-sm" id="zamba_index_87" name="zamba_index_87" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Dar en Pago:</span>
+                                    <input class="form-control input-sm" id="zamba_index_84" name="zamba_index_84" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">A Recuperar:</span>
+                                    <input class="form-control input-sm" id="zamba_index_85" name="zamba_index_85" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Pagado:</span>
+                                    <input class="form-control input-sm" id="zamba_index_88" name="zamba_index_88" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Recuperado:</span>
+                                    <input class="form-control input-sm" id="zamba_index_89" name="zamba_index_89" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Observaciones Embargo:</span>
+                                    <input class="form-control input-sm" id="zamba_index_93" name="zamba_index_93" style=" color: #090A0A; font-weight: bold" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="input-group-btn">
+                            <div><input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick_Embargo(this)" /></div>
+                        </div>
+                    </div>
+                </center>
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">Embargo.html</span>
+                    </div>
+                    <div class="col-md-5">
+
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

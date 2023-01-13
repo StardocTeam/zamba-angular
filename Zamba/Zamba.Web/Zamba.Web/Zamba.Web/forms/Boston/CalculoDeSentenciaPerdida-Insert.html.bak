@@ -1,0 +1,381 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 12.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    <!--  -->
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+		/* CargarFechasyBotones();*/
+            setTimeout(function () { $("#datepicker").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        format: "mm-yyyy",
+                        viewMode: "months",
+                        minViewMode: "months"
+                    }); }, 3000);
+            $(".moneda").each(
+                function () {
+                    $(this).keyup(function (e) {
+
+                        if (e.which != 8 || e.which != 0 || e.which != 46 || ((e.which > 47 && e.which < 58) || (e.which > 95 && e.which < 106))) {
+                            SumarCampos();
+                        }
+                    })
+                }
+            );
+            //$('#zamba_save').click(zamba_save_onclick);
+        });
+        function zamba_save_onclick_DocInsertModal(event) {
+            if (document.getElementById("zamba_index_2704").value == "") {
+                swal("Por favor, complete la Fecha de Notificacion.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                CloseLoading();
+                event.preventDefault();
+            } else if (document.getElementById("zamba_index_2797").value == "") {
+				if (document.getElementById("zamba_index_2798").value == "") {
+                    swal("Por favor, complete el campo Honorarios Actora.");
+                    document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    CloseLoading();
+                    event.preventDefault();
+				} else if (document.getElementById("zamba_index_2799").value == "") {
+                    swal("Por favor, complete el campo Honorarios Boston.");
+                    document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    CloseLoading();
+                    event.preventDefault();
+				} else if (document.getElementById("zamba_index_2800").value == "") {
+                    swal("Por favor, complete el campo Honorarios Peritos.");
+                    document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    CloseLoading();
+                    event.preventDefault();
+				} else if (document.getElementById("zamba_index_2801").value == "") {
+                    swal("Por favor, complete el campo Honorarios Mediador.");
+                    document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                    CloseLoading();
+                    event.preventDefault();
+                } else {
+                    document.getElementById("hdnRuleId").name = "zamba_rule_save";
+                }
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+		function SumarCampos() {
+
+            var value1 = 0;
+            var value2 = 0;
+            var value3 = 0;
+            var value4 = 0;
+            var value5 = 0;
+            var value6 = 0;
+            var value7 = 0;
+            var value8 = 0;
+            var value9 = 0;
+            var value10 = 0;
+            var value11 = 0;
+            var result = 0;
+
+            if ($("#zamba_index_2789").val() != '' && parseFloat($("#zamba_index_2789").val().replace('', '0')) > 0)
+                value1 = parseFloat($("#zamba_index_2789").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2790").val() != '' && parseFloat($("#zamba_index_2790").val().replace('', '0')) > 0)
+                value2 = parseFloat($("#zamba_index_2790").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2791").val() != '' && parseFloat($("#zamba_index_2791").val().replace('', '0')) > 0)
+                value3 = parseFloat($("#zamba_index_2791").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2792").val() != '' && parseFloat($("#zamba_index_2792").val().replace('', '0')) > 0)
+                value4 = parseFloat($("#zamba_index_2792").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2745").val() != '' && parseFloat($("#zamba_index_2745").val().replace('', '0')) > 0)
+                value5 = parseFloat($("#zamba_index_2745").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2793").val() != '' && parseFloat($("#zamba_index_2793").val().replace('', '0')) > 0)
+                value6 = parseFloat($("#zamba_index_2793").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2798").val() != '' && parseFloat($("#zamba_index_2798").val().replace('', '0')) > 0)
+                value7 = parseFloat($("#zamba_index_2798").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2799").val() != '' && parseFloat($("#zamba_index_2799").val().replace('', '0')) > 0)
+                value8 = parseFloat($("#zamba_index_2799").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2800").val() != '' && parseFloat($("#zamba_index_2800").val().replace('', '0')) > 0)
+                value9 = parseFloat($("#zamba_index_2800").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2801").val() != '' && parseFloat($("#zamba_index_2801").val().replace('', '0')) > 0)
+                value10 = parseFloat($("#zamba_index_2801").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            if ($("#zamba_index_2802").val() != '' && parseFloat($("#zamba_index_2802").val().replace('', '0')) > 0)
+                value11 = parseFloat($("#zamba_index_2802").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+
+            result = Redondear(value1 + value2 + value3 + value4 + value5 + value6 + value7 + value8 + value9 + value10 + value11);
+
+            $("#zamba_index_2719").val(result.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
+
+            //var sum = parseFloat($("#zamba_index_2789").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2790").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2791").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2792").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2745").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2793").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2798").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2799").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2800").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2801").val().replace('', '0'));
+            //sum += parseFloat($("#zamba_index_2802").val().replace('', '0'));
+
+            //$("#zamba_index_2719").val(sum);
+        }
+        function ExecuteSI() {
+
+            $('#zamba_index_2797').val('');
+            $('#zamba_index_2798').removeAttr("disabled");
+            $('#zamba_index_2799').removeAttr("disabled");
+            $('#zamba_index_2800').removeAttr("disabled");
+            $('#zamba_index_2801').removeAttr("disabled");
+
+
+            SumarCampos();
+        }
+        function ExecuteNO() {
+
+            $('#zamba_index_2798').val('');
+            $('#zamba_index_2799').val('');
+            $('#zamba_index_2800').val('');
+            $('#zamba_index_2801').val('');
+            $('#zamba_index_2798').attr('disabled', 'disabled');
+            $('#zamba_index_2799').attr('disabled', 'disabled');
+            $('#zamba_index_2800').attr('disabled', 'disabled');
+            $('#zamba_index_2801').attr('disabled', 'disabled');
+
+
+            SumarCampos();
+
+
+		/* var total = parseFloat($("#zamba_index_2719").val());*/
+
+
+            var total = 0;
+
+            if ($("#zamba_index_2719").val() != '' && parseFloat($("#zamba_index_2719").val().replace('', '0')) > 0)
+				total = parseFloat($("#zamba_index_2719").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+            var veintePorciento = total * 0.2;
+            $("#zamba_index_2797").val(Redondear(veintePorciento));
+            $("#zamba_index_2719").val(total + veintePorciento)
+		}
+        function CloseLoading() {
+            setTimeout("parent.hideLoading();", 500);
+        }
+       
+    </script>
+</head>
+<body style="font-family:'Times New Roman'">
+    <center class="container-fluid">
+        <form name="frmMain" action="CalculoDeSentenciaPerdida-Insert.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            
+				
+				
+				<center>
+					<div>
+						 <h4 style="color: black;">Rubro</h4>
+					</div>
+				</center>					
+		
+			<div id="tblRubro" >	
+				<div class="form-group row"> </div>
+				<div class="form-group row">
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Valor Vida $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2789" name="zamba_index_2789" readonly="readonly">
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Daño Físico $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2790" name="zamba_index_2790" readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Daño Moral $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2791" name="zamba_index_2791" readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Daño Material $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2792" name="zamba_index_2792" readonly="readonly">
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Otros $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2745" name="zamba_index_2745" readonly="readonly">
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Intereses $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2793" name="zamba_index_2793" readonly="readonly">
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon"   id="basic-addon1">Fecha de Cálculo</span>
+							<input class="form-control " style=" color: #090A0A; font-weight: bold" id="zamba_index_2796" name="zamba_index_2796" readonly="readonly">
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon"   id="basic-addon1">Fecha de Notific.</span>
+							<input class="form-control " style=" color: #090A0A; font-weight: bold" id="zamba_index_2704" name="zamba_index_2704">
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Tipo de Tasa</span>
+							<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2795" name="zamba_index_2795" disabled="disabled"></select>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="form-group row"> </div>
+
+				<div id="tblHonorarios" >
+
+					<div>
+						<center>
+							<div>
+								 <h4 style="color: black;">Honorarios</h4>
+							</div>
+							<h4>
+								<button type="button" class="btn  btn-primary btn-md" id="btnSI" name="btnSI" onclick="ExecuteSI();">SI</button>
+								&nbsp;&nbsp;&nbsp;
+								<button type="button" class="btn  btn-primary btn-md" id="btnNO" name="btnNO" onclick="ExecuteNO();">NO</button>
+							</h4>
+						</center>
+					</div>
+				</div>
+				<div class="form-group row"> </div>
+
+				<div class="form-group row">
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Honorarios s/regular $</span>
+							<input class="form-control input-sm ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2797" name="zamba_index_2797" readonly="readonly">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Honorarios Actora $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2798" name="zamba_index_2798">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Honorarios Boston $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2799" name="zamba_index_2799">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Honorarios Peritos $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2800" name="zamba_index_2800">
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Honorarios Mediador $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2801" name="zamba_index_2801">
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="padding:1px;" id="basic-addon1">Fecha de Sentencia</span>
+							<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2829" name="zamba_index_2829" readonly="readonly">
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="padding: 1px;" id="basic-addon1">Es Firme</span>
+							<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2830" name="zamba_index_2830" disabled="disabled"></select>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1">Tasa y Gastos $</span>
+							<input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2802" name="zamba_index_2802" readonly="readonly">
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-md-3">
+						<div class="input-group">
+							<span class="input-group-addon" style="" id="basic-addon1"><b>Total de Sentencia $</b></span>
+							<input class="form-control input-sm ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2719" name="zamba_index_2719" readonly="readonly">
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <div class="form-group row"> </div>
+
+            <center>
+                <div class="input-group">
+                    <input class="btn  btn-primary btn-md" type="submit" style="margin-right:5px;" class="submit" name="zamba_save" id="zamba_save" value="Guardar" onclick="return zamba_save_onclick_DocInsertModal(event);"/>
+                    <input class="btn  btn-primary btn-md " type="submit" class="submit" name="zamba_cancel" id="zamba_cancel" value="Cancelar" />
+                </div>
+            </center>
+			
+			<div class="form-group row"> </div>
+				<center>
+					<div class="col-md-2" style="position:relative;left:20px;">
+						
+					</div>
+					<div class="col-md-3"></div>
+					<div class="col-md-2">
+						<span style="color:white">CalculoDeSentenciaPerdida-Insert.html</span>
+					</div>
+					<div class="col-md-5">
+						
+						<div class="form-group row">
+						</div>
+					</div>
+				</center>			
+            
+        </form>
+
+    </center>
+</body>
+</html>

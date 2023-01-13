@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html ng-app="app" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Resultados</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="modules/search/searchbox.css" />
+    <link rel="stylesheet" href="modules/grid/grid.css" />
+
+    <script src="scripts/jquery-2.1.3.min.js"></script>
+    <script src="scripts/angular.min.js"></script>
+    <script src="scripts/knockout-3.3.0.js"></script>
+    <script src="scripts/ko-custom-component-loaders.js"></script>
+
+    <script src="modules/search/searchbox.js" defer></script>
+    <script src="modules/search/searchbox-loader.js" defer></script>
+    <script src="scripts/typeahead.bundle.js" defer></script>
+    <script src="scripts/handlebars-v2.0.0.js" defer></script>
+    <script src="scripts/bootstrap.min.js" defer></script>
+    <script src="scripts/ui-bootstrap-tpls-0.12.0.min.js" defer></script>
+    <script src="scripts/bootstrap-waitingfor.js" defer></script>
+    <script src="scripts/modernizr-custom.js" defer></script>    
+    <script src="scripts/bootbox.js" defer></script>
+    <script src="modules/grid/grid.js" defer></script>
+    <script src="modules/grid/grid-loader.js" defer></script>
+</head>
+<body>
+    <div ng-controller="appController">
+        <span class="infoMsg"></span>
+        <!--<br />-->
+
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <zamba-search id="zambasearchcontrol"  ng-model="searchParams"
+                          parameters="availableSearchParams"
+                          placeholder="Buscar...">
+            </zamba-search>
+        </div>
+        <div class="col-md-3"></div>
+        <br />
+        <zamba-grid></zamba-grid>
+      
+        <script type="text/ng-template" id="itemtpl.html">
+            <!--Botones superiores filtros-->
+            <div class="btn-group btn-group-sm" data-toggle="buttons" style="padding-left: 10px;" ng-show="match.model.button">
+                <label ng-class="match.model.buttonVal=='all'?'btn btn-default active btnSelected':'btn btn-default'" selbutton title="Todos los resultados">
+                    <img src="Content/images/zambabn.png" style="width: 18px;">
+                    <input type="radio" id="btnAll" name="All" value="All" /> Todo
+                </label>
+                <label ng-class="match.model.buttonVal=='entity'?'btn btn-default active btnSelected':'btn btn-default'" selbutton title="Filtrar solo entidades">
+                    <img src="Content/images/entity.png" style="width: 18px;">
+                    <input type="radio" id="btnEntity" name="Entity" value="Entity" /> Entidades
+                </label>
+                <label ng-class="match.model.buttonVal=='index'?'btn btn-default active btnSelected':'btn btn-default'" selbutton title="Filtrar solo atributos">
+                    <img src="Content/images/index.png" style="width: 18px;">
+                    <input type="radio" id="btnIndex" name="Index" value="Index" /> Atributos - Índices
+                </label>
+                <label ng-class="match.model.buttonVal=='words'?'btn btn-default active btnSelected':'btn btn-default'" selbutton title="Filtrar solo palabras">
+                    <img src="Content/images/word.png" style="width: 18px;">
+                    <input type="radio" id="btnWords" name="Words" value="Words" /> Palabras
+                </label>
+            </div>
+
+            <!--PALABRAS 0-->
+            <a class="rowWord" ng-show="match.model.type == 0" ng-attr-title="Contiene: {{match.model.name}}">
+                <img src="Content/images/word.png" class="imgFilter">
+                <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+                <span class="descSpanC">@Contiene</span>
+            </a>
+
+            <!--ENTIDAD 1-->
+            <a class="rowEntity" hideshowinput data-placement="right" ng-show="match.model.type == 1" ng-attr-title="Entidad: {{match.model.name}}" ng-attr-id="item{{match.model.id}}">
+                <img src="Content/images/entity.png" class="imgFilter">
+                <span ng-bind-html="match.model.name |limitTo: 28 | uibTypeaheadHighlight:query"></span>
+                <input class="typeahead thMain" wordsentselect type="text" placeholder="{{match.model.name}}">
+                <span class="descSpanE">@Entidad</span>
+                <br />
+                <ul class="ulAttr">
+
+                    <div showadvf class="advFilter">
+                        <div>
+                            <button type="button" class="btn btn-primary btn-xs etapa glyphicon glyphicon-th-list" id="etapa">Etapa</button>
+                            <input class="typeahead thMain" advfilter type="text" placeholder="Etapa">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-xs asig glyphicon glyphicon-user" id="asignado">Asignado</button>
+                            <input class="typeahead thMain" advfilter type="text" placeholder="Asignado">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-xs estado glyphicon glyphicon-info-sign" id="estado">Estado</button>
+                            <input class="typeahead thMain" advfilter type="text" placeholder="Estado">
+                        </div>
+                    </div>
+
+                    <p class="footerTxt">Atributos</p>
+                    <li class="innerTxt" style="color: #2134BE;" clickitem ng-repeat="i in match.model.indexes | orderBy:'name'" ng-show="$index<5" ng-attr-id="{{i.id}}" data-type="1">
+                        {{i.name}}
+                        <input class="typeahead th" wordsentindex type="text" placeholder={{i.name}}>
+                    </li>
+                </ul>
+
+                <button expanditems ng-show="match.model.indexes.length >= 6 || match.model.words.length >= 6" type="button" class="btn btn-primary btn-xs btnMore" data-toggle="tooltip" data-placement="right" data-html="true">+</button>
+                <p class="footerTxt">Atributos:{{match.model.indexes.length}}</p><!---  Palabras: {{match.model.words.length}}-->
+            </a>
+
+            <!--ATRIBUTO INDICE 2 -->
+            <a class="rowIndex" hideshowinput data-placement="right" ng-show="match.model.type == 2" ng-attr-title="Atributo: {{match.model.name}}" ng-attr-id="index{{match.model.id}}">
+                <img class="imgFilter" src="Content/images/index.png" style="margin-left: 15px;">
+                <span ng-bind-html="match.model.name |limitTo: 28 | uibTypeaheadHighlight:query"></span>
+                <input class="typeahead thMain" wordsattrselect type="text" placeholder="Ingrese busqueda">
+                <span class="descSpanA">@Atributo</span>
+                <br />
+                <span class="adv">Seleccione al menos una entidad para ver sugerencias</span>
+
+                <ul class="ulAttr" style="margin-top:0px">
+                    <div showadvf class="advFilter">
+                        <div>
+                            <button showadvf type="button" class="btn btn-primary btn-xs etapa glyphicon glyphicon-th-list" id="etapa">Etapa</button>
+                            <input class="typeahead thMain" advfilter type="text" placeholder="Etapa">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-xs asig glyphicon glyphicon-user" id="asignado">Asignado</button>
+                            <input class="typeahead thMain" advfilter type="text" placeholder="Asignado">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-xs estado glyphicon glyphicon-info-sign" id="estado">Estado</button>
+                            <input class="typeahead thMain" advfilter type="text" placeholder="Estado">
+                        </div>
+                    </div>
+
+                    <p class="footerTxt">Entidades</p>
+                    <li class="innerTxt" ng-show="match.model.parentArray.length >= 2" style="color: darkblue;" chkboxcontrol data-type="2">
+                        <label style="margin: 0px;"><input type="checkbox" name="all" value="all" checked style="display:none;"><span style="margin: 4px;">Deseleccionar todo</span></label>
+                    </li>
+                    <li class="innerTxt" style="color: #2134BE;" clickchk ng-repeat="j in match.model.parentArray | orderBy:'name'" ng-show="$index<5" data-type="2">
+                        <label style="margin: 0px;"><input type="checkbox" name={{j.id}} value={{j.id}} style="margin-right: 4px;" checked>{{j.name}}</label>
+                    </li>
+                </ul>
+
+                <button expanditems data-placement="right" ng-show="match.model.parentArray.length >= 6" type="button" class="btn btn-primary btn-xs btnMore" data-toggle="tooltip" data-placement="right" data-html="true">+</button>
+                <p class="footerTxt">Entidades contenidas: {{match.model.parentArray.length}}</p>
+            </a>
+
+            <!--ETAPA 5 StepStateId-->
+            <a class="rowWord" ng-show="match.model.type == 5" ng-attr-title="Contiene: {{match.model.name}}">
+                <img src="Content/images/word.png" class="imgFilter">
+                <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+                <span class="descSpanC">@Contiene</span>
+            </a>
+
+            <!--ESTADO 6 TaskStateId-->
+            <a class="rowWord" ng-show="match.model.type == 6" ng-attr-title="Contiene: {{match.model.name}}">
+                <img src="Content/images/word.png" class="imgFilter">
+                <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+                <span class="descSpanC">@Contiene</span>
+            </a>
+
+            <!--ASIGNADO 7 UserId-->
+            <a class="rowWord" ng-show="match.model.type == 7" ng-attr-title="Contiene: {{match.model.name}}">
+                <img src="Content/images/word.png" class="imgFilter">
+                <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
+                <span class="descSpanC">@Contiene</span>
+            </a>
+
+            <!--No se encontraron resultados-->
+            <div ng-show="match.model.noresults" style="padding-left: 20px;">
+                <span style="font-weight: bold;">No se encontraron resultados</span>
+                <hr style="margin: 0px;" />
+                <div style="font-size: 12px;">
+                    <p style="margin: 0px;">Por favor tenga en cuenta:</p>
+                    <ul style="line-height: 20px;">
+                        <li>Verificar que haya escrito correctamente su búsqueda</li>
+                        <li>Verificar filtros aplicados</li>
+                        <li>Puede que no existan datos con esos parametros</li>
+                        <li>Lista de sugerencias: tipear al menos 3 caracteres</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr style="margin:0px;" />
+        </script>
+
+        <script type="text/javascript">
+            searchResults = function (data) {
+                resultVM.fill(data);
+            }
+        </script>
+    </div>
+</body>
+</htmlng-app>
+
+

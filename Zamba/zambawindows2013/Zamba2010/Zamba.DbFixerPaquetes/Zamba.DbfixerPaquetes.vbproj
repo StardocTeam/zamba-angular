@@ -1,0 +1,396 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DF965B7D-75F0-4405-8A7D-29FFDE434C38}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>zamba modo administrador - 32 X 32 - 96 X 96 - 32 - 1.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Zamba.Paquetes</AssemblyName>
+    <AssemblyOriginatorKeyFile>Stardoc.Zamba.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>Off</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>Zamba.Paquetes</RootNamespace>
+    <StartupObject>Zamba.Paquetes.frmActualizaciones</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>http://localhost/Zamba.Paquetes/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\compilado\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>full</DebugType>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Design#CA1020;-Microsoft.Design#CA1019;-Microsoft.Design#CA1000;-Microsoft.Design#CA1002;-Microsoft.Design#CA1004;-Microsoft.Design#CA1035;-Microsoft.Design#CA1033;-Microsoft.Design#CA1039;-Microsoft.Design#CA1016;-Microsoft.Design#CA1014;-Microsoft.Design#CA1017;-Microsoft.Design#CA1018;-Microsoft.Design#CA1027;-Microsoft.Design#CA1059;-Microsoft.Design#CA1060;-Microsoft.Design#CA1036;-Microsoft.Design#CA1041;-Microsoft.Design#CA1052;-Microsoft.Design#CA1053;-Microsoft.Design#CA1057;-Microsoft.Design#CA1058;-Microsoft.Design#CA1001;-Microsoft.Design#CA1054;-Microsoft.Design#CA1056;-Microsoft.Design#CA1055;-Microsoft.Design#CA1003;-Microsoft.Design#CA1043;-Microsoft.Globalization#CA1301;-Microsoft.Globalization#CA1308;-Microsoft.Globalization#CA1306;-Microsoft.Globalization#CA1304;-Microsoft.Globalization#CA1305;-Microsoft.Globalization#CA2101;-Microsoft.Globalization#CA1300;-Microsoft.Globalization#CA1307;-Microsoft.Globalization#CA1309;-Microsoft.Interoperability#CA1403;-Microsoft.Interoperability#CA1406;-Microsoft.Interoperability#CA1413;-Microsoft.Interoperability#CA1402;-Microsoft.Interoperability#CA1407;-Microsoft.Interoperability#CA1404;-Microsoft.Interoperability#CA1410;-Microsoft.Interoperability#CA1411;-Microsoft.Interoperability#CA1405;-Microsoft.Interoperability#CA1409;-Microsoft.Interoperability#CA1415;-Microsoft.Interoperability#CA1408;-Microsoft.Interoperability#CA1414;-Microsoft.Interoperability#CA1412;-Microsoft.Interoperability#CA1400;-Microsoft.Interoperability#CA1401;-Microsoft.Maintainability#CA1502;-Microsoft.Maintainability#CA1501;-Microsoft.Maintainability#CA1504;-Microsoft.Maintainability#CA1500;-Microsoft.Mobility#CA1600;-Microsoft.Mobility#CA1601;-Microsoft.Naming#CA1702;-Microsoft.Naming#CA1700;-Microsoft.Naming#CA1712;-Microsoft.Naming#CA1713;-Microsoft.Naming#CA1714;-Microsoft.Naming#CA1709;-Microsoft.Naming#CA1704;-Microsoft.Naming#CA1708;-Microsoft.Naming#CA1715;-Microsoft.Naming#CA1710;-Microsoft.Naming#CA1720;-Microsoft.Naming#CA1707;-Microsoft.Naming#CA1722;-Microsoft.Naming#CA1711;-Microsoft.Naming#CA1716;-Microsoft.Naming#CA1717;-Microsoft.Naming#CA1725;-Microsoft.Naming#CA1719;-Microsoft.Naming#CA1721;-Microsoft.Naming#CA1701;-Microsoft.Naming#CA1703;-Microsoft.Naming#CA1724;-Microsoft.Naming#CA1726;-Microsoft.Performance#CA1811;-Microsoft.Performance#CA1824;-Microsoft.Portability#CA1901;-Microsoft.Reliability#CA2001;-Microsoft.Reliability#CA2002;-Microsoft.Reliability#CA2003;-Microsoft.Reliability#CA2004;-Microsoft.Reliability#CA2006;-Microsoft.Security#CA2116;-Microsoft.Security#CA2117;-Microsoft.Security#CA2105;-Microsoft.Security#CA2115;-Microsoft.Security#CA2102;-Microsoft.Security#CA2104;-Microsoft.Security#CA2122;-Microsoft.Security#CA2114;-Microsoft.Security#CA2123;-Microsoft.Security#CA2111;-Microsoft.Security#CA2108;-Microsoft.Security#CA2107;-Microsoft.Security#CA2103;-Microsoft.Security#CA2118;-Microsoft.Security#CA2109;-Microsoft.Security#CA2119;-Microsoft.Security#CA2106;-Microsoft.Security#CA2112;-Microsoft.Security#CA2120;-Microsoft.Security#CA2121;-Microsoft.Security#CA2126;-Microsoft.Security#CA2124;-Microsoft.Security#CA2127;-Microsoft.Security#CA2128;-Microsoft.Security#CA2129;-Microsoft.Usage#CA1816;-Microsoft.Usage#CA2213</CodeAnalysisRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\compilado\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>false</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Web.Extensions.Design, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App4.ico" />
+    <Content Include="Solution Items\para agregar en un paquete.txt" />
+    <Content Include="zamba modo administrador - 32 X 32 - 96 X 96 - 32 - 1.ico" />
+    <Compile Include="PAQ_PRUEBADIEGO.vb" />
+    <Compile Include="PAQ_CreateTable_ZIR.vb" />
+    <Compile Include="PAQ_CreateTable_ZTaskStatus.vb" />
+    <Compile Include="PAQ_AlterTable_WFStepHst.vb" />
+    <Compile Include="PAQ_CreateTable_Zext_ZFrms.vb" />
+    <Compile Include="PAQ_RunScripts.vb" />
+    <Compile Include="EnumPaquetes.vb" />
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_WFInsert.vb" />
+    <Compile Include="PAQ_AddColumn_Z_GroupToNotify_GroupID.vb" />
+    <Compile Include="PAQ_CreateStore_sp_GetLogInformation.vb" />
+    <Compile Include="PAQ_AlterTables_ZQColumns_ZQKeys.vb" />
+    <Compile Include="PAQ_CreateTables_Versiones.vb" />
+    <Compile Include="PAQ_CreateTable_ZMailConfig.vb" />
+    <Compile Include="PAQ_AddColumn_ZEXPORTCONTROL_Doc_Type_Id.vb" />
+    <Compile Include="PAQ_AlterTable_INDEX_R_DOC_TYPE.vb" />
+    <Compile Include="PAQ_AlterTable_MESSAGE.vb" />
+    <Compile Include="PAQ_CreateTable_PreProcessIDs.vb" />
+    <Compile Include="PAQ_CreateTable_WFStepHst.vb" />
+    <Compile Include="frmActualizacionesNuevo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IPAQ.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_zspimportsGetProcessHistory.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumns_DOC_T.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_IP_FOLDER.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_WFStep.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_MSG_ATTACH.vb" />
+    <Compile Include="PAQ_AddColumns_TABLATEMP.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_USRNOTES.vb" />
+    <Compile Include="PAQ_AlterTable_Usrtable.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_WFStep.vb" />
+    <Compile Include="PAQ_AlterTable_ZForum.vb" />
+    <Compile Include="PAQ_AlterTable_WF_DT.vb" />
+    <Compile Include="PAQ_AlterTable_ZbarCode.vb" />
+    <Compile Include="PAQ_AlterTable_ZBarcodeComplete.vb" />
+    <Compile Include="PAQ_AlterTable_ZexportControl.vb" />
+    <Compile Include="PAQ_CreateTable_ZBarcodeComplete.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumn_ip_type_IP_CHECKBATCH.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumn_Zqueryname_querytype.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_ZQSENTENCE.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_Usrtable_Correo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateView_ZVW_WFHISTORYCI_200.vb" />
+    <Compile Include="PAQ_AlterTables_DOC_T.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTables_WF_SQLServer.vb" />
+    <Compile Include="PAQ_CreateTable_Foro.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_PRO.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_WFStepStates.vb" />
+    <Compile Include="PAQ_CreateTable_ReportBuilder.vb" />
+    <Compile Include="PAQ_CreateTable_USRNOTES.vb" />
+    <Compile Include="PAQ_CreateTable_WorkFlow.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateViews_DOC.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_DOC_TYPE_R_DOC_TYPE.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumn_Doc_Type_MB.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterColumn_User_hst_Action_Date.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_DeleteColumn_ILST_ITEMID.vb" />
+    <Compile Include="PAQ_CreateTables_Exportacion_Mails.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumn_DOC_T_Filesize.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_zsp_objects_100.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_GET_MY_MESSAGES_PKG.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_zsp_doctypes_200.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_Zsp_users_200.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumns_INDEX_R_DOC_TYPE.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumn_INDEX_R_DOC_TYPE_Complete.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AddColumn_DOC_I_Fecha.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTables_Export.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTables_Mensajes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTables_ABN.vb" />
+    <Compile Include="PAQ_AddColumn_ZsecOption_RepeatPassword.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_DOC_I.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStores_General.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_REPORTE_ID.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_Schedule.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_DOC_T.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStores_ABN.vb" />
+    <Compile Include="PAQ_CreateStores_WorkFlow.vb" />
+    <Compile Include="PAQ_CreateStores_WorkFlow2.vb" />
+    <Compile Include="PAQ_CreateStore_ZSP_SECURITY_100.vb" />
+    <Compile Include="PAQ_CreateTable_Zopt.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTables_IndexLink.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_ZNetronShapes.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_ZServidores.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateTable_ZTempL.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_Usrtable_NameIndex.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_AlterTable_Usrtable_usrtable_index.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_ZSP_VERSION_300.vb" />
+    <Compile Include="PAQ_CreateStore_Zsp_Workflow_100.vb" />
+    <Compile Include="PAQ_CreateView_ZviewShowInsertsHistory.vb" />
+    <Compile Include="PAQ_CreateViews_General2.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateView_ZWFViewReport.vb" />
+    <Compile Include="PAQ_CreateTable_ZBarCode.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_zsp_messages_100_GetMyMessagesNew.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_Zsp_Imports_100.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_ZSP_ZBARCODE_200_PKG.vb" />
+    <Compile Include="PAQ_CreateView_Zvw_LoginsFailed_100.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PAQ_CreateStore_Zvw_Reportecaratulas.vb" />
+    <Compile Include="PAQ_CreateView_Zvw_WFHistory_200.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ZPaq.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="frmActualizacionesNuevo.resx">
+      <DependentUpon>frmActualizacionesNuevo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="DetallesPaquetes.xls" />
+    <None Include="Stardoc.Zamba.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{A706E6F9-436F-4761-AB28-30F99F1EF098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
+      <Project>{C6B645EE-2668-404D-B41E-28D5AC6CAEB6}</Project>
+      <Name>Zamba.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+    <Folder Include="Scripts\Oracle\" />
+    <Folder Include="Scripts\SQL\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

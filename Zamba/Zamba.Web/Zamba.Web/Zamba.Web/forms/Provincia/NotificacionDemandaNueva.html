@@ -1,0 +1,151 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+        });
+        function CompletarVto() {
+            if (document.getElementById("zamba_index_57").value == "") {
+                $("#zamba_index_57").addClass("error");
+            } else {
+                $("#zamba_index_57").removeClass("error");
+                var dias = $("#txtCantHabiles").val();
+                var fecha = $("#zamba_index_57").val();
+                fecha = CalcularLaborales(dias, fecha);
+                $("#zamba_index_2705").val(fecha);
+            }
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_57").value == "") {
+                alert("Por favor, complete la Fecha de Notificación.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_2705").value == "") {
+                alert("Por favor, complete la fecha de Vencimiento.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_64").length > document.getElementById("zamba_index_64").maxlength) {
+                alert("El límite máximo de caracteres para el campo Observación es de " + document.getElementById("zamba_index_64").maxlength + ".\nPor favor, verifique dicho campo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        function CargarFechasyBotones() {
+            CargarFechaIndice('zamba_index_57');
+            CargarFechaIndice('zamba_index_2705');
+        }
+        function VerificarJuiMed(sel) {
+            if (sel.value == 'Juicio')
+                $("#zamba_index_2717").val(1);
+            else
+                $("#zamba_index_2717").val(4);
+        }
+        function VerificarTipoNotif(sel) {
+            if (sel.value == 4)
+                $("#zamba_index_2681").val('Mediación');
+            else
+                $("#zamba_index_2681").val('Juicio');
+        }
+        function IngresoDeFecha(obj) {
+            $('#zamba_index_57').removeClass('error');
+            $('#txtCantHabiles').val('');
+            $('#zamba_index_2705').val('');
+            valFecha(obj);
+        }
+    </script>
+
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <div class="container-fluid">
+        <form name="frmMain" action="NotificacionDemandaNueva.html">
+            <center>
+                <input id="hdnRuleId" type="hidden" />
+                <h4 class="text-center" id="header">
+                    Nueva Notificación
+                </h4>
+                <div id="tblNotificacion" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Juicio / Mediación:</span>
+                                <select class="form-control input-sm" id="zamba_index_2681" size="1" name="zamba_index_2681" onchange="VerificarJuiMed(this);"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Fecha de Notificación:</span>
+                                <input class="form-control input-sm" id="zamba_index_57" name="zamba_index_57" onblur="IngresoDeFecha(this);" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tipo de Notificación:</span>
+                                <select class="form-control input-sm" id="zamba_index_2717" size="1" name="zamba_index_2717" onchange="VerificarTipoNotif(this);"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Días hábiles:</span>
+                                <input class="form-control input-sm" id="txtCantHabiles" name="txtCantHabiles" onkeyup="CompletarVto();" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Datos Stro:</span>
+                                <select class="form-control input-sm" id="zamba_index_1001010" name="zamba_index_1001010"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Fecha de Vencimiento:</span>
+                                <input class="form-control input-sm" id="zamba_index_2705" name="zamba_index_2705" " />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                            <div class="input-group">
+                                <span class="input-group-addon">Carátula:</span>
+                                <input class="form-control input-sm" id="zamba_index_2701" name="zamba_index_2701" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tblObervaciones" class="attributes_table">
+                    <div class="col-md-12">
+                        <span class="input-group-addon">Observaciones:</span>
+                    </div>
+                    <div class="col-md-12">
+<textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_64" name="zamba_index_64" maxlength="5000" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+                    </div>
+                </div>
+
+                <div style="position:relative;bottom:-20px">
+                    <input class="btn  btn-primary" id="zamba_save" type="submit" value="Guardar" name="zamba_save" onclick="return zamba_save_onclick()" />
+                </div>
+
+        </form>
+    </div>
+
+</body>
+</html>

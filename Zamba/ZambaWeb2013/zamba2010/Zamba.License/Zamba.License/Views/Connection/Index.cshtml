@@ -1,0 +1,35 @@
+﻿@model List<Zamba.License.Models.ConnectionModel>
+
+@{var rowClass = string.Empty;}
+
+<hgroup class="title">
+    <h3>Reporte de conexiones a Zamba. <small>@DateTime.Now.ToString()</small></h3>
+</hgroup>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>@Html.LabelFor(m => m[0].ZambaUser)</th>
+            <th>@Html.LabelFor(m => m[0].WindowsUser)</th>
+            <th>@Html.LabelFor(m => m[0].Host)</th>
+            <th>@Html.LabelFor(m => m[0].License)</th>
+            <th>@Html.LabelFor(m => m[0].TimeOut)</th>
+            <th>@Html.LabelFor(m => m[0].Created)</th>
+            <th>@Html.LabelFor(m => m[0].Updated)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var con in @Model)
+        {
+            <tr>
+                <td>@con.ZambaUser</td>
+                <td>@con.WindowsUser</td>
+                <td>@con.Host</td>
+                <td>@con.License</td>
+                <td>@con.TimeOut</td>
+                <td>@con.Created</td>
+                <td>@con.Updated</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<html>
+<head>
+    <script src="../Scripts/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="../Scripts/bootstrap.min.css">
+    <script src="../Scripts//bootstrap.min.js"></script>
+    <script src="../Scripts/angular.min.js"></script>
+    <script src="../Scripts/sweetalert.min.js"></script>
+    <script src="../Scripts/Zamba.js?v=257"></script>
+    <script src="../Scripts/raphael-min.js"></script>
+    <script src="../Scripts/Sprettify.min.js"></script>
+    <link rel="stylesheet" href="../Scripts/Sprettify.min.css">
+    <script src="../Scripts/morris.js"></script>
+    <script src="./LineGraphsController.js"></script>
+    <script src="./LineGraphsService.js"></script>
+</head>
+<body>
+    <div ng-app="LineGraphsApp">
+        <div ng-controller="LineGraphCtrl" class="container">
+            
+            <div class="form-group row">
+                <zamba-line-graph graph-type="line"></zamba-line-graph>
+                <zamba-line-graph graph-type="donut"></zamba-line-graph>
+                <zamba-line-graph graph-type="bar"></zamba-line-graph>
+            </div>         
+
+        </div>
+    </div>
+
+    <style>
+    </style>
+</body>
+</html>
+
+

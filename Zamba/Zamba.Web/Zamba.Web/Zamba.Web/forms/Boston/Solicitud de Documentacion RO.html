@@ -1,0 +1,133 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creacion: 11.2018-->
+<!--Ultima Edicion: 16.05.2022 -->
+<!--Modificado por: GR Se ajusto el layout y agregó campos que estabn en el form de desktop-->
+      
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   	
+    <style>
+        td,
+        th {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        div thead th {
+            color: White;
+            font-size: x-small;
+            font-family: arial;
+            background-color: #507CD1;
+        }
+
+     
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }		
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Solicitud de Documentacion RO.html">
+			
+			<input id="hdnRuleId" type="hidden" />
+			<hr style="border: 0 ; border-top: 3px double blue; width: 100%;">		
+           
+			
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+            <div id="tblDoc" >
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+						<div class="input-group">
+							<span class="input-group-addon" style="">Tipo de Documentacion:</span>
+							<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2728" name="zamba_index_2728" disabled="disabled" />
+						</div>
+					</div>	                    
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Fecha de Vencimiento:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2705" name="zamba_index_2705" disabled="disabled" />
+                        </div>
+                    </div>
+				</div>
+				
+				<div class="form-group row">
+					<div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="input-group">
+							<span class="input-group-addon" style="">Estudio:</span>
+							<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2732" name="zamba_index_2732" disabled="disabled" />
+						</div>
+					</div>					
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<div class="input-group">
+							<span class="input-group-addon" style="">Ejecutivo:</span>
+							<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2735" name="zamba_index_2735" disabled="disabled" />
+						</div>
+                    </div>
+                </div>
+				
+				<div class="form-group row">
+					<div class="col-md-2"></div>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						<div class="input-group">
+							<span class="input-group-addon" style="">Detalle de la Solicitud:</span>
+							<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2893" name="zamba_index_2893" disabled="disabled" />
+						</div>
+					</div>                        
+				</div> 
+            </div>
+
+            <div class="form-group row"></div>
+
+            <div class="form-group row" style="margin-bottom: 40px;">
+                <div class="col-xs-12 col-md-12">
+                    <div class="row">
+                        <span class="input-group-addon" style=""> Observaciones:</span>
+                        <div class="col-md-2"></div>
+						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <!--Area texto Observacion-->
+                            <div id="appObservaciones" ng-controller="ObservacionController">
+                                <zamba-observaciones index-id="64" entity-id="2537"></zamba-observaciones>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+
+            <div class="form-group row">
+                <div>
+                    <div ng-controller="ZambaAssociatedController">
+                        <zamba-associated entities="2523" default-enable-mode="grid" table-height="400" grid-title="Reclamos">
+                        </zamba-associated>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row"> </div>
+            <center>                
+                <div class="">
+                    <span style="color:white">Solicitud de Documentacion RO.html</span>
+                </div>               
+            </center>
+
+        </form>
+    </div>
+ 
+</body>
+</html>

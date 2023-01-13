@@ -1,0 +1,15 @@
+﻿<script type="text/javascript" src="../../scripts/dropzone.min.js"></script>
+<script type="text/javascript" src="../../scripts/bootbox.js"></script>
+<div class="UserControlBody">
+    <form action="../../Services/FileUpload.ashx" style="position:absolute" class="dropzone margenInput  DropzoneSize" id="dZFUpload">
+        <div class="fallback">
+            <div class="dz-default dz-message center-div-element" />
+            <input type="file" name="file" accept="application/pdf, .doc, .docx, .odf,application/zip,application/gzip,application/vnd.ms-excel,application/vnd.ms-powerpoint, application/vnd.ms-xpsdocument,application/vnd.oasis.opendocument.text, application/vnd.oasis.opendocument.spreadsheet, application/vnd.oasis.opendocument.presentation, application/vnd.oasis.opendocument.graphics, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/x-7z-compressed, audio/basic, audio/L24, audio/mp4, audio/mpeg,audio/ogg, audio/flac,audio/opus,audio/vorbis,audio/vnd.rn-realaudio,audio/vnd.wave, audio/webm, audio/x-aac,audio/x-caf,image/gif, image/jpeg,image/pjpeg, image/png, image/bmp, image/svg+xml, image/tiff,image/vnd.djvu, image/x-xcf, XCF, audio/basic,audio/L24, audio/mp4, audio/mpeg,audio/ogg, audio/flac, audio/opus, audio/vorbis, audio/vnd.rn-realaudio, audio/vnd.wave,audio/webm, audio/x-aac, audio/x-caf, image/gif, image/jpeg, image/pjpeg,image/png, image/bmp, image/svg+xml, image/tiff, image/vnd.djvu, image/x-xcf" />
+        </div>
+
+    </form>
+</div>
+<div class="row" id="MensajeMultiDropzone" style="position: absolute; margin-top: 16%; margin-left: 5px;display:none">
+    <div style="display: inline-flex;"><spam style="margin-top: 4px; margin-right: 15px; display: -webkit-inline-box;">Entidad asignada para inserción: <p id="AsignedEntity" style="font-weight: bold;"></p></spam>
+     <button type="button" class="btn btn-info" ng-click="LoadMultiIndex()">Cambiar</button></div>
+</div>

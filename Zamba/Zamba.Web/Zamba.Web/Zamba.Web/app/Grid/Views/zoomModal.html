@@ -1,0 +1,16 @@
+﻿<div class="container-fluid">
+    <div class="modal-body">
+        <!--Si no hay thumbs muestra icono-->
+        <img style="max-height: 450px;max-width: 450px; height:0" ng-if="resultDetails.THUMB==null && resultDetails.ThumbImg==null" class="document-photo-thumbs" ng-src="../../Content/{{resultDetails.Icon}}" />
+
+        <!--Thumb de la base-->
+        <img style="max-height:450px;max-width:450px; height:0" ng-if="resultDetails.THUMB!==null" class="document-photo-thumbs" ng-src="data:image/jpeg;base64,{{resultDetails.THUMB}}" />
+
+        <!--Thumb en FileSystem-->
+        <img style="max-height: 450px;max-width: 450px; height:0" ng-if="resultDetails.ThumbImg!==null && resultDetails.THUMB==null" class="document-photo-thumbs"
+             ng-src="{{resultDetails.ThumbImg}}" />
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary pull-right" ng-click="cancel()">Cerrar</button>
+    </div>
+</div>

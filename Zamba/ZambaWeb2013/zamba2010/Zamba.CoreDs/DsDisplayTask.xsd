@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsDisplayTask" targetNamespace="http://tempuri.org/DsDisplayTask.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DsDisplayTask.xsd" xmlns:mstns="http://tempuri.org/DsDisplayTask.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsDisplayTask" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Tareas">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Id" type="xs:int" minOccurs="0" />
+							<xs:element name="Tarea" type="xs:string" minOccurs="0" />
+							<xs:element name="Estado" type="xs:string" minOccurs="0" />
+							<xs:element name="Etapa" type="xs:string" minOccurs="0" />
+							<xs:element name="Flujo" type="xs:string" minOccurs="0" />
+							<xs:element name="Ingreso" type="xs:date" minOccurs="0" />
+							<xs:element name="Egreso" type="xs:date" minOccurs="0" />
+							<xs:element name="Inicio" type="xs:date" minOccurs="0" />
+							<xs:element name="Vencimiento" type="xs:date" minOccurs="0" />
+							<xs:element name="Creado" type="xs:date" minOccurs="0" />
+							<xs:element name="Ultima_x0020_Revision" type="xs:date" minOccurs="0" />
+							<xs:element name="Usuario" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="DsDisplayTaskKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:Tareas" />
+			<xs:field xpath="mstns:Id" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,45 @@
+﻿
+<div class="input-group">
+    <span class="input-group-addon" style="text-align:left">{{indexName}}: <label id="label_slst_{{indexId}}">{{selectedItem}}</label> </span>
+    <input type="hidden" class="form-control input-sm" value="{{targetControl}}" style="color: #090A0A;  font-weight: bold" id="zamba_index_{{indexId}}" name="zamba_index_{{indexId}}" />
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-search" style="position: relative; right: 3px;border-radius: 0px;margin-left:0px !important; background-color:white; border:1px solid #dddddd !important; " ng-click="initModal(indexId,indexName,LimitToSlst);"> <i class="fa fa-search btnBlue"></i></button>
+    </div>
+</div>
+<div id="ModalSlst_{{indexId}}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content" id="ModalSearchContent" style="margin-top:80px">
+            <div class="modal-header">
+                <button type="button" class="close closeStyleInput" data-dismiss="modal"><span class="sizeCloseAttribute" aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="modalFormTitle">Localidad</h4>
+            </div>
+            <div class="modal-body" id="modalSLST">
+                <div class="SelecRow">
+                    <input class="form-control col-xs-12 col-sm-12 col-md-8 ModalInput" type="text" ng-model="filterText" ng-change="getOptions(filterText,false)" />
+
+                    <!--<a class="BtnTrashModal" onclick="CleanInputModal()" ng-click="ShowListAfter()" ><i class="fa fa-trash-o fa-2x"></i></a>-->
+                </div>
+                <table class="table" style="">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><strong>{{indexName}}</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="typeaheadTR">
+                        <tr ng-repeat="item in listOptions" ng-click="setValueToControl(item.Value,item.Code)" class="rowCursoPointer">
+                            <td class="searchItemCode rowCursoPointer">
+                                {{item.Code}}
+                            </td>
+                            <td>
+                                {{item.Value}}
+                            <td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a ng-if="showLabelMoreResult" ng-click="getOptions(filterText,true)"><label id="searchMoreResults" style="cursor:pointer">Ver mas resultados...</label></a>
+            </div>
+        </div>
+    </div>
+</div>

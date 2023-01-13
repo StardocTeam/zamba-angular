@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<title>Item de un gasto</title>			
+		
+
+		<script type="text/javascript" language="JavaScript">
+			function SetRuleId(sender)
+			{
+				$("#hdnRuleId").name = sender.id;               
+				frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Item de la factura</strong>
+				</div>
+				<br />
+				<center>
+				<table cellpadding="4">
+					<tr>
+						<td><label>ID Comprobante:</label></td>
+						<td><input id="zamba_index_26446" name="zamba_index_26446" readonly="true" class="readonly"/></td>
+						<td class="separador"></td>
+						<td><label>Nro de Siniestro:</label></td>
+						<td><input id="zamba_index_26046" name="zamba_index_26247" readonly="true" class="readonly"/></td>
+						<td><label>Importe Asignado al Siniestro:</label></td>
+						<td><input id="zamba_index_26206" name="zamba_index_26206" readonly="true" class="readonly"/></td>
+					</tr>				
+				</table>
+				</div>							
+				<br /><hr />
+				<table style="width: 95%;">
+					<caption>Factura</caption>
+					<tr>
+						<td>
+                            <div style="overflow:auto; width: 900px">
+                                <table class="tablesorter" id="zamba_associated_documents_26037">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+</td>
+					</tr>
+				</table>
+				<br />
+				<table style="width: 95%;">
+					<caption>Siniestro</caption>
+					<tr>
+						<td>
+                            <div style="overflow:auto; width: 900px">
+                                <table class="tablesorter" id="zamba_associated_documents_26028">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+</td>
+					</tr>
+				</table>
+				
+				<div name="logoUnion" id="logoUnion">	
+					<img src="images/Union.jpg" align="left" height=50 width=70>
+				</div>
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>				
+			</form>						
+		
+	</body>
+</html>

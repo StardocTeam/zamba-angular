@@ -1,0 +1,674 @@
+<html>
+<head>
+    <script language="javascript" id="clientEventHandlersJS">
+
+function habilitarCallBack(Frm)
+ {
+    if(Frm.zamba_Index_44.value=="Venta")
+     {
+       CambiaEstilo('Callback',true);
+     }
+     else
+      {
+      CambiaEstilo('Callback',false);
+      CambiaEstilo('tblOperacion',false);
+      }
+ }
+
+function CambiaEstilo(id,x)
+{
+if(x==false)
+  {
+    document.getElementById(id).className = "oculta";
+  }
+ else
+  {
+   document.getElementById(id).className = "muestra";
+  }
+}
+
+function ver(){
+  CambiaEstilo('chkcont1',true);
+  CambiaEstilo('chkcont2',true);
+}
+
+function nover(){
+  CambiaEstilo('chkcont1',false);
+  CambiaEstilo('chkcont2',false);
+}
+
+function IsNumeric(sText)
+{
+   var ValidChars = "0123456789.";
+   var IsNumber=true;
+   var Char;
+
+
+   for (i = 0; i < sText.length && IsNumber == true; i++)
+      {
+      Char = sText.charAt(i);
+      if (ValidChars.indexOf(Char) == -1)
+         {
+         IsNumber = false;
+         }
+      }
+   return IsNumber;
+
+   }
+
+function ShowOperacion(Frm){
+ if(Frm.zamba_index_102.value=="Si")
+ {
+	  CambiaEstilo('tblOperacion',true);
+	  var cuerpo;
+	  var banco;
+	  var chkcontactoCallback;
+	  var beneficiario;
+	  banco=prompt("Ingrese el BANCO:","");
+	  beneficiario=prompt("Ingrese el nombre del Beneficiario:","");
+	  chkcontactoCallback=prompt("Ingrese el nombre del CONTACTO de CallBack","");
+	  cuerpo = "Datos Banco= " + banco + ", Beneficiario = " + beneficiario + ", Contacto Callback =" + chkcontactoCallback;
+	  Frm.txtchkcontacto.value = chkcontactoCallback;
+	  Frm.txtbeneficiario.value = beneficiario;
+	  Frm.zamba_index_93.value = banco;  
+  //location.href="mailto:callback@ar.abnamro.com?subject=Realizar CallBack de la siguiente Operacion&body="+ cuerpo;
+ }
+ else
+ {
+      CambiaEstilo('tblOperacion',false);
+ }
+}
+
+var bReadOnly = false;
+
+function ZFUNCTION()
+{	
+    if(document.forms[0].zamba_Index_44.value=="Venta")
+	{
+       CambiaEstilo('Callback',true);	
+	   if(document.forms[0].zamba_index_102.value=="Si")
+	   {
+			CambiaEstilo('tblOperacion',true);
+	   }
+	   else
+	   {		
+			CambiaEstilo('tblOperacion',false);
+	   }
+    }
+    else
+    {	
+		CambiaEstilo('Callback',false);
+		CambiaEstilo('tblOperacion',false);
+    }
+/*
+   if(document.forms[0].zamba_index_90.value != "Pasado Al Cierre")
+   {
+		var str = new String (document.getElementById("zamba_index_78").outerHTML);  
+		str =  str.substring(0,str.length-1);
+		str += " readonly=\"readonly\" >" ;
+		document.getElementById("zamba_index_78").outerHTML = str;
+   }
+	*/
+   if(document.forms[0].zamba_index_90.value == "Rechazados" ||
+	   document.forms[0].zamba_index_90.value == "Cancelados" ||
+	   document.forms[0].zamba_index_90.value == "Liquidado")
+   {	
+	   document.forms[0].disabled = true; 	   
+	   bReadOnly = true;
+   }	
+}
+
+function Validar(Frm){
+ return true;
+}
+
+function ReadOnly()
+{
+    if(bReadOnly)
+    {
+        alert("El documento esta en modo solo lectura.");
+		document.forms[0].focus;
+    }
+	
+}
+
+    </script>
+    <style>
+
+.oculta {
+ display:none;
+}
+
+.muestra {
+ display:block;
+}
+
+    </style>
+</head>
+<body>
+    <form name="Form1" method="post" onmousedown="ReadOnly()">
+	 <input type="hidden" id="zamba_index_90" name="Etapa" value=""/>
+
+        <table width="812" align="center">
+            <tbody>
+                <tr>
+                    <td width="833">
+                        <table id="TABLE6" height="56" width="830" border="1">
+                            <tbody>
+                                <tr>
+                                    <td width="823" bgcolor="#669999" height="50">
+                                        <table id="TABLE6" height="1" cellspacing="0" cellpadding="0" width="825" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="67" bgcolor="#ccffcc" height="26">
+                                                        <font face="Courier New" size="2"><b>CLIENTE:</b></font></td>
+                                                    <td width="133" bgcolor="#ccffcc" height="26">
+                                                        <select id="zamba_Index_50" style="WIDTH: 363px" size="1" name="zamba_Index_50">
+                                                        </select></td>
+                                                    <td width="1354" bgcolor="#ccffcc" colspan="3" height="26">
+                                                        <p align="right">
+                                                            <font face="Courier New" size="2"><b>NRO DE MINUTA:</b></font><font face="Arial">
+                                                            <input id="zamba_index_14" readonly="readonly" type="text" size="17" name="zamba_index_14" /></font>
+                                                        </p>
+                                                    </td>
+                                                    <td width="58" bgcolor="#ccffcc" colspan="5" height="1">
+                                                        <p align="center">
+                                                        </p>
+                                                         </td>
+                                                </tr>
+                                                <!-- T2-->
+                                                <tr>
+                                                    <td width="67" bgcolor="#ccffcc" height="33">
+                                                        <b><font face="Courier New" size="2">MONEDA:</font></b>
+                                                    </td>
+                                                    <td width="133" bgcolor="#ccffcc" height="33">
+                                                        <select id="zamba_index_49" style="WIDTH: 360px" size="1" name="zamba_index_49">
+                                                        </select>
+                                                    </td>
+                                                    <td width="296" bgcolor="#ccffcc" height="33">
+                                                        <p align="right">
+                                                            <b><font face="Courier New" size="2">IMPORTE: </font></b><font face="Arial">
+                                                            <input id="zamba_index_16" type="text" size="14" name="zamba_index_16" /></font><b><font face="Courier New" size="2"> </font></b>
+                                                        </p>
+                                                    </td>
+                                                    <td width="227" bgcolor="#ccffcc" height="33">
+                                                        <p align="left">
+                                                            <font face="Courier New" size="2"><b>OPERACION</b></font>
+                                                        </p>
+                                                        <select id="cboCallback2" style="WIDTH: 90px" onchange="habilitarCallBack(this.form)" size="1" name="zamba_Index_44">
+                                                        </select>
+                                                    </td>
+                                                    <td width="849" bgcolor="#ccffcc" height="33">
+                                                        <p align="right">
+                                                            <b><font face="Courier New" size="2"> FECHA Y HORA:</font></b><font face="Arial">
+                                                            <input id="zamba_index_100" type="text" size="17" name="txtfechahora" /></font>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- T2-->
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td width="831">
+                                        <table width="100%" border="1">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="785" bgcolor="#ffffcc">
+                                                        <table id="TABLE7" height="1057" width="814">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <!--
+											<td width="92" height="33"></td>
+											<td width="182" height="33">
+                                              <p align="center"><b><font size="2" face="Courier New">COMPRA</font></b>
+											</td>
+											<td width="110" height="33">
+                                              <p align="center"><input type="radio" name="R0" value="V11"></td>
+											<td width="181" height="33">
+                                              <p align="center"><b><font size="2" face="Courier New">VENTA</font></b></td>
+											<td width="104" height="33">
+                                                <p align="center"><input type="radio" name="R0" value="V12">
+											</td>
+											<td width="112" height="33"></td>
+										</tr>
+										<tr>
+											<td width="92" height="33"><b><font size="2" face="Courier New">MONEDA</font></b></td>
+											<td width="182" height="33"><select size="1" name="zamba_index_moneda">
+                                              </select>
+											</td>
+											<td width="110" height="33"><b><font size="2" face="Courier New">IMPORTE</font></b></td>
+											<td width="181" height="33"></FONT></td>
+											<td width="104" height="33">
+                                                <b><font size="2" face="Courier New">FECHA
+                                                Y HORA</font></b>
+											</td>
+											<td width="112" height="33"></td>
+											!-->
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="92" height="33">
+                                                                        <b><font face="Courier New" size="2">PRODUCTO</font></b></td>
+                                                                    <td width="485" height="33">
+                                                                        <select id="zamba_index_87" size="1" name="zamba_index_87">
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="208" height="33">
+                                                                        <p align="center">
+                                                                            <img height="42" src="file://aras-de012/zambaVolumenes/Checklist/logo3.gif" width="141" align="right" border="0" />
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="92" height="21">
+                                                                        <font face="Courier New" size="2"><b>CONCEPTO</b></font></td>
+                                                                    <td width="485" height="21">
+                                                                        <select id="zamba_index_48" size="1" name="zamba_index_48">
+                                                                        </select></td>
+                                                                    <td width="1" height="21">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="577" colspan="2" height="33">
+                                                                        <b><font face="Courier New" size="2">REFERENCIA BANCO</font><font face="Courier" size="2">
+                                                                        <input id="zamba_index_52" type="text" size="16" name="zamba_index_52" /></font><font face="Courier New" size="2">REFERENCIA
+                                                                        CLIENTE</font><font face="Courier" size="2"> </font></b><font face="Courier" size="2"><b>
+                                                                        <input id="zamba_index_51" type="text" size="17" name="zamba_index_51" /></b></font></td>
+                                                                    <td width="1" height="33">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="92" height="21">
+                                                                    </td>
+                                                                    <td width="485" height="21">
+                                                                    </td>
+                                                                    <td width="1" height="21">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="413" colspan="3" height="506">
+                                                                        <table id="TABLE2" height="412" width="743">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td width="121" height="262">
+                                                                                        <table id="Table1" height="152" cellspacing="1" cellpadding="1" width="337" align="left" border="1">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                    </td>
+                                                                                                    <td width="41" height="32">
+                                                                                                        <p align="center">
+                                                                                                            <font face="Courier New" size="2"><strong>VISTO</strong></font>
+                                                                                                        </p>
+                                                                                                    </td>
+                                                                                                    <td width="55" height="32">
+                                                                                                        <p align="center">
+                                                                                                            <font face="Courier New" size="2"><strong>OBS.</strong></font>
+                                                                                                        </p>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        Texto</td>
+                                                                                                    <td align="middle" width="41" height="15">
+                                                                                                        <input id="zamba_index_53S" type="radio" value="V1" name="R1" /></td>
+                                                                                                    <td align="middle" width="55" height="15">
+                                                                                                        <input id="zamba_index_53N" type="radio" value="V1" name="R1" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        <font face="Courier New" size="2">Correspondencia  c/Docs. Adjuntos </font></td>
+                                                                                                    <td align="middle" width="41" height="14">
+                                                                                                        <input id="zamba_index_54S" type="radio" value="V3" name="R2" /></td>
+                                                                                                    <td align="middle" width="55" height="14">
+                                                                                                        <input id="zamba_index_54N" type="radio" value="V4" name="R2" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        <font face="Courier New" size="2">DDJJ Impositiva </font></td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <input id="zamba_index_55S" type="radio" value="V5" name="R3" /></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <input id="zamba_index_55N" type="radio" value="V6" name="R3" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        DDJJ P. Anticipada/Vista</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <input id="zamba_index_56S" type="radio" value="V7" name="R4" /></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <input id="zamba_index_56N" type="radio" value="V8" name="R4" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        DDJJ Lavado de Dinero</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <input id="zamba_index_57S" type="radio" value="V9" name="R5" /></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <input id="zamba_index_57N" type="radio" value="V10" name="R5" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        ChkControl Compliance</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <input id="zamba_index_58S" type="radio" value="V9" name="R6" /></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <input id="zamba_index_58N" type="radio" value="V10" name="R6" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        ChkControl 4237</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <input id="zamba_index_59S" type="radio" value="V9" name="R7" /></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <input id="zamba_index_59N" type="radio" value="V10" name="R7" /></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        Firmas y Poderes</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <font face="Courier New" size="2"><strong>
+                                                                                                        <input id="zamba_index_95S" type="radio" size="6" name="R8" /></strong></font></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <font face="Courier New" size="2"><strong>
+                                                                                                        <input id="zamba_index_95N" type="radio" size="6" name="R8" /></strong></font></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        Boleto BCRA</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <font face="Courier New" size="2"><strong>
+                                                                                                        <input id="zamba_index_60S" type="radio" size="6" name="R9" /></strong></font></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <font face="Courier New" size="2"><strong>
+                                                                                                        <input id="zamba_index_60N" type="radio" size="6" name="R9" /></strong></font></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        Com. "A" 3493</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <font size="1">
+                                                                                                        <input id="zamba_index_61S" type="radio" size="6" name="R11" /></font></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <font size="1">
+                                                                                                        <input id="zamba_index_61N" type="radio" size="6" name="R11" /></font></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        Com. "A" 3608</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <font size="1">
+                                                                                                        <input id="zamba_index_62S" type="radio" size="6" name="R12" /></font></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <font size="1">
+                                                                                                        <input id="zamba_index_62N" type="radio" size="6" name="R12" /></font></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td width="223">
+                                                                                                        Com. "A" 3602</td>
+                                                                                                    <td align="middle" width="41">
+                                                                                                        <font size="1">
+                                                                                                        <input id="zamba_index_63S" onclick="nover()" type="radio" size="6" name="R13" /></font></td>
+                                                                                                    <td align="middle" width="55">
+                                                                                                        <font size="1">
+                                                                                                        <input id="zamba_index_63N" onclick="ver()" type="radio" size="6" name="R13" /></font></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td width="106" height="65">
+                                                                                        <p align="right">
+                                                                                            <font face="Courier New" size="2"><strong>
+                                                                                            <br />
+                                                                                            </strong></font>
+                                                                                        </p>
+                                                                                    </td>
+                                                                                    <td width="1" colspan="1" height="65">
+                                                                                    </td>
+                                                                                    <td width="348" height="65">
+                                                                                        <div class="oculta" id="chkcont1" style="WIDTH: 202px; HEIGHT: 20px">
+                                                                                            <p>
+                                                                                                <input id="zamba_index_98" type="checkbox" value="ON" name="Checkbox19" /><font face="Courier New" size="1">DD.JJ.
+                                                                                                FALTANTE/INCORRECTA</font>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                        <div class="oculta" id="chkcont2" style="WIDTH: 170px; HEIGHT: 20px">
+                                                                                            <p>
+                                                                                                <input id="zamba_index_99" type="checkbox" value="ON" name="Checkbox20" /><font face="Courier New" size="1">FALTA
+                                                                                                VALIDACIÓN</font>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <table id="AutoNumber3" style="BORDER-COLLAPSE: collapse" bordercolor="#111111" cellspacing="0" cellpadding="0" width="116%" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td width="45%">
+                                                                                         </td>
+                                                                                    <td width="46%">
+                                                                                         </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <table class="oculta" id="Callback" style="BORDER-COLLAPSE: collapse" bordercolor="#111111" cellspacing="0" cellpadding="0" width="115%" border="1">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td width="43%">
+                                                                                        <font face="Courier New" size="2"><b>CALL BACK:</b></font><font face="Courier" size="2"> <b>
+                                                                                        <select id="zamba_index_102" onchange="ShowOperacion(this.form)" name="zamba_index_102">
+                                                                                        </select></b></font></td>
+                                                                                    <td width="157%">
+                                                                                        <b><font face="Courier New" size="2">FECHA DE CALL:</font><font face="Courier" size="2">
+                                                                                        <input id="zamba_index_65" type="text" size="19" name="txtfechacall" /></font></b><font face="Courier" size="2"> </font></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                        <p>
+                                                                            <font face="Courier" size="2">      </font>
+                                                                        </p>
+                                                                        <table class="oculta" id="tblOperacion" style="BORDER-COLLAPSE: collapse" bordercolor="#111111" cellspacing="0" cellpadding="0" width="178%" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td width="41%">
+                                                                                        <font face="Courier New" size="2">TIPO DE OPERACION      </font></td>
+                                                                                    <td width="55%">
+                                                                                        <font face="Arial">
+                                                                                        <select id="zamba_index_80" size="1" name="zamba_index_80">
+                                                                                        </select></font></td>
+                                                                                    <td width="171%">
+                                                                                        <font style="FONT-SIZE: 2pt" face="Courier New">b</font><b><font face="Courier" size="2">Beneficiario<input id="zamba_index_96" type="text" size="13" name="txtbeneficiario" /></font></b></td>
+                                                                                    <td width="162%">
+                                                                                        <b><font face="Courier" size="2">NOMBRE CALLBACK<input id="zamba_index_97" type="text" align="center" size="13" name="txtchkcontacto" /></font></b></td>
+                                                                                    <td width="146%">
+                                                                                        <b><font face="Courier" size="2">BANCO<input id="zamba_index_93" type="text" size="11" name="zamba_index_93" /></font></b></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="413" colspan="3" height="404">
+                                                                        <table height="429" width="734">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td colspan="3" height="18">
+                                                                                        <strong><font face="Courier New" size="2">DOCUMENTACION FALTANTE:</font></strong></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="3" height="25">
+                                                                                        <table id="Table8" height="26" width="100%">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        <p align="left">
+                                                                                                            <font face="Courier New" size="2">
+                                                                                                            <input id="zamba_index_66" type="checkbox" value="ON" name="zamba_index_333" /> <font size="1">COPIA
+                                                                                                            2 - DESPACHO IMPO.</font></font>
+                                                                                                        </p>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <font face="Courier New" size="1">
+                                                                                                        <input id="zamba_index_67" type="checkbox" value="ON" name="zamba_index_67" de="de" EMBARQUE? /> PERMISO
+                                                                                                        de EMBARQUE</font></td>
+                                                                                                    <td>
+                                                                                                        <font face="Courier New" size="1">
+                                                                                                        <input id="zamba_index_68" type="checkbox" value="ON" name="zamba_index_68" /> DOC.
+                                                                                                        TRANSPORTE</font></td>
+                                                                                                    <td>
+                                                                                                        <font face="Courier New" size="1">
+                                                                                                        <input id="zamba_index_69" type="checkbox" value="ON" name="zamba_index_69" /> DESP.
+                                                                                                        SIMPLIFICADO</font></td>
+                                                                                                    <td>
+                                                                                                        <font face="Courier New" size="1">
+                                                                                                        <input id="zamba_index_92" type="checkbox" value="ON" name="zamba_index_92" /> Factura</font></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="3" height="18">
+                                                                                        <font face="Courier New" size="2"><strong>CANTIDAD DE DOCUMENTACIÓN REVISADA:</strong></font></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="3" height="66">
+                                                                                        <table id="Table9" height="26" width="728">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td align="middle" width="142">
+                                                                                                        <font face="Courier New" size="1"> DESPACHO IMPO.</font>
+                                                                                                    </td>
+                                                                                                    <td align="middle" width="148">
+                                                                                                        <font face="Courier New" size="1"> PERM. EMBARQUE</font>
+                                                                                                    </td>
+                                                                                                    <td align="middle" width="189">
+                                                                                                        <font face="Courier New" size="1">  FACTURAS</font>
+                                                                                                    </td>
+                                                                                                    <td align="middle" width="223">
+                                                                                                        <font face="Courier New" size="1"> DOC. DE TRANSPORTE</font>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td align="middle" width="142">
+                                                                                                        <p align="center">
+                                                                                                            <font face="Courier New" size="1"> </font>  <font face="Arial">
+                                                                                                            <input id="zamba_index_70" type="text" size="10" name="txtdespachoimpo" /></font>
+                                                                                                        </p>
+                                                                                                    </td>
+                                                                                                    <td align="middle" width="148">
+                                                                                                        <font face="Courier New" size="1"> </font><font face="Arial">
+                                                                                                        <input id="zamba_index_71" type="text" size="10" name="txtpermisoembarque" /></font>
+                                                                                                    </td>
+                                                                                                    <td align="middle" width="189">
+                                                                                                        <font face="Arial">
+                                                                                                        <input id="zamba_index_72" type="text" size="10" name="txtfacturas" /></font>
+                                                                                                    </td>
+                                                                                                    <td align="middle" width="223">
+                                                                                                        <font face="Arial">
+                                                                                                        <input id="zamba_index_73" type="text" size="10" name="txtdoctransporte" /></font>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="3" height="282">
+                                                                                        <table id="AutoNumber1" style="BORDER-COLLAPSE: collapse" bordercolor="#111111" cellspacing="0" cellpadding="0" width="100%" border="1">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td width="37%">
+                                                                                                        <font face="Courier New" size="2"><strong>Com.A3602 Trimestre a declarar:</strong></font></td>
+                                                                                                    <td width="63%">
+                                                                                                        <font face="Arial">
+                                                                                                        <select id="zamba_index_79" size="1" name="cbotrimestre">
+                                                                                                        </select>     </font></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                        <p>
+                                                                                            <font face="Courier New" size="2"><strong> </strong></font>
+                                                                                            <table id="AutoNumber2" style="BORDER-COLLAPSE: collapse" bordercolor="#111111" cellspacing="0" cellpadding="0" width="100%" border="1">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td width="10%">
+                                                                                                            <b><font face="Courier New" size="2">Vto. PE:</font></b></td>
+                                                                                                        <td width="14%">
+                                                                                                            <font face="Arial">
+                                                                                                            <input id="zamba_index_75" type="text" size="10" name="Text24" /></font></td>
+                                                                                                        <td width="37%">
+                                                                                                            <p align="right">
+                                                                                                                <b>Nro de Topaz :  </b>
+                                                                                                            </p>
+                                                                                                        </td>
+                                                                                                        <td width="39%">
+                                                                                                            <input id="zamba_index_78" type="text" size="22" name="T1" readonly="readonly" /> 
+                                                                                                            <p>
+                                                                                                            </p>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                        </p>
+                                                                                        <p>
+                                                                                            <font face="Courier New" size="2"><strong>OBSERVACIONES</strong></font>
+                                                                                            <br />
+                                                                                        </p>
+                                                                                        <textarea id="zamba_index_76" name="zamba_index_76" rows="7" cols="88"></textarea>
+                                                                                        <p align="center">
+                                                                                            <br />
+                                                                                            <input id="zamba_save" style="FONT-WEIGHT: bold"  type="submit" value="Guardar" 
+																							name="zamba_save" />
+                                                                                        </p>	
+                                                                                        <p>
+                                                                                            <br />
+                                                                                        </p>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <!--T3-->
+                                            </tbody>
+                                        </table>
+                                        <p align="center">
+                                            <font face="Courier New" size="2">EL PRESENTE NO DEBERA ARCHIVARSE EN EL LEGAJO DE
+                                            LA OPERACION</font>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    

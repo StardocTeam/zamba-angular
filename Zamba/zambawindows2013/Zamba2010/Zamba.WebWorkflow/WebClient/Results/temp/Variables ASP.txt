@@ -1,0 +1,165 @@
+http://www.webtaller.com/manual-asp/alcance-variables.php
+
+http://www.subgurim.net/Articulos/asp-net-general/31/viewstate.aspx
+
+Las variables globales sólo son accesibles en un mismo archivo ASP. Para hacer que una variable sea accesible en varias páginas, 
+asigne a la variable alcance de sesión o de aplicación. 
+
+ASP proporciona dos objetos integrados en los que puede almacenar variables: el objeto Session y el objeto Application. 
+
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+[[[[Session]]]]
+
+Las variables con alcance de sesión están disponibles en todas las páginas de una aplicación ASP que pida un mismo usuario. 
+
+Las variables de sesión son una buena manera de almacenar información para un único usuario, como sus preferencias o el nombre o la identificación
+del usuario. 
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+[[[[Application]]]]
+
+Las variables con alcance de aplicación están disponibles en todas las páginas de una aplicación ASP que pida cualquier usuario. 
+
+Las variables de aplicación son una buena manera de almacenar información para todos los usuarios de una determinada aplicación, como los 
+saludos específicos o los valores generales necesarios en la aplicación. 
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+[[[[ViewState]]]]
+
+Mantiene el estado de los controles de una misma página entre una ida y vuelta al servidor.
+
+Si lo queremos pensar de otra forma, el ViewState es lo mismo que una variable de Session en el ámbito de una página
+________________________________________________________________________________________________________________________________________
+________________________________________________________________________________________________________________________________________
+
+
+
+
+---------------
+---------------
+Objetos Session
+---------------
+---------------
+
+http://www.aspfacil.com/articulos/210301.asp
+
+http://msdn.microsoft.com/es-es/library/5dws599a(VS.80).aspx
+
+Content is not supported outside
+
+____________________________________________
+____________________________________________
+--------------------------------------------
+--------------------------------------------
+[[[[	[[[[	[[[[	[[[[	
+
+Id	Name	Description	Type	Path
+
+]]]]	]]]]	]]]]	]]]]
+--------------------------------------------
+--------------------------------------------
+____________________________________________
+____________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO ztempl (Id,Name,Description,type,path) VALUES (6863,'PRUEBA ULTIMA','1111111111111',1,
+
+'C:\Documents and Settings\Martin\Desktop\PRUEBA.docx')	[[[[	[[[[	]]]]	]]]]
+[[[[		]]]]
+[[[[		]]]]
+[[[[		]]]]
+[[[[		]]]]
+
+___________________________
+___________________________
+Buscar en computadora local
+___________________________
+___________________________
+
+-----------------
+-----------------
+
+Ejemplo: WCInsert
+
+Control Upload
+
+-----------------
+-----------------
+
+---------------------	]]]]
+---------------------	]]]]
+TemplatesListSelector
+---------------------	]]]]
+---------------------	]]]]
+
+<%@ Register TagPrefix="ZControls" TagName="Templates" Src="~/Controls/Insert/Templates/TemplatesListSelector.ascx" %>
+
+-----------------------------------------------
+-----------------------------------------------
+Agregar Plantilla... me aparece una ventana ...
+-----------------------------------------------
+-----------------------------------------------
+
+- Cuando hago click en el botón Agregar... me tiene que aparecer un PopUp...
+- Después de presionar "Aceptar" la plantilla debe guardarse en la base de datos y en el servidor ... y mostrarse en la propia Página Web????
+
+El tabcontainer1 contiene el
+
+	TabPanel1
+	TabPanel2
+	TabPanel3
+	-------------------------
+	TabPanel4 	Plantilla
+	-------------------------
+________________________	______________________
+________________________	______________________
+
+------------------------
+------------------------
+Plantillas de Documentos
+------------------------
+------------------------
+
+webclient ... results....		
+
+________________________	______________________
+________________________	______________________

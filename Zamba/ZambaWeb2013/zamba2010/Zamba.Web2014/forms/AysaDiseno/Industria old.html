@@ -1,0 +1,590 @@
+<html>
+<head>
+    <title>Industria</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet">
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet">
+
+    <script src="Industria.js" type="text/javascript" language="JavaScript"></script>
+
+    <script type="text/javascript" src="DroplistFilter.js"></script>
+
+    <script type="text/javascript" src="jquery.validate.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+
+    <script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}			
+
+			function zamba_save_onclick(){
+				$("#hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_1214');
+				makeCalendar('zamba_index_1207');
+				makeCalendar('zamba_index_1215');
+				addDroplistFilter("zamba_index_1189");
+				$('#frmMain').validate();
+        });					
+
+				
+    </script>
+
+    <style type="text/css">
+        .style1
+        {
+            width: 119px;
+        }
+        .style2
+        {
+            width: 178px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <form id="frmMain" name="frmMain" method="post" action="">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div name="design" id="design">
+            <strong>Industria</br>Datos Generales</strong>
+        </div>
+        <br />
+        
+            <div class="tabber">
+                <div class="tabbertab">
+                    <h2>
+                        Inf. General</h2>
+                    <p>
+                        <table cellpadding="4">
+                            <tr>
+                                <td class="style2">
+                                    <label>
+                                        CIC:</label>
+                                </td>
+                                <td>
+                                    <select id="zamba_index_1220" name="zamba_index_1220" style="width: 175px;">
+                                    </select>
+                                </td>
+                                <td class="style1">
+                                    <label>
+                                        Fecha de alta:
+                                    </label>
+                                </td>
+                                <td>
+                                    <input id="zamba_index_1214" name="zamba_index_1214" size="28" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style2">
+                                    <label>
+                                        Segmentacion:
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" name="zamba_index_1218" readonly="true" class="readonly" size="50" />
+                                </td>
+                                <td class="style1">
+                                    <label>
+                                        Estado:
+                                    </label>
+                                </td>
+                                <td>
+                                    <select id="zamba_index_1211" name="zamba_index_1211" style="width: 175px;">
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style2">
+                                    <label>
+                                        Raz&oacuten Social:</label>
+                                </td>
+                                <td>
+                                    <input type="text" name="zamba_index_1188" size="50" class="required" />
+                                </td>
+                                <td class="style1">
+                                    <label>
+                                        Codificacion de la industria:</label>
+                                </td>
+                                <td>
+                                    <input id="zamba_index_1187" name="zamba_index_1187" size="28" />
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellpadding="4" width="100%">
+                            <tr>
+                                <td style="padding: 10px 0 10px 0" colspan="6">
+                                    <hr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <font face="Tahoma" size="2"><u>Ubicaci&oacuten</u></font>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="tabber">
+                            <div class="tabbertab">
+                                <h2>
+                                    Inf. General</h2>
+                                <table cellpadding="4">
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Region:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <select id="zamba_index_1181" name="zamba_index_1181" style="width: 184px;">
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Distrito:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <select id="zamba_index_1183" name="zamba_index_1183" style="width: 184px;">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Calle:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1192" name="zamba_index_1192" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Numero:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1193" name="zamba_index_1193" size="30" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Localidad:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1202" name="zamba_index_1202" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Cod. Postal:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1203" name="zamba_index_1203" size="30" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Telefono:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1190" name="zamba_index_1190" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Contacto:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1191" name="zamba_index_1191" size="30" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tabbertab">
+                                <h2>
+                                    Direcciones alternativas</h2>
+                                <table cellpadding="4">
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Calle Alternativa 1:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1194" name="zamba_index_1194" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Numero Alternativo 1:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1195" name="zamba_index_1195" size="30" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Calle Alternativa 2:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1196" name="zamba_index_1196" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Numero Alternativo 2:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1197" name="zamba_index_1197" size="30" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Calle Alternativa 3:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1198" name="zamba_index_1198" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Numero Alternativo 3:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1199" name="zamba_index_1199" size="30" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Calle Alternativa 4:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1201" name="zamba_index_1201" size="30" />
+                                        </td>
+                                        <td>
+                                            <label>
+                                                Numero Alternativo 4:
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input id="zamba_index_1202" name="zamba_index_1202" size="30" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <table cellpadding="4" width="100%">
+                            <tr>
+                                <td style="padding: 10px 0 10px 0" colspan="6">
+                                    <hr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <font face="Tahoma" size="2"><u>Actividad</u></font>
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellpadding="4">
+                            <tr>
+                                <td>
+                                    <label>
+                                        Tipo de Industria:
+                                    </label>
+                                </td>
+                                <td>
+                                    <select id="zamba_index_1185" name="zamba_index_1185" style="width: 365px;">
+                                    </select>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Tipo de Actividad:
+                                    </label>
+                                </td>
+                                <td>
+                                    <select id="zamba_index_1189" name="zamba_index_1189" style="width: 365px;">
+                                    </select>
+                                </td>
+                                <td>
+                                    <label>
+                                        Cod. tipo Actividad:
+                                    </label>
+                                </td>
+                                <td>
+                                    <input id="zamba_index_1186" name="zamba_index_1186" size="28" readonly="true" class="readonly" />
+                                    <input id="zamba_rule_7657" style="text-align: center; margin-right: 25px;" type="submit"
+                                        class="submit" value="Mostrar Codigo" name="zamba_rule_7657" onclick="SetRuleId(this);" />
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellpadding="4" width="100%">
+                            <tr>
+                                <td style="padding: 10px 0 10px 0" colspan="6">
+                                    <hr>
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td class="style2">
+                                    <label>
+                                        Fecha de Baja:</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="zamba_index_1215" name="zamba_index_1215" size="50" />
+                                </td>
+                                <td class="style1">
+                                    <label>
+                                        Tipo de Baja:</label>
+                                </td>
+                                <td>
+                                    <select id="zamba_index_1216" name="zamba_index_1216" style="width: 175px;">
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </p>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        FHV</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td class="style2">
+                                <label>
+                                    FHV:</label>
+                            </td>
+                            <td>
+                                <select id="zamba_index_1205" name="zamba_index_1205" style="width: 185px;">
+                                </select>
+                            </td>
+                            <td class="style1">
+                                <label>
+                                    Nro FHV:
+                                </label>
+                            </td>
+                            <td>
+                                <input id="zamba_index_1206" name="zamba_index_1206" size="28" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                <label>
+                                    Fecha Ingreso:
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" id="zamba_index_1207" name="zamba_index_1207" size="30" />
+                            </td>
+                            <td class="style1">
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                <label>
+                                    Autorizacion de Vuelco:</label>
+                            </td>
+                            <td>
+                                <select id="zamba_index_1219" name="zamba_index_1219" style="width: 185px;">
+                                </select>
+                            </td>
+                            <td class="style1">
+                                <label>
+                                    Nro Autorizacion:</label>
+                            </td>
+                            <td>
+                                <input id="zamba_index_1210" name="zamba_index_1210" size="28" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="style2">
+                                <label>
+                                    Caudal FHV m3/h:</label>
+                            </td>
+                            <td>
+                                <input id="zamba_index_1212" name="zamba_index_1212" size="28" />
+                            </td>
+                            <td class="style1">
+                                <label>
+                                    Caudal FHV m3/dia:</label>
+                            </td>
+                            <td>
+                                <input id="zamba_index_1213" name="zamba_index_1213" size="28" />
+                            </td>
+                        </tr>
+                    </table>
+                    </p>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        Inspecciones</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Inspecciones asociadas a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_3" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        Conexiones de Agua</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Conexiones de agua asociados a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_4" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        Conexiones a Cloaca</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Conexiones asociadas a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_7" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        Microcuenca</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Microcuencas asociadas a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_9" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        MacroCuenca</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Macrocuencas asociadas a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_8" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabbertab">
+                    <h2>
+                        Documentación Asociada</h2>
+                    <table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentaciones asociadas a la Industria:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_11" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </br>
+                <div name="logoAysa" id="logoAysa">
+                    <img src="../../forms/images/Aysa.bmp" align="left" height="50" width="70">
+                </div>
+                <div name="logozamba" id="logozamba">
+                    <img src="../../forms/images/pwbyzamba.jpg">
+                </div>
+        </form>
+    </div>
+</body>
+</html>

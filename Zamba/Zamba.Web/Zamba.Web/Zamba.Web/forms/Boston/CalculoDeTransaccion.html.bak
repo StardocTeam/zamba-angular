@@ -1,0 +1,168 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: GR--> 
+<!--Fecha Modificacion: 17.03.2022-->
+<!--Modificacion Realizada: Cambio de posicion de todos los campos. Se ajusto el Form para que sea responsive-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+
+    <script src="CalculoDeTransaccion.js?v=21"></script>
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="CalculoDeTransaccion.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />          
+
+            <div id="tblRubro" >
+
+                <div class="form-group row">                  
+                    <div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Fecha de Transacción</span>
+                            <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold " id="zamba_index_2812" name="zamba_index_2812"
+                                   onblur="valFecha(this)">
+                        </div>
+                    </div>
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">ID Reclamo</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold " id="zamba_index_2677" name="zamba_index_2677"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+				</div>               
+
+                <div class="form-group row">
+					<div class="col-md-2"></div>					
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Capital $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2744" name="zamba_index_2744">
+                        </div>
+                    </div>					
+					 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Letrado Req. $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2813" name="zamba_index_2813">
+                        </div>
+                    </div>
+				</div>	
+				
+				<div class="form-group row">
+					<div class="col-md-2"></div>				
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Letrado Cia $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_2814" name="zamba_index_2814">
+                        </div>
+                    </div>
+					
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Mediador $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2815" name="zamba_index_2815">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Peritos $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2816" name="zamba_index_2816">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">			
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Tasa de Justicia $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2817" name="zamba_index_2817">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Otros Gastos $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2818" name="zamba_index_2818">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Copia Convenio</span>
+                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold " id="zamba_index_2819"
+                                    name="zamba_index_2819"></select>
+                        </div>
+                    </div>                    
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Fecha Recepción Convenio</span>
+                            <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold " id="zamba_index_2820" name="zamba_index_2820"
+                                   onblur="valFecha(this)">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Total de Transacción $</span>
+                            <input class="form-control input-sm moneda ZDecimal" style=" color: #090A0A; font-weight: bold " id="zamba_index_2719" name="zamba_index_2719"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit"
+                       onclick="return zamba_save_onclick_DocInsertModal(event);" value="Guardar" />
+
+                <div class=" row col-xs-12"><h4> Aca podes agregar el convenio de transaccion</h4></div>
+            </center>
+            <div class="row">
+
+                <div class="col-xs-12" ng-controller="appController" style="height: 180px">
+                    <zamba-drop id="2550"> </zamba-drop>
+                </div>
+            </div>
+            <div class=" row"> </div>
+
+
+            <div class=" row">
+                <div class="col-md-12 col-xs-12">
+                    <div>
+                        <div id="ComprobantesAsociadas" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="2550" default-enable-mode="grid" table-height="400" grid-title="Convenio Transaccion"></zamba-associated>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class=" row"> </div>
+
+            <center>
+                <div class="col-md-2" style="position:relative;left:20px;">
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:gray">CalculoDeTransaccion.html</span>
+                </div>
+
+            </center>
+        </form>
+    </div>
+</body>
+
+</html>

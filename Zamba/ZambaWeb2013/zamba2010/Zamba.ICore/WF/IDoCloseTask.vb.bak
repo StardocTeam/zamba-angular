@@ -1,0 +1,9 @@
+﻿Public Interface IDoCloseTask
+    Inherits IRule
+    Property TaskId() As String
+    Property CloseParent() As Boolean
+
+    Property RefreshParent() As Boolean
+
+
+End Interface

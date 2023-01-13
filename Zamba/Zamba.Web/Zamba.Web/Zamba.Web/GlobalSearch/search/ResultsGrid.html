@@ -1,0 +1,1573 @@
+﻿<!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+<!--<link rel="stylesheet" type="text/css" media="screen" href="../../src/assets/css/smartadmin-production-plugins.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../src/assets/css/smartadmin-production.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../src/assets/css/smartadmin-skins.min.css">-->
+<!--<div class="row" style="margin-top: 70px; display:none">
+    <div class="form-group col-lg-10 ">
+        <label class="label label-default" style="margin-left:10px">Buscar</label>
+        <input type="text" ng-model="searchGridText" id="searchGridText" ng-change="FilterGrid()" class="form-control" placeholder="Ingresa tu busqueda" />
+    </div>
+</div>-->
+
+
+<nav class="navbar navbar-expand-lg navbar-resultsGrid" style="margin-bottom:0px !important ;" id="ToolbarResults">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="display:none">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="navbar-collapse" id="navbarSupportedContent" style="margin-bottom: 10px; margin-top: 0 !important;">
+        <!--<label>Seleccion</label>-->
+        <form class="form-inline toolbarKendoGrid" id="KendoGridButtons">
+
+
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="form-inline" style="display: inline; ">
+                        <button class='hidden-xs btn btn-primary glyphicon glyphicon-arrow-left' id='showpanel' role='button' onclick='ShowAtributtesPanel()' title="Ir a busqueda"></button>
+
+                        <div ng-show="currentMode == 'MyTasks'" style="display: inline; ">
+                            <span class="button-checkbox" ng-show="ShowchkMyTasks == true">
+                                <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckMyTasks();' style="padding: 4px 4px 4px 4px">{{MyTasksText}}</button>-->
+                                <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckMyTasks();' style="padding: 4px 4px 4px 4px"><span class="fa fa-user"></span> <span class="hidden-xs">{{MyTasksText}}</span></button>
+
+                                <input type='checkbox' id="chkMyTasks" class="form-check-input hidden" ng-init='checkStatus=true' ng-model='chkMyTasks' ng-click='ValidateCheckMyTasks();'>
+
+                            </span>
+                            <span class="button-checkbox" ng-show="ShowchkViewAllMy == true">
+                                <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckAllMy();' style="padding: 4px 4px 4px 4px">{{AllTasksText}}</button>-->
+                                <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckAllMy();' style="padding: 4px 4px 4px 4px"><span class="fa fa-tasks"></span> <span class="hidden-xs">{{AllTasksText}}</span></button>
+                                <input type='checkbox' id="chkViewAllMy" class="form-check-input hidden" ng-init='checkStatus=false' ng-model='chkViewAllMy' ng-click='ValidateCheckAllMy();'>
+
+                            </span>
+
+                            <span class="button-checkbox" ng-show="ShowchkMyAllTeam == true">
+                                <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckMyAllTeam();' style="padding: 4px 4px 4px 4px">{{MyAllTeamTasksText}}</button>-->
+                                <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckMyAllTeam();' style="padding: 4px 4px 4px 4px"><span class="fa fa-user"></span> <span class="fa fa-group"></span> <span class="hidden-xs">{{MyAllTeamTasksText}}</span></button>
+                                <input type='checkbox' id="chkMyAllTeam" class="form-check-input hidden" ng-init='checkStatus=false' ng-model='chkMyAllTeam' ng-click='ValidateCheckMyAllTeam();'>
+                            </span>
+
+                            <span class="button-checkbox" ng-show="ShowchkMyTeam == true">
+                                <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckMyTeam();' style="padding: 4px 4px 4px 4px">{{MyTeamTasksText}}</button>-->
+                                <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckMyTeam();' style="padding: 4px 4px 4px 4px"><span class="fa fa-users"></span> <span class="hidden-xs">{{MyTeamTasksText}}</span></button>
+                                <input type='checkbox' id="chkMyTeam" class="form-check-input hidden" ng-init='checkStatus=false' ng-model='chkMyTeam' ng-click='ValidateCheckMyTeam();'>
+                            </span>
+
+                            <!--<span class="button-checkbox" ng-repeat="view in RestrictionsViews  " >
+                                <button type="button" class="btn" data-color="warning" ng-click='RestrictionsViewClick(view);' style="padding: 4px 4px 4px 4px">{{view.Name}}</button>
+                                <input type='checkbox' class="form-check-input hidden" ng-init='checkStatus=false' ng-model='view' ng-click='RestrictionsViewClick(view);'>
+                            </span>-->
+                            <!--<span>
+                                <button type="button" class="btn btn-primary btn-sm"   title="Acciones">Acciones</button>
+                            </span>-->
+                        </div>
+
+                        <span ng-if="Search.SearchResultsObject.views.length <= 3 && currentMode == 'MyTasks'">
+
+                            <span ng-repeat="view in Search.SearchResultsObject.views" ng-init="$last ? updateCheckDisplay() : angular.noop()" ng-cloak>
+                                <span class="button-checkbox-entities" ng-if="Search.AsignedTasks">
+                                    <button type="button" class="btn  btn-basic btn-sm btn-disabled" ng-class="view.viewClass" data-color="warning" style="padding: 4px 4px 4px 4px" ng-click="handleViewCheck(view)">{{view.name}} <!--({{view.ResultsCount}})-->  </button>
+                                    <input id="{{ 'chkv-' + view.id | toid }}" type='checkbox' class="form-check-input hidden" ng-click="handleViewCheck(view)" ng-init='checkStatus=false' ng-model="view.enabled"
+                                           value=""
+                                           ng-disabled="!view.enable">
+                                </span>
+                                <strong ng-if="!Search.AsignedTasks">Mostrando:</strong>
+                                <span ng-if="!Search.AsignedTasks"> {{entity.name}} | </span>
+                            </span>
+                        </span>
+                        <!--<multiselect class="input-xlarge multiselect" ng-model="vm.option1" options="p.key as p.value for p in vm.options1" select-limit="5"
+                                     header="Select Stuff1" selected-header="options selected" multiple="true" required
+                                     enable-filter="true" filter-placeholder="Filter stuff..">
+                        </multiselect>-->
+                        <span ng-if="Search.SearchResultsObject.views.length > 4 && currentMode == 'MyTasks'">
+                            <multiselect class="input-xlarge multiselect" ng-model="Search.SearchResultsObject.selectedView" options="view.id as view.name for view in Search.SearchResultsObject.views" select-limit="20"
+                                         header="Seleciona una Vista" selected-header="vista: " multiple="false" required nombrefuncion="ViewUpdatDisplayJS"
+                                         enable-filter="true" filter-placeholder="Buscar.." id="ViewSelect">
+                            </multiselect>
+                        </span>
+
+                        <button id="btnshowfilters" type="button" class="remove-all-icon btn btn-default " ng-click="toggleLeft(); clearFilterShow();" title="Mostrar filtros" data-toggle="modal" data-target="#ModalFilters">
+                            <i class=" fa fa-filter"></i>
+                            <div id="CountFilter" style="display:none" class="FilterBtnClass">
+                                <!--<button name="dis" class="btn btn-success" style="text-align:center; ">
+                                    <div style="color: white">
+                                        <p style="margin-bottom: 0px;">
+                                            No hay resultados.
+                                        </p>
+                                    </div>
+                                </button>-->
+                                <a class="EstiloFiltro" data-toggle="modal" data-target="">
+                                    <span id="TextFilter" style="padding-right: 12px;padding-left: 12px;"> Filtros seleccionados:  </span>
+                                    <!--<span class="SpanFiltro">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </span>-->
+                                </a>
+
+                            </div>
+                        </button>
+
+                        <!--<button id="btnshowfilters" class="remove-all-icon btn btn-default fa fa-filter" title="Mostrar filtros" ng-click="ShowHideFilters(this);"></button>-->
+                        <!-- Modal -->
+                        <div class="modal fade" id="ModalFilters" role="dialog">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <center><h4 class="modal-title">Aplicar filtros</h4></center>
+                                    </div>
+                                    <div class="modal-body">
+
+
+                                        <div id="panelViews" class="panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-title"> Vistas</div>
+                                            </div>
+                                            <div class="">
+
+                                                <div ng-show="Search.AsignedTasks == true" style="display: inline; ">
+                                                    <span class="button-checkbox" ng-show="ShowchkMyTasks == true">
+                                                        <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckMyTasks();' style="padding: 4px 4px 4px 4px">{{MyTasksText}}</button>-->
+                                                        <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckMyTasks();' style="padding: 4px 4px 4px 4px"><span class="fa fa-user"></span> <span class="hidden-xs">{{MyTasksText}}</span></button>
+
+                                                        <input type='checkbox' id="chkMyTasks" class="form-check-input hidden" ng-init='checkStatus=true' ng-model='chkMyTasks' ng-click='ValidateCheckMyTasks();'>
+
+                                                    </span>
+                                                    <span class="button-checkbox" ng-show="ShowchkViewAllMy == true">
+                                                        <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckAllMy();' style="padding: 4px 4px 4px 4px">{{AllTasksText}}</button>-->
+                                                        <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckAllMy();' style="padding: 4px 4px 4px 4px"><span class="fa fa-tasks"></span> <span class="hidden-xs">{{AllTasksText}}</span></button>
+                                                        <input type='checkbox' id="chkViewAllMy" class="form-check-input hidden" ng-init='checkStatus=false' ng-model='chkViewAllMy' ng-click='ValidateCheckAllMy();'>
+
+                                                    </span>
+
+                                                    <span class="button-checkbox" ng-show="ShowchkMyAllTeam == true">
+                                                        <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckMyAllTeam();' style="padding: 4px 4px 4px 4px">{{MyAllTeamTasksText}}</button>-->
+                                                        <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckMyAllTeam();' style="padding: 4px 4px 4px 4px"><span class="fa fa-user"></span> <span class="fa fa-group"></span> <span class="hidden-xs">{{MyAllTeamTasksText}}</span></button>
+                                                        <input type='checkbox' id="chkMyAllTeam" class="form-check-input hidden" ng-init='checkStatus=false' ng-model='chkMyAllTeam' ng-click='ValidateCheckMyAllTeam();'>
+                                                    </span>
+
+                                                    <span class="button-checkbox" ng-show="ShowchkMyTeam == true">
+                                                        <!--<button type="button" class="btn" data-color="warning" ng-click='ValidateCheckMyTeam();' style="padding: 4px 4px 4px 4px">{{MyTeamTasksText}}</button>-->
+                                                        <button type="button" class="btn" data-color="warning" ng-click='ResetFilters();ValidateCheckMyTeam();' style="padding: 4px 4px 4px 4px"><span class="fa fa-users"></span> <span class="hidden-xs">{{MyTeamTasksText}}</span></button>
+                                                        <input type='checkbox' id="chkMyTeam" class="form-check-input hidden" ng-init='checkStatus=false' ng-model='chkMyTeam' ng-click='ValidateCheckMyTeam();'>
+                                                    </span>
+
+                                                    <!--<span class="button-checkbox" ng-repeat="view in RestrictionsViews  " >
+                                                        <button type="button" class="btn" data-color="warning" ng-click='RestrictionsViewClick(view);' style="padding: 4px 4px 4px 4px">{{view.Name}}</button>
+                                                        <input type='checkbox' class="form-check-input hidden" ng-init='checkStatus=false' ng-model='view' ng-click='RestrictionsViewClick(view);'>
+                                                    </span>-->
+                                                    <!--<span>
+                                                        <button type="button" class="btn btn-primary btn-sm"   title="Acciones">Acciones</button>
+                                                    </span>-->
+                                                </div>
+
+                                                <span ng-if="Search.SearchResultsObject.views.length <= 3">
+
+
+
+                                                    <span ng-repeat="view in Search.SearchResultsObject.views" ng-init="$last ? updateCheckDisplay() : angular.noop()" ng-cloak>
+                                                        <span class="button-checkbox-entities" ng-if="Search.AsignedTasks">
+                                                            <button type="button" class="btn btn-basic btn-sm btn-disabled" ng-class="view.viewClass" data-color="warning" style="padding: 4px 4px 4px 4px" ng-click="handleViewCheck(view)">{{view.name}} <!--({{view.ResultsCount}})-->  </button>
+
+
+
+                                                            <input id="{{ 'chkv-' + view.id | toid }}" type='checkbox' class="form-check-input hidden" ng-click="handleViewCheck(view)" ng-init='checkStatus=false' ng-model="view.enabled"
+                                                                   value=""
+                                                                   ng-disabled="!view.enable">
+                                                        </span>
+
+                                                        <strong ng-if="!Search.AsignedTasks">Mostrando:</strong>
+
+                                                        <span ng-if="!Search.AsignedTasks"> {{entity.name}} | </span>
+
+                                                    </span>
+                                                </span>
+                                                <!--<multiselect class="input-xlarge multiselect" ng-model="vm.option1" options="p.key as p.value for p in vm.options1" select-limit="5"
+                                                             header="Select Stuff1" selected-header="options selected" multiple="true" required
+                                                             enable-filter="true" filter-placeholder="Filter stuff..">
+                                                </multiselect>-->
+
+                                                <span ng-if="Search.SearchResultsObject.views.length > 4">
+                                                    <multiselect class="input-xlarge multiselect" ng-model="Search.SearchResultsObject.selectedView" options="view.id as view.name for view in Search.SearchResultsObject.views" select-limit="20"
+                                                                 header="Seleciona una Vista" selected-header="vista: " multiple="false" required nombrefuncion="ViewUpdatDisplayJS"
+                                                                 enable-filter="true" filter-placeholder="Buscar.." id="ViewSelect">
+                                                    </multiselect>
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-title"> Entidades</div>
+                                            </div>
+                                            <div class="">
+
+
+                                                <div class="col-xs-12">
+
+                                                    <div id="searchinfo" style="display: inline;  color: white ">
+
+
+                                                        <span ng-repeat="entity in Search.SearchResultsObject.entities" ng-init="$last ? updateCheckDisplay() : angular.noop()" ng-cloak>
+                                                            <span class="button-checkbox-entities" ng-if="Search.AsignedTasks && entity.ResultsCount > 0">
+                                                                <button type="button" class="btn btn-sm" data-color="info" style="padding: 4px 4px 4px 4px" ng-click="handleEntityCheck(entity)">{{entity.name}}  <span class="badge">{{entity.ResultsCount}}</span>  </button>
+                                                                <input id="{{ 'chke-' + entity.name | toid }}" type='checkbox' class="form-check-input hidden" ng-click="handleEntityCheck(entity)" ng-init='checkStatus=true' ng-model="entity.enabled"
+                                                                       value=""
+                                                                       ng-disabled="EntitiesCheckEnable">
+                                                            </span>
+                                                            <!--<span class="button-checkbox" ng-show="ShowchkMyTasks == true">
+                                                                <button type="button" class="btn" data-color="primary" ng-click='ValidateCheckMyTasks();'>{{MyTasksText}}</button>
+                                                                <input type='checkbox' id="chkMyTasks" class="form-check-input hidden" ng-init='checkStatus=true' ng-model='chkMyTasks' ng-click='ValidateCheckMyTasks();'>
+                                                            </span>-->
+                                                            <!--<label class="checkbox-inline" ng-if="Search.AsignedTasks">
+                                                                <input id="{{ 'chke-' + entity.name | toid }}"
+                                                                       type="checkbox"
+                                                                       ng-model="entity.enabled"
+                                                                       value=""
+                                                                       ng-change="handleEntityCheck()"
+                                                                       ng-disabled="EntitiesCheckEnable"> {{entity.name}}
+                                                            </label>-->
+
+                                                            <strong ng-if="!Search.AsignedTasks">Mostrando:</strong>
+
+                                                            <span ng-if="!Search.AsignedTasks"> {{entity.name}} | </span>
+
+
+
+                                                        </span>
+
+                                                        <!--<span ng-repeat="search in Search.SearchResultsObject.filters">
+                                                            <span class=""><strong> {{search.Name}}</strong></span> : <span class=""> {{search.Value}}</span> |
+                                                        </span>-->
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="panel" style="display:none">
+                                            <div class="panel-heading">
+                                                <div class="panel-title"> Etapas</div>
+                                            </div>
+                                            <div class="">
+
+                                                <div class="" style="display:block">
+
+                                                    <span id="ui-multiselect">
+                                                        <ui-select ng-model="Search.StepId" style="display:inline;" on-select="StepSelected($item, $model)" theme="bootstrap">
+
+                                                            <ui-select-match placeholder="Seleccione una Etapa...">
+                                                                {{$select.selected.Name}}
+                                                            </ui-select-match>
+
+                                                            <ui-select-choices group-by="'WFName'" repeat="step.ID as step in (Steps | filter: $select.search)">
+
+                                                                <span ng-bind-html="step.Name | highlight: $select.search"></span>
+                                                                (<span ng-bind-html="step.Count | highlight: $select.search"></span>)
+
+                                                            </ui-select-choices>
+
+                                                        </ui-select>
+
+                                                        <button id="btnclear" type="button" ng-click="ClearStepSelected();" class="btn btn-default">
+                                                            <span class="glyphicon glyphicon-trash"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="panel">
+                                            <div class="panel-heading"><div class="panel-title"> Atributos</div></div>
+                                            <div class="">
+
+
+                                                <div class="" id="FiltersPanel" style="display:block">
+                                                    <div class=" col-sm-12 FiltersPanel">
+                                                        <filters-grid></filters-grid>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <center> <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button></center>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--<button type="button" class="btn btn-success" onclick="viewBar()"><i class="fa fa-chart-line"></i>Reportes</button>
+                    <button type="button" class="btn btn-success" onclick="viewBarJS()"><i class="fa fa-chart-pie"></i>Panel de Control</button>-->
+
+                </div>
+            </div>
+            <div class="row hidden-xs">
+                <div class="col-xs-12">
+
+                    <div id="searchinfo" style="display: inline;  color: white ">
+
+
+                        <span ng-repeat="entity in Search.SearchResultsObject.entities" ng-init="$last ? updateCheckDisplay() : angular.noop()" ng-cloak>
+                            <span class="button-checkbox-entities" ng-if="Search.AsignedTasks && entity.ResultsCount > 0">
+                                <button type="button" class="btn  btn-sm" data-color="info" style="padding: 4px 4px 4px 4px" ng-click="handleEntityCheck(entity)">{{entity.name}}  <span class="badge">{{entity.ResultsCount}}</span>  </button>
+                                <input id="{{ 'chke-' + entity.name | toid }}" type='checkbox' class="form-check-input hidden" ng-click="handleEntityCheck(entity)" ng-init='checkStatus=true' ng-model="entity.enabled"
+                                       value=""
+                                       ng-disabled="EntitiesCheckEnable">
+                            </span>
+                            <!--<span class="button-checkbox" ng-show="ShowchkMyTasks == true">
+                                <button type="button" class="btn" data-color="primary" ng-click='ValidateCheckMyTasks();'>{{MyTasksText}}</button>
+                                <input type='checkbox' id="chkMyTasks" class="form-check-input hidden" ng-init='checkStatus=true' ng-model='chkMyTasks' ng-click='ValidateCheckMyTasks();'>
+                            </span>-->
+                            <!--<label class="checkbox-inline" ng-if="Search.AsignedTasks">
+                                <input id="{{ 'chke-' + entity.name | toid }}"
+                                       type="checkbox"
+                                       ng-model="entity.enabled"
+                                       value=""
+                                       ng-change="handleEntityCheck()"
+                                       ng-disabled="EntitiesCheckEnable"> {{entity.name}}
+                            </label>-->
+
+                            <strong ng-if="!Search.AsignedTasks">Mostrando:</strong>
+
+                            <span ng-if="!Search.AsignedTasks"> {{entity.name}} | </span>
+
+
+
+                        </span>
+
+                        <!--<span ng-repeat="search in Search.SearchResultsObject.filters">
+                            <span class=""><strong> {{search.Name}}</strong></span> : <span class=""> {{search.Value}}</span> |
+                        </span>-->
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+        </form>
+
+
+
+    </div>
+</nav>
+
+<!--<div id="ToolbarResults" class="row" id="FiltersPanel" style="display:none">
+    <div class="hidden-xs col-sm-12 FiltersPanel">
+        <filters-grid></filters-grid>
+    </div>
+</div>-->
+
+<nav id="resultsGridActions" class="navbar navbar-expand-lg navbar-resultsGridActions" style="margin-bottom:0px !important ;margin-top: 0; min-height: 30px ">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="display:none">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-top: 6px !important;">
+        <!--<label>Seleccion</label>-->
+        <form class="form-inline toolbarKendoGrid" id="KendoGridButtons">
+
+            <div class="row">
+                <div class="col-md-6" style="bottom: 9px; top: 0px;">
+                    <label class="switch" style="display:none">
+                        <input type='checkbox' id="chkThumbGrid" ng-init='checkStatus=false;' ng-model='checkStatus' ng-click='MultipleSelection(checkStatus)'>
+                        <span class="slider round"></span>
+                    </label>
+
+                    <div style="margin-top: -39px; margin-left: 70px; margin-bottom: 6px;">
+
+
+                        <div id="Actions">
+                            <!--<button type="button" class="BtnClearCheckbox btn btn-primary  btn-xs glyphicon glyphicon-unchecked" title="Reestablecer Seleccionados" ng-click="ClearSelectedChecksBox()" style="display:none !important;cursor:pointer;font-size:30px;border-radius:90%;position:relative;bottom:2px;margin-right:3px" id="BtnClearCheckbox"> </button>-->
+
+                            <button type="button" class="OpenAllSelected btn btn-primary  btn-xs glyphicon glyphicon-new-window" title="Abrir Tareas" ng-click="OpenMultipleTask()" style="display:inline;position:relative;cursor:pointer;font-size:30px;border-radius:90%;bottom:2px;margin-right:3px;margin-left:10px" id="OpenAllSelected"></button>
+
+                            <button type="button" data-toggle="modal" data-target="#ModalSendZip" title="Enviar Mail" style="display:inline;cursor:pointer;font-size:30px;position:relative;bottom:2px;border-radius:90%;margin-right:3px" class=" BtnSendEmail btn btn-primary  btn-xs glyphicon glyphicon-envelope" ng-click="" id="BtnSendEmail"></button>
+
+                            <button type="button" data-toggle="modal" data-target="#ModalSendMailZip" title="Enviar ZIP" style="display: inline;cursor:pointer;font-size:30px;bottom:2px;border-radius:90%;margin-right:3px" class=" BtnSendZip btn btn-primary  btn-xs 	fa fa-file-archive-o" ng-click="" id="BtnSendZip"></button>
+
+                            <button type="button" title="Descargar ZIP" style="display: inline;cursor:pointer;font-size:30px;bottom:2px;border-radius:90%;margin-right:3px" class="BtnDownloadZip btn btn-primary  btn-xs 	fa fa-file-archive-o" ng-click="" id="BtnDownloadZip"></button>
+
+
+                            <div id="taskController" ng-controller="TaskController" style="display: inline;">
+
+                                <button type="button" onclick="OpenDeriveModal1(); GetUsers1(); GetGroups1();" title="Derivar tareas" class="btn btn-xs Marginbutton2 btn-primary fa fa-user" style="display: inline;cursor:pointer;font-size:30px;bottom:2px;border-radius:90%;margin-right:3px" id="BtnDerivar"></button>
+
+                                <ul id="panel_ruleActions" style="display: inline;">
+                                    <li ng-show="rules.length > 0" style="display: inline">
+                                        <button id={{rule.ButtonId}} stepid="{{rule.StepId}}" href="#" ng-repeat="rule in rules" ng-click="executeAcctionGrid(rule)" class="btn btn-success actionRule" style="margin-right:10px; display:none">
+                                            {{rule.Caption}}
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-md-6" style="bottom: 9px;">
+
+
+                    <div id="VisualButtonsBar" style="text-align:right; float: right;">
+                        <div class="row">
+                            <button ng-show="Search.SearchResultsObject.total > 0" type="button" id="BtnExportToExcel" data-toggle="modal" onclick="toogleMyModal()" title="Exportar a Excel" class="btn btn-xs Marginbutton2" style="cursor:pointer; font-size:30px;border:none;outline:none">
+                                <img src="../../Content/Images/icons/3.png" style="width:32px;height:30px;border:0"><img />
+                            </button>
+                            <button style="" type="button" class="ActualizarResultados btn btn-primary" onclick="RefreshCurrentResults()" id="MyTasksAnchor" title="Actualizar resultados"><i class="fa fa-refresh"></i></button>
+
+                            <span ng-if="Search.SearchResultsObject.total > 0 && Search.SearchResultsObject.total < 100">
+                                {{Search.SearchResultsObject.total}} <span> resultados</span>
+                            </span>
+                            <span ng-if="Search.SearchResultsObject.total >= 100" class="gsResultsCount">
+                                {{Search.SearchResultsObject.total}} <span> resultados</span>
+                            </span>
+                            <span ng-if="Search.SearchResults == undefined || Search.SearchResults.length == 0">
+                                No hay resultados
+                            </span>
+
+                            <button name="dis" class="btn btn-success" style="text-align:center; " ng-click="LoadMoreResults()" ng-show="Search.SearchResultsObject.total > 0">
+                                <div style="color: white">
+                                    <p ng-if="Search.SearchResultsObject.total >= 100" class="gsResultsCount">
+                                        <span> mas resultados </span>
+                                    </p>
+                                </div>
+                            </button>
+                            <!--Previsualizar-->
+                            <a ng-href="" id="visualizerModeGS" ng-click="visualizerModeGSFn(this,'preview');" title="Cambiar a modo Previsualizar" role="button" data-toggle="button" aria-pressed="false" class="btn-info btn-preview">
+                                <span class="remove-all-icon fa fa-eye" style="margin:10px;"> </span>
+                            </a>
+                            <!--Thumbs-->
+                            <a ng-href="" id="visualizerModeGS" ng-click="visualizerModeGSFn(this,'thumbs');" title="Cambiar a modo Iconos grandes" role="button" data-toggle="button" aria-pressed="false" class="btn-info btn-thumb">
+                                <span class="remove-all-icon fa fa-th" style="margin:10px;"> </span>
+                            </a>
+                            <!--Lista-->
+                            <!--<a ng-href="" id="visualizerModeGS" ng-click="visualizerModeGSFn(this,'list');" title="Cambiar a modo Lista" role="button" data-toggle="button" aria-pressed="false" class="btn-info">
+                                <span class="remove-all-icon fa fa-th-list" style="margin:10px;"> </span>
+                            </a>-->
+                            <!--Grilla-->
+                            <a ng-href="" id="visualizerModeGS" ng-click="visualizerModeGSFn(this,'grid');" title="Cambiar a modo Grilla" role="button" data-toggle="button" aria-pressed="false" class="btn-info btn-grid">
+                                <span class="remove-all-icon fa fa-list" style="margin:10px;"> </span>
+                            </a>
+                            <!-- Trigger the modal with a button -->
+                            <!--<button type="button" class=" btn-info  btn btn-circle-sm pull-right" style="position: relative;top: 6px;" onclick="OpenHelp('../../forms/marsh/manuales/Manual_de_Usuario_Zamba_Web.pdf', 'Mis Tareas');"><i class="fa fa-question"></i></button>-->
+                        </div>
+                        <!--<div class="row">
+
+                        </div>-->
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </form>
+
+
+
+    </div>
+</nav>
+
+
+<!--Grilla-->
+<div id="resultsGridSearchGrid" style="display:none">
+
+
+    <div id="Kgrid"></div>
+    <!--<a href="#" ng-click="MultipleSelect()" class="btn BtnMulti">Seleccion Multiple</a>-->
+    <!--<input id="toggle" ng-change="getCheckedFalse(this)" type="checkbox" >-->
+    <!--<input type="checkbox" ng-click="getCheckedTrue(this)" />-->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-center">Cantidad de registros a exportar</h4>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <p>Elija una opción:</p>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" checked onchange="disableQuantityField()">Todos</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" id="radio-elegircantidad" onchange="enableQuantityField()">Elegir cantidad</label><input type="number" class="form-control" placeholder="Cantidad" aria-describedby="basic-addon1" id="quantityToExport" style="display:none" />
+                    </div>
+                </div>
+                <div class="alert alert-danger" id="errorMessageModalExcelExport" style="display:none">
+                    <strong>Error!</strong> Ingrese un valor numérico y vuelva a intentarlo.
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Exportar</button>-->
+                    <button type="button" class="btn btn-default" onclick="executeExportToExcelBySelectedOption()">Exportar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div id="ModalSendZip" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form name="formMail" ng-submit="SendEmail(inputs)">
+                <div class="modal-body">
+                    <!--<div data-ng-controller="appController">
+
+                        <input type="text" ng-model="selected" typeahead="item as item.CustomerName for item in Customer | filter:$viewValue | limitTo:5"
+                               typeahead-min-length=2 typeahead-wait-ms="1" typeahead-on-select='onSelect($item, $model, $label)'
+                               typeahead-input-formatter="formatInput($model)">
+                    </div>-->
+                    <div class="form-group">
+                        <label>Para</label>
+                        <!-- ng-list=","  volver a poner-->
+                        <input class="form-control input-sm EmailInput" name="destinatario"
+                               ng-model="inputs.for" required id="destinatario" />
+                        <div ng-messages="formMail.destinatario.$error" style="color:maroon" role="alert">
+                            <div ng-message="required"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CC</label>
+                        <!-- ng-list=","  volver a poner-->
+                        <input class="form-control input-sm EmailInput" name="cc" id="cc"
+                               ng-model="inputs.cc" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>CCO</label>
+                        <!-- ng-list=","  volver a poner-->
+                        <input class="form-control input-sm EmailInput" name="cco" id="cco"
+                               ng-model="inputs.cco" />
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Asunto </label>
+                        <input id="asunto" class="form-control input-sm EmailInput" ng-model="inputs.subject" />
+                    </div>
+
+                    <textarea id="cuerpoMensaje" name="cuerpoMensaje" style="width:567px; height:100px;" class="form-body EmailInput" ng-model="inputs.MessageBody"></textarea>
+                    <input id="addListLinks" type="checkbox" name="addListLinks" ng-model="inputs.addListLinks"> Agregar link a documento<br>
+                    <!--<div title="Se enviárá con correo de usuario.">
+                        <input type="checkbox" name="FromType" class="EmailInput"  ng-model="inputs.fromType">Agregar remitente<br />
+                    </div>-->
+
+
+                </div>
+
+                <div class="modal-footer" style=" padding: 7px">
+                    <span class="loadersmall" style="display:none"></span>
+                    <input id="btnMailZipSubmit" class="btn btn btn-default" type="submit" value="Enviar">
+                    <button id="btnMailZipMailClose" type="button" class="btn btn-default cancelMailZipButton" data-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!-- Envio de zip -->
+<div id="ModalSendMailZip" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form name="formZip" ng-submit="SendZip(zipInputs)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Para</label>
+                        <input class="form-control input-sm zipinput" name="destinatario"
+                               ng-model="zipInputs.for" required />
+                        <div ng-messages="formZip.destinatario.$error" style="color:maroon" role="alert">
+                            <div ng-message="required"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CC</label>
+                        <input class="form-control input-sm zipinput" name="destinatario"
+                               ng-model="zipInputs.cc" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>CCO</label>
+                        <input class="form-control input-sm zipinput" name="destinatario"
+                               ng-model="zipInputs.cco" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Asunto </label>
+                        <input class="form-control input-sm zipinput" ng-model="zipInputs.subject" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre ZIP (Opcional)</label>
+                        <input class="form-control input-sm zipinput" placeholder="Archivo" ng-model="zipInputs.zipName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input class="form-control input-sm zipinput" ng-model="zipInputs.zipPasswd" />
+                    </div>
+
+                    <textarea name="cuerpoMensaje" style="width:567px; height:100px;" class="form-body zipinput" ng-model="zipInputs.MessageBody"></textarea>
+
+
+
+                    <!--<textarea name="cuerpoMensaje" style="width:567px; height:100px;" class="form-body" ng-model="inputs.MessageBody" oninvalid="this.setCustomValidity('Campo obligatorio.')" oninput="setCustomValidity('')" required></textarea>
+                    <div ng-messages="formMail.cuerpoMensaje.$error" style="color:maroon" role="alert">
+                        <div ng-message="required"></div>
+                    </div>-->
+
+                </div>
+                <style>
+                    .loader {
+                        border: 9px solid #f3f3f3;
+                        border-radius: 50%;
+                        border-top: 9px solid #3498db;
+                        width: 90px;
+                        height: 90px;
+                        animation: spin 2s linear infinite;
+                        margin-left: 40%;
+                    }
+                </style>
+                <div class="loader" ng-show="sendIsLoading"></div>
+                <div class="modal-footer" style=" padding: 7px">
+                    <span class="loadersmall" style="display:none"></span>
+
+
+                    <input id="btnZipMailSubmit" class="btn btn btn-default" type="submit" value="Enviar">
+                    <button id="btnZipMailClose" type="button" class="btn btn-default cancelMailZipButton" data-dismiss="modal">Cerrar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!--Grilla tipo lista-->
+<div on-scroll="scrollHdlr($direct,$event)" id="resultsGridSearchBox" style="display:none">
+
+    <div class="resultsGrid" ng-repeat="result in Search.SearchResults  track by $index" ng-class-odd="'alt'">
+        <div class="row" style="margin-left:0; font-size:12px;">
+            <div class="col-xs-7 col-sm-2 photo">
+                <img ng-if="result.THUMB!=null" class="document-photo" style="right:0" ng-src="data:image/jpeg;base64,{{result.THUMB}}" />
+                <img ng-if="result.ThumbImg!=null" class="document-photo" style="right:0" ng-src="{{result.ThumbImg}}" />
+                <img ng-if="result.THUMB==null && result.ThumbImg==null" class="document-photo" style="right:0" ng-src="../../Content/{{result.Icon}}" />
+            </div>
+            <div class="col-xs-10 details">
+                <div class="row" ng-click="Opentask($index); HideGBModal($event, $index);" style="padding:0;">
+                    <div class="col-xs-12" style="padding:0;">
+                        <span class="document-name">
+                            <span class="ngtitle" title="Ver tarea: {{result.Tarea}}" data-placement="right" data-toggle="tooltip" style="line-height:1;display:inline-block;">{{result.Tarea}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row" ng-click="Opentask($index); HideGBModal($event, $index);" style="padding:0;">
+                    <div class="col-xs-9" style="padding:0;">
+                        <span class="document-entity ngtitle" title="Indice: {{result.Entidad}}" data-placement="right" data-toggle="tooltip" style="font-weight: bolder;line-height: 12px;    display: inline-block;">{{result.Entidad}}</span>
+                    </div>
+                    <div class="col-xs-3">
+                        <a class="document-index ngtitle" title="Más info" data-toggle="tooltip" data-placement="right" ng-click="ShowIndexs($index)">Ver más Info</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <div class="col-xs-3">
+                            <div class="row">
+                                <span class="glyphicon glyphicon-user glypResult"> </span>
+                                <span class="document-dates ngtitle" data-placement="right" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                            </div>
+                            <div class="row">
+                                <!--ng-if="result.State!=''">-->
+                                <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                <span class="document-dates ngtitle" data-placement="right" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} <span ng-if="result.State!='' && result.State!=undefined && result.State!=null">({{result.State}})</span></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="row">
+                                <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                                <span class="document-dates ngtitle" data-placement="left" data-toggle="tooltip" title="Fecha de Creacion: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                            <div class="row">
+                                <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                <span class="document-dates ngtitle" data-placement="left" data-toggle="tooltip" title="Ultima modificacion: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="multipleSelectionMenu" class="multipleSelectionMenu" style="display:none; border-radius:20%">
+    <div class="icon-bar icon-bar-Grid" style="border-radius: 6px;">
+        <a class="activeButtonIconBar hoverRemoved" ng-click="resetMultipleSelection()">
+            Modo Selección
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+
+        <a class="glyphicon glyphicon-envelope envelopeStyle hoverRemoved" data-toggle="modal" data-target="#ModalSendZip" ng-click="SendEmailFromThumbsGrid()" style="text-decoration:none;" title="Enviar Mail">
+        </a>
+
+        <!--<a class="glyphicon glyphicon-option-vertical verticalOptionStyle hoverRemoved" title="Opciones" ng-click="optionClick()" style="text-decoration:none;">
+        </a>-->
+
+
+    </div>
+</div>
+
+<!--Vista thumbs-->
+<div on-scroll="scrollHdlr($direct,$event)" id="resultsGridSearchBoxThumbs" style="display:none">
+
+    <div class="resultsGrid img-thumbnail " ng-repeat="result in Search.SearchResults  track by $index" style=" max-width:150px; display:inline-block; margin:0.5%; position: relative; font-size: 12px;">
+
+        <!--<span ng-show="result.USER_ASIGNED == Search.UserId && result.LEIDO == 0" title="No Leido" class="fa fa-exclamation notReadIcon"></span>-->
+        <span ng-show="result.ShowUnread" title="No Leido" class="fa fa-exclamation notReadIcon"></span>
+        <span class="ngtitle document-name" title="Ver tarea: {{result.Name}}" data-placement="bottom" data-toggle="tooltip">
+            <span class="ngtitle" title="Ver tarea: {{result.Name}}" data-placement="top" data-toggle="tooltip" style="line-height:1;display:inline-block;">{{result.Tarea}}</span>
+        </span>
+
+        <div class="photo">
+
+            <!--Si no hay thumbs muestra icono-->
+            <img style="max-height: 225px; " ng-if="result.THUMB==null && result.ThumbImg==null" ng-click="Opentask($index);HideGBModal($event, $index);" class="document-photo-thumbs" ng-src="../../Content/{{result.Icon}}" />
+
+            <!--Thumb de la base-->
+            <img style="max-height:225px; height:0" ng-if="result.THUMB!==null" ng-click="Opentask($index);HideGBModal($event, $index);" class="document-photo-thumbs" ng-src="data:image/jpeg;base64,{{result.THUMB}}" />
+
+            <!--Thumb en FileSystem-->
+            <img style="max-height: 225px; height:0" ng-if="result.ThumbImg!==null && result.THUMB==null" ng-click="Opentask($index);HideGBModal($event, $index);" class="document-photo-thumbs" ng-src="{{result.ThumbImg}}" />
+
+            <!--Botones thumb-->
+            <div id="btnDetailsContainer">
+                <span title="Más info" class="glyphicon glyphicon-info-sign" onclick="ShowThumbInfoGS(this);"></span>
+                <span title="Agrandar" mode="normal" class="glyphicon glyphicon-zoom-in" onclick="thumbZoom(this);"></span>
+                <span class="glyphicon glyphicon-ok-circle" ng-click="showSeletionModeByCkeck($event, $index);"></span>
+            </div>
+
+        </div>
+
+        <div id="ShowThumbDetails" style="display:none;padding: 5%;">
+            <hr style="margin:0" />
+            <div ng-click="Opentask($index);HideGBModal($event, $index);">
+                <div>
+                    <span class="document-name-details">
+                        <span style="display:inline-block;">{{result.Tarea}}</span>
+                    </span>
+                </div>
+                <div>
+                    <span class="document-entity ngtitle" title="Indice: {{result.Entidad}}" data-placement="top" data-toggle="tooltip" style="font-weight: bolder;line-height: 12px;    display: inline-block;">{{result.Entidad}}</span>
+                </div>
+                <div>
+                    <a class="document-index ngtitle" title="Más info" data-placement="top" data-toggle="tooltip" ng-click="ShowIndexs($index)" onclick="$('#searchResultModalGS').modal().draggable();">Ver más info</a>
+                </div>
+                <div>
+                    <ul style="list-style-type: none; ">
+                        <li>
+                            <span class="glyphicon glyphicon-user glypResult"> </span>
+                            <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                        </li>
+                        <li>
+                            <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                            <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Fecha de Creacion: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <ul style="list-style-type: none;">
+                                <li>
+                                    <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                    <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} <span ng-if="result.State!='' && result.State!=undefined && result.State!=null">({{result.State}})</span></span>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                    <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Ultima modificacion: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--Vista preview-->
+<div id="resultsGridSearchBoxPreview" class="row">
+    <!--style="display:none"-->
+    <div class="col-xs-12 col-md-10" style="height:100%">
+        <div class="row" style="height:100%">
+
+            <div id="DocumentViewerFromSearch" style="height: auto; display: none" ng-controller="DocumentViewerController">
+                <zamba-document-viewer class="iframeClassPDF" openFirstDoc_onResultsGrid="true" onlyMsg="true" id="DocumentViewerIFrame"></zamba-document-viewer>
+            </div>
+            <div id="previewDocSearchPanel" style="height: 100%; display: none">
+                <iframe id="previewDocSearch" style="height: 600px; width: 100%;" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+            </div>
+            <!--<iframe id="previewDocSearch" style="height: 600px; width: 100%; display:none"  src="../../NGTemplates/PDFViewer/viewer.html"></iframe>-->
+            <!--<iframe id="previewDocSearch" style="height: 100%; width: 100%;" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>-->
+        </div>
+    </div>
+    <div id="multipleSelectionPreview" style="display:none">
+        <div class="icon-bar icon-bar-Grid-preview" style="border-radius: 6px;">
+            <a class="activeButtonIconBar hoverRemoved hoverRemoved" ng-click="resetMultipleSelectionPreview()">
+                Modo Selección
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            <a class="glyphicon glyphicon-envelope envelopeStyle hoverRemoved" data-toggle="modal" data-target="#ModalSendZip" ng-click="SendEmailFromThumbsGrid()" style="text-decoration:none;" title="Enviar Mail">
+            </a>
+        </div>
+    </div>
+    <div on-scroll="scrollHdlr($direct,$event)" class="col-md-2 previewListItems hidden-xs" style="height:100%">
+        <div class="resultsGrid" ng-repeat="result in Search.SearchResults  track by $index" ng-class="{'resultsGridActive': result.NGSelectedRow}" style="display:inline-block; padding-bottom:0; margin-bottom: 10px; position:relative;">
+            <!--<span ng-show="result.USER_ASIGNED == Search.UserId && result.LEIDO == 0" title="No Leido" class="fa fa-exclamation notReadIconPreview"></span>-->
+            <span ng-show="result.ShowUnread" title="No Leido" class="fa fa-exclamation notReadIconPreview"></span>
+
+            <div style="margin-left:0; font-size: 12px;">
+
+                <div class="">
+
+                    <div class="photo">
+                        <!--<img ng-if="result.THUMB==null && result.ThumbImg==null" ng-click="previewItem_ForDocumentViewer(result, $index, $event)" class="document-photo-thumbs" ng-src="../../Content/{{result.Icon}}" />-->
+                        <img ng-if="result.THUMB==null && result.ThumbImg==null" ng-click="previewItem(result, $index, $event)" class="document-photo-thumbs" ng-src="../../Content/{{result.Icon}}" />
+
+                        <img ng-if="result.THUMB!=null" ng-click="previewItem(result, $index,$event)" class="document-photo-thumbs" ng-src="data:image/jpeg;base64,{{result.THUMB}}" style="height:0" />
+
+                        <img ng-if="result.ThumbImg!==null && result.THUMB==null" ng-click="previewItem(result, $index,$event)" class="document-photo-thumbs" ng-src="{{result.ThumbImg}}" style="height:0" />
+
+                        <div id="btnDetailsContainerPreview">
+                            <span mode="normal" data-placement="bottom" data-toggle="tooltip" class="glyphicon glyphicon-download ngtitle" style="font-size:25px" title="Descargar Archivo" ng-click="DownloadFile($index)"></span>
+                            <span class="glyphicon glyphicon-new-window ngtitle" data-placement="bottom" data-toggle="tooltip" style="font-size:25px" title="Abrir tarea" ng-click="Opentask($index)"></span>
+                            <span class="glyphicon glyphicon-ok-circle ngtitle" data-placement="bottom" data-toggle="tooltip" style="font-size:25px" ng-click="showSeletionModeByPreview($event, $index);" title="Modo selección"></span>
+                        </div>
+
+                        <div onclick="ShowThumbInfoGS(this);" class="ngtitle" title="Ver informacion" data-placement="bottom" data-toggle="tooltip" style="margin-top: 5px;display:flex;width: 100%;">
+                            <span class="glyphicon glyphicon-info-sign" style="font-size:20px;top:-4px;">
+                            </span>
+                            <span class="document-name-preview">
+                                {{result.Tarea}}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div id="ShowThumbDetails" style="display:none;padding: 5%;">
+                        <div ng-click="HideGBModal($event, $index);">
+                            <!--ng-click="Opentask($index)"-->
+                            <div>
+                                <span class="document-name-details">
+                                    <span style="display:inline-block;">{{result.Tarea}}</span>
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="document-entity ngtitle" title="Indice: {{result.Entidad}}" data-placement="top" data-toggle="tooltip" style="font-weight: bolder;line-height: 12px;    display: inline-block;">{{result.Entidad}}</span>
+                            </div>
+                            <div>
+                                <a class="document-index ngtitle" title="Más info" data-placement="top" data-toggle="tooltip" ng-click="ShowIndexs($index)" onclick="$('#searchResultModalGS').modal().draggable();">Ver más info</a>
+                            </div>
+                            <div>
+                                <ul style="list-style-type: none; ">
+                                    <li>
+                                        <span class="glyphicon glyphicon-user glypResult"> </span>
+                                        <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Asignado: {{result.AsignedTo}}">{{result.AsignedTo}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="glyphicon glyphicon-time glypResult" ng-if="result.Creado!=null"> </span>
+                                        <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Fecha de Creacion: {{result.Creado | date:'dd/MM/yyyy'}}">{{result.Creado  | date:'dd/MM/yyyy'}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <ul style="list-style-type: none;">
+                                            <li>
+                                                <span class="glypResult glyphicon glyphicon-tasks glypResult"> </span>
+                                                <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Etapa: {{result.Step}}">{{result.Step}} <span ng-if="result.State!='' && result.State!=undefined && result.State!=null">({{result.State}})</span></span>
+                                            </li>
+                                            <li>
+                                                <span class="glyphicon glyphicon-edit glypResult" ng-if="result.Modificado!=null"> </span>
+                                                <span class="document-dates ngtitle" data-placement="top" data-toggle="tooltip" title="Ultima modificacion: {{result.Modificado | date:'dd/MM/yyyy'}}">{{result.Modificado | date:'dd/MM/yyyy'}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="back-to-top" title="Ir arriba" data-placement="left" data-toggle="tooltip">
+    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-chevron-up"></span></button>
+</div>
+
+<div class="modal fade" id="searchResultModalGS" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:10px;">
+                <h4 class="modal-title" id="myModalSRLabel" style="float:left;">{{Result.Tarea}}</h4>
+                <button type="button" class="btn btn-default" style="float:right;" data-dismiss="modal">Cerrar</button>
+            </div>
+            <div class="modal-body" style="padding:0;">
+                <div class="col-xs-10">
+                    <ul>
+                        <li style="list-style: none;" ng-repeat="index in Result.Indexs" ng-show="index.Data != ''">
+                            <p style="margin-bottom: 0;">
+                                <b>{{index.Name}}</b>:  <span ng-show="index.dataDescription != ''">{{index.dataDescription}}</span>
+                                <span ng-show="index.dataDescription == ''">{{index.Data}}</span>
+                            </p>
+                        </li>
+                    </ul>
+                    <div ng-if="Result.NoIndex.length>0" class="noIndex">{{Result.NoIndex}}</div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:5px;">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Trigger the modal with a button -->
+<!-- Modal -->
+<div class="modal fade" id="ModalDerivar" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="lblDerivar" class="modal-title text-center">Derivar</h4>
+            </div>
+            <div class="col-md-12 TamaDiv">
+                <div class="col-md-6">
+                    <h4 class="text-center">Usuarios</h4>
+                    <input type="text" id="SearchUsers" class="form-control" placeholder="Buscar Usuarios" autocomplete="off">
+                    <br />
+
+                    <div class="list-group Users ScrollDiv">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-center">Grupos</h4>
+                    <input type="text" id="SearchGoups" class="form-control" placeholder="Buscar Grupos" autocomplete="off">
+                    <br />
+                    <div class="list-group Groups ScrollDiv">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style=" padding: 7px">
+                <span class="loadersmall" style="display: none"></span>
+                <h4 class="modal-title text-center">Observaciones</h4>
+                <textarea rows="3" id="deriveMessage" class="form-control TextAreaDerivar" placeholder="Mensaje a enviar..."></textarea>
+                <button type="button" class="btn btn-primary derive" ng-click="DeriveTasks();">Derivar</button>
+                <button type="button" class="btn btn-primary closeModal" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+
+        $("#SearchUsers").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".Users a").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        $("#SearchGoups").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".Groups a").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        $('.slider').tooltip({ title: "Seleccion", placement: "right" });
+
+        $(".slider.round").each(function () {
+            $(this).on("click", function () {
+                var scope_taskController = angular.element($("#taskController")).scope();               
+                window.localStorage.setItem("AR|" + GetUID(), JSON.stringify(scope_taskController.getResultsGridActions()));
+            });
+        });
+
+        $('#OpenAllSelected').css('display', 'inline');
+        $('#BtnSendEmail').css('display', 'inline');
+        $('#BtnSendZip').css('display', 'inline');
+        $('#BtnDownloadZip').css('display', 'inline');
+        // $('#BtnClearCheckbox').css('display', 'inline');
+
+        $('.button-checkbox').each(function () {
+            var $widget = $(this),
+                $button = $widget.find('button'),
+                $checkbox = $widget.find('input:checkbox'),
+                color = $button.data('color'),
+                settings = {
+                    on: {
+                        icon: 'fa fa-check'
+                    },
+                    off: {
+                        icon: 'fa fa-square-o'
+                    }
+                };
+
+            //$button.on('click', function () {
+            //    $checkbox.prop('checked', !$checkbox.is(':checked'));
+            //    $checkbox.triggerHandler('change');
+            //    updateDisplay($checkbox);
+            //});
+
+            $checkbox.on('change', function () {
+                updateDisplay($checkbox);
+            });
+
+            function updateDisplay() {
+                try {
+
+                    var isChecked = $checkbox.is(':checked');
+                    // Set the button's state
+                    $button.data('state', (isChecked) ? "on" : "off");
+
+                    // Set the button's icon
+                    $button.find('.state-icon')
+                        .removeClass()
+                        .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                    // Update the button's color
+                    if (isChecked) {
+                        $button
+                            .removeClass('btn-basic')
+                            .addClass('btn-' + color + ' active');
+                    }
+                    else {
+                        $button
+                            .removeClass('btn-' + color + ' active')
+                            .addClass('btn-basic');
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+
+            }
+
+            function init() {
+                updateDisplay();
+                // Inject the icon if applicable
+                if ($button.find('.state-icon').length == 0) {
+                    $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                }
+            }
+            init();
+        });
+
+
+    });
+
+
+
+    //function validateMail(destinatario) {
+    //    //Creamos un objeto
+    //    object = document.getElementById(destinatario);
+    //    valueForm = object.value;
+
+    //    // Patron para el correo
+    //    var patron = /([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/;
+    //    if (valueForm.search(patron) == 0) {
+    //        //Mail correcto
+
+    //        object.style.color = "#000";
+    //        return;
+    //    }
+    //    //Mail incorrecto
+    //    object.style.color = "#f00";
+    //}
+
+    //function validateMailCC(cc) {
+    //    //Creamos un objeto
+    //    object = document.getElementById(cc);
+    //    valueForm = object.value;
+
+    //    // Patron para el correo
+    //    var patron = /([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/;
+    //    if (valueForm.search(patron) == 0) {
+    //        //Mail correcto
+
+    //        object.style.color = "#000";
+    //        return;
+    //    }
+    //    //Mail incorrecto
+    //    object.style.color = "#f00";
+    //}
+
+    //function validateMailCCO(cco) {
+    //    //Creamos un objeto
+    //    object = document.getElementById(cco);
+    //    valueForm = object.value;
+
+    //    // Patron para el correo
+    //    var patron = /([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/;
+    //    if (valueForm.search(patron) == 0) {
+    //        //Mail correcto
+
+    //        object.style.color = "#000";
+    //        return;
+    //    }
+    //    //Mail incorrecto
+    //    object.style.color = "#f00";
+    //}
+    //$('#btnMailZipSubmit').click(function () {
+
+    //    expr = /([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/;
+    //    if (!expr.test(email))
+    //        toastr.error("Error: La dirección de correo " + email + " es incorrecta.");
+    //});
+
+    function RefreshCurrentResults() {
+        var scope_entitieController = angular.element($("#VisualButtonsBar")).scope();
+        scope_entitieController.RefreshCurrentResults();
+    }
+
+    $('#btnMailZipSubmit').click(function () {
+        var d = document.getElementById("destinatario").value;
+        var cc = document.getElementById("cc").value;
+        var cco = document.getElementById("cco").value;
+
+        var expr = /([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/;
+
+        if (!expr.test(d))
+            toastr.error("Error: La dirección de correo es incorrecta.");
+
+        if (cc != "") {
+            if (!expr.test(cc))
+                toastr.error("Error: La dirección de correo CC es incorrecta.");
+        }
+
+        //if (!expr.test($('#cc').val()))
+        //    toastr.error("Error: La dirección de correo CC es incorrecta.");
+
+        if (cco != "") {
+            if (!expr.test(cco))
+                toastr.error("Error: La dirección de correo CCO es incorrecta.");
+        }
+        //else {
+        //    toastr.error("wawaw.");
+        //}
+
+
+    });
+
+    function viewBarJS(sender) {
+        //var ReportId = sender.id;
+        var User = getElementFromQueryString("User");
+        window.open('https://bpm.provinciaseguros.com.ar/zamba.dash/#/dashboard?User=' + User + '', "_blank");
+    }
+
+    function GetGroups1() {
+        $(".Groups").empty();
+        var eia = window.localStorage.getItem('TaskFilterConfig-' + GetUID());
+        var eia = JSON.parse(eia);
+        var stepId = eia.UserId;
+
+        var data;
+        if (window.localStorage) {
+            var localUserGroupsByStepId = window.localStorage.getItem('localUserGroupsByStepId' + stepId);
+            if (localUserGroupsByStepId != undefined && localUserGroupsByStepId != null && localUserGroupsByStepId != "null") {
+                try {
+                    data = JSON.parse(localUserGroupsByStepId);
+
+                } catch (e) {
+                    console.log(e);
+                    data = LoadlocalUserGroupsByStepIdFromDB1(stepId);
+                }
+            }
+            else {
+                data = LoadlocalUserGroupsByStepIdFromDB1(stepId);
+            }
+        }
+        else {
+            data = LoadlocalUserGroupsByStepIdFromDB1(stepId);
+        }
+        if (data != undefined && data != null) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i] !== null && data[i] !== undefined) {
+                    $(".Groups").append('<a onclick="selectUserItem1(this)" href="#" data-userId="' + data[i]._id + '" class="list-group-item GruposUsuarios"> ' + data[i]._name + '</a>')
+                }
+            }
+        }
+    }
+
+
+    function LoadlocalUserGroupsByStepIdFromDB1(stepId) {
+        var serviceBase = ZambaWebRestApiURL;
+        try {
+            if (stepId > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: serviceBase + '/Tasks/GetGroups?stepId=' + stepId,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (window.localStorage) {
+                            try {
+
+                                window.localStorage.setItem('localUserGroupsByStepId' + stepId, JSON.stringify(data));
+                            } catch (e) {
+
+                            }
+                            if (data != undefined) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i] !== null && data[i] !== undefined) {
+                                        $(".Groups").append('<a onclick="selectUserItem1(this)" href="#" data-userId="' + data[i]._id + '" class="list-group-item GruposUsuarios"> ' + data[i]._name + '</a>')
+                                    }
+                                }
+                            }
+                        }
+                        return data;
+                    }
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    function GetUsers1() {
+        $(".Users").empty();
+        var eia = window.localStorage.getItem('TaskFilterConfig-' + GetUID());
+        var eia = JSON.parse(eia);
+        var stepId = eia.UserId;
+
+        var data;
+        if (window.localStorage) {
+            var localUsersByStepId = window.localStorage.getItem('localUsersByStepId' + stepId);
+            if (localUsersByStepId != undefined && localUsersByStepId != null && localUsersByStepId != "null") {
+                try {
+                    data = JSON.parse(localUsersByStepId);
+
+                } catch (e) {
+                    console.log(e);
+                    data = LoadlocalUsersByStepIdFromDB1(stepId);
+                }
+            }
+            else {
+                data = LoadlocalUsersByStepIdFromDB1(stepId);
+            }
+        }
+        else {
+            data = LoadlocalUsersByStepIdFromDB1(stepId);
+        }
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i] !== null && data[i] !== undefined) {
+                $(".Users").append('<a onclick="selectUserItem1(this)" href="#" data-userId="' + data[i]._id + '" class="list-group-item GruposUsuarios"> '
+                    + data[i]._name + '</a>')
+            }
+        }
+
+    }
+    function LoadlocalUsersByStepIdFromDB1(stepId) {
+        var serviceBase = ZambaWebRestApiURL;
+        $.ajax({
+            type: "POST",
+            url: serviceBase + '/Tasks/GetUsers?stepId=' + stepId,
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var retData = data
+                if (data != null) {
+                    if (window.localStorage) {
+                        try {
+                            window.localStorage.setItem('localUsersByStepId' + stepId, JSON.stringify(data));
+                        } catch (e) {
+                        }
+
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i] !== null && data[i] !== undefined) {
+                                $(".Users").append('<a onclick="selectUserItem1(this)" href="#" data-userId="' + data[i]._id + '" class="list-group-item GruposUsuarios"> '
+                                    + data[i]._name + '</a>')
+                            }
+                        }
+                        GetGroups1();
+                    }
+                }
+                return retData;
+            }
+        });
+    };
+    function selectUserItem1(_this) {
+        if ($(_this).hasClass("selectedUser")) {
+            $(_this).removeClass("selectedUser");
+        }
+        else {
+            $(".selectedUser").removeClass("selectedUser");
+            $(_this).addClass("selectedUser");
+        }
+
+        var lblderivar = "Derivar a ";
+        lblderivar += $(_this)[0].text;
+        $('#lblDerivar')[0].textContent = lblderivar;
+    };
+
+    function OpenDeriveModal1() {
+        $("#ModalDerivar").modal();
+    }
+
+
+    function tempo() {
+        var a = $("[ng-click='previewItem_ForDocumentViewer(result, $index, $event)']")[0];
+        if (a != undefined && $($("[ng-click='previewItem_ForDocumentViewer(result, $index, $event)']")[0]).hasClass("SelectedDocumentClass") == false) {
+            $($("[ng-click='previewItem_ForDocumentViewer(result, $index, $event)']")[0]).addClass("SelectedDocumentClass");
+            a.click();
+
+        }
+
+    }
+
+
+    setInterval(function () { tempo() }, 5000)
+
+
+
+
+</script>
+
+<style>
+
+    /*AngularJs Multiselect*/
+    .select2 > .select2-choice.ui-select-match {
+        /* Because of the inclusion of Bootstrap */
+        height: 29px;
+    }
+
+    .selectize-control > .selectize-dropdown {
+        top: 36px;
+    }
+
+    #ui-multiselect .ui-select-container {
+        display: inline-block !important;
+        width: 300px !important;
+        top: 13px !important;
+    }
+
+    #ui-multiselect input.form-control.ui-select-search {
+        width: 300px !important;
+    }
+
+    #ui-multiselect .ui-select-choices.ui-select-choices-content.ui-select-dropdown.dropdown-menu {
+        overflow: scroll !important;
+    }
+
+    #ui-multiselect .btn.btn-default.form-control.ui-select-toggle {
+        width: 100% !important;
+    }
+
+    #ui-multiselect #btnclear {
+        margin-left: -4px;
+    }
+
+    .SpanFiltro {
+        background: #61bd4f;
+        border-radius: 0 3px 3px 0;
+        color: #fff;
+        position: absolute;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .EstiloFiltro {
+        color: #fff;
+        font-size: 14px;
+        position: relative;
+        text-decoration: none;
+    }
+
+        .EstiloFiltro:focus, .EstiloFiltro:hover {
+            color: #fff !important;
+        }
+
+    .ScrollDiv {
+        overflow: auto;
+        height: 206px !important;
+    }
+    /* Page Template for the exported PDF */
+    .page-template {
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+        .page-template .header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            border-bottom: 1px solid #888;
+            color: #888;
+        }
+
+        .page-template .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            border-top: 1px solid #888;
+            text-align: center;
+            color: #888;
+        }
+
+        .page-template .watermark {
+            font-weight: bold;
+            font-size: 400%;
+            text-align: center;
+            margin-top: 30%;
+            color: #aaaaaa;
+            opacity: 0.1;
+            transform: rotate(-35deg) scale(1.7, 1.5);
+        }
+
+    
+
+    kendo-pdf-document .customer-photo {
+        border: 1px solid #dedede;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    /* Apply a minimum width to the tables when scrolling is enabled and nested tables (hierarchy) ARE NOT USED. */
+
+    #GridID .k-grid-header-wrap > table, /* header table */
+    #GridID .k-grid-content table, /* data table, no virtual scrolling */
+    #GridID .k-virtual-scrollable-wrap table /* data table, with virtual scrolling */ {
+        min-width: 800px;
+    }
+
+    .notRead {
+        font-weight: 900;
+    }
+
+    .notReadIcon {
+        display: inline-block;
+        position: absolute;
+        top: 4%;
+        right: 8%;
+        z-index: 9999;
+        font-size: 25px;
+        color: red;
+    }
+
+    .notReadIconPreview {
+        display: inline-block;
+        position: absolute;
+        top: 5%;
+        left: 8%;
+        z-index: 9999;
+        font-size: 25px;
+        color: red;
+    }
+
+    @media (max-width: 524px) {
+
+        #ToolbarResults {
+            margin-top: 69px !important;
+        }
+    }
+
+    .text-rigth {
+        text-align: right;
+    }
+</style>
+
+

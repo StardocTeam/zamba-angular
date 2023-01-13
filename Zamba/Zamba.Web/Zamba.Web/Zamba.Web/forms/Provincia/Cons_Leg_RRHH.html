@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:16/07/2018-->
+<!--Modificado por: -->
+<!--Fecha de Modificacion: -->
+<!--Cambio:-->
+<head>
+    <title></title>
+
+
+</head>
+
+<body>
+    <center>
+        <div >
+            <div ng-controller="appController">
+                <div class="form-group row"></div>
+
+                <div class="cell panel">
+                    <form name="frmMain" action="Leg_RRHH_Consulta.html">
+                        <div class="header background-blue">
+                            <div class="form-group">
+                            </div>
+                            <h5 class="titleceneterDiv">CONSULTA DE LEGAJOS RRHH</h5>
+                        </div>
+                        <input id="hdnRuleId" type="hidden" />
+                        <input id="hdnAsocId" type="hidden" />
+                        <div class="container">
+                            <center>
+                                <div class="tab-pane active" id="CONSULTA DE LEGAJOS RRHH">
+
+                                    <div class="form-group row">
+                                        <div class="PanelPrincipal">
+                                            <div class="col-md-1"></div>
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <!--Nombre y Apellido--> 		                    	<span class="input-group-addon">Nombre y Apellido:</span>
+                                                        <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control input-sm" disabled="disabled" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="input-group">
+                                                                <!--Nro de Documento-->                                     <span class="input-group-addon">DNI:</span>
+                                                                <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control" disabled="disabled" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--N° de Caja-->                        		 <span class="input-group-addon"> N° Caja:</span>
+                                                        <input id="zamba_index_9" name="zamba_index_9" size="1" class="form-control" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="form-group row">
+
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Estado Legajo RRHH-->                                   <span class="input-group-addon">Estado del Legajo:</span>
+                                                        <input id="zamba_index_237" name="zamba_index_237" class="form-control input-sm" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <!--Tipo Doc RRHH-->                                   <span class="input-group-addon">Tipo Doc RRHH:</span>
+                                                        <input id="zamba_index_108" name="zamba_index_108" class="form-control input-sm" disabled="disabled" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <!--Nro Legajo-->                                   		<span class="input-group-addon">N°Legajo:</span>
+
+
+                                                        <input id="zamba_index_235" name="zamba_index_235" size="1" class="form-control" disabled="disabled" />
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div id="tblObervaciones" class="attributes_table">
+                                            <center>
+                                                <h5 class="titleceneterDiv">Observaciones</h5>
+                                            </center>
+                                            <div class="form-group">
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-10 col-sm-10">
+                                                    <textarea class="form-control input-sm" cols="1" rows="6" id="zamba_index_84" name="zamba_index_84" readonly="readonly"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane" id="Documentacion">
+                                        <h5>Legajos</h5>
+                                        <div class="tablesorter" id="zamba_associated_documents_108">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <center class="PiePaginaSep">
+                                            <div class="col-md-2" style="position:relative;left:20px;">
+                                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                            </div>
+                                            <div class="col-md-10">
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <!--IMPORTANTE  cambiar version al modificar formulario-->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="colorVersion"> V. 1.1.1 </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </center>
+                        </div>
+                        <style>
+                            .inputEtiquetas {
+                                width: 30px !important;
+                            }
+
+                            /*.panel {
+                                    border: 1px solid rgb(21, 98, 142) !important;
+                                }*/
+
+                            .PanelPrincipal {
+                                margin-top: 30px;
+                            }
+
+                            .margenBtn {
+                                position: relative;
+                                left: 90px;
+                            }
+                        </style>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+

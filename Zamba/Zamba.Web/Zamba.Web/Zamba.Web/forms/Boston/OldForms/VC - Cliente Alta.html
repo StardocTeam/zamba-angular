@@ -1,0 +1,93 @@
+﻿<html>
+	<head>
+		<title>Alta de Clientes</title>			
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+		
+			
+			$(document).ready(function()
+			{							
+			  
+				
+				// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+			<h2> <center> 
+                Alta de Clientes
+            </center></h2>
+
+				</div>
+				<br />
+				
+				<table cellpadding="4">
+					<tr>
+						<td><label>Cliente:</label></td>
+						<td><select id="zamba_index_1001016" name="zamba_index_1001016" style="width:280px;"></select></td>
+						<td class="separador"></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td><label>DNI: </label></td>
+						<td><input type="text" id="zamba_index_2710" name="zamba_index_2710" style="width:280px;"  /></td>
+						<td class="separador"></td>
+						<td><label>Edad: </label></td>
+						<td><input type="text" id="zamba_index_2846" name="zamba_index_2846" style="width:280px;" class="solonums"/></td>
+					</tr>
+					<tr>
+						<td><label>Sexo:</label></td>
+						<td><Select id ="text" id="zamba_index_1001015" name="zamba_index_1001015" style="width:280px;"/></td>		
+						<td class="separador"></td>
+						<td><label>Mail:</label></td>
+						<td><input type="text" id="zamba_index_1001014" name="zamba_index_1001014" style="width:280px;" /></td>
+					</tr>
+					<tr>
+						<td><label>Fecha de Nacimiento:</label></td>
+						<td><input Id="text" name= "zamba_index_2763" id="zamba_index_2763" style="width:280px;"  ></td>
+						<td class="separador"></td>
+						<td><label>Telèfono:</label></td>
+						<td><input type ="text" name="zamba_index_2711" id="zamba_index_2711" style="width:280px;" class="solonums" ></td>
+					</tr>
+<tr>
+						<td><label>Dirección:</label></td>
+						<td><input type = "text" id="zamba_index_2708" name="zamba_index_2708" style="width:280px;"  ></td>
+						<td class="separador"></td>
+						<td><label>Localidad:</label></td>
+						<td><select id = "zamba_index_2766" id="zamba_index_2766" style="width:280px;" ></select></td>
+					</tr>
+	
+	
+			<tr>
+            <input id="zamba_save" class="btn btn-primary" type="submit" value="Guardar" name="zamba_save" />
+            <input id="zamba_cancel" class="btn btn-primary" type="submit" value="Cancelar" name="zamba_cancel" />
+			</tr>
+  
+</table>
+			</form>						
+		</div>
+	</body>
+</html>

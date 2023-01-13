@@ -1,0 +1,224 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script src="AysaDALFunctions.js" type="text/javascript"></script>
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+
+        function SetOtherVisible(sender) {
+            var producto = $(sender).val();
+            if (producto == "113-") {
+                $("#otro").show();
+            }
+            else {
+                $("#otro").hide();
+            }
+        }
+
+        function hideSpecificColumns() {
+            $("#prdTable").find("tr").each(function () {
+                var stock = $(this).find("td:eq(2)").html();
+                if (!isNaN(parseFloat(stock)) && isFinite(stock)) {
+                    $(this).find("td:eq(5) input").show();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            HideShowInsertRequestButton();
+        });
+    </script>
+    <style>
+        .widthfield1
+        {
+            width:280px;    
+        }
+    </style>
+</head>
+<body>
+    <form id="frmMain" method="post" action="" style="width: 95%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div id="design">
+        <strong>Consultar Entrega DAL</strong>
+    </div>
+    <div id="TAB" class="tabber" style="">
+        <div class="tabbertab" id="General">
+            <h2 style="width: 1017px">
+                Informacion de la Entrega
+            </h2>
+            <table style="width: 90%;">
+                <tr>
+                    <td class="style2">
+                        <label style="width: 14em;">
+                            Numero de Entrega
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12485" name="zamba_index_12485"
+                            disabled="disabled" class="widthfield1"/>
+                    </td>
+                    <td>
+                        <label style="width: 11.4em;">
+                            Fecha Estimada de Entrega</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12365" name="zamba_index_12365" disabled="disabled" class="widthfield1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Numero de Pedido</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12362" name="zamba_index_12362" disabled="disabled" class="widthfield1" />
+                    </td>
+                    <td>
+                        <label style="width: 11.4em;">
+                            Fecha de Solicitud</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12364" name="zamba_index_12364" disabled="disabled" class="widthfield1" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <hr />
+            <table style="width: 90%;">
+                <tr>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Usuario Solicitante</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12368" name="zamba_index_12368" 
+                            readonly="readonly" class="widthfield1" />
+                    </td>
+                    <td class="style1">
+                        <label style="width: 11.4em;">
+                            Direccion</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12451"
+                            name="zamba_index_12451" disabled="disabled" class="widthfield1"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Administrativo</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12461" name="zamba_index_12461"
+                            disabled="disabled" class="widthfield1" />
+                    </td>
+                    <td class="style1">
+                        <label style="width: 11.4em;">
+                            Autorizante</label>
+                    </td>
+                    <td>
+                        <input type="text"  id="zamba_index_12433" name="zamba_index_12433"
+                            disabled="disabled" class="widthfield1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Sitio</label>
+                    </td>
+                    <td>
+                        <input type="text"  id="zamba_index_12427" name="zamba_index_12427"
+                            disabled="disabled" class="widthfield1"/>
+                    </td>
+                    <td class="style1">
+                        <label style="width: 11.4em;">
+                            Deposito</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_12428" name="zamba_index_12428"
+                            disabled="disabled" class="widthfield1"/>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <hr />
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 13.4em;">
+                            Proceso</label>
+                        <input type="text" id="zamba_index_12437"
+                            name="zamba_index_12437" disabled="disabled" class="widthfield1" />
+                    </td>
+                    <td>
+                        <label style="width: 14em;">
+                            Familia</label>
+                        <input type="text" id="zamba_index_12393"
+                            name="zamba_index_12393" disabled="disabled" class="widthfield1" />
+                    </td>
+                </tr>
+               
+            </table>
+            <br />
+            <hr />
+            <label>Entregas Ingresadas</label>
+            <table id="zamba_zvar(EntregasIngresadas)" class="tablesorter">
+                <tbody class="hideopentask">
+                </tbody>
+            </table>
+        </div>
+        <div class="tabbertab" id="Div1">
+            <h2>
+                Observaciones
+            </h2>
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Observaciones</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="5" id="zamba_index_12373" name="zamba_index_12373" disabled="disabled" ></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tabbertab" id="Div2">
+            <h2>
+                Datos del Transporte
+            </h2>
+            <table>
+                <tr>
+                    <td class="style1">
+                        <label style="width: 14em;">
+                            Transporte para Despacho</label>
+                    </td>
+                    <td>
+                        <input type="text" style="width: 40em;" id="zamba_index_12430" name="zamba_index_12430" disabled="disabled" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div>
+        <img alt="" src="images/logocliente.bmp" height="50" width="70" style="float: left" />
+        <img alt="" src="images/pwbyzamba.jpg" style="float: right" />
+    </div>
+    </form>
+</body>
+</html>
