@@ -1,0 +1,246 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Form: Consulta de Pretension / Oferta -->
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:07/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<!--Version:1.0.0-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+    <script type="text/javascript" language="JavaScript">
+
+        $(document).ready(function () {
+          
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    if (DecimalCheck($('#' + e.target.id))) {
+                        SumarCampos();
+                    }
+                })
+            });
+            $(".sololectura").each(
+                function () {
+                    $(this).keypress(function (e) {
+                        return false;
+                    })
+                }
+            );
+        });
+        function SumarCampos() {
+
+            var cap = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+            var hon = parseFloat($("#zamba_index_2746").val().replace('', '0'));
+            var otr = parseFloat($("#zamba_index_2745").val().replace('', '0'));
+            var por = parseFloat($("#zamba_index_2836").val().replace('', '0'));
+
+            //Verifica que se deba ajustar al porcentaje de honorarios
+            if (document.getElementById("zamba_index_2836").value != "" && por > 0) {
+                //Si el porcentaje es invalido lo setea a cero
+                if (por > 100) {
+                    hon = 0;
+                    $("#zamba_index_2836").val();
+                    $("#zamba_index_2746").val();
+                } else {
+                    hon = (por * cap) / 100;
+                    hon = Redondear(hon);
+                    $("#zamba_index_2746").val(hon);
+                }
+            }
+
+            //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(cap + hon + otr));
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value <= "0") {
+                alert("Verifique que el Importe sea mayor que cero.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="PretOfer IngrPret.html">
+
+            <div class="form-group row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2">
+                    <h5>INGRESO DE PRETENSIÓN</h5>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-1">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class=" btn-info  btn btn-circle-sm" data-toggle="modal" data-target="#helpPR" style="position:absolute"><i class="fa fa-question"></i></button>
+                    <!-- Modal -->
+                    <div id="helpPR" class="modal fade" role="dialog" style="margin-top:50px; padding: 7px">
+                        <div class="modal-dialog modal-lg" style="padding: 1px">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h5 class="modal-title">Pretensiones / Ofertas</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <embed src="help/Pretensiones_oferta.pdf"
+                                           frameborder="0" width="100%" height="400px">
+                                </div>
+                                <div class="modal-footer" style=" padding: 7px">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+           
+
+
+            <div id="tblOferta" class="attributes_table">
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="Pretensión">
+                       
+
+                        <div class="form-group row"></div>
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3"> </div>
+                            <div class="col-md-4 col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Estado Procesal:</span>
+                                    <input class="form-control input-sm" id="zamba_index_2740" name="zamba_index_2740" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon">ID Reclamo:</span>
+                                    <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3"> </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3"> </div>
+                            <div class="col-md-3 col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Pretensión $:</span>
+                                    <input class="form-control input-sm ZDecimal" id="zamba_index_10216" name="zamba_index_10216" style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Fecha Pretensión:</span>
+                                    <input class="form-control input-sm dateTimeToday" id="zamba_index_10219" name="zamba_index_10219" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3"> </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <!--Area texto Observacion-->
+                                <div >
+
+                                    <div id="appobs" ng-controller="ObservacionController">
+                                        <zamba-observaciones index-id="84" entity-id="2528"></zamba-observaciones>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <center>
+                            <button class="btn  btn-primary" id="zamba_rule_1017071" name="zamba_rule_1017071" type="submit" value="Consultar RAJ" onclick="SetRuleId(this);"/>Consultar RAJ</button>
+                            <button class="btn  btn-primary" id="zamba_rule_1017044" name="zamba_rule_1017044" type="submit" value="Enviar Pretensión" onclick="SetRuleId(this);" />Enviar Pretensión</button>
+                            <input class="btn  btn-primary" id="zamba_rule_1017071" name="zamba_rule_1017071" type="submit" value="Abrir RAJ" onclick="SetRuleId(this);" />
+                            <input class="btn btn-warning" id="zamba_rule_11529992" name="zamba_rule_11529992" type="submit" value="Eliminar" style="display:none" onclick="return ExecutetaskRuleWithConfirmMessage('Queres Eliminar la Pretencion', 1122772, CloseCurrentTask);" />
+                        </center>
+
+                    </div>
+                    <div class="tab-pane" id="Expediente">
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="2525" default-enable-mode="grid" table-height="400" grid-title="Pretensiones/Ofertas">
+                                </zamba-associated>
+                            </div>
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-2" style="position:relative;left:20px;">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <span style="color:whitesmoke">PretOfer IngrPret</span>
+                            </div>
+                            <div class="col-md-5" style="position:relative;left:-20px;">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                <div class="form-group row">
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+                <!--<div class="row">
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:10px;">
+                            <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                        </div>
+                        <div class="col-md-10">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+                </div>-->
+            </div>
+
+            <script type="text/javascript" language="JavaScript">
+
+                 //angular.bootstrap(document.getElementById('appobs'), ['observaciones']);
+                 //angular.bootstrap(document.getElementById('Expediente'), ['ZambaAssociatedApp']);                
+                //angular.bootstrap(document.getElementById('filenetTable'), ['ZambaAssociatedApp']);
+                //angular.bootstrap(document.getElementById('siniestroTable'), ['ZambaAssociatedApp']);
+            </script>
+
+            <script type="text/javascript" language="JavaScript">
+
+//                   //angular.bootstrap(document.getElementById('appobs'), ['observaciones']);
+
+            </script>
+
+        </form>
+    </div>
+</body>
+</html>

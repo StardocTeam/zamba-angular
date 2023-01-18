@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    
+    <style type="text/css">
+        #zamba_innerdoctype_original {
+            height: 500px;
+            width: 98%;
+        }
+
+        div thead tr th {
+            font-size: x-small;
+            font-family: arial;
+            background-color: #1A5276;
+            color: white;
+        }
+
+        div thead tr th a {
+            font-size: x-small;
+            font-family: arial;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form name="frmMain" action="ReasegDigitalizacionReadOnly.html">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div>
+            <div class="container-fluid">
+
+
+                <!------------------------------------------------Clasificación de documentos ------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <span class="input-group-addon" style="color: black;">Clasificación de
+                            documentos</span>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Marca contrato:</span>
+                            <input id="zamba_index_168" name="zamba_index_168" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                </div>
+                <!-----------------------------------------Automaticos -------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <span class="input-group-addon"
+                            style="color: black;">Automaticos</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Core:</span>
+                            <input id="zamba_index_164" name="zamba_index_164" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Tipo Contrato:</span>
+                            <input id="zamba_index_169" name="zamba_index_169" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Codigo Contrato:</span>
+                            <input id="zamba_index_170" name="zamba_index_170" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <input name="zamba_rule_19110" id="zamba_rule_19110" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Buscar por contrato">
+                    </div>-->
+                </div>
+
+                <!------------------------------------------Facultativos ------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <span class="input-group-addon"
+                            style="color: black;">Facultativos</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Sección:</span>
+                            <input id="zamba_index_32" name="zamba_index_32" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Póliza:</span>
+                            <input id="zamba_index_34" name="zamba_index_34" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Endoso:</span>
+                            <input id="zamba_index_40" name="zamba_index_40" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+
+                    <!--<div class="col-md-2">
+                        <input name="zamba_rule_19111" id="zamba_rule_19111" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Buscar por póliza">
+                    </div>-->
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Ejercicio:</span>
+                            <input id="zamba_index_2736" name="zamba_index_2736" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Siniestro:</span>
+                            <input id="zamba_index_1147" name="zamba_index_1147" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <input name="zamba_rule_19081" id="zamba_rule_19081" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Buscar por siniestro">
+                    </div>-->
+                </div>
+
+
+                <!----------------------------------------------Datos generales--------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <span class="input-group-addon" style="color: black;">Datos
+                            generales</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon" style=""> Tipo Documentación:</span>
+                            <input id="zamba_index_162" name="zamba_index_162" class="form-control input-sm"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Referencia
+                                reaseguro:</span>
+                            <input id="zamba_index_2" name="zamba_index_2" size="1" class="form-control"
+                                style="font-weight:900" />
+                            <!--<span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" name="zamba_rule_19306" id="zamba_rule_19306" onclick="SetRuleId(this);">
+                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                </button>
+                            </span>-->
+                        </div>
+                    </div>
+                    <!--<div class="col-md-2">
+                        <input name="zamba_rule_19259" id="zamba_rule_19259" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Participacion Cias.">
+                    </div>-->
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Desccripción
+                                contrato:</span>
+                            <input id="zamba_index_165" name="zamba_index_165" size="1" class="form-control"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <span>Facultativo Fronting:</span>
+                            <input type="checkbox" class="form-check-input" id="zamba_index_133" name="zamba_index_133"
+                                style="height: 20px; width: 20px; position:relative; left:5px; top:5px;" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check">
+                            <span>Facility:</span>
+                            <input type="checkbox" class="form-check-input" id="zamba_index_134" name="zamba_index_134"
+                                style="height: 20px; width: 20px; position:relative; left:10px; top:5px;" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <span>Aceptaciones especial:</span>
+                            <input type="checkbox" class="form-check-input" id="zamba_index_135" name="zamba_index_135"
+                                style="height: 20px; width: 20px; position:relative; left:10px; top:5px;" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-check">
+                            <span>U$s4XML:</span>
+                            <input type="checkbox" class="form-check-input sm" id="zamba_index_175"
+                            style="height: 20px; width: 20px; position:relative; left:10px; top:5px;" name="zamba_index_175" disabled/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon"  >N° Item:</span>
+                            <input id="zamba_index_14" name="zamba_index_14" size="1" class="form-control"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Subsiniestro:</span>
+                            <input id="zamba_index_2694" name="zamba_index_2694" size="1" class="form-control"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Fecha ingreso:</span>
+                            <input class="form-control " disabled/>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Fecha ocurrencia:</span>
+                            <input id="zamba_index_2683" name="zamba_index_2683" size="1"
+                                class="form-control " style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Asegurado:</span>
+                            <input id="zamba_index_3" name="zamba_index_3" size="1" class="form-control"
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Vigencia desde
+                                póliza:</span>
+                            <input id="zamba_index_171" name="zamba_index_171" size="1" class="form-control "
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Vigencia hasta
+                                póliza:</span>
+                            <input id="zamba_index_172" name="zamba_index_172" size="1" class="form-control "
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Vigencia desde
+                                contrato:</span>
+                            <input id="zamba_index_173" name="zamba_index_173" size="1" class="form-control "
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div>
+             
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Vigencia hasta
+                                contrato:</span>
+                            <input id="zamba_index_174" name="zamba_index_174" size="1" class="form-control "
+                                style="font-weight:900" disabled />
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="form-group row"></div>
+
+                <div style="z-index: -1">
+                    <iframe id="zamba_innerdoctype_original" style="margin-top:30px; width:95%; height:1400px" src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\tempN\Images\NODOCUMENT.png" title="Documento Original" ></iframe>
+                </div>
+                <div class="row">
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:20px;">
+                            
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <span style="color:white">ReasegDigitalizacionReadOnly.html</span>
+                        </div>
+                        <div class="col-md-5">
+                            
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

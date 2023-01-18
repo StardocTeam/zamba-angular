@@ -1,0 +1,126 @@
+<html>
+	<head>
+		<title>Conexiones a Cloaca</title>			
+		<link href="Content/Styles/Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Content/Styles/Aysa_styles_table.css"  type="text/css" rel="stylesheet">
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			
+		    function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+
+			function zamba_save_onclick(){
+				$("#hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_24');	
+				makeCalendar('zamba_index_25');					
+
+        });					
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>	
+	<body>
+	
+			<div>
+		&nbsp;
+				 <input id="zamba_rule_34" style=" text-align: center; margin-right: 25px;"
+            type="submit" class="submit ZambaRule DontSave " value="Eliminar Conexión de Cloaca" name="zamba_rule_34" onclick="SetRuleId(this);"/> 
+		</div>
+		<br />
+		
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Conexiones a Cloaca</strong>
+				</div>
+				<br />
+				
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>ID Conexi&oacuten:</label></td>
+									<td><input type="text" id="zamba_index_64" name="zamba_index_64" size="5" readonly="true" class="readonly"/></td>
+								</tr>
+								<tr>
+									<td><label>Tipo de Conexi&oacuten: </label></td>
+									<td><select id="zamba_index_30" name="zamba_index_30" style="width:175px;"/></select></td>
+									<td><label>Ubicaci&oacuten de descarga:</label></td>
+									<td><input type="text" name="zamba_index_54" size="50"/></td>
+								</tr>	
+								<tr>
+									<td><label>Vol&uacutemen de Descarga: </label></td>
+									<td><input id="zamba_index_63" name="zamba_index_63" size="20"/></td>
+									<td><label>Cantidad de Descargas: </label></td>
+									<td><input id="zamba_index_53" name="zamba_index_53" size="20"/></td>									
+								</tr>	
+								<tr>
+									<td><label>D&iacuteas de Descarga: </label></td>
+									<td><input id="zamba_index_55" name="zamba_index_55" size="20"/></td>
+									<td><label>Horarios de Descarga: </label></td>
+									<td><input id="zamba_index_56" name="zamba_index_56" size="20"/></td>									
+								</tr>
+								<tr>
+									<td><label>CTM-MC: </label></td>
+									<td><input id="zamba_index_57" name="zamba_index_57" size="20"/></td>
+									<td><label>Destino: </label></td>
+									<td><select id="zamba_index_32" name="zamba_index_32" style="width:200px;"/></select></td>									
+								</tr>								
+							</table>
+					</div>	
+						<br />
+				
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="Content/images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="Content/images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+				
+			</form>						
+		</div>		
+	</body>
+</html>

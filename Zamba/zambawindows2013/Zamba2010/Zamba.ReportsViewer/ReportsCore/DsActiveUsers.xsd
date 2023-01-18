@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsActiveUsers" targetNamespace="http://tempuri.org/DsActiveUsers.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DsActiveUsers.xsd" xmlns:mstns="http://tempuri.org/DsActiveUsers.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsActiveUsers" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Licencias">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Cantidad" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DsUsers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Usuario" type="xs:string" minOccurs="0" />
+							<xs:element name="Nombre_x0020_de_x0020_Usuario" type="xs:string" minOccurs="0" />
+							<xs:element name="PC" type="xs:string" minOccurs="0" />
+							<xs:element name="Hora_x0020_de_x0020_Conexion" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="Ultima_x0020_accion" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="Timeout" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

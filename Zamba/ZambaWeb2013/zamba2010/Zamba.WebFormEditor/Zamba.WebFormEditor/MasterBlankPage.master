@@ -1,0 +1,489 @@
+﻿<%@ Master Language="VB" CodeFile="MasterBlankPage.master.vb" Inherits="MasterBlankPage" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head2" runat="server">
+    
+    <title title="Zamba Web"></title>
+    
+    <asp:ContentPlaceHolder ID="header_css" runat="server">        
+    </asp:ContentPlaceHolder> 
+    
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/thickbox.css" />	
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/jquery-ui-1.8.6.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWeb.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWebTables.css" />
+    <link rel="stylesheet" type="text/css" href="Content/Styles/jq_datepicker.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/GridThemes/WhiteChromeGridView.css" />	
+    <link rel="stylesheet" href="Content/Styles/tabber.css" type="text/css" media="screen"/>       
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/GridThemes/GridViewGray.css" />
+    <link rel="Stylesheet" type="text/css" href="Content/Styles/jquery.galleryview-3.0-dev.css" />
+ 
+    <script src="../../scripts/jquery-1.4.2.min.js" type="text/javascript"></script> 
+    <script src="../../scripts/jquery-ui-1.8.6.min.js" type="text/javascript"></script>
+    <script src="../../scripts/jquery.layout-latest.js" type="text/javascript"></script>
+	<script src="../../scripts/jq_datepicker.js"type="text/javascript"></script>
+    <script src="../../scripts/Zamba.js" type="text/javascript"></script>   
+    <script src="../../scripts/thickbox-compressed.js" type="text/javascript"></script>    
+    <script src="../../scripts/jquery.galleryview-3.0-dev.js" type="text/javascript"></script>   
+    <script src="../../scripts/jquery.easing.1.3.js" type="text/javascript"></script>
+    <script src="../../scripts/jquery.timers-1.2.js" type="text/javascript"></script> 
+    <script src="../../scripts/jquery.validate.min.js" type="text/javascript"></script>  
+    <script src="../../scripts/tabber.js" type="text/javascript" ></script>
+    <script src="../../scripts/jquery.caret.1.02.min.js" type="text/javascript"></script> 
+   	
+<%--        <link rel="stylesheet" href="scripts/lavalamp/lavalamp_test.css" type="text/css" media="screen"/>
+    <script type="text/javascript" src="../../scripts/lavalamp/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="../../scripts/lavalamp/jquery.lavalamp.min.js"></script>
+--%>
+    
+    
+    <script type="text/javascript">
+        //28/07/11: se agrega la posibilidad que para todas las páginas hijas que tengan grillas con los estilos correspondientes, al presionar la row se abra el link
+        $(document).ready(function() {
+            loadCliksInRows();
+            //parent.timeOut = setTimeout("parent.ResizeCurrentTabForTasks($(document).height(), $(document).context.location.href);", 1000);
+            //Método para extraer el height actual y resizear la pestaña contenedora.
+            //parent.ResizeCurrentTabForTasks($(document).height(), $(document).context.location.href);
+
+            //            $(divtag).find("#IF" + taskid).load(function() {
+            //                alert($(document).context.location.href);
+            //                parent.ResizeCurrentTabForTasks($(this).height(), $(document).context.location.href);
+            //            });
+        });
+
+        //Carga el alto de la ventana
+        
+
+        function ResizeCurrentTab(height, url) {
+            if (height > 0) {
+                if (url.indexOf("TaskViewer") != -1 || url.indexOf("DocViewer") != -1) {
+                    if ($('#TasksDivUL').find(".ui-tabs-selected").find("a")[0] != undefined) {
+                        idTabSelected = $('#TasksDivUL').find(".ui-tabs-selected").find("a")[0].href;
+                        $(idTabSelected).height(height + 55);
+                    }
+                }
+                if (url.indexOf("Results") != -1) {
+                    //$("#tabresults").height(height + 55);
+                }
+                //            if (url.indexOf("search") != -1) {
+                //                    $("#tabsearch").height(height + 55);
+                //            }
+                //            if (url.indexOf("WF.aspx") != -1) {
+                //                $("#tabtasklist").height(height + 55);
+                //            }
+            }
+        }
+
+        $(window).load(function() {
+            //lert("Entrando a windows load");
+            var v = $("#ctl00_hdReload").val();
+            if (v == "false") {
+                $("#ctl00_hdReload").val("true");
+                parent.ResizeCurrentTab($(document).height(), $(document).context.location.href);
+            }
+            //Se cambia el cerrado directo por un settimeout para que se desvanezca mas suavemente.
+            //            if (parent.CloseLoadingTaskDialog != null) {
+            //                parent.CloseLoadingTaskDialog();
+            //            }
+            t = setTimeout("hideLoading();", 500);
+        });
+
+        function loadCliksInRows() {
+            if ($('.AltRowStyle').find('a') != null) {
+                $('.AltRowStyle').click(function() {
+                    if ($(this).find('a')[0])
+                        window.open($(this).find('a')[0], '_blank', '', false);
+                    return false;
+                });
+                $('.AltRowStyle').find('a').click(function() { window.open($(this).attr('href'), '_blank', '', false); return false; });
+            }
+
+            if ($('.RowStyle').find('a') != null) {
+                $('.RowStyle').click(function() {
+                    if ($(this).find('a')[0])
+                        window.open($(this).find('a')[0], '_blank', '', false);
+                    return false;
+                });
+                $('.RowStyle').find('a').click(function() { window.open($(this).attr('href'), '_blank', '', false); return false; });
+            }
+           
+           
+            if ($('.AltRowStyleTasks').find('a') != null) {
+                $('.AltRowStyleTasks').click(function() {
+                    if ($(this).find('a')[0]) {
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true,name);
+                        return false;
+                    }
+                });
+
+                $('.AltRowStyleTasks').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true,name);
+                    return false; 
+                });
+            }
+
+            if ($('.RowStyleTasks').find('a') != null) {
+                $('.RowStyleTasks').click(function() {
+                    if ($(this).find('a')[0]){
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true, name);
+                        return false;
+                    }
+                });
+                
+                $('.RowStyleTasks').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true, name);
+                    return false; 
+                });
+            }
+
+            if ($('.FormRowStyle').find('a') != null) {
+                $('.FormRowStyle').click(function() {
+                    if ($(this).find('a')[0]) {
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true, name);
+                        return false;
+                    }
+                });
+
+                $('.FormRowStyle').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true, name);
+                    return false;
+                });
+            }
+
+            if ($('.RowStyleResults').find('a') != null) {
+                $('.RowStyleResults').click(function() {
+                    if ($(this).find('a')[0]) {
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true, name);
+                        return false;
+                    }
+                });
+
+                $('.RowStyleResults').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true, name);
+                    return false;
+                });
+            }
+
+            if ($('.AltRowStyleResults').find('a') != null) {
+                $('.AltRowStyleResults').click(function() {
+                if ($(this).find('a')[0]) {
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true, name);
+                        return false;
+                    }
+                });
+
+                $('.AltRowStyleResults').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true, name);
+                    return false;
+                });
+            }
+
+            if ($('.AltRowStylenews').find('a') != null) {
+                $('.AltRowStylenews').click(function() {
+                    if ($(this).find('a')[0]) {
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true, name);
+                        return false;
+                    }
+                });
+
+                $('.AltRowStylenews').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true, name);
+                    return false;
+                });
+            }
+
+            if ($('.RowStylenews').find('a') != null) {
+                $('.RowStylenews').click(function() {
+                    if ($(this).find('a')[0]) {
+                        var name = $(this).find(">td")[1].innerText;
+                        SwitchDocTaskForResults($(this).find('a')[0], true, name);
+                        return false;
+                    }
+                });
+
+                $('.RowStylenews').find('a').click(function() {
+                    var name = $(this).parent().parent().find("td")[1].innerText;
+                    SwitchDocTaskForResults($(this), true, name);
+                    return false;
+                });
+            }
+
+        }
+
+        function SwitchDocTaskForResults(anchor, asTask, name) {
+            var url = anchor.href;
+            if (url === undefined) {
+                url = anchor[0].href;
+            }
+            var id;
+            var start;
+            var end;
+
+            if (url.indexOf("TaskSelector", 0) == -1) {
+                start = url.indexOf('docid', 0) + 6;
+                end = url.indexOf('&', start);
+                id = url.substr(start, end - start);
+                OpenDocTask(url, id, name);
+            }
+            else {
+                if (asTask) {
+                    //debugger;
+                    var isTask = 1;
+                    start = url.indexOf('taskid', 0) + 7;
+                    if (start < 7){
+                        start = url.indexOf('docid', 0) + 6;
+                        isTask = 0;
+                    }  
+                    
+                    end = url.indexOf('&', start);
+                    if (end < start)
+                        id = url.substr(start);
+                     else 
+                        id = url.substr(start, end - start);
+                    
+                    if (isTask == 1 && id != "")
+                        OpenTask(url, id, name);
+                    else
+                        OpenDocTask(url, id, name);
+                }
+                else {
+                    start = url.indexOf('docid', 0) + 6;
+                    end = url.indexOf('&', start);
+                    id = url.substr(start, end - start);
+                    OpenDocTask(url, id, name);
+                }
+            }
+        }
+
+        function OpenDocTask(url, docid, docname)
+        {
+            parent.CreateDocIframe(url, docid, docname);            
+        }
+
+        function OpenTask(url, taskid, taskname) {
+            parent.CreateTaskIframe(url, taskid, taskname);
+        }
+
+        function MakeSearch(searchByTask) {
+            parent.ViewResults(searchByTask);
+        }
+
+        function ViewResults(searchByTask) {
+            $('#MainTabber').tabs("select", '#tabresults');
+            var searchIframe = document.getElementById("ctl00_ContentPlaceHolder_resultsframe");
+            if (searchByTask) {
+                if (searchIframe.src.indexOf("searchByTask") == -1)
+                    searchIframe.src = searchIframe.src + "?searchByTask=1";
+                else
+                    searchIframe.src = searchIframe.src;
+            }
+            else {
+                if (searchIframe.src.indexOf("searchByTask") == -1)
+                    searchIframe.src = searchIframe.src;
+                else
+                    searchIframe.src = searchIframe.src.replace("?searchByTask=1","");
+            }
+        }
+
+        function CreateDocIframe(url, docid, docname)
+        {
+            $('#MainTabber').tabs("select",'#tabtasks');
+            if (document.getElementById('D' + docid) == null)
+            {
+                var divtag = '<div id="D' + docid + '" style="padding:0px"><iframe width="100%"  height="1000" scrolling="auto" frameborder="0" src="' + url + '"/><div/>'
+                
+                $(divtag).appendTo('#TasksDiv');
+
+            //var tagtabbertab = '<li><a href="#T' + taskid + '">Tarea ' + taskid + '</a></li>'
+            //$('#TasksDivUL').append(tagtabbertab )
+
+                $('#TasksDiv').tabs("add", '#D' + docid, docname);
+                parent.ShowLoadingTaskDialog();
+            }
+            //$('#T' + taskid).show();
+            $('#TasksDiv').tabs('select', '#D' + docid);
+
+            //23/08/11: Como la grilla es refrescada "on-demand" (solo cuando se selecciona su tab) no es necesaria esta llamada.
+            //RefreshGrid();
+        }
+
+        function CreateTaskIframe(url, taskid, taskname) {
+            $('#MainTabber').tabs("select", 'tabtasks');
+
+     if (document.getElementById('T' + taskid) == null)
+            {
+                var divtag = '<div id="T' + taskid + '" style="padding:0px"><iframe width="100%"  height="1000" scrolling="auto" frameborder="0" src="' + url + '"/><div/>'
+
+                $(divtag).appendTo('#TasksDiv');
+
+                //var tagtabbertab = '<li><a href="#T' + taskid + '">Tarea ' + taskid + '</a></li>'
+                //$('#TasksDivUL').append(tagtabbertab )
+
+                $('#TasksDiv').tabs("add", '#T' + taskid, taskname);
+                parent.ShowLoadingTaskDialog();
+                //$('#T' + taskid).show();
+            }
+            $('#TasksDiv').tabs('select', '#T' + taskid);
+
+            //23/08/11: Como la grilla es refrescada "on-demand" (solo cuando se selecciona su tab) no es necesaria esta llamada.
+            //RefreshGrid();
+            $("#taskheader_detail_ul_last").removeClass('ui-state-default ui-corner-top ui-state-disabled');
+            
+        }
+
+        function RefreshGrid() {
+            var WFIframe = $("#ctl00_ContentPlaceHolder_wfiframe");
+            if (WFIframe != null && WFIframe[0] != null) {
+                WFIframe[0].contentWindow.location.reload(true);
+            }
+            else {
+            if (WFIframe.context != null ) {
+            
+                WFIframe.context.location.reload(true);
+            }
+        }
+        }
+        function CloseTask(taskid, isCloseFromButton) {
+            var id;
+
+            if (isCloseFromButton) {
+                id = $('#TasksDivUL').find(".ui-tabs-selected").find("a")[0].href;
+            }
+            else
+                id = '#T' + taskid;
+            
+            if ($('#TasksDiv') != null) $('#TasksDiv').tabs("remove", id);
+
+            if ($('#T' + taskid) != null) $(id).remove();
+
+            //23/08/11: Como la grilla es refrescada "on-demand" (solo cuando se selecciona su tab) no es necesaria esta llamada.
+            //RefreshGrid();
+            
+            if ($('#TasksDiv').tabs("length") == 0)
+            {
+               $('#MainTabber').tabs("select",'#tabtasklist');
+            }
+        }
+        
+        function CheckAnyTaskOpen()
+        {
+            return ($('#TasksDiv').tabs("lenght") == 0);
+        }        
+        
+        function NewsOpen() 
+        {
+            var destinationURL = "../Views/WF/News.aspx";
+            location.url = destinationURL;
+//            var newwindow = window.open(destinationURL, this.target, 'width=630,height=550,left=' + (screen.width - 600) / 2 + ',top=' + (screen.height - 580) / 2 + ',directories=no,status=no,menubar=no,toolbar=no,location=no,resizable=no,toolbar=no');
+        }
+
+        function InsertOpen() 
+        {
+            var destinationURL = "../Views/Insert/Insert.aspx";
+            var newwindow = window.open(destinationURL, this.target, 'width=630,height=550,left=' + (screen.width - 600) / 2 + ',top=' + (screen.height - 580) / 2 + ',directories=no,status=no,menubar=no,toolbar=no,location=no,resizable=yes');
+        }
+        
+        function InsertForm(formid, modal) 
+        {
+//            if (!modal) 
+//            {
+//                location.href = '../Views/WF/DocInsert.aspx?formid=' + formid;
+//            }
+//            else 
+//            {
+//                tb_show("Zamba Web - Inserción de Documentos", document.URL.replace(document.URL.split("/")[document.URL.split("/").length - 1], "") + "DocInsertModal.aspx?formid=" + formid + "&modal=true&TB_iframe=true&height=550&width=800", false);
+//            }
+            parent.InsertForm(formid, modal);
+        }
+
+        function AsociateForm(formid, docid, doctypeid, taskid) {
+            parent.AsociateForm(formid, docid, doctypeid, taskid);
+        }
+
+        function ShowLoadingAnimation() {
+            if(parent != this)
+            parent.ShowLoadingAnimation();
+        }
+
+        function hideLoading() {
+            if (parent != this)
+            parent.hideLoading();
+        }
+
+        var t;
+        
+        function ResizeTBIframe(width, height)
+        {
+            try
+            {
+                if(parent !== this)
+                    ResizeTBIframe($("#design").parent().width(),$("#design").parent().height());
+            }
+            catch(e){}
+        }        
+</script>
+    
+    <asp:ContentPlaceHolder ID="header_js" runat="server">
+    </asp:ContentPlaceHolder>    
+        
+    <style type="text/css">
+        body
+        {
+            font-family: Tahoma, Verdana;
+            font-size: 11px;
+            font-weight: normal;
+        }
+        input, select, textarea, button, iframe
+        {
+	        border: 1px solid #AAAAAA;
+        }
+        input[type=checkbox]
+        {
+	        border: 0px;
+        }	
+        a, img, imglink
+        {
+        	text-decoration: none;
+        	border: 0;
+        }	
+        table
+        {
+        	empty-cells: show;
+        }   
+    </style>
+</head>
+
+<body class="Body-Master-Blanck">
+
+    <div class="Div-principal-MasterBlank">  
+        <form id="form2" runat="server" class="form" enctype="multipart/form-data"> 
+           
+            <asp:hiddenfield ID="hdReload" runat="server" Value="false"></asp:hiddenfield>
+            <asp:HiddenField ID="hdnUsrID" runat="server" />
+            <ajaxToolKit:ToolkitScriptManager ID="ScriptManager1" runat="server">
+            </ajaxToolKit:ToolkitScriptManager>
+
+            <asp:Table class="Table-Principal-MasterBlank" runat="server">
+                <asp:TableRow><%--
+                    <asp:TableCell style="height: 100%">--%>
+                    <asp:TableCell id="col11MasterPage" Height="406px" VerticalAlign="Top" CssClass="">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">                    
+                        </asp:ContentPlaceHolder>
+                    </asp:TableCell>
+                </asp:TableRow>
+             </asp:Table>
+        </form>
+    </div>      
+</body>
+</html>

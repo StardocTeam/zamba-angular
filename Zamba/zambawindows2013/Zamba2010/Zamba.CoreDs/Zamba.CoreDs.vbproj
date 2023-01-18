@@ -1,0 +1,915 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2AB0EA3E-507B-47E6-BC37-0D203270AEDD}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Zamba.CoreDs</AssemblyName>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>Zamba.Core</RootNamespace>
+    <StartupObject>Zamba.Core.%28Ninguno%29</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/Zamba.CoreDs/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <BaseAddress>285212672</BaseAddress>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DsCaratulas.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsCaratulas.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsCaratulas.vb">
+      <DependentUpon>DsCaratulas.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsConfig.Designer.vb">
+      <DependentUpon>DsConfig.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="DsDisplayTask.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDisplayTask.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsDisplayTasks.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDisplayTasks.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dsDoctTypeByUser.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsDoctTypeByUser.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsIndexConfig.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsIndexConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsLastSearchs.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="dsRestrictionsUsers.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsRestrictionsUsers.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsResults.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsResults.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DsSchedule.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsSchedule.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DsForms.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsForms.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\DsIcons.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsIcons.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Icons\DsImageServer.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsImageServer.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ImportsMonitor\dsFolderConfig.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsFolderConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ImportsMonitor\dsIPFolderBackUp.vb">
+      <SubType>code</SubType>
+    </Compile>
+    <Compile Include="ImportsMonitor\DsIPTask.vb">
+      <SubType>code</SubType>
+    </Compile>
+    <Compile Include="IndexIntegrity\dsColumnasErroneas.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsColumnasErroneas.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="IndexIntegrity\dsRelacionesNoUsadas.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsRelacionesNoUsadas.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Mensajes\contacts.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>contacts.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Mensajes\DSAttach.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSAttach.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Mensajes\dsMessages.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsMessages.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="MoveResults\DsAssign.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsAssign.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Notas\DtNotes.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DtNotes.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Security\Data_Group_Doc.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Data_Group_Doc.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Security\DsActiveLic.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsActiveLic.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Security\DsDoctypeRight.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDoctypeRight.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Security\DSUserGroup.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSUserGroup.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsSteps.vb">
+      <DependentUpon>DsSteps.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsWF.Designer.vb">
+      <DependentUpon>DsWF.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="WF\Reportes\DsDelayedDocs.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDelayedDocs.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsDocsByStep.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDocsByStep.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsDocsByUser.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDocsByUser.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsDocuments.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDocuments.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsRules.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsRules.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsSteps.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsSteps.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsStepsTask.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsStepsTask.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\DsStepState.vb">
+      <SubType>code</SubType>
+    </Compile>
+    <Compile Include="WF\Reportes\DsDocsByUser.vb">
+      <DependentUpon>DsDocsByUser.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsDocsByWF.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsDocsByWF.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsDocsByWF.vb">
+      <DependentUpon>DsDocsByWF.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsExpiredDocs.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsExpiredDocs.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsRulesByStep.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsStepsByWorkflow.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsStepsByWorkflow.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsStepsByWorkflow.vb">
+      <DependentUpon>DsStepsByWorkflow.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WF\Reportes\DsTasksUsers.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsTasksUsers.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsUsers.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsUsers.vb">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsWFsByDocType.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsWFsByDocType.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsWFsByDocType.vb">
+      <DependentUpon>DsWFsByDocType.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsWFStepDetails.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DsWFStepDetails.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="WF\Reportes\DsWFStepDetails.vb">
+      <DependentUpon>DsWFStepDetails.xsd</DependentUpon>
+    </Compile>
+    <Content Include="DsDisplayTask.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDisplayTask.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DsDisplayTasks.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDisplayTasks.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DsIndexConfig.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsIndexConfig.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DsLastSearchs.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="dsRestrictionsUsers.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsRestrictionsUsers.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DsResults.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsResults.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DsSchedule.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsSchedule.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Forms\DsForms.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsForms.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Icons\DsIcons.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsIcons.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Icons\DsImageServer.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsImageServer.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ImportsMonitor\dsFolderConfig.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsFolderConfig.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ImportsMonitor\dsIPFolderBackUp.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ImportsMonitor\DsIPTask.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="IndexIntegrity\dsColumnasErroneas.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsColumnasErroneas.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="IndexIntegrity\dsRelacionesNoUsadas.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsRelacionesNoUsadas.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Mensajes\contacts.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>contacts.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Mensajes\DSAttach.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSAttach.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Mensajes\dsMessages.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsMessages.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MoveResults\DsAssign.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsAssign.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Notas\DtNotes.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DtNotes.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Security\Data_Group_Doc.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Data_Group_Doc.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Security\DsActiveLic.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsActiveLic.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Security\DsDoctypeRight.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDoctypeRight.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Security\DSUserGroup.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSUserGroup.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WF\DsDocuments.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocuments.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WF\DsRules.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRules.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WF\DsSteps.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsSteps.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WF\DsStepsTask.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsStepsTask.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WF\DsStepState.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WF\DsWF.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsWF.Designer.vb</LastGenOutput>
+    </Content>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="DsCaratulas.xsc">
+      <DependentUpon>DsCaratulas.xsd</DependentUpon>
+    </None>
+    <None Include="DsCaratulas.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsCaratulas.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="DsCaratulas.xss">
+      <DependentUpon>DsCaratulas.xsd</DependentUpon>
+    </None>
+    <None Include="DsConfig.xsc">
+      <DependentUpon>DsConfig.xsd</DependentUpon>
+    </None>
+    <None Include="DsConfig.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsConfig.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DsConfig.xss">
+      <DependentUpon>DsConfig.xsd</DependentUpon>
+    </None>
+    <None Include="DsConfig.xsx">
+      <DependentUpon>DsConfig.xsd</DependentUpon>
+    </None>
+    <None Include="DsDisplayTask.xsx">
+      <DependentUpon>DsDisplayTask.xsd</DependentUpon>
+    </None>
+    <None Include="DsDisplayTasks.xsx">
+      <DependentUpon>DsDisplayTasks.xsd</DependentUpon>
+    </None>
+    <None Include="dsDoctTypeByUser.xsc">
+      <DependentUpon>dsDoctTypeByUser.xsd</DependentUpon>
+    </None>
+    <None Include="dsDoctTypeByUser.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsDoctTypeByUser.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="dsDoctTypeByUser.xss">
+      <DependentUpon>dsDoctTypeByUser.xsd</DependentUpon>
+    </None>
+    <None Include="DsIndexConfig.xsx">
+      <DependentUpon>DsIndexConfig.xsd</DependentUpon>
+    </None>
+    <None Include="DsLastSearchs.xsx">
+      <DependentUpon>DsLastSearchs.xsd</DependentUpon>
+    </None>
+    <None Include="dsRestrictionsUsers.xsx">
+      <DependentUpon>dsRestrictionsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="DsResults.xsc">
+      <DependentUpon>DsResults.xsd</DependentUpon>
+    </None>
+    <None Include="DsResults.xss">
+      <DependentUpon>DsResults.xsd</DependentUpon>
+    </None>
+    <None Include="DsResults.xsx">
+      <DependentUpon>DsResults.xsd</DependentUpon>
+    </None>
+    <None Include="DsSchedule.xsc">
+      <DependentUpon>DsSchedule.xsd</DependentUpon>
+    </None>
+    <None Include="DsSchedule.xss">
+      <DependentUpon>DsSchedule.xsd</DependentUpon>
+    </None>
+    <None Include="DsSchedule.xsx">
+      <DependentUpon>DsSchedule.xsd</DependentUpon>
+    </None>
+    <None Include="Forms\DsForms.xsc">
+      <DependentUpon>DsForms.xsd</DependentUpon>
+    </None>
+    <None Include="Forms\DsForms.xss">
+      <DependentUpon>DsForms.xsd</DependentUpon>
+    </None>
+    <None Include="Forms\DsForms.xsx">
+      <DependentUpon>DsForms.xsd</DependentUpon>
+    </None>
+    <None Include="Icons\DsIcons.xsc">
+      <DependentUpon>DsIcons.xsd</DependentUpon>
+    </None>
+    <None Include="Icons\DsIcons.xss">
+      <DependentUpon>DsIcons.xsd</DependentUpon>
+    </None>
+    <None Include="Icons\DsIcons.xsx">
+      <DependentUpon>DsIcons.xsd</DependentUpon>
+    </None>
+    <None Include="Icons\DsImageServer.xsc">
+      <DependentUpon>DsImageServer.xsd</DependentUpon>
+    </None>
+    <None Include="Icons\DsImageServer.xss">
+      <DependentUpon>DsImageServer.xsd</DependentUpon>
+    </None>
+    <None Include="Icons\DsImageServer.xsx">
+      <DependentUpon>DsImageServer.xsd</DependentUpon>
+    </None>
+    <None Include="ImportsMonitor\dsFolderConfig.xsx">
+      <DependentUpon>dsFolderConfig.xsd</DependentUpon>
+    </None>
+    <None Include="ImportsMonitor\dsIPFolderBackUp.xsx">
+      <DependentUpon>dsIPFolderBackUp.xsd</DependentUpon>
+    </None>
+    <None Include="ImportsMonitor\DsIPTask.xsx">
+      <DependentUpon>DsIPTask.xsd</DependentUpon>
+    </None>
+    <None Include="IndexIntegrity\dsColumnasErroneas.xsx">
+      <DependentUpon>dsColumnasErroneas.xsd</DependentUpon>
+    </None>
+    <None Include="IndexIntegrity\dsRelacionesNoUsadas.xsx">
+      <DependentUpon>dsRelacionesNoUsadas.xsd</DependentUpon>
+    </None>
+    <None Include="Mensajes\contacts.xsx">
+      <DependentUpon>contacts.xsd</DependentUpon>
+    </None>
+    <None Include="Mensajes\DSAttach.xsx">
+      <DependentUpon>DSAttach.xsd</DependentUpon>
+    </None>
+    <None Include="Mensajes\dsMessages.xsx">
+      <DependentUpon>dsMessages.xsd</DependentUpon>
+    </None>
+    <None Include="MoveResults\DsAssign.xsx">
+      <DependentUpon>DsAssign.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Notas\DtNotes.xsx">
+      <DependentUpon>DtNotes.xsd</DependentUpon>
+    </None>
+    <None Include="Security\Data_Group_Doc.xsx">
+      <DependentUpon>Data_Group_Doc.xsd</DependentUpon>
+    </None>
+    <None Include="Security\DsActiveLic.xsx">
+      <DependentUpon>DsActiveLic.xsd</DependentUpon>
+    </None>
+    <None Include="Security\DsDoctypeRight.xsc">
+      <DependentUpon>DsDoctypeRight.xsd</DependentUpon>
+    </None>
+    <None Include="Security\DsDoctypeRight.xss">
+      <DependentUpon>DsDoctypeRight.xsd</DependentUpon>
+    </None>
+    <None Include="Security\DsDoctypeRight.xsx">
+      <DependentUpon>DsDoctypeRight.xsd</DependentUpon>
+    </None>
+    <None Include="Security\DSUserGroup.xsx">
+      <DependentUpon>DSUserGroup.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsWF.xsc">
+      <DependentUpon>DsWF.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsWF.xss">
+      <DependentUpon>DsWF.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsWF.xsx">
+      <DependentUpon>DsWF.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDelayedDocs.xsc">
+      <DependentUpon>DsDelayedDocs.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDelayedDocs.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDelayedDocs.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsDelayedDocs.xss">
+      <DependentUpon>DsDelayedDocs.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDocsByStep.xsc">
+      <DependentUpon>DsDocsByStep.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDocsByStep.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocsByStep.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsDocsByStep.xss">
+      <DependentUpon>DsDocsByStep.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDocsByUser.xsc">
+      <DependentUpon>DsDocsByUser.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDocsByUser.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocsByUser.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsDocsByUser.xss">
+      <DependentUpon>DsDocsByUser.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsDocuments.xsc">
+      <DependentUpon>DsDocuments.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsDocuments.xss">
+      <DependentUpon>DsDocuments.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsDocuments.xsx">
+      <DependentUpon>DsDocuments.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsRules.xsc">
+      <DependentUpon>DsRules.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsRules.xss">
+      <DependentUpon>DsRules.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsRules.xsx">
+      <DependentUpon>DsRules.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsSteps.xsc">
+      <DependentUpon>DsSteps.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsSteps.xss">
+      <DependentUpon>DsSteps.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsSteps.xsx">
+      <DependentUpon>DsSteps.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsStepsTask.xsc">
+      <DependentUpon>DsStepsTask.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsStepsTask.xss">
+      <DependentUpon>DsStepsTask.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsStepsTask.xsx">
+      <DependentUpon>DsStepsTask.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsStepState.xsc">
+      <DependentUpon>DsStepState.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsStepState.xss">
+      <DependentUpon>DsStepState.xsd</DependentUpon>
+    </None>
+    <None Include="WF\DsStepState.xsx">
+      <DependentUpon>DsStepState.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDocsByWF.xsc">
+      <DependentUpon>DsDocsByWF.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsDocsByWF.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsDocsByWF.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsDocsByWF.xss">
+      <DependentUpon>DsDocsByWF.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsExpiredDocs.xsc">
+      <DependentUpon>DsExpiredDocs.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsExpiredDocs.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsExpiredDocs.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsExpiredDocs.xss">
+      <DependentUpon>DsExpiredDocs.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsRulesByStep.xsc">
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsRulesByStep.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsRulesByStep.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsRulesByStep.xss">
+      <DependentUpon>DsRulesByStep.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsTasksUsers.xsc">
+      <DependentUpon>DsTasksUsers.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsTasksUsers.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsTasksUsers.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsTasksUsers.xss">
+      <DependentUpon>DsTasksUsers.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsStepsByWorkflow.xsc">
+      <DependentUpon>DsStepsByWorkflow.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsStepsByWorkflow.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsStepsByWorkflow.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsStepsByWorkflow.xss">
+      <DependentUpon>DsStepsByWorkflow.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsUsers.xsc">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsUsers.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsUsers.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsUsers.xss">
+      <DependentUpon>DsUsers.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsWFsByDocType.xsc">
+      <DependentUpon>DsWFsByDocType.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsWFsByDocType.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsWFsByDocType.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsWFsByDocType.xss">
+      <DependentUpon>DsWFsByDocType.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsWFStepDetails.xsc">
+      <DependentUpon>DsWFStepDetails.xsd</DependentUpon>
+    </None>
+    <None Include="WF\Reportes\DsWFStepDetails.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsWFStepDetails.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="WF\Reportes\DsWFStepDetails.xss">
+      <DependentUpon>DsWFStepDetails.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Imports\" />
+    <Folder Include="Indices\" />
+    <Folder Include="Security\ZLOG\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

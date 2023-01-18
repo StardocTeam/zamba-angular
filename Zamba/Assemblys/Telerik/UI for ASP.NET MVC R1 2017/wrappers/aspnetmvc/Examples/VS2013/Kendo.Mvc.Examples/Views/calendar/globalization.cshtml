@@ -1,0 +1,14 @@
+@section HeadContent {
+    <script src="@Url.Content("~/Scripts/cultures/kendo.culture.de-DE.min.js")"></script>
+}
+
+<script type="text/javascript">
+    //set culture of the Kendo UI
+    kendo.culture("de-DE");
+</script>
+<div class="demo-section k-content" style="text-align: center;">
+@(Html.Kendo().Calendar()
+      .Name("calendar")
+      .Value(DateTime.Today)
+)
+</div>

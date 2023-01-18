@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>MicroCuenca</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet" />
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="Scripts/Aysa.js"></script>
+    <script src="MicroCuenca.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+    </script>
+</head>
+<body>
+    <form name="frmMain" method="post">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Micro-Macro Cuenca</strong>
+    </div>
+    <br />
+    <input id="zamba_rule_19762" class="submit ZambaRule DontSave " name="zamba_rule_19762"
+        type="submit" style="text-align: center; margin-right: 25px;" value="Ir a industria" />
+    <div name="floatleft" id="floatleft">
+        <div class="tabber">
+            <div class="tabbertab">
+                <h2>
+                    Informaci&oacuten General</h2>
+                <p>
+                    <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px;
+                        display: none;" />
+                    <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                C&oacutedigo MIC:</label>
+                        </td>
+                        <td>
+                            <select id="zamba_index_1241" name="zamba_index_1241" style="width: 150px">
+                            </select>
+                        </td>
+                        <td>
+                            <label>
+                                Tipo de MIC:</label>
+                        </td>
+                        <td>
+                            <select id="zamba_index_1240" name="zamba_index_1240" style="width: 150px" disabled="disabled">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                C&oacutedigo MAC:</label>
+                        </td>
+                        <td>
+                            <select id="zamba_index_1243" name="zamba_index_1243" style="width: 150px" disabled="disabled">
+                            </select>
+                        </td>
+                        <td>
+                            <label>
+                                Cuenca:</label>
+                        </td>
+                        <td>
+                            <select id="zamba_index_1244" name="zamba_index_1244" style="width: 150px" disabled="disabled">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tabbertab">
+                <h2>
+                    Documentacion</h2>
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <input id="zamba_rule_8062" type="submit" style="text-align: center; margin-right: 25px;"
+                                class="submit ZambaRule DontSave " value="Agregar Documentacion" name="zamba_rule_8062" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Documentacion asociada:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="zamba_associated_documents_1049" class="tablesorter">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br />
+        <div name="logoAysa" id="logoAysa">
+            <img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+        </div>
+        <div name="logozamba" id="logozamba">
+            <img src="Content/Images/pwbyzamba.jpg">
+        </div>
+        <div name="alignleft" id="alignleft">
+            <input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR"
+                onclick="EnableMicMacCombos();"  />
+        </div>
+    </form>
+</body>
+</html>

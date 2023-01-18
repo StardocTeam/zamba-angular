@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+   
+    <script>
+        function ValidateCUIT(sender) {
+            var cuitvalue = $(sender).val();
+            console.log("Valor CUIT: " + cuitvalue);
+            if (String(cuitvalue).length < 22 && String(cuitvalue).length > 0 && cuitvalue != null) {
+                swal("", "El campo CUIT debe tener 22 digitos", "warning");
+                return false;
+            }
+            return true;
+        }
+
+         function zamba_save_onclick(sender) {
+             var valido = false;
+             var currentDate = new Date();
+
+             try {
+                 if (document.getElementById("zamba_index_26296").value == "") {
+                     swal("", "Por favor, Ingrese un Nro de CUIT");
+                     valido = false;
+                 } else if (validateCUIT(document.getElementById("zamba_index_26296")) == false) {
+                     valido = false;
+                 } else if (document.getElementById("zamba_index_139562").value == "") {
+                     swal("", "Por favor,Ingrese La Razon Social");
+                     valido = false;
+                 } else if (document.getElementById("zamba_index_26217").value == "") {
+                     swal("", "Por favor, Ingrese N° de Telefono");
+                     valido = false;
+                 } else if (document.getElementById("zamba_index_139565").value == "") {
+                     swal("", "Por favor, Ingrese el Email");
+                     valido = false;
+                 } else if (document.getElementById("zamba_index_139564").value == "") {
+                     swal("", "Por favor, ingrese Persona de Contacto");
+                     valido = false;
+                 }
+                 else {
+                     SetRuleId(sender);
+                     valido = true;
+                 }
+             }
+             catch (ex) {
+                 swal("", "Por favor, verificar los datos ingresados");
+                 console.log(ex);
+             }
+             return valido;
+         }
+    </script>
+</head>
+
+<body>
+    <form name="frmMain" action="Nuevo_Cliente.html">
+        <center>
+            <div  >
+                <div ng-controller="appController">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container-fluid">
+                        <center>
+                            <div class="tab-pane active" id="Nuevo Cliente">
+							 <ul class=" nav nav-tabs">
+								<li class=" active"><a href="#Impo/Expo" data-toggle="tab">Nuevo Importador / Exportador</a></li>
+								<!-- <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>						 -->
+							</ul>
+                                <div class="form-group row">
+                                  
+                                    <div class="PanelPrincipal">
+									<div class="form-group row"></div>
+                                        <div class="form-group row">
+                                            <div class="col-md-10"></div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <!--ID Cliente-->          
+                                                    <span class="input-group-addon" style="color:blue;">ID Cliente</span>
+                                                    <input id="zamba_index_139631" name="zamba_index_139631" class="form-control input-sm" disabled="disabled" style="font-weight:600;" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--CUIT-->  
+                                                    <span class="input-group-addon">CUIT  Importador / Exportador</span>
+                                                    <input id="zamba_index_26296" name="zamba_index_26296" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <!--Razon Social-->
+                                                     <span class="input-group-addon">Razon Social</span>
+                                                    <input id="zamba_index_139562" name="zamba_index_139562" class="form-control input-sm " />
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Teléfono1-->                                        		
+                                                    <span class="input-group-addon">Telefono 1 (*):</span>
+                                                    <input id="zamba_index_26217" name="zamba_index_26217" size="1" class="form-control input-sm solonums" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Teléfono2-->                                        		
+                                                    <span class="input-group-addon">Telefono 2:</span>
+                                                    <input id="zamba_index_139635" name="zamba_index_139635" size="1" class="form-control input-sm solonums" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Email 1-->                                  		
+                                                    <span class="input-group-addon">Email 1 (*):</span>
+                                                    <input id="zamba_index_139565" name="zamba_index_139565" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Email 2-->                                  		
+                                                    <span class="input-group-addon">Email 2:</span>
+                                                    <input id="zamba_index_139636" name="zamba_index_139636" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Contacto-->                                  		
+                                                    <span class="input-group-addon">Contacto (*):</span>
+                                                    <input id="zamba_index_139564" name="zamba_index_139564" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--CUIT Despachante-->  
+                                                    <span class="input-group-addon">CUIT Despachante</span>
+                                                    <input id="zamba_index_139600" name="zamba_index_139600" class="form-control input-sm" disabled style="font-weight:600;" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4" style="position: relative;top:5px;">
+                                                <span><h6>Los datos marcados con (*) son datos obligatorios</h6></span>
+                                            </div>
+                                        </div>
+										
+							<div class="form-group row"></div>
+										
+										<div class="form-group row">
+                                            <div class="col-md-12">
+                                                <center><span class="input-group-addon" style="color:blue;">Datos de Facturacion</span></center>
+                                            </div>
+                                        </div>
+										
+										<div class="form-group row">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Responsable-->                                  		
+                                                    <span class="input-group-addon">Responsable de Facturacion:</span>
+                                                    <select id="zamba_index_150734" name="zamba_index_150734" size="1" class="form-control input-sm" ></select>
+                                                </div>
+                                            </div>
+										
+											 <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <!--Localidad-->  
+                                                    <span class="input-group-addon">Razon Social Tercero:</span>
+                                                    <input id="zamba_index_150732" name="zamba_index_150732" class="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--CUIT Despachante-->  
+                                                    <span class="input-group-addon">CUIT Tercero</span>
+                                                    <input id="zamba_index_150731" name="zamba_index_150731" class="form-control input-sm" style="font-weight:600;" />
+                                                </div>
+                                            </div>                                           
+                                        </div>
+										
+                            <div class="form-group row"></div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <center><span class="input-group-addon" style="color:blue;">Datos del Domicilio</span></center>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+											
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Provincia-->  
+                                                    <span class="input-group-addon">Provincia:</span>
+                                                    <select id="zamba_index_26283" name="zamba_index_26283" class="form-control input-sm"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Localidad-->  
+                                                    <span class="input-group-addon">Localidad:</span>
+                                                    <select id="zamba_index_26215" name="zamba_index_26215" class="form-control input-sm"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Calle--> 
+                                                     <span class="input-group-addon">Calle:</span>
+                                                    <input id="zamba_index_139573" name="zamba_index_139573" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+										
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Numero-->  
+                                                    <span class="input-group-addon">Numero:</span>
+                                                    <input id="zamba_index_139637" name="zamba_index_139637" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+											</div>
+                                        <div class="form-group row">
+											<div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Codigo Postal-->  
+                                                    <span class="input-group-addon">Codigo Postal:</span>
+                                                    <input id="zamba_index_26285" name="zamba_index_26285" class="form-control input-sm"/>
+                                                </div>
+                                            </div>
+											<div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Otros-->  
+                                                    <span class="input-group-addon">Otros:</span>
+                                                    <input id="zamba_index_26263" name="zamba_index_26263" class="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                        </div>
+										
+
+                                        <hr style="border: 0 ; border-top: 1px double #ded9d9; width: 100%;margin-top:10px;">
+
+
+
+                                    </div>
+                                    <div class="form-group row"></div>
+
+                                    <center>
+
+
+                                        <!-- <button name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn-sm btn-primary" type="submit">Guardar</button> -->
+                                        <button name="zamba_rule_165689" id="zamba_rule_165689" onclick="return zamba_save_onclick(this);" class="btn-sm btn-success" type="submit" >Dar de Alta</button>
+                                        <button name="zamba_cancelar" id="zamba_cancelar" onclick="SetRuleId(this);" class="btn-sm btn-primary" type="submit">Cancelar</button>
+                                        <button name="zamba_rule_165833" id="zamba_rule_165833" onclick="SetRuleId(this);" class="btn-sm btn-warning" type="submit" >Eliminar Impo/Expo</button>
+                                        <!--<input type="button" onclick="window.print();" class="btn-sm btn-primary" value="Imprimir">-->
+
+                                    </center>
+                                    <div class="form-group row"></div>
+                                    <div class="form-group row"></div>
+
+
+                                    <div class="row">
+                                    <center>
+                                        <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                            <img alt="" src="images/logo_modoc.png" height="50" width="85"
+                                                style="float: left" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <span style="color:whitesmoke">Nuevo_Cliente_INS.html</span>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">
+                                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135"
+                                                style="float: right" />
+                                            <div class="form-group row">
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </form>
+</body>
+</html>

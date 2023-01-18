@@ -1,0 +1,503 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Hosting;
+using System.Web.Http;
+using System.Web.Http.Cors;
+using Zamba;
+using Zamba.Core;
+using Zamba.Framework;
+using Zamba.Services;
+using ZambaWeb.RestApi.Models;
+namespace ZambaWeb.RestApi.Controllers
+{
+
+    public class InsertFilesController : ApiController
+    {
+
+        public InsertFilesController()
+        {
+            ZCore ZC = new ZCore();
+            if (Zamba.Servers.Server.ConInitialized == false)
+                ZC.InitializeSystem("Zamba.WebRS");
+
+            ZC.VerifyFileServer();
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("Login")]
+        public IHttpActionResult KeepAlive()
+        {
+            try
+            {
+                HttpContext.Current.Session["SessionRefreshToken"] = DateTime.Now;
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Error en KeepAlive: " + ex.ToString())));
+            }
+        }
+
+        public Zamba.Core.IUser GetUser(long? userId)
+        {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format("User por Identity: ", User.Identity));
+            var user = TokenHelper.GetUser(User.Identity);
+
+            UserBusiness UBR = new UserBusiness();
+
+            if (userId.HasValue && userId > 0 && user == null)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format("UserId por Parametro: ", userId));
+                user = UBR.ValidateLogIn(userId.Value, ClientType.WebApi);
+            }
+
+            if (user == null && Request != null && Request.Headers.Count() > 0 && Request.Headers.Contains("UserId") && Request.Headers.GetValues("UserId").Count() > 0)
+            {
+                Int64 UserId = Int64.Parse(Request.Headers.GetValues("UserId por Header").FirstOrDefault());
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format("UserId: ", userId));
+                if (UserId > 0)
+                {
+                    user = UBR.ValidateLogIn(UserId, ClientType.WebApi);
+                }
+            }
+            UBR = null;
+
+            return user;
+        }
+
+
+        //[Authorize]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/InsertFiles/GetIndexsFromDocType")]
+        public List<IIndexList> GetIndexsFromDocType(int DocTypeId)
+        {
+            try
+            {
+                List<IIndexList> indexs = new List<IIndexList>();
+
+
+                StringBuilder querySt = new StringBuilder();
+                querySt.Append("Select doc_type.doc_type_id, doc_type.doc_type_name, doc_index.index_id,doc_index.index_name ");
+                querySt.Append("from index_r_doc_type inner join doc_index on index_r_doc_type.indeX_id = doc_index.index_id ");
+                querySt.Append("inner join doc_type on doc_type.doc_type_id = index_r_doc_type.doc_type_id where index_r_doc_type.doc_type_id = '" + DocTypeId + "' ");
+                string query = string.Format(querySt.ToString());
+                var dataSet = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
+
+
+                //indexs.Add();
+
+                return indexs;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/InsertFiles/GetDocTypes")]
+        public System.Collections.ArrayList GetDocTypes()
+        {
+            DocTypesBusiness DTB = new DocTypesBusiness();
+            System.Collections.ArrayList doctypes = null;
+            doctypes = DTB.GetDocTypesArrayList();
+            DTB = null;
+            return doctypes;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/InsertFiles/UploadFile")]
+        public string UploadFile([FromBody] insert insert)
+        {
+            Int64 newId = 0;
+            string pathTemp = string.Empty;
+            try
+            {
+                pathTemp.ToList();
+                newId = Zamba.Data.CoreData.GetNewID(IdTypes.DOCID);
+                CopyFileBKP(ref pathTemp, insert, newId);
+            }
+            catch (Exception ex)
+            {
+                Dictionary<object, object> datosInsert = new Dictionary<object, object>();
+
+                ZClass.raiseerror(ex);
+                ex.Data.Add("DocTypeId", insert.DocTypeId);
+                ex.Data.Add("UserId", insert.Userid);
+                ex.Data.Add("Id", string.Empty);
+                ex.Data.Add("Value", string.Empty);
+
+                foreach (var item in insert.indexs)
+                {
+                    ex.Data["Id"] += string.Format("{0}; ", item.id.ToString());
+                    ex.Data["Value"] += string.Format("{0}; ", item.value.ToString());
+                }
+
+                ex.Data.Add("File", insert.file.data);
+                ZClass.raiseerror(ex);
+
+                return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+            }
+            if (insert != null)
+            {
+                var user = GetUser(insert.Userid);
+                if (user == null)
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                        new HttpError(StringHelper.InvalidUser))).ToString();
+                try
+                {
+                    SUsers us = new SUsers();
+                    List<IIndex> indexs = new List<IIndex>();
+                    SResult sResult = new SResult();
+                    InsertResult result = InsertResult.NoInsertado;
+                    INewResult newresult = new SResult().GetNewNewResult(insert.DocTypeId);
+                    StringBuilder IndexDataLog = new StringBuilder();
+                    foreach (var InsertIndex in insert.indexs)
+                    {
+                        foreach (var NewResultIndex in newresult.Indexs)
+                        {
+                            if (NewResultIndex.ID == InsertIndex.id)
+                            {
+                                NewResultIndex.Data = InsertIndex.value;
+                                NewResultIndex.DataTemp = InsertIndex.value;
+                                indexs.Add(NewResultIndex);
+                                IndexDataLog.Append(NewResultIndex.Name);
+                                IndexDataLog.Append(": ");
+                                IndexDataLog.Append(InsertIndex.value);
+                                IndexDataLog.Append(", ");
+
+                                break;
+                            }
+                        }
+                    }
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, IndexDataLog.ToString());
+
+
+                    result = sResult.Insert(ref newresult, pathTemp, insert.DocTypeId, indexs, insert.Userid);
+
+                    if (result == InsertResult.Insertado)
+                    {
+                        return JsonConvert.SerializeObject(true, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        });
+                    }
+                    else
+                    {
+                        Exception ex = new Exception(result.ToString());
+                        ZClass.raiseerror(ex);
+                        return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        });
+
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    ZClass.raiseerror(ex);
+                    return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    });
+                }
+                finally
+                {
+                    File.Delete(pathTemp);
+                }
+            }
+            else
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+    new HttpError(StringHelper.BadInsertParameter))).ToString();
+
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/InsertFiles/UploadFileWithIndexReturn")]
+        public string UploadFileWithIndexReturn([FromBody] insert insert)
+        {
+            string pathTemp = string.Empty;
+            Int64 newId = 0;
+
+
+            try
+            {
+
+                if (insert != null)
+                {
+                    var user = GetUser(insert.Userid);
+                    if (user == null)
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                            new HttpError(StringHelper.InvalidUser))).ToString();
+
+                    newId = Zamba.Data.CoreData.GetNewID(IdTypes.DOCID);
+                    CopyFileBKP(ref pathTemp, insert, newId);
+
+
+                    try
+                    {
+                        SUsers us = new SUsers();
+                        List<IIndex> indexs = new List<IIndex>();
+                        SResult sResult = new SResult();
+                        InsertResult result = InsertResult.NoInsertado;
+                        INewResult newresult = new SResult().GetNewNewResult(insert.DocTypeId);
+                        StringBuilder IndexDataLog = new StringBuilder();
+                        foreach (var InsertIndex in insert.indexs)
+                        {
+                            Boolean IndexValidate = false;
+                            String ErrorMsg = "";
+                            foreach (var NewResultIndex in newresult.Indexs)
+                            {
+
+                                if (NewResultIndex.ID == InsertIndex.id)
+                                {
+                                    NewResultIndex.Data = InsertIndex.value;
+                                    NewResultIndex.DataTemp = InsertIndex.value;
+                                    indexs.Add(NewResultIndex);
+                                    IndexDataLog.Append(NewResultIndex.Name);
+                                    IndexDataLog.Append(": ");
+                                    IndexDataLog.Append(InsertIndex.value);
+                                    IndexDataLog.Append(", ");
+                                    IndexValidate = true;
+                                    break;
+                                }
+                            }
+                            if (!IndexValidate)
+                                throw new Exception($"El atributo no existe en la Entidad seleccionada. ({InsertIndex.id} : {InsertIndex.value})");
+                        }
+
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, IndexDataLog.ToString());
+
+                        newresult.File = insert.OriginalFileName;
+                        result = sResult.Insert(ref newresult, pathTemp, insert.DocTypeId, indexs, insert.Userid, newId);
+
+                        if (result == InsertResult.Insertado)
+                        {
+                            try
+                            {
+                                if (insert.OriginalFileName != null && !string.IsNullOrEmpty(insert.OriginalFileName))
+                                {
+                                    Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, string.Format("update doc_t{0} set Original_FileName = '{1}' where doc_id = {2}", insert.DocTypeId, insert.OriginalFileName, newresult.ID));
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ZClass.raiseerror(ex);
+                            }
+
+                            Results_Business rb = new Results_Business();
+
+                            IIndex ReturnIndex = newresult.get_GetIndexById(insert.ReturnId);
+                            insertResult IR = null;
+                            if (ReturnIndex == null || ReturnIndex.Data == string.Empty)
+                            {
+                                IResult res = rb.GetResult(newId, newresult.DocTypeId, true);
+                                List<char> DigitisIds = newresult.ID.ToString().ToList();
+                                string NewID = string.Empty;
+                                for (int i = 0; i < DigitisIds.Count - 1; i++)
+                                {
+                                    if (i % 2 == 0)
+                                    {
+                                        NewID += DigitisIds[i] + new Random().Next(9).ToString();
+                                    }
+                                    else
+                                    {
+                                        NewID += DigitisIds[i];
+
+                                    }
+                                }
+                                Int64 internalId = Int64.Parse(NewID);
+
+                                IIndex ReturnNewIndex = res.get_GetIndexById(insert.ReturnId);
+
+                                      if (ReturnNewIndex == null)
+                                    throw new Exception($"El atributo de retorno es indexistenteen la entidad seleccionada. ({insert.ReturnId})");
+
+                                IR = new insertResult
+                                {
+                                    Id = internalId,
+                                    ReturnId = insert.ReturnId,
+                                    ReturnValue = ReturnNewIndex.Data,
+                                    msg = "OK"
+                                };
+                            }
+                            else
+                            {
+                                List<char> DigitisIds = newresult.ID.ToString().ToList();
+                                string NewID = string.Empty;
+                                for (int i = 0;  i < DigitisIds.Count - 1; i++)
+                                {
+                                    if (i % 2 == 0)
+                                    {
+                                        NewID += DigitisIds[i] + new Random().Next(9).ToString();
+                                    }
+                                    else
+                                    {
+                                        NewID += DigitisIds[i];
+
+                                    }
+                                }
+                                Int64 internalId = Int64.Parse(NewID);
+                                IR = new insertResult
+                                {
+                                    Id = internalId,
+                                    ReturnId = insert.ReturnId,
+                                    ReturnValue = ReturnIndex.Data,
+                                    msg = "OK"
+                                };
+                            }
+                            return JsonConvert.SerializeObject(IR, Formatting.Indented,
+                            new JsonSerializerSettings
+                            {
+                                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                            });
+                        }
+                        else
+                        {
+                            Exception ex = new Exception(result.ToString());
+                            ZClass.raiseerror(ex);
+                            insertResult IR = new insertResult
+                            {
+                                Id = 0,
+                                ReturnId = 0,
+                                ReturnValue = "",
+                                msg = "ERROR",
+                                error = result.ToString()
+                            };
+
+                            return JsonConvert.SerializeObject(IR, Formatting.Indented,
+                            new JsonSerializerSettings
+                            {
+                                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                            });
+
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                        insertResult IR = new insertResult
+                        {
+                            Id = 0,
+                            ReturnId = 0,
+                            ReturnValue = "",
+                            msg = "ERROR",
+                            error = ex.ToString()
+                        };
+
+                        return JsonConvert.SerializeObject(IR, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        });
+                    }
+                    finally
+                    {
+                        File.Delete(pathTemp);
+                    }
+                }
+                else
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+        new HttpError(StringHelper.BadInsertParameter))).ToString();
+
+
+            }
+            catch (Exception ex)
+            {
+                Dictionary<object, object> datosInsert = new Dictionary<object, object>();
+
+                ZClass.raiseerror(ex);
+                ex.Data.Add("DocTypeId", insert.DocTypeId);
+                ex.Data.Add("UserId", insert.Userid);
+                ex.Data.Add("Id", string.Empty);
+                ex.Data.Add("Value", string.Empty);
+
+                foreach (var item in insert.indexs)
+                {
+                    ex.Data["Id"] += string.Format("{0}; ", item.id.ToString());
+                    ex.Data["Value"] += string.Format("{0}; ", item.value.ToString());
+                }
+
+                ex.Data.Add("File", insert.file.data);
+
+                return JsonConvert.SerializeObject(ex, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+            }
+
+        }
+
+
+        private void CopyFileBKP(ref string pathTemp, insert insert, Int64 newDocID)
+        {
+            if (insert.file != null)
+            {
+                var filename = newDocID + "." + insert.file.extension;
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format(@"Nuevo Archivo: {0}", filename));
+
+                if (!Directory.Exists(Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp")))
+                {
+                    Directory.CreateDirectory(Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp"));
+                }
+
+                pathTemp = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp", filename);
+
+                string[] s = insert.file.data.Split(',');
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format(@"String de Archivo: {0}", insert.file.data));
+                var data = Convert.FromBase64String(s[1].Replace(" ", "+"));
+                File.WriteAllBytes(pathTemp, data);
+
+                var pathBKP = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "BKP InsertFile");
+                if (!Directory.Exists(pathBKP))
+                {
+                    Directory.CreateDirectory(pathBKP);
+                }
+                File.Copy(pathTemp, Path.Combine(pathBKP, filename), true);
+            }
+            else
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Archivo no existente.");
+                throw new Exception("Archivo no existente.");
+
+            }
+
+        }
+
+
+    }
+}
+
+

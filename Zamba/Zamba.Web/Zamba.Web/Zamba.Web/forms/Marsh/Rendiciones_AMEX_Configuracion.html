@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creación:25/11/2020-->
+
+
+<head>
+    <title></title>
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+</head>
+
+<body>
+    <form name="frmMain" action="Rendiciones_AMEX_Configuracion.html">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+
+        <div class="container">
+            <center>
+                <div class="form-group row">
+                    <div style=" margin-top: 20px; color: white; background-color:#009DE0; font-family: gadugi, sans-serif;">
+                        <h4><b>RENDICIONES TARJETAS AMEX</b></h4>
+                    </div>
+
+                    <div class="header background-blue">
+                        <h4><b>Configuración</b></h4>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="PanelPrincipal">
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Tope de envíos por SMTP:</span>
+                                    <input id="zamba_index_2027" name="zamba_index_2027" size="1" class="form-control" disabled/>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Nro último envío realizado:</span>
+                                    <input id="zamba_index_4262" name="zamba_index_4262" size="1" class="form-control" disabled/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Horario de envío:</span>
+                                    <input id="zamba_index_8001" name="zamba_index_8001" size="1" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <span class="input-group-addon">CC Envíos:</span>
+                                    <input id="zamba_index_32" name="zamba_index_32" size="1" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--Botones FORM-->
+                        <div class="form-group row">
+                            <center>
+                                <div style="margin-top: 10px;">
+                                        <input name="zamba_save"" id="zamba_save"" onclick="SetRuleId(this);"
+                                        class="btn btn-primary" type="submit" value="Guardar cambios">
+                            </center>
+                        </div>
+
+                        <!--IMPORTANTE  cambiar version al modificar formulario-->
+                        <div class="row">
+                            <div class="col-md-12"style=" margin-top: 0px;">
+                                <span class="colorVersion"> V. 1.0.0 </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span style="color:white">Rendiciones_AMEX_Configuracion.html</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <center>
+                                <div>
+                                    <img alt="" src="images/marsh_logo.png" height="45" width="105"
+                                        style="float: left" />
+                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115"
+                                        style="float: right" />
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </form>
+</body>
+
+</html>
+
+<style>
+    .Inputselect {
+        width: 100px !important;
+    }
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 10px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

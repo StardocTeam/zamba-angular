@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="boston_styles.css" type="text/css" />
+<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+ 
+
+
+<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+<script type="text/javascript" language="JavaScript">
+$(document).ready(function(){
+$(".moneda").each(function(){
+$(this).keyup(function (e){
+if(DecimalCheck($('#' + e.target.id))){
+SumarCampos();
+}
+})
+});
+});
+function zamba_save_onclick() {
+if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value == "0"){
+alert("Debe completar el Total de la Transacción");
+document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+} else if($('input[type=text]').hasClass('error')){
+alert("Verifique que todos los datos de los campos sean válidos");
+document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+} else {
+document.getElementById("hdnRuleId").name = "zamba_rule_save";
+}
+}
+function SumarCampos() {
+//Obtiene cada valor y lo convierte a decimal
+var sum = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+sum += parseFloat($("#zamba_index_2813").val().replace('', '0'));
+sum += parseFloat($("#zamba_index_2814").val().replace('', '0'));
+sum += parseFloat($("#zamba_index_2815").val().replace('', '0'));
+sum += parseFloat($("#zamba_index_2816").val().replace('', '0'));
+sum += parseFloat($("#zamba_index_2817").val().replace('', '0'));
+sum += parseFloat($("#zamba_index_2818").val().replace('', '0'));
+
+//Suma los valores obtenidos y lo asigna al indice Total
+$("#zamba_index_2719").val(Redondear(sum));
+}
+function CargarFechasyBotones(){
+$('#zamba_index_2812').datepicker({
+changeMonth: true,
+changeYear: true,
+showOn: 'button',
+buttonText: 'Abrir calendario',
+buttonImage: 'calendar.png',
+buttonImageOnly: true,
+duration: "",
+maxDate: new Date()
+});
+CargarFechaIndice('zamba_index_2820');
+}
+</script>
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+<div class="container-fluid">
+<form name="frmMain" action="CalculoDeTransaccion.html">
+<input id="hdnRuleId" type="hidden" />
+<input id="hdnAsocId" type="hidden" />
+<center>
+<h4 class="text-center" id="header"  >
+Cálculo de Transacción
+</h4>
+
+<div id="tblRubro" class="attributes_table">
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Fecha de Transacción</span>
+<input class="form-control input-sm" id="zamba_index_2812" name="zamba_index_2812"  onblur="valFecha(this)">
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">ID Reclamoo</span>
+<input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677"  readonly="readonly">
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Capital $</span>
+<input class="form-control input-sm" id="zamba_index_2744" name="zamba_index_2744" >
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Letrado Req. $</span>
+<input class="form-control input-sm" id="zamba_index_2813" name="zamba_index_2813" >
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Letrado Cia $</span>
+<input class="form-control input-sm" id="zamba_index_2814" name="zamba_index_2814" >
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Mediador $</span>
+<input class="form-control input-sm" id="zamba_index_2815" name="zamba_index_2815" >
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Peritos $</span>
+<input class="form-control input-sm" id="zamba_index_2816" name="zamba_index_2816" >
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Tasa de Justicia $</span>
+<input class="form-control input-sm" id="zamba_index_2817" name="zamba_index_2817" >
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Otros Gastos $</span>
+<input class="form-control input-sm" id="zamba_index_2818" name="zamba_index_2818" >
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Copia de Convenio</span>
+<select class="form-control input-sm" id="zamba_index_2819" name="zamba_index_2819" ></select>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Fecha de Recepción de Convenio</span>
+<input class="form-control input-sm" id="zamba_index_2820" name="zamba_index_2820"  onblur="valFecha(this)">
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Total de Transacción $</span>
+<input class="form-control input-sm" id="zamba_index_2719" name="zamba_index_2719"  readonly="readonly">
+</div>
+</div>
+</div>
+</div>
+
+<div>
+<input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit" onclick="return zamba_save_onclick();" value="Guardar" />
+</div>
+</center>
+</div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsIPTask" targetNamespace="http://tempuri.org/DsIPTask.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/DsIPTask.xsd" xmlns:mstns="http://tempuri.org/DsIPTask.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsIPTask" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IP_Task">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Id" msdata:ReadOnly="true" msdata:AutoIncrement="true" type="xs:decimal" />
+							<xs:element name="Id_Configuracion" type="xs:decimal" />
+							<xs:element name="Ruta" type="xs:string" />
+							<xs:element name="Zip_Origen" type="xs:string" minOccurs="0" />
+							<xs:element name="Bloqueado" type="xs:boolean" />
+							<xs:element name="Usuario" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:unique name="DsIPTaskKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:IP_Task" />
+			<xs:field xpath="mstns:Id" />
+		</xs:unique>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,34 @@
+Caso de prueba:
+Al tener un documento con índices sin indexar, que el Indexador lo indexe y cuando realize una busqueda por indices de indices que antes no estaban indexados que me lo encuentre (parece un trabalenguas, si no se entendio preguntar).
+
+
+Test:
+
+(test para sql por el tipo de documento, para hacerlo en oracle elegir el otro que esta en ambientes de test)
+
+1. Realizar una busqueda del tipo de documento 'Test Tomas'.
+
+2. Modificar un índice cualquiera (que sea algo rebuscado asi se encuentra solamente un documento, algo como 'qwerty12345') y anotar dicho valor.
+
+3. Realizar una búsqueda por índices ingresando el valor antes anotado y encontrar el documento recien modificado.
+
+4. Ejecutar el select cambiando el contenido de 'PONER_LA_PALABRA_MODIFICADA_ACA' y poner el valor antes modificado. Ver que traiga un registro.
+
+(select * from zsearchvalues_dt z1 inner join zsearchvalues z2 on z1.wordid = z2.id
+where z2.word = 'PONER_LA_PALABRA_MODIFICADA_ACA')
+
+5. Ejecutar la sentencia delete modificando los valores que dice por los obtenidos en la consulta.
+
+(delete from zsearchvalues_dt where
+wordid= WORDID_OBTENIDO_DE_LA_CONSULTA_ANTERIOR and
+indexid= INDEXID_OBTENIDO_DE_LA_CONSULTA_ANTERIOR  and
+resultid = RESULTID_OBTENIDO_DE_LA_CONSULTA_ANTERIOR and
+dtid= DTID_OBTENIDO_DE_LA_CONSULTA_ANTERIOR)
+
+6. Repetir el punto 3 pero esta vez no debería encontrarlo.
+
+7a. Abrir el userconfig. En la seccion Indexer (si no esta crearla), configurar la opci{on StartFromDocType = 7 y LastDocIdProcessed = PONER_EL_VALOR_DE_RESULTID_OBTENIDO_DE_LA_CONSULTA.
+
+7b. Ejecutar el indexer. Verificar que cuando procese el tipo de doc 7 procese la palabra modificada. Cerrar el indexer.
+
+8. Repetir el paso 3 y verificar que si encuentre el doc.

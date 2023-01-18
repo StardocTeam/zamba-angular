@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+
+    
+	
+
+</head>
+
+<body>
+
+    <form name="frmMain" action="Orden de compra.html">
+
+        <ul class=" nav nav-tabs">
+            <li class=" active"><a href="#ODC" data-toggle="tab">Orden de Compra</a></li>
+            <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
+            <li><a href="#Aprobacion" data-toggle="tab">Aprobacion</a></li>
+			<li><a href="#Despachos" data-toggle="tab">Despachos</a></li>
+        </ul>
+
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div class="container-fluid">
+
+            <div class="tab-content">
+
+                <div class="tab-pane" id="Expediente">
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <div id="file1" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="11" default-enable-mode="grid" table-height="400" grid-title="Expediente">
+                            </zamba-associated>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h5 align="center">Ingrese aqui documentacion anexa al Expediente</h5>
+                                </div>
+                            </div>
+                            <!--DropZone-->
+                            <div id="appblankID2" ng-controller="appController">
+                                <zamba-drop id="11" IndexIds="48">  </zamba-drop>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+				<div class="tab-pane" id="Despachos">
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <div id="file1" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="11" default-enable-mode="grid" table-height="400" grid-title="Despachos">
+                            </zamba-associated>
+                        </div>
+                    </div>
+                   
+                </div>
+
+
+                <div class="tab-pane" id="Aprobacion">
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <div class="col-md-12 col-xs-12">
+                            <div ng-controller="TimelineController">
+                                <zamba-timeline entity-id="1020013" timeline-type="Aprobaciones" parent-entity-id="22"></zamba-timeline>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane active" id="ODC">
+
+                   
+
+                    <div class="form-group row"></div>
+
+                    <div class="PanelPrincipal">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+
+                                    <!--N° Orden de Compra-->                                         	
+                                    <span class="input-group-addon">N° Orden compra:</span>
+                                    <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control" disabled />
+                                    <!--<span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" name="zamba_rule_360" id="zamba_rule_360" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>-->
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Fecha Orden de Compra-->
+                                    <span class="input-group-addon">F. Orden Compra:</span>
+                                    <input id="zamba_index_46" name="zamba_index_46" size="1" class="form-control input-sm datepicker" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Estado-->                                       
+                                    <span class="input-group-addon">Estado:</span>
+                                    <input id="zamba_index_188" name="zamba_index_188" class="form-control input-sm " disabled />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+
+                                    <!--Nro Exp-->                                         	
+                                    <span class="input-group-addon">Nro Exp:</span>
+                                    <input id="zamba_index_12" name="zamba_index_12" size="1" class="form-control" disabled />
+                                    <!--<span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" name="zamba_rule_168" id="zamba_rule_168" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Sector=GrupoZamba-->                                
+                                    <span class="input-group-addon">Sector:</span>
+                                    <input id="zamba_index_126" name="zamba_index_126" size="1" class="form-control input-sm" disabled/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+
+                                    <!--Nro de Solicitud-->                                 
+                                    <span class="input-group-addon">Nro de Solicitud:</span>
+                                    <input id="zamba_index_16" name="zamba_index_16" size="1" class="form-control" disabled />
+                                    <!--<span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" name="zamba_rule_168" id="zamba_rule_168" onclick="SetRuleId(this);">
+                                            <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                        </button>
+                                    </span>-->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--Creador OC-->
+                                    <span class="input-group-addon">Creador OC:</span>
+                                    <input id="zamba_index_105" name="zamba_index_105" size="1" class="form-control input-sm" disabled/>
+                                </div>
+                            </div>
+                        </div>
+
+					
+                        <div class="form-group row">
+                                
+                            <div id="file2" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="1020014" default-enable-mode="grid" table-height="200" grid-title="Items"></zamba-associated>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="margin-bottom: 40px;">
+                            <div class="col-xs-12 col-md-6 ">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <!--Area texto Observacion-->
+                                        <div id="appObservaciones" ng-controller="ObservacionController">
+                                            <zamba-observaciones index-id="84" entity-id="22"></zamba-observaciones>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="row">
+                                    <div class="col-xs-12" >
+                                        <h5 align="center">Ingrese aqui la Orden de Compra</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12" style=" width: 92%;">
+                                        <!--DropZone-->
+                                        <div id="appblankID1" ng-controller="appController">
+                                            <zamba-drop id="0" >  </zamba-drop>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!--<div class="form-group row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-2">
+                              
+                                <input name="zamba_rule_1021317" id="zamba_rule_1021317" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Aprobar">
+                                <input name="zamba_rule_1021324" id="zamba_rule_1021324" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Rechazar">
+                            </div>
+                        </div>--> 
+                        <!--<div class="row">
+
+                            <center>
+                                <div class="col-xs-2 col-md-offset-2">
+                                    <input name="zamba_rule_xxxx" id="zamba_rule_xxxx" onclick="SetRuleId(this);" class="btn btn-primary tsen" type="submit" value="Solicitar Renovacion" enableGroups="1020160,1020161" style="display:none">
+                                </div>
+                            </center>
+
+                        </div>-->  
+
+
+<div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                        <div class="row" style="height:100%">
+                            <iframe id="previewDocSearch" class="IframeClass" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+          
+
+        </div>
+
+        <script type="text/javascript">
+            //angular.element(document).ready(function () {
+            //angular.bootstrap(document.getElementById('myBenefAppID'), ['myBenefApp']);
+            ////angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+            //angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+                                //}
+           
+
+        </script>
+        <script>
+            $(document).ready(function () {
+                getEnableButton();
+            });
+        </script>
+
+	</form>
+
+</body>
+</html>
+
+<style>
+    .Inputselect {
+        width: 190px !important;
+    }
+
+    .Inputselect2 {
+        width: 65px;
+        position: relative;
+        left: 8px;
+    }
+
+    .Inputselect3 {
+        width: 70px !important;
+    }
+
+
+    .Inputselect4 {
+        width: 200px !important;
+    }
+
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

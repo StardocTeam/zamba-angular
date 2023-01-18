@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+    <script src="../../Scripts/jquery-2.2.2.js"></script>
+    <script src="../../Scripts/angular.js"></script>
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../DropFiles/dropfiles.js"></script>
+    <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+</head>
+
+<body>
+    <center>
+        <div >
+            <div ng-controller="appController">
+                <div class="form-group row"></div>
+                <div class="col">
+                    <div class="cell panel">
+                        <form name="frmMain" action="Ing_Doc_Emision.html">
+                            <div class="header background-blue">
+                                <div class="form-group">
+                                </div>
+                                <CENTER>
+                                    <h5>INGRESO DOCUMENTOS DE EMISION</h5>
+                                </CENTER>
+                            </div>
+                            <input id="hdnRuleId" type="hidden" />
+                            <input id="hdnAsocId" type="hidden" />
+                            <div class="container">
+                                <center>
+                                    <div class="tab-pane active" id="INGRESO DOCUMENTOS DE EMISION">
+                                        <div class="form-group row">
+                                            <div class="PanelPrincipal">
+
+                                                <div class="form-group row">
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <!--Este es el campo que permite buscar por nro o nombre de productor-->
+                                                            <span class="input-group-addon">Buscar Productor:</span>
+                                                            <input id="zamba_zvar(productorabuscar)" placeholder="Ingrese el nombre o parte" name="zamba_zvar(productorabuscar)" class="form-control UPPER">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" name="zamba_rule_2044" id="zamba_rule_2044" onclick="SetRuleId(this);" onkeyup="this.value = this.value.toUpperCase();">
+                                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--ID trámite-->
+                                                            <span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                                            <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled="disabled" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Nro Productor-->
+                                                            <span class="input-group-addon">Nro Productor:</span>
+                                                            <input id="zamba_index_95" name="zamba_index_95" size="1" class="form-control" type="text" />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" name="zamba_rule_1021032" id="zamba_rule_1021032" onclick="SetRuleId(this);" onkeyup="this.value = this.value.toUpperCase();">
+                                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                                </button>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <!--Este ID corresponde al Agente de Venta-->
+                                                            <span class="input-group-addon">Productor:</span>
+                                                            <input id="zamba_index_35" name="zamba_index_35" disabled="disabled" size="1" class="form-control  input-sm">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="input-group">
+                                                                    <!--Recepcion-->                                            <span class="input-group-addon">Recepción:</span>
+                                                                    <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled="disabled" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Ramo-->                                         <span class="input-group-addon">Ramo:</span>
+                                                            <select id="zamba_index_19" name="zamba_index_19" class="form-control input-sm"> </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Poliza-->                                       <span class="input-group-addon">Póliza:</span>
+                                                            <input id="zamba_index_14" name="zamba_index_14" size="1" class="form-control" />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" name="zamba_rule_2310" id="zamba_rule_2310" onclick="SetRuleId(this);">
+                                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Certificado-->                                         <span class="input-group-addon">Certificado:</span>
+                                                            <input id="zamba_index_10165" name="zamba_index_10165" class="form-control input-sm" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--delegación-->                                          <span class="input-group-addon">Delegación:</span>
+                                                            <select id="zamba_index_82" name="zamba_index_82" class="form-control input-sm"> </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <!--<div class="col-md-3">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-12">
+                                                                                                                <div class="input-group">
+                                                    <--Nro de Caja>
+                                                                                                                    <span class="input-group-addon">Nro de Caja:</span>
+                                                                                                                    <input id="zamba_index_9" name="zamba_index_9" class="form-control input-sm" disabled="disabled"/>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>-->
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Producto--><span class="input-group-addon">Producto:</span>
+                                                            <select id="zamba_index_81" name="zamba_index_81" size="1" class="form-control input-sm"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <!--Nom y Apell--><span class="input-group-addon">Apellido y Nombre Cliente:</span>
+                                                            <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control" />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" name="zamba_rule_1020848" id="zamba_rule_1020848" onclick="SetRuleId(this);">
+                                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Codigo Der--> <span class="input-group-addon">Codigo:</span>
+                                                            <input id="zamba_index_5" name="zamba_index_5" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-1" style="position:relative;left:-10px">
+                                                        <div class="input-group">
+                                                            <!--Tipo de Documento-->
+                                                            <select class="btn btn-default Inputselect btn-md" id="zamba_index_108" name="zamba_index_108"> </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <!--Nro de Documento-->                                <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control" />
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" name="zamba_rule_1020849" id="zamba_rule_1020849" onclick="SetRuleId(this);">
+                                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Patente-->                                              <span class="input-group-addon">Patente:</span>
+                                                            <input id="zamba_index_1020025" name="zamba_index_1020025" class="form-control input-sm" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Inspec-->                                              <span class="input-group-addon">Nro de Inspección:</span>
+                                                            <input id="zamba_index_102" name="zamba_index_102" class="form-control input-sm" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Cantidad de Cert-->                                     <span class="input-group-addon">Cantidad de Certificados:</span>
+                                                            <input id="zamba_index_151" name="zamba_index_151" class="form-control input-sm" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Este es el campo que permite buscar por nro o nombre de productor-->
+                                                            <span class="input-group-addon">CUIT/CUIL:</span>
+                                                            <input id="zamba_index_2" placeholder="Ingrese el CUIT/CUIL" name="zamba_index_2" class="form-control">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" name="zamba_rule_1300130" id="zamba_rule_1300130" onclick="SetRuleId(this);" >
+                                                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <!--Tipo de Documentacion-->                                <span class="input-group-addon">Tipo de Documentación:</span>
+                                                            <Select id="zamba_index_25" name="zamba_index_25" class="form-control input-sm"> </Select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--NID--> <span class="input-group-addon">NID:</span>
+                                                            <input id="zamba_index_7" name="zamba_index_7" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12" style="padding:0px">
+                                                        <div class="col-xs-12" style="position:relative; top:-25px">
+                                                            <!--Observacion-->                            <span class="input-sm"><h5>Observaciones:</h5></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="position: relative; bottom:50px">
+                                                    <div class="col-md-12" style="padding:0px;">
+                                                        <div class="col-md-12">
+                                                            <div class="col-xs-12">
+                                                                <!--Area texto Observacion-->                     <textarea cols="1" class="form-control" rows="6" id="zamba_Index_84" name="zamba_Index_84"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-md-12">
+                                                        <!--DropZone-->
+                                                        <div class="col-md-10">
+                                                            <div style="position:relative; right: 85px">
+                                                                <zamba-drop id="0">  </zamba-drop>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                               
+                                                <div style="position:relative;left: 450px;">
+                                                  <div class="form-group row">               
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <!--Cantidad de Etiquetas-->
+                                                            <span class="input-group-addon">Cantidad de Etiquetas:</span>
+                                                            <input id="zamba_index_87" name="zamba_index_87" class="form-control input-sm" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                
+
+                                                <center>
+
+                                                    <input name="zamba_rule_23" id="zamba_rule_23" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Imprimir">
+
+                                                    <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+
+                                                </center>
+
+                                                <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                                <div class="row">
+
+                                                    <center>
+                                                        <div class="col-md-2" style="position:relative;left:10px;">
+                                                            <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                            <div class="form-group row">
+                                                            </div>
+                                                        </div>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </center>
+
+                            </div>
+                            <script type="text/javascript" language="JavaScript">
+                                function ZFUNCTION() {
+
+                                  //  $(".UPPER").each(function (index) { $(this).on("keypress", forceKeyPressUppercase) });
+                                };
+                                function forceKeyPressUppercase(e)
+                                    {
+                                        var charInput = e.keyCode;
+                                        if((charInput >= 97) && (charInput <= 122)) { // lowercase
+                                        if(!e.ctrlKey && !e.shiftKey && !e.metaKey && !e.altKEY) { // no modifier key
+                                            var newChar = charInput - 32;
+                                            var start = e.target.selectionStart;
+                                            var end = e.target.selectionEnd;
+                                            e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+                                            e.target.setSelectionRange(start+1, start+1);
+                                            e.preventDefault();
+                                        }
+                                        }
+                                    }
+
+                                    document.getElementById("zamba_zvar(productorabuscar)").addEventListener("keypress", forceKeyPressUppercase, false);
+                                    document.getElementById("zamba_index_238").addEventListener("keypress", forceKeyPressUppercase, false);
+
+                            </script>
+
+                            <style>
+                                                            .inputEtiquetas {
+                                                                width: 30px !important;
+                                                            }
+
+                                                            /*.panel {
+                                    border: 1px solid rgb(21, 98, 142) !important;
+                                }*/
+
+                                                            .PanelPrincipal {
+                                                                margin-top: 30px;
+                                                            }
+
+                                                            .margenBtn {
+                                                                position: relative;
+                                                                left: 90px;
+                                                            }
+                            </style>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+    </center>
+</body>
+</html>
+

@@ -1,0 +1,352 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Form: Baremo Muerte -->
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:07/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<!--Version:1.0.0-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck($('#' + e.target.id));
+                })
+            });
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    return DecimalCheck($('#' + e.target.id))
+                })
+            });
+            $(".porcentaje").each(function () {
+                $(this).keyup(function (e) {
+                    return PorcentualCheck($('#' + e.target.id));
+                })
+            });
+        });
+        function zamba_save_onclick() {
+            if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        function BorrarPrimerHijo() {
+            document.getElementById("zamba_index_2858").onclick = null;
+            document.getElementById("zamba_index_2858").checked = false;
+            document.getElementById("zamba_index_2858").onclick = BorrarSegundoHijo;
+        }
+        function BorrarSegundoHijo() {
+            document.getElementById("zamba_index_2859").onclick = null;
+            document.getElementById("zamba_index_2859").checked = false;
+            document.getElementById("zamba_index_2859").onclick = BorrarPrimerHijo;
+        }
+        function BorrarDiscapacidad() {
+            document.getElementById("zamba_index_2869").onclick = null;
+            document.getElementById("zamba_index_2869").checked = false;
+            document.getElementById("zamba_index_2869").onclick = BorrarVictimaHijo;
+        }
+        function BorrarVictimaHijo() {
+            document.getElementById("zamba_index_2870").onclick = null;
+            document.getElementById("zamba_index_2870").checked = false;
+            document.getElementById("zamba_index_2870").onclick = BorrarDiscapacidad;
+        }
+        function BorrarMayores() {
+            document.getElementById("zamba_index_2871").onclick = null;
+            document.getElementById("zamba_index_2871").checked = false;
+            document.getElementById("zamba_index_2871").onclick = BorrarMenores;
+        }
+        function BorrarMenores() {
+            document.getElementById("zamba_index_2872").onclick = null;
+            document.getElementById("zamba_index_2872").checked = false;
+            document.getElementById("zamba_index_2872").onclick = BorrarMayores;
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="BaremoMuerte.html">
+            <input id="hdnRuleId" type="hidden" />
+            <div class="attributes_table">
+
+                <ul class=" nav nav-tabs">
+                    <li class=" active"><a href="#Baremo" data-toggle="tab">Baremo</a></li>
+                    <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
+                </ul>
+
+                <div class="form-group row"></div>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="Baremo">
+                        <div class="form-group row">
+                            <center><span class="input-group-addon">Baremo - Muerte</span></center>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Nombre</span>
+                                    <input class="form-control input-sm" id="zamba_index_2706" name="zamba_index_2706" maxlength="80" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Actividad</span>
+                                    <input class="form-control input-sm" id="zamba_index_2848" name="zamba_index_2848" maxlength="200" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="position: relative; right: -316px">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Edad</span>
+                                    <input class="form-control input-sm" id="zamba_index_2846" name="zamba_index_2846" style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Ingreso Anual</span>
+                                    <input class="form-control input-sm" id="zamba_index_2847" name="zamba_index_2847" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Daños Materiales</span>
+                                        <input class="form-control input-sm" id="zamba_index_2792" name="zamba_index_2792" style="font-weight:600;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Beneficiarios</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Cónyuge</span>
+                                    <input class="form-control input-sm" id="zamba_index_2876" name="zamba_index_2876" style="font-weight:600;" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Padre/Madre</span>
+                                    <input class="form-control input-sm" id="zamba_index_2879" name="zamba_index_2879" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hijo Menor</span>
+                                    <input class="form-control input-sm" id="zamba_index_2877" name="zamba_index_2877" style="font-weight:600;" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hijo Mayor</span>
+                                    <input class="form-control input-sm" id="zamba_index_2878" name="zamba_index_2878" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hermano</span>
+                                    <input class="form-control input-sm" id="zamba_index_2880" name="zamba_index_2880" style="font-weight:600;" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Abuelo</span>
+                                    <input class="form-control input-sm" id="zamba_index_2881" name="zamba_index_2881" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Factor de Corrección</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Perjuicios Económicos</span>
+                                    <input class="form-control input-sm" id="zamba_index_2852" name="zamba_index_2852" type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Circunstancias Familiares Especiales</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Discapacidad física o psíquica</span>
+                                    <input class="form-control input-sm" id="zamba_index_2869" name="zamba_index_2869" type="checkbox" onclick="BorrarVictimaHijo();" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Víctima hijo único</span>
+                                    <input class="form-control input-sm" id="zamba_index_2870" name="zamba_index_2870" type="checkbox" onclick="BorrarDiscapacidad();" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Fallecimiento de Ambos Padres</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hijos Mayores</span>
+                                    <input class="form-control input-sm" id="zamba_index_2871" name="zamba_index_2871" type="checkbox" onclick="BorrarMenores();" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hijos Menores</span>
+                                    <input class="form-control input-sm" id="zamba_index_2872" name="zamba_index_2872" type="checkbox" onclick="BorrarMayores();" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <span class="input-group-addon">Víctima Embarazada</span>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Primer hijo</span>
+                                    <input class="form-control input-sm" id="zamba_index_2858" name="zamba_index_2858" type="checkbox" onclick="BorrarSegundoHijo();" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Segundo hijo o posterior</span>
+                                    <input class="form-control input-sm" id="zamba_index_2859" name="zamba_index_2859" type="checkbox" onclick="BorrarPrimerHijo();" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Valor Vida</span>
+                                    <input class="form-control input-sm" id="zamba_index_2789" name="zamba_index_2789" readonly="readonly" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Daño Moral</span>
+                                    <input class="form-control input-sm" id="zamba_index_2791" name="zamba_index_2791" readonly="readonly" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Factor de Corrección</span>
+                                    <input class="form-control input-sm" id="zamba_index_2862" name="zamba_index_2862" readonly="readonly" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><b>Monto de Indemnización</b></span>
+                                    <input class="form-control input-sm" id="zamba_index_2873" name="zamba_index_2873" readonly="readonly" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <hr>
+                        </div>
+                        <!--<div class="form-group row">
+                            <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Monto Ofrecido</span>
+                                    <input class="form-control input-sm" id="zamba_index_2874" name="zamba_index_2874" />
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="tab-pane" id="Expediente">
+                        <div class="form-group row"></div>
+
+                        <div class="form-group row">
+                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="2525" default-enable-mode="grid" table-height="400" grid-title="Expediente">
+                                </zamba-associated>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                </div>
+                <div class="form-group row">
+                    <center><input class="btn  btn-info btn-sm" id="zamba_rule_14450" name="zamba_rule_14450" type="submit" value="Guardar y Calcular" onclick="SetRuleId(this);" /></center>
+                </div>
+                <div class="form-group row"> </div>
+
+                <div class="form-group row">
+                    <center>
+                        <div>
+                            <img alt="" src="images/PSlogoLarge.png" height="50" width="140" style="float: left" />
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="140" style="float: right" />
+                        </div>
+                    </center>
+                </div>
+                <div class="form-group row"> </div>
+                <div class="form-group row"> </div>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+</html>

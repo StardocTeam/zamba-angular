@@ -1,0 +1,13 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UserBalances.ascx.cs" Inherits="UserControls_UserBalances" %>
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
+    Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+&nbsp;<asp:DropDownList ID="cmbUsers" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+</asp:DropDownList>&nbsp;
+<asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" /><br />
+<br />
+<rsweb:ReportViewer ID="rpvUserBalance" runat="server" Font-Names="Verdana" Font-Size="8pt" Height="400px" Width="400px" ShowFindControls="False" ShowPageNavigationControls="False" ShowPrintButton="False" ShowPromptAreaButton="False">
+    <LocalReport ReportPath="Reports\rptUsersBalances.rdlc">
+    </LocalReport>
+</rsweb:ReportViewer>

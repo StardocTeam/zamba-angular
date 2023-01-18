@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsIPList" targetNamespace="http://tempuri.org/DsIPList.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/DsIPList.xsd" xmlns:mstns="http://tempuri.org/DsIPList.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="DsIPList" msdata:IsDataSet="true">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="IP_TGRP">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ID" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="Name" type="xs:string" minOccurs="0" />
+                            <xs:element name="Description" type="xs:string" minOccurs="0" />
+                            <xs:element name="Enabled" type="xs:int" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="HISTORIAL">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="IP_ID" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPDATE" type="xs:string" minOccurs="0" />
+                            <xs:element name="IPUSERID" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPDOCCOUNT" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPINDEXCOUNT" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPRESULT" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPLINESCOUNT" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPERRORCOUNT" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="IPPATH" type="xs:string" minOccurs="0" />
+                            <xs:element name="USER_NAME" type="xs:string" minOccurs="0" />
+                            <xs:element name="HST_ID" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="RESULT" type="xs:string" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+        <xs:key name="DsIPListKey1" msdata:PrimaryKey="true">
+            <xs:selector xpath=".//mstns:IP_TGRP" />
+            <xs:field xpath="mstns:ID" />
+        </xs:key>
+    </xs:element>
+</xs:schema>

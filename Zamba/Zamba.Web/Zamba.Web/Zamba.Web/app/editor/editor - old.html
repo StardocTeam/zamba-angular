@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendoui/styles/kendo.default.mobile.min.css" />
+
+    <script src="../../scripts/jquery-3.1.1.min.js"></script>
+    <script src="../../scripts/angular.min.js"></script>
+    <script src="../../scripts/kendoui/js/kendo.all.min.js"></script>
+
+
+</head>
+<body>
+    <script src="../../scripts/angular-sanitize.js"></script>
+    <div id="example" ng-app="KendoDemos">
+        <div ng-controller="MyCtrl">
+            <textarea kendo-editor k-ng-model="html" style="width:100%; height: 600px"></textarea>
+            <!--<div class="box wide">
+                <textarea ng-bind-html="html" style="width: 100%; height: 5em"></textarea>
+            </div>-->
+        </div>
+    </div>
+
+    <script>
+  angular.module("KendoDemos", [ "kendo.directives", "ngSanitize" ])
+      .controller("MyCtrl", function($scope){
+          $scope.html = `  <table class='MsoNormalTable' border='0' cellspacing='0' cellpadding='0' width='200'><tbody><tr><td width='161' nowrap='nowrap'><p class='MsoNormal'><strong><span lang='ES'>COMPARECIENTE</span></strong></p></td><td width='39' nowrap='nowrap'><p class='MsoNormal'><span lang='ES'> </span></p></td></tr><tr><td width='161' nowrap='nowrap'><p class='MsoNormal'><strong><span lang='ES'>INCOMPARECIENTE</span></strong></p></td><td width='39' nowrap='nowrap'><p class='MsoNormal'><span lang='ES'> </span></p></td></tr></tbody></table><p class='MsoNormal' align='right'><span lang='ES'>Buenos
+Aires,                    de
+2011   </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span lang='ES'>SEÑORES </span></strong></p><p class='MsoNormal'><strong><span lang='ES'>PROVINCIA SEGUROS S.A.</span></strong></p><p class='MsoNormal'><strong><span lang='ES'>Att. : </span></strong></p><p class='MsoNormal'><strong><span lang='ES'> </span></strong></p><p class='MsoNormal'><span><span lang='ES'>Presente.</span></span><span lang='ES'>       
+</span><span lang='ES'>                              
+</span><em><span lang='ES'>                                              
+</span></em></p><p class='MsoNormal'><em><span lang='ES'>                                                            
+Ref. :<strong>  </strong></span></em></p><p class='MsoNormal'><strong><em><span lang='ES'> </span></em></strong></p><p class='MsoNormal' align='center'><strong><em><span><span lang='ES'>JURISDICCIÓN:</span></span></em></strong></p><p class='MsoNormal' align='center'><strong><em><span><span lang='ES'> </span></span></em></strong></p><p class='MsoNormal' align='center'><strong><em><span><span lang='ES'>MEDIACIÓN</span></span></em></strong></p><p class='MsoNormal' align='center'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal' align='center'><strong><em><span><span lang='ES'>INFORME
+PRELIMINAR</span></span></em></strong></p><p class='MsoNormal'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal'><strong><span><span lang='ES'>Fecha</span></span></strong><strong><span lang='ES'>:</span></strong></p><p class='MsoNormal'><strong><span lang='ES'> </span></strong></p><p class='MsoNormal'><strong><span lang='ES'>Carátula: </span></strong></p><p class='MsoNormal'><strong><span lang='ES'>Póliza Nro.: </span></strong></p><p class='MsoNormal'><strong><span lang='ES'>Siniestro: </span></strong></p><p class='MsoNormal'><strong><span lang='ES'>Asegurado:      
+                      
+</span></strong></p><p class='MsoNormal'><strong><span lang='ES'>Fecha de
+Siniestro:                 
+</span></strong></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><table class='MsoNormalTable' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td width='267' valign='top'><p class='MsoNormal'><strong><span lang='ES'>Nº de Audiencia: <br>(Acompañar copia del Acta)</span></strong></p></td><td width='131' valign='top'><p class='MsoNormal'><span lang='ES'> </span></p></td></tr><tr><td width='267' valign='top'><p class='MsoNormal'><strong><span lang='ES'><br>Fecha de Audiencia:</span></strong></p></td><td width='131' valign='top'><p class='MsoNormal'><span lang='ES'> </span></p></td></tr></tbody></table><p class='MsoNormal'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal'><strong><span><span lang='ES'>RESUMEN
+DE LA MEDIACIÓN:</span></span></strong><strong><span lang='ES'></span></strong></p><p class='MsoNormal'><strong><span lang='ES'> </span></strong></p><p class='MsoNormal'><strong><span lang='ES'> </span></strong></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>Versión del requirente:</span></span></strong><span lang='ES'>
+</span></p><p class='MsoNormal'><span><span lang='ES'> </span></span></p><p class='MsoNormal'><span><span lang='ES'> </span></span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>Versión del requerido:</span></span></strong></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal'><strong><span><span lang='ES'>Objeto del reclamo:</span></span></strong><strong><span lang='ES'>  
+</span></strong></p><p class='MsoNormal'><span><span lang='ES'> </span></span></p><p class='MsoNormal'><span lang='ES'>-
+Daños
+Materiales:                                         
+X          </span></p><p class='MsoNormal'><span lang='ES'>-
+Lesiones:                   
+                                  
+X</span></p><p class='MsoNormal'><span lang='ES'>-
+Muerte:</span></p><p class='MsoNormal'><span lang='ES'>-
+Incumplimiento contractual: </span></p><p class='MsoNormal'><span lang='ES'>-
+Otros: </span></p><p class='MsoNormal'><span><span lang='ES'> </span></span></p><p class='MsoNormal'><strong><span><span lang='ES'>Monto pretendido</span></span></strong><strong><span lang='ES'>:
+                             
+$</span></strong></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>Opinión profesional sobre la razonabilidad
+del monto pretendido:</span></span></strong><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal'><strong><span><span lang='ES'> </span></span></strong></p><p class='MsoNormal'><strong><span><span lang='ES'>DICTAMEN DE RESPONSABILIDAD Y DE COBERTURA
+TECNICA</span></span></strong></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>PERICIAS Y/O COTIZACIONES REALIZADAS:</span></span></strong><strong><span lang='ES'>(DETALLAR RESULTADOS)</span></strong></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>REQUERIMIENTO A LA COMPAÑÍA:</span></span></strong><span lang='ES'> (Según corresponda)</span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'>Solicitamos:       </span><span lang='ES'>·</span><span lang='ES'> Estimación de daños por parte
+del inspector.</span></p><p class='MsoNormal'><span lang='ES'>             
+            </span><span lang='ES'>·</span><span lang='ES'> Causa
+Penal</span></p><p class='MsoNormal'><span lang='ES'>             
+            </span><span lang='ES'>·</span><span lang='ES'>
+Investigación </span></p><p class='MsoNormal'><span lang='ES'> </span><span lang='ES'>           
+           </span><span lang='ES'>·</span><span lang='ES'>
+Dictamen del Consultor Médico de la Cía. </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>INFORMAR
+SI A CRITERIO DEL ESTUDIO EXISTEN ELEMENTOS DE ANALISIS Y/O CIRCUNSTANCIAS
+INDICIARIAS QUE PERMITAN SOSPECHAR SOBRE UN EVENTUAL  FRAUDE  EN
+PERJUICIO DE LA COMPAÑÍA
+ Y EN SU CASO BRINDAR LAS EXPLICACIONES PERTINENTES.</span></span></strong></p><p class='MsoNormal'><span lang='ES'>No
+existen.</span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><span lang='ES'> </span></p><p class='MsoNormal'><strong><span><span lang='ES'>DOCUMENTOS ADJUNTOS:</span></span></strong></p><p class='MsoNormal'><span lang='ES'> Copia
+del Acta de audiencia de mediación</span></p><p class='MsoNormal'><span lang='ES'> 3
+Fotografías </span></p><p class='MsoNormal'><span lang='ES'> Carta
+del Abogado del Requirente  </span></p><p class='MsoNormal'><span lang='ES'> Copia
+del Acta de Choque</span></p><p class='MsoNormal'><span lang='ES'> Copia
+del Registro de Conducir del Requirente </span></p><p class='MsoNormal'><span lang='ES'> Copia
+del titulo/ de la Cedula
+ Verde del Automotor</span></p><p class='MsoNormal'><span lang='ES'> Copia
+de  Certificado de Cobertura de Seguros del Requirente </span></p><p class='MsoNormal'><span lang='ES'> Copia
+de la Denuncia de Siniestro realizada por el Requirente </span></p><p class='MsoNormal'><span lang='ES'> Presupuesto
+de los daños sufridos por el Vehiculo del requirente </span></p><p class='MsoNormal'><span lang='ES'> </span></p><h1></h1><p></p>`;
+      })
+    </script>
+
+
+</body>
+</html>

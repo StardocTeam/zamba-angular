@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 12.11.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    <!--  -->
+</head>
+<body>
+    <div>
+        <div class="container-fluid">
+            <form name="frmMain" action="NotificacionDemandaReadOnly.html">
+                <input id="hdnRuleId" type="hidden" />
+                <hr style="border: 0 ; border-top: 3px double Blue; width: 100%;">	
+                <!-- <div class="form-group row">                    			 -->
+					<!-- <div class="col-md-12"> -->
+						<!-- <div> -->
+							<!-- <center> -->
+								<!-- <h4 style="background-color:#418ad4;color: white;">Notificación</h4> -->
+							<!-- </center> -->
+						<!-- </div> -->
+					<!-- </div>                         -->
+                <!-- </div> -->
+
+                <div id="tblNotificacion" >
+					
+                    <div class="form-group row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">ID Notificación:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2702" name="zamba_index_2702" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">ID Reclamo:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Juicio / Mediación:</span>
+                                <Input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2681" size="1" name="zamba_index_2681" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Fecha de Notificación:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2704" name="zamba_index_2704" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>					
+					
+                    <div class="form-group row">                        
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Tipo de Notificación:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2717" size="1" name="zamba_index_2717" disabled="disabled" />
+                            </div>
+                        </div>                      
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Fecha de Vencimiento:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2705" name="zamba_index_2705" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Datos Siniestro:</span>
+                                <Input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_1001010" name="zamba_index_1001010" class="w100px" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="form-group row">					
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="" id="basic-addon1">Carátula:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2701" name="zamba_index_2701" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+				
+				               
+				
+				<div class="form-group row"></div>                        
+				<div class="form-group row" style="margin-bottom: 40px;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+						<div class="row">
+							<span class="input-group-addon" style=""> Observaciones</span>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								
+								<div id="appObservaciones" ng-controller="ObservacionController">
+									<zamba-observaciones index-id="64" entity-id="2524"></zamba-observaciones>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				
+					
+					<!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">						 -->
+						<!-- <div class="row"> -->
+							<!-- <span class="input-group-addon" style=""> Agregue abajo la Notificación que está ingresando </span> -->
+							<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 92%;"> -->
+								<!-- <div class="form-group row"></div> -->
+																
+								<!-- <div ng-controller="appController"> -->
+									<!-- <zamba-drop id="0" ruleid="10174"> </zamba-drop> -->
+								<!-- </div> -->
+								
+							<!-- </div> -->
+						<!-- </div>						 -->
+					<!-- </div>		                        -->
+				</div>                    
+                
+                <div class="form-group row"></div>
+				<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
+				<div class="form-group row">
+					<div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+						<div class="row">
+							<zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+						</div>
+					</div>
+				</div>
+				<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">      
+				
+               
+                <div class="form-group row">                        
+                    <center>
+                        <div class="col-md-12">
+                            <span style="color:white">NotificacionDemandaReadOnly.html</span>
+                        </div>                        
+                    </center>
+                </div>	                    
+				
+            </form>
+		</div>
+    </div>
+</body>
+	
+</html>

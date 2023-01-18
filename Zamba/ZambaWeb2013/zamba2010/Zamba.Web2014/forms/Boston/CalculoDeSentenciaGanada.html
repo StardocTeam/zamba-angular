@@ -1,0 +1,150 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				if(e.which!=8 || e.which!=0 || e.which!=46 || ((e.which>47 && e.which<58) || (e.which>95 && e.which<106))){
+					SumarCampos();
+				}
+			})
+		});
+		$('#zamba_save').click(CheckData);
+	});	
+	function CheckData(evt) {
+		if ($("#zamba_index_2704").value == ""){
+			ShowErrorMessage(evt, "Por favor, complete la Fecha de Notificacion.");
+		} else if ($("#zamba_index_2799").value == "" && $("#zamba_index_2797").value == ""){
+			ShowErrorMessage(evt, "Por favor, complete el campo Honorarios Boston.");
+		} else {
+			SaveDocument(document);
+		}
+	}
+	function SumarCampos() {
+		//Obtiene cada valor y lo convierte a decimal
+		var sum = parseFloat($("#zamba_index_2789").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2790").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2791").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2792").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2745").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2793").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2798").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2799").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2800").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2801").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2802").val().replace('', '0').replace(',', '.'));
+
+		//Suma los valores obtenidos y lo asigna al indice Total
+		$("#zamba_index_2719").val(Redondear(sum).toString().replace('.', ','));
+	}			
+	function CargarFechasyBotones(){
+		$(function(){
+			CargarFechaIndice('zamba_index_2704');
+			CargarFechaIndice('zamba_index_2796');
+		});					
+	}
+	</script>
+</head>
+<body onload="CargarFechasyBotones();">
+    <form name="frmMain" action="CalculoDeSentenciaGanada.html">
+    <input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center>
+    <table id="tblRubro" class="attributes_table">
+		<caption>
+			Rubro
+		</caption>
+        <tr>
+			<td><label>Valor Vida $</label>
+			<td><input id="zamba_index_2789" name="zamba_index_2789" class="w175px readonly" readonly="readonly"/>
+			<td class="separador">
+			<td><label>Daño Fisico $</label>
+			<td><input id="zamba_index_2790" name="zamba_index_2790" class="w175px readonly" readonly="readonly"/>
+        </tr>
+        <tr>
+			<td><label>Daño Moral $</label>
+			<td><input id="zamba_index_2791" name="zamba_index_2791" class="w175px readonly" readonly="readonly">
+			<td class="separador">
+			<td><label>Daño Material $</label>
+			<td><input id="zamba_index_2792" name="zamba_index_2792" class="w175px readonly" readonly="readonly">
+        </tr>
+        <tr>
+			<td><label>Otros $</label>
+			<td><input id="zamba_index_2745" name="zamba_index_2745" class="w175px readonly" readonly="readonly">
+			<td class="separador">
+			<td><label>Intereses $</label>
+			<td><input id="zamba_index_2793" name="zamba_index_2793" class="w175px readonly" readonly="readonly">
+        </tr>
+		<tr>
+			<td><label>Fecha de Calculo</label>
+			<td><input id="zamba_index_2796" name="zamba_index_2796" class="w175px"/>
+			<td class="separador">
+			<td><label>Fecha de Notificacion</label>
+			<td><input id="zamba_index_2704" name="zamba_index_2704" class="w175px"/>
+        </tr>
+		<tr>
+			<td><label>Tipo de Tasa</label>
+			<td><select id="zamba_index_2795" name="zamba_index_2795" class="w175px"></select>
+			<td class="separador">
+			<td>
+			<td>
+        </tr>
+	</table>
+	<br><br>
+    <table id="tblHonorarios" class="attributes_table">
+        <tr>
+			<td><label>Honorarios s/regular $</label>
+			<td><input id="zamba_index_2797" name="zamba_index_2797" class="w175px readonly" readonly="readonly"/>
+			<td class="separador">
+			<td>&nbsp;
+			<td>&nbsp;
+        </tr>
+		<tr>
+			<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;
+        </tr>
+        <tr>
+			<td><label>Honorarios Actora $</label>
+			<td><input id="zamba_index_2798" name="zamba_index_2798" class="w175px readonly" readonly="readonly"/>
+			<td class="separador">
+			<td><label>Honorarios Boston $</label>
+			<td><input id="zamba_index_2799" name="zamba_index_2799" class="w175px moneda"/>
+        </tr>
+        <tr>
+			<td><label>Honorarios Peritos $</label>
+			<td><input id="zamba_index_2800" name="zamba_index_2800" class="w175px moneda"/>
+			<td class="separador">
+			<td><label>Honorarios Mediador $</label>
+			<td><input id="zamba_index_2801" name="zamba_index_2801" class="w175px moneda"/>
+        </tr>
+		<tr>
+			<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;<td>&nbsp;
+        </tr>
+		<tr>
+			<td><label>Fecha de Sentencia</label>
+			<td><input id="zamba_index_2829" name="zamba_index_2829" class="w175px readonly" readonly="readonly"/>
+			<td class="separador">
+			<td><label>Es Firme</label>
+			<td><select id="zamba_index_2830" name="zamba_index_2830" class="w100px"></select>
+        </tr>
+		<tr>
+			<td><label>Tasa y Gastos $</label>
+			<td><input id="zamba_index_2802" name="zamba_index_2802" class="w175px readonly" readonly="readonly"/>
+			<td class="separador">
+			<td><label><b>Total de Sentencia $</b></label>
+			<td><input id="zamba_index_2719" name="zamba_index_2719" class="w175px readonly" readonly="readonly"/>
+        </tr>
+	</table>
+	<br><br>
+	<div style="text-align: center">
+		<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/>
+	</div>
+	<br><br>
+	</center>
+    </form>
+</body>
+</html>

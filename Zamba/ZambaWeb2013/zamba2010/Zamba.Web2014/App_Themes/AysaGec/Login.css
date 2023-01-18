@@ -1,0 +1,285 @@
+﻿#loginBody
+{
+ font-family: "Microsoft Sans Serif",Arial, Helvetica, Sans-Serif;
+ color: White;
+background: url("../AysaGec/Images/divinicio.png")	no-repeat center top;
+background-color:#009de2; 
+}
+
+/******************Header**********************/
+/*Cabecera imagen*/
+.cabecera-wrapper
+{
+width: 100%;
+height: 120px;
+}
+
+.cabecera-login
+{
+background: url("../AysaGec/Images/logoAysa2.png") no-repeat;
+height:80px;
+background-position:center;
+width: 671px;
+height: 87px;
+margin-left: 123px;
+}
+.cabecera-login2{
+        background:url("../AysaGec/Images/logoAysa4.png") no-repeat;
+      height:80px;
+    background-position:center;
+}
+#divPwbyzambaCenter{
+    display:none;
+}
+
+/* Barra de controles con ul*/
+
+#barra-Cabezera {
+	width: 962px;
+	height: 20px;
+	margin: 0 auto;
+	padding-top:10px;
+	padding-right:0px;
+}
+
+#barra-Cabezera ul {
+	list-style: none;
+	float: right;
+	margin-right: 55px;
+}
+
+#barra-Cabezera ul li {
+	float: left;
+}
+
+#barra-Cabezera ul li a {
+	display: block;
+	padding: 4px 25px;
+	color: #FFF;
+	background-color: #009de2;
+	
+	margin: 0px 6px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+/*Barra de controles con botones*/
+#btnIniciarSesionCab
+{
+ background-image: url("../AysaGec/Images/IniciarSesion.png");
+ background-color: #302682;
+ width:85px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+/*#btnHomeCab
+{
+ background-image: url("../AysaGec/Images/home.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnMapaSitioCab
+{
+ background-image: url("../AysaGec/Images/MapaDeSitio.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnHelpCab
+{
+ background-image: url("../AysaGec/Images/help.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}
+
+#btnCerrarSesionCab
+{
+ background-image: url("../AysaGec/Images/CerrarSesion.png");
+ background-color: #302682;
+ width:95px;
+ height:20px;
+ border:none;
+ cursor:pointer;
+}*/
+
+/*Controles Inicio Sesion*/
+/**#divInicioSesion
+{     background-image: url("../AysaGec/Images/divinicio.png");
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      padding: 5px;
+      height: 300px;
+      width:100%;
+}**/
+
+
+/*#btnLogin
+{    background-image: url("../AysaGec/Images/IniciarSesion.png");
+         background-image: url("../AysaGec/Images/IniciarSesion.png");
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 22px;*/
+    /*width:95px;
+    height:20px;
+    border:none;
+    padding:3px 6px;
+    position:relative;
+    right:0;
+    color: transparent;
+    text-transform: capitalize;  
+    cursor:pointer;*/
+/*}*/
+
+
+#CeldaBotonIniciarSesion
+{
+    text-align:right;
+    padding-top: 10px; 
+    padding-right:24px;
+}
+
+.PanelIniciarSesion
+{
+    text-align:right;
+    color:White;
+}
+
+
+#controlMensaje
+{
+    display:none;
+}
+
+/*.boton-iniciar-sesion {
+	-webkit-border-radius: 5px !important;
+	-moz-border-radius: 5px !important;
+	border-radius: 5px !important;
+	border: 0 !important;
+	cursor: pointer !important;
+	color: #FFF;
+	background-color: #009de0;
+	font-size:16px;
+	padding:3px 6px;
+    position:relative;
+    right:50px;
+}*/
+
+.boton-iniciar-sesion2
+{
+/*  background-image: url("../AysaGec/Images/IniciarSesion.png");
+    width:95px;
+    height:20px;
+    border:none;
+    padding:3px 6px;
+    position:relative;
+    right:50px;
+    color: transparent;
+    text-transform: capitalize;  
+    cursor:pointer;*/
+}
+
+.text-box-inicio-sesion
+{
+    width:300px;
+    /*right: 100px;*/
+    height:18px;
+}
+
+.label-inicio-sesion
+{
+    width:100px;
+    right: 100px;
+    color:#302682;
+}
+
+
+
+#Alinear-Div-Login
+{
+    width:100%;    
+}
+
+#Alinear-Div-Login table
+{
+    position:absolute;
+    right:75px;
+}
+
+.CeldaTextoInicioSesion
+{
+    text-align:left;
+}
+
+.Line-horizontal
+{
+}
+
+/*footer*/
+.FooterLogIn {
+    position:fixed; 
+    bottom:0;
+    width:100%; 
+    z-index: 99; 
+    text-align:left;
+    font-size: 8pt; 
+    font-family: tahoma; 
+    vertical-align: middle;
+    padding-left:25px;
+    color: White;
+    display: block !important;
+}
+
+
+.divSlogan
+{
+    position:fixed;
+    bottom:8%;
+    /*left:75%;*/
+    display:block !important;
+    background-image:url("images/clientPhraseSmall.png");
+    height:14px;
+    width:238px;
+}
+
+
+.pwbyzamba {
+float:right;
+height:100%;
+width: 10%;
+min-width: 100px;
+position: relative;
+    margin-right: 10px;
+top: -1em;
+}
+
+
+#lblError {
+    display: block;
+    text-align: right;
+    margin-top: 0.8em;
+}
+@media (min-width: 468px) and (max-width:991px) {
+     #MasterHeader {
+        margin-top: 0 !important;
+    }
+}
+
+@media (min-width: 1275px) {
+     .cabecera-login2 {
+           margin-left: 54px !important;
+    }
+}

@@ -1,0 +1,217 @@
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+      <div class="row">
+        <div class="col-lg-12">
+
+            <div class="ibox chat-view">
+
+                <div class="ibox-title">
+                    <small class="pull-right text-muted">ultimo mensaje: {{forum.lastmessagedate}} </small>
+                    Foro: {{result.Name}}
+                </div>
+
+                <div class="ibox-content">
+
+                    <div class="row">
+
+                        <div class="col-md-9 ">
+                            <div class="chat-discussion">
+                                <div ng-repeat="message in forum.messages">
+                                    <div class="chat-message left"  ng-if="message.id == odd">
+                                        <img class="message-avatar" ng-src="message.avatar" alt="{{message.UserName}}">
+                                        <div class="message">
+                                            <a class="message-author" href="#">{{message.user.name}}</a>
+                                            <span class="message-date"> {{message.Fecha}} </span>
+                                            <span class="message-content">
+                                                {{message.Mensaje}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="chat-message right" ng-if="message.id == even">
+                                        <img class="message-avatar" ng-src="message.avatar" alt="{{message.UserName}}">
+                                        <div class="message">
+                                            <a class="message-author" href="#">{{message.user.name}}</a>
+                                            <span class="message-date">  {{message.Fecha}}</span>
+                                            <span class="message-content">
+                                                {{message.Mensaje}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="chat-users">
+
+                                <div class="users-list">
+                                    <div class="chat-user">
+                                        <img class="chat-avatar" src="img/a4.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Karl Jordan</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <img class="chat-avatar" src="img/a1.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Monica Smith</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <span class="pull-right label label-primary">Online</span>
+                                        <img class="chat-avatar" src="img/a2.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Michael Smith</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <span class="pull-right label label-primary">Online</span>
+                                        <img class="chat-avatar" src="img/a3.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Janet Smith</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <img class="chat-avatar" src="img/a5.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Alice Smith</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <img class="chat-avatar" src="img/a6.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Monica Cale</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <img class="chat-avatar" src="img/a2.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Mark Jordan</a>
+                                        </div>
+                                    </div>
+                                    <div class="chat-user">
+                                        <span class="pull-right label label-primary">Online</span>
+                                        <img class="chat-avatar" src="img/a3.jpg" alt="" >
+                                        <div class="chat-user-name">
+                                            <a href="#">Janet Smith</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <!--<div class="row">
+                        <div class="col-lg-12">
+                            <div class="chat-message-form">
+
+                                <div class="form-group">
+
+                                    <textarea class="form-control message-input" name="message" placeholder="Enter message text"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>-->
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="small-chat-box ng-small-chat fadeInRight animated" ng-show="openChat">
+
+    <div class="heading" draggable="true">
+        <small class="chat-date pull-right">
+            02.19.2015
+        </small>
+        Small chat
+    </div>
+
+    <div class="content" chat-slim-scroll>
+
+        <div class="left">
+            <div class="author-name">
+                Monica Jackson <small class="chat-date">
+                10:02 am
+            </small>
+            </div>
+            <div class="chat-message active">
+                Lorem Ipsum is simply dummy text input.
+            </div>
+
+        </div>
+        <div class="right">
+            <div class="author-name">
+                Mick Smith
+                <small class="chat-date">
+                    11:24 am
+                </small>
+            </div>
+            <div class="chat-message">
+                Lorem Ipsum is simpl.
+            </div>
+        </div>
+        <div class="left">
+            <div class="author-name">
+                Alice Novak
+                <small class="chat-date">
+                    08:45 pm
+                </small>
+            </div>
+            <div class="chat-message active">
+                Check this stock char.
+            </div>
+        </div>
+        <div class="right">
+            <div class="author-name">
+                Anna Lamson
+                <small class="chat-date">
+                    11:24 am
+                </small>
+            </div>
+            <div class="chat-message">
+                The standard chunk of Lorem Ipsum
+            </div>
+        </div>
+        <div class="left">
+            <div class="author-name">
+                Mick Lane
+                <small class="chat-date">
+                    08:45 pm
+                </small>
+            </div>
+            <div class="chat-message active">
+                I belive that. Lorem Ipsum is simply dummy text.
+            </div>
+        </div>
+
+
+    </div>
+    <div class="form-chat">
+        <div class="input-group input-group-sm"><input type="text" class="form-control"> <span class="input-group-btn"> <button
+                class="btn btn-primary" type="button">Send
+        </button> </span></div>
+    </div>
+
+</div>
+<div id="small-chat" ng-click="openChat = !openChat">
+
+    <span class="badge badge-warning pull-right">5</span>
+    <a class="open-small-chat">
+        <i class="fa fa-comments"></i>
+
+    </a>
+</div>

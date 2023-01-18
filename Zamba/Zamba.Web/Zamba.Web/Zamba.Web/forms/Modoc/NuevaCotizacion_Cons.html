@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+
+  
+</head>
+
+<body>
+
+    <div  >
+        <div ng-controller="appController">
+            <div class="form-group row">
+
+                <form name="frmMain" action="NuevaCotizacion.html">
+
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+
+                      
+
+                            <div class="form-group row">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-2">
+                                    <center>
+                                        <strong>Cotizacion Dolar</strong>
+                                    </center>
+                                </div>                              
+                            </div>
+                            <div class="PanelPrincipal">
+
+                                <div class="form-group row"></div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-md-3"></div>
+
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Oficializacion :</span>
+                                            <inpu id="zamba_index_139560" name="zamba_index_139560" class="form-control input-sm " disable />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- Dolar-->                                  		<span class="input-group-addon">Dolar USD:</span>
+                                            <inpu id="zamba_index_160661" name="zamba_index_160661" class="form-control input-sm " disable />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3"></div>
+
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- Importe-->                                  		<span class="input-group-addon">Importe :</span>
+                                            <inpu id="zamba_index_26206" name="zamba_index_26206" class="form-control input-sm " disable />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <center>
+                                        <input name="zamba_rule_" id="zamba_rule_" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Calcular">
+                                        <!-- <input type="button" name="zamba_close" id="zamba_close" onclick="SetRuleId(this);" class="btn-sm btn-primary" value="Cancelar"> -->
+                                    </center>
+                                </div>
+
+
+                                <div class="form-group row"></div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div ng-controller="ZambaAssociatedController">
+                                            <zamba-associated entities="159094" default-enable-mode="grid" table-height="400" grid-title="otras Cotizaciones">
+                                            </zamba-associated>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--doc_i159094-->
+                                <div class="row">
+                                    <center>
+                                        <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                            <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <span style="color:whitesmoke">NuevaCotizacion_Cons.html</span>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-2">
+                                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                            <div class="form-group row">
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                      
+                    </div>
+
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

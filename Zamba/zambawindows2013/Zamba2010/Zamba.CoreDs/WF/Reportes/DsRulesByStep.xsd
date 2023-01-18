@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsRulesByStep" targetNamespace="http://tempuri.org/DsRulesByStep.xsd" xmlns:mstns="http://tempuri.org/DsRulesByStep.xsd" xmlns="http://tempuri.org/DsRulesByStep.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsRulesByStep" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DsRulesByStep" msprop:Generator_DataSetName="DsRulesByStep">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DsRulesByStep" msprop:Generator_UserTableName="DsRulesByStep" msprop:Generator_RowDeletedName="DsRulesByStepRowDeleted" msprop:Generator_RowChangedName="DsRulesByStepRowChanged" msprop:Generator_RowClassName="DsRulesByStepRow" msprop:Generator_RowChangingName="DsRulesByStepRowChanging" msprop:Generator_RowEvArgName="DsRulesByStepRowChangeEvent" msprop:Generator_RowEvHandlerName="DsRulesByStepRowChangeEventHandler" msprop:Generator_TableClassName="DsRulesByStepDataTable" msprop:Generator_TableVarName="tableDsRulesByStep" msprop:Generator_RowDeletingName="DsRulesByStepRowDeleting" msprop:Generator_TablePropName="_DsRulesByStep">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="WFStepID" msprop:Generator_UserColumnName="WFStepID" msprop:Generator_ColumnVarNameInTable="columnWFStepID" msprop:Generator_ColumnPropNameInRow="WFStepID" msprop:Generator_ColumnPropNameInTable="WFStepIDColumn" type="xs:decimal" />
+              <xs:element name="WFStepName" msprop:Generator_UserColumnName="WFStepName" msprop:Generator_ColumnVarNameInTable="columnWFStepName" msprop:Generator_ColumnPropNameInRow="WFStepName" msprop:Generator_ColumnPropNameInTable="WFStepNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Id" msprop:Generator_UserColumnName="Id" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInTable="IdColumn" type="xs:decimal" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DsRulesByStepKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DsRulesByStep" />
+      <xs:field xpath="mstns:WFStepID" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

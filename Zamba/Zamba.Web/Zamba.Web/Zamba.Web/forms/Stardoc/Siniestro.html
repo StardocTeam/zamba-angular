@@ -1,0 +1,243 @@
+<html>
+	<head>
+		<title>Datos del Siniestro</title>			
+				
+		<script type="text/javascript" language="JavaScript">	
+       	    function SetRuleId(sender)
+       		 {
+		        $("#hdnRuleId").name = sender.id;               
+            	frmMain.submit();
+			}
+			function SetAsocId(sender)
+			{
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+			
+			$(document).ready(function()
+			{							
+
+	        });					
+			
+			/* Optional: Temporarily hide the "tabber" class so it does not "flash"
+			   on the page as plain HTML. After tabber runs, the class is changed
+			   to "tabberlive" and it will appear. */
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Datos del Siniestro</strong>
+				</div>
+				<br />
+
+					
+                    <table cellpadding="4">
+                        <tr>
+                            <td><label>Id Operaci&oacuten Siniestro: </label></td>
+                            <td><input type="text" id="zamba_index_26261" name="zamba_index_26260" size="10" readonly="true" class="readonly" /></td>
+                            <td><label>Nro de Siniestro:</label></td>
+                            <td><input type="text" id="zamba_index_26247" name="zamba_index_26247" size="12" readonly="true" class="readonly" /></td>
+                        </tr>
+                    </table>
+                </div>
+			
+
+                <div class="tabber">
+                    <div class="tabbertab">
+                        <h2>Informaci&oacuten</h2>
+
+
+                        <table cellpadding="4">
+                            <tr>
+                                <td><label>Nro P&oacuteliza:</label></td>
+                                <td><input type="text" id="zamba_index_26174" name="zamba_index_26174" size="10" readonly="true" class="readonly" /></td>
+                                <td><label>Estado Siniestro: </label></td>
+                                <td><input id="zamba_index_26311" name="zamba_index_26311" style="width:170px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Fecha Siniestro: </label></td>
+                                <td><input id="zamba_index_26201" name="zamba_index_26201" style="width:170px;" readonly="true" class="readonly" /></td>
+                                <td><label>Hora Siniestro: </label></td>
+                                <td><input id="zamba_index_26410" name="zamba_index_26410" style="width:170px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Fecha Notificacion Siniestro: </label></td>
+                                <td><input id="zamba_index_26427" name="zamba_index_26427" style="width:170px;" readonly="true" class="readonly" /></td>
+                                <td><label>Fecha Denuncia: </label></td>
+                                <td><input id="zamba_index_26421" name="zamba_index_26421" style="width:170px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Empresa:</label></td>
+                                <td><input type="text" name="zamba_index_26291" id="zamba_index_26291" style="width:150px;" readonly="true" class="readonly" /></td>
+                                <td><label>Sucursal:</label></td>
+                                <td><input type="text" name="zamba_index_26290" id="zamba_index_26290" style="width:150px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Rama:</label></td>
+                                <td><input id="zamba_index_26294" name="zamba_index_26294" id="zamba_index_26294" style="width:150px;" readonly="true" class="readonly" /></td>
+                                <td><label>Recupero:</label></td>
+                                <td><input id="zamba_index_100526" name="zamba_index_100526" id="zamba_index_100526" style="width:50px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Causa: </label></td>
+                                <td colspan=2><input id="zamba_index_26181" name="zamba_index_26181" size="50" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px 0 10px 0" colspan="6">
+                                    <hr>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table cellpadding="4">
+                            <tr>
+                                <td><label>Reclamos asociados al Siniestro:</label></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="overflow:auto; width: 900px">
+                                        <table class="tablesorter" id="zamba_associated_documents_26027">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+
+
+                        <table class="tablesorter" id="zamba_zvar(Facturas_Globales)">
+                            <caption style="font-size: x-small" align="Left">
+                                Facturas Globales
+                            </caption>
+                           
+                            <tbody id="zamba_rule_34438/Factura Global/zvar(GastoTaskID=10)"></tbody>
+                        </table>
+
+
+
+                    </div>
+                    <div class="tabbertab">
+                        <h2>P&oacuteliza</h2>
+
+
+                        <table cellpadding="4">
+                            <tr>
+                                <td><label>Nro P&oacuteliza:</label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26174" id="zamba_ASOC_26029_index_26174" size="15" readonly="true" class="readonly" /></td>
+                                <td><label>Nro Superp&oacuteliza:</label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26293" id="zamba_ASOC_26029_index_26293" size="15" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Nro de Operacion: </label></td>
+                                <td><input id="zamba_ASOC_26029_index_26409" name="zamba_ASOC_26029_index_26409" style="width:170px;" readonly="true" class="readonly" /></td>
+                                <td><label>Suplemento de Superpoliza:</label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26408" id="zamba_ASOC_26029_index_26408" style="size=" 20";" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Productor:</label></td>
+                                <td colspan=3><input type="text" name="zamba_ASOC_26029_index_26233" id="zamba_ASOC_26029_index_26233" size="80" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Nivel Productor:</label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26301" id="zamba_ASOC_26029_index_26301" style="size=" 20";" readonly="true" class="readonly" /></td>
+                                <td><label>Fecha Facturaci&oacuten: </label></td>
+                                <td><input id="zamba_ASOC_26029_index_26303" name="zamba_ASOC_26029_index_26303" style="width:170px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Vigencia Desde: </label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26249" id="zamba_ASOC_26029_index_26249" size="20" readonly="true" class="readonly" /></td>
+                                <td><label>Vigencia Hasta: </label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26187" id="zamba_ASOC_26029_index_26187" size="20" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Asegurado:</label></td>
+                                <td colspan=3><input name="zamba_ASOC_26029_index_26314" id="zamba_ASOC_26029_index_26314" size="80" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Empresa:</label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26291" id="zamba_ASOC_26029_index_26291" style="width:150px;" readonly="true" class="readonly" /></td>
+                                <td><label>Sucursal:</label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26290" id="zamba_ASOC_26029_index_26290" style="width:150px;" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Rama:</label></td>
+                                <td><input id="zamba_ASOC_26029_index_26294" zamba name="zamba_ASOC_26029_index_26294" id="zamba_ASOC_26029_index_26294" style="width:150px;" readonly="true" class="readonly" /></td>
+                                <td><label>Art&iacuteculo: </label></td>
+                                <td><input type="text" name="zamba_ASOC_26029_index_26292" id="zamba_ASOC_26029_index_26292" size="20" readonly="true" class="readonly" /></td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                    <div class="tabbertab">
+                        <h2>Asegurado</h2>
+
+
+                        <table cellpadding="4">
+                            <tr>
+                                <td><label>Asegurado:</label></td>
+                                <td colspan=3><input type="text" id="zamba_index_26314" name="zamba_index_26314" id="zamba_index_26314" size="80" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Tipo Doc:</label></td>
+                                <td><input type="text" id="zamba_ASOC_26042_index_26236" name="zamba_ASOC_26042_index_26236" style="width:90px;" readonly="true" class="readonly" /></td>
+                                <td><label>Nro. Doc:</label></td>
+                                <td><input type="text" id="zamba_ASOC_26042_index_26248" name="zamba_ASOC_26042_index_26248" size="30" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>CUIT: </label></td>
+                                <td><input name="zamba_ASOC_26042_index_26296" id="zamba_ASOC_26042_index_26296" size="20" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Email: </label></td>
+                                <td colspan=3><input type="text" name="zamba_index_26317" id="zamba_index_26317" size="70" readonly="true" class="readonly"></td>
+                            </tr>
+                            <tr>
+                                <td><label>Tel&eacutefono: </label></td>
+                                <td><input name="zamba_ASOC_26042_index_26217" id="zamba_ASOC_26042_index_26217" size="20" readonly="true" class="readonly" /></td>
+                                <td><label>Direccion: </label></td>
+                                <td><input type="text" id="zamba_ASOC_26042_index_26216" name="zamba_ASOC_26042_index_26216" size="30" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Localidad: </label></td>
+                                <td><input type="text" id="zamba_ASOC_26042_index_26215" name="zamba_ASOC_26042_index_26215" readonly="true" class="readonly" /></td>
+                                <td><label>Provincia: </label></td>
+                                <td><input type="text" id="zamba_ASOC_26042_index_26283" name="zamba_ASOC_26042_index_26283" size="30" readonly="true" class="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>SubFijo Cod.Postal: </label></td>
+                                <td><input id="zamba_ASOC_26042_index_26298" name="zamba_ASOC_26042_index_26298" size="10" readonly="true" class="readonly" /></td>
+                                <td><label>Cod.Postal: </label></td>
+                                <td><input id="zamba_ASOC_26042_index_26285" name="zamba_ASOC_26042_index_26285" size="10" readonly="true" class="readonly" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br/>
+				<div name="logoUnion" id="logoUnion">	
+					<img src="images/logocliente.jpg" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR"/> 
+				</div>			
+			</form>						
+		</div>
+	</body>
+</html>
+
+				
+	

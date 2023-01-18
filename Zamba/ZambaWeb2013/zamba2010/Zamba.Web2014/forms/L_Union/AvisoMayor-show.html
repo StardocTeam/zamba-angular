@@ -1,0 +1,180 @@
+<html>
+	<head>
+		<title>Aviso Mayor</title>
+		<script type="text/javascript" language="JavaScript">
+		    function SetRuleId(sender) {
+		        $("#hdnRuleId").name = sender.id;
+		    }
+
+		    function SetAsocId(sender) {
+		        $("#hdnAsocId").name = sender.id;
+		        frmMain.submit();
+		    }
+
+		    $(document).ready(function () {
+		        setTimeout("parseObservaciones()", 100);
+		    });
+
+		    function parseObservaciones() {
+		        var obs = $('#zamba_index_64').val();
+
+		        while (obs.indexOf("§") > 0)
+		            obs = obs.replace("§", "\n");
+
+		        while (obs.indexOf("<br>") > 0)
+		            obs = obs.replace("<br>", "\n");
+
+		        $('#zamba_index_64').val(obs);
+		    }
+
+		    function addConsulta() {
+		        return true;
+		        var con = $('#zamba_index_1152').val();
+		        var obs = $('#zamba_index_64').val();
+
+		        if (con == '') {
+		            alert("Por favor, ingrese un comentario.");
+		            $('#zamba_index_1152').focus();
+		            return false;
+		        }
+		        return true;
+		    }
+
+		    function format(txt) {
+		        if (txt.length == 1) txt = "0" + txt;
+
+		        return txt;
+		    }
+
+		</script>
+	    <style type="text/css">
+            .style1
+            {
+                width: 20px;
+            }
+            .style2
+            {
+            }
+            </style>
+	</head>	
+		<body>
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return addConsulta()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Aviso Mayor</strong>
+				</div>
+				<br />
+
+				
+				 <table cellpadding="4">
+		                
+                    <tr>
+                        <td class="style8"><label>Id Aviso Mayor: </label></td>
+						<td class="style10"><input type="text" id="zamba_index_170548" name="zamba_index_170548" size="10" readonly="true" class="readonly"/></td>
+						<td class="style8"><label>Id Operaci&oacute;n Siniestro: </label></td>
+						<td class="style8"><input type="text" id="zamba_index_26261" name="zamba_index_26260" size="10" readonly="true" class="readonly"/></td>
+						<td class="style8"><label>Nro de Siniestro:</label></td>
+						<td class="style1"><input type="text" name="zamba_index_26247" size="12" readonly="true" class="readonly"/></td>
+                        <td class="style8"><label>Sector: </label></td>
+						<td class="style8"><input type="text" id="zamba_index_135512" name="zamba_index_135512" onchange="ValidacionPM()" size="50" readonly="true" class="readonly"/></td>
+					</tr>
+					
+					<tr>
+						<td class="style8" colspan="2"></td>
+						<td class="style8" colspan="4"><label>Id Reclamo Asegurado:&nbsp; </label>
+                                        <input id="zamba_index_26475" name="zamba_index_26475" style="width:77px;"  
+                                            readonly="true" class="readonly"/></td>
+                        <td class="style8">&nbsp;<label>Rama:</label></td>
+						<td class="style8"><input type="text" id="zamba_index_26294" name="zamba_index_26294" onchange="ValidacionPM()" size="50" readonly="true" class="readonly"/></td>
+                    </tr>
+            </table>
+            
+                     <div class="tabber">
+						<div class="tabbertab">
+                        <h2>Aviso Mayor</h2>
+						<p>
+							<table cellpadding="6">	
+							<tr>
+                                    <td><label>Asegurado: </label></td>
+									<td><input id="zamba_index_26314" name="zamba_index_26314" style="width:300px;" 
+                                            readonly="true" class="readonly"></td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Productor:&nbsp;&nbsp; <select name="zamba_index_26233" id="zamba_index_26233" style="width:260px;" disabled="disabled"/> 
+                                    </td>
+								</tr>
+								
+								<tr>
+                                    <td><label>P&oacute;liza: </label></td>
+									<td><input id="zamba_index_26174" name="zamba_index_26174" style="width:240px;" 
+                                            readonly="true" class="readonly"></td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tipo Beneficiario:&nbsp; <select name="zamba_index_170549" id="zamba_index_170549" style="width:260px;" disabled="disabled" /> 
+                                    </td>
+								</tr>
+								
+								<tr>
+                                    <td><label>Existe Reaseguro?: </label></td>
+									<td><select name="zamba_index_170554" id="zamba_index_170554" style="width:240px;" disabled="disabled"></select></td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cobertura:&nbsp; <input id="zamba_index_170553" name="zamba_index_170553" style="width:92px;" "disabled"/> 
+                                        %</td>
+								</tr>
+                                <tr>
+                                    <td><label>Monto Total Neto Reserva: </label></td>
+									<td>
+                                        <input id="zamba_index_170546" name="zamba_index_170546" style="width:240px;"  
+                                            readonly="true" class="readonly"/></td>
+									<td>&nbsp;</td>
+								</tr>
+								
+								<tr>
+                                    <td><input type="submit" name="zamba_rule_44474" id="zamba_rule_44474" value="Agregar comentario" class="submit" onclick="SetRuleId(this);"/></td>
+									<td class="style2" colspan="2"><TEXTAREA COLS="95" ROWS="3" id="zamba_index_1152" name="zamba_index_1152"></TEXTAREA></td>
+								</tr>
+                                	
+								<tr>
+									<td valign="top"><label>Obervaciones:</label></td>
+									<td colspan="2"><TEXTAREA ROWS="18" COLS="95" id="zamba_index_64" name="zamba_index_64" 
+                                            readonly="true" class="readonly"></TEXTAREA></td> 
+								</tr>
+							</table>	
+							
+							<br />
+							<br />
+				
+							<div name="logoUnion" id="logoUnion">	
+								<img src="images/Union.jpg" align="left" height=50 width=70>
+							</div>
+							
+							<div name="logozamba" id="logozamba">
+								<img src="images/pwbyzamba.jpg">
+							</div>
+							
+							<br />
+							<br />
+                            
+                            <br />
+                            <br />
+						</p>
+					</div>	
+                  
+                    
+						<div class="tabbertab">
+                        <h2>Detalle</h2>
+						<p>
+							<table cellpadding="6">	
+								<tr>
+									<td valign="top"><label>Detalle:</label></td>
+									<td colspan="2">
+                                        <TEXTAREA ROWS="25" COLS="115" id="zamba_index_26407" name="zamba_index_26407" 
+                                            readonly="true" class="readonly"></TEXTAREA></td> 
+								</tr>
+							</table>
+							<br />
+						</p>
+					</div>	
+                      </div>					
+			</form>						
+		</div>
+	</body>
+</html>

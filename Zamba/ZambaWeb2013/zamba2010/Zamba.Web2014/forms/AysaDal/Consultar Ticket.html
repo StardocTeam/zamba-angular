@@ -1,0 +1,151 @@
+	<html>
+	<head>
+		<title></title>
+		<link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+		<link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" language="JavaScript">
+			String.prototype.trim = function () {
+				return this.replace(/^\s*/, "").replace(/\s*$/, "");
+			}
+			function SetRuleId(sender) {
+				$("#hdnRuleId").name = sender.id;
+				
+			}
+			function SetAsocId(sender) {
+				$("#hdnAsocId").name = sender.id;
+				
+			}
+		</script>
+	</head>
+	<body>
+		<form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+		<input id="hdnRuleId" type="hidden" />
+		<input id="hdnAsocId" type="hidden" />
+		<div name="design" id="design">
+			<strong>Ticket</strong>
+		</div>
+		<table style="width: 98%;">
+			<tr>
+				<td colspan="3">
+					<div id="floatleft">
+						<div id="TAB" class="tabber" style="">
+							<div class="tabbertab" id="General">
+								<h2>
+									Informacion
+								</h2>
+								<table style="width: 90%;">
+									<tr>
+										<td class="style1">
+											<label style="width: 14em;">
+												Numero de Ticket</label>
+										</td>
+										<td>
+											<input type="text" style="width: 25em;" id="zamba_index_12462" name="zamba_index_12462" readonly="readonly" />
+										</td>
+										<p>
+											<td class="style1">
+												<label style="width: 14em;">
+													Autor</label>
+											</td>
+											<td>
+												<input type="text" style="width: 25em;" id="zamba_index_12463" name="zamba_index_12463" readonly="readonly" />
+											</td>
+										</p>
+									</tr>
+									<tr>
+                                        <p>
+											<td class="style1">
+												<label style="width: 14em;">
+													Numero Pedido</label>
+											</td>
+											<td>
+												<input type="text" style="width: 25em;" id="zamba_index_12362" name="zamba_index_12362" readonly="readonly" />
+											</td>
+										</p>
+										<p>
+											<td class="style1">
+												<label style="width: 14em;">
+													Flujo</label>
+											</td>
+											<td>
+											   <input type="text" style="width: 25em;" id="zamba_index_12395" name="zamba_index_12395" readonly="readonly" />
+											</td>
+										</p>
+									</tr>
+                                    <tr>
+										<p>
+											<td class="style1">
+												<label style="width: 14em;">
+													Autorizado por usuario</label>
+											</td>
+											<td>
+											   <input type="text" style="width: 25em;" id="zamba_index_12474" name="zamba_index_12474" readonly="readonly" />
+											</td>
+                                            <td class="style1">
+												<label style="width: 14em;">
+													Autorizado por CdD</label>
+											</td>
+											<td>
+											   <input type="text" style="width: 25em;" id="zamba_index_12473" name="zamba_index_12473" readonly="readonly" />
+											</td>
+										</p>
+									</tr>
+								</table>
+								<br />
+								<table id="zamba_associated_documents_12123" class="tablesorter">
+									<tbody>
+									</tbody>
+								</table>
+                                <table id="zamba_associated_documents_12084" class="tablesorter">
+									<tbody>
+									</tbody>
+								</table>
+                                <table>
+              						  <tr>
+										<p>
+											<td class="style1">
+												<label style="width: 14em;">
+													Ultima Observacion</label>
+											</td>
+											<td colspan="4">
+												<textarea cols="100" rows="5" id="zamba_index_12373" name="zamba_index_12373" readonly="readonly" ></textarea>
+											</td>
+										</p>
+									</tr>
+                                </table>
+							</div>
+							<div class="tabbertab" id="Consultas">
+								<h2>
+									Historial Consultas
+								</h2>
+                                <table id="zamba_associated_documents_12138" class="tablesorter">
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+							<div class="tabbertab" id="Div2">
+								<h2>
+									Documentacion Asociada
+								</h2>
+								<table id="zamba_associated_documents_12137" class="tablesorter">
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</tr>
+			<tr>
+				<td>
+					<img src="images/logocliente.bmp" height="50" width="70" />
+					<td>
+						<center>
+							<input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" />
+							<input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" /></center>
+						<td>
+							<img src="images/pwbyzamba.jpg" align="right" />
+			</tr>
+		</table>
+		</form>
+	</body>
+	</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Comparar Fechas</title>
+        <link rel="stylesheet" href="Calendar.css" type="text/css">
+        <script type="text/javascript" language="JavaScript" src="DateComparer.js" /><script src="Calendar.js" type="text/javascript" language="JavaScript" />
+    </head>
+    <body>
+        <ol>
+            <li>
+                <a href="Calendar.html">Calendario</a>
+            </li>
+            <li>
+                <a href="DateComparer.html">Comparar Fechas</a>
+            </li>
+            <li>
+                <a href="ValidateInteger.html">Validar Enteros</a>
+            </li>
+            <li>
+                <a href="ValidateRange.html">Validar Rango Enteros</a>
+            </li>
+            <li>
+                <a href="RequiredFields.html">Validar Vacios</a>
+            </li>
+        </ol>
+        <fieldset>
+            <legend>
+                Comparar fechas
+            </legend>
+            <table>
+                <tr>
+                    <td>
+                        Desde:
+                    </td>
+                    <td>
+                        <input type="text" id="tbAfter" onfocus="showCalendarControl(this)" onblur="ValidateDates('tbAfter','tbBefore','tbAfter')" requiered="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Hasta:
+                    </td>
+                    <td>
+                        <input type="text" id="tbBefore" onfocus="showCalendarControl(this)" onblur="ValidateDates('tbAfter','tbBefore','tbBefore')"/>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </body>
+</html>

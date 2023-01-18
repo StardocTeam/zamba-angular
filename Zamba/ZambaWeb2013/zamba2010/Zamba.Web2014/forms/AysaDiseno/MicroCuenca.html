@@ -1,0 +1,458 @@
+<html>
+	<head>
+		<title>MicroCuenca</title>			
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="Scripts/Aysa.js"></script>	
+		<script src="MicroCuenca.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" language="JavaScript">		
+       	   function UpdateSelectiveValues(ObjValue, TipoMicId, CodigoMacId, CuencaId) {
+			    var TipoMic;
+			    var CodigoMac;
+			    var Cuenca;
+			
+
+
+			    switch ($('#' + ObjValue.id + ' option:selected').text()) {
+			        case "MCA018": TipoMic = "MID"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MCA024": TipoMic = "MI1"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MCA062": TipoMic = "MID"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA066": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCA068": TipoMic = "MI2"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA069": TipoMic = "MI1"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA070": TipoMic = "MID"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA071": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCA072": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCA073": TipoMic = "MI1"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA074": TipoMic = "MID"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA075": TipoMic = "MI1"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA076": TipoMic = "MID"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA080": TipoMic = "MI1"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA170": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCA171": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCA513": TipoMic = "MIC"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA514": TipoMic = "MIC"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MCA515": TipoMic = "MIC"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MCA516": TipoMic = "MIC"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA517": TipoMic = "MIC"; CodigoMac = "MACCAB0280"; Cuenca = "Maldonado"; break;
+			        case "MCA518": TipoMic = "MIC"; CodigoMac = "MACCEN0190"; Cuenca = "Maldonado"; break;
+			        case "MCA518": TipoMic = "MIC"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCA519": TipoMic = "MIC"; CodigoMac = "MACCEN0190"; Cuenca = "Maldonado"; break;
+			        case "MCA519": TipoMic = "MIC"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCE093": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCE524": TipoMic = "MIC"; CodigoMac = "MACCEN0590"; Cuenca = "Maldonado"; break;
+			        case "MCE525": TipoMic = "MIC"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCE526": TipoMic = "MIC"; CodigoMac = "MACCEN0590"; Cuenca = "Maldonado"; break;
+			        case "MCO086": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO088": TipoMic = "MI2"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO089": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO090": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO091": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO092": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO182": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO183": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MCO523": TipoMic = "MIC"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MDE001": TipoMic = "MI1"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE002": TipoMic = "MID"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MDE003": TipoMic = "MI1"; CodigoMac = "MACFLO2230"; Cuenca = "Maldonado"; break;
+			        case "MDE004": TipoMic = "MI1"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE005": TipoMic = "MIC"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE006": TipoMic = "MI1"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE007": TipoMic = "MI1"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE008": TipoMic = "MID"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE009": TipoMic = "MI1"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE010": TipoMic = "MI1"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MDE011": TipoMic = "MI1"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MDE014": TipoMic = "MI1"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MDE015": TipoMic = "MID"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MDE016A": TipoMic = "MI1"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MDE017": TipoMic = "MI1"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MDE101": TipoMic = "MI1"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MDE113": TipoMic = "MI1"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MDE501": TipoMic = "MIC"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MDE502": TipoMic = "MIC"; CodigoMac = "MACDEV0340"; Cuenca = "Maldonado"; break;
+			        case "MDE503": TipoMic = "MIC"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MFL019": TipoMic = "MI1"; CodigoMac = "MACFLO2230"; Cuenca = "Maldonado"; break;
+			        case "MFL020": TipoMic = "MI1"; CodigoMac = "MACFLO2230"; Cuenca = "Maldonado"; break;
+			        case "MFL021": TipoMic = "MI1"; CodigoMac = "MACFLO2230"; Cuenca = "Maldonado"; break;
+			        case "MFL022": TipoMic = "MI2"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MFL023": TipoMic = "MI1"; CodigoMac = "MACCAB2220"; Cuenca = "Maldonado"; break;
+			        case "MFL504": TipoMic = "MIC"; CodigoMac = "MACDEV2380"; Cuenca = "Maldonado"; break;
+			        case "MFL507": TipoMic = "MIC"; CodigoMac = "MACFLO2230"; Cuenca = "Maldonado"; break;
+			        case "MMN011": TipoMic = "MIC"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MMN017": TipoMic = "MI1"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MMO506": TipoMic = "MIC"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MSA043": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA044": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA045": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA046": TipoMic = "MID"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA047": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA048": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA049": TipoMic = "MIC"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA050": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA052": TipoMic = "MI1"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA054": TipoMic = "MID"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA055": TipoMic = "MI1"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA056": TipoMic = "MID"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA057": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA058": TipoMic = "MID"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA059": TipoMic = "MID"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA060": TipoMic = "MI3"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA061": TipoMic = "MI1"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA063": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA064": TipoMic = "MID"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA065": TipoMic = "MI1"; CodigoMac = "MACCON6310"; Cuenca = "Maldonado"; break;
+			        case "MSA150": TipoMic = "MI1"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA508": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA509": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA510": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA511": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MSA512": TipoMic = "MIC"; CodigoMac = "MACSAA0220"; Cuenca = "Maldonado"; break;
+			        case "MTR018": TipoMic = "MI1"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MTR019": TipoMic = "MI1"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MTR507": TipoMic = "MIC"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MTR508": TipoMic = "MIC"; CodigoMac = "MACFLO2310"; Cuenca = "Maldonado"; break;
+			        case "MAV001": TipoMic = "MI1"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV002": TipoMic = "MI1"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV004": TipoMic = "MI1"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV005": TipoMic = "MI1"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV006": TipoMic = "MID"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV501": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV508": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV509": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV510": TipoMic = "MIC"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV513": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV514": TipoMic = "MIC"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV515": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCA077": TipoMic = "MI1"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCA078": TipoMic = "MID"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCA079": TipoMic = "MI1"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO081": TipoMic = "MI1"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO082": TipoMic = "MI1"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO083": TipoMic = "MI1"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO084": TipoMic = "MI1"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO180": TipoMic = "MI1"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO181": TipoMic = "MID"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO520": TipoMic = "MIC"; CodigoMac = "MACCON0260"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO521": TipoMic = "MIC"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MCO522": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MEE002": TipoMic = "MID"; CodigoMac = "MACEEJ3110"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MEE003": TipoMic = "MID"; CodigoMac = "MACEEJ3110"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MEE501": TipoMic = "MIC"; CodigoMac = "MACEEJ3110"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL025": TipoMic = "MI1"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL026": TipoMic = "MIC"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL030": TipoMic = "MI1"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL031": TipoMic = "MI3"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL032": TipoMic = "MID"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL033": TipoMic = "MID"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL034": TipoMic = "MI1"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL035": TipoMic = "MI1"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL036": TipoMic = "MI1"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL036": TipoMic = "MI1"; CodigoMac = "MACCON0310"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL037": TipoMic = "MIC"; CodigoMac = "MACCON0310"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL038": TipoMic = "MID"; CodigoMac = "MACCON0310"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL039": TipoMic = "MI1"; CodigoMac = "MACCON0310"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL120": TipoMic = "MI1"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL121": TipoMic = "MI2"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL122": TipoMic = "MI3"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL505": TipoMic = "MIC"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MFL506": TipoMic = "MIC"; CodigoMac = "MACFLO2240"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA001": TipoMic = "MI1"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA002": TipoMic = "MID"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA003": TipoMic = "MID"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA004": TipoMic = "MI1"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA006": TipoMic = "MID"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA007": TipoMic = "MI1"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA008": TipoMic = "MI1"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA009": TipoMic = "MID"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA010": TipoMic = "MI1"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MLA505": TipoMic = "MIC"; CodigoMac = "MACAVE0395"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN020": TipoMic = "MI3"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN021": TipoMic = "MI1"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN022": TipoMic = "MI1"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN023": TipoMic = "MI1"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN024": TipoMic = "MI1"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN029": TipoMic = "MI3"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN030": TipoMic = "MI3"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS025": TipoMic = "MID"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS026": TipoMic = "MID"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS027": TipoMic = "MI1"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS028": TipoMic = "MI1"; CodigoMac = "MACMAS2530"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS031": TipoMic = "MI1"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS032": TipoMic = "MI1"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS033": TipoMic = "MID"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS034B": TipoMic = "MID"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS035": TipoMic = "MID"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS036": TipoMic = "MID"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS037": TipoMic = "MID"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS038": TipoMic = "MI1"; CodigoMac = "MACMAS2560"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS503": TipoMic = "MIC"; CodigoMac = "MACMAS2530"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMS505": TipoMic = "MIC"; CodigoMac = "MACMAS2575"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMN007": TipoMic = "MID"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMN008": TipoMic = "MI1"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMN010": TipoMic = "MI1"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO001": TipoMic = "MI2"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO002": TipoMic = "MID"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO003": TipoMic = "MID"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO004": TipoMic = "MID"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO005": TipoMic = "MI1"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO006": TipoMic = "MID"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO009": TipoMic = "MI1"; CodigoMac = "MACMAT2380"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO510": TipoMic = "MIC"; CodigoMac = "MACMOR0001"; Cuenca = "Morón Reconquista"; break;
+			        case "MAV504": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV505": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MAV506": TipoMic = "MIC"; CodigoMac = "MACAVE0290"; Cuenca = "Matanza Riachuelo"; break;
+			        case "MMO511": TipoMic = "MID"; CodigoMac = "MACMOR0001"; Cuenca = "Morón Reconquista"; break;
+			        case "MMO512": TipoMic = "MID"; CodigoMac = "MACMOR0001"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF001": TipoMic = "MI1"; CodigoMac = "MACSFE6010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF002": TipoMic = "MI1"; CodigoMac = "MACSFE6010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF003": TipoMic = "MI1"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF004": TipoMic = "MID"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF005": TipoMic = "MID"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF006": TipoMic = "MI1"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF501": TipoMic = "MIC"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF502": TipoMic = "MIC"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF503": TipoMic = "MIC"; CodigoMac = "MACSFE6010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSF504": TipoMic = "MIC"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI001": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI002": TipoMic = "MID"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI003": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI004": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI005": TipoMic = "MI1"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI006": TipoMic = "MID"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI007": TipoMic = "MID"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI008": TipoMic = "MIC"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI009": TipoMic = "MIC"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI501": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI502": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI504": TipoMic = "MIC"; CodigoMac = "MACVIC0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MSI505": TipoMic = "MIC"; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM001": TipoMic = "MI1"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM002": TipoMic = "MID"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM003": TipoMic = "MI1"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM004": TipoMic = "MID"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM005": TipoMic = "MID"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM006": TipoMic = "MID"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM007": TipoMic = "MID"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM008": TipoMic = "MI3"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM009": TipoMic = "MI1"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM010": TipoMic = "MI1"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM011": TipoMic = "MI2"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM012": TipoMic = "MI1"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM013": TipoMic = "MID"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM014": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM015": TipoMic = "MI1"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM501": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM502": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM503": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM504": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM505": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM506": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM507": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM508": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM509": TipoMic = "MIC"; CodigoMac = "MACDEV2310"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM510": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MSM511": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI001": TipoMic = "MID"; CodigoMac = "MACSFE0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI002": TipoMic = "MID"; CodigoMac = "MACSFE0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI003": TipoMic = "MID"; CodigoMac = "MACSFE0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI004": TipoMic = "MID"; CodigoMac = "MACSFE0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI005": TipoMic = "MID"; CodigoMac = "MACSFE0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI006": TipoMic = "MID"; CodigoMac = "MACSFE0010"; Cuenca = "Morón Reconquista"; break;
+			        case "MTI007": TipoMic = ""; CodigoMac = "MACSFE3110"; Cuenca = "Morón Reconquista"; break;
+			        case "MTR012": TipoMic = "MI1"; CodigoMac = "MACMAT2390"; Cuenca = "Morón Reconquista"; break;
+			        case "MTR013": TipoMic = "MI3"; CodigoMac = "MACMAT2390"; Cuenca = "Morón Reconquista"; break;
+			        case "MTR014": TipoMic = "MI1"; CodigoMac = "MACMAT2390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL001": TipoMic = "MID"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL002": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL003": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL004": TipoMic = "MID"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL005": TipoMic = "MID"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL006": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL007": TipoMic = "MID"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL008": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL009": TipoMic = "MID"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL010": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL011": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL012": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL013": TipoMic = "MI1"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL014": TipoMic = "MID"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL501": TipoMic = "MIC"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL502": TipoMic = "MIC"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL503": TipoMic = "MIC"; CodigoMac = "MACSAA0009"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL504": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL505": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL506": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL507": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL508": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL509": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL510": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL511": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MVL512": TipoMic = "MIC"; CodigoMac = "MACSAA0390"; Cuenca = "Morón Reconquista"; break;
+			        case "MAB001": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MAB002": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MAB003": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MAB501": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MAV003": TipoMic = "MID"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MAV007": TipoMic = "MID"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MAV502": TipoMic = "MIC"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MAV503": TipoMic = "MIC"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MAV507": TipoMic = "MIC"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MAV511": TipoMic = "MIC"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MAV512": TipoMic = "MIC"; CodigoMac = "MACAVE0190"; Cuenca = "Salado"; break;
+			        case "MEE001": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLA011": TipoMic = "MI1"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLA508": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLA510": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLA511": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO001": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO002": TipoMic = "MI1"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO003": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO004": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO005": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO006": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO007": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO008": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO009": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO010": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO011": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO012": TipoMic = "MID"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO501": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO502": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO503": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO504": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO505": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO506": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO507": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO508": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MLO509": TipoMic = "MIC"; CodigoMac = "MACLAN2390"; Cuenca = "Salado"; break;
+			        case "MQU002": TipoMic = "MI1"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU003": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU004": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU005": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU006": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU007": TipoMic = "MI1"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU008": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU009": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU010": TipoMic = "MID"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU011": TipoMic = "MID"; CodigoMac = "MACQUI0420"; Cuenca = "Salado"; break;
+			        case "MQU012": TipoMic = "MID"; CodigoMac = "MACQUI0420"; Cuenca = "Salado"; break;
+			        case "MQU013": TipoMic = "MID"; CodigoMac = "MACQUI2430"; Cuenca = "Salado"; break;
+			        case "MQU014": TipoMic = "MID"; CodigoMac = "MACQUI2430"; Cuenca = "Salado"; break;
+			        case "MQU015": TipoMic = "MI2"; CodigoMac = "MACQUI2430"; Cuenca = "Salado"; break;
+			        case "MQU016": TipoMic = "MIC"; CodigoMac = "MACQUI0420"; Cuenca = "Salado"; break;
+			        case "MQU017": TipoMic = "MID"; CodigoMac = "MACQUI0440"; Cuenca = "Salado"; break;
+			        case "MQU018": TipoMic = "MID"; CodigoMac = "MACQUI0440"; Cuenca = "Salado"; break;
+			        case "MQU019": TipoMic = "MID"; CodigoMac = "MACQUI0410"; Cuenca = "Salado"; break;
+			        case "MQU020": TipoMic = "MID"; CodigoMac = "MACQUI0410"; Cuenca = "Salado"; break;
+			        case "MQU024": TipoMic = "MID"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU025": TipoMic = "MID"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU026": TipoMic = "MID"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU027": TipoMic = "MI1"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU028": TipoMic = "MI1"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU029": TipoMic = "MIC"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU030": TipoMic = "MIC"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU033": TipoMic = "MI1"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU034": TipoMic = "MID"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU035": TipoMic = "MIC"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU501": TipoMic = "MIC"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU502": TipoMic = "MIC"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU503": TipoMic = "MIC"; CodigoMac = "MACQUI6410"; Cuenca = "Salado"; break;
+			        case "MQU504": TipoMic = "MIC"; CodigoMac = "MACQUI2430"; Cuenca = "Salado"; break;
+			        case "MQU505": TipoMic = "MIC"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU507": TipoMic = "MIC"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			        case "MQU508": TipoMic = "MIC"; CodigoMac = "MACQUI2450"; Cuenca = "Salado"; break;
+			    }
+			    $("#" + TipoMicId).val(TipoMic);
+			    $("#" + CodigoMacId).val(CodigoMac);
+			    $("#" + CuencaId).val(Cuenca);
+			}
+            
+            
+
+            $(document).ready(function() {
+                $("#zamba_index_1241").change(function() {
+                    UpdateSelectiveValues(this, 'zamba_index_1240', 'zamba_index_1243', 'zamba_index_1244');
+                });
+            });		
+		</script>
+	</head>	
+	<body>
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Micro-Macro Cuenca</strong>
+				</div>
+				    <br />
+	<input id="zamba_rule_19762" class="submit ZambaRule DontSave " name="zamba_rule_19762"
+                                    type="submit" style="text-align: center; margin-right: 25px;"
+                                    value="Ir a industria" />
+				
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+                        <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px; display:none;" />
+							<table cellpadding="4">
+								<tr>
+                                <td><label>C&oacutedigo MIC:</label></td>
+									<td><select id="zamba_index_1241" name="zamba_index_1241" style="width:150px" onchange="UpdateSelectiveValues(this,'zamba_index_1240','zamba_index_1243','zamba_index_1244');"></select></td>
+									<td><label>Tipo de MIC:</label></td>
+									<td><input type="text" id="zamba_index_1240" name="zamba_index_1240" style="width:150px; background-color:Silver" readonly="readonly"></input></td>
+								</tr>
+                                	<tr>
+									<td><label>C&oacutedigo MAC:</label></td>
+									<td><input type="text" id="zamba_index_1243" name="zamba_index_1243" style="width:150px; background-color:Silver" readonly="readonly"/></td>
+                                    									<td><label>Cuenca:</label></td>
+									<td><input type="text" id="zamba_index_1244" name="zamba_index_1244" style="width:150px; background-color:Silver" readonly="readonly"></input></td>
+								</tr>
+							</table>		
+					</div>	
+		<div class="tabbertab">
+                    <h2>
+                        Documentacion</h2>
+                    <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule DontSave " value="Agregar Documentacion" name="zamba_rule_8062" /> 
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion asociada:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>							
+				</div>
+				<br />
+				
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="Content/Images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="Content/Images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+					<input type="submit" class="submit"  name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+				</div>
+				
+			</form>							
+	</body>
+</html>

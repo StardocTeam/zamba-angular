@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 12.11.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+        });
+        function CompletarVto() {
+            if (document.getElementById("zamba_index_2704").value == "") {
+                $("#zamba_index_2704").addClass("error");
+            } else {
+                $("#zamba_index_2704").removeClass("error");
+                var dias = $("#txtCantHabiles").val();
+                var fecha = $("#zamba_index_2704").val();
+                fecha = CalcularLaborales(dias, fecha);
+                $("#zamba_index_2705").val(fecha);
+            }
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2704").value == "") {
+                alert("Por favor, complete la Fecha de Notificación.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_2705").value == "") {
+                alert("Por favor, complete la fecha de Vencimiento.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_64").length > document.getElementById("zamba_index_64").maxlength) {
+                alert("El límite máximo de caracteres para el campo Observación es de " + document.getElementById("zamba_index_64").maxlength + ".\nPor favor, verifique dicho campo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        function CargarFechasyBotones() {
+            //Ocultamos el primer campo el combobox. Administrativo.
+            var x = document.getElementById('zamba_index_2681'); x.remove(0);
+
+            CargarFechaIndice('zamba_index_2704');
+            CargarFechaIndice('zamba_index_2705');
+        }
+        function VerificarJuiMed(sel) {
+            if (sel.value == 'Juicio')
+                $("#zamba_index_2717").val(1);
+            else
+                $("#zamba_index_2717").val(4);
+        }
+        function VerificarTipoNotif(sel) {
+            if (sel.value == 4)
+                $("#zamba_index_2681").val('Mediación');
+            else
+                $("#zamba_index_2681").val('Juicio');
+        }
+        function IngresoDeFecha(obj) {
+            $('#zamba_index_2704').removeClass('error');
+            $('#txtCantHabiles').val('');
+            $('#zamba_index_2705').val('');
+            valFecha(obj);
+        }
+
+        window.onload = function () {
+            setTimeout(function () { CargarFechasyBotones(); }, 200);
+        };
+    </script>
+
+</head>
+
+<body>
+    <div style="font-family:'Times New Roman', Times, serif">
+        <div class="container-fluid">
+            <form name="frmMain" action="NotificacionDemandaIngreso.html">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+                <div id="tblNotificacion" class="attributes_table">
+
+
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">ID
+                                    Notificación:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2702" size="1" name="zamba_index_2702" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5"
+                                    id="basic-addon1">Juicio / Mediación:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2681" size="1" name="zamba_index_2681"
+                                    onchange="VerificarJuiMed(this);"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha
+                                    de Notificación:</span>
+                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2704" name="zamba_index_2704" onblur="IngresoDeFecha(this);" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Tipo
+                                    de Notificación:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2717" size="1" name="zamba_index_2717"
+                                    onchange="VerificarTipoNotif(this);"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Días
+                                    Habiles</span>
+                                <input class="form-control input-sm" style="color: #090A0A;font-weight: bold"
+                                    id="txtCantHabiles" name="txtCantHabiles" onkeyup="CompletarVto();" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha
+                                    de Vencimiento:</span>
+                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2705" name="zamba_index_2705" onblur="valFecha(this)" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Datos
+                                    del
+                                    Siniestro:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_1001010" size="1" name="zamba_index_1001010"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Observación:</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12" style="position:relative;top:-20px">
+                            <textarea cols="1" style="height: 40px" class="form-control" rows="6" id="zamba_index_64"
+                                name="zamba_index_64" readonly="readonly"
+                                style=" color: #090A0A; font-weight: bold"></textarea>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <center>
+                            <input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit"
+                                value="Guardar" onclick="return zamba_save_onclick();">
+                        </center>
+                    </div>
+
+
+
+                    <div class="form-group row"></div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <iframe id="zamba_innerdoctype_original" height="1500px" width="1830px"
+                                src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\OfficeTemp\2355908.PDF"
+                                title="Documento Original"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:whitesmoke">NotificacionDemanda.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+        </div>
+
+        </form>
+    </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: FelipeH -->
+<!--Fecha de Modificacion: 12/03/2018-->
+<!--Cambio: Se agrega el campo dropzone y se hacen ajustes visuales -->
+<head>
+    <title></title>
+
+    <script language="JavaScript">
+
+        (function () {
+            getDateTimeToday();
+            //initQuantityOfTags();
+
+        })();
+
+        //function initQuantityOfTags() {
+        //    var inputValue = document.getElementById("zamba_index_87");
+        //    if (inputValue.value == null || inputValue.value == "" || inputValue.value == "0") {
+        //        document.getElementById("zamba_index_87").value = "1";
+        //    }
+        //}
+
+    </script>
+
+</head>
+
+<body>
+    <center>
+        <div >
+            <div ng-controller="appController">
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="cell panel">
+                            <form name="frmMain" action="Ing_Doc_Gral.html">
+                                <div class="header background-blue">
+                                    <div class="form-group row">
+                                    </div>
+                                    <h5 align="center">INGRESO DOCUMENTACION GENERAL</h5>
+                                </div>
+                                <input id="hdnRuleId" type="hidden" />
+                                <input id="hdnAsocId" type="hidden" />
+                                <div class="container">
+                                    <center>
+                                        <div class="tab-pane active" id="INGRESO DOCUMENTACION GENERAL">
+                                            <div class="form-group row">
+                                                <div class="PanelPrincipal">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-9">
+                                                            <div class="input-group">
+                                                                <!--Remitente-->                                     		<span class="input-group-addon">Remitente:</span>
+                                                                <input id="zamba_index_54" name="zamba_index_54" class="form-control input-sm" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                                        <div class="col-md-3">
+                                                            <div class="input-group">
+                                                                <!--ID trámite-->                                    		<span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                                                <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-9">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row" style="position:relative; top:-10px">
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <!--Sector-->                                        		<span class="input-group-addon">Sector:</span>
+                                                                <select id="zamba_index_85" name="zamba_index_85" size="1" class="form-control input-sm"> </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                                        <div class="col-md-5">
+                                                            <div class="input-group">
+                                                                <!--Destinatario-->                                  		<span class="input-group-addon">Destinatario:</span>
+                                                                <select id="zamba_index_53" name="zamba_index_53" size="1" class="form-control input-sm"> </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                                        <div class="col-md-3">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group">
+                                                                        <!--Recepcion-->                                             		<span class="input-group-addon"> Recepción:</span>
+                                                                        <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9" style="bottom:-20px">
+                                                            <div class="input-group">
+                                                                <!--Tipo de Documentacion-->                                 <span class="input-group-addon">Tipo de Documentación:</span>
+                                                                <select id="zamba_index_83" name="zamba_index_83" class="form-control input-sm"> </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="visible-sm visible-xs" style="height:5px;"></div>
+                                                        <div class="col-md-3" style="bottom:-20px">
+                                                            <div class="input-group">
+                                                                <!--delegación--> 			                      			<span class="input-group-addon">delegación:</span>
+                                                                <select id="zamba_index_82" name="zamba_index_82" size="1" class="form-control input-sm"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-md-6 ">
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <!--Observacion-->
+                                                                    <h5 align="center">Observaciones</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <!--Area texto Observacion-->
+                                                                    <textarea cols="1" class="form-control TextStyle" rows="6" id="zamba_index_84"
+                                                                              name="zamba_index_84"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-md-6">
+
+                                                            <div class="row">
+                                                                <div class="col-xs-12" style="    width: 92%;
+    margin-top: 35px;">
+                                                                    <!--DropZone-->
+                                                                    <zamba-drop id="0">  </zamba-drop>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                                <div class="form-group row" style="position:relative; bottom:65px">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12 MargenCantidadEtiquetas" style="margin-top:40px;">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-12">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 ">
+                                                                            <div class="input-group MargenBTN MargenBTNForm">
+                                                                                <!--Cantidad de Etiquetas-->
+                                                                                <span class="input-group-addon">Cantidad de Etiquetas:</span>
+                                                                                <input id="zamba_index_87" name="zamba_index_87" class="form-control input-sm" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4" style="position:relative">
+                                                                            <!--Botones FORM-->
+                                                                            <input name="zamba_rule_104" id="zamba_rule_104" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Imprimir">
+                                                                            <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                                                                        </div>
+                                                                        <div class="col-md-4"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                                                            <div class="row" style="height:100%">
+                                                                <iframe id="previewDocSearch" class="IframeClass" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <center class="PiePaginaSep">
+                                                                <div class="col-md-2" style="position:relative;left:20px;">
+                                                                    <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                                                </div>
+                                                                <div class="col-md-10">
+                                                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                                    <div class="form-group row">
+                                                                    </div>
+                                                                </div>
+                                                            </center>
+                                                        </div>
+                                                        <!--IMPORTANTE  cambiar version al modificar formulario-->
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <span class="colorVersion"> V. 1.1.1 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+<style>
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+
+
+    .margenBtn {
+        padding-right: 12px;
+        border-right-width: 1px;
+        margin-top: 30px;
+    }
+
+    .texaresize {
+        resize: none;
+        width: 1142px;
+        height: 65px;
+    }
+</style>

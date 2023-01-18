@@ -1,0 +1,756 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl00_Head2">
+    <title>Aysa - PRODUTALIA S.A. - CALIFORNIA 2082 - ICO0006-L </title>
+    <link rel="Stylesheet" type="text/css" href="ZambaUIWeb.css" media="all" />
+    <style type="text/css">
+        /*header*/
+        .inputPlainText
+        {
+            text-align: right;
+            border: 0px white;
+        }
+        /*-------------------------------------------*/
+        /*section style*/
+        .sectionHeaderA
+        {
+            background-color: rgb(230,230,230);
+            border: 1px solid #778;
+            color: #0e2b8d;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: normal;
+            margin-left: 3px;
+            padding-bottom: 3px;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+            padding-top: 3px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .sectionHeaderUl
+        {
+            border-bottom: 1px solid #778;
+            color: #333;
+            padding-bottom: 3px;
+            padding-top: 3px;
+            margin: 0px;
+        }
+        .sectionHeaderLi
+        {
+            display: inline;
+            list-style-type: none;
+        }
+        
+        .section
+        {
+            border-bottom: 1px solid #aaa;
+            border-top: 0px none #aaa;
+            border-left: 1px solid #aaa;
+            border-right: 1px solid #aaa;
+        }
+        /*-------------------------------------------*/
+        .generalInfLabels
+        {
+            width: 100px;
+        }
+        .generalInfFields
+        {
+            width: 270px;
+        }
+        .activityLabels
+        {
+            width: 100px;
+        }
+        .activityFields
+        {
+            width: 270px;
+        }
+    </style>
+</head>
+<body class="Body-Master-Blanck">
+    <form name="aspnetForm" id="aspnetForm" class="form">
+    <div id="ReportHeader" style="width: 100%">
+        <div style="float: left" id="logoAysa" style="margin-top: 1em">
+            <img src="Aysa.bmp" />
+        </div>
+        <div style="float: right" style="margin-top: 2em; margin-left: 1em">
+            <img src="pwbyzamba.jpg" />
+        </div>
+        <div style="float: right; text-align: right">
+            <div>
+                <h3>
+                    Reporte de industria:
+                    <br />
+                    <input type="" id="Text1" name="zamba_index_1188" class="inputPlainText"
+                        style="width: 99%" />
+                    <br />
+                    <input id="" name="zamba_index_1187" class="inputPlainText"
+                        style="width: 10em" />
+                </h3>
+            </div>
+            <div style="width: 80%">
+                <h3>
+                    Emitido: <<funcionescomunes>>.<<FechaActual>></h3>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div id="infGral">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Inf. General </a></li>
+        </ul>
+        <div id="General" class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td class="style2">
+                        <label>
+                            CIC:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1220" name="zamba_index_1220" style="width: 175px">
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Fecha de alta:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1214" name="zamba_index_1214" size="28" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Convenio:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1271" name="zamba_index_1271" style="width: 184px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Segmentacion:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1218"  size="50" />
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Estado:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1211" name="zamba_index_1211" style="width: 175px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Raz&oacuten Social:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1188" name="zamba_index_1188" size="50" />
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Codificacion de la industria:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1187" name="zamba_index_1187"  size="28" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Fecha de Baja:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1215" name="zamba_index_1215" size="50" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label>
+                            Tipo de Baja:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1216" name="zamba_index_1216" style="width: 344px;">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="Actividad">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Actividad</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Tipo de Industria:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1185" name="zamba_index_1185" style="width: 300px">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Actividad no Regulada:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_300005" name="zamba_index_300005" type="text" style="width: 165px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod. tipo Actividad:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1189" name="zamba_index_1189" style="width: 300px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Tipo de Actividad:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1223" name="zamba_index_1223" style="width: 300px;">
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="DatosComercialessec">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Datos Comerciales</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Nro de Expediente Referencial:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="Text3" name="zamba_index_1231" style="width: 150px;" />
+                    </td>
+                    <td>
+                        <label>
+                            C&oacutedigo 24:</label>
+                    </td>
+                    <td>
+                        <select id="Select1" name="zamba_index_1233" style="width: 150px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Grandes Usuarios:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="Select2" name="zamba_index_1232" style="width: 150px;">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Volumen de Descarga:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="Text4" name="zamba_index_1234" style="width: 150px;" size="30" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="FHVSec">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Factibilidad hidraulica de vuelco</a></li>
+        </ul>
+        <div class="section" id="Div1">
+            <table cellpadding="4">
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Autorizacion de Vuelco:</label>
+                    </td>
+                    <td>
+                        <select id="Select3" name="zamba_index_1219" style="width: 185px;">
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Nro Autorizacion:</label>
+                    </td>
+                    <td>
+                        <input id="Text5" name="zamba_index_1210" size="28" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="ubicacion">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Ubicacion</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Cod Region:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1221" name="zamba_index_1221" style="width: 184px">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Region:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1181" name="zamba_index_1181" style="width: 184px">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod Distrito:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1222" name="zamba_index_1222" style="width: 184px;">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Distrito:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1183" name="zamba_index_1183" style="width: 184px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod Distrito Gestion:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1259" name="zamba_index_1259" style="width: 184px;">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Distrito Gestion:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1260" name="zamba_index_1260" style="width: 184px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod Partido:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1262" name="zamba_index_1262" style="width: 184px;">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Partido:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1261" name="zamba_index_1261" style="width: 184px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Localidad:</label>
+                    </td>
+                    <td>
+                        <input  id="zamba_index_1202" name="zamba_index_1202" size="30" />
+                    </td>
+                    <td>
+                        <label>
+                            Calle:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1192" name="zamba_index_1192" size="30" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Numero:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1193" name="zamba_index_1193" size="10" />
+                        <label>
+                            Desde:</label>
+                        <input id="zamba_index_1263" name="zamba_index_1263" size="5" />
+                        <label>
+                            Hasta:</label>
+                        <input id="zamba_index_1264" name="zamba_index_1264" size="5" />
+                    </td>
+                    <td>
+                        <label>
+                            Cod. Postal:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1203" name="zamba_index_1203" size="30" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Telefono:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1190" name="zamba_index_1190" size="30" />
+                    </td>
+                    <td>
+                        <label>
+                            Contacto:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1191" name="zamba_index_1191" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="direcAlternat">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Direcciones alternativas</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 1:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1194" name="zamba_index_1194" size="30" />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 1:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1198" name="zamba_index_1198" size="30" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 2:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1195" name="zamba_index_1195" size="30" />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 2:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1199" name="zamba_index_1199" size="30" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 3:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1196" name="zamba_index_1196" size="30" />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 3:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1200" name="zamba_index_1200" size="30" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 4:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1197" name="zamba_index_1197" size="30" />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 4:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1201" name="zamba_index_1201" size="30" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="fhv">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">FHV/ACV</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            FHV asociados a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1045" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="inspeccioness">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Inspecciones</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Inspecciones asociadas a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1028" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="Int">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Intimaciones</a></li>
+        </ul>
+        <div class="section">
+            <div style="overflow: visible">
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                Intimaciones asociadas a la Industria:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="zamba_associated_documents_11074" class="tablesorter">
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div id="Denuncias">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Denuncias</a></li>
+        </ul>
+        <div class="section">
+            <div style="overflow: visible">
+                <table cellpadding="4">
+                    <tr>
+                        <td>
+                            <label>
+                                Denuncias asociadas a la Industria:</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table id="zamba_associated_documents_11075" class="tablesorter">
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div id="Cortes">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Cortes</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Cortes asociadas a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_11077" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="conexionesAgua">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Conexiones de agua</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Conexiones de agua asociados a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1038" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="descargas">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Descargas</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Descargas asociadas a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1043" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="CTM">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Camara toma muestra</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            CTM asociadas a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1044" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="MicMac">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Micro-Macro Cuenca</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Microcuencas y Macrocuencas asociadas a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1040" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="Documentacion">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Documentacion</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Documentacion asociada a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_associated_documents_1049" class="tablesorter">
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,233 @@
+﻿<div class=''>
+    <div class='wrapper'>
+        <nav class="navbar  navbar-expand   navbar-light bg-light">
+            <div class="container-fluid">
+                <div ng-if="selectedSummary == null">
+                    <a class="navbar-brand" href="#" style="color: white;  font-size: 16px;">
+
+                        <div>
+                            <div id="MenuOpciones" class="my-fixed-item" style="display:none">
+                                <li class="LielementStyle" data-toggle="modal" data-target="#keyChange" ng-click="CierreMenu()">Cambio de Clave</li>
+                            </div>
+                        </div>
+
+                        <div style="display: inline-block;" ng-click="Openopcionmenu()">
+                            <img ng-cloak ng-if="thumphoto != null "
+                                 ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
+                            <img ng-cloak ng-if="thumphoto == null "
+                                 src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
+                                 class=" img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-top: 1px;margin-left:-5px; border-radius: 17px;" />
+                        </div>
+
+
+
+
+                        <span style=" line-height: inherit;" class="badge bg-danger">
+                            {{SummaryList.length}}
+                        </span>
+
+                    </a>
+                </div>
+                <ul class="navbar-nav" style=" flex-direction: row">
+                    <li class="nav-item">
+                        <div ng-if="selectedSummary != null">
+                            <a ng-click="goToBack()" class="nav-link" href="#" style="color: white;">
+                                <i class="fa fa-arrow-left" aria-hidden="true" style="color: white;"></i>
+                                Atras
+                            </a>
+                        </div>
+                    </li>
+
+                    <li ng-if="selectedSummary != null" class="nav-item centerFix">
+                        <button class="btn btn-success btn-sm" type="button" role="button" aria-haspopup="true" aria-expanded="false" ng-click="AprobarResumenGerencial(selectedSummary.DOC_ID, '')" style="margin-right: 5px;margin-top: 5px;">
+                            Aprobar
+                        </button>
+                    </li>
+
+
+                    <li ng-if="selectedSummary != null" class="nav-item">
+                        <button class="btn btn-danger btn-sm" type="button" role="button" aria-haspopup="true" aria-expanded="false" ng-click="DevolverResumenGerencial(selectedSummary.DOC_ID, '')" style="margin-top: 5px;">
+                            Devolver
+                        </button>
+                    </li>
+
+
+                </ul>
+
+                <ul class="navbar-nav pull-right" style=" flex-direction: row">
+                    <li class="nav-item" ng-if="selectedSummary == null">
+                        <a ng-click="btnRefresh()" class="nav-link" href="#">
+                            <i class="fa fa-refresh" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" ng-if="selectedSummary == null">
+                        <a ng-click="SignOut()" class="nav-link" href="#">
+                            <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                    </li>
+
+
+
+
+                    <li ng-if="selectedSummary != null" class="nav-item">
+                        <button class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" ng-click="MenuAncla()">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true" style="color: white;"></i>
+                        </button>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+
+   
+
+    
+        
+
+        
+         
+            
+
+    <div id="{{summary.ID}}" class="card-body" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 header-margin text-center">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-success" ng-click="setUrlRyRt(2, 2)" style="margin-top: 150px; background: #337ab7"> IR A RESUMEN GERENCIAL </button>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-success" ng-click="setUrlRyRt(0, 0)" style="margin-top: 25px; background: #337ab7 "> IR A FACTURAS Y PAGOS PENDIENTES DE APROBACIÓN </button>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-success" ng-click="setUrlRyRt(0, 1)" style="margin-top: 25px; background: #337ab7 "> IR A FACTURAS PENDIENTES DE CONFIRMACIÓN </button>
+                </div>
+                
+            </div>
+       </div>
+     </div>
+            
+            
+        
+   
+
+   
+
+    <style>
+
+                .badge {
+                    font-size: 17px !important;
+                    padding-bottom: 0px !important;
+                    padding-top: 0px !important;
+                }
+
+                .bg-light {
+                    /*background-color: #0a58ca !important;*/
+                    /* background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%); */
+                    background: linear-gradient(135deg, #00adff 0%,#012ca5 100%);
+                    margin-bottom: 25px;
+                }
+
+                .first-item-separator {
+                    margin-top: 67px;
+                }
+
+                #accordionExample {
+                    width: 90%;
+                    margin-top: 4%;
+                    margin-left: 5%;
+                    margin-right: 5%;
+                }
+
+                .header-margin {
+                    margin-top: 15px;
+                }
+
+                .custom-card {
+                    margin: 10px;
+                }
+
+                /*
+        Full screen Modal
+        */
+                .fullscreen-modal .modal-dialog {
+                    margin: 0;
+                    margin-right: auto;
+                    margin-left: auto;
+                    width: 100%;
+                }
+
+                @media (min-width: 768px) {
+                    .fullscreen-modal .modal-dialog {
+                        width: 750px;
+                    }
+                }
+
+                @media (min-width: 992px) {
+                    .fullscreen-modal .modal-dialog {
+                        width: 970px;
+                    }
+                }
+
+                @media (min-width: 1200px) {
+                    .fullscreen-modal .modal-dialog {
+                        width: 1170px;
+                    }
+                }
+
+                .SombraBtn {
+                    box-shadow: 6px 6px 20px -1px rgba(13, 110, 253, .25), -6px -6px 20px -1px #6c757d;
+                }
+
+                .ColorText {
+                    color: #0d5ef1;
+                    font-size: 1rem;
+                }
+
+                .my-fixed-item {
+                    position: fixed;
+                    min-height: 27%;
+                    width: 195px;
+                    text-align: center;
+                    word-wrap: break-word;
+                    background-color: #0a58ca;
+                    margin-top: 45px;
+                    margin-left: -12px;
+                    border-radius: 7px;
+                    color: white;
+                }
+
+                .centerFix {
+                    margin-left: 35px;
+                }
+
+                .my-fixed-dropdown {
+                    position: fixed;
+                    right: 10px;
+                    min-height: 27%;
+                    width: 195px;
+                    text-align: center;
+                    word-wrap: break-word;
+                    margin-top: 39px;
+                    border-radius: 7px;
+                    background-color: #0d6efd;
+                }
+
+                .centeredText {
+                    text-align: center;
+                }
+
+                .segmentReposition {
+                    margin-bottom: 60px;
+                }
+
+                .LielementStyle {
+                    color: white;
+                    margin-top: 13px;
+                    border-bottom: solid 1px hsl(0deg 17% 72%);
+                    padding-bottom: 5px;
+                }
+    </style>
+</div>

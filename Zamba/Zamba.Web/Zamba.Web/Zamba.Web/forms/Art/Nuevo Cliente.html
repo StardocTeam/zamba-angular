@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+    </script>
+</head>
+<body>
+    <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Nuevo Cliente</strong>
+    </div>
+    <table style="width: 90%;">
+        <tr>
+            <td colspan="2">
+                <div id="floatleft">
+                    <div id="TAB" class="tabber" style="">
+                        <div class="tabbertab" id="General">
+                            <h2>
+                                Informacion
+                            </h2>
+                            <table >
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Nombre Corto del Cliente</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 20.2em;" id="zamba_index_1277" name="zamba_index_1277" />
+                                    </td>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Tipo de Cliente</label>
+                                        </td>
+                                        <td>
+                                            <select style="width: 25em;" id="zamba_index_1281" name="zamba_index_1281">
+                                            </select>
+                                        </td>
+                                    </p>
+                                </tr>
+                            </table>
+                            <br  />
+
+                            <table >
+                                <tr>
+                                    <td class="style1">
+                                        <label style="width: 14em;">
+                                            Razon Social del Cliente</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 59.4em; margin-left: 0px;" id="zamba_index_1276"
+                                            name="zamba_index_1276" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <p>
+                                        <td class="style1">
+                                            <label style="width: 14em;">
+                                                Cuit</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width: 20.2em;" id="zamba_index_1278" name="zamba_index_1278" />
+                                        </td>
+                                    </p>
+                                </tr>
+                            </table>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+        </tr>
+        
+    </table>
+    <br />
+    <br />
+
+     <div>
+        <img alt="" src="images/logocliente.bmp" height="50" width="70" style="float: left" />
+        <center>
+            <input id="zamba_save" class="btn btn-primary" type="submit" value="Guardar" name="zamba_save" />
+            <input id="zamba_cancel" class="btn btn-primary" type="submit" value="Cancelar" name="zamba_cancel" />
+        </center>
+        <img alt="" src="images/pwbyzamba.jpg" style="float: right" />
+    </div>
+
+
+    </form>
+</body>
+</html>

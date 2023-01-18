@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="~/ChatJs/Scripts/Bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/ChatJs/Styles/login.css" />
+    <script src="~/ChatJs/Scripts/jquery-2.2.2.min.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.fn.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/groups.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/collaboration.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.init.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambalink.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/jquery.chatjs.signalradapter.js" type="text/javascript"></script>
+    <script src="~/ChatJs/Scripts/zambachat.js" type="text/javascript"></script>  
+    <script>
+        var conString="@System.Configuration.ConfigurationManager.ConnectionStrings["ChatContext"]";
+        var URLServer = "@System.Configuration.ConfigurationManager.AppSettings["URLServer"]";
+        var thisDomain = "@System.Configuration.ConfigurationManager.AppSettings["thisDomain"]";
+        var zColl = "@System.Configuration.ConfigurationManager.AppSettings["ZColl"]";
+        var appZChat = "ZambaChat";
+        var chatMode = "@System.Configuration.ConfigurationManager.AppSettings["chatMode"]";
+        var isCS = "@System.Configuration.ConfigurationManager.AppSettings["isCS"]";
+        var zCollServer = "@System.Configuration.ConfigurationManager.AppSettings["zCollServer"]";
+
+        var zLinkURL = URLServer + "home/zlink";
+        var zLenable = true;
+        var zLuserId;
+    </script>
+</head>
+
+<body style="overflow: hidden;">
+    <div id="loadingZChat" style="text-align:center;padding-top:30px;display:none;">
+        <img style="width: 25px; height: 25px; margin-right:5px;" src="..\ChatJs\Images\wait.gif">
+        <span id="loadingZChatp">
+            Inicializando chat...
+        </span>
+    </div>
+
+    <div class="block blur" id="loginZLink" style="padding-top:20px">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="clear-form">
+                        <form>
+                            <div class="form-heading gray">
+                                <h3 class="header center"><span class="glyphicon glyphicon-user"></span>   Iniciar sesión</h3>
+                            </div>
+                            <div class="form-body">
+                                <div class="pair-group">
+                                    <input type="email" id="loginUserMail" class="input-block-level" required placeholder="Direccion de email" style="width:100%">
+                                    <input type="password" id="loginUserPassword" class="input-block-level" required placeholder="Contraseña" style="width:100%">
+                                    <div id="errorLoginMsg" style="display:none;">
+                                        <p class="center" style="color:red; font-size:10px;" id="loginDetailError"></p>
+                                        <p class="center" style="color:red; font-size:12px;">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                            Error al iniciar sesión
+                                            <br />
+                                            <a href="#" style="font-size:10px;">¿Olvido su contraseña?</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-footer">
+                                <button class="btn btn-large btn-blue btn-block" type="submit" onclick="return CheckUserCredentials(event, appZChat);">Comenzar   <span class="glyphicon glyphicon-log-in"></span></button>
+                                <p class="center" style="font-size:10px;">¿No sos usuario? <a href="#" style="font-size:10px;">Crea una cuenta ahora</a> <i class="icon-arrow-right"></i></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

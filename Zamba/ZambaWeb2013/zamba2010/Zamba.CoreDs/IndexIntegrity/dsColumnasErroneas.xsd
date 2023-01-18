@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsColumnasErroneas" targetNamespace="http://tempuri.org/dsColumnasErroneas.xsd"
+	elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/dsColumnasErroneas.xsd"
+	xmlns:mstns="http://tempuri.org/dsColumnasErroneas.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsColumnasErroneas" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="ColumnasErroneas">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Tabla" type="xs:string" minOccurs="0" />
+							<xs:element name="ColumnaSobrante" type="xs:string" minOccurs="0" />
+							<xs:element name="ColumnaFaltante" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,316 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" language="JavaScript">
+function zamba_save_onclick(sender) {
+if (document.getElementById("zamba_index_2706").value.trim() == ""){
+alert("Verifique que el Nombre se encuentre completo.");
+document.getElementById("hdnRuleId").name = sender.id;
+}else if(document.getElementById("zamba_index_116").value > 100){
+alert("El porcentaje no puede ser superior al 100%.");
+document.getElementById("hdnRuleId").name = sender.id;
+}else{
+alert("Se guardó de manera exitosa.");
+document.getElementById("hdnRuleId").name = sender.id;
+frmMain.submit();
+}
+}
+
+
+/****** Suma de Rubros *************/
+
+function SumarCampos(){
+document.getElementById('zamba_index_115').value = '';
+var suma = 	parseFloat($('#zamba_index_2790').val()) +
+parseFloat($('#zamba_index_2792').val()) +
+parseFloat($('#zamba_index_2789').val()) +
+parseFloat($('#zamba_index_2791').val()) +
+parseFloat($('#zamba_index_114').val());
+document.getElementById('zamba_index_115').value = suma;
+}
+
+function setNumericos(){
+if($('#zamba_index_2790').val()=="" || $('#zamba_index_2790').val()== null ){
+$('#zamba_index_2790').val(0.00);
+}
+if($('#zamba_index_2792').val()=="" || $('#zamba_index_2792').val()== null ){
+$('#zamba_index_2792').val(0.00);
+}
+if($('#zamba_index_2789').val()=="" || $('#zamba_index_2789').val()== null ){
+$('#zamba_index_2789').val(0.00);
+}
+if($('#zamba_index_2791').val()=="" || $('#zamba_index_2791').val()== null ){
+$('#zamba_index_2791').val(0.00);
+}
+if($('#zamba_index_114').val()=="" || $('#zamba_index_114').val()== null ){
+$('#zamba_index_114').val(0.00);
+}
+if($('#zamba_index_117').val()=="" || $('#zamba_index_117').val()== null ){
+$('#zamba_index_117').val(0.00);
+}
+}
+
+function formatearNumeros(){
+document.getElementById('zamba_index_2790').value = parseFloat(document.getElementById('zamba_index_2790').value);
+document.getElementById('zamba_index_2792').value = parseFloat(document.getElementById('zamba_index_2792').value);
+document.getElementById('zamba_index_2789').value = parseFloat(document.getElementById('zamba_index_2789').value);
+document.getElementById('zamba_index_2791').value = parseFloat(document.getElementById('zamba_index_2791').value);
+document.getElementById('zamba_index_114').value = parseFloat(document.getElementById('zamba_index_114').value);
+document.getElementById('zamba_index_117').value = parseFloat(document.getElementById('zamba_index_117').value);
+}
+
+/**********************************/
+
+
+function FormLoad(){
+setNumericos();
+if($('#zamba_index_113').val() == 'Porcentual'){
+$('.tblPorcentaje').css('display', 'block');
+$('.tblRubros').css('display', 'none');
+}
+
+if($('#zamba_index_113').val() == 'Rubro'){
+$('.tblRubros').css('display', 'block');
+$('.tblPorcentaje').css('display', 'none');
+}
+CalcularMonto(document.getElementById('zamba_index_116'));
+}
+
+function SeleccionarProvincia(){
+$('#zamba_index_2766').text('');
+}
+
+function OcultarCampos(){
+if($('#zamba_index_113').val() == 'Porcentual'){
+$('.tblPorcentaje').css('display', 'block');
+$('.tblRubros').css('display','none');
+LimpiarCamposRubros();
+}else if($('#zamba_index_113').val() == 'Rubro'){
+$('.tblRubros').css('display','block');
+$('.tblPorcentaje').css('display', 'none');
+document.getElementById("zamba_index_116").value = "";
+document.getElementById("zamba_index_117").value = "";
+}else{
+}
+}
+
+function CalcularMonto(porcentaje){
+if(porcentaje.value <= 100){
+var porc = 0.00;
+if(porcentaje.value != ''){
+porc = parseFloat((porcentaje.value*$('#zamba_index_2691').val()/100));
+}
+$('#zamba_index_117').val(porc);
+}else{alert("El porcentaje no puede ser superior al 100%.");}
+}
+
+$(document).ready(function(){
+$(".solonums").each(function(){
+$(this).keypress(function (e){
+return IntegerCheck(e);
+})
+});
+$(".solodecimals").each(function(){
+$(this).keypress(function (e){
+if( e.which!=8 && e.which!=0 && e.which!=46 && (e.which<48 || e.which>57)){
+return false;
+}
+})
+});
+});
+
+function validarEmail( email ) {
+email = email.value;
+if(email != '' && email != null){
+expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+if ( !expr.test(email) )alert("Error: La dirección de correo " + email + " es incorrecta.");
+}
+}
+
+function LimpiarCamposRubros(){
+document.getElementById("zamba_index_2790").value = 0.00;
+document.getElementById("zamba_index_2792").value = 0.00;
+document.getElementById("zamba_index_2789").value = 0.00;
+document.getElementById("zamba_index_2791").value = 0.00;
+document.getElementById("zamba_index_115").value = 0.00;
+}
+
+window.onload=function(){
+setTimeout(function(){FormLoad();}, 200);
+};
+</script>
+</head>
+<body>
+<div class="container-fluid">
+<form name="frmMain" action="Actor.html">
+<h4 class="text-center" id="header" width="90%">
+Actor
+</h4>
+<input id="hdnRuleId" type="hidden" />
+<input id="zamba_index_2691" name="zamba_index_2691" type="hidden"/>
+<center>
+<div id="tblDemandado" class="attributes_table">
+<div class="form-group row">
+<div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+<div class="input-group">
+<span class="input-group-addon">Apellido y Nombre:</span>
+<input class="form-control input-sm" id="zamba_index_2706" name="zamba_index_2706" >
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">ID Reclamo:</span>
+<input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677"  disabled/>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Nro de Juicio:</span>
+<input class="form-control input-sm" id="zvar(NroJuicio)" name="zvar(NroJuicio)"  disabled="true"/>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Dirección:</span>
+<input class="form-control input-sm" id="zamba_index_2708" name="zamba_index_2708"  maxlength="200" />
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">DNI/CUIL/CUIT:</span>
+<input class="form-control input-sm" id="zamba_index_2710" name="zamba_index_2710" class="solonums w150px" maxlength="15" />
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Provincia:</span>
+<select class="form-control input-sm" id="zamba_index_41" name="zamba_index_41"  onchange="SeleccionarProvincia();" ></select>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Teléfono:</span>
+<input class="form-control input-sm" id="zamba_index_2711" name="zamba_index_2711" class="solonums"  maxlength="30" />
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Localidad:</span>
+<select class="form-control input-sm" id="zamba_index_39" name="zamba_index_39"  disabled></select>
+<span class="input-group-btn">
+<input class="btn  btn-info btn-sm" id="zamba_rule_11427" name="zamba_rule_11427" type="submit" value="..." onclick="SetRuleId(this);"/>
+</span>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Mail:</span>
+<input class="form-control input-sm" id="zamba_index_2885" name="zamba_index_2885"  onblur="validarEmail(this);"/>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Nro de Siniestro:</span>
+<input class="form-control input-sm" id="zvar(NroStro)" name="zvar(NroStro)"  disabled="true"/>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Edad:</span>
+<input class="form-control input-sm" id="zamba_index_2846" name="zamba_index_2846" class="solonums" />
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3 ">
+<div class="input-group">
+<span class="input-group-addon">Monto Reclamo Por:</span>
+<select class="form-control input-sm" id="zamba_index_113" name="zamba_index_113"  onchange="OcultarCampos();"></select>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Porcentaje:</span>
+<input class="form-control input-sm" id="zamba_index_116" name="zamba_index_116" class="solodecimals"  onblur="CalcularMonto(this);"/>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Monto Reclamo(%):</span>
+<input class="form-control input-sm" id="zamba_index_117" name="zamba_index_117"  disabled="true"/>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Daño Físico:</span>
+<input class="form-control input-sm" id="zamba_index_2790" name="zamba_index_2790" class="solodecimals"  onblur="SumarCampos();"/>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Daño Material:</span>
+<input class="form-control input-sm" id="zamba_index_2792"  name="zamba_index_2792" class="solodecimals"  onblur="SumarCampos();"/>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Valor Vida:</span>
+<input class="form-control input-sm" id="zamba_index_2789"  name="zamba_index_2789" class="solodecimals"  onblur="SumarCampos();"/>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Daño Moral:</span>
+<input class="form-control input-sm" id="zamba_index_2791" name="zamba_index_2791"  class="solodecimals"  onblur="SumarCampos();"/>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Otros Rubros:</span>
+<input class="form-control input-sm" id="zamba_index_114" name="zamba_index_114" class="solodecimals"  onblur="SumarCampos();"/>
+</div>
+</div>
+
+<div class="col-md-6 col-sm-6">
+<div class="input-group">
+<span class="input-group-addon">Sumatoria Rubros:</span>
+<input class="form-control input-sm" id="zamba_index_115" name="zamba_index_115"  disabled="true"/>
+</div>
+</div>
+</div>
+</div>
+
+<div><input class="btn  btn-primary" id="zamba_rule_17630" name="zamba_rule_17630" type="submit" value="Guardar" onclick="return zamba_save_onclick(this);" /></div>
+</center>
+</div>
+    </form>
+</body>
+</html>

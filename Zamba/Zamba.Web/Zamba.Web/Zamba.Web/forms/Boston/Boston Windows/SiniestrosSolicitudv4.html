@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 05.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="SiniestrosSolicitudv4.css" type="text/css" />
+    
+    
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        //function ZFUNCTION() {
+        //    var Historial = document.getElementById("zamba_Index_1148").value
+        //    while (Historial.indexOf(" ", 0) != -1) {
+        //        Historial = Historial.replace(" ", "\n");
+        //    }
+        //    document.getElementById("zamba_Index_1148").value = Historial;
+        //}
+        function prev(sender, path) {
+            var iframe = document.getElementById("zamba_innerdoctype_variable");
+            path = "file:///" + path;
+            path = path.replace(".msg", ".html");
+
+            if (iframe) {
+                iframe.setAttribute('src', path);
+            } else {
+                alert("Se produjo un error al cargar la previsualizacion");
+            }
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="SiniestrosSolicitudv4.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            <div style="font-family:'Times New Roman', Times, serif">
+                <div class="form-group row"></div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class=" input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1"> Fecha
+                                Solicitud</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1146" name="zamba_index_1146" readonly="readonly" disabled="disabled" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1"> Fecha
+                                Respuesta</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                id="zamba_index_1149" name="zamba_index_1149" readonly="readonly" disabled="disabled" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="input-group-addon" style="background-color:#e5e5e5">Comentario Final:</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group">
+                        <div class="col-md-12" style="position:relative;top:-18px;color: #090A0A; font-weight: bold">
+                            <textarea cols="1" style="height: 50px" class="form-control" rows="3" id="zamba_index_1148"
+                                name="zamba_index_1148" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <center>
+                    <input class="btn btn-sm btn-primary" id="zamba_rule_5478"
+                        style="text-align: center; margin-right: 50px;" type="submit" value="Nueva Comunicacion"
+                        name="zamba_rule_5478" onclick="SetRuleId(this);" />
+
+                    <input class="btn btn-sm btn-primary" id="zamba_rule_5484"
+                        style="text-align: center; margin-right: 50px;" type="submit" value="Aceptar Siniestro"
+                        name="zamba_rule_5484" onclick="SetRuleId(this);" />
+
+                    <input class="btn btn-sm btn-primary" id="zamba_rule_5488"
+                        style="text-align: center; margin-right: 50px;" type="submit" value="Rechazar Siniestro"
+                        name="zamba_rule_5488" onclick="SetRuleId(this);" />
+                </center>
+
+                <div class="form-group row"></div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div id="zamba_associated_documents_1014" class="ZKGrid table table-bordered containerGrid">
+                            <h5> <strong>Comunicaciones</strong></h5>
+                            <div
+                                id="zamba_rule_0/Previsualizar/zvar(path=length-3)/prev§zamba_rule_6479/Responder/zvar(rutaDocumento=length-3)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <iframe border="0" style="border:1px solid black; width:100%; height: 300px" src=""
+                            name="zamba_innerdoctype_variable" id="zamba_innerdoctype_variable"></iframe>
+                    </div>
+                </div>
+
+                <center>
+                    <div class="col-md-2">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:whitesmoke">SiniestrosSolicitudv4.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+
+        //function ZFUNCTION() {
+        //    var Historial = document.getElementById("zamba_Index_1148").value
+        //    while (Historial.indexOf(" ", 0) != -1) {
+        //        Historial = Historial.replace(" ", "\n");
+        //    }
+        //    document.getElementById("zamba_Index_1148").value = Historial;
+        //}
+
+        function prev(sender, path) {
+            var iframe = document.getElementById("zamba_innerdoctype_variable");
+            path = "file:///" + path;
+            path = path.replace(".msg", ".html");
+
+            if (iframe) {
+                iframe.setAttribute('src', path);
+            } else {
+                alert("Se produjo un error al cargar la previsualizacion");
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using Zamba.Core;
+using Zamba.Services;
+////using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_UCStepsPerformance_UCStepsPerformanceByWorkflow : System.Web.UI.UserControl
+{
+    #region Eventos
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        InitializesComponents();
+        rpvStepsPerformanceByWorkflow.Visible = false;
+        rpvGrdStepsPerformanceByWorkflow.Visible = false;
+    }
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        if (!String.IsNullOrEmpty(cmbWorkflows.SelectedValue))
+        {
+
+            dsStepsPerformance dsTyped = new dsStepsPerformance();
+
+            dsStepsPerformance.dtStepsPerformanceRow dr1 = dsTyped.dtStepsPerformance.NewdtStepsPerformanceRow();
+
+            dr1.StepsPerformanceSource = "Workflow: " + cmbWorkflows.SelectedItem.ToString();
+            dr1.AsignedUsersCount = Users.GetAsignedUsersCountByWorkflow(Int64.Parse(cmbWorkflows.SelectedValue.ToString()));
+            dr1.TasksCount = Tasks.GetTaskCountByWorkflow(Int64.Parse(cmbWorkflows.SelectedValue.ToString()));
+
+
+            dsTyped.Tables[0].Rows.Add(dr1);
+            dsTyped.AcceptChanges();
+
+            this.rpvStepsPerformanceByWorkflow.LocalReport.DataSources.Clear();
+            this.rpvGrdStepsPerformanceByWorkflow.LocalReport.DataSources.Clear();
+            ReportDataSource rptDatasource = new ReportDataSource("dsStepsPerformance_dtStepsPerformance", dsTyped.Tables[0]);
+            this.rpvStepsPerformanceByWorkflow.LocalReport.DataSources.Add(rptDatasource);
+            this.rpvGrdStepsPerformanceByWorkflow.LocalReport.DataSources.Add(rptDatasource);
+            this.rpvStepsPerformanceByWorkflow.Visible = true;
+            this.rpvGrdStepsPerformanceByWorkflow.Visible = true;
+
+
+        }
+    }
+    #endregion
+
+    #region Metodos
+    public void InitializesComponents()
+    {
+        List<IWorkFlow> WFList = new List<IWorkFlow>();
+
+        WFList = Workflow.GetWorkflows();
+
+        foreach (IWorkFlow CurrentWorkflow in WFList)
+            cmbWorkflows.Items.Add(new ListItem(CurrentWorkflow.Name, CurrentWorkflow.ID.ToString()));
+
+    }
+    #endregion
+    
+}

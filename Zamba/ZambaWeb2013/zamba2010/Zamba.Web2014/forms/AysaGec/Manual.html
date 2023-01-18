@@ -1,0 +1,253 @@
+﻿<html>
+<head>
+    <title>Manuales y Procedimientos</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+	<link href="content/styles/tabber.css" type="text/css" rel="stylesheet"/>
+
+	    
+	
+	
+	<script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+		
+		function countChar(val) {
+		    var len = val.value.length;
+		    if (len >= 10) {
+		        val.value = val.value.substring(0, 10);
+		    } else {
+		        $('#charNum').text(10 - len);
+		    }
+		};
+
+		var textAreaMaxChars = 2000;
+
+		function limit(element) {
+		    if (element.value.length > textAreaMaxChars)
+		        element.value = element.value.substr(0, textAreaMaxChars);
+		}
+
+
+		function maxLengthPaste(field) {
+		    event.returnValue = false;
+		    if ((field.value.length + window.clipboardData.getData("Text").length) > textAreaMaxChars) {
+		        return false;
+		    }
+		    event.returnValue = true;
+		}
+    </script>
+</head>
+<body>
+    <div id="container">
+        <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+
+        <div name="design" id="design">
+            <strong>Gestion de Conocimientos</strong>
+        </div>
+        
+			<table style="width: 90%;">
+			<tr>
+				<td class="style1">
+					<label>
+						Codigo:
+					</label>
+				</td>
+				<td>
+					<input type="text" id="zamba_index_11285" name="zamba_index_11285" size="20" readonly='readonly'/>
+				</td>
+				<td class="style1">
+					<label>
+						Nombre del documento:
+					</label>
+				</td>
+				<td>
+					<input type="text" id="zamba_index_11279" name="zamba_index_11279" size="80" />
+				</td>
+			</tr>
+			</table>
+            <div id="TAB" class="tabber" style="">
+                <div class="tabbertab" id="General">
+                    <h2>
+                        Datos Generales
+                    </h2>
+					<table style="width: 90%;">
+						<tr>
+							<td class="style1">
+								<label>
+									Tema:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11276" name="zamba_index_11276" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Subtema 3:
+								</label>
+							</td>
+							<td>
+								<input type="text" name="zamba_index_11301" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 1:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11299" name="zamba_index_11299" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Subtema 4:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11302" name="zamba_index_11302" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 2:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11300" name="zamba_index_11300" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Subtema 5:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11303" name="zamba_index_11303" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Fecha de Carga:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11278" name="zamba_index_11278" size="20" readonly='readonly' readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Año origen del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11304" name="zamba_index_11304" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Autor de la Carga:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11277" name="zamba_index_11277" size="20" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Direccion/autor del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11305" name="zamba_index_11305" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							</td>
+							<td>
+							</td>
+							<td class="style1">
+								<label>
+									Gerencias/autor del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11306" name="zamba_index_11306" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Publicacion directa:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11274" name="zamba_index_11274" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Autor del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11307" name="zamba_index_11307" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>
+									Observaciones:</label>
+							</td>
+							<td colspan="4">
+								<textarea cols="100" rows="10" id="zamba_index_1229" onkeypress="limit(this);" onPaste="return maxLengthPaste(this);" name="zamba_index_1229" ></textarea>
+							</td>
+						</tr>
+					</table>
+                </div>
+				<div class="tabbertab" id="Anexos">
+                    <h2>
+                        Documentos Anexos
+                    </h2>
+					<table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion anexa:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_11062" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+				</div>
+			</div>
+			<div name="logoAysa" id="logoAysa">
+				<img src="images/Aysa.bmp" align="left" height="50" width="70">
+			</div>
+			<div name="logozamba" id="logozamba">
+				<img src="images/pwbyzamba.jpg">
+			</div>
+			<center>
+				<div name="alignleft" id="alignleft">
+					</br>
+					<input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR" /> 
+				</div>
+			</center>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E97CE656-E031-43E9-8C8C-8A2D8EB33F4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Zamba.WFUserControl</RootNamespace>
+    <AssemblyName>Zamba.WFUserControl</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <Optimize>false</Optimize>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <WarningLevel>0</WarningLevel>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.WinControls, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RichTextEditor, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e">
+      <Private>True</Private>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.RichTextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\TelerikCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="Zamba.AppBlock" />
+    <Import Include="Zamba.Core" />
+    <Import Include="Zamba.WFBusiness" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Action\UCDOAproveMatrix.Designer.vb">
+      <DependentUpon>UCDOAproveMatrix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOAproveMatrix.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteScript.Designer.vb">
+      <DependentUpon>UCDoExecuteScript.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteScript.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGoHome.Designer.vb">
+      <DependentUpon>UCDoGoHome.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGoHome.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDODecisionMatrix.Designer.vb">
+      <DependentUpon>UCDODecisionMatrix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDODecisionMatrix.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoUnZip .vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAddUser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAsignToGroup.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoSignPDF.Designer.vb">
+      <DependentUpon>UCDoSignPDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoSignPDF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoClearAttributeListCache.Designer.vb">
+      <DependentUpon>UCDoClearAttributeListCache.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoClearAttributeListCache.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoConsumeWCF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateHTMLReport.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoCompleteTableInWord.Designer.vb">
+      <DependentUpon>UCDoCompleteTableInWord.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoCompleteTableInWord.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoIndexFile.Designer.vb">
+      <DependentUpon>UCDoIndexFile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoIndexFile.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoInsertDocToBlob.Designer.vb">
+      <DependentUpon>UCDoInsertDocToBlob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoInsertDocToBlob.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoInsertTextInWord.Designer.vb">
+      <DependentUpon>UCDoInsertTextInWord.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoInsertTextInWord.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoConsumeRestApi.Designer.vb">
+      <DependentUpon>UCDoConsumeRestApi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoConsumeRestApi.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoReadInboxMail.Designer.vb">
+      <DependentUpon>UCDoReadInboxMail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoReadInboxMail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoReplaceTextInWord.Designer.vb">
+      <DependentUpon>UCDoReplaceTextInWord.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoReplaceTextInWord.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoSaveFile.Designer.vb">
+      <DependentUpon>UCDoSaveFile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoSaveFile.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoSetRights.Designer.vb">
+      <DependentUpon>UCDoSetRights.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoSetRights.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoRefreshWfTree.Designer.vb">
+      <DependentUpon>UCDoRefreshWfTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoRefreshWfTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDODocToPDF.Designer.vb">
+      <DependentUpon>UCDODocToPDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDODocToPDF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoShowBinary.Designer.vb">
+      <DependentUpon>UCDoShowBinary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoShowBinary.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExportHTMLToPDF.Designer.vb">
+      <DependentUpon>UCDoExportHTMLToPDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoExportHTMLToPDF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoOpenUrl.Designer.vb">
+      <DependentUpon>UCDoOpenUrl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoOpenUrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAddAsociatedForm.Designer.vb">
+      <DependentUpon>UCDoAddAsociatedForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAddAsociatedForm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoCloseTask.Designer.vb">
+      <DependentUpon>UCDoCloseTask.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoCloseTask.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoDecodeFile.Designer.vb">
+      <DependentUpon>UCDoDecodeFile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoDecodeFile.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoInsertSLST.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAutoName.Designer.vb">
+      <DependentUpon>UCDoAutoName.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAutoName.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoLoadDataSetFromXML.Designer.vb">
+      <DependentUpon>UCDoLoadDataSetFromXML.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoLoadDataSetFromXML.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoOpenTask.Designer.vb">
+      <DependentUpon>UCDoOpenTask.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoOpenTask.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAdminFiles.Designer.vb">
+      <DependentUpon>UCDoAdminFiles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAdminFiles.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGetFiles.designer.vb">
+      <DependentUpon>UCDoGetFiles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGetFiles.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoCloseZamba.Designer.vb">
+      <DependentUpon>UCDoCloseZamba.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoCloseZamba.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOEditTable.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOShowEditTable.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateBarcodeInWord.Designer.vb">
+      <DependentUpon>UCDoGenerateBarcodeInWord.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateBarcodeInWord.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteExplorer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoInsertTable.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOCreateOutlookCalendar.Designer.vb">
+      <DependentUpon>UCDOCreateOutlookCalendar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOCreateOutlookCalendar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAttachToDocument.Designer.vb">
+      <DependentUpon>UCDoAttachToDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAttachToDocument.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoCompare.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOAskDesition.Designer.vb">
+      <DependentUpon>UCDOAskDesition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOAskDesition.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoConsumeWebService.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOCreateOutlookAppointment.Designer.vb">
+      <DependentUpon>UCDOCreateOutlookAppointment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOCreateOutlookAppointment.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoDismemberObject.Designer.vb">
+      <DependentUpon>UCDoDismemberObject.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoDismemberObject.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoFillVar.Designer.vb">
+      <DependentUpon>UCDoFillVar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoFillVar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoForEach.Designer.vb">
+      <DependentUpon>UCDoForEach.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoForEach.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateExcelFromObject.Designer.vb">
+      <DependentUpon>UCDoGenerateExcelFromObject.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateExcelFromObject.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoDesign.Designer.vb">
+      <DependentUpon>UCDoDesign.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoDesign.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOIfQuery.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoImport.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoReplaceText.Designer.vb">
+      <DependentUpon>UCDoReplaceText.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoReplaceText.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteReport.Designer.vb">
+      <DependentUpon>UCDoExecuteReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteReport.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExport.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOGenerateTaskResult.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoRequestAction.Designer.vb">
+      <DependentUpon>UCDoRequestAction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoRequestAction.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoShowForm.Designer.vb">
+      <DependentUpon>UCDoShowForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoShowForm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOShowTable.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAddAsociatedDocument.Designer.vb">
+      <DependentUpon>UCDoAddAsociatedDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAddAsociatedDocument.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAddToFolder.Designer.vb">
+      <DependentUpon>UCDoAddToFolder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAddToFolder.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOADDTOWF.Designer.vb">
+      <DependentUpon>UCDOADDTOWF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOADDTOWF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOAsing.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoAsk.Designer.vb">
+      <DependentUpon>UCDoAsk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoAsk.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOAutoComplete.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOAutoMail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoChangeExpireDate.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoChangeState.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOCrearDocumento.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOCreateForm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoDelete.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDODistribuir.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UcDoEnableRule.Designer.vb">
+      <DependentUpon>UcDoEnableRule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UcDoEnableRule.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteRule.Designer.vb">
+      <DependentUpon>UCDoExecuteRule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoExecuteRule.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoExportToExcel.Designer.vb">
+      <DependentUpon>UCDoExportToExcel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoExportToExcel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoFillIndex.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoFillIndexDefault.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoForo.Designer.vb">
+      <DependentUpon>UCDoForo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoForo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateCoverPage.Designer.vb">
+      <DependentUpon>UCDoGenerateCoverPage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateCoverPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOGenerateExcel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOGenerateExcelVis.Designer.vb">
+      <DependentUpon>UCDOGenerateExcelVis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOGenerateExcelVis.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOGetDocAsoc.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGetNewId.Designer.vb">
+      <DependentUpon>UCDoGetNewId.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGetNewId.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOGetTask.Designer.vb">
+      <DependentUpon>UCDOGetTask.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOGetTask.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOInputIndex.Designer.vb">
+      <DependentUpon>UCDOInputIndex.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDOInputIndex.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoMail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoQuitarWF.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoRequestData.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOScreenMessage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDOSelect.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoShell.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoWait.Designer.vb">
+      <DependentUpon>UCDoWait.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoWait.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UcEnableRule.Designer.vb">
+      <DependentUpon>UcEnableRule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UcEnableRule.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoWaitForDocument.Designer.vb">
+      <DependentUpon>UCDoWaitForDocument.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoWaitForDocument.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateDinamicForm.Designer.vb">
+      <DependentUpon>UCDoGenerateDinamicForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateDinamicForm.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoImportFromExcel.Designer.vb">
+      <DependentUpon>UCDoImportFromExcel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Action\UCDoImportFromExcel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Action\UCDoGenerateOutlook.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfBranch.Designer.vb">
+      <DependentUpon>UCIfBranch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Condition\UCIfBranch.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MailDocAsocConfig.Designer.vb">
+      <DependentUpon>MailDocAsocConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MailDocAsocConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\AddNewProcessFuturo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\AddNewRule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\AddNewRuleFuturo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\FrmGeneralRules.Designer.vb">
+      <DependentUpon>FrmGeneralRules.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RulesCtls\FrmGeneralRules.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\FrmGeneralRulesABM.Designer.vb">
+      <DependentUpon>FrmGeneralRulesABM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RulesCtls\FrmGeneralRulesABM.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\NewProcessFuturo.Designer.vb">
+      <DependentUpon>NewProcessFuturo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RulesCtls\NewProcessFuturo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\NewRuleFuturo.Designer.vb">
+      <DependentUpon>NewRuleFuturo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RulesCtls\NewRuleFuturo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\UCButtonsABM.Designer.vb">
+      <DependentUpon>UCButtonsABM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RulesCtls\UCButtonsABM.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\UCCategory.Designer.vb">
+      <DependentUpon>UCCategory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RulesCtls\UCCategory.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\UCNote.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\UCRulAct.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\UCRuleCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\UCStepRuleCtrl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulesCtls\WFUtils.vb" />
+    <Compile Include="Rules\RuleNamesHelper.vb" />
+    <Compile Include="Rules\UCRuleContainer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="UCRules.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfDesign.Designer.vb">
+      <DependentUpon>UCIfDesign.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Condition\UCIfDesign.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfGroups.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfDates.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfDocAsocExist.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfDocumentType.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfExpireDate.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfFileExists.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfIndex.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfTaskState.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfTaskStepState.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfTimePass.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfUser.Designer.vb">
+      <DependentUpon>UCIfUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Condition\UCIfUser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfUsers.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Condition\UCIfValidateVar.Designer.vb">
+      <DependentUpon>UCIfValidateVar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Condition\UCIfValidateVar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="frmchooseevent.Designer.vb">
+      <DependentUpon>frmchooseevent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmchooseevent.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTextoInteligente.Designer.vb">
+      <DependentUpon>frmTextoInteligente.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTextoInteligente.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UCHelp.Designer.vb">
+      <DependentUpon>UCHelp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UCHelp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCIndexAndUserSelection.Designer.vb">
+      <DependentUpon>UCIndexAndUserSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UCIndexAndUserSelection.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ZRuleControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Action\UCDOAproveMatrix.resx">
+      <DependentUpon>UCDOAproveMatrix.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExecuteScript.resx">
+      <DependentUpon>UCDoExecuteScript.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGoHome.resx">
+      <DependentUpon>UCDoGoHome.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDODecisionMatrix.resx">
+      <DependentUpon>UCDODecisionMatrix.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoUnZip .resx">
+      <DependentUpon>UCDoUnZip .vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAddUser.resx">
+      <DependentUpon>UCDoAddUser.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAsignToGroup.resx">
+      <DependentUpon>UCDoAsignToGroup.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoSignPDF.resx">
+      <DependentUpon>UCDoSignPDF.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoClearAttributeListCache.resx">
+      <DependentUpon>UCDoClearAttributeListCache.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoConsumeWCF.resx">
+      <DependentUpon>UCDoConsumeWCF.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGenerateHTMLReport.resx">
+      <DependentUpon>UCDoGenerateHTMLReport.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoCompleteTableInWord.resx">
+      <DependentUpon>UCDoCompleteTableInWord.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoIndexFile.resx">
+      <DependentUpon>UCDoIndexFile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoInsertDocToBlob.resx">
+      <DependentUpon>UCDoInsertDocToBlob.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoInsertTextInWord.resx">
+      <DependentUpon>UCDoInsertTextInWord.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoConsumeRestApi.resx">
+      <DependentUpon>UCDoConsumeRestApi.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoReadInboxMail.resx">
+      <DependentUpon>UCDoReadInboxMail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoReplaceTextInWord.resx">
+      <DependentUpon>UCDoReplaceTextInWord.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoSaveFile.resx">
+      <DependentUpon>UCDoSaveFile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoSetRights.resx">
+      <DependentUpon>UCDoSetRights.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoRefreshWfTree.resx">
+      <DependentUpon>UCDoRefreshWfTree.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDODocToPDF.resx">
+      <DependentUpon>UCDODocToPDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoShowBinary.resx">
+      <DependentUpon>UCDoShowBinary.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExportHTMLToPDF.resx">
+      <DependentUpon>UCDoExportHTMLToPDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoOpenUrl.resx">
+      <DependentUpon>UCDoOpenUrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAddAsociatedForm.resx">
+      <DependentUpon>UCDoAddAsociatedForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAutoName.resx">
+      <DependentUpon>UCDoAutoName.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoCloseTask.resx">
+      <DependentUpon>UCDoCloseTask.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoDecodeFile.resx">
+      <DependentUpon>UCDoDecodeFile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoInsertSLST.resx">
+      <DependentUpon>UCDoInsertSLST.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoLoadDataSetFromXML.resx">
+      <DependentUpon>UCDoLoadDataSetFromXML.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoOpenTask.resx">
+      <DependentUpon>UCDoOpenTask.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAdminFiles.resx">
+      <DependentUpon>UCDoAdminFiles.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGetFiles.resx">
+      <DependentUpon>UCDoGetFiles.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoCloseZamba.resx">
+      <DependentUpon>UCDoCloseZamba.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOEditTable.resx">
+      <DependentUpon>UCDOEditTable.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOShowEditTable.resx">
+      <DependentUpon>UCDOShowEditTable.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGenerateBarcodeInWord.resx">
+      <DependentUpon>UCDoGenerateBarcodeInWord.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExecuteExplorer.resx">
+      <DependentUpon>UCDoExecuteExplorer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoInsertTable.resx">
+      <DependentUpon>UCDoInsertTable.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOCreateOutlookCalendar.resx">
+      <DependentUpon>UCDOCreateOutlookCalendar.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAttachToDocument.resx">
+      <DependentUpon>UCDoAttachToDocument.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoCompare.resx">
+      <DependentUpon>UCDoCompare.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAsk.resx">
+      <DependentUpon>UCDoAsk.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOAskDesition.resx">
+      <DependentUpon>UCDOAskDesition.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoConsumeWebService.resx">
+      <DependentUpon>UCDoConsumeWebService.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOCreateOutlookAppointment.resx">
+      <DependentUpon>UCDOCreateOutlookAppointment.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoDismemberObject.resx">
+      <DependentUpon>UCDoDismemberObject.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoFillVar.resx">
+      <DependentUpon>UCDoFillVar.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoForEach.resx">
+      <DependentUpon>UCDoForEach.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGenerateCoverPage.resx">
+      <DependentUpon>UCDoGenerateCoverPage.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGenerateDinamicForm.resx">
+      <DependentUpon>UCDoGenerateDinamicForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGenerateExcelFromObject.resx">
+      <DependentUpon>UCDoGenerateExcelFromObject.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGetNewId.resx">
+      <DependentUpon>UCDoGetNewId.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoDesign.resx">
+      <DependentUpon>UCDoDesign.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOIfQuery.resx">
+      <DependentUpon>UCDOIfQuery.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoImport.resx">
+      <DependentUpon>UCDoImport.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoReplaceText.resx">
+      <DependentUpon>UCDoReplaceText.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExecuteReport.resx">
+      <DependentUpon>UCDoExecuteReport.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExport.resx">
+      <DependentUpon>UCDoExport.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOGenerateTaskResult.resx">
+      <DependentUpon>UCDOGenerateTaskResult.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoRequestAction.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCDoRequestAction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoShowForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCDoShowForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOShowTable.resx">
+      <DependentUpon>UCDOShowTable.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAddToFolder.resx">
+      <DependentUpon>UCDoAddToFolder.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoForo.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCDoForo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOInputIndex.resx">
+      <DependentUpon>UCDOInputIndex.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoAddAsociatedDocument.resx">
+      <DependentUpon>UCDoAddAsociatedDocument.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOADDTOWF.resx">
+      <DependentUpon>UCDOADDTOWF.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOAsing.resx">
+      <DependentUpon>UCDOAsing.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOAutoComplete.resx">
+      <DependentUpon>UCDOAutoComplete.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOAutoMail.resx">
+      <DependentUpon>UCDOAutoMail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoChangeExpireDate.resx">
+      <DependentUpon>UCDoChangeExpireDate.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoChangeState.resx">
+      <DependentUpon>UCDoChangeState.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOCrearDocumento.resx">
+      <DependentUpon>UCDOCrearDocumento.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOCreateForm.resx">
+      <DependentUpon>UCDOCreateForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoDelete.resx">
+      <DependentUpon>UCDoDelete.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDODistribuir.resx">
+      <DependentUpon>UCDODistribuir.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UcDoEnableRule.resx">
+      <DependentUpon>UcDoEnableRule.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExecuteRule.resx">
+      <DependentUpon>UCDoExecuteRule.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoExportToExcel.resx">
+      <DependentUpon>UCDoExportToExcel.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoFillIndex.resx">
+      <DependentUpon>UCDoFillIndex.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoFillIndexDefault.resx">
+      <DependentUpon>UCDoFillIndexDefault.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOGenerateExcel.resx">
+      <DependentUpon>UCDOGenerateExcel.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOGenerateExcelVis.resx">
+      <DependentUpon>UCDOGenerateExcelVis.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOGetDocAsoc.resx">
+      <DependentUpon>UCDOGetDocAsoc.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOGetTask.resx">
+      <DependentUpon>UCDOGetTask.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoMail.resx">
+      <DependentUpon>UCDoMail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoQuitarWF.resx">
+      <DependentUpon>UCDoQuitarWF.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoRequestData.resx">
+      <DependentUpon>UCDoRequestData.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOScreenMessage.resx">
+      <DependentUpon>UCDOScreenMessage.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDOSelect.resx">
+      <DependentUpon>UCDOSelect.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoShell.resx">
+      <DependentUpon>UCDoShell.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoWait.resx">
+      <DependentUpon>UCDoWait.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UcEnableRule.resx">
+      <DependentUpon>UcEnableRule.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoWaitForDocument.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCDoWaitForDocument.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoImportFromExcel.resx">
+      <DependentUpon>UCDoImportFromExcel.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Action\UCDoGenerateOutlook.resx">
+      <DependentUpon>UCDoGenerateOutlook.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfBranch.resx">
+      <DependentUpon>UCIfBranch.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="RulesCtls\AddNewProcessFuturo.resx">
+      <DependentUpon>AddNewProcessFuturo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\AddNewRule.resx">
+      <DependentUpon>AddNewRule.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\AddNewRuleFuturo.resx">
+      <DependentUpon>AddNewRuleFuturo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\FrmGeneralRules.resx">
+      <DependentUpon>FrmGeneralRules.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\FrmGeneralRulesABM.resx">
+      <DependentUpon>FrmGeneralRulesABM.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\NewProcessFuturo.resx">
+      <DependentUpon>NewProcessFuturo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\NewRuleFuturo.resx">
+      <DependentUpon>NewRuleFuturo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\UCButtonsABM.resx">
+      <DependentUpon>UCButtonsABM.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\UCCategory.resx">
+      <DependentUpon>UCCategory.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\UCNote.resx">
+      <DependentUpon>UCNote.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\UCRulAct.resx">
+      <DependentUpon>UCRulAct.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\UCRuleCtrl.resx">
+      <DependentUpon>UCRuleCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulesCtls\UCStepRuleCtrl.resx">
+      <DependentUpon>UCStepRuleCtrl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rules\UCRuleContainer.resx">
+      <DependentUpon>UCRuleContainer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCRules.resx">
+      <DependentUpon>UCRules.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfDesign.resx">
+      <DependentUpon>UCIfDesign.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfGroups.resx">
+      <DependentUpon>UCIfGroups.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfDates.resx">
+      <DependentUpon>UCIfDates.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfDocAsocExist.resx">
+      <DependentUpon>UCIfDocAsocExist.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfDocumentType.resx">
+      <DependentUpon>UCIfDocumentType.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfExpireDate.resx">
+      <DependentUpon>UCIfExpireDate.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfFileExists.resx">
+      <DependentUpon>UCIfFileExists.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfIndex.resx">
+      <DependentUpon>UCIfIndex.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfTaskState.resx">
+      <DependentUpon>UCIfTaskState.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfTaskStepState.resx">
+      <DependentUpon>UCIfTaskStepState.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfTimePass.resx">
+      <DependentUpon>UCIfTimePass.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfUser.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCIfUser.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfUsers.resx">
+      <DependentUpon>UCIfUsers.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Condition\UCIfValidateVar.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCIfValidateVar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmchooseevent.resx">
+      <DependentUpon>frmchooseevent.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTextoInteligente.resx">
+      <DependentUpon>frmTextoInteligente.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCHelp.resx">
+      <DependentUpon>UCHelp.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCIndexAndUserSelection.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UCIndexAndUserSelection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZRuleControl.resx">
+      <DependentUpon>ZRuleControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.CoreDs\Zamba.CoreDs.vbproj">
+      <Project>{2ab0ea3e-507b-47e6-bc37-0d203270aedd}</Project>
+      <Name>Zamba.CoreDs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.AdminControls\Zamba.AdminControls.vbproj">
+      <Project>{5CF0D10D-990A-4E7E-B21C-41D5AE3408C3}</Project>
+      <Name>Zamba.AdminControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2DB9897D-B4BF-42EF-B769-88F694BE3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{A706E6F9-436F-4761-AB28-30F99F1EF098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{E92F8175-9484-4454-A8F0-9C2AB63714F5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Indexer\Zamba.ClientControls.vbproj">
+      <Project>{D8C5CEF6-DA9F-43D6-AF8C-9054BAC1F065}</Project>
+      <Name>Zamba.ClientControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Indexs\Zamba.Indexs.vbproj">
+      <Project>{D732408E-4384-4A04-9282-5F931140AC46}</Project>
+      <Name>Zamba.Indexs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.PDFBase\PDFBase\Zamba.PDFBase.csproj">
+      <Project>{84c4fdd9-3ed7-453b-b9da-b3ed52cb071c}</Project>
+      <Name>Zamba.PDFBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ReportBuilder.Business\Zamba.ReportBuilder.Business.vbproj">
+      <Project>{9DC92BCA-0AEC-4DE3-8A09-3C985241E2CC}</Project>
+      <Name>Zamba.ReportBuilder.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Viewers\Zamba.Viewers.vbproj">
+      <Project>{84EE77CB-ACA0-4F82-B5FB-1CE27F504156}</Project>
+      <Name>Zamba.Viewers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{BEFABC7F-FC94-41B4-BA0E-412914A549A0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WorkFlow.Designer\Zamba.WorkFlow.Designer\Zamba.WorkFlow.Designer.csproj">
+      <Project>{753E3A04-17F0-4EF5-B834-58E1B9E05564}</Project>
+      <Name>Zamba.WorkFlow.Designer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WorkFlow.SQLExecution\Zamba.WorkFlow.Execution.Business\Zamba.WorkFlow.Business.csproj">
+      <Project>{9A8C8793-C6AE-4B87-AB76-6BC6FCBC9E2E}</Project>
+      <Name>Zamba.WorkFlow.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\debug.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Obsoletos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gear.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

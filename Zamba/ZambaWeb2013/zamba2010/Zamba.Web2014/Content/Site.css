@@ -1,0 +1,422 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    padding-left: 2%;
+    padding-right:2%;
+}
+
+.Body-Master-Blanck {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0%;
+    overflow:hidden;
+}
+.trClientData{
+
+    font-size:12px;
+
+}
+
+
+.imgbuscador{
+
+    margin-top:2%;
+
+}
+/*Se migro a Header.css*/
+/*.navbar-fixed-top {
+    background-color: #fff;
+}*/
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    /*padding-left: 15px;
+    padding-right: 15px;*/
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/*= FOOTER
+---------------------------------------------------------------------------------------------- */
+.footer {
+  background: #2E3137;
+  color: #888;
+  font-size: 13px;
+  padding: 50px 10px 0 10px;
+-o-background-size: auto;
+-moz-background-size: auto;
+-webkit-background-size: auto;
+}
+.footer a {
+  color: inherit;
+  background: none !important;
+}
+.footer a:hover {
+  color: #bbb;
+  text-decoration: underline;
+}
+.footer .nav li + li {
+  margin-top: 5px;
+}
+.footer .newsletter h3 {
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 20px;
+}
+.footer .newsletter form {
+  margin-top: 15px;
+}
+.footer .newsletter input[type="text"] {
+  border-color: #fff;
+  padding: 10px;
+  height: 40px;
+  margin: 0;
+}
+.footer .social a + a {
+  margin-left: 20px;
+}
+    .footer .end {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 30px;
+        margin-top: 30px;
+    }
+
+.docToolbarTab {
+    float: left; 
+    margin-left: 0.2em; 
+    z-index: 1;
+}
+
+.dropdown-menu li *:only-child:not(:empty){
+    padding: 5px;
+}
+
+/*.dropdown-menu {
+    width:175px;
+}*/
+
+.EmptyContentMessage {
+    margin:50px;
+    font-size:medium;
+}
+
+.white {
+    color: #fff;
+}
+
+.body-Main
+{
+    -ms-overflow-style:none;
+}
+
+.MainTabberTabs
+{
+    -ms-overflow-style:auto;
+    height:86%;  /*height:96%;*/
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+.IFTaskContent
+{
+    position:fixed;
+    height:83%;
+    width:98%;
+}
+
+.task-tab-div
+{
+    padding:0px; 
+    width:100%
+}
+
+#MainTabber
+{
+    position:fixed;
+    height:90%;
+    width:98%;
+    border-style: none;
+    /*z-index: -1;*/
+}
+
+/*.dropdown-toggle
+{
+    max-width: 120px;
+}*/
+
+/*.btn-xs
+{
+    background-color:transparent;
+    padding: 1px 5px;
+}*/
+
+
+.header-Cabezera-Master
+{
+    left: 3px;
+    right:3px;
+}
+
+
+.gridContainer
+{
+    position:relative;
+    right:15px;
+    top:15px;
+
+}
+
+#tblUsuario
+{
+    padding-right:15px;
+}
+
+
+.mainContainer
+{
+    margin-left: 0px;
+}
+
+.col-md-12
+{
+    margin-left: 0px;
+}
+
+.container-fluid
+{
+    margin-left: 0px;
+}
+
+.newsGrid > tbody > tr > td 
+{
+    white-space: normal;
+}
+
+.newsGrid > tbody > tr :last-child
+{
+    max-width: 163px;
+    min-width: 162px;
+    white-space: nowrap;
+}
+
+
+
+#tbDoc
+{
+    margin-left: 1px;
+}
+
+
+.MainTabberTab
+{
+    height: 94%;
+}
+
+.clientlogoxs{
+    padding-right: 5px; padding-bottom: 5px; float:right; margin-top:-40px;
+}
+#mainMenu {
+    padding-top: 0;
+    background-image: none;
+    border: none;
+    /*margin-top: -3px !important;*/
+    margin: 0px;
+    border-radius: initial;  
+    border-color: rgb(0, 157, 224) !important;
+    background-color: rgb(0, 157, 224) !important;
+}
+
+.EntitiesSearch {
+margin-top: 10px;
+}
+
+.TabSpace {
+margin-bottom: 20px;
+
+}
+
+        #treeview .k-sprite {
+line-height: 1;
+font-size: 1.1em;
+        }
+
+        /*
+        .rootfolder { background-position: 0 0; }
+        .folder     { background-position: 0 -16px; }
+        .pdf        { background-position: 0 -32px; }
+        .html       { background-position: 0 -48px; }
+        .image      { background-position: 0 -64px; }*/
+
+
+
+.favAdvSearch {
+    display: none;
+    content: url("../GlobalSearch/Images/star.png");
+    height: 20px;
+    width: 20px;
+    float: left;
+    padding-right: 0;
+    margin-top: 10px;
+    /*z-index: 1;*/
+}
+
+.adv2 {
+    display: flex;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.mh-user {
+    z-index: 10000;
+}
+
+iframe{
+    border: 0;
+}
+
+#InsertIframeBody{
+    margin-left: 20px;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/*Dynamic Buttons Style*/
+/*Aplicado dialog div contenedor general*/
+.DynamicBtnGroup {
+    width: auto;
+    display: inline-block;
+    color: white;
+    font-size: 14px;
+    padding-left: 2%;
+    padding-top:1%;
+    font-weight: bold;
+   
+}
+/*Aplicado a UL*/
+.DynamicBtnListGroup{
+    float:left;
+}
+
+/*Aplicado a cada LI*/
+.DynamicBtnLI {
+    margin-bottom: 10px !important;
+    display: block !important;
+    margin-top: 10%;
+}
+
+    .DynamicBtnLI a {
+        color: white !important;
+        text-decoration: none;
+    }
+
+.DynamicBtnGroup span {
+    color: white !important;
+    font-size: 13px;
+    text-shadow: 1px 8px 12px #0e0e0e;
+    border-bottom: 1px solid white;
+}
+
+.ui-widget-overlay{
+z-index:-1;
+}
+
+
+/*Mejora para el dropdown-logout del user*/
+.glyphicon-user{
+
+    color: white !important;
+}
+
+#dropdown-user
+{
+  text-align:center !important;
+    background-color:#0e2b8d;
+}
+#dropdown-user li a 
+{
+  color:white !important;  
+    background-color:#0e2b8d;
+
+}
+    #dropdown-user span {
+        color: white !important;
+        background-color: #0e2b8d;
+}
+#dropdown-user a:hover
+{
+    color:#e17009 !important;
+    
+}
+
+.dropdown-toggle{
+    background-color:rgba(255, 255, 255, 0.00) !important;
+    padding-right:30px !important;
+}
+
+.caret{
+    color:white !important;
+    position:relative;
+    left:30px !important;
+
+}
+
+#tblUsuario li {
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.00);
+}
+
+#tblUsuario li:hover {
+    color:black !important;
+}
+/*Que se abra lista de acciones al pasar mouse*/
+#dropdown-header:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+.toogleIframe{
+        background-color: azure;
+    opacity: 0.8;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    cursor:pointer;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}

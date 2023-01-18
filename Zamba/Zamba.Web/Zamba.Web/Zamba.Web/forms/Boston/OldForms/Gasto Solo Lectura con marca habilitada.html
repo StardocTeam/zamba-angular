@@ -1,0 +1,264 @@
+<html>
+	<head>
+		<title>Carga de Indemnizaci&oacute;n/Gasto</title>
+		<!--
+		ID Form:
+		Creaci�n
+		Fecha de Creaci�n:
+		Autor de Creaci�n:
+		Modificaci�n
+		Fecha de �ltima Modificaci�n:14-11-2012
+		Autor de �ltima Modificaci�n:GustavoR
+		Descripci�n: Se agregan el atributo Sector, se reacomodan los atributos Rama & Indemnizacion
+	 	-->			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>		
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">			
+		
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender){
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id){
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			$(document).ready(function(){							
+			   	// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Indemnizaci&oacute;n / Factura</strong>
+				</div>
+				<br />
+					
+				<table cellpadding="4">
+					<tr>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+						<td class="style1"></td>
+                        <td class="style1"></td>
+						<td class="style1"></td>
+					</tr>
+					
+					<tr>
+						<td class="style8" colspan="2">&nbsp;<label>Sector:</label></td>
+						<td class="style8" colspan="4"><input type="text" id="Text2" name="zamba_index_135512" size="50" readonly="readonly" class="readonly"/></td>
+                        <td class="style8">&nbsp;<label>Rama:</label></td>
+						<td class="style8"><input type="text" name="zamba_index_26294" id="zamba_index_26294" size="50" readonly="readonly" class="readonly" /></td>
+						
+						<td><label id="label_Claims_Made">&nbsp;&nbsp;&nbsp; I/G con Inconvenientes:</label></td>
+						<td><input id="zamba_index_19552" name="zamba_index_195552" style="text-align:center; margin-right:25px;"
+						type="checkbox" value="I/G con Inconvenientes" onclick="SetRuleId(this);"/></td>						
+					</tr>		
+			
+				</table>
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Informaci&oacute;n</h2>
+						<table cellpadding="4">
+							<tr>
+								<td><label>ID Comprobante:</label></td>
+								<td><input type="text" id="zamba_index_26446" name="zamba_index_26446" style="width:200px;" disabled="disabled"/></td>
+								<td class="separador"></td>
+								<td><label>Tipo de Comprobante:</label></td>
+								<td><select name="zamba_index_26325" id="zamba_index_26325" style="width:200px;" disabled="disabled"></select></td>
+							</tr>
+							<tr>
+								<td><label>Tipo de Beneficiario:</label></td>
+								<td><select name="zamba_index_26324" id="zamba_index_26324" style="width:200px;" disabled="disabled"></select></td>
+								<td class="separador"></td>
+								<td><label>Beneficiario:</label></td>
+								<td><input type="text" id="zamba_index_26447" name="zamba_index_26447" style="width:200px;" disabled="disabled"/></td>
+							</tr>
+							<tr>
+								<td><label>Sucursal de Factura:</label></td>
+								<td><input type="text" id="zamba_index_26433" name="zamba_index_26433" style="width:200px;" disabled="disabled"/></td>
+								<td class="separador"></td>	
+								<td><label>Nro de Comprobante:</label></td>
+								<td><input type="text" id="zamba_index_26323" name="zamba_index_26323" style="width:200px;" disabled="disabled"/></td>
+							</tr>
+							<tr>
+								<td><label>Moneda:</label></td>
+								<td><select type="text" id="zamba_index_26207" name="zamba_index_26207" style="width:200px;" disabled="disabled"></select></td>		
+								<td class="separador"></td>
+								<td><label>Importe Bruto Total:</label></td>
+								<td><input type="text" id="zamba_index_26206" name="zamba_index_26206" style="width:200px;" disabled="disabled"/></td>
+							</tr>
+							<tr>
+								<td><label>Fecha de Ingreso:</label></td>
+								<td><input id="zamba_index_26327" name="zamba_index_26327" style="width:200px;" disabled="disabled"/></td>
+								<td class="separador"></td>
+								<td><label>Fecha del Comprobante:</label></td>
+								<td><input id="zamba_index_26326" name="zamba_index_26326" style="width:200px;" disabled="disabled"/></td>
+							</tr>
+							<tr>
+								<td><label>Empresa:</label></td>
+								<td>
+									<table>
+										<tr>
+											<td><input type="text" id="zamba_index_26291" name="zamba_index_26291" style="width:68px;" disabled="disabled"/></td>
+											<td><label>Sucursal:</label></td>
+											<td><input type="text" id="zamba_index_26290" name="zamba_index_26290" style="width:68px;" disabled="disabled"/></td>
+										</tr>
+									</table>
+								</td>
+								<td class="separador"></td>
+								<td ><label>Indemnizaci&oacute;n o Gasto: </label></td>
+								<td><input type="text" id="Text1" name="zamba_index_135534" size="31" readonly="readonly" class="readonly" /></td>
+							</tr>	
+							<tr>
+								<td><label>C&oacute;digo Mayor Auxiliar:</label></td>
+								<td><input type="text" id="zamba_index_26431" name="zamba_index_26431" style="width:200px;" disabled="disabled"/></td>
+								<td class="separador"></td>
+								<td><label>Nro Mayor Auxiliar:</label></td>
+								<td><input type="text" id="zamba_index_26432" name="zamba_index_26432" style="width:200px;" disabled="disabled"/></td>
+							</tr>
+							<tr>
+								<td><label>Global:</label></td>
+								<td><select name="zamba_index_26414" id="zamba_index_26414" style="width:60px;" disabled="disabled"></select></td>
+								<td class="separador"></td>
+								<td><label>Copia u Original:</label></td>
+								<td><select name="zamba_index_26488" id="zamba_index_26488" style="width:200px;" disabled="disabled" ></select></td>
+							</tr>	
+							<tr>
+								<td><label>Asignado a Legales:</label></td>
+								<td><select name="zamba_index_26495" id="zamba_index_26495" style="width:60px;" disabled="disabled"></select></td>
+								<td class="separador"></td>
+								<td><label>Tipo de I-G:</label></td>
+								<td><select name="zamba_index_60514" id="zamba_index_60514" style="width:200px;" disabled="disabled"></select></td>
+							</tr>						
+								<tr>
+								<td colspan="5">
+							<hr/>
+		</td>
+							</tr>
+								<tr>
+								<td><label>Nro Orden de Pago:</label></td>
+								<td><input name="zamba_index_26450" id="zamba_index_26450" style="width:200px;" disabled="disabled"></td>
+								<td class="separador"></td>
+								<td><label>Nro de Recibo:</label></td>
+								<td><input name="zamba_index_26468" id="zamba_index_26468" style="width:200px;" disabled="disabled"></td>
+							</tr>
+							<tr>
+								<td><label>Nivel de Autorizaci&oacute;n:</label></td>
+								<td><input type="text" name="zamba_index_26494" id="zamba_index_26494" style="width:280px;" disabled="disabled"/></td>
+								<td class="separador"></td>
+								<td><label>Fecha propuesta por Siniestros:</label></td>
+								<td><input type="text" name="zamba_index_209558" id="zamba_index_209558" style="width:200px;" disabled="disabled"/></td>
+								
+							</tr>
+							<tr>
+								<td><label>Autorizado:</label></td>
+								<td><input type="text" name="zamba_index_26413" id="zamba_index_26413" style="width:280px;" disabled="disabled"/></td>
+								<td class="separador"></td>
+								<td><label>Fecha de Pago:</label></td>
+								<td><input type="text" name="zamba_index_26469" id="zamba_index_26469" style="width:200px;" disabled="disabled"/></td>
+								
+							</tr>
+							<tr>
+							
+								<td><label>Transferencia N&uacute;mero:</label></td>
+								<td><input type="text" name="zamba_index_26467" id="zamba_index_26467" style="width:280px;" disabled="disabled"/></td>
+							    <td class="separador"></td>
+							    <td><label>Forma de Pago:</label></td>
+								<td><input type="text" name="zamba_index_26479" id="zamba_index_26479" style="width:200px;" disabled="disabled"/></td>
+							</tr>
+							
+								<tr>	
+								<td ><label>Hecho Generador: </label></td>
+								<td><input type="text" id="zamba_index_26312" name="zamba_index_26312" style="width:280px;" disabled="disabled"/></td>>
+								
+							</tr>
+							<tr>	
+								<td ><label>Proveedor: </label></td>
+								<td><input type="text" id="zamba_index_26204" name="zamba_index_26204" style="width:280px;" disabled="disabled"/></td>
+							</tr>
+							<tr>	
+								
+							</tr>					
+							<tr>
+								<td><label>Obervaciones:</label></td>
+								<td colspan="4"><TEXTAREA COLS=100 ROWS=10 id="zamba_index_64" name="zamba_index_64"></TEXTAREA></td> 
+							</tr>
+						</table>				
+
+					
+						<br /><br />
+						<div name="aligncenter" id="aligncenter">
+							<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" /> 
+						</div>
+						<br /><br />
+						<iframe id="zamba_innerdoctype_original" height="500" title="Documento Original" style="margin-bottom:20px" width="96%" ></iframe>
+						
+						<br />
+
+					</div>
+					<div class="tabbertab">
+						<h2>Reclamos</h2>
+						<table id="zamba_associated_documents_26027" class="tablesorter">
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<div class="tabbertab">
+						<h2>Consultas</h2>
+						<table id="zamba_associated_documents_26058" class="tablesorter" >
+							<tbody>
+							</tbody>
+						</table>
+					</div>	
+						<div class="tabbertab">
+						<h2>Documentaci&oacute;n</h2>
+						<table id="zamba_zvar(documentacion)" class="tablesorter">
+								<tbody id="zamba_rule_37531/Ver/zvar(id=5)">
+								</tbody> 
+							</table>	
+					</div>					
+				
+				</div>
+					<br/><br/>
+				<div name="logocliente" id="logocliente">	
+					<img src="images/logocliente.jpg" align="left" height=50 width=70>
+				</div>
+				<div name="logozamba" id="logozamba">
+					<img src="images/pwbyzamba.jpg">
+				</div>
+			</form>						
+		</div>
+	</body>
+</html>

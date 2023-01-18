@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Test para Descargar correo con IMAP</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../MailTo/MailTo.js"></script>
+    <script src="../ClientIMAP/ClientIMAP.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <form>
+
+        <div class="col-md-12">
+            <h1>ZAMBA - Correos</h1>
+
+            <div class="col-md-6">
+                <h3>Datos del usuario</h3>
+                <div class="col-md-6">
+                    Direccion de Correo
+                    <input autocomplete="off" class="form-control" type="email" id="TboxUser" placeholder="Ingrese correo (formato: mail@dominio.com)" />
+                </div>
+                <div class="col-md-6">
+                    Contraseña
+                    <input autocomplete="off" class="form-control" type="password" id="TboxPass" placeholder="Ingrese contraseña" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h3>Datos de conexion</h3>
+                <div class="col-md-4">
+                    Direccion de IP
+                    <input autocomplete="off" class="form-control" type="text" id="TboxIp" placeholder="Ingrese Direccion de IP de Exchange" />
+                </div>
+
+                <div class="col-md-2">
+                    Puerto
+                    <input autocomplete="off" class="form-control" type="text" id="TboxPort" />
+                </div>
+
+                <div class="col-md-2">
+                    Protocolo
+                    <input autocomplete="off" class="form-control" type="text" id="TBoxProtCon" />
+                </div>
+
+                <div class="col-md-4">
+                    <br />
+                    <input type="checkbox" id="CheckBox_Cert" value="Con certificacion" />
+                    Con certificacion
+                </div>
+            </div>
+
+
+
+            <div class="col-md-12">
+                <h3>Correos: Filtracion y Regla</h3>
+
+                <div class="col-md-2">
+                    Carpeta
+                    <input autocomplete="off" class="form-control" type="text" id="TboxFolder" placeholder="Origen de los correos" />
+                </div>
+
+                <div class="col-md-2">
+                    N° de Regla
+                    <input autocomplete="off" class="form-control" type="text" id="TboxRegla" placeholder="Ingrese N° de Regla" />
+                </div>
+
+                <div class="col-md-10"></div>
+            </div>
+
+            <div class="col-md-4">
+                <h3>Cantidades</h3>
+
+                <div class="col-md-12">
+                    <input checked="checked" id="Todos" type="radio" name="Radiofiltro" value="Todos" onClick="HideFilter()" />
+                    Todos
+
+                    <input id="Filtrado" type="radio" name="Radiofiltro" value="Filtrado" onClick="HideFilter()" />
+                    Filtrado
+                </div>
+
+
+                <div class="col-md-12">
+                    <br />
+                </div>
+
+
+                <div id="divFiltro">
+
+                    <div class="col-md-6">
+                        Campo
+                        <select id="TboxFilterField" class="form-control" disabled="disabled">
+                            <option value="Subject" selected="selected">Titulo</option>
+                            <option value="From">De</option>
+                            <option value="To">Para</option>
+                            <option value="Cc">Cc</option>
+                            <!--<option value="value">Contenido</option>-->
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                    </div>
+
+                    <div class="col-md-12">
+                        Valor de Filtro
+                        <input autocomplete="off" class="form-control" type="text" id="TboxFilterValue" placeholder="Ingrese valor a filtrar" disabled="disabled" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h3>Filtro: Por tiempo</h3>
+                <input type="checkbox" id="CheckBox_RecentEmails" value="Correo nuevo sin leer" />
+                Recientes (de hace 3 dias)
+
+                <br />
+                <input type="checkbox" id="CheckBox_NewEmails" value="Correo nuevo sin leer" />
+                Nuevos
+
+                <div hidden>
+                    <input type="checkbox" id="CheckBox_UnreadEmails" value="Correos sin Leer" />
+                    No Leidos
+                </div>
+
+
+                <div hidden>
+                    <input type="checkbox" id="CheckBox_TrashMails" value="Correos sin Leer" />
+                    Correos en la papelera
+                </div>
+
+            </div>
+
+            <!--<input class="btn btn-primary" type="button" name="name" value="Ayuda" onclick="help()"/>-->
+
+            <div class="col-md-5">
+                <input class="btn btn-primary" type="button" name="name" value="Ayuda" onclick="help()" />
+                <textarea class="form-control" type="text" id="response" placeholder="Respuesta del estado de la solicitud" style="resize:none ;height: 250px" readonly="readonly" /></textarea>
+            </div>
+
+
+
+            <div class="col-md-12"><br /></div>
+
+
+
+
+
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <input class="btn btn-success" type="button" id="BtnSubmit" value="Obtener Correos" onclick="GetMails_FromRule()" />
+
+                    <div class="col-md-12"><br /></div>
+
+                    <div id="TESTPS">
+                        <input class="btn btn-danger" type="button" id="" value="_DATOS_DEFAULT_PS" onclick="_DefaultPS()" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div hidden>
+                <h1>_TEST de Links con MailTo</h1>
+
+                <div class="col-md-12">
+                    <input class="btn btn-warning" type="button" id="BtnSubmit" value="TEST MailTo" onclick="TestMailTo(event);" ruleId="10101010101010" />
+
+                    <a id="MailTo" hidden>"_ENVIAR_CORREO"</a>
+                </div>
+
+
+                <a hidden id="test" href="mailto:emiliano.alvarez@stardoc.com.ar?cc=felipe.hernandez@stardoc.com.ar, ivan.martinez@stardoc.com.ar&bcc=legnani@stardoc.com.ar&subject=TEST: EJEMPLO%20DE%20LA%20DOCUMENTACION%20DE%20MAILTO&body=Esta funcionalidad permitirá al usuario final poder enviar un correo predefinido (con parámetros de destino, asunto y descripción)%20dependiendo%20de%20la%20tarea,%20permisos%20de%20usuario, estado de la tarea, entre otras opciones que serán definidas por los analistas o quien configure estos links.%0A%0AATTE. Desarrollador Alvarez Emiliano.">Enviar Correo de Prueba</a>
+
+
+                <br />
+
+
+                <a hidden href="mailto:emiliano.alvarez@stardoc.com.ar?cc=felipe.hernandez@stardoc.com.ar, ivan.martinez@stardoc.com.ar&bcc=legnani@stardoc.com.ar&subject=TEST: EJEMPLO%20DE%20LA%20DOCUMENTACION%20DE%20MAILTO&body=Esta funcionalidad permitirá al usuario final poder enviar un correo predefinido (con parámetros de destino, asunto y descripción)%20dependiendo%20de%20la%20tarea,%20permisos%20de%20usuario, estado de la tarea, entre otras opciones que serán definidas por los analistas o quien configure estos links.%0A%0AATTE. Desarrollador Alvarez Emiliano.">Enviar Correo de Prueba</a>
+            </div>
+
+        </div>
+
+    </form>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</body>
+</html>

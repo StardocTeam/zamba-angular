@@ -1,0 +1,202 @@
+﻿
+/*#region Alineacion del Panel completo */
+
+.z-sidepanel-left-fixed {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+}
+
+.z-main-container {
+    height: 100%;
+}
+
+.md-white {
+    color: white;
+}
+
+.pushedPanel {
+    width: 304px !important;
+}
+
+#pushPanel {
+    width: 36px;
+}
+
+/*#endregion */
+
+/*#region Elementos de la cabecera */
+.z-sidenav-header {
+    background-color: #337ab7 !important;
+    min-height: 180px;
+    color: white;
+}
+
+.z-userName {
+    text-align: center !important;
+    display: inline;
+    font-size: 18px;
+    color: white;
+}
+
+.z-imgUserAvatar {
+    width: 90px;
+    height: 90px;
+}
+
+.z-icon-anchor-sidebar {
+    color: white;
+    font-size: 25px;
+}
+
+.z-sidenav-avatar-mini {
+    width: 10%;
+    height: 10%;
+}
+
+.z-sidenav-avatar-justify-right {
+    justify-content: right;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+/*#endregion */
+
+.md-sidenav-left.md-closed, md-sidenav.md-closed {
+    transform: translate3d(-83%,0,0);
+    display: block !important;
+}
+
+/*#region Scrollbar */
+#zamba-sidepanel-control::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
+    background-color: #aaa !important;
+    border-radius: 6px !important;
+    width: 0px !important;
+    right: 2px !important;
+}
+
+#zamba-sidepanel-control::-webkit-scrollbar {
+    width: 0px !important;
+}
+
+#zamba-sidepanel-control:hover::-webkit-scrollbar {
+    width: 6px !important;
+    -webkit-transition: width 0.5s 0s ease;
+    -moz-transition: width 0.5s 0s ease;
+    -o-transition: width 0.5s 0s ease;
+    transition: width 0.5s 0s ease;
+}
+
+#zamba-sidepanel-control:hover::-webkit-scrollbar-thumb {
+    width: 6px !important;
+    -webkit-transition: width 0.5s 0s ease;
+    -moz-transition: width 0.5s 0s ease;
+    -o-transition: width 0.5s 0s ease;
+    transition: width 0.5s 0s ease;
+}
+
+#zamba-sidepanel-control {
+    overflow-y: hidden;
+}
+
+    /*#endregion */
+
+    /*#region  Desbloqueado y Hover leave*/
+    #zamba-sidepanel-control.z-sidepanel-unlocked {
+        transform: translate3d(-83%,0,0);
+        transition-duration: .3s;
+        transition-delay: .3s;
+    }
+        /*#endregion */
+
+        /*#region Desbloqueado y Hover*/
+        #zamba-sidepanel-control.z-sidepanel-unlocked:hover {
+            transform: translate3d(0%,0,0);
+            transition-duration: .3s;
+            transition-delay: .5s;
+        }
+
+.z-button-icon-item-sidebar {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.z-button-icon-item-sidebar-parent-hover {
+    width: 95%;
+    text-align: right;
+    margin-left: 15px;
+}
+
+/*#endregion */
+
+
+/*#region Cuerpo principal del sidebar */
+
+.z-button-text-item-sidebar {
+    display: none;
+}
+
+.z-material-icons-align {
+    vertical-align: middle;
+}
+
+.mdContenColor {
+    background: #32373d !important;
+    color: #fff !important;
+    padding: 10px;
+    height: 78%;
+
+}
+
+.sidenavColor-desa {
+    background: #2b992e !important;
+    color: white;
+}
+
+.sidenavColor-test {
+    background: #ab7600 !important;
+    color: white;
+}
+
+.sidenavColor-prod {
+    background: #337ab7 !important;
+    color: white;
+}
+
+#versionInfoPanel {
+    margin-top: 55px !important;
+}
+
+/*#endregion */
+
+
+/*#region Luego del click en el Pincho, para ocultar a pesar de estar en hover */
+#zamba-sidepanel-control.z-sidepanel-unlocking {
+    transform: translate3d(-83%,0,0);
+    transition-duration: .3s;
+    transition-delay: 0s;
+}
+/*#endregion */
+
+
+
+/*#region de tamaño de dib pra botones */
+
+.settingsIsOpenStyle {
+    height: 330px !important;
+}
+
+.settingsIsClosStyle {
+    height: 68px !important;
+}
+/*#endregion */
+
+/*#region deshabilita el btn */
+.disabledItemStyle {
+    background-color: rgb(175, 175, 175) !important;
+    pointer-events: none;    
+}
+
+/*#endregion */

@@ -1,0 +1,177 @@
+<html>
+	<head>
+		<title>Industria - Datos Comerciales</title>			
+		<link href="Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Aysa_styles_table.css"  type="text/css" rel="stylesheet">
+		<script src="Industria.js" type="text/javascript" language="JavaScript"></script>
+
+		<script type="text/javascript" src="jquery.validate.min.js"></script>
+
+		<script type="text/javascript" src="jquery.decimalMask.1.1.1.min.js"></script>
+
+		
+
+		<script type="text/javascript" src="jquery.dataTables.js"></script>
+		
+		<script type="text/javascript" src="jquery.scrollTo.js"></script>
+
+		<script type="text/javascript" src="Aysa.js"></script>
+		
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+			function makerequired() {
+				$('#aspnetForm').validate(
+					{
+						onsubmit: false,
+						ignore: ".disabled",
+						rules:
+							 {
+								//Nro. Expediente referencial
+								zamba_index_1231: {
+									required: true,
+									maxlength: 9,
+									digits: true,
+									date: {//Se usa este tipo de validacion ya que no lo utiliza este campo, y esto hace que se pueda validar el formato
+										depends: function(element) {
+											var index = $(element).val().indexOf($("#zamba_index_1222").val());
+											return (index == -1) || (index + 3 == $(element).val().length);
+										}
+									}
+								}
+							 },
+						messages: 
+							{
+								//Nro. Expediente referencial
+								zamba_index_1231: {
+									required: "Es necesario un Nro. Expediente referencial.",
+									maxlength: "Se ha exedido el l&iacute;mite de 9 caracteres.",
+									digits: "Debe ingresar solo numeros.",
+									date: "Por favor ingrese el codigo de distrito y luego el nro. de expediente referencial."
+								}
+							}
+					});
+			}
+			
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			
+			$(document).ready(function()
+			{		
+				makerequired();
+				
+				ConditionalEnable("zamba_index_1233", "zamba_index_1234", "01");
+				$("#zamba_index_1233").change(function() {
+					ConditionalEnable("zamba_index_1233", "zamba_index_1234", "01");
+				});
+				
+				$("#zamba_save").click(ValidateBeforeSave);
+				$("#zamba_save").attr('value','Siguiente');
+			});					
+
+		</script>
+	</head>	
+	<body>
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Industria - Datos Comerciales</strong>
+				</div>
+				<br />
+				
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+                    <h2>
+                        Industria - Datos Comerciales</h2>
+<br>
+			<table cellpadding="4">
+				<tr>
+					<td>
+						<label>Raz&oacuten social:</label>
+					</td>
+					<td>
+						<input id="zamba_index_1188" name="zamba_index_1188" size="98" class="ConvertToUpper" disabled="disabled" />			
+					</td>
+				</tr>
+                        </table>
+			<br>
+                    <table cellpadding="4">
+                    <tr>
+                           <td>
+                                                <label>
+                                                    Cod Distrito:</label>
+                                            </td>
+                                            <td>
+                                               <input type="text" id="zamba_index_1222" name="zamba_index_1222" disabled="disabled" style="width:150px;" />
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                    </tr>
+								<tr>
+									<td>
+									    <label style="color: Red">
+                                            *
+                                        </label>
+									    <label>Nro de Expediente Referencial:</label>
+									</td>
+									<td>										
+									    <input type="text" id="zamba_index_1231" class="ComercialDataFormControl" name="zamba_index_1231" style="width:150px;" onkeypress="return (ValidateLength(this, 9) && KeyIsValid(event,'numeric'));"/>
+									</td>
+									<td>
+									    <label>C&oacutedigo 24:</label>
+									</td>
+									<td>
+									    <select id="zamba_index_1233" name="zamba_index_1233" style="width:150px;"></select>
+									</td>
+								</tr>
+								<tr>
+									<td><label>Grandes Usuarios: </label></td>
+									<td><select id="zamba_index_1232" name="zamba_index_1232" style="width:150px;"></select></td>									
+									<td><label>Volumen de Descarga: </label></td>
+									<td><input type="text" id="zamba_index_1234" name="zamba_index_1234" class="ConvertToUpper" style="width:150px;" onkeypress="return (ValidateLength(this, 12) && KeyIsValid(event,'5decimal','zamba_index_1234'));"/></td>									
+								</tr>	
+							</table>
+                </div>				
+				</div>
+                <br />
+				<div name="logoAysa" id="logoAysa">	
+					<img src="../../forms/images/Aysa.bmp" align="left" height=50 width=70>
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="../../forms/images/pwbyzamba.jpg">
+				</div>		
+                        <div name="alignleft" id="alignleft">
+            <input type="submit" class="submit" name="zamba_save" id="zamba_save" value="GUARDAR"
+                onclick="return zamba_save_onclick()" />
+        </div>			
+			</form>							
+	</body>
+</html>

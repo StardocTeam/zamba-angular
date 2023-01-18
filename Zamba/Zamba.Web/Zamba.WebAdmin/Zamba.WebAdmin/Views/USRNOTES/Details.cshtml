@@ -1,0 +1,218 @@
+﻿@model Zamba.WebAdmin.Models.USRNOTES
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_mailserver)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_mailserver)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_basemail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_basemail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_patharch)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_patharch)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_vistaexportacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_vistaexportacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conf_Papelera)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conf_Papelera)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conf_Nomarchtxt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conf_Nomarchtxt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conf_seqatt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conf_seqatt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_lockeo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_lockeo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_acumimg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_acumimg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_limimg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_limimg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_destext)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_destext)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_textosubject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_textosubject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conf_Borrar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conf_Borrar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_archctrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_archctrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_schedulesel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_schedulesel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_schedulevar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_schedulevar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_ejecutable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_ejecutable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_nomusernotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_nomusernotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_nomuserred)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_nomuserred)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_charsreempsubj)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_charsreempsubj)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_reintento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_reintento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_seqimg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_seqimg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conf_bodyandattachsinexportedmails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conf_bodyandattachsinexportedmails)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

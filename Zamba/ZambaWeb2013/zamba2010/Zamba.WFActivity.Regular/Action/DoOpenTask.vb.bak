@@ -1,0 +1,85 @@
+Imports Zamba.Core
+Imports System.Xml.Serialization
+
+<RuleCategory("Tareas"), RuleDescription("Abrir Tarea"), RuleHelp("Permite abrir una tarea"), RuleFeatures(True)> _
+<Serializable()> Public Class DoOpenTask
+    Inherits WFRuleParent
+    Implements IDOOpenTask
+    Private _isLoaded As Boolean
+    Private _isFull As Boolean
+    Private playRule As Zamba.WFExecution.PlayDoOpenTask
+    Private _isRemote As Boolean
+    Public Overrides ReadOnly Property IsFull() As Boolean
+        Get
+            Return _isFull
+        End Get
+    End Property
+    Public Overrides ReadOnly Property IsLoaded() As Boolean
+        Get
+            Return _isLoaded
+        End Get
+    End Property
+    Public Overrides Sub FullLoad()
+
+    End Sub
+    Public Overrides Sub Load()
+
+    End Sub
+    Public Overrides Sub Dispose()
+
+    End Sub
+
+#Region "campos privados"
+    Private _taskID As String
+    Private _docID As String
+    Private _useCurrentTask As Boolean
+#End Region
+    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepid As Int64, ByVal TaskID As String, ByVal DocID As String, ByVal UseCurrentTask As Boolean)
+        MyBase.New(Id, Name, wfstepid)
+        Me._taskID = TaskID
+        Me._docID = DocID
+        Me._useCurrentTask = UseCurrentTask
+        Me.playRule = New Zamba.WFExecution.PlayDoOpenTask(Me)
+    End Sub
+    Public Property TaskID() As String Implements IDOOpenTask.TaskID
+        Get
+            Return _taskID
+        End Get
+        Set(ByVal value As String)
+            _taskID = value
+        End Set
+    End Property
+    Public Property DocID() As String Implements IDOOpenTask.DocID
+        Get
+            Return _docID
+        End Get
+        Set(ByVal value As String)
+            _docID = value
+        End Set
+    End Property
+    Public Property UseCurrentTask() As Boolean Implements IDOOpenTask.UseCurrentTask
+        Get
+            Return _useCurrentTask
+        End Get
+        Set(ByVal value As Boolean)
+            _useCurrentTask = value
+        End Set
+    End Property
+
+    Public Overloads Overrides Function Play(ByVal results As System.Collections.Generic.List(Of ITaskResult)) As System.Collections.Generic.List(Of ITaskResult)
+        Return playRule.Play(results)
+    End Function
+
+    '04/07/11: Sumada la funcionalidad del la regla DoOpenTask
+    Public Overloads Overrides Function Playweb(ByVal results As System.Collections.Generic.List(Of ITaskResult), ByRef RulePendingEvent As RulePendingEvents, ByRef ExecutionResult As RuleExecutionResult, ByRef Params As Hashtable) As System.Collections.Generic.List(Of ITaskResult)
+        If IsNothing(Params) OrElse Params.Count = 0 Then
+            ExecutionResult = RuleExecutionResult.PendingEventExecution
+            RulePendingEvent = RulePendingEvents.OpenTask
+            Return playRule.PlayWeb(results, Params)
+        Else
+            ExecutionResult = RuleExecutionResult.CorrectExecution
+            RulePendingEvent = RulePendingEvents.NoPendingEvent
+            Return results
+        End If
+    End Function
+End Class

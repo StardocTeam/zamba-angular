@@ -1,0 +1,103 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				if(e.which!=8 || e.which!=0 || e.which!=46 || ((e.which>47 && e.which<58) || (e.which>95 && e.which<106))){
+					SumarCampos();
+				}
+			})
+		});
+		
+		$("#zamba_save").click(CheckData);
+	});	
+	function CheckData(evt) {
+		if ($("#zamba_index_2719").value == "" || $("#zamba_index_2719").value == "0"){
+			ShowErrorMessage(evt, "Debe completar el Total de la Transacción");
+		} else {
+			SaveDocument(document);
+		}
+	}
+	function SumarCampos() {
+		//Obtiene cada valor y lo convierte a decimal
+		var sum = parseFloat($("#zamba_index_2744").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2813").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2814").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2815").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2816").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2817").val().replace('', '0').replace(',', '.'));
+		sum += parseFloat($("#zamba_index_2818").val().replace('', '0').replace(',', '.'));
+
+		//Suma los valores obtenidos y lo asigna al indice Total
+		$("#zamba_index_2719").val(Redondear(sum).toString().replace('.', ','));
+	}
+	function CargarFechasyBotones(){
+		CargarFechaIndice('zamba_index_2812');
+		CargarFechaIndice('zamba_index_2820');
+	}
+	</script>
+</head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="CalculoDeTransaccion.html">
+    <input id="hdnRuleId" type="hidden" />
+	<input id="hdnAsocId" type="hidden" />
+	<center>
+    <table id="tblRubro" class="attributes_table">
+        <tr>
+			<td><label>Fecha de Transacción</label>
+			<td><input id="zamba_index_2812" name="zamba_index_2812" class="w175px" ">
+			<td class="separador">
+			<td><label>ID Reclamo</label>
+			<td><input id="zamba_index_2677" name="zamba_index_2677" class="w175px readonly" readonly="readonly">
+        </tr>
+        <tr>
+			<td><label>Capital $</label>
+			<td><input id="zamba_index_2744" name="zamba_index_2744" class="w175px moneda">
+			<td class="separador">
+			<td><label>Letrado Req. $</label>
+			<td><input id="zamba_index_2813" name="zamba_index_2813" class="w175px moneda">
+        </tr>
+        <tr>
+			<td><label>Letrado Cia $</label>
+			<td><input id="zamba_index_2814" name="zamba_index_2814" class="w175px moneda">
+			<td class="separador">
+			<td><label>Mediador $</label>
+			<td><input id="zamba_index_2815" name="zamba_index_2815" class="w175px moneda">
+        </tr>
+		<tr>
+			<td><label>Peritos $</label>
+			<td><input id="zamba_index_2816" name="zamba_index_2816" class="w175px moneda">
+			<td class="separador">
+			<td><label>Tasa de Justicia $</label>
+			<td><input id="zamba_index_2817" name="zamba_index_2817" class="w175px moneda">
+        </tr>
+		<tr>
+			<td><label>Otros Gastos $</label>
+			<td><input id="zamba_index_2818" name="zamba_index_2818" class="w175px moneda">
+			<td class="separador">
+			<td><label>Copia de Convenio</label>
+			<td><select id="zamba_index_2819" name="zamba_index_2819" class="w175px"></select>
+        </tr>
+		<tr>
+			<td><label>Fecha de Recepción de Convenio</label>
+			<td><input id="zamba_index_2820" name="zamba_index_2820" class="w175px" ">
+			<td class="separador">
+			<td><label>Total de Transacción$</label>
+			<td><input id="zamba_index_2719" name="zamba_index_2719" class="w175px readonly" readonly="readonly">
+        </tr>
+	</table>
+	<br><br>
+<div style="text-align: center">
+<input type="submit" class="btn btn-primary" name="zamba_save" id="zamba_save" value="GUARDAR"/>
+<input type="submit" class="btn btn-primary" name="zamba_cancel" id="zamba_cancel" value="CANCELAR" />
+</div>
+	</center>
+    </form>
+</body>
+</html>

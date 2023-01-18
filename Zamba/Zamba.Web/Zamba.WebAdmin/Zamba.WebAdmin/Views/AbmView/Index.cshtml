@@ -1,0 +1,201 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/AbmScript/zamba.abm.js"></script>
+<link href="~/Content/Abm.css" rel="stylesheet" />
+<base href='@Url.Content("~/abmview/index")/'>
+<div>
+    <div class="navbar SubNavbar ">
+        @*<img src="~/Content/Images/businessman.png" height="30" onclick="ShowZUserConfig()"/>*@
+        <div class="">
+            <button class="btn btn-default btn-sm BtnColors" onclick="ShowZmachine()">Configuracion por PC</button>
+            <button class="btn btn-default btn-sm BtnColors" onclick="ShowZUserConfig()">Configuracion por Usuario</button>
+            <button class="btn btn-default btn-sm BtnColors" onclick="ShowZopt() ">Configurar Zopt</button>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-xs-12 ZMachineConfigGrids">
+            <div ng-controller="ZMachineConfig" class="col-xs-12 col-sm-6">
+                <div class="row">
+                    <div class="MainPanel col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <strong>ZMachineConfig - Cantidad de filas:</strong> {{ gridOptions.data.length | number }}
+                                <span type="button" class="btn btn-default btn-xs" style="color:#333333;width:194px;left:99px;position:relative;border:1px solid #cccccc;position:relative;bottom:1px;" data-toggle="modal" data-target="#myModal"> agregar nuevo</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav class="grid col-xs-5"></div> @*grilla*@
+                            </div>
+                        </div>
+
+                   
+                    </div>
+                </div>
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:#3a9dfd !important;color:white;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">ZMachineConfig</h4>
+                            </div>
+                            <div class="modal-body" style="text-align:center;">
+                                <form>
+                                    <label style="color:#7b7979">Nombre de Pc</label>
+                                    <input ng-model="NamePc" class="form-control col-sm-offset-3" type="text" id="NamePc" name="NamePc">
+                                    <label style="color:#7b7979">Nombre</label>
+                                    <input ng-model="Name" class="form-control col-sm-offset-3" type="text" id="Nombre" name="Nombre">
+                                    <label style="color:#7b7979">Valor</label>
+                                    <input ng-model="Value" class="form-control col-sm-offset-3" type="text" id="Valor" name="Valor">
+                                    <label style="color:#7b7979">Seccion</label>
+                                    <input ng-model="section" class="form-control col-sm-offset-3" type="text" id="Seccion" name="Seccion">
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center">
+                                <button type="button" class="btn btn-default" ng-click="create()" data-dismiss="modal">Agregar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div ng-controller="ZMachineConfig2" class="col-xs-12 col-sm-6" style="padding-left:0px !important;padding-right:0px!important;">
+
+                <div class="MainPanel2 col-sm-offset-1" style="position:relative;top:40px">
+                    <div class="col-xs-12">
+                        <strong>Cantidad de filas:</strong> {{ gridOptions.data.length | number }}
+                    </div>
+                    <div ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav class="grid col-xs-5 "></div> @*grilla*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 ZuserConfigGrids" style="display:none">
+            <div ng-controller="ZuserConfig" class="col-xs-12 col-sm-6">
+                <div class="row">
+                    <div class="MainPanel col-sm-offset-1">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <strong>ZuserConfig - Cantidad de filas:</strong> {{ gridOptions.data.length | number }}<span type="button" class="btn btn-default btn-xs" style="color:#333333;width:194px;left:122px;position:relative;border:1px solid #cccccc;position:relative;bottom:1px;" data-toggle="modal" data-target="#myModal2"> agregar nuevo</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav class="grid col-xs-5"></div> @*grilla*@
+                            </div>
+                        </div>
+                     
+                        @*<button type="button" class="btn  btn-md glyphicon glyphicon-plus" style="margin-top:25px; background-color:#3a9dfd;color:white; "  data-toggle="modal" data-target="#myModal2"></button>*@
+                    </div>
+                </div>
+                <div id="myModal2" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:#56b1ff !important;color:white;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">ZuserConfig</h4>
+                            </div>
+                            <div class="modal-body" style="text-align:center">
+
+                                <form>
+                                    <label style="color:#7b7979">Usuario</label>
+                                    <input ng-model="UserName" class="form-control col-sm-offset-3" type="text" id="UserName" name="UserName">
+                                    <label style="color:#7b7979">Nombre</label>
+                                    <input ng-model="Name" class="form-control col-sm-offset-3" type="text" id="Nombre" name="Nombre">
+                                    <label style="color:#7b7979">Valor</label>
+                                    <input ng-model="Value" class="form-control col-sm-offset-3" type="text" id="Valor" name="Valor">
+                                    <label style="color:#7b7979">Seccion</label>
+                                    <input ng-model="section" class="form-control col-sm-offset-3" type="text" id="Seccion" name="Seccion">
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center">
+                                <button type="button" class="btn btn-default" ng-click="create()" data-dismiss="modal">Agregar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div ng-controller="ZuserConfig2" class="col-xs-12 col-sm-6" style="padding-left:0px !important;padding-right:0px !important">
+
+                <div class="MainPanel2 col-sm-offset-1" style="position:relative;top:40px">
+                    <div class="col-xs-12">
+                        <strong>Cantidad de filas:</strong> {{ gridOptions.data.length | number }}
+                    </div>
+                    <div ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav class="grid col-xs-5 "></div> @*grilla*@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 ZoptGrid" style="display:none">
+
+            <div ng-controller="Zopt" class="col-xs-12 col-sm-6" style="padding-left:0px !important;padding-right:0px !important;">
+                <div class="MainPanel2 col-sm-offset-1" style="position:relative;top:40px">
+                    <div class="col-xs-12">
+                        <strong>Zopt - Cantidad de filas:</strong> {{ gridOptions.data.length | number }}
+                        
+                        <span type="button" class="btn btn-default btn-xs" style="color:#333333;width:194px;left:156px;position:relative;border:1px solid #cccccc;position:relative;bottom:1px;" data-toggle="modal" data-target="#myModal3"> agregar nuevo</span>
+                    </div>
+                    <div ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-cellNav class="grid col-xs-5 "></div> 
+                
+
+                </div>
+
+                <div id="myModal3" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color:#56b1ff !important;color:white;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">ZuserConfig</h4>
+                            </div>
+                            <div class="modal-body" style="text-align:center">
+
+                                <form>
+
+                                    <label style="color:#7b7979">Nombre</label>
+                                    <input ng-model="Name" class="form-control col-sm-offset-3" type="text" id="Nombre" name="Nombre">
+                                    <label style="color:#7b7979">Valor</label>
+                                    <input ng-model="Value" class="form-control col-sm-offset-3" type="text" id="Valor" name="Valor">
+
+                                </form>
+                            </div>
+                          
+                            <div class="modal-footer" style="text-align:center">
+                                <button type="button" class="btn btn-default" ng-click="create()" data-dismiss="modal">Agregar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+
+    
+</div>
+
+
+

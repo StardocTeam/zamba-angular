@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/jquery-2.2.2.js"></script>
+    <script src="../../Scripts/angular.js"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+    <script src="../../scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../DropFiles/dropfiles.js"></script>
+    <link href="../../Content/partialSearchIndexs.css" rel="stylesheet" />
+    <link href="../../Content/partialSearchIndexs.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css">
+    <script src="../../Scripts/KendoUI/js/kendo.all.min.js"></script>
+    <script src="../../Scripts/jq_datepicker.js"></script>
+    <script src="../../Scripts/Zamba.Fn.min.js"></script>
+    <script src="../../Scripts/app/search/Zamba.Search.Common.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+
+     <!--Referencias Observaciones-->
+    <script src="../../app/Observaciones/observacionesController.js"></script>
+    <script src="../../app/Observaciones/observacionesservices.js"></script>
+    <script src="../../Scripts/sweetalert.min.js"></script>
+
+    
+     <!--Referencias Grilla de Asociados-->
+     <!--CCS-->
+    <link href="../../app/Grid/CSS/GridDirective.css" rel="stylesheet" />
+    <link href="../../app/Grid/CSS/GridKendo.css" rel="stylesheet" />
+    <link href="../../app/Grid/CSS/GridThumb.css" rel="stylesheet" />
+     <!--JS-->
+     <script src="../../app/Grid/Controller/GridController.js"></script>
+     <script src="../../app/Grid/Service/GridService.js"></script> 
+     <script src="../../app/Grid/JS/ui-bootstrap-tpls-1.2.4.js"></script>
+     <script src="../../app/ruleExecition/RuleExecutionService.js"></script>
+
+     <!--Referencias TimeLine-->
+     <script src="../../app/timeLine/timeLineController.js"></script>
+     <script src="../../app/timeLine/timelineservices.js"></script>
+
+
+ </head>
+
+ <body>
+     <center>
+                
+                     <form name="frmMain" action="Historia Clinica-Insercion.html">
+
+                         <center>
+                            <h5><strong>HISTORIA CLINICA</strong></h5>
+                         </center>
+
+                         <input id="hdnRuleId" type="hidden" />
+                         <input id="hdnAsocId" type="hidden" />
+
+                         <ul class=" nav nav-tabs">
+                            <li class=" active"><a href="#Clinica" data-toggle="tab">Historia clinica</a></li>
+                            <li><a href="#Documentacion" data-toggle="tab">Documentacion</a></li>
+                            <li><a href="#Detalle" data-toggle="tab">Detalle</a></li>
+                            <li><a href="#Historia" data-toggle="tab">Historia</a></li>
+                         </ul>
+
+                         <div class="container">
+
+                            <center>
+                                     <div class="tab-content">
+                                     <div class="tab-pane fade in active" id="Clinica">
+                                         <div class="form-group row"></div>
+                                            
+                                                 <div class="form-group row">
+                                                     <div class="col-md-9"></div>
+                                                     <div class="col-md-3">
+                                                         <div class="form-group row">
+                                                             <div class="col-md-12">
+                                                                 <div class="input-group">
+                                                                     <!--Recla Tercero--> <span class="input-group-addon">Nro de Legajo:</span>
+                                                                         <input id="zamba_index_139591" name="zamba_index_139591" class="form-control input-sm" style="font-weight:600;" />
+                                                                 </div>
+                                                             </div>                                                  
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                 
+                                                 <div class="form-group row">
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--MED and JUI--> <span class="input-group-addon">Apellido:</span>
+                                                             <input id="zamba_index_139592" name="zamba_index_139592" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--RAJ--> <span class="input-group-addon">Nombre:</span>
+                                                             <input id="zamba_index_139593" name="zamba_index_139593" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="form-group row">
+                                                     <div class="col-md-6">
+                                                         <div class="input-group">
+                                                             <!--Caratula--> <span class="input-group-addon">Documento:</span>
+                                                             <input id="zamba_index_139594" name="zamba_index_139594" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                     <div class="col-md-6">
+                                                         <div class="input-group">
+                                                             <!--Caratula--> <span class="input-group-addon">Fecha de Nacimiento:</span>
+                                                             <input id="zamba_index_139595" name="zamba_index_139595" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="form-group row">
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Siniestro--> <span class="input-group-addon">Direccion:</span>
+                                                             <input id="zamba_index_139599" name="zamba_index_139599" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Poliza--> <span class="input-group-addon">Numero de Telefono:</span>
+                                                             <input id="zamba_index_139600" name="zamba_index_139600" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                     <div class="col-md-6">
+                                                         <div class="input-group">
+                                                             <!--Asegurado--> <span class="input-group-addon">Email:</span>
+                                                             <input id="zamba_index_139601" name="zamba_index_139601" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="form-group row">
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Fecha H--> <span class="input-group-addon">Obra Social:</span>
+                                                             <input id="zamba_index_139596" name="zamba_index_139596" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Patente--> <span class="input-group-addon">Plan:</span>
+                                                             <input id="zamba_index_139597" name="zamba_index_139597" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                     <div class="col-md-3">
+                                                         <div class="input-group">
+                                                             <!--Marca--> <span class="input-group-addon">Numero de Afiliado:</span>
+                                                             <input id="zamba_index_139598" name="zamba_index_139598" class="form-control input-sm" style="font-weight:600;" />
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             
+                                            
+
+
+                                             <div class="form-group row">
+                                                <div class="col-xs-12 col-md-6 ">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <!--Area texto Observacion-->
+                                                            <div id="appObservaciones" ng-controller="ObservacionController">
+                                                                <zamba-observaciones index-id="139606" entity-id="139086"></zamba-observaciones>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-md-6">
+                                                    <div class="row">                             
+                                                    </div>
+
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-md-11" style="position:relative;bottom:-35px;">
+                                                            <!--DropZone-->
+                                                            <div id="appblankID" ng-controller="appController">
+                                                                <zamba-drop id="139088" IndexIds="139603">  </zamba-drop>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row" style="position:relative;left:60px;">
+                                                    <!--Botones FORM-->
+                                                    <div class="col-md-5"></div>
+                                                    <div class="col-md-1">                                                    
+                                                        <input name="zamba_save" id="zamba_save" class="btn btn-primary" type="submit" value="Guardar">
+                                                </div>
+                                            </div>
+
+
+                                                 <div class="form-group row">
+                                                        <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+                                                     <center>
+                                                         <div class="col-md-10">
+                                                             <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                             <div class="form-group row">
+                                                            </div>
+                                             </div>
+                                             </center>
+                                         </div>
+                                    
+                                     </div>
+                                                                       
+                                     <!--SEGUNDA TAB-->
+                                     <div class="tab-pane" id="Documentacion">
+                                            <p></p>
+                                            <h5>Expediente Digital</h5>
+
+                                            <div class="form-group row"></div>
+                                            <div class="form-group row">
+                                                <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                                    <zamba-associated entities="139088" default-enable-mode="thumb" table-height="400" grid-title="Expediente">
+                                                    </zamba-associated>
+                                                </div>
+                                            </div>
+                                     </div>
+                                     
+                                                                       
+                                     <!--TERCERA TAB-->
+                                     <div class="tab-pane" id="Detalle">  
+									 <div class="form-group row"></div>
+									 <div class="form-group row"></div>
+									 <div class="form-group row"></div>
+									 
+											<div class="form-group row">
+                                                <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                                                    <zamba-associated entities="139088" default-enable-mode="thumb" table-height="200" grid-title="Detalle Historia Clinica">
+                                                    </zamba-associated>
+                                                </div>
+                                            </div>
+									 
+                                            <div class="form-group row">
+                                                    <!--<span class="input-group-addon">Detalle Historia Clinica:</span>
+                                                    Aca llamo al tipo de documento que quiero mostrar el historial??
+                                                    --<input id="zamba_index_139087" name="zamba_index_139087" class="form-control input-sm" style="font-weight:600;" />
+													<textarea ng-model="TextareaDetalle" class="form-control" rows="3" ></textarea>
+                                                    </div>--> 
+													
+                                                     <!--Aca llamo al formulario para cargar nuevo detalle??-->                                   
+                                                    <input name="zamba_rule_165566" id="zamba_rule_165566" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Nuevo Detalle">
+                                                          
+
+											</div>
+									</div>
+                                     <!--CUARTA TAB-->
+                                     <div class="tab-pane" id="Historia">
+                                         <div class="form-group row">
+                                          <div class="col-md-9">
+                                         <div class="input-group">
+                                              <h5><b>TimeLine Clinico</b></h5>
+                                             <div class="tablesorter" id="zamba_associated_documents_139081">
+                                             </div>
+                                         </div>
+							</div>
+                                     </div>
+                    <div ng-app="timeline">
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                            <div id="timelineID" ng-controller="MainController">
+                                <zamba-timeline entity-id="107" timeline-type="ImeLine CLinico" parent-entity-id="18"></zamba-timeline>
+                            </div>
+                        </div>
+    
+                                     </div>
+                                                   
+                         </div>
+
+                     </div>
+               
+
+                         <script type="text/javascript">
+                            //angular.element(document).ready(function () {
+                            //angular.bootstrap(document.getElementById('myBenefAppID'), ['myBenefApp']);
+                            //DROPZONE
+                            angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+                            //TIMELINE
+                            angular.bootstrap(document.getElementById('timelineID'), ['timeline']);
+                            //OBSERVACIONES
+                            angular.bootstrap(document.getElementById('appObservaciones'), ['observaciones']);
+                            //GRILLADEASOCIADOS
+                            angular.bootstrap(document.getElementById('Documentacion'), ['ZambaAssociatedApp']);
+							angular.bootstrap(document.getElementById('Detalle'), ['ZambaAssociatedApp']);
+                                 
+
+                            
+                                                          //}
+                        </script>
+
+                     </form>    
+                
+                 </div>
+           
+                            
+</body>
+</html>
+
+

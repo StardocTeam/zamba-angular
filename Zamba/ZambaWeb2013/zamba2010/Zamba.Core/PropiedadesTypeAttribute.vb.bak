@@ -1,0 +1,27 @@
+<AttributeUsage(AttributeTargets.Property)> _
+Public Class PropiedadesTypeAttribute
+    Inherits Attribute
+    Implements IPropiedadesTypeAttribute
+
+#Region " Atributos "
+    Protected oPropiedad As Propiedades
+#End Region
+
+#Region " Propiedades "
+    Public Property Propiedad() As Propiedades Implements IPropiedadesTypeAttribute.Propiedad
+        Get
+            Return oPropiedad
+        End Get
+        Set(ByVal Value As Propiedades)
+            oPropiedad = Value
+        End Set
+    End Property
+#End Region
+
+#Region " Constructores "
+    Public Sub New(ByVal Propiedad As Propiedades)
+        Me.Propiedad = Propiedad
+    End Sub
+#End Region
+
+End Class

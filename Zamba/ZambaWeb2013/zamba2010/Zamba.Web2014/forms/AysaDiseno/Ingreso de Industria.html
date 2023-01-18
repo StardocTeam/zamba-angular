@@ -1,0 +1,326 @@
+<html>
+	<head>
+		<title>Industria</title>			
+		<link href="Content/Styles/Aysa_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Content/Styles/Aysa_styles_table.css"  type="text/css" rel="stylesheet">	
+		<script type="text/javascript" language="JavaScript">		
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: '../../Content/Images/calendar.png',
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			
+		    function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+
+			function zamba_save_onclick(){
+				$("#hdnRuleId").name = "zamba_rule_save";
+			}
+			
+			$(document).ready(function()
+			{		
+				makeCalendar('zamba_index_18');			
+
+        });					
+
+			function validaDatos()
+			{		
+			
+			if ($("#zamba_index_2").value == "" || $("#zamba_index_4").value == "")
+				{
+					alert("Debe ingresar tanto la razón social como la actividad");
+					return false;
+				}
+		
+			}
+			
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');		
+		</script>
+	</head>	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+					<strong>Industria</strong>
+				</div>
+				<br />
+				
+			
+			
+				<div class="tabber">
+					<div class="tabbertab">
+							<h2>Informaci&oacuten General</h2>
+						<p>
+							<table cellpadding="4">
+								<tr>
+									<td><label>ID Industria:</label></td>
+									<td><input type="text" id="zamba_index_1" name="zamba_index_1" size="5" readonly="true" class="readonly"/></td>
+									<td><label>ID Expediente Referencial:</label></td>
+									<td><input type="text" id="zamba_ASOC_4_index_65" name="zamba_ASOC_4_index_65" size="5" readonly="true" class="readonly"/></td>
+								</tr>							
+								<tr>
+									<td><label>Raz&oacuten Social:</label></td>
+									<td><input type="text" name="zamba_index_2" size="50"/></td>
+									<td><label>Nombre Fantas&iacutea:</label></td>
+									<td><input type="text" name="zamba_index_3" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label>Estado: </label></td>
+									<td><select id="zamba_index_17" name="zamba_index_17" style="width:175px;"/> </select> </td>
+									<td><label>Fecha del Estado: </label></td>
+									<td><input id="zamba_index_18" name="zamba_index_18" size="30"/></td>									
+								</tr>	
+								<tr>
+									<td><label>C&oacutedigo CIC: </label></td>
+									<td colspan=3><input id="zamba_index_76" name="zamba_index_76" size="100"/></td>									
+								</tr>	
+							</table>	
+
+							<tr>
+								<td style="padding:10px 0 10px 0" colspan="6">
+									<hr>
+								</td>
+							</tr>
+
+						<tr>
+								<td>
+								<font face="Tahoma" size="2"> <u>Actividad</u></font> 
+								<td>
+						</tr>		
+						
+						<table cellpadding="4">	
+								<tr>	
+									<td><label>C&oacutedigo Actividad: </label></td>
+									<td><select id="zamba_index_70" name="zamba_index_70" style="width:400px;"/> </select></td>
+	
+									<td><label>Rama Actividad: </label></td>
+									<td><select id="zamba_index_31" name="zamba_index_31" style="width:75px;"/> </select> </td>	
+								</tr>
+								<tr>	
+									<td><label>Tipo de Actividad: </label></td>
+									<td><select id="zamba_index_6" name="zamba_index_6" style="width:400px;"/> </select></td>
+									<td><label>Actividad: </label></td>
+									<td><input id="zamba_index_4" name="zamba_index_4" size="50"/></td>	
+								</tr>		
+						</table>
+							<tr>
+								<td style="padding:10px 0 10px 0" colspan="6">
+									<hr>
+								</td>
+							</tr>						
+							<tr>
+									<td>
+									<font face="Tahoma" size="2"> <u>Ubicaci&oacuten</u></font> 
+									<td>
+								</tr>		
+							<table cellpadding="4">
+								<tr>	
+									<td><label>C&oacutedigo Calle: </label></td>
+									<td><select id="zamba_index_12" name="zamba_index_12" style="width:100px;"/> </select></td>	
+									<td><label>Calle: </label></td>
+									<td><input id="zamba_index_13" name="zamba_index_13" size="30"/></td>	
+									<td><label>N&uacutemero: </label></td>
+									<td><input id="zamba_index_14" name="zamba_index_14" size="10"/></td>	
+								</tr>
+								<tr>	
+									<td><label>Localidad: </label></td>
+									<td><input id="zamba_index_15" name="zamba_index_15" size="30"/></td>	
+									<td><label>C&oacutedigo Postal: </label></td>
+									<td><input id="zamba_index_16" name="zamba_index_16" size="20"/></td>	
+								</tr>
+								<tr>	
+									<td><label>C&oacutedigo Regi&oacuten: </label></td>
+									<td><input id="zamba_index_10" name="zamba_index_10" size="10"/></td>	
+									<td><label>Regi&oacuten: </label></td>
+									<td><input id="zamba_index_11" name="zamba_index_11" size="30"/></td>	
+								</tr>
+								<tr>	
+									<td><label>C&oacutedigo Distrito: </label></td>
+									<td><input id="zamba_index_8" name="zamba_index_8" size="10"/></td>	
+									<td><label>Distrito: </label></td>
+									<td><input id="zamba_index_9" name="zamba_index_9" size="30"/></td>	
+								</tr>
+							</table>															
+															
+					</div>	
+					
+
+					<div class="tabbertab">
+						<h2>Expediente Referencial</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>Expedientes asociados a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_4" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+
+					
+					<div class="tabbertab">
+						<h2>FHV</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>FHV asociadas a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_2" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+											
+				<div class="tabbertab">
+						<h2>Inspecciones</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>Inspecciones asociadas a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_3" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+										
+					<div class="tabbertab">
+						<h2>Conexiones a Cloaca</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>Conexiones asociadas a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_7" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+								
+					<div class="tabbertab">
+						<h2>Microcuenca</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>Microcuencas asociadas a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_9" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+						
+					<div class="tabbertab">
+						<h2>MacroCuenca</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>Macrocuencas asociadas a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_8" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+						
+				<div class="tabbertab">
+						<h2>Datos Comerciales</h2>
+							<table cellpadding="4">
+							<tr>
+								<td><label>Datos Comerciales asociados a la Industria:</label></td>
+							</tr>	
+							<tr>
+								<td>
+									<table id="zamba_associated_documents_10" class="tablesorter">
+										<tbody>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table> 							
+					</p>
+					</p>
+					</div>
+					
+				</br>		
+			
+				<div name="logoAysa" id="logoAysa">	
+					<img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+				</div>
+				
+				<div name="logozamba" id="logozamba">
+					<img src="Content/Images/pwbyzamba.jpg">
+				</div>					
+
+				<div name="alignleft" id="alignleft">
+						
+					<input id="zamba_save" type="submit" class="submit" value="Guardar" name="zamba_save" onclick="return zamba_save_onclick()"/>	
+				</div>
+				
+			</form>						
+		</div>		
+	</body>
+</html>

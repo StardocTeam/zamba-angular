@@ -1,0 +1,6 @@
+﻿jQuery.fn.addColorPicker = function (C) {
+    if (!C) { C = [] } C = jQuery.extend({ blotchElemType: "span", blotchClass: "ColorBlotch", clickCallback: function (F) { }, iterationCallback: null, fillString: "&nbsp;", fillStringX: "", colors: ["transparent", "#ffffff", "#d0d0d0", "#777777", "#000000", "rgb(255, 95, 95)", "#ffaaaa", "#ff00ff", "rgba(255, 0, 255, 0.51)", "rgb(213, 159, 255)", "#ff0000", "#aa0000", "rgb(209, 222, 90)", "#9000ff", "#ff6c00", "#ffff00", "#ffbb00", "#f0e68c", "#d2b229", "#aaffaa", "rgb(109, 0, 123)", "rgba(71, 220, 71, 0.81)", "#00ff00", "#00aa00", "#6b8e23", "#007700", "#bbddff", "#00ffdd", "#aaaaff", "rgb(83, 233, 255)", "rgba(6, 120, 130, 0.78)", "#2196F3", "#0000ff", "rgba(0, 0, 255, 0.69)", "#0000aa", "rgb(255, 184, 83)", "#a77c6d", "rgba(103, 103, 103, 0.91)", "rgba(208, 64, 79, 0.76)"] }, C); var E = C.colors.length; for (var B = 0; B < E; ++B) {
+        var A = C.colors[B]; if (!A) { A = "transparent" } var D = jQuery("<" + C.blotchElemType + "/>").addClass(C.blotchClass)
+            .css("background-color", A).css("width", '9px').css("float", 'left'); D.html(("transparent" == A) ? C.fillStringX : C.fillString); if (C.clickCallback) { D.click(function () { C.clickCallback(jQuery(this).css("background-color")) }) } this.append(D); if (C.iterationCallback) { C.iterationCallback(this, D, A, B) }
+    } return this
+}

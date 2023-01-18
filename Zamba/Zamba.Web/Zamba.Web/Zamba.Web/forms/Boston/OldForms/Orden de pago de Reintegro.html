@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Orden de pago</title>
+</head>
+
+<body>
+    <div id="container">
+        <form id="frmMain" name="frmMain" method="post" action="Orden de pago de Reintegro.html" style="font-family:Verdana;font-size:10pt">
+            <div id="divHeader">
+			<table style="width:100%;font-size:7pt">
+				<tr style="height:10%">
+					<td style="width:20%;padding-left:20px">
+						<img id="logo" src="Img/ospic.jpg"/>
+					</td>
+					<td style="width:50%">
+						&nbsp;
+					</td>
+					<td style="width:20%; text-align:right;padding-top:15px;padding-right:20px">
+						<span style="font-size:9pt;font-weight: bold">
+							Orden de pago <br/>
+							Nro: 
+							Zamba.IDComprobante<br/>
+						</span>
+						<span style="font-size:8pt;">
+							Fecha: 
+							Zamba.FechaDePago
+						</span>
+					</td>
+				</tr>
+				<tr style="height:10%">
+					<td style="padding-left:20px">
+						<span style="font-weight: bold">
+							Sindicato
+						</span><br/>
+						<span>
+							Direcci&oacute;n<br/>
+							Tel./Fax:<br/>
+							Buenos Aires - Rep.Argentina
+						</span>
+					</td>
+					<td>
+						&nbsp;
+					</td>
+					<td style="text-align:right;padding-top:5px;padding-right:20px">
+						<span style="font-size:9pt;">
+							Afiliado: 
+							Zamba.Afiliado
+						</span>
+					</td>
+				</tr>
+			</table>
+			</div>
+			<div id="divData">
+			<table style="width:100%; font-size:7pt">
+				<tr>
+					<td>
+						<hr/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table style="width:100%">
+							<tr style="font-weight: bold;font-style:italic">
+								<td style="background-color:#4b7b8a;color:white">
+									Concepto
+								</td>
+								<td style="background-color:#4b7b8a;color:white">
+									Nombre
+								</td>
+								<td style="background-color:#4b7b8a;color:white">
+									Nro de Comprobante
+								</td>
+								<td style="background-color:#4b7b8a;color:white">
+									Fecha de Comprobante
+								</td>
+								<td style="background-color:#4b7b8a;color:white">
+									D&iacute;as
+								</td>
+								<td style="background-color:#4b7b8a;color:white">
+									Importe
+								</td>
+							</tr>
+							Zamba.TablaPrestaciones
+							<tr>
+								<td>
+									&nbsp;
+								</td>
+							</tr>
+							<tr>
+								<td style="border-top:solid 1px gray; text-align:right; font-weight: bold;font-style:italic" colspan="5">
+									Total
+								</td>
+								<td style="border:solid 1px gray">
+									Zamba.ImporteTotal
+								</td>
+							</tr>
+							<tr>
+								<td>
+									&nbsp;
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="border-bottom:1px solid gray">
+									Observaciones
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="border-bottom:1px solid gray">
+									&nbsp;
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" style="border-bottom:1px solid gray">
+									&nbsp;
+								</td>
+							</tr>
+							<tr>
+								<td>
+									&nbsp;
+								</td>
+							</tr>
+							<tr style="font-weight: bold;font-style:italic">
+								<td colspan="2" style="background-color:#4b7b8a;color:white;font-style:italic">
+									Forma de Pago
+								</td>
+								<td colspan="2" style="background-color:#4b7b8a;color:white;font-style:italic">
+									Banco
+								</td>
+								<td colspan="2" style="background-color:#4b7b8a;color:white;font-style:italic">
+									N&uacute;mero
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" style="border-left:solid 1px gray; border-bottom:solid 1px gray">
+									Zamba.FormaDePago
+								</td>
+								<td colspan="2" style="border-left:solid 1px gray; border-bottom:solid 1px gray">
+									Zamba.Banco
+								</td>
+								<td colspan="2" style="border-left:solid 1px gray; border-bottom:solid 1px gray;border-right:solid 1px gray">
+									Zamba.NroPago
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			</div>
+		</form>
+    </div>
+</body>
+</html>

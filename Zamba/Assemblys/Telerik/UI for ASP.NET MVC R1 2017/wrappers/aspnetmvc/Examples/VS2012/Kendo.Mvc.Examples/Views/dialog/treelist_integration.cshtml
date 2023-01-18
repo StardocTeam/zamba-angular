@@ -1,0 +1,154 @@
+﻿<div id="example">
+    @(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Visible(false)
+        .Title("Members")
+        .Content(           
+            Html.Kendo().TreeList<Kendo.Mvc.Examples.Models.TreeList.EmployeeDirectoryModel>()
+            .Name("treelist")
+            .Toolbar(toolbar => toolbar.Create())
+            .Columns(columns =>
+            {
+                columns.Add().Width(50).Template("<input type='checkbox' class='checkbox'/>")
+                    .HeaderTemplate("<input type='checkbox' onclick='toggleAll(event)' />")
+                    .Filterable(false).Expandable(false);
+                columns.Add().Field(e => e.FirstName).Width(190).Expandable(true);
+                columns.Add().Field(e => e.LastName).Width(100);
+                columns.Add().Field(e => e.Position).Width(190); 
+                columns.Add().Title("Edit").Width(220).Command(c =>
+                    {
+                        c.Edit();
+                        c.Destroy();
+                    });
+                })                
+            .Filterable()
+            .Sortable()
+            .Events(ev=>ev.DataBound("treeListDataBound"))
+            .Editable()
+            .DataSource(dataSource => dataSource
+                .Create(create => create.Action("Create", "EmployeeDirectory"))
+                .Read(read => read.Action("All", "EmployeeDirectory"))
+                .Update(update => update.Action("Update", "EmployeeDirectory"))
+                .Destroy(delete => delete.Action("Destroy", "EmployeeDirectory"))
+                .Model(m => {
+                    m.Id(f => f.EmployeeId);
+                    m.ParentId(f => f.ReportsTo);
+                    m.Expanded(true);
+                    m.Field(f => f.FirstName);
+                    m.Field(f => f.LastName);
+                    m.Field(f => f.Position);
+                })
+            )
+            .Height(540)
+            .ToHtmlString()
+        )
+        .Width(800)
+        .Height(520)
+        .Modal(false)
+        .Closable(true)
+        .Actions(actions =>
+        {
+            actions.Add().Text("Cancel");
+            actions.Add().Text("OК").Primary(true).Action("actionOK");
+        })
+        .Events(ev => ev.InitOpen("initOpen"))
+    )
+
+    <div id="add-product" class="demo-section k-content">
+        <p class="title">Members</p>
+        <div id="result"></div>
+        @Html.Kendo().Button().HtmlAttributes(new { type = "button", @class = "k-primary" }).Name("openDialogBtn").Content("Pick members").Events(ev => ev.Click("openDialog"))
+    </div>
+</div>
+
+<script>
+    function treeListDataBound(e) {
+        $(".checkbox").bind("change", function (e) {
+            var row = $(e.target).closest("tr");
+            this.checked ? row.addClass("k-state-selected") : row.removeClass("k-state-selected");
+        });
+    }
+
+    function toggleAll(e) {
+        if (e.target.checked) {
+            $("#treelist [role='row'] .checkbox").each(function () {
+                this.checked = "checked";
+            });
+        }
+        else {
+            $("#treelist [role='row'] .checkbox").removeAttr("checked");
+        }
+
+        $("#treelist [role='row'] .checkbox").trigger("change");
+    }
+
+    function initOpen(e) {
+        setTimeout(function () {
+            $("#treelist").data("kendoTreeList").refresh();
+        })
+    }
+
+    function openDialog(e) {
+        $("#dialog").data("kendoDialog").open();
+    }
+
+    function actionOK(e) {
+        var treelist = $("#treelist").data("kendoTreeList");
+        var items = treelist.element.find(".k-state-selected");
+        updateResult(items, treelist);
+    }
+
+    function updateResult(items, treelist) {
+        if (items.length > 0) {
+            var result = "";
+            for (var i = 0; i < items.length; i++) {
+                var dataItem = treelist.dataItem(items[i]);
+                result += "<span class='selectedName'>" + dataItem.FirstName + " " + dataItem.LastName + "</span>";
+            }
+        } else {
+            result = "No members selected.";
+        }
+
+        $("#result").html(result);
+    }
+
+    function updateSelectedCount(treeView) {
+        $(".selected-count").html(getCheckedItems(treeView).length + " Employees selected");
+    }    
+</script>
+
+<style>
+    #example {
+        min-height: 200px;
+    }
+
+    #treelist {
+        height: 400px!important;
+    }
+
+        #example .title {
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+    .selectedName {
+        padding: 5px 10px;
+        background: #aaa;
+        color: white;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+    }
+
+    #result {
+        padding-bottom: 15px;
+    }
+
+        #result:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+</style>
+

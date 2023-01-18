@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="contacts" targetNamespace="http://tempuri.org/contacts.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/contacts.xsd" xmlns:mstns="http://tempuri.org/contacts.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+	blockDefault="#all">
+	<xs:element name="contacts" msdata:IsDataSet="true" msdata:CaseSensitive="false">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="contact">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="xs:string" minOccurs="0" />
+							<xs:element name="middle" type="xs:string" minOccurs="0" />
+							<xs:element name="lastname" type="xs:string" minOccurs="0" />
+							<xs:element name="composedname" type="xs:string" minOccurs="0" />
+							<xs:element name="mailnotes" type="xs:string" minOccurs="0" />
+							<xs:element name="mailinternet" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

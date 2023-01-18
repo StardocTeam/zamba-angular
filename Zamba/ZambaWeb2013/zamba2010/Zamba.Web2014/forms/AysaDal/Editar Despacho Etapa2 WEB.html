@@ -1,0 +1,149 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" language="JavaScript">
+        String.prototype.trim = function () {
+            return this.replace(/^\s*/, "").replace(/\s*$/, "");
+        }
+        function SetRuleId(sender) {
+            $("#hdnRuleId").name = sender.id;
+
+        }
+
+
+        function SetAsocId(sender) {
+            $("#hdnAsocId").name = sender.id;
+
+        }
+
+    </script>
+</head>
+<body>
+    <form id="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div id="design">
+        <strong>Editar Despacho Ingreso de Pendientes</strong>
+    </div>
+    <table style="width: 98%;">
+        <tr>
+            <td colspan="3">
+                <table style="width: 90%;">
+                    <tr>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Nro de Despacho</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_12353" name="zamba_index_12353" readonly="readonly"  class="readOnly"/>
+                        </td>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Fecha de Ingreso</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_12354" name="zamba_index_12354" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Proveedor</label>
+                        </td>
+                        <td>
+                            <select style="width: 225px" id="zamba_index_12381" name="zamba_index_12381" disabled="disabled">
+                            </select>
+                        </td>
+                        <td>
+                            <label style="width: 12em;">
+                                Dias maximos de entrega</label>
+                        </td>
+                        <td>
+                            <input type="text" id="zamba_index_12445" name="zamba_index_12445" disabled="disabled"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style1">
+                            <label style="width: 12em;">
+                                Deposito</label>
+                        </td>
+                        <td>
+                            <select style="width: 225px" id="zamba_index_12380" name="zamba_index_12380" disabled="disabled">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <hr />
+                    <h3>
+                        Productos Solicitados</h3>
+                
+                    <br />
+                        <table id="zamba_zvar(ProductosYaSolicitados)" class="tablesorter">
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                </div>
+                <div>
+                    <h3>
+                        Productos Pendientes de Ingreso</h3>
+                    <div>
+                        <label style="width: 12em;">
+                            Remito</label>
+                        <input type="text" id="zamba_index_12448" name="zamba_index_12448" />
+                        <label style="width: 12em;">
+                            Fecha de Ingreso</label>
+                        <input type="text" id="zamba_index_12354" name="zamba_index_12354" />
+                    </div>
+                    <div>
+                        <table id="zamba_zvar(ProductosPendientes)" class="tablesorter">
+                            <thead>
+                                <tr>
+                                    <td colspan="4">
+                                        <input id="InsertAll" type="submit" style="text-align: center; margin-right: 25px;"
+                                            class="submit" value="Ingresar Productos Pendientes" onclick="SetRuleIdAndGrid($('#InsertAll'),'zamba_rule_20705','zvar(productosingreso[0][4][3])');" />
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody class="hideopentask" editablecolumns="5">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--						<tbody id="zamba_rule_20705/Ingresar/zvar(productoingreso[1])zvar(cantingreso[5])" editablecolumns="5">
+										</tbody>
+-->
+                    <div>
+                        <h3>
+                            Productos Ingresados</h3>   
+                        <br />
+                                               
+                        <table id="zamba_zvar(ProductosYaIngresados)" class="tablesorter">
+                            <tbody class="hideopentask">
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img alt="" src="images/logocliente.bmp" height="50" width="70" />
+            </td>
+            <td>
+                <center>
+                    <input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" />
+                    <input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" /></center>
+            </td>
+            <td>
+                <img alt="" src="images/pwbyzamba.jpg" style="float: right" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

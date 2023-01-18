@@ -1,0 +1,334 @@
+﻿<%@ Master Language="C#" Inherits="Zamba.Web.MasterPage" AutoEventWireup="true" EnableViewState="true" CodeBehind="MasterPage.master.cs" %>
+
+<%@ Import Namespace="System.Web.Optimization" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Src="~/Views/UC/Home/UCHome.ascx" TagName="UCHome" TagPrefix="Zamba" %>
+
+<!DOCTYPE html>
+<html>
+<head id="Head2" runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=11; IE=9; IE=8; IE=7; IE=EDGE,chrome=1" />
+
+    <title>Zamba</title><%--title="Zamba Web"--%>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+
+    <asp:ContentPlaceHolder ID="header_css" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="shortcut icon" id="lnkWebIcon" runat="server" type="image/x-icon" />
+
+    <asp:ContentPlaceHolder ID="header_js" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <asp:PlaceHolder runat="server">
+        <%: Styles.Render("~/Content/themes/base/datepicker")%>
+        <%: Styles.Render("~/bundles/Styles/normalize")%>
+        <%: Styles.Render("~/bundles/Styles/master")%>
+        <%: Styles.Render("~/bundles/Styles/jquery")%>
+        <%: Styles.Render("~/bundles/Styles/ZStyles")%>
+        <%: Styles.Render("~/bundles/Styles/grids")%>
+        <%: Styles.Render("~/Content/home.css")%>
+        <%: Styles.Render("~/bundles/Styles/bootstrap")%>
+        <%: Styles.Render("~/Content/bootstrap-theme.css")%>
+        <%: Styles.Render("~/bundles/Styles/toastr")%>
+
+        <%: Styles.Render("~/Content/css")%>
+        <%: Styles.Render("~/Content/bootstrap.css")%>
+        <%--Global Search Styles--%>
+        <%: Styles.Render("~/Content/font-awesome.min.css")%>
+        <%: Styles.Render("~/GlobalSearch/search/searchbox.css")%>
+        <%: Styles.Render("~/bundles/Styles/search")%>
+        <%: Styles.Render("~/bundles/ChatStyles")%>               
+    </asp:PlaceHolder>
+
+
+
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.common.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.rtl.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.silver.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.mobile.all.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.flat.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.default.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.dataviz.default.min.css" />
+
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.material.min.css" />
+    <link rel="stylesheet" href="../../scripts/kendouistyles/kendo.material.mobile.min.css" />
+
+
+
+</head>
+<body onbeforeunload="bodyUnload();" class="body-Main" onclick="clicked=true;" style="overflow: hidden;" data-ng-app="app">
+
+    <%       
+        loadChatZmb = Boolean.Parse(ConfigurationManager.AppSettings["Chat"].ToString());
+        loadGlobalSearch = Boolean.Parse(ConfigurationManager.AppSettings["GlobalSearch"].ToString());
+    %>
+    <script>var ZambaWebRestApiURL = "<%=ZambaWebRestApiURL%>";</script>
+    <script>var thisDomain = "<%=Zamba.Membership.MembershipHelper.AppUrl%>";</script>
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Bundles/Globalize") %>
+        <%: Scripts.Render("~/bundles/jqueryCore") %>
+        <%: Scripts.Render("~/bundles/jqueryAddIns") %>
+        <%: Scripts.Render("~/bundles/jqueryval") %>
+        <%: Scripts.Render("~/Scripts/jquery.touchSwipe.min.js") %>
+        <%: Scripts.Render("~/Scripts/jquery.bootstrap-pureClearButton.min.js") %>
+        <%: Scripts.Render("~/bundles/bootstrap") %>
+        <%: Scripts.Render("~/bundles/toastr") %>
+        <%: Scripts.Render("~/bundles/modernizr") %>
+        <%: Scripts.Render("~/bundles/tabber") %>
+        <%: Scripts.Render("~/bundles/moment") %>
+        <%: Scripts.Render("~/bundles/ZScripts") %>
+        <%: Scripts.Render("~/bundles/Kendo") %>
+
+        <script src="../../scripts/kendoui/js/kendo.all.min.js"></script>
+
+        <%: Scripts.Render("~/Scripts/dropzone.min.js") %>
+        <%: Scripts.Render("~/Scripts/angular.min.js") %>
+        <%: Scripts.Render("~/Scripts/angular-cookies.min.js") %>
+        <%: Scripts.Render("~/Scripts/angular-resource.min.js") %>
+        <%: Scripts.Render("~/Scripts/angular-route.min.js") %>
+        <%: Scripts.Render("~/bundles/globalsearch") %>
+        <%: Scripts.Render("~/Scripts/debbug.js") %>
+        <%: Scripts.Render("~/Scripts/token.js") %>
+
+
+        <%   if (ConfigurationManager.AppSettings["WebClient"].ToString() == "Aysa")
+            {  %>
+        <%: Scripts.Render("~/bundles/Aysa") %>
+        <%  } %>
+        <%   if (HttpContext.Current.IsDebuggingEnabled)
+            { %>
+        <%: Scripts.Render("~/Scripts/MasterPage.master.js") %>
+        <%  }
+            else
+            { %>
+        <%: Scripts.Render("~/Scripts/MasterPage.master.min.js") %>
+        <%  } %>
+        
+    </asp:PlaceHolder>
+
+    <div style="padding-top: 2%">
+        <button type="button" class="btn btn-primary" style="display: none; margin-left: 2%;" id="btnAdvanceSearch">Busqueda Avanzada</button>
+        <button type="button" class="btn btn-primary" style="display: none; margin-right: 2%;" id="btnGlobalSearch">Busqueda Global</button>
+    </div>
+
+    <%--Busqueda global--%>
+    <div id="Advfilter1" style="height: 100%;">
+        <div id="Advfilter-modal-content" style="display: none !important; overflow: hidden; height: 100%" tabindex="-1" role="dialog">
+            <div style="width: 100% !important; margin: 0; padding: 10px; left: 110px; top: 40px;">
+                <%  if (loadGlobalSearch == true)
+                    { %>
+
+                <div data-ng-controller="appController" style="float: inherit;">
+                    <div style="min-height: 100px; background-color: #5387bd">
+                        <div style="padding: 2px; background-color: white; border-radius: 10px;">
+                            <div>
+                            </div>
+                            <div style="float: right;">
+                                <%--<a href="#" data-toggle="tooltip" style="margin-right:5px;text-decoration:none" data-placement="bottom" class="glyphicon glyphicon-wrench remove-all-icon " id="advSearchConfig" onclick="showGSConfig();" title="Configuracion"></a> --%>
+                                <a href="#" data-toggle="tooltip" style="margin-right: 5px; text-decoration: none" data-placement="bottom" class="glyphicon glyphicon-question-sign remove-all-icon " id="advSearchHelp" onclick="showGSHelp();" title="Ayuda"></a>
+                                <%--                                 <a href="#" id="advSearchSave" title="Guardar busqueda" role="button"><span class="remove-all-icon glyphicon glyphicon-minus"></span></a>--%>
+                                <a href="#" data-toggle="tooltip" style="margin-right: 5px; text-decoration: none" data-placement="bottom" class="glyphicon glyphicon glyphicon-minus " id="advSearchSave" title="Minimizar Ventana"></a>
+
+                                <a href="#" data-toggle="tooltip" style="margin-right: 5px; text-decoration: none" data-placement="bottom" class="glyphicon glyphicon-remove " id="advSearchClose" title="Cerrar busqueda"></a>
+                            </div>
+                            <div class="filterCount dropdown">
+                                <button class="btn  btn-xs dropdown-toggle" style="color: black" type="button" id="filterCountDiv" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" value="25">
+                                    Traer <b>25</b> registros
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="z-index: 99999; font-size: 12px;">
+                                    <li><a href="#" data-value="10">Traer <b>10</b> registros</a></li>
+                                    <li><a href="#" data-value="25 action">Traer <b>25</b> registros</a></li>
+                                    <li><a href="#" data-value="50">Traer <b>50</b> registros</a></li>
+                                    <li><a href="#" data-value="100">Traer <b>100</b> registros</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="padding: 0;">
+                            <zamba-search style="background-color: white !important;" id="zambasearchcontrol" ng-model="searchParams"
+                                parameters="availableSearchParams"
+                                placeholder="Buscar...">
+                                </zamba-search>
+
+                            <%--redirecciona al modal--%>
+
+                            <script>
+                                function GetNextUrl(index) {
+                                    
+                                    return angular.element($('#zambasearchcontrol')).scope().GetNextUrl(index);
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <%  } %>
+            </div>
+        </div>
+    </div>
+
+
+    <%--Login Timeout--%>
+    <div class="modal fade" id="openModalTimeout" role="dialog" data-keyboard="false" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="openModalIFTimeout" style="height: 300px; width: 500px; padding: 0">
+                <div class="modal-header" style="background-color: #25557d; color: white; text-align: center;">
+                    <h4 class="modal-title" id="modalFormTitleTimeout">Página bloqueada - Tiempo de sesión caducado</h4>
+                </div>
+                <%--   <iframe id="partialLogin" width="500" height="400"></iframe>--%>
+                <div class="modal-body" id="modalFormHomeTimeout" style="padding: 0; height: 350px; text-align: center;">
+                    <div id="TimeoutContent" style="margin-bottom: 10px;">
+                        <br />
+
+                        <div class="TimeOut-Logo"></div>
+                        <br />
+                        <input readonly="readonly" type="text" id="timeOutUserTxt" style="width: 380px; position: relative; bottom: 13px; left: 60px; padding-left: 10px;" class="form-control " placeholder="Ingrese su usuario">
+                        <br />
+                        <input type="password" id="timeOutPassTxt" style="width: 380px; position: relative; bottom: 25px; padding-left: 10px; left: 60px" class="form-control" placeholder="Ingrese su contraseña">
+                        <br />
+                        <div style="position: relative; bottom: 35px;">Por favor reingrese sus credenciales para continuar operando</div>
+                        <button type="button" class="btn" style="color: white; position: relative; bottom: 25px; background-color: #25557d" id="timeOutBtn">Ingresar <span class="fa fa-sign-in"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="form2" runat="server" class="form" enctype="multipart/form-data" method="post" style="height: 100%; overflow: hidden;">
+        <asp:HiddenField ID="hdReload" runat="server" Value="false"></asp:HiddenField>
+        <asp:HiddenField ID="hdnUserId" runat="server" />
+        <asp:HiddenField ID="ConnectionId" runat="server" />
+
+        <asp:HiddenField ID="hdnComputer" runat="server" />
+        <input id="hdnLink" runat="server" style="display: none" />
+        <input id="hdnTarget" runat="server" style="display: none" />
+        <input id="hdnRefreshWF" runat="server" style="display: none" />
+
+        <asp:ScriptManager ID="ScriptManager1" runat="server"  ScriptMode="Release"  EnablePageMethods="true" EnablePartialRendering="true" EnableScriptGlobalization="true" EnableScriptLocalization="true">
+            <%-- <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+            </Scripts>--%>
+        </asp:ScriptManager>
+
+        <div class="container-fluid mainContainer" style="height: 100%">
+            <div class="modal fade" id="openModalIFWF" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden;">
+                <div class="modal-dialog">
+                    <div class="modal-content" id="openModalIFContentWF" style="padding: 0">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" id="closeModalIFWF"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                            <h4 class="modal-title" id="modalFormTitleWF"></h4>
+                        </div>
+                        <div class="modal-body" id="modalFormHomeWF" style="padding: 0;">
+                            <div id="EntryRulesContent" style="z-index: 997; top: 0; right: 120px; height: 100%">
+                                <iframe id="WFExecForEntryRulesFrame" src="~/views/WF/WFExecutionForEntryRules.aspx" style="height: 100%; width: 100%;" runat="server"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="div-presentation-Main" id="divPrimario">
+                    <asp:ContentPlaceHolder ID="ContentdivpresentationMain" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <div id="second-div-presentation-Main" class="second-div-presentation-Main">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="div-tabl-principal-master" id="divSecundario">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div class="row">
+                <div style="bottom: 0;">
+                    <asp:ContentPlaceHolder ID="ContentPlaceFooter" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div class="row">
+                <div id="modalDialog" style="display: none; padding: 0"></div>
+            </div>
+        </div>
+    </form>
+
+    <main ui-view>
+        <%--Configuracion de pagina--%>
+        <script type="text/javascript">                        
+                                var baseUrl = location.origin;
+                               <%-- function GetUID() {
+                                    return $("#<%=hdnUserId.ClientID%>").val();
+                                }--%>
+                                GetTree(GetUID(), "#treeview");
+                                zambaApplication = "ZambaWeb";
+                                document.config = {
+                                    urlBase: "<%=GetAppRootUrl(false) %>",
+                                   
+              <%--  sessionTimeOut: <%=GetSessionTimeOut() %>,--%>
+              <%--  isOldBrowser: <%=GetIsOldBrowser()%>,--%>
+                                }
+                                function GetURLHelper() {
+                                    return '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("URLHelper","http://www.zamba.com.ar/zambaHelp/viewer/") %>';
+                                }
+        </script>
+
+        <asp:ContentPlaceHolder ID="footer_js" runat="server">
+        </asp:ContentPlaceHolder>
+    </main>
+
+
+
+</body>
+</html>
+
+<%--Variable y configuracion Chat/GlobalSearch--%>
+<script type="text/javascript">
+                                var loadChatZmb = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("EnableChat","false") %>' === "true";
+                                var enableGlobalSearch = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("EnableGlobalSearch","true") %>' === "true";
+                                fnEnableGlobalSearch(); 
+</script>
+
+<%-- Inicializacion de Chat--%>
+<%  if (Zamba.Core.ZOptBusiness.GetValueOrDefault("EnableChat", "false") == "true")
+    { %>
+<script type="text/javascript" src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ThisDomain","http://www.zamba.com.ar/zambastardoc") %>/ChatJs/Scripts/jquery.signalR-2.2.0.min.js'></script>
+<script src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ChatURLServerSR","http://www.zamba.com.ar/Zambachat/signalr/hubs") %>'></script>
+<%   if (HttpContext.Current.IsDebuggingEnabled)
+    { %>
+<script type="text/javascript" src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ThisDomain","http://www.zamba.com.ar/zambastardoc") %>/ChatJs/Scripts/zambachat.js'></script>
+<%  }
+    else
+    { %>
+<script type="text/javascript" src='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ThisDomain","http://www.zamba.com.ar/zambastardoc") %>/ChatJs/Scripts/zambachat.min.js'></script>
+<%  } %>
+
+<script type="text/javascript">   
+                                var URLServer ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ChatURLServer","http://localhost/zamba.web/ZambaChat/") %>';
+                                var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
+                                var zCollServer ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
+
+
+                                $(document).ready(function () {
+//                                    if (loadChatZmb)
+                                        LoadChat(GetUID(), URLServer, "compact", "ZambaWeb", thisDomain, ZCollLnk, false, zCollServer, false);
+                                });
+</script>
+<%  } %>

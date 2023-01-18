@@ -1,0 +1,96 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+
+<form ng-submit="addSubmit()" class="form-horizontal" ng-controller="HelperAddController">
+
+
+    <div class="form-group frmSection">
+        <span class="spanSubTitle"> Identificacion de elemento </span>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="btn btn-primary btn-xs" ng-click="editApplications()">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </div>
+                <span class="spanSubTitle" style="display:inline-block;">Aplicacion</span>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" ng-disabled="Data.Applications().length == 0"
+                        ng-options="app.Id as app.Application for app in Data.Applications() track by app.Application"
+                        ng-change="LoadModule(Application)" ng-model="Application"></select>
+            </div>
+            <div class="col-md-2">
+                <div class="btn btn-primary btn-xs" ng-click="editModules(Application)" ng-show="Application != null">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </div>
+                <span class="spanSubTitle" style="display:inline-block;">Modulo</span>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" ng-disabled="Data.Modules().length == 0"
+                        ng-options="mod.Id as mod.Module for mod in Data.Modules() track by mod.Module"
+                        ng-change="LoadFunction(Module)" ng-model="Module"></select>
+            </div>
+            <div class="col-md-2">
+                <div class="btn btn-primary btn-xs" ng-click="editFunctions(Module)" ng-show="Module != null">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </div>
+                <span class="spanSubTitle" style="display:inline-block;"> Funcion </span>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" ng-disabled="Data.Functions().length == 0" ng-options="fun.Id as fun.Function for fun in Data.Functions() track by fun.Function"
+                        ng-model="Function"></select>
+            </div>
+        </div>
+        <div class="row" style="margin: 5px;">
+            <div class="col-md-1">
+                <span class="spanSubTitle"> Codigo </span>
+            </div>
+            <div class="col-md-2">
+                <input type="text" ng-model="Code" placeholder="Codigo" title="Codigo" class="form-control">
+            </div>
+            <div class="col-md-1">
+                <span class="spanSubTitle"> Titulo </span>
+            </div>
+            <div class="col-md-2">
+                <input type="text" ng-model="Title" placeholder="Titulo" title="Titulo" class="form-control">
+            </div>
+            <div class="col-md-1">
+                <span class="spanSubTitle"> Nombre </span>
+            </div>
+            <div class="col-md-2">
+                <input type="text" ng-model="Name" placeholder="Nombre" title="Nombre" class="form-control">
+            </div>
+            <div class="col-md-1">
+                <span class="spanSubTitle"> Tipo </span>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" ng-model="Type" ng-click="GetListOptions()">
+                    <option ng-repeat="type in Types" value="{{type.Id}}">{{type.Type}}</option>
+                </select>
+                <input type="checkbox" ng-model="ForAllUsers"> Contenido público
+            </div>           
+        </div>
+    </div>
+    <div id="createEditors">
+        <ul class="nav nav-tabs">
+            <li class="active" onclick="ChangeEditorView(this,'short');"><a href="#">Contenido breve</a></li>
+            <li onclick="ChangeEditorView(this,'full');"><a href="#">Contenido completo</a></li>
+        </ul>
+        <div>
+            <textarea id="ShortContent" ng-model="ShortContent"></textarea>
+        </div>
+        <div style="display:none;">
+            <textarea id="FullContent" ng-model="FullContent"></textarea>
+        </div>
+        <br />
+    </div>
+    <div class="form-group">
+        @Html.ActionLink("Volver", "Index", "Home", null, new { @class = "btn btn-default" })
+        <input type="submit" value="Crear" class="btn btn-success" />
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

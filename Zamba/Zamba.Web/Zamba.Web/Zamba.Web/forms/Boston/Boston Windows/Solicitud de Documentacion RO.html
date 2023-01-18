@@ -1,0 +1,145 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 26.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->       
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="stylesheet" href="Solicitud de Documentacion RO.css" type="text/css" /> -->
+    
+    
+    <style>
+
+        td,
+        th {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        div thead th {
+            color: White;
+            font-size: x-small;
+            font-family: arial;
+            background-color: #507CD1;
+        }
+
+        div tr td {
+            color: black;
+            font-family: arial;
+            font-size: x-small;
+            background-color: rgb(239, 243, 251);
+        }
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Solicitud de Documentacion RO.html">
+            <div style="font-family:'Times New Roman', Times, serif">
+                <div class="col-md-1"></div>
+
+                <div class="form-group row"></div>
+                <div class="form-group row"></div>
+
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+                <div id="tblDoc" class="attributes_table">
+                    <div class="form-group row">
+                        
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Tipo de Documentacion:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2728" name="zamba_index_2728" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Vencimiento:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2705" name="zamba_index_2705" disabled="disabled" />
+                            </div>
+                        </div>
+                                         
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Estudio:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2732" name="zamba_index_2732" disabled="disabled"></select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Ejecutivo:</span> 
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2735" name="zamba_index_2735" disabled="disabled"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row"></div>
+
+
+                <div class="form-group row">
+                    
+                    <div class="col-md-1">
+                        <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="input-group-addon" style="background-color:#e5e5e5">Observación:</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    
+                    <div class="col-md-12" style="position:relative;top:-20px">
+                        <textarea class="form-control input-sm" cols="1" rows="3" id="zamba_Index_64" name="zamba_Index_64" maxlength="4000"
+                                  onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled" style=" color: #090A0A; font-weight: bold"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="containerGrid">
+                            <div style="width: 100%;overflow: auto;" class="ZKGrid table tablesorter table-bordered" id="zamba_associated_documents_2523">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">Solicitud de Documentacion RO.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

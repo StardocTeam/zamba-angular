@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Fecha Creacion: 04.2022-->
+<!--Ultima Edicion: 16.05.2022 -->
+<!--Creado por: GR Se agrego el boton Cancelar y la regla 11367 y se renombro el boton envar por solicitar-->
+<!-- -->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />  
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Solicitud de Documentacion Ingreso.html">
+            <center>
+                <input id="hdnRuleId" type="hidden" />
+				<hr style="border: 0 ; border-top: 3px double blue; width: 100%;">
+				
+				<div class="form-group row"></div>
+				<div class="form-group row"></div>
+				               
+                <div id="tblSolicitudDocumentacion" >
+                    
+					<div class="form-group row">
+                        <div class="col-md-2"></div>
+						<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="padding: 3px; ">Tipo de Documentación Legales</span>                                								
+								<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" size="1" id="zamba_index_2728" name="zamba_index_2728"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Fecha de Vencimiento:</span>
+                                <input class="form-control input-sm datepicker input-sm" id="zamba_index_2705" name="zamba_index_2705"
+                                       style=" color: #090A0A; font-weight: bold" />
+                            </div>
+                        </div>
+					</div>
+					<div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="padding: 3px;">Detalle de la Solicitud:</span>
+                                <input class="form-control input-sm" id="zamba_index_2893" name="zamba_index_2893" 
+									   style=" color: #090A0A; font-weight: bold" />
+                            </div>
+                        </div>                        
+                    </div>                    
+				
+					
+					<div class="form-group row"></div>
+					
+					<div class="form-group row">
+						<div class="form-group row" style="margin-bottom: 40px;">
+															<center>
+									<div class="row">								
+										<span class="input-group-addon" style=""> Observaciones:</span>
+										<div class="col-md-2"></div>
+										<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+											<!--Area texto Observacion-->
+											<div id="appObservaciones" ng-controller="ObservacionController">
+												<zamba-observaciones index-id="64" entity-id="2537"></zamba-observaciones>
+											</div>
+										</div>
+									</div>
+								</center>
+							<!-- </div> -->
+						</div>
+					</div>		
+				</div>											               			
+				<div class="form-group row"></div>
+				<div class="form-group row">
+					<center>
+						<input class="btn  btn-primary" id="zamba_rule_11374" name="zamba_rule_11374" type="submit" value="Solicitar" onclick="SetRuleId(this);"/>
+						<input class="btn  btn-primary" id="zamba_rule_11367" name="zamba_rule_11367" type="submit" value="Cancelar" onclick="SetRuleId(this);"/>
+					</center>
+                </div>										
+			
+								
+				<div class="form-group row"></div>
+				<center>
+					<div class="form-group row">					
+						<div class="col-md-12">
+							<span style="color:whitesmoke">Solicitud de Documentacion Ingreso.html</span>
+						</div>                    
+					</div>
+				</center>
+			</center>
+        </form>
+    </div>
+</body>
+
+</html>

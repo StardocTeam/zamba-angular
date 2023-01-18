@@ -1,0 +1,341 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 04.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_97").value.trim() == "") {
+                alert("La Fecha de Ingreso es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_101").value.trim() == "") {
+                alert("La Prima es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_94").value.trim() == "") {
+                alert("El ejecutivo comercial es un dato obligatorio.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+                alert("Se guardó exitosamente.");
+                frmMain.submit();
+            }
+        }
+
+        function SetRuleId2(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function OcultarBotonSegunFlota() {
+            if ($("#zamba_index_109").val() == 'N') {
+                $('#zamba_rule_17473').css('display', 'none');
+            } else {
+                $('#zamba_rule_17473').css('display', 'block');
+                $("#zamba_index_109").css('float', 'left');
+            }
+        }
+
+        function OcultarTarifa() {
+            if ($("#zamba_index_32").val() == 4) {
+                $('#divpoliza').show();
+            } else {
+                $('#divpoliza').hide();
+            }
+        }
+
+        function FuncionesPosCargaDeReclamo() {
+            CargarFechasyBotones2();
+            OcultarTarifa();
+            if ($("#zamba_index_109").val() == 'N') {
+                $('#zamba_rule_17473').css('display', 'none');
+            }
+            if ($("#zamba_index_109").val() == 'S') {
+                $('#zamba_rule_17473').css('display', 'block');
+                $("#zamba_index_109").css('float', 'left');
+            }
+            SaltoLinea();
+        }
+
+        function SaltoLinea() {
+            var obs = document.getElementById('zamba_index_64').value;
+            var obs = obs.replace("]", "]\r");
+            var obs = obs.replace("\r\r", "\r");
+            document.getElementById('zamba_index_64').value = obs;
+        }
+
+        function CargarFechasyBotones2() {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+            $(".solodecimals").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+            $(".solodecimalsnegativos").each(function () {
+                $(this).keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && e.which != 46 && e.which != 45 && (e.which < 48 || e.which > 57)) {
+                        return false;
+                    }
+                })
+            });
+
+
+            if ($("#zamba_index_32").val() == null)
+                $("#zamba_index_32").val("0");
+
+            //$('#zamba_index_98').datepicker({
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    showOn: 'button',
+            //    buttonText: 'Abrir calendario',
+            //    buttonImage: 'calendar.png',
+            //    buttonImageOnly: true,
+            //    yearRange: '-100:+0',
+            //    duration: ""
+            //});
+
+            //$('#zamba_index_97').datepicker({
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    showOn: 'button',
+            //    buttonText: 'Abrir calendario',
+            //    buttonImage: 'calendar.png',
+            //    buttonImageOnly: true,
+            //    yearRange: '-100:+0',
+            //    duration: ""
+            //});
+        }
+        window.onload = function () {
+            setTimeout(function () { FuncionesPosCargaDeReclamo(); }, 50);
+        };
+    </script>
+
+</head>
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="CotizacionTecnica.html">
+
+            <input id="hdnRuleId" type="hidden" />
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Sección:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_32" name="zamba_index_32" onchange="OcultarTarifa();"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Prima Anual $</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_101" class="solodecimals" name="zamba_index_101" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5"></span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_105" name="zamba_index_105"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Fecha Ing. Técnica:</span>
+                        <input class="form-control  " style=" color: #090A0A; font-weight: bold" id="zamba_index_97" name="zamba_index_97" onblur="valFecha(this)" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Suscriptor:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_100" name="zamba_index_100"></select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Actividad:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_1178" name="zamba_index_1178" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5; padding:3px;">Flota:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_109" name="zamba_index_109" onchange="OcultarBotonSegunFlota()"></select>
+                        <span class="input-group-btn">
+                            <input class="btn  btn-primary btn-sm" id="zamba_rule_17473" name="zamba_rule_17473" type="submit" value="Cotizar Flota" onclick="SetRuleId2(this);" />
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5;">Tarifa Estandar:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_147" name="zamba_index_147"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Ajuste %</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_149" name="zamba_index_149" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Recargo %</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_150" name="zamba_index_150" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Comisión %</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_151" name="zamba_index_151" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Ejecutivo Comercial:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_94" name="zamba_index_94"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Asegurado:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_3" name="zamba_index_3" disabled="disabled" />
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Cod Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_4" name="zamba_index_4" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Productor:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_58" name="zamba_index_58" disabled="disabled" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Agencia:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_60" name="zamba_index_60" disabled="disabled"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Grupo:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_104" name="zamba_index_104" disabled="disabled"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Reaseguro:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_118" name="zamba_index_118"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Consulta Comercial:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_120" name="zamba_index_120"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Plazo Límite Cotización:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_98" name="zamba_index_98" onblur="valFecha(this)" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Agencia Cotizadora:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_111" name="zamba_index_111"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Tipo Movimiento:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_38" name="zamba_index_38" disabled="disabled"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Póliza:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_34" name="zamba_index_34" disabled="disabled" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-1">
+                    <input class="btn  btn-info btn-sm" id="zamba_rule_17463" name="zamba_rule_17463" type="submit" value="Agregar Observacion" onclick="SetRuleId2(this);" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Observación:</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <textarea cols="2" style="height: 60px" class="form-control" rows="3" id="zamba_Index_64" name="zamba_Index_64"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="zamba_save_onclick();" />
+            </center>
+
+            <div class="form-group row" style="height:100%">
+                <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                    <iframe id="zamba_innerdoctype_original" class="IframeClass MargenIframe" style="margin-top:30px; width:1820px; height:2500px" src="file://c:\users\bpm-1\appdata\roaming\zamba software\officetemp\5563011.html"></iframe>
+                </div>
+            </div>
+
+            <center>
+                <div class="col-md-2">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:whitesmoke">CotizacionTecnica.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </center>
+
+        </form>
+    </div>
+</body>
+</html>

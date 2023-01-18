@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DSDOCTYPE" targetNamespace="http://tempuri.org/DSDOCTYPE.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DSDOCTYPE.xsd" xmlns:mstns="http://tempuri.org/DSDOCTYPE.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DSDOCTYPE" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="DOC_TYPE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DOC_TYPE_NAME" type="xs:string" minOccurs="0" />
+							<xs:element name="FILE_FORMAT_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="DISK_GROUP_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="THUMBNAILS" type="xs:decimal" minOccurs="0" />
+							<xs:element name="ICON_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="OBJECT_TYPE_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="AUTONAME" type="xs:string" minOccurs="0" />
+							<xs:element name="DOCUMENTALID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="DOCCOUNT" type="xs:decimal" minOccurs="0" />
+							<xs:element name="DOC_TYPE_ID" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="DSDOCTYPEKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:DOC_TYPE" />
+			<xs:field xpath="mstns:DOC_TYPE_ID" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,11 @@
+CREATE PROCEDURE zsp_GetDocCountToIndex AS
+SELECT count(*) from ZI inner join doc_type on DTID = doc_type_id
+	where ZI.DocID not in 
+		(SELECT ResultId from ZSearchValues_DT)
+
+GO
+
+CREATE PROCEDURE zsp_GetDocIdAndDTIDtoIndex AS
+	SELECT ZI.DocId, ZI.DTID from ZI inner join doc_type on DTID = doc_type_id
+	where ZI.DocID not in 
+		(SELECT ResultId from ZSearchValues_DT)

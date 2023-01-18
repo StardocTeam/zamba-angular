@@ -1,0 +1,73 @@
+﻿<style>
+    .z-filter-select {
+        text-align: left !important;
+        width: 299px;
+    }
+
+    .z-input-filter {
+        margin-right: 5px;
+    }
+
+    .z-panel-separator {
+        border-bottom: 1px solid grey;
+    }
+
+    .z-input-title-filter {
+        margin-bottom: 9px !important;
+    }
+
+    /* Create two equal columns that floats next to each other */
+    .z-column-filters {
+        float: left !important;
+        width: 50% !important;
+        padding: 10px !important;
+    }
+
+    /* Clear floats after the columns */
+    .z-row-filters:after {
+        display: table;
+        clear: both;
+    }
+
+    .z-align-items-filtered {
+        margin-top: 9px;
+        margin-left: 17px;
+    }
+
+    .z-btn-clear-item-filter {
+        width: 10px !important;
+        border-radius: 50px !important;
+        padding-left: 6px !important;
+        padding-right: 17px !important;
+        padding-top: 4px !important;
+        left: 5px !important;
+    }
+
+    .z-operator-width {
+        max-width: 125px !important;
+        width: 125px !important;
+    }
+
+    .z-modal-content-height {
+        /* height: 648px;*/
+    }
+
+</style>
+<!-- FECHA CREACION Y MODIFICACION -->
+<div>
+    <div layout="row" layout-xs="column">
+        <div flex="">
+            <div class="col-xs-12" style="margin: 0;padding: 0;">
+                <select placeholder="Selecciona un filtro" class="btn btn-group-xs filter-select z-filter-select z-select-filter" ng-model="currentSelectedOption" ng-options="option.Name disable when option.disabled for option in optionsToChoose | orderBy:'Name' track by option.ID" ng-change="selectedOptionHasChanged()"></select>
+                <select class="btn btn-group-xs filter-select z-operator-filter" ng-model="currentSelectedOperator" ng-options="operator.Description for operator in operatorsToChoose" id="operatorSelectorZambaFilter" ng-change="selectedOperatorHasChanged()"></select>
+                <input ng-show="(currentSelectedOperator.value != 'Es nulo') && (currentSelectedOperator.value != 'No es Nulo')" ng-model="inputValues.alphaNumericInputValue" ng-if="!currentSelectedOption.isDate && currentSelectedOption.ID != -1" name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput z-input-filter z-select-filter" type="text" autocomplete="off" ng-keypress="searchDefaultFiltersByEnter($event)"/>
+                <input ng-show="(currentSelectedOperator.value != 'Es nulo') && (currentSelectedOperator.value != 'No es Nulo')" ng-model="inputValues.dateValue" id="zambaDateInputFilter" ng-if="currentSelectedOption.isDate && currentSelectedOption.ID != -1" name="srch-term" class="form-control form-control-sm inputAttrib activeIn2 activeIn datepicker z-input-filter z-select-filter" ng-focus="subscribeDatepicker('zambaDateInputFilter')" type="text" placeholder="DD/MM/AAAA" autocomplete="off" ng-keypress="searchDefaultFiltersByEnter($event)"/>
+                <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" ng-click="addDefaultZambaColumnFilter()">
+                    <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt"  title="Agregar">
+                        add
+                    </md-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

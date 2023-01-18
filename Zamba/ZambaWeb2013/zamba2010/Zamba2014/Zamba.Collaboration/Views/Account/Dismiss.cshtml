@@ -1,0 +1,41 @@
+﻿@model ChatJsMvcSample.Models.InvitationVM
+@{
+    ViewBag.Title = "Rechazar invitación";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Rechazar invitación</h2>
+
+<hr />
+@using (Html.BeginForm("Dismiss", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.InvitedUser.Id)
+    @Html.HiddenFor(x => x.InvitedUser.Company)
+    @Html.HiddenFor(x => x.InvitedUser.Email)
+    @Html.HiddenFor(x => x.InvitedUser.Avatar)
+    @Html.HiddenFor(x => x.ThisUser.Id)
+    @Html.HiddenFor(x => x.ThisUser.Name)
+    @Html.HiddenFor(x => x.ThisUser.Avatar)
+    @Html.HiddenFor(x => x.ThisUser.Email)
+    @Html.HiddenFor(x => x.ThisUser.Company)
+    @Html.HiddenFor(x => x.ThisUser.Password)
+    @Html.HiddenFor(x => x.ThisUser.RetryPassword)
+
+    <div>
+        <h4 style="display:inline">            
+                @Model.InvitedUser.Name para rechazar la invitación de
+            <b>
+                <img src="data:image;base64,@Model.InvitedUser.Avatar" style="border-radius: 50%;" width="40" height="40" />
+                @Model.InvitedUser.Name
+            </b>(@Model.InvitedUser.Email)
+        </h4>
+       
+        <h4 >Por favor haz click <input type="submit" value="Aquí" class="btnCreate btn btn-xl" /></h4>
+    </div>
+
+    <span>Se enviará una notificación por mail a @Model.ThisUser.Name (@Model.ThisUser.Email) </span>
+    <hr />
+    @Html.ActionLink("Volver", "Index", "Home")
+    
+}

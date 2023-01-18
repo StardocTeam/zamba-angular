@@ -1,0 +1,65 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Zamba.Core;
+
+public partial class LogIn : System.Web.UI.Page
+{
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            this.Title = "Autenticación";
+        }
+        catch(Exception ex)
+        {
+            ZClass.raiseerror(ex);
+        }
+    }
+
+    protected void Logon_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (IsUserValid())
+            {
+                Session["UserId"] = Zamba.Core.UserBusiness.GetUserID(txtUserName.Text.Trim());
+                FormsAuthentication.RedirectFromLoginPage(txtUserName.Text, chkPersist.Checked);
+            }
+            else
+                Msg.Text = "Usuario o Contraseña incorrectos. Ingrésela nuevamente";
+        }
+        catch (Exception ex)
+        {
+            Msg.Text = ex.ToString();
+        }
+    }
+
+    private Boolean IsUserValid()
+    {
+        Boolean IsValidUser = true;
+
+        //Aqui se hacen todas las llamadas pertinentes para
+        //validar el usuario y se setea el booleano IsValidUser
+        try
+        {
+            if (Zamba.Data.UserFactory.validateUser(txtUserName.Text, txtUserPass.Text) == null)
+                IsValidUser = false;
+            else
+                IsValidUser = true;
+        }
+        catch (Exception ex)
+        {
+            ZClass.raiseerror(ex);
+        }
+        return IsValidUser;
+    }
+}

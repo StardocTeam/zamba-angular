@@ -1,0 +1,239 @@
+Public Class ics
+#Region "vCalendar Class"
+    Public Events As vEvents
+
+    Public Overrides Function ToString() As String
+        Dim result As New System.Text.StringBuilder()
+        result.AppendFormat("BEGIN:VCALENDAR{0}", Environment.NewLine)
+        'The following two lines seem to be required by Outlook to get the alarm settings
+        result.AppendFormat("VERSION:2.0{0}", Environment.NewLine)
+        result.AppendFormat("METHOD:PUBLISH{0}", Environment.NewLine)
+        Dim item As vEvent
+        For Each item In Events
+            result.Append(item.ToString())
+        Next
+        result.AppendFormat("END:VCALENDAR{0}", Environment.NewLine)
+        Return result.ToString
+    End Function
+
+    Public Sub New(ByVal Value As vEvent)
+        Events = New vEvents()
+        Events.Add(Value)
+    End Sub
+
+    Public Sub New()
+        Events = New vEvents()
+    End Sub
+#End Region
+
+#Region "vAlarm Class"
+    Public Class vAlarm
+        Public Trigger As TimeSpan      'Amount of time before event to display alarm
+        Public Action As String      'Action to take to notify user of alarm
+        Public Description As String          'Description of the alarm
+
+        Public Sub New()
+            Trigger = TimeSpan.FromDays(1)
+            Action = "DISPLAY"
+            Description = "Reminder"
+        End Sub
+
+        Public Sub New(ByVal SetTrigger As TimeSpan)
+            Trigger = SetTrigger
+            Action = "DISPLAY"
+            Description = "Reminder"
+        End Sub
+
+        Public Sub New(ByVal SetTrigger As TimeSpan, ByVal SetAction As String, ByVal SetDescription As String)
+            Trigger = SetTrigger
+            Action = SetAction
+            Description = SetDescription
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Dim result As New System.Text.StringBuilder()
+            result.AppendFormat("BEGIN:VALARM{0}", Environment.NewLine)
+            result.AppendFormat("TRIGGER:P{0}DT{1}H{2}M{3}", Trigger.Days, Trigger.Hours, Trigger.Minutes, Environment.NewLine)
+            result.AppendFormat("ACTION:{0}{1}", Action, Environment.NewLine)
+            result.AppendFormat("DESCRIPTION:{0}{1}", Description, Environment.NewLine)
+            result.AppendFormat("END:VALARM{0}", Environment.NewLine)
+            Return result.ToString
+        End Function
+    End Class
+#End Region
+
+#Region "vEvent Class"
+    Public Class vEvent
+        Public UID As String          'Unique identifier for the event
+        Public DTStart As Date      'Start date of event.  Will be automatically converted to GMT
+        Public DTEnd As Date         'End date of event.  Will be automatically converted to GMT
+        Public DTStamp As Date      'Timestamp.  Will be automatically converted to GMT
+        Public Summary As String          'Summary/Subject of event
+        Public Organizer As String      'Can be mailto: url or just a name
+        Public Location As String
+        Public Description As String
+        Public Attendee() As String
+        Public URL As String
+        Public Alarms As vAlarms        'Alarms needed for this event
+        Public AllDayEvent As Boolean
+
+        Public Function ToString_Backup() As String
+
+            Dim result As New System.Text.StringBuilder()
+
+            result.AppendFormat("BEGIN:VEVENT{0}", Environment.NewLine)
+            result.AppendFormat("UID:{0}{1}", UID, Environment.NewLine)
+
+            For Each att As String In Attendee
+                result.AppendFormat("ATTENDEE;CN=""{0}"";RSVP=TRUE:mailto:{0}{1}", att, Environment.NewLine)
+            Next
+
+            result.AppendFormat("SUMMARY:{0}{1}", Summary, Environment.NewLine)
+            result.AppendFormat("ORGANIZER:{0}{1}", Organizer, Environment.NewLine)
+            result.AppendFormat("LOCATION:{0}{1}", Location, Environment.NewLine)
+
+            If AllDayEvent Then
+                result.AppendFormat("DTSTART;VALUE=DATE:{0}{1}", DTStart.ToUniversalTime.ToString("yyyyMMdd"), Environment.NewLine)
+                result.AppendFormat("DTEND;VALUE=DATE:{0}{1}", DTEnd.AddDays(1).ToUniversalTime.ToString("yyyyMMdd"), Environment.NewLine)
+            Else
+                result.AppendFormat("DTSTART:{0}{1}", DTStart.ToUniversalTime.ToString("yyyyMMdd\THHmmss\Z"), Environment.NewLine)
+                result.AppendFormat("DTEND:{0}{1}", DTEnd.ToUniversalTime.ToString("yyyyMMdd\THHmmss\Z"), Environment.NewLine)
+            End If
+
+            result.AppendFormat("DTSTAMP:{0}{1}", Now.ToUniversalTime.ToString("yyyyMMdd\THHmmss\Z"), Environment.NewLine)
+            result.AppendFormat("DESCRIPTION:{0}{1}", Description, Environment.NewLine)
+
+            If AllDayEvent Then
+                result.AppendFormat("TRANSP:TRANSPARENT{0}", Environment.NewLine)
+                result.AppendFormat("X-MICROSOFT-CDO-BUSYSTATUS:FREE{0}", Environment.NewLine)
+            Else
+                result.AppendFormat("TRANSP:OPAQUE{0}", Environment.NewLine)
+                result.AppendFormat("X-MICROSOFT-CDO-BUSYSTATUS:BUSY{0}", Environment.NewLine)
+            End If
+
+            result.AppendFormat("X-MICROSOFT-CDO-IMPORTANCE:1{0}", Environment.NewLine)
+            result.AppendFormat("X-MICROSOFT-DISALLOW-COUNTER:FALSE{0}", Environment.NewLine)
+            result.AppendFormat("X-MS-OLK-ALLOWEXTERNCHECK:TRUE{0}", Environment.NewLine)
+            result.AppendFormat("X-MS-OLK-CONFTYPE:0{0}", Environment.NewLine)
+
+            If Not String.IsNullOrEmpty(URL) Then
+                If URL.Length > 0 Then result.AppendFormat("URL:{0}{1}", URL, Environment.NewLine)
+            End If
+
+            Dim item As vAlarm
+            For Each item In Alarms
+                result.Append(item.ToString())
+            Next
+            result.AppendFormat("END:VEVENT{0}", Environment.NewLine)
+            Return result.ToString
+        End Function
+
+        Public Overrides Function ToString() As String
+
+            Dim result As New System.Text.StringBuilder()
+
+            result.AppendFormat("BEGIN:VEVENT{0}", Environment.NewLine)
+
+            For Each att As String In Attendee
+                result.AppendFormat("ATTENDEE;CN=""{0}"";RSVP=TRUE:mailto:{0}{1}", att, Environment.NewLine)
+            Next
+
+            result.AppendFormat("ORGANIZER:{0}{1}", Organizer, Environment.NewLine)
+
+            If AllDayEvent Then
+                result.AppendFormat("DTSTART;VALUE=DATE:{0}{1}", DTStart.ToUniversalTime.ToString("yyyyMMdd"), Environment.NewLine)
+                result.AppendFormat("DTEND;VALUE=DATE:{0}{1}", DTEnd.AddDays(1).ToUniversalTime.ToString("yyyyMMdd"), Environment.NewLine)
+            Else
+                result.AppendFormat("DTSTART:{0}{1}", DTStart.ToUniversalTime.ToString("yyyyMMdd\THHmmss\Z"), Environment.NewLine)
+                result.AppendFormat("DTEND:{0}{1}", DTEnd.ToUniversalTime.ToString("yyyyMMdd\THHmmss\Z"), Environment.NewLine)
+            End If
+
+            result.AppendFormat("LOCATION:{0}{1}", Location, Environment.NewLine)
+            result.AppendFormat("TRANSP:OPAQUE{0}", Environment.NewLine)
+            result.AppendFormat("SEQUENCE:0{0}", Environment.NewLine)
+            result.AppendFormat("UID:{0}{1}", UID, Environment.NewLine)
+            result.AppendFormat("DTSTAMP:{0}{1}", Now.ToUniversalTime.ToString("yyyyMMdd\THHmmss\Z"), Environment.NewLine)
+            result.AppendFormat("SUMMARY:{0}{1}", Summary, Environment.NewLine)
+            result.AppendFormat("DESCRIPTION:{0}{1}", Description, Environment.NewLine)
+
+            result.AppendFormat("X-MICROSOFT-CDO-BUSYSTATUS:BUSY{0}", Environment.NewLine)
+            result.AppendFormat("X-MICROSOFT-CDO-IMPORTANCE:1{0}", Environment.NewLine)
+
+            If Not String.IsNullOrEmpty(URL) Then
+                If URL.Length > 0 Then result.AppendFormat("URL:{0}{1}", URL, Environment.NewLine)
+            End If
+
+            For Each item As vAlarm In Alarms
+                result.Append(item.ToString())
+            Next
+
+            result.AppendFormat("END:VEVENT{0}", Environment.NewLine)
+
+            Return result.ToString
+        End Function
+
+        Public Sub New()
+            Alarms = New vAlarms()
+        End Sub
+    End Class
+#End Region
+
+#Region "vAlarms Class"
+    Public Class vAlarms
+        ' The first thing to do when building a CollectionBase class is to inherit from System.Collections.CollectionBase
+        Inherits System.Collections.CollectionBase
+
+        Public Overloads Function Add(ByVal Value As vAlarm) As vAlarm
+            ' After you inherit the CollectionBase class, you can access an intrinsic object
+            ' called InnerList that represents your collection. InnerList is of type ArrayList.
+            InnerList.Add(Value)
+            Return Value
+        End Function
+
+        Public Overloads Function Item(ByVal Index As Integer) As vAlarm
+            ' To retrieve an item from the InnerList, pass the index of that item to the .Item property.
+            Return CType(InnerList.Item(Index), vAlarm)
+        End Function
+
+        Public Overloads Sub Remove(ByVal Index As Integer)
+            ' This Remove expects an index.
+            Dim cust As vAlarm
+
+            cust = CType(InnerList.Item(Index), vAlarm)
+            If Not cust Is Nothing Then
+                InnerList.Remove(cust)
+            End If
+        End Sub
+
+    End Class
+#End Region
+
+#Region "vEvents Class"
+    Public Class vEvents
+        ' The first thing to do when building a CollectionBase class is to inherit from System.Collections.CollectionBase
+        Inherits System.Collections.CollectionBase
+
+        Public Overloads Function Add(ByVal Value As vEvent) As vEvent
+            ' After you inherit the CollectionBase class, you can access an intrinsic object
+            ' called InnerList that represents your collection. InnerList is of type ArrayList.
+            InnerList.Add(Value)
+            Return Value
+        End Function
+
+        Public Overloads Function Item(ByVal Index As Integer) As vEvent
+            ' To retrieve an item from the InnerList, pass the index of that item to the .Item property.
+            Return CType(InnerList.Item(Index), vEvent)
+        End Function
+
+        Public Overloads Sub Remove(ByVal Index As Integer)
+            ' This Remove expects an index.
+            Dim cust As vEvent
+
+            cust = CType(InnerList.Item(Index), vEvent)
+            If Not cust Is Nothing Then
+                InnerList.Remove(cust)
+            End If
+        End Sub
+    End Class
+#End Region
+End Class

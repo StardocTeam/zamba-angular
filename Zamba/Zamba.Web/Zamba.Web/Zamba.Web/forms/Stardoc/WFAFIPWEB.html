@@ -1,0 +1,416 @@
+<html>
+     <head>
+     	<script type="text/javascript" language="JavaScript">
+	
+
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			
+	   
+
+			function zamba_save_onclick(){
+			
+			$("#hdnRuleId").name = "zamba_rule_save";
+
+			}
+
+	    $(document).ready(function() {
+	   
+	    });
+	    
+	    function formatTime(id)
+			{
+				$('#' + id).val($('#zamba_index' + id).val());
+			
+				var ctrl = $('#' + id);						
+				var time = ctrl.val().replace(":", "");
+				
+				var h = time.substring(0, time.length - 2);					
+				var m = time.substring(time.length - 2, time.length);
+				
+				if (h != "" || m != "")
+					ctrl.val(h + ":" + m);
+					
+				if ($('#zamba_index' + id).val() == 0)
+					ctrl.val("00" + ":" + "00");					
+					
+				if (h > 23 || m > 59)
+					ctrl.addClass("error");
+				else
+					ctrl.removeClass("error");
+			}
+			
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt.length == 1) txt = "0" + txt;
+				
+				return txt;
+			}
+
+			function zamba_save_onclick()
+			{	
+				if ($('#zamba_index_33731').val() == '')
+				{
+					alert("Ingrese la Fecha de Factura");
+					$('#_33731').focus();
+					return false;
+				}
+
+				try
+				{
+				
+				var currentTime = new Date();
+				var date_user = dateToString($('#zamba_index_33731').value);	
+				var date_actual = dateToString(currentTime.getDate() + "/" + (currentTime.getMonth() + 1) + "/" + currentTime.getFullYear());
+
+				if(parseInt(date_user) > parseInt(date_actual))
+				{
+					alert("La fecha de la factura debe ser menor o igual a la fecha de hoy.");
+					$('#zamba_index_33731').focus();
+					return false;
+				}
+				
+				}
+                catch(Err)
+				{
+					alert("La fecha de la factura debe ser menor o igual a la fecha de hoy.");
+					return false;
+
+				}
+				
+				if ($('#zamba_index_33729').val() == '')
+				{
+					alert("Ingrese el concepto");
+					$('#_33729').focus();
+					return false;
+				}
+
+				if ($('#zamba_index_33732').val() == '')
+				{
+					alert("Ingrese el beneficiario");
+					$('#_33732').focus();
+					return false;
+				}
+				
+				if ($('#zamba_index_33730').val() == '')
+				{
+					alert("Ingrese el Nro de Factura");
+					$('#_33730').focus();
+					return false;
+				}
+
+				if ($('#zamba_index_26206').val() == '')
+				{
+					alert("Ingrese el Importe");
+				
+					return false;
+				}
+				
+				if ($("#zamba_index_26206").value <= 0){
+					alert("Verifique que el importe sea mayor a cero.");
+						$('#_26206').focus();
+						return false;
+				}
+				
+				return true;	
+			}
+			
+			//AFIP Functions
+			var WSAFIP = "https://soa.afip.gob.ar/sr-padron/v2/persona/";
+			var URLCuil = "https://soa.afip.gob.ar/sr-padron/v2/personas/"
+
+			function camelCaseToTitleCase(camelCase) {
+			    if (camelCase == null || camelCase == "") {
+			        return camelCase;
+			    }
+
+			    camelCase = camelCase.trim();
+			    var newText = "";
+			    for (var i = 0; i < camelCase.length; i++) {
+			        if (/[A-Z]/.test(camelCase[i])
+                        && i != 0
+                        && /[a-z]/.test(camelCase[i - 1])) {
+			            newText += " ";
+			        }
+			        if (i == 0 && /[a-z]/.test(camelCase[i])) {
+			            newText += camelCase[i].toUpperCase();
+			        } else {
+			            newText += camelCase[i];
+			        }
+			    }
+
+			    return newText;
+			}
+
+			function CreateAfipTable(json) {
+
+			    var _table_ = document.createElement('table'),
+                    _tr_ = document.createElement('tr'),
+                    _th_ = document.createElement('th'),
+                    _td_ = document.createElement('td');
+			    // Builds the HTML Table out of myList json data from Ivy restful service.
+			    function buildHtmlTable(arr) {
+			        var table = _table_.cloneNode(false),
+                        columns = addAllColumnHeaders(arr, table);
+			        for (var i = 0, maxi = arr.length; i < maxi; ++i) {
+			            var tr = _tr_.cloneNode(false);
+			            for (var j = 0, maxj = columns.length; j < maxj ; ++j) {
+			                var td = _td_.cloneNode(false);
+			                cellValue = arr[i][columns[j]];
+			                var data = arr[i][columns[j]];
+			                if (typeof (data) == "object") {
+			                    data = objToString(data);
+			                }
+			                td.appendChild(document.createTextNode(data || ''));
+			                tr.appendChild(td);
+			            }
+			            table.appendChild(tr);
+			        }
+
+
+			        return table;
+			    }
+
+
+			    function addAllColumnHeadersVertical(arr, table) {
+			        var columnSet = [],
+                            tr = _tr_.cloneNode(false);
+			        columnSet.push('Nombre');
+			        columnSet.push('Valor');
+
+			        var th = _th_.cloneNode(false);
+			        th.appendChild(document.createTextNode('Nombre'));
+			        tr.appendChild(th);
+
+			        var th = _th_.cloneNode(false);
+			        th.appendChild(document.createTextNode('Valor'));
+			        tr.appendChild(th);
+
+			        table.appendChild(tr);
+
+			        return columnSet;
+			    }
+
+			    function buildHtmlTableVertical(arr) {
+			        var table = _table_.cloneNode(false),
+                          columns = addAllColumnHeadersVertical(arr, table);
+
+			        var obj = arr[0];
+
+			        for (x in obj) {
+			            var tr = _tr_.cloneNode(false);
+
+			            var td = _td_.cloneNode(false);
+			            td.appendChild(document.createTextNode(x || ''));
+			            tr.appendChild(td);
+
+			            var td = _td_.cloneNode(false);
+			            var data = obj[x];
+			            if (typeof (data) == "object") {
+			                data = objToString(data);
+			            }
+			            td.appendChild(document.createTextNode(data || ''));
+			            tr.appendChild(td);
+
+			            table.appendChild(tr);
+			        }
+
+
+			        return table;
+			    }
+
+			    function objToString(obj) {
+			        var str = '';
+			        for (var p in obj) {
+			            if (obj.hasOwnProperty(p)) {
+			                str += camelCaseToTitleCase(p) + ': ' + obj[p] + '\n';
+			            }
+			        }
+			        return str;
+			    }
+			    // Adds a header row to the table and returns the set of columns.
+			    // Need to do union of keys from all records as some records may not contain
+			    // all records
+			    function addAllColumnHeaders(arr, table) {
+			        var columnSet = [],
+                        tr = _tr_.cloneNode(false);
+			        for (var i = 0, l = arr.length; i < l; i++) {
+			            for (var key in arr[i]) {
+			                if (arr[i].hasOwnProperty(key) && columnSet.indexOf(key) === -1) {
+			                    columnSet.push(key);
+			                    var th = _th_.cloneNode(false);
+			                    key = camelCaseToTitleCase(key);
+			                    th.appendChild(document.createTextNode(key));
+			                    tr.appendChild(th);
+			                }
+			            }
+			        }
+			        table.appendChild(tr);
+			        return columnSet;
+			    }
+
+
+			    var data = new Object(JSON.parse(json).data);
+			    var d = new Array();
+			    d.push(data);
+			    document.body.appendChild(buildHtmlTableVertical(d));
+
+			    var c = $("#testmm");
+			    c.html('');
+			    c.append(buildHtmlTableVertical(d))
+			    $("#testmm > table > tr").eq(0).children().css({
+			        "background-color": "#009de0  !important",
+			        "border-right": "1px solid white",
+			        "color": "white"
+			    });
+			    $("#testmm > table > tr ").children().css("border", "1px solid #cccccc")
+
+
+			}
+
+
+			
+
+			function DoAFIPSearch() {
+
+			    var $dni = $("#zamba_index_1407");
+			    var $cuit = $("#zamba_index_1278");
+			    if (!$cuit.length || isNaN($cuit.val())) {
+			        alert("Por favor complete el campo CUIT con un valor numerico");
+			    }
+			    else {
+			        function createCORSRequest(method, url) {
+			            var xhr = new XMLHttpRequest();
+			            if ("withCredentials" in xhr) {
+			                xhr.open(method, url, true);
+			            } else if (typeof XDomainRequest != "undefined") {
+			                xhr = new XDomainRequest();
+			                xhr.open(method, url);
+			            } else {
+			                xhr = null;
+			            }
+			            return xhr;
+			        }
+
+			        if ($cuit.val() == "" && $dni.val() != "") {
+			            var cuil = "";
+
+			            if (!$dni.length || isNaN($dni.val())) {
+			                alert("Por favor complete el campo Dni con un valor numerico");
+			            }
+
+			            $.ajax({
+			                url: 'https://soa.afip.gob.ar/sr-padron/v2/personas/' + $dni.val() + '?format=json',
+			                dataType: 'JSON',
+			                crossDomain: true,
+			                success: function (response) {
+			                    
+			                    cuil = response.data[0];
+			                    $("#zamba_index_1278").val(cuil);
+			                    var request = createCORSRequest("get", WSAFIP + cuil);
+
+			                    request.onload = function () {
+			                        CreateAfipTable(this.response);
+			                        var info = JSON.parse((this.response)).data;
+			                    };
+			                    //  request.onreadystatechange = handler;
+			                    request.send();
+
+			                }
+			            })
+
+			        }
+			        else {
+			            var request = createCORSRequest("get", WSAFIP + $cuit.val());
+			            if (request) {
+			                request.onload = function () {
+			                    CreateAfipTable(this.response);
+			                    var info = JSON.parse((this.response)).data;
+			                };
+			                //  request.onreadystatechange = handler;
+			                request.send();
+			            }
+			        }
+			    }
+			}
+            
+        
+			
+	</script>
+	
+      </head>
+     <body>
+   <style>
+
+        .labelColor{
+
+            color:darkgray;
+        }
+    
+   </style>
+	 <form name=frmMain id=33303 >
+	 
+	 
+
+		 	  <div class="row" name="design" id="design">
+                  <h3 class="col-xs-12 " style="color:#adadad;margin-top:25px;border:1px solid #e7e7e7;">WF Afip</h3>
+			</div>
+        <div class="row">
+            <div id="table1" class="col-xs-6 col-xs-offset-3">
+
+                <label  style="color:#797878">CUIT</label>
+                <input type="text" class="form-control col-xs-3" id="zamba_index_1278" name="CUIT" value="20351750589" />
+                <br />
+
+                <label   style="color:#797878">DNI</label>
+
+                <input class="form-control col-xs-3" type="text" id="zamba_index_1407" name="DNI" />
+                <br />
+                <label   style="color:#797878">Fecha Desde</label>
+
+                <input type="text" class="form-control col-xs-3" id="zamba_index_1408" name="Fecha desde" />
+                <br />
+                <label   style="color:#797878">Fecha Hasta</label>
+
+                <input type="text" class="form-control col-xs-3" id="zamba_index_1409" name="Fecha Hasta" />
+                <br />
+                <label style="color:#797878">URL</label>
+
+                <input type="text" class="form-control col-xs-3" id="zamba_index_1410" name="URL" />
+
+            </div>
+        </div>
+
+               <div class="row" >
+                  <div class="col-xs-12 col-xs-offset-5" style="margin-top:10px;">
+                       <input id="zamba_save" class="btn" type="submit" value="Guardar" name="zamba_save" onclick="return zamba_save_onclick()" />
+
+                        <input id="zamba_cancel" class="btn" type="submit" value="Cancelar" name="zamba_cancel" />
+
+                        <input id="zamba_consult" class="btn" type="button" value="Consultar" name="zamba_consult" onclick="DoAFIPSearch();" />
+                  </div>                               
+               </div>
+
+         </form>
+     </body></html>
+

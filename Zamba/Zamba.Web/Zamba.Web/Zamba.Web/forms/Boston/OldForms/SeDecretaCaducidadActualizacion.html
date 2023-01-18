@@ -1,0 +1,256 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    return DecimalCheck($('#' + e.target.id))
+                })
+            });
+        });
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2844").value == "") {
+                alert("Verifique que la fecha se encuentre completa.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_2809").value == "" || document.getElementById("zamba_index_2809").value == "0") {
+                alert("Verifique que el monto debe encontrarse completo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                ;
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        /*
+        function zamba_save_onclick(sender) {
+        if (document.getElementById("zamba_index_2844").value == ""){
+        alert("Verifique que la fecha se encuentre completa.");
+        //document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+        document.getElementById("hdnRuleId").name = sender.id;
+        } else if (document.getElementById("zamba_index_2809").value == "" || document.getElementById("zamba_index_2809").value == "0"){
+        alert("Verifique que el monto debe encontrarse completo.");
+        //document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+        document.getElementById("hdnRuleId").name = sender.id;
+        } else if($('input[type=text]').hasClass('error')){
+        alert("Verifique que todos los datos de los campos sean válidos");
+        //document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+        document.getElementById("hdnRuleId").name = sender.id;
+        } else {;
+        //document.getElementById("hdnRuleId").name = "zamba_rule_save";
+        alert("Se guardó de manera exitosa");
+        document.getElementById("hdnRuleId").name = sender.id;
+        frmMain.submit();
+        }
+        }
+        */
+
+        function CargarFechasyBotones() {
+            $(function () {
+                CargarFechaIndice('zamba_index_2844');
+            });
+        }
+    </script>
+
+    <style type="text/css">
+
+
+
+        #navbarNavDropdown {
+            list-style: none;
+        }
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+
+        #zamba_innerdoctype_original {
+            height: 500px;
+            width: 98%;
+        }
+
+        .buttonSelectionUl {
+            list-style-type: none;
+            margin: 2%;
+        }
+
+        ul.buttonSelectionUl > li input {
+            font-size: 10px;
+        }
+
+        .center {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+
+        .centerLastInput {
+            margin-left: 30%;
+            width: 80%;
+            padding: 10px;
+        }
+
+        /*input:disabled {
+            color: #090A0A;
+            font-weight: bold;
+        }*/
+
+        .formTabs {
+            font-size: 15px;
+        }
+
+        .maginBetweenInputs {
+            padding-top: 10px;
+        }
+
+        .marginlabel2 {
+            position: relative;
+            left: 100px;
+        }
+
+        .BTS1 {
+            position: relative;
+            top: -25px;
+        }
+
+        .BTS2 {
+            position: relative;
+            left: -70px;
+            position: relative;
+            top: -10px;
+        }
+
+        .marginlabel1 {
+            position: relative;
+            top: -50px;
+        }
+
+        .Grillaposition1 {
+            position: relative;
+            top: 45px;
+        }
+
+        .BTS3 {
+            position: relative;
+            left: 100px;
+            position: relative;
+            top: 25px;
+        }
+
+        .Grillaposition2 {
+            position: relative;
+            top: -10px;
+        }
+
+        .Visualizador1 {
+            position: relative;
+            top: 20px;
+        }
+
+        .textArea1 {
+            height: 70px;
+        }
+
+        .strong {
+            font-weight: 900
+        }
+
+        .smoke {
+            background-color: #e5e5e5
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="SeDecretaCaducidad.html">
+            <div style="font-family:'Times New Roman', Times, serif">
+                <div class="col-md-1"></div>
+
+                <div class="form-group row"></div>
+                <input id="hdnRuleId" type="hidden" />
+
+                <div id="tblOferta" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de Caducidad:</span>
+                                <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2844" name="zamba_index_2844" onblur="valFecha(this)">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Copia:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2810" size="1" name="zamba_index_2810"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Monto $:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2809" name="zamba_index_2809" class="moneda">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Copia Allanamiento:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2811" size="1" name="zamba_index_2811"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de Actualizacion:</span>
+                                <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2838" name="zamba_index_2838" class="moneda">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="tblObervaciones" class="attributes_table">
+                        <div class="form-group row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-1">
+                                <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+<textarea class="form-control input-sm" cols="1" rows="3" id="zamba_Index_64" name="zamba_Index_64" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">  </div>
+                    <center>
+                       
+                                <input class="btn  btn-primary btn-sm" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick();">
+                                <!--<input class="btn  btn-primary" id="zamba_rule_16519" name="zamba_rule_16519" type="submit" value="Guardar" onclick="return zamba_save_onclick(this);">-->
+                           
+                     
+
+                    </center>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</body>
+</html>

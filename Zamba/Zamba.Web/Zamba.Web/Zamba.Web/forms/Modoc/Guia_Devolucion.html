@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <title></title>
+   
+</head>
+
+<body>
+    <form name="frmMain" action="Guia_Devolucion.html">
+        <center>
+            <div  >
+                <div ng-controller="appController">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <center>
+                            <div class="tab-pane active" id="Guia de Devolucion">
+                                <div class="form-group row">
+                                    <div class="form-group row">
+                                        <strong>
+                                            Guia de Devolucion
+                                        </strong>
+
+                                    </div>
+                                    <div class="PanelPrincipal">
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--CUIT-->                                     		<span class="input-group-addon">Referencia Guia</span>
+                                                    <input id="zamba_index_54" name="zamba_index_54" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Razon Social-->                                    		<span class="input-group-addon">N° Guia Devolucion</span>
+                                                    <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Domicilio-->                                        		<span class="input-group-addon">N° de Despacho</span>
+                                                    <input id="zamba_index_227" name="zamba_index_227" size="1" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding:0px">
+                                                <div class="col-xs-6" style="position:relative; bottom:15px">
+                                                    <!--Motivo-->
+                                                    <h5 class="input-sm">Motivo de Devolucion:</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding:0px;">
+                                                <div class="col-xs-6" style="position:relative; bottom:35px">
+                                                    <!--Area texto-->
+                                                    <textarea cols="1" class="form-control" rows="6" id="zamba_Index_100534" name="zamba_Index_100534"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--<div class="form-group row">
+                                    <div class="col-md-9">
+                                        <div class="input-group">
+                                            Motivo                                  		<span class="input-group-addon">Motivo de Devolucion</span>
+                                            <input id="zamba_index_53" name="zamba_index_53" size="1" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    Recepcion                                             		<span class="input-group-addon"> Recepción:</span>
+                                                    <input id="zamba_index_4" name="zamba_index_4" class="form-control input-sm dateTimeToday" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <!--<div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+
+                                                    <div class="col-md-4" style="position:relative;left:-90px;">
+                                                        Botones FORM
+                                                        <input name="zamba_rule_104" id="zamba_rule_104" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Imprimir">
+                                                        <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                        <div class="row">
+                                            <center>
+                                                <div class="col-md-2" style="position:relative;left:10px;">
+                                                    <img alt="" src="images/logo_modoc.png" height="45" width="85" style="float: left" />
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                    <div class="form-group row">
+                                                    </div>
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </form>
+</body>
+</html>
+
+<style>
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        padding-right: 12px;
+        border-right-width: 1px;
+        margin-top: 30px;
+    }
+</style>

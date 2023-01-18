@@ -1,0 +1,1345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl00_Head2">
+    <title>Aysa - Zamba Software - Reporte de Industria <<Tarea>>.<<Atributo(Codificacion de la Industria)>> - <<Tarea>>.<<Atributo(Razon Social)>></title>    
+	<link rel="stylesheet" type="text/css" href="../../forms/AysaDiseno/Aysa_styles_table.css" media="screen" media="all" />
+    <style type="text/css">
+        /*header*/
+        .inputPlainText
+        {
+            text-align: right;
+            border: 0px white;
+        }
+        /*-------------------------------------------*/
+        /*section style*/
+        .sectionHeaderA
+        {
+            background-color: rgb(230,230,230);
+            border: 1px solid #778;
+            color: #0e2b8d;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: normal;
+            margin-left: 3px;
+            padding-bottom: 3px;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+            padding-top: 3px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .sectionHeaderUl
+        {
+            border-bottom: 1px solid #778;
+            color: #333;
+            padding-bottom: 3px;
+            padding-top: 3px;
+            margin: 0px;
+        }
+        .sectionHeaderLi
+        {
+            display: inline;
+            list-style-type: none;
+        }
+        
+        .section
+        {
+            border-bottom: 1px solid #aaa;
+            border-top: 0px none #aaa;
+            border-left: 1px solid #aaa;
+            border-right: 1px solid #aaa;
+        }
+        /*-------------------------------------------*/
+        .generalInfLabels
+        {
+            width: 100px;
+        }
+        .generalInfFields
+        {
+            width: 270px;
+        }
+        .activityLabels
+        {
+            width: 100px;
+        }
+        .activityFields
+        {
+            width: 270px;
+        }
+		
+		/*------------------------------tables-------------------------*/
+		.tablesorter {
+			font-family:arial;
+			background-color: #CDCDCD;
+			margin:10px 0pt 15px;
+			font-size: 8pt;
+			text-align: left;
+		}
+		.tablesorter tr th {
+			background-color: #DDDDEE;
+			border: 1px solid #FFF;
+			font-size: 8pt;
+			padding: 3px;
+		}
+        
+		.tablesorter  td {
+			color: #3D3D3D;
+			padding: 3px;
+			vertical-align: top;
+			font-size: 8pt;
+			border: 1px solid #FFF;
+		}
+		.tablesorter  tr td {
+			background-color:#F0F0F6;
+		}
+		
+		
+		/*---------------------------------General------------------------*/
+		body, label, input, select, textarea, td, th, button
+		{
+			font-family: Verdana;
+			font-size: 11px;
+			color: #333;	
+			cursor:default;
+		}
+		
+		table
+		{
+			border-collapse: collapse;  
+			empty-cells: show;
+			cursor:default;
+		}
+		
+		input, select, textarea, iframe, .plano
+		{
+			border: 1px solid #AAAAAA;
+			font-size: 1em;
+		}
+		
+		h3
+		{
+			font-size: 1.3em;
+		}
+		
+		.break { page-break-before: always; }
+		
+		.smallField { width:185px; }
+		
+		.longField { width:500px; }
+    </style>
+</head>
+<body class="Body-Master-Blanck">
+    <form name="aspnetForm" id="aspnetForm" class="form">
+    <div id="ReportHeader" style="width: 100%; height:105px">
+        <div style="float: left; margin-top: 1em" id="logoAysa">
+            <img src="../../forms/AysaDiseno/images/Aysa.bmp" />
+        </div>
+        <div style="float: right;margin-top: 2em; margin-left: 1em">
+            <img src="../../forms/AysaDiseno/images/pwbyzamba.jpg" />
+        </div>
+        <div style="float: right; text-align: right; width:70%">
+            <h3>
+                Reporte de industria:
+                <br />
+                <input id="Text1" name="zamba_index_1188" class="inputPlainText" style="width: 95%"  />
+                <br />
+                <input id="Text2" name="zamba_index_1187" class="inputPlainText" style="width: 10em"  />
+                <br />
+                <span>Emitido: <<Funcionescomunes>>.<<FechaActual>></span>
+            </h3>
+        </div>
+    </div>
+    <div id="infGral">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Inf. General </a></li>
+        </ul>
+        <div id="General" class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td class="style2">
+                        <label>
+                            CIC:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1220" name="zamba_index_1220" class="smallField"  >
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Fecha de alta:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1214" name="zamba_index_1214" class="smallField"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Convenio:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1271" name="zamba_index_1271" class="smallField"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Segmentacion:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1218" name="zamba_index_1218"  class="smallField"  />
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Estado:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1211" name="zamba_index_1211" class="smallField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Raz&oacuten Social:</label>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" id="zamba_index_1188" name="zamba_index_1188" class="longField"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label>
+                            Codificacion de la industria:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1187" name="zamba_index_1187" class="smallField" />
+                    </td>
+                    <td class="style2">
+                        <label>
+                            Fecha de Baja:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1215" name="zamba_index_1215" class="smallField" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style1">
+                        <label>
+                            Tipo de Baja:</label>
+                    </td>
+                    <td colspan="3">
+                        <select id="zamba_index_1216" name="zamba_index_1216" class="longField"  >
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="Actividad">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Actividad</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Tipo de Industria:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1185" name="zamba_index_1185" class="longField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Actividad no Regulada:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_300005" name="zamba_index_300005" type="text" class="longField"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod. tipo Actividad:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1189" name="zamba_index_1189" class="longField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Tipo de Actividad:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1223" name="zamba_index_1223" class="longField"  >
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="DatosComercialessec">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Datos Comerciales</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Nro de Expediente Referencial:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="Text3" name="zamba_index_1231" style="width: 150px;"  />
+                    </td>
+                    <td>
+                        <label>
+                            C&oacutedigo 24:</label>
+                    </td>
+                    <td>
+                        <select id="Select1" name="zamba_index_1233" style="width: 150px;"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Grandes Usuarios:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="Select2" name="zamba_index_1232" style="width: 150px;"  >
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Volumen de Descarga:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="Text4" name="zamba_index_1234" style="width: 150px;" size="30"  />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="FHVSec">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Factibilidad hidraulica de vuelco</a></li>
+        </ul>
+        <div class="section" id="Div1">
+            <table cellpadding="4">
+                <tr>
+                    <td class="style2">
+                        <label>
+                            Autorizacion de Vuelco:</label>
+                    </td>
+                    <td>
+                        <select id="Select3" name="zamba_index_1219" style="width: 185px;"  >
+                        </select>
+                    </td>
+                    <td class="style1">
+                        <label>
+                            Nro Autorizacion:</label>
+                    </td>
+                    <td>
+                        <input id="Text5" name="zamba_index_1210" size="28" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+    <div id="ubicacion">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Ubicacion</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Cod Region:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1221" name="zamba_index_1221" class="smallField"  >
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Region:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1181" name="zamba_index_1181" class="smallField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod Distrito:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1222" name="zamba_index_1222" class="smallField"  >
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Distrito:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1183" name="zamba_index_1183" class="smallField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod Distrito Gestion:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1259" name="zamba_index_1259" class="smallField"  >
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Distrito Gestion:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1260" name="zamba_index_1260" class="smallField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Cod Partido:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1262" name="zamba_index_1262" class="smallField"  >
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Partido:</label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1261" name="zamba_index_1261" class="smallField"  >
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Localidad:</label>
+                    </td>
+                    <td>
+                        <input  id="zamba_index_1202" name="zamba_index_1202" class="smallField"  />
+                    </td>
+                    <td>
+                        <label>
+                            Calle:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1192" name="zamba_index_1192" class="smallField"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Numero:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1193" name="zamba_index_1193" class="smallField"  />
+                    </td>
+                    <td>
+                        <label>
+                            Cod. Postal:</label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1203" name="zamba_index_1203" class="smallField"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Telefono:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1190" name="zamba_index_1190" class="smallField"  />
+                    </td>
+                    <td>
+                        <label>
+                            Contacto:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1191" name="zamba_index_1191"  class="smallField" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+   <br />
+    <div id="direcAlternat">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Direcciones alternativas</a></li>
+        </ul>
+        <div class="section">
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 1:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1194" name="zamba_index_1194" size="30"  />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 1:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1198" name="zamba_index_1198" size="30"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 2:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1195" name="zamba_index_1195" size="30"  />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 2:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1199" name="zamba_index_1199" size="30"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 3:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1196" name="zamba_index_1196" size="30"  />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 3:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1200" name="zamba_index_1200" size="30"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Calle Alternativa 4:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1197" name="zamba_index_1197" size="30"  />
+                    </td>
+                    <td>
+                        <label>
+                            Numero Alternativo 4:
+                        </label>
+                    </td>
+                    <td>
+                        <input id="zamba_index_1201" name="zamba_index_1201" size="30"  />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />   
+    <div id="fhv">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">FHV/ACV</a></li>
+        </ul>
+        <div class="section">
+			@{DataSet ds = (DataSet)this.DataSource["indfhv"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee FHV a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            FHV asociados a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_zvar(IndFHV)" class="tablesorter">
+							<tbody class="hideopentask">
+							</tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+			}
+        </div>
+    </div>
+    <br />
+    <div id="inspeccioness">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Inspecciones</a></li>
+        </ul>
+		<div class="section">
+			@{ds = (DataSet)this.DataSource["indinspecciones"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Inspecciones a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+			<span>Inspecciones asociadas a la industria</span>
+			<br />
+			@foreach(DataRow r in ds.Tables[0].Rows){	
+			<table class="tablesorter">		
+			<tr>
+				<td>
+					Nro ODT
+				</td>
+				<td>
+					<input type="text" value="@r["NroODT"]" />
+				</td>
+				<td>
+					Estado
+				</td>
+				<td>
+					<input type="text" value="@r["Estado"]"  />
+				</td>
+				<td>
+					Inspector
+				</td>
+				<td>
+					<input type="text" value="@r["Inspector"]"  />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Region
+				</td>
+				<td colspan="5">
+					<input type="text" value="@r["Region"]"  />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Fecha Inspeccion
+				</td>
+				<td>
+					@{string fIns = (r["FechaInspeccion"] is DBNull)?string.Empty:((DateTime)r["FechaInspeccion"]).ToString("dd/MM/yyyy");}
+					<input type="text" value="@fIns"  />
+				</td>
+				<td>
+					Fecha programada
+				</td>
+				<td>
+					@{string fProg = (r["FechaProgramada"] is DBNull)?string.Empty:((DateTime)r["FechaProgramada"]).ToString("dd/MM/yyyy");}
+					<input type="text" value="@fProg"  />
+				</td>
+				<td>
+					Proxima Inspeccion
+				</td>
+				<td>
+					@{string fProx = (r["ProxInspeccion"] is DBNull)?string.Empty:((DateTime)r["ProxInspeccion"]).ToString("dd/MM/yyyy");}
+					<input type="text" value="@fProx"  />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Resultado
+				</td>
+				<td colspan="5">
+					<input type="text" value="@r["Resultado"]" style="width:100%" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Motivo
+				</td>
+				<td colspan="5">
+					<input type="text" value="@r["Motivo"]"  style="width:100%" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Motivo de la intimacion
+				</td>
+				<td colspan="5">
+					<input type="text" value="@r["MotivoIntimacion"]" style="width:100%"  />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					Observaciones
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<span style="border:1px solid #aaaaaa; color:#333; background-color:White; width:100%">
+						@r["Observaciones"]
+					</span>
+				</td>
+			</tr>
+			</table>
+			<br/>
+			}
+			}
+        </div>
+    </div>
+    <br />
+    <div id="Int">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Intimaciones</a></li>
+        </ul>
+        <div class="section">
+            @{ds = (DataSet)this.DataSource["indintimaciones"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Intimaciones a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+			<span>Intimaciones asociadas a la industria</span>
+			<br />
+			@foreach(DataRow r in ds.Tables[0].Rows){	
+			<table class="tablesorter">
+				<tr>
+					<td>
+						<label>
+							Estado:</label>
+					</td>
+					<td colspan="3">
+						<input type="text" value="@r["Etapa"]"  style="width:100%" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Fecha CN:</label>
+					</td>
+					<td>
+						@{string fCN = (r["Fecha CN"] is DBNull)?string.Empty:((DateTime)r["Fecha CN"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@fCN"  />
+					</td>
+					<td>
+						<label>
+							Fecha ultima CN/CD:</label>
+					</td>
+					<td>
+						@{string flastCN = (r["Fecha ultima CN/CD"] is DBNull)?string.Empty:((DateTime)r["Fecha ultima CN/CD"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@flastCN"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Tipo intimaci&oacuten:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Tipo intimacion"]"  />
+					</td>
+					<td>
+						<label>
+							Region:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Region"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Motivo de intimaci&oacuten:</label>
+					</td>
+					<td colspan="3">
+						<input type="text" value="@r["Motivo de la intimacion"]" style="width: 100%;"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							ID de muestra:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["ID muestra"]"  />
+					</td>
+					<td>
+						<label>
+							ID de muestra de seguimiento:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["ID muestra seg"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Fecha de recepcion:
+						</label>
+					</td>
+					<td>
+						@{string fRecep = (r["Fecha de recepcion"] is DBNull)?string.Empty:((DateTime)r["Fecha de recepcion"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@fRecep"  />
+					</td>
+					<td>
+						<label>
+							Plazo establecido:
+						</label>
+					</td>
+					<td>
+						@{string fPlazo = (r["Plazo establecido"] is DBNull)?string.Empty:((DateTime)r["Plazo establecido"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@fPlazo"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Contiene nota:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Contiene nota"]"  />
+					</td>
+					<td>
+						<label>
+							Contiene inspeccion:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Contiene inspeccion"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<label>
+							Observaciones:</label>
+					</td>	
+				</tr>
+				<tr>
+					<td colspan="4">
+						<span style="border:1px solid #aaaaaa; color:#333; background-color:White; width:100%">
+							@r["Observaciones"]
+						</span>
+					</td>
+				</tr>
+				</table>
+			<br/>
+			}
+			}
+        </div>
+    </div>
+    <br />
+    <div id="Denuncias">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Denuncias</a></li>
+        </ul>
+        <div class="section">
+            @{ds = (DataSet)this.DataSource["inddenuncias"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Denuncias a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+			<span>Denuncias asociadas a la industria</span>
+			<!--<br />-->
+			@foreach(DataRow r in ds.Tables[0].Rows){	
+			<table  class="tablesorter">
+				<tr>
+					<td>
+						<label>
+							Estado:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Estado"]"  />
+					</td>
+					<td>
+						<label>
+							Region:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Region"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Tipo de denuncia:</label>
+					</td>
+					<td colspan="3">
+						<input type="text" value="@r["Tipo denuncia"]" style="width: 100%;"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Motivo de la intimaci&oacuten:</label>
+					</td>
+					<td colspan="3">
+						<input type="text" value="@r["Motivo de la intimacion"]" style="width: 100%;"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Nro SISEME:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Nro SISEME"]"  />
+					</td>
+					<td>
+						<label>
+							Fecha de ingreso Siseme:</label>
+					</td>
+					<td>
+						@{string fingSiseme = (r["Fecha Ingreso Siseme"] is DBNull)?string.Empty:((DateTime)r["Fecha Ingreso Siseme"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@fingSiseme"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Nro CD:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Nro CD"]"  />
+					</td>
+					<td>
+						<label>
+							Fecha CD:</label>
+					</td>
+					<td>
+						@{string fFechaCD = (r["Fecha CD"] is DBNull)?string.Empty:((DateTime)r["Fecha CD"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@fFechaCD"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Fecha de ultima CN/CD:</label>
+					</td>
+					<td colspan="3">
+						@{string fFechaUltCD = (r["Fecha ultima CN/CD"] is DBNull)?string.Empty:((DateTime)r["Fecha ultima CN/CD"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@fFechaUltCD"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Destinatario de denuncia:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Destinatario de denuncia"]"  />
+					</td>
+					<td>
+						<label>
+							Nro de comprobante:</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Nro comprobante"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Fecha de recepcion:</label>
+					</td>
+					<td colspan="3">
+						@{string frecep = (r["Fecha de recepcion"] is DBNull)?string.Empty:((DateTime)r["Fecha de recepcion"]).ToString("dd/MM/yyyy");}
+						<input type="text" value="@frecep"  />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<label>
+							Observaciones:</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<span style="border:1px solid #aaaaaa; color:#333; background-color:White; width:100%">
+							@r["Observaciones"]
+						</span>
+					</td>
+				</tr>
+			</table>
+			<br />
+			}
+			}
+        </div>
+    </div>
+    <br />
+    <div id="Cortes">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Cortes</a></li>
+        </ul>
+        <div class="section">
+            @{ds = (DataSet)this.DataSource["indcortes"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Cortes a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+			<span>Cortes asociadas a la industria</span>
+			<br/>
+			@foreach(DataRow r in ds.Tables[0].Rows){	
+			<table cellpadding="4">
+				<tr>
+					<td>
+						<label>
+							Estado:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Estado"]"  />
+					</td>
+					<td>
+						<label>
+							Motivo del corte:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Motivo del corte"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Fecha corte:</label>
+					</td>
+					<td colspan="4">
+						<input type="text" value="@r["Fecha corte"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							ID Intimacion:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["ID Intimacion"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							ID Intimacion:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["ID Intimacion"]"  />
+					</td>
+					<td>
+						<label>
+							Fecha:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Fecha"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Nro CD:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Nro CD"]"  />
+					</td>
+					<td>
+						<label>
+							Fecha CD:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Fecha CD"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Nro comprobante:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Nro comprobante"]"  />
+					</td>
+					<td>
+						<label>
+							Fecha de recepcion:
+						</label>
+					</td>
+					<td>
+						<input type="text" value="@r["Fecha de recepcion"]"  />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>
+							Observaciones:</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<span style="border:1px solid #aaaaaa; color:#333; background-color:White; width:100%">
+							@r["Observaciones"]
+						</span>
+					</td>
+				</tr>
+			</table>
+			}
+			}
+        </div>
+    </div>
+    <br />
+    <div id="conexionesAgua">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Conexiones de agua</a></li>
+        </ul>
+        <div class="section">
+			@{ds = (DataSet)this.DataSource["indconection"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Conexiones de agua a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Conexiones de agua asociados a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_zvar(IndConection)" class="tablesorter">
+							<tbody class="hideopentask">
+							</tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+			}
+        </div>
+    </div>
+    <br />
+    <div id="descargas">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Descargas</a></li>
+        </ul>
+        <div class="section">
+			@{ds = (DataSet)this.DataSource["inddescargas"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Descargas a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Descargas asociados a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_zvar(IndDescargas)" class="tablesorter">
+							<tbody class="hideopentask">
+							</tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+			}
+        </div>
+    </div>
+    <br />
+    <div id="CTM">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Camara toma muestra</a></li>
+        </ul>
+        <div class="section">
+			@{ds = (DataSet)this.DataSource["indctm"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee CTM a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            CTM asociados a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_zvar(IndCTM)" class="tablesorter">
+							<tbody class="hideopentask">
+							</tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+			}
+        </div>
+    </div>
+    <br />
+    <div id="MicMac">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Micro-Macro Cuenca</a></li>
+        </ul>
+        <div class="section">
+			@{ds = (DataSet)this.DataSource["indmicmac"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Microcuencas-Macrocuencas a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Microcuencas-Macrocuencas asociadas a la Industria:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table id="zamba_zvar(IndMicMac)" class="tablesorter">
+							<tbody class="hideopentask">
+							</tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+			}
+        </div>
+    </div>
+    <br />
+    <div id="Documentacion">
+        <ul class="sectionHeaderUl">
+            <li class="sectionHeaderLi"><a class="sectionHeaderA">Documentacion</a></li>
+        </ul>
+        <div class="section">
+            @{ds = (DataSet)this.DataSource["inddocumentacion"];}
+			@if(ds == null || ds.Tables[0].Rows.Count == 0){
+				<table cellpadding="4">
+					<tr>
+						<td>
+							<label>
+								La industria no posee Documentacion Asociada a la fecha</label>
+						</td>
+					</tr>
+				</table>
+			}else{
+			<span>Documentacion asociadas a la industria</span>
+			<br />
+			<span>La impresion de los mismos se realiza individualmente</span>
+			<br/>
+			@foreach(DataRow r in ds.Tables[0].Rows){	
+			<table class="tablesorter">
+				<tr>
+					<td>
+						Nombre del archivo original
+					</td>
+					<td>
+						<span style="border:1px solid #aaaaaa; color:#333; background-color:White; width:100%">
+                            @r["Nombre de archivo"]
+						</span>
+					</td>		
+				</tr>
+				<tr>
+					<td>
+						Observaciones
+					</td>
+					<td>
+						<span style="border:1px solid #aaaaaa; color:#333; background-color:White; width:100%">
+							@r["Observaciones"]
+						</span>
+					</td>		
+				</tr>
+			</table>
+			<br />
+			}
+			}
+        </div>
+    </div>
+    </form>
+</body>
+</html>

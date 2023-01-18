@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Comment CommentText="Esta clase contiene la logica de ABM de las RequestAction y de la notificacion a Usuarios. &#xD;&#xA;&#xD;&#xA;El metodo de Notify esta armado para ser limpio a la capa de presentacion para poder expandirlo en el futuro a otro tipo de notificacion aparte de envio de Mail.">
+    <Position X="1.75" Y="1.25" Height="1.188" Width="2.846" />
+  </Comment>
+  <Comment CommentText="Esta clase representa la entidad RequestAction.&#xD;&#xA;&#xD;&#xA;Para armar esta entidad me abstraje lo mas posible de TaskResult , lo que forzo a usar usar una coleccion Dictionary para representar una relacion 1 a 1 de TaskIds y StepsIds.&#xD;&#xA;&#xD;&#xA;FinishDate es Nullable ya que DateTime no es nullable y no tiene sentido ponerle cualquier fecha a esta propiedad si no se finalizo la ejecucion del pedido.">
+    <Position X="2" Y="8.708" Height="1.719" Width="2.856" />
+  </Comment>
+  <Comment CommentText="Esta clase contiene las consultas a Base de Datos de Request Action.&#xD;&#xA;&#xD;&#xA;Usa Stored Procedures por seguridad contra SqlInyection y Performance. Los nombres de los SP estan en constantes privadas para organizar mejor el codigo. &#xD;&#xA;&#xD;&#xA;El script .sql para creacion de los SP fueron mandado por Mail a sistemas.">
+    <Position X="1.75" Y="5.14" Height="1.521" Width="2.857" />
+  </Comment>
+  <Comment CommentText="">
+    <Position X="0.5" Y="4.75" Height="0.268" Width="6.425" />
+  </Comment>
+  <Comment CommentText="Datos&#xD;&#xA;">
+    <Position X="0.5" Y="4.488" Height="0.268" Width="0.7" />
+  </Comment>
+  <Comment CommentText="">
+    <Position X="0.5" Y="0.762" Height="0.268" Width="6.425" />
+  </Comment>
+  <Comment CommentText="Logica&#xD;&#xA;">
+    <Position X="0.5" Y="0.5" Height="0.268" Width="0.7" />
+  </Comment>
+  <Comment CommentText="">
+    <Position X="0.5" Y="8.265" Height="0.268" Width="6.425" />
+  </Comment>
+  <Comment CommentText="Entidades&#xD;&#xA;">
+    <Position X="0.5" Y="8.003" Height="0.268" Width="0.7" />
+  </Comment>
+  <Class Name="Zamba.Core.RequestActionBusiness">
+    <Position X="4.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>RequestAction\RequestActionBusiness.vb</FileName>
+      <HashCode>CAQAAEEgAAAAAAYEgAQAgAAAEA0gTAhBAAAAAACAAAA=</HashCode>
+    </TypeIdentifier>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+  </Class>
+  <Class Name="Zamba.Core.RequestAction">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Zamba.Data.RequestActionFactory">
+    <Position X="4.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+</ClassDiagram>

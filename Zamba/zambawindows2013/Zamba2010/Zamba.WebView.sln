@@ -1,0 +1,130 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Zamba.WebView", "Zamba.WebView", "{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = "SAK"
+		SccAuxPath = "SAK"
+		SccLocalPath = "SAK"
+		SccProvider = "SAK"
+		TargetFramework = "3.5"
+		ProjectReferences = "{51A14031-0D76-429E-A3DC-911F68F22A0C}|Zamba.Services.dll;{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}|Zamba.Bussines.dll;{E92F8175-9484-4454-A8F0-9C2AB63714F5}|Zamba.Data.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/Zamba.WebView"
+		Debug.AspNetCompiler.PhysicalPath = "D:\Zamba2007\Zamba.WebView\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Zamba.WebView\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Zamba.WebView"
+		Release.AspNetCompiler.PhysicalPath = "D:\Zamba2007\Zamba.WebView\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Zamba.WebView\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "1896"
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Bussines", "Zamba.Bussines\Zamba.Bussines.vbproj", "{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zamba.Services", "Zamba.Services\Zamba.Services.csproj", "{51A14031-0D76-429E-A3DC-911F68F22A0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zamba.IndexManager", "TextSearch\IndexManager\Zamba.IndexManager.csproj", "{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Zamba.Data", "Zamba.Data\Zamba.Data.vbproj", "{E92F8175-9484-4454-A8F0-9C2AB63714F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{B18C35E9-7C64-419C-8AE3-FFE1AFD92C3E}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://hobbit:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Zamba.Bussines\\Zamba.Bussines.vbproj
+		SccProjectName1 = Zamba.Bussines
+		SccLocalPath1 = Zamba.Bussines
+		SccProjectUniqueName2 = Zamba.Services\\Zamba.Services.csproj
+		SccProjectName2 = Zamba.Services
+		SccLocalPath2 = Zamba.Services
+		SccProjectUniqueName3 = TextSearch\\IndexManager\\Zamba.IndexManager.csproj
+		SccProjectName3 = TextSearch/IndexManager
+		SccLocalPath3 = TextSearch\\IndexManager
+		SccWebProject4 = true
+		SccProjectUniqueName4 = Zamba.WebView
+		SccProjectName4 = Zamba.WebView
+		SccLocalPath4 = .
+		SccProjectFilePathRelativizedFromConnection4 = Zamba.WebView\\
+		SccProjectEnlistmentChoice4 = 2
+		SccProjectUniqueName5 = Zamba.Data\\Zamba.Data.vbproj
+		SccProjectName5 = Zamba.Data
+		SccLocalPath5 = Zamba.Data
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|.NET = Debug|.NET
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|.NET = Release|.NET
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Debug|.NET.ActiveCfg = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Debug|.NET.Build.0 = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Release|.NET.ActiveCfg = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Release|.NET.Build.0 = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{7A87BC8A-2C8F-4DBC-8CEC-8013BB00C97B}.Release|Mixed Platforms.Build.0 = Debug|.NET
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|.NET.ActiveCfg = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Release|.NET.ActiveCfg = Release|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{51A14031-0D76-429E-A3DC-911F68F22A0C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Release|.NET.ActiveCfg = Release|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2F00E969-CF72-4114-97E7-0CA5DA7CFF4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|.NET.ActiveCfg = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E92F8175-9484-4454-A8F0-9C2AB63714F5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TextTemplating) = postSolution
+		TextTemplating = 1
+	EndGlobalSection
+EndGlobal

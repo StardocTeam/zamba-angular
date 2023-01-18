@@ -1,0 +1,95 @@
+﻿<style>
+
+    #tabHomeWrapper > .nav > li > a {
+        
+        padding-bottom: 5px;
+    }
+    #tabHomeWrapper > .nav {
+        background-color: white !important;
+    }
+
+    #tabHomeWrapper > ul > li > a:hover, #tabhome > .nav > li > a:focus {
+        text-decoration: none !important;
+        background-color: #31b0d5 !important;
+        color: white !important;
+    }
+
+
+    #tabHomeWrapper > ul > li.active > a {
+        text-decoration: none !important;
+        background-color: #31b0d5 !important;
+        color: white !important;
+    }
+    .md-disabled {
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+
+
+</style>
+
+<div id="tabHomeWrapper" style="height: 100%; background-color: white !important">
+    <md-tabs id="tabsHomeWrapper" style="background-color: rgb(51,122,183); color: white" ng-show="HomeTabsInitializing == false" ng-cloak>
+     
+
+        <md-tab id="tab2" ng-disabled="true" >
+           
+            <md-tab-label >
+               
+                <img src="../../Content/Images/Icons/home.png" style=" width: 27px; margin-left: 11px;" />
+                <label style="color: white;">INICIO</label>
+            </md-tab-label>
+
+        </md-tab>
+        <md-tab label="GESTION" ng-click="setHomePage(this,'HomeMain',true); ResizeCurrentTabHome(this);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Novedades')   || Tabs.includes('All')" label="Novedades"   ng-click="setHomePage(this, 'HomeNews', true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Favoritos')   || Tabs.includes('All')" label="Favoritos"   ng-click="setHomePage(this,'HomeFavorites',true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Importantes') || Tabs.includes('All')" label="Importantes" ng-click="setHomePage(this,'HomeBookmarks',true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Recientes')   || Tabs.includes('All')" label="Recientes"   ng-click="setHomePage(this,'HomeRecents',true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('MisTareas')   || Tabs.includes('All')" label="Mis Tareas"  ng-click="setHomePage(this,'HomeMyTasks',true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Reportes')    || Tabs.includes('All')" label="Reportes"    ng-click="setHomePage(this,'HomeReports',true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Agenda')      || Tabs.includes('All')" label="Agenda"      ng-click="setHomePage(this,'HomeCalendar',true);"></md-tab>
+        <md-tab ng-if="Tabs.includes('Diagramas')   || Tabs.includes('All')" label="Diagramas"   ng-click="setHomePage(this,'HomeDiagrams',true);"></md-tab>
+
+    </md-tabs>
+   
+
+    <div id="contentTabhomeMain" class="tab-content" style="padding-top: 10px; height:100%">
+
+        <div id="tabhomeMain" class="tab-pane active" style="height:500px;" ng-if="Tabs.includes('Acciones') || Tabs.includes('All');">
+            <iframe src="../../content/Images/loading.gif" id="homePageFrame" class="row"> </iframe>
+        </div>
+
+        <div id="tabhomeNews" class="tab-pane" ng-controller="NewsController" style="height:100%;" ng-if="Tabs.includes('Novedades') || Tabs.includes('All');">
+            <zamba-news></zamba-news>
+        </div>
+
+        <div id="tabhomeReports" class="tab-pane " style="height:100%;" ng-if="Tabs.includes('Reportes') || Tabs.includes('All');">
+        </div>
+
+        <div id="tabhomeCalendar" class="tab-pane " ng-controller="CalendarCtrl" style="height:100%;" ng-if="Tabs.includes('Agenda') || Tabs.includes('All');">
+            <zamba-linecalendar></zamba-linecalendar>
+        </div>
+
+        <div id="tabhomeBookmarks" class="tab-pane " ng-controller="GenericController" style="height:100%;" ng-if="Tabs.includes('Importantes') || Tabs.includes('All');">
+            <zamba-generic gridType="bookmarks"></zamba-generic>
+        </div>
+
+        <div id="tabhomeFavorites" class="tab-pane " ng-controller="GenericController" style="height:100%;" ng-if="Tabs.includes('Favoritos') || Tabs.includes('All');">
+            <zamba-generic gridType="favorites"></zamba-generic>
+        </div>
+
+        <div id="tabhomeRecents" class="tab-pane " ng-controller="GenericController" style="height:100%;" ng-if="Tabs.includes('Recientes') || Tabs.includes('All');">
+            <zamba-generic gridType="recents"></zamba-generic>
+        </div>
+        <div id="tabhomeMyTasks" class="tab-pane " ng-controller="GenericController" style="height:100%;" ng-if="Tabs.includes('MisTareas') || Tabs.includes('All');">
+            <zamba-generic gridType="mytasks"></zamba-generic>
+        </div>
+
+        <div id="tabhomeDiagrams" class="tab-pane " style="height:100%;" ng-if="Tabs.includes('Diagramas') || Tabs.includes('All');">
+            <iframe src="../../content/Images/loading.gif" id="diagramsFrame" class="row" frameborder="0" style="border: none; width: 100%; height: 100%"> </iframe>
+        </div>
+
+    </div>
+
+</div>

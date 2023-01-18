@@ -1,0 +1,98 @@
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Register src="../../UserControls/ucMenu.ascx" tagname="ucMenu" tagprefix="uc1" %>
+<%@ Register src="../../UserControls/ucBarraDerecha.ascx" tagname="ucBarraDerecha" tagprefix="uc2" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href='../../Content/hoverbox.css' type="text/css" media="screen, projection" />
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" href='../../Content/ie_fixes.css' type="text/css" media="screen, projection" />
+    <![endif]-->    
+    <script type="text/javascript" src="../../Scripts/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="../../Scripts/MicrosoftAjax.js" ></script>
+    <script type="text/javascript" src="../../Scripts/MicrosoftMvcAjax.js"></script>    
+    <script type="text/javascript" src="../../Scripts/general.js"></script>
+    <asp:ContentPlaceHolder ID="ScriptsContent" runat="server" />
+</head>
+
+<body>
+    
+    <table id="page" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td colspan="3">
+               <div id="header">
+                    <div id="logo">
+                        <img src="../../imgs/cab.gif" width="960" height="87" alt=""/>            
+                    </div>
+                    <div id="menu_sup" class="texto">          
+                        <a id="link_home" href="#" class="linkmenu_cab">Inicio</a>  |  
+                        <a id="link_noticias" href="#" class="linkmenu_cab">Noticias Marsh</a>  |  
+                        <a id="link_vision" href="#" class="linkmenu_cab">Visi&oacute;n</a>  |  
+                        <a id="link_mmc-compliance"href="#" class="linkmenu_cab">MMC Compliance</a>  |  
+                        <a id="link_learning_connect" href="#" class="linkmenu_cab">Learning Connect </a>                
+                    </div>
+                    <div id="barra_busqueda">
+                        <div id="busqueda">
+                            <span class="titulo2">Buscar</span>
+                            <input id="buscar" type="text" class="textoformulario" size="11" maxlength="30" />
+                            <span class="linkmenu_izq">
+                                <a href="#" id="lnk_buscar" class="linkmenu_izq">&raquo;</a>
+                            </span>
+                        </div>
+                        <div align="right" style="width:546px; float:right">
+                            <img src="../../imgs/bg-titulos.jpg" width="546" height="50" alt="" />
+                        </div>
+                    </div>
+                </div>            
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" id="contenedor_menu">
+                <uc1:ucMenu ID="ucMenu" runat="server" />
+            </td>
+            <td valign="top" id="contenedor_principal">
+                <div id="loading" style="display:none;">
+                    <table border="0" align="center">
+                        <tr>
+                            <td>
+                                <img src="../../imgs/loading.png" border="0"/>
+                            </td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Cargando, aguarde por favor ...
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" >                    
+                </asp:ContentPlaceHolder>
+            </td>
+            <td valign="top" id="contenedor_barra_derecha">
+                <uc2:ucBarraDerecha ID="ucBarraDerecha" runat="server" />                
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" id="footer">
+                <div align="left" class="textoformulario">................................................................................................................................................................................................................................................................................................................................
+                    <br />
+                    <a class="linkmenu_izq1" href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/condiciones.cfm" target="_blank">Condiciones legales</a> | 
+                    Pol&iacute;tica de Privacidad 
+                    | Copyright &copy; 2009 Marsh Ltd. All rights reserved.
+                </div>
+            </td>        
+        </tr>
+    
+    </table>    
+   
+    <map name="Map"  id="Map"><area alt="" shape="rect" coords="8,111,91,131" href="http://global.marsh.com/" target="_blank" /></map>
+    <map name="Map2" id="Map2"><area alt="" shape="rect" coords="9,109,97,131" href="/mmc_compliance/" /></map>    
+</body>
+
+</html>

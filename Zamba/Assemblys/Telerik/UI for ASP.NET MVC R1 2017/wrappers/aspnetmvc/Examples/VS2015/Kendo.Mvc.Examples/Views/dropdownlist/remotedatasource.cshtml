@@ -1,0 +1,15 @@
+ <div class="demo-section k-content">
+    <h4>Products</h4>
+    @(Html.Kendo().DropDownList()
+          .Name("products")
+          .DataTextField("ProductName")
+          .DataValueField("ProductID")
+          .DataSource(source => {
+              source.Read(read =>
+              {
+                  read.Action("GetProducts", "Home");
+              }); 
+          })
+          .HtmlAttributes(new { style = "width: 100%" })
+    )
+</div>

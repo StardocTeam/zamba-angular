@@ -1,0 +1,33 @@
+Aspectos Funcionales
+
+Conexión:
+Zamba DBFixer utiliza un archivo 'app.ini', colocado en el directorio donde se encuentra la aplicación, mediante el cual se conecta a la Base para realizar los cambios pertinentes. En todo momento podrá verificar los datos de la conexión en el panel principal de Zamba DBFixer, donde aparece el Tipo de la Base de Datos, el Usuario, el Servidor, etc. La única exepción a esta conexión es la obtención de los StoredProcedures, donde se puede cambiar el Nombre de Usuario (para poder obtener Stores de otras bases en Oracle).
+
+Proceso:
+Se puede elegir el tipo de proceso a seguir. El proceso de fixeo de Tablas implica también el fixeo de Claves Principales. A su vez, el proceso de Claves Foráneas puede ser solo seleccionado siempre y cuando el fixeo de Tablas esté seleccionado. Todos los demás procesos son individuales.
+
+Trace:
+El log de salida es configurable desde 'Opciones', donde se puede seleccionar aquellos detalles que se considerarán útiles para formar el texto del Detalle. Hay que tener en cuenta que seleccionando estas opciones se realentizará el proceso de fixeo en forma considerable.
+
+
+
+
+Aspectos Tecnicos
+
+Proceso:
+El proceso de fixeo comienza parseando los archivos ".sql" que se encuentran en la carpeta donde se inicia el programa. Si el parseo de estos archivos genera un error en una entidad (tabla, relación, vista, etc), dicha entidad no se almacenará en la lista, si en cambio el error es general (falta del archivo, etc), entonces un flag se levantará y pasará por alto el fixeo correspondiente.
+Una vez que las entidades fueron asignadas a las listas, comienza el proceeso de fixeo, creando la consulta.
+
+Errores:
+Todo error de consulta será mostrado en el Trace de Errores que se genera al final. Algunos errores están manejados, pero igualmente se incluyen en dicho Trace.
+
+
+
+Aspectos Generales a Tener en Cuenta
+
+en Oracle:
+*Oracle inserta el ';' automáticamente. Ponerlo al final de la consulta nos dará error.
+*Oracle maneja nombres en mayúscula. En caso de ser una palabra clave se debe utilizar comillas, en caso de las Cadenas de Texto utilizar apóstrofos.
+*Dado que utilizamos distintos usuarios para obtener distintas Bases de Datos, es muy importante incluír en las consultas realizadas a tablas con prefijo DBA_ la condición <OWNER = 'nombreUsuarioOracle'>
+
+

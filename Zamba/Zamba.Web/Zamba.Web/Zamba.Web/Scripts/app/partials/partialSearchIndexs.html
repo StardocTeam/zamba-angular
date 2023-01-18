@@ -1,0 +1,316 @@
+﻿<style>
+
+    #ModalSearch {
+        padding-top: 55px;
+    }
+
+    ::-webkit-input-placeholder {
+        color: black;
+        opacity: 1 !important;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+        color: black;
+        opacity: 1 !important;
+    }
+
+    ::-moz-placeholder { /* Firefox 19+ */
+        color: black;
+        opacity: 1 !important;
+    }
+
+    :-ms-input-placeholder {
+        color: black;
+        opacity: 1 !important;
+    }
+
+    @media (max-width: 767px) {
+        .LabelEnt {
+            font-size: 9px;
+        }      
+    }
+
+    @media (min-width: 768px) and (max-width: 1054px) {
+        .LabelEnt  {
+            font-size: x-small;
+        }
+    }
+
+    @media (max-width: 1100px) {
+        .BusquedaCalendar {
+            display: none;
+        }
+    }
+
+</style>
+<form id="search-form" class="smart-form" novalidate="novalidate" style="height: 100% ;">
+    <fieldset style="border: none ; overflow-y: visible; overflow-x: visible; height:auto">
+
+        <div ng-repeat="index in Search.Indexs" class="form-group" style="margin-bottom:5px">
+
+            <!--<label class="control-label col-md-3 hidden-xs hidden-sm hidden-md" for="{{index.ID}}">{{index.Name}}</label>-->
+            <div class="row">
+                <div class="col-xs-3 col-sm-2" style="vertical-align:middle; text-align: right">
+                    <b class="LabelEnt">{{index.Name}}</</b>
+
+
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-2 hidden-xs" style="text-align: center">
+                    <div class="dropdown" changeText="true" ng-if="index.Type != 0 && index.Type!=9">
+                        <button class="btn btn-default dropdown-toggle btn-block" type="button" data-toggle="dropdown" ng-click="loadOperator(index)" aria-haspopup="true" aria-expanded="false">
+                            <span ng-if="(index.Type == 7 || index.Type == 8) || (index.DropDown == 4 || index.DropDown == 2)">Empieza</span>
+                            <span ng-if="(index.Type != 7 && index.Type!= 8) &&  (index.DropDown != 4 && index.DropDown != 2) ">Igual</span>
+                            <!--<span>Igual</span>-->
+                            <i class="glyphicon glyphicon-chevron-down pull-right"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li ng-repeat="a in Operators">
+                                <a class="dropdown-item" ng-click="saveOperator(index,a.Oper)">
+                                    {{a.Desc}}
+                                </a>
+                            <li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-10 input-group add-on">
+                            <!--Numerico (1.2)-->
+                            <input IndexName="{{index.Name}}" style="" name="srch-term" class="form-control inputAttrib col-xs-10 col-sm-10 col-md-8 activeIn2 activeIn" onkeyup="this.value=Numeros(this.value)" onchange="InputSelec(this)" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="(index.Type == 1 || index.Type == 2) && (index.DropDown != 2 && index.DropDown != 4 )" format-number />
+
+                            <!--Moneda y Decimal (3.6)-->
+                            <input IndexName="{{index.Name}}" style="" name="srch-term" class="form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn" onchange="InputSelec(this)" type="number" ng-attr-id="index.ID" ng-model="index.Data" ng-keypress="val_formatNumber($event);" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 3" format-number />
+                            <input IndexName="{{index.Name}}" style="" name="srch-term" class="form-control inputAttrib col-xs-10 col-sm-10 col-md-8 activeIn2 activeIn" onchange="InputSelec(this)" type="number" ng-attr-id="index.ID" ng-model="index.Data" ng-keypress="val_formatNumber($event);" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 6" format-number />
+
+                            <!--Fecha y Fecha y Hora (4)-->
+                            <input IndexName="{{index.Name}}" style="" onchange="ValidarFechas(this); ValidataInputFormatDate(this)" name="srch-term" class="BusquedaCalendar form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn datepicker" ng-focus="subscribeDatepicker(index.ID)" id="index.ID" type="text" ng-attr-id="{{index.ID}}" ng-attr-name="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 4" placeholder="DD/MM/AAAA" autocomplete="off" />
+
+                            <input IndexName="{{index.Name}}" style="" onchange="ValidarFechas(this); ValidataInputFormatDate(this)" name="srch-term" class="BusquedaCalendar form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn datepicker" ng-focus="subscribeDatepicker(index.ID)" id="index.ID" type="text" ng-attr-id="{{index.ID}}" ng-attr-name="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 5" placeholder="DD/MM/AAAA" autocomplete="off" />
+
+
+                            <!--Alfanumerico (7.8)-->
+                            <input IndexName="{{index.Name}}" style="" name="srch-term" class="form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn" onchange="InputSelec(this)" type="text" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="(index.Type == 7 || index.Type == 8)  && (index.DropDown == 0) " />
+                            <input IndexName="{{index.Name}}" style="" name="srch-term" class="form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn" onchange="InputSelec(this)" type="text" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="(index.Type == 7 || index.Type == 8)  && (index.DropDown == 1|| index.DropDown == 3) " uib-typeahead="item.Code as item.Value for item in getList(index,$viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-cancelButton="true" typeahead-template-url="itemTpl.html" typeahead-on-select="saveData(index, $item.Code, $label)" />
+                            <input IndexName="{{index.Name}}" style="" name="srch-term" class="form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn" onchange="InputSelec(this)" type="text" ng-attr-id="index.ID" ng-model="index.dataDescription" ng-change="saveData(Search.Indexs[$index])" ng-if="(index.Type == 7 || index.Type == 8  || index.Type == 1 || index.Type == 2) && (index.DropDown == 2 || index.DropDown == 4 )" uib-typeahead="item.Value for item in getList(index,$viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-cancelButton="true" typeahead-template-url="itemTpl.html" typeahead-on-select="saveData(index, $item.Code, $label)" />
+
+                            <!--Checkbox (9)-->
+
+                            <span IndexName="{{index.Name}}" ng-if="index.Type == 9" class="control-label col-md-11" style="text-align: right;display:none" for="{{index.ID}}">{{index.Name}}</span>
+                            <input type="checkbox" ng-attr-id="index.ID" style="float:left;" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 9" value="{{index.Name}}" />
+
+                            <input class="form-control col-xs-10 col-sm-10 col-md-8 activeIn activeIn2" onchange="InputSelec(this)" type="tel" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 10" />
+                            <input class="form-control col-xs-10 col-sm-10 col-md-8 activeIn activeIn2" onchange="InputSelec(this)" type="time" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 11" />
+                            <input class="form-control col-xs-10 col-sm-10 col-md-8 activeIn activeIn2" onchange="InputSelec(this)" type="url" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 13" />
+                            <input class="form-control col-xs-10 col-sm-10 col-md-8 activeIn activeIn2" onchange="InputSelec(this)" type="week" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 12" />
+                            <input class="form-control col-xs-10 col-sm-10 col-md-8 activeIn activeIn2" onchange="InputSelec(this)" type="image" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 14" />
+                            <input class="form-control col-xs-10 col-sm-10 col-md-8 activeIn activeIn2" onchange="InputSelec(this)" type="email" ng-attr-id="index.ID" ng-model="index.Data" ng-change="saveData(Search.Indexs[$index])" ng-if="index.Type == 15" />
+
+                            <!--Borra todos los inputs-->
+
+                            <div class="input-group-btn">
+                                <button class="btn  btn-search " style="position: relative; right: 3px;border-radius: 0px;margin-left:0px !important; background-color:white; border:1px solid #dddddd !important; " ng-attr-id="Slst{{index.ID}}" ng-if="index.DropDown == 1 || index.DropDown == 2 || index.DropDown == 3|| index.DropDown == 4" ng-click="showlistFirstTime(Search.Indexs[$index], $index)"> <i class="fa fa-search btnBlue"></i></button>
+                            </div>
+                            <input class="btn btn-default BtnClear" style="display:none;" ng-click="CleanAllInputs()" onclick="cleanBorder(this)" type="submit" />
+
+                            <div class="input-group-btn" ng-if="index.Type != 9">
+                                <button class="btn btn-default btntrash" style="border-radius: 0px; padding-right:14px" ng-click="CleanData(Search.Indexs[$index])" onclick="cleanBorder(this)" type="submit"><i class="fa fa-trash-o"></i></button>
+                                <input class="hiddenClearAll" style="display:none;" ng-click="ResetValuesAndOperatorByDafault()" />
+                            </div>
+
+                        </div>
+                        <div class="col-xs-3 col-md-2">
+                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noResults">
+                                <i class="glyphicon glyphicon-remove"></i> No se encontraron resultados
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-2">
+                </div>
+
+
+                <!--Segundo Textbox de comparacion "Entre"-->
+
+                <div class="col-xs-3 col-sm-5 col-md-4 "></div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6 " style="margin-left: 33.4%; margin-left: 0; margin-right: 0;">
+
+                </div>
+
+            </div>
+
+           
+            <div class="row MargenLabel">
+
+                <!--estos div funcionan como offset-->
+                <div class="col-xs-3 col-sm-2"></div>
+                <div class="col-xs-3 col-sm-3 col-md-2 hidden-xs"></div>
+                <!--  -->
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-10 input-group add-on">
+
+                            <!-- Numerico-->
+                            <input style="display:inline;"
+                                   class="form-control col-xs-10 col-sm-10 col-md-8 activeIn"
+                                   onchange="InputSelec(this)"
+                                   type="number"
+                                   ng-attr-id="index.ID"
+                                   ng-model="index.Data2"
+                                   ng-change="saveDataBetween(Search.Indexs[$index], index.Data2, index.dataDescription2)"
+                                   ng-if="index.Operator=='Entre' && (index.Type == 1 || index.Type == 2) && (index.DropDown != 2 && index.DropDown != 4 )"
+                                   format-number />
+
+                            <!-- Alfanumerico-->
+                            <input style="display:inline;"
+                                   class="form-control col-xs-10 col-sm-10 col-md-8 activeIn"
+                                   onchange="InputSelec(this)"
+                                   type="text"
+                                   ng-attr-id="index.ID"
+                                   ng-model="index.Data2"
+                                   ng-change="saveDataBetween(Search.Indexs[$index], index.Data2, index.dataDescription2)"
+                                   ng-if="index.Operator=='Entre' && (index.DropDown != 2 && index.DropDown != 4) && (index.Type != 1 && index.Type != 2 && index.Type != 4 && index.Type != 5)"
+                                   uib-typeahead="item.Code as item.Value for item in getList(index,$viewValue)"
+                                   typeahead-loading="loading"
+                                   typeahead-no-results="noResults"
+                                   typeahead-cancelButton="true"
+                                   typeahead-template-url="itemTpl.html"
+                                   typeahead-on-select="saveData(index, $item.Code, $label)" />
+
+                            <input style="display:inline;"
+                                   class="form-control col-xs-12 col-sm-12 col-md-8 activeIn"
+                                   onchange="InputSelec(this)" type="text"
+                                   ng-attr-id="index.ID"
+                                   ng-model="index.dataDescription2"
+                                   ng-change="saveDataBetween(Search.Indexs[$index], index.Data2, index.dataDescription2)"
+                                   ng-if="index.Operator=='Entre' && (index.DropDown == 2 || index.DropDown == 4 )  && (index.Type != 1 && index.Type != 2 && index.Type != 4 && index.Type != 5)"
+                                   uib-typeahead="item.Value for item in getList(index,$viewValue)"
+                                   typeahead-loading="loading"
+                                   typeahead-no-results="noResults"
+                                   typeahead-cancelButton="true"
+                                   typeahead-template-url="itemTpl.html"
+                                   typeahead-on-select="saveData(index, $item.Code, $label)" />
+
+                            <input class="BusquedaCalendar form-control col-xs-10 col-sm-10 col-md-8 inputAttrib activeIn2 activeIn datepicker"
+                                   onchange="validateDateUntil(this); ValidataInputFormatDate(this)"
+                                   autocomplete="off"
+                                   type="text"
+                                   ng-attr-id="{{index.ID + '-2'}}"
+                                   ng-attr-name="{{index.ID + '-2'}}"
+                                   ng-init="subscribeDatepickerBetween(index.ID + '-2')"
+                                   placeholder="DD/MM/AAAA"
+                                   ng-model="index.Data2"
+                                   ng-change="saveDataBetween(Search.Indexs[$index], index.Data2, index.dataDescription2)"
+                                   ng-focus="subscribeDatepicker(index.ID)"
+                                   ng-show="(index.Type == 4 || index.Type == 5) && index.Operator=='Entre'" />
+
+                            <div class="input-group-btn" ng-if="index.Operator=='Entre'">
+                                <button class="btn btn-default btntrash" style="border-radius: 0px; padding-right:14px; margin-left: 1px;" ng-click="CleanData2(Search.Indexs[$index])" onclick="cleanBorder(this)" type="submit">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </fieldset>
+
+</form>
+
+
+
+<script type="text/ng-template" id="itemTpl.html">
+
+    <a>
+        <span class="searchItemCode">
+            {{ match.model.Code }} -
+        </span>
+        <span>
+            {{ match.model.Value }}
+        </span>
+    </a>
+    <hr style="margin: 1px;" />
+</script>
+
+<div class="modal fade" ondragstart="event.preventDefault()" id="ModalSearch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="ModalSearchContent">
+            <div class="modal-header">
+                <button type="button" class="close closeStyleInput" data-dismiss="modal"><span class="sizeCloseAttribute" aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="modalFormTitle">Selección de {{selectedIndex.Name}}</h4>
+            </div>
+            <div class="modal-body" id="modalFormHome">
+                <div class="SelecRow">
+                    <input class="form-control col-xs-12 col-sm-12 col-md-8 ModalInput" type="text" ng-attr-id="selectedIndex.ID" placeholder="{{selectedIndex.Name}}" ng-model="selectedIndex.dataDescription" ng-change="showlist(selectedIndex,undefined,false,false)" />
+
+                    <!--<a class="BtnTrashModal" onclick="CleanInputModal()" ng-click="ShowListAfter()" ><i class="fa fa-trash-o fa-2x"></i></a>-->
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><strong>{{selectedIndex.Name}}</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="typeaheadTR">
+                        <tr ng-repeat="item in selectedIndex.DropDownList" ng-click="saveData(selectedIndex,item.Code,item.Value)">
+                            <td class="searchItemCode">
+                                {{item.Code}}
+                            </td>
+                            <td>
+                                {{item.Value}}
+                            <td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a ng-click="showlist(selectedIndex,undefined,true,false)"><label id="searchMoreResults" style="cursor:pointer; display:none">Ver mas resultados...</label></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalSearchDropzone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="ModalSearchContentDropzone">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title" id="modalFormTitle">Selección de {{selectedIndex.Name}}</h4>
+            </div>
+            <div class="modal-body" id="modalFormHome">
+                <div class="SelecRow">
+                    <input class="form-control col-xs-12 col-sm-12 col-md-8 ModalInput" type="text" ng-attr-id="selectedIndex.ID" placeholder="{{selectedIndex.Name}}" ng-model="selectedIndex.dataDescription" ng-change="showlist(selectedIndex,undefined,false,false)" />
+
+                    <!--<a class="BtnTrashModal" onclick="CleanInputModal()" ng-click="ShowListAfter()" ><i class="fa fa-trash-o fa-2x"></i></a>-->
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><strong>{{selectedIndex.Name}}</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="typeaheadTR">
+                        <tr ng-repeat="item in selectedIndex.DropDownList" ng-click="saveData(selectedIndex,item.Code,item.Value)">
+                            <td class="searchItemCode">
+                                {{item.Code}}
+                            </td>
+                            <td>
+                                {{item.Value}}
+                            <td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

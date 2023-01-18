@@ -1,0 +1,481 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <style type="text/css">
+        /* .style1 {
+            width: 125px;
+        }
+
+        INPUT {
+            font-size: small;
+            width: 86px;
+        }
+
+        .style3 {
+            width: 285px;
+        }
+
+        .style4 {
+            width: 176px;
+        }
+
+        .style5 {
+            width: 104px;
+        }
+
+        .style9 {
+            width: 164px;
+        }
+
+        .style12 {
+            width: 143px;
+        }
+
+        .style14 {
+            width: 123px;
+        }
+
+        .style15 {
+            width: 125px;
+        }
+
+        .style17 {
+            width: 275px;
+        }
+
+        .style18 {
+            width: 270px;
+        } */
+
+        .tablesorter {
+            font-family: gadugi;
+            background-color: #CDCDCD;
+            margin: 10px 0pt 15px;
+            font-size: 9pt;
+            text-align: left;
+
+        }
+
+        .tablesorter tr th {
+            background-color: #DDDDEE;
+            border: 1px solid #FFF;
+            font-size: 9pt;
+            padding: 3px;
+
+
+        }
+
+        .tablesorter td {
+            color: #3D3D3D;
+            padding: 3px;
+            vertical-align: top;
+            font-size: 9pt;
+            border: 1px solid #FFF;
+
+        }
+
+        .tablesorter tr td {
+            background-color: #F0F0F6;
+
+        }
+
+        /* .attributes_table {
+            cellspacing: 2;
+            cellpadding: 1;
+            border: 0;
+        } */
+
+        .titulo_boton {
+            float: left;
+            padding: 5px;
+            background-color: #e6e6e6;
+            width: 100%;
+            font-family: helvetica;
+            font-size: 14px;
+            /* font-weight: bold; */
+
+        }
+
+        .boton_mostrar {
+            float: right;
+            font-size: 12px;
+            line-height: 20px;
+            color: #009DE0;
+            /* border: 1px solid blue; */
+
+        }
+
+        #contenido {
+            float: left;
+            clear: both;
+            border: 2px solid #e6e6e6;
+            margin-top: 2px;
+            padding: 5px;
+            width: 100%;
+            overflow: auto;
+            font-family: helvetica;
+            font-size: 14px;
+            text-align: justify;
+        }
+    </style>
+
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+
+    <script type="text/javascript" language="JavaScript">
+        $(function () {
+            $('#zamba_index_').datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+
+        });
+
+        function ZFUNCTION() {
+
+            if (document.getElementById("zamba_index_505222").selectedIndex != -1) {
+                if (document.getElementById("zamba_index_505222")[document.getElementById("zamba_index_505222").selectedIndex].innerText == "001 - Pendiente Revision") {
+                    document.getElementById("Rel2").style.display = ""
+
+                }
+                else {
+                    document.getElementById("Rel2").style.display = "none"
+                }
+            }
+
+            if (document.getElementById("zamba_index_505222").selectedIndex != -1) {
+                if (document.getElementById("zamba_index_505222")[document.getElementById("zamba_index_505222").selectedIndex].innerText == "002 - Supervision Sector") {
+                    document.getElementById("Rel3").style.display = ""
+
+                }
+                else {
+                    document.getElementById("Rel3").style.display = "none"
+
+                }
+            }
+
+            if (document.getElementById("zamba_index_505222").selectedIndex != -1) {
+                if (document.getElementById("zamba_index_505222")[document.getElementById("zamba_index_505222").selectedIndex].innerText == "001 - Pendiente Revision") {
+                    document.getElementById("Rel4").style.display = ""
+
+                }
+                else {
+                    document.getElementById("Rel4").style.display = "none"
+                }
+            }
+
+            if (document.getElementById("zamba_index_505222").selectedIndex != -1) {
+                if (document.getElementById("zamba_index_505222")[document.getElementById("zamba_index_505222").selectedIndex].innerText == "002 - Supervision Sector") {
+                    document.getElementById("Rel5").style.display = ""
+
+                }
+                else {
+                    document.getElementById("Rel5").style.display = "none"
+
+                }
+            }
+
+
+
+
+        }
+
+
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            document.frmMain.submit();
+        }
+
+        function muestra_oculta(id) {
+            if (document.getElementById) { //se obtiene el id
+                var el = document.getElementById(id); //se define la variable "el" igual a nuestro div
+                el.style.display = (el.style.display == 'none') ? 'block' : 'none'; //damos un atributo display:none que oculta el div
+            }
+        }
+        window.onload = function () {/*hace que se cargue la función lo que predetermina que div estará oculto hasta llamar a la función nuevamente*/
+            muestra_oculta('contenido');/* "contenido_a_mostrar" es el nombre que le dimos al DIV */
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Auditoria Assoc.htm">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+            <center>
+                <div class="form-group row">
+                    <div id="Div4"
+                        style="width: 100%; color: white; background-color:#009DE0; font-family: gadugi, sans-serif;">
+                        DETALLE DE ORDENES AUDITORIA</div>
+						</center>
+						<div class="form-group row">
+						<div class="col-md-3"></div>
+						  <div class="col-md-6">
+                        <div id="HeaderMain" style="width: 100%; color: white; background-color: rgb(65, 162, 197); font-family: gadugi, sans-serif;">
+                            Detalle de la orden</div>
+                        <hr />
+						</div>
+          </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Cliente:</span>
+                        <input class="form-control input-sm generatelistdinamic" id="zamba_index_16" name="zamba_index_16" disabled />
+                    </div>
+                </div>
+				</div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Aseguradora:</span>
+                        <input class="form-control input-sm" id="zamba_index_1340" name="zamba_index_1340"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Nro de Orden:</span>
+                        <input class="form-control input-sm" id="zamba_index_13" name="zamba_index_13" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Informe:</span>
+                        <input class="form-control input-sm" id="zamba_index_505218" name="zamba_index_505218" disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Cód. Solic:</span>
+                        <input class="form-control input-sm" id="zamba_index_505212" name="zamba_index_505212"
+                            disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Tipo de Seguro:</span>
+                        <input class="form-control input-sm" id="zamba_index_3194" name="zamba_index_3194"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Nro  de Poliza:</span>
+                        <input class="form-control input-sm" id="zamba_index_18" name="zamba_index_18" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Nro Endoso:</span>
+                        <input class="form-control input-sm" id="zamba_index_19" name="zamba_index_19"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Seccion:</span>
+                        <input class="form-control input-sm" id="zamba_index_46" name="zamba_index_46" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Cód. Seg.:</span>
+                        <input class="form-control input-sm" id="zamba_index_505217" name="zamba_index_505217"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Sucursal:</span>
+                        <input class="form-control input-sm" id="zamba_index_79" name="zamba_index_79" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Sector Ope:</span>
+                        <input class="form-control input-sm" id="zamba_index_505210" name="zamba_index_505210"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Prima:</span>
+                        <input class="form-control input-sm" id="zamba_index_505224" name="zamba_index_505224" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Prima_BR:</span>
+                        <input class="form-control input-sm" id="zamba_index_80" name="zamba_index_80"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Moneda:</span>
+                        <input class="form-control input-sm" id="zamba_index_505213" name="zamba_index_505213" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Fecha inicial:</span>
+                        <input class="form-control input-sm" id="zamba_index_112" name="zamba_index_112"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Fecha final:</span>
+                        <input class="form-control input-sm" id="zamba_index_143" name="zamba_index_143" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Fecha de Aut:</span>
+                        <input class="form-control input-sm" id="zamba_index_505208" name="zamba_index_505208"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Nombre Eje:</span>
+                        <input class="form-control input-sm" id="zamba_index_15274" name="zamba_index_15274" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Jefe Usuario:</span>
+                        <input class="form-control input-sm" id="zamba_index_204279" name="zamba_index_204279"
+                            disabled />
+                    </div>
+                </div>
+            </div>    <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Comision BR:</span>
+                        <input class="form-control input-sm" id="zamba_index_505219" name="zamba_index_505219" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">C. BR Marsh:</span>
+                        <input class="form-control input-sm" id="zamba_index_505220" name="zamba_index_505220"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Usuario Alta:</span>
+                        <input class="form-control input-sm" id="zamba_index_505221" name="zamba_index_505221" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">ID Proceso:</span>
+                        <input class="form-control input-sm" id="zamba_index_15303" name="zamba_index_15303"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+			<div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> Fecha Proc:</span>
+                        <input class="form-control input-sm" id="zamba_index_4251" name="zamba_index_4251" disabled />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Doc. Respal:</span>
+                        <input class="form-control input-sm" id="zamba_index_505209" name="zamba_index_505209"
+                            disabled />
+                    </div>
+                </div>
+            </div>
+       
+
+            <div class="form-group row">
+                       <div class="form-group">
+					   <div class="col-md-3"></div>
+                           <div class="col-md-6">
+                               <span class="input-group-addon" style="background-color:#e5e5e5">Observaciones</span>
+                           </div>                        
+                       </div>
+  </div>
+       
+
+            <div class="form-group row">
+					   <div class="col-md-3"></div>
+                           <div class="col-md-6">
+                               <textarea style="color: #090A0A; font-weight: bold," class="form-control" rows="5" id="zamba_Index_48" name="zamba_Index_48" disabled></textarea>
+                           </div>
+                        
+                       </div>
+                   </div>
+        </form>
+</body>
+
+</html>

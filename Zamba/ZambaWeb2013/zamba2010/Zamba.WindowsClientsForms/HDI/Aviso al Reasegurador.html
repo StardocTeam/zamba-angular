@@ -1,0 +1,138 @@
+<html>
+	<head>
+		<title>Aviso al Reasegurador</title>			
+		
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		
+		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">		
+		
+		<script type="text/javascript" language="JavaScript">	
+		       	function SetRuleId(sender)
+       		 	{
+		            document.getElementById("hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+        		 }
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+			
+			$(document).ready(function()
+			{							
+				makeCalendar('zamba_index_26201');
+			   	makeCalendar('zamba_index_26175');	
+				makeCalendar('zamba_ASOC_26031_index_26280');
+				makeCalendar('zamba_ASOC_26031_index_26281');
+	        });					
+			
+			/* Optional: Temporarily hide the "tabber" class so it does not "flash"
+			   on the page as plain HTML. After tabber runs, the class is changed 
+			   to "tabberlive" and it will appear. */
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+		</script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+			
+				<div name="design" id="design">
+					<strong>Aviso al Reasegurador</strong>
+				</div>
+				<br />
+
+						<table cellpadding="4">
+							<tr>
+								<td><label>ID por Aviso: </label></td>
+								<td><input type="text" name="zamba_index_295546" id="zamba_index_295546" style="width:100px;" class="readonly"/></td>
+							</tr>
+							<tr>	
+									<td><label>Concepto del Aviso: </label></td>
+									<td colspan=2><select name="zamba_index_295547" id="zamba_index_295547" style="width:400px;" disabled class="readonly"></select></td>
+							</tr>
+							<tr>	
+									<td><label>Estado: </label></td>
+									<td colspan=2><select name="zamba_index_295549" id="zamba_index_295549" style="width:200px;" disabled class="readonly"></select></td>
+							</tr>
+							<tr>
+								<td><label>Nro de Siniestro: </label></td>
+								<td><input type="text" name="zamba_index_26247" id="zamba_index_26247" style="width:200px;" class="readonly"/></td>
+							</tr>
+							<tr>
+								<td><label>Fecha de Siniestro: </label></td>
+								<td><input type="text" name="zamba_index_26201" id="zamba_index_26201" style="width:200px;" class="readonly"/></td>
+							</tr>
+							<tr>	
+									<td><label>Asegurado: </label></td>
+									<td colspan=2><select name="zamba_index_26314" id="zamba_index_26314" style="width:400px;" disabled class="readonly"></select></td>
+							</tr>
+							<tr>	
+									<td><label>Rama: </label></td>
+									<td colspan=2><select name="zamba_index_26294" id="zamba_index_26294" style="width:400px;" disabled class="readonly"></select></td>
+							</tr>
+							<tr>
+								<td><label>Nro de Poliza: </label></td>
+								<td><input type="text" name="zamba_index_26174" id="zamba_index_26174" style="width:200px;" class="readonly"/></td>
+							</tr>
+							<tr>
+								<td><label>Monto de Reserva Neta: </label></td>
+								<td><input type="text" name="zamba_index_170546" id="zamba_index_170546" style="width:200px;" class="readonly"/></td>
+							</tr>
+							<tr>	
+									<td><label>Moneda: </label></td>
+									<td colspan=2><select name="zamba_index_26207" id="zamba_index_26207" style="width:400px;" disabled class="readonly"></select></td>
+							</tr>
+							<tr>
+								<td><label>Email del Reasegurador: </label></td>
+								<td><input type="text" name="zamba_index_295548" id="zamba_index_295548" style="width:400px;" class="readonly"/></td>
+							</tr>
+							
+						</table>
+		
+				
+                <div name="floatleft" id="floatleft">
+                    <br />
+                    <br />
+                    <br />
+                    <div name="logocliente" id="logocliente">
+                        <img src="images/logocliente.jpg" align="left" height=50 width=70>
+                    </div>
+
+                    <div name="logozamba" id="logozamba">
+                        <img src="images/pwbyzamba.jpg">
+                    </div>
+
+                    <div name="aligncenter" id="aligncenter">
+                        <input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />
+                    </div>
+                </div>
+
+			</form>						
+		</div>
+	</body>
+</html>

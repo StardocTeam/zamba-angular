@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsIPFolderConf" targetNamespace="http://tempuri.org/dsIPFolderConf.xsd" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns="http://tempuri.org/dsIPFolderConf.xsd" xmlns:mstns="http://tempuri.org/dsIPFolderConf.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsIPFolderConf" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IP_FolderConf">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Id_Carpeta" type="xs:decimal" />
+							<xs:element name="Timer" type="xs:int" minOccurs="0" />
+							<xs:element name="Alarma" type="xs:string" minOccurs="0" />
+							<xs:element name="Domingo" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Lunes" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Martes" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Miercoles" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Jueves" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Viernes" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Sabado" type="xs:boolean" minOccurs="0" />
+							<xs:element name="Automatico" type="xs:boolean" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:unique name="dsIPFolderConfKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:IP_FolderConf" />
+			<xs:field xpath="mstns:Id_Carpeta" />
+		</xs:unique>
+	</xs:element>
+</xs:schema>

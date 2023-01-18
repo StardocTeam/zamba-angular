@@ -1,0 +1,77 @@
+﻿<html>
+	<head>
+		<title>Alta de Pelìculas</title>			
+		<script type="text/javascript" language="JavaScript">
+       	    function SetRuleId(sender)
+       		 {
+		            $("#hdnRuleId").name = sender.id;               
+            		frmMain.submit();
+			}
+			function SetAsocId(sender){
+				$("#hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+		
+			
+			$(document).ready(function()
+			{							
+			  
+				
+				// Valida solo numericos
+				// Agregar class="solonum" a todos los inputs que se quieran validar
+				$(".solonums").each(function(){
+					$(this).keypress(function (e){
+						if (e.which!=8 && e.which!=0 && e.which!=45 && e.which!=44 && (e.which<48 || e.which>57)){
+							return false;
+						}
+					})
+				});
+	        });			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<form name="frmMain" method="post">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />
+				<div name="design" id="design">
+			<h2> <center> 
+                Alta de películas
+            </center></h2>
+
+				</div>
+				<br />
+				
+				<table cellpadding="4">
+                    <tr>
+                        <td><label>Título:</label></td>
+                        <td><input type="text" name="zamba_index_2706" id="zamba_index_2706" style="width:280px;"></td>
+                        <td class="separador"></td>
+                        <td><label>Còdigo Pelìcula:</label></td>
+                        <td><input type="text" name="zamba_index_1001013" id="zamba_index_1001013" style="width:280px;" class="ReadOnly"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Año:</label></td>
+                        <td><input type="text" name="zamba_index_19" id="zamba_index_19" style="width:280px;"></td>
+                        <td class="separador"></td>
+                        <td><label>`Género:</label></td>
+                        <td><input type="text" name="zamba_index_1001017" id="zamba_index_1001017" style="width:280px;" ></td>
+                    </tr>
+                    <tr>
+                        <td><label>Actores:</label></td>
+                        <td><input type="text" name="zamba_index_2774" id="zamba_index_2774" style="width:280px;"></td>
+                        <td class="separador"></td>
+                        <td><label>`Director:</label></td>
+                        <td><input type="text" name="zamba_index_1001018" id="zamba_index_1001018" style="width:280px;"></td>
+                    </tr>
+
+			<tr>
+            <input id="zamba_save" class="submit" type="submit" value="Guardar" name="zamba_save" />
+            <input id="zamba_cancel" class="submit" type="submit" value="Cancelar" name="zamba_cancel" />
+			</tr>
+  
+</table>
+			</form>						
+		</div>
+	</body>
+</html>

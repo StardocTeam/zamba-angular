@@ -1,0 +1,260 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Form: Consulta de Pretension / Oferta -->
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:07/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: -->
+<!--Cambio: -->
+<!--Version:1.0.0-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+           
+            //var valor = $("#zamba_index_10216").val();
+            //if (valor.length > 0) {
+            //    var a = valor.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+            //    $("#zamba_index_10216").val(a)
+            //}
+           
+             
+
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    if (DecimalCheck($('#' + e.target.id))) {
+                        SumarCampos();
+                    }
+                })
+            });
+            $(".sololectura").each(
+                function () {
+                    $(this).keypress(function (e) {
+                        return false;
+                    })
+                }
+            );
+        });
+        function SumarCampos() {
+
+            var cap = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+            var hon = parseFloat($("#zamba_index_2746").val().replace('', '0'));
+            var otr = parseFloat($("#zamba_index_2745").val().replace('', '0'));
+            var por = parseFloat($("#zamba_index_2836").val().replace('', '0'));
+
+            //Verifica que se deba ajustar al porcentaje de honorarios
+            if (document.getElementById("zamba_index_2836").value != "" && por > 0) {
+                //Si el porcentaje es invalido lo setea a cero
+                if (por > 100) {
+                    hon = 0;
+                    $("#zamba_index_2836").val();
+                    $("#zamba_index_2746").val();
+                } else {
+                    hon = (por * cap) / 100;
+                    hon = Redondear(hon);
+                    $("#zamba_index_2746").val(hon);
+                }
+            }
+
+            //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(cap + hon + otr));
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value <= "0") {
+                alert("Verifique que el Importe sea mayor que cero.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+    </script>
+</head>
+<body>
+        <form name="frmMain" action="PretOfer ConsOferta.html">
+            <div class="container-fluid">
+                <h4 class="text-center" id="header" width="90%">
+                    Consulta de Pretensión / Oferta
+                </h4>
+                <ul class=" nav nav-tabs">
+                    <li class=" active"><a href="#tblOferta" data-toggle="tab">Consulta</a></li>
+                    <li><a href="#Aprobaciones" data-toggle="tab">Aprobaciones</a></li>
+                </ul>
+                <input id="hdnRuleId" type="hidden" />
+                <center>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="Aprobaciones">
+                            <div class="col-md-12 col-xs-12">
+                                <div >
+                                    <div ng-controller="TimelineController">
+                                        <zamba-timeline entity-id="10130" timeline-type="Aprobaciones" parent-entity-id="2528"></zamba-timeline>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="tblOferta" class="tab-pane active">
+                            <div class="tab-pane" id="Aprobaciones">
+                                <div class="form-group row"></div>
+                                    <div class="form-group row">
+                                        <div class="col-md-1"> </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Estado Procesal:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_2740" name="zamba_index_2740" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>ID Reclamo:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3"> </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Pretensi&oacute;n $:</b></span>
+                                                <input class="form-control input-sm ZDecimal" id="zamba_index_10216" name="zamba_index_10216" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Fecha Pretensi&oacute;n:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_10219" name="zamba_index_10219" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Solicitante:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_10272" name="zamba_index_10272" disabled />
+                                            </div>
+                                        </div>                                       
+                                    </div>
+                                    <!--div class="form-group row">
+            <div class="col-md-3 col-sm-3"> </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="input-group">
+                    <span class="input-group-addon"><b>Max Establecido $:</b></span>
+                    <input class="form-control input-sm" id="zamba_index_2783" name="zamba_index_2783"disabled/>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="input-group">
+                    <span class="input-group-addon"><b>Fecha de Cálculo:</b></span>
+                    <input class="form-control input-sm" id="zamba_index_2796" name="zamba_index_2796" disabled />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3"> </div>
+        </div-->
+                                    <div class="form-group row">
+                                        <div class="col-md-1"> </div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Oferta $:</b></span>
+                                                <input class="form-control input-sm ZDecimal" id="zamba_index_10217" name="zamba_index_10217" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Fecha de Oferta:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_10220" name="zamba_index_10220" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Oferente:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_1220192" name="zamba_index_1220192" disabled />
+                                            </div>
+                                        </div>                                         
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-1"> </div>
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="padding:5px;"><b>Acordado:</b></span>
+                                                <input class="form-control input-sm ZDecimal" id="zamba_index_10218" name="zamba_index_10218" disabled />
+                                            </div>
+                                        </div>                                       
+                                        <div class="col-md-3 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><b>Fecha de Acuerdo:</b></span>
+                                                <input class="form-control input-sm" id="zamba_index_10221" name="zamba_index_10221" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input class="btn  btn-info" id="zamba_rule_1223809" name="zamba_rule_1223809" type="submit" value="Ver acuerdo" onclick="SetRuleId(this);" />
+                                        </div>
+                                    </div>
+									<div class="col-xs-1 ">
+                            <div class="form-check"enableGroups="12943"  style="display: none;">
+                                <input type="checkbox" class="form-check-input" id="zamba_index_11535242"
+                                    name="zamba_index_11535242" style="height: 20px; width: 20px;" />
+                                <span><b>Visible para Auditor </b></span>
+                            </div>
+                        </div>
+                                </div>
+                            <div class="form-group row">
+                                <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <!--Area texto Observacion-->
+                                        <!--<div >-->
+                                        <div id="appobs" ng-controller="ObservacionController">
+                                            <zamba-observaciones index-id="84" entity-id="2528"></zamba-observaciones>
+                                        </div>
+
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+
+                            <div>
+                                <button class="btn  btn-primary" id="zamba_rule_1017071" name="zamba_rule_1017071" type="submit" onclick="SetRuleId(this);"  </button>Consultar RAJ
+								<div class="input-group-btn"><input class="btn  btn-info btn-sm navbar-btn" id="zamba_save" name="zamba_save" type="submit" enableGroups="12943" style="display: none; margin-left: 5px; margin-right: 5px;" value="Guardar" onclick="SetRuleId(this);" /></div>
+                            </div>
+
+                            <div class="row">
+                                <center>
+                                    <div class="col-md-2" style="position:relative;left:20px;">
+                                        <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-2">
+                                        <span style="color:whitesmoke">PretOfer ConsOferta.html</span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                        <div class="form-group row">
+                                        </div>
+                                    </div>
+                                  
+
+                                </center>
+                            </div>
+
+                        </div>
+                    </div>
+                </center>
+                <script type="text/javascript" language="JavaScript">
+
+                    //angular.bootstrap(document.getElementById('appobs'), ['observaciones']);
+
+                </script>
+            </div>
+</form>
+
+</body>
+</html>

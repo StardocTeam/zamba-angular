@@ -1,0 +1,319 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        $(document).ready(function () {
+            $(".solonums").each(function () {
+                $(this).keypress(function (e) {
+                    return IntegerCheck(e);
+                })
+            });
+        });
+        function CompletarVto() {
+            if (document.getElementById("zamba_index_2704").value == "") {
+                $("#zamba_index_2704").addClass("error");
+            } else {
+                $("#zamba_index_2704").removeClass("error");
+                var dias = $("#txtCantHabiles").val();
+                var fecha = $("#zamba_index_2704").val();
+                fecha = CalcularLaborales(dias, fecha);
+                $("#zamba_index_2705").val(fecha);
+            }
+        }
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2704").value == "") {
+                alert("Por favor, complete la Fecha de Notificación.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_2705").value == "") {
+                alert("Por favor, complete la fecha de Vencimiento.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_64").length > document.getElementById("zamba_index_64").maxlength) {
+                alert("El límite máximo de caracteres para el campo Observación es de " + document.getElementById("zamba_index_64").maxlength + ".\nPor favor, verifique dicho campo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_2677").value == "") {
+                alert("Por favor, identifique un reclamo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        //function CargarFechasyBotones() {
+        //    $(function () {
+        //        CargarFechaIndice('zamba_index_2704');
+        //        CargarFechaIndice('zamba_index_2705');
+        //    });
+        //}
+        function VerificarJuiMed(sel) {
+            if (sel.selectedIndex == 1)
+                document.getElementById("zamba_index_2717").selectedIndex = 3;
+            else
+                document.getElementById("zamba_index_2717").selectedIndex = 0;
+        }
+        function VerificarTipoNotif(sel) {
+            if (sel.selectedIndex == 3)
+                document.getElementById("zamba_index_2681").selectedIndex = 1;
+            else
+                document.getElementById("zamba_index_2681").selectedIndex = 0;
+        }
+        function IDReclamo_KeyPress(e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+            var key = window.event ? e.keyCode : e.which;
+            if (key == 13) {
+                document.getElementById("zamba_rule_11237").click();
+            }
+        }
+        function Caratula_KeyPress(e) {
+            var key = window.event ? e.keyCode : e.which;
+            if (key == 13) {
+                document.getElementById("zamba_rule_9236").click();
+            }
+        }
+        function Patente_KeyPress(e) {
+            var key = window.event ? e.keyCode : e.which;
+            if (key == 13) {
+                document.getElementById("zamba_rule_9147").click();
+            }
+        }
+        function Asegurado_KeyPress(e) {
+            var key = window.event ? e.keyCode : e.which;
+            if (key == 13) {
+                document.getElementById("zamba_rule_9143").click();
+            }
+        }
+        function IngresoDeFecha(obj) {
+            $('#zamba_index_2704').removeClass('error');
+            $('#txtCantHabiles').val('');
+            $('#zamba_index_2705').val('');
+            valFecha(obj);
+        }
+    </script>
+
+</head>
+<body>
+    <div style="font-family:'Times New Roman', Times, serif">
+        <div class="container-fluid">
+            <form name="frmMain" action="NotificacionDemandaIngreso.html">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+                <div id="tblNotificacion" class="attributes_table">
+
+                    <div class="form-group row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <center>
+                                <div>
+                                    <h4 style="background-color:#b5b1b1; font-weight: bold;">Notificación</h4>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Juicio / Mediación:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2681" size="1" name="zamba_index_2681" style="100px;" onchange="VerificarJuiMed(this);"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha de Notificación:</span>
+                                <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2704" name="zamba_index_2704" onblur="IngresoDeFecha(this);" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Tipo de Notificación:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2717" size="1" name="zamba_index_2717" onchange="VerificarTipoNotif(this);"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5;padding: 1px;" id="basic-addon1">Días Hab.</span>
+                                <input class="form-control input-sm" style="color: #090A0A;font-weight: bold" id="txtCantHabiles" name="txtCantHabiles" onkeyup="CompletarVto();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">ID Notificación:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2702" size="1" name="zamba_index_2702" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Fecha de Vencimiento:</span>
+                                <input class="form-control " "form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2705" name="zamba_index_2705" onblur="valFecha(this)" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Datos Stro:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_1001010" size="1" name="zamba_index_1001010" onchange="VerificarTipoNotif(this);"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-1">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <textarea cols="1" style="height: 40px" class="form-control" rows="6" id="zamba_Index_64" name="zamba_Index_64" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <center>
+                            <div>
+                                <h4 style="background-color:#b5b1b1; font-weight: bold;">Reclamo</h4>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">ID Reclamo:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" size="1" onkeypress="Caratula_KeyPress(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <span class="input-group-btn">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_11237" value="Buscar" name="zamba_rule_11237" onclick="SetRuleId(this);" style="
+    padding-right: 1px;
+    padding-left: 1px;
+" />
+                        </span>
+                    </div>
+                    <div class="col-md-1">
+                        <span class="input-group-btn">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_10756" value="Nuevo" name="zamba_rule_10756" onclick="SetRuleId(this);" />
+                        </span>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Carátula:</span>
+                            <input class="form-control input-sm" id="zamba_index_2701" name="zamba_index_2701" size="1" onkeypress="Caratula_KeyPress(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <span class="input-group-btn">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_9236" value="Buscar" name="zamba_rule_9236" onclick="SetRuleId(this);" style="
+    padding-right: 1px;
+    padding-left: 1px;
+" />
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Patente:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_39" name="zamba_index_39" size="1" onkeypress="Patente_KeyPress(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <span class="input-group-btn">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_9147" value="Buscar" name="zamba_rule_9147" onclick="SetRuleId(this);" style="
+    padding-right: 1px;
+    padding-left: 1px;
+" />
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Asegurado:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_3" name="zamba_index_3" size="1" onkeypress="Asegurado_KeyPress(event);" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <span class="input-group-btn">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_9143" value="Buscar" name="zamba_rule_9143" onclick="SetRuleId(this);" style="
+    padding-right: 1px;
+    padding-left: 1px;
+" />
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Siniestro   /   Sec:</span>
+                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_xxx" size="1" name="zamba_index_xxx" onchange="VerificarTipoNotif(this);"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Ej:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_x" name="zamba_index_x" size="1" onkeypress="Asegurado_KeyPress(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Stro:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_xx" name="zamba_index_xx" size="1" onkeypress="Asegurado_KeyPress(event);" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="input-group-btn">
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_9143" value="Buscar" name="zamba_rule_9143" onclick="SetRuleId(this);" style="
+    padding-right: 1px;
+    padding-left: 1px;
+" />
+                        </span>
+                    </div>
+                    <div class="form-group row"></div>
+
+                    <div class="form-group row">
+                        <center>
+                            <input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick();">
+                        </center>
+                    </div>
+
+
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <iframe id="zamba_innerdoctype_original" align="middle" height="1600px" width="1850px" title="Documento Original"  src="file://C:\Users\bpm-1\AppData\Roaming\Zamba Software\OfficeTemp\2355908.PDF" >></iframe>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

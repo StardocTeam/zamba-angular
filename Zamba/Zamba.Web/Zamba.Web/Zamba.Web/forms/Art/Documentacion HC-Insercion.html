@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+</head>
+
+<body>
+
+
+    <form name="frmMain" action="Documentacion HC-Insercion.html">
+
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+
+        <div class="container-fluid">
+
+            <!------------------------------------------------------------Desplegable--------------------------------------------------------------------------------->
+
+            <div class="form-group row">
+
+                <button type="button" class="col-md-12 btn btn-primary" title="Datos de Ingreso" onclick="iframetog()"><span style="font-size:14px;">Hace click aca para ver mas informacion</span> <i class="caret pull-right" style="border-top:15px dashed !important; border-right:15px solid transparent !important; border-left:15px solid transparent !important;"></i></button>
+
+
+            </div>
+
+            <!-------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+            <div class="PanelPrincipal"  id="iframeStyle" style="display:none" >
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Nro de Legajo:</span>
+                            <input id="zamba_index_139591" name="zamba_index_139591" class="form-control input-sm" style="font-weight:600;" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Fecha:</span>
+                            <input id="zamba_index_139607" name="zamba_index_139607" class="form-control input-sm datetime" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Documento:</span>
+                            <input id="zamba_index_139594" name="zamba_index_139594" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">Tipo de Documentacion:</span>
+                            <input id="zamba_index_139603" name="zamba_index_139603" class="form-control input-sm" style="font-weight:600;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group row" style="height:100%; " >
+                <div class="col-md-12 iframeClassPDF">
+                    <iframe id="previewDocSearch" class="IframeClass MargenIframe" style=" width:100%; height:1100px;" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                </div>
+            </div>
+
+            <!--botones guardar y cancelar-->
+            <div align=right>
+                <input id="zamba_save" class="btn btn-primary margenBtn" type="submit" value="Guardar" name="zamba_save" />
+                <input id="zamba_cancel" class="btn btn-primary margenBtn" type="submit" value="Cancelar" name="zamba_cancel" />
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+</body>
+</html>
+
+

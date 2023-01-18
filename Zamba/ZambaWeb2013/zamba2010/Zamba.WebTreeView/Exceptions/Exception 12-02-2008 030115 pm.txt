@@ -1,0 +1,6 @@
+Error: Subproceso anulado. Trace:    en System.Threading.Thread.AbortInternal()
+   en System.Threading.Thread.Abort(Object stateInfo)
+   en System.Web.HttpResponse.End()
+   en System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   en System.Web.HttpResponse.Redirect(String url)
+   en DocViewer.Page_Load(Object sender, EventArgs e) en d:\Zamba2007\Zamba.WebTreeView\DocViewer.aspx.cs:línea 39

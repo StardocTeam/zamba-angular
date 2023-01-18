@@ -1,0 +1,24 @@
+﻿Este informe muestra los pasos llevados a cabo para convertir la aplicación Web de ASP.NET 1.1 en ASP.NET 2.0. 
+Puede haber algunos problemas de conversión sin resolver que necesita solucionar manualmente. 
+Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkId=46995 o busque el tema de la Ayuda "Convertir desde Visual Studio .NET 2002 o 2003".
+Se ha iniciado la conversión en el archivo de proyecto testScan.csproj en November 22 2006, 11:36:35.
+
+=========================ERRORES===================
+
+=========================ADVERTENCIAS=================
+Advertencia: si la clase base de cualquier clase de código subyacente declara campos de página, agregue el atributo 'CodeFileBaseClass' en la página correspondiente.
+Advertencia: este proyecto Web se convirtió en una aplicación Web basada en archivos. Si el sitio contenía metainformación de IIS, como subcarpetas marcadas como directorios virtuales, se recomienda que cierre este sitio Web y vuelva a abrirlo con el comando Abrir sitio Web y seleccionando la ficha IIS local.
+
+=========================COMENTARIOS=================
+Web.Config: atributo 'xhtmlConformance' agregado.
+Se ha quitado el atributo AutoEventWireup del archivo Default.aspx.
+Se ha quitado el atributo Codebehind del archivo Default.aspx.
+Advertencia: el nivel de acceso de 'Page_Load' cambió a 'protected' en el archivo Default.aspx.cs (línea 19).
+Se ha quitado el atributo Codebehind del archivo Global.asax.
+Se ha agregado la carpeta App_Code.
+Se ha movido el archivo Global.asax.cs al directorio App_Code\.
+Se ha movido el archivo AssemblyInfo.cs al directorio App_Code\.
+Esquema de validación HTML cambiado para todos los proyectos a 'Internet Explorer 6.0'.
+Se ha quitado el archivo testScan.csproj.
+Se ha quitado el archivo testScan.csproj.webinfo.
+El proyecto testScan.csproj se ha convertido correctamente en November 22 2006, 11:36:38.

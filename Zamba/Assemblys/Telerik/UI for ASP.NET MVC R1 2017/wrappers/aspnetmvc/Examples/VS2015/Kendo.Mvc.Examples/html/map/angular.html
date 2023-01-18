@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS</title>
+
+    <link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+    <link href="../../content/web/kendo.common.min.css" rel="stylesheet">
+    <link href="../../content/web/kendo.default.min.css" rel="stylesheet">
+    <link href="../../content/web/kendo.rtl.min.css" rel="stylesheet">
+    <script src="../../scripts/jquery.min.js"></script>
+    <script src="../../scripts/angular.min.js"></script>
+    <script src="../../scripts/jszip.min.js"></script>
+    <script src="../../scripts/kendo.all.min.js"></script>
+    <script src="../content/shared/js/console.js"></script>
+    <script>
+        
+    </script>
+    
+    
+</head>
+<body>
+    
+        <a class="offline-button" href="../index.html">Back</a>
+    
+    <div id="example" ng-app="KendoDemos">
+    <div ng-controller="MyCtrl">
+    <div class="demo-section k-content">
+        <div>
+            <h4>Pan the map around</h4>
+            <div kendo-map
+                 k-center="[30.268107, -97.744821]"
+                 k-zoom="15"
+                 k-layers="[{
+                     type: 'bing',
+                     imagerySet: 'aerialWithLabels',
+                     key: 'AqaPuZWytKRUA8Nm5nqvXHWGL8BDCXvK8onCl2PkC581Zp3T_fYAQBiwIphJbRAK'
+                 }, {
+                     type: 'marker',
+                     dataSource: markers,
+                     locationField: 'latlng',
+                     titleField: 'name'
+                 }]"
+                 k-pan-end="onPanEnd"
+                 style="height: 400px;">
+             </div>
+        </div>
+        <div style="padding-top: 1em;">
+            <h4>Console</h4>
+            <div class="console"></div>
+        </div>
+    </div>
+
+    </div>
+<script>
+    angular.module("KendoDemos", [ "kendo.directives" ])
+        .controller("MyCtrl", function($scope){
+            $scope.onPanEnd = function(e) {
+                kendoConsole.log(kendo.format("event :: panEnd ({0})", e.center));
+            };
+
+            $scope.markers = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "../content/dataviz/map/store-locations.json",
+                        dataType: "json"
+                    }
+                }
+            });
+        })
+</script>
+</div>
+
+</body>
+</html>

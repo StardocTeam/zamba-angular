@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="DsDocGroup" targetNamespace="http://www.tempuri.org/DsDocGroup.xsd" xmlns:mstns="http://www.tempuri.org/DsDocGroup.xsd" xmlns="http://www.tempuri.org/DsDocGroup.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+    <xs:element name="DsDocGroup" msdata:IsDataSet="true" msdata:Locale="es-ES">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="DOC_TYPE_GROUP">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="DOC_TYPE_GROUP_ID" type="xs:decimal" />
+                            <xs:element name="DOC_TYPE_GROUP_NAME" type="xs:string" minOccurs="0" />
+                            <xs:element name="ICON" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="PARENT_ID" type="xs:decimal" minOccurs="0" />
+                            <xs:element name="OBJECT_TYPE_ID" type="xs:decimal" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+        <xs:unique name="Constraint1">
+            <xs:selector xpath=".//mstns:DOC_TYPE_GROUP" />
+            <xs:field xpath="mstns:DOC_TYPE_GROUP_ID" />
+        </xs:unique>
+        <xs:key name="DsDocGroupKey1" msdata:PrimaryKey="true">
+            <xs:selector xpath=".//mstns:DOC_TYPE_GROUP" />
+            <xs:field xpath="mstns:DOC_TYPE_GROUP_ID" />
+        </xs:key>
+    </xs:element>
+</xs:schema>

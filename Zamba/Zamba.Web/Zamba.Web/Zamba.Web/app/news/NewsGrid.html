@@ -1,0 +1,33 @@
+﻿<form News-form name="tableform" onaftersave="saveTable()" oncancel="cancel()">
+
+    <table class="table table-bordered table-hover table-condensed">
+        <tr style="font-weight: bold">
+            <th style="width:400px" ng-repeat="column in newsColumns">{{column.Name}}</th>
+            <th style="width:200px">Acciones</th>
+        </tr>
+        <tr ng-repeat="result in newsResults">
+
+            <!-- Cuando carga por primera vez -->
+            <td ng-show="isMainView">
+                <span editable-text="result.Data.reclaimentType" e-form="tableform">
+                    {{ result.data.name || '' }}
+                </span>
+            </td>
+            <td ng-show="isMainView">
+                <span editable-text="result.Data.reclaimantName" e-form="tableform">
+                    {{ result.data.crdate || '' }}
+                </span>
+            </td>
+            <td ng-show="isMainView">
+                <span editable-text="result.Data.reclaimantName" e-form="tableform">
+                    {{ result.data.value || '' }}
+                </span>
+            </td>
+            <td ng-show="isMainView">
+                <button type="button" ng-click="deleteResult(result.id)" class="btn btn-danger fa fa-trash"></button>
+            </td>
+            
+      </table>
+
+
+</form>

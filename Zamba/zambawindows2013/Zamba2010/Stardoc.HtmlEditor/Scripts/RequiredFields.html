@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>Campos requeridos</title>
+        <link rel="stylesheet" href="Calendar.css" type="text/css">
+        <script type="text/javascript" src="RequiredFields.js" language="JavaScript" /><script type="text/javascript" language="JavaScript" src="ValidateInteger.js" /><script src="Calendar.js" type="text/javascript" language="JavaScript" />
+    </head>
+    <body>
+        <form onsubmit="return ValidateForm()">
+        <ol>
+            <li>
+                <a href="Calendar.html">Calendario</a>
+            </li>
+            <li>
+                <a href="DateComparer.html">Comparar Fechas</a>
+            </li>
+            <li>
+                <a href="ValidateInteger.html">Validar Enteros</a>
+            </li>
+            <li>
+                <a href="ValidateRange.html">Validar Rango Enteros</a>
+            </li>
+            <li>
+                <a href="RequiredFields.html">Validar Vacios</a>
+            </li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    Valor requerido:
+                </td>
+                <td>
+                    <input id="tbName" type="text" required="true"/><strong style="display: none;">Requerido </strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Fecha requerido :
+                </td>
+                <td>
+                    <input type="text" id="tbTest" onfocus="showCalendarControl(this)" required="true" /><strong style="display: none;">Requerido </strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Entero requerido:
+                </td>
+                <td>
+                    <input type="text" id="tbTest" onfocus="SetValueOnFocus(this);" onchange="ValidateInteger(this);" required="true" /><strong style="display: none;">Requerido </strong>
+                </td>
+                <tr>
+                    <td colspan="2" align="right">
+                        <input id="btSubmit" type="submit" />
+                    </td>
+                </tr>
+            </tr>
+        </table>
+        </fieldset>
+    </form>
+    </body>
+</html>

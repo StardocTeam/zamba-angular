@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title> 
+
+</head>
+
+<body>
+
+    <div  >
+        <div ng-controller="appController">
+            <div class="form-group row">
+
+                <form name="frmMain" action="Filtro_Guias_FECHA.html">
+
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+
+                      
+
+                            <div class="form-group row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-5">
+                                    <center>
+                                        <strong>Ingresar Fecha de Solicitud Guia para calcular total de Guias</strong>
+                                    </center>
+                                </div>                              
+                            </div>
+                            <div class="PanelPrincipal">
+
+                                <div class="form-group row"></div>
+                                
+                                 <div class="form-group row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Desde:</span>
+                                            <input id="zamba_index_26568" name="zamba_index_26568" class="form-control input-sm datepicker" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <!-- FECHA-->                                  		<span class="input-group-addon">Fecha Hasta:</span>
+                                            <input id="zamba_index_26569" name="zamba_index_26569" class="form-control input-sm datepicker" />
+                                        </div>
+                                    </div>
+                                </div>                
+                                <div class="form-group row">
+                                    <div class="col-md-3"></div>
+									<div class="col-md-1">
+									  <button name="zamba_rule_196413" id="zamba_rule_196413" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" >Calcular</button>
+									</div>
+									 <div class="col-md-1"></div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <!-- TOTAL-->                                  		<span class="input-group-addon">Total Guias:</span>
+                                            <input id="zamba_index_160662" name="zamba_index_160662" class="form-control input-sm" style='font-size: 20px;' disabled/>
+                                        </div>
+                                    </div>                                   
+                                </div>                                                               
+
+                                                        
+                                <div class="form-group row"></div>
+                                <div class="row">
+                                    <center>
+                                       
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <span style="color:white">Filtro_Guias_TOTAL_USER.html</span>
+                                        </div>
+                                       
+                                    </center>
+                                </div>
+                            </div>
+                      
+                    </div>
+
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,369 @@
+﻿
+
+
+<div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-xs-12">
+            <span class="input-group-addon" style="font-weight:600; background-color:lightsteelblue; color:white">Beneficiarios: {{asociatedResults.length}}</span>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="form-group" ng-repeat="benef in asociatedResults | orderBy: sorterFunc">
+
+            <!-- View -->
+            <div ng-show="IsViewMode">
+                <div style=" border-color: lightgray; border-style : dashed; border-width: thin; padding: 5px 5px 5px 5px ">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--A favor-->
+                                        <span class="input-group-addon">A favor de: </span>
+                                        <input class="form-control input-sm" disabled="disabled" value="{{ benef.data.favorTo || '' }}" style="font-weight:600;  " ng-style="{ 'border-color' : (benef.data.favorTo == null || benef.data.favorTo == '') ? 'red' : 'rgb(204,204,204)' }" />
+                                        <!--<input name="zamba_index_10289" ng-model="resultToInsert.favorTo" size="1" class="form-control" />-->
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Mail-->
+                                        <span class="input-group-addon">Email:</span>
+                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.email || '' }} " style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.email == null || benef.data.email == '') ? 'red' : 'rgb(204,204,204)'  }" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Compromiso Nro.-->
+                                        <span class="input-group-addon">Nro. de Persona:</span>
+                                        <input name="zamba_index_10318" disabled="disabled" value=" {{ benef.data.personNumber || '' }}" size="1" class="form-control" style="font-weight:600;" />
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Metodo-->
+                                        <span class="input-group-addon">Método de Pago:</span>
+
+                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.payMethod || '' }} " style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.payMethod == null || benef.data.payMethod == '') ? 'red' : 'rgb(204,204,204)'  }" />
+                                        <!-- <select name="zamba_index_10251" ng-model="resultToInsert.payMethod" size="1" class="form-control"></select>-->
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--CBU-->
+                                        <span class="input-group-addon">CBU: </span>
+                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cbu || '' }} " onkeypress="val_SoloNumeros(event); getValidate(benef)" style="font-weight:600;" ng-style="{ 'border-color' : ((benef.data.payMethod != '1-Cheque' && benef.data.payMethod != '5-Cheque Certificado'  && benef.data.payMethod != '6-Cheque Imputado' ) && (benef.data.cbu == null || benef.data.cbu == '')) ? 'red' : 'rgb(204,204,204)'  }"  maxlength="22" />
+                                        <!--<input name="zamba_index_10290" ng-model="resultToInsert.cbu" size="1" class="form-control" />-->
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--CUIT-->
+                                        <span class="input-group-addon">CUIT:</span>
+                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cuit || '' }} " onkeypress="val_SoloNumeros(event);" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.cuit == null || benef.data.cuit == ''  || benef.data.cuit.length < 11) ? 'red' : 'rgb(204,204,204)'  }"  maxlength="11"  ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <!--Concepto-->
+                                        <div class="input-group-addon">Concepto:</div>
+                                        <input class="form-control input-sm" disabled="disabled" value="{{ benef.data.concept || '' }}"  style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.concept == null || benef.data.concept == '') ? 'red' : 'rgb(204,204,204)'  }" />
+                                        <!--<select name="zamba_index_2788" ng-model="resultToInsert.concept" size="1" class="form-control"></select>-->
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!--Importe-->
+                                        <span class="input-group-addon">Importe s/iva:</span>
+                                        <input class="form-control input-sm" disabled="disabled" value=" {{ benef.data.amount || '' }}" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.amount == null || benef.data.amount == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="off" onkeypress="val_Importe(this, event)"/>
+
+                                        <!--<input name="zamba_index_109" ng-model="resultToInsert.amount" size="1" class="form-control" />-->
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row" ng-show="benef.data.concept == '22-Otros'">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Otro Concepto:</span>
+                                        <input ng-model="benef.data.alternativeConcept" disabled="disabled"
+                                               class="form-control" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.alternativeConcept == null || benef.data.alternativeConcept == '') ? 'red' : 'rgb(204,204,204)'  }" />
+                                    </div>
+                                </div>
+                            </div>
+							
+							<div class="form-group row" ng-show="benef.data.concept == '12-IVA Deposito'">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">CUIT del Profesional:</span>
+                                        <input ng-model="benef.data.cuitpro" disabled="disabled"
+                                               onkeypress="val_SoloNumeros(event);" maxlength="11" 
+                                               class="form-control" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.cuitpro == null || benef.data.cuitpro == '' || benef.data.cuitpro.length < 11) ? 'red' : 'rgb(204,204,204)'  }"  ng-Blur="ValidateCharacters(11,benef.data.cuitpro,'CUIT')"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group row">
+
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Importe-->
+                                        <span class="input-group-addon">Compromiso Nro.:  </span>
+                                        <input class="form-control input-sm" disabled="disabled" value=" {{ benef.data.commitmentNumber || '' }}" style="font-weight:600;" />
+                                        <!--<input name="zamba_index_10318" ng-model="resultToInsert.commitmentNumber" size="1" class="form-control" />-->
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <!--Mail-->
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Estado:</span>
+                                        <input class="form-control input-sm" disabled="disabled" style="font-weight:600;" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <!--Mail-->
+                                        <span class="input-group-addon">F. Tentativa Pago:</span>
+                                        <input class="form-control input-sm datepicker" disabled="disabled" style="font-weight:600;" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+
+            </div>
+
+
+
+
+            <!-- End View -->
+            <!-- Edit -->
+            <div ng-show="IsEditingMode">
+                <div class="form-group row">
+                    <div class="col-md-12">
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--A favor-->
+                                    <span class="input-group-addon">A favor de:</span>
+                                    <input name="zamba_index_10289" ng-disabled="BenefAllInputEnable" ng-model="benef.data.favorTo" size="1" class="form-control" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.favorTo == null || benef.data.favorTo == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--EMAIL-->
+                                    <span class="input-group-addon">EMAIL:</span>
+                                    <input type="email" name="zamba_index_1128" ng-model="benef.data.email" size="1" class="form-control" ng-Blur="getValidateEmail(benef.data.email)" ng-style="{ 'border-color' : (benef.data.email == null || benef.data.email == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" ng-disabled="BenefAllInputEnable" />
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro. de Persona.-->
+                                    <span class="input-group-addon">Nro. de Persona:</span>
+                                    <input name="zamba_index_1020144" ng-disabled="!BenefNroPersonaEnable" ng-model="benef.data.personNumber" size="1" class="form-control" />
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--Metodo-->
+                                    <span class="input-group-addon">Método de Pago:</span>
+                                    <select name="zamba_index_10251" ng-disabled="BenefAllInputEnable"  ng-change="ValidateCBURequiered(benef)" ng-model="benef.data.payMethod" size="1" class="form-control" ng-options="item as item for item in MetodoAttributeLists" ng-style="{ 'border-color' : (benef.data.payMethod == null || benef.data.payMethod == '') ? 'red' : 'rgb(204,204,204)'  }"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--CBU-->
+                                    <span class="input-group-addon">CBU:</span>
+                                    <input name="zamba_index_10290" ng-disabled="BenefAllInputEnable || benef.data.payMethod == '1-Cheque' || benef.data.payMethod == '5-Cheque Certificado'  || benef.data.payMethod == '6-Cheque Imputado'" ng-model="benef.data.cbu" class="form-control" ng-Blur="ValidateCharacters(22,benef.data.cbu,'CBU')" ng-style="{ 'border-color' : ((benef.data.payMethod != '1-Cheque' && benef.data.payMethod != '5-Cheque Certificado'  && benef.data.payMethod != '6-Cheque Imputado' ) && (benef.data.cbu == null || benef.data.cbu == '')) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" onkeypress="val_SoloNumeros(event);"  maxlength="22" />
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--CUIT-->
+                                    <span class="input-group-addon">CUIT:</span>
+                                    <input name="zamba_index_1128" ng-disabled="BenefAllInputEnable" ng-model="benef.data.cuit" size="1" class="form-control" ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" ng-style="{ 'border-color' : (benef.data.cuit == null || benef.data.cuit == '' || benef.data.cuit.length < 11) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on"  maxlength="11" 
+                                           onkeypress="val_SoloNumeros(event);"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                          
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <!--Concepto-->
+                                    <div class="input-group-addon">Concepto:</div>
+                                    <select name="zamba_index_2788" ng-disabled="BenefAllInputEnable" ng-model="benef.data.concept"  size="1" class="form-control" ng-options="item as item for item in ConceptoAttributeLists" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.concept == null || benef.data.concept == '') ? 'red' : 'rgb(204,204,204)'  }"></select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Importe-->
+                                    <span class="input-group-addon">Importe s/iva:</span>
+                                    <input name="zamba_index_109" ng-disabled="BenefAllInputEnable"  ng-change="ValidateAmountRequiered(benef)"  ng-model="benef.data.amount" size="1" class="form-control ZDecimal" ng-Blur="setElementPartNumber(benef);setTotal()" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.amount == null || benef.data.amount == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="off" />
+
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-1 pull-right">
+                                <button type="button" ng-confirm-click="Esta seguro de eliminar este beneficiario?" confirmed-click="deleteResult(benef)" class="btn btn-danger fa fa-trash pull-right col-md-offset-4"></button>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row" ng-show="benef.data.concept == '22-Otros'">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Otro Concepto:</span>
+                                    <input ng-model="benef.data.alternativeConcept"
+                                           class="form-control" ng-style="{ 'border-color' : (benef.data.alternativeConcept == null || benef.data.alternativeConcept == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" />
+                                </div>
+                            </div>
+                        </div>
+													
+						<div class="form-group row" ng-show="benef.data.concept == '12-IVA Deposito'">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon">CUIT del Profesional</span>
+                                    <input ng-model="benef.data.cuitpro"
+                                           class="form-control" ng-style="{ 'border-color' : (benef.data.cuitpro == null || benef.data.cuitpro == '' || benef.data.cuitpro.length < 11) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" 
+                                           onkeypress="val_SoloNumeros(event);"  maxlength="11"  ng-Blur="ValidateCharacters(11,benef.data.cuitpro,'CUIT')"/>
+                                </div>
+                            </div>
+                        </div>
+                                
+
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-group row">
+
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <!--Compromiso Nro.-->
+                                    <span class="input-group-addon">Compromiso Nro.:</span>
+                                    <input name="zamba_index_10318" ng-disabled="!BenefCompromisoEnable" ng-model="benef.data.commitmentNumber" size="1" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <!--Mail-->
+                                <div class="input-group">
+                                    <span class="input-group-addon">Estado:</span>
+                                    <input class="form-control input-sm" disabled="disabled" style="font-weight:600;" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <!--Mail-->
+                                    <span class="input-group-addon">F. Tentativa Pago:</span>
+                                    <input class="form-control input-sm datepicker" disabled="disabled" style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--<div class="form-group row">
+                    <div>
+                        <button type="button" ng-click="EditResult(benef)" class="btn btn-primary fa fa-pencil"></button>
+                    </div>
+
+                </div>-->
+                <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+
+            </div>
+            <!-- End Edit -->
+            <!-- Insert -->
+          
+            <!-- End Insert -->
+
+        </div>
+    </div>
+
+
+    <!--<div class="form-group row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-small" ng-click="add()">Generar Nuevo</button>
+        </div>
+
+    </div>-->
+    <div class="form-group row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">Total:</span>
+                <input ng-model="total" ng-disabled="true" class="form-control" style="color: #000000;font-weight: bold;" />
+            </div>
+        </div>
+        <div class="col-md-2 col-md-offset-2">
+            <button type="button" ng-show="!isReadOnly && !isEditOnly" ng-click="addResult()" style="margin-left:5px" class="btn btn-success pull-right">
+                Agregar Nuevo Beneficiario
+            </button>
+        </div>
+        <div class="col-md-2">
+            <div class="btn-edit" ng-show="!IsEditingMode && !deleteItems">
+                <button type="button" ng-show="(!isReadOnly)" class="btn btn-warning pull-right" ng-click="EditResultMode()">
+                    Editar Beneficiarios
+                </button>
+            </div>
+        </div>
+        <!--<div class="col-md-5 col-md-offset-7">
+            <div class="btn-form" ng-show="IsInsertingMode || IsEditingMode || deleteItems">
+                <button type="button" ng-disabled="tableform.$waiting" ng-click="saveTable()" class="btn btn-primary send" id="send">Guardar Datos del Beneficiario</button>
+                <button type="button" ng-disabled="tableform.$waiting" ng-click="cancelModification()" class="btn btn-default">Cancelar Cambios</button>
+            </div>
+        </div>-->
+        <hr style=" width: 100%;margin-top:10px;" />
+
+    </div>
+</div>

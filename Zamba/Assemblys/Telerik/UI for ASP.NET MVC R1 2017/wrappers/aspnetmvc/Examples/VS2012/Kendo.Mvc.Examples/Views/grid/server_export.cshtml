@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Kendo.Mvc.Examples.Models.ProductViewModel>
+
+<form action="@Url.Action("ExportServer", "Grid")" method="POST">
+    <input type="hidden" id="export-data" name="data" />
+    <input type="hidden" id="export-model" name="model" />
+    <input type="submit" class="k-button download" data-format="xlsx" data-title="Title1" value="Export to XLSX" />
+    <input type="submit" class="k-button download" data-format="csv" data-title="Title2" value="Export to CSV" />
+</form>
+
+@(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.ProductID).Width(150);
+        columns.Bound(p => p.ProductName);
+        columns.Bound(p => p.UnitPrice).Width(150);
+        columns.Bound(p => p.Category.CategoryName);
+        columns.Bound(p => p.UnitsInStock).Width(150);
+    })
+    .Pageable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height: 500px;" })
+    .DataSource(dataSource => dataSource
+        .Server()
+        .PageSize(20)
+    )
+)
+
+<script>
+    $(".download").click(function () {
+        var grid = $("#Grid").data("kendoGrid");
+        var options = {
+            format: $(this).data("format"),
+            title: "DemoSheet"
+        }
+        $("#export-data").val(encodeURIComponent(JSON.stringify(options)));
+        $("#export-model").val(encodeURIComponent(JSON.stringify(grid.columns)));
+    });
+</script>

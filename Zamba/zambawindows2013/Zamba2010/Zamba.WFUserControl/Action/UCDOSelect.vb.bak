@@ -1,0 +1,751 @@
+Imports Zamba.Core
+Imports Zamba.AppBlock
+'Imports Zamba.WFBusiness
+
+
+
+
+Public Class UCDOSelect
+    Inherits ZRuleControl
+
+
+#Region " Código generado por el Diseñador de Windows Forms "
+
+    'UserControl reemplaza a Dispose para limpiar la lista de componentes.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing Then
+            If Not (components Is Nothing) Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Requerido por el Diseñador de Windows Forms
+    Private components As System.ComponentModel.IContainer
+
+    'NOTA: el Diseñador de Windows Forms requiere el siguiente procedimiento
+    'Puede modificarse utilizando el Diseñador de Windows Forms. 
+    'No lo modifique con el editor de código.
+    Friend WithEvents txtScriptSql As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents btnWizard As Zamba.AppBlock.ZButton
+    Friend WithEvents BtnSave As Zamba.AppBlock.ZButton
+    Friend WithEvents lblServerType As System.Windows.Forms.LinkLabel
+    Friend WithEvents lblServerName As System.Windows.Forms.LinkLabel
+    Friend WithEvents lblDatabase As System.Windows.Forms.LinkLabel
+    Friend WithEvents lblUser As System.Windows.Forms.LinkLabel
+    Friend WithEvents lblPassword As System.Windows.Forms.LinkLabel
+    Friend WithEvents cboServerType As System.Windows.Forms.ComboBox
+    Friend WithEvents txtServerName As System.Windows.Forms.TextBox
+    Friend WithEvents txtDatabase As System.Windows.Forms.TextBox
+    Friend WithEvents chkUseAppIni As System.Windows.Forms.CheckBox
+    Friend WithEvents txtUser As System.Windows.Forms.TextBox
+    Friend WithEvents txtPassword As System.Windows.Forms.TextBox
+    Friend WithEvents txtDescripcionConsulta As System.Windows.Forms.TextBox
+    Friend Shadows WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend Shadows WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents optEscalar As System.Windows.Forms.RadioButton
+    Friend WithEvents optNonQuery As System.Windows.Forms.RadioButton
+    Friend WithEvents optDataset As System.Windows.Forms.RadioButton
+    Friend WithEvents txtNombreConsulta As Zamba.AppBlock.TextoInteligente
+    Friend WithEvents cmbODBC As System.Windows.Forms.ComboBox
+    Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents lstautomaticvariables As System.Windows.Forms.ListBox
+    Friend WithEvents btnTest As Zamba.AppBlock.ZButton
+
+    <System.Diagnostics.DebuggerStepThrough()> Private Overloads Sub InitializeComponent()
+        Me.txtScriptSql = New Zamba.AppBlock.TextoInteligente()
+        Me.btnWizard = New Zamba.AppBlock.ZButton()
+        Me.BtnSave = New Zamba.AppBlock.ZButton()
+        Me.lblServerType = New System.Windows.Forms.LinkLabel()
+        Me.lblServerName = New System.Windows.Forms.LinkLabel()
+        Me.lblDatabase = New System.Windows.Forms.LinkLabel()
+        Me.lblUser = New System.Windows.Forms.LinkLabel()
+        Me.lblPassword = New System.Windows.Forms.LinkLabel()
+        Me.cboServerType = New System.Windows.Forms.ComboBox()
+        Me.txtServerName = New System.Windows.Forms.TextBox()
+        Me.txtDatabase = New System.Windows.Forms.TextBox()
+        Me.txtUser = New System.Windows.Forms.TextBox()
+        Me.txtPassword = New System.Windows.Forms.TextBox()
+        Me.chkUseAppIni = New System.Windows.Forms.CheckBox()
+        Me.btnTest = New Zamba.AppBlock.ZButton()
+        Me.txtDescripcionConsulta = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.optEscalar = New System.Windows.Forms.RadioButton()
+        Me.optNonQuery = New System.Windows.Forms.RadioButton()
+        Me.optDataset = New System.Windows.Forms.RadioButton()
+        Me.txtNombreConsulta = New Zamba.AppBlock.TextoInteligente()
+        Me.cmbODBC = New System.Windows.Forms.ComboBox()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.lstautomaticvariables = New System.Windows.Forms.ListBox()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.TabControl1)
+        Me.tbRule.Size = New System.Drawing.Size(624, 503)
+        '
+        'tbctrMain
+        '
+        Me.tbctrMain.Size = New System.Drawing.Size(632, 529)
+        '
+        'txtScriptSql
+        '
+        Me.txtScriptSql.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtScriptSql.Location = New System.Drawing.Point(3, 16)
+        Me.txtScriptSql.MaxLength = 4000
+        Me.txtScriptSql.Name = "txtScriptSql"
+        Me.txtScriptSql.Size = New System.Drawing.Size(604, 285)
+        Me.txtScriptSql.TabIndex = 0
+        Me.txtScriptSql.Text = ""
+        '
+        'btnWizard
+        '
+        Me.btnWizard.Location = New System.Drawing.Point(37, 67)
+        Me.btnWizard.Name = "btnWizard"
+        Me.btnWizard.Size = New System.Drawing.Size(80, 27)
+        Me.btnWizard.TabIndex = 2
+        Me.btnWizard.Text = "Test"
+        '
+        'BtnSave
+        '
+        Me.BtnSave.Location = New System.Drawing.Point(37, 110)
+        Me.BtnSave.Name = "BtnSave"
+        Me.BtnSave.Size = New System.Drawing.Size(80, 27)
+        Me.BtnSave.TabIndex = 3
+        Me.BtnSave.Text = "Guardar"
+        '
+        'lblServerType
+        '
+        Me.lblServerType.AutoSize = True
+        Me.lblServerType.BackColor = System.Drawing.Color.Transparent
+        Me.lblServerType.Location = New System.Drawing.Point(32, 49)
+        Me.lblServerType.Name = "lblServerType"
+        Me.lblServerType.Size = New System.Drawing.Size(66, 13)
+        Me.lblServerType.TabIndex = 6
+        Me.lblServerType.TabStop = True
+        Me.lblServerType.Text = "Server Type"
+        '
+        'lblServerName
+        '
+        Me.lblServerName.AutoSize = True
+        Me.lblServerName.BackColor = System.Drawing.Color.Transparent
+        Me.lblServerName.Location = New System.Drawing.Point(32, 73)
+        Me.lblServerName.Name = "lblServerName"
+        Me.lblServerName.Size = New System.Drawing.Size(69, 13)
+        Me.lblServerName.TabIndex = 7
+        Me.lblServerName.TabStop = True
+        Me.lblServerName.Text = "Server Name"
+        '
+        'lblDatabase
+        '
+        Me.lblDatabase.AutoSize = True
+        Me.lblDatabase.BackColor = System.Drawing.Color.Transparent
+        Me.lblDatabase.Location = New System.Drawing.Point(32, 99)
+        Me.lblDatabase.Name = "lblDatabase"
+        Me.lblDatabase.Size = New System.Drawing.Size(53, 13)
+        Me.lblDatabase.TabIndex = 8
+        Me.lblDatabase.TabStop = True
+        Me.lblDatabase.Text = "Database"
+        '
+        'lblUser
+        '
+        Me.lblUser.AutoSize = True
+        Me.lblUser.BackColor = System.Drawing.Color.Transparent
+        Me.lblUser.Location = New System.Drawing.Point(32, 126)
+        Me.lblUser.Name = "lblUser"
+        Me.lblUser.Size = New System.Drawing.Size(29, 13)
+        Me.lblUser.TabIndex = 9
+        Me.lblUser.TabStop = True
+        Me.lblUser.Text = "User"
+        '
+        'lblPassword
+        '
+        Me.lblPassword.AutoSize = True
+        Me.lblPassword.BackColor = System.Drawing.Color.Transparent
+        Me.lblPassword.Location = New System.Drawing.Point(32, 151)
+        Me.lblPassword.Name = "lblPassword"
+        Me.lblPassword.Size = New System.Drawing.Size(53, 13)
+        Me.lblPassword.TabIndex = 10
+        Me.lblPassword.TabStop = True
+        Me.lblPassword.Text = "Password"
+        '
+        'cboServerType
+        '
+        Me.cboServerType.FormattingEnabled = True
+        Me.cboServerType.Location = New System.Drawing.Point(104, 46)
+        Me.cboServerType.Name = "cboServerType"
+        Me.cboServerType.Size = New System.Drawing.Size(265, 21)
+        Me.cboServerType.TabIndex = 11
+        '
+        'txtServerName
+        '
+        Me.txtServerName.Location = New System.Drawing.Point(104, 73)
+        Me.txtServerName.Name = "txtServerName"
+        Me.txtServerName.Size = New System.Drawing.Size(265, 21)
+        Me.txtServerName.TabIndex = 12
+        '
+        'txtDatabase
+        '
+        Me.txtDatabase.Location = New System.Drawing.Point(104, 100)
+        Me.txtDatabase.Name = "txtDatabase"
+        Me.txtDatabase.Size = New System.Drawing.Size(265, 21)
+        Me.txtDatabase.TabIndex = 13
+        '
+        'txtUser
+        '
+        Me.txtUser.Location = New System.Drawing.Point(104, 127)
+        Me.txtUser.Name = "txtUser"
+        Me.txtUser.Size = New System.Drawing.Size(140, 21)
+        Me.txtUser.TabIndex = 14
+        '
+        'txtPassword
+        '
+        Me.txtPassword.Location = New System.Drawing.Point(104, 154)
+        Me.txtPassword.Name = "txtPassword"
+        Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(64)
+        Me.txtPassword.Size = New System.Drawing.Size(140, 21)
+        Me.txtPassword.TabIndex = 15
+        '
+        'chkUseAppIni
+        '
+        Me.chkUseAppIni.BackColor = System.Drawing.Color.Transparent
+        Me.chkUseAppIni.Location = New System.Drawing.Point(16, 20)
+        Me.chkUseAppIni.Name = "chkUseAppIni"
+        Me.chkUseAppIni.Size = New System.Drawing.Size(167, 20)
+        Me.chkUseAppIni.TabIndex = 3
+        Me.chkUseAppIni.Text = "Usar Configuracion Existente"
+        Me.chkUseAppIni.UseVisualStyleBackColor = False
+        '
+        'btnTest
+        '
+        Me.btnTest.Location = New System.Drawing.Point(273, 157)
+        Me.btnTest.Name = "btnTest"
+        Me.btnTest.Size = New System.Drawing.Size(46, 17)
+        Me.btnTest.TabIndex = 16
+        Me.btnTest.Text = "Test"
+        '
+        'txtDescripcionConsulta
+        '
+        Me.txtDescripcionConsulta.Location = New System.Drawing.Point(18, 28)
+        Me.txtDescripcionConsulta.Name = "txtDescripcionConsulta"
+        Me.txtDescripcionConsulta.Size = New System.Drawing.Size(224, 21)
+        Me.txtDescripcionConsulta.TabIndex = 17
+        Me.txtDescripcionConsulta.Visible = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
+        Me.Label2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Label2.Location = New System.Drawing.Point(3, 3)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(72, 13)
+        Me.Label2.TabIndex = 19
+        Me.Label2.Text = "Script de sql :"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Location = New System.Drawing.Point(9, 42)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(166, 13)
+        Me.Label3.TabIndex = 21
+        Me.Label3.Text = "Nombre de la variable resultado :"
+        '
+        'optEscalar
+        '
+        Me.optEscalar.AutoSize = True
+        Me.optEscalar.BackColor = System.Drawing.Color.Transparent
+        Me.optEscalar.Checked = True
+        Me.optEscalar.Location = New System.Drawing.Point(158, 13)
+        Me.optEscalar.Name = "optEscalar"
+        Me.optEscalar.Size = New System.Drawing.Size(132, 17)
+        Me.optEscalar.TabIndex = 22
+        Me.optEscalar.TabStop = True
+        Me.optEscalar.Text = "Devolver un solo valor"
+        Me.optEscalar.UseVisualStyleBackColor = False
+        '
+        'optNonQuery
+        '
+        Me.optNonQuery.AutoSize = True
+        Me.optNonQuery.BackColor = System.Drawing.Color.Transparent
+        Me.optNonQuery.Location = New System.Drawing.Point(12, 13)
+        Me.optNonQuery.Name = "optNonQuery"
+        Me.optNonQuery.Size = New System.Drawing.Size(122, 17)
+        Me.optNonQuery.TabIndex = 23
+        Me.optNonQuery.Text = "No Devolver valores"
+        Me.optNonQuery.UseVisualStyleBackColor = False
+        '
+        'optDataset
+        '
+        Me.optDataset.AutoSize = True
+        Me.optDataset.BackColor = System.Drawing.Color.Transparent
+        Me.optDataset.Location = New System.Drawing.Point(309, 13)
+        Me.optDataset.Name = "optDataset"
+        Me.optDataset.Size = New System.Drawing.Size(181, 17)
+        Me.optDataset.TabIndex = 23
+        Me.optDataset.Text = "Devolver un conjunto de valores"
+        Me.optDataset.UseVisualStyleBackColor = False
+        '
+        'txtNombreConsulta
+        '
+        Me.txtNombreConsulta.Location = New System.Drawing.Point(181, 39)
+        Me.txtNombreConsulta.MaxLength = 4000
+        Me.txtNombreConsulta.Name = "txtNombreConsulta"
+        Me.txtNombreConsulta.Size = New System.Drawing.Size(343, 21)
+        Me.txtNombreConsulta.TabIndex = 24
+        Me.txtNombreConsulta.Text = ""
+        '
+        'cmbODBC
+        '
+        Me.cmbODBC.FormattingEnabled = True
+        Me.cmbODBC.Location = New System.Drawing.Point(104, 73)
+        Me.cmbODBC.Name = "cmbODBC"
+        Me.cmbODBC.Size = New System.Drawing.Size(265, 21)
+        Me.cmbODBC.TabIndex = 25
+        Me.cmbODBC.Visible = False
+        '
+        'TabControl1
+        '
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControl1.Location = New System.Drawing.Point(3, 3)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(618, 497)
+        Me.TabControl1.TabIndex = 26
+        '
+        'TabPage1
+        '
+        Me.TabPage1.AutoScroll = True
+        Me.TabPage1.Controls.Add(Me.txtScriptSql)
+        Me.TabPage1.Controls.Add(Me.Panel1)
+        Me.TabPage1.Controls.Add(Me.txtDescripcionConsulta)
+        Me.TabPage1.Controls.Add(Me.Label2)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(610, 471)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Consulta"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.Label5)
+        Me.Panel1.Controls.Add(Me.lstautomaticvariables)
+        Me.Panel1.Controls.Add(Me.optNonQuery)
+        Me.Panel1.Controls.Add(Me.btnWizard)
+        Me.Panel1.Controls.Add(Me.Label3)
+        Me.Panel1.Controls.Add(Me.BtnSave)
+        Me.Panel1.Controls.Add(Me.optEscalar)
+        Me.Panel1.Controls.Add(Me.txtNombreConsulta)
+        Me.Panel1.Controls.Add(Me.optDataset)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Panel1.Location = New System.Drawing.Point(3, 301)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(604, 167)
+        Me.Panel1.TabIndex = 25
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
+        Me.Label5.Location = New System.Drawing.Point(178, 67)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(112, 13)
+        Me.Label5.TabIndex = 26
+        Me.Label5.Text = "Variables Automaticas"
+        '
+        'lstautomaticvariables
+        '
+        Me.lstautomaticvariables.BackColor = System.Drawing.Color.White
+        Me.lstautomaticvariables.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.lstautomaticvariables.ForeColor = System.Drawing.Color.Black
+        Me.lstautomaticvariables.FormattingEnabled = True
+        Me.lstautomaticvariables.Location = New System.Drawing.Point(181, 83)
+        Me.lstautomaticvariables.Name = "lstautomaticvariables"
+        Me.lstautomaticvariables.Size = New System.Drawing.Size(343, 65)
+        Me.lstautomaticvariables.TabIndex = 25
+        '
+        'TabPage2
+        '
+        Me.TabPage2.AutoScroll = True
+        Me.TabPage2.Controls.Add(Me.lblServerType)
+        Me.TabPage2.Controls.Add(Me.cmbODBC)
+        Me.TabPage2.Controls.Add(Me.lblServerName)
+        Me.TabPage2.Controls.Add(Me.lblDatabase)
+        Me.TabPage2.Controls.Add(Me.lblUser)
+        Me.TabPage2.Controls.Add(Me.lblPassword)
+        Me.TabPage2.Controls.Add(Me.chkUseAppIni)
+        Me.TabPage2.Controls.Add(Me.cboServerType)
+        Me.TabPage2.Controls.Add(Me.txtServerName)
+        Me.TabPage2.Controls.Add(Me.txtDatabase)
+        Me.TabPage2.Controls.Add(Me.txtUser)
+        Me.TabPage2.Controls.Add(Me.btnTest)
+        Me.TabPage2.Controls.Add(Me.txtPassword)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(610, 471)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Conexión"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'UCDOSelect
+        '
+        Me.Name = "UCDOSelect"
+        Me.Size = New System.Drawing.Size(632, 529)
+        Me.tbRule.ResumeLayout(False)
+        Me.tbctrMain.ResumeLayout(False)
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
+        Me.ResumeLayout(False)
+
+    End Sub
+
+#End Region
+
+#Region "Metodos Heredados"
+    'Constructor por defecto
+    Dim CurrentRule As IDOSELECT
+    Public Sub New(ByRef DoSelect As IDOSELECT, ByRef _wfPanelCircuit As IWFPanelCircuit)
+        MyBase.New(DoSelect, _wfPanelCircuit)
+        InitializeComponent()
+        Me.CurrentRule = DoSelect
+
+        Try
+            LoadServersTypes()
+            LoadConnectionsParams()
+            LoadRulesParams()
+            AddAutomaticVariables()
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+
+    End Sub
+#End Region
+
+#Region "Propietary"
+
+#Region "Variables locales"
+    'Dim DsDocTypes As New ArrayList
+    'Dim DsIndex As DSIndex
+    'Dim replaceindex As New ArrayList
+
+#End Region
+
+
+
+#Region "Atributos y Documentos"
+
+    Private Sub UCDOSelect_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        'Try
+        'LoadServersTypes()
+        'LoadConnetcionsParams()
+        'LoadRulesParams()
+
+        'Catch ex As Exception
+        'ZClass.raiseerror(ex)
+        'End Try
+    End Sub
+    Private Sub LoadServersTypes()
+        Me.cboServerType.DataSource = System.Enum.GetValues(GetType(DBTypes))
+        'Me.cboServerType.Items.AddRange(DirectCast(System.Enum.GetValues(GetType(DBTypes)), Object()))
+    End Sub
+
+    Private Sub LoadConnectionsParams()
+        Try
+            RemoveHandler cboServerType.SelectedIndexChanged, AddressOf cboServerType_SelectedIndexChanged
+            Me.cboServerType.SelectedIndex = Me.CurrentRule.Servertype
+            AddHandler cboServerType.SelectedIndexChanged, AddressOf cboServerType_SelectedIndexChanged
+            If String.IsNullOrEmpty(Me.CurrentRule.Dbname) = False Then
+                Me.txtServerName.Text = Me.CurrentRule.Servidor
+                Me.txtDatabase.Text = Me.CurrentRule.Dbname
+                Me.txtUser.Text = Me.CurrentRule.Dbuser
+                Me.txtPassword.Text = Me.CurrentRule.Dbpassword
+                If CurrentRule.Servertype = 6 Then
+                    cmbODBC.Visible = True
+                    GetSystemDataSourceNames()
+                    Me.cmbODBC.Text = CurrentRule.Servidor
+                Else
+                    Me.cmbODBC.Text = String.Empty
+                    cmbODBC.Visible = False
+                End If
+            Else
+                chkUseAppIni.Checked = True
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+
+    End Sub
+    Private Sub LoadRulesParams()
+        Try
+            Me.txtDescripcionConsulta.Text = Me.CurrentRule.Name
+            Me.txtScriptSql.Text = Me.CurrentRule.SQL
+            Me.txtScriptSql.ModificarColores()
+            Me.txtNombreConsulta.Text = Me.CurrentRule.HashTable
+            Me.txtNombreConsulta.ModificarColores()
+            If Not IsNothing(Me.CurrentRule.ExecuteType) Then
+                If Me.CurrentRule.ExecuteType.ToString = "ESCALAR" Then
+                    Me.optEscalar.Checked = True
+                ElseIf Me.CurrentRule.ExecuteType.ToString = "DATASET" Then
+                    Me.optDataset.Checked = True
+                Else
+                    Me.optNonQuery.Checked = True
+                End If
+            End If
+
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+
+    End Sub
+    'Private Sub LoadConnetcionsParams()
+    '    Try
+    '        'Me.cboServerType.SelectedValue = Me.CurrentRule.servertype
+
+    '        Me.txtServerName.Text = Me.CurrentRule.servidor
+    '        Me.txtDatabase.Text = Me.CurrentRule.dbname
+    '        Me.txtUser.Text = Me.CurrentRule.dbuser
+    '        Me.txtPassword.Text = Me.CurrentRule.dbpassword
+
+    '    Catch ex As Exception
+    '        zclass.raiseerror(ex)
+    '    End Try
+
+    'End Sub
+    'Private Sub LoadRulesParams()
+    '    Try
+    '        Me.txtDescripcionConsulta.Text = Me.CurrentRule.Name
+    '        Me.txtScriptSql.Text = Me.CurrentRule.SQL
+    '        Me.txtNombreConsulta.Text = Me.CurrentRule.HashTable
+
+    '    Catch ex Asselect usuario from autorizacionmontos where desde <= <<Tarea>>.<<Indice(Importe)>> and hasta >= <<Tarea>>.<<Indice(Importe)>> Exception
+    '        zclass.raiseerror(ex)
+    '    End Try
+
+    'End Sub
+
+#End Region
+
+    'Private Sub btnWizard_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWizard.Click
+    '    Try
+    '        Dim UC As New CSelect
+    '        Dim frm As New Form
+    '        frm.Width = UC.Width + 25
+    '        frm.Height = UC.Height + 25
+    '        frm.Controls.Add(UC)
+    '        AddHandler UC.query, AddressOf ShowQuery
+    '        AddHandler UC.usuario, AddressOf Getdbuser
+    '        AddHandler UC.password, AddressOf Getdbpassword
+    '        AddHandler UC.sname, AddressOf GetServerName
+    '        AddHandler UC.stype, AddressOf GetServerType
+    '        AddHandler UC.database, AddressOf Getdbname
+    '        frm.Show()
+    '    Catch
+    '    End Try
+    'End Sub
+
+
+    Private Sub ShowQuery(ByVal sql As String)
+        txtScriptSql.Text = sql
+    End Sub
+
+#End Region
+
+
+    Private Sub btnTest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnTest.Click
+        Try
+            Dim errorMsg As String = String.Empty
+            If ServersBusiness.IsConnectionValid(DirectCast(Me.CurrentRule.Servertype, DBTypes), Me.txtServerName.Text, Me.txtDatabase.Text, Me.txtUser.Text, Me.txtPassword.Text, errorMsg) Then
+                MessageBox.Show("La conexión ha sido correcta")
+            Else
+                MessageBox.Show("La conexión ha producido un error: " & errorMsg, "Zamba - Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Private Sub BtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSave.Click
+        Try
+            Dim Ht As String
+            Try
+                CurrentRule.Name = Me.txtDescripcionConsulta.Text.Trim
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 0, CurrentRule.Name)
+
+                CurrentRule.SQL = Me.txtScriptSql.Text
+
+                WFRulesBusiness.UpdateParamItem(Rule.ID, 1, CurrentRule.SQL)
+                Ht = Me.txtNombreConsulta.Text
+                If Ht = "" Then
+                    MessageBox.Show("Debe ingresar un nombre al conjunto de resultados", "Zamba", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
+
+                If chkUseAppIni.Checked Then
+                    CurrentRule.Servidor = String.Empty
+                    CurrentRule.Dbname = String.Empty
+                    CurrentRule.Dbuser = String.Empty
+                    CurrentRule.Dbpassword = String.Empty
+                    CurrentRule.Servertype = 0
+                    CurrentRule.HashTable = Ht.Trim
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 2, CurrentRule.HashTable.Trim)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 3, CurrentRule.Servidor)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 4, CurrentRule.Dbname)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 5, CurrentRule.Dbuser)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 6, CurrentRule.Dbpassword)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 7, CurrentRule.Servertype)
+                Else
+                    If CurrentRule.Servertype = 6 Then
+                        CurrentRule.Servidor = Me.cmbODBC.Text
+                    Else
+                        CurrentRule.Servidor = Me.txtServerName.Text
+                    End If
+                    CurrentRule.Dbname = Me.txtDatabase.Text
+                    CurrentRule.Dbuser = Me.txtUser.Text
+                    CurrentRule.Dbpassword = Me.txtPassword.Text
+                    CurrentRule.HashTable = Ht.Trim
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 2, CurrentRule.HashTable.Trim)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 3, CurrentRule.Servidor)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 4, CurrentRule.Dbname)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 5, CurrentRule.Dbuser)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 6, CurrentRule.Dbpassword)
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 7, CurrentRule.Servertype)
+                End If
+
+
+                If Me.optEscalar.Checked = True Then
+                    CurrentRule.ExecuteType = "ESCALAR"
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 8, "ESCALAR")
+                ElseIf optDataset.Checked Then
+                    CurrentRule.ExecuteType = "DATASET"
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 8, "DATASET")
+                Else
+                    CurrentRule.ExecuteType = "NONQUERY"
+                    WFRulesBusiness.UpdateParamItem(Rule.ID, 8, "NONQUERY")
+                End If
+
+                AddAutomaticVariables()
+                UserBusiness.Rights.SaveAction(Rule.ID, Zamba.Core.ObjectTypes.WFRules, Zamba.Core.RightsType.Edit, "Se editaron los datos de la regla " & Rule.Name & "(" & Rule.ID & ")")
+
+            Catch ex As Exception
+                ZClass.raiseerror(ex)
+            End Try
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+            MessageBox.Show("ERROR DE CONEXION " & ex.ToString, "Zamba - Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub cboServerType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Me.CurrentRule.Servertype = Me.cboServerType.SelectedIndex
+        cmbODBC.SelectedIndex = -1
+        If CurrentRule.Servertype = 6 Then
+            txtServerName.Visible = False
+            cmbODBC.Visible = True
+            cmbODBC.Items.Clear()
+            GetSystemDataSourceNames()
+        Else
+            cmbODBC.Visible = False
+            txtServerName.Visible = True
+        End If
+    End Sub
+
+    '     <summary>
+    ' Gets all System data source names for the local machine.
+    ' </summary>
+    Public Sub GetSystemDataSourceNames()
+        'get system dsn's
+        Dim reg As Microsoft.Win32.RegistryKey = (Microsoft.Win32.Registry.LocalMachine).OpenSubKey("Software")
+        If Not IsNothing(reg) Then
+            reg = reg.OpenSubKey("ODBC")
+            If Not IsNothing(reg) Then
+
+                reg = reg.OpenSubKey("ODBC.INI")
+                If Not IsNothing(reg) Then
+
+                    reg = reg.OpenSubKey("ODBC Data Sources")
+                    If Not IsNothing(reg) Then
+                        'Get all DSN entries defined in DSN_LOC_IN_REGISTRY.
+                        For Each sName As String In reg.GetValueNames()
+                            cmbODBC.Items.Add(sName)
+                        Next
+                    End If
+                    Try
+                        reg.Close()
+                        ' ignore this exception if we couldn't close
+                    Catch
+                    End Try
+                End If
+            End If
+        End If
+    End Sub
+
+    Private Sub chkUseAppIni_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseAppIni.CheckedChanged
+        If chkUseAppIni.Checked Then
+            txtServerName.Enabled = False
+            cboServerType.Enabled = False
+            cmbODBC.Enabled = False
+            txtDatabase.Enabled = False
+            txtUser.Enabled = False
+            txtPassword.Enabled = False
+            btnTest.Visible = False
+        Else
+            txtServerName.Enabled = True
+            cboServerType.Enabled = True
+            cmbODBC.Enabled = True
+            txtDatabase.Enabled = True
+            txtUser.Enabled = True
+            txtPassword.Enabled = True
+            btnTest.Visible = True
+        End If
+    End Sub
+
+    Private Sub cmbODBC_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbODBC.SelectedIndexChanged
+        txtServerName.Text = cmbODBC.Text
+        txtDatabase.Text = cmbODBC.Text
+    End Sub
+
+    Private Sub btnWizard_Click(sender As System.Object, e As System.EventArgs) Handles btnWizard.Click
+
+    End Sub
+
+    Private Sub AddAutomaticVariables()
+        Try
+            Me.lstautomaticvariables.Items.Clear()
+            Me.lstautomaticvariables.Items.Add("zvar(" & CurrentRule.HashTable.Trim & ".Count)")
+            'todo: ML Descubrir las columnas devueltas por el select y mostrar las variables automaticas en DS y Scalar
+        Catch ex As Exception
+        End Try
+
+    End Sub
+
+End Class

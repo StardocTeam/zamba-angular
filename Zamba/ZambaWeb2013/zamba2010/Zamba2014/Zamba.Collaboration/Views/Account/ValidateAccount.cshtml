@@ -1,0 +1,24 @@
+﻿@model ChatJsMvcSample.Models.ChatUser
+@{
+    ViewBag.Title = "Registro de usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Registración de cuenta</h2>
+<hr />
+
+<h3>Bienvenido <b>@Model.Name</b>! tu cuenta se registro con éxito.</h3>
+<br />
+<div>
+@if (@Model.Avatar != null)
+{
+    <img src="data:image;base64,@Model.Avatar" style="border-radius: 50%;" width="40" height="40" />
+}
+    <h4 style="display:inline"><b>@Model.Name</b> (@Model.Email) gracias por formar parte de Zamba Link</h4>
+</div>
+<hr />
+<div>
+    Para acceder por favor inicia sesión haciendo click
+    <a href="~/Account/Login">aquí</a>
+</div>
+<br />

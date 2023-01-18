@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='src/bootstrap/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='src/chart.js/Chart.css'>
+    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.0/moment.min.js'></script>
+    
+</head>
+
+<nav>
+   <div class="text-center  " >
+      <h2 class="titleStyle" style="padding: 5px;" titleStyle>Graficos</h2>
+   </div>
+  </nav>
+<body>
+<div class="container">
+    <div class="row" >
+        <!-- Grafico de barra -->
+        <div class="col" id="GraficoBarra">
+            <div class="card border-secondary mb-3" style="max-width:100%s">
+                <div class="card-header">Reclamos Sin Derivar</div>
+                <div class="card-body text-secondary">
+                  <h5 class="card-title">Secondary card title</h5>
+                  <canvas id="popChart" data-visible="true" data-x="FECHA" data-y="CANTIDAD" data-report="11535092" class="containerGraph" ></canvas>               
+                 </div>
+              </div>
+        </div>
+        <!-- fin Grafico de barra -->
+
+        <!-- Grafico de torta -->
+        <div class="col" id="GraficoTorta">
+            <div class="card border-secondary mb-3" style="max-width: 100%">
+                <div class="card-header">Reclamos Sin Derivar</div>
+                <div class="card-body text-secondary">
+                  <h5 class="card-title">Secondary card title</h5>
+                  <canvas id="pieChart" data-visible="true" data-x="J_M" data-report="1535100" class="containerGraph"></canvas>
+                </div>
+              </div>
+        </div>
+      </div>
+      <!-- fin Grafico de torta -->
+
+      <!-- Grafico de barra horizontal -->
+      <div class="row">
+        <div class="col"  id="GraficoBarraHor">
+            <div class="card border-secondary mb-3" style="max-width:100%">
+                <div class="card-header">Header</div>
+                <div class="card-body text-secondary">
+                  <h5 class="card-title">Secondary card title</h5>
+                  <canvas id="densityChart" data-visible="true" data-x="ESTUDIO" data-report="1535100" class="containerGraph"></canvas>
+                </div>
+              </div>
+        </div>
+        <!-- fin Grafico de barra horizontal -->
+
+        <!-- Grafico de linea -->
+        <div class="col" id="GraficoLinea">
+            <div class="card border-secondary mb-3" style="max-width: 100%">
+                <div class="card-header">Header</div>
+                <div class="card-body text-secondary">
+                  <h5 class="card-title">Secondary card title</h5>
+                  <canvas id="speedChart" data-visible="true" data-x="ESTUDIO" data-report="1535100"  class="containerGraph"></canvas>
+                </div>
+              </div>
+           
+        </div>
+        <!-- fin Grafico de linea -->
+      </div>
+</div>
+
+
+  
+ 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src='src/chart.js/Chart.bundle.js'></script>
+<script src='src/chart.js/Chart.js'></script>
+<script src='Service/service.js'></script>
+<script src='controller/app.js'></script>
+<script src='src/bootstrap/js/bootstrap.js'></script>
+
+
+<script>
+    (function(){
+        $(".card-title").css("display","none");
+    })();
+</script>
+    
+</body>
+<footer>
+    <img src="src/img/LoginMain.jpg" style="float: left;width: 200px;">
+    <img src="src/img/logozamba.jpg" style="float: right;width: 200px;">
+  </footer>
+</html>

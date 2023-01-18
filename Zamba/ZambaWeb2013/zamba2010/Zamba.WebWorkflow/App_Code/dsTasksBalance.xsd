@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsTasksBalance" targetNamespace="http://tempuri.org/dsTasksBalance.xsd" xmlns:mstns="http://tempuri.org/dsTasksBalance.xsd" xmlns="http://tempuri.org/dsTasksBalance.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsTasksBalance" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsTasksBalance" msprop:Generator_DataSetName="dsTasksBalance">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtTasksBalance" msprop:Generator_UserTableName="dtTasksBalance" msprop:Generator_RowDeletedName="dtTasksBalanceRowDeleted" msprop:Generator_RowChangedName="dtTasksBalanceRowChanged" msprop:Generator_RowClassName="dtTasksBalanceRow" msprop:Generator_RowChangingName="dtTasksBalanceRowChanging" msprop:Generator_RowEvArgName="dtTasksBalanceRowChangeEvent" msprop:Generator_RowEvHandlerName="dtTasksBalanceRowChangeEventHandler" msprop:Generator_TableClassName="dtTasksBalanceDataTable" msprop:Generator_TableVarName="tabledtTasksBalance" msprop:Generator_RowDeletingName="dtTasksBalanceRowDeleting" msprop:Generator_TablePropName="dtTasksBalance">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TasksBalance_State" msprop:Generator_UserColumnName="TasksBalance_State" msprop:Generator_ColumnVarNameInTable="columnTasksBalance_State" msprop:Generator_ColumnPropNameInRow="TasksBalance_State" msprop:Generator_ColumnPropNameInTable="TasksBalance_StateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="TasksBalance_Count" msprop:Generator_UserColumnName="TasksBalance_Count" msprop:Generator_ColumnVarNameInTable="columnTasksBalance_Count" msprop:Generator_ColumnPropNameInRow="TasksBalance_Count" msprop:Generator_ColumnPropNameInTable="TasksBalance_CountColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,41 @@
+Public Class UCDoImport
+    Inherits ZRuleControl
+
+    Friend WithEvents lblEnConstruccion As System.Windows.Forms.Label
+    Public Sub New(ByRef rule As IDoImport, ByRef _wfPanelCircuit As IWFPanelCircuit)
+        MyBase.New(rule, _wfPanelCircuit)
+        Me.InitializeComponent()
+    End Sub
+
+    Private Shadows Sub InitializeComponent()
+        Me.lblEnConstruccion = New System.Windows.Forms.Label
+        Me.tbRule.SuspendLayout()
+        Me.tbctrMain.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'tbRule
+        '
+        Me.tbRule.Controls.Add(Me.lblEnConstruccion)
+        '
+        'lblEnConstruccion
+        '
+        Me.lblEnConstruccion.AutoSize = True
+        Me.lblEnConstruccion.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.lblEnConstruccion.Location = New System.Drawing.Point(18, 21)
+        Me.lblEnConstruccion.Name = "lblEnConstruccion"
+        Me.lblEnConstruccion.Size = New System.Drawing.Size(262, 13)
+        Me.lblEnConstruccion.TabIndex = 1
+        Me.lblEnConstruccion.Text = "Esta regla se encuentra actulmente en construcción. "
+        '
+        'UCDOIMPORT
+        '
+        Me.Name = "UCDOIMPORT"
+        Me.tbRule.ResumeLayout(False)
+        Me.tbRule.PerformLayout()
+        Me.tbctrMain.ResumeLayout(False)
+        Me.ResumeLayout(False)
+
+    End Sub
+End Class
+
+

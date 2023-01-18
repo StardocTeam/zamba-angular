@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Zamba Tasks</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="../Utilities/images/icons/favicon.ico" />
+
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />-->
+    <!-- <link rel="stylesheet" type="text/css" href="../Utilities/recursos/fonts/font-awesome-5.15.1/all.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+          href="../Utilities/recursos/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/css/util.css?v=248">
+    <link rel="stylesheet" type="text/css" href="../Utilities/recursos/css/main.css?v=248">
+    <!--===============================================================================================-->
+    <link href="../Utilities/recursos/Boostrap/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../../../Scripts/jquery-3.1.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script> -->
+    <!--<script src="../../../Scripts/angular-material.js"></script>
+    <script src="../../../Scripts/angular.min.js"></script>-->
+    <!--<script src="../Utilities/recursos/Angular/angular-animate.min.js"></script>-->
+    <!-- Angular Material CSS now available via Google CDN; version 1.2.1 used here -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.1/angular-material.min.css">
+
+
+    <!-- Angular Material Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-messages.min.js"></script>
+
+    <!-- Angular Material Javascript now available via Google CDN; version 1.2.1 used here -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.2.1/angular-material.min.js"></script>
+
+    <script src="../../../Scripts/ngStorage.min.js"></script>
+
+
+
+
+    <script src="../Controller/Controller.js?v=248"></script>
+    <script src="../Service/Service.js?v=248"></script>
+
+    <script src="../../DocumentViewer/DocumentViewerService.js?v=248"></script>
+    <script src="../../timeLine/timelineservices.js"></script>
+    <script src="../../timeLine/timeLineController.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+
+    <!--<link rel="stylesheet" href="../Utilities/recursos/css/animate.min.css" />-->
+
+</head>
+
+<!--<body ng-app="app" ng-controller="RequestController" ng-init="GetUsername()" ng-cloak>-->
+<body ng-app="app" ng-controller="RequestController" ng-init="GetUsername()" ng-cloak>
+<input type="hidden" id="hdnEnableOpenerRefresh" value="true" />
+<div ng-if="!alreadyAuth">
+    <div class="limiter" id="logiPanel">
+
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form">
+                    <div style=" padding: 1px;display: inline;  margin-right: 15px; ">
+                        <img ng-cloak ng-if="thumphoto != null  "
+                             ng-src="{{'data:image/png;base64,' + thumphoto}}"
+                             class="StylePhoto img-circle ng-show mx-auto d-block animate__animated animate__backInDown">
+                        <img ng-cloak ng-if="thumphoto == null  "
+                             src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
+                             class="StylePhoto img-circle ng-show mx-auto d-block animate__animated animate__backInDown" />
+                    </div>
+                    <!-- <span class="login100-form-title p-b-5">
+                        Zamba
+                    </span> -->
+                    <!--<span class="login100-form-title p-b-48">
+                        <i class="zmdi zmdi-font"></i>
+                    </span>-->
+
+                    <div class="wrap-input100 validate-input animate__animated animate__backInUp"
+                         data-validate="Valid email is: a@b.c">
+                        <span class="txt1">
+                            Usuario
+                        </span>
+                        <input class="input100 " type="text" value="" id="User">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input animate__animated animate__backInUp"
+                         data-validate="Enter password">
+                        <span class="txt1">
+                            Clave
+                        </span>
+                        <span class="btn-show-pass">
+                            <i class="zmdi zmdi-eye"></i>
+                        </span>
+                        <input class="input100" type="password" name="Clave" id="Pass">
+                        <span class="focus-input100" data-placeholder=""></span>
+                    </div>
+                    <div class="text-center" ng-if="loginFail">
+                        <span class="txt1 invalid-pass">
+                            {{loginFailText}}
+                        </span>
+                    </div>
+
+                    <div class="container-login100-form-btn animate__animated animate__backInUp">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn" ng-click="Login()">
+                                Ingresar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center stardoc-text animate__animated animate__backInUp">
+                        <span class="txt1">
+                            Stardoc S.A
+                        </span>
+
+                        <!-- <a class="txt2" href="#">
+                            Sign Up
+                        </a> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="alreadyAuth == true && accionid == null">
+    <zamba-default></zamba-default>
+</div>
+
+<div ng-if="alreadyAuth == true && accionid == '0'">
+    <zamba-request></zamba-request>
+</div>
+
+<div ng-if="alreadyAuth == true && accionid == '1'">
+    <zamba-request-action></zamba-request-action>
+</div>
+
+<div ng-if="alreadyAuth == true && accionid == '2'">
+    <managerial-summary><managerial-summary>
+</div>
+
+
+<script src="../Utilities/recursos/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+
+<script src="../Utilities/recursos/vendor/animsition/js/animsition.min.js"></script>
+
+
+<script src="../Utilities/recursos/vendor/bootstrap/js/popper.js"></script>
+<script src="../Utilities/recursos/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../Utilities/recursos/Boostrap/bootstrap.bundle.min.js"></script>
+
+
+<script src="../Utilities/recursos/vendor/select2/select2.min.js"></script>
+
+
+<script src="../Utilities/recursos/vendor/daterangepicker/moment.min.js"></script>
+<script src="../Utilities/recursos/vendor/daterangepicker/daterangepicker.js"></script>
+
+
+<script src="../Utilities/recursos/vendor/countdowntime/countdowntime.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<!--Hace sweet alert compatible con IE11-->
+<script src="../Utilities/recursos/js/numeral.min.js"></script>
+
+<script src="../Utilities/recursos/js/main.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        numeral.register('locale', 'arg', {
+            delimiters: {
+                thousands: '.',
+                decimal: ','
+            },
+            abbreviations: {
+                thousand: 'k',
+                million: 'm',
+                billion: 'b',
+                trillion: 't'
+            },
+            ordinal: function (number) {
+                return number === 1 ? 'er' : 'ème';
+            },
+            currency: {
+                symbol: '$'
+            }
+        });
+        numeral.locale('arg');
+
+    });
+</script>
+
+</body>
+
+</html>

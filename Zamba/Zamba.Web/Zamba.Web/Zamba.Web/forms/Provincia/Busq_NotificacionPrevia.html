@@ -1,0 +1,134 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript">
+        function onKeyUp(event) {
+            var keycode = event.keyCode;
+            if (keycode == '13') {
+                var element = event.target.name;
+                $($("#"+element+"")[0].nextSibling.nextSibling)[0].firstElementChild.click();
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Busq_NotificacionPrevia.html">
+            <input id="hdnRuleId" type="hidden" />
+            <h4 class="text-center" id="header" width="90%">B&uacute;squeda de Notificaci&oacute;n Previa</h4>
+            <center>
+                <div id="tblReclamo" class="attributes_table">
+                                <div class="col-xs-12 col-md-6 col-md-offset-3">
+                    <div class="form-group row">
+
+                            <div class="form-group row">
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Actor:</span>
+                                        <input class="form-control input" id="zamba_index_59" name="zamba_index_59"  onkeyup="onKeyUp(event)" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="Submit" name="zamba_rule_1016381" id="zamba_rule_1016381" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Demandado:</span>
+                                        <input class="form-control input" id="zamba_index_60" name="zamba_index_60" onkeyup="onKeyUp(event)" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="Submit" name="zamba_rule_1016382" id="zamba_rule_1016382" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="form-group row">
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Patente:</span>
+                                        <input class="form-control input" id="zamba_index_1020025" name="zamba_index_1020025" onkeyup="onKeyUp(event)" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="Submit" name="zamba_rule_1225514" id="zamba_rule_1225514" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="form-group row">
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha de Siniestro:</span>
+                                        <input class="form-control input" id="zamba_index_10180" name="zamba_index_10180" onkeyup="onKeyUp(event)" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="Submit" name="zamba_rule_1225535" id="zamba_rule_1225535" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="form-group row">
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Asegurado:</span>
+                                        <input class="form-control input" id="zamba_index_1020002" name="zamba_index_1020002" onkeyup="onKeyUp(event)"/>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="Submit" name="zamba_rule_1225545" id="zamba_rule_1225545" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" >
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">ID Notificaci&oacute;n:</span>
+                                        <input class="form-control input" id="zamba_index_2702" name="zamba_index_2702" onkeyup="onKeyUp(event)" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit" name="zamba_rule_1016388" id="zamba_rule_1016388" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                </div>
+                </div>
+ </div>
+
+            </center>
+            <script type="text/javascript" language="JavaScript">
+
+                 $(document).ready(function () {
+                     document.getElementById("zamba_index_59").addEventListener("keypress", forceKeyPressUppercase, false);
+                     document.getElementById("zamba_index_60").addEventListener("keypress", forceKeyPressUppercase, false);
+                     
+
+                 });
+
+
+            </script>
+        </form>
+    </div>
+
+   
+</body>
+</html>

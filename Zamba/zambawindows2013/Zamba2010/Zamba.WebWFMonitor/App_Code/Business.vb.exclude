@@ -1,0 +1,284 @@
+Imports Zamba
+Imports Zamba.Core
+Imports Zamba.WFBusiness
+Imports Zamba.WFBusiness.WFBusiness
+Imports Zamba.Data
+Imports Zamba.Servers
+Imports Microsoft.VisualBasic
+Imports System.Data
+Imports System
+Imports System.Web.UI.UserControl
+
+Public Class Business
+
+    Dim WF As WorkFlow
+    Dim DsWF As Zamba.Core.DsWF
+    Const TASK_QUERY As String = "SELECT WFDocument.Doc_Id as Id, WFDocument.Name , WFDocument.ExpireDate, ISNULL(UsrTable.Name,'Ninguno') as UserName,WFDocument.Task_State_Id as TaskStateId , WfStep.Name as WfStepName, ISNULL(WfStepStates.Name , 'Sin Estado')As State FROM WFDocument LEFT JOIN UsrTable ON WfDocument.User_Asigned = UsrTable.id LEFT JOIN WfStep ON WfDocument.step_id = WfStep.step_id LEFT JOIN WfStepStates ON WfDocument.Do_State_Id = WfStepStates.doc_state_id WHERE "
+    Private Function GetTasks(ByVal wfId As Integer) As DataSet
+        Dim StrQuery As New StringBuilder()
+        StrQuery.Append(TASK_QUERY)
+        StrQuery.Append("WfDocument.work_id = ")
+        StrQuery.Append(wfId.ToString())
+
+        Dim ds As DataSet = Zamba.Servers.Server.Con.ExecuteDataset(CommandType.Text, StrQuery.ToString())
+        ds = ChangeValues(ds)
+        Return ds
+
+    End Function
+    ''' <summary>
+    ''' Trae las tareas de acuerdo al WorkflowId y StepId
+    ''' </summary>
+    ''' <param name="wfId"></param>
+    ''' <param name="stepId"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Private Function GetTasks(ByVal wfId As Integer, ByVal stepId As Integer) As DataSet
+        Dim StrQuery As New StringBuilder()
+        StrQuery.Append(TASK_QUERY)
+        StrQuery.Append("WfDocument.work_id = ")
+        StrQuery.Append(wfId.ToString())
+        StrQuery.Append(" and wfdocument.step_id = ")
+        StrQuery.Append(stepId.ToString())
+
+        Dim ds As DataSet = Zamba.Servers.Server.Con.ExecuteDataset(CommandType.Text, StrQuery.ToString())
+        ds = ChangeValues(ds)
+        Return ds
+    End Function
+
+    ''' <summary>
+    ''' Carga al Dataset lo valores que le faltan
+    ''' </summary>
+    ''' <param name="ds"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Private Function ChangeValues(ByVal ds As DataSet) As DataSet
+        ds.Tables(0).Columns.Add("TaskState", GetType(String))
+
+        For Each row As DataRow In ds.Tables(0).Rows
+            Dim taskStateId As Integer = CInt(row("TaskStateId"))
+            row("TaskState") = DirectCast(taskStateId, Zamba.Core.TaskResult.TaskStates)
+        Next
+
+        Return ds
+    End Function
+
+    ''' <summary>
+    ''' Establece el datasource de gvTareas
+    ''' </summary>
+    ''' <param name="wfId"></param>
+    ''' <param name="stepId"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetDataSource(ByVal wfId As String, ByVal stepId As String) As DataSet
+        Try
+            If IsNothing(wfId) Then
+                Return Nothing
+            Else
+                Dim ds As DataSet = Nothing
+                If IsNothing(stepId) Then
+                    ds = GetTasks(CInt(wfId))
+                Else
+                    ds = GetTasks(CInt(wfId), CInt(stepId))
+                End If
+                Return ds
+            End If
+        Catch ex As Exception
+            RaiseError(ex)
+            Return Nothing
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Compara nombres de dos ViewTaskResult
+    ''' </summary>
+    ''' <param name="x">ViewTaskResult1</param>
+    ''' <param name="y">ViewTaskResult2</param>
+    ''' <returns>entero mayor, menor o igual a cero</returns>
+    ''' <remarks></remarks>
+    Private Shared Function CompareByName(ByVal x As TaskResult.ViewTaskResult, ByVal y As TaskResult.ViewTaskResult) As Integer
+
+        If x Is Nothing Then
+            If y Is Nothing Then
+                Return 0
+            Else
+                Return -1
+            End If
+        Else
+            If y Is Nothing Then
+                Return 1
+            Else
+                Dim retval As Integer = _
+                 x.Name.CompareTo(y.Name)
+
+                If retval <> 0 Then
+                    Return retval
+                Else
+                    Return x.Name.CompareTo(y.Name)
+                End If
+            End If
+        End If
+
+    End Function
+
+    ''' <summary>
+    ''' Compara por fecha de espiracionexpiracion
+    ''' </summary>
+    ''' <param name="x">ViewTaskResult1</param>
+    ''' <param name="y">ViewTaskResult2</param>
+    ''' <returns>entero mayor, menor o igual a cero</returns>
+    ''' <remarks></remarks>
+    Private Shared Function CompareByExpiration(ByVal x As TaskResult.ViewTaskResult, ByVal y As TaskResult.ViewTaskResult) As Integer
+
+        If x Is Nothing Then
+            If y Is Nothing Then
+                Return 0
+            Else
+                Return -1
+            End If
+        Else
+            If y Is Nothing Then
+                Return 1
+            Else
+                Dim retval As Integer = x.ExpireDate.CompareTo(y.ExpireDate)
+
+                If retval <> 0 Then
+                    Return retval
+                Else
+                    Return x.ExpireDate.CompareTo(y.ExpireDate)
+                End If
+            End If
+        End If
+
+    End Function
+
+
+    Public Function GetStates(ByVal wfId As String, ByVal stepId As String) As DataView
+        If String.IsNullOrEmpty(wfId) = False AndAlso String.IsNullOrEmpty(stepId) = False Then
+            Dim dt As New DataTable()
+            dt.Columns.Add("Id", GetType(Integer))
+            dt.Columns.Add("Name", GetType(String))
+            Dim StepStates As SortedList = WFStepBussines.GetStepStates(CInt(stepId), CInt(wfId))
+
+            If IsNothing(StepStates) Then
+                Return Nothing
+            Else
+                For Each item As Object In StepStates.Values
+                    Dim State As WFStep.State = DirectCast(item, WFStep.State)
+                    Dim Row As DataRow = dt.NewRow
+                    Row("Id") = CInt(State.Id)
+                    Row("Name") = State.Name
+                    dt.Rows.Add(Row)
+                Next
+
+                Return dt.DefaultView
+            End If
+        End If
+        Return Nothing
+    End Function
+    Public Function GetSteps(ByVal wfId As String) As DataView
+        If String.IsNullOrEmpty(wfId) = False Then
+            Return Zamba.WFBusiness.WFStepBussines.GetDsSteps(wfId).Tables(0).DefaultView
+        End If
+        Return Nothing
+    End Function
+    Public Function GetUsers() As DataView
+        Return Zamba.Users.Factory.UserFactory.GetUsers().Tables(0).DefaultView
+    End Function
+
+    Public Function GetAllUsers() As ArrayList
+        Return Zamba.Users.Factory.UserFactory.GetUsersArrayListOrderByName()
+    End Function
+
+    Public Function LoadUsers(ByVal StepId As Int32, ByVal WfId As Int32) As System.Collections.Generic.List(Of User.UserView)
+        If StepId = 0 OrElse WfId = 0 Then Return New System.Collections.Generic.List(Of User.UserView)
+        Dim Wf As WorkFlow = Nothing
+        Dim DsWF As Zamba.Core.DsWF = WFBusiness.GetAllWorkflows()
+        Dim W As WorkFlow() = Zamba.Data.WFFactory.GetWFs
+        For Each WW As WorkFlow In W
+            If WW.ID = WfId Then
+                Wf = WW
+                Exit For
+            End If
+        Next
+
+        Dim s As WFStep = Zamba.Data.WFStepsFactory.GetStep(Wf, StepId)
+        WFBusiness.FillUsersAndGroups(s)
+
+        Dim L As New System.Collections.Generic.List(Of User.UserView)
+
+        For Each u As User In s.Users.Values
+            Dim g As New User.UserView(u)
+            L.Add(g)
+        Next
+
+        Return L
+    End Function
+
+    'Public Function GetEstados(ByVal StepId As Int32, ByVal WfId As Int32) As Collections.Generic.List(Of Zamba.Core.WFStep.State)
+    '    Dim S As SortedList = WFStepBussines.GetStepStates(StepId, WfId)
+    '    Dim G As New Collections.Generic.List(Of Zamba.Core.WFStep.State)
+    '    For Each M As WFStep.State In S.Values
+    '        G.Add(M)
+    '    Next
+    '    Return G
+    'End Function
+
+    Public Sub Asignar(ByVal taskResults As Generic.List(Of TaskResult), ByVal asignedTo As User)
+        For Each taskResult As TaskResult In taskResults
+            WFBusiness.FillUsersAndGroups(taskResult.WfStep)
+            Zamba.WFBusiness.WFBusiness.AsignTask(taskResult, asignedTo, asignedTo) 'TODO:CAMBIAR ULTIMO PARAMETRO
+        Next
+    End Sub
+    Public Sub Quitar(ByVal tasks As Generic.List(Of TaskResult), ByVal deleteDocument As Boolean)
+        For Each Task As TaskResult In tasks
+            RemoveTask(Task, deleteDocument)
+        Next
+    End Sub
+    Public Sub Renovar(ByVal tasks As Generic.List(Of TaskResult), ByVal fecha As DateTime)
+        For Each Task As TaskResult In tasks
+            ChangeExpireDateTask(Task, fecha)
+        Next
+    End Sub
+    Public Sub Desasignar(ByVal tasks As Generic.List(Of TaskResult), ByVal asignedTo As User)
+        For Each taskResult As TaskResult In tasks
+            UnAssignTask(taskResult, asignedTo)
+        Next
+    End Sub
+    Public Sub CambiarEstado(ByVal tasks As Generic.List(Of TaskResult), ByVal workflowId As Integer, ByVal stepId As Integer, ByVal stepStateId As Integer)
+        For Each StepState As WFStep.State In WFStepBussines.GetStepStates(stepId, workflowId).Values()
+            If StepState.Id = stepStateId Then
+                For Each taskResult As TaskResult In tasks
+                    WFBusiness.ChangeStateTask(taskResult, StepState)
+                Next
+                Exit For
+            End If
+        Next
+    End Sub
+
+    'Public Function FillStates(ByVal stepid As String, ByVal wfid As String) As DataSet
+    '    If String.IsNullOrEmpty(stepid) OrElse String.IsNullOrEmpty(wfid) Then
+    '        Return Nothing
+    '    Else
+    '        Dim dt As New DataTable()
+    '        dt.Columns.Add("Id", GetType(Integer))
+    '        dt.Columns.Add("Name", GetType(String))
+    '        Dim StepStates As SortedList = WFStepBussines.GetStepStates(CInt(stepid), CInt(wfid))
+
+    '        For Each item As Object In StepStates.Values
+
+    '            Dim State As WFStep.State = DirectCast(item, WFStep.State)
+    '            Dim Row As DataRow = dt.NewRow
+    '            Row("Id") = CInt(State.Id)
+    '            Row("Name") = State.Name
+    '            dt.Rows.Add(Row)
+    '        Next
+
+    '        Dim ds As New DataSet
+    '        ds.Tables.Add(dt)
+    '        Return ds
+
+    '    End If
+    '    Return Nothing
+    'End Function
+End Class
+

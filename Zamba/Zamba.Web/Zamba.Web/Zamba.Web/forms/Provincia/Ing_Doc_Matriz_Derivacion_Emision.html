@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+</head>
+
+<body>
+    <center>
+        <div class="form-group row"></div>
+        <div class="col">
+            <div class="cell panel">
+                <div class="header background-blue">
+                    <div class="form-group row">
+                    </div>
+                    <h5>INGRESO DOCUMENTACION EMISION</h5>
+                </div>
+                <form name="frmMain" action="Ing_Doc_Emision.html">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <center>
+                            <div class="tab-pane active" id="INGRESO DOCUMENTACION EMISION">
+                                <div class="form-group row">
+                                    <div class="PanelPrincipal">
+                                       
+                                        <div class="form-group row">
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <!--Este es el campo que permite Ingresar el Ramo al que pertenece-->
+                                                    <span class="input-group-addon">Ramo:</span>
+													<input id="zamba_zvar(productorabuscar)" placeholder="Ingrese el nombre o parte" name="zamba_zvar(productorabuscar)"  class="form-control">
+                                                    <span class="input-group-btn">
+                                                                                                         
+                                                    </span>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--delegación-->                                   <span class="input-group-addon">Delegación:</span>
+                                                    <select id="zamba_index_82" name="zamba_index_82" class="form-control input-btn"> </select>
+                                                </div>
+                                            </div>
+                                            <!--<div class="col-md-3">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-12">
+                                                                                                    <div class="input-group">
+                                            Nro de Caja                                           <span class="input-group-addon">Nro de Caja:</span>
+                                                                                                        <input id="zamba_index_9" name="zamba_index_9" class="form-control input-sm" disabled/>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>-->
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <!--Sector-->                        <span class="input-group-addon">Sector:</span>
+                                                    <Select id="zamba_index_85" name="zamba_index_85" class="form-control input-btn"> </Select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding:0px">
+                                                <div class="col-xs-9" style="position:relative; top:-25px">
+                                                    <!--Observacion-->                            <span class="input-sm"><h5>Observaciones:</h5></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="position: relative; bottom:50px">
+                                            <div class="col-md-12" style="padding:0px;">
+                                                <div class="col-xs-9">
+                                                    <!--Area texto Observacion-->                     <textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                    <div class="form-group row" style="position:relative; bottom: 60px">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-3 col-xs-offset-3">
+                                                    <div class="input-group">
+                                                        
+                                                <!--Botones FORM-->                             <div class="col-md-4" style="position:relative;left:-130px;">
+                                                    <input name="zamba_rule_23" id="zamba_rule_23" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Guardar">
+                                                    <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Salir">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <center>
+                                            <div class="col-md-2" style="position:relative;left:10px;">
+                                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                            </div>
+                                            <div class="col-md-10">
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+<style>
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

@@ -1,0 +1,167 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 23.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="Scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+    
+    <!--  -->
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript">
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2706").value.trim() == ""){
+                alert("Verifique que el Nombre se encuentre completo.");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";	
+            }
+        }
+        $(document).ready(function(){
+            $(".solonums").each(function(){
+                $(this).keypress(function (e){
+                    return IntegerCheck(e);
+                })
+            });
+        });
+        // function CargarFechasyBotones(){
+        //     $('#zamba_index_2763').datepicker({
+        //         changeMonth: true,
+        //         changeYear: true,
+        //         showOn: 'button', 
+        //         buttonText: 'Abrir calendario',
+        //         buttonImage: 'calendar.png', 
+        //         buttonImageOnly: true,
+        //         yearRange: '-100:+0',
+        //         duration: ""
+        // //     });
+        //     $('#zamba_index_2709').val("Argentino");
+        //     $('#zamba_index_2706').focus();			
+        // }
+        </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Demandado - Insert.html">
+            <div>
+                <input id="hdnRuleId" type="hidden" />
+                <center>
+                    <div class="form-group row">
+
+                        <div class="col-md-12">
+    
+                            <div>
+                                <h4 style="color: black;">Demandado</h4>
+                            </div>
+    
+                        </div>
+                    </div>
+               
+                   
+
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Nombre:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2706" name="zamba_index_2706" maxlength="80" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Dirección:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2708" name="zamba_index_2708" maxlength="200" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">DNI/CUIL/CUIT:</span>
+                                <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_2710" name="zamba_index_2710" maxlength="15" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Localidad:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="txtMessage" name="txtMessage" disabled="disabled" value="Podrá ser cargado una vez creado el demandado" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Teléfono:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2711" name="zamba_index_2711" maxlength="30" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">C&oacutedigo Postal:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2765" name="zamba_index_2765f" maxlength="20" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Celular:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2712" name="zamba_index_2712" maxlength="30" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Provincia:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="txtProv" name="txtProv" disabled="disabled" value="Podrá ser cargado una vez creado el demandado" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Fecha de Nacimiento:</span>
+                                <input class="form-control input-sm datepicker" style=" color: #090A0A; font-weight: bold" id="zamba_index_2763" name="zamba_index_2763" onblur="valFecha(this)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Nacionalidad:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2709" name="zamba_index_2709" maxlength="80" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Estado Civil:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2714" size="1" name="zamba_index_2714"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick()" />
+                    </div>
+                </center>
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">Demandado - Insert.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>     
+            </div>
+        </form>
+    </div>
+</body>
+</html>

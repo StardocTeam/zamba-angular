@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsCore" targetNamespace="http://tempuri.org/DsCore.xsd" xmlns:mstns="http://tempuri.org/DsCore.xsd" xmlns="http://tempuri.org/DsCore.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsCore" msdata:IsDataSet="true" msdata:Locale="en-US" msprop:Generator_UserDSName="DsCore" msprop:Generator_DataSetName="DsCore">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DOC_TYPE_GROUP" msprop:Generator_UserTableName="DOC_TYPE_GROUP" msprop:Generator_RowDeletedName="DOC_TYPE_GROUPRowDeleted" msprop:Generator_TableClassName="DOC_TYPE_GROUPDataTable" msprop:Generator_RowChangedName="DOC_TYPE_GROUPRowChanged" msprop:Generator_RowClassName="DOC_TYPE_GROUPRow" msprop:Generator_RowChangingName="DOC_TYPE_GROUPRowChanging" msprop:Generator_RowEvArgName="DOC_TYPE_GROUPRowChangeEvent" msprop:Generator_RowEvHandlerName="DOC_TYPE_GROUPRowChangeEventHandler" msprop:Generator_TablePropName="DOC_TYPE_GROUP" msprop:Generator_TableVarName="tableDOC_TYPE_GROUP" msprop:Generator_RowDeletingName="DOC_TYPE_GROUPRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DOC_TYPE_GROUP_ID" msprop:Generator_UserColumnName="DOC_TYPE_GROUP_ID" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_GROUP_ID" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_GROUP_ID" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_GROUP_IDColumn" type="xs:decimal" />
+              <xs:element name="DOC_TYPE_GROUP_NAME" msprop:Generator_UserColumnName="DOC_TYPE_GROUP_NAME" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_GROUP_NAME" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_GROUP_NAME" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_GROUP_NAMEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ICON" msprop:Generator_UserColumnName="ICON" msprop:Generator_ColumnPropNameInRow="ICON" msprop:Generator_ColumnVarNameInTable="columnICON" msprop:Generator_ColumnPropNameInTable="ICONColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PARENT_ID" msprop:Generator_UserColumnName="PARENT_ID" msprop:Generator_ColumnPropNameInRow="PARENT_ID" msprop:Generator_ColumnVarNameInTable="columnPARENT_ID" msprop:Generator_ColumnPropNameInTable="PARENT_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OBJECT_TYPE_ID" msprop:Generator_UserColumnName="OBJECT_TYPE_ID" msprop:Generator_ColumnPropNameInRow="OBJECT_TYPE_ID" msprop:Generator_ColumnVarNameInTable="columnOBJECT_TYPE_ID" msprop:Generator_ColumnPropNameInTable="OBJECT_TYPE_IDColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DOC_INDEX" msprop:Generator_UserTableName="DOC_INDEX" msprop:Generator_RowDeletedName="DOC_INDEXRowDeleted" msprop:Generator_TableClassName="DOC_INDEXDataTable" msprop:Generator_RowChangedName="DOC_INDEXRowChanged" msprop:Generator_RowClassName="DOC_INDEXRow" msprop:Generator_RowChangingName="DOC_INDEXRowChanging" msprop:Generator_RowEvArgName="DOC_INDEXRowChangeEvent" msprop:Generator_RowEvHandlerName="DOC_INDEXRowChangeEventHandler" msprop:Generator_TablePropName="DOC_INDEX" msprop:Generator_TableVarName="tableDOC_INDEX" msprop:Generator_RowDeletingName="DOC_INDEXRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="INDEX_ID" msprop:Generator_UserColumnName="INDEX_ID" msprop:Generator_ColumnPropNameInRow="INDEX_ID" msprop:Generator_ColumnVarNameInTable="columnINDEX_ID" msprop:Generator_ColumnPropNameInTable="INDEX_IDColumn" type="xs:decimal" />
+              <xs:element name="INDEX_NAME" msprop:Generator_UserColumnName="INDEX_NAME" msprop:Generator_ColumnPropNameInRow="INDEX_NAME" msprop:Generator_ColumnVarNameInTable="columnINDEX_NAME" msprop:Generator_ColumnPropNameInTable="INDEX_NAMEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="INDEX_TYPE" msprop:Generator_UserColumnName="INDEX_TYPE" msprop:Generator_ColumnPropNameInRow="INDEX_TYPE" msprop:Generator_ColumnVarNameInTable="columnINDEX_TYPE" msprop:Generator_ColumnPropNameInTable="INDEX_TYPEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="INDEX_LEN" msprop:Generator_UserColumnName="INDEX_LEN" msprop:Generator_ColumnPropNameInRow="INDEX_LEN" msprop:Generator_ColumnVarNameInTable="columnINDEX_LEN" msprop:Generator_ColumnPropNameInTable="INDEX_LENColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUTOFILL" msprop:Generator_UserColumnName="AUTOFILL" msprop:Generator_ColumnPropNameInRow="AUTOFILL" msprop:Generator_ColumnVarNameInTable="columnAUTOFILL" msprop:Generator_ColumnPropNameInTable="AUTOFILLColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NOINDEX" msprop:Generator_UserColumnName="NOINDEX" msprop:Generator_ColumnPropNameInRow="NOINDEX" msprop:Generator_ColumnVarNameInTable="columnNOINDEX" msprop:Generator_ColumnPropNameInTable="NOINDEXColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DROPDOWN" msprop:Generator_UserColumnName="DROPDOWN" msprop:Generator_ColumnPropNameInRow="DROPDOWN" msprop:Generator_ColumnVarNameInTable="columnDROPDOWN" msprop:Generator_ColumnPropNameInTable="DROPDOWNColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUTODISPLAY" msprop:Generator_UserColumnName="AUTODISPLAY" msprop:Generator_ColumnPropNameInRow="AUTODISPLAY" msprop:Generator_ColumnVarNameInTable="columnAUTODISPLAY" msprop:Generator_ColumnPropNameInTable="AUTODISPLAYColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="INVISIBLE" msprop:Generator_UserColumnName="INVISIBLE" msprop:Generator_ColumnPropNameInRow="INVISIBLE" msprop:Generator_ColumnVarNameInTable="columnINVISIBLE" msprop:Generator_ColumnPropNameInTable="INVISIBLEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OBJECT_TYPE_ID" msprop:Generator_UserColumnName="OBJECT_TYPE_ID" msprop:Generator_ColumnPropNameInRow="OBJECT_TYPE_ID" msprop:Generator_ColumnVarNameInTable="columnOBJECT_TYPE_ID" msprop:Generator_ColumnPropNameInTable="OBJECT_TYPE_IDColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DOC_TYPE_R_DOC_TYPE_GROUP" msprop:Generator_UserTableName="DOC_TYPE_R_DOC_TYPE_GROUP" msprop:Generator_RowDeletedName="DOC_TYPE_R_DOC_TYPE_GROUPRowDeleted" msprop:Generator_TableClassName="DOC_TYPE_R_DOC_TYPE_GROUPDataTable" msprop:Generator_RowChangedName="DOC_TYPE_R_DOC_TYPE_GROUPRowChanged" msprop:Generator_RowClassName="DOC_TYPE_R_DOC_TYPE_GROUPRow" msprop:Generator_RowChangingName="DOC_TYPE_R_DOC_TYPE_GROUPRowChanging" msprop:Generator_RowEvArgName="DOC_TYPE_R_DOC_TYPE_GROUPRowChangeEvent" msprop:Generator_RowEvHandlerName="DOC_TYPE_R_DOC_TYPE_GROUPRowChangeEventHandler" msprop:Generator_TablePropName="DOC_TYPE_R_DOC_TYPE_GROUP" msprop:Generator_TableVarName="tableDOC_TYPE_R_DOC_TYPE_GROUP" msprop:Generator_RowDeletingName="DOC_TYPE_R_DOC_TYPE_GROUPRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DOC_TYPE_ID" msprop:Generator_UserColumnName="DOC_TYPE_ID" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_ID" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_ID" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOC_TYPE_GROUP" msprop:Generator_UserColumnName="DOC_TYPE_GROUP" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_GROUP" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_GROUP" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_GROUPColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOC_ORDER" msprop:Generator_UserColumnName="DOC_ORDER" msprop:Generator_ColumnPropNameInRow="DOC_ORDER" msprop:Generator_ColumnVarNameInTable="columnDOC_ORDER" msprop:Generator_ColumnPropNameInTable="DOC_ORDERColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="INDEX_R_DOC_TYPE" msprop:Generator_UserTableName="INDEX_R_DOC_TYPE" msprop:Generator_RowDeletedName="INDEX_R_DOC_TYPERowDeleted" msprop:Generator_TableClassName="INDEX_R_DOC_TYPEDataTable" msprop:Generator_RowChangedName="INDEX_R_DOC_TYPERowChanged" msprop:Generator_RowClassName="INDEX_R_DOC_TYPERow" msprop:Generator_RowChangingName="INDEX_R_DOC_TYPERowChanging" msprop:Generator_RowEvArgName="INDEX_R_DOC_TYPERowChangeEvent" msprop:Generator_RowEvHandlerName="INDEX_R_DOC_TYPERowChangeEventHandler" msprop:Generator_TablePropName="INDEX_R_DOC_TYPE" msprop:Generator_TableVarName="tableINDEX_R_DOC_TYPE" msprop:Generator_RowDeletingName="INDEX_R_DOC_TYPERowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="INDEX_ID" msprop:Generator_UserColumnName="INDEX_ID" msprop:Generator_ColumnPropNameInRow="INDEX_ID" msprop:Generator_ColumnVarNameInTable="columnINDEX_ID" msprop:Generator_ColumnPropNameInTable="INDEX_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOC_TYPE_ID" msprop:Generator_UserColumnName="DOC_TYPE_ID" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_ID" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_ID" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ORDEN" msprop:Generator_UserColumnName="ORDEN" msprop:Generator_ColumnPropNameInRow="ORDEN" msprop:Generator_ColumnVarNameInTable="columnORDEN" msprop:Generator_ColumnPropNameInTable="ORDENColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MUSTCOMPLETE" msprop:Generator_UserColumnName="MUSTCOMPLETE" msprop:Generator_ColumnPropNameInRow="MUSTCOMPLETE" msprop:Generator_ColumnVarNameInTable="columnMUSTCOMPLETE" msprop:Generator_ColumnPropNameInTable="MUSTCOMPLETEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COMPLETE" msprop:Generator_UserColumnName="COMPLETE" msprop:Generator_ColumnPropNameInRow="COMPLETE" msprop:Generator_ColumnVarNameInTable="columnCOMPLETE" msprop:Generator_ColumnPropNameInTable="COMPLETEColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="INDEXSEARCH" msprop:Generator_UserColumnName="INDEXSEARCH" msprop:nullValue="_empty" msprop:Generator_ColumnVarNameInTable="columnINDEXSEARCH" msprop:Generator_ColumnPropNameInTable="INDEXSEARCHColumn" msprop:Generator_ColumnPropNameInRow="INDEXSEARCH" type="xs:string" default="" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DOC_TYPE" msprop:Generator_UserTableName="DOC_TYPE" msprop:Generator_RowDeletedName="DOC_TYPERowDeleted" msprop:Generator_TableClassName="DOC_TYPEDataTable" msprop:Generator_RowChangedName="DOC_TYPERowChanged" msprop:Generator_RowClassName="DOC_TYPERow" msprop:Generator_RowChangingName="DOC_TYPERowChanging" msprop:Generator_RowEvArgName="DOC_TYPERowChangeEvent" msprop:Generator_RowEvHandlerName="DOC_TYPERowChangeEventHandler" msprop:Generator_TablePropName="DOC_TYPE" msprop:Generator_TableVarName="tableDOC_TYPE" msprop:Generator_RowDeletingName="DOC_TYPERowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DOC_TYPE_ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="DOC_TYPE_ID" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_ID" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_ID" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_IDColumn" type="xs:decimal" />
+              <xs:element name="DOC_TYPE_NAME" msprop:Generator_UserColumnName="DOC_TYPE_NAME" msprop:Generator_ColumnPropNameInRow="DOC_TYPE_NAME" msprop:Generator_ColumnVarNameInTable="columnDOC_TYPE_NAME" msprop:Generator_ColumnPropNameInTable="DOC_TYPE_NAMEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="FILE_FORMAT_ID" msprop:Generator_UserColumnName="FILE_FORMAT_ID" msprop:Generator_ColumnPropNameInRow="FILE_FORMAT_ID" msprop:Generator_ColumnVarNameInTable="columnFILE_FORMAT_ID" msprop:Generator_ColumnPropNameInTable="FILE_FORMAT_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DISK_GROUP_ID" msprop:Generator_UserColumnName="DISK_GROUP_ID" msprop:Generator_ColumnPropNameInRow="DISK_GROUP_ID" msprop:Generator_ColumnVarNameInTable="columnDISK_GROUP_ID" msprop:Generator_ColumnPropNameInTable="DISK_GROUP_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="THUMBNAILS" msprop:Generator_UserColumnName="THUMBNAILS" msprop:Generator_ColumnPropNameInRow="THUMBNAILS" msprop:Generator_ColumnVarNameInTable="columnTHUMBNAILS" msprop:Generator_ColumnPropNameInTable="THUMBNAILSColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ICON_ID" msprop:Generator_UserColumnName="ICON_ID" msprop:Generator_ColumnPropNameInRow="ICON_ID" msprop:Generator_ColumnVarNameInTable="columnICON_ID" msprop:Generator_ColumnPropNameInTable="ICON_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OBJECT_TYPE_ID" msprop:Generator_UserColumnName="OBJECT_TYPE_ID" msprop:Generator_ColumnPropNameInRow="OBJECT_TYPE_ID" msprop:Generator_ColumnVarNameInTable="columnOBJECT_TYPE_ID" msprop:Generator_ColumnPropNameInTable="OBJECT_TYPE_IDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AUTONAME" msprop:Generator_UserColumnName="AUTONAME" msprop:Generator_ColumnPropNameInRow="AUTONAME" msprop:Generator_ColumnVarNameInTable="columnAUTONAME" msprop:Generator_ColumnPropNameInTable="AUTONAMEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DOCUMENTALID" msprop:Generator_UserColumnName="DOCUMENTALID" msprop:Generator_ColumnPropNameInRow="DOCUMENTALID" msprop:Generator_ColumnVarNameInTable="columnDOCUMENTALID" msprop:Generator_ColumnPropNameInTable="DOCUMENTALIDColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="DOCCOUNT" msprop:Generator_UserColumnName="DOCCOUNT" msprop:Generator_ColumnPropNameInRow="DOCCOUNT" msprop:Generator_ColumnVarNameInTable="columnDOCCOUNT" msprop:Generator_ColumnPropNameInTable="DOCCOUNTColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Disk_Volume" msprop:Generator_UserTableName="Disk_Volume" msprop:Generator_RowDeletedName="Disk_VolumeRowDeleted" msprop:Generator_TableClassName="Disk_VolumeDataTable" msprop:Generator_RowChangedName="Disk_VolumeRowChanged" msprop:Generator_RowClassName="Disk_VolumeRow" msprop:Generator_RowChangingName="Disk_VolumeRowChanging" msprop:Generator_RowEvArgName="Disk_VolumeRowChangeEvent" msprop:Generator_RowEvHandlerName="Disk_VolumeRowChangeEventHandler" msprop:Generator_TablePropName="Disk_Volume" msprop:Generator_TableVarName="tableDisk_Volume" msprop:Generator_RowDeletingName="Disk_VolumeRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Disk_Vol_Id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="Disk_Vol_Id" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Id" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Id" msprop:Generator_ColumnPropNameInTable="Disk_Vol_IdColumn" type="xs:int" />
+              <xs:element name="DISK_VOL_NAME" msprop:Generator_UserColumnName="DISK_VOL_NAME" msprop:Generator_ColumnPropNameInRow="DISK_VOL_NAME" msprop:Generator_ColumnVarNameInTable="columnDISK_VOL_NAME" msprop:Generator_ColumnPropNameInTable="DISK_VOL_NAMEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Disk_Vol_Size" msprop:Generator_UserColumnName="Disk_Vol_Size" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Size" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Size" msprop:Generator_ColumnPropNameInTable="Disk_Vol_SizeColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Disk_Vol_Type" msprop:Generator_UserColumnName="Disk_Vol_Type" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Type" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Type" msprop:Generator_ColumnPropNameInTable="Disk_Vol_TypeColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Disk_Vol_Copy" msprop:Generator_UserColumnName="Disk_Vol_Copy" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Copy" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Copy" msprop:Generator_ColumnPropNameInTable="Disk_Vol_CopyColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Disk_Vol_Path" msprop:Generator_UserColumnName="Disk_Vol_Path" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Path" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Path" msprop:Generator_ColumnPropNameInTable="Disk_Vol_PathColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Disk_Vol_Size_Len" msprop:Generator_UserColumnName="Disk_Vol_Size_Len" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Size_Len" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Size_Len" msprop:Generator_ColumnPropNameInTable="Disk_Vol_Size_LenColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Disk_Vol_State" msprop:Generator_UserColumnName="Disk_Vol_State" msprop:Generator_ColumnPropNameInRow="Disk_Vol_State" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_State" msprop:Generator_ColumnPropNameInTable="Disk_Vol_StateColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Disk_Vol_LstOffset" msprop:Generator_UserColumnName="Disk_Vol_LstOffset" msprop:Generator_ColumnPropNameInRow="Disk_Vol_LstOffset" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_LstOffset" msprop:Generator_ColumnPropNameInTable="Disk_Vol_LstOffsetColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Disk_Vol_Files" msprop:Generator_UserColumnName="Disk_Vol_Files" msprop:Generator_ColumnPropNameInRow="Disk_Vol_Files" msprop:Generator_ColumnVarNameInTable="columnDisk_Vol_Files" msprop:Generator_ColumnPropNameInTable="Disk_Vol_FilesColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DsCoreKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DOC_TYPE_GROUP" />
+      <xs:field xpath="mstns:DOC_TYPE_GROUP_ID" />
+    </xs:unique>
+    <xs:unique name="DsCoreKey2" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DOC_INDEX" />
+      <xs:field xpath="mstns:INDEX_ID" />
+    </xs:unique>
+    <xs:unique name="DsCoreKey3" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DOC_TYPE" />
+      <xs:field xpath="mstns:DOC_TYPE_ID" />
+    </xs:unique>
+    <xs:unique name="DsCoreKey5" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Disk_Volume" />
+      <xs:field xpath="mstns:Disk_Vol_Id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

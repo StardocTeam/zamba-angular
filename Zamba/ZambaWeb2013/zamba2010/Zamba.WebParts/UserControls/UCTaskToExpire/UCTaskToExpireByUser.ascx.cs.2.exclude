@@ -1,0 +1,102 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using Zamba.Core;
+using Zamba.Services;
+////using Zamba.WFBusiness;
+using Microsoft.Reporting.WebForms;
+
+public partial class UserControls_UCTaskToExpire_UCTaskToExpireByUser : System.Web.UI.UserControl
+{
+    #region Eventos
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (txtHoursToExpire.Text == string.Empty)
+            txtHoursToExpire.Text = "24";
+
+        if (cmbUsers.Items.Count == 0)
+            InitializesComponents();
+        
+        rpvGrdTaskToExpireByUser.Visible = false;
+    }
+
+    protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+
+    #endregion
+    #region Metodos
+    public void InitializesComponents()
+    {
+        DataSet UserList = new DataSet();
+        UserList = UserBusiness.GetUsersDatasetOrderbyName();
+
+
+        foreach (DataRow currentuser in UserList.Tables[0].Rows)
+            cmbUsers.Items.Add(new ListItem(currentuser[1].ToString(), currentuser[0].ToString()));
+
+        ShowReports();
+    }
+
+
+    private void ShowReports()
+    {
+        if (!String.IsNullOrEmpty(cmbUsers.SelectedValue))
+        {
+            dsTaskToExpire dsTyped = new dsTaskToExpire();
+
+            dsTaskToExpire.dtTaskToExpireRow dr1 = dsTyped.dtTaskToExpire.NewdtTaskToExpireRow();
+
+
+            dr1.TaskToExpire_Source = "Usuario " + cmbUsers.SelectedItem.ToString();
+            //Diego: Hardcodeo con 0 el parametro para que la funcion me devuelva los registros
+            //desde este momento hasta lo que defina el usuario
+            dr1.TaskToExpire_Count = Tasks.GetTaskToExpireByUser(Int64.Parse(cmbUsers.SelectedValue), 0, Int32.Parse(txtHoursToExpire.Text));
+
+            dsTyped.Tables[0].Rows.Add(dr1);
+            dsTyped.AcceptChanges();
+
+            this.rpvTaskToExpireByUser.LocalReport.DataSources.Clear();
+            this.rpvGrdTaskToExpireByUser.LocalReport.DataSources.Clear();
+            ReportDataSource rptDatasource = new ReportDataSource("dsTaskToExpire_dtTaskToExpire", dsTyped.Tables[0]);
+            if (rdbVerGrafico.Checked)
+            {
+                this.rpvTaskToExpireByUser.LocalReport.DataSources.Add(rptDatasource);
+                rpvTaskToExpireByUser.Visible = true;
+                rpvGrdTaskToExpireByUser.Visible = false;
+            }
+            else
+            {
+                this.rpvGrdTaskToExpireByUser.LocalReport.DataSources.Add(rptDatasource);
+                rpvTaskToExpireByUser.Visible = false;
+                rpvGrdTaskToExpireByUser.Visible = true;
+            }
+
+        }
+    }
+    #endregion
+
+    protected void rdbVerGrafico_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerTabla.Checked = false;
+        ShowReports();
+    }
+    protected void rdbVerTabla_CheckedChanged(object sender, EventArgs e)
+    {
+        rdbVerGrafico.Checked = false;
+        ShowReports();
+    }
+    protected void cmbUsers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowReports();
+    }
+}

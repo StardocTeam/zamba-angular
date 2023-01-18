@@ -1,0 +1,182 @@
+﻿body {
+    /*padding-top: 50px;*/
+    /*padding-bottom: 20px;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    max-width:90%;
+    padding:0;
+    /*padding-left: 15px;
+    padding-right: 15px;*/
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+    select.form-control {
+        width: 80%;
+        display: inline;
+    }
+
+.spanSubTitle {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.frmSection {
+    border-style: groove;
+    padding: 10px;
+}
+
+.titleStyle {
+    color: lightgrey;
+    font-size: 26px;
+    font-family: serif;
+    cursor: pointer;
+}
+
+.IconsNavBar {
+    color: lightgrey;
+    font-size: 20px;
+    cursor: pointer;
+    top: 10px;
+}
+
+.indexStyle {
+    /*border: 1px solid #ccc;*/
+    margin: 5px;
+    height: 600px;
+    overflow: auto;
+}
+
+#treeview {
+    height: 660px;
+        padding-right: 10px;
+    overflow: auto;
+}
+
+#contentDiv {
+    height: 700px;
+    overflow: auto;
+    border:none;
+    padding: 0;
+    padding-left: 15px;
+    margin: 0;
+}
+
+.list-group-item.node-treeview {
+    font-size: 11px;
+}
+
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+    .custom-menu li {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+        .custom-menu li:hover {
+            background-color: #DEF;
+        }
+
+#ApplicationEdit, #ModuleEdit, #FunctionEdit {
+    height: 400px;
+    overflow: auto;
+}
+
+#editOptionsModal {
+    overflow: hidden;
+}
+
+input[type="search"] {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-appearance: searchfield;
+    height: 21px;
+}
+
+    input[type="search"]::-webkit-search-cancel-button {
+        -webkit-appearance: searchfield-cancel-button;
+    }
+
+#toogleTree {
+    width: 20px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    border: 1px;
+    z-index: 999999999999999;
+    border-style: outset;
+    cursor: pointer;
+}
+
+    #toogleTree:hover {
+        background-color: lightgray;
+    }
+
+    #toogleTree > span {
+        top: 50%;
+    }
+
+#treeDiv {
+    padding-top: 5px;
+    overflow: hidden;
+}
+
+#navSelectTiny {
+    border: none;
+    padding: 0;
+}
+    #navSelectTiny > li {
+        display:inline-flex;
+    }
+
+    #navSelectTiny > li > a {
+        margin: 0;
+        padding: 5px;
+    }
+
+    #navSelectTiny > li .active {
+        background-color: lightgray;
+    }
+
+#containerBtn {
+    height: 540px;
+}
+
+#applyBtn {
+    bottom: 0;
+    position: absolute;
+    display: grid;
+}
+#ShortContentDiv {
+    padding:0;
+}
+
+#FullContentDiv {
+display:none;
+padding:0;
+}
+#navBarTitle{
+    position: relative;    padding: 0;    margin: 0;
+}

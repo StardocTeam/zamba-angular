@@ -1,0 +1,1121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\archivos de programa\microsoft visual studio 9.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="1.36">
+ <Targets>
+  <Target Name="C:\Documents and Settings\Nagel\Configuración local\Temp\tmp7B.tmp.cadir\bin\App_Code.dll">
+   <Modules>
+    <Module Name="app_code.dll">
+     <Namespaces>
+      <Namespace Name="">
+       <Types>
+        <Type Name="TreeViewBusiness" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="DeclareTypesInNamespaces" Category="Microsoft.Design" CheckId="CA1050" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">'TreeViewBusiness' should be declared inside a namespace.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="TreeViewService" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="DeclareTypesInNamespaces" Category="Microsoft.Design" CheckId="CA1050" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">'TreeViewService' should be declared inside a namespace.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#GetAllDocuments(System.Object)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Doc" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="31">In member 'TreeViewService.GetAllDocuments(Object)', correct the casing of 'Doc' in parameter name 'DocTypeId' by changing it to 'doc'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetDocTypes()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Certainty="50" Level="Warning" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="15">Change 'TreeViewService.GetDocTypes()' to a property if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ValidateLogin(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="User" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="26">In member 'TreeViewService.ValidateLogin(String, String)', correct the casing of 'User' in parameter name 'UserName' by changing it to 'user'.</Issue>
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="26">In member 'TreeViewService.ValidateLogin(String, String)', correct the casing of 'User' in parameter name 'UserPassword' by changing it to 'user'.</Issue>
+            </Message>
+            <Message Id="UserName" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Warning" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="26">Parameter 'UserName' of 'TreeViewService.ValidateLogin(String, String)' is never used. Remove the parameter or use it in the method body.</Issue>
+            </Message>
+            <Message Id="UserPassword" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Warning" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="26">Parameter 'UserPassword' of 'TreeViewService.ValidateLogin(String, String)' is never used. Remove the parameter or use it in the method body.</Issue>
+            </Message>
+            <Message Id="Login" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error" Path="D:\Zamba2008\Zamba.WebView\App_Code" File="TreeViewService.vb" Line="26">Replace the term 'Login' in member name 'TreeViewService.ValidateLogin(String, String)' with the preferred alternate 'LogOn'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+  <Target Name="C:\Documents and Settings\Nagel\Configuración local\Temp\tmp7B.tmp.cadir\bin\App_Web_c_sg1rzz.dll">
+   <Modules>
+    <Module Name="app_web_c_sg1rzz.dll">
+     <Namespaces>
+      <Namespace Name="">
+       <Types>
+        <Type Name="DocViewer" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Page_Load(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="DocViewer.aspx.cs" Line="35">Modify 'DocViewer.Page_Load(Object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="DocViewer.aspx.cs" Line="41">Modify 'DocViewer.Page_Load(Object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#writeLog(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="DocViewer.aspx.cs" Line="75">'DocViewer.writeLog(String)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Login" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message Id="Login" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+           <Issue Name="Type" Certainty="95" Level="Error">Replace the term 'Login' in type name 'Login' with the preferred alternate 'LogOn'.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#chkWindowsLogIn" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'chk' in member name 'Login.chkWindowsLogIn' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="LogIn" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error">Replace the term 'LogIn' in member name 'Login.chkWindowsLogIn' with the preferred alternate 'LogOn'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#DoLogin(System.Boolean)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="94">Modify 'Login.DoLogin(Boolean)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#flagWindowsLogin" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Login" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error">Replace the term 'Login' in member name 'Login.flagWindowsLogin' with the preferred alternate 'LogOn'.</Issue>
+            </Message>
+            <Message Id="flag" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="MemberNoAlternate" Certainty="95" Level="Error">Replace the term 'flag' in member name 'Login.flagWindowsLogin' with an appropriate alternate or remove it entirely.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#hylLoginWindows" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="hyl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'hyl' in member name 'Login.hylLoginWindows' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="Login" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error">Replace the term 'Login' in member name 'Login.hylLoginWindows' with the preferred alternate 'LogOn'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IsFormFieldsRigth()" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Rigth" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="206">Correct the spelling of 'Rigth' in member name 'Login.IsFormFieldsRigth()' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#IsUserValid()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="107">Modify 'Login.IsUserValid()' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblError" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Login.lblError' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblLoginWindows" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Login.lblLoginWindows' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="Login" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error">Replace the term 'Login' in member name 'Login.lblLoginWindows' with the preferred alternate 'LogOn'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblPassword" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Login.lblPassword' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblUserName" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Login.lblUserName' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LoadAspect(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="System.String.Compare(System.String,System.String)" TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="177">'Login.LoadAspect(Boolean)' makes a call to 'String.Compare(String, String)' that does not explicitly provide a StringComparison. This should be replaced with a call to 'String.Compare(String, String, StringComparison)'.</Issue>
+            </Message>
+            <Message Id="System.String.EndsWith(System.String)" TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="170">'Login.LoadAspect(Boolean)' makes a call to 'String.EndsWith(String)' that does not explicitly provide a StringComparison. This should be replaced with a call to 'String.EndsWith(String, StringComparison)'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#loginBody" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="login" TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="95" Level="Error">Replace the term 'login' in member name 'Login.loginBody' with the preferred alternate 'LogOn'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lvlInvisible" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lvl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lvl' in member name 'Login.lvlInvisible' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#tbl2" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="tbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'tbl' in member name 'Login.tbl2' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#tbl5" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="tbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'tbl' in member name 'Login.tbl5' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#tblBtnIngresar" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Btn' in member name 'Login.tblBtnIngresar' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="Ingresar" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Ingresar' in member name 'Login.tblBtnIngresar' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="tbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'tbl' in member name 'Login.tblBtnIngresar' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#txtPassword_OnTextChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="txt" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="197">Correct the casing of 'txt' in member name 'Login.txtPassword_OnTextChanged(Object, EventArgs)' by changing it to 'Txt'.</Issue>
+            </Message>
+            <Message Id="a" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="MemberParameterMoreMeaningfulName" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="197">In method 'Login.txtPassword_OnTextChanged(Object, EventArgs)', consider providing a more meaningful name than parameter name 'a'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#txtUserName_OnTextChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="txt" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="189">Correct the casing of 'txt' in member name 'Login.txtUserName_OnTextChanged(Object, EventArgs)' by changing it to 'Txt'.</Issue>
+            </Message>
+            <Message Id="a" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="MemberParameterMoreMeaningfulName" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="LogIn.aspx.cs" Line="189">In method 'Login.txtUserName_OnTextChanged(Object, EventArgs)', consider providing a more meaningful name than parameter name 'a'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+  <Target Name="C:\Documents and Settings\Nagel\Configuración local\Temp\tmp7B.tmp.cadir\bin\App_Web_dccw9lfc.dll">
+   <Modules>
+    <Module Name="app_web_dccw9lfc.dll">
+     <Namespaces>
+      <Namespace Name="">
+       <Types>
+        <Type Name="MasterPage" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Page_Load(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="System.String.ToUpper" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="D:\Zamba2008\Zamba.WebView" File="MasterPage.master.vb" Line="7">Because the behavior of 'String.ToUpper()' could vary based on the current user's locale settings, replace this call in 'MasterPage.Page_Load(Object, EventArgs)' with a call to 'String.ToUpper(CultureInfo)'. If the result of 'String.ToUpper(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+  <Target Name="C:\Documents and Settings\Nagel\Configuración local\Temp\tmp7B.tmp.cadir\bin\App_Web_l8_iosei.dll">
+   <Modules>
+    <Module Name="app_web_l8_iosei.dll">
+     <Namespaces>
+      <Namespace Name="">
+       <Types>
+        <Type Name="Main" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AddSortImage(System.Int32,System.Web.UI.WebControls.GridViewRow)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="columnIndex" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Warning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="292">Parameter 'columnIndex' of 'Main.AddSortImage(Integer, GridViewRow)' is never used. Remove the parameter or use it in the method body.</Issue>
+            </Message>
+            <Message Id="row" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Warning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="292">Parameter 'row' of 'Main.AddSortImage(Integer, GridViewRow)' is never used. Remove the parameter or use it in the method body.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#BtnBack" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Btn' in member name 'Main.BtnBack' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#BtnBack_OnClick(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="631">Correct the spelling of 'Btn' in member name 'Main.BtnBack_OnClick(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnCancelarIndex" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Cancelar" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Cancelar' in member name 'Main.btnCancelarIndex' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'btn' in member name 'Main.btnCancelarIndex' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnFilter" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'btn' in member name 'Main.btnFilter' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnFilter_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="332">Correct the casing of 'btn' in member name 'Main.btnFilter_Click(Object, EventArgs)' by changing it to 'Btn'.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="332">Correct the spelling of 'btn' in member name 'Main.btnFilter_Click(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnFirst" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'btn' in member name 'Main.btnFirst' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnFirst_OnClick(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="651">Correct the casing of 'btn' in member name 'Main.btnFirst_OnClick(Object, EventArgs)' by changing it to 'Btn'.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="651">Correct the spelling of 'btn' in member name 'Main.btnFirst_OnClick(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnLast" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'btn' in member name 'Main.btnLast' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnLast_OnClick(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="661">Correct the casing of 'btn' in member name 'Main.btnLast_OnClick(Object, EventArgs)' by changing it to 'Btn'.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="661">Correct the spelling of 'btn' in member name 'Main.btnLast_OnClick(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#BtnNext" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Btn' in member name 'Main.BtnNext' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#BtnNext_OnClick(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="641">Correct the spelling of 'Btn' in member name 'Main.BtnNext_OnClick(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnSeeDocs" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'btn' in member name 'Main.btnSeeDocs' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnSeeDocs_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="513">Correct the casing of 'btn' in member name 'Main.btnSeeDocs_Click(Object, EventArgs)' by changing it to 'Btn'.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="513">Correct the spelling of 'btn' in member name 'Main.btnSeeDocs_Click(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnShowList" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'btn' in member name 'Main.btnShowList' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#btnShowList_Click(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="389">Modify 'Main.btnShowList_Click(Object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="346">Correct the casing of 'btn' in member name 'Main.btnShowList_Click(Object, EventArgs)' by changing it to 'Btn'.</Issue>
+            </Message>
+            <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="346">Correct the spelling of 'btn' in member name 'Main.btnShowList_Click(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message TypeName="SetLocaleForDataTypes" Category="Microsoft.Globalization" CheckId="CA1306" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="353">Be sure to set the DataTable Locale property wherever 'Main.btnShowList_Click(Object, EventArgs)' creates an instance of that type.</Issue>
+            </Message>
+            <Message Id="System.Int64.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="350">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.btnShowList_Click(Object, EventArgs)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="361">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.btnShowList_Click(Object, EventArgs)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="376">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.btnShowList_Click(Object, EventArgs)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ChkAgroup" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Agroup" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Agroup' in member name 'Main.ChkAgroup' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="Chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Chk' in member name 'Main.ChkAgroup' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ChkAgroup_OnCheckedChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Agroup" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="593">Correct the spelling of 'Agroup' in member name 'Main.ChkAgroup_OnCheckedChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="Chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="593">Correct the spelling of 'Chk' in member name 'Main.ChkAgroup_OnCheckedChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbDocType" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'cmb' in member name 'Main.cmbDocType' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbDocType_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="158">Modify 'Main.cmbDocType_SelectedIndexChanged(Object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="140">Correct the casing of 'cmb' in member name 'Main.cmbDocType_SelectedIndexChanged(Object, EventArgs)' by changing it to 'Cmb'.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="140">Correct the spelling of 'cmb' in member name 'Main.cmbDocType_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbFilter" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'cmb' in member name 'Main.cmbFilter' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbFilter_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="403">Correct the casing of 'cmb' in member name 'Main.cmbFilter_SelectedIndexChanged(Object, EventArgs)' by changing it to 'Cmb'.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="403">Correct the spelling of 'cmb' in member name 'Main.cmbFilter_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbIndex" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'cmb' in member name 'Main.cmbIndex' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbIndex_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="186">Correct the casing of 'cmb' in member name 'Main.cmbIndex_SelectedIndexChanged(Object, EventArgs)' by changing it to 'Cmb'.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="186">Correct the spelling of 'cmb' in member name 'Main.cmbIndex_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbOperadores" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Operadores" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Operadores' in member name 'Main.cmbOperadores' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'cmb' in member name 'Main.cmbOperadores' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbOperadores_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="506">Modify 'Main.cmbOperadores_SelectedIndexChanged(Object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="446">Correct the casing of 'cmb' in member name 'Main.cmbOperadores_SelectedIndexChanged(Object, EventArgs)' by changing it to 'Cmb'.</Issue>
+            </Message>
+            <Message Id="Operadores" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="446">Correct the spelling of 'Operadores' in member name 'Main.cmbOperadores_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="446">Correct the spelling of 'cmb' in member name 'Main.cmbOperadores_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="System.String.ToUpper" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="458">Because the behavior of 'String.ToUpper()' could vary based on the current user's locale settings, replace this call in 'Main.cmbOperadores_SelectedIndexChanged(Object, EventArgs)' with a call to 'String.ToUpper(CultureInfo)'. If the result of 'String.ToUpper(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="452">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.cmbOperadores_SelectedIndexChanged(Object, EventArgs)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#cmbOperadoresDate" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Operadores" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Operadores' in member name 'Main.cmbOperadoresDate' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="cmb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'cmb' in member name 'Main.cmbOperadoresDate' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#getDocs(System.Boolean,System.Boolean,System.Boolean,System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="939">Modify 'Main.getDocs(Boolean, Boolean, Boolean, String)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int16.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="867">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="868">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="869">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="870">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="871">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int64.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="886">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="887">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="892">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="893">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="900">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.getDocs(Boolean, Boolean, Boolean, String)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetIndexs(System.Boolean)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1014">Modify 'Main.GetIndexs(Boolean)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="955">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="957">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="958">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="960">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="984">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="985">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="988">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int64.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="968">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="970">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="970">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="976">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetIndexs(Boolean)' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetPageSize()" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.Int16.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="756">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.GetPageSize()' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetSortColumnIndex()" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Certainty="50" Level="Warning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="311">Change 'Main.GetSortColumnIndex()' to a property if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvDocTypes" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'gv' in member name 'Main.gvDocTypes' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvDocTypes_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="202">Correct the casing of 'gv' in member name 'Main.gvDocTypes_SelectedIndexChanged(Object, EventArgs)' by changing it to 'GV'.</Issue>
+            </Message>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="202">Correct the spelling of 'gv' in member name 'Main.gvDocTypes_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvDocuments" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'gv' in member name 'Main.gvDocuments' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvDocuments_OnRowDataBound(System.Object,System.Web.UI.WebControls.GridViewRowEventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="238">Correct the casing of 'gv' in member name 'Main.gvDocuments_OnRowDataBound(Object, GridViewRowEventArgs)' by changing it to 'GV'.</Issue>
+            </Message>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="238">Correct the spelling of 'gv' in member name 'Main.gvDocuments_OnRowDataBound(Object, GridViewRowEventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvDocuments_RowCreated(System.Object,System.Web.UI.WebControls.GridViewRowEventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="270">Correct the casing of 'gv' in member name 'Main.gvDocuments_RowCreated(Object, GridViewRowEventArgs)' by changing it to 'GV'.</Issue>
+            </Message>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="270">Correct the spelling of 'gv' in member name 'Main.gvDocuments_RowCreated(Object, GridViewRowEventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvDocuments_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="265">Correct the casing of 'gv' in member name 'Main.gvDocuments_SelectedIndexChanged(Object, EventArgs)' by changing it to 'GV'.</Issue>
+            </Message>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="265">Correct the spelling of 'gv' in member name 'Main.gvDocuments_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvSustitutionList" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Sustitution" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Sustitution' in member name 'Main.gvSustitutionList' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'gv' in member name 'Main.gvSustitutionList' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#gvSustitutionList_SelectedIndexChanged(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="gv" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="619">Correct the casing of 'gv' in member name 'Main.gvSustitutionList_SelectedIndexChanged(Object, EventArgs)' by changing it to 'GV'.</Issue>
+            </Message>
+            <Message Id="Sustitution" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="619">Correct the spelling of 'Sustitution' in member name 'Main.gvSustitutionList_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="gv" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="619">Correct the spelling of 'gv' in member name 'Main.gvSustitutionList_SelectedIndexChanged(Object, EventArgs)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblDcType" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Main.lblDcType' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblIndex" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Main.lblIndex' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblIndexToSearch" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Main.lblIndexToSearch' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblInvisible" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Main.lblInvisible' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblPageNumber" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Main.lblPageNumber' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#lblTotal" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="lbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'lbl' in member name 'Main.lblTotal' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LoadCatalogGrid()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="850">Modify 'Main.LoadCatalogGrid()' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="827">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadCatalogGrid()' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="828">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadCatalogGrid()' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="829">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadCatalogGrid()' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="833">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadCatalogGrid()' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LoadGridview(System.Data.DataTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1105">Modify 'Main.LoadGridview(DataTable)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int16.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1028">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadGridview(DataTable)' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1029">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadGridview(DataTable)' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1026">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadGridview(DataTable)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1027">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.LoadGridview(DataTable)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#OnSorting(System.Object,System.Web.UI.WebControls.GridViewSortEventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="584">Modify 'Main.OnSorting(Object, GridViewSortEventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Page_Load(System.Object,System.EventArgs)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="128">Modify 'Main.Page_Load(Object, EventArgs)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="89">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.Page_Load(Object, EventArgs)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#panelAgroup" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Agroup" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Agroup' in member name 'Main.panelAgroup' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetFilterControls(System.Data.DataTable)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1159">Modify 'Main.SetFilterControls(DataTable)' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1122">Because the behavior of 'String.ToLower()' could vary based on the current user's locale settings, replace this call in 'Main.SetFilterControls(DataTable)' with a call to 'String.ToLower(CultureInfo)'. If the result of 'String.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1126">Because the behavior of 'String.ToLower()' could vary based on the current user's locale settings, replace this call in 'Main.SetFilterControls(DataTable)' with a call to 'String.ToLower(CultureInfo)'. If the result of 'String.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1128">Because the behavior of 'String.ToLower()' could vary based on the current user's locale settings, replace this call in 'Main.SetFilterControls(DataTable)' with a call to 'String.ToLower(CultureInfo)'. If the result of 'String.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1134">Because the behavior of 'String.ToLower()' could vary based on the current user's locale settings, replace this call in 'Main.SetFilterControls(DataTable)' with a call to 'String.ToLower(CultureInfo)'. If the result of 'String.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#setFilters()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1304">Modify 'Main.setFilters()' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1261">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.setFilters()' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetIndexType()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.Int64.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="415">Because the behavior of 'Long.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.SetIndexType()' with a call to 'Long.Parse(String, IFormatProvider)'. If the result of 'Long.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetNavigation(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.Int16.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="677">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.SetNavigation(String)' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="678">Because the behavior of 'Short.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.SetNavigation(String)' with a call to 'Short.Parse(String, IFormatProvider)'. If the result of 'Short.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="679">Because the behavior of 'Integer.Parse(String)' could vary based on the current user's locale settings, replace this call in 'Main.SetNavigation(String)' with a call to 'Integer.Parse(String, IFormatProvider)'. If the result of 'Integer.Parse(String, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SortDataTable(System.Data.DataTable,System.String,System.String)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="792">'Main.SortDataTable(DataTable, String, String)' appears to have no upstream public or protected callers.</Issue>
+            </Message>
+            <Message Id="System.String.ToUpper" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="797">Because the behavior of 'String.ToUpper()' could vary based on the current user's locale settings, replace this call in 'Main.SortDataTable(DataTable, String, String)' with a call to 'String.ToUpper(CultureInfo)'. If the result of 'String.ToUpper(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#tablaFiltro" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Filtro" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Filtro' in member name 'Main.tablaFiltro' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="tabla" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'tabla' in member name 'Main.tablaFiltro' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#tblAll" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="tbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'tbl' in member name 'Main.tblAll' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#UpdGrid" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Upd" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Upd' in member name 'Main.UpdGrid' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#updList" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="upd" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'upd' in member name 'Main.updList' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#updPnlDocs" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Pnl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Pnl' in member name 'Main.updPnlDocs' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="upd" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'upd' in member name 'Main.updPnlDocs' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#UpdProgress1" Kind="Field" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Upd" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning">Correct the spelling of 'Upd' in member name 'Main.UpdProgress1' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#writeLog(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="d:\Zamba2008\Zamba.WebView" File="Main.aspx.cs" Line="1246">'Main.writeLog(String)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Main+ResultsLoadType" Kind="Enum" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+           <Issue Certainty="90" Level="Error">Do not nest type 'Main.ResultsLoadType'. Alternatively, change its accessibility so that it is not externally visible.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#ALL" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ALL" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'ALL' in member name 'Main.ResultsLoadType.ALL' by changing it to 'All'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ALLSORTED" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ALLSORTED" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'ALLSORTED' in member name 'Main.ResultsLoadType.ALLSORTED' by changing it to 'Allsorted'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CATALOGED" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="CATALOGED" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'CATALOGED' in member name 'Main.ResultsLoadType.CATALOGED' by changing it to 'Cataloged'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CATALOGEDSORTED" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="CATALOGEDSORTED" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'CATALOGEDSORTED' in member name 'Main.ResultsLoadType.CATALOGEDSORTED' by changing it to 'Catalogedsorted'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#FILTERED" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="FILTERED" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'FILTERED' in member name 'Main.ResultsLoadType.FILTERED' by changing it to 'Filtered'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#FILTEREDSORTED" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="FILTEREDSORTED" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'FILTEREDSORTED' in member name 'Main.ResultsLoadType.FILTEREDSORTED' by changing it to 'Filteredsorted'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SESSIONS" Kind="Field" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="SESSIONS" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2008-03-26 12:49:29Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error">Correct the casing of 'SESSIONS' in member name 'Main.ResultsLoadType.SESSIONS' by changing it to 'Sessions'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
+   <Name>Avoid uncalled private code</Name>
+   <Description>There is uncalled code that is not externally visible and is not a known runtime entry point. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
+   <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182264(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="PerformanceRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="DeclareTypesInNamespaces" Category="Microsoft.Design" CheckId="CA1050">
+   <Name>Declare types in namespaces</Name>
+   <Description>A type should be defined inside a namespace to avoid duplication.</Description>
+   <Resolution Name="Default">{0} should be declared inside a namespace.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182134(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="DesignRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+   <Name>Do not catch general exception types</Name>
+   <Description>You should not catch Exception or SystemException. Catching generic exception types can hide run-time problems from the library user, and can complicate debugging. You should catch only those exceptions that you can handle gracefully.</Description>
+   <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182137(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="DesignRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+   <Name>Identifiers should be cased correctly</Name>
+   <Description>Type, namespace, and member identifiers are Pascal-cased. Parameter identifiers are camel-cased. Two letter acronyms within these identifiers should be upper-cased, for example, use System.IO instead of System.Io. Acronyms of three or more letters should be Pascal-cased, for example, use System.Xml instead of System.XML. The pascal-casing convention capitalizes the first letter of each word, as in BackColor. The camel-casing convention formats the first letter of the first word in lowercase and capitalizes the first letter of all subsequent words, as in backgroundColor. Although it may be common practice for some two letter acronyms to not be fully capitalized, violations of this rule should not be excluded for this reason. For example, 'DbConnection', is common but incorrect; use DBConnection. A violation of this rule might be required for compatibility with existing, non-managed symbol schemes. In general, however, these symbols should not be visible outside the assembly that uses them.</Description>
+   <Resolution Name="Member">Correct the casing of '{0}' in member name {1} by changing it to '{2}'.</Resolution>
+   <Resolution Name="MemberParameter">In member {0}, correct the casing of '{1}' in parameter name {2} by changing it to '{3}'.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182240(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="85">Error</MessageLevel>
+   <File Name="NamingRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+   <Name>Identifiers should be spelled correctly</Name>
+   <Description>The individual words that make up an identifier should not be abbreviated and should be spelled correctly. If this rule generates a false positive on a term that should be recognized, add the word to the FxCop custom dictionary.</Description>
+   <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Resolution Name="MemberParameterMoreMeaningfulName">In method {0}, consider providing a more meaningful name than parameter name {1}.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/bb264492(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">CriticalWarning</MessageLevel>
+   <File Name="NamingRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034">
+   <Name>Nested types should not be visible</Name>
+   <Description>Do not use public, protected or protected internal (Protected Friend) nested types as a way of grouping types. Use namespaces for this purpose. There are very limited scenarios where nested types are the best design. Also, nested type member accessibility is not clearly understood by all audiences. Enumerators are exempt from this rule.</Description>
+   <Resolution Name="Default">Do not nest type {0}. Alternatively, change its accessibility so that it is not externally visible.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182162(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Error</MessageLevel>
+   <File Name="DesignRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200">
+   <Name>Rethrow to preserve stack details</Name>
+   <Description>Use the IL rethrow instruction to preserve original stack details when re-raising a caught exception.</Description>
+   <Resolution Name="Default">{0} rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182363(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="UsageRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+   <Name>Review unused parameters</Name>
+   <Description>Review parameters in non-virtual methods that are not used in the method body to ensure no correctness exists around failure to access them. Unused parameters incur maintenance and performance costs. Sometimes a violation of this rule can point to an implementation bug in the method (i.e. the parameter should actually have been used in the method body). Exclude warnings of this rule if the parameter has to exist because of backward compatibility.</Description>
+   <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182268(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="UsageRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="SetLocaleForDataTypes" Category="Microsoft.Globalization" CheckId="CA1306">
+   <Name>Set locale for data types</Name>
+   <Description>In most cases, Locale should be explicitly set to CultureInfo.InvariantCulture on DataSet and DataTable instances. Upon creation of a DataSet or DataTable instance, the Locale is set to the current culture. In most cases, the Locale should be set to CultureInfo.InvariantCulture to guarantee proper sorting behavior in all cultures.</Description>
+   <Resolution Name="Default">Be sure to set the {0} Locale property wherever {1} creates an instance of that type.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182188(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Error</MessageLevel>
+   <File Name="GlobalizationRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304">
+   <Name>Specify CultureInfo</Name>
+   <Description>If an overload exists that takes a CultureInfo argument, it should always be called in favor of an overload that does not. The CultureInfo type contains culture-specific information required for performing numeric and string operations, such as casing, formatting, and string comparisons. In scenarios where conversion and parsing behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182189(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="GlobalizationRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+   <Name>Specify IFormatProvider</Name>
+   <Description>If an overload exists that takes an IFormatProvider argument, it should always be called in favor of an overload that does not. Some methods in the runtime convert a value to or from a string representation and take a string parameter that contains one or more characters, called format specifiers, which indicate how the value is to be converted. If the meaning of the format specifier varies by culture, a formatting object supplies the actual characters used in the string representation. In scenarios where sorting and comparison behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182190(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="GlobalizationRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyStringComparison" Category="Microsoft.Globalization" CheckId="CA1307">
+   <Name>Specify StringComparison</Name>
+   <Description>If an overload exists that takes a StringComparison argument, it should always be called in favor of an overload that does not.</Description>
+   <Resolution Name="Default">{0} makes a call to {1} that does not explicitly provide a StringComparison. This should be replaced with a call to {2}.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/bb386080(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="GlobalizationRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="UsePreferredTerms" Category="Microsoft.Naming" CheckId="CA1726">
+   <Name>Use preferred terms</Name>
+   <Description>Use preferred terms over deprecated alternates.</Description>
+   <Resolution Name="Member">Replace the term '{0}' in member name {1} with the preferred alternate '{2}'.</Resolution>
+   <Resolution Name="MemberNoAlternate">Replace the term '{0}' in member name {1} with an appropriate alternate or remove it entirely.</Resolution>
+   <Resolution Name="Type">Replace the term '{0}' in type name {1} with the preferred alternate '{2}'.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182258(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="NamingRules.dll" Version="9.0.0.0" />
+  </Rule>
+  <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+   <Name>Use properties where appropriate</Name>
+   <Description>Properties should be used instead of Get/Set methods in most situations. Methods are preferable to properties in the following situations: the operation is a conversion, is expensive or has an observable side-effect; the order of execution is important; calling the member twice in succession creates different results; a member is static but returns a mutable value; or the member returns an array.</Description>
+   <Resolution Name="Default">Change {0} to a property if appropriate.</Resolution>
+   <Owner />
+   <Url>http://msdn2.microsoft.com/ms182181(VS.90).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="DesignRules.dll" Version="9.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

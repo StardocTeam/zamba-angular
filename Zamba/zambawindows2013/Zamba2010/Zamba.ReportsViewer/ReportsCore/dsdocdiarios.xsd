@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsdocdiarios" targetNamespace="http://tempuri.org/dsdocdiarios.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/dsdocdiarios.xsd" xmlns:mstns="http://tempuri.org/dsdocdiarios.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsdocdiarios" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="dsdocs">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="doctype" type="xs:string" minOccurs="0" />
+							<xs:element name="Fecha" type="xs:date" minOccurs="0" />
+							<xs:element name="DocInserted" type="xs:integer" minOccurs="0" />
+							<xs:element name="espacio" type="xs:decimal" minOccurs="0" />
+							<xs:element name="docacum" type="xs:int" minOccurs="0" />
+							<xs:element name="espAcum" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

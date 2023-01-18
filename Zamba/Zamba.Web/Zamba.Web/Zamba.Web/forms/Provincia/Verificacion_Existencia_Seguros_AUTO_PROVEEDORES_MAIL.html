@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar-->
+<head>
+ <title></title>
+ <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+ <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+ <script src="../../Scripts/jquery-2.2.2.js"></script>
+ <script src="../../Scripts/angular.js"></script>
+ <script src="../../Scripts/angular.min.js"></script>
+ <script src="../../DropFiles/dropfiles.js"></script>
+ <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+</head>
+
+<body>
+ 
+ <div >
+ <div ng-controller="appController">
+ <div class="form-group row"></div>
+ <div class="col">
+ <div class="cell panel">
+ <form name="frmMain" action="Verificacion_Existencia_Seguros_Auto_PROVEEDORES">
+ <div class="header background-blue">
+ <h5 class="titleceneterDiv">VERIFICACION DE EXISTENCIA DE SEGUROS AUTO</h5>
+ </div>
+ <input id="hdnRuleId" type="hidden" />
+ <input id="hdnAsocId" type="hidden" />
+ <div class="container">
+ 
+ <div class="tab-pane active" id="VERIFICACIÓN DE EXISTENCIA DE SEGUROS AUTO">
+ <div class="form-group row">
+ <div class="PanelPrincipal">
+ <div class="form-group row">
+ <div class="col-md-3">
+ <div class="input-group">
+<!--MED and JUI--> <span class="input-group-addon">J / M</span>
+<<Tarea>>.<<IndiceDescripcion(Juicio o Mediacion)>>
+ 
+ </div>
+ </div>
+ <div class="col-md-3">
+ <div class="input-group">
+ <!--RAJ--> <span class="input-group-addon">RAJ:</span>
+<<Tarea>>.<<IndiceDescripcion(Nro Juicio Mediacion)>>
+ 
+ </div>
+ </div>
+ <div class="col-md-6">
+ <div class="input-group">
+<!--ESTUDIO--> <span class="input-group-addon">Estudio a Cargo:</span>
+<<Tarea>>.<<IndiceDescripcion(Estudio)>>
+ 
+ </div>
+ </div> 
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+<!--Caratula--> <span class="input-group-addon"> Actor y Demandando:</span>
+<<Tarea>>.<<IndiceDescripcion(Actor)>> / <<Tarea>>.<<IndiceDescripcion(Demandado)>>
+ 
+ </div>
+ </div> 
+ </div>
+ <div style="text-align:justify; text-justify:inter-word"> 
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group"> 
+ <h5>Me dirijo a Ud. a fin de solicitarle me informe si con los datos que a continuación se detallan se registran antecedentes de aseguramiento en esta Compañía a la fecha del hecho.</h5> 
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group"> 
+ <h5>De encontrarse contrato vigente se solicita informe bajo que Nro. de Póliza se encuentra asegurado.</h5> 
+ </div>
+ </div>
+ </div>
+ 
+ 
+ <div class="form-group row">
+ <div class="col-md-9">
+ <div class="input-group">
+<!--Probable ASE--> <span class="input-group-addon">Probable Asegurado:</span><<Tarea>>.<<IndiceDescripcion(Asegurado)>>
+ 
+ </div>
+ </div> 
+ </div>
+ <div class="form-group row">
+ <div class="col-md-9">
+ <div class="input-group">
+<!--Vehiculo--> <span class="input-group-addon">Vehículo:</span><<Tarea>>.<<IndiceDescripcion(Vehiculo Asegurado)>>
+ 
+ </div>
+ </div> 
+ </div>
+ <div class="form-group row">
+ <div class="col-md-9">
+ <div class="input-group">
+<!--Patente--> <span class="input-group-addon">Patente:</span><<Tarea>>.<<IndiceDescripcion(Patente)>>
+ 
+ </div>
+ </div> 
+ </div> 
+ <div class="form-group row">
+ <div class="col-md-9">
+ <div class="input-group">
+<!--Fecha H--> <span class="input-group-addon">Fecha del Hecho:</span><<Tarea>>.<<IndiceDescripcion()>>
+ 
+ </div>
+ </div> 
+ </div>
+												
+												<div style="text-align:justify; text-justify:inter-word">
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <h5>Quedamos a la espera de lo solicitado.</h5>
+ </div>
+ </div>
+ </div>
+ <div class="form-group row">
+ <div class="col-md-12">
+ <div class="input-group">
+ <h5>Cordiales saludos.</h5>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="form-group row" style="position:relative;top:-20px">
+														<div class="col-md-12">
+															<div class="input-group"> 
+																<h5>Mediante el siguiente link podrá acceder a la información de la demanda / mediación para mayores datos.</h5> 
+															</div>
+														</div>
+													</div> 
+
+   </br>
+</br>
+<<FuncionesComunes>>.<<ObtenerLinkPublicoWeb(Abrir Solicitud)>>
+</br>
+</br>
+ 
+ <div class="form-group row">
+ <div class="form-group">
+ <div class="col-md-12" >
+ <!--Observacion--> 			<span class="input-sm"><h5>Observaciones:</h5></span>
+ </div>
+ </div>
+ <div class="form-group" >
+ <div class="col-md-12" style="padding:0px;">
+ <div class="col-md-12">
+<!--Area texto Observacion--> <textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84"></textarea>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <div class="form-group row">
+												 <div class="col-md-11"></div>
+ <div class="col-md-1">
+ <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Enviar">
+ </div>
+ </div>
+													 
+							 
+ 
+ <hr style="border: 0 ; border-top: 10px double gray; width: 100%;">
+
+ <div class="row">
+ 
+ <div class="col-md-2" style="position:relative;left:20px;">
+ <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+ </div>
+ <div class="col-md-10">
+ <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+ <div class="form-group row">
+ </div>
+ </div>
+ 
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ </div>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+</body>
+</html>
+
+<style>
+ .Inputselect {
+ width: 100px !important;
+ }
+
+
+ .inputEtiquetas {
+ width: 30px !important;
+ }
+
+ /*.panel {
+ border: 1px solid rgb(21, 98, 142) !important;
+ }*/
+
+ .PanelPrincipal {
+ margin-top: 30px;
+ }
+
+ .margenBtn {
+ position: relative;
+ left: 90px;
+ }
+</style>

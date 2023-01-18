@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+</head>
+
+<body>
+    <center>
+        <div class="form-group row"></div>
+        <div class="col">
+            <div class="cell panel">
+                <div class="header background-blue">
+                    <p></p>
+                    <h4>NUEVO TICKET</h4>
+                </div>
+                <form name="frmMain" action="NuevoTicket.html">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <center>
+                            <div class="tab-pane active" id="Proyecto">
+                                <div class="form-group row">
+                                    <div class="PanelPrincipal">
+                                        <div class="form-group row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Titulo:</span>
+                                                    <input id="zamba_index_1305" name="zamba_index_1305" class="form-control input-sm" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Nivel de Importancia:</span>
+                                                    <select id="zamba_index_2440" name="zamba_index_2440" class="form-control input-sm"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Fecha de Solicitud:</span>
+                                                    <input id="zamba_index_2419" name="zamba_index_2419" class="form-control input-sm dateToday" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Cliente Stardoc:</span>
+                                                    <input id="zamba_index_1287" name="zamba_index_1287" size="1" class="form-control input-sm" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">Solicitado por:</span>
+                                                    <input id="zamba_index_1315" name="zamba_index_1315" size="1" class="form-control input-sm" value="<<FuncionesComunes>>.<<UsuarioActualId>>" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p></p>
+                                        <div class="row">
+                                            <p></p>
+                                            <div class="col-md-3">
+                                                <span class="input-group-addon">Ingrese detalle del Problema:</span>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <textarea cols="1" class="form-control" rows="6" id="zamba_Index_2438" name="zamba_Index_2438"></textarea>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            <center>
+                                                <input id="zamba_save" class="btn btn-primary margenBtn" type="submit" value="Guardar" name="zamba_save" />
+                                                <input id="zamba_cancel" class="btn btn-primary margenBtn" type="submit" value="Cancelar" name="zamba_cancel" />
+                                                <div>
+                                                    <img alt="" src="images/logocliente.bmp" height="50" width="70" style="float: left" />
+                                                    <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="70" style="float: right" />
+                                                </div>
+                                            </center>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </center>
+</body>
+
+
+</html>
+
+<style>
+    .panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        padding-right: 12px;
+        border-right-width: 1px;
+        margin-top: 30px;
+    }
+</style>

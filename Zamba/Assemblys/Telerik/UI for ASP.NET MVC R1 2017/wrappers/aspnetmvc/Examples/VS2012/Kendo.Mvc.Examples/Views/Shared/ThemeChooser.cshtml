@@ -1,0 +1,32 @@
+<div class="themechooser" data-rel="themechooser" data-role="details">
+        <span class="tc-activator"><span class="tc-current" data-bind="text: selectedTheme"></span> Theme</span>
+    <div class="tc-theme-list">
+        <div class="tc-column">
+            <h4>Themes</h4>
+            <ul class="themes-grid"
+                data-role="themechooser"
+                data-template="theme-item-template"
+                data-bind="source: themes, value: selectedTheme"></ul>
+        </div>
+    </div>
+</div>
+
+<script id="theme-item-template" type="text/x-kendo-template">
+    <li class="tc-item">
+        # for (var i = 0; i < colors.length; i++) { #
+            <span class="tc-color" style="background-color: #= colors[i] #"></span>
+        # } #
+        <span class="tc-name">#: name #</span>
+    </li>
+</script>
+
+<script id="size-item-template" type="text/x-kendo-template">
+    <li class="tc-item">
+        <span class="tc-name">#: name #</span>
+        # if ('relativity' in data) { #
+            <span class="tc-relativity">
+                (#: relativity #)
+            </span>
+        # } #
+    </li>
+</script>

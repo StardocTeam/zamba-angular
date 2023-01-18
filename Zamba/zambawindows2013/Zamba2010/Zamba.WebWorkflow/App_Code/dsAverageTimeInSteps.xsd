@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsAverageTimeInSteps" targetNamespace="http://tempuri.org/dsAverageTimeInSteps.xsd" xmlns:mstns="http://tempuri.org/dsAverageTimeInSteps.xsd" xmlns="http://tempuri.org/dsAverageTimeInSteps.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsAverageTimeInSteps" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsAverageTimeInSteps" msprop:Generator_DataSetName="dsAverageTimeInSteps">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtAverageTimeInSteps" msprop:Generator_UserTableName="dtAverageTimeInSteps" msprop:Generator_RowDeletedName="dtAverageTimeInStepsRowDeleted" msprop:Generator_RowChangedName="dtAverageTimeInStepsRowChanged" msprop:Generator_RowClassName="dtAverageTimeInStepsRow" msprop:Generator_RowChangingName="dtAverageTimeInStepsRowChanging" msprop:Generator_RowEvArgName="dtAverageTimeInStepsRowChangeEvent" msprop:Generator_RowEvHandlerName="dtAverageTimeInStepsRowChangeEventHandler" msprop:Generator_TableClassName="dtAverageTimeInStepsDataTable" msprop:Generator_TableVarName="tabledtAverageTimeInSteps" msprop:Generator_RowDeletingName="dtAverageTimeInStepsRowDeleting" msprop:Generator_TablePropName="dtAverageTimeInSteps">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="AverageTime_Source" msprop:Generator_UserColumnName="AverageTime_Source" msprop:Generator_ColumnVarNameInTable="columnAverageTime_Source" msprop:Generator_ColumnPropNameInRow="AverageTime_Source" msprop:Generator_ColumnPropNameInTable="AverageTime_SourceColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="AverageTime" msprop:Generator_UserColumnName="AverageTime" msprop:Generator_ColumnVarNameInTable="columnAverageTime" msprop:Generator_ColumnPropNameInRow="AverageTime" msprop:Generator_ColumnPropNameInTable="AverageTimeColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

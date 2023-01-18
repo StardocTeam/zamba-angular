@@ -1,0 +1,440 @@
+﻿<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5873DE0F-6853-4C8E-91A4-7A6861069A9A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>images\HtmlEditor.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Stardoc.HtmlEditor</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Stardoc.HtmlEditor</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxInterop.SHDocVw, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Edition\HtmlTextBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlTextBox.Designer.cs">
+      <DependentUpon>HtmlTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlZCheckbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlZCheckbox.Designer.cs">
+      <DependentUpon>HtmlZCheckbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlZRadioButtonEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlZRadioButtonEditor.Designer.cs">
+      <DependentUpon>HtmlZRadioButtonEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlZSelectEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlZSelectEditor.Designer.cs">
+      <DependentUpon>HtmlZSelectEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlZTextAreaEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlZTextAreaEditor.Designer.cs">
+      <DependentUpon>HtmlZTextAreaEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlZTextBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlZTextBox.Designer.cs">
+      <DependentUpon>HtmlZTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enumerators\DataType.cs" />
+    <Compile Include="Enumerators\DisplayScrollBarOption.cs" />
+    <Compile Include="Enumerators\HtmlControlType.cs" />
+    <Compile Include="Enumerators\HtmlFormState.cs" />
+    <Compile Include="Enumerators\MeasurementOption.cs" />
+    <Compile Include="Enumerators\VerticalAlignOption.cs" />
+    <Compile Include="Enumerators\HorizontalAlignOption.cs" />
+    <Compile Include="Enumerators\HtmlHeadingType.cs" />
+    <Compile Include="Enumerators\HtmlListType.cs" />
+    <Compile Include="Enumerators\ImageAlignOption.cs" />
+    <Compile Include="Enumerators\NavigateActionOption.cs" />
+    <Compile Include="HtmlControls\CheckBoxItem.cs" />
+    <Compile Include="HtmlControls\OptionItem.cs" />
+    <Compile Include="HtmlControls\RadioButtonItem.cs" />
+    <Compile Include="HtmlControls\SelectItem.cs" />
+    <Compile Include="HtmlControls\TextAreaItem.cs" />
+    <Compile Include="HtmlControls\TextBoxItem.cs" />
+    <Compile Include="HtmlControls\ZCheckBoxItem.cs" />
+    <Compile Include="HtmlControls\ZRadioButtonItem.cs" />
+    <Compile Include="HtmlControls\ZSelectItem.cs" />
+    <Compile Include="HtmlControls\ZTextAreaItem.cs" />
+    <Compile Include="HtmlControls\ZTextBoxItem.cs" />
+    <Compile Include="HtmlParser.cs" />
+    <Compile Include="Edition\HtmlCheckbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlCheckbox.Designer.cs">
+      <DependentUpon>HtmlCheckbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlOptionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlOptionEditor.Designer.cs">
+      <DependentUpon>HtmlOptionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HrefEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\ImageEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\ListHtmlCheckbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\ListHtmlCheckbox.Designer.cs">
+      <DependentUpon>ListHtmlCheckbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\ListHtmlRadioButton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\ListHtmlRadioButton.Designer.cs">
+      <DependentUpon>ListHtmlRadioButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Edition\HtmlRadioButtonEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlRadioButtonEditor.Designer.cs">
+      <DependentUpon>HtmlRadioButtonEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorHandler.Designer.cs">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FontAttributeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HtmlControlsList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HtmlControlsList.Designer.cs">
+      <DependentUpon>HtmlControlsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HtmlEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HtmlEditorEvents.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HtmlFontProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HtmlTableProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHtmlElement.cs" />
+    <Compile Include="IHtmlWritable.cs" />
+    <Compile Include="IOleCommandTarget.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlSelectEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlSelectEditor.Designer.cs">
+      <DependentUpon>HtmlSelectEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IZambaHtmlControls.cs" />
+    <Compile Include="ListViewItems\CheckBox.cs" />
+    <Compile Include="ListViewItems\RadioButton.cs" />
+    <Compile Include="ListViewItems\Select.cs" />
+    <Compile Include="ListViewItems\TextArea.cs" />
+    <Compile Include="ListViewItems\TextBox.cs" />
+    <Compile Include="ListViewItems\ZCheckBox.cs" />
+    <Compile Include="ListViewItems\ZRadioButton.cs" />
+    <Compile Include="ListViewItems\ZSelect.cs" />
+    <Compile Include="ListViewItems\ZTextArea.cs" />
+    <Compile Include="ListViewItems\ZTextBox.cs" />
+    <Compile Include="TablePropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlTextAreaEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Edition\HtmlTextAreaEditor.Designer.cs">
+      <DependentUpon>HtmlTextAreaEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualFormsBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="Edition\HtmlCheckbox.resx">
+      <DependentUpon>HtmlCheckbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlTextBox.resx">
+      <DependentUpon>HtmlTextBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlOptionEditor.resx">
+      <DependentUpon>HtmlOptionEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlEditor.resx">
+      <DependentUpon>HtmlEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HrefEditor.resx">
+      <DependentUpon>HrefEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlRadioButtonEditor.resx">
+      <DependentUpon>HtmlRadioButtonEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlZCheckbox.resx">
+      <DependentUpon>HtmlZCheckbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlZRadioButtonEditor.resx">
+      <DependentUpon>HtmlZRadioButtonEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlZSelectEditor.resx">
+      <DependentUpon>HtmlZSelectEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlZTextAreaEditor.resx">
+      <DependentUpon>HtmlZTextAreaEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlZTextBox.resx">
+      <DependentUpon>HtmlZTextBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\ImageEditor.resx">
+      <DependentUpon>ImageEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\ListHtmlCheckbox.resx">
+      <DependentUpon>ListHtmlCheckbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\ListHtmlRadioButton.resx">
+      <DependentUpon>ListHtmlRadioButton.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorHandler.resx">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindReplaceForm.resx">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FontAttributeForm.resx">
+      <DependentUpon>FontAttributeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HtmlControlsList.resx">
+      <DependentUpon>HtmlControlsList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HtmlEditorControl.resx">
+      <DependentUpon>HtmlEditorControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlSelectEditor.resx">
+      <DependentUpon>HtmlSelectEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TablePropertyForm.resx">
+      <DependentUpon>TablePropertyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Edition\HtmlTextAreaEditor.resx">
+      <DependentUpon>HtmlTextAreaEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VirtualFormsBuilder.resx">
+      <DependentUpon>VirtualFormsBuilder.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="AxInterop.SHDocVw.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\HtmlEditor.ico" />
+    <Content Include="images\ToolbarBold.bmp" />
+    <Content Include="images\ToolbarCopy.bmp" />
+    <Content Include="images\ToolBarCut.bmp" />
+    <Content Include="images\ToolbarDelete.bmp" />
+    <Content Include="images\ToolbarFind.bmp" />
+    <Content Include="images\ToolbarFontColor.bmp" />
+    <Content Include="images\ToolbarFontDown.bmp" />
+    <Content Include="images\ToolbarFontNormal.bmp" />
+    <Content Include="images\ToolbarFontStyle.bmp" />
+    <Content Include="images\ToolbarFontUp.bmp" />
+    <Content Include="images\ToolbarImage.bmp" />
+    <Content Include="images\ToolbarItalic.bmp" />
+    <Content Include="images\ToolbarJustifyCenter.bmp" />
+    <Content Include="images\ToolbarJustifyLeft.bmp" />
+    <Content Include="images\ToolbarJustifyRight.bmp" />
+    <Content Include="images\ToolbarLine.bmp" />
+    <Content Include="images\ToolbarListOrdered.bmp" />
+    <Content Include="images\ToolbarListUnordered.bmp" />
+    <Content Include="images\ToolbarPaste.bmp" />
+    <Content Include="images\ToolbarProperties.bmp" />
+    <Content Include="images\ToolbarRedo.bmp" />
+    <Content Include="images\ToolbarTabInsert.bmp" />
+    <Content Include="images\ToolbarTable.bmp" />
+    <Content Include="images\ToolbarTabRemove.bmp" />
+    <Content Include="images\ToolbarUnderline.bmp" />
+    <Content Include="images\ToolbarUndo.bmp" />
+    <Content Include="images\ToolbarWebLink.bmp" />
+    <Content Include="Interop.SHDocVw.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.mshtml.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="HtmlControls.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

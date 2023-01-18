@@ -1,0 +1,81 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="ZambaMaster.master.cs"
+    Inherits="ZambaMaster" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Reportes</title>
+    <%--<script language="javascript"  type="text/javascript">
+function ActiveTabChanged(sender, e)
+ {
+     __doPostBack();
+}
+
+</script> --%>
+  
+    <link href="default.css" rel="stylesheet" type="text/css" />
+    
+  
+</head>
+<body style="padding:0,0,0,0; margin:0,0,0,0;" leftmargin="0" topmargin="0">
+    <form id="form1" runat="server" style="padding:0,0,0,0; margin:0,0,0,0;">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+        <asp:Table runat="server" ID="tblTot" BorderStyle="None" BorderWidth="0"
+            CellPadding="0" CellSpacing="0" Width="100%"  >
+            <asp:TableRow BorderStyle="None" BorderWidth="0px" CssClass="ms-ToolPaneInfo" runat="server">
+                <asp:TableCell BorderStyle="None" BorderWidth="0px" Width="100%"  Height="10" runat="server">
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow ID="TableRow2" runat="server" Height="10" >
+             <asp:TableCell ID="TableCell2" BorderStyle="None" BorderWidth="0px" Width="100%" runat="server">
+        <img alt=""src="../images/ClienteBanner.JPG" width="169" height="75" />
+                       </asp:TableCell>
+                       </asp:TableRow>
+            <asp:TableRow runat="server" CssClass="ms-SPZone" >
+				<asp:TableCell runat="server" ColumnSpan="2" HorizontalAlign="Left" Width="100%">
+				<asp:Label runat="server" Font-Size="XX-Small" Width="7px" ID="Invisible">
+				</asp:Label>
+				<asp:HyperLink runat="server" NavigateUrl="~/WfMonitor/Default.aspx" Font-Overline="False" Font-Size="Small" Font-Underline="False" ForeColor="Navy" ID="LinkMonitor">Monitoreo
+				</asp:HyperLink>
+				<asp:Label runat="server" Font-Size="XX-Small" Width="15px" ID="Label1">
+				</asp:Label>
+				<asp:HyperLink runat="server" NavigateUrl="~/WfReports/ReportsViewer.aspx" Font-Overline="False" Font-Size="Small" Font-Underline="False" ForeColor="Navy" ID="LinkReports">Reportes
+				</asp:HyperLink>
+				<asp:Label runat="server" Font-Size="Small" ForeColor="Navy" ID="LblTitle">
+				</asp:Label>
+	        <asp:Menu ID="Menu1" runat="server" DataSourceID="SiteMapDataSource1">
+                <DataBindings>
+                    <asp:MenuItemBinding DataMember="SiteMapNode" NavigateUrlField="Url" 
+                        TextField="Title" ToolTipField="Description" />
+                </DataBindings>
+            </asp:Menu>
+            <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" 
+                StartFromCurrentNode="True" />
+    
+	  
+				</asp:TableCell>
+			</asp:TableRow>
+        </asp:Table>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+           <asp:Table runat="server" ID="Table1" BorderStyle="None" BorderWidth="0"
+            CellPadding="0" CellSpacing="0" Width="100%" CssClass="ms-ToolPaneInfo" >
+                    <asp:TableRow ID="TableRow1" runat="server" CssClass="ms-SPZone" >
+				<asp:TableCell ID="TableCell1" runat="server" ColumnSpan="2" HorizontalAlign="Left" Width="100%">
+				<asp:Label runat="server" Font-Size="XX-Small" Width="7px" ID="Label2">
+				</asp:Label>
+				<asp:HyperLink runat="server" NavigateUrl="~/WfMonitor/Default.aspx" Font-Overline="False" Font-Size="Small" Font-Underline="False" ForeColor="Navy" ID="HyperLink1">Monitoreo
+				</asp:HyperLink>
+				<asp:Label runat="server" Font-Size="XX-Small" Width="15px" ID="Label3">
+				</asp:Label>
+				<asp:HyperLink runat="server" NavigateUrl="~/WfReports/ReportsViewer.aspx" Font-Overline="False" Font-Size="Small" Font-Underline="False" ForeColor="Navy" ID="HyperLink2">Reportes
+				</asp:HyperLink>
+				<asp:Label runat="server" Font-Size="Small" ForeColor="Navy" ID="Label4">
+				</asp:Label>
+				</asp:TableCell>
+			</asp:TableRow>
+        </asp:Table>
+
+    </form>
+</body>
+</html>

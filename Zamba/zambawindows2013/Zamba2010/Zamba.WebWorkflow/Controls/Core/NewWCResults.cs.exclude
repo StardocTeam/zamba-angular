@@ -1,0 +1,502 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using Zamba.Core;
+using System.Collections.Generic;
+
+public partial class Controls_Core_NewWCResults : System.Web.UI.UserControl
+{
+    //Declaro el delegado que va a manejar el agregar de los steps en el arbol
+    public delegate void SelectedResult(Int64 docId);
+    public delegate void ReloadValues();
+
+    public event ReloadValues OnReloadValues;
+
+
+    #region Fields
+    public enum ResultsLoadType
+    {
+        FILTERED,
+        ALL,
+        CATALOGED,
+        CATALOGEDSORTED,
+        ALLSORTED,
+        FILTEREDSORTED,
+        SESSIONS
+    }
+    Hashtable hshDataType = new Hashtable();
+    private const Int32 GV_DOCTYPES_VALUEINDEX = 1;
+    private const Int16 CONST_DOCUMENT_NAME_COLUMN = 2;
+    //Declaro una variable del delegado
+    private SelectedResult dSelectResult = null;
+    #endregion
+
+    protected void gvDocuments_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+                        
+            gvDocuments.PageIndex = e.NewPageIndex;
+            OnReloadValues();
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!Page.IsPostBack)
+        {
+            if (gvDocuments.SelectedIndex == -1 && gvDocuments.Rows.Count > 0)
+                gvDocuments.SelectedIndex = 0;
+
+            gvDocuments_SelectedIndexChanged(null, null);
+        }
+    }
+
+    public void ShowResults(DataTable DTResults)
+    {
+        Session["PageSize"] = GetPageSize();
+        Session["PagingId"] = 1;
+        Session["ResultsCount"] = 0;
+        Session["ShowDocuments"] = ResultsLoadType.ALL;
+        Session["SortSTR"] = string.Empty;
+        LoadGridview(DTResults);
+    }
+
+    private void LoadGridview(DataTable dt)
+    {
+        try
+        {
+            Int32 resultcount = Int32.Parse(Session["ResultsCount"].ToString());
+            Int32 UserId = Int32.Parse(Session["UserId"].ToString());
+            Int16 PageId = Int16.Parse(Session["PagingId"].ToString());
+            Int16 PageSize = Int16.Parse(Session["PageSize"].ToString());
+            //DataTable dtByRightsOfSearch = null;
+            gvDocuments.Columns.Clear();
+
+            CommandField s = new CommandField();
+            s.ShowSelectButton = true;
+            s.SelectText = "Info";
+            this.gvDocuments.Columns.Add(s);
+
+            HyperLinkField H = new HyperLinkField();
+            H.ShowHeader = true;
+            H.HeaderText = "VER";
+            H.Target = "blank";
+            H.Text = "VER";
+            H.DataTextFormatString = "{0} Details";
+            String[] a = { "fullpath","docid" };
+            H.DataNavigateUrlFields = a;
+            H.DataNavigateUrlFormatString = "~/WebClient/Results/DocViewer.aspx?fullpath={0}&docid={1}";
+            this.gvDocuments.Columns.Add(H);
+
+            foreach (DataColumn c in dt.Columns)
+            {
+                BoundField f = new BoundField();
+                f.DataField = c.Caption;
+                f.ShowHeader = true;
+                f.HeaderText = c.Caption;
+                f.SortExpression = c.Caption + " ASC";
+
+                this.gvDocuments.Columns.Add(f);
+                this.cmbFilter.Items.Add(c.Caption);
+            }
+
+            ExtGrid.DataSource = dt;
+            ExtGrid.DataBind();
+
+            foreach (DataColumn col in ((DataTable)ExtGrid.DataSource).Columns)
+                col.DataType = typeof(String);
+
+
+            this.gvDocuments.DataSource = dt;
+            this.gvDocuments.DataBind();
+
+            if (this.gvDocuments.Rows.Count > 0)
+            {
+                lblTotal.Text = "Cantidad de documentos encontrados: " + dt.Rows.Count.ToString();
+                lblPageNumber.Text = "Pagina Nº " + PageId + " de " +
+                    ((resultcount / PageSize) + 1) + "  ";
+                if (resultcount < 30)
+                {
+                    EnableSearchButtons(false, false);
+                }
+                else
+                {
+                    EnableSearchButtons(true, true);
+                }
+                setFilters();
+            }
+            else
+            {
+                lblTotal.Text = "No se han encontrado documentos";
+                lblPageNumber.Text = string.Empty;
+            }
+        }
+        catch (Exception ex)
+        {
+            ZClass.raiseerror(ex);
+        }
+    }
+
+    /// <summary>
+    /// Habilita o deshabilita los botones de navegacion de la grilla cuando se pagina
+    /// </summary>
+    private void EnableSearchButtons(Boolean Back, Boolean Next)
+    {
+        btnLast.Enabled = Next;
+        BtnNext.Enabled = Next;
+
+        btnFirst.Enabled = Back;
+        BtnBack.Enabled = Back;
+    }
+
+    /// <summary>
+    /// Combo de filtros
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void cmbFilter_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        cmbOperadoresDate.Visible = false;
+        txtSecondFilter.Visible = false;
+        txtFirstFilter.Text = string.Empty;
+        txtSecondFilter.Text = string.Empty;
+        //GetIndexs(false);
+        SetIndexType();
+        setFilters();
+    }
+
+    /// <summary>
+    /// Trae los documentos en un dataset y setea las columnas de la grilla de documentos
+    /// Lo uso para ordenar el dataset y mostrarlo
+    /// </summary>
+    /// <param name="refreshCombo">True si hay que llenar el combo de columnas</param>
+    protected void cmbOperadores_SelectedIndexChanged(object sender, EventArgs e)
+    {
+    }
+
+    protected void ChkAgroup_OnCheckedChanged(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Muestra un popup con una lista de sustitucion
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnShowList_Click(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Activa el filtro
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnFilter_Click(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Cambian los indices trae todos los valores que se encuentran en el mismo
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void cmbIndex_SelectedIndexChanged(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Evento Click del boton de navegacion Volver
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void BtnBack_OnClick(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Evento Click del boton de navegacion siguiente
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void BtnNext_OnClick(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Evento Click del boton de navegacion primero
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnFirst_OnClick(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Evento Click del boton de navegacion ultimo
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnLast_OnClick(object sender, EventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Trae el documento
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// 
+    protected void gvDocuments_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            Int64 docId = 0;
+            Int32 DocIdIndex = 0;
+
+            for (int i = 0; i < gvDocuments.Columns.Count; i++)
+            {
+                if (String.Compare(gvDocuments.Columns[i].HeaderText, "docId", true) == 0)
+                {
+                    DocIdIndex = i;
+                    break;
+                }
+            }
+
+            //todo obtener el docid seleccionado
+            GridViewRow row = gvDocuments.SelectedRow;
+            if (row != null)
+                Int64.TryParse(row.Cells[DocIdIndex].Text, out docId);
+
+            //todo tirar el evento
+            if (this.dSelectResult != null)
+                dSelectResult(docId);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    protected void gvDocuments_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Oculta el fullpath
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvDocuments_OnRowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.Cells.Count > 0)
+            {
+
+                // Andres - Esto hacia que tire errores por todos lados , se comento y no cambio nada en la grilla.
+                //e.Row.Cells[e.Row.Cells.Count - 1].Visible = false;
+                //e.Row.Cells[e.Row.Cells.Count - 2].Visible = false;
+
+                if (!ShowDocumentName())
+                    e.Row.Cells[1].Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Sortea las columnas
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void OnSorting(object sender, GridViewSortEventArgs e)
+    {
+    }
+
+    /// <summary>
+    /// Obtiene la cantidad de results mostrados en el paginado de la grilla
+    /// </summary>
+    static Int16 GetPageSize()
+    {
+        return Int16.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["PageSize"]);
+    }
+
+    /// <summary>
+    /// Obtiene del webconfig si se va a mostrar el catalogo de los results o no
+    /// </summary>
+    static Boolean ShowCatalog()
+    {
+        return Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["ShowCatalog"]);
+    }
+
+    /// <summary>
+    /// Muestra los filtros dependiendo del valor del indice
+    /// </summary>
+    private void setFilters()
+    {
+        try
+        {
+            Int64 Indexid = Zamba.Services.Index.GetIndexidByName(cmbFilter.SelectedValue.ToString());
+            this.cmbOperadores.Items.Clear();
+            cmbOperadoresDate.Visible = false;
+            txtSecondFilter.Visible = false;
+            if (Session["List"] != null)
+            {
+                SortedList st = (SortedList)Session["List"];
+                if (st[Indexid] != null)
+                {
+                    switch (st[Indexid].ToString())
+                    {
+                        case "System.String":
+                            this.cmbOperadores.Items.Add("Contiene");
+                            this.cmbOperadores.Items.Add("Empieza");
+                            this.cmbOperadores.Items.Add("Termina");
+                            this.cmbOperadores.Items.Add("Igual");
+                            this.cmbOperadores.Items.Add("Distinto");
+                            this.cmbOperadores.Items.Add("Es Nulo");
+                            break;
+                        case "System.DateTime":
+                            this.cmbOperadores.Items.Add("=");
+                            this.cmbOperadores.Items.Add(">");
+                            this.cmbOperadores.Items.Add(">=");
+                            this.cmbOperadores.Items.Add("<");
+                            this.cmbOperadores.Items.Add("=<");
+                            this.cmbOperadores.Items.Add("<>");
+                            this.cmbOperadores.Items.Add("Entre");
+                            this.cmbOperadores.Items.Add("Es Nulo");
+                            break;
+                        default:
+                            this.cmbOperadores.Items.Add("=");
+                            this.cmbOperadores.Items.Add(">");
+                            this.cmbOperadores.Items.Add(">=");
+                            this.cmbOperadores.Items.Add("<");
+                            this.cmbOperadores.Items.Add("<=");
+                            this.cmbOperadores.Items.Add("<>");
+                            this.cmbOperadores.Items.Add("Entre");
+                            this.cmbOperadores.Items.Add("Es Nulo");
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                this.cmbOperadores.Items.Add("=");
+                this.cmbOperadores.Items.Add(">");
+                this.cmbOperadores.Items.Add(">=");
+                this.cmbOperadores.Items.Add("<");
+                this.cmbOperadores.Items.Add("<=");
+                this.cmbOperadores.Items.Add("<>");
+                this.cmbOperadores.Items.Add("Entre");
+                this.cmbOperadores.Items.Add("Es Nulo");
+            }
+        }
+        catch (Exception ex)
+        {
+            ZClass.raiseerror(ex);
+        }
+    }
+
+    private void SetIndexType()
+    {
+        Int64 indexId = Zamba.Services.Index.GetIndexidByName(cmbFilter.SelectedValue.ToString());
+        if (indexId > 0)
+        {
+            Int16 indextypeid = Zamba.Services.Index.GetIndexDropDownType(indexId);
+            //0 = normal, 1= busqueda 2 = sustitucion
+            switch (indextypeid)
+            {
+                case 0:
+                    btnShowList.Visible = false;
+                    txtFirstFilter.Visible = true;
+                    break;
+                case 1:
+                    btnShowList.Visible = true;
+                    txtFirstFilter.Visible = true;
+                    btnShowList.Text = "V";
+                    btnShowList.Width = 18;
+                    break;
+                case 2:
+                    btnShowList.Visible = true;
+                    btnShowList.Text = "...";
+                    btnShowList.Width = 25;
+                    break;
+            }
+        }
+        else
+        {
+            btnShowList.Visible = false;
+            txtFirstFilter.Visible = true;
+        }
+    }
+
+    /// <summary>
+    /// Obtiene del webconfig si se va a mostrar el nombre del result o no
+    /// </summary>
+    static Boolean ShowDocumentName()
+    {
+        return Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["ShowDocumentName"]);
+    }
+
+    public event SelectedResult OnSelectResult
+    {
+        add
+        {
+            this.dSelectResult += value;
+        }
+        remove
+        {
+            this.dSelectResult -= value;
+
+        }
+    }
+
+    /// <summary>
+    /// Oculta la columna especificada en la grilla 
+    /// </summary>
+    /// <param name="columnName"></param>
+    public void HideColumn(String columnName)
+    {
+        foreach (DataControlField CurrentColumn in gvDocuments.Columns)
+        {
+            if (String.Compare(CurrentColumn.HeaderText, columnName) == 0)
+            {
+                CurrentColumn.Visible = false;
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Oculta el listado de columnas especificado en la grilla 
+    /// </summary>
+    /// <param name="columnNames"></param>
+    public void HideColumns(List<String> columnNames)
+    {
+        foreach (DataControlField CurrentColumn in gvDocuments.Columns)
+        {
+            if (columnNames.Contains(CurrentColumn.HeaderText))
+            {
+                CurrentColumn.Visible = false;
+                columnNames.Remove(CurrentColumn.HeaderText);
+            }
+
+            if (columnNames.Count == 0)
+                break;
+        }
+    }
+}

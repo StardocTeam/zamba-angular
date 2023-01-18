@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    
+    <style>
+        /* latin */
+        @font-face {
+            font-family: 'Libre Barcode 39';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Libre Barcode 39 Regular'), local('LibreBarcode39-Regular'), url(https://fonts.gstatic.com/s/librebarcode39/v8/-nFnOHM08vwC6h8Li1eQnP_AHzI2G_Bx0g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        @font-face {
+		  font-family: 'IDAutomationHC39M';
+		  src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+		}
+        .codebar39 {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 48px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form name="frmMain" action="Guia_Despacho.html">
+
+
+        <input id="hdnRuleId" type="hidden" />
+        <input id="hdnAsocId" type="hidden" />
+        <div class="container-fluid">
+            <div class="tab-pane active" id="Guia despacho">
+                <div class="form-group row">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-2">
+                        <center>
+                            <strong>Guia Despacho</strong>
+                        </center>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                        <input id="nroguiaBC" class="form-control input-sm dataType length" style="font-family:'IDAutomationHC39M';font-size: 16pt;text-align: center;height: 40px;background: none; border: none" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <!--Despachante Nombre-->                                  		<span class="input-group-addon">Despachante Nombre:</span>
+                            <input id="zamba_index_139645" name="zamba_index_139645" size="1" class="form-control input-sm" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group" style="display: inline-block; vertical-align:middle;">
+                            <!--Nro Guia-->                                          <span class="input-group-addon" style="color:blue;">Nro Guia:</span>
+                            <input id="zamba_index_139614" name="zamba_index_139614" size="1" class="form-control input-sm dataType length" datatype="numeric" length="19" disabled style="/* font-size:20px; */text-align: center;background: none;" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <!--Origen-->                                  		<span class="input-group-addon">Origen:</span>
+                            <input id="zamba_index_139587" name="zamba_index_139587" size="1" class="form-control input-sm" disabled />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Recepcion / Fecha-->   	
+                            <span class="input-group-addon" style="padding:3px; color:red;">Fecha de Creacion</span>
+                            <input id="zamba_index_139633" name="zamba_index_139633" class="form-control input-sm" readonly style="font-weight:600;" />
+                        </div>
+                    </div>
+
+                </div>
+				
+				<div class="form-group row" style=" margin-bottom: 0; padding: 0 0 0 0;">
+					<div class="col-md-">
+						<div class="input-group">
+							<!--Cajas--> 
+							<span class="input-group-addon" style=" border: none;background-color: transparent; font-size: small;">Cajas:</span>
+							<input id="zamba_index_161663" name="zamba_index_161663"class="form-control input-sm" disabled="disabled" style=" 
+							border: none;box-shadow: none;background-color: transparent;font-size: small;" />
+						</div>
+					</div>
+				</div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-md-4"></div>
+                    <!--<input name="zamba_rule_165673" id="zamba_rule_165673" onclick="SetRuleId(this);" class="btn btn-primary" type="button" value="Nuevo Despacho">-->
+                    <div class="col-md-1">
+                        <input type="button" onclick="SetRuleId(this);" class="btn-sm btn-success" name="zamba_rule_165673" id="zamba_rule_165673" value="Nuevo Despacho">
+                    </div>
+
+                    <div ng-controller="Modal as pc" class="modal-demo">
+                        <zamba-Doshowtable report-id="10028" rule-id="111" vars="NR=zamba_index_230,PR=zamba_index_231" results-id="Apellido"></zamba-Doshowtable>
+                    </div>
+
+                    <div class="col-md-1" style="position:relative;left:25px;">
+                        <input type="button" onclick="PrintGuide();" class="btn-sm btn-primary" value="Imprimir" id="printer">
+                    </div>
+                    <!--<input type="button" onclick="window.print();" class="btn-sm btn-primary" value="Imprimir">-->
+                    <div class="col-md-2">
+                        <input type="button" name="zamba_rule_165698" id="zamba_rule_165698" onclick="return confirmarGuia(this);" class="btn-sm btn-primary" value="Finalizar Carga y Pedir Retiro">
+                    </div>
+                    <div class="col-md-1">
+                        <!--<input type="button" name="zamba_rule_176099" id="zamba_rule_176099" onclick="SetRuleId(this);" class="btn-sm btn-warning" value="Eliminar Guia">-->
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group row"></div>
+
+                <div class="form-group row">
+                    <div>
+                        <div ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="139072" default-enable-mode="grid" table-height="400" grid-title="Despachos">
+                            </zamba-associated>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row"></div>
+                <div class="form-group row"></div>
+                <div class="form-group row"></div>
+                <div class="row">
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                            <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                        </div>
+                        <div class="col-md-5"></div>
+
+                        <div class="col-md-3"><p>Guia_despacho_cons_desp.html</p></div>
+                        <div class="col-md-2">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../app/DoShowTablePro/DoShowTableController.js"></script>
+        <script src="../../app/DoShowTablePro/DoShowTableServices.js"></script>
+
+        <script>
+
+            function PrintGuide() {
+
+                $("th[data-field='Icon']").hide()
+                for (var i = 0; i < $("div.customer-photo").length; i++) {
+                    $("div.customer-photo")[i].parentElement.style.display = "none"
+                }
+
+
+                $(".navBarHidden").hide();
+                DisabledButtonForPrint();
+            }
+
+            function DisabledButtonForPrint() {
+                $("#zamba_rule_165673").css("display", "none");
+                $("#zamba_rule_165842").css("display", "none");
+                $("#zamba_rule_165698").css("display", "none");
+                $("#printer").css("display", "none");
+                window.print();
+
+            }
+        </script>
+        <script>
+            setInterval(function () { $(".BtnRefresh")[0].click(); }, 60000);
+            $(document).ready(function () {
+
+                $("#nroguiaBC").val("(" + $("#zamba_index_139614").val() + ")");
+
+
+            });
+
+        </script>
+        <script src="scripts/Andreani.js?v=169"></script>
+    </form>
+</body>
+</html>
+

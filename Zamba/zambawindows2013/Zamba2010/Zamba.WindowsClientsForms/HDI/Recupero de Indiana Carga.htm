@@ -1,0 +1,132 @@
+﻿<html>
+<head>
+    <title>Recupero de Terceros Carga</title>
+    <link href="Union_styles.css"  type="text/css" rel="stylesheet"/>		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet"/>		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<script type="text/javascript" src="ChequearIndicePorValorErroneo.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<script type="text/javascript" language="JavaScript">
+		    function SetRuleId(sender) {
+		        document.getElementById("hdnRuleId").name = sender.id;
+		        frmMain.submit();
+		    }
+			
+			function SetAsocId(sender){
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}
+
+		    function zamba_save_onclick() {
+		        document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		    }
+
+      </script>
+</head>
+<body>
+    <form name="frmMain" method="post" onsubmit="">
+        <input id="hdnRuleId" type="hidden" />
+		<input id="hdnAsocId" type="hidden" />
+				
+		<div name="design" id="design">
+			<strong>Recupero de Terceros</strong>
+		</div>
+		<br />
+
+        <table cellpadding="4">
+            <tr>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        ID Recupero</label>
+                </td>
+                <td>
+                    <input type="text" id="zamba_index_100520" name="zamba_index_100520" size="30"
+                        readonly="readonly" class="readonly"/>
+                </td>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        Tipo Recupero</label>
+                </td>
+                <td>
+                    <input id="zamba_index_100529" name="zamba_index_100529" size="30" readonly="readonly" class="readonly"/>
+                </td>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        Fecha Solicitud</label>
+                </td>
+                <td>
+                    <input type="text" id="zamba_index_26405" name="zamba_index_26405" size="30" readonly="readonly" class="readonly"/>
+                </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        ID Reclamo</label>
+                </td>
+                <td>
+                    <input type="text" id="zamba_index_26475" name="zamba_index_26475" size="30"  readonly="readonly" class="readonly"/>
+                </td>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        Nro Siniestro</label>
+                </td>
+                <td>
+                    <input type="text" id="zamba_index_26247" name="zamba_index_26247" size="30" readonly="readonly" class="readonly"/>
+                </td>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        Solicitado por</label>
+                </td>
+                <td>
+                    <input type="text" id="zamba_index_26420" name="zamba_index_26420" size="30" readonly="readonly" class="readonly"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        Monto a recuperar</label>
+                </td>
+                <td>
+                    <input type="text" id="zamba_index_100521" name="zamba_index_100521"  size="30" />
+                </td>
+                <td style="font-size: smaller">
+                    <label style="width: 15em;">
+                        Generaci&oacute;n</label>
+                </td>
+                <td>
+                    <input id="zamba_index_100518" name="zamba_index_100518"  size="30" readonly="readonly" class="readonly"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        Observaciones:</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <textarea cols="150" rows="10" id="zamba_index_64" name="zamba_index_64"></textarea>
+                </td>
+            </tr>
+        </table>
+        <br />
+		<br />
+		<div name="logocliente" id="logocliente">	
+			<img src="images/logocliente.jpg" align="left" height="50" width="70">
+		</div>
+				
+		<div name="logozamba" id="logozamba">
+			<img src="images/pwbyzamba.jpg">
+		</div>					
+
+		<div name="alignleft" id="alignleft">
+			<input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" onclick="return zamba_save_onclick()"/> 
+		</div>
+</form>
+</body>
+</html>

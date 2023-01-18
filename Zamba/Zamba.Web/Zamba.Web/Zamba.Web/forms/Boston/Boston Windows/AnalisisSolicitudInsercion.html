@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="AnalisisSolicitudInsercion.css" type="text/css" />
+    
+    <script type="text/javascript" language="JavaScript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+        function validateFields(sender) {
+            if (document.getElementById("zamba_index_1126").value == "") {
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+                alert("Por favor, complete el Nro de Sello");
+            }
+            else
+                document.getElementById("hdnRuleId").name = "";
+        }
+    </script>
+    <style type="text/css">
+        input {
+            font-size: xX-small;
+        }
+
+        p.description {
+            font-size: x-small;
+            width: 121px;
+            height: 15px;
+        }
+
+        #zamba_innerdoctype_original {
+            width: 98%;
+            height: 107%;
+        }
+
+        body {
+            font-size: 13px;
+        }
+    </style>
+     
+
+
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="AnalisisSolicitudInsercion.html">
+            <input class="text-center" id="hdnRuleId" type="hidden" />
+
+            <div class="form-group row">
+                <center>
+                    <div class="col-md-12">
+
+                        <div>
+                            <h4 style="background-color:#418ad4;color: white;"> Alta Rápida de Solicitud de Emision</h4>
+                        </div>
+                </center>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5" id="basic-addon1">Nro de
+                            Sello:</span>
+                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_1126" name="zamba_index_1126" />
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="background-color:#e5e5e5"
+                            id="basic-addon1">Agencia:</span>
+                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                            id="zamba_index_60" name="zamba_index_60"></select>
+                    </div>
+                </div>
+            </div>
+
+            <center>
+                <input class="btn  btn-primary" id="zamba_save" type="submit" value="Guardar"
+                    name="zamba_save" onclick="return validateFields()" />
+            </center>
+            <div class="form-group row">
+                <div class="col-md-2" style="position:relative;left:20px;">
+                    
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    <span style="color:white">AnalisisSolicitudInsercion.html</span>
+                </div>
+                <div class="col-md-5">
+                    
+                    <div class="form-group row">
+                    </div>
+                </div>
+            </div>
+    </div>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,804 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{84EE77CB-ACA0-4F82-B5FB-1CE27F504156}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Zamba.Viewers</AssemblyName>
+    <AssemblyOriginatorKeyFile>..\..\..\Assemblys\Zamba.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>Zamba.Viewers</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <CodeAnalysisRuleSet>..\Zamba.Administrador\Zamba.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <BaseAddress>285212672</BaseAddress>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <DebugType>None</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>..\Zamba.Administrador\Zamba.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
+      <Project>{98DCC71C-E25B-414F-95FF-E5B98B5D529D}</Project>
+      <Name>Zamba.FWBC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaWindows\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.AdminControls\Zamba.AdminControls.vbproj">
+      <Project>{5CF0D10D-990A-4E7E-B21C-41D5AE3408C3}</Project>
+      <Name>Zamba.AdminControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Browser\Zamba.Browser.vbproj">
+      <Project>{C57B972B-AF1B-443E-83DD-1F25E0681BBA}</Project>
+      <Name>Zamba.Browser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.BusinessExtensions\Zamba.BusinessExt.vbproj">
+      <Project>{2DB9897D-B4BF-42EF-B769-88F694BE3868}</Project>
+      <Name>Zamba.BusinessExt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Cache\Zamba.Cache.vbproj">
+      <Project>{bc8529ff-1c7f-4837-86f5-601e6eee6200}</Project>
+      <Name>Zamba.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{E92F8175-9484-4454-A8F0-9C2AB63714F5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.FormulariosDinamicos\Zamba.FormulariosDinamicos\Zamba.FormulariosDinamicos.vbproj">
+      <Project>{C81ED0D7-432C-4139-8788-D7E5CA3A5740}</Project>
+      <Name>Zamba.FormulariosDinamicos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{e16279a2-165d-4d96-ad32-009874164c05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Indexs\Zamba.Indexs.vbproj">
+      <Project>{D732408E-4384-4A04-9282-5F931140AC46}</Project>
+      <Name>Zamba.Indexs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.NetronShapes\Zamba.NetronShapes.csproj">
+      <Project>{aec0aa39-d515-48e7-85f0-2c9f145a6530}</Project>
+      <Name>Zamba.NetronShapes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Office2010\Zamba.Office2010.vbproj">
+      <Project>{f84c7b9b-a21b-4989-b79b-a181b200108b}</Project>
+      <Name>Zamba.Office2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Print\Zamba.Print.vbproj">
+      <Project>{B2BB0377-65AC-49CE-AEA8-AB814965C405}</Project>
+      <Name>Zamba.Print</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Server\Zamba.Server.vbproj">
+      <Project>{FC85CBEF-6BAF-4796-A6C2-9EAEF956479E}</Project>
+      <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{D349AB2A-B052-4307-B979-D397D10760A1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WinUI\Zamba.WinUI.vbproj">
+      <Project>{befabc7f-fc94-41b4-ba0e-412914a549a0}</Project>
+      <Name>Zamba.WinUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WorkFlow.Designer\Zamba.WorkFlow.Designer\Zamba.WorkFlow.Designer.csproj">
+      <Project>{753E3A04-17F0-4EF5-B834-58E1B9E05564}</Project>
+      <Name>Zamba.WorkFlow.Designer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.WorkFlow.SQLExecution\Zamba.WorkFlow.Execution.Business\Zamba.WorkFlow.Business.csproj">
+      <Project>{9A8C8793-C6AE-4B87-AB76-6BC6FCBC9E2E}</Project>
+      <Name>Zamba.WorkFlow.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\..\Assemblys\Microsoft.mshtml.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Spire.DataExport">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.DataExport.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport.ResourceMgr">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.DataExport.ResourceMgr.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Doc">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DocViewer.Forms">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.DocViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Forms">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.PdfViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS">
+      <HintPath>..\..\..\Assemblys\spire.office_2.16.12\BIN\NET4.0\Spire.XLS.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.XML">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Telerik.WinControls, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2017.1.221.40, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Assemblys\Telerik\UI for WinForms R1 2017\Bin40\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="Zamba.AppBlock" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.vb">
+      <Link>GlobalAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\Helper\HelperFormVirtual.vb" />
+    <Compile Include="Forms\UI\BirdMegaView.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\FormBrowser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\FormsControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\frmAttributeCondition.Designer.vb">
+      <DependentUpon>frmAttributeCondition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UI\frmAttributeCondition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\frmFormsListOfDocType.Designer.vb">
+      <DependentUpon>frmFormsListOfDocType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UI\frmFormsListOfDocType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\frmRequestFormType.Designer.vb">
+      <DependentUpon>frmRequestFormType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UI\frmRequestFormType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\NavigateBrowser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\ucbrowserpreview.Designer.vb">
+      <DependentUpon>ucbrowserpreview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UI\ucbrowserpreview.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\UCVirtualDocumentSelector.Designer.vb">
+      <DependentUpon>UCVirtualDocumentSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UI\UCVirtualDocumentSelector.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\UI\VirtualDocumentSelector.Designer.vb">
+      <DependentUpon>VirtualDocumentSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UI\VirtualDocumentSelector.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertFormDialog.Designer.vb">
+      <DependentUpon>InsertFormDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="InsertFormDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PDF\PdfDocumentViewerFix.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UCIndexViewerAutocompleteManual.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExternalVisualizer.Designer.vb">
+      <DependentUpon>ExternalVisualizer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalVisualizer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChangeName.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDocumentDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGrilla.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="notas\BaseNote.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="notas\NotesControlFactory.vb" />
+    <Compile Include="notas\UCNote.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="notas\UCSign.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PreviewForm.Designer.vb">
+      <DependentUpon>PreviewForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UCDocumentViewer2.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FrmPreviewGold.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPreviewGold2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTextBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UcGoToPage.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UcGoToPage2-2.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCImgViewer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCIndexViewer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCSelectAsoc.Designer.vb">
+      <DependentUpon>UCSelectAsoc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UCSelectAsoc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\frmSelectUsers.Designer.vb">
+      <DependentUpon>frmSelectUsers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users\frmSelectUsers.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\frmSelectUsersForo.Designer.vb">
+      <DependentUpon>frmSelectUsersForo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users\frmSelectUsersForo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users\UCSelectUsers.Designer.vb">
+      <DependentUpon>UCSelectUsers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UCSelectUsers.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Users\UCSelectUsersForo.Designer.vb">
+      <DependentUpon>UCSelectUsersForo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UCSelectUsersForo.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Versions\frmVersionComment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Versions\frmVersionedDetails.Designer.vb">
+      <DependentUpon>frmVersionedDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Versions\frmVersionedDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Versions\NotifyPublish.Designer.vb">
+      <DependentUpon>NotifyPublish.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Versions\NotifyPublish.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Versions\ShowVersionComment.Designer.vb">
+      <DependentUpon>ShowVersionComment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Versions\ShowVersionComment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WindowsApi\Usr32Api.vb" />
+    <EmbeddedResource Include="Forms\UI\BirdMegaView.resx">
+      <DependentUpon>BirdMegaView.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\FormBrowser.resx">
+      <DependentUpon>FormBrowser.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\FormsControl.resx">
+      <DependentUpon>FormsControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\frmAttributeCondition.resx">
+      <DependentUpon>frmAttributeCondition.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\frmFormsListOfDocType.resx">
+      <DependentUpon>frmFormsListOfDocType.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\frmRequestFormType.resx">
+      <DependentUpon>frmRequestFormType.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\NavigateBrowser.resx">
+      <DependentUpon>NavigateBrowser.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\ucbrowserpreview.resx">
+      <DependentUpon>ucbrowserpreview.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\UCVirtualDocumentSelector.resx">
+      <DependentUpon>UCVirtualDocumentSelector.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UI\VirtualDocumentSelector.resx">
+      <DependentUpon>VirtualDocumentSelector.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertFormDialog.resx">
+      <DependentUpon>InsertFormDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCIndexViewerAutocompleteManual.resx">
+      <DependentUpon>UCIndexViewerAutocompleteManual.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExternalVisualizer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ExternalVisualizer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChangeName.resx">
+      <DependentUpon>frmChangeName.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDocumentDetails.resx">
+      <DependentUpon>FrmDocumentDetails.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGrilla.resx">
+      <DependentUpon>frmGrilla.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="notas\BaseNote.resx">
+      <DependentUpon>BaseNote.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="notas\UCNote.resx">
+      <DependentUpon>UCNote.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="notas\UCSign.resx">
+      <DependentUpon>UCSign.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewForm.resx">
+      <DependentUpon>PreviewForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCDocumentViewer2.resx">
+      <DependentUpon>UCDocumentViewer2.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPreviewGold.resx">
+      <DependentUpon>FrmPreviewGold.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPreviewGold2.resx">
+      <DependentUpon>FrmPreviewGold2.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTextBox.resx">
+      <DependentUpon>FrmTextBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcGoToPage.resx">
+      <DependentUpon>UcGoToPage.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UcGoToPage2-2.resx">
+      <DependentUpon>UcGoToPage2-2.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCImgViewer.resx">
+      <DependentUpon>UCImgViewer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCIndexViewer.resx">
+      <DependentUpon>UCIndexViewer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCSelectAsoc.resx">
+      <DependentUpon>UCSelectAsoc.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\frmSelectUsers.resx">
+      <DependentUpon>frmSelectUsers.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\frmSelectUsersForo.resx">
+      <DependentUpon>frmSelectUsersForo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\UCSelectUsers.resx">
+      <DependentUpon>UCSelectUsers.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users\UCSelectUsersForo.resx">
+      <DependentUpon>UCSelectUsersForo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Versions\frmVersionComment.resx">
+      <DependentUpon>frmVersionComment.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Versions\frmVersionedDetails.resx">
+      <DependentUpon>frmVersionedDetails.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Versions\NotifyPublish.resx">
+      <DependentUpon>NotifyPublish.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Versions\ShowVersionComment.resx">
+      <DependentUpon>ShowVersionComment.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Component Include="Zamba.OCR.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Component>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assemblys\Zamba.snk">
+      <Link>Zamba.snk</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="Resources\Documents.ico" />
+    <Content Include="Forms\UI\ZambaWin-ZCommonFunctions.txt" />
+    <Content Include="mht\cdosys.dll" />
+    <Content Include="mht\msado15.dll" />
+    <None Include="Resources\000496-3d-glossy-blue-orb-icon-media-cd-load.png" />
+    <None Include="Resources\element_new.png" />
+    <None Include="Resources\layout_center.png" />
+    <None Include="Resources\layout_horizontal.png" />
+    <None Include="Resources\layout_vertical.png" />
+    <None Include="Resources\lock_view.png" />
+    <None Include="Resources\media_beginning.png" />
+    <None Include="Resources\media_end.png" />
+    <None Include="Resources\navigate_down2.png" />
+    <None Include="Resources\navigate_up2.png" />
+    <None Include="Resources\note_add.png" />
+    <None Include="Resources\note_edit.png" />
+    <None Include="Resources\note_find.png" />
+    <None Include="Resources\redo.png" />
+    <None Include="Resources\undo.png" />
+    <None Include="Resources\bullet_ball_glass_blue.png" />
+    <None Include="Resources\bullet_ball_glass_red.png" />
+    <None Include="Resources\bullet_ball_glass_yellow.png" />
+    <None Include="Resources\bullet_ball_green.png" />
+    <None Include="Resources\check.png" />
+    <None Include="Resources\document_out.png" />
+    <None Include="Resources\document_zoom_in.png" />
+    <None Include="Resources\document_zoom_out.png" />
+    <None Include="Resources\element_into.png" />
+    <None Include="Resources\printer.png" />
+    <None Include="Resources\presentation.png" />
+    <None Include="Resources\undo1.png" />
+    <None Include="Resources\add2.png" />
+    <None Include="Resources\arrow_left_blue.png" />
+    <None Include="Resources\arrow_right_blue.png" />
+    <None Include="Resources\brush1.png" />
+    <None Include="Resources\disk_blue.png" />
+    <None Include="Resources\document_attachment.png" />
+    <None Include="Resources\document_exchange.png" />
+    <None Include="Resources\element.png" />
+    <None Include="Resources\element_add.png" />
+    <None Include="Resources\layout_center1.png" />
+    <None Include="Resources\layout_horizontal1.png" />
+    <None Include="Resources\layout_vertical1.png" />
+    <None Include="Resources\lock_view1.png" />
+    <None Include="Resources\media_beginning1.png" />
+    <None Include="Resources\media_end1.png" />
+    <None Include="Resources\note_add1.png" />
+    <None Include="Resources\note_edit1.png" />
+    <None Include="Resources\note_find1.png" />
+    <None Include="Resources\presentation1.png" />
+    <None Include="Resources\printer1.png" />
+    <None Include="Resources\redo1.png" />
+    <None Include="Resources\refresh.png" />
+    <None Include="Resources\replace2.png" />
+    <None Include="Resources\replace.png" />
+    <None Include="Resources\arrow_right_blue1.png" />
+    <None Include="Resources\arrow_left_blue1.png" />
+    <None Include="Resources\bullet_triangle_blue.png" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\Search.png" />
+    <None Include="Resources\Settings.png" />
+    <None Include="Resources\gears_run.png" />
+    <None Include="Resources\mail_attachment.png" />
+    <None Include="Resources\mail_server.png" />
+    <None Include="Resources\folder_add.png" />
+    <None Include="Resources\blue-document--plus.png" />
+    <None Include="Resources\blue-documents.png" />
+    <None Include="Resources\btnGotoWorkflow.Image.png" />
+    <None Include="Resources\icon_printpreview.png" />
+    <None Include="Resources\importance_delete.png" />
+    <None Include="Resources\importance_add.png" />
+    <None Include="Resources\favorite_remove.png" />
+    <None Include="Resources\favorite_add.png" />
+    <None Include="Resources\1446232001_Synchronize.png" />
+    <None Include="Resources\1446231912_Exit_Full_Screen.png" />
+    <None Include="Resources\1446231902_Full_Screen.png" />
+    <None Include="Resources\appbar.cards.heart.png" />
+    <None Include="Resources\appbar.arrow.expand.white.png" />
+    <None Include="Resources\appbar.arrow.expand.png" />
+    <None Include="Resources\appbar.arrow.right.png" />
+    <None Include="Resources\6.png" />
+    <Content Include="Resources\appbar.clean.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\appbar.heart.outline.png" />
+    <None Include="Resources\appbar.location.png" />
+    <None Include="Resources\appbar.location.add.png" />
+    <None Include="Resources\appbar.location.minus.png" />
+    <None Include="Resources\appbar.printer.text.png" />
+    <None Include="Resources\appbar.fullscreen.white.png" />
+    <None Include="Resources\appbar.fullscreen.png" />
+    <None Include="Resources\appbar.printer.text.white.png" />
+    <None Include="Resources\appbar.layout.expand.right.variant.png" />
+    <None Include="Resources\appbar.layout.expand.right.variant.white.png" />
+    <None Include="Resources\appbar.refresh.png" />
+    <None Include="Resources\appbar.refresh.white.png" />
+    <None Include="Resources\appbar.email.hardedge.png" />
+    <None Include="Resources\appbar.email.hardedge.white.png" />
+    <None Include="Resources\appbar.page.add.white.png" />
+    <None Include="Resources\appbar.page.add.png" />
+    <None Include="Resources\appbar.page.search.png" />
+    <None Include="Resources\appbar.page.text.png" />
+    <None Include="Resources\appbar.paperclip.png" />
+    <None Include="Resources\appbar.location.delete.png" />
+    <None Include="Resources\appbar.layer.arrange.solid.sendbackward.png" />
+    <None Include="Resources\appbar.page.edit.png" />
+    <Content Include="Resources\appbar.save.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\appbar.tag.label.png" />
+    <None Include="Resources\appbar.tag.png" />
+    <Content Include="Resources\appbar.undo.curve.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\delete2.png" />
+    <None Include="Resources\things-icono.jpg" />
+    <None Include="Resources\requisitos.png" />
+    <None Include="Resources\tycs-icono.png" />
+    <None Include="Resources\Iconos-condiciones_Registro-y-validacion-color.png" />
+    <None Include="Resources\Use-Case-Icon.png" />
+    <None Include="Resources\icon-iq-use-case-1.png" />
+    <None Include="Resources\icon-internetofthings.png" />
+    <None Include="Resources\Graphicloads-100-Flat-Case.ico" />
+    <Content Include="Resources\view_detailed.png" />
+    <None Include="Resources\windows.png" />
+    <None Include="Resources\window_split_ver.png" />
+    <None Include="Resources\window_split_hor.png" />
+    <None Include="Resources\window_new.png" />
+    <None Include="Resources\zoom_out.png" />
+    <None Include="Resources\zoom_in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

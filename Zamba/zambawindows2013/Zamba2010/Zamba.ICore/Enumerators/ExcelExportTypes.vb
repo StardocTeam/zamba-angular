@@ -1,0 +1,21 @@
+﻿Public Enum ExcelExportTypes
+    xlsx = -4143
+    'xlsm = 1
+    'xlsb = 2
+    'xls = 3
+    'xla = 4
+    'xlam = 5
+    'slk = 6
+    'dif = 7
+    csv = 6
+    'txt = 9
+    'prn = 10
+    'xlm = 11
+    'xlt = 12
+    'xltm = 13
+    'mht = 14
+    'mhtml = 15
+    'htm = 16
+    'html = 17
+    'Otro = 18
+End Enum

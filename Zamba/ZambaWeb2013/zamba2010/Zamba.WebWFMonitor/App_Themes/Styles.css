@@ -1,0 +1,201 @@
+﻿/* 
+   The below CSS file was built using samples + techniques described by Rachel Andrew in her book:
+   The CSS Anthology: 101 Essential Tips, Tricks & Hacks
+*/
+
+/* Overall Page */
+
+body
+{
+	margin: 0;
+	padding-bottom: 2em;
+	background-color: white;
+	color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-top: 2px solid #99CCFF;
+}
+table
+{
+	width: 100%;
+	margin: 0;
+}
+tr
+{
+	vertical-align: top;
+	text-align: left;
+}
+caption
+{
+	text-align: left;
+	font-weight: bold;
+}
+
+/* Header Section */
+
+#header {
+	border-top: 3px solid #99CCFF;
+	border-bottom: 1px dotted #99CCFF;
+	height: 3em;
+}
+#header .title {
+	font: 190% Arial, Helvetica, Georgia, "Times New Roman", Times, serif;
+	color: black;
+	background-color: transparent;
+	float: left;
+	margin-right: 2em;
+	margin-top: 0.3em;
+	margin-left: .8em;
+}
+#header .breadcrumb {
+	font: 90% Arial, Helvetica, Georgia, "Times New Roman", Times, serif;
+	color: black;
+	background-color: transparent;
+	float: right;
+	margin-right: 2em;
+	margin-top: 0.8em;
+	font-weight:bold;
+}
+
+#header a:link, a:visited  {
+	color: #99CCFF;
+}
+
+/* Navigation */
+
+#navigation {
+	width: 200px;
+	top: 5em;
+	left: 1em;
+	width: 13em;	
+	position:absolute;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:90%;
+}
+#navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#navigation li {
+	border-bottom: 1px solid #00BFFF;
+}
+#navigation li a  {
+	display: block;
+	padding: 5px 5px 5px 0.5em;
+	border-left: 12px solid #00BFFF;
+	border-right: 1px solid #00BFFF;
+	background-color: #87CEFA;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+#navigation li a:hover {
+	background-color: #1E90FF;
+	color: #FFFFFF;
+}
+#navigation ul ul {
+	margin-left: 12px;
+}
+#navigation ul ul li {
+	border-bottom: 1px solid #711515;
+	margin:0;
+	background-color: #E0FFFF;
+	color: #87CEFA;
+}
+#navigation ul ul a:link, #navigation ul ul a:visited {
+	background-color: #48D1CC;
+	color: #87CEFA;
+}
+#navigation ul ul a:hover {
+	background-color: #1E90FF;
+	color: #FFFFFF;
+}
+
+/* Main Content */
+
+#content 
+{
+	margin-top:1em;
+	margin-left: 16em;
+	margin-right: 2em;
+}
+h1
+{
+	font: 150% Arial, Helvetica, Georgia, "Times New Roman" , Times, serif;
+}
+#content p {
+	font-size: 80%;
+	line-height: 1.6em; 
+}
+
+#content ul {
+	font-size: 80%;
+	line-height: 1.6em; 
+}
+
+
+/* Data Web Control Styles */
+
+.DataWebControlStyle
+{
+    font-size: 90%;
+}
+
+.HeaderStyle
+{
+    background-color: #900;
+    color: White;
+    font-weight: bold;
+}
+
+.AlternatingRowStyle
+{
+    background-color: #fcc;
+}
+
+.RowStyle
+{
+}
+.GridView
+{
+font-family:Verdana;
+font-size:small;
+border-style:double;   	
+border-color:Black;
+border-width:thin;  
+}
+
+
+.GridViewFooterStyle
+{
+		background-color:White;
+		color:black; 
+}
+.RowStyle
+{
+	 	background-color:White;
+		color:black; 
+}
+.SelectedRowStyle
+{
+	background-color:Green;
+	font-weight:bold;  
+	color:White; 
+}
+.PagerStyle
+{
+	background-color:Black;
+	font-family:Verdana;
+	font-size:small;
+	color:White;
+	height:10px;
+
+}
+.HeaderStyle
+{
+	background-color:Gray;
+	font-weight:bold;
+	font-family:Verdana;
+	font-size:small;
+	color:White;
+	  
+}

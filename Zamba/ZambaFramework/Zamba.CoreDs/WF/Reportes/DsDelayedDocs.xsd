@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsDelayedDocs" targetNamespace="http://tempuri.org/DsDelayedDocs.xsd" xmlns:mstns="http://tempuri.org/DsDelayedDocs.xsd" xmlns="http://tempuri.org/DsDelayedDocs.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="zambatstConnectionString" ConnectionStringObject="" IsAppSettingsProperty="True" Modifier="Assembly" Name="zambatstConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Zamba.Core.My.MySettings.GlobalReference.Default.zambatstConnectionString" Provider="System.Data.SqlClient">
+          </Connection>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsDelayedDocs" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DsDelayedDocs" msprop:Generator_DataSetName="DsDelayedDocs">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DsDelayedDocs" msprop:Generator_UserTableName="DsDelayedDocs" msprop:Generator_RowDeletedName="DsDelayedDocsRowDeleted" msprop:Generator_RowChangedName="DsDelayedDocsRowChanged" msprop:Generator_RowClassName="DsDelayedDocsRow" msprop:Generator_RowChangingName="DsDelayedDocsRowChanging" msprop:Generator_RowEvArgName="DsDelayedDocsRowChangeEvent" msprop:Generator_RowEvHandlerName="DsDelayedDocsRowChangeEventHandler" msprop:Generator_TableClassName="DsDelayedDocsDataTable" msprop:Generator_TableVarName="tableDsDelayedDocs" msprop:Generator_RowDeletingName="DsDelayedDocsRowDeleting" msprop:Generator_TablePropName="_DsDelayedDocs">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Doc_ID" msprop:Generator_UserColumnName="Doc_ID" msprop:Generator_ColumnVarNameInTable="columnDoc_ID" msprop:Generator_ColumnPropNameInRow="Doc_ID" msprop:Generator_ColumnPropNameInTable="Doc_IDColumn" type="xs:decimal" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="250" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DsDelayedDocsKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DsDelayedDocs" />
+      <xs:field xpath="mstns:Doc_ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

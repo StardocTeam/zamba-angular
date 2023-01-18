@@ -1,0 +1,78 @@
+/******************************************************************
+							ORACLE
+******************************************************************/
+
+/*		31/07/2009	15:44	*/
+
+CREATE OR REPLACE  PACKAGE "ZSP_DOCTOZI_100"   as
+  type t_cursor is ref cursor;
+  procedure GetDocTypes(orderByDesc in int ,io_cursor out t_cursor);
+  procedure AddDocToZI(INSERT_ID in zi.InsertID%type,
+                       DOCTYPEID in zi.DTID%type,
+                       DOC_ID in zi.DocID%type,
+                       FOLDER_ID in zi.FolderID%type,
+                       I_DATE in zi.IDate%type);
+end;
+
+/
+
+CREATE OR REPLACE  PACKAGE BODY "ZSP_DOCTOZI_100"   as
+  procedure GetDocTypes(orderByDesc in int, io_cursor out t_cursor) is
+      v_cursor t_cursor;
+  begin
+      if orderByDesc = 0 then
+          open v_cursor for
+              select doc_type_id from doc_Type order by doc_type_id;
+      else
+          open v_cursor for
+              select doc_type_id from doc_Type order by doc_type_id desc;
+      end if;
+      io_cursor := v_cursor;
+  end GetDocTypes;
+
+  procedure AddDocToZI(INSERT_ID in zi.InsertID%type,
+                       DOCTYPEID in zi.DTID%type,
+                       DOC_ID in zi.DocID%type,
+                       FOLDER_ID in zi.FolderID%type,
+                       I_DATE in zi.IDate%type) is
+  begin
+      INSERT INTO ZI(InsertID, DTID, DocID, FolderID, IDate)
+      VALUES(INSERT_ID, DOCTYPEID, DOC_ID, FOLDER_ID, I_DATE);
+  end AddDocToZI;
+
+end ZSP_DOCTOZI_100;
+
+
+
+/******************************************************************
+							SQL SERVER
+******************************************************************/
+
+CREATE PROCEDURE ZSP_DOCTOZI_100_AddDocToZI
+(
+	@INSERT_ID numeric,
+	@DOCTYPEID numeric,
+	@DOC_ID numeric,
+	@FOLDER_ID numeric,
+	@I_DATE datetime
+)
+AS
+      INSERT INTO ZI(InsertID, DTID, DocID, FolderID, IDate)
+      VALUES(@INSERT_ID, @DOCTYPEID, @DOC_ID, @FOLDER_ID, @I_DATE);
+GO
+
+CREATE PROCEDURE ZSP_DOCTOZI_100_GetDocTypes 
+(
+	@orderByDesc bit
+)
+AS
+	IF( @orderByDesc = 0)
+	BEGIN
+  		select doc_type_id from doc_Type order by doc_type_id 
+	END 
+	ELSE 
+	BEGIN
+		select doc_type_id from doc_Type order by doc_type_id desc 
+	END
+
+GO

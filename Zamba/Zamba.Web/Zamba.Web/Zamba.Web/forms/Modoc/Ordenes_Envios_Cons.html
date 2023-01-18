@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+   
+</head>
+
+<body>
+    <form name="frmMain" action="Nuevo_Despacho_Ing.html">
+        <center>
+            <div>
+                <div ng-controller="appController">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container-fluid">
+                        <center>
+                            <div class="tab-pane active" id="Nuevo Despacho">
+                               
+                                <div class="PanelPrincipal">
+
+                                    <ul class=" nav nav-tabs">
+                                        <li class=" active"><a href="#Orden" data-toggle="tab">Orden</a></li>
+                                        <!-- <li><a href="#Eventos" data-toggle="tab">Eventos</a></li> -->
+                                       
+
+
+
+                                    </ul>
+                                    <div class="form-group row">
+                                        <div class="tab-content" id="taskController" ng-controller="TaskController">
+                                            <div class="tab-pane active" id="Orden">
+											<div class="form-group row"></div>
+											<div class="form-group row">													
+													<div class="col-md-4">
+													  <div class="input-group">
+                                                            <!--Estado-->                                  		<span class="input-group-addon">Estado de la Orden</span>
+                                                            <input id="zamba_index_26188" name="zamba_index_26188" size="1" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+													</div>
+													<div class="col-md-4">
+													  <div class="input-group">
+                                                            <!--Contrato-->                                  		<span class="input-group-addon">Nro Contrato:</span>
+                                                            <input id="zamba_index_150660" name="zamba_index_150660" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+													</div>
+													<div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!--Permisionaria-->                                  		<span class="input-group-addon">Nro Permisionaria:</span>
+                                                            <input id="zamba_index_150683" name="zamba_index_150683" size="1" class="form-control input-sm" disabled="disabled" />
+                                                        </div>
+                                                    </div>													
+                                            </div>
+											<div class="form-group row">
+                                               <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!--Remitente-->                                  		<span class="input-group-addon">Remitente:</span>
+                                                            <input id="zamba_index_150717" name="zamba_index_150717" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!--Usuario Remitente-->                                  		<span class="input-group-addon">Remitente CUIT:</span>
+                                                            <input id="zamba_index_150718" name="zamba_index_150718" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+													 <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!--Usuario Remitente-->                                  		<span class="input-group-addon">Mail Remit.:</span>
+                                                            <input id="zamba_index_150719" name="zamba_index_150719" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+											</div> 
+											<div class="form-group row">
+													<div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!--Origen-->                                  		<span class="input-group-addon">Origen Localidad:</span>
+                                                            <input id="zamba_index_150698" name="zamba_index_150698" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!-- Origen-->                                  		<span class="input-group-addon">Origen Region:</span>
+                                                            <input id="zamba_index_150699" name="zamba_index_150699" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+													 <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!--Origen -->                                  		<span class="input-group-addon">Origen Pais:</span>
+                                                            <input id="zamba_index_150700" name="zamba_index_150700" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+													</div> 
+											<div class="form-group row">
+											<div class="col-md-8"></div>
+													<div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <!-- Postal-->                                  		<span class="input-group-addon">Codigo Postal.:</span>
+                                                            <input id="zamba_index_150702" name="zamba_index_150702" size="1" class="form-control input-sm" readonly />
+                                                        </div>
+                                                    </div>
+                                            </div>											
+												
+										</div> 
+                                            
+
+                                          
+                                        </div>
+                                    </div>
+                                  
+
+                                    <div class="form-group row"></div>
+
+                                    <div class="row">
+                                        <center>
+                                            <div class="col-md-2" style="position:relative;left:10px; top:-18px;">
+                                                <img alt="" src="images/logo_modoc.png" height="50" width="85" style="float: left" />
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-3">
+                                                <span style="color:whitesmoke">Ordenes_Envios_Cons.html</span>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-2">
+                                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                <div class="form-group row">
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </center>
+        <script src="../../app/SignFiles/Controller/SignController.js?v=53"></script>
+        <script src="../../app/SignFiles/Service/SignService.js?v=53"></script>
+        <script type="text/javascript">
+
+                       // angular.bootstrap(document.getElementById('appblankID'), ['appblank']);
+
+        </script>
+
+    </form>
+</body>
+
+
+</html>
+
+<style>
+    .Inputselect {
+        width: 190px !important;
+    }
+
+    .Inputselect2 {
+        width: 65px;
+        position: relative;
+        left: 8px;
+    }
+
+    .Inputselect3 {
+        width: 70px !important;
+    }
+
+
+    .Inputselect4 {
+        width: 200px !important;
+    }
+
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

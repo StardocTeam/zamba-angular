@@ -1,0 +1,139 @@
+﻿
+<nav class="" style="border-radius: 10px; background-color:#337ab7; color: white; font-size:small ; padding: 0; margin-left: 10px; margin-right: 10px; height: 30px; ">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <ul class="nav navbar-nav navbar-brand" style="padding: 0 0 0 0; height: 30px; display: flex; justify-content: center;">
+            <li>
+                <span class="whiteText" style="font-size: 15px;"> {{gridTitle}} </span><span class="badge badge-warning"> {{associatedResults.length}}</span>
+                                                                                       <span ng-show="loading == true">
+                                                                                           cargando listado...  <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
+                                                                                       </span>
+            </li>
+        </ul>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <ul class="nav navbar-nav" ng-show="associatedResults.length > 0" style="padding: 0 0 0 0; height: 30px; display: flex; justify-content: center;  align-items: center;">
+            <li>
+                <a ng-click="setGridView('grid');" title="Cambiar a modo Grilla" role="button" style="text-decoration:none; padding-bottom: 5px;padding-top: 5px;"
+                   data-toggle="button" aria-pressed="false">
+                    <span class="remove-all-icon fa fa-list whiteText"
+                          style="text-decoration:none;"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav" ng-show="associatedResults.length > 0" style="padding: 0 0 0 0; height: 30px; display: flex; justify-content: center; align-items: center;">
+            <li>
+                <!--Boton Thumbs-->
+                <a ng-click="setGridView('thumb');" title="Cambiar a modo Iconos grandes" role="button" style="text-decoration:none; padding-bottom: 5px;padding-top: 5px;" data-toggle="button" aria-pressed="false">
+                    <span class="remove-all-icon fa fa-th whiteText"
+                          style="text-decoration:none;"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav" ng-show="associatedResults.length > 0" style="padding: 0 0 0 0; height: 30px; display: flex; justify-content: center; align-items: center;">
+            <li>
+                <!--Boton Thumbs-->
+                <a ng-click="showPreview = !showPreview;" title="Cambiar a modo Previsualizacion" role="button" style="text-decoration:none; padding-bottom: 5px;padding-top: 5px;" data-toggle="button" aria-pressed="false">
+                    <span class="remove-all-icon fa fa-eye whiteText"
+                          style="text-decoration:none;"></span>
+                </a>
+            </li>
+        </ul>
+        <!--<ul class="nav navbar-nav navbar-right">
+        <li>-->
+        <!-- Rule execution -->
+        <!--<a ng-click="executeSelectedRules();" ng-show="mulipleSelectionGridActive" title="Ejercutar reglas" role="button" style="text-decoration:none;" data-toggle="button" aria-pressed="false">
+                    <span class="remove-all-icon glyphicon glyphicon-triangle-right whiteText"> </span>
+                </a>
+            </li>
+        </ul>-->
+
+        <ul class="nav navbar-nav navbar-right"
+            ng-show="mulipleSelectionGridActive" style="padding: 0 0 0 0; height: 30px;">
+            <li class="dropdown">
+                <a class="dropdown-toggle whiteText"
+                   data-toggle="dropdown" href="#">
+                    Acciones
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu ">
+                    <li ng-show="rules.length == 0">
+                        <a href="#">
+                            No hay acciones.
+                        </a>
+                    </li>
+                    <li ng-show="rules.length > 0">
+                        <a href="#" ng-repeat="rule in rules"
+                           ng-click="executeCurrentRule(rule)">
+                            {{rule}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <ul class="nav navbar-nav navbar-right" ng-show="associatedResults.length > 0" style="padding: 0 0 0 0; height: 30px; display: flex; justify-content: center; align-items: center;">
+            <li>
+                <!-- multiple selection -->
+                <a ng-click="setSelectionMode()"
+                   ng-init="mulipleSelectionGridActive=false;"
+                   title="Activar selección multiple" role="button" style="text-decoration:none; padding-bottom: 5px;padding-top: 5px;" data-toggle="button" aria-pressed="false" ng>
+                    <span class="remove-all-icon glyphicon glyphicon glyphicon-check whiteText"> </span>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" style="padding: 0 0 0 0; height: 30px;">
+            <li>
+                <!-- refresh -->
+                <a ng-click="refreshGrid();" title="Refrescar Grilla"
+                   role="button" style="text-decoration:none;padding-top: 5px;padding-bottom: 5px;"
+                   data-toggle="button" aria-pressed="false" class="BtnRefresh">
+                    <span class="remove-all-icon glyphicon glyphicon-refresh whiteText"> </span>
+                </a>
+            </li>
+        </ul>
+
+
+
+        <div ng-show="associatedResults.length > 0" style="padding: 0 0 0 0; height: 30px;">
+            <!-- Campo de Busqueda -->
+            <form class="navbar-form navbar-right" role="search" style="margin-top: 0px;">
+                <div class="navbar-form navbar-right form-group" role="search" style="margin-top: 0px;">
+                    <input ng-model="filter" ng-change="setFilteredResults(filter)"
+                           placeholder="  Buscar..." class="input-sm"
+                           style="
+                                           background-color: #fff;
+                                           background-image: none;
+                                           border: 1px solid #ccc;
+                                           border-radius: 4px;
+                                           -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+                                           box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+                                           padding: 0 0 0 0; color:black;
+                                           margin:0 0 0 0" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+</nav>
+
+
+<div class="form-group">
+
+    <div ng-class="showPreview == true ? 'col-xs-6' : 'col-xs-12'" ng-show="enableMode.toLowerCase() == 'grid'">
+        <zamba-associated-kendo></zamba-associated-kendo>
+    </div>
+    <div ng-class="showPreview == true ? 'col-xs-6' : 'col-xs-12'" ng-show="enableMode.toLowerCase() == 'thumb'" style="overflow-y:scroll">
+        <zamba-associated-thumbs></zamba-associated-thumbs>
+    </div>
+    <div class="col-xs-6" ng-if="showPreview == true && Search.SearchResults != undefined  && Search.SearchResults.length > 0">
+        <zamba-associated-preview></zamba-associated-preview>
+    </div>
+</div>
+
+<style>
+    .modalStyle {
+        margin-top: 25px;
+    }
+</style>

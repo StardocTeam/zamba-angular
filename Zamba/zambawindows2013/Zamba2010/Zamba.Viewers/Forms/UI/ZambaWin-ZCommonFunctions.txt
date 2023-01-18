@@ -1,0 +1,70 @@
+﻿Se agrego un ZambaWin.Js que se adjunta automaticamente al formulario en tiempo de ejecucion.
+La idea es en este js incorporar funciones que puedan llamarse desde el formulario y que sirvan en forma comun a todos los formularios.
+
+En este caso se agrego solamente la posibilidad de ocultar una columna especificando una clase y atributos como se muestra a continuacion.
+
+   <table id="zamba_associated_documents_11062"  class="tablesorter columnsoptions" columnsvisible="Estado:false">
+                                         <tbody>
+                                    </tbody>
+                                </table>
+								
+
+donde columnsoptions indica al js que debe procesar las opciones y mediante los atributos especificar las mismas
+
+Temas Tecnicos:
+
+Al cargar en FormBrowser  el form se ejecuta este codigo que adjunta el script en el html.
+   If Boolean.Parse(UserPreferences.getValue("LoadZambaWinJS", Sections.FormPreferences, "True")) = True Then
+
+                    Dim Titles As HtmlElementCollection = doc1.GetElementsByTagName("title")
+                    For Each Title As HtmlElement In Titles
+
+                        Dim script As HtmlElement = doc1.CreateElement("script")
+                        script.SetAttribute("type", "text/javascript")
+                        script.SetAttribute("src", "scripts/zambawin.js")
+
+                        Title.InsertAdjacentElement(HtmlElementInsertionOrientation.AfterEnd, script)
+
+                        Exit For
+                    Next
+                End If
+
+
+Al temrinar de cargar todos los valores en el formulario y luego de invokar a ZFUNCTION, se invoka a  ZCOMMONFUNCTIONS que esta en el js.
+AxWebBrowser1.Document.InvokeScript("ZCOMMONFUNCTIONS")
+
+
+Al iniciar Zamba Cleinte, este actualiza los formularios desde el servidor, ahora tambien copia desde el compilado a Temp el contenido de la carpeta formularios del compilado
+donde ahora existe como parte del compilado zambawin.js y se ubica en el proyecto del cleinte y esta seteado para que se copie al compilar.
+
+					  private void CopyDefaultFormsComponentsToLocalTemp()
+        {
+            try
+            {
+                if (null != ChangeTextEvent)
+                    ChangeTextEvent("Actualizando Componentes de Formularios");
+
+                String  toirectoryname =  Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Zamba Software\\Temp";
+                String fromdirectoryname = Environment.CurrentDirectory + "\\Formularios";
+          
+                var fromdirectory = new System.IO.DirectoryInfo(fromdirectoryname);
+                var toirectory = new System.IO.DirectoryInfo(toirectoryname);
+                                
+                CopyFilesAndSubDirectoryFiles(fromdirectory, toirectory);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, ex.ToString());
+            }
+            finally
+            {
+                if (null != ChangeTextEvent)
+                    ChangeTextEvent("Actualizacion Finalizada!");
+
+                Thread.Sleep(500);
+
+                if (null != CloseDialogEvent)
+                    CloseDialogEvent();
+            }
+        }

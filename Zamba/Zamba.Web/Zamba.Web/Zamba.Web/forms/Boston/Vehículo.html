@@ -1,0 +1,237 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 03.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>
+    <script type="text/javascript" language="JavaScript"></script>
+    <style>
+            .buttonSelectionUl {
+                list-style-type: none;
+                margin: 2%;
+            }
+
+            /*ul.buttonSelectionUl > li input {
+            font-size: 10px;
+        }*/
+
+            .center {
+                margin: auto;
+                width: 80%;
+                padding: 10px;
+            }
+
+            .centerLastInput {
+                margin-left: 30%;
+                width: 80%;
+                padding: 10px;
+            }
+
+
+            .formTabs {
+                font-size: 15px;
+            }
+
+            .maginBetweenInputs {
+                padding-top: 10px;
+            }
+
+            .marginlabel2 {
+                position: relative;
+                left: 100px;
+            }
+
+            .BTS1 {
+                position: relative;
+                top: -25px;
+            }
+
+            .BTS2 {
+                position: relative;
+                left: -70px;
+                position: relative;
+                top: -10px;
+            }
+
+            .marginlabel1 {
+                position: relative;
+                top: -50px;
+            }
+
+            .Grillaposition1 {
+                position: relative;
+                top: 45px;
+            }
+
+            .BTS3 {
+                position: relative;
+                left: 100px;
+                position: relative;
+                top: 25px;
+            }
+
+            .Grillaposition2 {
+                position: relative;
+                top: -10px;
+            }
+
+            .Visualizador1 {
+                position: relative;
+                top: 15px;
+            }
+
+            .textArea1 {
+                height: 70px;
+            }
+
+            .strong {
+                font-weight: 900
+            }
+
+            .smoke {
+                background-color: #e5e5e5
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div>
+            <form id="frmMain">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+                <!-- <div class="form-group row">
+                    <div class="col-md-12">
+                        <center>
+                            <div>
+                                <h4 style="color: black;">Vehiculos / Cobertura</h4>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+                -->
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <center>
+                            <div>
+                                <h4 style="color: black;">Vehiculo</h4>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Tipo Vehiculo:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_15" ReadOnly="readonly" name="zamba_Index_15" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Modelo:</span>                                <TD colspan="2">
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zambaIndex_16" ReadOnly="readonly" name="zamba_Index_16" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Año:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_19" ReadOnly="readonly" name="zamba_Index_19">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Uso:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_20" ReadOnly="readonly" name="zamba_Index_20">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Patente:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_39" ReadOnly="readonly" name="zamba_Index_39">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Actividad:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_2756" ReadOnly="readonly" name="zamba_Index_2756">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Cobertura:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_21" ReadOnly="readonly" name="zamba_Index_21">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Suma Asegurada:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_22" ReadOnly="readonly" name="zamba_Index_22">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Accesorios:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_2757" ReadOnly="readonly" name="zamba_Index_2757">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none">
+                        <div class="col-md-1">
+                            <div class="input-group">
+
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_34" ReadOnly="readonly" name="zamba_Index_34">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="input-group">
+
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_Index_35" ReadOnly="readonly" name="zamba_Index_35">
+                            </div>
+                        </div>
+                    </div>
+
+               
+
+
+                <center>
+                    <div class="col-md-4">
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <span style="color:white">Vehículo.html</span>
+                    </div>
+                
+                    <div class="col-md-4">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

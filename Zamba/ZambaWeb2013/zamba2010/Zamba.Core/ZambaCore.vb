@@ -1,0 +1,168 @@
+Imports System.Diagnostics.CodeAnalysis
+Imports System.Drawing
+Imports Zamba
+
+<Serializable()> Public MustInherit Class ZambaCore
+    Inherits ZBaseCore
+    Implements IZambaCore
+
+#Region " Atributos "
+    Private _printName As String = String.Empty
+    Private _parent As IZambaCore = Nothing
+    'Private _doctypeid As Int32
+    Private _iconId As Int32 = 31
+    Private _objecttypeid As Int32
+    Private _childs As Hashtable = Nothing
+#End Region
+
+#Region " Propiedades "
+    Public Overridable Property PrintName() As String Implements IZambaCore.PrintName
+        Get
+            Return _printName
+        End Get
+        Set(ByVal Value As String)
+            _printName = Value.Trim
+        End Set
+    End Property
+    Public Overridable Property Parent() As IZambaCore Implements IZambaCore.Parent
+        Get
+            'If IsNothing(_parent) Then CallForceLoad(Me)
+            Return _parent
+        End Get
+        Set(ByVal Value As IZambaCore)
+            _parent = Value
+        End Set
+    End Property
+    Public Overridable Property IconId() As Int32 Implements IZambaCore.IconId
+        Get
+            Return _iconId
+        End Get
+        Set(ByVal Value As Int32)
+            _iconId = Value
+        End Set
+    End Property
+    Public Overridable Property ObjecttypeId() As Int32 Implements IZambaCore.ObjecttypeId
+        Get
+            Return _objecttypeid
+        End Get
+        Set(ByVal Value As Int32)
+            _objecttypeid = Value
+        End Set
+    End Property
+    Public Property Childs() As Hashtable Implements IZambaCore.Childs
+        Get
+            If IsNothing(_childs) Then CallForceLoad(Me)
+            If IsNothing(_childs) Then _childs = New Hashtable()
+            Return _childs
+        End Get
+        Set(ByVal Value As Hashtable)
+            Try
+                _childs = Value
+            Catch ex As Exception
+                raiseerror(ex)
+            End Try
+        End Set
+    End Property
+
+    Public Property Location As Point Implements IZambaCore.Location
+
+
+    Public Property TasksCount As Integer Implements IZambaCore.TasksCount
+
+
+    Public Property color As String Implements IZambaCore.color
+
+
+    Public Property Width As Integer Implements IZambaCore.Width
+
+
+    Public Property Height As Integer Implements IZambaCore.Height
+
+
+    Public Property CreateDate As Date Implements IZambaCore.CreateDate
+
+
+    Public Property EditDate As Date Implements IZambaCore.EditDate
+
+
+    Public Property Help As String Implements IZambaCore.Help
+
+    Public Property LastModified As String Implements IZambaCore.LastModified
+
+
+    Public Property Status As Object Implements IZambaCore.Status
+
+
+    Public Property Image As Object Implements IZambaCore.Image
+
+
+#End Region
+
+#Region " Constructores "
+    Public Sub New()
+        MyBase.New()
+    End Sub
+    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal IconId As Int32, ByVal ObjectTypeId As Int32, ByVal Parent As ZambaCore)
+        Me.New()
+        Me.ID = Id
+        Me.Name = Name
+        Me.IconId = IconId
+        Me.ObjecttypeId = ObjectTypeId
+        Me.Parent = Parent
+    End Sub
+    Public Sub New(ByVal Id As Int64, ByVal Name As String)
+        Me.New()
+        Me.ID = Id
+        Me.Name = Name
+    End Sub
+
+#End Region
+
+    Public Function GetChild(ByVal Child_Id As Int32) As Object Implements IZambaCore.GetChild
+        Try
+            If Childs.ContainsKey(Child_Id) Then
+                Return Childs(Child_Id)
+            End If
+            Return Nothing
+        Catch ex As Exception
+            raiseerror(ex)
+            Return Nothing
+        End Try
+    End Function
+    Public Function GetChild(ByVal Child_Name As String) As Object Implements IZambaCore.GetChild
+        Try
+            For Each o As Object In Childs.Values
+
+                If String.Compare(o.name.ToString(), Child_Name) = 0 Then
+                    Return o
+                End If
+                'If o.Name Is Child_Name Then Return o
+            Next
+            Return Nothing
+        Catch ex As Exception
+            raiseerror(ex)
+            Return Nothing
+        End Try
+    End Function
+
+    <SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")> Public Event ChildAdded(ByVal Child As Object) Implements IZambaCore.ChildAdded
+    Public Sub AddChild(ByVal Child As Object) Implements IZambaCore.AddChild
+        Try
+            Childs.Add(Child.id, Child)
+            RaiseEvent ChildAdded(Child)
+        Catch ex As Exception
+            raiseerror(ex)
+        End Try
+    End Sub
+    <SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")> Public Event ChildDeleted(ByVal Child As Object) Implements IZambaCore.ChildDeleted
+    Public Sub DelChild(ByVal Child_Id As Int32) Implements IZambaCore.DelChild
+        Try
+            If Childs.ContainsKey(Child_Id) Then
+                Childs.Remove(Child_Id)
+            End If
+        Catch ex As Exception
+            raiseerror(ex)
+        End Try
+    End Sub
+
+End Class

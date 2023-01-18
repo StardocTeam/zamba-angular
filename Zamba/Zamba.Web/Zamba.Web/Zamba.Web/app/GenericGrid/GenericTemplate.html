@@ -1,0 +1,149 @@
+﻿
+<style>
+
+    #wrapperNews {
+        height: 90%;
+        width: 98%;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+    }
+
+    #news-wrapper {
+        height: 95%;
+        overflow: auto;
+        flex-grow: 1;
+        margin-top: 1em;
+    }
+
+    #wrapperNews > .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    #wrapperNews > .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        border-color: #269abc;
+    }
+
+    #wrapperNews > .card-container {
+        width: 100%;
+        padding: 15px 10px 1px 10px;
+    }
+
+    #wrapperNews > .btn-toolbar {
+        margin-bottom: 5px;
+        padding-right: 10px;
+    }
+
+    #wrapperNews > .unread {
+        border-left: 3px solid red;
+    }
+
+    #wrapperNews > .unread-title {
+        font-weight: bold;
+    }
+
+    #wrapperNews > .btn-info, .btn-info:focus {
+        background-color: transparent !important;
+        color: gray !important;
+        border-color: gray !important;
+    }
+
+        #wrapperNews > .btn-info.active, .btn-info.active:focus {
+            background-color: #269abc !important;
+            color: white !important;
+            border-color: #269abc !important;
+        }
+
+    #wrapperNews > .toast {
+        opacity: 1;
+    }
+
+    #wrapperNews > #toast-container > div {
+        opacity: 1;
+    }
+
+    #wrapperNews > .input-xs {
+        height: 27px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
+    #wrapperNews > .btn-xs {
+        font-size: 13px !important;
+        padding: 3px 8px 3px 8px;
+    }
+</style>
+
+
+<div id="wrapperNews" class="container-fluid">
+
+    <div class="row">
+        <div class="col-xs-4 col-sm-offset-1 col-sm-3 col-md-offset-2 col-md-3" style="display: none">
+
+            <div class="btn-group">
+                <button type="button" name="unread" class="btn btn-info btn-xs" ng-class="{'active': btnActive === 'unread'}" ng-click="Reload($event.currentTarget)">
+                    No Leidas
+                </button>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" name="read" class="btn btn-info btn-xs" ng-class="{'active': btnActive === 'read'}" ng-click="Reload($event.currentTarget)">
+                    Leidas
+                </button>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" name="all" class="btn btn-info btn-xs" ng-class="{'active': btnActive === 'all'}" ng-click="Reload($event.currentTarget)">
+                    Todas
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-offset-3 col-xs-4 ">
+
+
+            <input type="text" class="form-control input-xs" name="filter" placeholder="Buscar..." ng-model="searchCardText" />
+
+        </div>
+        <div class="col-xs-2">
+
+
+            <!--<button type="button" class="btn btn-default btn-xs pull-right">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>-->
+
+            <md-button class="md-fab" aria-label="FAB" title="Actualizar resultados" ng-click="Reload(null)" style="background-color:rgba(0,0,0,0);height:39px;width:39px">
+                <!--<md-icon ng-click="Reload(null)" md-svg-src="refresh.jpg">
+        </md-icon>-->
+                <span class="material-icons" style="margin-top:-2px">
+                    autorenew
+                </span>
+
+            </md-button>
+            <p><small><b> {{DataCount}} registros </b></small></p>
+        </div>
+    </div>
+
+    <div id="news-wrapper" class="row">
+        <div ng-repeat="news in GenericData | filter:searchCardText" class="col-xs-12 col-sm-offset-1 col-sm-11 col-md-offset-2 col-md-9">
+            <div class="card unread" ng-click="OpenTask(news)" style=" background-color: white;">
+                <div class="card-container">
+                    <p class="unread-title">{{news.Tarea}}</p>
+                    <p><small> <span class="glyphicon glyphicon-user"></span>{{news.Asignado}} <span class="fa fa-tasks"> {{news.Etapa}}</span></small></p>
+                    <p><small> <span class="glyphicon glyphicon-calendar"></span> {{FormatDateTimeDDMMYYYYHHMMSS(news.Fecha)}}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+

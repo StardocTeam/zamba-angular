@@ -1,0 +1,60 @@
+﻿<style>
+    .z-sub-toolbar {
+        height: auto;
+        min-height: 20px !important;
+        border: 1px solid white;
+        padding: 2px 16px;
+        color: white;
+        font-size: 13px;
+    }
+</style>
+<!-- NC: estos ng-if estan hechos a proposito, para que al redibujarse se vea mas clean, de otra forma el efecto se aprecia demasiado -->
+<div ng-if="selectedEntitiesList.length == 0" class="toolbar-color-search z-sub-toolbar">
+    <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding ng-scope" title="Deshabilitar todas las entidades" ng-click="clearAllSearchEntities();">
+        <md-icon class="material-icons-outlined md-span ng-scope material-icons" style="color:white; margin-top: -4px !important" role="img" aria-label="filter_alt">
+            unpublished
+        </md-icon>
+    </button>
+    <span>
+        ENTIDAD SELECCIONADA:
+    </span>
+    <span ng-repeat="selectedEntityName in selectedEntitiesList">
+        - NINGUNA
+    </span>
+</div>
+<div ng-if="selectedEntitiesList.length == 1 && (selectedEntitiesList.length != entitiesTotalQuantity)" class="toolbar-color-search z-sub-toolbar">
+    <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding ng-scope" title="Deshabilitar todas las entidades" ng-click="clearAllSearchEntities();">
+        <md-icon class="material-icons-outlined md-span ng-scope material-icons" style="color:white; margin-top: -4px !important" role="img" aria-label="filter_alt">
+            unpublished
+        </md-icon>
+    </button>
+    <span>
+        ENTIDAD SELECCIONADA:
+    </span>
+    <span ng-repeat="selectedEntityName in selectedEntitiesList">
+        - {{selectedEntityName}}
+    </span>
+</div>
+<div ng-if="selectedEntitiesList.length > 1 && (selectedEntitiesList.length != entitiesTotalQuantity)" class="toolbar-color-search z-sub-toolbar">
+    <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding ng-scope" title="Deshabilitar todas las entidades" ng-click="clearAllSearchEntities();">
+        <md-icon class="material-icons-outlined md-span ng-scope material-icons" style="color:white; margin-top: -4px !important" role="img" aria-label="filter_alt">
+            unpublished
+        </md-icon>
+    </button>
+    <span>
+        ENTIDADES SELECCIONADAS: ({{totalSelected}})
+    </span>
+    <span ng-repeat="selectedEntityName in selectedEntitiesList">
+        - {{selectedEntityName}}
+    </span>
+</div>
+<div ng-if="selectedEntitiesList.length == entitiesTotalQuantity" class="toolbar-color-search z-sub-toolbar">
+    <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding ng-scope" title="Deshabilitar todas las entidades" ng-click="clearAllSearchEntities();">
+        <md-icon class="material-icons-outlined md-span ng-scope material-icons" style="color:white; margin-top: -4px !important" role="img" aria-label="filter_alt">
+            unpublished
+        </md-icon>
+    </button>
+    <span>
+        ENTIDADES SELECCIONADAS: ({{totalSelected}}) Todas
+    </span>
+</div>

@@ -1,0 +1,183 @@
+﻿
+<md-sidenav ng-cloak id="zamba-sidepanel-control"
+            class="z-sidepanel-left-fixed z-sidepanel-unlocked"
+            md-whiteframe="5">
+
+    <div class="z-main-container" layout="column" ng-controller="sidebarCtrl" ng-cloak>
+
+        <div class="z-sidenav-header" ng-class="Environment == 'desa' ? 'sidenavColor-desa': (Environment== 'test' ? 'sidenavColor-test' : 'sidenavColor-prod')">
+            <div layout="row" layout-align="end start">
+                <md-button ng-if="UserRightsFactory.CanShowAnchorSidebar" class="md-icon-button" id="btnAnchorSidebar" aria-label="Settings" ng-click="setLockedState()">
+                    <span class="material-icons z-icon-anchor-sidebar" ng-attr-title="{{lockTitle}}">
+                        lock_open
+                    </span>
+                </md-button>
+            </div>
+            <div id="z-userDataContainer">
+
+                <a title="{{CurrentApellido}}  {{CurrentUserName}}" style="text-decoration:none;" href="#AvatarProfile" id="btnAvatar" role="button">
+                    <div layout="row" layout-align="center center" id="avatarRow" class="z-sidenav-avatar-justify-right">
+                        <img ng-cloak ng-show="thumphoto != '' " ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show z-imgUserAvatar z-sidenav-avatar-mini">
+                        <img ng-cloak ng-show="thumphoto == '' " ng-src="{{InitialsImage}}"
+                             alt="User Avatar" class="img-circle ng-show z-imgUserAvatar z-sidenav-avatar-mini" />
+                    </div>
+                </a>
+
+                <div layout="row" layout-align="center center" style="margin-top:5px" class="z-sidebar-header-description">
+                    <p class="z-userName md-title" title="{{CurrentApellido}}  {{CurrentUserName}}">{{CurrentApellido}}  {{CurrentUserName}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="mdContenColor" flex="100" ng-cloak>
+
+            <div style="padding-top:2px">
+
+                <md-button ng-if="UserRightsFactory.CanShowHomePanel" id="liHome" class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" style="background-color: transparent;display:block;" onclick="searchModeGSFn(this, 'Home'); ">
+                    <a style="color:white;text-decoration:none;" href="#tabHome" id="btntabhome" role="button" title="Inicio">
+                        <md-icon class="material-icons z-material-icons-align" ng-class="currentMode == 'Home' ? 'md-warn md-hue-1' : 'md-white'">
+                            home
+                        </md-icon>
+                        <span class="hidden-xs z-button-text-item-sidebar">{{'index.home' | translate}}</span>
+                    </a>
+                </md-button>
+
+                <md-button ng-if="UserRightsFactory.CanShowHomePanel" id="liHomeNews" class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" style="background-color: transparent;display:block;" onclick="searchModeGSFn(this, 'News'); ">
+                    <a style="color:white;text-decoration:none;" href="#tabHomeNews" id="btntabhomenews" role="button" title="Novedades">
+                        <md-icon class="material-icons z-material-icons-align" ng-class="currentMode == 'News' ? 'md-warn md-hue-1' : 'md-white'">
+                            feed
+                        </md-icon>
+                        <span class="hidden-xs z-button-text-item-sidebar">{{'index.news' | translate}}</span>
+                    </a>
+                </md-button>
+
+                <md-button id="liBuscar" class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" style="background-color:transparent;display:block;" ng-click="searchModeGSFn(this,'search'); ">
+                    <a style="color:white;text-decoration:none;" id="searchModeGS" title="Buscar" role="button">
+                        <md-icon class="material-icons z-material-icons-align" ng-class="currentMode == 'search' && currentModeSearch == 'search' ? 'md-warn md-hue-1' : 'md-white'">
+                            search
+                        </md-icon>
+                        <span class="hidden-xs z-button-text-item-sidebar">{{'index.search' | translate}}</span>
+                    </a>
+                </md-button>
+                <md-button id="liResults" ng-disabled="SearchState === undefined || SearchState === null ||SearchState.SearchResults === undefined || SearchState.SearchResults === null || SearchState.SearchResults.length === 0 " 
+                           class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" 
+                           style="background-color:transparent;display:block;" 
+                           ng-click="GoBackToSearchResults(); ">
+                    <a style="color:white;text-decoration:none;" id="searchResultsModeGS" 
+                       title="Resultados de busqueda {{SearchState.SearchResults.length}}" 
+                       role="button">
+                        <md-icon class="material-icons z-material-icons-align" ng-class=" currentMode == 'search'  && currentModeSearch == 'results' ? 'md-warn md-hue-1' : 'md-white'">
+                            list
+                        </md-icon>
+                        <span class="hidden-xs z-button-text-item-sidebar">{{'index.results' | translate}}</span>
+                    </a>
+                </md-button>              
+
+                    <md-button ng-if="UserRightsFactory.CanShowInsertPanel" id="BtnHomeInsert" class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" style="background-color: transparent;display: block;" ng-click="searchModeGSFn(this, 'insert'); ">
+                        <a ng-href="" style="color:white;text-decoration:none;" class="disable" title="Insertar" role="button" id="liInsert">
+                            <md-icon class="material-icons z-material-icons-align" ng-class="currentMode == 'Insert' ? 'md-warn md-hue-1' : 'md-white'">
+                                add_circle_outline
+                            </md-icon>
+                            <span style="margin-left: 3px;" class="hidden-xs z-button-text-item-sidebar">{{'index.insert' | translate}}</span>
+                        </a>
+                    </md-button>
+
+
+
+                    <md-button ng-if="UserRightsFactory.CanShowMyTasksPanel" id="" class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" style="background-color: transparent;display: block;" ng-click="searchModeGSFn(this, 'MyTasks'); ">
+                        <a style="color:white;text-decoration:none;" href="#" class="disable" id="MyTasksAnchor" title="Tareas">
+                            <md-icon class="material-icons z-material-icons-align" ng-class="currentMode == 'MyTasks' ? 'md-warn md-hue-1' : 'md-white'">
+                                view_list
+                            </md-icon>
+
+                            <span class="hidden-xs z-button-text-item-sidebar"> {{'index.mytasks' | translate}}</span>
+                        </a>
+                    </md-button>
+
+                    <md-button ng-if="ShowTreeView == true" id="BtnHomeProcess" class=" z-button-icon-item-sidebar z-button-icon-item-sidebar-parent-hover" style="background-color: transparent;display: block;" ng-click="searchModeGSFn(this, 'MyProcess'); ">
+                        <a ng-href="" style="color:white;text-decoration:none;" class="disable" title="Procesos" role="button" id="liProcess">
+                            <md-icon class="material-icons z-material-icons-align revertIcon" ng-class="currentMode == 'MyProcess' ? 'md-warn md-hue-1' : 'md-white'">
+                                menu_open
+                            </md-icon>
+                            <span style="margin-left: 3px;" class="hidden-xs z-button-text-item-sidebar">{{'index.process' | translate}}</span>
+                        </a>
+                    </md-button>
+
+                    <md-button id="liTasks" class="md-primary z-icon-item-sidebar" style="background-color: transparent;display: none;">
+                        <a id="anchorTabTasks" href="#tabtasks" class="disable" style="color:white; opacity:0.8;">Tareas</a>
+                    </md-button>
+
+                    <md-button id="liTabRule" class="md-primary z-icon-item-sidebar" style="background-color: transparent;display: none;">
+                        <a href="#tabRules" id="rule">Rule</a>
+                    </md-button>
+            </div>
+        </div>
+        <div layout="row" layout-align="end" class="mdContenColor" ng-cloak>
+            <div class="contenedor" id="optionMenuItem" ng-class="getSettingsClasses()">
+                <button class="botonF1" ng-click="hoverIn()">
+                    <span class="material-icons">
+                        settings
+                    </span>
+                </button>
+
+                <button class="btnFlotante botonF2" ng-class="{'animationViewBtn' : settingsIsOpen, 'disabledItemStyle' : !UserRightsFactory.CanUsebtnFlotante}" ng-click="closeSettings();" data-toggle="modal" data-target="#ModalVisualPreferences">
+                    <md-tooltip md-direction="left">
+                        Configuracion de visualizacion
+                    </md-tooltip>
+                    <span class="material-icons AnimationFontsize">
+                        visibility
+                    </span>
+
+                </button>
+                <!--<button class="btnFlotante botonF3" data-toggle="modal" ng-class="{'animationViewBtn' : settingsIsOpen}" onclick="OpenModalUser(); ConfigurationModuleUser(); " >
+        <md-tooltip md-direction="left">
+            Configuracion de usuario
+        </md-tooltip>
+        <span class="material-icons AnimationFontsize">
+            manage_accounts
+        </span>
+    </button>-->
+                <button class="btnFlotante botonF4" ng-class="{'animationViewBtn' : settingsIsOpen}" onclick="AyudaSearch(); closeSettings();">
+                    <md-tooltip md-direction="left">
+                        Ayuda
+                    </md-tooltip>
+                    <span class="material-icons AnimationFontsize">
+                        help
+                    </span>
+                </button>
+                <button class="btnFlotante botonF5" ng-class="{'animationViewBtn' : settingsIsOpen,'disabledItemStyle' : !IsAdminUser}" onclick="clearAllCache(false);  closeSettings();">
+                    <md-tooltip md-direction="left">
+                        Limpiar cache
+                    </md-tooltip>
+                    <span class="material-icons AnimationFontsize">
+                        cleaning_services
+                    </span>
+                </button>
+                <button class="btnFlotante botonF6" data-toggle="modal" ng-click="Logout();  closeSettings();" ng-class="{'animationViewBtn' : settingsIsOpen}" id="logOutSite">
+                    <md-tooltip md-direction="left">
+                        Cierre de sesión
+                    </md-tooltip>
+                    <span class="material-icons AnimationFontsize">
+                        exit_to_app
+                    </span>
+
+                </button>
+
+                <button class="btnFlotante botonF7" ng-click="closeSettings()" data-toggle="modal" data-target="#ModalChangePassword" ng-class="{'animationViewBtn' : settingsIsOpen}" ng-if="CanChangePassword">
+                    <md-tooltip md-direction="left">
+                        Cambiar Clave
+                    </md-tooltip>
+                    <span class="material-icons AnimationFontsize">
+                        published_with_changes
+                    </span>
+
+                </button>
+            </div>
+
+            <div class="mdContenColor" layout="column" layout-align="end " style="flex: auto" id="versionInfoPanel">
+                <a class="hidden-xs navbar-brand clientlogo " href="#" style="margin-top: 0"></a>
+                <div layout="column" layout-align="end " style="font-size: 11px !important; margin-top: -35px;" id="ZambaVersionSideBar">{{zambaVersion}}</div>
+            </div>
+        </div>
+    </div>
+</md-sidenav>
+

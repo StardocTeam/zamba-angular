@@ -1,0 +1,2 @@
+Public interface IOfficeInterop
+end interface

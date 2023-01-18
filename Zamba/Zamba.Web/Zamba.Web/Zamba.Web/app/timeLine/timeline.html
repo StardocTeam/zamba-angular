@@ -1,0 +1,133 @@
+﻿<div ng-show="Results.length > 0">
+    <!--<nav>
+        <ul id="main_nav">
+            <li class="active all"
+                ng-click="toggleAllActivities()">All</li>
+            <li ng-repeat="activity in activities" ng-class="[activity.class, activity.active]" ng-click="selectActivity(activity)">
+                {{activity.text}}
+            </li>
+        </ul>
+        <ul id="nav_ctrl">
+            <li class="icon-up-open" data-title="Next"></li>
+            <li class="icon-down-open" data-title="Previous"></li>
+        </ul>
+    </nav>-->
+
+    <div ng-if="resultId == null" class="container-fluid" id="timeline_container">
+        <br />
+        <div class="row" style="float: right">
+            <div class="col-md-offset-6 col-xs-3">
+                <button id="btnActualizar" type="button" ng-click="RefreshTimeLine()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+            </div>
+        </div>
+        <br />
+        <ul class="timeline">
+            <li ng-repeat="result in Results" ng-class-even="'timeline-inverted'" class="ResultsTimeLine">
+
+                <div class="timeline-badge icon-address lifeTimeLine" ng-class="life">
+                    <i ng-if="!result.avatar" class="glyphicon lyphicon glyphicon-user" ng-class="glyphicon-grain"></i>
+                    <img ng-if="result.avatar" ng-src="{{'data:image/png;base64,' + result.avatar}}" class="timeline-avatar-image">
+                </div>
+
+                <div class="timeline-panel boxAnimate">
+                    <div class="timeline-heading">
+                        <h4 class="timeline-title">{{result.UsrAprobacion}}</h4>
+                    </div>
+                    <div class="timeline-body">
+                        <p>{{result.title}}</p>
+                    </div>
+                    <div class="timeline-body">
+                        <p>{{result.subtitle}}</p>
+                    </div>
+
+                    <div class="timeline-body">
+                        <p>{{result.date}}</p>
+                    </div>
+                    <div class="timeline-body">
+                        <p>{{result.description}}</p>
+                    </div>
+                    <!-- REPORTES-->
+                    <div class="timeline-body" ng-show="result.UsuarioZamba != null">
+                        <p><b>Usuario Zamba: </b>{{result.UsuarioZamba}}</p>
+                    </div>
+                    <div class="timeline-body" ng-show="result.FechaConexion != null">
+                        <p><b>Fecha Conexion: </b>{{result.FechaConexion}}</p>
+                    </div>
+                    <div class="timeline-body" ng-show="result.UltimaActividad != null">
+                        <p><b>Ultima Actividad: </b>{{result.UltimaActividad}}</p>
+                    </div>
+                    <div class="timeline-body" ng-show="result.UsuarioWindows != null">
+                        <p><b>Usuario Windows: </b>{{result.UsuarioWindows}}</p>
+                    </div>
+                    <div class="timeline-body" ng-show="result.NombrePC != null ">
+                        <p><b>Nombre PC: </b>{{result.NombrePC}}</p>
+                    </div>
+                    <!--<p ng-if="event.link"><small class="text-muted">Link: <a ng-href="{{event.link}}">{{event.link}}</a></small></p>-->
+                </div>
+
+            </li>
+        </ul>
+    </div>
+
+
+    <div ng-if="resultId != null">
+        <br />
+
+        <div class="row">
+            <div class="col-12">
+                <button id="btnActualizar" type="button" ng-click="RefreshTimeLine()" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+            </div>
+        </div>
+
+        <br />
+
+        <ul class="row timeline" style="padding-left: 0rem;">
+            <li ng-repeat="result in Results" ng-class-even="'timeline-inverted'" class="ResultsTimeLine">
+
+                <div class="row">
+                    <div class="col-2 col-sm-2">
+                        <div class="timeline-badge icon-address lifeTimeLine col-4" ng-class="life">
+                            <i ng-if="!result.avatar" class="glyphicon lyphicon glyphicon-user" ng-class="glyphicon-grain"></i>
+                            <img ng-if="result.avatar" ng-src="{{'data:image/png;base64,' + result.avatar}}" class="timeline-avatar-image border border-primary rounded" style="width: 50px; height: 50px;">
+                        </div>
+                    </div>
+
+                    <div class="col-1 col-sm-1">
+
+
+                    </div>
+
+                    <div class="timeline-panel boxAnimate col-9 col-sm-9">
+                        <div class="timeline-heading">
+                            <b>{{result.UsrAprobacion}}</b>
+                            {{result.title}}
+                            {{result.subtitle}}
+                            {{result.date}}
+                        </div>
+
+                        <p>{{result.description}}</p>
+
+                        <!-- REPORTES-->
+                        <div class="timeline-body" ng-show="result.UsuarioZamba != null">
+                            <p><b>Usuario Zamba: </b>{{result.UsuarioZamba}}</p>
+                        </div>
+                        <div class="timeline-body" ng-show="result.FechaConexion != null">
+                            <p><b>Fecha Conexion: </b>{{result.FechaConexion}}</p>
+                        </div>
+                        <div class="timeline-body" ng-show="result.UltimaActividad != null">
+                            <p><b>Ultima Actividad: </b>{{result.UltimaActividad}}</p>
+                        </div>
+                        <div class="timeline-body" ng-show="result.UsuarioWindows != null">
+                            <p><b>Usuario Windows: </b>{{result.UsuarioWindows}}</p>
+                        </div>
+                        <div class="timeline-body" ng-show="result.NombrePC != null ">
+                            <p><b>Nombre PC: </b>{{result.NombrePC}}</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+</div>

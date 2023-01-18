@@ -1,0 +1,682 @@
+Imports System.IO
+Imports Zamba.Core
+'Imports Zamba.Volumes.Core
+
+
+Public Class VolumesFactory
+    Inherits ZClass
+#Region "ABM"
+    Public Shared Sub AddVolume(ByRef Volume As IVolume, Optional ByVal Temporal As Boolean = False)
+        If Temporal = True Then
+            Volume.ID = -2
+        Else
+            Volume.ID = CoreData.GetNewID(IdTypes.VOLUMEID)
+        End If
+        Dim StrInsert As String = "INSERT INTO Disk_Volume (DISK_VOL_ID,Disk_Vol_Name,Disk_Vol_Size,Disk_Vol_Type,Disk_Vol_Copy,Disk_Vol_Path,Disk_Vol_Size_Len,Disk_Vol_State,Disk_Vol_LstOffSet, Disk_Vol_Files) Values (" _
+           & Volume.ID & ",'" & Volume.Name & "'," & Volume.Size & "," & Volume.Type & "," & Volume.copy & ",'" & Volume.path & "'," & Volume.sizelen & "," & Volume.state & "," & Volume.offset & "," & Volume.Files & ")"
+        Server.Con.ExecuteNonQuery(CommandType.Text, StrInsert)
+    End Sub
+    Public Shared Function IsVolumeDuplicated(ByVal VolumeName As String) As Boolean
+        Dim table As String = "Disk_Volume"
+        Try
+            Dim strSelect As String = "SELECT COUNT(Disk_Vol_id) from " & table & " where (Disk_Vol_Name = '" & VolumeName.Trim & "')"
+            Dim qrows As Int32 = Server.Con.ExecuteScalar(CommandType.Text, strSelect)
+            If qrows > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            Throw New Exception("Ocurrio un error al consultar la duplicidad del Volumen " & ex.ToString)
+        End Try
+    End Function
+    Public Shared Sub SetStateFull(ByVal VolumeId As Integer)
+        Dim StrUpdate As String = "UPDATE DISK_VOLUME SET DISK_VOL_STATE = 1 WHERE DISK_VOL_ID = " & VolumeId
+        Server.Con.ExecuteNonQuery(CommandType.Text, StrUpdate)
+    End Sub
+    Public Shared Sub SetLastOffSetUsed(ByVal LastOffsetUsed As Integer, ByVal VolumeId As Integer)
+        Dim StrUpdate As String = "UPDATE DISK_VOLUME SET DISK_VOL_LSTOFFSET = " & LastOffsetUsed & " WHERE DISK_VOL_ID = " & VolumeId
+        Server.Con.ExecuteNonQuery(CommandType.Text, StrUpdate)
+    End Sub
+    Public Shared Sub UpdateVolume(ByRef Volume As IVolume, ByVal NewName As String, ByVal NewPath As String, ByVal NewSize As Decimal, ByVal NewType As String, ByVal NewState As Int32)
+
+
+        Dim path As Boolean = False
+        If NewPath <> Volume.path Then
+            path = True
+        End If
+
+        Volume.state = NewState
+
+        NewSize = Replace(NewSize, ",", ".")
+        Dim Newsizelen As Decimal = Replace(Volume.sizelen, ",", ".")
+
+        Try
+            'Dim table As String = "Disk_Volume"
+            'TODO Falta abstraer esto
+            Dim strUpdate As String
+            If path = True Then
+                strUpdate = "UPDATE Disk_Volume SET Disk_Vol_Name = '" & NewName & "', Disk_Vol_Size = " & NewSize & ", Disk_Vol_Type = " & Volume.Type & ", Disk_Vol_Copy = " & Volume.copy & ", " _
+            & "Disk_Vol_Path = '" & NewPath & "', Disk_Vol_Size_Len = " & Newsizelen & ", Disk_Vol_State = " & Volume.state & ", Disk_Vol_LstOffSet = " & Volume.offset & " where(Disk_Vol_Id = " & Volume.ID & ")"
+            Else
+                strUpdate = "UPDATE Disk_Volume SET Disk_Vol_Name = '" & NewName & "', Disk_Vol_Size = " & NewSize & ", Disk_Vol_Type = " & Volume.Type & ", Disk_Vol_Copy = " & Volume.copy & ", " _
+            & "Disk_Vol_Size_Len = " & Newsizelen & ", Disk_Vol_State = " & Volume.state & ", Disk_Vol_LstOffSet = " & Volume.offset & " where Disk_Vol_Id = " & Volume.ID
+            End If
+            Server.Con.ExecuteNonQuery(CommandType.Text, strUpdate)
+        Catch ex As Exception
+            Throw New Exception("Ocurrio un problema al modificar el Volumen: " & Volume.Name)
+        End Try
+    End Sub
+
+#End Region
+    Public Shared Function IsValidPath(ByVal Path As String) As Boolean
+        'TODO Falta verificar si el path existe
+        If Path.Trim = "" Then
+            Return False
+        Else
+            If Not Directory.Exists(Path) Then
+                Return False
+            Else
+                Return True
+            End If
+
+        End If
+    End Function
+    Public Shared Function isvolumepathInUse(ByVal VolPath As String) As Boolean
+        Dim i As Int32
+        Dim strselect As String = "SELECT count(1) FROM disk_volume WHERE disk_vol_path='" & VolPath & "'"
+        i = Server.Con.ExecuteScalar(CommandType.Text, strselect)
+        If i > 0 Then Return True Else Return False
+    End Function
+
+    Public Shared Function IsValidSize(ByVal Size As String) As Boolean
+        Try
+            If CDec(Size) = 0 Then
+                Return False
+            ElseIf CDec(Size) > 0 Then
+                Return True
+            End If
+        Catch
+            Return False
+        End Try
+    End Function
+    Public Shared Function IsValidType(ByVal Type As String) As Boolean
+        If Trim(Type) = "" Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+    Public Shared Function VolIsEmpty(ByVal Volume As IVolume) As Boolean
+        If Volume.Files > 0 Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+#Region "GetVolumeData"
+    Public Shared Function GetVolumeData(ByVal VolumeId As Integer) As IVolume
+        Dim Strselect As String = "select Disk_Vol_Name,Disk_Vol_Size,Disk_Vol_Type,Disk_Vol_Copy,Disk_Vol_Path," _
+& " Disk_Vol_Size_Len,Disk_Vol_State,Disk_Vol_LstOffset,Disk_Vol_Files from Disk_Volume where disk_vol_id = " & VolumeId
+        Dim Ds As DataSet
+        Ds = Server.Con.ExecuteDataset(CommandType.Text, Strselect)
+        Ds.Tables(0).TableName = "Disk_Volume"
+        Dim Vol As New Volume
+        Vol.Name = Ds.Tables(0)(0)("DISK_VOL_NAME")
+        Vol.Size = Ds.Tables(0)(0)("Disk_Vol_Size")
+        Vol.Type = Ds.Tables(0)(0)("Disk_Vol_Type")
+        Vol.copy = Ds.Tables(0)(0)("Disk_Vol_Copy")
+        Vol.path = Ds.Tables(0)(0)("Disk_Vol_Path")
+        Vol.sizelen = Ds.Tables(0)(0)("Disk_Vol_Size_Len")
+        Vol.state = Ds.Tables(0)(0)("Disk_Vol_State")
+        Vol.offset = Ds.Tables(0)(0)("Disk_Vol_LstOffset")
+        Vol.Files = Ds.Tables(0)(0)("Disk_Vol_Files")
+        Vol.ID = VolumeId
+        Return Vol
+    End Function
+
+    Public Shared Function GetVolumeListIdByEntityId(DocTypeId As Integer) As Integer
+        If Server.isOracle Then
+            Dim Strselect As String = "SELECT DISK_GROUP_ID FROM DOC_TYPE WHERE DOC_TYPE_ID = " & DocTypeId.ToString()
+            Return Server.Con.ExecuteScalar(CommandType.Text, Strselect)
+        Else
+            Dim parameters() As Object = {(DocTypeId)}
+            Return Server.Con.ExecuteScalar("zsp_Volume_100_RetrieveDiskGroupId", parameters)
+        End If
+    End Function
+
+    Public Shared Function GetVolumes() As ArrayList
+        Dim Strselect As String
+        Strselect = "select Disk_Vol_Name,Disk_Vol_Size,Disk_Vol_Type,Disk_Vol_Copy,Disk_Vol_Path," _
+    & " Disk_Vol_Size_Len,Disk_Vol_State,Disk_Vol_LstOffset,Disk_Vol_Files,Disk_Vol_Id from Disk_Volume  WHERE Disk_Vol_id > 0 order by Disk_Vol_Name"
+        Dim Volumes As New ArrayList
+
+        Dim Ds As DataSet
+        Ds = Server.Con.ExecuteDataset(CommandType.Text, Strselect)
+        Ds.Tables(0).TableName = "Disk_Volume"
+
+        Dim Qrows As Int32 = Ds.Tables(0).Rows.Count
+        Dim i As Int32
+        For i = 0 To Qrows - 1
+            Dim Vol As New Volume
+            Vol.Name = Ds.Tables(0)(i)("DISK_VOL_NAME")
+            Vol.Size = Ds.Tables(0)(i)("Disk_Vol_Size")
+            Vol.Type = Ds.Tables(0)(i)("Disk_Vol_Type")
+            Vol.copy = Ds.Tables(0)(i)("Disk_Vol_Copy")
+            Vol.path = Ds.Tables(0)(i)("Disk_Vol_Path")
+            Vol.sizelen = Ds.Tables(0)(i)("Disk_Vol_Size_Len")
+            Vol.state = Ds.Tables(0)(i)("Disk_Vol_State")
+            Vol.offset = Ds.Tables(0)(i)("Disk_Vol_LstOffset")
+            Vol.Files = Ds.Tables(0)(i)("Disk_Vol_Files")
+            Vol.ID = Ds.Tables(0)(i)("Disk_Vol_Id")
+            Volumes.Add(Vol)
+        Next
+        Return Volumes
+    End Function
+    Public Shared Function GetAllVolumes() As DataSet
+        Dim Strselect As String
+        Strselect = "select Disk_Vol_Name,Disk_Vol_Size,Disk_Vol_Type,Disk_Vol_Copy,Disk_Vol_Path," _
+    & " Disk_Vol_Size_Len,Disk_Vol_State,Disk_Vol_LstOffset,Disk_Vol_Files,Disk_Vol_Id from Disk_Volume  WHERE Disk_Vol_id > 0 order by Disk_Vol_Name"
+        Dim Dstemp As DataSet
+        Dstemp = Server.Con.ExecuteDataset(CommandType.Text, Strselect)
+        Dstemp.Tables(0).TableName = "Disk_Volume"
+        Return Dstemp
+    End Function
+
+    Public Shared Function GetVolume(ByVal VolumeId As Int32) As IVolume
+        Dim Strselect As String
+        Strselect = "select Disk_Vol_Name,Disk_Vol_Size,Disk_Vol_Type,Disk_Vol_Copy,Disk_Vol_Path," _
+& " Disk_Vol_Size_Len,Disk_Vol_State,Disk_Vol_LstOffset,Disk_Vol_Files,Disk_Vol_Id from Disk_Volume  WHERE Disk_Vol_id = " & VolumeId & " order by Disk_Vol_Name"
+        Dim Dr As IDataReader = Nothing
+        Dim con As IConnection = Server.Con(False)
+        Try
+            Dr = con.ExecuteReader(CommandType.Text, Strselect)
+            Dim Vol As New Volume
+            While Dr.Read
+                Vol.Name = Dr.GetString(0).Trim
+                Vol.Size = Dr.GetDecimal(1)
+                Vol.Type = Dr.GetInt32(2)
+                Vol.copy = Dr.GetInt32(3)
+                Vol.path = Dr.GetString(4).Trim
+                Vol.sizelen = Dr.GetDecimal(5)
+                Vol.state = Dr.GetInt32(6)
+                Vol.offset = Dr.GetInt32(7)
+                Vol.Files = Dr.GetDecimal(8)
+                Vol.ID = Dr.GetInt32(9)
+            End While
+            Return Vol
+        Catch ex As Exception
+            raiseerror(ex)
+
+        Finally
+            If IsNothing(Dr) = False Then
+                Dr.Close()
+                Dr.Dispose()
+                Dr = Nothing
+            End If
+            If Not IsNothing(con) Then
+                con.Close()
+                con.dispose()
+                con = Nothing
+            End If
+        End Try
+    End Function
+
+    Public Shared Function GetRealSizeLen(ByVal DocTypeId As Integer, ByVal Path As String, ByVal Offset As Integer) As Long
+        Dim dir As New DirectoryInfo(Path & "\" & DocTypeId & "\" & Offset)
+        'Dim f As FileInfo
+        Dim Size As Long
+        Dim fiArr As FileInfo() = dir.GetFiles()
+        Dim fri As FileInfo
+        For Each fri In fiArr
+            Dim fsize As Decimal = fri.Length
+            Size += fsize
+        Next fri
+        Return Size
+    End Function
+
+    Public Shared Function GetRealSizeLen(ByVal Path As String) As Long
+        Dim dir As New DirectoryInfo(Path)
+        Dim Size As Long
+        Dim fiArr As FileInfo() = dir.GetFiles()
+        Dim fri As FileInfo
+        For Each fri In fiArr
+            Dim fsize As Decimal = fri.Length
+            Size += fsize
+        Next fri
+        Return Size
+    End Function
+    Public Shared Function GetRealFiles(ByVal Path As String) As Long
+        Dim dir As New DirectoryInfo(Path)
+        Return dir.GetFiles.Length
+    End Function
+
+    Public Shared Function ValidateOffSet(ByVal Volume As IVolume) As Boolean
+        Try
+            Dim DSize As Decimal = CDec(Volume.sizelen) / 1024
+            If (DSize / (Volume.Size / 20)) + 1 <= Volume.offset Then
+                Return True
+            Else
+                If Volume.offset < 20 Then
+                    Volume.offset += 1
+                    SetLastOffSetUsed(Volume.offset, Volume.ID)
+                    Return True
+                Else
+                    SetStateFull(Volume.ID)
+                    Return False
+                End If
+            End If
+        Catch
+            Return False
+        End Try
+    End Function
+    Public Shared Function RetrieveVolumePath(ByVal VolumeId As Integer) As String
+        Dim strselect As String = "SELECT DISK_VOL_ID, DISK_VOL_STATE, DISK_VOL_PATH FROM DISK_VOLUME WHERE DISK_VOL_ID = " & VolumeId
+        Dim DS As DataSet
+        DS = Server.Con.ExecuteDataset(CommandType.Text, strselect)
+        DS.Tables(0).TableName = "Disk_Volume"
+        Dim qrows As Integer = DS.Tables("Disk_Volume").Rows.Count
+        If qrows > 0 Then
+            Dim i As Integer
+            For i = 0 To qrows - 1
+                Dim VolState As Integer = DS.Tables("Disk_Volume").Rows(i).Item("Disk_Vol_State")
+                If VolState = 0 Then
+                    Dim VolPath As String = Trim(DS.Tables("Disk_Volume").Rows(i).Item("Disk_Vol_Path"))
+                    Return VolPath
+                Else
+                    'TODO Falta ver si este es el indicador de volumen lleno para el insertar
+                    Dim VolPath As String = Trim(DS.Tables("Disk_Volume").Rows(i).Item("Disk_Vol_Path"))
+                    Return VolPath
+                End If
+            Next
+        Else
+            Throw New Exception("El volumen no se encuentra disponible")
+            Return Nothing
+        End If
+        Return Nothing
+    End Function
+    Public Shared Function GetTemporalVolume(ByVal docTypeId As Int64) As IVolume
+        Dim Strselect As String
+        Strselect = "select Disk_Vol_Name,Disk_Vol_Size,Disk_Vol_Type,Disk_Vol_Copy,Disk_Vol_Path," _
+      & " Disk_Vol_Size_Len,Disk_Vol_State,Disk_Vol_LstOffset,Disk_Vol_Files,Disk_Vol_Id from Disk_Volume WHERE Disk_Vol_ID < 0 and DISK_VOL_NAME = '" & Environment.MachineName & "' order by Disk_Vol_Name"
+        Dim con As IConnection = Server.Con(False)
+        Dim Dr As IDataReader = Nothing
+        Dim Vol As New Volume
+        Try
+            Dr = con.ExecuteReader(CommandType.Text, Strselect)
+
+            While Dr.Read
+                Vol.Name = Dr.GetString(0)
+                Vol.Size = Dr.GetDecimal(1)
+                Vol.Type = Dr.GetInt32(2)
+                Vol.copy = Dr.GetInt32(3)
+                Vol.path = Dr.GetString(4)
+                Vol.sizelen = Dr.GetDouble(5)
+                Vol.state = Dr.GetInt32(6)
+                Vol.offset = Dr.GetInt32(7)
+                Vol.Files = Dr.GetDecimal(8)
+                Vol.ID = Dr.GetInt32(9)
+            End While
+        Finally
+            If IsNothing(Dr) = False Then
+                Dr.Close()
+                Dr.Dispose()
+                Dr = Nothing
+            End If
+            If Not IsNothing(con) Then
+                con.Close()
+                con.dispose()
+                con = Nothing
+            End If
+        End Try
+        If IsNothing(Vol.path) OrElse Vol.path.Trim = "" Then
+            Throw New Exception("El Volumen es incorrecto")
+        End If
+        CreateDirVolume(Vol.path, docTypeId)
+        Return Vol
+    End Function
+    'Public Shared Sub CheckVolumesPath()
+    '    '          if Server.IsOracle then
+    '    'Dim strselect As String = "select substr(disk_vol_Path,3, instr(substr(disk_vol_Path,3,length(disk_vol_Path)),'\',1,1 )-1 ) , disk_vol_path from (disk_volume) where substr(disk_vol_Path,1,2)='\\' order by 1"
+    '    '              Dim ds As DataSet = Server.Con(True).ExecuteDataset(CommandType.Text, strselect)
+    '    '              Dim i As Integer
+    '    '              Dim last As String = ""
+    '    '              For i = 0 To ds.Tables(0).Rows.Count - 1
+
+    '    '                  If ds.Tables(0).Rows(0).Item(0) <> last Then
+    '    '                      If IO.File.Exists(ds.Tables(0).Rows(0).Item(1)) Then
+    '    '                      End If
+    '    '                      last = ds.Tables(0).Rows(0).Item(0)
+    '    '                  End If
+    '    '              Next
+    '    '          End If
+    'End Sub
+
+#End Region
+    Public Shared Function GetVolumenPathByVolId(ByVal volid As Int32) As String
+        Dim strsql As String = "select Disk_Vol_Path from Disk_Volume where Disk_Vol_ID=" & volid
+        Dim volpath As String
+        volpath = Server.Con.ExecuteScalar(CommandType.Text, strsql)
+        If volpath Is Nothing Then
+            Return Nothing
+        Else
+            Return volpath
+        End If
+    End Function
+
+    Public Shared Function CreateDirVolume(ByVal Volume As IVolume, ByVal DocTypeId As Int64) As Boolean
+        Try
+            'chequeo el directorio de la entidad
+            ZTrace.WriteLineIf(ZTrace.IsInfo, Volume.path.Trim & "\" & DocTypeId)
+            Dim DocDirPath As String = (Volume.path.Trim & "\" & DocTypeId)
+            If Directory.Exists(DocDirPath) = False Then
+                'creo el directorio de la entidad dentro del volumen
+                ZTrace.WriteLineIf(ZTrace.IsInfo, Directory.Exists(DocDirPath))
+                Directory.CreateDirectory(DocDirPath)
+            End If
+            'chequeo la existencia de los offset
+            Dim i As Integer
+            For i = 1 To 20
+                ZTrace.WriteLineIf(ZTrace.IsInfo, Volume.path.Trim & "\" & DocTypeId & "\" & i)
+                Dim OffSetDirPath As String = (Volume.path.Trim & "\" & DocTypeId & "\" & i)
+                If Directory.Exists(OffSetDirPath) = False Then
+                    'creo la carpeta offset
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, Directory.Exists(OffSetDirPath))
+                    Directory.CreateDirectory(OffSetDirPath)
+                End If
+            Next
+            Return True
+        Catch ex As Exception
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al crear volumen " & ex.ToString)
+            Return False
+        End Try
+    End Function
+    Public Shared Function CreateDirVolume(ByVal VolPath As String, ByVal DocTypeId As Int64) As Boolean
+        Try
+            'chequeo el directorio de la entidad
+            ZTrace.WriteLineIf(ZTrace.IsInfo, VolPath.Trim & "\" & DocTypeId)
+            Dim DocDirPath As String = VolPath.Trim & "\" & DocTypeId
+            If Directory.Exists(DocDirPath) = False Then
+                'creo el directorio de la entidad dentro del volumen
+                ZTrace.WriteLineIf(ZTrace.IsInfo, Directory.Exists(DocDirPath))
+                Directory.CreateDirectory(DocDirPath)
+            End If
+            'chequeo la existencia de los offset
+            Dim i As Integer
+            For i = 1 To 20
+                ZTrace.WriteLineIf(ZTrace.IsInfo, VolPath.Trim & "\" & DocTypeId & "\" & i)
+                Dim OffSetDirPath As String = (VolPath.Trim & "\" & DocTypeId & "\" & i)
+                If Directory.Exists(OffSetDirPath) = False Then
+                    'creo la carpeta offset
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, Directory.Exists(OffSetDirPath))
+                    Directory.CreateDirectory(OffSetDirPath)
+                End If
+            Next
+            Return True
+        Catch ex As Exception
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al crear volumen " & ex.ToString)
+            Return False
+        End Try
+    End Function
+    Private Sub New()
+    End Sub
+
+#Region "Document Insert"
+
+    Public Shared ReadOnly Property VolumePath(ByVal Volume As IVolume, ByVal docTypeId As Int64) As String
+        Get
+            If Volume.ID = 0 Then
+                Return String.Empty
+            Else
+                Return Volume.path & "\" & docTypeId & "\" & Volume.offset
+            End If
+        End Get
+    End Property
+
+
+    Public Shared Function GetVolumeListId(ByVal docTypeId As Int64) As Int32
+        'TODO Falta que esta lista ya este cargada
+        'recupero el id de la lista de volumen para el tipo de doc
+        Dim VolumeListId As Int32
+        VolumeListId = RetrieveDiskGroupId(docTypeId)
+        Return VolumeListId
+    End Function
+    Public Shared Function RetrieveDiskGroupId(ByVal DocTypeId As Integer) As Integer
+
+        Try
+            Dim Strselect As String = "SELECT DISK_GROUP_ID FROM DOC_TYPE WHERE DOC_TYPE_ID = " & DocTypeId
+            Dim DiskGroupId As Int32 = Server.Con.ExecuteScalar(CommandType.Text, Strselect)
+            Return DiskGroupId
+        Catch ex As Exception
+            Throw New Exception("No hay un volumen disponible para este entidad, por favor contactese con su administrador de sistema")
+        End Try
+    End Function
+
+
+    Public Shared Function GetVolumeData(ByRef Volume As Volume) As IVolume
+        'obtengo la data para el volumen seleccionado
+        Volume = GetVolumeData(Volume.ID)
+        ZTrace.WriteLineIf(ZTrace.IsInfo, Volume.path)
+        Return Volume
+    End Function
+    Public Shared Function VerificoPath(ByVal Volume As IVolume) As Boolean
+        'verifico el path del volumen
+        If IsNothing(Volume.path) Or Volume.path = "" Then
+            Return False
+        End If
+        Return True
+    End Function
+    Private Shared Function CreateDirsDocTypeOffset(ByVal Volume As IVolume, ByVal docTypeId As Int64) As Boolean
+        Try
+            'verifico el offset y directorio de doctype en el volumen
+            CreateDirVolume(Volume, docTypeId)
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+    Public Shared Function GetOffSet(ByRef Volume As IVolume) As Int32
+        Try
+            Dim DSize As Decimal = CDec(Volume.sizelen) / 1024
+            If (DSize / (Volume.Size / 20)) + 1 <= Volume.offset Then
+                Return Volume.offset
+            Else
+                If Volume.offset < 20 Then
+                    Volume.offset += 1
+                    SetLastOffSetUsed(Volume.offset, Volume.ID)
+                    Return Volume.offset
+                Else
+                    VolumesFactory.SetStateFull(Volume.ID)
+                    Return Nothing
+                End If
+            End If
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function ObtengoElSiguienteVolumen(ByVal DsVols As DataSet, ByVal docTypeId As Int64) As Volume
+        Dim Volume As New Volume
+        Try
+            Dim i As Int32
+            Dim FlagNextVolumeFinded As Boolean
+            For i = 0 To DsVols.Tables(0).Rows.Count - 1
+                If FlagNextVolumeFinded = False Then
+                    If Volume.ID = DsVols.Tables(0).Rows(i).Item("DISK_VOLUME_ID") Then
+                        Volume.ID = DsVols.Tables(0).Rows(i + 1).Item("DISK_VOLUME_ID")
+                        FlagNextVolumeFinded = True
+                    End If
+                End If
+            Next
+            If FlagNextVolumeFinded = False Then
+                Return Nothing
+            Else
+                Return Volume
+            End If
+        Catch ex As Exception
+            Try
+                Volume = GetTemporalVolume(docTypeId)
+                If IsNothing(Volume.path) Then
+                    Return Nothing
+                Else
+                    Return Volume
+                End If
+            Catch exc As Exception
+                Return Nothing
+            End Try
+        End Try
+    End Function
+
+    Public Shared Function LoadVolume(ByVal docTypeId As Int64, ByVal DsVols As DataSet) As IVolume
+        Dim Volume As New Volume
+        'Dim ErrorMsg As String = ""
+        Dim ErrorBuilder As New System.Text.StringBuilder
+        Try
+            Dim i As Int32
+            For i = 0 To DsVols.Tables(0).Rows.Count - 1
+                Try
+                    Volume.ID = DsVols.Tables(0).Rows(i).Item("DISK_VOLUME_ID")
+                    Volume = GetVolumeData(Volume)
+                    If IsNothing(Volume) Then
+                    ElseIf Volume.VolumeState <> VolumeStates.VolumenListo And Volume.VolumeState <> VolumeStates.VolumenEnPreparacion Then
+                        ErrorBuilder.Append("Volumen no disponible")
+                    ElseIf VerificoPath(Volume) = False Then
+                        ErrorBuilder.Append("PATH del Volumen Incorrecto")
+                    ElseIf CreateDirsDocTypeOffset(Volume, docTypeId) = False Then
+                        ErrorBuilder.Append("No se pueden crear los OFFSET del Volumen")
+                    ElseIf GetOffSet(Volume) = Nothing Then
+                        ErrorBuilder.Append("Volumen Lleno")
+                    Else
+                        Return Volume
+                    End If
+
+                Catch ex As Exception
+                    RightFactory.SaveAction(Volume.ID, ObjectTypes.ErrorLog, Environment.MachineName, RightsType.Use, ErrorBuilder.ToString(), Membership.MembershipHelper.CurrentUser.ID)
+                    Throw New Exception("Volumen No Disponible -- " + ErrorBuilder.ToString)
+                End Try
+
+
+            Next
+            Volume = GetTemporalVolume(docTypeId)
+            If IsNothing(Volume.path) = False Then
+                Return Volume
+            End If
+
+            RightFactory.SaveAction(Volume.ID, ObjectTypes.ErrorLog, Environment.MachineName, RightsType.Use, ErrorBuilder.ToString(), Membership.MembershipHelper.CurrentUser.ID)
+            Throw New Exception("Volumen No Disponible -- " & ErrorBuilder.ToString)
+        Catch ex As Exception
+            RightFactory.SaveAction(Volume.ID, ObjectTypes.ErrorLog, Environment.MachineName, RightsType.Use, ErrorBuilder.ToString(), Membership.MembershipHelper.CurrentUser.ID)
+            Throw New Exception("Volumen No Disponible -- " & ErrorBuilder.ToString)
+        End Try
+
+        '            Volume = VerificoCantidadVolumenesYCargoelprimero(DsVols)
+        '            Volume = ObtengoElSiguienteVolumen(DsVols, DocTypeId)
+    End Function
+#End Region
+
+    Public Shared Sub DeleteFile(ByVal path As String)
+        Dim file As New FileInfo(path)
+        If file.Exists = True Then
+            file.Delete()
+        End If
+    End Sub
+    'Private Shared Function Ruta(ByVal pathvolumen As String, ByVal docTypeId as Int64, ByVal ofset As Int32, ByVal docfile As String) As String
+    '    Dim path As String
+    '    path = pathvolumen & "\" & docTypeId.ToString & "\" & ofset.ToString & "\" & docfile
+    '    Return path
+    'End Function
+
+    Public Shared Sub BorrarArchivos(ByVal DocTypeId As Int64)
+        Dim sql As String = "Delete from doc_I" & DocTypeId
+        Server.Con.ExecuteNonQuery(CommandType.Text, sql)
+        UpdateFilesinVol(DocTypeId)
+    End Sub
+    Private Shared Sub UpdateFilesinVol(ByVal DoctypeId As Int64)
+        Dim sql As String = "Select disk_group_id from doc_type where doc_type_id=" & DoctypeId
+        Dim volgroup As Int32 = Server.Con.ExecuteScalar(CommandType.Text, sql)
+        'TODO Revisar
+        'Dim volgroup As Int32
+        'if Server.IsOracle then
+        '    ''Dim parNames() As String = {"DocTypeId"}
+        '    'Dim parTypes() As Object = {13}
+        '    Dim parValues() As Object = {DoctypeId}
+        '    'volgroup = Server.Con.ExecuteScalar("ZDtGetDoctypes_pkg.ZDtGetDgIdByDtId",  parValues)
+        '    volgroup = Server.Con.ExecuteScalar("zsp_doctypes_100.GetDiskGroupId",  parValues)
+        'Else
+        '    Dim parValues() As Object = {DoctypeId}
+        '    Try
+        '        volgroup = Server.Con.ExecuteScalar("ZDtGetDOC_TYPE_R_DOC_TYPE", parvalues)
+        '    Catch
+        '    End Try
+        'End If
+
+        'sql = "Select disk_volume_id from disk_group_r_disk_volume where disk_group_id=" & volgroup
+        'Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, sql)
+        Dim ds As DataSet = Nothing
+        If Server.isOracle Then
+            ''Dim parNames() As String = {"volgroup", "io_cursor"}
+            'Dim parTypes() As Object = {13, 5}
+            Dim parValues() As Object = {volgroup, 2}
+            'ds = Server.Con.ExecuteDataset("ZDgRDvGet_pkg.ZDgRDvGetDvIdByDgId",  parValues)
+            ds = Server.Con.ExecuteDataset("zsp_volume_100.GetDocGroupRDocVolByDgId", parValues)
+        Else
+            Dim parValues() As Object = {volgroup}
+            Try
+                'ds = Server.Con.ExecuteDataset("ZDgRDvGetDvIdByDgId", parvalues)
+                ds = Server.Con.ExecuteDataset("zsp_volume_100_GetDocGroupRDocVolByDgId", parValues)
+            Catch ex As Exception
+                raiseerror(ex)
+            End Try
+        End If
+        Dim i As Int16
+        For i = 0 To ds.Tables(0).Rows.Count - 1
+            'sql = "Update disk_volume set Disk_vol_files=0 where disk_vol_id=" & Integer.Parse(ds.Tables(0).Rows(i).Item(0))
+            'Server.Con.ExecuteNonQuery(CommandType.Text, sql)
+            If Server.isOracle Then
+                ''Dim parNames() As String = {"Archs", "DiskVolId"}
+                'Dim parTypes() As Object = {13, 13}
+                Dim parValues() As Object = {0, Integer.Parse(ds.Tables(0).Rows(i).Item(0))}
+                'Server.Con.ExecuteNonQuery("ZDtUpdDiskVolume_pkg.ZDvUpdFilesByVId",  parValues)
+                Server.Con.ExecuteNonQuery("zsp_volume_100.UpdFilesByVolId", parValues)
+            Else
+                Dim parValues() As Object = {0, Integer.Parse(ds.Tables(0).Rows(i).Item(0))}
+                Try
+                    'Server.Con.ExecuteNonQuery("ZDvUpdFilesByVId", parvalues)
+                    Server.Con.ExecuteNonQuery("zsp_volume_100_UpdFilesByVolId", parValues)
+                Catch
+                End Try
+            End If
+        Next
+        'sql = "Update Doc_type set Doccount=0 where doc_type_id=" & DoctypeId
+        'Server.Con.ExecuteNonQuery(CommandType.Text, sql)
+
+        If Server.isOracle Then
+            ''Dim parNames() As String = {"Doc", "DocTypeId"}
+            'Dim parTypes() As Object = {13, 13}
+            Dim parValues() As Object = {0, DoctypeId}
+            'Server.Con.ExecuteNonQuery("ZDtUpdDoctypes_pkg.ZDtUpdDoccountByDtId",  parValues)
+            Server.Con.ExecuteNonQuery("zsp_doctypes_100.UpdDocCountById", parValues)
+        Else
+            Dim parValues() As Object = {0, DoctypeId}
+            Try
+                'Server.Con.ExecuteNonQuery("ZDtUpdDoccountByDtId", parvalues)
+                Server.Con.ExecuteNonQuery("zsp_doctypes_100_UpdDocCountById", parValues)
+            Catch ex As Exception
+                raiseerror(ex)
+            End Try
+        End If
+    End Sub
+    Public Shared Sub DeleteVolume(ByVal Volume As IVolume)
+        Dim strDelete As String = "DELETE FROM Disk_Volume WHERE Disk_Vol_Id = " & Volume.ID
+        Server.Con.ExecuteNonQuery(CommandType.Text, strDelete)
+    End Sub
+
+    Public Shared Function GetVolumeType(ByVal volumeId As Int32) As Int32
+        Dim query As String = "SELECT DISK_VOL_TYPE FROM Disk_Volume WHERE Disk_Vol_Id = " & volumeId
+        Return Int32.Parse(Server.Con.ExecuteScalar(CommandType.Text, query).ToString)
+    End Function
+    Public Overrides Sub Dispose()
+
+    End Sub
+
+
+End Class

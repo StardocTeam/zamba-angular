@@ -1,0 +1,121 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".solonums").each(function(){
+			$(this).keypress(function (e){
+				return IntegerCheck(e);
+			})
+		});
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				return DecimalCheck($('#' + e.target.id))
+			})
+		});
+	});
+	function CargarFechasyBotones(){
+		$('#zamba_index_2786').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			showOn: 'button', 
+			buttonText: 'Abrir calendario',
+			buttonImage: 'calendar.png', 
+			buttonImageOnly: true,
+			duration: "",
+			onSelect: function(dateText, inst) {
+				var lockDate = new Date($('#zamba_index_2786').datepicker('getDate'));
+				$('#zamba_index_2787').datepicker('option', 'minDate', lockDate);
+			}
+		});
+
+		$('#zamba_index_2787').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			showOn: 'button', 
+			buttonText: 'Abrir calendario',
+			buttonImage: 'calendar.png', 
+			buttonImageOnly: true,
+			duration: "",
+			minDate: new Date($('#zamba_index_2786').datepicker('getDate'))
+		});		
+	}
+	function zamba_save_onclick() {
+		if($('input[type=text]').hasClass('error')){
+			alert("Verifique que todos los datos de los campos sean válidos");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if($.trim($('#zamba_index_2722').val()) == '') {
+			alert("Verifique que el Beneficiario se encuentre completo");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if($.trim($('#zamba_index_2788').val()) == '') {
+			alert("Verifique que el Concepto se encuentre completo");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}
+	</script>
+ </head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="SolicitudDeCheque.html">
+    <div id="design" width="90%">
+        Solicitud de Cheque
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblCheque" class="attributes_table">
+        <tr>
+			<td>&nbsp;
+			<td>&nbsp;
+			<td class="separador">
+			<td><label>ID Reclamo:</label>
+			<td><input id="zamba_index_2677" name="zamba_index_2677" style="width:175px;" disabled="disabled"/>
+        </tr>
+        <tr>
+			<td><label>Fecha Solicitada:</label>
+			<td><input id="zamba_index_2786" name="zamba_index_2786" style="width:175px;" onblur="valFecha(this)"/>
+			<td class="separador">
+			<td><label>Fecha Asignada:</label>
+			<td><input id="zamba_index_2787" name="zamba_index_2787" style="width:175px;" onblur="valFecha(this)"/>
+        </tr>
+        <tr>
+			<td><label>Importe $:</label>
+			<td><input id="zamba_index_2785" name="zamba_index_2785" style="width:175px;" class="moneda"/>
+			<td class="separador">
+			<td><label>Nro Solicitud Cheque:</label>
+			<td><input id="zamba_index_2804" name="zamba_index_2804" style="width:175px;" class="solonums"/>
+        </tr>
+	</table>
+	<br/>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><label>Beneficiario:</label>
+			<td><textarea cols="1" rows="3" id="zamba_index_2722" name="zamba_index_2722" style="width:660px;" maxlength="80" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+		</tr>
+		<tr>
+			<td><label>Concepto:</label>
+			<td><textarea cols="1" rows="6" id="zamba_index_2788" name="zamba_index_2788" style="width:660px;" maxlength="200" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea>
+		</tr>
+		<tr>
+			<td>&nbsp;
+			<td><input id="zamba_rule_11443" name="zamba_rule_11443" style="width:120px;" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+		</tr>
+		<tr>
+			<td>&nbsp;
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 660px" maxlength="5000" onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);"></textarea> 
+		</tr>
+	</table>
+	<br/>
+	<div><input id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick();"></div> 
+    </table>
+	</center>
+    </form>
+</body>
+</html>

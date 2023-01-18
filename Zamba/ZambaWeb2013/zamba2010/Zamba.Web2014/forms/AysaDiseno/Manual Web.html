@@ -1,0 +1,263 @@
+<html>
+<head>
+    <title>Manual Visualizacion</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet">
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+    <script type="text/javascript" src="jquery.validate.min.js"></script>
+    <script type="text/javascript" src="jquery.decimalMask.1.1.1.min.js"></script>
+    
+    <script type="text/javascript" src="Aysa.js"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        function SetAsocId(sender) {
+            document.getElementById("hdnAsocId").name = sender.id;
+            frmMain.submit();
+        }
+		
+				function SetOriginalAsocId(sender,DocID) {
+			document.getElementById("hdnAsocId").name = "zamba_asoc_" + DocID + "_11080";
+			frmMain.submit();
+		}
+
+    </script>
+</head>
+<body>
+    <form name="frmMain" method="post">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Gestion del Conocimiento</strong>
+    </div>
+    <br />
+    <div name="floatleft" id="floatleft">
+		<table style="width: 90%;">
+			<tr>
+				<td class="style1">
+					<label>
+						Codigo:
+					</label>
+				</td>
+				<td>
+					<input type="text" id="zamba_index_11285" name="zamba_index_11285" size="50" readonly='readonly'/>
+				</td>
+				<td class="style1">
+					<label>
+						Nombre del documento:
+					</label>
+				</td>
+				<td>
+					<input type="text" id="zamba_index_11279" name="zamba_index_11279" size="80" readonly='readonly'/>
+				</td>
+			</tr>
+		</table>
+            <div id="TAB" class="tabber" style="">
+                <div class="tabbertab" id="General">
+                    <h2>
+                        Datos Generales
+                    </h2>
+					<table style="width: 90%;">
+						<tr>
+							<td class="style1">
+								<label>
+									Tema:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11276" name="zamba_index_11276" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Fecha de Carga:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11278" name="zamba_index_11278" size="20" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 1:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11299" name="zamba_index_11299" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Autor de la Carga:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11277" name="zamba_index_11277" size="20" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 2:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11300" name="zamba_index_11300" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									A&ntildeo origen del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11304" name="zamba_index_11304" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 3:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11301" name="zamba_index_11301" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Gerencias/autor del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11306" name="zamba_index_11306" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 4:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11302" name="zamba_index_11302" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Direccion/autor del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11305" name="zamba_index_11305" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Subtema 5:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11303" name="zamba_index_11303" style="width: 225px;" readonly='readonly'/>
+							</td>
+							<td class="style1">
+								<label>
+									Autor del documento:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11307" name="zamba_index_11307" style="width: 225px;" readonly='readonly'/>
+							</td>
+						</tr>
+						<tr>
+							<td class="style1">
+								<label>
+									Publicacion directa:
+								</label>
+							</td>
+							<td>
+								<input type="text" id="zamba_index_11274" name="zamba_index_11274" style="width: 225px;" readonly='readonly'/>
+							</td>     
+						</tr>
+					</table>
+				
+<center>						
+				<table>
+						<tr>
+							<td>
+							<br/>
+								<input id="zamba_showOriginal" type="submit" style=" text-align: center; margin-right: 25px;" class="submit" value="Visualizar Adjunto" name="zamba_showOriginal" /> 
+						</td>
+						</tr>
+					</table>
+</center>						
+                </div>
+				<div class="tabbertab" id="Anexos">
+                    <h2>
+                        Documentos Anexos
+                    </h2>
+					<table cellpadding="4">
+						
+						<tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documento Padre:
+								</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+								<table id="zamba_zvar(DocumentoPadre)" class="tablesorter">
+										<tbody id="zamba_rule_0/Ver/zvar(DocId=3)DocTypeId=11080/SetOriginalAsocId">
+										</tbody>
+								</table>							
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion anexa:
+								</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                 <table id="zamba_associated_documents_11062" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+				</div>
+		
+				<div class="tabbertab" id="Versiones">
+                    <h2>
+                        Historial de Versiones
+                    </h2>
+					<table cellpadding="4">
+                        <tr>
+                            <td>
+                                <label>
+                                    Historial de Versiones:
+								</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+								<table id="zamba_zvar(HistorialVersionado)" class="tablesorter">
+										<tbody id="zamba_rule_0/Ver/zvar(DocId=4)DocTypeId=11059/SetHistoryAsocId">
+										</tbody>
+								</table>							
+                            </td>
+                        </tr>
+                    </table>
+				</div>
+			</div>
+        <br />
+        <div name="logoAysa" id="logoAysa">
+            <img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+        </div>
+        <div name="logozamba" id="logozamba">
+            <img src="Content/Images/pwbyzamba.jpg">
+        </div>
+    </form>
+</body>
+</html>

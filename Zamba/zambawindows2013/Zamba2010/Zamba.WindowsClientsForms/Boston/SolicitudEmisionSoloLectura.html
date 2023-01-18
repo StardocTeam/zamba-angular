@@ -1,0 +1,99 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="SolicitudEmision.css" type="text/css" />
+    <style type="text/css">
+        input
+        {
+            font-size: xx-small;
+        }
+        p.description
+        {
+            font-size: x-small;
+        }
+        .style11
+        {
+            width: 502px;
+        }
+    </style>
+</head>
+<body>
+    <form name="frmMain" action="SolicitudEmision.html">
+    <div id="header" style="width: 100%; color: white; background-color: #0066cc; font-size: x-small;">
+        Solicitud de Emision
+    </div>
+    <table cellspacing="2" cellpadding="1"  border="0">
+        
+            <tr>
+                   <td>
+                    <label style="font-size: x-small;">
+                        Seccion:
+                        </label>
+                    <select id="zamba_index_32" style="font-size: x-small;width: 300px" size="1" name="zamba_index_32" >
+                    </select>
+                </td>
+                <td>
+                    <label style="font-size: x-small;">
+                        Tipo de Movimiento:
+                        </label> 
+                    <select id="zamba_index_38" style="font-size: x-small;width: 300px" size="1" name="zamba_index_38" >
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="font-size: x-small;">
+                        Nro de Solicitud:
+                    </label>
+                    <input id="zamba_index_1068" style="font-size: x-small; width: 255px" size="1" 
+                        name="zamba_index_1068" disabled="disabled" />
+                </td>
+                <td>
+                    <label style="font-size: x-small;">
+                        Nro de Solicitud Productor:
+                    </label>
+                    <input id="zamba_index_1157" style="font-size: x-small; width: 264px" size="1" 
+                        name="zamba_index_1157" />
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <span id="pnlMotivoRechazo" style="display:none" ;> 
+                        <label style="font-size: x-small;">
+                            Motivo rechazo:
+                        </label>
+                        <input id="zamba_index_1138" style="font-size: x-small; width: 80%" size="1"  
+                            name="zamba_index_1138" readonly="readonly"/>
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+    <hr />
+    <center>
+        <iframe id="zamba_innerdoctype_original"                                                                                                                                          height="90%" title="Documento Original"
+            width="90%" ></iframe>
+    </center>
+    </form>
+
+    <script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script src="SolicitudEmisionSoloLectura.js" type="text/javascript" language="JavaScript" charset="ISO-8859-1"></script>
+	<script type="text/javascript" language="JavaScript">
+
+	    function FuncionesPosCargaDeSolicitud() {
+	        VerificarHabilitacionMotivoRechazo();
+	    }
+
+
+	    window.onload = function () {
+	        setTimeout(function () { FuncionesPosCargaDeSolicitud(); }, 500);
+	    }
+    </script>
+    <script src="scripts/tabber.js" type="text/javascript" language="JavaScript"></script>
+
+
+</body>
+</html>

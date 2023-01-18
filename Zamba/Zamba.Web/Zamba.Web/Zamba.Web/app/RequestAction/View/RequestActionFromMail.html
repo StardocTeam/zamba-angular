@@ -1,0 +1,93 @@
+﻿
+<div>
+    <div class='wrapper'>
+        <nav class="navbar navbar-light bg-light" style="padding-top: 0px;padding-bottom: 0px;">
+            <div class="container">
+                <a class="navbar-brand" href="#" style="color: white; padding: 5px; font-size: 16px;">
+                    <div style="display: inline-block;">
+                        <img ng-cloak ng-if="thumphoto != null  "
+                             ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
+                             style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
+                        <img ng-cloak ng-if="thumphoto == null  "
+                             src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
+                             class=" img-circle ng-show"
+                             style="width: 37px;height: 33px;margin-top: -5px;margin-left:-5px; border-radius: 17px;" />
+                    </div>
+                    Aprobaciones Pendientes
+
+                </a>
+                <div>
+                    <div style="margin-bottom: 10px;margin-top: 10px;" class="text-center">
+                        <button type="button" ng-click="AprobarTodos()" ng-if="ListFacturas.length > 0" class="btn btn-success btn-sm"
+                                style="margin-right: 20px">
+                            Aprobar todo
+                            <!-- <i class="fas fa-check-double"></i> -->
+                        </button>
+                        <button type="button" ng-click="btnRefresh()">
+                            <i class="fa fa-refresh" aria-hidden="true" style="color: Black;"></i>
+                            <!--<i class="fas fa-sync-alt" style="color: white"></i>-->
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <center style="margin-top: 10%">
+
+
+            <div class="container-login100">
+
+
+            <div class="card border-secondary mb-3" style="max-width: 18rem; ">
+                <div class="card-header bg-primary text-light" id="ResultCard">
+                    <h5>{{Titulo}}</h5>
+                </div>
+                <div class="card-body text-secondary">
+                    <h5 class="card-title">{{subTitulo}}</h5>
+                    <p class="card-text" style="text-align: center;">{{Texto}}</p>
+                </div>
+
+
+                <div ng-if="BtnsAccionesError" class="card-footer">
+                    <input class="btn btn-primary" type="button" name="name" value="Revisar" style="margin-left: 20%;" ng-click="RevisarFactura()" />
+                    <input class="btn btn-danger" type="button" name="name" value="Salir" onclick="window.close();" />
+                </div>
+                <div ng-if="BtnsAcciones" class="card-footer">
+                    <input class="btn btn-danger" type="button" name="name" value="OK" style="margin-left: 30%;" onclick="window.close();" />
+                </div>
+            </div>
+
+
+
+            </div>
+
+
+
+            <style>
+                .bg-light {
+                    background-color: #0a58ca !important;
+                }
+
+                #accordionExample {
+                    width: 90%;
+                    margin-top: 4%;
+                    margin-left: 5%;
+                    margin-right: 5%;
+                }
+
+                .SombraBtn {
+                    box-shadow: 6px 6px 20px -1px rgba(13, 110, 253, .25), -6px -6px 20px -1px #6c757d;
+                }
+
+                .ColorText {
+                    color: #0d5ef1;
+                }
+            </style>
+
+        </center>
+
+
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿body {
+    padding-left: 10px;
+}
+
+.avatarDiv {
+    display: inline;
+    border-radius: 50%;
+}
+
+.avatarImg {
+    width: 50px;
+    height: 50px;
+    border-color: darkgray;
+    border-radius: 50%;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.contentDiv {
+    display: inline;
+    padding: 2px;
+}
+
+.nameSpan {
+    font-weight: bold;
+    color: #365899;
+    cursor: pointer;
+}
+
+    .nameSpan:hover {
+        text-decoration: underline;
+    }
+
+.companySpan {
+    font-size: 10px;
+    color: gray;
+        margin-top: -15px;
+    margin-left: 60px;
+        margin-top: -10px;
+    display:block;
+}
+
+.btnAdd {
+    display: block;
+    margin-left: 50px;
+}
+
+.well {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.titleDiv {
+    background-color: #0269c2;
+    font-weight: 700;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.containerUsersList {
+    padding-top: 40px;
+}
+
+.searchGlyph, .titleDiv {
+    color: #fff;
+    cursor: pointer;
+}
+
+input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+
+#searchPeople {
+    display: none;
+    width: auto;
+}
+
+.companyNameDiv {
+    font-weight: bold;
+    color: #365899;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.expContCompany {
+    margin: 5px 10px;
+}
+
+.subNameSpan {
+    color: #428bca;
+    font-size: 10px;
+}
+
+.userContDiv {
+    margin-left: 20px;
+}

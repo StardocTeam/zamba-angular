@@ -1,0 +1,6 @@
+Error: Thread was being aborted. Trace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at WebBrowser_WebBrowser.Page_Load(Object sender, EventArgs e) in d:\Zamba2008\Zamba.WebWorkflow\WebBrowser\WebBrowser.aspx.cs:line 148

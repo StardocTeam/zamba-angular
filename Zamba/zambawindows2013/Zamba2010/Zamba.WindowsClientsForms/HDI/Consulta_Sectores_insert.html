@@ -1,0 +1,326 @@
+<html>
+	<head>
+		<title>Reclamo del Asegurado</title>			
+		<link href="Union_styles.css"  type="text/css" rel="stylesheet">		
+		<link href="Union_styles_table.css"  type="text/css" rel="stylesheet">		
+		<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />	
+		
+		<script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
+		<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+		<script type="text/javascript" src="scripts/tabber.js"></script>              <script type="text/javascript" src="scripts/jsontable.js"></script>
+		<link rel="stylesheet" href="tabber.css" TYPE="text/css" MEDIA="screen">		
+		<script type="text/javascript" src="DroplistFilter.js"></script>
+		<link type="text/css" rel="stylesheet" href="images/UI_blue/DroplistFilter.css" />
+		<script type="text/javascript" language="JavaScript">	
+       	    function SetRuleId(sender)
+			{
+	            document.getElementById("hdnRuleId").name = sender.id;               
+           		frmMain.submit();
+        	}
+			
+			function SetAsocId(sender)
+			{
+				document.getElementById("hdnAsocId").name = sender.id;
+				frmMain.submit();
+			}			
+
+			function makeCalendar(id)
+			{
+				$(function() 
+				{
+					$('#' + id).datepicker({
+						changeMonth: true,
+						changeYear: true,
+						showOn: 'button', 
+						buttonText: 'Abrir calendario',
+						buttonImage: 'images/calendar.png', 
+						buttonImageOnly: true,
+						duration: ""
+					});
+				});
+			}
+
+			$(document).ready(function () 
+			{
+			    makeCalendar('zamba_index_26561');
+			    //document.getElementById("zamba_index_26556").value = GetActualDay();
+			    //actualizar();
+				setTimeout("parseObservaciones()", 100);
+				//setTimeout("RemoveAutomaticComunicationOptions()", 100);
+			});		
+		           
+            function GetActualDay()
+            {
+                var fechaActual = new Date();
+ 
+                dia = fechaActual.getDate();
+                mes = fechaActual.getMonth() + 1;
+ 
+                if (dia <10) dia = "0" + dia;
+                if (mes < 10) mes = "0" + mes;        
+ 
+                fechaHoy = dia + "/" + mes + "/" + fechaActual.getFullYear();
+
+                return fechaHoy;
+            }
+ 
+            function actualizar() 
+			{
+                milisegundos = parseInt(3 * 24 * 60 * 60 * 1000);
+
+                fecha = new Date();
+               			  
+                tiempo = fecha.getTime();
+                total = fecha.setTime(parseInt(tiempo + milisegundos));
+            
+                dia = fecha.getDate();
+                mes = fecha.getMonth() +1;
+				
+                if (dia <10) dia = "0" + dia;
+                if (mes < 10) mes = "0" + mes;        
+ 
+                fechaVto = dia + "/" + mes + "/" + fecha.getFullYear();			
+
+                document.getElementById("zamba_index_26561").value = fechaVto;
+            }
+
+			function dateToString(date)
+			{
+				var dia = date.split("/")[0];
+				var mes = date.split("/")[1];
+				var ano = date.split("/")[2];
+
+				dia = format(dia);
+				mes = format(mes);
+				
+				return ano + mes + dia;			
+			}
+			
+			function format(txt)
+			{
+				if(txt != '')				
+					if(txt.length == 1) txt = "0" + txt;				
+				
+				return txt;				
+			}
+
+			function validaDatos()
+			{	
+				var currenttime = new Date();
+				var date_vto = dateToString($('#zamba_index_26561').val());	
+				var date_actual = dateToString(currenttime.getDate() + "/" + (currenttime.getMonth() + 1) + "/" + currenttime.getFullYear());
+
+				if(parseInt(date_vto) < parseInt(date_actual))
+				{
+					alert("La fecha de vencimiento debe ser superior a la fecha actual.");
+					$('#zamba_index_26561').focus();
+					return false;
+				}
+	
+				if($('#zamba_index_1131').val() == '')
+				{
+					alert("Por favor ingrese el asunto de la consulta.");
+					$('#zamba_index_1131').focus();
+					return false;
+				}
+				
+				if($('#zamba_index_1153').val() == '' || $('#zamba_index_1153').val() == null)
+				{
+					alert("Por favor seleccione el tipo de comunicacion.");
+					$('#zamba_index_1153').focus();
+					return false;
+				}
+
+
+			
+				if($('#zamba_index_27580').val() == '' || $('#zamba_index_27580').val() == null || $('#zamba_index_27580').val() == '0 - Usuario Sin Definir'|| $('#zamba_index_27580').val() == '0')
+				{
+					alert("Por favor seleccione el sector a consultar.");
+					$('#zamba_index_27580').focus();
+					return false;
+				}
+						
+				if($('#zamba_index_64').val() == '')
+				{
+					alert("Por favor ingrese su consulta.");
+					$('#zamba_index_64').focus();
+					return false;
+				}
+				
+				return true;
+			}
+
+			function parseObservaciones()
+			{
+				var obs = $('#zamba_index_64').val();
+				
+				while(obs.indexOf("§") > 0)
+					obs = obs.replace("§", "\n");
+				
+				while(obs.indexOf("<br/>") > 0)
+					obs = obs.replace("<br/>", "\n");					
+				
+				$('#zamba_index_64').val(obs);			
+			}
+
+			document.write('<style type="text/css">.tabber{display:none;}<\/style>');	
+
+			
+			function RemoveAutomaticComunicationOptions()
+			{			
+			}
+			
+			function ZFUNCTION()
+			{	
+				$("#zamba_index_1153").find("option:eq(1)").remove();							
+				$("#zamba_index_1153").find("option:eq(0)").remove();			
+				$("#zamba_index_1153").find("option:eq(9)").remove();
+				$("#zamba_index_1153").find("option:eq(8)").remove();
+				$("#zamba_index_1153").find("option:eq(7)").remove();
+				$("#zamba_index_1153").find("option:eq(6)").remove();
+				$("#zamba_index_1153").find("option:eq(5)").remove();
+				$("#zamba_index_1153").find("option:eq(4)").remove();
+				$("#zamba_index_1153").find("option:eq(3)").remove();
+				$("#zamba_index_1153").find("option:eq(10)").remove();				 
+				$("#zamba_index_1153").find("option:eq(11)").remove();
+				$('#zamba_index_1153').attr("disabled", true); 
+				$('#zamba_index_1153').val('2');
+			}
+		</script>
+	</head>	
+	<body>
+			
+		<div id="container">
+			<form name="frmMain" method="post" onsubmit="return validaDatos()">
+				<input id="hdnRuleId" type="hidden" />
+				<input id="hdnAsocId" type="hidden" />				
+			
+				<div name="design" id="design">
+					<strong>Consulta a Sectores</strong>
+				</div>
+				
+				<br />
+			
+				<div class="tabber">
+					<div class="tabbertab">
+						<h2>Datos de la consulta</h2>
+						<table cellpadding="6" border="0">
+							<tr>
+								<td><label>Asunto:</label></td>
+								<td colspan="3"><input type="text" name="zamba_index_1131" id="zamba_index_1131" size="73"/></td>
+								<td><label>Requiere Aprobacion: </label></td>
+								<td><input id="zamba_index_26564"  name="zamba_index_26564" type="checkbox" /></td>
+							</tr>	
+							<tr>	
+								<td><label>Consulta a: </label></td>
+								<td colspan=2><select name="zamba_index_27580" id="zamba_index_27580" style="width:270px;"></select></td>
+								<td><label>Tipo de comunicacion: </label></td>
+								<td colspan=2><select name="zamba_index_1153" id="zamba_index_1153" style="width:300px;"></select></td>
+							</tr>	
+							<tr>
+								<td><label>Fecha vencimiento: </label></td>
+								<td><input id="zamba_index_26561" name="zamba_index_26561" style="width:136px;" /></td>		
+							</tr>	
+	<tr>
+	<td colspan="7">
+		<hr/>
+	</td>
+</tr>
+
+							<tr>
+								<td><label>Nro Poliza:</label></td>
+								<td><input type="text" name="zamba_index_26174" size="20" readonly="readonly" class="readonly"/></td>
+								<td><label>Nro de Siniestro:</label></td>
+								<td><input type="text" name="zamba_index_26247" size="20" readonly="readonly" class="readonly"/></td>									
+							</tr>
+							<tr>
+								<td><label>Reclamo:</label></td>
+								<td><input type="text" name="zamba_index_26328" size="20" readonly="readonly" class="readonly"/></td>									
+								<td><label>Reclamo de:</label></td>
+								<td><input type="text" name="zamba_index_26232" size="20" readonly="readonly" class="readonly"/></td>										
+								<td><label>Indeminzacion/Gasto:</label></td>
+								<td><input type="text" name="zamba_index_26446" size="20" readonly="readonly" class="readonly"/></td>									
+							</tr>
+	<tr>
+	<td colspan="7">
+		<hr/>
+	</td>
+</tr>
+							<tr>	
+								<td><label>Comentarios:</label></td>
+							</tr>	
+							<tr>
+								<td valign="top" rowspan=6 colspan=4>
+									<TEXTAREA COLS=95 ROWS=11 id="zamba_index_64" name="zamba_index_64"></TEXTAREA>
+									<br/>
+									<br/>
+									<input type="submit" name="zamba_save" id="zamba_save" value="Enviar consulta" class="submit">
+								&nbsp;
+									
+								</td>								
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr>
+								<td>&nbsp;</td>
+							</tr>	
+						</table>						
+					
+						<br />
+						<br />
+			
+						<div name="logocliente" id="logocliente">	
+							<img src="images/logocliente.jpg" align="left" height=50 width=70>
+						</div>
+						
+						<div name="logozamba" id="logozamba">
+							<img src="images/pwbyzamba.jpg">
+						</div>					
+
+						<div name="alignleft" id="alignleft">
+							
+						</div>
+						
+						<br />
+						<br />
+						<br />
+						<br />
+					</div>
+				
+					<div class="tabbertab">
+						<h2>Documentos</h2>
+						<p>
+							<b>Documentos del reclamo:</b><br/>
+							<table id="zamba_zvar(DocumentosConsulta)" class="tablesorter">
+								<tbody id="zamba_rule_37531/Ver/zvar(id=1)">
+								</tbody> 
+							</table>
+							<br/>
+							<input id="zamba_rule_37502" name="zamba_rule_37502" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Agregar" onclick="SetRuleId(this);"/>
+							<input id="zamba_rule_37536" name="zamba_rule_37536" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Eliminar" onclick="SetRuleId(this);"/>
+							<br/>
+							<br/>
+							<br/>
+							<br/>
+							<b>Indeminzciones o gastos:</b><br/>
+							<table id="zamba_zvar(indeminizaciones)" class="tablesorter">
+								<tbody id="zamba_rule_37531/Ver/zvar(id=1)">
+								</tbody> 
+							</table>
+							<br/>
+							<input id="zamba_rule_37553" name="zamba_rule_37553" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Agregar" onclick="SetRuleId(this);"/>
+							<input id="zamba_rule_37559" name="zamba_rule_37559" style=" text-align: center; margin-right: 25px;" type="submit" class="submit" value="Eliminar" onclick="SetRuleId(this);"/>
+						</p>
+					</div>
+				</div>					
+			</form>						
+		</div>
+	</body>
+</html>

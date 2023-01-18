@@ -1,0 +1,38 @@
+﻿<html>
+    <head>
+        <title></title>
+
+
+
+        <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+        <script src="../../scripts/Zamba.js?v=257" type="text/javascript" language="JavaScript"></script>
+
+        <link href="../../Scripts/KendoUI/styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="../../Scripts/KendoUI/styles/kendo.default.min.css" rel="stylesheet" />
+        <link href="../../Scripts/KendoUI/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css">
+        <link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+        <link href="../../GlobalSearch/search/searchbox.css" rel="stylesheet" />
+        <script src="../../Scripts/angular.min.js"></script>
+        <script src="../../Scripts/KendoUI/js/kendo.all.min.js"></script>
+        <script src="../../Scripts/jq_datepicker.js"></script>
+        <script src="../../Scripts/Zamba.Fn.min.js"></script>
+        <script src="../../Scripts/app/search/Zamba.Search.Common.js"></script>
+        <script src="../../Scripts/bootstrap.min.js"></script>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+        <script src="../../Scripts/toastr.js"></script>
+        <script src="./Controller/GridController.js?v=248"></script>
+        <script src="./Service/GridService.js"></script>
+        <script src="../ruleExecition/RuleExecutionService.js"></script>
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div  ng-controller="ZambaAssociatedController">
+                <zamba-associated entities="101" default-enable-mode="grid" rule-ids="0">
+                </zamba-associated>
+            </div>
+        </div>
+    </body>
+</html>
+

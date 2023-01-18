@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html>
+
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+    <title></title>
+</head>
+
+<body>
+    <center>
+        <div class="form-group row"></div>
+        <div class="col">
+            <div class="cell panel">
+                <div class="header background-blue">
+                    <h5>CONSULTA DE POLIZA</h5>
+                </div>
+                <form name="frmMain" action="Ing_Doc_Juicios.html">
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+                        <center>
+                            <div class="tab-pane active" id="CONSULTA DE POLIZA">
+                                <div class="form-group row">
+                                    <div class="PanelPrincipal">
+
+                                        <div class="form-group row">
+                                            <div class="col-md-offset-3 col-md-6">
+                                                <input name="zamba_cancel" id="zamba_cancel" onclick="window.close();" class="btn btn-primary" type="submit" value="Salir">
+                                                <input id="zamba_rule_1015592" name="zamba_rule_1015592" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Impactar en Reclamo" disabled />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <!--Isla o Continente-->
+                                                <span class="input-group-addon">Compañía:</span>
+                                                <select id="zamba_index_10191" name="zamba_index_10191" class="form-control input-sm" disabled> </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Ramo-->
+                                                    <span class="input-group-addon">Ramo:</span>
+                                                    <select id="zamba_index_19" name="zamba_index_19" class="form-control input-sm" disabled> </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Poliza-->
+                                                    <span class="input-group-addon">Póliza:</span>
+                                                    <input id="zamba_index_1020022" name="zamba_index_1020022" size="1" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <!--Certificado -->
+                                                    <span class="input-group-addon">Cert.:</span>
+                                                    <input id="zamba_index_10165" name="zamba_index_10165" size="1" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Fecha de Emision Póliza -->
+                                                    <span class="input-group-addon">Fecha de Emision</span>
+                                                    <input id="zamba_index_2716" name="zamba_index_2716" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Vig Desde -->
+                                                    <span class="input-group-addon">Vigencia Desde</span>
+                                                    <input id="zamba_index_1020020" name="zamba_index_1020020" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Vig Hasta -->
+                                                    <span class="input-group-addon">Vigencia Hasta</span>
+                                                    <input id="zamba_index_2715" name="zamba_index_2715" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Asegurado-->
+                                                    <span class="input-group-addon">Asegurado:</span>
+                                                    <input id="zamba_index_1020002" name="zamba_index_1020002" size="1" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Tipo de Vehículo-->
+                                                    <span class="input-group-addon">Tipo de Vehículo:</span>
+                                                    <input id="zamba_index_1020011" name="zamba_index_1020011" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <!--Patente-->
+                                                    <span class="input-group-addon">Patente:</span>
+                                                    <input id="zamba_index_1020025" name="zamba_index_1020025" size="1" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Endoso Anulación -->
+                                                    <span class="input-group-addon">Endoso de Anulación</span>
+                                                    <input id="zamba_index_10260" name="zamba_index_10260" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Fecha de Emisión de Endoso -->
+                                                    <span class="input-group-addon">Fecha Emisión Endoso</span>
+                                                    <input id="zamba_index_10194" name="zamba_index_10194" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Vigencia Endoso Desde -->
+                                                    <span class="input-group-addon">Vigencia Desde</span>
+                                                    <input id="zamba_index_10195" name="zamba_index_10195" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Vigencia Endoso Hasta -->
+                                                    <span class="input-group-addon">Vigencia Hasta</span>
+                                                    <input id="zamba_index_10196" name="zamba_index_10196" class="form-control input-sm" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <!--Agente de Venta --->
+                                                    <span class="input-group-addon">Agente de Venta:</span>
+                                                    <input id="zamba_index_10198" name="zamba_index_10198" size="1" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <hr>
+                                        </div>
+                                        <!--
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12" style="padding:0px">
+                                                                                            <div class="col-xs-12" style="position:relative; bottom:15px">
+                                                                                                <span class="input-sm"><h5>Observaciones:</h5></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12" style="padding:0px;">
+                                                                                            <div class="col-xs-12" style="position:relative; bottom:35px">
+
+                                                                                                <textarea cols="1" class="form-control" rows="6" id="zamba_index_84" name="zamba_index_84"></textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                                                                        <div class="form-group row" style="position:relative; bottom: 60px">
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-3 col-xs-offset-3">
+
+                                                                                                    </div>
+                                                                                <div class="col-md-4" style="position:relative;left:-90px;">
+                                                                                                        <input name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Impactar en Reclamo">
+                                                                                                        <input name="zamba_rule_xxx" id="zamba_rule_xxx" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Grabar">
+                                                                                                    </div>
+
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                        -->
+                                        <div class="row">
+                                            <center>
+                                                <div class="col-md-2" style="position:relative;left:10px;">
+                                                    <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <style>
+                        .Inputselect {
+                            width: 100px !important;
+                        }
+
+
+                        .inputEtiquetas {
+                            width: 30px !important;
+                        }
+
+                        /*.panel {
+                            border: 1px solid rgb(21, 98, 142) !important;
+                        }*/
+
+
+                        .margenBtn {
+                            position: relative;
+                            left: 90px;
+                        }
+                    </style>
+                    <script>
+
+
+                        $(document).ready(function () {
+                            HabilitarImpactar();
+                        });
+
+                        function HabilitarImpactar() {
+                            if (window != null && window.opener != null && window.opener.opener != null && window.opener.opener.document.getElementsById("zamba_index_10175") != null && window.opener.opener.document.getElementsById("zamba_index_10175") != undefined)
+                                $("#Zamba_rule_1015591").show();
+                            else
+                                $("#Zamba_rule_1015591").hide();
+                        }
+
+
+                    </script>
+                </form>
+            </div>
+        </div>
+    </center>
+
+
+
+
+</body>
+</html>

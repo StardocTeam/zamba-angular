@@ -1,0 +1,466 @@
+﻿.advancedSearchBox {
+    display: block;
+    position: relative;
+    margin: 12px 0 0 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 20px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    width: 300px;
+    padding: 0 9px;
+    background-color: #fff;
+    cursor: text
+}
+
+    .advancedSearchBox.active {
+        border-color: #66afe9
+    }
+
+    .advancedSearchBox .search-icon {
+        float: right;
+        padding: 10px 0 0 10px
+    }
+
+    .advancedSearchBox .remove-all-icon {
+        float: right;
+        cursor: pointer;
+        margin-right: 10px
+    }
+
+    .advancedSearchBox .search-parameter {
+        position: relative;
+        top: 3px;
+        right: 7px;
+        padding: 3px !important;
+        height: 35px !important;
+        margin: 0px !important;
+        border-radius: 0px !important;
+        display: inline-block;
+        height: 24px;
+        margin: 0 7px 0 0;
+        padding: 0 5px;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        line-height: 24px;
+        cursor: default;
+        transition: box-shadow 100ms linear
+    }
+
+        .advancedSearchBox .search-parameter:hover {
+            box-shadow: 0 3px 3px rgba(0,0,0,.2)
+        }
+
+        .advancedSearchBox .search-parameter div {
+            float: left;
+            margin: 0 2px
+        }
+
+        .advancedSearchBox .search-parameter .remove {
+            color: black;
+            margin-left: 5px;
+            cursor: pointer
+        }
+
+        .advancedSearchBox .search-parameter .key {
+            color: black
+        }
+
+        .advancedSearchBox .search-parameter .value span {
+            color: black
+        }
+
+        .advancedSearchBox .search-parameter .value input {
+            height: 24px
+        }
+
+    .advancedSearchBox .search-parameter-input {
+        display: inline-block;
+        width: auto;
+        width: 80%;
+        border: 0;
+        margin: 0;
+        padding: 8px 0 0 5px;
+        font-size: 18px;
+        position: relative;
+        background-color: rgba(255,255,255,0);
+        bottom: 3px
+    }
+
+        .advancedSearchBox .search-parameter-input:focus {
+            box-shadow: none;
+            outline: none
+        }
+
+    .advancedSearchBox .search-parameter-suggestions {
+        cursor: auto;
+        display: block
+    }
+
+        .advancedSearchBox .search-parameter-suggestions .title {
+            display: block;
+            float: left;
+            height: 25px;
+            margin: 7px 7px 0 0;
+            background-color: transparent;
+            color: #888;
+            font-weight: 700;
+            padding: 0 5px;
+            font-size: 14px;
+            line-height: 25px
+        }
+
+        .advancedSearchBox .search-parameter-suggestions .search-parameter {
+            cursor: pointer;
+            background-color: #bdbdbd;
+            color: #fff
+        }
+
+.rowWord {
+    padding: 2px !important;
+    color: lightgray;
+    margin-top: 1px;
+    border-top: 1px solid #dadada;
+    cursor: pointer
+}
+
+.rowEntity {
+    padding: 2px !important;
+    cursor: pointer;
+    color: #003ac2;
+    border-top: 1px solid #dadada
+}
+
+.rowIndex {
+    padding: 2px !important;
+    margin-top: 1px;
+    border-top: 1px solid #cecece;
+    cursor: pointer
+}
+
+.tt-dataset {
+    color: black;
+    background-color: white;
+    border-style: solid;
+    cursor: pointer
+}
+
+.tt-suggestion {
+    font-size: 12px !important;
+    margin-left: 5px;
+    border-bottom: 1px solid gray
+}
+
+.thMain {
+    height: 20px;
+    width: 137px;
+    display: none;
+    margin-left: 1px;
+    margin-top: 1px;
+    color: #fd722f;
+    font-size: 12px
+}
+
+#separa {
+    background-color: red
+}
+
+.th {
+    height: 20px;
+    width: 340px;
+    margin-left: 5px;
+    color: #fd722f;
+    font-size: 12px;
+    position: absolute;
+    left: 235px
+}
+
+.descSpanA {
+    color: #428bca;
+    font-size: 12px;
+    display: none
+}
+
+.containTxt {
+    display: table-cell;
+    padding-left: 30px;
+    font-size: 9px;
+    color: #2134BE
+}
+
+    .containTxt:hover {
+        text-decoration: underline;
+        cursor: pointer
+    }
+
+.footerTxt {
+    text-align: center;
+    color: black;
+    font-size: 10px;
+    margin: 0;
+    display: none;
+    position: relative
+}
+
+.titleTxt {
+    color: #3e4245;
+    font-size: 12px;
+    text-decoration: underline;
+    margin: 0px !important;
+    padding-left: 30px;
+    padding-bottom: 10px
+}
+
+.ulAttr {
+    display: none;
+    position: relative;
+    left: 4px
+}
+
+.btnMore {
+    cursor: pointer;
+    color: white;
+    font-size: 10px;
+    display: none;
+    position: relative;
+    background-color: #656565;
+    margin-top: 8px
+}
+
+.innerTxt {
+    color: black !important;
+    font-size: 12px;
+    display: flex;
+    margin-bottom: 1px;
+    width: 280px !important
+}
+
+.chkAllNone {
+    font-size: 10px;
+    margin: 0;
+    color: darkblue;
+    padding-left: 45px;
+    display: none
+}
+
+.parentTxt {
+    color: gray;
+    font-size: 10px;
+    margin: 0
+}
+
+.descSpanE {
+    color: #428bca;
+    font-size: 12px;
+    margin-left: 20px;
+    display: none
+}
+
+.descSpanC {
+    color: #428bca;
+    font-size: 12px
+}
+
+.imgFilter {
+    width: 20px;
+    height: 20px
+}
+
+.adv {
+    color: red;
+    font-size: 10px;
+    display: none;
+    padding-left: 60px;
+    padding-bottom: 10px
+}
+
+.tt-dropdown-menu {
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,2)
+}
+
+.tt-suggestion {
+    padding: 3px 20px;
+    font-size: 18px;
+    line-height: 24px
+}
+
+    .tt-suggestion.tt-cursor {
+        color: #fff;
+        background-color: #0097cf
+    }
+
+.hidden {
+    display: none
+}
+
+.b1 {
+    border: 2px solid rgb(66,139,202);
+    border-right: 7px dashed rgb(66,139,202)
+}
+
+.b2 {
+    border: 2px solid rgba(129,221,249,.86);
+    border-right: 7px dashed rgba(129,221,249,.86)
+}
+
+.b3 {
+    border: 2px solid #109400;
+    border-right: 7px dashed #109400
+}
+
+.b4 {
+    border: 2px solid rgb(187,210,0);
+    border-right: 7px dashed rgb(187,210,0)
+}
+
+.b5 {
+    border: 2px solid rgb(253,187,1);
+    border-right: 7px dashed rgb(253,187,1)
+}
+
+.b6 {
+    border: 2px solid #ffb2a9;
+    border-right: 7px dashed #ffb2a9
+}
+
+.b7 {
+    border: 2px solid #ecbeff;
+    border-right: 7px dashed #ecbeff
+}
+
+.b8 {
+    border: 2px solid rgba(8,38,255,.72);
+    border-right: 7px dashed rgba(8,38,255,.72)
+}
+
+.b9 {
+    border: 2px solid #1b1b1b;
+    border-right: 7px dashed #1b1b1b
+}
+
+.b10 {
+    border: 2px solid firebrick;
+    border-right: 7px dashed firebrick
+}
+
+.tooltip-inner {
+    white-space: pre;
+    max-width: none
+}
+
+.advFilter {
+    display: flex;
+    position: relative;
+    left: 44px;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-bottom: 6px
+}
+
+    .advFilter span {
+        margin-right: 5px
+    }
+
+        .advFilter span:hover {
+            color: #428bca
+        }
+
+.dropdown-menu.ng-isolate-scope > .active > a, .dropdown-menu.ng-isolate-scope > .active > a:hover, .dropdown-menu.ng-isolate-scope > .active > a:focus {
+    background-image: -webkit-linear-gradient(top,red 0,#fefff5 100%);
+    color: black
+}
+
+.dropdown-menu.ng-isolate-scope {
+    min-width: 470px;
+    left: 0px !important
+}
+
+.dropdown-menu.ng-scope active {
+    height: 200px !important
+}
+
+.lblChk {
+    margin: 0;
+    padding: 0 !important;
+    font-weight: 400
+}
+
+.icosize {
+    width: 18px
+}
+
+#resultsGridSearchBox, #resultsGridSearchBoxZB {
+    overflow-y: auto;
+    overflow-x: hidden
+}
+
+.atrCountSpan {
+    font-size: 11px;
+    text-indent: 1px;
+    position: relative;
+    bottom: 1px
+}
+
+.filterCount.dropdown {
+    float: right;
+    margin-right: 10px
+}
+
+.advFilterGSTxt {
+    padding: 0 !important;
+    color: black;
+    font-family: sans-serif
+}
+
+.entULFilter {
+    height: 20px;
+    width: 540px;
+    display: none;
+    font-size: 12px;
+    position: relative;
+    bottom: 4px;
+    margin-left: 45px
+}
+
+.searchEntInsideUL {
+    display: none;
+    color: black;
+    margin-left: 45px;
+    position: relative;
+    bottom: 12px
+}
+
+#searchboxControl > ul > li:nth-child(even) {
+    background-image: linear-gradient(to bottom,#f3f3f3,#eaeaea 100%)
+}
+
+#searchboxControl > ul > li:hover {
+    background-image: linear-gradient(to bottom,#f4fbfd,#f4fbfd 100%) !important
+}
+
+.GSTxtInModalHeader {
+    display: inline;
+    font-size: 12px;
+    color: black;
+    margin-left: 20px
+}
+
+.thumbZoom {
+    display: inline;
+    height: 25px;
+    width: 25px;
+    vertical-align: top;
+    cursor: pointer
+}

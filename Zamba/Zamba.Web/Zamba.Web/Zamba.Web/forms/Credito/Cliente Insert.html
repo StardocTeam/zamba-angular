@@ -1,0 +1,829 @@
+<html>
+<head>
+    <title>Reclamo de Terceros</title>
+    <link href="Union_styles.css" type="text/css" rel="stylesheet">
+    <link href="Union_styles_table.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" language="JavaScript">
+
+        function makeCalendar(id) {
+            $(function () {
+                $('#' + id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'images/calendar.png',
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
+        }
+
+        $(document).ready(function () {
+            makeCalendar('zamba_index_1183');
+            makeCalendar('zamba_index_1192');
+        });
+
+
+
+        document.write('<style type="text/css">.tabber{display:none;}<\/style>');			
+    </script>
+</head>
+<body>
+    <form name="frmMain" method="post">
+    <div id="container" style="width: 800px; height:600px;overflow-y:auto;">
+        <div name="design" id="design">
+            <strong>MICROCREDITOS</strong>
+        </div>
+        <br />
+        <div name="floatleft" id="floatleft" style="width: 800px; margin: 10px;">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:33%">
+                        &nbsp;
+                    </td>
+                    <td style="width:33%">
+                        &nbsp;
+                    </td>
+                    <td style="width:33%">
+                        <div style="float:right">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <table cellpadding="4" border="2px">
+                                            <tr>
+                                                <th>
+                                                    SUCURSAL
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="zamba_index_1184" id="zamba_index_1184" style="width: 60px;" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table cellpadding="4" border="2px">
+                                            <tr>
+                                                <th>
+                                                    FECHA
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="zamba_index_1183" id="zamba_index_1183" style="width: 80px;" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+     
+            <div id="TAB" class="tabber" style="width:95%">
+                <div class="tabbertab" id="Personales">
+                    <h2>
+                        Datos Personales</h2>
+                    <table cellpadding="4" border="2px" style="width: 100%;">
+                        <tr>
+                            <th>
+                                NOMBRE Y APELLIDO
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="zamba_index_1182" id="zamba_index_1182" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table cellpadding="4" border="2px" style="width: 100%;">
+                        <tr>
+                            <th>
+                                TIPO DOC.
+                            </th>
+                            <th>
+                                NRO. DOCUMENTO
+                            </th>
+                            <th>
+                                TIPO CLAVE TRIBUTARIA
+                            </th>
+                            <th>
+                                NRO. DE CLAVE TRIBUTARIA
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select name="zamba_index_1186" id="zamba_index_1186" style="width: 100%; height: 100%;">
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1185" id="zamba_index_1185" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                            <td>
+                                <input type="" name="zamba_index_1187" id="zamba_index_1187" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1188" id="zamba_index_1188" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table cellpadding="4" border="1px" style="width: 100%;">
+                        <tr>
+                            <th>
+                                LUGAR DE NACIMIENTO
+                            </th>
+                            <th>
+                                PAIS DE NACIMIENTO
+                            </th>
+                            <th>
+                                NACIONALIDAD
+                            </th>
+                            <th>
+                                FECHA DE NACIMIENTO
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="zamba_index_1189" id="zamba_index_1189" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1190" id="zamba_index_1190" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1191" id="zamba_index_1191" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1192" id="zamba_index_1192" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table cellpadding="4" border="1px" style="width: 100%;">
+                        <tr>
+                            <th>
+                                SEXO
+                            </th>
+                            <th>
+                                ESTADO CIVIL
+                            </th>
+                            <th>
+                                ESTUDIO CURSADOS
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select name="zamba_index_1193" id="zamba_index_1193" style="width: 100%; height: 100%;">
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1194" id="zamba_index_1194" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                            <td>
+                                <input type="text" name="zamba_index_1195" id="zamba_index_1195" style="width: 100%;
+                                    height: 100%;" />
+                            </td>
+                        </tr>
+                    </table>
+            <br />
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th>
+                        NOMBRE Y APELLIDO DEL PADRE
+                    </th>
+                    <th>
+                        NOMBRE Y APELLIDO DE LA MADRE
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1196" id="zamba_index_1196" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1197" id="zamba_index_1197" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table cellpadding="4" border="2px" style="width: 100%;">
+                <tr>
+                    <th colspan="4">
+                        DATOS DEL CÓNYUGE / CONVIVIENTE
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style32">
+                        <label>
+                            Nombre y Apellido:</label>
+                    </td>
+                    <td class="style33">
+                        <input type="text" name="zamba_index_1198" id="zamba_index_1198" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style34">
+                        <label>
+                            Tipo y Nro. Doc.:</label>
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1199" id="zamba_index_1199" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+                            </div>
+            
+                  <div class="tabbertab" id="Domicilio">
+                    <h2>
+                        Domicilio</h2>
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <td class="style32">
+                        <label>
+                            Calle:</label>
+                    </td>
+                    <td class="style6">
+                        <input type="text" name="zamba_index_1200" id="zamba_index_1200" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style5">
+                        <label>
+                            Nro:</label>
+                    </td>
+                    <td class="style9">
+                        <input type="text" name="zamba_index_1201" id="zamba_index_1201" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style7">
+                        <label>
+                            Piso:</label>
+                    </td>
+                    <td class="style8">
+                        <input type="text" name="zamba_index_1202" id="zamba_index_1202" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style10">
+                        <label>
+                            Depto.:</label>
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1203" id="zamba_index_1203" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style32">
+                        <label>
+                            Localidad:</label>
+                    </td>
+                    <td class="style6">
+                        <input type="text" name="zamba_index_1204" id="zamba_index_1204" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style5">
+                        <label>
+                            Provincia:</label>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" name="zamba_index_1205" id="zamba_index_1205" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style10">
+                        <label>
+                            Cód. Postal:</label>
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1206" id="zamba_index_1206" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="8">
+                        CONTACTOS TELÉFONICOS Y ELECTRÓNICOS
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style32">
+                        Teléfonos:
+                    </td>
+                    <td colspan="5">
+                        <input type="text" name="zamba_index_1207" id="zamba_index_1207" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style10">
+                        Celular:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1208" id="zamba_index_1208" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style32">
+                        Email:
+                    </td>
+                    <td colspan="7">
+                        <input type="text" name="zamba_index_1209" id="zamba_index_1209" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            </div>
+                  <div class="tabbertab" id="Div1">
+                    <h2>
+                        Datos Tributarios</h2>
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <td class="style11">
+                        I.V.A.:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1210" id="zamba_index_1210" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style11">
+                        Ingresos Brutos:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1211" id="zamba_index_1211" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style11">
+                        Ganancias:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1212" id="zamba_index_1212" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th colspan="2">
+                        ACTIVIDAD
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style12">
+                        C.N.O.:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1213" id="zamba_index_1213" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style12">
+                        C.N.A.E.:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1214" id="zamba_index_1214" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style12">
+                        Ingresos:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1215" id="zamba_index_1215" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th colspan="4">
+                        RELACIÓN DE DEPENDENCIA
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style13">
+                        Empresa:
+                    </td>
+                    <td colspan="3">
+                        <input type="text" name="zamba_index_1216" id="zamba_index_1216" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style13">
+                        Domicilio:
+                    </td>
+                    <td colspan="3">
+                        <input type="text" name="zamba_index_1217" id="zamba_index_1217" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style13">
+                        Cargo / Función:
+                    </td>
+                    <td colspan="3">
+                        <input type="text" name="zamba_index_1218" id="zamba_index_1218" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style13">
+                        Antiguedad:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1219" id="zamba_index_1219" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style35">
+                        Remuneración Actual:
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1220" id="zamba_index_1220" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th class="style14" colspan="10">
+                        CUENTA PROPIA
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style14">
+                        Profesional:
+                    </td>
+                    <td class="style21">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style15">
+                        Comerciante:
+                    </td>
+                    <td class="style18">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style16">
+                        Microempresario:
+                    </td>
+                    <td class="style17">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style19">
+                        Rentista:
+                    </td>
+                    <td class="style20">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style14">
+                        Jubilado:
+                    </td>
+                    <td class="style21">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style15">
+                        Pensionado:
+                    </td>
+                    <td class="style18">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style16">
+                        Ama de casa:
+                    </td>
+                    <td class="style17">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style19">
+                        Estudiante:
+                    </td>
+                    <td class="style20">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style22">
+                        Otro:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                </tr>
+            </table>
+            </div>
+                  <div class="tabbertab" id="patrimonial">
+                    <h2>
+                        Situacion Patrimonial</h2>
+            
+             <strong></strong> </br> <strong>ACTIVO:</strong> <strong>
+                INMUEBLES:</strong>
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th class="style23">
+                        CASA
+                    </th>
+                    <th class="style1">
+                        DEPTO.
+                    </th>
+                    <th class="style24">
+                        COUNTRY
+                    </th>
+                    <th class="style25">
+                        CAMPO
+                    </th>
+                    <th class="style26">
+                        OTROS
+                    </th>
+                    <th class="style27">
+                        % TIT
+                    </th>
+                    <th class="style28">
+                        DIRECCION
+                    </th>
+                    <th>
+                        VALOR EST.
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style23">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style1">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style24">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style25">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style26">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style27">
+                        <input type="text" name="zamba_index_1221" id="zamba_index_1221" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style28">
+                        <input type="text" name="zamba_index_1222" id="zamba_index_1222" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1223" id="zamba_index_1223" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style23">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style1">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style24">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style25">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style26">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style27">
+                        <input type="text" name="zamba_index_1224" id="zamba_index_1224" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td class="style28">
+                        <input type="text" name="zamba_index_1225" id="zamba_index_1225" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1226" id="zamba_index_1226" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <strong>RODADOS:</strong>
+            <br />
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th>
+                        MARCA
+                    </th>
+                    <th>
+                        MODELO
+                    </th>
+                    <th>
+                        AÑO
+                    </th>
+                    <th>
+                        VALOR ESTIMADO
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1227" id="zamba_index_1227" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1228" id="zamba_index_1228" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_19" id="zamba_index_19" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1229" id="zamba_index_1229" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1230" id="zamba_index_1230" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1231" id="zamba_index_1231" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1232" id="zamba_index_1232" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1233" id="zamba_index_1233" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <strong>OTROS BIENES:</strong>
+            <br />
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1234" id="zamba_index_1234" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1235" id="zamba_index_1235" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1236" id="zamba_index_1236" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <strong>PASIVO:</strong>
+            <br />
+            <strong>DEUDAS Y COMPROMISOS ASUMIDOS:</strong>
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <th class="style3">
+                        PERSONAL
+                    </th>
+                    <th class="style2">
+                        HIPOTECARIO.
+                    </th>
+                    <th class="style1">
+                        PRENDARIO
+                    </th>
+                    <th>
+                        ENTIDAD
+                    </th>
+                    <th>
+                        MONTO $ / U$S
+                    </th>
+                </tr>
+                <tr>
+                    <td class="style3">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style2">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style1">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1237" id="zamba_index_1237" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1238" id="zamba_index_1238" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style3">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style2">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style1">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1239" id="zamba_index_1239" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                    <td>
+                        <input type="text" name="zamba_index_1240" id="zamba_index_1240" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <strong>OTRAS DEUDAS:</strong>
+            <br />
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1241" id="zamba_index_1241" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1242" id="zamba_index_1242" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="zamba_index_1243" id="zamba_index_1243" style="width: 100%;
+                            height: 100%;" />
+                    </td>
+                </tr>
+            </table>
+            </div>
+            </div>
+            <br />
+            <strong>Solicita</strong><label>
+                al Banco de la Provincia de Buenos Aires, en adelante "EL BANCO", la apertura de
+                una CAJA DE AHORROS / CUENTA BASICA en pesos, con uso de cajero Automatico, la cual
+                operará en forma unipersonal, bajo la denominación
+            </label>
+            <input type="text" name="zamba_index_1244" id="zamba_index_1244" style="width: 373px;" /><label>
+                sujeta a la normativa general, la reglamentación dispuesta por el Banco Central
+                de la República Argentina y normas internas del Banco de la Provincia de Buenos
+                Aires, según las modalidades y forma de operar que selecciono, como asimismo solicito
+                la adhesión a los siguientes productos / servicios:</label>
+            <br />
+            <br />
+            <table cellpadding="4" border="1px" style="width: 100%;">
+                <tr>
+                    <td class="style29">
+                        <label>
+                            TARJETA DE DÉBITO:</label>
+                    </td>
+                    <td class="style30">
+                        <label>
+                            SI</label>
+                    </td>
+                    <td class="style31">
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                    <td class="style18">
+                        <label>
+                            NO</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="zamba_index_1223_" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <div id="alignleft">
+                <input type="submit" name="zamba_save" id="zamba_save" value="GUARDAR" />      <input type="submit" name="zamba_cancel" id="zamba_cancel" value="GUARDAR" />
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

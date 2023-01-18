@@ -1,0 +1,9 @@
+Public Interface IAsociados
+    Inherits IZClass
+    Property Description() As String
+    ReadOnly Property DocTypeAsociatedName() As String
+    Property DocType2() As IDocType
+    Property DocType1() As IDocType
+    Property Index2() As IIndex
+    Property Index1() As IIndex
+End Interface

@@ -1,0 +1,9 @@
+﻿<link href="../../app/GenericInputFromSlst/GenericInputFromSlst.css" rel="stylesheet" />
+
+<div class="input-group" >
+    <span class="input-group-addon" style="">{{Localidad}}:</span>
+    <!--<input id="{{id}}" name="{{id}}" ng-keyup="LoadResultslst();" type="text" disabled="{{disabled}}" class="{{ClassForInputSlst}}" ng-model="selected" typeahead="state for state in states | filter:$viewValue" autocomplete="off" >-->
+    <input id="{{id}}" name="{{id}}" ng-keyup="LoadResultslst();" type="text"  class="{{ClassForInputSlst}}" ng-model="selected" typeahead="state for state in states | filter:$viewValue" autocomplete="off" >
+
+</div>
+

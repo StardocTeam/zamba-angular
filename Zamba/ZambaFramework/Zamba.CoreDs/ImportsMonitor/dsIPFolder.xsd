@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="dsIPFolder" targetNamespace="http://tempuri.org/dsIPFolder.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/dsIPFolder.xsd" xmlns:mstns="http://tempuri.org/dsIPFolder.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="dsIPFolder" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="IP_Folder">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NOMBRE" type="xs:string" minOccurs="0" />
+							<xs:element name="PATH" type="xs:string" minOccurs="0" />
+							<xs:element name="ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="NOMBREMAQUINA" type="xs:string" minOccurs="0" />
+							<xs:element name="SERVICE" type="xs:decimal" minOccurs="0" />
+							<xs:element name="USER_ID" type="xs:decimal" minOccurs="0" />
+							<xs:element name="TIMER" type="xs:decimal" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="dsIPFolderKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:IP_Folder" />
+			<xs:field xpath="mstns:PATH" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

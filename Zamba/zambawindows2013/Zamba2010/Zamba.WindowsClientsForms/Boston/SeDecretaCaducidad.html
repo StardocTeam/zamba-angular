@@ -1,0 +1,79 @@
+﻿<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+	$(document).ready(function(){
+		$(".moneda").each(function(){
+			$(this).keyup(function (e){
+				return DecimalCheck($('#' + e.target.id))
+			})
+		});
+	});
+	function zamba_save_onclick() {
+		if (document.getElementById("zamba_index_2844").value == ""){
+			alert("Verifique que la fecha se encuentre completa.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if (document.getElementById("zamba_index_2809").value == "" || document.getElementById("zamba_index_2809").value == "0"){
+			alert("Verifique que el monto debe encontrarse completo.");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else if($('input[type=text]').hasClass('error')){
+			alert("Verifique que todos los datos de los campos sean válidos");
+			document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+		} else {;
+			document.getElementById("hdnRuleId").name = "zamba_rule_save";
+		}
+	}
+	function CargarFechasyBotones(){
+		$(function(){
+			CargarFechaIndice('zamba_index_2844');
+		});				
+	}
+	</script>
+ </head>
+<body onload="javascript:CargarFechasyBotones();">
+    <form name="frmMain" action="SeDecretaCaducidad.html">
+    <div id="design" width="90%">
+        Se Decreta Caducidad
+    </div>
+	<input id="hdnRuleId" type="hidden" />
+	<center>
+    <table id="tblOferta" class="attributes_table">
+        <tr>
+			<td><label>Fecha de Caducidad:</label>
+			<td><input id="zamba_index_2844" name="zamba_index_2844" style="width:175px;" onblur="valFecha(this)">
+			<td class="separador2">
+			<td><label>Copia:</label>
+			<td><select id="zamba_index_2810" size="1" name="zamba_index_2810" style="width:50px;"></select>
+        </tr>
+		<tr>
+			<td><label>Monto $:</label>
+			<td><input id="zamba_index_2809" name="zamba_index_2809" style="width:175px;" class="moneda">
+			<td class="separador2">
+			<td><label>Copia Allanamiento:</label>
+			<td><select id="zamba_index_2811" size="1" name="zamba_index_2811" style="width:50px;"></select>
+		</tr>
+	</table>
+	<br/>
+	<table id="tblObervaciones" class="attributes_table">
+		<tr>
+			<td><input id="zamba_rule_11443" name="zamba_rule_11443" style="width:160px" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+		</tr>
+		<tr>
+			<td><textarea cols="1" rows="6" id="zamba_Index_64" name="zamba_Index_64" style="WIDTH: 660px" maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);" disabled="disabled"></textarea> 
+		</tr>
+	</table>
+	<br/>	
+	<div> 
+		<input id="zamba_save" name="zamba_save" type="submit" value="Guardar" onclick="return zamba_save_onclick();">                      
+	</div>
+	</center>
+    </form>
+</body>
+</html>

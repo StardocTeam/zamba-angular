@@ -1,0 +1,144 @@
+<html>
+<head>
+    <title>Inspecci&oacuten</title>
+    <link href="Aysa_styles.css" type="text/css" rel="stylesheet"/>
+    <link href="Aysa_styles_table.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="Scripts/Aysa.js"></script>	
+
+</head>
+<body>
+    <form name="frmMain" method="post">
+    <input id="hdnRuleId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Inspecci&oacuten</strong>
+    </div>
+   	<br/>
+                	<input id="zamba_rule_19762" class="submit ZambaRule DontSave " name="zamba_rule_19762"
+                                    type="submit" style="text-align: center; margin-right: 25px;"
+                                    value="Ir a industria" />    
+ <div class="tabber">
+                    
+     <div class="tabbertab">
+                    <h2>Inspeccion</h2>
+    <div>
+
+            <input type="text" id="zamba_index_1217" name="zamba_index_1217" style="width: 150px;
+                display: none;" />
+            <table cellpadding="4">
+                <tr>
+                    <td>
+                        <label>
+                            Nro de ODT:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1224" name="zamba_index_1224" readonly="readonly" class="ReadOnly" class="ConvertToUpper" style="width: 150px;"  onkeypress="return ValidateLength(this, 14);"/>
+                    </td>
+                    <td>
+                        <label>
+                            Inspector:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1239" name="zamba_index_1239" readonly="readonly" class="ReadOnly" class="ConvertToUpper" style="width: 150px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Fecha Inspecci&oacuten:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1225" name="zamba_index_1225" readonly="readonly" class="ReadOnly" style="width: 150px" class="ReadOnly" onchange="ConditionalEnable('zamba_index_1225','zamba_index_1226');"/>
+                    </td>
+                    <td>
+                        <label>
+                            Fecha Pr&oacutexima Inspecci&oacuten:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_1226" name="zamba_index_1226" readonly="readonly" class="ReadOnly" style="width: 150px;"/>
+                    </td>
+                </tr>
+				                <tr>
+                    <td>
+                        <label>
+                            Fecha programada:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" id="zamba_index_11358" name="zamba_index_11358" readonly="readonly" class="ReadOnly" style="width: 150px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Resultado:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1227" name="zamba_index_1227" disabled="desabled" class="ReadOnly" readonly="readonly" style="width: 150px;">
+                        </select>
+                    </td>
+                    <td>
+                        <label>
+                            Motivo:
+                        </label>
+                    </td>
+                    <td>
+                        <select id="zamba_index_1228" name="zamba_index_1228" disabled="desabled" class="ReadOnly" readonly="readonly" style="width: 150px;">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>
+                            Observaciones:</label>
+                    </td>
+                    <td colspan="4">
+                        <textarea cols="100" rows="10" id="zamba_index_1229" readonly="readonly" name="zamba_index_1229" class="ConvertToUpper ReadOnly" onkeypress="return ValidateLength(this, 300);"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+</div>
+       
+
+                  <div class="tabbertab">
+                    <h2>
+                        Documentacion</h2>
+                    <table cellpadding="4">
+                    <tr>
+                    <td>
+                                         <input id="zamba_rule_8062" type="submit" style=" text-align: center; margin-right: 25px;"
+             class="submit ZambaRule DontSave " value="Agregar Documentacion" name="zamba_rule_8062" /> 
+                    </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    Documentacion asociada:</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table id="zamba_associated_documents_1049" class="tablesorter">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+</div>
+   
+    <br />
+    <div name="logoAysa" id="logoAysa">
+        <img src="Content/Images/Aysa.bmp" align="left" height="50" width="70">
+    </div>
+    <div name="logozamba" id="logozamba">
+        <img src="Content/Images/pwbyzamba.jpg">
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="scripts/jquery-3.1.1.min.js" type="text/javascript" language="JavaScript"></script>
+    
+</head>
+
+<body>
+    <div class="container-fluid" style="font-family:'Times New Roman', Times, serif">
+        <form name="frmMain" action="SolicitudDeCheque.html">
+            <div class="form-group row">
+                <center>
+                    <div class="col-md-12">
+
+                        <div>
+                            <h4 style="background-color:#418ad4;color: white;">Solicitud de Cheque</h4>
+                        </div>
+                </center>
+            </div>
+           
+                    <div class="form-group row">
+                     
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">ID Reclamo:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677"
+                                    readonly="readonly">
+                            </div>
+                        </div>
+                   
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha Solicitada:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2786" name="zamba_index_2786"
+                                    readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha Asignada:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2787" name="zamba_index_2787"
+                                    readonly="readonly">
+                            </div>
+                        </div>
+                 
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Importe $:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2785" name="zamba_index_2785"
+                                    readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nro Solicitud Cheque:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2804" name="zamba_index_2804"
+                                    readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+               
+                <div class="form-group row">
+                    <div class="form-group">                           
+                            <div class="col-md-6">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Beneficiario:</span>
+                            </div>
+                       
+                            <div class="col-md-6">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Concepto:</span>
+                            </div>                           
+                    </div>
+                    <div class="form-group">                            
+                        <div class="col-md-6">
+                                                      
+                                <textarea class="form-control input-sm" cols="1" rows="3" id="zamba_index_2722" name="zamba_index_2722" maxlength="80" onkeypress="return CheckMaxLength(this);" onblur="return (this);" style=" color: #090A0A; font-weight: bold" readonly></textarea>
+                          
+                        </div>                       
+                        <div class="col-md-6">
+                                                     
+                                <textarea class="form-control input-sm" cols="1" rows="3" id="zamba_index_2788" name="zamba_index_2788" maxlength="200" onkeypress="return CheckMaxLength(this);" onblur="return (this);" style=" color: #090A0A; font-weight: bold" readonly></textarea>
+                           
+                        </div>
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        
+                        <div class="col-md-1">
+                            <input class="btn  btn-info btn-md" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Observación:</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        
+                        <div class="col-md-12" style="position:relative;top:-20px">
+                            <textarea class="form-control input-sm" cols="1" rows="3" id="zamba_Index_64" name="zamba_Index_64" maxlength="4000"
+                                      onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" style=" color: #090A0A; font-weight: bold" readonly></textarea>
+                        </div>
+                    </div>
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:20px;">
+                            
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <span style="color:white">SolicitudDeChequeRO.html</span>
+                        </div>
+                        <div class="col-md-5">
+                            
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+               </div>
+    </form>
+</body>
+
+</html>

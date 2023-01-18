@@ -1,0 +1,193 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
+	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
+	 
+	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
+	<script type="text/javascript" language="JavaScript">
+		$(document).ready(function(){
+			$(".solonums").each(function(){
+				$(this).keypress(function (e){
+					return IntegerCheck($('#' + e.target.id));
+				})
+			});
+			$(".moneda").each(function(){
+				$(this).keyup(function (e){
+					return DecimalCheck($('#' + e.target.id))
+				})
+			});
+			$(".porcentaje").each(function(){
+				$(this).keyup(function (e){
+					return PorcentualCheck($('#' + e.target.id));
+				})
+			});
+		}); 
+		function zamba_save_onclick() {
+			if($('input[type=text]').hasClass('error')){
+				alert("Verifique que todos los datos de los campos sean válidos");
+				document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+			} else {
+				document.getElementById("hdnRuleId").name = "zamba_rule_save";
+			}
+		}
+		function BorrarPrimerHijo() {
+			document.getElementById("zamba_index_2858").onclick = null; 
+			document.getElementById("zamba_index_2858").checked = false;
+			document.getElementById("zamba_index_2858").onclick = BorrarSegundoHijo; 
+		}
+		function BorrarSegundoHijo() {
+			document.getElementById("zamba_index_2859").onclick = null; 
+			document.getElementById("zamba_index_2859").checked = false;
+			document.getElementById("zamba_index_2859").onclick = BorrarPrimerHijo;		
+		}
+	</script>
+ </head>
+<body>
+	<form name="frmMain" action="BaremoLesiones.html">
+	<input id="hdnRuleId" type="hidden" />
+    <table class="attributes_table">
+        <tr>
+			<td colspan="5"><center><label class="sepTitle">Baremo - Lesiones</label></center>
+        </tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td><label>Nombre</label>
+			<td colspan="4"><input id="zamba_index_2706" name="zamba_index_2706" style="width:100%" maxlength="80" 
+				onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" />
+        </tr>
+		<tr>
+			<td><label>Actividad</label>
+			<td colspan="4"><input  id="zamba_Index_2848" name="zamba_Index_2848" style="width:100%" maxlength="200" 
+				onkeypress="return CheckMaxLength(this);" onblur="return CheckMaxLengthAfterLosingFocus(this);" />
+		</tr>
+		<tr>
+			<td><label>Edad</label>
+			<td><input id="zamba_index_2846" name="zamba_index_2846" class="w100px solonums" />
+			<td class="separador">
+			<td><label>Ingreso Anual</label> 
+			<td><input id="zamba_index_2847" name="zamba_index_2847" class="w100px moneda" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Incapacidad</label>
+        </tr>
+		<tr>
+			<td><label>% Inc. Cia.</label>
+			<td><input id="zamba_index_2832" name="zamba_index_2832" class="w100px porcentaje" />
+			<td class="separador">
+			<td><label>% Inc. Pericia</label> 
+			<td><input id="zamba_index_2833" name="zamba_index_2833" class="w100px porcentaje" />
+		</tr>
+		<tr>
+			<td><label>% Inc. Psicológica</label>
+			<td colspan="4"><input id="zamba_index_2850" name="zamba_index_2850" class="w100px porcentaje" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Factor de Corrección</label>
+        </tr>
+		<tr>
+			<td><label>Perjuicios Económicos</label>
+			<td><input id="zamba_index_2852" name="zamba_index_2852" type="checkbox" />
+			<td class="separador">
+			<td><label>Incapacidad Psicológica</label> 
+			<td><input id="zamba_index_2861" name="zamba_index_2861" type="checkbox" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Lesiones</label>
+        </tr>
+		<tr>
+			<td><label>Tipos de Lesiones</label> 
+			<td colspan="4"><select id="zamba_index_2853" name="zamba_index_2853" class="w100px"></select>
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Grandes Inválidos</label> 
+        </tr>
+		<tr>
+			<td><label>Acompañantes Permanentes</label> 
+			<td><input id="zamba_index_2854" name="zamba_index_2854" type="checkbox" />
+			<td class="separador">
+			<td><label>Adecuación de Vivienda</label> 
+			<td><input id="zamba_index_2855" name="zamba_index_2855" type="checkbox" />
+		</tr>
+		<tr>
+			<td><label>Materiales e insumos</label> 
+			<td><input id="zamba_index_2856" name="zamba_index_2856" type="checkbox" />
+			<td class="separador">
+			<td><label>Tratamientos</label> 
+			<td><input id="zamba_index_2857" name="zamba_index_2857" type="checkbox" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><label class="sepTitle">Víctima Embarazada</label> 
+        </tr>
+		<tr>
+			<td><label>Primer hijo</label> 
+			<td><input id="zamba_index_2858" name="zamba_index_2858" type="checkbox" onclick="BorrarSegundoHijo();" />
+			<td class="separador">
+			<td><label>Segundo hijo o posterior</label> 
+			<td><input id="zamba_index_2859" name="zamba_index_2859" type="checkbox" onclick="BorrarPrimerHijo();"/>
+		</tr>
+	    <tr>
+			<td colspan="5">&nbsp;
+        </tr>   	
+	    <tr>
+			<td colspan="5">&nbsp;
+        </tr> 
+		<tr>
+			<td><label>Incapacidad Física</label>
+			<td colspan="4"><input id="zamba_index_2860" name="zamba_index_2860" class="w100px" readonly="readonly"/>
+		</tr>
+		<tr>
+			<td><label>Incapacidad Psicológica</label> 
+			<td colspan="4"><input id="zamba_index_2865" name="zamba_index_2865" class="w100px" readonly="readonly"/>
+		</tr>
+		<tr>
+			<td><label>Factor de Corrección</label>
+			<td colspan="4"><input id="zamba_index_2862" name="zamba_index_2862" class="w100px" readonly="readonly"/>
+		</tr>
+		<tr>
+			<td><label><b>Monto Lesiones</b></label> 
+			<td colspan="4"><input id="zamba_index_2863" name="zamba_index_2863" class="w100px" readonly="readonly"/>
+		</tr>
+	    <tr>
+			<td colspan="5"><hr>
+        </tr> 	
+		<tr>
+			<td><label>Daños Materiales</label> 
+			<td colspan="4"><input id="zamba_index_2792" name="zamba_index_2792" class="w100px" />
+		</tr>
+		<tr>
+			<td><label>Total Juicio/Mediación</label>
+			<td colspan="4"><input id="zamba_index_2719" name="zamba_index_2719" class="w100px" />
+		</tr>
+		<tr>
+			<td><label>Jurisdicción Riesgosa</label> 
+			<td colspan="4"><input id="zamba_index_2864" name="zamba_index_2864" class="w100px" />
+		</tr>
+		<tr>
+			<td colspan="5">&nbsp;
+        </tr>
+        <tr>
+			<td colspan="5"><center><input id="zamba_rule_14252" name="zamba_rule_14252" type="submit" value="Guardar y Calcular" onclick="SetRuleId(this);"/></center>
+        </tr>
+	</table> 
+	</form>
+</body>
+</html>

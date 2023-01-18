@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/dropzonecss")
+        
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dropzonescripts")
+    @Scripts.Render("~/bundles/scripts")
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Zamba Collaboration", "Index", "Home", new { area = "" }, new { @class = "MainTitle" })
+            </div>
+
+
+            <div class="navbar-collapse collapse" style="float:right;">
+                <ul class="nav navbar-nav">
+
+                    <li>
+                        <span class="glyphicon glyphicon-home" style="color:#999999;"></span>
+                        @Html.ActionLink("Inicio", "Index", "Home", new { area = ""}, new { @style = "display: inline-block;padding-left:0" })
+                    </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>
+                            <span class="glyphicon glyphicon-user" style="color:#999999;"></span>
+                            @Html.ActionLink("Mi cuenta", "Edit", "UserAccount", null, new { @style = "display: inline-block;padding-left:0" })
+                        </li>
+                        <li>
+
+                            <span class="glyphicon glyphicon-remove-circle" style="color:#999999;"></span>
+                            @Html.ActionLink("Cerrar sesión", "Logout", "Account", null, new { @style = "display: inline-block;padding-left:0" })
+                        </li>
+                        <li style="padding: 15px;">                           
+                            <span class="glyphicon glyphicon-envelope" style="color:#999999;"></span>
+                            <span style="color: #999999;padding-top: 15px;padding-bottom: 15px;">@Html.Encode(User.Identity.Name)</span>
+                        </li>
+                    }
+                    else
+                    {
+                        @*<li>
+                    @Html.ActionLink("Registrarme", "Login", "Account", new { area = "" }, null)
+                </li>*@
+                        <li>
+                            <span class="glyphicon glyphicon-user" style="color:#999999;"></span>
+                            @Html.ActionLink("Iniciar sesión", "Login", "Account", new { area = "" }, new { @style = "display: inline-block;padding-left:0" })
+                        </li>
+                    }
+                    @*<li>
+                        <span class="glyphicon glyphicon-question-sign" style="color:#999999;"></span>
+                        @Html.ActionLink("Ayuda", "Index", "Help", new { area = "" }, new { @style = "display: inline-block;padding-left:0" })
+                    </li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        @*<footer>
+            <p>&copy; @DateTime.Now.Year - Stardoc Argentina</p>
+        </footer>*@
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

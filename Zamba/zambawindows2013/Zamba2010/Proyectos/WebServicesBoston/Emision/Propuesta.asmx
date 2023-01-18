@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="VB" CodeBehind="Propuesta.asmx.vb" Class="ReplicaBoston.Propuesta" %>

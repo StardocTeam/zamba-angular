@@ -1,0 +1,35 @@
+﻿@model List<Zamba.License.Models.LicenseModel>
+
+@{var rowClass = string.Empty;}
+
+<hgroup class="title">
+    <h3>Reporte de consumo de licencias. <small>@DateTime.Now.ToString()</small></h3>
+</hgroup>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>@Html.LabelFor(m => m[0].Name)</th>
+            <th>@Html.LabelFor(m => m[0].Configured)</th>
+            <th>@Html.LabelFor(m => m[0].Used)</th>
+            <th>@Html.LabelFor(m => m[0].Available)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var license in @Model)
+        {
+            rowClass = license.Available == 0 ? "danger" : "success";
+            if (license.Available > 0 && license.Available <= license.Configured * 0.15)
+            {
+                rowClass = "warning";
+            }
+
+            <tr class="@rowClass">
+                <td>@license.Name</td>
+                <td>@license.Configured</td>
+                <td>@license.Used</td>
+                <td>@license.Available</td>
+            </tr>
+        }
+    </tbody>
+</table>

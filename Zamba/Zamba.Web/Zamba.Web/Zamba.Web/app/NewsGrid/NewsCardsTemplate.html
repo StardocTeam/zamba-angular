@@ -1,0 +1,230 @@
+﻿
+<style>
+
+    #wrapperNews {
+        height: 90%;
+        width: 98%;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        font-family: Tahoma;
+    }
+
+    #news-wrapper {
+        flex-grow: 1;
+        margin-top: 1em;
+        height: auto;
+        overflow-y: scroll;
+    }
+
+    #wrapperNews > .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+        #wrapperNews > .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            border-color: #269abc;
+        }
+
+    #wrapperNews > .card-container {
+        width: 100%;
+        padding: 5px 5px 5px 5px;
+    }
+
+    #wrapperNews > .btn-toolbar {
+        margin-bottom: 5px;
+        padding-right: 10px;
+    }
+
+    #wrapperNews > .unread {
+        border-left: 3px solid red;
+    }
+
+    #wrapperNews > .unread-title {
+        font-weight: bold;
+    }
+
+    #wrapperNews > .btn-info, .btn-info:focus {
+        background-color: transparent !important;
+        color: gray !important;
+        border-color: gray !important;
+    }
+
+        #wrapperNews > .btn-info.active, .btn-info.active:focus {
+            background-color: #269abc !important;
+            color: white !important;
+            border-color: #269abc !important;
+        }
+
+    #wrapperNews > .toast {
+        opacity: 1;
+    }
+
+    #wrapperNews > #toast-container > div {
+        opacity: 1;
+    }
+
+    #wrapperNews > .input-xs {
+        height: 27px;
+        padding: 2px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
+    #wrapperNews > .btn-xs {
+        font-size: 13px !important;
+        padding: 3px 8px 3px 8px;
+    }
+
+    .activeNews {
+        color: rgb(255,138,101) !important;
+    }
+    .news-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    md-card-header {
+        padding: 8px 8px 8px 8px !important;
+    }
+
+    md-card-content {
+        padding: 0 8px 4px 8px !important;
+    }
+
+    md-list {
+        /*max-height: 250px !important;*/
+        overflow-y: auto !important;
+        padding: 0 0 0 0 !important;
+    }
+
+        md-list h3 {
+            font-size: 1.2rem !important;
+        }
+
+        md-list p {
+            font-size: 1.05rem !important;
+        }
+
+    .searchCardInput {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0px 2px 2px !important;
+        margin-top: -5px !important;
+    }
+
+    md-list-item._md-button-wrap > div.md-button:first-child {
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    
+
+    input:focus::placeholder {
+        color: transparent;
+    }
+
+    .novedadesInicioStyle {
+        min-height: 251px !important;
+        margin-left: -7px !important;
+        margin-right: -7px !important;
+    }
+    .h3Style {
+        margin-top: 10px;
+    }
+    .searchTrashClass {
+        position: relative;
+        font-size: 20px !important;
+        top: -3px;
+        right: 7px;
+    }
+
+    .z-cardstemplate-icons {
+        font-size: 18px;
+    }
+
+    .searchTrashAlignClass {
+        padding-right: 5px;
+        padding-left: 20px;
+    }
+
+    .searchAlignClass {
+        padding-right: 1px;
+    }
+
+    .reloadClass {
+        font-size: 20px;
+        margin-top: 1px;
+    }
+    
+</style>
+
+
+<md-card-header ng-cloak>
+    <md-card-header-text>
+        <div class="row">
+            <span class="col-xs-4" style="font-size:14px">{{title}} <span style="font-size:12px">({{DataCount}})</span></span>
+
+            <div class="col-xs-5 searchAlignClass">
+                <form autocomplete="off" method="post" action="">
+                    
+                    <input type="search" class="form-control input-xs searchCardInput" autocomplete="false" placeholder="Buscar...                         " ng-model="searchNewsCardText" />
+                </form>
+            </div>
+            <div class="col-xs-3 searchTrashAlignClass">
+                <span class="fa fa-trash-o searchTrashClass z-cardstemplate-icons" type="reset" title="Borrar búsqueda" aria-hidden="true" role="button" ng-click="clearSearch()"></span>
+                <span class="material-icons z-cardstemplate-icons reloadClass" title="Actualizar" ng-click="Reload(null)">
+                    autorenew
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
+
+                <md-icon title="Novedades NO leidas" class="material-icons" ng-class="{'activeNews': btnActive === 'unread'}" ng-click="Reload(this,'unread')">
+                    mode_comment
+                </md-icon>
+
+                <md-icon title="Novedades leidas" class="material-icons" ng-class="{'activeNews': btnActive === 'read'}" ng-click="Reload(this,'read')">
+                    mark_chat_read
+                </md-icon>
+
+                <md-icon title="Todas las novedades" class="material-icons" ng-class="{'activeNews': btnActive === 'all'}" ng-click="Reload(this,'all')">
+                    comment
+                </md-icon>
+
+            </div>
+        </div>
+
+
+    </md-card-header-text>
+</md-card-header>
+<md-card-content>
+    <md-content class="novedadesInicioStyle">
+        <md-divider></md-divider>
+
+        <h6 style=" text-align: center; margin-top: 50px;" ng-if="DataCount == 0"><b>No tenemos registros por ahora.</b> <br />  <br />Aca encontraras las novedades de tus procesos.</h6>
+
+      
+
+            <md-list flex>
+
+                <md-list-item class="md-2-line" ng-repeat="news in NewsData | filter:searchNewsCardText" ng-dblclick="OpenTask(news)">
+
+                    <div class="md-list-item-text" layout="column" ng-class="{ 'unread': news.IsRead == false }" >
+                        <h3 class="unread-title news-title h3Style"  ng-class="{ 'unread-title': news.IsRead == false }">{{news.Name}}</h3>
+                        <p>
+                            <span class="glyphicon glyphicon-calendar" style="margin-left:5px; margin-right: 3px" ng-if="news.Time"></span>{{news.Time}}
+
+                        </p>
+                    </div>
+                    <md-divider md-inset ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+    </md-content>
+</md-card-content>
+

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 17.06.2021 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: RG-->
+<!-- Barra Azul de Titulo: Agregada-->
+<!-- Logos y nombre del Formuloario: Se agrego espacio despues de atributos-->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+    <style>
+
+        #navbarNavDropdown {
+            list-style: none;
+        }
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+    </style>
+</head>
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="EstudioRO.html">
+			<input id="hdnRuleId" type="hidden" />
+			<hr style="border: 0 ; border-top: 3px double blue; width: 100%;">
+		
+            <div class="form-group row">
+                <div class="col-md-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="">Estudio: </span>
+                        <select class="form-control input-sm" id="zamba_index_2732" style=" color: #090A0A; font-weight: bold" name="zamba_index_2732" size="1" disabled="disabled"></select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="input-group">
+                        <span class="input-group-addon" style=""> ID Reclamo: </span>
+                        <input class="form-control input-sm" id="zamba_index_2677" style=" color: #090A0A; font-weight: bold" name="zamba_index_2677" disabled="disabled">
+                    </div>
+                </div>
+            </div>			
+			
+            <center>                
+                <div class="col-md-12">
+                    <span style="color:white">Estudio RO.html</span>
+                </div>                
+            </center>     
+        </form>
+    </div>
+</body>
+</html>

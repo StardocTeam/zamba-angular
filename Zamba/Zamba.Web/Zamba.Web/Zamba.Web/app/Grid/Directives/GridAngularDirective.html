@@ -1,0 +1,90 @@
+﻿<form>
+    <table style="table-layout:auto">
+        <thead>
+            <tr>
+                <th ng-repeat="(header, value) in associatedResults[0]">{{header}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in associatedResults">
+                <td ng-repeat="cell in row">{{cell}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Verdana,"Open Sans", arial;
+        }
+
+        a {
+            color: white;
+        }
+
+        table {
+            max-width: 100px !important;
+            height: 320px;
+            border-collapse: collapse;
+            border: 1px solid #38678f;
+            background: white;
+        }
+
+        th {
+            background: steelblue;
+            height: 54px;
+            width: 25%;
+            font-weight: lighter;
+            text-shadow: 0 1px 0 #38678f;
+            color: white;
+            border: 2px solid #38678f;
+            box-shadow: inset 0px 1px 2px #568ebd;
+            transition: all 0.2s;
+            text-align: center;
+            padding: 5px;
+        }
+
+        tr {
+            border-bottom: 1px solid #cccccc;
+        }
+
+            tr:last-child {
+                border-bottom: 0px;
+            }
+
+        td {
+            border-right: 1px solid #cccccc;
+            padding: 10px;
+            height: 10px;
+            transition: all 0.2s;
+        }
+
+            td:last-child {
+                border-right: 0px;
+            }
+
+            td.selected {
+                background: #d7e4ef;
+            }
+
+            td input {
+                font-size: 5px;
+                background: none;
+                outline: none;
+                border: 0;
+                display: table-cell;
+                height: 100%;
+                width: 100%;
+            }
+
+                td input:focus {
+                    box-shadow: 0 1px 0 steelblue;
+                    color: steelblue;
+                }
+    </style>
+</form>
+
+<!--</form>-->

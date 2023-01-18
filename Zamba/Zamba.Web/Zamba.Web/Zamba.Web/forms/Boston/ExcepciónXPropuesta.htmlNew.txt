@@ -1,0 +1,291 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc-->
+<!--Ultima Edicion: 03.12.2019 -->
+<!--Fecha Creacion: 11.2018-->
+<!--Modificado por: KR-->
+<!-- Marca de Agua: Cargada-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <script src="boston.js" type="text/javascript" language="JavaScript"></script>    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="ExcepciónXPropuesta.css" type="text/css" />
+    <style type="text/css">
+        input {
+            font-size: x-small;
+        }
+        
+        p.description {
+            font-size: x-small;
+        } #zamba_associated_documents zamba_associated_documents_2 zamba_associated_documents_6 {
+            color: #333333;
+            font-size: x-small;
+            font-family: arial;
+            font-weight: normal;
+            border-collapse: collapse;
+            border-style: dashed;
+        } #zamba_associated_documents th {
+            color: White;
+            background-color: #507CD1;
+            font-family: arial;
+            font-weight: bold;
+            font-size: x-small;
+        } #zamba_associated_documents tr {
+            color: black;
+            font-size: x-small;
+            font-family: arial;
+            
+        } #zamba_associated_documents_6 th {
+            color: White;
+            font-size: x-small;
+            font-family: arial;
+            background-color: #507CD1;
+            font-weight: bold;
+        } #zamba_associated_documents_6 tr {
+            color: black;
+            font-size: x-small;
+            font-family: arial;
+            
+        } #zamba_associated_documents_2 th {
+            color: White;
+            font-size: x-small;
+            font-family: arial;
+            background-color: #507CD1;
+            font-weight: bold;
+        } #zamba_associated_documents_2 tr {
+            color: black;
+            font-size: x-small;
+            font-family: arial;
+            
+        }
+    </style>
+
+    
+
+    <script type="text/javascript">
+        function SetRuleId(sender) {
+            document.getElementById("hdnRuleId").name = sender.id;
+            frmMain.submit();
+        }
+
+
+
+        window.onload = function () {
+            try {
+                var hidden = document.getElementById("zamba_index_35");
+                var hidden2 = document.getElementById("zamba_index_34");
+                var hidden3 = document.getElementById("zamba_index_64");
+                var hidden4 = document.getElementById("texto");
+
+                var first = document.getElementById("zamba_rule_1557");
+                var second = document.getElementById("zamba_rule_1964");
+
+                if (hidden.value > '0') {
+                    first.style.visibility = 'visible';
+                }
+                else {
+                    first.style.visibility = 'hidden';
+                }
+
+
+                if (hidden2.value > '0') {
+                    second.style.visibility = 'visible';
+                }
+                else {
+                    second.style.visibility = 'hidden';
+                }
+
+
+                if (hidden3.value == '') {
+
+                    hidden3.style.visibility = 'hidden';
+                    hidden4.style.visibility = 'hidden';
+                }
+                else {
+
+                    hidden3.style.visibility = 'visible';
+                    hidden4.style.visibility = 'visible';
+                }
+            }
+            catch (ex) {
+                alert(ex);
+            }
+
+			SetInitialConfigurations();
+//Si tiene documento embebido, muestra el scroll			
+			setIframeScrollAttribute();
+			SetInitialConfigurations();
+        	
+        }
+
+    </script>
+   
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div>
+
+
+            <form id="frmMain">
+                <input id="hdnRuleId" type="hidden" />
+                <input id="hdnAsocId" type="hidden" />
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Nro. Propuesta:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_2" name=zamba_index_2
+                                readonly="readonly" />
+                        </div>
+                    </div>                    
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="; padding:1px;">Fecha
+                                Ingreso:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_1" name=zamba_index_1
+                                readonly="readonly" />
+                        </div>
+                    </div>             
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Nro de Póliza:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id=zamba_index_34 name=zamba_index_34
+                                readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Endoso:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_40" name=zamba_index_40
+                                readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Nro de Póliza a
+                                Renovar:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_35" name=zamba_index_35
+                                readonly="readonly" />
+                            </div>
+                        </div> 
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Asegurado:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_58" name=zamba_index_3
+                                readonly="readonly" />
+                        </div>
+                    </div>                    
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Productor:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id=zamba_index_58 name=zamba_index_58
+                                readonly="readonly" />
+                        </div>
+                    </div>               
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Grupo:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_10" name=zamba_index_10
+                                readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Agencia:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_60" name=zamba_index_60
+                                readonly="readonly" />
+                        </div>
+                    </div>
+               
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Tipo de Movimiento:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_38" name=zamba_index_38
+                                readonly="readonly" />
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="">Emisor:</span>
+                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_41" name=zamba_index_41
+                                readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="" id="texto">Observaciones
+                                por
+                                Falla:</span>
+                            <textarea class="form-control input-sm" style=" color: #090A0A; font-weight: bold"id="zamba_index_64" name="zamba_index_64" cols="1"
+                                rows="2" readonly="readonly"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row"></div>
+                
+                <center><span><strong>Excepciones asociadas</strong></span></center>
+                <div class="form-group row">
+                    <div class="col md-12">                       
+                        <div style="overflow: auto;" class="ZKGrid table tablesorter table-bordered" id="zamba_associated_documents_2">
+                        </div>
+                    </div>
+                </div>
+                <center><span><strong>Inspecciones asociadas</strong></span></center>
+                <div class="form-group row">
+                        <div>
+                            <div ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="6" default-enable-mode="grid" table-height="400" grid-title="Inspecciones">
+                                </zamba-associated>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <center>
+                    <input class="btn btn-primary" id=zamba_rule_1856 onclick="SetRuleId(this);" type=button
+                        value="Inspección" name=zamba_rule_1856 />
+                    <input class="btn btn-primary" id=zamba_rule_1964 onclick="SetRuleId(this);" type=button
+                        value=Pólizas name=zamba_rule_1964 />
+                    <input class="btn btn-primary" id=zamba_rule_1557 onclick="SetRuleId(this);" type=button
+                        value="Póliza a renovar" name=zamba_rule_1557 />
+                </center>
+
+                <center>
+                    <div class="col-md-4">
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <span style="color:white">ExcepciónXPropuesta.html</span>
+                    </div>
+
+                    <div class="col-md-4">
+                        
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+
+             
+
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

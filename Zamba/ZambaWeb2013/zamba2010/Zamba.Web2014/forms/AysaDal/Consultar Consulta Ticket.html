@@ -1,0 +1,90 @@
+<html>
+<head>
+    <title></title>
+    <link href="zambauiweb.css" type="text/css" rel="stylesheet" />
+    <link href="zambauiwebtables.css" type="text/css" rel="stylesheet" />
+ 
+ <script type="text/javascript" language="JavaScript">
+     function countChar(val) {
+         var len = val.value.length;
+         if (len >= 10) {
+             val.value = val.value.substring(0, 10);
+         } else {
+             $('#charNum').text(10 - len);
+         }
+     };
+
+     var textAreaMaxChars = 2000;
+
+     function limit(element) {
+         if (element.value.length > textAreaMaxChars)
+             element.value = element.value.substr(0, textAreaMaxChars);
+     }
+
+
+     function maxLengthPaste(field) {
+         event.returnValue = false;
+         if ((field.value.length + window.clipboardData.getData("Text").length) > textAreaMaxChars) {
+             return false;
+         }
+         event.returnValue = true;
+     }
+    </script>
+</head>
+<body>
+    <form id="frmMain" name="frmMain" method="post" action="" style="width: 100%; height: 90%">
+    <input id="hdnRuleId" type="hidden" />
+    <input id="hdnAsocId" type="hidden" />
+    <div name="design" id="design">
+        <strong>Nueva Consulta de Ticket</strong>
+    </div>
+    <br/>
+    <div>
+       
+                <table style="width: 90%;">
+                    <tr>
+                        <p>
+                            <td class="style1">
+                                <label style="width: 14em;">
+                                    Autor</label>
+                            </td>
+                            <td>
+                                <input type="text" id="zamba_index_12463" name="zamba_index_12463" readonly="readonly" />
+                            </td>
+                        </p>
+                    </tr>
+
+                      <tr>
+                        <p>
+                            <td class="style1">
+                                <label style="width: 14em;">
+                                    Fecha de Ingreso</label>
+                            </td>
+                            <td>
+                                <input type="text" id="zamba_index_12354" name="zamba_index_12354" readonly="readonly"/>
+                            </td>
+                        </p>
+                        </tr>
+                        <tr>
+                        <p>
+                            <td class="style1">
+                                <label style="width: 14em;">
+                                    Observaciones</label>
+                            </td>
+							<td colspan="4">
+								<textarea cols="100" rows="10" id="zamba_index_12373" name="zamba_index_12373" readonly="readonly"></textarea>							
+							</td>
+                        </p>
+                    </tr>
+                </table>
+         
+    </div>
+    <div id="logocliente">
+        <img src="images/logocliente.bmp" align="left" height="50" width="70" />
+    </div>
+    <div id="logozamba">
+        <img src="images/pwbyzamba.jpg" />
+    </div>
+    </form>
+</body>
+</html>

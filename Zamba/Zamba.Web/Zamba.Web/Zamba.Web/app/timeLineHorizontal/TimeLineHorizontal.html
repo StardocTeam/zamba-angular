@@ -1,0 +1,21 @@
+﻿<link rel="stylesheet" href="../../app/timeLineHorizontal/TimeLineHorizontal.css?v=248">
+
+<div id="timeline-container">
+    <div id="icons-wraper">
+        <div ng-repeat="usrgroup in usersOrGroups" class="icon-container" tooltip data-placement="bottom" title="{{usrgroup.Name}}">
+            <div class="icon-content">
+                <img ng-if="usrgroup.Image" ng-src="{{'data:image/png;base64,' + usrgroup.Image}}" class="icon-image">
+                <img ng-if="!usrgroup.Image" ng-src="{{defaultUserImg}}" class="icon-image">
+                <div class="icon-description">
+                    <p>{{usrgroup.Name ? usrgroup.Name.toLowerCase() : '&nbsp;'}}</p>
+                </div>
+            </div>
+            <div ng-if="!$last">
+                <div class="dash" ng-class="{'dash-completed': usrgroup.completed}"></div>
+            </div>
+            <div ng-if="usrgroup.Id != userOrGroupIdSelected && !usrgroup.completed" class="bottom-line"></div>
+            <div ng-if="usrgroup.completed" class="bottom-line-completed"></div>
+            <div ng-if="usrgroup.Id == userOrGroupIdSelected" class="bottom-line-current"></div>
+        </div>
+    </div>
+</div>

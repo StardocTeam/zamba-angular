@@ -1,0 +1,44 @@
+CREATE OR REPLACE  PACKAGE   
+    "ZSP_GETDOCIDANDDTIDTOINDEX_PKG" AS
+TYPE t_cursor IS REF CURSOR;
+PROCEDURE GetDocIdAndDTIDtoIndex(io_cursor OUT t_cursor);
+END ZSP_GETDOCIDANDDTIDTOINDEX_PKG;
+
+/
+
+CREATE OR REPLACE  PACKAGE BODY   
+    "ZSP_GETDOCIDANDDTIDTOINDEX_PKG" AS
+PROCEDURE GetDocIdAndDTIDtoIndex(io_cursor OUT t_cursor) IS
+ v_cursor t_cursor;
+ BEGIN
+ OPEN v_cursor FOR
+	SELECT ZI.DocId, ZI.DTID from ZI inner join doc_type on ZI.DTID = doc_type.doc_type_id
+	where ZI.DocID not in 
+		(SELECT ResultId from ZSearchValues_DT);
+ io_cursor := v_cursor;
+ END GetDocIdAndDTIDtoIndex;
+END ZSP_GETDOCIDANDDTIDTOINDEX_PKG;
+
+/
+
+CREATE OR REPLACE  PACKAGE 
+    "ZSP_GETDOCCOUNTTOINDEX_PKG"  
+ AS
+TYPE t_cursor IS REF CURSOR;
+PROCEDURE GetDocCountToIndex(io_cursor OUT t_cursor);
+END ZSP_GETDOCCOUNTTOINDEX_PKG;
+
+/
+
+CREATE OR REPLACE  PACKAGE BODY 
+    "ZSP_GETDOCCOUNTTOINDEX_PKG"   
+ AS
+PROCEDURE GetDocCountToIndex(io_cursor OUT t_cursor) IS
+ v_cursor t_cursor;
+ BEGIN
+	OPEN v_cursor FOR 
+	SELECT count(*) from ZI inner join doc_type on ZI.DTID = doc_type.doc_type_id
+	WHERE ZI.DocID not in (SELECT ResultId from ZSearchValues_DT);
+io_cursor := v_cursor;
+ END GetDocCountToIndex;
+END ZSP_GETDOCCOUNTTOINDEX_PKG;

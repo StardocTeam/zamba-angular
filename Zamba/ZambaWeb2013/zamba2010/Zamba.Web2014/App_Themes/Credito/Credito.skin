@@ -1,0 +1,47 @@
+﻿<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+<asp:TreeView  runat="server"
+            BorderColor="#000000" NodeIndent="15"
+            ExpandImageUrl="Images/bullet_ball.png"
+            Font-Names="Tahoma" Font-Size="10px" Height="100%" BorderStyle="None" 
+            BackColor="#f3f3f3"
+            ForeColor="#000000"
+            LineImagesFolder="~/App_Themes/Credito/Images/TreeLineImages" 
+            ShowLines="True"
+                >
+             <NodeStyle ImageUrl="~/Content/Images/toolbars/bullet_ball_blue.png" />
+            <SelectedNodeStyle BackColor="LightSteelBlue" Font-Bold="true" />
+            <HoverNodeStyle  Font-Bold="true"/>
+</asp:TreeView>
+
+<asp:DataList SkinID="skDataList1" runat="server" BorderStyle="Solid" 
+                BackColor="White" HorizontalAlign="Left"
+                BorderColor="#E6E6E6" BorderWidth="1px" CellPadding="5" GridLines="Horizontal"
+                RepeatColumns="1">
+                <ItemStyle BackColor="#E6E6E6" BorderStyle="None" BorderWidth="1px" ForeColor="#00d645"/>
+                <HeaderStyle BackColor="#E6E6E6" Font-Bold="True" ForeColor="#F7F7F7" />
+                <FooterStyle BackColor="#E6E6E6" ForeColor="#00d645" Font-Size="Small" />
+                <SelectedItemStyle BackColor="#E6E6E6" Font-Bold="True" ForeColor="White" />
+
+</asp:DataList>
+
+<%-- Controles del form search --%>
+<asp:CheckBox runat="server" SkinID="sid_chkSearchByTask" ForeColor="White" />
+
+<asp:ImageButton runat="server" SkinID="sid_btnSearch" Height="22px" Width="132px" ImageUrl="~/App_Themes/Credito/Images/p_menubutton1.jpg"/>
+
+<asp:ImageButton runat="server" SkinID="sid_btnClearIndex" Height="22px" Width="132px" ImageUrl="~/App_Themes/Credito/Images/p_menubutton2.jpg"/>
+

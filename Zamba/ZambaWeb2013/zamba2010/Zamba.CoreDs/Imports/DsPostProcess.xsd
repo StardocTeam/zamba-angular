@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="DsPostProcess" targetNamespace="http://tempuri.org/DsPostProcess.xsd" elementFormDefault="qualified"
+	attributeFormDefault="qualified" xmlns="http://tempuri.org/DsPostProcess.xsd" xmlns:mstns="http://tempuri.org/DsPostProcess.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="DsPostProcess" msdata:IsDataSet="true">
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="PostProcess">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ExeName" type="xs:string" minOccurs="0" />
+							<xs:element name="ProcessID" type="xs:int" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+		<xs:key name="DsPostProcessKey1" msdata:PrimaryKey="true">
+			<xs:selector xpath=".//mstns:PostProcess" />
+			<xs:field xpath="mstns:ExeName" />
+			<xs:field xpath="mstns:ProcessID" />
+		</xs:key>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,369 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="IntraMasterPage.master.cs" Inherits="IntranetMarsh.IntraMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<HTML>
+<head id="Head1" runat="server">
+    <TITLE>Bienvenido a Marsh Argentina</TITLE>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<HEAD><TITLE>Bienvenido a Marsh Argentina</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<SCRIPT language=javascript 
+src="http://www.marsh.com.ar/framework_js/marsh.js"></SCRIPT>
+
+<SCRIPT language=javascript>chooseStyle();</SCRIPT>
+
+<SCRIPT language=javascript 
+src="http://www.marsh.com.ar/framework_js/marshpublic.js" 
+type=text/javascript></SCRIPT>
+<LINK href="http://www.marsh.com.ar/framework_css/spiffyCal_v2_1.css" 
+type=text/css rel=stylesheet>
+<SCRIPT language=JavaScript 
+src="http://www.marsh.com.ar/framework_js/spiffyCal_v2_1.js"></SCRIPT>
+<LINK href="http://www.marsh.com.ar/framework_css/public.css" type=text/css 
+rel=stylesheet>
+
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff leftMargin=0 topMargin=0 marginwidth="0" marginheight="0">
+    <form id="form1" runat="server">
+<TABLE cellSpacing=0 cellPadding=0 width=771 bgColor=#ffffff border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top bgColor=#000000><IMG height=5 
+      src="http://www.marsh.com.ar/framework_images/spacer.gif" width="146"/></TD>
+    <TD vAlign=top bgColor=#000000>
+        <asp:ScriptManager ID="ScriptManager2" runat="server">
+        </asp:ScriptManager>
+        <IMG height=5 
+      src="http://www.marsh.com.ar/framework_images/spacer.gif" width="604"/></TD></TR>
+  <TR>
+    <TD colSpan=2>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR bgColor=#003366>
+          <TD width=12 
+          background=http://www.marsh.com.ar/framework_images/pshbg.gif><IMG 
+            height=51 src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+            width=12></TD>
+          <TD vAlign=center width=146 
+          background=http://www.marsh.com.ar/framework_images/pshbg.gif><IMG 
+            alt=Marsh 
+            src="http://www.marsh.com.ar/framework_images/marsh_logo.gif"></TD>
+          <TD class=M2cffffff vAlign=bottom 
+          background=http://www.marsh.com.ar/framework_images/pshbg.gif>&nbsp; 
+
+            <TABLE height="63%" cellSpacing=0 cellPadding=0 width="100%" 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD><FONT face=verdana color=white 
+                  size=3><B>&nbsp;&nbsp;Argentina </B></FONT></TD></TR>
+              <TR>
+                <TD style="padding-bottom:10px" class=M2cffffff vAlign=bottom>&nbsp;&nbsp;&nbsp; <asp:Label ID="DateLabel" runat="server"></asp:Label> </TD></TR></TBODY></TABLE></TD>
+          <TD class=M2cffffff vAlign=bottom align=right 
+          background=http://www.marsh.com.ar/framework_images/pshbg.gif 
+          bgColor=#003366>&nbsp; 
+            <TABLE height="63%" cellSpacing=0 cellPadding=0 width="100%" 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD><FONT face=verdana color=white size=3><B>&nbsp;</B></FONT> 
+                </TD></TR>
+              <TR>
+                <TD>&nbsp;</TD></TR></TBODY></TABLE></TD>
+          <TD width=5 
+          background=http://www.marsh.com.ar/framework_images/pshbg.gif><IMG 
+            height=1 src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+            width=5></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top style="width:146px;overflow:auto">
+      <TABLE cellSpacing=0 cellPadding=0 width=146 bgColor=#000000 border=0>
+        <TBODY>
+        <TR>
+          <TD width=12 bgColor=#000000 height=1><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=12></TD>
+          <TD width=134 bgColor=#000000 height=1><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=134></TD></TR>
+        <TR bgColor=#000000>
+          <TD class=ZeroSpace8 vAlign=top colSpan=2 height=20>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+                <INPUT type=hidden 
+              value=marsh/buscar.cfm name=myurl> 
+              <TBODY>
+              <TR>
+                <TD bgColor=#003366><IMG height=1 alt="" 
+                  src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+                  width=12 border=0></TD>
+                <TD bgColor=#003366><IMG height=1 alt="" 
+                  src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+                  width=134 border=0></TD></TR>
+              <TR>
+                <TD bgColor=#000000 rowSpan=2><IMG height=8 alt="" 
+                  src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+                  width=12></TD>
+                <TD style="LINE-HEIGHT: 18px" vAlign=top noWrap bgColor=#000000 
+                height=26><SPAN class=M2cffffffBd>Buscar   <asp:TextBox style="FONT-SIZE: 8pt; WIDTH: 80px" size=14 runat="server" ID="tbSearch" ></asp:TextBox>  
+                  <asp:ImageButton runat="server" ID="imgbtnSearch" 
+                        ImageUrl="http://www.marsh.com.ar/framework_images/punto2003.gif" height=12 
+                        alt=Go width=12  align=absMiddle 
+        border=0 onclick="imgbtnSearch_Click" /> 
+                  
+                  </SPAN></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+        
+      <TABLE cellSpacing=0 cellPadding=0 width=146 bgColor=#000000 border=0>
+        <TBODY>
+        <TR>
+          <TD bgColor=#ffffff colSpan=2><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=146></TD></TR>
+        <TR bgColor=#336666>
+          <TD><IMG height=18 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=12></TD>
+          <TD vAlign=center width=134 bgColor=#336666 height=18><A 
+            class=M2cffffff href="http://apps.marsh.com.ar/">Login</A></TD></TR>
+</DIV>
+                                </TD></TR></TBODY></TABLE>
+
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+
+        <TR bgColor=#006600>
+            <DIV class=hidden id=divarea75>
+
+        <TR bgColor=#006600>
+          <TD width=146 colSpan=2 height=1>
+            <DIV class=hidden id=divarea76>
+            <TABLE cellSpacing=0 cellPadding=0 width=146 border=0>
+              <TBODY>
+              <TR>
+                <TD width=12 height=18><IMG height=1 
+                  src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+                  width=12></TD>
+                <TD width=134 height=18><A class=M2cffffff 
+                  href="Home.aspx">Novedades</A></TD></TR></TBODY></TABLE>
+        <TR>
+          <TD width=146 colSpan=2 height=1><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=146></TD></TR>
+        <TR bgColor="#003366">
+          <TD width=10 height=18><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=10></TD>
+          <TD class=M2cffffff width=136 height=18><A <%--class=M2cffffff --%>
+                  href="Documents.aspx" style="color: #FFFFFF">Procedimientos</A><asp:UpdatePanel ID="PlaceHup2" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+                        
+        
+              
+        </asp:ContentPlaceHolder>
+        </ContentTemplate>
+        </asp:UpdatePanel>
+                  &nbsp;</TD></TR>
+
+
+        <TR>
+          <TD width=146 colSpan=2 height=1><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=146></TD></TR>
+        <TR bgColor=#cc6600>
+          <TD width=10 height=18><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=10></TD>
+          <TD class=M2cffffff width=136 height=18><A class=M2cffffff 
+                  href="UserInfo.aspx">Información de Usuario</A> </TD></TR>
+        <TR>
+          <TD width=146 colSpan=2 height=1><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=146></TD></TR>
+        <TR bgColor=#00cc33>
+          <TD width=10 height=18><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=10></TD>
+          <TD class=M2cffffff width=136 height=18><A class=M2cffffff 
+                  href="Suggestions.aspx">Sugerencias</A> 
+</TD></TR>
+        
+        </TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=146 bgColor=#000000 border=0>
+        <TBODY>
+        <TR>
+          <TD bgColor=#ffffff colSpan=2><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=146></TD></TR>
+        <TR>
+          <TD width=146 bgColor=#ffffff colSpan=2><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=146></TD></TR>
+        <TR bgColor=#ffffff>
+          <TD colSpan=2 style="height:230px">
+            </TD></TR>
+        <TR bgColor=#ffffff>
+          <TD><IMG height=8 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=12></TD>
+          <TD class=ZeroSpace8 vAlign=center><A class=M2c336699lh 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marshregional/sitios_relacionados.cfm">Sitios 
+            Relacionados</A></TD></TR>
+        <TR bgColor=#ffffff>
+          <TD>&nbsp;</TD>
+          <TD class=ZeroSpace8 vAlign=center><A class=M2c336699lh 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/contactenos.cfm">Contáctenos</A></TD></TR>
+        <TR bgColor=#ffffff>
+          <TD><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=12></TD>
+          <TD class=ZeroSpace8 vAlign=center bgColor=#ffffff><A 
+            class=M2c336699lh 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/autositemap.cfm">Mapa 
+            del Sitio</A></TD></TR>
+        <TR bgColor=#ffffff>
+          <TD>&nbsp;</TD>
+          <TD class=info vAlign=center bgColor=#ffffff><BR><B>Marsh S.A. 
+            </B></FONT><FONT face=Verdana size=1><BR>Asesores de 
+            Seguros<BR><BR>Florida 234 - 2º / 3º C1005AAF Cap. Fed.<BR>Buenos 
+            Aires Argentina<BR>Tel: (5411) 4320-5800<BR>Fax: (5411) 
+            4325-0666<BR></FONT></TD></TR></TBODY></TABLE></TD>
+    <TD vAlign=top width="100%">
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width=1 bgColor=#ffffff><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD width=120 bgColor=#336699><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=120></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD width=120 bgColor=#006600><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=120></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD width=120 bgColor=#666633><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=120></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD width=120 bgColor=#666666><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=120></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD width=120 bgColor=#660066><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=120></TD>
+          <TD width=1 bgColor=#660066><IMG height=1 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+        width=1></TD></TR>
+        <TR vAlign=center>
+          <TD width=1 bgColor=#ffffff><IMG height=20 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD align=middle width=120 bgColor=#336699 height=18><A 
+            class=M2cffffff 
+            href="http://www.marsh.com.ar/index.cfm?logout=ok">Inicio</A></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=20 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD align=middle width=120 bgColor=#006600><A class=M2cffffff 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/servicios.cfm">Servicios</A></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=20 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD align=middle width=120 bgColor=#666633><A class=M2cffffff 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marshregional/latinoamerica.cfm">Marsh 
+            América Latina</A></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=20 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD align=middle width=120 bgColor=#666666><A class=M2cffffff 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/nosotros_marsh.cfm">Nosotros</A></TD>
+          <TD width=1 bgColor=#ffffff><IMG height=20 alt="" 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD align=middle width=120 bgColor=#660066 colSpan=2><A 
+            class=M2cffffff 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marshregional/acerca_marsh.cfm">Acerca 
+            de Marsh</A></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=604 border=0>
+        <TBODY>
+        <TR>
+          <TD colSpan=3><IMG height=10 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif"></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=3 cellPadding=0 width=604 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top align=left width="100%">
+              <div>
+              <asp:UpdatePanel ID="MasterUPanel" runat="server" UpdateMode="Conditional">
+              <ContentTemplate>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+              
+        </asp:ContentPlaceHolder>
+        </ContentTemplate>
+        </asp:UpdatePanel>
+    </div></TD></TR></TBODY></TABLE>
+      <TABLE cellSpacing=0 cellPadding=0 width=604 align=left border=0>
+        <TBODY>
+        <TR>
+          <TD width=10><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=10></TD>
+          <TD vAlign=top bgColor=#666666 colSpan=2><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+width=1></TD>
+          <TD width=11><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=11></TD></TR>
+        <TR>
+          <TD width=10><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=10></TD>
+          <TD class=M2 vAlign=top><A class=M2c336699 
+            href="http://www.marsh.com.ar/index.cfm">Inicio</A> &nbsp;|&nbsp; <A 
+            class=M2c336699 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/serviciocliente.cfm">Servicio 
+            al Cliente</A> &nbsp;|&nbsp; <A class=M2c336699 
+            href="http://www.marsh.com.ar/auto.cfm?myurl=marsh/condiciones.cfm">Terminos 
+            y Condiciones</A> </TD>
+          <TD class=M2 vAlign=top align=right><SPAN class=M2>Copyright © 2003 
+            Marsh Inc.</SPAN> <BR><BR><A href="http://www.mmc.com/" 
+            target=_blank><IMG alt=MMC 
+            src="http://www.marsh.com.ar/framework_images/mmc_endorsement.gif" 
+            border=0></A> </TD>
+          <TD width=11><IMG height=1 
+            src="http://www.marsh.com.ar/framework_images/spacer.gif" 
+          width=11></TD></TR></TBODY></TABLE>
+      <SCRIPT type=text/javascript>
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</SCRIPT>
+
+      <SCRIPT type=text/javascript>
+		var pageTracker = _gat._getTracker("UA-4856847-1");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	</SCRIPT>
+<!-- codigo google para cada sitio regional -->
+      <SCRIPT type=text/javascript>
+			var pageTracker = _gat._getTracker("UA-4802634-1");
+			pageTracker._initData();
+			pageTracker._trackPageview();
+		</SCRIPT>
+
+      <DIV class=text id=spiffycalendar></DIV></TD></TR></TBODY></TABLE>
+        </form>
+    </form>
+    </BODY></HTML>

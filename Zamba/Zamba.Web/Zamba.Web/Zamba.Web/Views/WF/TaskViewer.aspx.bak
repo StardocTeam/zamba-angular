@@ -1,0 +1,232 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="TaskViewer" MasterPageFile="~/MasterBlankpage.Master" EnableViewState="false" EnableEventValidation="false" CodeBehind="TaskViewer.aspx.cs" %>
+
+<%@ Register Src="~/Views/UC/WF/UCWFExecution.ascx" TagName="UCWFExecution" TagPrefix="UC6" %>
+<%@ Register Src="~/Views/UC/Task/TaskHeader.ascx" TagName="UCTaskHeader" TagPrefix="UC3" %>
+<%@ Register Src="~/Views/UC/Task/TaskDetail.ascx" TagName="UCTaskDetail" TagPrefix="UC5" %>
+
+
+
+<asp:Content ID="Content3" ContentPlaceHolderID="header_js" runat="Server">
+</asp:Content>
+
+<asp:Content ID="Content5" runat="server" ContentPlaceHolderID="ContentPlaceHolder">
+
+    <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
+
+
+    <%: Scripts.Render("~/bundles/jqueryAddIns") %>
+    <script src="../../Scripts/Zamba.js?v=93"></script>
+    <%--<script src="../../Scripts/Push Notification/OneSignalSDK.js"></script>--%>
+    <%--<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>--%>
+    <%--<script src="../../Scripts/Push Notification/PushNotification.js"></script>--%>
+
+
+
+    <!-- Referencias Genericas -->
+    <!-- CSS -->
+    <link href="../../Content/partialSearchIndexs.css?v=93" rel="stylesheet" />
+
+    <link href="../../Scripts/KendoUI/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="../../Scripts/KendoUI/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css">
+    <%--     <link rel="stylesheet" type="text/css" href="../../Content/site.css"/>--%>
+    <!-- JS -->
+    <script src="../../Scripts/jquery-3.1.1.min.js"></script>
+
+
+    <script src="../../Scripts/angular.min.js"></script>
+    <script src="../../Scripts/angular-messages.js"></script>
+    <script src="../../Scripts/angular-xeditable-0.8.1/js/xeditable.js"></script>
+    <script src="../../Scripts/angular-sanitize.min.js"></script>
+    <script src="../../Scripts/angular-animate.min.js"></script>
+
+    <script src="../../Scripts/ng-embed/ng-embed.min.js"></script>
+
+    <script src="../../Scripts/sweetalert.min.js"></script>
+
+    <script src="../../Scripts/KendoUI/js/kendo.all.min.js"></script>
+
+    <script src="../../Scripts/jq_datepicker.js"></script>
+
+    <script src="../../Scripts/Zamba.Fn.min.js?v=93"></script>
+
+    <script src="../../Scripts/app/search/Zamba.Search.Common.js?v=93"></script>
+
+    <script src="../../Scripts/bootstrap.min.js"></script>
+
+
+
+
+    <script src="../../Scripts/Validations/Fields/fields.js?v=93"></script>
+
+    <%: Scripts.Render("~/bundles/ZScripts") %>
+    <%: Scripts.Render("~/bundles/Scripts/masterblankScripts") %>
+    <%: Scripts.Render("~/bundles/kendo") %>
+    <%: Styles.Render("~/bundles/Styles/masterblankStyles") %>
+    <%: Styles.Render("~/bundles/Styles/kendo")%>
+
+    <link rel="stylesheet" href="../../Content/styles/tabber.css" type="text/css" />
+
+    <script src="../../scripts/zamba.tabs.js?v=93" type="text/javascript"></script>
+
+    <script src="../../scripts/tabber.js" type="text/javascript"></script>
+    <%--    <script src="../../Scripts/Lista.js?v=93"></script>--%>
+
+
+
+    <script src="../../app/zapp.js?v=93"></script>
+
+    <script src="../../GlobalSearch/services/angular-local-storage.min.js"></script>
+    <%--<script src="../../GlobalSearch/services/authInterceptorService.js"></script>
+    <script src="../../GlobalSearch/services/authService.js?v=93"></script>--%>
+
+    <!--Referencias TimeLine-->
+    <script src="../../app/timeLine/timeLineController.js?v=93"></script>
+    <script src="../../app/timeLine/timelineservices.js?v=93"></script>
+
+    <script src="../../app/timeLineNews/timeLineNewsController.js?v=93"></script>
+    <script src="../../app/timeLineNews/timelineNewsservices.js?v=93"></script>
+
+    <script src="../../app/timeLineHorizontal/timeLineHorizontal.js?v=93"></script>
+    <script src="../../app/timeLineHorizontal/TimeLineHorizontalService.js?v=93"></script>
+
+    <!-- Referencias Observaciones -->
+    <script src="../../app/Observaciones/observacionesController.js?v=93"></script>
+    <script src="../../app/Observaciones/observacionesservices.js?v=93"></script>
+
+    <!-- Referencias Observaciones -->
+    <script src="../../app/ObservacionesV2/observacionesNewController.js"></script>
+    <script src="../../app/ObservacionesV2/observacionesNewServices.js"></script>
+
+    <script src="../../Scripts/JsBarcode.all.min.js"></script>
+    <!-- Referencias Grilla de Asociados -->
+    <!-- CSS -->
+    <link href="../../app/Grid/CSS/GridDirective.css?v=93" rel="stylesheet" />
+    <link href="../../app/Grid/CSS/GridKendo.css?v=93" rel="stylesheet" />
+    <link href="../../app/Grid/CSS/GridThumb.css?v=93" rel="stylesheet" />
+    <!-- JS -->
+    <script src="../../app/Grid/JS/ui-bootstrap-tpls-1.2.4.js"></script>
+
+    <script src="../../app/Tasks/Controller/TaskController.js?v=93"></script>
+    <script src="../../app/Tasks/Service/TaskService.js?v=93"></script>
+
+    <script src="../../app/Grid/Controller/GridController.js?v=93"></script>
+    <script src="../../app/Grid/Service/GridService.js?v=93"></script>
+
+    <script src="../../DropFiles/dropfiles.js?v=93" type="text/javascript"></script>
+    <script src="../../scripts/dropzone.js?v=93" type="text/javascript"></script>
+
+    <script src="../../app/ruleExecition/RuleExecutionService.js?v=93"></script>
+
+    <script src="../../Scripts/angular-filter/angular-filter.min.js"></script>
+
+    <script src="../../app/app-views/controllers/forumctrl.js?v=93"></script>
+    <script src="../../app/app-views/services/forumservice.js?v=93"></script>
+
+    <link href="../../app/fullscreen/fullscreen.css" rel="stylesheet" />
+    <script src="../../app/fullscreen/fullscreen.js"></script>
+
+
+    <script src="../../app/DocumentViewer/DocumentViewerController.js?v=93"></script>
+    <script src="../../app/DocumentViewer/DocumentViewerService.js?v=93"></script>
+
+
+    <%--calednar--%>
+
+    <%-- <link href='../../Scripts/calendar/fullcalendar.min.css' rel='stylesheet' />
+    <link href='../../Scripts/calendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
+    <script src='../../Scripts/fullcalendar.min.js'></script>
+    <script src='../../Scripts/moment.js'></script>
+
+    <script src="../../LineCalendar/LineCalendarController.js"></script>
+    <script src="../../LineCalendar/LineCalendarService.js"></script>--%>
+
+
+    <%--    CHAT--%>
+
+    <link href="../../Content/CSS/TaskViewer.css?v=93" rel="stylesheet" />
+    <%--  --%>
+
+    <div id="taskController" ng-controller="TaskController">
+        <asp:HiddenField ID="hdnTaskID" runat="server" />
+        <asp:HiddenField ID="hdnUserId" runat="server" />
+        <asp:HiddenField ID="hdnPushNotification_player_id" runat="server" />
+        <asp:HiddenField ID="hdnPushNotification_app_id" runat="server" />
+        <asp:HiddenField ID="hdnConnectionId" runat="server" />
+        <input id="hdnDummyTabIndex" type="submit" style="position: absolute; top: -20px" />
+
+        <UC6:UCWFExecution ID="UC_WFExecution" runat="server" height="200" width="200" />
+        <iframe id="printFrame" style="display: none;"></iframe>
+        <div class="" id="rowTaskHeader">
+            <UC3:UCTaskHeader runat="server" ID="ucTaskHeader" />
+        </div>
+        <div id="rowTaskDetail">
+            <UC5:UCTaskDetail runat="server" ID="ucTaskDetail" />
+        </div>
+
+        <div id="openModalIF" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position:-ms-page; margin-top: 20px;">
+            <div class="modal-dialog">
+                <div class="modal-content" id="openModalIFContent" style="width:100%; height:100%;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" id="closeModalIF"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        <%--<button type="button" class="close" onclick="OpenModalIF.fullscreen(this);"><span aria-hidden="true">&#9633;</span></button>--%>
+                        <h5 class="modal-title" id="modalFormTitle"></h5>
+                    </div>
+                    <div class="modal-body" id="modalFormHome">
+                        <div id="modalDivBody"></div>
+                        <iframe id="modalIframe" runat="server" style="width:100%; height:100%;" frameborder="0" allowtransparency="true"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script type="text/javascript">
+
+        $('#rowTaskDetail, #rowTaskHeader').on('click', function () {
+            CheckUserTimeOut();
+        });
+
+        var push_notification_player_id = document.getElementById('<%= hdnPushNotification_player_id.ClientID%>').value;
+        var push_notification_app_id = document.getElementById('<%= hdnPushNotification_app_id.ClientID%>').value;
+
+        $(document).ready(function () {
+
+            $("#hdnDummyTabIndex").focus();
+            $("#hdnDummyTabIndex").submit(function (evt) {
+                evt.preventDefault();
+            });
+
+            $("#hdnDummyTabIndex").hide();
+        
+            keepSessionAlive();
+        });
+
+        function RefreshLocation() {
+            document.location = document.location;
+        }
+
+        function getToolBTaskH() {
+            return $("#rowTaskHeader").height();
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
+        var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
+        var zambaApplication = "Zamba";
+        var URLServer = thisDomain + "/ZambaChat/";
+        var urlGlobalSearch = thisDomain + "/Views/Search/";
+        var URLServer = thisDomain + "/ZambaChat/";
+        var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
+        var zCollServer = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
+
+    </script>
+
+</asp:Content>

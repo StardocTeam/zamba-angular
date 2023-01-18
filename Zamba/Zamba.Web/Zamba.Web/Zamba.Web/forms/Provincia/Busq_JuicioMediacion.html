@@ -1,0 +1,285 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:26-6-20 --> <!--Modificado por:Eliseo -->
+<!--Tipo de Modificacion: Abogado Actor  , sacar Lupa y que sea de Input  -->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Busq_JuicioMediacion.html">
+            <input id="hdnRuleId" type="hidden" />
+            <h4 class="text-center" id="header" width="90%">Búsqueda por RAJ</h4>
+            <center>
+                <div id="tblReclamo" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-md-6 col-sm-6">
+
+
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Juicio / Mediación:</span>
+                                        <select class="form-control input-sm" id="zamba_index_2681" name="zamba_index_2681"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Nro RAJ:</span>
+                                        <input class="form-control input" id="zamba_index_2695" name="zamba_index_2695" size="1" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="Submit" name="zamba_rule_11546599" id="zamba_rule_11546599" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Actor:</span>
+                                        <input class="form-control input" id="zamba_index_59" name="zamba_index_59" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1012909" id="zamba_rule_1012909" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12 ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Demandado:</span>
+                                        <input class="form-control input" id="zamba_index_60" name="zamba_index_60" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1012910" id="zamba_rule_1012910" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="height:34px">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Ramo:</span>
+                                        <select class="form-control input-sm" id="zamba_index_19" name="zamba_index_19" size="1"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Siniestro:</span>
+                                        <input class="form-control input" id="zamba_index_17" name="zamba_index_17" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1012907" id="zamba_rule_1012907" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha Stro:</span>
+                                        <input class="form-control input" id="zamba_index_10180" name="zamba_index_10180" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1012908" id="zamba_rule_1012908" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Expte. Jud.:</span>
+                                        <input class="form-control input" id="zamba_index_10163" name="zamba_index_10163" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013348" id="zamba_rule_1013348" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Jurisdicción:</span>
+                                        <select class="form-control input" id="zamba_index_2685" size="1" name="zamba_index_2685"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-6 col-sm-6">
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha Notificación:</span>
+                                        <input class="form-control input" id="zamba_index_57" name="zamba_index_57" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1014965" id="zamba_rule_1014965" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Fecha Aud / Vto:</span>
+                                        <input class="form-control input" id="zamba_index_2705" name="zamba_index_2705" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013888" id="zamba_rule_1013888" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Abogado Actor:</span>
+                                        <input class="form-control input" id="zamba_index_10174" name="zamba_index_10174" />
+                                        <!--span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1012925" id="zamba_rule_1012925" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">CUIT Abog. Actor:</span>
+                                        <input class="form-control input" id="zamba_index_10241" name="zamba_index_10241" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013805" id="zamba_rule_1013805" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Mediador:</span>
+                                        <input class="form-control input" id="zamba_index_2815" name="zamba_index_2815" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013907" id="zamba_rule_1013907" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Asegurado:</span>
+                                        <input class="form-control input" id="zamba_index_1020002" name="zamba_index_1020002" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013824" id="zamba_rule_1013824" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tipo Act. Judicial:</span>
+                                        <select class="form-control input" id="zamba_index_10166" name="zamba_index_10166"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Mediación Previa:</span>
+                                        <input class="form-control input" id="zamba_index_10167" name="zamba_index_10167" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1014470" id="zamba_rule_1014470" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Póliza de Referencia:</span>
+                                        <input class="form-control input" id="zamba_index_10164" name="zamba_index_10164" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" name="zamba_rule_1013600" id="zamba_rule_1013600" onclick="SetRuleId(this);">
+                                                <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="attributes_table">
+                                    <div class="form-group row">
+                                        <div class="input-group-btn">
+                                            <!--<input name="zamba_rule_1013566" id="zamba_rule_1013566" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="Cargar Nuevo">-->
+                                            <input name="zamba_cancel" id="zamba_cancel" onclick="window.close();" class="btn btn-primary" type="submit" value="Salir">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </center>
+            <script type="text/javascript" language="JavaScript">
+
+                 $(document).ready(function () {
+                     document.getElementById("zamba_index_59").addEventListener("keypress", forceKeyPressUppercase, false);
+                     document.getElementById("zamba_index_60").addEventListener("keypress", forceKeyPressUppercase, false);
+                     document.getElementById("zamba_index_1020002").addEventListener("keypress", forceKeyPressUppercase, false);
+                     document.getElementById("zamba_index_10174").addEventListener("keypress", forceKeyPressUppercase, false);
+                     document.getElementById("zamba_index_2815").addEventListener("keypress", forceKeyPressUppercase, false);
+
+                 });
+
+
+            </script>
+        </form>
+    </div>
+
+   
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿
+<div id="ModalVisualPreferences" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>{{title}}</label>
+            </div>
+            <div class="modal-body modalVisualPreferences" layout="row" layout-align="space-around center">
+                <button ng-repeat="button in buttonList" id="{{button.id}}" class="btn btn-default BtnView" ng-if="button.hasRight" ng-class="{'Selected': button.selected}" ng-click="UpdateDefaulViewItem(button)">
+                    <i class="{{button.icon}}"></i>
+                    {{button.name}}
+                </button>
+            </div>
+            <div class="modal-footer" style=" padding: 7px">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{exitButtonText}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title> 
+
+</head>
+
+<body>
+
+    <div  >
+        <div ng-controller="appController">
+            <div class="form-group row">
+
+                <form name="frmMain" action="Filtro_Guia_TOTAL.html">
+
+                    <input id="hdnRuleId" type="hidden" />
+                    <input id="hdnAsocId" type="hidden" />
+                    <div class="container">
+
+
+
+                        <div class="form-group row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-2">
+                                <center>
+                                    <strong>Filtro_Guia_TOTAL</strong>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="PanelPrincipal">
+
+                            <div class="form-group row"></div>
+
+
+                            <div class="form-group row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <!-- TOTAL-->                                  		<span class="input-group-addon">Total Despachos:</span>
+                                        <inpu id="zamba_index_" name="zamba_index_" class="form-control input-sm " />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <center>
+                                    <input name="zamba_rule_" id="zamba_rule_" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Calcular">
+                                    <!-- <input type="button" name="zamba_close" id="zamba_close" onclick="SetRuleId(this);" class="btn-sm btn-primary" value="Cancelar"> -->
+                                </center>
+                            </div>
+
+                            <div class="row">
+                                <!-- fin Grafico de barra -->
+                                <!-- Grafico de torta -->
+                                <div class="col-md-6" id="GraficoTorta">
+                                    <div class="card border-secondary mb-3" style="max-width: 100%">
+                                        <div class="card-body text-secondary">
+                                            <canvas name="pieChart" data-visible="true" data-x="Fecha" data-report="10048" class="containerGraph" value-for-rule-query="FechaDesde=zamba_index_26568,FechaHasta=zamba_index_26569"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row"></div>
+                            <div class="row">
+                                <center>
+
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-3">
+                                        <span style="color:whitesmoke">Filtro_Guia_TOTAL.html</span>
+                                    </div>
+                                    <div class="col-md-3"></div>
+
+                                </center>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <link href="../../app/GraficosZamba/main.css" rel="stylesheet" />
+                    <script src="../../app/GraficosZamba/src/chart.js/Chart.bundle.min.js"></script>
+                    <script src="../../app/GraficosZamba/src/chart.js/Chart.min.js"></script>
+                    <link href="../../app/GraficosZamba/src/chart.js/Chart.min.css" rel="stylesheet" />
+                    <script src="../../app/GraficosZamba/Service/service.js"></script>
+                    <script src="../../app/GraficosZamba/Controller/app.js"></script>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

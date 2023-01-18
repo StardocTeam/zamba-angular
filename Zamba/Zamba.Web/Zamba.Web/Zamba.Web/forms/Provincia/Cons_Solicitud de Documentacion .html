@@ -1,0 +1,59 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript">
+$(document).ready(function(){
+$('#zamba_index_2728').css("background-color","lightgray");
+$('#zamba_index_2728').css("color","gray");
+$('#zamba_index_2705').css("background-color","lightgray");
+$('#zamba_index_2705').css("color","gray");
+$('#zamba_index_64').css("background-color","lightgray");
+$('#zamba_index_64').css("color","gray");
+});
+</script>
+</head>
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="Solicitud de Documentacion RO.html">
+            <input id="hdnRuleId" type="hidden" />
+
+            <div id="tblDoc" class="attributes_table">
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Tipo de Documentacion</span>
+                            <input class="form-control input-sm" id="zamba_index_2728" name="zamba_index_2728" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">Vencimiento:</span>
+                            <input class="form-control input-sm readonly" id="zamba_index_2705" name="zamba_index_2705"  readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tblObervaciones" class="attributes_table">
+                <div class="form-group row">
+                    <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observaci&oacute;n" onclick="SetRuleId(this);" />
+                </div>
+                <div class="form-group row">
+<textarea class="form-control input-sm readonly" cols="1" rows="6" id="zamba_index_84" name="zamba_index_84" maxlength="5000"
+          onblur="return CheckMaxLengthAfterLosingFocus(this);"  readonly="readonly"></textarea>
+                </div>
+            </div>
+            <div style="width: 98%;">
+                <div class="form-group row">
+                    <div style="width: 100%;" class="tablesorter" id="zamba_associated_documents_2523">                      
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

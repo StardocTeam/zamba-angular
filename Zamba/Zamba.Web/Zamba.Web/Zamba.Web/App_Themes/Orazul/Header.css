@@ -1,0 +1,131 @@
+﻿.clientlogo {
+    cursor: pointer;
+    background: url("../Provincia/Images/pseguros2-1.png")no-repeat;
+    height: 50px;
+    width: 130px;
+    position: relative;
+    left: 9px;
+}
+
+.clientPhrase
+{
+    /*background-color: #669cca;*/
+    /*background: url("../Provincia/Images/ClientPhrase.png");*/
+    /*filter: alpha(opacity=80);*/
+    /*opacity: 0.8;*/
+    height:85px;
+    width: 480px;
+    position:absolute;
+}
+
+.topheader
+{
+    background-image: url("../Provincia/Images/HeaderBg.gif");
+    background-repeat: no-repeat;
+    height:85px;
+    width:100%;
+}
+
+.divExternToolbar
+{
+	background: #5c9ccc url("../Provincia/Images/ToolBar.gif") repeat-x;
+	border: solid 1px #4297d7;
+	color: #ffffff;
+	display: block;
+	font-family: Verdana;
+	font-size: 10px;
+	font-weight: 700;
+	height:100%;
+	margin: 0px 0px 1px;
+	padding: 0.1em;
+}
+
+.divToolbar a
+{
+	color: #ffffff;	
+}
+
+.divInternToolbar
+{
+	border-color: #ffffff;
+	color: #ffffff;
+	display: block;
+	float: left;
+	margin: auto 1.5em auto auto;
+	padding: 0px 0px 0px 1px;
+}
+
+.toolbarButton
+{
+	background: #dfeffc url("../Provincia/images/Button-Default.gif") repeat-x 50% 50%;
+	border: solid 1px #c5dbec;
+	color: #2e6e9e;
+	cursor: pointer;
+	float: left;
+	font-family: Verdana;
+	font-size: 9px;
+	font-weight: 700;
+	left: 412px;
+	margin: 0px 4px 0px 0px;
+	padding: 0.4em 1em;
+	text-decoration: none;
+}
+
+.toolbarButton:hover
+{
+	border: 1px solid #79b7e7; 
+	background: #d0e5f5 url("../Provincia/images/Button-Hover.png") 50% 50% repeat-x; 
+	font-weight: bold; 
+	color: #1d5987;
+	cursor: pointer;
+	float: left;
+	font-family: Verdana;
+	font-size: 9px;
+	left: 412px;
+	margin: 0px 4px 0px 0px;
+	padding: 0.4em 1em;
+	text-decoration: none;
+}
+
+.tdUser
+{
+	font-size:10pt;
+	white-space:nowrap;	
+}
+
+.navbar-fixed-top {
+    background-color: #fff;
+}
+
+
+@media (min-width: 992px) {
+    /*#Advfilter2 {
+        margin-top: 0px !important;
+    }*/
+    .mh-logo {
+        margin-top: 0px !important;   
+    }
+}
+ @media (max-width: 992px) { 
+     .mh-logo {     
+           padding-left: 50px;
+    display: flex;
+    }
+      .mh-search {     
+           padding-top: 10px;
+   
+    }  
+      .mh-user{
+              top: -50px;
+      }
+}
+
+@media only screen and (max-width: 767px) {
+    /*#Advfilter2 {
+       margin-top: 0;
+        margin-bottom: 0;
+    }*/
+}
+/*#divSecundario{
+        margin-top: 15px;
+}*/
