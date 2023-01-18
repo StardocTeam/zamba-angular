@@ -38,22 +38,29 @@ public partial class Views_UC_WF_Rules_UCDoAskDesition : System.Web.UI.UserContr
     }
 
     private void txtValueConfig() {
-        this.txtvalue.ReadOnly = true;
-        this.txtvalue.TextMode = TextBoxMode.MultiLine;
-        int charRows = 0;
-        string tbCOntent;
-        int chars = 0;
-        tbCOntent = this.txtvalue.Text;
-        int lineBreaks = this.txtvalue.Text.Where(c => c == '\n').Count();
-        this.txtvalue.Columns = 120;
-        chars = tbCOntent.Length;
-        charRows = chars / this.txtvalue.Columns;
-        int remaining = chars - charRows * this.txtvalue.Columns;
-        if (remaining == 0)
-            this.txtvalue.Rows = charRows;
-        else
-            this.txtvalue.Rows = charRows + lineBreaks;
-        this.txtvalue.Rows = 1;
+        try
+        {
+            this.txtvalue.ReadOnly = true;
+            this.txtvalue.TextMode = TextBoxMode.MultiLine;
+            int charRows = 0;
+            string tbCOntent;
+            int chars = 0;
+            tbCOntent = this.txtvalue.Text;
+            int lineBreaks = this.txtvalue.Text.Where(c => c == '\n').Count();
+            this.txtvalue.Columns = 120;
+            chars = tbCOntent.Length;
+            charRows = chars / this.txtvalue.Columns;
+            int remaining = chars - charRows * this.txtvalue.Columns;
+            if (remaining == 0)
+                this.txtvalue.Rows = charRows;
+            else
+                this.txtvalue.Rows = charRows + lineBreaks;
+        }
+        catch (Exception ex)
+        {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Error al calcular el size de textbox para la DoAskDesition - Exception message: " + ex.Message);
+        }
+
     }
 
     public string ask

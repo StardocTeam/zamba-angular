@@ -6,8 +6,6 @@
     $(document).ready(function () {
         try {
             SetValidationsAction("<%=_btnno.ClientID %>");
-            $("#<%=txtvalue.ClientID%>")[0].rows = 1;
-
         } catch (e) {
 
         }
