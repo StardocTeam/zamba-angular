@@ -112,6 +112,16 @@
                         width: 100%;
                     }
                 }
+
+                .txtAreaHeight{
+                    height: 212px;
+                }
+
+                @media (min-width: 1800px) {
+                    .txtAreaHeight {
+                        height: 500px;
+                    }
+                }
             </style>
         </head>
 
@@ -160,18 +170,18 @@
 
                                     <!--Altura de txtAreaBody por defecto-->
                                     <iframe ng-switch-default
-                                            id="txtAreaBody" class="form-control alert alert-primary" style="resize:vertical; height: 500px; background-color: #fff;"></iframe>
+                                            id="txtAreaBody" class="form-control alert alert-primary txtAreaHeight" style="resize:vertical; background-color: #fff;"></iframe>
 
                                     <!--Archivos:-->
                                     <div id="FileContent" ng-repeat="item in attachs">
                                         <!--Recorrer Lista de Archivos-->
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <div class="alert alert-danger" role="alert">
                                                 {{item.FileName}} <br />
-                                                {{fileSize_Format(item.Size, "Kb")}} <br />
-
+                                                {{fileSize_Format(item.Size, "Kb")}} 
+        
                                                 <a id={{item.Id}} download={{item.FileName}} style="display:none;" />
-                                                <a class="pointer" ng-click="downloadfile(item);" title="{{item.FileName}}">Descargar</a>
+                                                <a class="pointer" ng-click="downloadfile(item);" title="{{item.FileName}}">- Descargar</a>
                                             </div>
                                         </div>
 
