@@ -4821,25 +4821,19 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     var ValMessage;
     $scope.SendEmail = function (obj) {
-        var MailValidation = true;
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        var MailValidation = true;
 
         ValMessage = "";
 
-        //TODO: HAcer lo mismo para Envio de ZIP y DocToolbar
-        var formMailDestinatario = angular.element($("#formMailDestinatario")).scope();
+        //TODO: Hacer lo mismo para Envio de ZIP y DocToolbar
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        if (obj.cc == undefined)
-            obj.cc = "";
-
-        if (obj.cco == undefined)
-            obj.cco = "";
-
-        MailValidation = Val_contenido(formMailDestinatario.Value.replaceAll(';', ','), reg, MailValidation, formMailDestinatario.attribute);
-        MailValidation = Val_contenido(formMailCc.Value.replaceAll(';', ','), reg, MailValidation, formMailCc.attribute);
-        MailValidation = Val_contenido(formMailCco.Value.replaceAll(';', ','), reg, MailValidation, formMailCco.attribute);
+        MailValidation = ValEmails(formMailTo.Value.replaceAll(';',','), reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(formMailCc.Value.replaceAll(';',','), reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(formMailCco.Value.replaceAll(';',','), reg, MailValidation, formMailCco.attribute);
 
         if (MailValidation == false) {
             swal("", "Error: Corrija las advertencias. \n\n" + ValMessage, "error");
@@ -4879,9 +4873,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
             emaildata.Idinfo = arrayEmailData;
 
-            emaildata.MailTo = $("#destinatario").val()
-            emaildata.CC = $('input[name="cc"]').val() == undefined ? "" : $('input[name="cc"]').val();
-            emaildata.CCO = $('input[name="cco"]').val() == undefined ? "" : $('input[name="cco"]').val();
+            emaildata.MailTo = formMailTo.Value.replaceAll(';', ',');
+            emaildata.CC = formMailCc.Value.replaceAll(';', ',');
+            emaildata.CCO = formMailCco.Value.replaceAll(';', ',');
             emaildata.Subject = $('input[name="subject"]').val() == undefined ? "" : $('input[name="subject"]').val();
             emaildata.MessageBody = document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML
             emaildata.Base64StringArray = CollectionFiles;
@@ -4917,7 +4911,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         }
     }
 
-    function Val_contenido(List_Destinatarios, reg, Validado, field) {
+    function ValEmails(List_Destinatarios, reg, Validado, field) {
         if (List_Destinatarios != undefined) {
             if (List_Destinatarios != "") {
                 List_Destinatarios.split(",").forEach(function (elem, index) {
@@ -4929,7 +4923,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                                 Validado = false;
                             }
                         } else {
-                            ValMessage += "• " + field + ": Ha escrito doble coma o una coma al final.\n";
+                            ValMessage += "• " + field + ": Ha escrito doble punto y coma o un punto y coma al final.\n";
                             Validado = false;
                         }
                     }
@@ -5092,9 +5086,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         obj.cc = obj.cc == undefined ? "" : obj.cc;
         obj.cco = obj.cco == undefined ? "" : obj.cco;
 
-        MailValidation = Val_contenido(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
-        MailValidation = Val_contenido(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
-        MailValidation = Val_contenido(obj.cco.replaceAll(';', ','), reg, MailValidation, "Cco");
+        MailValidation = ValEmails(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
+        MailValidation = ValEmails(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
+        MailValidation = ValEmails(obj.cco.replaceAll(';', ','), reg, MailValidation, "Cco");
 
 
         if (MailValidation == false) {
@@ -7072,10 +7066,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     $scope.GetMailUsers = function () {
         var params = DocIdschecked;
-
-        //TODO: Obtener todos los scopes o hacer uno nuevo que tenga los emails...
-        //TODO: y heredarlos a cada directiva 'autocomplete' implementada (heredar al controller).
-
         var EmailController = angular.element($("#EmailController")).scope();
         EmailController.GetMails(params);
     }

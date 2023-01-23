@@ -60,19 +60,23 @@
 
 <script src="../../Scripts/ckeditor/ckeditor.js"></script>
 
-<asp:hiddenfield id="hdnShowHistoryTab" runat="server" />
-<asp:hiddenfield id="hdnShowForumTab" runat="server" />
-<asp:hiddenfield id="hdnShowAsociatedTab" runat="server" />
-<asp:hiddenfield id="hdnShowMailsTab" runat="server" />
-<asp:hiddenfield id="hdnLastTab" runat="server" />
-<asp:hiddenfield id="hdnCurrentFormID" runat="server" />
-<asp:hiddenfield id="hdnDocId" runat="server" />
-<asp:hiddenfield id="hdnFilePath" runat="server" />
-<asp:hiddenfield id="hdnDocTypeId" runat="server" />
-<asp:hiddenfield id="hdnWfstepid" runat="server" />
-<asp:hiddenfield id="hdnDocExt" runat="server" />
-<asp:hiddenfield id="hdnImprimir" runat="server" />
-<asp:hiddenfield id="hdnDocContainer" runat="server" />
+<script src="../../app/AutoComplete/AutoCompleteService.js"></script>
+<script src="../../app/AutoComplete/AutoCompleteController.js"></script>
+<script src="../../app/AutoComplete/EmailController.js"></script>
+
+<asp:HiddenField ID="hdnShowHistoryTab" runat="server" />
+<asp:HiddenField ID="hdnShowForumTab" runat="server" />
+<asp:HiddenField ID="hdnShowAsociatedTab" runat="server" />
+<asp:HiddenField ID="hdnShowMailsTab" runat="server" />
+<asp:HiddenField ID="hdnLastTab" runat="server" />
+<asp:HiddenField ID="hdnCurrentFormID" runat="server" />
+<asp:HiddenField ID="hdnDocId" runat="server" />
+<asp:HiddenField ID="hdnFilePath" runat="server" />
+<asp:HiddenField ID="hdnDocTypeId" runat="server" />
+<asp:HiddenField ID="hdnWfstepid" runat="server" />
+<asp:HiddenField ID="hdnDocExt" runat="server" />
+<asp:HiddenField ID="hdnImprimir" runat="server" />
+<asp:HiddenField ID="hdnDocContainer" runat="server" />
 
 <style>
     .ToolbarButtons {
@@ -193,11 +197,59 @@
 
     @media (max-width: 1400px) {
 
-    #AssociatedResults{
-        margin-top: -5px !important;
+        #AssociatedResults {
+            margin-top: -5px !important;
+        }
     }
 
-    }
+     /* control AutoComplete */
+                    .autocomplete {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    input[type=text] {
+                        background-color: #f1f1f1;
+                        width: 100%;
+                    }
+
+                    input[type=submit] {
+                        background-color: DodgerBlue;
+                        color: #fff;
+                        cursor: pointer;
+                    }
+
+                    .autocomplete-items {
+                        position: absolute;
+                        border: 1px solid #d4d4d4;
+                        border-bottom: none;
+                        border-top: none;
+                        z-index: 99;
+                        /*position the autocomplete items to be the same width as the container:*/
+                        top: 100%;
+                        left: 0;
+                        right: 0;
+                    }
+
+                        .autocomplete-items div {
+                            padding: 10px;
+                            cursor: pointer;
+                            background-color: #fff;
+                            border-bottom: 1px solid #d4d4d4;
+                        }
+
+                            /*when hovering an item:*/
+                            .autocomplete-items div:hover {
+                                background-color: #e9e9e9;
+                            }
+
+                    /*when navigating through the items using the arrow keys:*/
+                    .autocomplete-active {
+                        background-color: DodgerBlue !important;
+                        color: #ffffff;
+                    }
+                    /* control AutoComplete */
+
 </style>
 
 
@@ -230,7 +282,7 @@
 
 
             <li ng-if="HasPermissionToSendMail" class="nav-item ">
-                <button id="btnEmail" title="Enviar mail" type="button" runat="server" class="btn btn-primary btn-xs ToolbarButtons" onclick="Email_Click()">
+                <button id="btnEmail" title="Enviar mail" type="button" runat="server" class="btn btn-primary btn-xs ToolbarButtons" onclick="Email_Click(); GetMailUsers();">
                     <span class="glyphicon glyphicon-envelope ToolbarText"></span>
                 </button>
             </li>
@@ -343,26 +395,35 @@
             <div class="titleColor">
                 <label class="mailColor">Enviar Mail</label>
             </div>
-            <form name="formMail">
+            <form name="formMail" id="EmailController" ng-controller="EmailController" onclick="HideLisBoxModalMail(event);">
                 <div class="modal-body">
-                    <div class="form-group modalControl row ">
+                    <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                         <label class="col-sm-1 control-label">Para</label>
                         <div class="col-sm-11">
-                            <input class="form-control EmailInput" name="for" placeholder="Para">
+
+                            <zamba-auto-complete attribute="Para" name="formMailDestinatario" id="formMailDestinatario"></zamba-auto-complete>
+                            <!--<input class="form-control input-sm EmailInput" name="for" placeholder="Para" ng-model="inputs.for" id="destinatario" />-->
+
                         </div>
                     </div>
 
-                    <div class="form-group modalControl row">
+                    <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                         <label class="col-sm-1 control-label">CC</label>
                         <div class="col-sm-11">
-                            <input class="form-control EmailInput" name="cc" placeholder="Cc">
+
+                            <zamba-auto-complete attribute="Cc" name="formMailCc" id="formMailCc"></zamba-auto-complete>
+                            <!-- <input class="form-control input-sm EmailInput" name="cc" placeholder="CC" ng-model="inputs.cc" id="cc" /> -->
+
                         </div>
                     </div>
 
-                    <div class="form-group modalControl row">
+                    <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                         <label class="col-sm-1 control-label">CCO</label>
                         <div class="col-sm-11">
-                            <input class="form-control EmailInput" name="cco" placeholder="Cco">
+
+                            <zamba-auto-complete attribute="Cco" name="formMailCco" id="formMailCco"></zamba-auto-complete>
+                            <!-- <input class="form-control input-sm EmailInput" name="cco" placeholder="CCO" ng-model="inputs.cco" id="cco" /> -->
+
                         </div>
                     </div>
 
@@ -831,31 +892,23 @@
         var docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
         var doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
         var mailContainer = $("#ModalMail");
-        var MailValidation = true;
 
+        var MailValidation = true;
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-        if (ObjFor == undefined) {
-            ObjFor = "";
-        }
+        ValMessage = "";
 
-        if (ObjCc == undefined) {
-            ObjCc = "";
-        }
-
-        if (ObjCco == undefined) {
-            ObjCco = "";
-        }
+        var formMailDestinatario = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
 
         var ObjFor = mailContainer.find('input[name="for"]').val().replaceAll(';', ',');
         var ObjCc = mailContainer.find('input[name="cc"]').val().replaceAll(';', ',');
         var ObjCco = mailContainer.find('input[name="cco"]').val().replaceAll(';', ',');
 
-
-        ValMessage = "";
-        MailValidation = Val_contenido(ObjFor, reg, MailValidation, "Para");
-        MailValidation = Val_contenido(ObjCc, reg, MailValidation, "Cc");
-        MailValidation = Val_contenido(ObjCco, reg, MailValidation, "Cco");
+        MailValidation = ValEmails(formMailTo.Value.replaceAll(';', ','), reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(formMailCc.Value.replaceAll(';', ','), reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(formMailCco.Value.replaceAll(';', ','), reg, MailValidation, formMailCco.attribute);
 
         if (MailValidation == false) {
             swal("", "Error: Corrija las advertencias.\n\n" + ValMessage, "error");
@@ -881,9 +934,9 @@
             var addLinks = mailContainer.find('input[name="addListLinks"]').prop("checked");
             var emaildata = {};
 
-            emaildata.MailTo = mailContainer.find('input[name="for"]').val();
-            emaildata.CC = $('input[name="cc"]').val() == undefined ? "" : $('input[name="cc"]').val();
-            emaildata.CCO = $('input[name="cco"]').val() == undefined ? "" : $('input[name="cco"]').val();
+            emaildata.MailTo = formMailTo.Value.replaceAll(';', ',');
+            emaildata.CC = formMailCc.Value.replaceAll(';', ',');
+            emaildata.CCO = formMailCco.Value.replaceAll(';', ',');
             emaildata.Subject = $('input[name="subject"]').val() == undefined ? "" : $('input[name="subject"]').val();
             emaildata.MessageBody = document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML;
             emaildata.AddLink = addLinks;
@@ -938,7 +991,7 @@
         }
     }
 
-    function Val_contenido(List_Destinatarios, reg, Validado, field) {
+    function ValEmails(List_Destinatarios, reg, Validado, field) {
         if (List_Destinatarios != undefined) {
             if (List_Destinatarios != "") {
                 List_Destinatarios.split(",").forEach(function (elem, index) {
@@ -1227,9 +1280,13 @@
         return false;//prevent default behavior
     }
 
+    function GetMailUsers() {
+        var UrlParams = getUrlParametersFromIframe();
 
-
-
+        var params = UrlParams.docid;
+        var EmailController = angular.element($("#EmailController")).scope();
+        EmailController.GetMails(params);
+    }
 
     var DocToolBarContentHeight = 500;
     $(window).on("resize", function () {
