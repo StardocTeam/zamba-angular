@@ -1430,3 +1430,11 @@ input:checked + .slider:before {
     border-style: solid;
     border-width: 1 px;
 }
+
+.modal-backdrop.fade.in {
+    z-index: 4;
+}
+
+#ModalSendZip {
+    z-index: 5;
+}

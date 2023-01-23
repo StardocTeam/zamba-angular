@@ -5805,6 +5805,18 @@ function GetUID() {
     return;
 };
 
+function HideLisBoxModalMail(evento) {
+    var IdInput = evento.target.id
+
+    $("#AutoCompleteController input").each(function (i, item) {
+        if (evento.target.tagName == "INPUT" && item.id != IdInput.toString()) {
+            $("#ListEmails" + item.id)[0].style.display = "none";
+        } else if (evento.target.tagName != "INPUT") {
+            $("#ListEmails" + item.id)[0].style.display = "none";
+        }
+    });
+}
+
 function GetDOCID() {
     var docid = 0;
     docid = getUrlParameters().docid;

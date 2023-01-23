@@ -7800,10 +7800,24 @@ new HttpError(StringHelper.InvalidParameter)));
 
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [HttpGet]
+        [Route("api/search/GetEmailsUsersOfTask")]
+        public IHttpActionResult GetEmailsUsersOfTask(genericRequest paramRequest)
+        {
+            try
+            {
+                List<string> DocIds = paramRequest.Params["DocIds"].ToString().Split('/').ToList();
+                var result = new EmailBusiness().GetEmailsUsersOfTask(DocIds);
 
-
-
-
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
     }
 
     public delegate void LogToDBEventHandler(Exception ex);

@@ -4826,15 +4826,20 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         ValMessage = "";
 
+        //TODO: HAcer lo mismo para Envio de ZIP y DocToolbar
+        var formMailDestinatario = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
+
         if (obj.cc == undefined)
             obj.cc = "";
 
         if (obj.cco == undefined)
             obj.cco = "";
 
-        MailValidation = Val_contenido(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
-        MailValidation = Val_contenido(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
-        MailValidation = Val_contenido(obj.cco.replaceAll(';', ','), reg, MailValidation, "Cco");
+        MailValidation = Val_contenido(formMailDestinatario.Value.replaceAll(';', ','), reg, MailValidation, formMailDestinatario.attribute);
+        MailValidation = Val_contenido(formMailCc.Value.replaceAll(';', ','), reg, MailValidation, formMailCc.attribute);
+        MailValidation = Val_contenido(formMailCco.Value.replaceAll(';', ','), reg, MailValidation, formMailCco.attribute);
 
         if (MailValidation == false) {
             swal("", "Error: Corrija las advertencias. \n\n" + ValMessage, "error");
@@ -7060,9 +7065,21 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             }
         }
     }
+
     $scope.$on('LoadStep', function (event, args) {
         $scope.selectedStepStateName = args.StepStateName;
     });
+
+    $scope.GetMailUsers = function () {
+        var params = DocIdschecked;
+
+        //TODO: Obtener todos los scopes o hacer uno nuevo que tenga los emails...
+        //TODO: y heredarlos a cada directiva 'autocomplete' implementada (heredar al controller).
+
+        var EmailController = angular.element($("#EmailController")).scope();
+        EmailController.GetMails(params);
+    }
+
 });
 
 
