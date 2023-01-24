@@ -827,7 +827,6 @@
 
     var ValMessage;
     function SendEmail() {
-
         var docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
         var doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
         var mailContainer = $("#ModalMail");
@@ -871,8 +870,8 @@
             if (!docId)
                 docId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocId").value;
 
-            var IdInfo = {};
-            IdInfo.Docid = parseInt(docId);
+            var IdInfo = [];
+            IdInfo.DocId = parseInt(docId);
             IdInfo.DocTypeid = parseInt(doctypeId);
 
             var attachsIds = [];
@@ -887,6 +886,7 @@
             emaildata.Subject = $('input[name="subject"]').val() == undefined ? "" : $('input[name="subject"]').val();
             emaildata.MessageBody = document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML;
             emaildata.AddLink = addLinks;
+            emaildata.IdInfo = IdInfo;
 
             //1 solo de prueba TODO:
             emaildata.Base64StringArray = CollectionFiles;
