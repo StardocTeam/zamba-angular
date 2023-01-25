@@ -395,8 +395,8 @@
             <div class="titleColor">
                 <label class="mailColor">Enviar Mail</label>
             </div>
-            <form name="formMail" id="EmailController" ng-controller="EmailController" onclick="HideLisBoxModalMail(event);">
-                <div class="modal-body">
+            <form name="formMail" onclick="HideLisBoxModalMail(event);">
+                <div class="modal-body" id="EmailController" ng-controller="EmailController" >
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                         <label class="col-sm-1 control-label">Para</label>
                         <div class="col-sm-11">
@@ -457,13 +457,6 @@
                     </div>
 
                 </div>
-
-
-                <%--<div class="modal-footer" style="padding: 7px">--%>
-                <%--                    <span class="loadersmall" style="display: none"></span>
-                    <input id="btnMailZipSubmit" class="btn btn btn-default" type="button" onclick="SendEmail()" value="Enviar" style="background-color: rgb(66, 189, 62); color: white;">
-                    <button id="btnMailZipMailClose" type="button" class="btn btn-default cancelMailZipButton" onclick="removeAttrFromFor();" data-dismiss="modal" style="background-color: var(--ZBlue); color: white">Cerrar</button>--%>
-                <%--</div>--%>
             </form>
         </div>
     </div>
@@ -889,6 +882,8 @@
     var ValMessage;
     function SendEmail() {
 
+
+
         var docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
         var doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
         var mailContainer = $("#ModalMail");
@@ -898,17 +893,17 @@
 
         ValMessage = "";
 
-        var formMailDestinatario = angular.element($("#formMailDestinatario")).scope();
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        var ObjFor = mailContainer.find('input[name="for"]').val().replaceAll(';', ',');
-        var ObjCc = mailContainer.find('input[name="cc"]').val().replaceAll(';', ',');
-        var ObjCco = mailContainer.find('input[name="cco"]').val().replaceAll(';', ',');
+        var MailTo = formMailTo.Value.replaceAll(';', ',');
+        var MailCc = formMailCc.Value.replaceAll(';', ',');
+        var MailCco = formMailCco.Value.replaceAll(';', ',');
 
-        MailValidation = ValEmails(formMailTo.Value.replaceAll(';', ','), reg, MailValidation, formMailTo.attribute);
-        MailValidation = ValEmails(formMailCc.Value.replaceAll(';', ','), reg, MailValidation, formMailCc.attribute);
-        MailValidation = ValEmails(formMailCco.Value.replaceAll(';', ','), reg, MailValidation, formMailCco.attribute);
+        MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(MailCco, reg, MailValidation, formMailCco.attribute);
 
         if (MailValidation == false) {
             swal("", "Error: Corrija las advertencias.\n\n" + ValMessage, "error");
@@ -934,12 +929,13 @@
             var addLinks = mailContainer.find('input[name="addListLinks"]').prop("checked");
             var emaildata = {};
 
-            emaildata.MailTo = formMailTo.Value.replaceAll(';', ',');
-            emaildata.CC = formMailCc.Value.replaceAll(';', ',');
-            emaildata.CCO = formMailCco.Value.replaceAll(';', ',');
+            emaildata.MailTo = MailTo;
+            emaildata.CC = MailCc;
+            emaildata.CCO = MailCco;
             emaildata.Subject = $('input[name="subject"]').val() == undefined ? "" : $('input[name="subject"]').val();
             emaildata.MessageBody = document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML;
             emaildata.AddLink = addLinks;
+            emaildata.Idinfo = attachsIds;
 
             //1 solo de prueba TODO:
             emaildata.Base64StringArray = CollectionFiles;
@@ -1280,10 +1276,15 @@
         return false;//prevent default behavior
     }
 
+    //Metodo Adaptado para Doctoolbar del GetMailUsers() de la grilla de resultados.
     function GetMailUsers() {
         var UrlParams = getUrlParametersFromIframe();
+        var params = []
 
-        var params = UrlParams.docid;
+        if (UrlParams.docid != undefined || UrlParams.docid != null) {
+            params.push(UrlParams.docid);
+        }
+
         var EmailController = angular.element($("#EmailController")).scope();
         EmailController.GetMails(params);
     }

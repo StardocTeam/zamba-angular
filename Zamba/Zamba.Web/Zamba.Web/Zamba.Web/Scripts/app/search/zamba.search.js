@@ -4831,9 +4831,13 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        MailValidation = ValEmails(formMailTo.Value.replaceAll(';',','), reg, MailValidation, formMailTo.attribute);
-        MailValidation = ValEmails(formMailCc.Value.replaceAll(';',','), reg, MailValidation, formMailCc.attribute);
-        MailValidation = ValEmails(formMailCco.Value.replaceAll(';',','), reg, MailValidation, formMailCco.attribute);
+        var MailTo = formMailTo.Value.replaceAll(';', ',');
+        var MailCc = formMailCc.Value.replaceAll(';', ',');
+        var MailCco = formMailCco.Value.replaceAll(';', ',');
+
+        MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(MailCco, reg, MailValidation, formMailCco.attribute);
 
         if (MailValidation == false) {
             swal("", "Error: Corrija las advertencias. \n\n" + ValMessage, "error");
@@ -4873,9 +4877,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
             emaildata.Idinfo = arrayEmailData;
 
-            emaildata.MailTo = formMailTo.Value.replaceAll(';', ',');
-            emaildata.CC = formMailCc.Value.replaceAll(';', ',');
-            emaildata.CCO = formMailCco.Value.replaceAll(';', ',');
+            emaildata.MailTo = MailTo;
+            emaildata.CC = MailCc;
+            emaildata.CCO = MailCco;
             emaildata.Subject = $('input[name="subject"]').val() == undefined ? "" : $('input[name="subject"]').val();
             emaildata.MessageBody = document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML
             emaildata.Base64StringArray = CollectionFiles;

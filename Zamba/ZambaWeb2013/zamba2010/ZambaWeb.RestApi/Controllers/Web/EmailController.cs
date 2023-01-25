@@ -800,22 +800,30 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [Route("getIFAnyTaskHasFile")]
         public bool getIFAnyTaskHasFile(EmailData zipData)
         {
-            List<string> partialAttachs = new List<string>();
-            //TO DO: Hay que devolver las rutas de los archivos existentes con sus respectivos DocIds y DocTypesIds, para el registro de multiples zip enviados.
-            List<string> attachs = GetTaskDocument_ForEmail(zipData);
             try
             {
-                foreach (var result in attachs)
-                {
-                    if (File.Exists(result))
-                    {
-                        partialAttachs.Add(result);
-                    }
-                }
+                List<string> partialAttachs = new List<string>();
+                //TO DO: Hay que devolver las rutas de los archivos existentes con sus respectivos DocIds y DocTypesIds, para el registro de multiples zip enviados.
+                List<string> attachs = GetTaskDocument_ForEmail(zipData);
 
-                if (partialAttachs.Count > 0)
+                if (attachs != null)
                 {
-                    return true;
+                    foreach (var result in attachs)
+                    {
+                        if (File.Exists(result))
+                        {
+                            partialAttachs.Add(result);
+                        }
+                    }
+
+                    if (partialAttachs.Count > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -824,8 +832,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                return false;
             }
         }
     }
