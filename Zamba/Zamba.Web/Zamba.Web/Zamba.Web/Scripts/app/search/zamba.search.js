@@ -4923,11 +4923,23 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                         if (elem.trim() != "") {
                             if (reg.test(elem.trim()) == false) {
                                 console.log("Iteracion erronea: " + elem.trim());
-                                ValMessage += "• " + field + ": Hay caracteres o correo no valido.\n";
+
+                                if (field.search("_Zip" != 1)) {
+                                    ValMessage += "• " + field + ": Hay caracteres o correo no valido.\n";
+                                } else {
+                                    ValMessage += "• " + field.substr(0, field.lastIndexOf("_Zip")) + ": Hay caracteres o correo no valido.\n";
+                                }
+
                                 Validado = false;
                             }
                         } else {
-                            ValMessage += "• " + field + ": Ha escrito doble punto y coma o un punto y coma al final.\n";
+
+                            if (field.search("_Zip" != 1)) {
+                                ValMessage += "• " + field + ": Ha escrito doble punto y coma o un punto y coma al final.\n";
+                            } else {
+                                ValMessage += "• " + field.substr(0, field.lastIndexOf("_Zip")) + ": Ha escrito doble punto y coma o un punto y coma al final.\n";
+                            }
+
                             Validado = false;
                         }
                     }
@@ -5087,12 +5099,20 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         ValMessage = "";
 
-        obj.cc = obj.cc == undefined ? "" : obj.cc;
-        obj.cco = obj.cco == undefined ? "" : obj.cco;
+        //TODO: Hacer lo mismo para Envio de ZIP y DocToolbar
+        var formMailTo = angular.element($("#formMailZipMailTo")).scope();
+        var formMailCc = angular.element($("#formMailZipCc")).scope();
+        var formMailCco = angular.element($("#formMailZipCco")).scope();
 
-        MailValidation = ValEmails(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
-        MailValidation = ValEmails(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
-        MailValidation = ValEmails(obj.cco.replaceAll(';', ','), reg, MailValidation, "Cco");
+        var MailTo = formMailTo.Value.substr(0, formMailTo.lastIndexOf(";")).replaceAll(';', ',');
+        var MailCc = formMailCc.Value.substr(0, formMailTo.lastIndexOf(";")).replaceAll(';', ',');
+        var MailCco = formMailCco.Value.substr(0, formMailTo.lastIndexOf(";")).replaceAll(';', ',');
+
+
+
+        MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(MailCco, reg, MailValidation, formMailCco.attribute);
 
 
         if (MailValidation == false) {
@@ -5119,9 +5139,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             zip.Idinfo = arrayEmailData;
 
             zip.UserId = GetUID();
-            zip.MailTo = obj.for;
-            zip.CC = obj.cc;
-            zip.CCO = obj.cco;
+            zip.MailTo = MailTo;
+            zip.CC = MailCc;
+            zip.CCO = MailCco;
             zip.Subject = obj.subject || "Te han enviado archivo/s.";
             zip.ZipName = obj.zipName || "Archivo";
             zip.ZipPassword = obj.zipPasswd || "";
