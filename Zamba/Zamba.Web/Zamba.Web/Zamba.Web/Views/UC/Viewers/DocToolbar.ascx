@@ -388,14 +388,14 @@
 
 
 
-<div id="ModalMail" class="modal fade" style="position: -ms-page; margin-top: 40px; margin-left: -185px; padding-right: 200px;" role="dialog" data-backdrop="false">
+<div id="ModalMail" class="modal fade" style="position: -ms-page; margin-top: 40px; margin-left: -185px; padding-right: 200px;" role="dialog" data-backdrop="false" onclick="hideEmailList()">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 800px;">
             <div class="titleColor">
                 <label class="mailColor">Enviar Mail</label>
             </div>
-            <form name="formMail" onclick="HideLisBoxModalMail(event);">
+            <form name="formMail" >
                 <div class="modal-body" id="EmailController" ng-controller="EmailController" >
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                         <label class="col-sm-1 control-label">Para</label>

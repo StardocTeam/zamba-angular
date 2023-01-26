@@ -5805,17 +5805,31 @@ function GetUID() {
     return;
 };
 
-function HideLisBoxModalMail(evento) {
-    var IdInput = evento.target.id
-
-    $("#AutoCompleteController input").each(function (i, item) {
+function hideEmailList(evento) {
+    debugger;
+    if ($(".ListEmails")) {
         if (evento.target.tagName == "INPUT" && item.id != IdInput.toString()) {
-            $("#ListEmails" + item.id)[0].style.display = "none";
+            $(".ListEmails").each(function (A, B) {
+                B.style.display = "none";
+            })
         } else if (evento.target.tagName != "INPUT") {
-            $("#ListEmails" + item.id)[0].style.display = "none";
-        }
-    });
+
+        }        
+    }
+
+    $("#hidePanel")[0].style.display = "none";
+    $("#hidePanelZip")[0].style.display = "none";
 }
+
+//function HideLisBoxModalMail(evento) {
+//    var IdInput = evento.target.id
+
+//    $("#AutoCompleteController input").each(function (i, item) {
+//        if (evento.target.tagName == "INPUT" && item.id != IdInput.toString()) {
+//            $("#ListEmails" + item.id)[0].style.display = "none";
+        
+//    });
+//}
 
 function GetDOCID() {
     var docid = 0;

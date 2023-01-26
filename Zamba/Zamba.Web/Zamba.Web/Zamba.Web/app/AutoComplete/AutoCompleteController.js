@@ -73,6 +73,8 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
 
     $scope.CollapsingCombo = function () {
         $("#ListEmails" + $scope.attribute)[0].style.display = "none";
+        $("#hidePanel")[0].style.display = "none";
+        $("#hidePanelZip")[0].style.display = "none";
     }
 
     $scope.ExpandCombo = function ($event) {
@@ -102,8 +104,12 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
 
         if (self.querySearch(search, emailsList)) {
             $("#ListEmails" + $scope.attribute)[0].style.display = "flex";
+            $("#hidePanel")[0].style.display = "block";
+            $("#hidePanelZip")[0].style.display = "block";
         } else {
             $("#ListEmails" + $scope.attribute)[0].style.display = "none";
+            $("#hidePanel")[0].style.display = "none";
+            $("#hidePanelZip")[0].style.display = "none";
         }
     }
 
@@ -138,15 +144,21 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
         $scope.Value = stringMails;
 
         $("#ListEmails" + $scope.attribute)[0].style.display = "none";
+        $("#hidePanel")[0].style.display = "none";
+        $("#hidePanelZip")[0].style.display = "none";
     }
 
     function onblur() {
         $("#ListEmails" + $scope.attribute)[0].style.display = "none";
+        $("#hidePanel")[0].style.display = "none";
+        $("#hidePanelZip")[0].style.display = "none";
     }
 
     $scope.$on('EmailsObtained', function (event, args) {
         $scope.EmailsObtained = args.Emails;
     });
+
+
 });
 
 
