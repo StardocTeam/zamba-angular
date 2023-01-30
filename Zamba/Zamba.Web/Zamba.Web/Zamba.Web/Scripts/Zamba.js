@@ -5821,7 +5821,7 @@ function hideEmailList(evento) {
                 $("#hidePanel")[0].style.display = "none";
 
                 if ($("#hidePanelZip")[0]) {
-                    $("#hidePanelZip")[0].style.display = none;
+                    $("#hidePanelZip")[0].style.display = "none";
                 }
             })
         }
@@ -5831,7 +5831,7 @@ function hideEmailList(evento) {
                 $("#hidePanel")[0].style.display = "none";
 
                 if ($("#hidePanelZip")[0]) {
-                    $("#hidePanelZip")[0].style.display = none;
+                    $("#hidePanelZip")[0].style.display = "none";
                 }
 
             })
