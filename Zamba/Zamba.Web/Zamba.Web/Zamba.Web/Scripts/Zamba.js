@@ -5826,14 +5826,12 @@ function hideEmailList(evento) {
     });
 }
 
-function HideLisBoxModalMail(evento) {
-    var IdInput = evento.target.id
-
-    $("#AutoCompleteController input").each(function (i, item) {
-        if (evento.target.tagName == "INPUT" && item.id != IdInput.toString()) {
-            $("#ListEmails" + item.id)[0].style.display = "none";
-        }
-    });
+function hideEmailList_onClose() {
+    $(".ListEmails").each(function (A, B) {
+        B.style.display = "none";
+        $("#hidePanel")[0].style.display = "none";
+        $("#hidePanelZip")[0].style.display = "none";
+    })
 }
 
 
