@@ -388,7 +388,7 @@
 
 
 
-<div id="ModalMail" class="modal fade" style="position: -ms-page; margin-top: 40px; margin-left: -185px; padding-right: 200px;" role="dialog" data-backdrop="false" onclick="hideEmailList()">
+<div id="ModalMail" class="modal fade" style="position: -ms-page; margin-top: 40px; margin-left: -185px; padding-right: 200px;" role="dialog" data-backdrop="false" onclick="hideEmailList(event)">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content" style="width: 800px;">
@@ -434,6 +434,7 @@
                         </div>
                     </div>
 
+                    <div id="hidePanel" style="height: 245px; width: 768px; position: absolute; display:none" onclick="hideEmailList(event)"></div>
                     <div class="form-group">
                         <textarea name="messageBody" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" id="editor" rows="10" cols="80"></textarea>
                     </div>

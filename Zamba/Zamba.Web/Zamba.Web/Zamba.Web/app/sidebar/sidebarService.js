@@ -28,7 +28,6 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
                 }
             };
         }
-        debugger;
         return $http.post(serviceBase + '/tasks/ExecuteTaskRule', JSON.stringify(genericRequest));
     };
 

@@ -289,7 +289,6 @@
     }
 
     $scope.executeActionTaskTree = function () {
-        debugger;
         let currentItem = this.item;
         if (currentItem.RuleId == 0)
             return;
