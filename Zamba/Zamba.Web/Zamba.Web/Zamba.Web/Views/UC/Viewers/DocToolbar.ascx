@@ -882,9 +882,6 @@
 
     var ValMessage;
     function SendEmail() {
-
-
-
         var docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
         var doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
         var mailContainer = $("#ModalMail");
@@ -898,9 +895,9 @@
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        var MailTo = formMailTo.Value.replaceAll(';', ',');
-        var MailCc = formMailCc.Value.replaceAll(';', ',');
-        var MailCco = formMailCco.Value.replaceAll(';', ',');
+        var MailTo = formMailTo.Value.substr(0, formMailTo.Value.lastIndexOf(";")).replaceAll(';', ',');
+        var MailCc = formMailCc.Value.substr(0, formMailTo.Value.lastIndexOf(";")).replaceAll(';', ',');
+        var MailCco = formMailCco.Value.substr(0, formMailTo.Value.lastIndexOf(";")).replaceAll(';', ',');
 
         MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
         MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
@@ -920,8 +917,8 @@
             if (!docId)
                 docId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocId").value;
 
-            var IdInfo = {};
-            IdInfo.Docid = parseInt(docId);
+            var IdInfo = [];
+            IdInfo.DocId = parseInt(docId);
             IdInfo.DocTypeid = parseInt(doctypeId);
 
             var attachsIds = [];
