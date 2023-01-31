@@ -895,9 +895,9 @@
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        var MailTo = formMailTo.Value.substr(0, formMailTo.Value.lastIndexOf(";")).replaceAll(';', ',');
-        var MailCc = formMailCc.Value.substr(0, formMailTo.Value.lastIndexOf(";")).replaceAll(';', ',');
-        var MailCco = formMailCco.Value.substr(0, formMailTo.Value.lastIndexOf(";")).replaceAll(';', ',');
+        var MailTo = formMailTo.Value.replaceAll(';', ',');
+        var MailCc = formMailCc.Value.replaceAll(';', ',');
+        var MailCco = formMailCco.Value.replaceAll(';', ',');
 
         MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
         MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
