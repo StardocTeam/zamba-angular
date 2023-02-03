@@ -7,8 +7,7 @@
     End Sub
 
     Public Function Play(ByVal results As List(Of ITaskResult)) As List(Of ITaskResult)
-        'Ir al Home de la web
-        Return results
+        Return PlayWeb(results, Nothing)
     End Function
 
     Public Function PlayWeb(ByVal results As List(Of ITaskResult), ByVal Params As Hashtable) As List(Of ITaskResult)

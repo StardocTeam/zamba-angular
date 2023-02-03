@@ -68,7 +68,7 @@ TryAgain:
                 Dim MaxId As Int64
                 Select Case IdType
                     Case IdTypes.RulePreference
-                        MaxId = Int64.Parse(con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE").ToString())
+                        MaxId = Int64.Parse(con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")).ToString())
                 End Select
 
                 If Id < MaxId Then
@@ -167,7 +167,7 @@ TryAgain:
                 Dim MaxId As Int64
                 Select Case IdType
                     Case IdTypes.RulePreference
-                        MaxId = Int64.Parse(t.Con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE").ToString())
+                        MaxId = Int64.Parse(t.Con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")).ToString())
                 End Select
 
                 If Id < MaxId Then
