@@ -3,6 +3,7 @@ using System;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
+using Zamba;
 using Zamba.Core;
 
 namespace ScriptWebServices
@@ -38,6 +39,9 @@ namespace ScriptWebServices
             {
                 UserBusiness UB = new UserBusiness();
                 Zamba.Core.IUser user = UB.ValidateLogIn(int.Parse(currentuserid), ClientType.Web);
+                UserPreferences UP = new UserPreferences();
+                Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, user.ID));
+                user.TraceLevel = TraceLevel;
                 Zamba.Membership.MembershipHelper.SetCurrentUser(user);
                 Results_Business RB = new Results_Business();
                 var path = RB.GetTaskURL(int.Parse(currentuserid), int.Parse(docid), int.Parse(entityid), true);
