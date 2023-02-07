@@ -744,7 +744,7 @@ Namespace Search
 
                 'Obtener los filtros cuando solo tiene 1 entidad seleccionada
                 Dim filtersWeb As New List(Of IFilterElem)
-                If search.Doctypes.Count = 1 Then
+                If search.Doctypes.Count = 1 AndAlso search.View <> String.Empty Then
                     filtersWeb = New FiltersComponent().GetFiltersWebByView(search.Doctypes.First().ID, CurrentUserId, search.View).Where(Function(f) IsNumeric(f.Filter.Substring(1)) And f.Enabled).Select(Function(f) f).ToList()
                 End If
                 'Primero el where porque si se ordena por indice lo hace desde aca

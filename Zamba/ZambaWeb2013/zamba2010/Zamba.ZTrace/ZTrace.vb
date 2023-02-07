@@ -62,13 +62,6 @@ Public NotInheritable Class ZTrace
     End Property
 
 
-
-    Public Shared ReadOnly Property Level() As TraceLevel
-        Get
-            Return zTraceSw.Level
-        End Get
-    End Property
-
     ''' <summary>
     ''' Verifica si el log debe escribir verbose
     ''' Equivale al nivel 4
@@ -79,7 +72,7 @@ Public NotInheritable Class ZTrace
         End Get
     End Property
 
-    Public Shared Property Enabled() As Boolean
+    Private Shared Property Enabled() As Boolean
         Get
             If zTraceSw.Level = TraceLevel.Off Then
                 Return False
@@ -99,7 +92,7 @@ Public NotInheritable Class ZTrace
         End Set
     End Property
 
-    Public Shared Property LastTraceDBTime As Date
+    Private Shared Property LastTraceDBTime As Date
 #End Region
 
 #Region "Métodos"
@@ -111,23 +104,10 @@ Public NotInheritable Class ZTrace
     ''' <history>
     '''     [Tomas] - 04/06/2009 - Created 
     ''' </history>
-    Public Shared Sub SetLevel(ByVal level As Int32)
-        'Asigna el nivel de trace
-        zTraceSw.Level = DirectCast(level, TraceLevel)
-    End Sub
-
-    ''' <summary>
-    ''' Create a new listener and assign the tracing level.
-    ''' </summary>
-    ''' <param name="level">Trace level</param>
-    ''' <param name="zModuleName">Módule name</param>
-    ''' <history>
-    '''     [Tomas] - 04/06/2009 - Created 
-    ''' </history>
     Public Shared Sub SetLevel(ByVal level As Int32, ByVal zModuleName As String)
         'Crea el listener
         If level <> 0 Then
-            AddListener(zModuleName)
+            'AddListener(zModuleName)
             Zamba.AppBlock.ZException.ModuleName = zModuleName
         End If
         'Asigna el nivel de trace
@@ -143,7 +123,7 @@ Public NotInheritable Class ZTrace
     ''' <history>
     '''     [Tomas] - 04/06/2009 - Created 
     ''' </history>
-    Public Shared Sub AddListener(ByVal zModule As String)
+    Private Shared Sub AddListener(ByVal zModule As String)
         Try
             For Each Chr As Char In IO.Path.GetInvalidFileNameChars
                 zModule = zModule.Replace(Chr, String.Empty)
@@ -178,13 +158,12 @@ Public NotInheritable Class ZTrace
                     _hsSingletonZCoreInstances.Add(zCoreKey, Listener)
 
                     Listener.WriteLine("<html lang='es'><head>    <meta charset='utf-8'>    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>    <title></title> <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'><style>.row{height:15px;} .data{margin-left: .5rem;}</style></head>  <body style='font-size: .7rem'><div class='container-fluid'>")
-                    Listener.Flush()
                 End If
             End SyncLock
 
             If traceDate = 0 Then
-                    traceDate = Date.Today.Day
-                End If
+                traceDate = Date.Today.Day
+            End If
 
 
         Catch ex As Exception
@@ -200,7 +179,7 @@ Public NotInheritable Class ZTrace
     ''' <history>
     '''     [Tomas] - 04/06/2009 - Created 
     ''' </history>
-    Public Shared Sub RemoveListener(ByVal zModuleName As String)
+    Private Shared Sub RemoveListener(ByVal zModuleName As String)
         Try
             'Busca el listener viejo y lo cierra para apuntar a otro log
             If Not IsNothing(Trace.Listeners(zModuleName)) Then
@@ -220,7 +199,7 @@ Public NotInheritable Class ZTrace
     ''' <history>
     '''     [Tomas] - 04/06/2009 - Created 
     ''' </history>
-    Public Shared Sub RemoveListener(ByVal zModuleIndex As Int32)
+    Private Shared Sub RemoveListener(ByVal zModuleIndex As Int32)
         Try
             'Busca el listener viejo y lo cierra para apuntar a otro log
             If Not IsNothing(Trace.Listeners(zModuleIndex)) Then
@@ -234,7 +213,7 @@ Public NotInheritable Class ZTrace
         End Try
     End Sub
 
-    Public Shared Function GetTraceTimeandMemory() As String
+    Private Shared Function GetTraceTimeandMemory() As String
         Dim SB As New System.Text.StringBuilder
 
         Try
@@ -321,7 +300,7 @@ Public NotInheritable Class ZTrace
     ''' </summary>
     ''' <returns>Lista de listeners detenidos para reiniciarlos luego</returns>
     ''' <remarks>Se puede utilizar en conjunto con StartListeners</remarks>
-    Public Shared Function StopListeners() As List(Of String)
+    Private Shared Function StopListeners() As List(Of String)
         'En caso de haber cambiado la fecha se cierra el log del día anterior y se crea uno nuevo
         Dim listeners As New List(Of String)
 
@@ -344,7 +323,7 @@ Public NotInheritable Class ZTrace
     ''' </summary>
     ''' <param name="listeners">Listeners a iniciar</param>
     ''' <remarks>Se puede utilizar en conjunto con StopListeners</remarks>
-    Public Shared Sub StartListeners(ByVal listeners As List(Of String))
+    Private Shared Sub StartListeners(ByVal listeners As List(Of String))
         'Agrego los listeners nuevos apuntando a otro log
         For Each listenerName As String In listeners
             AddListener(listenerName)
@@ -383,7 +362,7 @@ Public NotInheritable Class ZTrace
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function GetCallStack() As String
+    Private Shared Function GetCallStack() As String
         Dim stackTrace As New StackTrace()
         Dim stackFrames As StackFrame()
         Dim sb As New Text.StringBuilder()
@@ -469,13 +448,15 @@ Public NotInheritable Class ZTrace
 
     End Sub
 
+
     ''' <summary>
     ''' Obtiene la instancia actual de ZCore
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function GetInstance() As TraceListener
+    Private Shared Function GetInstance() As TraceListener
         Dim zCoreKey As String = GetKey()
+        SetLevel()
         If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
             AddListener(zCoreKey)
         End If
@@ -497,6 +478,18 @@ Public NotInheritable Class ZTrace
             Return SessionName
         Else
             Return "CommonWebServiceTrace"
+        End If
+    End Function
+
+    Private Shared Function SetLevel()
+        If Membership.MembershipHelper.isWeb Then
+            Dim TraceLevel As Int32 = 4
+            If Membership.MembershipHelper.CurrentUser IsNot Nothing Then
+                TraceLevel = Membership.MembershipHelper.CurrentUser.TraceLevel
+                If (TraceLevel > 0) Then
+                    zTraceSw.Level = TraceLevel
+                End If
+            End If
         End If
     End Function
 

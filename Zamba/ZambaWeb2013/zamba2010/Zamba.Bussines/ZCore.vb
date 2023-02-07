@@ -1179,7 +1179,7 @@ Public Class ZCore
             level = 4
         End Try
         ZTrace.SetLevel(level, moduleName)
-        ZTrace.WriteLineIf(ZTrace.IsError, "Nivel de trace: " & level)
+
         UP = Nothing
     End Sub
 

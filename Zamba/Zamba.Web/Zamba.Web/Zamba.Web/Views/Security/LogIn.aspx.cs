@@ -207,6 +207,9 @@ public partial class Login : System.Web.UI.Page
                             UB.UpdateUser(LastAdUser);
                             UB.UpdateAllById(currentWinUser.ID, currentWinUser.Name, currentWinUser.Password, currentWinUser.eMail.ProveedorSMTP, currentWinUser.eMail.Puerto, currentWinUser.eMail.Mail, null, Convert.ToInt16(currentWinUser.Type));
                         }
+                        UserPreferences UP = new UserPreferences();
+                        Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, currentWinUser.ID));
+                        currentWinUser.TraceLevel = TraceLevel;
                         Zamba.Membership.MembershipHelper.SetCurrentUser(currentWinUser);
                     }
                     else
@@ -246,6 +249,9 @@ public partial class Login : System.Web.UI.Page
 
                             UB.AddUser(newuser);
                             UB.SetNewUser(ref newuser);
+                            UserPreferences UP = new UserPreferences();
+                            Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, newuser.ID));
+                            newuser.TraceLevel = TraceLevel;
                             MembershipHelper.SetCurrentUser(newuser);
                         }
                         else

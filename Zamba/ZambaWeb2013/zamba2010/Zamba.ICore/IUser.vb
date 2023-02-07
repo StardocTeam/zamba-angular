@@ -19,5 +19,6 @@ Public Interface IUser
     Property Description() As String
     Property MailConfigLoaded() As Boolean
     Property ThumbNailPhoto As String
+    Property TraceLevel As Integer
 End Interface
 
