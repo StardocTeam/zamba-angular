@@ -819,9 +819,11 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (SelectedEntitiesIds != null)
                 {
-                    IndexsBusiness IB = new IndexsBusiness();
-                    Indexs = IB.GetIndexsSchema(user.ID, SelectedEntitiesIds);
-                    IB = null;
+                    if (SelectedEntitiesIds.Count > 0) {
+                        IndexsBusiness IB = new IndexsBusiness();
+                        Indexs = IB.GetIndexsSchema(user.ID, SelectedEntitiesIds);
+                        IB = null;
+                    }
                 }
                 if (Indexs != null)
                 {
