@@ -3540,8 +3540,10 @@ function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
         }
 
         if (openmode == 2) {
-            ShowIFrameHome(Url, 600);
+            window.open(Url, '_self');
+            //            ShowIFrameHome(Url, 600);
         }
+
         // Nueva ventana
         if (openmode == 3) {
             Url += "&Ed=true";

@@ -181,6 +181,7 @@ Public Class UserBusiness
             u.ID = 9999
             u.Name = "Zamba1234567"
             u.Password = "1234567"
+            u.TraceLevel = 4
             MembershipHelper.SetCurrentUser(u)
             Return u
         End If
@@ -190,6 +191,9 @@ Public Class UserBusiness
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar: " & name)
                 Return Nothing
             End If
+            Dim UP As New UserPreferences
+            Dim TraceLevel As Int32 = UP.getValue("TraceLevel", UPSections.UserPreferences, 4, CurrentUser.ID)
+            CurrentUser.TraceLevel = TraceLevel
             MembershipHelper.SetCurrentUser(CurrentUser)
             Return CurrentUser
         Catch
@@ -1062,8 +1066,7 @@ Public Class UserBusiness
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function ValidateLogIn(ByVal User As String, ByVal Password As String, ByVal clientType As ClientType) As IUser
-        Dim oldLevel As Int32 = ZTrace.Level
-        ZTrace.SetLevel(3)
+
         Dim currentUser As IUser = validateUser(User, Password)
 
         If IsNothing(currentUser) Then
@@ -1077,14 +1080,12 @@ Public Class UserBusiness
         End If
 
         MembershipHelper.ClientType = clientType
-        ZTrace.SetLevel(oldLevel)
+
         Return currentUser
 
     End Function
 
     Public Function ValidateLogIn(ByVal ID As Long, ByVal clientType As ClientType) As IUser
-        Dim oldLevel As Int32 = ZTrace.Level
-        ZTrace.SetLevel(3)
         If ID < 1 Then
             Return Nothing
         End If
@@ -1093,22 +1094,24 @@ Public Class UserBusiness
             ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar. Id de usuario: " & ID)
             Throw New Exception("El usuario no se pudo validar. Id de usuario: " & ID)
         End If
+        Dim UP As New UserPreferences
+        Dim TraceLevel As Int32 = UP.getValue("TraceLevel", UPSections.UserPreferences, 4, CurrentUser.ID)
+        CurrentUser.TraceLevel = TraceLevel
         MembershipHelper.SetCurrentUser(CurrentUser)
         MembershipHelper.ClientType = clientType
-        ZTrace.SetLevel(oldLevel)
         Return CurrentUser
     End Function
 
     Public Function ValidateLogIn(ByVal CurrentUser As IUser, ByVal clientType As ClientType) As IUser
-        Dim oldLevel As Int32 = ZTrace.Level
-        ZTrace.SetLevel(3)
         If CurrentUser Is Nothing Then
             ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar.")
             Throw New Exception("El usuario no se pudo validar.")
         End If
+        Dim UP As New UserPreferences
+        Dim TraceLevel As Int32 = UP.getValue("TraceLevel", UPSections.UserPreferences, 4, CurrentUser.ID)
+        CurrentUser.TraceLevel = TraceLevel
         MembershipHelper.SetCurrentUser(CurrentUser)
         MembershipHelper.ClientType = clientType
-        ZTrace.SetLevel(oldLevel)
         Return CurrentUser
     End Function
 

@@ -90,6 +90,9 @@ namespace ZambaWeb.RestApi.Controllers
                     UserId = user.ID.ToString()
                 };
                 user.ConnectionId = int.Parse(tI.connectionId);
+                UserPreferences UP = new UserPreferences();
+                Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, user.ID));
+                user.TraceLevel = TraceLevel;
                 Zamba.Membership.MembershipHelper.SetCurrentUser(user);
                 return Ok(tI);
             }
@@ -237,7 +240,9 @@ namespace ZambaWeb.RestApi.Controllers
 
 
                             newuser.ID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
-
+                            UserPreferences UP = new UserPreferences();
+                            Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, user.ID));
+                            user.TraceLevel = TraceLevel;
                             MembershipHelper.SetCurrentUser(newuser);
 
 
@@ -394,6 +399,9 @@ namespace ZambaWeb.RestApi.Controllers
                     userName = user.Name,
                 };
                 user.ConnectionId = int.Parse(tI.connectionId);
+                UserPreferences UP = new UserPreferences();
+                Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, user.ID));
+                user.TraceLevel = TraceLevel;
                 Zamba.Membership.MembershipHelper.SetCurrentUser(user);
                 var js = JsonConvert.SerializeObject(tI);
                 return Ok(js);

@@ -914,15 +914,15 @@ Public Class WFFactory
 #End Region
 
 #Region "Validate"
-    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64) As Int32
+    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, Entityid As Int64) As Int32
         Dim Docscount As New Int32
-        Docscount = Server.Con.ExecuteScalar(CommandType.Text, "SELECT COUNT(1) FROM WFDocument WHERE Doc_ID = " + DocId.ToString + " AND work_Id = " + wfid.ToString)
+        Docscount = Server.Con.ExecuteScalar(CommandType.Text, "SELECT COUNT(1) FROM WFDocument  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE Doc_ID = " + DocId.ToString + " AND work_Id = " + wfid.ToString & " AND DOC_TYPE_ID = " & Entityid)
         Return Docscount
     End Function
 
-    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, ByVal t As Transaction) As Int32
+    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, Entityid As Int64, ByVal t As Transaction) As Int32
         Dim Docscount As New Int32
-        Docscount = t.Con.ExecuteScalar(t.Transaction, CommandType.Text, "SELECT COUNT(1) FROM WFDocument WHERE Doc_ID = " + DocId.ToString + " AND work_Id = " + wfid.ToString)
+        Docscount = t.Con.ExecuteScalar(t.Transaction, CommandType.Text, "SELECT COUNT(1) FROM WFDocument  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE Doc_ID = " & DocId.ToString & " AND work_Id = " & wfid.ToString & " doc_type_id = " & Entityid)
         Return Docscount
     End Function
 
@@ -930,7 +930,7 @@ Public Class WFFactory
 
     'todo Andres : volvi a agregar este metodo porque tenia una llamada desde wfBusiness (marcelo)
     Public Function GetWorkflowsAndTaskCount() As DataSet
-        Const query As String = "SELECT work_id, Wstat_id, Name, Description, Help, CreateDate, EditDate, Refreshrate, InitialStepId , (SELECT count(1) FROM WFDocument WHERE work_id = WFWorkflow.work_id ) as TaskCount FROM WFWorkflow"
+        Dim query As String = "SELECT work_id, Wstat_id, Name, Description, Help, CreateDate, EditDate, Refreshrate, InitialStepId , (SELECT count(1) FROM WFDocument  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE work_id = WFWorkflow.work_id ) as TaskCount FROM WFWorkflow  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")
 
         Return Server.Con.ExecuteDataset(query)
 
@@ -1199,8 +1199,8 @@ Public Class WFFactory
 
         Dim query As New System.Text.StringBuilder
 
-        query.Append("SELECT ObjValue FROM ZRuleOpt ")
-        query.Append("Where RuleId = " & ruleId & " AND SectionId = " & ruleSectionId & " AND ObjectId = " & objId & " AND ObjExtraData = '" & stateId & "'")
+        query.Append("SELECT ObjValue FROM ZRuleOptbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", ""))
+        query.Append(" Where RuleId = " & ruleId & " AND SectionId = " & ruleSectionId & " AND ObjectId = " & objId & " AND ObjExtraData = '" & stateId & "'")
 
         Return (Server.Con.ExecuteDataset(CommandType.Text, query.ToString()))
 
@@ -1247,8 +1247,8 @@ Public Class WFFactory
     Public Function recoverDisableItemsBoth(ByVal ruleId As Int64) As DataSet
         Dim query As New System.Text.StringBuilder
 
-        query.Append("SELECT ObjExtraData, ObjValue, ObjectId FROM ZRuleOpt ")
-        query.Append("Where RuleId = " & ruleId & " AND SectionId = 3 AND ObjectId in (37,38,62)")
+        query.Append("SELECT ObjExtraData, ObjValue, ObjectId FROM ZRuleOptbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", ""))
+        query.Append(" Where RuleId = " & ruleId & " AND SectionId = 3 AND ObjectId in (37,38,62)")
 
         Return Server.Con.ExecuteDataset(CommandType.Text, query.ToString())
     End Function
@@ -1307,7 +1307,7 @@ Public Class WFFactory
         ' Se borran todos los elementos (estados, usuarios o grupos) deshabilitados que están guardados en la tabla según el ObjectId
         Dim query As New System.Text.StringBuilder
 
-        query.Append("DELETE FROM ZRuleOpt where RuleId = " & ruleid)
+        query.Append("DELETE FROM ZRuleOptbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " where RuleId = " & ruleid)
         query.Append(" and SectionID = " & RuleSectionid)
         query.Append(" and ObjectId = " & Objid)
 
@@ -1356,7 +1356,7 @@ Public Class WFFactory
 
         ' Para obtener el valor que contiene si el estado está habilitado o deshabilitado se necesita el id de la regla, sección del id 
         ' (solapa Habilitación - es para mayor seguridad) y id del estado
-        query.Append("Select ObjExtraData FROM ZRuleOpt Where ruleId = ")
+        query.Append("Select ObjExtraData FROM ZRuleOptbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where ruleId = ")
         query.Append(ruleId)
         query.Append(" And SectionId = ")
         query.Append(3)

@@ -1256,7 +1256,7 @@ Namespace WF.WF
 
             For Each Result As Result In Results
                 ' valido que no exista el result en el workflow
-                If WFB.ValidateDocIdInWF(Result.ID, WF.ID) = False Then
+                If WFB.ValidateDocIdInWF(Result.ID, WF.ID, Result.DocTypeId) = False Then
                     If IsNothing(WF.InitialStep) = False Then
                         Dim t As New TaskResult(WF.InitialStep, CoreData.GetNewID(IdTypes.Tasks), Result.ID, Result.DocType,
                                                 Result.Name, Result.IconId, 0, TaskStates.Asignada,
@@ -1367,7 +1367,7 @@ Namespace WF.WF
             For Each Result As Result In Results
 
                 ' valido que no exista el result en el workflow
-                If WFB.ValidateDocIdInWF(Result.ID, WF.ID, tran) = False Then
+                If WFB.ValidateDocIdInWF(Result.ID, WF.ID, Result.DocTypeId, tran) = False Then
 
                     If Not IsNothing(WF.InitialStep) Then
 
@@ -1669,7 +1669,7 @@ Namespace WF.WF
             For Each Result As Result In Results
 
                 ' Si el result no existe en el workflow
-                If (WFB.ValidateDocIdInWF(Result.ID, wfId) = False) Then
+                If (WFB.ValidateDocIdInWF(Result.ID, wfId, Result.DocTypeId) = False) Then
 
                     Dim t As New TaskResult(p_WStep.ID, CoreData.GetNewID(IdTypes.Tasks), Result.ID, Result.DocType, Result.Name, Result.IconId, 0, Zamba.Core.TaskStates.Desasignada, Result.Indexs, p_WStep.InitialState)
                     t.CheckIn = Now
