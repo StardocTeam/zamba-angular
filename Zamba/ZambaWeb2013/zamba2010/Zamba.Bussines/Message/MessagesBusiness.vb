@@ -657,6 +657,8 @@ Public Class MessagesBusiness
 
         If returnVal Then
             Try
+
+
                 If conf.SaveHistory Then
                     If conf.UseWebService Then
                         Dim mB As New MessagesBusiness

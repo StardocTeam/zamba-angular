@@ -796,6 +796,11 @@
         mailContainer.find('input[name="cco"]').val(CCO);
         mailContainer.find('input[name="subject"]').val(Subject);
 
+        if (document.getElementById("cke_1_contents") != undefined && document.getElementById("cke_1_contents") != null ) {
+            document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body;
+        }
+       
+
         var Link = AttachLink != undefined ? (AttachLink.toLowerCase() === 'true') : false;
         var FlagSendDocument = SendDocument != undefined ? SendDocument.toLowerCase() : false;
 
@@ -823,9 +828,20 @@
 
     var ValMessage;
     function SendEmail() {
+        
+        var emaildata = {};
+        let doctypeId, docId;
+        if (sessionStorage.getItem('ResultNewTask-' + GetUID()) !== undefined) {
+            let getNewResultsItem = JSON.parse(sessionStorage.getItem('ResultNewTask-' + GetUID()));
+            docId = getNewResultsItem[0].Docid;
+            doctypeId = getNewResultsItem[0].DocTypeid;
+            emaildata.isDomail = true;
+        } else {
+            docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
+            doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
+        }
 
-        var docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
-        var doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
+
         var mailContainer = $("#ModalMail");
         var MailValidation = true;
 
@@ -860,13 +876,13 @@
             $(".loadersmall").css("position", "static");
             $("#btnMailZipSubmit").hide();
             $("#btnMailZipMailClose").hide();
-
+            
             if (!doctypeId)
-                doctypeId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocTypeId").value;
+                    doctypeId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocTypeId").value;
 
             if (!docId)
-                docId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocId").value;
-
+                    docId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocId").value;
+          
             var IdInfo = {};
             IdInfo.Docid = parseInt(docId);
             IdInfo.DocTypeid = parseInt(doctypeId);
@@ -875,7 +891,7 @@
             attachsIds.push(IdInfo);
 
             var addLinks = mailContainer.find('input[name="addListLinks"]').prop("checked");
-            var emaildata = {};
+            
             emaildata.Idinfo = attachsIds;
             emaildata.MailTo = mailContainer.find('input[name="for"]').val();
             emaildata.CC = mailContainer.find('input[name="cc"]').val();

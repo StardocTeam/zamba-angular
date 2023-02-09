@@ -51,4 +51,7 @@ Public Interface IDOMail
     Property AttachTableColDocTypeId() As String
     Property AttachTableColDocId() As String
     Property AttachTableColDocName() As String
+
+    'Estas tres opciones se utilizan para configurar la opción de responder
+    Property Answer() As Boolean
 End Interface

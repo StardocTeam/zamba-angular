@@ -403,7 +403,7 @@ Public NotInheritable Class Email_Factory
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Exportado archivo a: " & fullPath)
     End Sub
 
-    Private Shared Sub SaveMsgFromDomail(ByRef para As String, ByRef cc As String, subject As String, body As String, ByRef docId As Long, MailPathVariable As String, remitente As String, ByRef exportPath As String)
+    Public Shared Sub SaveMsgFromDomail(ByRef para As String, ByRef cc As String, subject As String, body As String, ByRef docId As Long, MailPathVariable As String, remitente As String, ByRef exportPath As String)
         Dim SC As SmtpClient = New SmtpClient()
         Dim CreationDate As String = DateTime.Now().Ticks
         Dim _COMA As String = ","
@@ -522,7 +522,7 @@ Public NotInheritable Class Email_Factory
         End If
     End Sub
 
-    Private Shared Function CreateExportFolder(ByVal DocId As Int32) As String
+    Public Shared Function CreateExportFolder(ByVal DocId As Int32) As String
 
         Dim PathServidor As String = String.Empty
         Dim ExportPath As String = String.Empty
