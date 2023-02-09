@@ -11,7 +11,6 @@ using System.Web.Script.Services;
 using System.Data;
 using System.Text;
 using Zamba;
-using Zamba.Membership;
 
 namespace Zamba.Web.Services
 {
@@ -65,7 +64,6 @@ namespace Zamba.Web.Services
                 if (newEntityId != 0)
                 {
                     newResultIndexs = IB.GetIndexsSchemaAsListOfDT(newEntityId);
-                    var ResultIndexsDefaultValueDTO = IndexsBusiness.GetIndexDefaultValuesByDoctypeId(newEntityId);
 
                     foreach (IIndex parentindex in parentIndexs)
                     {
@@ -78,23 +76,11 @@ namespace Zamba.Web.Services
                                 newindex.DataTemp = parentindex.Data;
                                 newindex.dataDescriptionTemp = parentindex.dataDescription;
 
-                                
-
                                 if (newindex.Required && string.IsNullOrEmpty(newindex.DataTemp))
                                 {
                                     ErrorMsg = string.Format("El indice {0} es obligatorio", newindex);
                                     return new insertResultDto(ErrorMessage: ErrorMsg, InsertResult: InsertResult.ErrorIndicesIncompletos);
                                 }
-                            }
-                        }
-                    }
-
-                    foreach (IIndex newindex in newResultIndexs)
-                    {
-                        foreach (var item in ResultIndexsDefaultValueDTO)
-                        {
-                            if (newindex.ID == item.IndexId && item.MUSTCOMPLETE == 1 && item.DefaultValue != "") {
-                                newindex.DataTemp = item.DefaultValue;
                             }
                         }
                     }
@@ -112,7 +98,7 @@ namespace Zamba.Web.Services
                     if (newEntityId != 0)
                     {
                         INewResult newresult = new SResult().GetNewNewResult(docTypeId);
-                        res = sResult.Insert(ref newresult, filename, docTypeId, newResultIndexs, MembershipHelper.CurrentUser.ID);
+                        res = sResult.Insert(ref newresult, filename, docTypeId, newResultIndexs);
                         if (res == InsertResult.Insertado)
                         {
                             newDocIds.Add(newresult.ID);
@@ -164,7 +150,7 @@ namespace Zamba.Web.Services
                         ITaskResult TaskResult = Stasks.GetTaskByDocId(Convert.ToInt64(parentResult.ID));
                         if (TaskResult != null)
                         {
-                            RB.HistoricDocumentDropzone(TaskResult.TaskId, TaskResult.Name, TaskResult.DocTypeId, TaskResult.DocType.Name, TaskResult.StepId, TaskResult.WorkId, TaskResult.State.Name, WFStepBusiness.GetStepNameById(TaskResult.StepId));
+                            RB.HistoricDocumentDropzone(TaskResult.TaskId, TaskResult.Name, TaskResult.DocTypeId, TaskResult.DocType.Name, TaskResult.StepId, TaskResult.WorkId, TaskResult.State.Name);
                         }
 
                         Data.Transaction t = null;

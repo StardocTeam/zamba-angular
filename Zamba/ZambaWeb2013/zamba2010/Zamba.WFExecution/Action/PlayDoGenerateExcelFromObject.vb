@@ -44,8 +44,8 @@ Public Class PlayDoGenerateExcelFromObject
             'Else
             'extntype = myRule.ExportType
             'End If
-            Dim spireTools As New Zamba.FileTools.SpireTools()
-            spireTools.ExportToXLSx(dstoexcel.Tables(0), Me._myRule.Path & "\" & ExcelName & ".xlsx")
+            Dim spireTools As New SpireTools()
+            spireTools.ExportToXLS(dstoexcel.Tables(0), Me._myRule.Path & "\" & ExcelName & ".xls")
 
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "El archivo se ha generado con éxito.")
 

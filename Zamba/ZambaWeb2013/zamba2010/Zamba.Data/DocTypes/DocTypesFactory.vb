@@ -862,32 +862,6 @@ Public Class DocTypesFactory
 
     ''' -----------------------------------------------------------------------------
     ''' <summary>
-    ''' Devuelve el doctypeid a partir del from id 
-    ''' </summary>
-    ''' <param name="formid">ID del Tipo de documento</param>
-    ''' <returns>Cantidad</returns>
-    ''' <remarks>
-    ''' </remarks>
-    ''' <history>
-    ''' 	[FELIPE]	03/01/2022	Created
-    ''' </history>
-    ''' -----------------------------------------------------------------------------
-    Public Shared Function GetDocTyIdFromID(ByVal formid As Int64) As Int64
-        Dim sql As System.Text.StringBuilder
-        Try
-            sql = New System.Text.StringBuilder
-            sql.Append("Select * from Ztype_Zfrms")
-            sql.Append(" where form_id = ")
-            sql.Append(formid)
-            Return Convert.ToInt64(Server.Con.ExecuteScalar(CommandType.Text, sql.ToString))
-        Finally
-            sql = Nothing
-        End Try
-    End Function
-
-
-    ''' -----------------------------------------------------------------------------
-    ''' <summary>
     ''' Devuelve la cantidad de documentos, en base al ID
     ''' </summary>
     ''' <param name="DocTypeId"></param>
@@ -1747,7 +1721,7 @@ Public Class DocTypesFactory
         End Try
     End Sub
 
-    Public Shared Function GetDocTypesbyUserRights(ByVal UserId As Int64, ByVal RightType As Zamba.Core.RightsType) As List(Of IDocType)
+    Public Shared Function GetDocTypesbyUserRights(ByVal UserId As Int64, ByVal RightType As Zamba.Core.RightsType) As List(Of DocType)
         If Server.isOracle Then
             Dim parValues() As Object = {UserId, CInt(RightType), 2}
             Dim dstemp As DataSet
@@ -1756,12 +1730,11 @@ Public Class DocTypesFactory
             ZTrace.WriteLineIf(ZTrace.IsInfo, " el RightType es :  " & CInt(RightType))
             dstemp = Server.Con.ExecuteDataset(CommandType.Text, "Select  distinct dt.* from doc_type dt  inner join doc_type_r_doc_type_group dtrg on dt.doc_type_id = dtrg.doc_type_id inner join doc_type_group dtg on dtg.doc_type_group_id = dtrg.doc_type_group where dt.Doc_type_id in ( Select distinct(aditional) from usr_rights where (groupid = " & UserId & " or groupid in (select inheritedusergroup from group_r_group where usergroup = " & UserId & ") or groupid in (Select groupid from usr_r_group where usrid= " & UserId & ") or groupid in (select inheritedusergroup from group_r_group where usergroup in (Select groupid from usr_r_group where usrid= " & UserId & "))) And (objid=2 and rtype=" & CInt(RightType) & "))  order by doc_type_name")
 
-            Dim DocTypes As New List(Of IDocType)
+            Dim DocTypes As New List(Of DocType)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "ejecucion con exito")
             Dim i As Int32
             For i = 0 To dstemp.Tables(0).Rows.Count - 1
-                Dim DocType As IDocType
-                DocType = New DocType(Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOC_TYPE_ID")),
+                Dim DocType As New DocType(Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOC_TYPE_ID")),
                 dstemp.Tables(0).Rows(i).Item("DOC_TYPE_NAME").ToString(),
                 Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("FILE_FORMAT_ID")),
                 Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DISK_GROUP_ID")),
@@ -1776,7 +1749,7 @@ Public Class DocTypesFactory
         Else
             Dim dr As IDataReader
             Dim con As IConnection
-            Dim DocTypes As New List(Of IDocType)
+            Dim DocTypes As New List(Of DocType)
 
             Try
                 Dim parValues() As Object = {UserId, RightType}
@@ -1785,8 +1758,7 @@ Public Class DocTypesFactory
                 dr = con.ExecuteReader("zsp_doctypes_400_GetDocTypesByUserRights", parValues)
 
                 While dr.Read
-                    Dim DocType As IDocType
-                    DocType = New DocType(Convert.ToInt32(dr.GetValue(dr.GetOrdinal("DOC_TYPE_ID"))),
+                    Dim DocType As New DocType(Convert.ToInt32(dr.GetValue(dr.GetOrdinal("DOC_TYPE_ID"))),
                     dr.GetValue(dr.GetOrdinal("DOC_TYPE_NAME")).ToString(),
                     Convert.ToInt32(dr.GetValue(dr.GetOrdinal("FILE_FORMAT_ID"))),
                     Convert.ToInt32(dr.GetValue(dr.GetOrdinal("DISK_GROUP_ID"))),

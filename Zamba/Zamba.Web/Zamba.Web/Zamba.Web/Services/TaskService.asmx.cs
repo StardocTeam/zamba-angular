@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -79,6 +78,7 @@ namespace ScriptWebServices
         }
 
 
+
         [WebMethod(true)]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string GetTaskCount(long stepId, long usrId, string nodeId)
@@ -86,27 +86,25 @@ namespace ScriptWebServices
             string taskCount = new WFTaskBusiness().GetTaskCount(stepId, true, usrId).ToString();
             return taskCount + "|" + nodeId;
         }
-        
-        
-        //[WebMethod(true)]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public List<string> GetTaskCountArray(long usrId, string[] nodeIdArray, long[] stepIdArray)
-        //{
-        //    var taskCount = new List<string>();
-        //    int i = 0;
-        //    try
-        //    {
-        //        foreach (var node in nodeIdArray)
-        //        {
-        //            taskCount.Add(GetTaskCount(stepIdArray[i++], usrId, node));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ZClass.raiseerror(ex);
-        //    }
-        //    return taskCount;
-        //}
+        [WebMethod(true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public List<string> GetTaskCountArray(long usrId, string[] nodeIdArray, long[] stepIdArray)
+        {
+            var taskCount = new List<string>();
+            int i = 0;
+            try
+            {
+                foreach (var node in nodeIdArray)
+                {
+                    taskCount.Add(GetTaskCount(stepIdArray[i++], usrId, node));
+                }
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+            }
+            return taskCount;
+        }
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -164,7 +162,9 @@ namespace ScriptWebServices
         public long GetUserIdByName(string userName)
         {
             UserBusiness UserBusiness = new UserBusiness();
-            IUser user = UserBusiness.GetUserByname(userName, true);           
+            IUser user = UserBusiness.GetUserByname(userName,false);
+            string name = user.Nombres;
+            string surname = user.Apellidos;
             long id = user.ID;
             return id;
         }
@@ -176,13 +176,13 @@ namespace ScriptWebServices
             UserBusiness UserBusiness = new UserBusiness();
             var windowsUserDomain = System.Web.HttpContext.Current.User.Identity.Name;
             var windowsUser = windowsUserDomain.Split('\\')[1];
-            IUser user = UserBusiness.GetUserByname(windowsUser, true);
+            IUser user = UserBusiness.GetUserByname(windowsUser,false);
 
             //this.Context.Response.ContentType = "application/json; charset=utf-8";
 
             //JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
             //return jsonSerialiser.Serialize(jsonList);
-            return Newtonsoft.Json.JsonConvert.SerializeObject(user);
+            return "Newtonsoft.Json.JsonConvert.SerializeObject(user)";
         }
 
         [WebMethod(EnableSession = true)]
@@ -234,71 +234,10 @@ namespace ScriptWebServices
             Login log = new Login();
             //log.timeOutLogin(data.TimeOutUserText, data.TimeOutPass, data.ConnectionId);
             Zamba.Core.IUser user = UB.ValidateLogIn(data.TimeOutUserText, data.TimeOutPass, ClientType.Web);
+            UB = null;
             log.timeOutLogin(user, data.ConnectionId);
+
             return "loginok";
-        }
-
-        /// <summary>
-        /// Metodo para recibir la llamada de la vista y verificar que el currenUser no este null
-        /// </summary>
-        [WebMethod(EnableSession = true)]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public string IsConnectionActive(int userId, string token, int userLocalStorage)
-        {
-            try
-            {
-                 Dictionary<string, bool> result = new Dictionary<string, bool>();
-                var newresults = string.Empty;
-                Results_Business RB = new Results_Business();
-                UserBusiness ub = new UserBusiness();
-
-                bool IsValid = Zamba.Membership.MembershipHelper.CurrentUser != null;
-                bool IsseccionValid = RB.getValidateActiveSession(userId, token);
-
-               
-                // para evaluar si el curren esta muerto y el usuario de la url esta vivo hacer relogin
-                if (!IsValid && IsseccionValid && userId == userLocalStorage)
-                {
-                    ub.ValidateLogIn(userId, ClientType.Web);
-                    IsValid = true;
-                }
-
-
-                bool isReload = Zamba.Membership.MembershipHelper.CurrentUser == null ||Zamba.Membership.MembershipHelper.CurrentUser.ID != userId;
-                bool RebuildUrl = Zamba.Membership.MembershipHelper.CurrentUser != null && Zamba.Membership.MembershipHelper.CurrentUser.ID != userLocalStorage;
-
-                // esta condicion es para cuando se reconstruye la url
-                if (!RebuildUrl) { 
-                
-                     RebuildUrl = IsValid && isReload && !RebuildUrl; 
-                }
-                
-
-                //if (IsValid && !RebuildUrl)
-                //{
-                    
-                //    IsValid = RB.getValidateActiveSession(userId, token);
-
-                //    if (IsValid)
-                //    {
-                       
-                //        ub.ValidateLogIn(userId, ClientType.Web);
-                //    }
-
-                //}
-
-                result.Add("IsValid", IsValid);
-                result.Add("isReload", isReload);
-                result.Add("RebuildUrl", RebuildUrl);
-                newresults = JsonConvert.SerializeObject(result);
-
-                return newresults;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw;
-            }
         }
 
         [WebMethod]
@@ -420,7 +359,7 @@ namespace ScriptWebServices
             IFiltersComponent ss = new FiltersComponent();
             WFStepBusiness WFSB = new WFStepBusiness();
             DataTable DocTypes = WFSB.GetDocTypesByWfStepAsDT(usedfilters.StepId, usedfilters.currentUserid);
-            
+            WFSB = null;
             if (DocTypes.Rows.Count == 0) return null;
             var UsedFilter = ss.GetLastUsedFilters(Convert.ToInt64(DocTypes.Rows[0][0]), usedfilters.currentUserid, true);
 
@@ -516,7 +455,7 @@ namespace ScriptWebServices
             FiltersComponent FC = new FiltersComponent();
             WFStepBusiness WFSB = new WFStepBusiness();
             DataTable DocTypes = WFSB.GetDocTypesByWfStepAsDT(deleteFilter.StepId, deleteFilter.CurrentUserId);
-            
+            WFSB = null;
 
             var UsedFilter = FC.GetLastUsedFilters(Convert.ToInt64(DocTypes.Rows[0][0]), deleteFilter.CurrentUserId, true);
 
@@ -586,7 +525,6 @@ namespace ScriptWebServices
             UserBusiness UB = new UserBusiness();
             UB.ClearUserCache(userId);
         }
-
         [WebMethod(true)]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = true)]
         public void CleanSessionVariable(string varName)
@@ -599,6 +537,9 @@ namespace ScriptWebServices
             {
                 throw ex;
             }
+
         }
+
+
     }
 }

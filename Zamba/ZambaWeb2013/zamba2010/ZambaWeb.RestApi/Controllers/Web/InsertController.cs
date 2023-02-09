@@ -24,11 +24,11 @@ using Zamba.Services;
 using System.Web;
 using ZambaWeb.RestApi.ViewModels;
 using Zamba.Framework;
-using Zamba.Membership;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [RoutePrefix("api/Insert")]
+    [RestAPIAuthorize]
     public class InsertController : ApiController
     {
         #region Constructor&ClassHelpers
@@ -49,6 +49,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("Insert")]
+        [OverrideAuthorization]
         ///Adaptacion de views/insert.aspx.cs/InsertDoc
         public IHttpActionResult InsertDoc(InsertParamVM param)
         {
@@ -87,7 +88,7 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     var insertResult = new InsertVM();
                     INewResult newresult = new SResult().GetNewNewResult(param.DocTypeId);
-                    res = sResult.Insert(ref newresult, filename, param.DocTypeId, Indexs, MembershipHelper.CurrentUser.ID);
+                    res = sResult.Insert(ref newresult, filename, param.DocTypeId, Indexs);
                     if (res == InsertResult.Insertado)
                     {
                         if (newresult.Disk_Group_Id > 0 &&
@@ -139,6 +140,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [System.Web.Http.AcceptVerbs("POST")]
+        [OverrideAuthorization]
         [Route("GetUserRightToInsert")]
         ///Adaptacion de views/insert.aspx.cs/InsertDoc
         public bool GetUserRightToInsert(long userid)

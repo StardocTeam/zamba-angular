@@ -45,13 +45,8 @@ Public Class PlayIfGroups
                     Next
                 Case Comparators.CurrentUser, Comparators.NotCurrentUser
                     taskadded = False
-                    Dim UserGroupList As List(Of Long) = UGB.GetGroupsAndInheritanceOfGroupsIds(Membership.MembershipHelper.CurrentUser.ID, True)
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"Grupos a los que pertenece el usuario: {String.Join(",", UserGroupList)}")
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"Grupos a comparar: {String.Join(",", GroupList)}")
-
-                    For Each UserGroupID As Int64 In UserGroupList
+                    For Each UserGroupID As Int64 In UGB.GetGroupsAndInheritanceOfGroupsIds(Membership.MembershipHelper.CurrentUser.ID, True)
                         If GroupList.Contains(UserGroupID) Then
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, $"El usuario con Grupo {UserGroupID} pertenece a los grupos buscados")
                             taskadded = True
                         End If
 

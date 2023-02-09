@@ -7,43 +7,43 @@
 <!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
 <head>
     <title></title>
-    <script src="FuncionNewLegajo.js"></script>
+
     <script>
 
         function CuitDes(sender) {
             var cuitvalue = $(zamba_index_139600).val();
             console.log("Valor CUIT: " + cuitvalue);
-            if (String(cuitvalue).length < 11 || String(cuitvalue).length == 0) {
+            if (String(cuitvalue).length < 11 || String(cuitvalue).length == 0 ) {
                 swal("", "El campo CUIT debe tener 11 digitos", "warning");
                 return false;
             }
             return true;
         }
 
-        function SpaceReplace(e) {
-            var a = $("#" + e.id).val();
-            a = a.replace(" ", "");
-            $("#" + e.id).val(a);
+        function SpaceReplace(e){
+            var a = $("#"+e.id).val();
+            a = a.replace(" ","");
+            $("#"+e.id).val(a);
 
         }
 
         function ActivarBoton() {
             if (document.getElementById("zamba_index_139579").value != ""
-                && document.getElementById("zamba_index_26217").value != ""
-                && document.getElementById("zamba_index_139565").value != ""
-                && document.getElementById("zamba_index_139564").value != ""
-                && document.getElementById("zamba_index_26285").value != ""
-                && document.getElementById("zamba_index_26215").value != ""
-                && document.getElementById("zamba_index_26215").value != "0"
-                && document.getElementById("zamba_index_26283").value != ""
-                && document.getElementById("zamba_index_139573").value != ""
-                && document.getElementById("zamba_index_139637").value != "") {
+            && document.getElementById("zamba_index_26217").value != ""
+            && document.getElementById("zamba_index_139565").value != ""
+            && document.getElementById("zamba_index_139564").value != ""
+            && document.getElementById("zamba_index_26285").value != ""
+            && document.getElementById("zamba_index_26215").value != ""
+            && document.getElementById("zamba_index_26215").value != "0"
+            && document.getElementById("zamba_index_26283").value != ""
+            && document.getElementById("zamba_index_139573").value != ""
+            && document.getElementById("zamba_index_139637").value != "") {
                 document.getElementById("zamba_rule_165694").disabled = false;
                 $('#zamba_rule_165694').removeClass('btn-secondary');
                 $('#zamba_rule_165694').addClass('btn-success');
             }
         }
-
+        
         function ValidatorAndSetRuleId(sender) {
             var valido = false;
             var currentDate = new Date();
@@ -248,13 +248,6 @@
                                             <button name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn-sm btn-primary">Guardar</button>
                                             <button name="zamba_close" id="zamba_close" onclick="SetRuleId(this);" class="btn-sm btn-primary">Cancelar</button>
                                             <button name="zamba_rule_165694" id="zamba_rule_165694" onclick="ValidatorAndSetRuleId(this);" class="btn-sm btn-secondary" disabled>Dar Alta</button>
-											
-											<!-- <div class="col-md-2" ng-controller="ZambaSignFileController"> -->
-                                                <button type="button" onclick="FuncionNewLegajoPSAD()" class="btn-sm btn-success">Obtener Legajos Nuevo PSAD</button>
-
-                                            <!-- </div> -->
-											
-								<div class="form-group row"></div>			
                                             <button name="zamba_rule_165832" id="zamba_rule_165832" onclick="SetRuleId(this);" class="btn-sm btn-warning" style="display: none;">Eliminar Despachante</button>
 
                                         </div>

@@ -1,7 +1,6 @@
 Imports ZAMBA.Servers
 Imports Zamba.Data
 Imports Zamba.Core
-
 Public Class NotesBusiness
     Inherits ZClass
     Public Overrides Sub Dispose()

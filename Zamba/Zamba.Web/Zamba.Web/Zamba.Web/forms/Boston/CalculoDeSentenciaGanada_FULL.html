@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
-    <!--  -->
+    <!-- <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script> -->
     <style>
         #navbarNavDropdown {
             list-style: none;
@@ -49,15 +49,15 @@
         <form name="frmMain" action="CalculoDeSentenciaGanada.html">
             <input id="hdnRuleId" type="hidden" />
             <input id="hdnAsocId" type="hidden" />
-           
-            <div>
+            <div class="col-md-1"></div>
+            <div style="font-family:'Times New Roman', Times, serif">
 
                 <center>
 
                     <div id="tblRubro" cellspacing="2" cellpadding="1" border="0">
                         <div class="form-group row">
                             <div class="col-md-12">
-                                <h4 style="color: black;">Rubro</h4>
+                                <h4 style="background-color:#418ad4; color:white;">Rubro</h4>
                             </div>
                         </div>
 
@@ -65,7 +65,7 @@
 
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Valor Vida $</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2789" name="zamba_index_2789" readonly="readonly">
@@ -74,7 +74,7 @@
 
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Daño Físico $</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2790" name="zamba_index_2790" readonly="readonly">
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Daño Moral $</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2791" name="zamba_index_2791" readonly="readonly">
@@ -90,7 +90,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Daño Material $</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2792" name="zamba_index_2792" readonly="readonly">
@@ -100,7 +100,7 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Otros $</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2745" name="zamba_index_2745" readonly="readonly">
@@ -109,7 +109,7 @@
 
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Intereses $</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2793" name="zamba_index_2793" readonly="readonly">
@@ -118,18 +118,18 @@
 
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon"  
+                                    <span class="input-group-addon" style="background-color:#e5e5e5;"
                                         id="basic-addon1">Fecha de Cálculo</span>
-                                    <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2796" name="zamba_index_2796">
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon"  
+                                    <span class="input-group-addon" style="background-color:#e5e5e5;"
                                         id="basic-addon1">Fecha de Notific.</span>
-                                    <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2704" name="zamba_index_2704">
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style=""
+                                    <span class="input-group-addon" style="background-color:#e5e5e5"
                                         id="basic-addon1">Tipo de Tasa</span>
                                     <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2795" name="zamba_index_2795"></select>
@@ -154,7 +154,7 @@
                             <div class="form-group row">
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=""
+                                        <span class="input-group-addon" style="background-color:#e5e5e5"
                                             id="basic-addon1">Honorarios s/regular $</span>
                                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                             id="zamba_index_2797" name="zamba_index_2797" readonly="readonly">
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=""
+                                        <span class="input-group-addon" style="background-color:#e5e5e5"
                                             id="basic-addon1">Honorarios Actora $</span>
                                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                             id="zamba_index_2798" name="zamba_index_2798" readonly="readonly">
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=""
+                                        <span class="input-group-addon" style="background-color:#e5e5e5"
                                             id="basic-addon1">Honorarios Boston $</span>
                                         <input class="form-control input-sm moneda"
                                             style=" color: #090A0A; font-weight: bold" id="zamba_index_2799"
@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=""
+                                        <span class="input-group-addon" style="background-color:#e5e5e5"
                                             id="basic-addon1">Honorarios Peritos $</span>
                                         <input class="form-control input-sm moneda"
                                             style=" color: #090A0A; font-weight: bold" id="zamba_index_2800"
@@ -190,7 +190,7 @@
                             <div class="form-group row">
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=""
+                                        <span class="input-group-addon" style="background-color:#e5e5e5"
                                             id="basic-addon1">Honorarios Mediador $</span>
                                         <input class="form-control input-sm moneda"
                                             style=" color: #090A0A; font-weight: bold" id="zamba_index_2801"
@@ -200,9 +200,9 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=";padding:1px;"
+                                        <span class="input-group-addon" style="background-color:#e5e5e5;padding:1px;"
                                             id="basic-addon1">Fecha de Sentencia</span>
-                                        <input class="form-control "
+                                        <input class="form-control datepicker"
                                             style=" color: #090A0A; font-weight: bold" id="zamba_index_2829"
                                             name="zamba_index_2829" />
                                     </div>
@@ -210,7 +210,7 @@
 
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon"  
+                                        <span class="input-group-addon" style="background-color:#e5e5e5;"
                                             id="basic-addon1">Es Firme</span>
                                         <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                             id="zamba_index_2830" name="zamba_index_2830"></select>
@@ -218,7 +218,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon" style=""
+                                        <span class="input-group-addon" style="background-color:#e5e5e5"
                                             id="basic-addon1">Tasa y Gastos $</span>
                                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                             id="zamba_index_2802" name="zamba_index_2802" readonly="readonly">
@@ -252,7 +252,7 @@
             <center>
                 <div class="form-group row">
                     <div class="col-md-4">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
 
                     <div class="col-md-4">
@@ -260,7 +260,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
 
                     </div>
                 </div>

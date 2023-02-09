@@ -35,7 +35,7 @@ Public Class UcmFactory
     '''     [Gaston]    19/06/2009  Modified      Inserción del type 3 que identifica a un administrador que ingreso con licencia de Workflow
     ''' </history>
     Public Function ActiveWorkflowConnections() As Integer
-        Dim usados As Integer = Server.Con.ExecuteScalar(CommandType.Text, "Select count(1) from UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where Type = 1")
+        Dim usados As Integer = Server.Con.ExecuteScalar(CommandType.Text, "Select count(1) from UCM Where Type = 1")
         Return (usados)
     End Function
 
@@ -50,7 +50,7 @@ Public Class UcmFactory
     '''     [Gaston]    19/06/2009  Modified    Inserción del type 3 que identifica a un administrador que ingreso con licencia de Workflow
     ''' </history>
     Public Function ActiveConections() As Int32
-        Dim usados As Integer = Server.Con.ExecuteScalar(CommandType.Text, "Select count(1) from UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where Type <> 1")
+        Dim usados As Integer = Server.Con.ExecuteScalar(CommandType.Text, "Select count(1) from UCM Where Type <> 1")
         Return (usados)
     End Function
 
@@ -96,7 +96,7 @@ Public Class UcmFactory
     ''' </history>
     Public Function MakeNewConnection(ByVal UserId As Integer, ByVal WinUser As String, ByVal WinPC As String, ByVal WF As Int32, ByVal TimeOut As Int32) As Int32
 
-        Dim conDS As DataSet = Server.Con.ExecuteDataset(CommandType.Text, String.Format("SELECT CON_ID,type FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  Where USER_ID = {0} AND WINUSER = '{1}' AND WINPC = '{2}'", UserId, WinUser, WinPC))
+        Dim conDS As DataSet = Server.Con.ExecuteDataset(CommandType.Text, String.Format("SELECT CON_ID,type FROM UCM Where USER_ID = {0} AND WINUSER = '{1}' AND WINPC = '{2}'", UserId, WinUser, WinPC))
         If (conDS IsNot Nothing AndAlso conDS.Tables.Count > 0 AndAlso conDS.Tables(0).Rows.Count > 0) Then
 
             Dim actualconid As Int64 = Int64.Parse(conDS.Tables(0).Rows(0).Item("CON_ID"))
@@ -144,9 +144,9 @@ Public Class UcmFactory
             ' Si la tabla UCM no está vacía entonces se devuelve el máximo con_id + 1, de lo contrario, si la tabla UCM está vacía entonces se 
             ' devuelve como con_id un número aleatorio que puede ir desde 1 hasta 1000
             Dim query As New System.Text.StringBuilder
-            query.Append("IF (SELECT COUNT(1) FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & ") > 0 ")
+            query.Append("IF (SELECT COUNT(1) FROM UCM) > 0 ")
             query.Append("BEGIN ")
-            query.Append("SELECT MAX(CON_ID) + 1 AS LastId  FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " END ")
+            query.Append("SELECT MAX(CON_ID) + 1 AS LastId  FROM UCM END ")
             query.Append("ELSE ")
             query.Append("BEGIN ")
             query.Append("SELECT { fn TRUNCATE (RAND() * 1000, 0) } AS Expr1 ")
@@ -156,7 +156,7 @@ Public Class UcmFactory
             'Sino, si es Oracle
         Else
 
-            Dim value As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", ""))
+            Dim value As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) FROM UCM")
 
             ' Si la tabla UCM no tiene nada se retorna un número aleatorio (que puede ser del 1 hasta el 1000)
             If (value = 0) Then
@@ -166,7 +166,7 @@ Public Class UcmFactory
 
                 ' de lo contrario, se retorna como número máximo el con_id + 1
             Else
-                Return (Server.Con.ExecuteScalar(CommandType.Text, "SELECT MAX(CON_ID) + 1 AS LastId FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")))
+                Return (Server.Con.ExecuteScalar(CommandType.Text, "SELECT MAX(CON_ID) + 1 AS LastId FROM UCM"))
             End If
 
         End If
@@ -190,9 +190,9 @@ Public Class UcmFactory
     ''' </history>
     Public Sub RemoveConnection(ByVal ConnectionID As Int32)
 
-        'If verifyIfUserStillExistsInUCM(ConnectionID) Then
+        If verifyIfUserStillExistsInUCM(ConnectionID) Then
 
-        Dim key As Byte() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6}
+            Dim key As Byte() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6}
             Dim iv As Byte() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6}
             Dim Usados As Int32
             Dim type As Int32 = GetConnectionType(ConnectionID)
@@ -211,16 +211,16 @@ Public Class UcmFactory
 
             Server.Con.ExecuteNonQuery(CommandType.Text, sql)
 
-        Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE FROM ZSS WHERE ConnectionId =" & ConnectionID)
-        Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE FROM UCM WHERE Con_ID =" & ConnectionID)
+            Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE FROM ZSS WHERE ConnectionId =" & ConnectionID)
+            Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE FROM UCM WHERE Con_ID =" & ConnectionID)
 
-        ' End If
+        End If
 
     End Sub
 
 
     Public Function UserUniqueConnection(ByVal ConnectionId As Int64) As Boolean
-        Dim value As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(*) FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where USER_ID in (SELECT USER_ID FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where  CON_ID = " & ConnectionId & ")")
+        Dim value As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(*) FROM UCM Where USER_ID in (SELECT USER_ID FROM UCM Where  CON_ID = " & ConnectionId & ")")
 
         If (value > 1) Then
             Return (False)
@@ -235,7 +235,7 @@ Public Class UcmFactory
         If Server.isOracle Then
             ConnectionID = Server.Con.ExecuteScalar(CommandType.Text, "SELECT CON_ID FROM UCM Where(TIME_OUT < TO_NUMBER(SYSDATE - U_TIME) * (24 * 60)) AND rownum = 1")
         Else
-            ConnectionID = Server.Con.ExecuteScalar(CommandType.Text, "SELECT TOP 1 CON_ID FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where DATEDIFF(mi,U_TIME,GetDate())> [Time_Out]")
+            ConnectionID = Server.Con.ExecuteScalar(CommandType.Text, "SELECT TOP 1 CON_ID FROM UCM Where DATEDIFF(mi,U_TIME,GetDate())> [Time_Out]")
         End If
 
         Return ConnectionID
@@ -243,12 +243,12 @@ Public Class UcmFactory
 
     Public Function GetUserIdByConId(ConnectionId) As Int64
         Dim UserId As Int64 = 0
-        UserId = Server.Con.ExecuteScalar(CommandType.Text, String.Format("SELECT USER_ID FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where CON_ID = {0}", ConnectionId))
+        UserId = Server.Con.ExecuteScalar(CommandType.Text, String.Format("SELECT USER_ID FROM UCM Where CON_ID = {0}", ConnectionId))
         Return UserId
     End Function
     Public Function GetConnectionType(conid As Int32) As Int32
         Dim type As Int32
-        type = Server.Con.ExecuteScalar(CommandType.Text, "SELECT TYPE FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where CON_ID =" & conid)
+        type = Server.Con.ExecuteScalar(CommandType.Text, "SELECT TYPE FROM UCM Where CON_ID =" & conid)
         Return type
     End Function
 
@@ -291,7 +291,7 @@ Public Class UcmFactory
     '''     [Gaston]	16/05/2008	Created
     ''' </history>
     Public Function verifyIfUserStillExistsInUCM(ByVal con_id As Integer) As Boolean
-        Dim value As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where CON_ID = " & con_id)
+        Dim value As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) FROM UCM Where CON_ID = " & con_id)
 
         If (value >= 1) Then
             Return (True)
@@ -325,7 +325,7 @@ Public Class UcmFactory
 
         Dim query As New StringBuilder()
 
-        query.Append("SELECT count(1) FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where ")
+        query.Append("SELECT count(1) FROM UCM Where ")
         query.Append("USER_ID = " & userId & " AND ")
         query.Append("WINUSER = '" & winUser & "' AND ")
         'query.Append("WINPC = '" & winPC & processIdStr & "' AND ")
@@ -393,7 +393,7 @@ Public Class UcmFactory
         Dim usados As Int32
 
         ' Actualización del LIC 
-        Dim count As String = Zamba.Tools.Encryption.DecryptString(Server.Con.ExecuteScalar(CommandType.Text, "Select Used from LIC " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where TYPE = " & type), key, iv)
+        Dim count As String = Zamba.Tools.Encryption.DecryptString(Server.Con.ExecuteScalar(CommandType.Text, "Select Used from LIC Where TYPE = " & type), key, iv)
 
         If (String.IsNullOrEmpty(count)) Then
             usados = 1
@@ -421,7 +421,7 @@ Public Class UcmFactory
     Public Sub changeLic(ByVal con_id As Int64, ByVal pcName As String, fromtype As Int32, totype As Int32)
 
         ' Verificación del type del usuario
-        Dim type As Short = Server.Con.ExecuteScalar(CommandType.Text, "SELECT TYPE FROM UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " Where CON_ID = " & con_id & " AND WINPC = '" & pcName & "'")
+        Dim type As Short = Server.Con.ExecuteScalar(CommandType.Text, "SELECT TYPE FROM UCM Where CON_ID = " & con_id & " AND WINPC = '" & pcName & "'")
 
         ' Si el type es en verdad 0
         If ((Not IsNothing(type)) AndAlso (totype = 1) And type = 0) Then
@@ -519,7 +519,7 @@ Public Class UcmFactory
         If Server.isOracle Then
             'Dim rCount As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) from UCM where con_id=" & con_id & " AND WINUSER = '" & winUser & "' ")
 
-            Dim q As String = "SELECT count(1) from UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " where con_id=" & con_id & " AND WINUSER='" & winUser & "' "
+            Dim q As String = "SELECT count(1) from UCM where con_id=" & con_id & " AND WINUSER='" & winUser & "' "
             Dim rcount As Int32 = Server.Con.ExecuteScalar(CommandType.Text, q)
 
             If rcount > 0 Then
@@ -529,7 +529,7 @@ Public Class UcmFactory
                          winUser & "', '" & winPC & "', " & con_id & ", " & timeout & ", " & type & ")  ")
             End If
         Else
-            Dim rCount As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) from UCM " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " where con_id=" & con_id & " AND WINUSER = '" & winUser & "' ")
+            Dim rCount As Integer = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) from UCM where con_id=" & con_id & " AND WINUSER = '" & winUser & "' ")
             If rCount > 0 Then
                 Server.Con.ExecuteNonQuery(CommandType.Text, "UPDATE UCM SET U_TIME = getdate() WHERE con_id = " & con_id & " AND WINUSER = '" & winUser & "' ")
             Else

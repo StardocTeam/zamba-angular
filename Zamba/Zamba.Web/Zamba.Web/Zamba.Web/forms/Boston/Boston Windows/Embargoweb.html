@@ -4,9 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="boston_styles.css" type="text/css" />
 	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
-	 
-	 
-	
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
 	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
 	<script type="text/javascript" language="JavaScript">
 		function zamba_save_onclick(sender){
@@ -88,8 +88,17 @@
 		}
 		
 		function FuncOnload(){
-
-
+			$('#zamba_index_80').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				showOn: 'button', 
+				buttonText: 'Abrir calendario',
+				buttonImage: 'calendar.png', 
+				buttonImageOnly: true,
+				yearRange: '-100:+0',
+				duration: ""
+			});		
+			
 			/*Importe de Embargo, importe neto embargo*/
 			$('#zamba_index_82').on('keyup', function(){		
 				this.value = (this.value + '').replace(/[^0-9.]/g, '');

@@ -2,7 +2,7 @@
 
 
 
-<asp:Panel ID="pnlListadoIndices" runat="server" width="810px" ng-app="app">
+<asp:Panel ID="pnlListadoIndices" runat="server" width="550px" ng-app="app">
     <fieldset id="insertFieldset" title="" class="Fielset-controles-UC" enableviewstate="false" >
         <h4  class="noprint"><strong>
              Ingresa los datos

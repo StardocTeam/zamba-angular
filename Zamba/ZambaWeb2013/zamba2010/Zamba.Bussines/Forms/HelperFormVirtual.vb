@@ -264,7 +264,7 @@ Namespace HelperForm
             'Reemplaza el html original
             For Each dto As DtoTag In tags
                 html = html.Replace(dto.oldTag, dto.newTag)
-                'ZTrace.WriteLineIf(ZTrace.IsInfo, "Reemplazando " & dto.oldTag & " por " & dto.newTag)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Reemplazando " & dto.oldTag & " por " & dto.newTag)
             Next
 
             Return html

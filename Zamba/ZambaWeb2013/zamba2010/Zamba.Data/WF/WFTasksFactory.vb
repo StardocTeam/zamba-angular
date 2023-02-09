@@ -435,16 +435,16 @@ Public Class WFTasksFactory
                                                       ByVal order As String,
                                                       ByVal VerAsignadosAOtros As Boolean,
                                                       ByVal VerAsignadosANadie As Boolean,
-                                                      ByVal HabilitarFavoritos As Boolean,
-                                                      Optional ByVal auIndex As List(Of IIndex) = Nothing,
-                                                      Optional ByVal refIndexs As List(Of ReferenceIndex) = Nothing) As DataTable
+                                               ByVal HabilitarFavoritos As Boolean,
+                                                      Optional ByVal auIndex As List(Of IIndex) = Nothing) As DataTable
 
 
         Dim strTableI As String = MakeTable(EntityId, TableType.Indexs)
         Dim strTableT As String = MakeTable(EntityId, TableType.Document)
         Dim MainJoin As String = String.Format("{0} T inner join {1} I on T.doc_id = I.doc_id", strTableT, strTableI)
 
-        Dim strselect As StringBuilder = GetCommonTaskStringBuilder(EntityId, WithRights, indexs, auIndex, stepId, RestrictionString, dateDeclarationString, CheckInColumnIsShortDate, FilterTypes.Task, HabilitarFavoritos, refIndexs)
+
+        Dim strselect As StringBuilder = GetCommonTaskStringBuilder(EntityId, WithRights, indexs, auIndex, stepId, RestrictionString, dateDeclarationString, CheckInColumnIsShortDate, FilterTypes.Task, HabilitarFavoritos, Nothing)
 
         If WithRights Then
             strselect = AppendWhereRights(strselect, VerAsignadosANadie, VerAsignadosAOtros)
@@ -474,19 +474,16 @@ Public Class WFTasksFactory
     ''' <history>
     '''        [Javier] 29/12/11  Created.
     ''' </history>
-    Public Function GetTasksCountByStepandDocTypeId(ByVal stepId As Int64, ByVal entityid As Int64, ByVal WithRights As Boolean, ByVal FilterString As String, ByVal RestrictionString As String,
+    Public Function GetTasksCountByStepandDocTypeId(ByVal stepId As Int64, ByVal docid As Int64, ByVal WithRights As Boolean, ByVal FilterString As String, ByVal RestrictionString As String,
                                                                        ByVal VerAsignadosAOtros As Boolean, ByVal VerAsignadosANadie As Boolean, ByVal usrID As Long, ByVal UserGroups As ArrayList) As Long
         Dim params As New List(Of IDbDataParameter)
         Dim isOracle As Boolean = Server.isOracle
-        Dim strselect As StringBuilder = GetCommonCountTaskStringBuilder(entityid, WithRights, stepId, RestrictionString)
+        Dim strselect As StringBuilder = GetCommonCountTaskStringBuilder(docid, WithRights, stepId, RestrictionString)
 
         If isOracle Then
             params.Add(New OracleParameter("@step_id", stepId))
-            params.Add(New OracleParameter("@entityid", entityid))
         Else
             params.Add(New SqlParameter("@step_id", stepId))
-            params.Add(New SqlParameter("@entityid", entityid))
-
         End If
 
         Dim groups As ArrayList
@@ -608,11 +605,11 @@ Public Class WFTasksFactory
     '''        [Ezequiel] 14/09/09  Created.
     '''        [Javier]   12/10/10  Modified    Se agregan parámetros Restriction y DateDeclaration
     ''' </history>
-    Public Function GetTaskByTaskIdAndDocTypeId(ByVal taskid As Int64, ByVal stepId As Int64, ByVal docTypeId As Int64, ByVal indexs As List(Of IIndex), ByVal WithGridRights As Boolean, ByVal FilterString As String, ByVal RestrictionString As String, ByVal DateDeclarationString As String, FilterType As SearchType, ByVal HabilitarFavortios As Boolean, Optional ByVal auIndex As List(Of IIndex) = Nothing, Optional ByVal refIndexs As List(Of ReferenceIndex) = Nothing) As DataTable
+    Public Function GetTaskByTaskIdAndDocTypeId(ByVal taskid As Int64, ByVal stepId As Int64, ByVal docTypeId As Int64, ByVal indexs As List(Of IIndex), ByVal WithGridRights As Boolean, ByVal FilterString As String, ByVal RestrictionString As String, ByVal DateDeclarationString As String, FilterType As SearchType, ByVal HabilitarFavortios As Boolean, Optional ByVal auIndex As List(Of IIndex) = Nothing) As DataTable
 
         '[Ezequiel] Obtengo el nombre de la vista del entidad
 
-        Dim strselect As StringBuilder = GetCommonTaskStringBuilder(docTypeId, WithGridRights, indexs, auIndex, stepId, RestrictionString, DateDeclarationString, False, FilterType, HabilitarFavortios, refIndexs)
+        Dim strselect As StringBuilder = GetCommonTaskStringBuilder(docTypeId, WithGridRights, indexs, auIndex, stepId, RestrictionString, DateDeclarationString, False, FilterType, HabilitarFavortios, Nothing)
 
         Dim firsttask As Boolean = True
         If (String.IsNullOrEmpty(FilterString) = False) Then
@@ -759,7 +756,106 @@ Public Class WFTasksFactory
         Return query
     End Function
 
+    '''' <summary>
+    '''' Devuelve las tareas del tipo de documento y etapa que se le pasan por parametro
+    '''' </summary>
+    '''' <param name="stepId">Id de la etapa</param>
+    '''' <returns></returns>
+    '''' <remarks></remarks>
+    '''' <history>
+    ''''        [Ezequiel] 14/09/09 - Created.
+    '''' </history>
+    'Public Function GetTaskTable(ByVal stepId As Int64, ByVal docid As Int64,
+    '                                    ByVal indexs As List(Of IIndex), ByVal WithRights As Boolean,
+    '                                    ByVal CurrentUserID As Long, ByVal VerAsignadosAOtros As Boolean, ByVal VerAsignadosANadie As Boolean, Optional ByVal auIndex As List(Of IIndex) = Nothing) As DataTable
 
+
+    '    Dim strTableI As String = Results_Factory.MakeTable(EntityId, TableType.Indexs)
+    '    Dim strTableT As String = Results_Factory.MakeTable(EntityId, TableType.Document)
+    '    Dim MainJoin As String = String.Format("{0} T inner join {1} I on T.doc_id = I.doc_id", strTableT, strTableI)
+
+    '    Dim strselect As StringBuilder = New StringBuilder()
+
+    '    strselect.Append(" SELECT wfdocument.*, wfstepstates.name as state, uag.name as Asignado, ")
+    '    'strselect.Append(strTable & ".DISK_GROUP_ID, " & strTable & ".PLATTER_ID, " & strTable & ".VOL_ID, " & strTable & ".DOC_FILE, " & strTable & ".OFFSET, " & strTable & ".NAME ,")
+    '    strselect.Append(strTable & ".DISK_GROUP_ID, " & strTable & ".PLATTER_ID, " & strTable & ".VOL_ID, " & strTable & ".DOC_FILE, " & strTable & ".OFFSET, ")
+    '    strselect.Append(strTable & ".ICON_ID, " & strTable & ".")
+    '    strselect.Append(", " & strTable & ".ver_Parent_id, " & strTable & ".version, " & strTable & ".RootId, " & strTable & ".original_Filename, " & strTable & ".NumeroVersion, disk_Volume.disk_Vol_id, disk_Volume.DISK_VOL_PATH, " & strTable & ".crdate, ")
+    '    strselect.Append(" wftask_states.task_state_name as " & Chr(34) & "Situacion" & Chr(34) & " ")
+
+    '    '[Ezequiel] Agrego a la consulta los indices que preciso
+    '    Dim f As Int16
+    '    '[Ezequiel] En caso de ejecutar consulta con permisos agrego a cada indice el nombre del mismo.
+    '    If WithRights Then
+    '        For f = 0 To indexs.Count - 1
+    '            strselect.Append(", ")
+    '            If auIndex.Contains(DirectCast(indexs(f), Index)) Then
+    '                strselect.Append("slst_s" & DirectCast(indexs(f), Index).ID & ".descripcion")
+    '            Else
+    '                strselect.Append(strTable & ".I" & DirectCast(indexs(f), Index).ID)
+    '            End If
+    '            strselect.Append(" as " & Chr(34) & DirectCast(indexs(f), Index).Name.Trim & Chr(34))
+    '        Next
+    '    Else
+    '        For f = 0 To indexs.Count - 1
+    '            strselect.Append(", " & strTable & ".I" & DirectCast(indexs(f), Index).ID)
+    '        Next
+    '    End If
+    '    strselect.Append(" FROM ")
+    '    strselect.Append(" wfdocument ")
+    '    strselect.Append(" INNER JOIN " & strTable)
+    '    strselect.Append(" ON wfdocument.doc_id = " & strTable & ".doc_id ")
+    '    strselect.Append(" left outer join disk_Volume on disk_Vol_id = vol_id")
+    '    strselect.Append(" left join wfstepstates on do_state_id = doc_state_id ")
+    '    strselect.Append("left join zuser_or_group uag on wfdocument.user_asigned = uag.id")
+    '    strselect.Append(" left join wftask_states on wftask_states.task_state_id = wfdocument.Task_State_ID ")
+
+    '    If Not auIndex Is Nothing AndAlso auIndex.Count > 0 Then
+    '        For Each indice As IIndex In auIndex
+    '            strselect.Append(" left join slst_s" & indice.ID & " on " & strTable & ".i" & indice.ID & " = slst_s" & indice.ID & ".codigo ")
+    '        Next
+    '    End If
+
+    '    strselect.Append(" where wfdocument.step_id = " & stepId)
+
+    '    '[Ezequiel] Armo el where en base a los permisos
+    '    If WithRights Then
+    '        If Not VerAsignadosAOtros AndAlso VerAsignadosANadie Then
+    '            strselect.Append(" and (user_asigned = " & CurrentUserID & " or user_asigned = 0)")
+    '        ElseIf VerAsignadosAOtros AndAlso Not VerAsignadosANadie Then
+    '            strselect.Append(" and user_asigned <> 0")
+    '        ElseIf Not VerAsignadosAOtros AndAlso Not VerAsignadosANadie Then
+    '            strselect.Append(" and user_asigned = " & CurrentUserID)
+    '        End If
+
+    '    End If
+
+    '    Dim query As String = strselect.ToString
+    '    If Server.isOracle Then query = query.Replace("Exclusive,", "C_Exclusive,")
+
+    '    Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, query)
+
+    '    If ds.Tables.Count = 1 Then
+    '        Return ds.Tables(0)
+    '    End If
+    '    Return Nothing
+    'End Function
+
+    ''' <summary>
+    ''' Genera la consulta común para obtener las tareas. 
+    ''' Luego se deberán aplicar los filtros necesarios para obtener lo deseado.
+    ''' </summary>
+    ''' <param name="docid"></param>
+    ''' <param name="WithGridRights"></param>
+    ''' <param name="indexs"></param>
+    ''' <param name="auIndex"></param>
+    ''' <param name="stepId"></param>
+    ''' <returns>Consulta prearmada en formato StringBuilder</returns>
+    ''' <remarks></remarks>
+    ''' <history>
+    '''                             Created.
+    '''        [Javier]   12/10/10  Modified.   Se agrega string de restricciones y string de declaracion de variables de fecha
+    ''' </history>
     Private Function GetCommonTaskStringBuilder(ByVal docTypeId As Long, ByVal WithGridRights As Boolean,
                                                 ByVal indexs As List(Of IIndex), ByVal auIndex As List(Of IIndex),
                                                 ByVal stepId As Long, ByVal RestrictionString As String,
@@ -783,7 +879,7 @@ Public Class WFTasksFactory
             strselect.Append(" CheckIn,")
         End If
 
-        strselect.Append(" User_Asigned,usr.NAME as Username_Asigned, ")
+        strselect.Append(" User_Asigned, ")
 
         If Server.isOracle Then
             strselect.Append("C_Exclusive,")
@@ -847,7 +943,7 @@ Public Class WFTasksFactory
             strselect.Append(" ,row_number() over (order by Task_ID) rn")
         End If
 
-        strselect.Append($" FROM wfdocument LEFT JOIN USRTABLE usr on WFDocument.User_Asigned = usr.ID INNER JOIN {MainJoin} On wfdocument.doc_id = T.doc_id")
+        strselect.Append($" FROM wfdocument INNER JOIN {MainJoin} On wfdocument.doc_id = T.doc_id")
         strselect.Append(" left outer join disk_Volume On disk_Vol_id = vol_id")
         strselect.Append(" left join wfstepstates On do_state_id = doc_state_id")
         strselect.Append(" left join zuser_or_group uag On wfdocument.user_asigned = uag.id ")
@@ -863,7 +959,7 @@ Public Class WFTasksFactory
         End If
 
         If (HabilitarFavoritos) Then
-            strselect.Append(" left join DocumentLabels DL On DL.doctypeid = wfdocument.DOC_TYPE_ID And DL.docid=wfdocument.Doc_ID And DL.userid=" + Membership.MembershipHelper.CurrentUser.ID.ToString() + " ")
+            strselect.Append(" left join DocumentLabels DL On DL.doctypeid = wfdocument.DOC_TYPE_ID And DL.docid=wfdocument.Doc_ID And DL.userid=0 ")
             strselect.Append(" left join (Select * from DocumentLabels  where userid=" + Membership.MembershipHelper.CurrentUser.ID.ToString() + ") DLS On DLS.doctypeid = wfdocument.DOC_TYPE_ID And DLS.docid = wfdocument.Doc_ID ")
         End If
 
@@ -911,7 +1007,7 @@ Public Class WFTasksFactory
 
         Dim strTableI As String = MakeTable(docTypeId, TableType.Indexs)
         Dim strTableT As String = MakeTable(docTypeId, TableType.Document)
-        Dim MainJoin As String = String.Format("{0} T " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & " On wfdocument.doc_id = T.doc_id  inner join {1} I " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & " On T.doc_id = I.doc_id ", strTableT, strTableI)
+        Dim MainJoin As String = String.Format("{0} T inner join {1} I On T.doc_id = I.doc_id", strTableT, strTableI)
 
 
         Dim strselect As StringBuilder = New StringBuilder()
@@ -920,12 +1016,12 @@ Public Class WFTasksFactory
         Dim f As Int16
 
         strselect.Append("Select count(1) As TaskCount FROM wfdocument")
-        strselect.Append(If(Server.isSQLServer, " WITH (NOLOCK) ", " "))
 
+        'Join para validar que las tareas existan el la doc_i
+        strselect.Append(" INNER JOIN " & MainJoin)
+        strselect.Append(" On wfdocument.doc_id = T.doc_id ")
 
         If Not String.IsNullOrEmpty(RestrictionString) AndAlso RestrictionString.Trim() <> String.Empty Then
-            'Join para validar que las tareas existan el la doc_i
-            strselect.Append(" INNER JOIN " & MainJoin)
             strselect.Append(" WHERE ")
             strselect.Append(RestrictionString)
         End If
@@ -936,7 +1032,7 @@ Public Class WFTasksFactory
             strselect.Append(" And")
         End If
 
-        strselect.Append(" step_id = @step_id and wfdocument.doc_type_id = @entityid")
+        strselect.Append(" step_id = @step_id")
 
         Return strselect
     End Function
@@ -987,8 +1083,8 @@ Public Class WFTasksFactory
         For Each group As IUserGroup In CurrentUser.Groups
             usrsAndGroupsStr.Append(" ," & group.ID.ToString)
         Next
-        strselect.Append(String.Format("Select count(1) from (Select doc_id,user_asigned FROM WFDOCUMENT " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & " where user_asigned In ({0}) {1}) ", usrsAndGroupsStr.ToString(), If(MyTaskEntities.Length > 0, " And doc_type_id In (" & MyTaskEntities & ")", "")))
-        strselect.Append(String.Format("wfd left join zdocreads zrd " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & " On wfd.doc_id = zrd.docid And zrd.userid = {0} where userid Is null ", CurrentUser.ID.ToString()))
+        strselect.Append(String.Format("Select count(1) from (Select doc_id,user_asigned FROM WFDOCUMENT where user_asigned In ({0}) {1}) ", usrsAndGroupsStr.ToString(), If(MyTaskEntities.Length > 0, " And doc_type_id In (" & MyTaskEntities & ")", "")))
+        strselect.Append(String.Format("wfd left join zdocreads zrd On wfd.doc_id = zrd.docid And zrd.userid = {0} where userid Is null ", CurrentUser.ID.ToString()))
         Return Server.Con.ExecuteScalar(CommandType.Text, strselect.ToString())
     End Function
 #End Region
@@ -1056,13 +1152,7 @@ Public Class WFTasksFactory
         Dim Checkcount As Object = Server.Con.ExecuteScalar(CommandType.Text, check)
 
         If Checkcount Is Nothing OrElse Int16.Parse(Checkcount.ToString) = 0 Then
-            Dim query As String
-            If Server.isSQLServer Then
-                query = String.Format("Insert into ZDOCREADS (userid, docid, doctypeid, crdate) values ({0}, {1}, {2}, getdate())", currentUserId, docId, docTypeId)
-            Else
-                query = String.Format("Insert into ZDOCREADS (userid, docid, doctypeid, crdate) values ({0}, {1}, {2}, sysdate)", currentUserId, docId, docTypeId)
-            End If
-
+            Dim query As String = String.Format("Insert into ZDOCREADS (userid, docid, doctypeid, crdate) values ({0}, {1}, {2}, sysdate)", currentUserId, docId, docTypeId)
             Server.Con.ExecuteNonQuery(CommandType.Text, query)
         End If
     End Sub
@@ -1538,12 +1628,12 @@ Public Class WFTasksFactory
 
 #Region "Tasks & Connections"
     Public Function GetUserOpenedTasks(ByVal userId As Int64) As DataTable
-        Dim query As String = "select * from wfdocument where Task_ID in (Select TASKID FROM USR_R_OPENTASK " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & " WHERE USERID =" & userId & ")"
+        Dim query As String = "select * from wfdocument where Task_ID in (Select TASKID FROM USR_R_OPENTASK WHERE USERID =" & userId & ")"
         Return Server.Con.ExecuteDataset(CommandType.Text, query).Tables(0)
     End Function
 
     Public Sub CloseOpenTasksByConId(ByVal conId As Int64)
-        Server.Con.ExecuteNonQuery(CommandType.Text, "update wfdocument set task_state_id = 1 WHERE task_state_id = 2 and User_Asigned = (SELECT USER_ID FROM UCM " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & " where CON_ID=" & conId & ")")
+        Server.Con.ExecuteNonQuery(CommandType.Text, "update wfdocument set task_state_id = 1 WHERE task_state_id = 2 and User_Asigned = (SELECT USER_ID FROM UCM where CON_ID=" & conId & ")")
     End Sub
 
     Public Sub CloseOpenTasksByTaskId(ByVal taskId As Int64)
@@ -1554,9 +1644,9 @@ Public Class WFTasksFactory
     End Sub
 
     Public Sub ReleaseOpenTasksWithOutConnection()
-        Dim query As String = "DELETE USR_R_OPENTASK  WHERE TASKID in (select task_id from WFDocument " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & "  where task_state_id = 2 and user_asigned not in (select userid from UCM " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & "))"
+        Dim query As String = "DELETE USR_R_OPENTASK  WHERE TASKID in (select task_id from WFDocument  where task_state_id = 2 and user_asigned not in (select userid from UCM ))"
         Server.Con.ExecuteNonQuery(CommandType.Text, query)
-        query = "update WFDocument  set task_state_id = 1 where task_state_id = 2 and user_asigned not in (select user_id from UCM " & If(Server.isSQLServer, " WITH (NOLOCK) ", " ") & ")"
+        query = "update WFDocument  set task_state_id = 1 where task_state_id = 2 and user_asigned not in (select user_id from UCM )"
         Server.Con.ExecuteNonQuery(CommandType.Text, query)
     End Sub
 
@@ -1653,7 +1743,7 @@ Public Class WFTasksFactory
             Server.Con.ExecuteNonQuery("zsp_workflow_200_InsertWFStepHst", parameters)
         End If
 
-        LogStepPerformance(taskID, taskName, stepId, RightFactory.CurrentUser.Name, workflowId, taskCheckIn, stepname, wfname, Nothing)
+        LogStepPerformance(taskID, taskName, stepId, RightFactory.CurrentUser.Name, workflowId, taskCheckIn)
 
     End Sub
     Private Sub LogCheckIn(ByVal taskID As Int64, ByVal taskName As String, ByVal docTypeId As Int32, ByVal docTypeName As String,
@@ -1676,13 +1766,13 @@ Public Class WFTasksFactory
             t.Con.ExecuteNonQuery(t.Transaction, "zsp_workflow_200_InsertWFStepHst", parameters)
         End If
 
-        LogStepPerformance(taskID, taskName, stepId, RightFactory.CurrentUser.Name, workflowId, taskCheckIn, stepname, wfname, t)
+        LogStepPerformance(taskID, taskName, stepId, RightFactory.CurrentUser.Name, workflowId, taskCheckIn, t)
 
     End Sub
 
     '[AlejandroR] - Created - 01/03/2010 (WI 4406)
     '[JavierC] - Modified - 26/08/2010 (WI 5396) Se agregan SP
-    Private Sub LogStepPerformance(ByVal taskID As Int64, ByVal taskName As String, ByVal stepId As Int64, ByVal userName As String, ByVal workflowId As Int64, ByVal taskCheckIn As Date, ByVal stepname As String, WFName As String, ByRef t As Transaction)
+    Private Sub LogStepPerformance(ByVal taskID As Int64, ByVal taskName As String, ByVal stepId As Int64, ByVal userName As String, ByVal workflowId As Int64, ByVal taskCheckIn As Date, Optional ByRef t As Transaction = Nothing)
 
         Dim QueryBuilder As StringBuilder
         Dim TotalMinutes As Int32
@@ -1729,7 +1819,7 @@ Public Class WFTasksFactory
             'Implementar luego para ORACLE            
         Else
             Dim WF As New WFFactory
-            Dim parameters() As Object = {taskID.ToString, taskName, taskCheckIn, Date.Now, stepId.ToString, stepname, TotalMinutes.ToString, workflowId.ToString, WFName, userName}
+            Dim parameters() As Object = {taskID.ToString, taskName, taskCheckIn, Date.Now, stepId.ToString, WFStepsFactory.GetStepNameById(stepId), TotalMinutes.ToString, workflowId.ToString, WF.GetWorkflowNameByWFId(workflowId), userName}
             WF = Nothing
             If t Is Nothing Then
                 Server.Con(False, False, True).ExecuteNonQuery("zsp_workflow_100_InsertWfStepPerformance", parameters)
@@ -1768,9 +1858,6 @@ Public Class WFTasksFactory
             End If
             If IsDBNull(wfname) AndAlso wfname Is Nothing Then
                 wfname = String.Empty
-            End If
-            If IsDBNull(stateName) AndAlso stateName Is Nothing Then
-                stateName = String.Empty
             End If
             Server.Con.ExecuteNonQuery(CommandType.Text, "INSERT INTO WFStepHst(Doc_Id, Doc_Name, DocTypeId, Doc_Type_Name, FOLDER_Id, StepId, Step_Name, State, UserName, Accion,  Fecha, WorkflowId, WorkflowName) VALUES (" &
                                   taskID & ",'" & taskName & "'," & docTypeId & ",'" & docTypeName & "',0," & stepId & ",'" & stepname & "','" & stateName & "','" & RightFactory.CurrentUser.Name & "','" & Action & "',sysdate," & workflowId & ",'" & wfname & "')")
@@ -2435,38 +2522,6 @@ Public Class WFTasksFactory
         Return Server.Con.ExecuteDataset("sp_GetTasksBalanceByStep", parvalues)
     End Function
 
-    Public Function GetMyTasks(userId As Int64) As DataSet
-        If Server.isSQLServer Then
-            Return Server.Con.ExecuteDataset(CommandType.Text, String.Format("select Task_id, Tarea, Etapa, Asignado,Ingreso, Vencimiento, DOC_ID, DOC_TYPE_ID from (select  distinct  Task_Id, WF.Name Tarea, s.name Etapa, isnull(g.name,'') Asignado, wf.checkin Ingreso, wf.expiredate Vencimiento, wf.user_asigned, DOC_ID, DOC_TYPE_ID  from wfdocument wf  with (nolock)  inner join wfstep s  with (nolock) on s.step_id = wf.step_id inner join zuser_or_group g  with (nolock) on g.id = wf.user_asigned where user_asigned = {0} or user_asigned in (select groupid from usr_r_group r  with (nolock) where r.USRID = {0})) q order by ingreso desc", userId))
-        Else
-            Return Server.Con.ExecuteDataset(CommandType.Text, String.Format("select Task_id, Tarea, Etapa, Asignado,CONVERT(varchar,Ingreso,103) Ingreso, CONVERT(varchar,Vencimiento,103) Vencimiento, DOC_TYPE_ID from (select  distinct  top(200) Task_Id, WF.Name Tarea, s.name Etapa, isnull(g.name,'') Asignado, wf.checkin Ingreso, wf.expiredate Vencimiento, wf.user_asigned, DOC_ID, DOC_TYPE_ID  from wfdocument wf  inner join wfstep s on s.step_id = wf.step_id left join zuser_or_group g on g.id = wf.user_asigned where user_asigned = {0} or user_asigned in (select groupid from usr_r_group r where r.USRID = {0})   order by checkin  desc ) q", userId))
-        End If
-    End Function
-    Public Function GetMyTasksCount(userId As Int64) As Int64
-        If Server.isSQLServer Then
-            Return Server.Con.ExecuteScalar(CommandType.Text, String.Format("select count(1)   from wfdocument wf  with (nolock)   where user_asigned = {0} or user_asigned in (select groupid from usr_r_group r  with (nolock) where r.USRID = {0})   ", userId))
-        Else
-            Return Server.Con.ExecuteScalar(CommandType.Text, String.Format("select count(1)   from wfdocument wf                  where user_asigned = {0} or user_asigned in (select groupid from usr_r_group r where r.USRID = {0})  ", userId))
-        End If
-    End Function
-
-    Public Function GetRecentTasks(userId As Int64) As DataSet
-        If Server.isSQLServer Then
-            Return Server.Con.ExecuteDataset(CommandType.Text, String.Format("select  wf.Task_id, q.doc_id, wf.DOC_TYPE_ID,wf.name Tarea,Fecha ,s.name Etapa, isnull(g.name,'') Asignado, wf.checkin Ingreso, wf.expiredate Vencimiento from (select  top(20) object_id doc_Id, MAX(ACTION_DATE) Fecha  from USER_HST u  with (nolock)  where USER_ID = {0} and ACTION_TYPE in (1,71) and OBJECT_TYPE_ID = 6  group by object_id order by FECHA desc ) q left join wfdocument wf  with (nolock) on wf.doc_id = q.doc_id left join wfstep s  with (nolock) on s.step_id = wf.step_id left join zuser_or_group g  with (nolock) on g.id = wf.user_asigned", userId))
-        Else
-            Return Server.Con.ExecuteDataset(CommandType.Text, String.Format("select  wf.Task_id, wf.doc_id, wf.DOC_TYPE_ID,wf.name Tarea,Fecha ,s.name Etapa, isnull(g.name,'') Asignado, wf.checkin Ingreso, wf.expiredate Vencimiento from (select   object_id doc_Id, MAX(ACTION_DATE) Fecha  from USER_HST u    where USER_ID = {0} and ACTION_TYPE in (1,71) and OBJECT_TYPE_ID = 6  group by object_id order by FECHA desc ) q left join wfdocument wf   on wf.doc_id = q.doc_id left join wfstep s   on s.step_id = wf.step_id left join zuser_or_group g   on g.id = wf.user_asigned where rownum < 20", userId))
-        End If
-    End Function
-
-    Public Function GetRecentTasksCount(userId As Int64) As Int64
-        If Server.isSQLServer Then
-            Return Server.Con.ExecuteScalar(CommandType.Text, String.Format("select  count(1) from (select  top(20) object_id doc_Id, MAX(ACTION_DATE) Fecha  from USER_HST u  with (nolock)  where USER_ID = {0} and ACTION_TYPE in (1,71) and OBJECT_TYPE_ID = 6  group by object_id order by FECHA desc ) q left join wfdocument wf  with (nolock) on wf.doc_id = q.doc_id left join wfstep s  with (nolock) on s.step_id = wf.step_id left join zuser_or_group g  with (nolock) on g.id = wf.user_asigned", userId))
-        Else
-            Return Server.Con.ExecuteScalar(CommandType.Text, String.Format("select  count(1) from (select   object_id doc_Id, MAX(ACTION_DATE) Fecha  from USER_HST u    where USER_ID = {0} and ACTION_TYPE in (1,71) and OBJECT_TYPE_ID = 6  group by object_id order by FECHA desc ) q left join wfdocument wf   on wf.doc_id = q.doc_id left join wfstep s   on s.step_id = wf.step_id left join zuser_or_group g   on g.id = wf.user_asigned where rownum < 20", userId))
-        End If
-    End Function
-
-
     Public Function GetAsignedTasksCountsGroupByUser(ByVal workflowid As Int64) As DataSet
         Dim parvalues() As Object = {workflowid}
         Return Server.Con.ExecuteDataset("sp_AsignedTasksCountsGroupByUser", parvalues)
@@ -2489,15 +2544,20 @@ Public Class WFTasksFactory
 
 #End Region
 
-    Public Function GetTaskHistoryByResultId(ByVal task_id As Integer) As DataSet
-        Dim Query As String = "SELECT  Fecha, Step_Name Etapa, State Estado, UserName Usuario, Accion, Doc_Name Tarea, Doc_Type_Name Entidad FROM WFStepHst WHERE Doc_Id = " & task_id.ToString() & " order by Fecha desc"
-        Return Server.Con.ExecuteDataset(CommandType.Text, Query)
+    Public Function GetTaskHistoryByResultId(ByVal TaskId As Integer) As DataSet
+        If Server.isOracle Then
+            Dim Query As String = "SELECT  Fecha AS " & Chr(34) & "Fecha" & Chr(34) & ", Step_Name AS " & Chr(34) & "Etapa" & Chr(34) & ", State AS " & Chr(34) & "Estado" & Chr(34) & ", UserName AS " & Chr(34) & "Usuario" & Chr(34) & ", Accion AS " & Chr(34) & "Accion" & Chr(34) & ", Doc_Name AS " & Chr(34) & "Tarea" & Chr(34) & ", Doc_Type_Name AS " & Chr(34) & "Tipo Documento" & Chr(34) & " FROM(WFStepHst) WHERE Doc_Id = " & TaskId.ToString() & " order by Fecha desc"
+            Return Server.Con.ExecuteDataset(CommandType.Text, Query)
+        Else
+            Dim Query As String = "SELECT Fecha, Etapa, Estado, Usuario, Accion, Tarea, [Tipo Documento] FROM Zvw_WFHistory_200 Where DOC_ID = " & TaskId.ToString() & " order by fecha desc"
+            Return Server.Con.ExecuteDataset(CommandType.Text, Query)
+        End If
     End Function
 
 
     Public Function GetOnlyIndexsHistory(ByVal DocID As Integer) As DataSet
         If Server.isOracle Then
-            Dim Query As String = "Select  Action_Date As " & Chr(34) & "Fecha" & Chr(34) & ", 'Documentos' as " & Chr(34) & "Herramienta" & Chr(34) & ", 'Edición' as " & Chr(34) & "Accion" & Chr(34) & ", USRTABLE.Name AS " & Chr(34) & "Usuario" & Chr(34) & ", S_Object_ID AS " & Chr(34) & "En" & Chr(34) & " FROM User_Hst left outer join USRTABLE on User_Hst.User_ID = USRTABLE.ID WHERE object_id = " & DocID & " and object_type_id = 6 And action_type = 12 order by Action_Date desc"
+            Dim Query As String = "SELECT  Action_Date AS " & Chr(34) & "Fecha" & Chr(34) & ", 'Documentos' as " & Chr(34) & "Herramienta" & Chr(34) & ", 'Edición' as " & Chr(34) & "Accion" & Chr(34) & ", USRTABLE.Name AS " & Chr(34) & "Usuario" & Chr(34) & ", S_Object_ID AS " & Chr(34) & "En" & Chr(34) & " FROM User_Hst left outer join USRTABLE on User_Hst.User_ID = USRTABLE.ID WHERE object_id = " & DocID & " and object_type_id = 6 And action_type = 12 order by Action_Date desc"
             Return Server.Con.ExecuteDataset(CommandType.Text, Query)
         Else
             Dim Query As String = "SELECT  Action_Date AS 'Fecha', 'Documentos' as 'Herramienta', 'Edición' as 'Accion', USRTABLE.Name AS 'Usuario', S_Object_ID AS 'En' FROM User_Hst left outer join USRTABLE on User_Hst.User_ID = USRTABLE.ID WHERE object_id = " & DocID & " and object_type_id = 6 And action_type = 12 order by Action_Date desc"

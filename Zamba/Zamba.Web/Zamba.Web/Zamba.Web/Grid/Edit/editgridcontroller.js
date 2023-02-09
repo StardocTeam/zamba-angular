@@ -63,7 +63,7 @@
 
         }
         catch (error) {
-            console.error(error);
+            //console.error(error);
         }
         return IsDropDown;
     }
@@ -341,7 +341,7 @@
                 }
             }
         } catch (e) {
-            console.error(e);
+            //console.error(e);
         }
     }
 
@@ -389,7 +389,7 @@
                 gridEditService.insertResultOneRegister($scope.entityId, $scope.partentEntityId, $scope.parentResultId);
                 $scope.RefreshGrid();
             } catch (e) {
-                console.error(e);
+                console.log(e);
             } 
         }
     };

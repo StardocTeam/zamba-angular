@@ -34,89 +34,29 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
     public Boolean IsStartupScriptRegistered { get; set; }
 
     WFTaskBusiness WFTB = new WFTaskBusiness();
-
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Zamba.Core.ZssFactory zssFactory = new ZssFactory();
+        Zamba.Framework.Zss zss;
+        zss = zssFactory.GetZss(MembershipHelper.CurrentUser);
+        if (IsPostBack)
+        {
+            if (hdnToken.Value != zss.Token)
+            {
+                Context.Response.StatusCode = 401;
+                Context.Response.StatusDescription = "Unauthorized";
+                throw new HttpException(401, "Unauthorized");
+            }
+                
+        }
+        else
+        {
+            hdnToken.Value = zss.Token;
+        }
+    }
     protected void Page_PreInit(object sender, EventArgs e)
     {
-        
-        Int64 UrlUserId = 0;
-        string userToken = string.Empty;
-        try
-        {
-            // se optiene el user de la url
-            if (!string.IsNullOrEmpty(Request.QueryString["user"])){
-                UrlUserId = Convert.ToInt64(Request.QueryString["user"]);  
-            }
-            if (!string.IsNullOrEmpty(Request.QueryString["userid"]))
-            {
-                UrlUserId = Convert.ToInt64(Request.QueryString["userid"]);
-            }
-            if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
-            {
-                UrlUserId = Convert.ToInt64(Request.QueryString["userId"]);
-            }
-
-            if (!string.IsNullOrEmpty(Request.QueryString["t"]))
-            {
-                userToken = Request.QueryString["t"].ToString().Trim();
-            }
-
-             ZTrace.WriteLineIf(ZTrace.IsVerbose, "UrlUserId : " + UrlUserId);
-
-            //HttpContext.Current.Session["User"] = null;
-
-            Results_Business RB = new Results_Business();
-
-            if (MembershipHelper.CurrentUser != null && Response.IsClientConnected)
-            {
-                
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 1 - El currentUser no es null ");
-                Int64 userid = MembershipHelper.CurrentUser.ID;
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "userid :  " + userid);
-                //Se evalua si el usuario de la url es diferente al del MembershipHelper para hacer relogin
-
-                // si el usuario es diferente el usuario se sacar del currentuser y se relogea, vuelve a pasar y valida ya q el usuario esta bien
-                bool reloadModalLogin = userid != UrlUserId ? true : false;
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "reloadModalLogin :  " + reloadModalLogin);
-
-                bool isActiveSession = true;
-
-                if (!reloadModalLogin)
-                {
-                    isActiveSession = RB.getValidateActiveSession(userid, userToken);
-                }
-
-                
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "isActiveSession :  " + isActiveSession);
-
-                
-                if ( !reloadModalLogin && !isActiveSession)
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 1.1 - isActiveSession es false se dispara modal ");
-                    Modal_login(reloadModalLogin);
-                }
-            }
-            else {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2 - El currentUser  es null ");
-                bool isActiveSession = RB.getValidateActiveSession(UrlUserId, userToken);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "isActiveSession :  " + isActiveSession);
-
-                if (isActiveSession)
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.1 - isActiveSession  es true, reestablezo la session ");
-                    UserBusiness ub = new UserBusiness();
-                    ub.ValidateLogIn(UrlUserId, ClientType.Web);
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.1.1 -  valido el usuario creado" + MembershipHelper.CurrentUser.ID);
-                }
-                else {
-
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.2 - isActiveSession  es false, se dispara modal ");
-                    Modal_login(true);
-                }
-            }
-        }
-        catch (global::System.Exception ex)
+        if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected )/*|| (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined"))*/ /*&& MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))*/
         {
             FormsAuthentication.RedirectToLoginPage();
             return;
@@ -142,21 +82,15 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
 
         }
 
-
-    }
-
-    public void Modal_login( Boolean reloadModalLogin) {
-        string loginUrl = FormsAuthentication.LoginUrl.ToString();
-        string script = "$(document).ready(function() {  var linkSrc = location.origin.trim() + '" + loginUrl.Replace(".aspx", "").Trim() + "?showModal=true&reloadLogin=" + reloadModalLogin + "';  document.getElementById('iframeModalLogin').src = linkSrc; $('#modalLogin').modal('show');});";
-        Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
+        
     }
 
     protected void Page_PreLoad(object sender, System.EventArgs e)
     {
         try
         {
-
-
+            
+           
             //PushNotification();
             if (Zamba.Membership.MembershipHelper.CurrentUser != null)
             {
@@ -228,20 +162,10 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
                             UC_WFExecution.RefreshWFTree += GenerateWfRefreshJs;
                             this.UC_WFExecution.WFExec = WFExec;
                             this.UC_WFExecution.TaskID = Task_ID;
-                            WFTaskBusiness wFTaskBusiness = new WFTaskBusiness();
-                            UserGroupBusiness UGB = new UserGroupBusiness();
-                            System.Collections.Generic.List<long> users = UGB.GetUsersIds(TaskResult.AsignedToId);
-                            if ((TaskResult.AsignedToId == Zamba.Membership.MembershipHelper.CurrentUser.ID || users.Contains(Zamba.Membership.MembershipHelper.CurrentUser.ID)))
-                            {
-                                wFTaskBusiness.UpdateTaskState(Task_ID, (Int64)TaskStates.Ejecucion);
-                            }
-                        }
-                    }
-                    else {
-                        
-                        string script = "$(document).ready(function() { swal({ title: '', text: 'No tiene permisos para ver esta tarea', icon: 'info', buttons: true, dangerMode: true, closeOnClickOutside: false, buttons:{ agregar: { text: 'ok' }, }, }) .then((value) => { switch (value) { case 'agregar': window.location = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1]; break; } }); });";
-                        Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
 
+
+
+                        }
                     }
                     hdnTaskID.Value = Task_ID.ToString();
                 }
@@ -375,16 +299,13 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
                 if (!idsRegistereds.Contains(taskIdToRefresh) && taskIdToRefresh > 0)
                 {
                     tempTask = WFTB.GetTask(taskIdToRefresh, Zamba.Membership.MembershipHelper.CurrentUser.ID);
-                    if (tempTask != null)
-                    {
-                        sbScript.Append("RefreshTask(");
-                        sbScript.Append(taskIdToRefresh);
-                        sbScript.Append(",");
-                        sbScript.Append(tempTask.ID);
-                        sbScript.Append(");");
+                    sbScript.Append("RefreshTask(");
+                    sbScript.Append(taskIdToRefresh);
+                    sbScript.Append(",");
+                    sbScript.Append(tempTask.ID);
+                    sbScript.Append(");");
 
-                        idsRegistereds.Add(taskIdToRefresh);
-                    }
+                    idsRegistereds.Add(taskIdToRefresh);
                 }
             }
             WFTB = null;
@@ -407,18 +328,13 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
     }
 
 
-
     private void openFormInWindow(ITaskResult task)
     {
         StringBuilder sbScript = new StringBuilder();
         //string url = ;
         Zamba.Core.WF.WF.WFTaskBusiness WFTB = new Zamba.Core.WF.WF.WFTaskBusiness();
         //string host = Request.Url.Host;
-        if (Request.QueryString.Get("breakmodal") == "1")
-        {
-            return;
-        }
-        string url = "'/bpm/Views/WF/TaskViewer.aspx?doctypeid=" + task.DocTypeId.ToString() + "&taskid=" + task.TaskId.ToString() + "&docid=" + task.ID.ToString() + "&mode=&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString() + "&f=" + task.CurrentFormID + "&mf=" + task.ModalFormID + "'";
+        string url = "'/bpm/Views/WF/TaskViewer.aspx?taskid=" + task.TaskId.ToString() + "&docid=" + task.ID.ToString() + "&mode=&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString() + "#Zamba/'";
 
         sbScript.Append("$(document).ready(function(){");
         sbScript.Append("OpenDocTask3(");
@@ -427,17 +343,12 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
         sbScript.Append(task.DocTypeId.ToString() + ", ");
         sbScript.Append("null" + ", ");
         sbScript.Append("'" + task.Name.ToString() + "'" + ", ");
-        sbScript.Append(url + ", ");
+        sbScript.Append("''" + ", ");
         sbScript.Append("null" + ", ");
-        sbScript.Append(task.StepId.ToString() + ", ");
-        sbScript.Append("1,");
-        sbScript.Append(task.CurrentFormID.ToString() + ",");
-        sbScript.Append(task.ModalFormID.ToString());
+        sbScript.Append(task.WfStep.ID.ToString() + ", ");
+        sbScript.Append("1");
         sbScript.Append(");");
         sbScript.Append("});");
-
-
-
         Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenwinScript", sbScript.ToString(), true);
         IsStartupScriptRegistered = true;
 
@@ -604,17 +515,14 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
             //  ZTrace.WriteLineIf(ZTrace.IsVerbose, "UC_WFExecution.WFExec.ExecuteRule" + ruleId.ToString());
 
             this.UC_WFExecution.WFExec.ExecuteRule(ruleId, ref results, ref PendigEvent, ref ExecutionResult, ref ExecutedIDs, ref Params, ref PendingChildRules, ref RefreshRule, UC_WFExecution.TaskIdsToRefresh, false);
-
         }
         catch (Exception ex)
         {
             Zamba.AppBlock.ZException.Log(ex);
-            string script = "$(document).ready(function() { swal( '','"+ ex.Message + "','info' ); });";
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "ZException", script, true);
         }
     }
 
-
+  
 
     /// <summary>
     /// Metodo para recibir la llamada de la vista y pasarla al controler de la obtencion de las opciones de un select

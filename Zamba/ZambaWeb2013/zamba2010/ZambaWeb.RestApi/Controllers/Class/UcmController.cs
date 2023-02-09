@@ -39,11 +39,13 @@ using Newtonsoft.Json.Linq;
 namespace ZambaWeb.RestApi.Controllers.Class
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RestAPIAuthorize]
     public class UcmController : ApiController
     {
         [Route("api/UcmServices/UCM")]
         [AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult UCM()
         {
             try

@@ -1,272 +1,92 @@
-﻿app.controller('ZambaAssociatedController', function ($scope, $filter, $http, ZambaAssociatedService, Search, ruleExecutionService, $uibModal) {
+﻿//var app = angular.module("ZambaAssociatedApp", ['ui.bootstrap']);
 
-    $scope.Caller = null;
 
-    $scope.removeCaller = function () {
-        try {
 
-            if ($scope.Caller != null && $scope.Caller != undefined) {
-                var callerBtn = document.getElementById($scope.Caller);
-                $scope.Caller = null;
-                if (callerBtn)
-                    callerBtn.removeEventListener("click", $scope.refreshGrid, false);
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
 
-    $scope.Mode = Search.mode;
-    $scope.Search = Search.state;
-    $scope.onlyimportants = false;
-    $scope.entities = '';
+app.controller('ZambaAssociatedController', function ($scope, $filter, $http, ZambaAssociatedService, Search, ruleExecutionService, $uibModal) {
+
     //Variables
-    var ObjFor_ValClick = { timer: 0, delay: 300, prevent: false };
-
+    var ObjFor_ValClick= { timer: 0, delay: 300, prevent: false};
+    
 
     $scope.mulipleSelectionGridActive = false;
-    if (window.localStorage.getItem("MultipleSelection")) {
-        window.localStorage.setItem("MultipleSelection", "false");
+
+    if (localStorage.getItem("MultipleSelection")) {
+        localStorage.setItem("MultipleSelection", "false");
     } else {
-        window.localStorage.setItem("MultipleSelection", $scope.mulipleSelectionGridActive.toString());
+        localStorage.setItem("MultipleSelection", $scope.mulipleSelectionGridActive.toString());
     }
 
     $scope.rules = [];
 
     //Obtención de datos
 
-    $scope.LoadResults = function (parentResultId, partentEntityId, associatedIds, parentTaskId, zvar, onlyimportants) {
-
+    $scope.LoadResults = function (parentResultId, partentEntityId, associatedIds, parentTaskId, zvar) {
         try {
-            
+
+            $scope.associatedIds = associatedIds;
             $scope.loading = true;
 
             if (zvar !== undefined) {
 
-                ZambaAssociatedService.getResultsByZvarANdRuleId(GetUID(), $scope.ruleId, parentResultId, null, $scope.zvar).then(function (data) {
-                    try {
+                ZambaAssociatedService.GetResultsByZvar(parentTaskId, zvar).then(function (result) {
 
-                        var grid = $("#" + $scope.gridIndex);
-                        $("#" + $scope.gridIndex).empty();
-                        $scope.filter = null;
+                    console.log(result);
 
-                        if (data === null || data === undefined) {
-                            $scope.associatedResults = [];
-                        }
-                        else {
-                            $scope.associatedResults = JSON.parse(data).data;
-
-                            if ($scope.associatedResults != null && $scope.associatedResults.length > 0) {
-
-                                $scope.columnsStringAssociated = JSON.parse(data).columnsStringAssociated;
-                                $scope.gerateKendoGridView();
-
-                                if ($("#" + $scope.gridIndex).data('kendoGrid') !== undefined && $("#" + $scope.gridIndex).data('kendoGrid') != null) {
-                                    $("#" + $scope.gridIndex).data('kendoGrid').refresh();
-                                }
-
-                                $scope.generateThumbsGridView();
-                                $scope.generatePreviewGridView();
-
-                                $scope.previewItem($scope.associatedResults[0], 0, null, $scope.gridIndex);
-                            }
-                            else {
-                                console.log("No hay resultados para la Regla ", $scope.ruleId, " y para la variable ", $scope.zvar);
-                            }
-                        }
-                        
-                        $scope.loading = false;
-                    } catch (e) {
-                        
-                        console.error(e);
-                        $scope.loading = false;
-                    }
                 });
 
             } else {
-                $scope.associatedIds = associatedIds;
-                ZambaAssociatedService.getResults(parentResultId, partentEntityId, associatedIds, parentTaskId, onlyimportants).then(function (result) {
-                    try {
-                        var grid = $("#" + $scope.gridIndex);
-                        $("#" + $scope.gridIndex).empty();
-                        $scope.filter = null;
 
-                        if (result.data === null || result.data === undefined) {
-                            $scope.associatedResults = [];
-                        }
-                        else {
-                            $scope.associatedResults = JSON.parse(result.data).data;
-                            if ($scope.associatedResults != null && $scope.associatedResults.length > 0) {
+                ZambaAssociatedService.getResults(parentResultId, partentEntityId, associatedIds, parentTaskId).then(function (result) {
+                try {
 
-                                $scope.columnsStringAssociated = JSON.parse(result.data).columnsStringAssociated;
-                                $scope.gerateKendoGridView();
+                    var grid = $("#" + $scope.gridIndex);
+                    $("#" + $scope.gridIndex).empty();
+                    $scope.filter = null;
 
-                                if ($("#" + $scope.gridIndex).data('kendoGrid') !== undefined && $("#" + $scope.gridIndex).data('kendoGrid') != null) {
-                                    $("#" + $scope.gridIndex).data('kendoGrid').refresh();
-                                }
-
-                                $scope.generateThumbsGridView();
-                                $scope.generatePreviewGridView();
-
-                                $scope.previewItem($scope.associatedResults[0], 0, null, $scope.gridIndex);
-                            }
-                        }
-                        
-                        $scope.loading = false;
-
-                        
-                            if (sessionStorage_zamba_grid = sessionStorage.getItem("zamba_grid_index_all_" + GetUID()) && !$scope.mulipleSelectionGridActive) {
-                                if (parent.$("#zamba_grid_index_all") != undefined) {
-                                    var gridElement = $("#" + $scope.gridIndex);
-                                    var grid = gridElement.data("kendoGrid");
-                                    var zamba_grid = parent.$("#zamba_grid_index_all > .k-grid-content")[0].querySelectorAll("tr");
-                                    if ((zamba_grid != undefined && zamba_grid != null) && (grid != undefined && grid != null)) {
-                                        for (var i = 0; i < grid._data.length; i++) {
-                                            if (sessionStorage_zamba_grid != undefined && grid._data[i].DOC_ID == sessionStorage_zamba_grid) {
-                                                $(zamba_grid[i]).addClass("k-state-selected");
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                                                
-                      
-                    } catch (e) {
-                        console.error(e);
-                        
-                        $scope.loading = false;
+                    if (result.data === null || result.data === undefined) {
+                        $scope.associatedResults = [];
                     }
+                    else {
+                        $scope.associatedResults = JSON.parse(result.data).data;
+                        $scope.columnsStringAssociated = JSON.parse(result.data).columnsStringAssociated;
+                        $scope.gerateKendoGridView();
+
+                        if ($("#" + $scope.gridIndex).data('kendoGrid') !== undefined && $("#" + $scope.gridIndex).data('kendoGrid') != null) {
+                            $("#" + $scope.gridIndex).data('kendoGrid').refresh();
+                        }
+
+                        $scope.generateThumbsGridView();
+                        $scope.generatePreviewGridView();
+
+                        if ($scope.associatedResults.length > 0) {
+                            $scope.previewItem($scope.associatedResults[0], 0, null, $scope.gridIndex);
+                        }
+                    }
+                    
+                    $scope.loading = false;
+                } catch (e) {
+                    console.log(e);
+                    $scope.loading = false;
+                }
 
                 });
+
             }
+
+
         } catch (e) {
-            console.error(e);
-            
             $scope.loading = false;
         }
 
     };
-
-    $scope.sortGridByColumn = function (order, column, rows, model) {
-        var opt = $(model.fields)[0][column].type;
-
-        switch (opt) {
-            case "string":
-                if (order == "asc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : "";
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : "";
-
-                        if (Aux_A > Aux_B) {
-                            return 1;
-                        } else if (Aux_A < Aux_B) {
-                            return -1;
-                        }
-                    });
-                } else if (order == "desc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : "";
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : "";
-
-                        if (Aux_A < Aux_B) {
-                            return 1;
-                        } else if (Aux_A > Aux_B) {
-                            return -1;
-                        }
-                    });
-                }
-                break;
-
-            case "number":
-                if (order == "asc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : 0;
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : 0;
-
-                        if (Aux_A > Aux_B) {
-                            return 1;
-                        } else if (Aux_A < Aux_B) {
-                            return -1;
-                        }
-                    });
-                } else if (order == "desc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : 0;
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : 0;
-
-                        if (Aux_A < Aux_B) {
-                            return 1;
-                        } else if (Aux_A > Aux_B) {
-                            return -1;
-                        }
-                    });
-                }
-                break;
-
-            case "boolean":
-                if (order == "asc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : 0;
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : 0;
-
-                        if (Date.parse(Boolean(Aux_A)) > Date.parse(Boolean(Aux_B))) {
-                            return 1;
-                        } else if (Date.parse(Boolean(Aux_A)) < Date.parse(Boolean(Aux_B))) {
-                            return -1;
-                        }
-                    });
-                } else if (order == "desc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : 0;
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : 0;
-
-                        if (Date.parse(Boolean(Aux_A)) < Date.parse(Boolean(Aux_B))) {
-                            return 1;
-                        } else if (Date.parse(Boolean(Aux_A)) > Date.parse(Boolean(Aux_B))) {
-                            return -1;
-                        }
-                    });
-                }
-                break;
-
-            case "date":
-                if (order == "asc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : 0;
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : 0;
-
-                        if (Date.parse(Aux_A) > Date.parse(Aux_B)) {
-                            return 1;
-                        } else if (Date.parse(Aux_A) < Date.parse(Aux_B)) {
-                            return -1;
-                        }
-                    });
-                } else if (order == "desc") {
-                    rows.sort(function (a, b) {
-                        var Aux_A = eval("a." + column) ? eval("a." + column) : 0;
-                        var Aux_B = eval("b." + column) ? eval("b." + column) : 0;
-
-                        if (Date.parse(Aux_A) < Date.parse(Aux_B)) {
-                            return 1;
-                        } else if (Date.parse(Aux_A) > Date.parse(Aux_B)) {
-                            return -1;
-                        }
-                    });
-                }
-                break;
-
-            default:
-        }
-    }
-
-
 
     //Generación de la grilla kendo
 
     $scope.attachsIds = [];
     $scope.checkedIds = [];
     $scope.gerateKendoGridView = function () {
-        if ($scope.associatedResults == null || $scope.associatedResults === "" || $scope.associatedResults.length === 0) {
+        if ($scope.associatedResults === "" || $scope.associatedResults.length === 0) {
             console.log("No se encontraron resultados");
             return;
         }
@@ -276,15 +96,6 @@
         }
     }
 
-
-    var DocToolBarContentHeight = 500;
-    $(window).on("resize", function () {
-        if (window.innerHeight < 500)
-            window.innerHeight = 500;
-        DocToolBarContentHeight = window.innerHeight - 150
-
-    });
-
     $scope.LoadKendoGrid = function (results) {
         var localSearchResults = results;
         var grid = $("#" + $scope.gridIndex);
@@ -293,20 +104,9 @@
         var tableHeight = $scope.tableHeight || 300;
 
         if (tableHeight == 'full') {
-            tableHeight = 9999;
-        }
-        else if (tableHeight == 'content') {
-            tableHeight = DocToolBarContentHeight;
+            tableHeight == 9999;
         }
 
-        let exactHeight = tableHeight.toString().replace('px', '');
-        tableHeight = exactHeight < 100 ? (100 + 'px') : tableHeight;
-
-
-
-        if ($scope.sortColumn && $scope.orderBy) {
-            $scope.sortGridByColumn($scope.orderBy, $scope.sortColumn, localSearchResults, model);
-        }
         grid.kendoGrid({
             dataSource: {
                 data: {
@@ -323,15 +123,7 @@
             scrollable: true,
             dataBound: onDataBound,
             sortable: true,
-            excel: {
-                fileName: "Zamba - Grilla de Asociados.xlsx"
-            },
-            pdf: {
-                fileName: "Zamba - Grilla de Asociados.pdf"
-            },
-            groupable: true,
-            pageable: false,
-            filterable: false,
+            groupable: false,
             change: onChange,
             columnMenu: {
                 columns: false,
@@ -352,7 +144,7 @@
         });
 
         gridToClick = grid.data("kendoGrid");
-
+        
         gridToClick.tbody.on("dblclick", "tr", Val_EventDblClick);
         //gridToClick.tbody.on("dblclick", "tr", $scope.onDoubleClick);
         gridToClick.tbody.on("click", "tr", Val_EventClick);
@@ -361,24 +153,9 @@
         grid.css("width", $scope.tableWidth);
     }
 
-    $scope.exportGridToExcel = function () {
-        var grid = $("#" + $scope.gridIndex).data("kendoGrid");
-        grid.saveAsExcel();
-
-    }
-    $scope.exportGridToPDF = function () {
-        $('#exportPDFloading').modal({ show: 'true' });
-        var grid = $("#" + $scope.gridIndex).data("kendoGrid");
-        grid.saveAsPDF();
-        setTimeout(function () { $('#exportPDFloading').modal('hide') }, 500)
-    }
-
     $scope.onThumbClick = function (result, $index, e) {
-        var ScopeDocumentViewer = angular.element($("#GridDocumentViewer")).scope(); 
-        sessionStorage.setItem("zamba_grid_index_all_" + GetUID(), result.DOC_ID);
-        ScopeDocumentViewer.ShowDocument_FromItem(GetUID(), result.DOC_TYPE_ID, result.DOC_ID);
-        //Open Task Mode
-        SelectFile($(e.currentTarget));
+        $scope.previewItem(result, $index, e, $scope.gridIndex);
+        //  e.stopPropagation();
     }
 
     //Valida si se hizo un solo click sobre el elemento.
@@ -407,12 +184,8 @@
         var IsSelected = checkValue(row[0].sectionRowIndex, $scope.checkedIds);
 
         if ($scope.mulipleSelectionGridActive === false) {
-            var ScopeDocumentViewer = angular.element($("#GridDocumentViewer")).scope();
-            var FirstData = $("#zamba_grid_index_all").data().kendoGrid._data[row[0].sectionRowIndex];
-            sessionStorage.setItem("zamba_grid_index_all_" + GetUID(), FirstData.DOC_ID);
             //Open Task Mode
-
-            ScopeDocumentViewer.ShowDocument_FromItem(GetUID(), FirstData.DOC_TYPE_ID, FirstData.DOC_ID);
+            $scope.previewItem(dataItem, row[0].sectionRowIndex, e, $scope.gridIndex);
             SelectFile($(e.currentTarget));
         } else {
             //Multiple check mode
@@ -429,9 +202,9 @@
                 e.preventDefault();
             } else {
                 $(e.currentTarget).addClass("k-state-selected");
-
                 if (!IsSelected) {
                     $(e.currentTarget).addClass("k-state-selected");
+
                     $(e.currentTarget).find('[type=checkbox]').prop('checked', true);
                     $scope.checkedIds.push(row[0].sectionRowIndex);
                     $scope.GetTaskDocument($scope.checkedIds);
@@ -441,10 +214,10 @@
             e.preventDefault();
         }
         e.stopPropagation();
-        //  ValueEdit(e);
+      //  ValueEdit(e);
     }
 
-
+   
 
     $scope.onDoubleClick = function (e) {
         //Varible Definition
@@ -453,13 +226,10 @@
         var row = $(e.target).closest("tr");
         var dataItem = grid.dataItem(row);
         var IsSelected = checkValue(row[0].sectionRowIndex, $scope.checkedIds);
-        
 
         if ($scope.mulipleSelectionGridActive === false) {
             //Open Task Mode
-            if ($scope.openmode != "notopen")
-                $scope.Opentask(dataItem.DOC_ID);
-
+            $scope.Opentask(dataItem.DOC_ID);
         } else {
             //Multiple check mode
 
@@ -491,14 +261,12 @@
 
 
     $scope.RemoveAttach = function (arg) {
-        if ($scope.associatedResults != null) {
-            var IdToRemove = $scope.associatedResults[arg];
+        var IdToRemove = $scope.associatedResults[arg];
 
-            if (IdToRemove !== undefined) {
-                for (i = 0; i < $scope.attachsIds.length; i++) {
-                    if ($scope.attachsIds[i].Docid == IdToRemove.DOC_ID) {
-                        $scope.attachsIds.splice(i, 1);
-                    }
+        if (IdToRemove !== undefined) {
+            for (i = 0; i < $scope.attachsIds.length; i++) {
+                if ($scope.attachsIds[i].Docid == IdToRemove.DOC_ID) {
+                    $scope.attachsIds.splice(i, 1);
                 }
             }
         }
@@ -529,10 +297,10 @@
             }
 
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
 
-
+      
         var columnNames = getColumnsArrayFromResult(response);
         var isHiddenCheck = !$scope.mulipleSelectionGridActive;
         //inserto columna icono al comienzo de la coleccion
@@ -547,10 +315,10 @@
             columnNames.splice(indexOfcheck, 1);
         }
 
-        if (JSON.stringify(columnNames).indexOf("Icon") == -1 && JSON.stringify(columnNames).indexOf("ICON_ID") > -1) {
+        if (JSON.stringify(columnNames).indexOf("Icon") == -1) {
             columnNames.unshift("Icon");
         }
-        if (JSON.stringify(columnNames).indexOf("IsChecked") == -1 && JSON.stringify(columnNames).indexOf("ICON_ID") > -1) {
+        if (JSON.stringify(columnNames).indexOf("IsChecked") == -1) {
             columnNames.unshift("IsChecked");
         }
 
@@ -562,85 +330,64 @@
                     selectable: true, width: 50, filterable: false, hidden: isHiddenCheck
                 };
             }
-            else if (name.toUpperCase() === "MODIFICADO" || name.toUpperCase() === "CREADO" || name.toUpperCase() === "INGRESO") {
+
+            if (name.toUpperCase() === "MODIFICADO" || name.toUpperCase() === "CREADO") {
                 return {
                     field: name,
-                    format: "{0:dd/MM/yyyy HH:mm:ss}",
-                    width: 150,
-                    sortable: true, filterable: true, resizable: true
+                    format: "{0:dd/MM/yyyy hh:mm:ss tt}",
+                    parseFormats: ["yyyy-MM-dd'T'HH:mm:ss"]
                 }
             }
-            else if (name.toUpperCase().indexOf("FECHA") != -1) {
+
+            if (name.toUpperCase() === "ICON") {
                 return {
-                    field: name,
-                    format: "{0:dd/MM/yyyy}",
-                    width: 150,
-                    sortable: true, filterable: true, resizable: true
-                }
-            }
-            else if (name.toUpperCase() === "TAREA") {
-                return {
-                    field: name,
-                    format: "",
-                    width: 150,
-                    sortable: true, filterable: true, resizable: true
-                }
-            }
-            else if (name.toUpperCase() === "ICON") {
-                return {
-                    field: name.trim(), format: (isDateField[name] ? "{0:dd/MM/yyyy}" : ""), width: 60, template: "<div class='customer-photo'" +
+                    field: name.trim(), format: (isDateField[name] ? "{0:dd-MM-yyyy}" : ""), width: 60, template: "<div class='customer-photo'" +
                         "style='background-image: url(" + "../../Content/Images/icons/#:ICON_ID#.png);'></div>",
                     sortable: false, filterable: false, columnMenu: false
                 };
             }
 
-            else if (name.toUpperCase() === "Marks") {
+            if (name.toUpperCase() === "Marks") {
                 return {
                     field: name.trim(), format: "", width: 60, template: "<div class='marks-icons'></div>",
-                    sortable: true, filterable: true, columnMenu: false
+                    sortable: false, filterable: false, columnMenu: false
                 };
             }
 
-            else if (name.toUpperCase() === "StakeHolders") {
+            if (name.toUpperCase() === "StakeHolders") {
                 return {
                     field: name.trim(), format: "", width: 60, template: "<div  class='stakeHolders-icons'></div>",
-                    sortable: true, filterable: true, columnMenu: false
+                    sortable: false, filterable: false, columnMenu: false
                 };
             }
 
 
-            else if (name.toUpperCase() == "ID_PEDIDOS_DE_FONDOS") {
+            if (name.toUpperCase() == "ID_PEDIDOS_DE_FONDOS") {
                 return {
                     field: name.trim(),
                     template: "<div style='font-family:" + 'Libre Barcode 39' + "'>#:Nro_Despacho#</div>",
-                    sortable: true, filterable: true, columnMenu: false
+                    sortable: false, filterable: false, columnMenu: false
                 };
             }
 
 
 
-            else if (name.toUpperCase() == "DOC_ID" || name.toUpperCase() == "DOC_TYPE_ID" || name.toUpperCase() == "STR_ENTIDAD" || name.toUpperCase() == "THUMB" || name.toUpperCase() == "FULLPATH" || name.toUpperCase() == "ICON_ID" || name.toUpperCase() == "USER_ASIGNED" || name.toUpperCase() == "EXECUTION" || name.toUpperCase() == "DO_STATE_ID" || name.toUpperCase() == "TASK_ID" || name.toUpperCase() == "RN" || name.toUpperCase() == "LEIDO" || name.toUpperCase() == "WORKFLOW" || name.toUpperCase() == "PROCESO" || name.toUpperCase() == "DISK_GROUP_ID"
+            if (name.toUpperCase() == "DOC_ID" || name.toUpperCase() == "DOC_TYPE_ID" || name.toUpperCase() == "STR_ENTIDAD" || name.toUpperCase() == "THUMB" || name.toUpperCase() == "FULLPATH" || name.toUpperCase() == "ICON_ID" || name.toUpperCase() == "USER_ASIGNED" || name.toUpperCase() == "EXECUTION" || name.toUpperCase() == "DO_STATE_ID" || name.toUpperCase() == "TASK_ID" || name.toUpperCase() == "RN" || name.toUpperCase() == "LEIDO" || name.toUpperCase() == "WORKFLOW" || name.toUpperCase() == "PROCESO" || name.toUpperCase() == "ESTADO" || name.toUpperCase() == "DISK_GROUP_ID"
                 || name.toUpperCase() == "DISK_GROUP_ID"
                 || name.toUpperCase() == "DISK_GROUP_ID" || name.toUpperCase() == "DISK_GROUP_ID" || name.toUpperCase() == "VOL_ID"
                 || name.toUpperCase() == "OFFSET" || name.toUpperCase() == "PLATTER_ID" || name.toUpperCase() == "SHARED" || name.toUpperCase() == "VER_PARENT_ID"
                 || name.toUpperCase() == "ROOTID" || name.toUpperCase() == "DISK_VOL_PATH" || name.toUpperCase() == "STEP_ID"
-                || name.toUpperCase() == "WORK_ID" || name.toUpperCase() == "DISK_VOL_ID" || name.toUpperCase() == "VERSION" || name.toUpperCase() == "NUMEROVERSION" || name.toUpperCase() == "DOC_FILE" || name.toUpperCase() == "name.toUpperCase()" || name.toUpperCase() == "ASIGNEDTO" || name.toUpperCase() == "STEP" || name.toUpperCase() == "THUMBIMG" || name.toUpperCase() == "SHOWUNREAD"
+                || name.toUpperCase() == "WORK_ID" || name.toUpperCase() == "DISK_VOL_ID" || name.toUpperCase() == "VERSION" || name.toUpperCase() == "NUMEROVERSION" || name.toUpperCase() == "DOC_FILE" || name.toUpperCase() == "name.toUpperCase()" || name.toUpperCase() == "ORIGINAL" || name.toUpperCase() == "ASIGNEDTO" || name.toUpperCase() == "STEP" || name.toUpperCase() == "THUMBIMG" || name.toUpperCase() == "TAREA" || name.toUpperCase() == "SHOWUNREAD"
                 || (name.toUpperCase().startsWith("I") && isNumeric(name.slice(1, name.length - 1)))) {
                 return {
-                    field: name, format: (isDateField[name] ? "{0:dd/MM/yyyy}" : ""), hidden: true, filterable: false, width: 0
+                    field: name, format: (isDateField[name] ? "{0:dd-MM-yyyy}" : ""), hidden: true, filterable: false, width: 0
                 }
-            } else if (name == "ORIGINAL") {
-                return {
-                    field: name, format: (isDateField[name] ? "{0:dd/MM/yyyy}" : ""), width: 150, filterable: true, sortable: true, resizable: true
-                }
-
             }
             else {
 
                 return {
 
-                    field: name, format: (isDateField[name] ? "{0:dd/MM/yyyy}" : ""), width: 150,
-                    sortable: true, filterable: true, resizable: true
+                    field: name, format: (isDateField[name] ? "{0:dd-MM-yyyy}" : ""), width: 150, filterable: true
 
                 }
             }
@@ -650,159 +397,63 @@
 
     function getColumnsArrayFromResult(results) {
         var columns = [];
-        var entityId = 0;
-        for (var r in results) {
-            let currentResult = results[r];
-            if (entityId != currentResult.DOC_TYPE_ID) {
-                entityId = currentResult.DOC_TYPE_ID;
-                for (var name in currentResult) {
-                    if (columns.indexOf(name) == -1)
-                        columns.push(name.trim().replace(/\s/g, "").replace(/\s/g, "_"));
-                }
-            }
+        for (var name in results[0]) {
+            columns.push(name.trim().replace(/\s/g, "").replace(/\s/g, "_"));
         }
         return columns;
     }
-    function generateModel(results) {
+
+    function generateModel(response) {
+
+        var sampleDataItem = response[0];
+
         var model = {};
         var fields = {};
+        for (var property in sampleDataItem) {
+            if (property == ("ID")) {
+                model["id"] = property;
+            }
+            var propType = typeof sampleDataItem[property];
 
-        var entityId = 0;
-        for (var r in results) {
-            let currentResult = results[r];
-            if (entityId != currentResult.DOC_TYPE_ID) {
-                entityId = currentResult.DOC_TYPE_ID;
+            if (propType === "number") {
+                fields[property] = {
+                    type: "number"
+                };
+            } else if (propType === "boolean") {
+                fields[property] = {
+                    type: "boolean"
+                };
+            } else if (propType === "string") {
+                var parsedDate = kendo.parseDate(sampleDataItem[property]);
+                if (parsedDate) {
 
-                for (var property in currentResult) {
-
-                    property = property.trim().replace(/\s/g, "").replace(/\s/g, "_");
-
-                    if (property == ("ID")) {
-                        model["id"] = property;
-                    }
-                    var propType = typeof r[property];
-
-                    if (propType === "number") {
+                    if (property.indexOf("Fecha") != -1 && property.indexOf("Hora") != -1) {
                         fields[property] = {
-                            type: "number"
+                            type: "datetime"
                         };
-                    } else if (propType === "boolean") {
-                        fields[property] = {
-                            type: "boolean"
-                        };
-                    } else if (propType === "string") {
-                        var parsedDate = kendo.parseDate(sampleDataItem[property]);
-                        if (parsedDate) {
-
-                            if (property.indexOf("Fecha") != -1 || property.indexOf("Hora") != -1 || property == "CREADO" || property == "MODIFICADO" || property == "INGRESO") {
-                                fields[property] = {
-                                    type: "date"
-                                };
-
-                            } else {
-
-                                fields[property] = {
-                                    type: "date"
-                                };
-                                isDateField[property] = true;
-                            }
-                        } else {
-                            fields[property] = {
-                                type: "string"
-                            };
-                        }
-                    } else if (propType === "object") {
-
-                        if (property.indexOf("Fecha") != -1 || property.indexOf("Hora") != -1 || property == "CREADO" || property == "MODIFICADO" || property == "INGRESO") {
-                            fields[property] = {
-                                type: "date"
-                            };
-
-                        } else {
-
-                            fields[property] = {
-                                type: "string"
-                            };
-                        }
 
                     } else {
-                        if (property.indexOf("Fecha") != -1 || property.indexOf("Hora") != -1 || property == "CREADO" || property == "MODIFICADO" || property == "INGRESO") {
-                            fields[property] = {
-                                type: "date"
-                            };
 
-                        } else {
-
-                            fields[property] = {
-                                type: "string"
-                            };
-                        }
+                        fields[property] = {
+                            type: "date"
+                        };
+                        isDateField[property] = true;
                     }
-                }
-            }
-        }
-        model.fields = fields;
-        return model;
-    }
-    function getTypeColumn(property, sampleDataItem) {
-        var typeColumn;
-
-        property = property.trim().replace(/\s/g, "").replace(/\s/g, "_");
-
-        if (property == ("ID")) {
-            typeColumn = property;
-        }
-        if (sampleDataItem[property] == undefined || sampleDataItem[property] == "" || sampleDataItem[property] == null)
-            return undefined;
-
-        var propType = typeof sampleDataItem[property];
-
-        if (propType === "number") {
-            typeColumn = {
-                type: "number"
-            };
-        } else if (propType === "boolean") {
-            typeColumn = {
-                type: "boolean"
-            };
-        } else if (propType === "string") {
-            var parsedDate = kendo.parseDate(sampleDataItem[property]);
-            if (parsedDate) {
-
-                if (property.indexOf("Fecha") != -1 && property.indexOf("Hora") != -1) {
-                    typeColumn = {
-                        type: "date"
-                    };
-
                 } else {
-
-                    typeColumn = {
-                        type: "date"
+                    fields[property] = {
+                        type: "string"
                     };
-                    isDateField[property] = true;
                 }
             } else {
-                typeColumn = {
+                fields[property] = {
                     type: "string"
                 };
             }
-        } else if (propType === "object") {
-
-            if (property.indexOf("Fecha") != -1 && property.indexOf("Hora") != -1) {
-                typeColumn = {
-                    type: "date"
-                };
-
-            } else {
-
-            }
-
-        } else {
-            typeColumn = {
-                type: "string"
-            };
         }
-        return typeColumn;
+
+        model.fields = fields;
+       // console.log(isDateField);
+        return model;
     }
 
     function GetColumnWidth(ColumnName) {
@@ -823,7 +474,7 @@
             if (ColumnName == 'Demandado') return 200;
             if (ColumnName == 'Icon') return 50;
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
 
         return width;
@@ -833,6 +484,10 @@
     function onDataBound(arg) {
 
         var gridElement = $("#" + $scope.gridIndex);
+
+        //if (localStorage && localStorage.getItem("MultiSelectionIsActive") === "false") {
+        //    $(".k-checkbox-label").parent().hide();
+        //}
 
         gridElement.css('font-size', '11px');
         $('.k-header.k-with-icon')[0].childNodes[0].hidden = true;
@@ -945,7 +600,7 @@
     //Generación de la grilla de Thumbs
 
     $scope.generateThumbsGridView = function () {
-        if ($scope.associatedResults == null || $scope.associatedResults == "" || $scope.associatedResults.length == 0) {
+        if ($scope.associatedResults == "" || $scope.associatedResults.length == 0) {
             console.log("No se encontraron resultados");
             return;
         }
@@ -968,7 +623,7 @@
     //Generación de la grilla de Preview
 
     $scope.generatePreviewGridView = function () {
-        if ($scope.associatedResults == null || $scope.associatedResults == "" || $scope.associatedResults.length == 0) {
+        if ($scope.associatedResults == "" || $scope.associatedResults.length == 0) {
             console.log("No se encontraron resultados");
             return;
         }
@@ -988,8 +643,8 @@
     function getGroupsIdsByUserId(userId) {
         var groups = [];
         try {
-            if (window.localStorage) {
-                var localGroups = window.localStorage.getItem("localGroups" + GetUID());
+            if (localStorage) {
+                var localGroups = localStorage.getItem("localGroups" + GetUID());
                 if (localGroups != undefined && localGroups != null && localGroups.length > 0) {
                     groups = localGroups;
                     return groups;
@@ -997,7 +652,7 @@
                 }
             }
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
 
         if (groups.length == 0) {
@@ -1010,11 +665,11 @@
                     if (data != undefined && data != null) {
                         groups = data;
                         try {
-                            if (window.localStorage) {
-                                window.localStorage.setItem("localGroups" + GetUID(), data);
+                            if (localStorage) {
+                                localStorage.setItem("localGroups" + GetUID(), data);
                             }
                         } catch (e) {
-                            console.error(e);
+                            console.log(e);
                         }
                     }
 
@@ -1067,6 +722,7 @@
     //Selección  multiple flag
     $scope.setSelectionMode = function () {
         var grid = $("#" + $scope.gridIndex).data("kendoGrid");
+
         if ($scope.mulipleSelectionGridActive) {
             $("span." + $scope.thumbSelectionClass + ".glyphicon-ok-sign").click();
             $scope.mulipleSelectionGridActive = false;
@@ -1075,20 +731,19 @@
             $scope.resetMultipleSelection();
             $scope.checkedIds = [];
             $scope.attachsIds = [];
-
         } else {
             $(".k-state-selected").first().removeClass("k-state-selected");
             $scope.mulipleSelectionGridActive = true;
             //grid.showColumn(0);
         }
-        $scope.refreshGrid();
-        window.localStorage.setItem("MultipleSelection", $scope.mulipleSelectionGridActive.toString());
+
+        localStorage.setItem("MultipleSelection", $scope.mulipleSelectionGridActive.toString());
     }
 
-    //Limpia filas seleccionadas de grilla asociados obteniendo parametro del window.localStorage
+    //Limpia filas seleccionadas de grilla asociados obteniendo parametro del LocalStorage
     $scope.ClearSelection = function () {
         try {
-            if (window.localStorage.getItem("MultipleSelection") == "true") {
+            if (localStorage.getItem("MultipleSelection") == "true") {
                 $("span." + $scope.thumbSelectionClass + ".glyphicon-ok-sign").click();
                 $scope.mulipleSelectionGridActive = false;
                 grid.hideColumn(0);
@@ -1096,13 +751,12 @@
                 $scope.resetMultipleSelection();
                 $scope.checkedIds = [];
                 $scope.attachsIds = [];
-            } else if (window.localStorage.getItem("MultipleSelection") == "false") {
+            } else if (localStorage.getItem("MultipleSelection") == "false") {
                 $scope.mulipleSelectionGridActive = true;
                 grid.showColumn(0);
             }
-            $scope.refreshGrid();
         } catch (e) {
-            console.error(e);
+            console.log(e.message);
         }
     }
 
@@ -1117,22 +771,19 @@
     }
 
     function SelectionMultipleIsActive() {
-        var result = window.localStorage.getItem("MultiSelectionIsActive");
+        var result = localStorage.getItem("MultiSelectionIsActive");
         return result;
     }
 
     //Refresh de grillas
     $scope.refreshGrid = function () {
-        
         $scope.loading = true;
-        $scope.LoadResults($scope.parentResultId, $scope.partentEntityId, $scope.entities, $scope.parentTaskId, $scope.zvar, $scope.onlyimportants);
-        $scope.removeCaller();
+        $scope.LoadResults($scope.parentResultId, $scope.partentEntityId, $scope.entities, $scope.parentTaskId);
     }
 
     //Inicializa modo de la grilla
     $scope.setGridView = function (mode) {
         $scope.enableMode = mode;
-
     }
 
     $scope.showPreview = true;
@@ -1142,6 +793,7 @@
 
     //Apertura de tarea 
     $scope.Opentask = function (arg) {
+        
         var thumbsCollection = $(".resultsGridSearchBoxThumbs_" + $scope.gridIndex).find(".glyphicon-ok-sign");
         $scope.thumbsCheckedCount = thumbsCollection.length;
 
@@ -1163,40 +815,41 @@
                 taskId = result.Task_Id;
             }
 
-            var Url = "../WF/TaskSelector.ashx?" +
-                'doctype=' + result.DOC_TYPE_ID +
-                '&docid=' + result.DOC_ID +
-                '&taskid=' + taskId +
-                '&wfstepid=' + stepid +
-                "&userId=" + GetUID();
-
             if ($scope.openmode == "view") {
-                OpenDocTask3(taskId, result.DOC_ID, result.DOC_TYPE_ID, null, result.Proceso, Url, userid, stepid, 0);
+                if (stepid != null && stepid != undefined && stepid != 0) {
+                    var Url = (thisDomain + "/views/WF/TaskViewer.aspx?DocType=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&taskid=" + taskId + "&mode=s"
+                        + "&s=" + stepid + "&" + localStorage.queryStringAuthorization);// + "&userId=" + userid);
+                }
+                else {
+                    var Url = (thisDomain + "/views/search/docviewer.aspx?DocType=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&mode=s"
+                        + "&" + localStorage.queryStringAuthorization);// + "&userId=" + userid);
+
+                }
             }
             else {
-                Url = (thisDomain + "/Services/GetDocFile.ashx?DocTypeId=" + result.DOC_TYPE_ID + "&DocId=" + result.DOC_ID + "&UserID=" + userid + "&ConvertToPDf=true");
+                var Url = (thisDomain + "/Services/GetDocFile.ashx?DocTypeId=" + result.DOC_TYPE_ID + "&DocId=" + result.DOC_ID + "&" + localStorage.queryStringAuthorization + "&ConvertToPDf=true");
+            }
 
-                if ($scope.previewMode == "previewV") {
-                    swal({
-                        title: "Hay modificaciones en la tarea actual.",
-                        text: "Desea guardar los cambios realizados?",
-                        icon: "warning",
-                        buttons: ["Si", "No", "Cancel"],
-                        dangerMode: true,
-                    })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                //GuardarCambios();
-                                SwitchZambaAplication(result, Url, userid);
-                            } else if ("Nn") {
-                                SwitchZambaAplication(result, Url, userid);
-                            } else if ("Cancel") {
+            //var Url = (thisDomain + "/views/WF/TaskSelector.ashx?DocTypeId=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&taskid=" + result.TASK_ID
+            //    + "&wfstepid=" + stepid + "&userId=" + userid);
 
-                            }
-                        });
-                }
-
-                //SwitchZambaAplication(result, Url, userid);
+            switch (zambaApplication) {
+                case "ZambaWeb":
+                    OpenDocTask3(result.TASK_ID, result.DOC_ID, result.DOC_TYPE_ID, false, "Reemplazar", Url, userid, 0);
+                    $('#Advfilter1').modal("hide");
+                    break;
+                case "ZambaWindows": case "ZambaHomeWidget": case "ZambaQuickSearch":
+                    winFormJSCall.openTask(result.DOC_TYPE_ID, result.DOC_ID, result.TASK_ID, result.STEP);
+                    $('#Advfilter1').modal("hide");
+                    break;
+                case "Zamba":
+                    //var token = $scope.GetTokenInfo().token;
+                    window.open(Url, '_blank');
+                    break;
+                case "ZambaSearch":
+                    //var token = $scope.GetTokenInfo().token;
+                    window.open(Url, '_blank');
+                    break;
             }
 
             try {
@@ -1212,15 +865,14 @@
 
                     // Actualiza estado de leido en thumbs y preview
                     result.LEIDO = 1;
-
+                    $scope.$apply();
                     // Actualizar estado de tareas en la grilla
                     $scope.refreshGrid();
-
-                    $scope.$applyAsync();
+                    //$scope.MultipleSelection(false);
 
                 }
             } catch (e) {
-                console.error(e);
+                console.log(e.message);
             }
 
 
@@ -1228,29 +880,6 @@
             $scope.onSelectionMode = true;
         }
     };
-
-    function SwitchZambaAplication(result, Url, userid) {
-        switch (zambaApplication) {
-            case "ZambaWeb":
-                OpenDocTask3(result.TASK_ID, result.DOC_ID, result.DOC_TYPE_ID, false, "Reemplazar", Url, userid, 0);
-                $('#Advfilter1').modal("hide");
-                break;
-            case "ZambaWindows":
-            case "ZambaHomeWidget":
-            case "ZambaQuickSearch":
-                winFormJSCall.openTask(result.DOC_TYPE_ID, result.DOC_ID, result.TASK_ID, result.STEP);
-                $('#Advfilter1').modal("hide");
-                break;
-            case "Zamba":
-                //var token = $scope.GetTokenInfo().token;
-                window.open(Url, '_blank');
-                break;
-            case "ZambaSearch":
-                //var token = $scope.GetTokenInfo().token;
-                window.open(Url, '_blank');
-                break;
-        }
-    }
 
     //Cantidad de tareas no leidas
     $scope.LoadMyTasksCount = function () {
@@ -1264,10 +893,10 @@
                 //                scope.$apply();
                 if ($scope.MyUnreadTasks != data && data != 0) {
                     $scope.MyUnreadTasks = data;
-                    //                    setInterval(function () {
-                    var actualizada = toastr.info("Se ha agregado una nueva tarea");
-                    toastr.options.timeOut = 3000;
-                    //                  }, 300000);
+                    setInterval(function () {
+                        var actualizada = toastr.info("Se ha agregado una nueva tarea");
+                        toastr.options.timeOut = 3000;
+                    }, 300000);
                 }
             }
         });
@@ -1295,6 +924,7 @@
             $scope.LoadKendoGrid(results);
 
             //thumbs         
+            $scope.Search = Search;
             $scope.Search.SearchResults = results;
             ProcessResults($scope.Search);
 
@@ -1340,7 +970,7 @@
             LoadGrilla_ForTableModalShow();
             $scope.setSelectionMode();
         } catch (e) {
-            console.error(e);
+            console.log(e.message);
         }
     }
 
@@ -1354,7 +984,7 @@
                 });
             }
         } catch (e) {
-            console.error(e);
+            console.log(e.message);
         }
     }
 
@@ -1403,48 +1033,9 @@
         return resultsFilteres
     }
 
-    $scope.thumbZoom = function (result,event) {
-        
-        var t = $(event.target);
-        //var path = '../../app/Grid/Views/zoomModal.html';
-        //$scope.showModalWithGridData(result, path, "zoom");
-        var rg = $(event.target).parents(".resultsGrid");
-        var dpt = $(t).parent().parent().children(".document-photo-thumbs");
-        var $detailsButton = $($(t).parents(".resultsGrid")[0]).find(".glyphicon-info-sign");
-        var $selectionButton = $($(t).parents(".resultsGrid")[0]).find(".glyphicon-ok-circle");
-        if ($(t).attr("mode") === "normal") {
-
-            $detailsButton.hide();
-            $selectionButton.hide();
-            $(t).parent().css("top", "-12px");
-            $(t).attr("class", "glyphicon glyphicon glyphicon-remove");
-            $(".resultsGrid.ng-scope").hide();
-            $(t).attr({ "mode": "zoom", "src": "../../GlobalSearch/Images/close.png" });
-
-            //se agrego ya que al tener una resolucion chica aparece un scroll que no debe aparecer
-            $("#resultsGridSearchBoxThumbs").css("overflow-y", "hidden")
-
-            rg.css("max-width", "500px").show();
-            dpt.css("max-height", "480px").show();
-            rg.animate({ width: "300px" }, 300);
-            dpt.animate({ width: "300px" }, 300);
-            
-        }
-        else {
-            $detailsButton.show();
-            $selectionButton.show();
-            $(t).parent().css("top", "auto");
-            $(t).attr("class", "glyphicon glyphicon-zoom-in");
-            $(".resultsGrid.ng-scope").show();
-            $(t).attr({ "mode": "normal", "src": "../../GlobalSearch/Images/word.png" });
-            rg.css("max-width", "150px");
-            dpt.css("max-height", "225px");
-            dpt.animate({ width: "100%" }, 300);
-
-            $("#resultsGridSearchBoxThumbs").css("overflow-y", "visible");
-
-        }
-
+    $scope.thumbZoom = function (result) {
+        var path = '../../app/Grid/Views/zoomModal.html';
+        $scope.showModalWithGridData(result, path, "zoom");
     }
 
     $scope.ShowThumbInfoGS = function (result) {
@@ -1529,8 +1120,8 @@
             || name == "WORKFLOW" || name == "Proceso" || name == "Estado" || name == "DISK_GROUP_ID"
             || name == "DISK_GROUP_ID" || name == "VOL_ID" || name == "OFFSET" || name == "PLATTER_ID" || name == "SHARED" || name == "VER_PARENT_ID"
             || name == "ROOTID" || name == "DISK_VOL_PATH" || name == "STEP_ID" || name == "WORK_ID" || name == "DISK_VOL_ID" || name == "VERSION"
-            || name == "NUMEROVERSION" || name == "DOC_FILE" || name == "AsignedTo" || name == "Step"
-            || name == "ThumbImg" || name == "ShowUnread" || name == "Icon"
+            || name == "NUMEROVERSION" || name == "DOC_FILE" || name == "ORIGINAL" || name == "AsignedTo" || name == "Step"
+            || name == "ThumbImg" || name == "Tarea" || name == "ShowUnread" || name == "Icon"
             || name.toLowerCase().startsWith("i") && isNumeric(name.slice(1, name.length - 1))) {
             isHiddenAttr = true;
         }
@@ -1576,7 +1167,7 @@
             }
 
             var currentresult = result; //$scope.Search.SearchResults[result];
-            var url = "../../Services/GetDocFile.ashx?DocTypeId=" + currentresult.DOC_TYPE_ID + "&DocId=" + currentresult.DOC_ID + "&UserID=" + GetUID() + "&ConvertToPDf=true";
+            var url = "../../Services/GetDocFile.ashx?DocTypeId=" + currentresult.DOC_TYPE_ID + "&DocId=" + currentresult.DOC_ID + "&" + localStorage.queryStringAuthorization +  "&ConvertToPDf=true";
 
             try {
 
@@ -1586,27 +1177,26 @@
                         try {
                             if ($("#previewGrid_" + $scope.gridIndex)[0] != undefined) {
                                 $($("#previewGrid_" + $scope.gridIndex)[0]).css('height', $scope.tableHeight);
-                            }
+                            }                                
                         } catch (e) {
-                            console.error(e);
+                            console.log(e);
                         }
                     }
                     catch (error) {
-                        console.error(error);
                     }
                 }, 300);
 
 
             }
             catch (error) {
-                console.error(error);
+                console.log(error);
             }
             return url;
         }
     }
 
     //Establece al viewer de PDF la fila seleccionada previamente.
-    $scope.SetSelectFile_InViewer = function (event) {
+    $scope.SetSelectFile_InViewer = function (event) {    
         var row, rowIndex, dataItem;
 
         if ($scope.showPreview) {
@@ -1616,25 +1206,14 @@
                 dataItem = $("#" + $scope.gridIndex).data("kendoGrid").dataItem(row);
             } else {
                 var entities = $("zamba-associated").attr("entities")                //row = $($("#zamba_grid_index_113").find("tr")[1]).first();   //obtiene el "sectionRowIndex" del primer elemento de la grilla.
+                row = $($("#zamba_grid_index_" + entities).find("tr")[1]).first();   //obtiene el "sectionRowIndex" del primer elemento de la grilla.
+                rowIndex = row[0].sectionRowIndex;
+                dataItem = $("#" + $scope.gridIndex).data("kendoGrid").dataItem(row);
 
-                if (entities != "") {
-                    row = $($("#zamba_grid_index_" + entities).find("tr")[1]).first();   //obtiene el "sectionRowIndex" del primer elemento de la grilla.
-                    rowIndex = row[0].sectionRowIndex;
-                    dataItem = $("#" + $scope.gridIndex).data("kendoGrid").dataItem(row);
-
-                    SelectFile(row);
-                }               
+                SelectFile(row);
             }
 
-            if (dataItem != undefined && dataItem != null) {
-                $scope.previewItem(dataItem, rowIndex, event, $scope.gridIndex);
-            } else {
-                console.error("No se ha podido obtener la fila deseada.");
-            }
-        }
-        else {
-            $(".k-state-selected").first().removeClass("k-state-selected");
-            sessionStorage.removeItem("zamba_grid_index_all_" + parent.GetUID());
+            $scope.previewItem(dataItem, rowIndex, event, $scope.gridIndex);
         }
     }
 
@@ -1650,23 +1229,20 @@
     };
 
     $scope.GetNextUrl = function (index, Id) {
-        
         if ($scope.Search == undefined || $scope.Search.SearchResults == undefined) return;
         index++;
-        var currentresult = $scope.Search.SearchResults[index];
+        var currentresult = $scope.Search.SearchResults[index];       
         $scope.previewItem(currentresult, index, null, Id)
-        var entities = $("zamba-associated").attr("entities")
-        var row = $($("#zamba_grid_index_" + entities).find("tr")[index + 1]); //+1 por que hay un TR adicional que es la cabecera. ver por consola.
+        var entities = $("zamba-associated").attr("entities")  
+        var row = $($("#zamba_grid_index_" + entities).find("tr")[index+1]); //+1 por que hay un TR adicional que es la cabecera. ver por consola.
         SelectFile(row);
     };
 });
 
-
-
 //Selecciona o deselecciona una fila determinada en la grilla.
-function SelectFile(row) {
+function SelectFile(row) {    
     if (row.hasClass("k-state-selected")) {
-
+        
     } else {
         $(".k-state-selected").removeClass("k-state-selected");
         row.addClass("k-state-selected");
@@ -1674,7 +1250,6 @@ function SelectFile(row) {
 };
 
 function GetNextUrl(currentIndex, Id) {
-    
     return angular.element($('#' + Id)).scope().GetNextUrl(currentIndex, Id);
 }
 
@@ -1725,7 +1300,23 @@ function checkValue(value, arr, from) {
     return false;
 }
 
+function getElementFromQueryString(element) {
+    var url = window.location.href;
 
+    var segments = url.split("&");
+    var value = null;
+    segments.forEach(function (valor) {
+        if (valor.includes(element)) { value = valor.split("=")[1]; }
+    });
+    try {
+        if (value == null && element == 'DocType') {
+            value = $("[id$=hdnDocTypeId]").val();
+        }
+    } catch (e) {
+
+    }
+    return value;
+}
 
 
 app.directive('zambaAssociated', function ($sce) {
@@ -1735,18 +1326,14 @@ app.directive('zambaAssociated', function ($sce) {
         //replace: true,
         transclude: true,
         link: function ($scope, element, attributes) {
+
             $scope.zvar = attributes.zvar;
-            if (attributes.onlyimportants != undefined && attributes.onlyimportants != null && attributes.onlyimportants != '' && attributes.onlyimportants == 'true')
-                $scope.onlyimportants = true;
 
-            if (attributes.entities != undefined && attributes.entities != null && attributes.entities != '' && attributes.entities != '')
-                $scope.entities = attributes.entities;
-
+            $scope.entities = attributes.entities;
             //$scope.enableMode = attributes.enableMode;
             $scope.defaultEnableMode = attributes.defaultEnableMode;
             $scope.enableMode = $scope.defaultEnableMode
             $scope.ruleId = attributes.ruleid;
-
             $scope.tableHeight = attributes.tableHeight
             if (attributes.tableWidth != null && (attributes.tableWidth.indexOf("px") > -1 ||
                 attributes.tableWidth.toLowerCase().indexOf("%") > -1)) {
@@ -1755,11 +1342,11 @@ app.directive('zambaAssociated', function ($sce) {
                 $scope.tableWidth = "100%";
             }
             $scope.parentTaskId = 0;
-            $scope.partentEntityId = GetDocTypeId();
+            $scope.partentEntityId = getElementFromQueryString("DocType");
             if ($scope.partentEntityId == null) {
-                $scope.parentTaskId = GetTASKID();
+                $scope.parentTaskId = getElementFromQueryString("taskid");
             }
-            $scope.parentResultId = GetDOCID();
+            $scope.parentResultId = getElementFromQueryString("docid");
             $scope.ruleIds = attributes.ruleIds;
             $scope.gridTitle = attributes.gridTitle;
             if ($scope.ruleIds != null) {
@@ -1777,7 +1364,6 @@ app.directive('zambaAssociated', function ($sce) {
 
             }
             catch (e) {
-                console.error(e);
             }
             if (attributes.showPreview != undefined && attributes.showPreview != null) {
                 $scope.showPreview = attributes.showPreview;
@@ -1785,32 +1371,10 @@ app.directive('zambaAssociated', function ($sce) {
             else {
                 $scope.showPreview = false;
             }
-            if ($scope.entities != undefined && $scope.entities != null && $scope.entities != '') {
-                $scope.gridIndex = "zamba_grid_index_" + $scope.entities.replace(/\,/g, "_");
-            } else if ($scope.zvar != undefined && $scope.zvar != null && $scope.zvar != '') {
-                $scope.gridIndex = "zamba_grid_index_" + $scope.zvar.replace(/\,/g, "_");
-            } else if ($scope.onlyimportants != undefined && $scope.onlyimportants != null && $scope.onlyimportants == true) {
-                $scope.gridIndex = "zamba_grid_index_WF";
-            } else {
-                $scope.gridIndex = "zamba_grid_index_all";
-            }
-
+            $scope.gridIndex = "zamba_grid_index_" + $scope.entities.replace(/\,/g, "_");
             $scope.thumbSelectionClass = "thumbSelection_" + $scope.gridIndex;
-
-            if (attributes.orderBy != undefined && attributes.orderBy.split(" ").length == 2) {
-                $scope.sortColumn = attributes.orderBy.split(" ")[0];
-                $scope.orderBy = attributes.orderBy.split(" ")[1];
-            }
-
-            if (attributes.caller != undefined && attributes.caller != null) {
-                $scope.Caller = attributes.caller;
-            }
-            else {
-                $scope.showPreview = false;
-            }
-
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../app/Grid/Directives/GridDirective.html?v=248')
+        templateUrl: $sce.getTrustedResourceUrl('../../app/Grid/Directives/GridDirective.html')
     }
 });
 
@@ -1828,16 +1392,7 @@ app.directive('zambaAssociatedKendo', function ($sce) {
                 "align-items: stretch  margin: 0;padding: 0;height: 100%;' class='ZKGrid center'></div >";
             kendoGridStyle = "<style> .k-grid-content{height: 100% !important;}</style>";
             element.append(kendoGridDiv + kendoGridStyle);
-
-            if ($scope.Caller != null && $scope.Caller != undefined) {
-                var callerBtn = document.getElementById($scope.Caller);
-                if (callerBtn)
-                    callerBtn.addEventListener("click", $scope.refreshGrid, false);
-            }
-            else {
-                setTimeout(function () { $scope.refreshGrid() }, 500);
-            }
-
+            $scope.LoadResults($scope.parentResultId, $scope.partentEntityId, $scope.entities, $scope.parentTaskId, $scope.zvar);
         },
         templateUrl: $sce.getTrustedResourceUrl('../../app/Grid/Directives/GridKendoDirective.html')
     }
@@ -1875,57 +1430,4 @@ app.directive('zambaAssociatedPreview', function ($sce) {
 function ValueEdit(e) {
 }
 
-//toolbar: kendo.template($('#toolbar-template').html()),
-function printGrid() {
-    var gridElement = $("#" + $scope.gridIndex),
-        printableContent = '',
-        win = window.open('', '', 'width=800, height=500, resizable=1, scrollbars=1'),
-        doc = win.document.open();
-    var htmlStart =
-        '<head>' +
-        '<meta charset="utf-8" />' +
-        '<title>Kendo UI Grid</title>' +
-        '<link href="https://kendo.cdn.telerik.com/' + kendo.version + '/styles/kendo.common.min.css" rel="stylesheet" /> ' +
-        '<style>' +
-        'html { font: 11pt sans-serif; }' +
-        '.k-grid { border-top-width: 0; }' +
-        '.k-grid, .k-grid-content { height: auto !important; }' +
-        '.k-grid-content { overflow: visible !important; }' +
-        'div.k-grid table { table-layout: auto; width: 100% !important; }' +
-        '.k-grid .k-grid-header th { border-top: 1px solid; }' +
-        '.k-grouping-header, .k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
-        // '.k-grid-pager { display: none; }' + // optional: hide the whole pager
-        '</style>' +
-        '</head>' +
-        '<body>';
-    var htmlEnd =
-        '</body>';
-    var gridHeader = gridElement.children('.k-grid-header');
-    if (gridHeader[0]) {
-        var thead = gridHeader.find('thead').clone().addClass('k-grid-header');
-        printableContent = gridElement
-            .clone()
-            .children('.k-grid-header').remove()
-            .end()
-            .children('.k-grid-content')
-            .find('table')
-            .first()
-            .children('tbody').before(thead)
-            .end()
-            .end()
-            .end()
-            .end()[0].outerHTML;
-    } else {
-        printableContent = gridElement.clone()[0].outerHTML;
-    }
-    doc.write(htmlStart + printableContent + htmlEnd);
-    doc.close();
-    win.print();
-}
-$(function () {
-
-    $('#printGrid').click(function () {
-        printGrid();
-    });
-});
 

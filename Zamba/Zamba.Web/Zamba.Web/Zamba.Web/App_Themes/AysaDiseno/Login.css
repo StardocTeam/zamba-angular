@@ -1,0 +1,230 @@
+﻿body {
+    overflow: hidden;
+}
+
+@media (min-width: 992px) {
+    .bannerHeader {
+        margin-top: -100px;
+    }
+}
+
+#loginBody {
+    font-family: "Microsoft Sans Serif",Arial, Helvetica, Sans-Serif;
+    color: white;
+    padding: 0px;
+    background-color: #0E2B8D;
+}
+
+/******************Header**********************/
+/*Cabecera imagen*/
+.cabecera-wrapper {
+    width: 100%;
+    height: 120px;
+}
+
+.TimeOut-Logo {
+    background: url('Images/AysaTime2.png')  no-repeat;
+    height: 50px;
+    position: relative;
+    left:200px;
+}
+
+
+.cabecera-login {
+    background: url("../AysaDiseno/Images/logoAysa.png") no-repeat;
+    width: 100%;
+    margin:0 auto;
+    height: 160px;
+    background-position: center;
+}
+
+.cabecera-login2 {
+    background: url("../AysaDiseno/Images/logoAysa3.png") no-repeat;
+    height: 80px;
+    background-position: center;
+    /*margin-top:1%;*/
+    display: inline-block;
+    width: 100%;
+}
+
+#divPwbyzambaCenter {
+    display: none;
+}
+
+
+#barra-Cabezera {
+    width: 962px;
+    height: 20px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-right: 0px;
+}
+
+    #barra-Cabezera ul {
+        list-style: none;
+        float: right;
+        margin-right: 55px;
+    }
+
+        #barra-Cabezera ul li {
+            float: left;
+        }
+
+            #barra-Cabezera ul li a {
+                display: block;
+                padding: 4px 25px;
+                color: #FFF;
+                background-color: #009CC2;
+                margin: 0px 6px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+            }
+
+
+/*Barra de controles con botones*/
+#btnIniciarSesionCab {
+    background-image: url("../AysaDiseno/Images/IniciarSesion.png");
+    width: 95px;
+    height: 20px;
+}
+
+#btnCerrarSesionCab {
+    background-image: url("../AysaDiseno/Images/CerrarSesion.png");
+    width: 95px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/*Controles Inicio Sesion*/
+#divInicioSesion {
+    background-image: url("../AysaDiseno/Images/divinicio2.png");
+    background-position: center;
+    /*margin-top:1%;*/
+    height: 190px;
+    width: 100%;
+}
+
+/*#CeldaBotonIniciarSesion
+{
+    text-align:right;
+    padding-top: 10px; 
+   
+}*/
+
+.PanelIniciarSesion {
+    text-align: right;
+    color: White;
+}
+
+
+#controlMensaje {
+    display: none;
+}
+
+.boton-iniciar-sesion {
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
+    border: 0 !important;
+    cursor: pointer !important;
+    color: #FFF;
+    background-color: #009CC2;
+    font-size: 16px;
+    padding: 3px 6px;
+    position: relative;
+    right: 50px;
+}
+
+/*.boton-iniciar-sesion2
+{
+    background-image: url("../AysaDiseno/Images/IniciarSesion.png");
+    width:100px;
+    height:20px;
+    border:none;
+    position:relative;
+    color: transparent;
+    text-transform: capitalize;   Este es el parche para IE   
+    cursor:pointer;
+
+}*/
+
+.text-box-inicio-sesion {
+    width: 300px;
+    /*right: 100px;*/
+    height: 18px;
+}
+
+.label-inicio-sesion {
+    width: 100px;
+    right: 100px;
+    color: White;
+}
+
+
+
+#Alinear-Div-Login {
+    width: 100%;
+}
+
+    #Alinear-Div-Login table {
+        position: absolute;
+        right: 75px;
+    }
+
+.CeldaTextoInicioSesion {
+    text-align: left;
+}
+
+.Line-horizontal {
+}
+
+.pwbyzamba {
+    min-height: 100%;
+    width: 10%;
+    min-width: 100px;
+    float: right;
+    margin-right: 3%;
+}
+
+.legal {
+    margin-left: 4% !important;
+    font-size: 10px;
+}
+
+
+
+/*footer
+.FooterLogIn {
+    position:fixed; 
+    bottom:0;
+    width:100%; 
+    z-index: 99; 
+    text-align:left;
+    font-size: 8pt; 
+    font-family: tahoma; 
+    vertical-align: middle;
+    padding-left:25px;
+    color: White;
+}*/
+
+
+#lblError {
+    display: block;
+    text-align: right;
+    margin-top: 0.8em;
+}
+
+
+@media (min-width: 992px) {
+    .pnlZambaLogin {
+        margin-left: 35%;
+        width: 30%;
+    }
+
+    .nlZambaLogin {
+        margin-left: 35%;
+        width: 30%;
+    }
+}

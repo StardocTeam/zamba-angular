@@ -38,19 +38,11 @@ Public Class PlayDoShowForm
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Cargando en el result el ID de formulario que corresponde: " & myRule.FormID.ToString())
 
         For Each r As ITaskResult In results
-            If Params IsNot Nothing Then
-                Params.Add("formid", myRule.FormID.ToString())
-                Params.Add("openmode", If(myRule.DontShowDialogMaximized, "modal", ""))
-            End If
-
+            Params.Add("formid", myRule.FormID.ToString())
+            Params.Add("openmode", If(myRule.DontShowDialogMaximized, "modal", ""))
             'Params.Add("docid", myRule.)
 
-            If (myRule.DontShowDialogMaximized) Then
-                r.ModalFormID = myRule.FormID
-            Else
-                r.CurrentFormID = myRule.FormID
-
-            End If
+            r.CurrentFormID = myRule.FormID
 
 
 

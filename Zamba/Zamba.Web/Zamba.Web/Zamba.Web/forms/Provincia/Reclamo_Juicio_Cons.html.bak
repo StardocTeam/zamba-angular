@@ -35,7 +35,6 @@
 
                             <div class="col-md-10">
                                 <div class="input-group-btn"><input class="btn  btn-info btn-sm navbar-btn" id="zamba_rule_1013868" name="zamba_rule_1013868" type="submit" style="display: none; margin-left: 5px; margin-right: 5px;" value="Editar RAJ" onclick="SetRuleId(this);" /></div>
-                                <div class="input-group-btn"><button class="btn  btn-success btn-sm navbar-btn" disableGroups="11542215" id="zamba_rule_11547277" name="zamba_rule_11547277" type="submit" style="margin-left: 5px; margin-right: 5px;" value="Crear Reporte Gerencial" onclick="SetRuleId(this);" enableGroups="13510,13511,13512,13513,13514,13515,13516">Crear Reporte Gerencial</button></div>
                                 <div class="input-group-btn"><input class="btn  btn-success btn-sm navbar-btn" disableGroups="11542215"  id="zamba_rule_1016970" name="zamba_rule_1016970" type="submit" style="margin-left: 5px; margin-right: 5px;" value="Referenciaci&oacute;n" onclick="SetRuleId(this);" /></div>
                                 <div class="input-group-btn"><input class="btn  btn-primary btn-sm navbar-btn" disableGroups="11542215"  id="zamba_rule_1015055" name="zamba_rule_1015055" type="submit" style="margin-left: 5px; margin-right: 5px;" value="Consulta datos Siniestro" onclick="SetRuleId(this);" /></div>
                                 <div class="input-group-btn"><input class="btn  btn-primary btn-sm navbar-btn" disableGroups="11542215"  id="zamba_rule_1015054" name="zamba_rule_1015054" type="submit" style="margin-left: 5px; margin-right: 5px;" value="Consulta datos P&oacute;liza" onclick="SetRuleId(this);" /></div>
@@ -75,7 +74,6 @@
                 <li><a href="#Cheques" data-toggle="tab">Pedido de Fondos</a></li>
                 <li><a href="#Solicitudes" data-toggle="tab">Solicitudes</a></li>
                 <li><a href="#Novedades" data-toggle="tab">Historial</a></li>
-				<li><a href="#ResumenGerencial" data-toggle="tab">Resumen Gerencial</a></li>
                 <!--<li><a href="#Agenda" data-toggle="tab">Agenda</a></li>-->
             </ul>
 
@@ -615,19 +613,6 @@
                     </div>
 
                 </div>
-				
-				<div class="tab-pane" id="ResumenGerencial">
-
-                    <div class="form-group row"></div>
-                   
-                    <div class="form-group row">
-                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
-                            <zamba-associated entities="11535045" default-enable-mode="grid" table-height="400" grid-title="Resumen Gerencial">
-                            </zamba-associated>
-                        </div>
-                    </div>
-                </div>
-
 
                 <div class="tab-pane" id="Documentacion">
 
@@ -769,11 +754,11 @@
             <script src="../../app/app-views/services/forumService.js"></script>-->
 
 			
-			<script src="../../app/DoTablePro/DoShowTableController.js?v=179"></script>
-<script src="../../app/DoTablePro/DoShowTableServices.js?v=179"></script>
-<script src="../../app/SignFiles/Controller/SignController.js?v=179"></script>
-<script src="../../app/SignFiles/Service/SignService.js?v=179"></script>
-<script src="../../Scripts/GridAandDoshowtable/CommonFunctions.js?v=179"></script>	
+			<script src="../../app/DoTablePro/DoShowTableController.js?v=98"></script>
+<script src="../../app/DoTablePro/DoShowTableServices.js?v=98"></script>
+<script src="../../app/SignFiles/Controller/SignController.js?v=98"></script>
+<script src="../../app/SignFiles/Service/SignService.js?v=98"></script>
+<script src="../../Scripts/GridAandDoshowtable/CommonFunctions.js?v=98"></script>	
 		
             <script type="text/javascript" language="JavaScript">
 			

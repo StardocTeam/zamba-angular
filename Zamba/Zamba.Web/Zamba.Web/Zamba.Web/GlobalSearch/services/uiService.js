@@ -1,5 +1,5 @@
 ﻿'use strict';
-var serviceBase = ZambaWebRestApiURL;
+var serviceBase = ZambaWebRestApiURL.toLowerCase().replace("/api", "/");
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
@@ -12,7 +12,7 @@ app.factory('uiService', ['$http', '$q', 'localStorageService', 'ngAuthSettings'
 
     var _LoadTaskFiltersConfig = function () {
 
-        var TaskFilterConfig = window.localStorage.getItem("TaskFilterConfig-" + GetUID());
+        var TaskFilterConfig = localStorage.getItem("TaskFilterConfig-" + GetUID());
 
         if (TaskFilterConfig == undefined) {
 
@@ -24,7 +24,7 @@ app.factory('uiService', ['$http', '$q', 'localStorageService', 'ngAuthSettings'
 
             $.ajax({
                 type: "POST",
-                url: serviceBase + '/search/GetTaskFilterConfig',
+                url: serviceBase + 'api/search/GetTaskFilterConfig',
                 data: JSON.stringify(genericRequest),
                 contentType: "application/json; charset=utf-8",
                 async: false,
@@ -33,13 +33,13 @@ app.factory('uiService', ['$http', '$q', 'localStorageService', 'ngAuthSettings'
                         if (data != undefined) {
                             TaskFilterConfig = data;
                             try {
-                                window.localStorage.removeItem("TaskFilterConfig-" + GetUID());
-                                window.localStorage.setItem("TaskFilterConfig-" + GetUID(), TaskFilterConfig);
+                                localStorage.removeItem("TaskFilterConfig-" + GetUID());
+                                localStorage.setItem("TaskFilterConfig-" + GetUID(), TaskFilterConfig);
 
                                
                             }
                             catch (e) {
-                                console.error(e);
+                                console.log(e);
                             }
                         }
                     },

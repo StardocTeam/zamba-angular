@@ -92,6 +92,6 @@ Public Class PlayDOGenerateExcel
         Next
 
         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Creo el documento de Excel")
-        'Office.ExcelInterop.GenerateExcelDoc(MyRule.Title, Encabezado, values, MyRule.Footer, sumIndex, countIndex)
+        Office.ExcelInterop.GenerateExcelDoc(MyRule.Title, Encabezado, values, MyRule.Footer, sumIndex, countIndex)
     End Sub
 End Class

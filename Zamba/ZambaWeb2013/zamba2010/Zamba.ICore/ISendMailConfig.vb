@@ -25,7 +25,6 @@ Public Interface ISendMailConfig
     Property SourceDocId As Long
     Property SourceDocTypeId As Long
     Property SaveHistory As Boolean
-    Property TaskName As String
     Property Attaches As List(Of IBlobDocument)
     Property LinkToZamba As Boolean
 

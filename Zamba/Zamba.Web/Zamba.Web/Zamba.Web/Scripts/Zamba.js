@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------gLOBAL vARIABLES---------------------------------------
 
 //Esta variable sirve para acceder al la main toolbar de zamba, por ejemplo para cambiar de tab con
+//$(MainTabber).zTabs("select", 'tabhome');
 var MainTabber;
-var ZambaVersion;
-var tmrPopupsUnlocked;
 
 //------------------------------------------END GLOBAL VARIABLES---------------------------------------------------------
+
 
 var windowsMode = false;
 
@@ -15,14 +15,21 @@ var zambaApplication = "Zamba";
 var URLServer;
 var urlGlobalSearch;
 var URLServer;
-var timerAplicarGrillaEstilos;
 
 function getValueFromWebConfig(key) {
 
     var pathName = null;
 
-    var baseUrl = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+    if (localStorage) {
+        pathName = localStorage.getItem(key);
+    }
 
+    if (pathName != null && pathName != '') {
+        return pathName;
+    }
+
+    var getUrl = window.location;
+    var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
     $.ajax({
         "async": false,
         "crossDomain": true,
@@ -36,6 +43,9 @@ function getValueFromWebConfig(key) {
                 pathName = response.childNodes[0].textContent;
             } else {
                 pathName = response.childNodes[0].innerHTML;
+            }
+            if (localStorage) {
+                localStorage.setItem(key, pathName);
             }
 
         },
@@ -312,7 +322,7 @@ function cargaSync(windowsMode, DocumentReadyEvents) {
         "Scripts/kendoui/styles/kendo.mobile.all.min.css",
         "Scripts/kendoui/styles/kendo.rtl.min.css",
         "Scripts/kendoui/styles/kendo.silver.min.css",
-        "Content/partialSearchIndexs.css?v=248",
+        "Content/partialSearchIndexs.css",
         "content/styles/tabber.css",
         //       "content/styles/js_datepicker.css"
         //'Content/datatables.jqueryui.css',
@@ -387,7 +397,7 @@ function cargaSync(windowsMode, DocumentReadyEvents) {
 
     if (windowsMode == false) {
         if (thisDomain == null || thisDomain == undefined) {
-            thisDomain = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+            thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
         }
         if (ZambaWebRestApiURL == null || ZambaWebRestApiURL == undefined) {
             ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
@@ -405,7 +415,6 @@ function cargaSync(windowsMode, DocumentReadyEvents) {
 
 function DocumentReadyEvents() {
 
-
     if (windowsMode) {
     }
     else {
@@ -414,9 +423,6 @@ function DocumentReadyEvents() {
     }
 
     $(document).ready(function () {
-        if (location.pathname.toLocaleLowerCase().toString().indexOf("search") > -1) {
-            ReviewPopupsLocked();
-        }
         $(".tbox_maxlength5").attr("maxlength", "5");
         $(".tbox_maxlength8").attr("maxlength", "8");
 
@@ -440,9 +446,6 @@ function DocumentReadyEvents() {
         $(".ZDecimal").each(function (index, elem) {
             setInputSeparatorElem(elem);
             subscribeItem_ZDecimal(elem);
-            var event = new Event('ready');
-            event.target = elem;
-            render_Importe(event);
         });
 
         $(".BGGreen").each(function (index, elem) {
@@ -463,6 +466,8 @@ function DocumentReadyEvents() {
             //    "focusout": FieldReqValidation
             //})
         });
+
+
 
         $("input").focusout(function () {
             if ($(this).val() == '') {
@@ -532,7 +537,7 @@ function DocumentReadyEvents() {
                 var doctypeId = $("[id$=hdnDocTypeId]").val();
                 var docId = $("[id$=hdnDocId]").val();
                 if (docId != undefined && $("#previewDocSearch")[0] != undefined) { // && $("#PDFForIE")[0].style.display == "block") {
-                    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserId=" + GetUID() + "&ConvertToPDf=true"; //+ window.localStorage.queryStringAuthorization; + "&ConvertToPDf=true";
+                    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId +  "&ConvertToPDf=true&" + localStorage.queryStringAuthorization;
                     try {
                         //  $.get("../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + GetUID() + "&ConvertToPDf=true", function (data) {
                         //console.log("Esta es a data: " + data);
@@ -579,7 +584,11 @@ function DocumentReadyEvents() {
     });
 }
 
+
+
 //---------------------------------------------------------------------------------------------------------------------
+
+
 
 function convertDataURIToBinary(base64) {
     var raw = window.atob(base64);
@@ -600,66 +609,6 @@ function ShowDocumentInCommonIframe(userId, docTypeId, docid) {
 
 }
 
-var descanso_scroll = false;
-var ScrollLimit;
-function Scroll_DocumentViewer(event) {
-    //valida que el scroll se hace sobre el textArea del Body del mensaje, si no es asi, sigue con la funcion.
-    if (event.toElement.id != "txtAreaBody") {
-        var ItemList = $(".resultsGridActive").parent().first().children();
-        var SelectItem;
-
-        //Obtiene el limite maximo del scrollTop al estar en 0
-        if (event.deltaY != 0 && $('#frmMsgViewerDos').scrollTop() == 0) {
-            $('#frmMsgViewerDos').scrollTop(10000);
-            ScrollLimit = $('#frmMsgViewerDos').scrollTop();
-            $('#frmMsgViewerDos').scrollTop(0);
-        }
-
-        //wheel-down
-        if (event.deltaY > 0) {
-            if ($('#frmMsgViewerDos').scrollTop() == ScrollLimit) {
-                ItemList.map(function (i) {
-                    if (i != "lenght") {
-                        if (i + 1 < ItemList.length) {
-                            if (ItemList[i].classList.contains("resultsGridActive")) {
-                                SelectItem = ItemList[parseInt(i) + 1];
-                            }
-                        }
-
-                    }
-                });
-            }
-        }
-        //wheel-up
-        else if (event.deltaY < 0) {
-            if ($('#frmMsgViewerDos').scrollTop() == 0) {
-                ItemList.map(function (i) {
-                    if (i != "lenght") {
-                        if (i - 1 >= 0) {
-                            if (ItemList[i].classList.contains("resultsGridActive")) {
-                                SelectItem = ItemList[parseInt(i) - 1];
-                            }
-                        }
-
-                    }
-                });
-            }
-        }
-
-        if (SelectItem != null) {
-            if (descanso_scroll == false) {
-                descanso_scroll = true;
-                //Busco el elemento 'img' que al hacerle clic seleccionba el documento..
-                $(SelectItem).find("img").click();
-
-                setTimeout(function () {
-                    descanso_scroll = false;
-                }, 500);
-            }
-        }
-    }
-}
-
 function LoadDocument(RDO) {
     if (RDO != undefined) {
         var JsonResult = JSON.parse(RDO);
@@ -676,8 +625,7 @@ function LoadDocument(RDO) {
             switchToDocumentViewer("MSG");
             console.log("Visualización de formato MSG exitosa.");
             try {
-                $scope.$applyAsync();
-
+                $scope.$apply();
             } catch (e) {
 
             }
@@ -762,7 +710,7 @@ function subscribeItem_ZDecimal(item) {
 
 //Habilita el calendario para elementos creados fuera del DOM.
 function subscribeItem_datepicker(item) {
-
+    
     $(Document).ready(function () {
         setTimeout(
             function () {
@@ -802,7 +750,7 @@ function subscribeItem_datepicker(item) {
                 var doctypeId = $("[id$=hdnDocTypeId]").val();
                 var docId = $("[id$=hdnDocId]").val();
                 if (docId != undefined && $("#previewDocSearch")[0] != undefined) {
-                    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + GetUID() + "&ConvertToPDf=true";
+                    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&" + localStorage.queryStringAuthorization + "&ConvertToPDf=true";
                     try {
 
                         $("#previewDocSearch").attr("src", url);
@@ -896,7 +844,7 @@ function LoadIframe() {
     var doctypeId = $("[id$=hdnDocTypeId]").val();
     var docId = $("[id$=hdnDocId]").val();
     if (docId != undefined) {
-        var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + GetUID() + "&ConvertToPDf=true";
+        var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&" + localStorage.queryStringAuthorization + "&ConvertToPDf=true";
         try {
             if ($("#previewDocSearch")[0].contentWindow != undefined) {
                 if ($("#previewDocSearch")[0] != undefined) $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
@@ -926,7 +874,9 @@ function RefreshIframeDirective(url) {
 }
 
 function LoadIframeForResult(doctypeId, docId, userId) {
-    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + userId + "&ConvertToPDf=true";
+    // var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&" + localStorage.queryStringAuthorization + "&ConvertToPDf=true";
+
+    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&" + localStorage.queryStringAuthorization + "&ConvertToPDf=true";
     try {
         if ($("#previewDocSearch")[0] != undefined) $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
     }
@@ -1053,7 +1003,7 @@ function ButtonsEvents() {
 //-----------------------------------------------UNLOAD TASK------------------------------------------------------------------------
 
 $(window).bind("beforeunload", function () {
-
+    console.log("beforeunload");
     // return confirm("Guarde su trabajo primero");
 })
 
@@ -1333,45 +1283,6 @@ function Collapse(collapse) {
     }
 }
 
-function ShowTaskChat(doctypeid) {
-    Collapse(false);
-    var doctypeid = sessionStorage.getItem('taskid');
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskChat.aspx?ResultID=<%=DocId %>&Taskid="' + doctypeid + '"').val(doctypeid);
-
-}
-
-function ShowForum() {
-    Collapse(false);
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskForum.aspx?ResultID=<%=DocId %>&DocTypeId=<%=DocTypeId%>&currentUserID=<%=CurrentUserID%>');
-}
-
-//function ShowAsociated() {
-//    Collapse(false);
-//    $("#tabContent").attr('src', '../WF/TaskDetails/TaskAsociated.aspx?ResultID=<%=DocId %>&DocTypeId=<%=DocTypeId%>');
-//    $("#page-content-wrapper").hide();
-//    GrillaEstilos();
-//}
-
-function GrillaEstilos() {
-    timerAplicarGrillaEstilos = window.setInterval(function () {
-        if ($(".header-center > th").length > 0) {
-            $(".header-center > th").css("text-align", "center");
-            $(".header-center > th").css("padding", "5px");
-            clearInterval(timerAplicarGrillaEstilos);
-        }
-    }, 2000);
-}
-function ShowDocHistory() {
-    Collapse(false);
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskHistory.aspx?ResultID=<%=DocId %>');
-}
-
-function ShowMailHistory() {
-    Collapse(false);
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskMailhistory.aspx?ResultID=<%=DocId %>');
-    $("#page-content-wrapper").hide();
-}
-
 function cleanBorder(btn) {
     var InputVal = $(btn).parent().parent().children("input");
     $(InputVal).css("border", "");
@@ -1419,43 +1330,8 @@ function Numeros(string) {//Solo numeros
 
     //Retornar valor filtrado
     return out;
-}
+} 
 
-function ValidarFechas(DataFrom) {
-    var idfrom = DataFrom.id;
-    var desde = moment(DataFrom.value, "DD/MM/YYYY");
-    var hasta = moment($("#" + idfrom + "-2").val(), "DD/MM/YYYY");
-
-    if (hasta._i != undefined && hasta._i != "") {
-        if (desde < hasta) {
-            return true;
-        } else {
-            toastr.warning("La fecha 'DESDE' " + DataFrom.value + " es mayor a la fecha 'HASTA' " + hasta._i + ", vuelva a intentarlo.");
-            DataFrom.value = "";
-            return false;
-        }
-    }
-}
-
-function validateDateUntil(DataTo) {
-    var idfrom = DataTo.id.slice(0, DataTo.id.length - 2);
-    var desde = moment($("#" + idfrom.toString()).val(), "DD/MM/YYYY");
-    var hasta = moment(DataTo.value, "DD/MM/YYYY");
-
-    if (desde != undefined && desde != "") {
-        if (desde < hasta) {
-            return true;
-        } else {
-            toastr.warning("La fecha 'HASTA' " + DataTo.value + " es menor a la fecha 'DESDE' " + $("#" + idfrom.toString()).val() + ", vuelva a intentarlo.");
-            DataTo.value = "";
-            return false;
-        }
-    } else {
-        toastr.warning("Por favor complete el primer valor 'DESDE'");
-        DataTo.value = "";
-        return false;
-    }
-}
 
 function ValidataInputFormatDate(data) {
     if (data != null && data.value != "") {
@@ -1479,6 +1355,11 @@ function ValidataInputFormatDate(data) {
         var id = data.id;
         document.getElementById(id).style.border = "";
     }
+}
+
+
+function siLlego() {
+    alert("si, si. Llego");
 }
 
 function validateFormateDateKeyPress(e, data) {
@@ -1559,6 +1440,7 @@ function makeCalendar(id) {
 }
 
 var previousWidth;
+
 function AddCalendar(id, limit) {
     if (id.indexOf("completarindice") != -1) {
         if ($('#' + id).length > 0) $('#' + id).datepicker({
@@ -1567,7 +1449,6 @@ function AddCalendar(id, limit) {
             showOn: 'focus',
             dateFormat: "dd/mm/yyyy",
             duration: "",
-            yearRange: "-150:+100",
             onClose: function () {
                 //Restauramos el width original
                 $("#DivIndices").animate({ width: previousWidth }, "fast");
@@ -1604,7 +1485,6 @@ function AddCalendar(id, limit) {
                 $('#' + id).datepicker({
                     changeMonth: true,
                     changeYear: true,
-                    yearRange: "-150:+100",
                     showOn: 'focus',
                     duration: "",
                     dateFormat: "dd/mm/yy",
@@ -1614,7 +1494,24 @@ function AddCalendar(id, limit) {
         });
     }
 }
+function AddCalendar_Version2(id) {
+    $('#' + id).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showOn: 'button',
+        duration: "",
+        buttonImageOnly: true,
+        buttonImage: '../../Content/images/calendar.png',
+        dateFormat: "dd/mm/yy",
+        constrainInput: true
+    });
 
+
+
+
+
+
+}
 function windowHeight() {
     var myHeight = 0;
     if (typeof (window.innerWidth) == 'number') {
@@ -1829,24 +1726,6 @@ function getEditGroups() {
     });
 }
 
-function IfUserInGroups(groups) {
-    var user = GetUID();
-    var currentUserGrupsIds = GetGroupsIdsByUserId(user);
-
-    if (groups != null) {
-        var groupIds = groups.split(",");
-        var UserGrupsIds = currentUserGrupsIds.split(",");
-
-        for (var i = 0; i < groupIds.length; i++) {
-            for (var x = 0; x < UserGrupsIds.length; x++) {
-                if (groupIds[i] == UserGrupsIds[x]) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 //-------//-------//-------//-------//-------//-------
 
 //function setEnableGroupElementsVisibility(classToAdd, elementName, attribute) {
@@ -1953,7 +1832,7 @@ function GetDocumentAvailableHeight() {
 
 function ValidateLength(element, RequiredLength) {
     var Str = element.value;
-    //$(element).valid();
+    $(element).valid();
     if (Str.length < RequiredLength)
         return true;
     return false;
@@ -2096,55 +1975,55 @@ function SetValidationsAction(SubmitButtonId) {
     try {
         // SetValidateForLength();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
-        //  SetValidateForDataType();
+        // SetValidateForDataType();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         SetValidateForRequired();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         SetDefaultValues();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         SetHierarchicalFunctionally();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         SetMinValuesValidations();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         SetMaxValuesValidations();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
     try {
         SetListFilters();
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
@@ -2152,16 +2031,14 @@ function SetValidationsAction(SubmitButtonId) {
 
         if (SubmitButtonId) {
             $("#" + SubmitButtonId).click(function (evt) {
-                if ($("#aspnetForm").valid != undefined) {
-                    if (!$("#aspnetForm").valid()) {
-                        evt.preventDefault();
-                        setTimeout("parent.hideLoading();", 1000);
-                    }
+                if (!$("#aspnetForm").valid()) {
+                    evt.preventDefault();
+                    setTimeout("parent.hideLoading();", 1000);
                 }
             });
         }
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 
@@ -2224,7 +2101,7 @@ function SetValidationsAction(SubmitButtonId) {
             }
         }
     } catch (e) {
-        console.error(e);
+        console.log(e);
 
     }
 }
@@ -2250,13 +2127,12 @@ function SetValidateForLength() {
                     if (!ValidateLength(this, length))
                         evt.preventDefault();
                 });
-                if ($(this).rules != undefined)
-                    $(this).rules("add", {
-                        maxlength: length,
-                        messages: {
-                            maxlength: jQuery.validator.format("Se ha excedido largo de " + length + " caracteres.")
-                        }
-                    });
+                $(this).rules("add", {
+                    maxlength: length,
+                    messages: {
+                        maxlength: jQuery.validator.format("Se ha excedido largo de " + length + " caracteres.")
+                    }
+                });
             }
         }
     });
@@ -2267,64 +2143,53 @@ function SetValidateForLength() {
 //}
 
 function SetValidateForDataType() {
-    try {
-        SetValidations($(".dataType"));
-        function SetValidations($elem) {
-            try {
-                $elem.each(function () {
-                    if (!$(this).hasClass("readonly")) {
-                        var dataType = $(this).attr("dataType");
-                        if (dataType) {
-                            $(this).change(function (evt) {
-                                if (!KeyIsValid(evt, dataType, this))
-                                    evt.preventDefault();
+    SetValidations($(".dataType"));
+    function SetValidations($elem) {
+        $elem.each(function () {
+            if (!$(this).hasClass("readonly")) {
+                var dataType = $(this).attr("dataType");
+                if (dataType) {
+                    $(this).change(function (evt) {
+                        if (!KeyIsValid(evt, dataType, this))
+                            evt.preventDefault();
+                    });
+
+                    $(this).keypress(function (evt) {
+                        if (!KeyIsValid(evt, dataType, this))
+                            evt.preventDefault();
+                    });
+
+
+                    switch (dataType) {
+                        case "numeric":
+                            $(this).rules("add", {
+                                digits: true,
+                                messages: {
+                                    digits: jQuery.validator.format("Solo se permite un n&uacute;mero entero.")
+                                }
                             });
-
-                            $(this).keypress(function (evt) {
-                                if (!KeyIsValid(evt, dataType, this))
-                                    evt.preventDefault();
+                            break;
+                        case "date":
+                            $(this).rules("add", {
+                                dateAR: true,
+                                messages: {
+                                    dateAR: jQuery.validator.format("La fecha debe estar en formato:<br/> dia/mes/año.")
+                                }
                             });
-
-
-                            switch (dataType) {
-                                case "numeric":
-                                    if ($(this).rules != undefined)
-                                        $(this).rules("add", {
-                                            digits: true,
-                                            messages: {
-                                                digits: jQuery.validator.format("Solo se permite un n&uacute;mero entero.")
-                                            }
-                                        });
-                                    break;
-                                case "date":
-                                    if ($(this).rules != undefined)
-                                        $(this).rules("add", {
-                                            dateAR: true,
-                                            messages: {
-                                                dateAR: jQuery.validator.format("La fecha debe estar en formato:<br/> dia/mes/año.")
-                                            }
-                                        });
-                                    MakeDateIndexs(this);
-                                    break;
-                                default:
-                                    if ($(this).rules != undefined)
-                                        $(this).rules("add", {
-                                            number: true,
-                                            messages: {
-                                                number: jQuery.validator.format("Solo se permiten n&uacute;meros.")
-                                            }
-                                        });
-                                    break;
-                            }
-                        }
+                            MakeDateIndexs(this);
+                            break;
+                        default:
+                            $(this).rules("add", {
+                                number: true,
+                                messages: {
+                                    number: jQuery.validator.format("Solo se permiten n&uacute;meros.")
+                                }
+                            });
+                            break;
                     }
-                });
-            } catch (e) {
-                console.error(e);
+                }
             }
-        }
-    } catch (e) {
-        console.error(e);
+        });
     }
 }
 
@@ -2454,22 +2319,20 @@ function SetMaxValuesValidations() {
                     maxValue = getLocaleShortDateString(new Date());
                 }
                 if (aceptEquals) {
-                    if ($(this).rules != undefined)
-                        $(this).rules("add", {
-                            greaterEqualThan: maxValue,
-                            messages: {
-                                greaterEqualThan: "El valor debe ser menor o igual que: " + maxValue
-                            }
-                        });
+                    $(this).rules("add", {
+                        greaterEqualThan: maxValue,
+                        messages: {
+                            greaterEqualThan: "El valor debe ser menor o igual que: " + maxValue
+                        }
+                    });
                 }
                 else {
-                    if ($(this).rules != undefined)
-                        $(this).rules("add", {
-                            greaterThan: maxValue,
-                            messages: {
-                                greaterThan: "El valor debe ser menor que: " + maxValue
-                            }
-                        });
+                    $(this).rules("add", {
+                        greaterThan: maxValue,
+                        messages: {
+                            greaterThan: "El valor debe ser menor que: " + maxValue
+                        }
+                    });
                 }
                 if (dataType == "date") {
                     var maxDate;
@@ -2505,24 +2368,20 @@ function MakeRequired(idObj) {
     if (obj) {
         var indexName = $(obj).attr("indexName");
         if (indexName) {
-            if ($(obj).rules != undefined) {
-                $(obj).rules("add", {
-                    required: true,
-                    messages: {
-                        required: jQuery.validator.format("El campo " + indexName + " es requerido.")
-                    }
-                });
-            }
+            $(obj).rules("add", {
+                required: true,
+                messages: {
+                    required: jQuery.validator.format("El campo " + indexName + " es requerido.")
+                }
+            });
         }
         else {
-            if ($(obj).rules != undefined) {
-                $(obj).rules("add", {
-                    required: true,
-                    messages: {
-                        required: jQuery.validator.format("Por favor complete este campo.")
-                    }
-                });
-            }
+            $(obj).rules("add", {
+                required: true,
+                messages: {
+                    required: jQuery.validator.format("Por favor complete este campo.")
+                }
+            });
         }
     }
 }
@@ -2788,7 +2647,7 @@ function ExecuteFormReadyActions() {
             });
         };
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 
@@ -2798,7 +2657,7 @@ function ExecuteFormReadyActions() {
             ShowLoadingAnimation();
         });
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 
@@ -2807,7 +2666,7 @@ function ExecuteFormReadyActions() {
     try {
         FixFocusError();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 
@@ -2815,13 +2674,13 @@ function ExecuteFormReadyActions() {
     try {
         SetValidationsAction("zamba_save");
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         ajustarselects();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 
@@ -2831,6 +2690,7 @@ function ExecuteFormReadyActions() {
         $("input[id^=zamba_rule_]").each(function () {
             if ($(this).hasClass("DontSave")) {
                 $(this).click(function () {
+                    //disableOperationsMomentarily(this);
                     ShowLoadingAnimation();
                     $("#hdnRuleActionType").val("DontSave");
                     document.ExecuteValidations = false;
@@ -2838,16 +2698,19 @@ function ExecuteFormReadyActions() {
             }
             else {
                 $(this).click(function () {
+                    //disableOperationsMomentarily(this);
                     ShowLoadingAnimation();
                     $("#hdnRuleActionType").val("Save");
                     document.ExecuteValidations = true;
                 });
+                // SetValidationsAction(this.id);
             }
         });
 
         $("button[id^=zamba_rule_]").each(function () {
             if ($(this).hasClass("DontSave")) {
                 $(this).click(function () {
+                    //disableOperationsMomentarily(this);
                     ShowLoadingAnimation();
                     $("#hdnRuleActionType").val("DontSave");
                     document.ExecuteValidations = false;
@@ -2855,16 +2718,18 @@ function ExecuteFormReadyActions() {
             }
             else {
                 $(this).click(function () {
+                    //disableOperationsMomentarily(this);
                     ShowLoadingAnimation();
                     $("#hdnRuleActionType").val("Save");
                     document.ExecuteValidations = true;
                 });
+                // SetValidationsAction(this.id);
             }
         });
 
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 
@@ -2872,40 +2737,38 @@ function ExecuteFormReadyActions() {
         //Inicializar los combos dependientes de zvar
         $(".zvarDropDown").zvarDropDown();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         ////Inicializar los tablas dependientes de zvar o ajax
         $(".zAjaxTable").zAjaxTable();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         ////Inicializar los autocomplete
         $(".zAutocomplete").zAutocomplete();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         getEnableButton();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     try {
         getEditGroups();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 }
 
 function disableOperationsMomentarily(elem) {
     elem.value = "Procesando...";
-    //$(elem).prop("disabled", true);
-    $(elem).removeAttr("click");
     $(elem).unbind("click");
     document.getElementById(elem.id).removeAttribute("onclick");
 }
@@ -3207,23 +3070,21 @@ var TaskIds = {
 }
 
 var TaskOptions = {
-
     SetFav: function (btn) {
+        toastr.info(setFav ? "La tarea ya NO es favorita" : "La tarea se ha marcado como favorita", "Zamba");
         var setFav = $(btn).attr("isset").toLowerCase() == "true" || false;
-        toastr.info(setFav ? "se quito de favoritos" : "se agrego a favoritos", "Zamba");
-        //KeepTaskOptions("updatefavorite", TaskIds.DocId(), TaskIds.DocTypeId(), !setFav);
-        KeepTaskOptions("updatefavorite", getParameterByName("docid"), getParameterByName("DocType"), !setFav);
-        $(btn).attr({ "isset": !setFav, "title": setFav ? "Agregar a favoritos" : "Quitar de favoritos" });
+        KeepTaskOptions("updatefavorite", TaskIds.DocId(), TaskIds.DocTypeId(), !setFav);
+        $(btn).attr({ "isset": !setFav, "title": setFav ? "Marcar como favorito" : "Desmarcar favorito" });
         $(btn).children("span").removeClass()
-            .addClass(setFav ? "fa fa-heart-o " : "fa fa-heart ");
+            .addClass(setFav ? "glyphicon glyphicon-heart-empty " : "glyphicon glyphicon-heart ");
     },
     SetImportant: function (btn) {
+        toastr.info(setImp ? "La tarea ya NO es importante" : "La tarea se ha marcado como importante", "Zamba");
         var setImp = $(btn).attr("isset").toLowerCase() == "true" || false;
-        toastr.info(setImp ? "se quito de importantes" : "se agrego a importantes", "Zamba");
-        KeepTaskOptions("UpdateImportant", GetDOCID(), GetDocTypeId(), !setImp);
+        KeepTaskOptions("updateimportant", TaskIds.DocId(), TaskIds.DocTypeId(), !setImp);
         $(btn).attr({ "isset": !setImp, "title": setImp ? "Marcar como importante" : "Desmarcar importante" });
         $(btn).children("span").removeClass()
-            .addClass(setImp ? "fa fa-star-o " : "fa fa-star ");
+            .addClass(setImp ? "glyphicon glyphicon-star-empty " : "glyphicon glyphicon-star ");
     },
     AddBCHistory: function (btn) {
         parent.bootbox.dialog({
@@ -3254,19 +3115,10 @@ var TaskOptions = {
 }
 
 function KeepTaskOptions(type, docId, docTypeId, val) {
-    var genericRequest = {
-        UserId: parseInt(GetUID()),
-        Params: {
-            "docId": docId,
-            "docTypeId": docTypeId,
-            "val": val
-        }
-    };
-
     $.ajax({
         type: "POST",
-        url: ZambaWebRestApiURL + "/taskoptions/" + type,
-        data: JSON.stringify(genericRequest),
+        url: "../../taskoptions/" + type,
+        data: "{ 'docId': " + docId + ", 'docTypeId': " + docTypeId + ",'userId': " + GetUID() + ", 'val': '" + val + "'}",
         contentType: "application/json; charset=utf-8",
         //  dataType: "json",
         success: function (msg) {
@@ -3402,7 +3254,8 @@ function OpenTaskWithoutTab(taskID, docID, docTypeId, asDoc, docName, url, userI
 
     var Url = (thisDomain + "/views/WF/TaskSelector.ashx?DocTypeId=" + result.DOC_TYPE_ID + "&docid=" + result.DOC_ID + "&taskid=" + result.TASK_ID
         + "&wfstepid=" + stepid + "&userId=" + userid);
-    window.open(Url, "R" + result.DOC_ID);
+
+    window.open(Url, '_blank');
 }
 
 
@@ -3468,7 +3321,8 @@ function OpenDocTask2(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
                 + "&userId=" + userID);
         }
 
-        window.open(Url, "R" + docID);
+
+        window.open(Url, '_blank');
 
     }
     catch (e) {
@@ -3480,12 +3334,11 @@ function OpenDocTask2(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
 
 
 
-function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfstepid, openmode, formId, modalFormId) {
+function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfstepid, openmode) {
+    //ShowLoadingAnimation();
+    //Completo las variables para abrir doc
     urlToOpen = url;
     docNameToOpen = docName;
-
-    let userToken = JSON.parse(localStorage.getItem('authorizationData'));
-    let { token } = userToken;
 
     try {
         if (!taskID || taskID == '')
@@ -3508,10 +3361,11 @@ function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
     }
 
     try {
+
         var Url = urlToOpen;
         if ((taskID > 0 && Url.indexOf("TaskSelector") <= 0 && Url.indexOf("taskselector") <= 0) || (Url.indexOf("..") >= 0)) {
             Url = (thisDomain + "/views/WF/TaskSelector.ashx?DocTypeId=" + docTypeId + "&docid=" + docID + "&taskid=" + taskID + "&wfstepid=" + wfstepid
-                + "&user=" + userID + "&f=" + formId + "&mf=" + modalFormId + "&t=" + token);
+                + "&user=" + userID);
         }
 
         if (openmode == undefined) {
@@ -3519,11 +3373,12 @@ function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
         }
 
         if (openmode == 0) {
-            window.open(Url, "R" + docID);
+            //                                    case OpenType.NewTab:
+            window.open(Url, '_blank');
         }
-
-        if (openmode == 1 && !(urlToOpen.indexOf("breakmodal=1") > 0)) {
-            Url += "&modalmode=true&breakmodal=1";
+        //case OpenType.Modal:
+        if (openmode == 1) {
+            Url += "&modalmode=true";
 
             var modalIframe = $("#iframeDoShowForm");
             var modalDialog = $("#modalDoShowForm");
@@ -3536,20 +3391,15 @@ function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
             modalDialog.modal();
             modalDialog.draggable();
             modalIframe.attr("src", Url);
-
         }
 
+        //                          case OpenType.Home:
         if (openmode == 2) {
             ShowIFrameHome(Url, 600);
         }
-        // Nueva ventana
+        //                        case OpenType.NewWindow:
         if (openmode == 3) {
-            Url += "&Ed=true";
-            window.open(Url, "R" + docID);
-        }
-
-        if (openmode == 4) {
-            window.open(Url, '_self');
+            window.open(Url, '_blank');
         }
     }
     catch (e) {
@@ -3620,7 +3470,7 @@ function OpenDocTaskWithOutReference(taskID, docID, docTypeId, asDoc, docName, u
 
         if (openmode == 0) {
             //                                    case OpenType.NewTab:
-            window.open(Url, "R" + docID, 'noopener');
+            window.open(Url, '_blank', 'noopener');
         }
         //case OpenType.Modal:
         if (openmode == 1) {
@@ -3632,7 +3482,7 @@ function OpenDocTaskWithOutReference(taskID, docID, docTypeId, asDoc, docName, u
         }
         //                        case OpenType.NewWindow:
         if (openmode == 3) {
-            window.open(Url, "R" + docID, 'noopener');
+            window.open(Url, '_blank', 'noopener');
         }
     }
     catch (e) {
@@ -4014,7 +3864,6 @@ function porcadatrWithNonCeros(sender, Zvars) {
 
 function EnableDisableRule(RuleId, Enabled) {
     var ruleFormButton = $("#zamba_rule_" + RuleId);
-
     if (ruleFormButton != undefined && ruleFormButton != null) {
         if (Enabled) {
             ruleFormButton.show();
@@ -4055,15 +3904,17 @@ function DisableRulesByTaskId(TaskId) {
     }
 }
 
-//funcion para ejecutar una regla presionando la tecla "enter" y apuntando al btn que ejecuta la regla
-function enterGuide(e, id) {
-    if (e.charCode == 13) {
-        $("#" + id).click();
-    }
-}
-
 function SetRuleId(sender) {
+    //try {
+    //    if (validateRequired()) {
     $("#hdnRuleId")[0].name = sender.id;
+    disableOperationsMomentarily(sender);
+    //}    
+    //var x = document.getElementsByTagName("form");
+    //x[0].submit();// Form submission
+    //} catch (e) {
+    //    console.log("ERROR_")
+    //}
 }
 
 function SetAsocId(sender) {
@@ -4121,24 +3972,11 @@ function ResizeGeneralRuleIframe() {
     $("#WFExecForEntryRulesFrame").css("width", $("#EntryRulesContent").width()).css("height", $("#EntryRulesContent").height());
 }
 
-function PreventClick(event) {
-    event.preventDefault();
-}
-function isSearchHtml() {
-    if (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1].toLocaleLowerCase() == 'search.html')
-        return true;
-    else
-        return false
-}
-function isTaskviewer() {
-    if (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1].toLocaleLowerCase() == 'taskviewer')
-        return true;
-    else
-        return false
-}
 //Llamada asincrona al metodo para setear una nueva ejecucion de reglas
 function RuleButtonClick(sender, ruleId) {
+
     var async = false;
+
     if (async == true) {
         var scope_taskController = angular.element($("#taskController")).scope();
         scope_taskController.Execute_ZambaRule(ruleId, 0);
@@ -4220,22 +4058,22 @@ function clearindexcache(indexid) {
 function keepSessionAlive() {
     try {
 
+    
+    if (document.config == undefined) document.config = parent.document.config;
+    $.ajax({
+        type: "POST",
+        url: "../../Services/TaskService.asmx/KeepSessionAlive?" + localStorage.queryStringAuthorization,
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
 
-        if (document.config == undefined) document.config = parent.document.config;
-        $.ajax({
-            type: "POST",
-            url: "../../Services/TaskService.asmx/KeepSessionAlive",
-            data: '',
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
+        },
+        error: function (a, b) {
 
-            },
-            error: function (a, b) {
-
-            },
-            dataType: "json"
-        });
-        if (document.config != null)
+        },
+        dataType: "json"
+    });
+    if (document.config != null)
             setTimeout("keepSessionAlive()", 5 * 60000 - 30000); //sessionTimeOut is minutes
 
     } catch (e) {
@@ -4243,32 +4081,14 @@ function keepSessionAlive() {
     }
 }
 
-function clearAllCache(reLogin) {
-    if (window.localStorage) {
-        let ConnId = {};
-        let UserId = {};
-        let authorizationData = {};
-        if (reLogin == false) {
-            ConnId = window.localStorage.getItem("ConnId");
-            UserId = window.localStorage.getItem("UserId");
-            authorizationData = window.localStorage.getItem("authorizationData");
-
-        }
-
-        window.localStorage.clear();
-
-        if (reLogin == false) {
-            window.localStorage.setItem("ConnId", ConnId);
-            window.localStorage.setItem("UserId", UserId);
-            window.localStorage.setItem("authorizationData", authorizationData);
-
-        }
-
-        var appController = angular.element($("#appIdController")).scope();
-        appController.GetCurrentUserName();
-        setTimeout(photoValueConfig, 5000);
-
-
+function clearAllCache() {
+    var isOkta = false;
+    var token_id_okta = localStorage.getItem('OKTA');
+    if (token_id_okta != undefined && token_id_okta != null && token_id_okta != "") {
+        isOkta = true;
+    }
+    if (localStorage) {
+        localStorage.clear();
     }
 
     $.ajax({
@@ -4294,40 +4114,15 @@ function clearAllCache(reLogin) {
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             toastr.success("Cache limpiado correctamente");
-            window.location.reload(true);
-        },
-        error: function (a, b) {
-            toastr.error("Error al limpiar cache");
-        },
-        dataType: "json"
-    });
+            if (isOkta) {
+                var destinationURL = "../../views/Security/OktaAuthentication.html";
+                document.location = destinationURL;
+                return;
+            }
+            else {
+                window.location.reload(true);
+            }
 
-}
-
-function clearAllCacheWithoutReload() {
-    if (window.localStorage) {
-        window.localStorage.clear();
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "../../Services/TaskService.asmx/ClearAllCache",
-        data: '',
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-        },
-        error: function (a, b) {
-            toastr.error("Error al limpiar cache");
-        },
-        dataType: "json"
-    });
-
-    $.ajax({
-        type: "POST",
-        url: ZambaWebRestApiURL + '/cache/ClearAllCache',
-        data: '',
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
         },
         error: function (a, b) {
             toastr.error("Error al limpiar cache");
@@ -4338,13 +4133,13 @@ function clearAllCacheWithoutReload() {
 }
 
 function clearRulesCache() {
-    if (window.localStorage) {
-        window.localStorage.clear();
+    if (localStorage) {
+        localStorage.clear();
     }
 
     $.ajax({
         type: "POST",
-        url: "../../Services/TaskService.asmx/ClearRulesCache",
+        url: "../../Services/TaskService.asmx/ClearRulesCache?" + localStorage.queryStringAuthorization,
         data: '',
         contentType: "application/json; charset=utf-8",
         success: function (data) {
@@ -4376,13 +4171,13 @@ function clearRulesCache() {
 }
 
 function clearRightsCache() {
-    if (window.localStorage) {
-        window.localStorage.clear();
+    if (localStorage) {
+        localStorage.clear();
     }
 
     $.ajax({
         type: "POST",
-        url: "../../Services/TaskService.asmx/ClearRightsCache",
+        url: "../../Services/TaskService.asmx/ClearRightsCache?" + localStorage.queryStringAuthorization,
         data: '',
         contentType: "application/json; charset=utf-8",
         success: function (data) {
@@ -4414,13 +4209,13 @@ function clearRightsCache() {
 }
 
 function clearStructureCache() {
-    if (window.localStorage) {
-        window.localStorage.clear();
+    if (localStorage) {
+        localStorage.clear();
     }
 
     $.ajax({
         type: "POST",
-        url: "../../Services/TaskService.asmx/ClearStructureCache",
+        url: "../../Services/TaskService.asmx/ClearStructureCache?" + localStorage.queryStringAuthorization,
         data: '',
         contentType: "application/json; charset=utf-8",
         success: function (data) {
@@ -4454,7 +4249,7 @@ function clearStructureCache() {
 function ClearUserCache(userid) {
     $.ajax({
         type: "GET",
-        url: "../../Services/TaskService.asmx/ClearUserCache",
+        url: "../../Services/TaskService.asmx/ClearUserCache?" + localStorage.queryStringAuthorization,
         data: { userId: userid },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -4518,9 +4313,8 @@ function ExtractIdFromUrl(url, typeId) {
 function loadCliksInRows() {
     if ($('.AltRowStyle').find('a') != null) {
         $('.AltRowStyle').click(function () {
-            if ($(this).find('a')[0]) {
+            if ($(this).find('a')[0])
                 window.open($(this).find('a')[0], '_blank', '', false);
-            }
             return false;
         });
         $('.AltRowStyle').find('a').click(function () {
@@ -4530,9 +4324,8 @@ function loadCliksInRows() {
     }
     if ($('.RowStyle').find('a') != null) {
         $('.RowStyle').click(function () {
-            if ($(this).find('a')[0]) {
+            if ($(this).find('a')[0])
                 window.open($(this).find('a')[0], '_blank', '', false);
-            }
             return false;
         });
         $('.RowStyle').find('a').click(function () {
@@ -4681,7 +4474,7 @@ function SwitchDocTaskForResults(anchor, asTask, name) {
         if (docTypeId == "")
             docTypeId = getParameterByName("doctype", url);
         //Si lo tiene lo envia para abrirlo
-        //var ZambaWebAdminRestApiURL = "http://localhost/zamba.WebAdmin";
+        
         OpenDocTask3(0, id, docTypeId, !asTask, name, url, userID);
     }
     else {
@@ -4772,10 +4565,10 @@ function CloseCurrentTask(taskid, isCloseFromButton) {
         if (taskid !== undefined) {
             CloseTask(taskid, isCloseFromButton)
         }
-        //RefreshOpenerGrid();
+        RefreshOpenerGrid();
         window.close();
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 }
 
@@ -4783,14 +4576,15 @@ function RefreshOpenerGrid() {
     try {
 
         if (window.opener != undefined) {
-            window.opener.RefreshResultsGridFromChildWindow();
-            //derivo y hago un trigger para actulizar grilla
+            window.opener.$('#MyTasksAnchor').trigger('click');//derivo y hago un trigger para actulizar grilla
         }
         else {
-            RefreshResultsGridFromChildWindow();
+            if ($("#MyTasksAnchor") != undefined) {
+                $("#MyTasksAnchor").trigger('click');
+            }
         }
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 }
 
@@ -4803,26 +4597,22 @@ function InsertOpen() {
     var newwindow = window.open(destinationURL, this.target, 'width=630,height=550,left=' + (screen.width - 600) / 2 + ',top=' + (screen.height - 580) / 2 + ',directories=no,status=no,menubar=no,toolbar=no,location=no,resizable=yes');
 }
 function InsertForm(formid, modal) {
-    let userToken = JSON.parse(localStorage.getItem('authorizationData'));
-    let { token } = userToken;
     if (!modal) {
-        location.href = '/Views/WF/DocInsert.aspx?formid=' + formid + "&t=" + token;
+        location.href = '/Views/WF/DocInsert.aspx?formid=' + formid;
     }
     else {
-        ShowIFrameModal("Insertar documentos", "../WF/DocInsertModal.aspx?formid=" + formid + "&modal=true" + "&t=" + token, 900, 700);
+        ShowIFrameModal("Insertar documentos", "../WF/DocInsertModal.aspx?formid=" + formid + "&modal=true", 900, 700);
         StartObjectLoadingObserverById("IFDialogContent");
     }
 }
 function AsociateForm(formid, docid, doctypeid, taskid, continueWithCurrentTasks, dontOpenTaskAfterInsert, fillCommonAttributes, haveSpecificAtt) {
-    let userToken = JSON.parse(localStorage.getItem('authorizationData'));
-    let { token } = userToken;
     var url = "../WF/DocInsertModal.aspx?formid=" + formid + "&DocID=" + docid + "&DocTypeID=" + doctypeid + "&CallTaskID=" +
-        taskid + "&userid=" + GetUID() + "&ContinueWithCurrentTasks=" + continueWithCurrentTasks + "&DontOpenTaskAfterInsert=" + dontOpenTaskAfterInsert + "&FillCommonAttributes=" +
-        fillCommonAttributes + "&haveSpecificAtt=" + haveSpecificAtt + "&t=" + token;
+        taskid + "&ContinueWithCurrentTasks=" + continueWithCurrentTasks + "&DontOpenTaskAfterInsert=" + dontOpenTaskAfterInsert + "&FillCommonAttributes=" +
+        fillCommonAttributes + "&haveSpecificAtt=" + haveSpecificAtt;
 
     window.open(url, "_blank");
-    // ShowIFrameModal("Insertar Tarea", url, 0, 0);//550, 950
-    // StartObjectLoadingObserverById("IFDialogContent");
+//    ShowIFrameModal("Insertar documentos", url, 800, 600);//550, 950
+    //StartObjectLoadingObserverById("IFDialogContent");
 }
 
 
@@ -4898,21 +4688,19 @@ function ShowDivModal(title, div, width, height) {
 }
 
 
-function ShowInsertAsociated(url, openModal) {
-    if (openModal == true) {
-        ShowIFrameModal("", url, 0, 0);
-    }
-    else {
-        openWindow(url);
-    }
-    //var iframeRule = '<iframe src="' + url + '" height="100%" width="100%"></iframe>'
-
-    //$("#genericModalConteiner").html(iframeRule);
-    //$("#genericModal").modal();
-
+function ShowInsertAsociated(url) {
+    //ShowIFrameModal("Insertar documentos", url, 800, 600);
+    ShowRuleSeccion(url);
 }
 
 
+function ShowRuleSeccion(url) {
+    var iframeRule = '<iframe src="' + url + '" height="100%" width="100%"></iframe>'
+    parent.$("#liTabRule").css("display", "block");
+    parent.$("#tabRules").css("display", "block");
+    parent.$("#tabRules").html(iframeRule);
+    parent.$("#rule").click();
+}
 
 
 
@@ -4923,51 +4711,25 @@ function addpnlUcRulesToSeccion() {
 }
 
 function ShowIFrameModal(title, src, width, height) {
+
     if (title == '') {
-        $("#modalFormTitle").css("height", 0);
+        $("#modalFormTitle").css("height", (height - 200));
     }
 
-    if (height == undefined || height == 0)
-        height = (window.innerHeight * .95) + 'px';
-
-
-    if (width == undefined || width == 0)
-        width = (window.innerWidth * .95) + 'px';
-
     if ($("#modalIframe").length >= 1) {
+
         $("#modalIframe").attr("src", "aboutblank.html");
         $("#modalDivBody").html('').css("display", "none");
         $("#modalIframe").attr("src", src);
         $("#modalFormTitle").html(title);
-        $("#modalIframe").css("width", width).css("height", height).css("display", "none");
+        $("#modalIframe").css("width", width - 50).css("height", height - 100).css("display", "none");
 
         if (typeof $().modal != 'function')
             reloadBootstrap();
 
         $('#openModalIF').modal().draggable();
         $("#modalIframe").ready(function () {
-            //modalIframe es el Iframe adentro del Modal
             $("#modalIframe").css("display", "block");
-
-            //openModalIF es el modal, que su hijo .modal-dialog
-            //            $("#openModalIF").css("height", "95%");
-            //          $("#openModalIF").css("width", "100%");
-
-            $("modal-dialog").css("margin-top", "0");
-            //       $("modal-dialog").css("width", "100%");
-
-            let height = $("#modalFormHome").height() * .95;
-            let width = $("#modalFormHome").width() * .95;
-
-
-            //$("#modalIframe").css("height", $("#modalFormHome").height() * .95);
-            var Tittle = $('#modalFormTitle').innerHeight(); + 8;
-            var PaddinTopBottomIframe = $('#modalFormHome').innerHeight() - $('#modalFormHome').height();
-            var result = ($("#openModalIFContent").height() - (Tittle + PaddinTopBottomIframe)).toString() + "px";
-
-            $("#modalIframe").css("height", result);
-
-            //   $("#modalIframe").css("width", width);
         });
 
     } else { //Esta dentro de un IFrame
@@ -4998,13 +4760,14 @@ function ShowIFrameModal(title, src, width, height) {
         $modalIframe.parent().parent().find("#modalFormTitle").html(title);
 
         function OnLoadHandler(e) {
-            $(this).parent().css("height", "90%");
+            $(this).parent().css("height", "90%")
         }
     }
 }
 
 
 function ShowIFrameModal2(title, src, width, height) {
+
     var modalIframe = $("#modalIframe");
     var modalDialog = $("#openModalIF");
 
@@ -5037,10 +4800,17 @@ function ShowIFrameModal2(title, src, width, height) {
             widthIF = width;
         $("#openModalIF").css("width", widthIF + "px");
 
+
+        //            event.stopImmediatePropagation();
+        //          event.stopPropagation();
     });
 
     modalDialog.modal({ show: true });
     modalIframe.attr("src", src);
+
+    // $("#modalFormTitle", window.parent.document).html(title);
+    //  $modalIframe.parent().parent().find("#modalFormTitle").html(title);
+
 }
 
 //$('body').on('click', '#closeModalIF, #closeModalIFWF', function (event) {
@@ -5220,7 +4990,7 @@ function SelectTaskFromModal() {
     }
 }
 function InsertFormModal(formid) {
-    var url = "../WF/DocInsertModal.aspx?formid=" + formid + "&userid=" + GetUID();
+    var url = "../WF/DocInsertModal.aspx?formid=" + formid;
     ShowIFrameModal("", url, 800, 600);
 }
 //Crea una nueva ventana con la url especificada y le setea el opener
@@ -5392,36 +5162,31 @@ function getMaxZ() {
 }
 
 function Refresh_C() {
-    sessionStorage.setItem('abriendo_formulario', '1')
     document.location = document.location;
     document.location.reload(true);
 }
 
+//function ShowLoadingAnimation() {
+//if ($('#loadingModZmb').hasClass('in')) return;    
+//waitingDialog.show('Procesando');
 
-var loadingShowing = false;
-
-function ShowLoadingAnimationNoClose() {
-
-    try {
-        //if (loadingShowing === false) {
-        //    loadingShowing = true;
-        //    if (waitingDialog) waitingDialog.show('Procesando');
-        //}
-    } catch (e) {
-        console.error(e);
-    }
-}
-function hideLoading() {
-    try {
-       // setTimeout(hideLoading, 500);
-    } catch (e) {
-        console.error(e);
-    }
-}
+//if ($(".blockUI").length == 0) {
+//    $.blockUI({ message: '<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: inline-block;"></span><span style="display: inline-block;"><h4> Procesando...</h4></span>' });
+//    setTimeout(function () {
+//        hideLoading();
+//    }, 6000);
+//}
+//}
+//function ShowLoadingAnimationNoClose() {
+//waitingDialog.show('Procesando');   
+//if ($(".blockUI").length == 0)
+//    $.blockUI({ message: '<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: inline-block;"></span><span style="display: inline-block;"><h4> Procesando...</h4></span>' });
+////}
 
 function hideLoading() {
-     loadingShowing = false;
-    if (waitingDialog) waitingDialog.hide();
+    //  waitingDialog.hide();
+    //if ($(".blockUI").length > 0)
+    //    $.unblockUI();
 }
 
 function BlockWebPageInteraction() {
@@ -5435,35 +5200,6 @@ function UnblockWebPageInteraction() {
     //$("#TasksDivUL").unblock();
 }
 //Función que evalua si habilitar o no un control en base a uno o dos valores
-function ConditionalEnable(ObjSource, ObjDestiny, Value, Value2) {
-    if ($("#" + ObjSource).val() == Value || (Value2 != undefined && $("#" + ObjSource).val() == Value2)) {
-
-        //Quita la clase que ignora el validate y valida el control nuevamente
-        $("#" + ObjDestiny).removeClass("disable");
-        $("#" + ObjDestiny).valid();
-        //Habilita el datepicker
-        $("#" + ObjDestiny).datepicker("enable");
-        //Muestra el asterisco para marcar que es un campo requerido.
-        $("#lbl_" + ObjDestiny).show();
-        $("#" + ObjDestiny).attr('disabled', '');
-
-        if ($("#" + ObjDestiny).datepicker("option", "disabled") === undefined) {
-            $("#" + ObjDestiny).attr('disabled', 'disabled');
-        }
-    }
-    else {
-        $("#" + ObjDestiny).attr('disabled', 'disabled');
-        $("#" + ObjDestiny).val("");
-        //Agrega la clase que ignora el validate y valida el control nuevamente
-        $("#" + ObjDestiny).addClass("disable");
-        $("#" + ObjDestiny).valid();
-        //Oculta el asterisco para marcar que es un campo requerido.
-        $("#lbl_" + ObjDestiny).hide();
-        //deshabilita el datepicker
-        $("#" + ObjDestiny).datepicker("disable");
-    }
-}
-//Función que evalua si habilitar o no un control en base a uno o dos valores(evalua por distinto)
 function ConditionalEnable(ObjSource, ObjDestiny, Value, Value2) {
     if ($("#" + ObjSource).val() == Value || (Value2 != undefined && $("#" + ObjSource).val() == Value2)) {
 
@@ -5790,7 +5526,7 @@ function GetUID() {
     if (userid > 0) return userid;
 
 
-    var authData = window.localStorage.getItem('authorizationData');
+    var authData = localStorage.getItem('authorizationData');
     if (authData == undefined || authData == null || authData == "[object Object]" || authData == "") {
         return;
     }
@@ -5814,8 +5550,6 @@ function GetDOCID() {
     docid = getUrlParameters().doc_id;
     if (docid > 0) return docid;
     docid = Number($("[id$=Hiddendocid]").val());
-    if (docid > 0) return docid;
-    docid = currentDOCID;
     if (docid > 0) return docid;
     return 0;
 }
@@ -5867,23 +5601,14 @@ function GetDocTypeId() {
 }
 
 function getUrlParameters() {
-    try {
-
-        console.log('window.location: ', window.location);
-        console.log('window.location.search: ', window.location.search);
-        var pairs = window.location.search.substring(1).split(/[&?]/);
-        var res = {}, i, pair;
-        for (i = 0; i < pairs.length; i++) {
-            pair = pairs[i].toLowerCase().split('=');
-            if (pair[1])
-                res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-        }
-        return res;
-
-    } catch (e) {
-        console.error(e);
-        return 0;
+    var pairs = window.location.search.substring(1).split(/[&?]/);
+    var res = {}, i, pair;
+    for (i = 0; i < pairs.length; i++) {
+        pair = pairs[i].split('=');
+        if (pair[1])
+            res[decodeURIComponent(pair[0]).toLowerCase()] = decodeURIComponent(pair[1]);
     }
+    return res;
 }
 
 
@@ -5891,7 +5616,7 @@ function getUrlParametersUser() {
     var pairs = window.location.search.substring(1).split(/[&?]/);
     var res = {}, i, pair;
     for (i = 0; i < pairs.length; i++) {
-        pair = pairs[i].toLowerCase().split('=');
+        pair = pairs[i].split('=');
         if (pair[1])
             res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
     }
@@ -5899,12 +5624,12 @@ function getUrlParametersUser() {
 }
 
 function CheckUserTimeOut() {
-    var CurrentUserId = window.localStorage.getItem('UserId')
-    var ConnectionId = window.localStorage.getItem('ConnId');
+    var CurrentUserId = localStorage.getItem('UserId')
+    var ConnectionId = localStorage.getItem('ConnId');
     if (CurrentUserId != null && ConnectionId != null) {
         $.ajax({
             type: "POST",
-            url: "../../Services/TaskService.asmx/CheckTimeOut",
+            url: "../../Services/TaskService.asmx/CheckTimeOut?" + localStorage.queryStringAuthorization,
             data: "{CurrentUserId: " + CurrentUserId + ", ConnectionId: " + ConnectionId + "}",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -5984,7 +5709,7 @@ function NewFilter() {
     if (filterdata && $(".InputVal").children().val() != "") {
         $.ajax({
             type: "POST",
-            url: thisDomain + "/Services/TaskService.asmx/filterdata",
+            url: thisDomain + "/Services/TaskService.asmx/filterdata?" + localStorage.queryStringAuthorization,
             //data: "{CurrentUserId: " + CurrentUserId + ", ConnectionId: " + ConnectionId + "}",
             //data: JSON.stringify("{data: " + obj + "}"),
             data: "{filterdata:" + JSON.stringify(filterdata) + "}",
@@ -6013,7 +5738,7 @@ function DeleteFilter(button) {
     FilterDelete.Id = id;
     $.ajax({
         type: "POST",
-        url: thisDomain + "/Services/TaskService.asmx/deleteFilter",
+        url: thisDomain + "/Services/TaskService.asmx/deleteFilter?" + localStorage.queryStringAuthorization,
         //data: "{CurrentUserId: " + CurrentUserId + ", ConnectionId: " + ConnectionId + "}",
         //data: "{filterId: " + id + "}",
         data: "{deleteFilter:" + JSON.stringify(FilterDelete) + "}",
@@ -6032,7 +5757,7 @@ function GetUsedFilters() {
     var SubListName = sessionStorage.getItem('SubListName');
     $.ajax({
         type: "POST",
-        url: "../../Services/TaskService.asmx/getUsedFilters",
+        url: "../../Services/TaskService.asmx/getUsedFilters?" + localStorage.queryStringAuthorization,
         //data: "{CurrentUserId: " + CurrentUserId + ", ConnectionId: " + ConnectionId + "}",
         //data: JSON.stringify("{data: " + obj + "}"),
         data: "{usedfilters:" + JSON.stringify(usedfilters) + "}",
@@ -6133,34 +5858,7 @@ function IsIE() {
         return false;
     }
     catch (e) {
-        console.error(e);
-    }
-}
-
-
-
-function resizeGridHeight() {
-    try {
-            var resultsGrid = $("#resultsGrid")[0];
-            var resultsGridHeight = resultsGrid.clientHeight;
-
-            var ToolbarResults = $("#ToolbarResults")[0];
-            var ToolbarResultsHeight = ToolbarResults.clientHeight;
-
-            var resultsGridActions = $("#resultsGridActions")[0];
-            var resultsGridActionsHeight = resultsGridActions.clientHeight;
-
-            var rdo = resultsGridHeight - (ToolbarResultsHeight + resultsGridActionsHeight)
-
-            var KAutoScrollable = $(".k-grid-content.k-auto-scrollable")[0];
-            var KGridHeader = $(".k-grid-header")[0];
-            var ThisTaskIsOpen = $("#IFThisTaskIsOpen")[0];
-
-            $("#IFPreview").css("height", rdo);
-            $(ThisTaskIsOpen).css("height", rdo);
-            $(KAutoScrollable).css("height", rdo - (KGridHeader != undefined ? KGridHeader.clientHeight : 0));
-    } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 }
 
@@ -6674,11 +6372,11 @@ function ponerdecimales(numero) {
 
 function AssociatedIndexsModalselectBtn(sender) {
     var IndexListSelectedValue = sender.id;
-    var NewAssociatedEntityId = window.localStorage.getItem("NewAssociatedEntityId");
-    var NewAssociatedDocIds = window.localStorage.getItem("NewAssociatedDocIds");
-    var NewAssociatedIndexIds = window.localStorage.getItem("NewAssociatedIndexIds");
-    var ruleId = window.localStorage.getItem("NewAssociatedruleId");
-    var docId = window.localStorage.getItem("NewAssociateddocId");
+    var NewAssociatedEntityId = localStorage.getItem("NewAssociatedEntityId");
+    var NewAssociatedDocIds = localStorage.getItem("NewAssociatedDocIds");
+    var NewAssociatedIndexIds = localStorage.getItem("NewAssociatedIndexIds");
+    var ruleId = localStorage.getItem("NewAssociatedruleId");
+    var docId = localStorage.getItem("NewAssociateddocId");
 
     var List_FilesIds = JSON.parse(sessionStorage.getItem('Lista_Archivos'));
 
@@ -6699,7 +6397,7 @@ function AssociatedIndexsModalselectBtn(sender) {
                 toastr.success("Archivo actualizado exitosamente");
                 $("#ModalSearchDropzone").modal('hide');
                 try {
-                    var NewAssociated = window.localStorage.getItem("NewAssociatedEntityId");
+                    var NewAssociated = localStorage.getItem("NewAssociatedEntityId");
                     LoadGrillaForm(NewAssociated);
 
                 } catch (e) {
@@ -6751,43 +6449,12 @@ function ExecuteRuleId(ruleId, resultIds) {
 
 }
 
-function selectOpcionMultiIndex(sender) {
-
-    window.localStorage.setItem("NewAssociatedIndexIdsMultiDropzone", sender.id);
-
-    $("#AsignedEntity")[0].innerHTML = sender.outerText.split("-")[1];
-
-    $("#ModalMultiIndexDropzone").modal('hide');//ocultamos el modal
-    $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-    $('.modal-backdrop').remove();//eliminamos el backdrop del modal
-
-    $("#filtrarIndex").val("");
-}
-
-function LoadIndexForDropzone(indexId) {
-    var ElementoJson = "";
-    $.ajax({
-        type: "POST",
-        url: ZambaWebRestApiURL + '/Tasks/GetMultiIndexsDropzon?' + jQuery.param({ indexId: indexId }),
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        success: function (data) {
-            ElementoJson = JSON.parse(data);
-
-        }, error: function (error) {
-            console.log(error);
-        }
-
-    });
-    return ElementoJson;
-}
-
 
 function FuncionDropzone(indexIds, entityId, newDocIds) {
 
-    window.localStorage.setItem("NewAssociatedIndexIds", indexIds);
-    window.localStorage.setItem("NewAssociatedEntityId", entityId);
-    window.localStorage.setItem("NewAssociatedDocIds", newDocIds);
+    localStorage.setItem("NewAssociatedIndexIds", indexIds);
+    localStorage.setItem("NewAssociatedEntityId", entityId);
+    localStorage.setItem("NewAssociatedDocIds", newDocIds);
     if ($('#listaID')[0].childElementCount == 0) {
 
         // ajax pedir los datos
@@ -6805,7 +6472,7 @@ function FuncionDropzone(indexIds, entityId, newDocIds) {
                 if ($(".modal-backdrop").hasClass("in") == true) {
                     $(".modal-backdrop").css("position", "relative");
                 }
-                $("#listaID").empty();
+
                 for (var i = 0; i < ElementoJson.length; i++) {
                     var name = ElementoJson[i].Value,
                         id = ElementoJson[i].$id,
@@ -6845,7 +6512,7 @@ function dropzoneCallAjax(indexIds, entityId) {
             if ($(".modal-backdrop").hasClass("in") == true) {
                 $(".modal-backdrop").css("position", "relative");
             }
-            $("#listaID").empty();
+
             for (var i = 0; i < ElementoJson.length; i++) {
                 var name = ElementoJson[i].Value,
                     id = ElementoJson[i].$id,
@@ -6854,8 +6521,8 @@ function dropzoneCallAjax(indexIds, entityId) {
                     $('#listaID').append('<li class="ModalClassUl" id="' + Code + '" name="' + name.toString() + '"  onclick="AssociatedIndexsModalselectBtn(this);">' + Code + ' - ' + name.toString() + '</li>');
                 }
             }
-            var NewAssociated = window.localStorage.getItem("NewAssociatedEntityId") + window.localStorage.getItem("NewAssociatedIndexIds");
-            window.localStorage.setItem("ItemCache", NewAssociated);
+            var NewAssociated = localStorage.getItem("NewAssociatedEntityId") + localStorage.getItem("NewAssociatedIndexIds");
+            localStorage.setItem("ItemCache", NewAssociated);
         }, error: function (error) {
             console.log(error);
         }
@@ -6903,13 +6570,6 @@ function RemoveStyleMultiDropzone() {
     }
 }
 
-function ReloadParentPage() {
-    opener.location.reload();
-
-    setTimeout(function () {
-        window.close();
-    }, 1000);
-}
 
 function FixsIE() {
     try {
@@ -6996,17 +6656,9 @@ function FixsIE() {
 }
 
 //Funcion que permite reemplazar todas las coincidencias de un caracter por otro pasados por parametro.
-//String.prototype.replaceAll = function (search, replacement) {
-//    return this.split(search).join(replacement);
-//};
-
-function escapeRegExp(string) {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
-
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
+String.prototype.replaceAll = function (search, replacement) {
+    return this.split(search).join(replacement);
+};
 
 function CompletarVto() {
     if (document.getElementById("zamba_index_57").value == "") {
@@ -7586,7 +7238,7 @@ function dateFormatMMDDYYYY(date) {
 
 $(document).ready(function () {
     $("form").keypress(function (e) {
-        if (e.which == 13 && e.target.nodeName != "TEXTAREA") {
+        if (e.which == 13) {
             return false;
         }
     });
@@ -7631,8 +7283,8 @@ function GetGroupsIdsByUserId(id) {
     var groups = [];
 
     try {
-        if (window.localStorage) {
-            var localGroups = window.localStorage.getItem("localGroups" + GetUID());
+        if (localStorage) {
+            var localGroups = localStorage.getItem("localGroups" + GetUID());
             if (localGroups != undefined && localGroups != null && localGroups.length > 0) {
                 groups = localGroups;
                 return groups;
@@ -7640,7 +7292,7 @@ function GetGroupsIdsByUserId(id) {
             }
         }
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
     if (groups.length == 0) {
@@ -7655,11 +7307,11 @@ function GetGroupsIdsByUserId(id) {
                 if (data != undefined && data != null) {
                     groups = data;
                     try {
-                        if (window.localStorage) {
-                            window.localStorage.setItem("localGroups" + GetUID(), data);
+                        if (localStorage) {
+                            localStorage.setItem("localGroups" + GetUID(), data);
                         }
                     } catch (e) {
-                        console.error(e);
+                        console.log(e);
                     }
                 }
             },
@@ -7687,6 +7339,20 @@ function ValidarEstudioConsulta() {
             console.log(error);
         }
     });
+}
+
+
+function LoadGrillaForm(elemId) {
+    var grilla = document.getElementsByTagName("zamba-associated");
+    if (grilla != undefined) {
+        CountGrilla = document.getElementsByTagName("zamba-associated").length;
+        for (var i = 0; i < CountGrilla; i++) {
+            grilla = document.getElementsByTagName("zamba-associated")[i].attributes["entities"].nodeValue;
+            if (grilla == elemId && document.getElementsByTagName("zamba-associated")[i].querySelector(".BtnRefresh") != null) {
+                document.getElementsByTagName("zamba-associated")[i].querySelector(".BtnRefresh").click();
+            }
+        }
+    }
 }
 
 
@@ -7786,7 +7452,7 @@ function executeTaskRule(ruleId, resultIds, callback, errorCallBack) {
                     errorCallBack(fallback);
             });
     } catch (e) {
-        console.error(e);
+        console.log(e);
         if (errorCallBack)
             errorCallBack(fallback);
     }
@@ -7911,6 +7577,7 @@ function parametroURL(_par) {
     return _p;
 }
 $(document).ready(function () {
+    PermisosInsert();
     $('.confirm').bind("click", function () {
         var message = 'Esta seguro que desea continuar?';
         var sender = this;
@@ -7922,7 +7589,6 @@ $(document).ready(function () {
         //addEventListener(click, message, callback, ConfirmMessage);
 
     });
-
     $('.TextIndexer').bind("click", function () {
         $(".TextIndexer").each(function () {
             var message = 'Esta seguro que desea continuar?';
@@ -7936,8 +7602,6 @@ $(document).ready(function () {
             //addEventListener(click, message, callback, ConfirmMessage);
         });
     });
-
-
 
 
 
@@ -8078,8 +7742,6 @@ function zamba_save_onclick(sender, id) {
         swal("", "Por favor, verificar los datos ingresados");
         console.log(ex);
     }
-
-    localStorage.setItem("ZambaSaveResult", true);
     return valido;
 }
 
@@ -8124,227 +7786,53 @@ function HelperCommas(value) {
     return value;
 }
 
-function showMailSwal(ID) {
-    var dominio = ZambaWebRestApiURL;
-    var msgMail = "";
-    var genericRequest = {
-        UserId: parseInt(GetUID()),
-        Params: {
-            "ID": ID
-        }
-    };
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: dominio + "/eInbox/GetMailBody",
-        data: JSON.stringify(genericRequest),
-        contentType: "application/json; charset=utf-8",
-        success: function (msg) {
-            msgMail = msg;
-        },
-        error: function (request, status, err) {
-            var a = request;
-        }
-    });
-    if (msgMail.OriginalDocumentFileName.toLocaleLowerCase().endsWith(".html")) {
-        var ResponseHTML = "";
-        ResponseHTML = "<div align='left' style='font-size:15px'>";
-        ResponseHTML += "<h4>" + msgMail.Subject + "</h4><hr/>";
-        ResponseHTML += "<table >"
-        ResponseHTML += "<tr><td style='padding-right: 29px' ><b> Fecha: </b>" + moment(msgMail.MailDateTime).format("DD/MM/YYYY hh:mm:ss") + "</td>";
-        ResponseHTML += "<td><b> Para: </b>" + msgMail.MailTo + "</td></tr>";
-        if (msgMail.Cc != "")
-            ResponseHTML += "<tr><td colspan='2'><b> CC: </b>" + msgMail.Cc + "</td></tr>";
-        if (msgMail.Cco != "")
-            ResponseHTML += "<tr><td colspan='2'><b> CCo: </b>" + msgMail.Cco + "</td></tr>";
-
-        ResponseHTML += "</table><hr/>";
-        ResponseHTML += msgMail.Body;
-        ResponseHTML += "</div>";
-
-        Swal.fire({
-            title: '',
-            html: ResponseHTML,
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#337ab7',
-            focusConfirm: true,
-            width: '800px'
-        }).then((result) => {
-            $(".swal2-container.swal2-center.swal2-backdrop-show").height(720);
-
-        });
-    }
-    else if (msgMail.OriginalDocumentFileName.toLocaleLowerCase().endsWith(".msg")) {
-        //modalViewerMail
-        var scope_documentViewer = angular.element($("#modalViewerMail")).scope();
-        var result = scope_documentViewer.ShowDocument_FromItem(msgMail.UserId, msgMail.SourceDocTypeId, msgMail.SourceDocId, msgMail.OriginalDocumentFileName);
-        if (result) {
-            document.getElementById('id01').style.display = 'block';
-            $(".swal2-container.swal2-center.swal2-backdrop-show").height(720);
-        }
-        else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Mostrar correo',
-                text: 'El documento solicitado no pudo ser cargado. Esto puede deberse a que el mismo no exista o que se haya producido un error al obtenerlo. Por favor, comuníquese con el administrador del sistema',
-                confirmButtonText: 'Aceptar',
-                confirmButtonColor: '#337ab7'
-            }).then((result) => { });
-        }
-    }
-
+function isSearchHtml() {
+    if (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1].toLocaleLowerCase() == 'search.html' ||
+        window.location.pathname.split('/')[window.location.pathname.split('/').length - 1].toLocaleLowerCase() == 'taskviewer')
+        return true;
+    else
+        return false;
 }
 
 function PermisosInsert() {
 
-    var userid = GetUID();
-    if (userid != undefined && userid > 0) {
-
-        if (window.localStorage.getItem("InsertBtn-" + GetUID()) === null || window.localStorage.getItem("InsertBtn-" + GetUID()) == "false") {
+    if (localStorage.getItem("InsertBtn-" + GetUID()) === null) {
 
 
-            var response = null;
-            var genericRequest = {
-                UserId: parseInt(GetUID()),
-                Params:
-                    {}
-            };
-            $.ajax({
-                type: "POST",
-                url: serviceBase + '/search/getPermisosInsert',
-                data: JSON.stringify(genericRequest),
+        var response = null;
+        var genericRequest = {
+            UserId: parseInt(GetUID()),
+            Params:
+                {}
+        };
+        $.ajax({
+            type: "POST",
+            url: serviceBase + '/search/getPermisosInsert',
+            data: JSON.stringify(genericRequest),
 
-                contentType: "application/json; charset=utf-8",
-                async: false,
-                success:
-                    function (data, status, headers, config) {
-                        response = data;
-                        if (true) {
-                            localStorage.setItem("InsertBtn-" + GetUID(), response);
-                            $("#BtnHomeInsert").removeClass("disableBtnInsert");
-                        } else {
-                            window.localStorage.setItem("InsertBtn-" + GetUID(), false)
-                        }
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success:
+                function (data, status, headers, config) {
+                    response = data;
+                    if (true) {
+                        localStorage.setItem("InsertBtn-" + GetUID(), response);
+                        $("#BtnHomeInsert").removeClass("disableBtnInsert");
+                    } else {
+                        localStorage.setItem("InsertBtn-" + GetUID(), false)
                     }
-            });
+                }
+        });
 
-        } else {
-            if (window.localStorage.getItem("InsertBtn-" + GetUID()) == "true") {
-                $("#BtnHomeInsert").removeClass("disableBtnInsert");
-            }
-        }
-
-    }
-}
-
-
-function isFireFox() {
-    return (
-        navigator.appVersion.indexOf('Mozilla/') > 0 ||
-        navigator.userAgent.toString().indexOf('Firefox/') > 0)
-}
-
-function isInternetExplorer() {
-    return (navigator.userAgent.indexOf('MSIE') !== -1 ||
-        navigator.appVersion.indexOf('Trident/') > 0 ||
-        navigator.userAgent.toString().indexOf('Edge/') > 0)
-}
-
-function popupsIsLocked() {
-    if (localStorage.getItem("LockedPopup") == 'true')
-        return true;
-    if (localStorage.getItem("LockedPopup") == 'false')
-        return false;
-    if (isInternetExplorer())
-        return false;
-    var ret = false;
-    var testNavigator = window.open('https://www.google.com', '_blank');
-    if (testNavigator == undefined || testNavigator == null)
-        ret = true;
-    else {
-        testNavigator.close();
-        ret = false;
-    }
-    localStorage.setItem("LockedPopup", ret)
-    return ret;
-}
-function popupsUnlocked() {
-    var ret = false;
-    if (localStorage.getItem("LockedPopup") == 'false')
-        return true;
-    var testNavigator = window.open('https://www.google.com', '_blank');
-    if (testNavigator == undefined || testNavigator == null)
-        ret = false;
-    else {
-        testNavigator.close();
-        ret = true;
-    }
-    localStorage.setItem("LockedPopup", !ret)
-    return ret;
-}
-
-function ReviewPopupsLocked() {
-    var pathManual = thisDomain + "/Views/Security/Help/";
-    if (isInternetExplorer()) {
-        return;
-    }
-    if (popupsIsLocked()) {
-        if (isFireFox()) {
-            pathManual += "PopupsUnlockedFireFox.pdf";
-
-        }
-        else {
-            pathManual += "PopupsUnlockedChromeEdge.pdf";
-        }
-        $("#popupslocked").show();
-        tmrPopupsUnlocked = setInterval(function () {
-            if (popupsUnlocked()) {
-                clearInterval(tmrPopupsUnlocked);
-                $("#popupslocked").hide();
-            }
-        }, 2500);
-
-    }
-    $("#linkDownloadManual")[0].download = pathManual;
-    $("#linkDownloadManual")[0].href = pathManual;
-
-}
-function openZambaEditor() {
-    let paramRequest = window.location.search;
-    var urlZEditor = getValueFromWebConfig("ZEditorUrl");
-    let url = window.location.protocol + "//" + window.location.host + urlZEditor + "/ZEditor.aspx" + paramRequest;
-    window.open(url, '_blank');
-}
-
-// FUNCION ANTERIOR
-//function closeModalIFs() {
-
-//    let IframeUrl = $("#modalFormHome")[0].children[1].src;
-//    IframeUrl.contains("Insert") ? location.reload() : $("#openModalIF").modal("hide")
-
-//}
-
-function closeModalIFs() {
-
-    let IframeUrl = $("#modalFormHome")[0].children[1].src;
-    if (IframeUrl.contains("Insert")) {
-        let iframe = document.getElementById("ctl00_ContentPlaceHolder_modalIframe");
-        let doc = iframe.contentWindow.document;
-        let btnEliminarDropzone = doc.querySelectorAll(".dz-remove")
-        if (btnEliminarDropzone.length > 0) {
-            swal("Posee documentos agregados, eliminelos antes de cerrar el modal")
-        } else {
-            $("#openModalIF").modal("hide")
-        }
     } else {
-        $("#openModalIF").modal("hide")
+        if (localStorage.getItem("InsertBtn-" + GetUID()) == "true") {
+            $("#BtnHomeInsert").removeClass("disableBtnInsert");
+        }
     }
+
 
 }
 
 function TriggerOnChange(value) {
     $("#" + value + "").trigger("change");
 }
-
-
-

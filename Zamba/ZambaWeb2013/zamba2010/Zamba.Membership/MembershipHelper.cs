@@ -17,7 +17,6 @@ namespace Zamba.Membership
         private static string _appUrl = string.Empty;
         private static string _taskWebLink = string.Empty;
         private static string _documentWebLink = string.Empty;
-        private static string _taskSelectorWebLink = string.Empty;
         private const string HTTP = "http://";
         private const string HTTPS = "https://";
 
@@ -260,24 +259,24 @@ namespace Zamba.Membership
                         //  path = string.Empty;
                     }
                 }
+               
+                    try
+                    {
+                        path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Zamba Software";
 
-                try
-                {
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Zamba Software";
+                        if (Directory.Exists(path) == false)
+                            Directory.CreateDirectory(path);
 
-                    if (Directory.Exists(path) == false)
-                        Directory.CreateDirectory(path);
+                        return path;
+                    }
+                    catch
+                    {
 
-                    return path;
-                }
-                catch
-                {
+                        if (HttpContext.Current == null)
+                            return Application.StartupPath;
 
-                    if (HttpContext.Current == null)
-                        return Application.StartupPath;
-
-                    return HttpContext.Current.Request.MapPath(Path.Combine(HttpContext.Current.Request.ApplicationPath, "bin"));
-                }
+                        return HttpContext.Current.Request.MapPath(Path.Combine(HttpContext.Current.Request.ApplicationPath, "bin"));
+                    }
             }
         }
 
@@ -379,7 +378,7 @@ namespace Zamba.Membership
             {
                 try
                 {
-                    if (HttpContext.Current!= null && HttpContext.Current.Session != null)
+                    if (HttpContext.Current.Session != null)
                         return true;
 
                     return false;
@@ -431,17 +430,6 @@ namespace Zamba.Membership
         /// <summary>
         /// Obtiene el link que se incluye en el cuerpo de los mails para poder acceder a los documentos
         /// </summary>
-        /// 
-        public static string TaskSelectorWebLink
-        {
-            get
-            {
-                if (_taskSelectorWebLink.Length == 0)
-                    _taskSelectorWebLink  = "<br><br>Link Cliente Web: <a href=\"" + AppUrl + "/Views/WF/TaskSelector.ashx?docid={0}&doctype={1}&taskid={2}&wfstepid={3}\">Acceder al documento</a><br>";
-                return _taskSelectorWebLink;
-            }
-        }
-
         public static string DocumentWebLink
         {
             get

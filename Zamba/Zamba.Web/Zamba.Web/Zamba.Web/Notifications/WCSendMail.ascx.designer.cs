@@ -9,9 +9,8 @@
 
 
 
-public partial class WCSendMail
-{
-
+public partial class WCSendMail {
+    
     /// <summary>
     /// DivPrincipal control.
     /// </summary>
@@ -20,7 +19,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivPrincipal;
-
+    
     /// <summary>
     /// ContPrincipal control.
     /// </summary>
@@ -29,7 +28,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlGenericControl ContPrincipal;
-
+    
     /// <summary>
     /// txtEmailTo control.
     /// </summary>
@@ -38,7 +37,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtEmailTo;
-
+    
     /// <summary>
     /// txtCC control.
     /// </summary>
@@ -47,7 +46,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtCC;
-
+    
     /// <summary>
     /// txtCCO control.
     /// </summary>
@@ -56,7 +55,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtCCO;
-
+    
     /// <summary>
     /// txtAsunto control.
     /// </summary>
@@ -65,7 +64,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtAsunto;
-
+    
     /// <summary>
     /// txtMessageBody control.
     /// </summary>
@@ -74,7 +73,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.TextBox txtMessageBody;
-
+    
     /// <summary>
     /// chkAddWebLink control.
     /// </summary>
@@ -83,7 +82,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.CheckBox chkAddWebLink;
-
+    
     /// <summary>
     /// FileUpload1 control.
     /// </summary>
@@ -92,7 +91,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
-
+    
     /// <summary>
     /// btnAddAttach control.
     /// </summary>
@@ -101,7 +100,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button btnAddAttach;
-
+    
     /// <summary>
     /// gvAttachs control.
     /// </summary>
@@ -110,7 +109,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.GridView gvAttachs;
-
+    
     /// <summary>
     /// lblAttachslength control.
     /// </summary>
@@ -119,7 +118,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Label lblAttachslength;
-
+    
     /// <summary>
     /// chkAddOriginalDocument control.
     /// </summary>
@@ -128,7 +127,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.CheckBox chkAddOriginalDocument;
-
+    
     /// <summary>
     /// btnSendMail control.
     /// </summary>
@@ -137,7 +136,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button btnSendMail;
-
+    
     /// <summary>
     /// pnlErrors control.
     /// </summary>
@@ -146,7 +145,7 @@ public partial class WCSendMail
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Panel pnlErrors;
-
+    
     /// <summary>
     /// lblErrors control.
     /// </summary>

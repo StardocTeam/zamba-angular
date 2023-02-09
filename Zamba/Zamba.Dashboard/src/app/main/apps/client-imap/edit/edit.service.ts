@@ -69,7 +69,7 @@ export class EditService {
   }
 
   insertMail(MailObj) {
-    return this.httpClient.post(this.LOGIN_URL + "eInbox/InsertEmailsInZamba", MailObj, this.newHttpHeaders());
+    return this.httpClient.post(this.GlobalVars.ApiUrl + "eInbox/InsertEmailsInZamba", MailObj, this.newHttpHeaders());
   }
 
   private newHttpHeaders() {

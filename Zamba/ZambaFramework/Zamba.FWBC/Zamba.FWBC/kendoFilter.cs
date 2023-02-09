@@ -14,8 +14,5 @@ namespace Zamba.Framework
 
         public string DataBaseColumn { get; set; }
 
-        public bool Enabled { get; set; }
-
-        public long FilterID { get; set; }
     }
 }

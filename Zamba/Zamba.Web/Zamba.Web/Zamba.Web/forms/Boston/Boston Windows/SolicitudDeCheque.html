@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="scripts/jquery-3.1.1.min.js" type="text/javascript" language="JavaScript"></script>
-    
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
         $(document).ready(function(){
             $(".solonums").each(function(){
@@ -24,8 +24,32 @@
                 })
             });
         });
-
-
+        function CargarFechasyBotones(){
+            $('#zamba_index_2786').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button', 
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png', 
+                buttonImageOnly: true,
+                duration: "",
+                onSelect: function(dateText, inst) {
+                    var lockDate = new Date($('#zamba_index_2786').datepicker('getDate'));
+                    $('#zamba_index_2787').datepicker('option', 'minDate', lockDate);
+                }
+            });
+    
+            $('#zamba_index_2787').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button', 
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png', 
+                buttonImageOnly: true,
+                duration: "",
+                minDate: new Date($('#zamba_index_2786').datepicker('getDate'))
+            });		
+        }
         function zamba_save_onclick() {
             if($('input[type=text]').hasClass('error')){
                 alert("Verifique que todos los datos de los campos sean válidos");
@@ -183,14 +207,14 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" style="background-color:#e5e5e5">Fecha Solicitada:</span>
-                                    <input class="form-control " style=" color: #090A0A; font-weight: bold" id="zamba_index_2786" name="zamba_index_2786" onblur="valFecha(this)" />
+                                    <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold" id="zamba_index_2786" name="zamba_index_2786" onblur="valFecha(this)" />
                                 </div>
                             </div>
 
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" style="background-color:#e5e5e5">Fecha Asignada:</span>
-                                    <input class="form-control " style=" color: #090A0A; font-weight: bold" id="zamba_index_2787" name="zamba_index_2787" onblur="valFecha(this)" />
+                                    <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold" id="zamba_index_2787" name="zamba_index_2787" onblur="valFecha(this)" />
                                 </div>
                             </div>
                      
@@ -268,14 +292,14 @@
                
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">SolicitudDeCheque.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

@@ -689,6 +689,53 @@
 
 
 
+            function ValidarDatosFaltantes() {
+
+                var valido = false;
+
+                if ($("#zamba_index_10287")[0].checked == false && ($("#zamba_index_2719").val() == '' || $("#zamba_index_2719").val() == "0,00" || $("#zamba_index_2719").val() == "0")) {
+                    swal("", "Por favor,carga Estimacion de Pagos");
+                    var valido = false;
+
+                } else if ($("#zamba_index_10284").val() == "" || $("#zamba_index_10284").val() == " ") {
+                    swal("", "Por favor, ingresa Estado.");
+                    valido = false;
+                } else if ($("#hdnCount").val() == 0) {
+                    swal("", "Por favor,carga al menos un beneficiario");
+                    valido = false;
+                } else if ($("#zamba_index_10287").val() == "") {
+                    swal("", "Por favor,carga Estimacion de Pagos");
+                    valido = false;
+
+                } else if ($("#zamba_index_1020168").val() == "") {
+                    swal("", "Por favor,carga la fecha de pago");
+                    valido = false;
+                } else if (ValidarFechaMayorIgualActual($("#zamba_index_1020168").val())) {
+                    swal("", "Por favor, carga una Fecha de Pago Valida.");
+                    valido = false;
+                }
+                else {
+                    $(".send").click();
+                    SetRuleId(sender);
+                    valido = true;
+                }
+                return valido;
+
+            }
+
+            function ValidarFechaMayorIgualActual(valueDate) {
+
+                var currentDate = new Date();
+                var dateParts = valueDate.split('/');
+                var validateDate = new Date(dateParts[1] + "/" + dateParts[0] + "/" + dateParts[2]);
+
+                if (Date.parse(currentDate) >= Date.parse(validateDate)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
             function setInputAvaiability(checkId, tagsIds) {
                 var isChecked = $("#" + checkId).prop('checked');
                 var ids = tagsIds.split(",");
@@ -720,8 +767,8 @@
                 //angular.bootstrap(document.getElementById('siniestroTable'), ['ZambaAssociatedApp']);
         </script>
 
-		    <script src="../../Grid/PedidoFondos/PedidoFondosController.js?v=248"></script>
-    <script src="../../Grid/PedidoFondos/PedidoFondoService.js?v=248"></script>
+		    <script src="../../Grid/PedidoFondos/PedidoFondosController.js?v=168"></script>
+    <script src="../../Grid/PedidoFondos/PedidoFondoService.js?v=168"></script>
 
     </form>
 

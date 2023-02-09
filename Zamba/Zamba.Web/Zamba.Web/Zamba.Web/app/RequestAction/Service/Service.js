@@ -13,7 +13,7 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
         $.ajax({
             type: "GET",
             //url: ZambaWebRestApiURL + '/rp/11535116',
-            url: ZambaWebRestApiURL + '/rp/' + reportId + '-' + userId,
+            url: ZambaWebRestApiURL + '/rp/' + reportId + '-'+ userId,
             contentType: "application/json; charset=utf-8",
             async: false,
             success:
@@ -39,23 +39,8 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
 
         });
         return usernameResponse;
-    }; 
-
-    var _getValidateUser = function (UserName) {
-        var usernameResponse = null;
-        $.ajax({
-            type: "GET",
-            url: ZambaWebRestApiURL + '/search/GetUserInfoForName?UserName=' + UserName,
-            contentType: "application/json; charset=utf-8",
-            async: false,
-            success:
-                function (data, status, headers, config) {
-                    usernameResponse = data;
-                }
-
-        });
-        return usernameResponse;
     };
+
 
     var _loginResult = function (username, password) {
         var loginResult = null;
@@ -127,21 +112,21 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
         };
         $http.post(ZambaWebRestApiURL + '/Account/Password', genericRequest).then(function successCallback(response) {
 
-
+            
             $(".btn.btn-default.modal-cancel-button").click();
             inputs.CurrentPassword = "";
             inputs.NewPassword = "";
             inputs.NewPassword2 = "";
             Swal.fire(response.data)
 
-
+           
 
         }, function errorCallback(response) {
-            $(".btn.btn-default.modal-cancel-button").click();
-            inputs.CurrentPassword = "";
-            inputs.NewPassword = "";
-            inputs.NewPassword2 = "";
-            Swal.fire("Error al actulizar su contraseï¿½a", "error");
+                $(".btn.btn-default.modal-cancel-button").click();
+                inputs.CurrentPassword = "";
+                inputs.NewPassword = "";
+                inputs.NewPassword2 = "";
+                Swal.fire("Error al actulizar su contraseña","error");
 
         });
     }
@@ -157,7 +142,7 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
                 userId: parseInt(userId),
                 Params: {
                     ruleId: parseInt(ruleId),
-                    resultIds: parseInt(docId),
+                    resultIds: parseInt(docId),  
                     FormVariables: formVariables
                 }
             };
@@ -166,32 +151,50 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
                 userId: parseInt(userId),
                 Params: {
                     ruleId: parseInt(ruleId),
-                    resultIds: parseInt(docId)
+                    resultIds: parseInt(docId)                   
                 }
             };
         }
 
-        $http.post(ZambaWebRestApiURL + "/Tasks/ExecuteTaskRule", JSON.stringify(genericRequest)).then(function (resp) {
+        const ipAPI = '//api.ipify.org?format=json'
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: ZambaWebRestApiURL +"/Tasks/ExecuteTaskRule",
+        //    //url: _DOMINIODEV + "/Tasks/ExecuteTaskRule",
+        //    data: JSON.stringify(genericRequest),
+        //    contentType: "application/json; charset=utf-8",
+        //    async: true,
+        //    success:
+        //        function (data, status, headers, config) {
+        //            response = status;
+        //            eval(callBack);
+        //        },
+        //    error: function (data) {
+        //        response = status;
+        //    }
+        //});
+
+         $http.post(ZambaWebRestApiURL + "/Tasks/ExecuteTaskRule", JSON.stringify(genericRequest)).then(function (resp) {
             var data = resp.data;
             deferred.resolve(data);
         }, function (err) {
-            deferred.reject(err);
-            console.log(err);
+                deferred.reject(err);
+                console.log(err);
         })
 
         return deferred.promise;
     }
 
-
+    
 
     RequestServicesFactory.LoadUserPhotoFromDB = _LoadUserPhotoFromDB
     RequestServicesFactory.getResults = _getResults;
     RequestServicesFactory.getUsername = _getUsername;
-    RequestServicesFactory.getValidateUser = _getValidateUser;
     RequestServicesFactory.getLoginResult = _loginResult;
     RequestServicesFactory.executeTaskRule = _executeTaskRule;
     RequestServicesFactory.ChangePass = _ChangePass;
-
+    
 
     return RequestServicesFactory;
 }]);

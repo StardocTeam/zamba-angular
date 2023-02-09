@@ -108,7 +108,7 @@ namespace Zamba.Services
             return Results_Business.GetResult(DocId, DocTypeId, FullLoad);
         }
 
-         public InsertResult Insert(ref INewResult newresult, string fileName, long docTypeId, List<IIndex> indexs,long userid, Int64 newId  = 0)
+         public InsertResult Insert(ref INewResult newresult, string fileName, long docTypeId, List<IIndex> indexs,long userid=0, Int64 newId  = 0)
          {
             foreach (IIndex i in indexs)
             {
@@ -130,9 +130,9 @@ namespace Zamba.Services
             return Insert(ref newresult, false, false, false, false, false, false, false, false, true, userid, newId);
          }
 
-        public InsertResult Insert(ref INewResult newresult, bool move, bool ReIndexFlag, bool reemplazarFlag, bool showQuestions, bool isVirtual, bool isReplica, bool hasName, bool throwex, bool refreshWfAfterAInsert,long userid=0, Int64 newId = 0, bool ExecuteEntryRules = true)
+        public InsertResult Insert(ref INewResult newresult, bool move, bool ReIndexFlag, bool reemplazarFlag, bool showQuestions, bool isVirtual, bool isReplica, bool hasName, bool throwex, bool refreshWfAfterAInsert,long userid=0, Int64 newId = 0)
         {
-            return Results_Business.Insert(ref newresult, move, ReIndexFlag, reemplazarFlag, showQuestions, isVirtual, isReplica, hasName, throwex, refreshWfAfterAInsert,userid, newId, ExecuteEntryRules);
+            return Results_Business.Insert(ref newresult, move, ReIndexFlag, reemplazarFlag, showQuestions, isVirtual, isReplica, hasName, throwex, refreshWfAfterAInsert,userid, newId);
         }
 
 
@@ -202,7 +202,7 @@ namespace Zamba.Services
       
 
         //Ezequiel: Metodo que completa la propiedad encodefile del result
-        public void LoadFileFromDB(ref IResult res)
+        public void LoadFileFromDB(IResult res)
         {
             Results_Business.LoadFileFromDB(ref res);
         }
@@ -265,15 +265,6 @@ namespace Zamba.Services
             return Results_Business.InsertDocFileWS(docId, docTypeId, fileBytes, incomingFile, userId);
         }
 
-        public DataTable loadDoSearchResults(long UserID, string ObjectSearch)
-        {
-            return Results_Business.loadDoSearchResults(UserID, ObjectSearch);
-        }
-       
-
-        public object removeDoSearchResults(long userId, string Mode)
-        {
-            return Results_Business.removeDoSearchResults(userId, Mode);
-        }
+        
     }
 }

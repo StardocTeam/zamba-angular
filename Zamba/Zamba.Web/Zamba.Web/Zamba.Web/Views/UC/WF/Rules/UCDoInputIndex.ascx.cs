@@ -225,7 +225,7 @@ public partial class UC_WF_Rules_UCDoInputIndex : System.Web.UI.UserControl, IRu
 
     public void LoadOptions()
     {
-        Mensaje = "Ingresar: " + Params["IndexName"].ToString();
+        Mensaje = "Ingresar valor del indice: " + Params["IndexName"].ToString();
         IndexId = (int)Params["IndexId"];
         ReturnValue = String.Empty;
 

@@ -146,7 +146,6 @@ function addListOption( droplist, option )
         // Most browsers know how to do this
         droplist.add( option, null );
     } catch (e) {
-        console.error(e);
         // but not IE
         droplist[droplist.length] = option;
     }

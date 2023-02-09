@@ -6,7 +6,14 @@
 
 <html>
 <head runat="server">
-
+        <script>
+            function redirect() {
+                var queryString = localStorage.queryStringAuthorization;
+                if (queryString == undefined)
+                    queryString = "";
+                location.href = "../../globalsearch/search/search.html?" + queryString;
+            }
+        </script> 
     <%--  <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWeb.css" />
     <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWebTables.css" />
     --%>
@@ -17,7 +24,9 @@
     <%: Scripts.Render("~/bundles/bootstrap") %>
     <%: Scripts.Render("~/bundles/ZScripts") %>--%>
 
-   
+    <%--<script src="../../scripts/jq_datepicker.js" type="text/javascript"></script>
+    <script src="../../scripts/Zamba.js" type="text/javascript"></script>
+    <script src="../../scripts/Zamba.Validations.js" type="text/javascript"></script>--%>
 
     <script type="text/javascript">
         function pageLoad() {
@@ -64,7 +73,10 @@
                                     <h4>Transcurrio un largo periodo desde su ultima iteración con el sistema.         </h4>
                                     <h4>Por favor pruebe solucionarlo actualizando la página actual.         </h4>
                                     <hr style="margin-top:5%;" />
-                                    <a id="btnHome" href="../../globalsearch/search/search.html">Volver a la pagina principal.</a>
+                                    <%--<a id="btnHome" onclick="alert('hola);"
+                                        href="../../globalsearch/search/search.html"
+                                        >Volver a la pagina principal.</a>--%>
+                                    <a id="btnHome" href="#" onclick="redirect();">Volver a la pagina principal.</a>
                                 </div>
                             </div>
                         </td>

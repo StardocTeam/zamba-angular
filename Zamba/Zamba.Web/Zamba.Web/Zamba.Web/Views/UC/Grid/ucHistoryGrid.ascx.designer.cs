@@ -9,9 +9,8 @@
 
 
 
-public partial class Views_UC_Grid_ucHistoryGrid
-{
-
+public partial class Views_UC_Grid_ucHistoryGrid {
+    
     /// <summary>
     /// hdnAction control.
     /// </summary>
@@ -20,7 +19,7 @@ public partial class Views_UC_Grid_ucHistoryGrid
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnAction;
-
+    
     /// <summary>
     /// hdnTarget control.
     /// </summary>
@@ -29,7 +28,7 @@ public partial class Views_UC_Grid_ucHistoryGrid
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnTarget;
-
+    
     /// <summary>
     /// lblMessage control.
     /// </summary>
@@ -38,7 +37,7 @@ public partial class Views_UC_Grid_ucHistoryGrid
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Label lblMessage;
-
+    
     /// <summary>
     /// grdHistory control.
     /// </summary>
@@ -47,7 +46,7 @@ public partial class Views_UC_Grid_ucHistoryGrid
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.GridView grdHistory;
-
+    
     /// <summary>
     /// divIframe control.
     /// </summary>
@@ -56,7 +55,7 @@ public partial class Views_UC_Grid_ucHistoryGrid
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlGenericControl divIframe;
-
+    
     /// <summary>
     /// formBrowser control.
     /// </summary>
@@ -65,7 +64,7 @@ public partial class Views_UC_Grid_ucHistoryGrid
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlIframe formBrowser;
-
+    
     /// <summary>
     /// lblAttachError control.
     /// </summary>

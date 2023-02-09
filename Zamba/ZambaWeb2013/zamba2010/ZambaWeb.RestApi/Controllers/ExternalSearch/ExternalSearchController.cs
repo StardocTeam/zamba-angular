@@ -180,10 +180,10 @@ namespace ZambaWeb.RestApi.Controllers
 
 
 
-                            newuser.ID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
-                            UB.AddUser(newuser);
-                            UB.SetNewUser(ref newuser);
-                            MembershipHelper.SetCurrentUser(newuser);
+                            //newuser.ID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
+                            //UB.AddUser(newuser);
+                            //UB.SetNewUser(ref newuser);
+                            //MembershipHelper.SetCurrentUser(newuser);
 
 
                             user = UB.ValidateLogIn(loginVM.UserName, loginVM.Password ?? string.Empty, ClientType.Service);
@@ -193,16 +193,10 @@ namespace ZambaWeb.RestApi.Controllers
 
                             string GroupIds = ZOptBusiness.GetValueOrDefault("DefaultGroupForExternals", "11526386");
 
-                            try
+                            long groupId = Int64.Parse(GroupIds);
+                            if (groupId != 0)
                             {
-                                long groupId = Int64.Parse(GroupIds);
-                                if (groupId != 0)
-                                {
-                                    UB.AssignGroup(user.ID, groupId);
-                                }
-                            }
-                            catch (Exception)
-                            {
+                                UB.AssignGroup(user.ID, groupId);
                             }
                         }
                         catch (Exception e)
@@ -231,8 +225,8 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     token = tokenString.SelectToken(@"access_token").Value<string>(),
                     tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
-                    connectionId = tokenString.SelectToken(@"connectionId").Value<string>(),
-                    userID = EncriptString(user.ID.ToString())
+                    userID = EncriptString(user.ID.ToString()),
+                    USERID = user.ID.ToString(),
                 };
 
                 return Ok(userInfo);
@@ -288,17 +282,16 @@ namespace ZambaWeb.RestApi.Controllers
 
             long userID = long.Parse(_userId);
 
-
             DocTypesBusiness DTB = new DocTypesBusiness();
             UserBusiness UB = new UserBusiness();
             IndexsBusiness IB = new IndexsBusiness();
             Zamba.FUS.EncryptBusiness EB = new Zamba.FUS.EncryptBusiness();
-
+          
 
             try
             {
-                if (!validateToken(userID, token))
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token invalido")));
+                //if (!validateToken(userID, token))
+                //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token invalido")));
 
                 IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
                 if (User != null)
@@ -308,25 +301,15 @@ namespace ZambaWeb.RestApi.Controllers
                     ExternalSearchResult sr = new ExternalSearchResult();
 
                     Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
-                    var ExternalEntities = zopt.GetValueOrDefaultNonShared("ES", EB.Encrypt("15,17,2524"));
+                    var ExternalEntities = zopt.GetValueOrDefaultNonShared("ES",EB.Encrypt("15,17"));
                     ExternalEntities = EB.Decrypt(ExternalEntities);
-
-                    var ExternalAttributes = zopt.GetValueOrDefaultNonShared("ESA", EB.Encrypt("I29|TipoId,Tipos Doc Siniestros|Tipo"));
-                    ExternalAttributes = EB.Decrypt(ExternalAttributes);
-
-                    Dictionary<string, string> ExternalAttributesToKeep = new Dictionary<string, string>();
-                    foreach (string EA in ExternalAttributes.Split(char.Parse(",")))
-                    {
-                        ExternalAttributesToKeep.Add(EA.Split(char.Parse("|"))[0].ToLower(), EA.Split(char.Parse("|"))[1]);
-                    }
-
 
                     var EntitiesWithRights = DTB.GetDocTypesbyUserRights(userID, RightsType.Buscar);
 
                     foreach (Int64 EntityId in searchDto.DoctypesIds)
                     {
                         //No se permiten buscar entidades virtuales
-                        if (ExternalEntities != null && ExternalEntities.Split(',').ToList().Contains(EntityId.ToString()))
+                        if  (ExternalEntities != null && ExternalEntities.Split(',').ToList().Contains(EntityId.ToString()))
                         {
                             foreach (IDocType E in EntitiesWithRights)
                             {
@@ -341,10 +324,6 @@ namespace ZambaWeb.RestApi.Controllers
                         }
                     }
 
-                    if (search.Doctypes == null || search.Doctypes.Count == 0)
-                    {
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Las entidad no esta habilitada para este modulo o el modulo no soporta ese tipo de entidad.")));
-                    }
 
                     search.Indexs = new List<IIndex>();
                     IIndex index;
@@ -352,9 +331,6 @@ namespace ZambaWeb.RestApi.Controllers
                     {
                         index = JsonConvert.DeserializeObject<Zamba.Core.Index>(searchDtoIndex.ToString());
                         index = IB.GetIndexById(index.ID, index.Data);
-                        if (index == null) {
-                            throw new Exception("El atributo especificado no existe");
-                        }
                         index.Operator = "=";
                         search.AddIndex(index);
                     }
@@ -375,11 +351,10 @@ namespace ZambaWeb.RestApi.Controllers
                     UB = null;
                     DTB = null;
                     IB = null;
-                    search.UserAssignedId = -1;
 
                     long TotalCount = 0;
                     ModDocuments MD = new ModDocuments();
-                    DataTable results = MD.DoSearch(ref search, User.ID, search.LastPage, search.PageSize, false, false, true, ref TotalCount, false);
+                    DataTable results = MD.DoSearch(ref search, User.ID, search.LastPage, search.PageSize, false, false, true, ref TotalCount);
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "Resultados obtenidos: " + TotalCount);
 
                     // Agrego la nueva columna
@@ -388,21 +363,13 @@ namespace ZambaWeb.RestApi.Controllers
                     string rowValue = string.Empty;
                     //Genero el id del doc
                     foreach (DataRow row in results.Rows)
-                        row["id"] = EncriptString(string.Concat(row["doc_id"].ToString(), "-", row["doc_type_id"].ToString(), "-", _userId, "-", DateTime.Today.ToString("yyyy|MM|dd|HH|mm|ss|sss")));
+                        row["id"] = EncriptString(string.Concat(row["doc_id"].ToString(), "-", row["doc_type_id"].ToString(), "-", _userId));
 
                     List<string> columnsToRemove = new List<string>();
                     //Columnas que no deben verse
                     foreach (DataColumn column in results.Columns)
-                    {
-                        if (ColumnsToShare.Contains(column.ColumnName.ToLower()))
-                        { }
-                        else if (ExternalAttributesToKeep.Keys.Contains(column.ColumnName.ToLower()))
-                        {
-                          column.ColumnName = ExternalAttributesToKeep[column.ColumnName.ToLower()];
-                        }
-                        else
+                        if (!ColumnsToShare.Contains(column.ColumnName.ToLower()))
                             columnsToRemove.Add(column.ColumnName);
-                    }
 
                     //Remuevo las columnas
                     foreach (string colName in columnsToRemove)
@@ -418,7 +385,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo realizar la busqueda" + ex.ToString())));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo realizar la busqueda")));
             }
         }
 
@@ -469,66 +436,40 @@ namespace ZambaWeb.RestApi.Controllers
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el usuario")));
 
                 long userID = long.Parse(_userId);
+                //if (!validateToken(userID, token))
+                //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
                 UserBusiness UB = new UserBusiness();
-
-                if (!validateToken(userID, token))
-                   return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
-                
-               
                 IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
                 if (User != null)
                 {
 
-                    string _documentId = request.Params["id"].ToString();
+                    string _documentId = DecryptString(request.Params["id"].ToString());
 
-                    long DocTypeId = 0;
-                    long DocId = 0;
+                if (string.IsNullOrEmpty(_documentId))
+                    throw new Exception("No se reconoce ID del documento");
 
-                    DecryptDocId(_documentId, userID, out DocId, out DocTypeId);
+                string _doctypeId = _documentId.Split('-')[1];
+                string _docId = _documentId.Split('-')[0];
+                bool convertToPDf = true;
 
-                    if (userID > 0 && DocTypeId > 0 && DocId > 0)
-                    {
-                        try
-                        {
-                            if (MembershipHelper.CurrentUser == null)
-                            {
-                               
-                                UB.ValidateLogIn(userID, ClientType.Web);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            ZClass.raiseerror(ex);
-                        }
+                if (request.Params.ContainsKey("converttopdf"))
+                    convertToPDf = bool.Parse(request.Params["converttopdf"].ToString());
 
-                    }
-                    else
-                    {
-                        ZClass.raiseerror(new Exception("No se recibieron todos los parametros"));
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se recibieron todos los parametros")));
-                    }
+                SResult sResult = new SResult();
+                Result res = (Result)sResult.GetResult(long.Parse(_docId), long.Parse(_doctypeId), false);
 
-
-                    bool convertToPDf = true;
-
-                    if (request.Params.ContainsKey("converttopdf"))
-                        convertToPDf = bool.Parse(request.Params["converttopdf"].ToString());
-
-                    SResult sResult = new SResult();
-                    Result res = (Result)sResult.GetResult(DocId, DocTypeId, false);
-
-                    //string documentdata = GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res);
-                    try
-                    {
-                        //JsonConvert.DeserializeObject(documentdata);
-                        return Ok(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false));
-                        //return Ok(documentdata);
-                    }
-                    catch (Exception ex)
-                    {
-                        return Ok(System.Convert.FromBase64String(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false)));
-                        throw ex;
-                    }
+                //string documentdata = GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res);
+                try
+                {
+                    //JsonConvert.DeserializeObject(documentdata);
+                    return Ok(GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res, false));
+                    //return Ok(documentdata);
+                }
+                catch (Exception ex)
+                {
+                    return Ok(System.Convert.FromBase64String(GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res, false)));
+                    throw ex;
+                }
 
                     //DocumentData DD = new DocumentData();
 
@@ -573,29 +514,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        private void DecryptDocId(string documentId, long userID, out long docId, out long doctypeId)
-        {
-            try
-            {
-                string _documentId = DecryptString(documentId);
-                docId = long.Parse(_documentId.Split('-')[0]);
-                doctypeId = long.Parse(_documentId.Split('-')[1]);                              
-
-                long _userId = long.Parse(_documentId.Split('-')[2]);
-                string _DateTime = _documentId.Split('-')[3];
-
-                if (_userId != userID) throw new Exception("No se reconoce ID del documento. Err 7001");
-                DateTime _IdDateTime = new DateTime(int.Parse(_DateTime.Split(char.Parse("|"))[0]), int.Parse(_DateTime.Split(char.Parse("|"))[1]), int.Parse(_DateTime.Split(char.Parse("|"))[2]), int.Parse(_DateTime.Split(char.Parse("|"))[3]), int.Parse(
-                _DateTime.Split(char.Parse("|"))[4]), int.Parse(_DateTime.Split(char.Parse("|"))[5]), int.Parse(_DateTime.Split(char.Parse("|"))[6]));
-                if ((DateTime.Today - _IdDateTime).TotalHours > 24) throw new Exception("No se reconoce ID del documento. Err 7002");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("No se reconoce ID del documento. Err 7000", ex);
-            }
-
-        }
-
         /// <summary>
         /// Obtiene un archivo en formato de tipo String.
         /// </summary>
@@ -607,56 +525,45 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                long userId = long.Parse(request.Params["userId"].ToString());
-                long doctypeId = long.Parse(request.Params["doctypeId"].ToString());
-                long docId = long.Parse(request.Params["docid"].ToString());
-
+                string userId = request.Params["userId"].ToString();
+                string doctypeId = request.Params["doctypeId"].ToString();
+                string docId = request.Params["docid"].ToString();
                 bool convertToPDf = true;
 
                 if (request.Params.ContainsKey("converttopdf"))
                     convertToPDf = bool.Parse(request.Params["converttopdf"].ToString());
-               
-                //if (!validateToken(userID, token))
-                //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
-                UserBusiness UB = new UserBusiness();
-                IUser User = UB.ValidateLogIn(userId, ClientType.WebApi);
-                if (User != null)
+
+                SResult sResult = new SResult();
+                Result res = (Result)sResult.GetResult(long.Parse(docId), long.Parse(doctypeId), true);
+
+                DocumentData DD = new DocumentData();
+
+                string data = GetDocumentData(userId, doctypeId, docId, ref convertToPDf, res, true);
+                DD.fileName = res.Doc_File;
+
+                DD.ContentType = convertToPDf ? "application/pdf" : res.MimeType;
+
+                try
                 {
-
-
-                    SResult sResult = new SResult();
-                    Result res = (Result)sResult.GetResult(docId, doctypeId, true);
-
-                    DocumentData DD = new DocumentData();
-
-                    string data = GetDocumentData(userId, doctypeId, docId, ref convertToPDf, res, true);
-                    DD.fileName = res.Doc_File;
-
-                    DD.ContentType = convertToPDf ? "application/pdf" : res.MimeType;
-
-                    try
-                    {
-                        DD.dataObject = JsonConvert.DeserializeObject(data);
-                    }
-                    catch (Exception ex)
-                    {
-                        DD.data = System.Convert.FromBase64String(data);
-                    }
-
-                    try
-                    {
-                        var jsonDD = JsonConvert.SerializeObject(DD);
-                        return Ok(jsonDD);
-                    }
-                    catch (Exception ex)
-                    {
-                        //return Ok(System.Convert.FromBase64String(DD));
-                        //throw ex;
-                        var jsonDD = JsonConvert.SerializeObject(DD);
-                        return Ok(jsonDD);
-                    }
+                    DD.dataObject = JsonConvert.DeserializeObject(data);
                 }
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
+                catch (Exception ex)
+                {
+                    DD.data = System.Convert.FromBase64String(data);
+                }
+
+                try
+                {
+                    var jsonDD = JsonConvert.SerializeObject(DD);
+                    return Ok(jsonDD);
+                }
+                catch (Exception ex)
+                {
+                    //return Ok(System.Convert.FromBase64String(DD));
+                    //throw ex;
+                    var jsonDD = JsonConvert.SerializeObject(DD);
+                    return Ok(jsonDD);
+                }
             }
             catch (Exception ex)
             {
@@ -672,24 +579,37 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="docId"></param>
         /// <param name="convertToPDf"></param>
         /// <returns>Devuelve un JSON o Bytes[] como String</returns>
-        private string GetDocumentData(long userId, long doctypeId, long docId, ref bool convertToPDf, IResult res, bool MsgPreview)
+        private string GetDocumentData(string userId, string doctypeId, string docId, ref bool convertToPDf, Result res, bool MsgPreview)
         {
             SZOptBusiness Zopt = new SZOptBusiness();
-            SResult sResult = new SResult();      
+            SResult sResult = new SResult();
+
+            long DocTypeId, DocId, userID;
+
+            if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(doctypeId) && !string.IsNullOrEmpty(docId))
+            {
+                DocTypeId = long.Parse(doctypeId);
+                DocId = long.Parse(docId);
+                userID = long.Parse(userId);
 
                 try
                 {
                     if (MembershipHelper.CurrentUser == null)
                     {
                         UserBusiness UB = new UserBusiness();
-                        UB.ValidateLogIn(userId, ClientType.Web);
+                        UB.ValidateLogIn(userID, ClientType.Web);
                     }
                 }
                 catch (Exception ex)
                 {
                     ZClass.raiseerror(ex);
                 }
-            
+            }
+            else
+            {
+                ZClass.raiseerror(new Exception("No se recibieron todos los parametros"));
+                throw new Exception("No se recibieron todos los parametros");
+            }
 
 
 
@@ -720,7 +640,7 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
 
-                            var a = JsonConvert.SerializeObject(ST.ConvertMSGToJSON(res.FullPath, newPDFFile, true), Formatting.Indented,
+                            var a = JsonConvert.SerializeObject(ST.ConvertMSGToHTML(res.FullPath, newPDFFile, true), Formatting.Indented,
                               new JsonSerializerSettings
                               {
                                   PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -732,7 +652,7 @@ namespace ZambaWeb.RestApi.Controllers
                     //Verifica que el volumen sea de tipo blob o que se encuentre forzada la opción de volumenes del mismo tipo
                     if (res.Disk_Group_Id > 0 && (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase || (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
                     {
-                        sResult.LoadFileFromDB(ref res);
+                        sResult.LoadFileFromDB(res);
                     }
                     //Verifica si el result contiene el documento guardado
                     if (res.EncodedFile != null)
@@ -744,7 +664,7 @@ namespace ZambaWeb.RestApi.Controllers
                         string sUseWebService = Zopt.GetValue("UseWebService");
                         //Verifica si debe utilizar el webservice para obtener el documento
                         if (!String.IsNullOrEmpty(sUseWebService) && bool.Parse(sUseWebService))
-                            _file = sResult.GetWebDocFileWS(res.DocTypeId, res.ID, userId);
+                            _file = sResult.GetWebDocFileWS(res.DocTypeId, res.ID, userID);
                         else
                             _file = sResult.GetFileFromResultForWeb(res, out IsBlob);
                     }
@@ -765,7 +685,7 @@ namespace ZambaWeb.RestApi.Controllers
                             }
                         }
 
-                        if ((res.IsHTML || res.IsRTF || res.IsText || res.IsXoml))
+                        if ((res.IsHtml || res.IsRTF || res.IsText || res.IsXoml))
                         {
                             if (convertToPDf)
                             {
@@ -941,7 +861,7 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el token")));
             }
 
-
+            //byte[] _file = null;
             try
             {
 
@@ -955,14 +875,21 @@ namespace ZambaWeb.RestApi.Controllers
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
 
                 string _documentId = request.Params["id"].ToString();
+                _documentId = DecryptString(_documentId);
+
+                if (string.IsNullOrEmpty(_documentId))
+                    throw new Exception("No se reconoce ID del documento");
+
+                string _docId = _documentId.Split('-')[0];
+                string _doctypeId = _documentId.Split('-')[1];
 
                 long DocTypeId = 0;
                 long DocId = 0;
 
-                DecryptDocId(_documentId, userID, out DocId, out DocTypeId);
-
-                if (userID > 0 && DocTypeId > 0 && DocId > 0)
-                {                    
+                if (!string.IsNullOrEmpty(_userId) && !string.IsNullOrEmpty(_doctypeId) && !string.IsNullOrEmpty(_docId))
+                {
+                    DocTypeId = long.Parse(_doctypeId);
+                    DocId = long.Parse(_docId);
                     try
                     {
                         if (MembershipHelper.CurrentUser == null)
@@ -996,148 +923,6 @@ namespace ZambaWeb.RestApi.Controllers
 
                         // Aca devolver el documento
                         return Ok("File Deleted");
-                    }
-                    else
-                    {
-                        ZClass.raiseerror(new Exception("El usuario no es el creador del documento"));
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("El usuario no es el creador del documento")));
-                    }
-                }
-                ZClass.raiseerror(new Exception("No se pudo obtener el recurso"));
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [Route("EditDoc")]
-        public IHttpActionResult EditDoc(EditDto editDto)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "ExternalSearchController metodo SearchResults");
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Datos recibidos:");
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, editDto.ExternUserID.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, Request.Headers.GetValues("Authorization").First());
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Concat(editDto.Indexs.ToString()));
-            }
-            catch (Exception e)
-            {
-                ZClass.raiseerror(e);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Fallo al escribir trace para datos recibidos");
-            }
-
-            string token;
-            try
-            {
-                if (Request.Headers.Authorization == null || string.IsNullOrEmpty(Request.Headers.Authorization.ToString()))
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token Nulo")));
-
-                token = Request.Headers.Authorization.ToString();
-
-            }
-            catch (Exception e)
-            {
-                ZClass.raiseerror(e);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Unauthorized, new HttpError("No se pudo obtener el token")));
-            }
-
-
-            if (editDto.Indexs == null || editDto.Indexs.Count <= 0)
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Coleccion de indices vacia")));
-
-            string _userId = DecryptString(editDto.ExternUserID.ToString());
-            if (String.IsNullOrEmpty(_userId))
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el usuario")));
-
-            long userID = long.Parse(_userId);
-
-            if (!validateToken(userID, token))
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
-
-            try
-            {
-
-                string _documentId = editDto.Id.ToString();
-
-                long DocTypeId = 0;
-                long DocId = 0;
-
-                DecryptDocId(_documentId, userID, out DocId, out DocTypeId);
-
-                if (userID > 0 && DocTypeId > 0 && DocId > 0)
-                {
-                    try
-                    {
-                        if (MembershipHelper.CurrentUser == null)
-                        {
-                            UserBusiness UB = new UserBusiness();
-                            UB.ValidateLogIn(userID, ClientType.Web);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ZClass.raiseerror(ex);
-                    }
-
-                }
-                else
-                {
-                    ZClass.raiseerror(new Exception("No se recibieron todos los parametros"));
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se recibieron todos los parametros")));
-                }
-
-                SResult sResult = new SResult();
-                IResult res = sResult.GetResult(DocId, DocTypeId, true);
-                IndexsBusiness IB = new IndexsBusiness();
-
-                List<IIndex> Indexs = new List<IIndex>();
-                IIndex index;
-                foreach (object searchDtoIndex in editDto.Indexs)
-                {
-                    index = JsonConvert.DeserializeObject<Zamba.Core.Index>(searchDtoIndex.ToString());
-                    index = IB.GetIndexById(index.ID, index.Data);
-                    if (index == null)
-                    {
-                        throw new Exception("El atributo especificado no existe");
-                    }
-                    index.Operator = "=";
-                    Indexs.Add(index);
-                }
-
-                if (res != null)
-                {
-                    if (res.Platter_Id == userID || Boolean.Parse(ZOptBusiness.GetValueOrDefault("ExternalSearchAllowEditNotCreator", "false")) == true)
-                    {
-                        Results_Business RB = new Results_Business();
-                        List<Int64> onlyIndexsIds = new List<long>();
-                        foreach (IIndex I in Indexs) {
-
-                            IIndex In = res.get_GetIndexById(I.ID);
-                            if (In == null)
-                            {
-                                throw new Exception("El atributo especificado no existe");
-                            }
-                            In.DataTemp = I.Data;
-                            if (I.Data != string.Empty)
-                            {
-                                onlyIndexsIds.Add(I.ID);                                
-                            }
-                        }
-                        RB.SaveModifiedIndexData(ref res, true, false, onlyIndexsIds, null);
-
-                        UserBusiness UB = new UserBusiness();
-                            UB.SaveAction(res.ID, Zamba.ObjectTypes.Documents, Zamba.Core.RightsType.ReIndex, res.Name, 0);
-                        
-
-                        sResult = null;
-                        
-                        return Ok("Document Updated");
                     }
                     else
                     {
@@ -1241,6 +1026,8 @@ namespace ZambaWeb.RestApi.Controllers
                     CreateDate = DateTime.Parse(tokenInfo.SelectToken(@"issued").Value<string>()),
                     TokenExpireDate = DateTime.Parse(tokenInfo.SelectToken(@"expiredate").Value<string>()),
                     Token = tokenInfo.SelectToken(@"access_token").Value<string>(),
+                    OktaAccessToken = "",
+                    OktaIdToken = ""
                 };
                 SaveZss(zss);
                 HttpContext.Current.Session["TokenExpires"] = zss.TokenExpireDate;
@@ -1285,17 +1072,17 @@ namespace ZambaWeb.RestApi.Controllers
                 throw;
             }
         }
-        private bool validateToken(long userId, string token)
+        private bool validateToken(long user, string token)
         {
-            return true;
-            //IUser userForToken = GetUser(userId);
-            //UserToken uToken = new UserToken();
-            //JObject tokenInfo = uToken.GetTokenIfIsValid(userForToken);
 
-            //if (tokenInfo != null && tokenInfo["access_token"].ToString() == token)
-            //    return true;
+            IUser userForToken = GetUser(user);
+            UserToken uToken = new UserToken();
+            JObject tokenInfo = uToken.GetTokenIfIsValid(userForToken);
 
-            //return false;
+            if (tokenInfo != null && tokenInfo["access_token"].ToString() == token)
+                return true;
+
+            return false;
         }
         private Zamba.Core.IUser GetUser(long? userId)
         {
@@ -1327,7 +1114,7 @@ namespace ZambaWeb.RestApi.Controllers
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.Contains("user"))
                         {
                             dataItem = item;
                         }

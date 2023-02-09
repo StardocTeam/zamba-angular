@@ -1,6 +1,5 @@
 ﻿Imports Zamba.Data
 Imports System.Collections.Generic
-Imports System.Configuration
 
 Public Class ErrorReportBusiness
 
@@ -61,12 +60,10 @@ Public Class ErrorReportBusiness
         Dim errorReportingData As New ErrorReportData()
         Try
             errorReportingData.DeleteErrors()
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
         Finally
-            errorReportingData = Nothing
+            errorReportingData = Nothing          
         End Try
-    End Sub
+        End Sub
 
     ''' <summary>
     ''' Obtiene todos los reportes de error
@@ -234,65 +231,4 @@ Public Class ErrorReportBusiness
         Return dsReports
     End Function
 
-    Public Function SendException(ex As Exception) As Boolean
-        Dim zopt = New Zamba.Core.ZOptBusiness()
-        Dim user = ""
-        Dim pass = ""
-        Dim from = ""
-        Dim port = ""
-        Dim smtp = ""
-        Dim mailto = ""
-        Dim enableSsl = False
-
-        Dim UB As New UserBusiness
-        Dim UserId As Int64 = Zamba.Membership.MembershipHelper.CurrentUser.ID
-        Dim Correo As ICorreo = UB.FillUserMailConfig(UserId)
-
-        If zopt.GetValue("UseEmailConfigFromAD") <> Nothing And Boolean.TryParse(zopt.GetValue("UseEmailConfigFromAD"), False) Then
-            user = Zamba.Membership.MembershipHelper.CurrentUser.eMail.UserName
-            pass = Zamba.Membership.MembershipHelper.CurrentUser.eMail.Password
-            from = Zamba.Membership.MembershipHelper.CurrentUser.eMail.Mail
-            port = Zamba.Membership.MembershipHelper.CurrentUser.eMail.Puerto.ToString()
-            smtp = Zamba.Membership.MembershipHelper.CurrentUser.eMail.ProveedorSMTP
-            Boolean.TryParse(Zamba.Membership.MembershipHelper.CurrentUser.eMail.EnableSsl, enableSsl)
-        Else
-            If Boolean.Parse(zopt.GetValue("WebView_SendBySMTP")) And Boolean.TryParse(zopt.GetValue("UseEmailConfigFromAD"), False) Then
-                user = zopt.GetValue("WebView_UserSMTP")
-                pass = zopt.GetValue("WebView_PassSMTP")
-                from = zopt.GetValue("WebView_FromSMTP")
-                port = zopt.GetValue("WebView_PortSMTP")
-                smtp = zopt.GetValue("WebView_SMTP")
-                Boolean.TryParse(zopt.GetValue("WebView_SslSMTP"), enableSsl)
-            ElseIf Zamba.Membership.MembershipHelper.CurrentUser.eMail.Type = MailTypes.NetMail Then
-                user = Zamba.Membership.MembershipHelper.CurrentUser.eMail.UserName
-                pass = Zamba.Membership.MembershipHelper.CurrentUser.eMail.Password
-                from = Zamba.Membership.MembershipHelper.CurrentUser.eMail.Mail
-                port = Zamba.Membership.MembershipHelper.CurrentUser.eMail.Puerto.ToString()
-                smtp = Zamba.Membership.MembershipHelper.CurrentUser.eMail.ProveedorSMTP
-                enableSsl = Zamba.Membership.MembershipHelper.CurrentUser.eMail.EnableSsl
-            ElseIf ConfigurationManager.AppSettings("WebView_SendBySMTP") <> String.Empty Then
-                user = ConfigurationManager.AppSettings("WebView_UserSMTP")
-                pass = ConfigurationManager.AppSettings("WebView_PassSMTP")
-                from = ConfigurationManager.AppSettings("WebView_FromSMTP")
-                port = ConfigurationManager.AppSettings("WebView_PortSMTP")
-                smtp = ConfigurationManager.AppSettings("WebView_SMTP")
-                Boolean.TryParse(ConfigurationManager.AppSettings("WebView_SslSMTP"), enableSsl)
-            End If
-        End If
-
-        Dim mail As New SendMailConfig
-
-        mail.From = from
-        mail.Password = pass
-        mail.Port = port
-        mail.EnableSsl = enableSsl
-        mail.SMTPServer = smtp
-        mail.UserName = user
-        mail.MailTo = from  'Se auto envia el correo.
-        'mail.Basemail = Correo.Base
-
-        mail.Body = ex.ToString()
-
-        Return MessagesBusiness.SendMail(mail)
-    End Function
 End Class

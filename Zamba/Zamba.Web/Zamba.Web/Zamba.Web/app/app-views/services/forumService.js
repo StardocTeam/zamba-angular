@@ -1,5 +1,10 @@
 ﻿'use strict';
+//var serviceBase = ZambaWebRestApiURL.toLowerCase().replace("/api", "/");
 var serviceBase = ZambaWebRestApiURL;
+//appTimeLine.constant('ngZambaSettings', {
+//    apiServiceBaseUri: serviceBase,
+//    clientId: 'ngZambaApp'
+//});
 
 app.factory('forumServices', ['$http', '$q', function ($http, $q) {
 

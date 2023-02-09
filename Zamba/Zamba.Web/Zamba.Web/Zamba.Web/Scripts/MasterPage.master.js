@@ -16,7 +16,6 @@ function bodyUnload()
 {      
     if (clicked == false)//browser is closed  
     {   
-        
         var request = GetRequest();  
         request.open  ("GET", "../Security/Logout.aspx", true);    
         request.send();    
@@ -55,7 +54,7 @@ window.onunload = function () {
                     //ScriptWebServices.TaskService.CloseAllAsignedTask(userID);
                     $.ajax({
                         type: "POST",
-                        url:"../../Services/TaskService.asmx/CloseAllAsignedTask",
+                        url: "../../Services/TaskService.asmx/CloseAllAsignedTask?" + localStorage.queryStringAuthorization,
                         data: "{ userID: " + userID + "}",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -71,7 +70,6 @@ window.onunload = function () {
         var connectionId = $('#hdnConnectionId').value;
         var computer = $('#hdnComputer').value;
         try {
-            
             if (connectionId != undefined && computer != undefined) {
                 ScriptWebServices.TaskService.RemoveConnectionFromWeb(connectionId, computer);
             }

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Zamba.Framework</RootNamespace>
     <AssemblyName>Zamba.FWBC</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -81,10 +81,6 @@
     <Compile Include="ISearch.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ZambaWeb2013\zamba2010\Zamba.ICore\Zamba.ICore.vbproj">
-      <Project>{E16279A2-165D-4D96-AD32-009874164C05}</Project>
-      <Name>Zamba.ICore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
       <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
       <Name>Zamba.FWInterfaces</Name>

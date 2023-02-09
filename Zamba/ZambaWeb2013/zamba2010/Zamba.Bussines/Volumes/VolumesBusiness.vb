@@ -324,7 +324,7 @@ Public Class VolumesBusiness
     Public Shared Function CreateDirVolume(ByVal Volume As IVolume, ByVal DocTypeId As Int64) As Boolean
         Try
             'chequeo el directorio del entidad
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, Volume.path.Trim & "\" & DocTypeId)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, Volume.path.Trim & "\" & DocTypeId)
             Dim DocDirPath As String = (Volume.path.Trim & "\" & DocTypeId)
             If Directory.Exists(DocDirPath) = False Then
                 'creo el directorio del entidad dentro del volumen

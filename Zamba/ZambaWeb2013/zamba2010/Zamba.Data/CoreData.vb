@@ -35,10 +35,13 @@ Public NotInheritable Class CoreData
         Try
 
             If Server.isOracle Then
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Es Oracle")
+
                 Dim parValues() As Object = {DirectCast(IdType, Int32), 5}
                 DSTEMP = con.ExecuteDataset("zsp_objects_100.GetAndSetLastId", parValues)
                 Id = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString)
             Else
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "NO Es Oracle")
                 Dim parameters() As Object = {(IdType)}
                 Id = Int64.Parse(con.ExecuteScalar("zsp_objects_100_GetAndSetLastId", parameters).ToString)
             End If

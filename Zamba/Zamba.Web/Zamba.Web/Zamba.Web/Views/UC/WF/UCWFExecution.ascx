@@ -1,14 +1,30 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="UC_WF_UCWFExecution" CodeBehind="UCWFExecution.ascx.cs" %>
 <%@ Reference Control="~/Views/UC/WF/Rules/UCDoRequestData.ascx" %>
 <%@ Reference Control="~/Views/UC/WF/Rules/UCDoShowTable.ascx" %>
+
 <%@ Reference Control="~/Views/UC/WF/Rules/UCDoInputIndex.ascx" %>
 <%@ Reference Control="~/Views/UC/WF/Rules/UCDoAsk.ascx" %>
 <%@ Reference Control="~/Views/UC/WF/Rules/UCDoAskDesition.ascx" %>
 
+
+
+
+
+
+
 <%: Scripts.Render("~/bundles/jqueryAddIns") %>
+
+
+
 <%: Scripts.Render("~/bundles/ZScripts") %>
+
+
+
 <%: Scripts.Render("~/bundles/Scripts/masterblankScripts") %>
 <%: Styles.Render("~/bundles/Styles/masterblankStyles") %>
+
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -21,8 +37,11 @@
     function getHdnChecks() {
         return $("#<%=hdnChecks.ClientID %>");
     }
-
 </script>
+
+
+
+
 
 <asp:HiddenField ID="hdnCurrTaskID" runat="server" Value="-1" />
 <asp:HiddenField ID="hdnRuleName" runat="server" />
@@ -31,17 +50,15 @@
 <asp:HiddenField ID="hdnSendDocument" runat="server" Value="false"/>  
 
 
-<div class="modal fade" id="openModalIFUcRules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position: absolute; margin-top: 5%;">
-    <div class="modal-dialog" style="width: 100%; height: 90%; margin-top: 0">
-        
+<div class="modal fade" id="openModalIFUcRules" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position: relative">
+    <div class="modal-dialog" style="width: 100%; height: 100%; margin-top: 0">
         <div class="modal-content" id="openModalIFContentUcRules">
-           
-            <div class="modal-header" style="padding: 1px">
-                <button type="button" class="close hidden" data-dismiss="modal"><span aria-hidden="true">Titulo;</span><span class="sr-only">Cerrar</span></button>
+            <div class="modal-header" style="padding: 10px">
+                <button type="button" class="close hidden" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                 <h5 class="modal-title" id="modalFormTitleUcRules"></h5>
             </div>
             <div class="modal-body" id="modalFormHomeUcRules">
-                <div id="pnlUcRules" runat="server" align="center" title=""></div>
+                <div id="pnlUcRules" runat="server" align="center" title="Zamba Software..."></div>
             </div>
         </div>
     </div>

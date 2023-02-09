@@ -6,11 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Collections;
-using System.Runtime.InteropServices;
-using System.ComponentModel.Design.Serialization;
-using System.Reflection;
-
 namespace Zamba.Core
 {
     public class ListEmail : IListEmail
@@ -44,94 +39,34 @@ namespace Zamba.Core
         private int _Attachments_Count;
     }
 
-    //public class attach
-    //{
+    //public class Attach {
 
     //    //
-    //    // summary:
-    //    //     gets or sets data.
-    //    public stream data { get; set; }
+    //    // Summary:
+    //    //     Gets or sets data.
+    //    public Stream Data { get; set; }
     //    //
-    //    // summary:
-    //    //     gets or sets content id.
-    //    public string contentid { get; set; }
+    //    // Summary:
+    //    //     Gets or sets content id.
+    //    public string ContentId { get; set; }
     //    //
-    //    // summary:
-    //    //     gets or sets content type.
-    //    public contenttype contenttype { get; set; }
+    //    // Summary:
+    //    //     Gets or sets content type.
+    //    public ContentType ContentType { get; set; }
     //    //
-    //    // summary:
-    //    //     gets or sets dispostion type.
-    //    public string dispositiontype { get; set; }
+    //    // Summary:
+    //    //     Gets or sets dispostion type.
+    //    public string DispositionType { get; set; }
     //    //
-    //    // summary:
-    //    //     gets or sets file name for an attachment.
-    //    public string filename { get; set; }
+    //    // Summary:
+    //    //     Gets or sets file name for an attachment.
+    //    public string FileName { get; set; }
     //    //
-    //    // summary:
-    //    //     gets or sets file size for an attachment.
-    //    public long size { get; set; }
+    //    // Summary:
+    //    //     Gets or sets file size for an attachment.
+    //    public long Size { get; set; }
     //}
 
-
-    public class attach {
-
-        public Stream Data { get; set; }
-        public string ContentId { get; set; }
-        public ContentType ContentType { get; set; }
-        public string DispositionType { get; set; }
-        public string FileName { get; set; }
-        public long Size { get; set; }
-
-    }
-
-    public class ContentType
-    {
-       
-
-        public string Boundary { get; set; }
-        public string CharSet { get; set; }
-        public string MediaType { get; set; }
-        public string Name { get; set; }
-        public StringDictionary Parameters { get; }
-
-     
-    }
-
-    public class StringDictionary 
-    {
-        //public virtual string this[string key] { get; set; }
-        public virtual int Count { get; }
-        public virtual bool IsSynchronized { get; }
-        public virtual ICollection Keys { get; }
-        public virtual object SyncRoot { get; }
-        public virtual ICollection Values { get; }
-
-        
-    }
-
-    //public interface ICollection : IEnumerable
-    //{
-    //    int Count { get; }
-    //    object SyncRoot { get; }
-    //    bool IsSynchronized { get; }
-
-    //    void CopyTo(Array array, int index);
-    //}
-
-    //public interface IEnumerable
-    //{
-    //    [DispId(-4)]
-    //    IEnumerator GetEnumerator();
-    //}
-
-    //public interface IEnumerator
-    //{
-        
-    //    object Current { get; }
-    //    bool MoveNext();
-    //    void Reset();
-
-
-    //}
+   
+  
 }

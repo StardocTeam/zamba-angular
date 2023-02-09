@@ -10,7 +10,9 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+    <link rel="stylesheet" href="AnalisisSolicitudv2.css" type="text/css" />
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
 
         function zamba_save_onclick(sender) {
@@ -173,187 +175,187 @@
         <form name="frmMain" action="Actor - Insert.html">
             <input id="hdnRuleId" type="hidden" />
             <input id="zamba_index_2691" name="zamba_index_2691" type="hidden" />
-            <div class="form-group row">
-                <div class="col-md-12">
+            <div style="font-family:'Times New Roman', Times, serif">
+
+                <div id="tblDemandado" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <center>
+                                <div>
+                                    <h4 style="background-color:#418ad4; color:white;">Actor</h4>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Apellido y
+                                    Nombre:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2706" name="zamba_index_2706" maxlength="80" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Dirección:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2708" name="zamba_index_2708" maxlength="200" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">DNI/CUIL/CUIT:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2710" name="zamba_index_2710" maxlength="15" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Provincia:</span>
+                                <input class="form-control input-sm" id="txtProv" name="txtProv" disabled="disabled"
+                                    value="Podrá ser cargado una vez creado el actor" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Teléfono:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2711" name="zamba_index_2711" class="solonums" maxlength="30" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Localidad:</span>
+                                <input class="form-control input-sm" id="txtMessage" name="txtMessage"
+                                    disabled="disabled" value="Podrá ser cargado una vez creado el actor" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Mail:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2885" name="zamba_index_2885" onblur="validarEmail(this);" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="border: 0 ; border-top: 1px double gray; width: 100%;">
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Monto Reclamo
+                                    Por:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_113" name="zamba_index_113" onchange="OcultarCampos();"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5"
+                                    id="lbPorcentaje">Porcentaje:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_116" class="solodecimals" name="zamba_index_116"
+                                    onblur="CalcularMonto(this);" />
+                            </div>
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5"
+                                    id="lbMontoReclamo">Monto Reclamo(%):</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_117" name="zamba_index_117" disabled="true" />
+                            </div>
+                        </div>                       
+
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Daño Físico:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2790" name="zamba_index_2790" class="solodecimals"
+                                    onblur="SumarCampos();" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Daño Material:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2792" name="zamba_index_2792" class="solodecimals"
+                                    onblur="SumarCampos();" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Valor Vida:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2789" name="zamba_index_2789" class="solodecimals"
+                                    onblur="SumarCampos();" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Daño Moral:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_2791" name="zamba_index_2791" class="solodecimals"
+                                    onblur="SumarCampos();" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Otros Rubros:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_114" name="zamba_index_114" class="solodecimals"
+                                    onblur="SumarCampos();" />
+                            </div>
+                        </div>
+                   
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Sumatoria
+                                    Rubros:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
+                                    id="zamba_index_115" name="zamba_index_115" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row"></div>
                     <center>
-                        <div>
-                            <h4 style="background-color:#418ad4; color:white;">Actor</h4>
+                        <input class="btn  btn-primary btn-md" id="zamba_rule_17630" name="zamba_rule_17630"
+                            type="submit" value="Guardar" onclick="return zamba_save_onclick(this)" />
+                    </center>
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:20px;">
+                            <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <span style="color:white">Actor-Insert.html</span>
+                        </div>
+                        <div class="col-md-5">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
+                            <div class="form-group row">
+                            </div>
                         </div>
                     </center>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">
-                            Apellido y
-                            Nombre:
-                        </span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2706" name="zamba_index_2706" maxlength="80" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Dirección:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2708" name="zamba_index_2708" maxlength="200" />
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">DNI/CUIL/CUIT:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2710" name="zamba_index_2710" maxlength="15" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Provincia:</span>
-                        <input class="form-control input-sm" id="txtProv" name="txtProv" disabled="disabled"
-                               value="Podrá ser cargado una vez creado el actor" />
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Teléfono:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2711" name="zamba_index_2711" class="solonums" maxlength="30" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Localidad:</span>
-                        <input class="form-control input-sm" id="txtMessage" name="txtMessage"
-                               disabled="disabled" value="Podrá ser cargado una vez creado el actor" />
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Mail:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2885" name="zamba_index_2885" onblur="validarEmail(this);" />
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">
-                            Monto Reclamo
-                            Por:
-                        </span>
-                        <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                                id="zamba_index_113" name="zamba_index_113" onchange="OcultarCampos();"></select>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5"
-                              id="lbPorcentaje">Porcentaje:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_116" class="solodecimals" name="zamba_index_116"
-                               onblur="CalcularMonto(this);" />
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5"
-                              id="lbMontoReclamo">Monto Reclamo(%):</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_117" name="zamba_index_117" disabled="true" />
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Daño Físico:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2790" name="zamba_index_2790" class="solodecimals"
-                               onblur="SumarCampos();" />
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Daño Material:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2792" name="zamba_index_2792" class="solodecimals"
-                               onblur="SumarCampos();" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group row">
-
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Valor Vida:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2789" name="zamba_index_2789" class="solodecimals"
-                               onblur="SumarCampos();" />
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Daño Moral:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_2791" name="zamba_index_2791" class="solodecimals"
-                               onblur="SumarCampos();" />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">Otros Rubros:</span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_114" name="zamba_index_114" class="solodecimals"
-                               onblur="SumarCampos();" />
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="background-color:#e5e5e5">
-                            Sumatoria
-                            Rubros:
-                        </span>
-                        <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                               id="zamba_index_115" name="zamba_index_115" disabled="disabled" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group row"></div>
-            <center>
-                <input class="btn  btn-primary btn-md" id="zamba_rule_17630" name="zamba_rule_17630"
-                       type="submit" value="Guardar" onclick="return zamba_save_onclick(this)" />
-            </center>
-            <center>
-                <div class="col-md-2" style="position:relative;left:20px;">
-
-                </div>
-                <div class="col-md-3"></div>
-                <div class="col-md-2">
-                    <span style="color:white">Actor-Insert.html</span>
-                </div>
-                <div class="col-md-5">
-
-                    <div class="form-group row">
-                    </div>
-                </div>
-            </center>
         </form>
     </div>
 </body>

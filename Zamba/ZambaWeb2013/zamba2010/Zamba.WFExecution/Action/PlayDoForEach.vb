@@ -34,7 +34,7 @@
 
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                         If (Me._myRule.ChildRulesIds Is Nothing OrElse Me._myRule.ChildRulesIds.Count = 0) Then
-                            Me._myRule.ChildRulesIds = WFRB.GetChildRulesIds(Me._myRule.ID, Me._myRule.RuleClass, results)
+                            Me._myRule.ChildRulesIds = WFRB.GetChildRulesIds(Me._myRule.ID)
                         End If
 
                         For Each childruleId As Int64 In Me._myRule.ChildRulesIds
@@ -65,7 +65,7 @@
 
                                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                                     If (Me._myRule.ChildRulesIds Is Nothing OrElse Me._myRule.ChildRulesIds.Count = 0) Then
-                                        Me._myRule.ChildRulesIds = WFRB.GetChildRulesIds(Me._myRule.ID, Me._myRule.RuleClass, results)
+                                        Me._myRule.ChildRulesIds = WFRB.GetChildRulesIds(Me._myRule.ID)
                                     End If
 
                                     For Each childruleId As Int64 In Me._myRule.ChildRulesIds
@@ -94,7 +94,7 @@
 
                                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                                     If (_myRule.ChildRulesIds Is Nothing OrElse _myRule.ChildRulesIds.Count = 0) Then
-                                        _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID, _myRule.RuleClass, results)
+                                        _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID)
                                     End If
                                     For Each childruleId As Int64 In Me._myRule.ChildRulesIds
                                         Dim R As WFRuleParent = WFRB.GetInstanceRuleById(childruleId)
@@ -127,7 +127,7 @@
 
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                                 If (_myRule.ChildRulesIds Is Nothing OrElse _myRule.ChildRulesIds.Count = 0) Then
-                                    _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID, _myRule.RuleClass, results)
+                                    _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID)
                                 End If
                                 For Each childruleId As Int64 In Me._myRule.ChildRulesIds
                                     Dim R As WFRuleParent = WFRB.GetInstanceRuleById(childruleId)
@@ -156,7 +156,7 @@
 
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                                 If (_myRule.ChildRulesIds Is Nothing OrElse _myRule.ChildRulesIds.Count = 0) Then
-                                    _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID, _myRule.RuleClass, results)
+                                    _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID)
                                 End If
                                 For Each childruleId As Int64 In Me._myRule.ChildRulesIds
                                     Dim R As WFRuleParent = WFRB.GetInstanceRuleById(childruleId)
@@ -183,7 +183,7 @@
 
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                                 If (_myRule.ChildRulesIds Is Nothing OrElse _myRule.ChildRulesIds.Count = 0) Then
-                                    _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID, _myRule.RuleClass, results)
+                                    _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID)
                                 End If
                                 For Each childruleId As Int64 In Me._myRule.ChildRulesIds
                                     Dim R As WFRuleParent = WFRB.GetInstanceRuleById(childruleId)
@@ -211,7 +211,7 @@
 
                                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                                     If (_myRule.ChildRulesIds Is Nothing OrElse _myRule.ChildRulesIds.Count = 0) Then
-                                        _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID, _myRule.RuleClass, results)
+                                        _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID)
                                     End If
                                     For Each childruleId As Int64 In Me._myRule.ChildRulesIds
 
@@ -259,7 +259,7 @@
 
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
                         If (_myRule.ChildRulesIds Is Nothing OrElse _myRule.ChildRulesIds.Count = 0) Then
-                            _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID, _myRule.RuleClass, results)
+                            _myRule.ChildRulesIds = WFRB.GetChildRulesIds(_myRule.ID)
                         End If
                         For Each childruleId As Int64 In Me._myRule.ChildRulesIds
 

@@ -5,7 +5,7 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="jquery-1.3.2.min.js" type="text/javascript" language="JavaScript"></script>
-    
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
     <script src="boston.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript"></script>
     <link rel="stylesheet" href="AdministracionDigitalizacion.css" type="text/css" />
@@ -243,8 +243,47 @@
             }
             */
 
+            $('#zamba_index_189').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                yearRange: '-100:+0',
+                duration: ""
+            });
+            $('#zamba_index_188').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                yearRange: '-100:+0',
+                duration: ""
+            });
+            $('#zamba_index_187').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                yearRange: '-100:+0',
+                duration: ""
+            });
 
-
+            $('#zamba_index_181').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                yearRange: '-100:+0',
+                duration: ""
+            });
 
 
             if ($('#zamba_index_191').val() == '' || $('#zamba_index_94').val() == null) {
@@ -680,7 +719,7 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de alta:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_2843" name="zamba_index_2843" readonly="readonly" />
                     </div>
                 </div>
@@ -734,7 +773,7 @@
                     <div class="input-group">
                         <span class="input-group-addon" for="zamba_index_189"
                             style="padding: 3px; background-color:#e5e5e5">Fecha de factura:</span>
-                        <input class="form-control  input-sm"
+                        <input class="form-control datepicker input-sm"
                             style="padding: 3px; color: #090A0A; font-weight: bold" id="zamba_index_189"
                             name="zamba_index_189" onclick="return zamba_index_189_onclick()" />
                     </div>
@@ -764,7 +803,7 @@
                     <div class="input-group">
                         <span class="input-group-addon" for="zamba_index_190" style="background-color:#e5e5e5">Fecha
                             rechazo:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_190" name="zamba_index_190" />
                     </div>
                 </div>
@@ -780,7 +819,7 @@
                     <div class="input-group">
                         <span class="input-group-addon" for="zamba_index_187" style="background-color:#e5e5e5">Fecha de
                             pago:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_187" name="zamba_index_187" />
                     </div>
                 </div>
@@ -793,7 +832,7 @@
                     <div class="input-group">
                         <span class="input-group-addon" for="zamba_index_188" style="background-color:#e5e5e5">Fecha de
                             baja:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_188" name="zamba_index_188" />
                     </div>
                 </div>
@@ -801,7 +840,7 @@
                     <div class="input-group">
                         <span class="input-group-addon" for="zamba_index_181"
                             style="padding: 3px; background-color:#e5e5e5">Fecha de entrega:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_181" name="zamba_index_181" />
                     </div>
                 </div>
@@ -824,14 +863,14 @@
             <div class="row">
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">AdministracionDigitalizacion.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

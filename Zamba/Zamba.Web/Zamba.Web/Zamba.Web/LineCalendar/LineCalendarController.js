@@ -13,20 +13,20 @@ app.controller('CalendarCtrl', function ($scope, $compile, linecalendarservice) 
             console.log("No se pudo obtener el reporte");
             return;
         } else {
-            //$scope.setEvents(JSON.parse(d));
-            //$('#calendar').fullCalendar({
-            //    header: {
-            //        left: 'prev,next today',
-            //        center: 'title',
-            //        right: 'month,basicWeek,basicDay'
-            //    },
+            $scope.setEvents(JSON.parse(d));
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
 
-            //    navLinks: true,
-            //    editable: true,
-            //    eventLimit: true,
-            //    events: $scope.events
+                navLinks: true,
+                editable: true,
+                eventLimit: true,
+                events: $scope.events
 
-            //});
+            });
 
 
         }

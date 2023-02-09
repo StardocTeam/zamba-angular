@@ -52,79 +52,78 @@
     }
 
     .fixed-top-2 {
-        margin-top: 38px;
+        margin-top: 36px;
     }
 </style>
 
 
-<div id="wrapper" class="toggled ">
-    <div class="sidebar" id="DivIndices" runat="server" style="display: none">
-        <%-- <div class="sidebarcolumn col-sm-3 col-md-3">--%>
+    <div id="wrapper" class="toggled ">
+        <div class="sidebar" id="DivIndices" runat="server" style="display:none">
+            <%-- <div class="sidebarcolumn col-sm-3 col-md-3">--%>
 
-        <%--  <div id="toogleTree" onclick="toogleTree(this);">
+            <%--  <div id="toogleTree" onclick="toogleTree(this);">
                 <span class="glyphicon glyphicon-chevron-left" style="margin-top: 200px;"></span>
             </div>--%>
-        <%--    </div>--%>
+            <%--    </div>--%>
 
+        
 
+            <!-- Sidebar -->
+                <div id="sidebar-wrapper" class="scrollbarIndices" >
+                    <ul class="sidebar-nav force-overflow" >
+                        <asp:UpdatePanel ID="uppnDetailViewer" runat="server">
+                            <ContentTemplate>
+                                <ind:CompletarIndices ID="completarindice" runat="server" EnableViewState="false" />
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper" class="scrollbarIndices hidden-xs">
-            <ul class="sidebar-nav force-overflow">
-                <asp:UpdatePanel ID="uppnDetailViewer" runat="server">
-                    <ContentTemplate>
-                        <ind:CompletarIndices ID="completarindice" runat="server" EnableViewState="false" />
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                    </ul>
+                </div>
+            
+            </div>
+            <!-- /#sidebar-wrapper -->
 
-            </ul>
-        </div>
+            <!-- Page Content -->
+            <div id="page-content-wrapper" >
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
 
-    </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="">
-        <div class="">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div id="documentViewerController" ng-controller="DocumentViewerController">
-                        <div id="DivDoc" runat="server">
-                            <asp:PlaceHolder ID="frmHolder" runat="server"></asp:PlaceHolder>
-                            <div>
-                                <asp:Label runat="server" Text="" ID="lblDoc" Visible="false"></asp:Label>
+                            <div id="DivDoc" runat="server" ng-controller="DocumentViewerController">
+                                <asp:PlaceHolder ID="frmHolder" runat="server"></asp:PlaceHolder>
+                                <div>
+                                    <asp:Label runat="server" Text="" ID="lblDoc"></asp:Label>
+                                </div>
+                               <div id="divViewer Divform">
+                                    <asp:Literal runat="server" ID="docViewer" Mode="PassThrough" EnableViewState="true"></asp:Literal>
+                                </div>
+                                <div id="frmViewer" runat="server"></div>
                             </div>
-                            <div id="divViewer Divform">
-                                <asp:Literal runat="server" ID="docViewer" Mode="PassThrough" EnableViewState="true"></asp:Literal>
-                            </div>
-                            <div id="frmViewer" runat="server"></div>
                         </div>
+
+                        <div id="divMessage" title="Zamba Software" style="display: none; height: 70px; overflow: visible; align-content: center; margin-top: 30px">
+                            <span>No se pueden realizar cambios en los atributos</span>
+                            <br />
+                            <input type="button" value="OK" id="btnCloseMsg" onclick="$('#divMessage').dialog('close');" style="width: 40pt" />
+                        </div>
+
+                        <div id="divValidationFail" title="Zamba Software" style="display: none; height: 70px; overflow: visible; align-content: center">
+                            <span>Algunos campos no superaron las validaciones.<br />
+                                Por favor revise los campos incorrectos.</span>
+                            <br />
+                            <input type="button" value="OK" id="Button1" onclick="$('#divValidationFail').dialog('close');" style="width: 40pt" />
+                        </div>
+
+                        <%-- Hidden para marcar si la regla consulta o no --%>
+                        <input id="hdnRuleActionType" type="text" style="display: none" name="hdnRuleActionType" />
+
                     </div>
                 </div>
+  </div>
+        <!-- /#page-content-wrapper -->
 
-                <div id="divMessage" title="Zamba Software" style="display: none; height: 70px; overflow: visible; align-content: center; margin-top: 30px">
-                    <span>No se pueden realizar cambios en los atributos</span>
-                    <br />
-                    <input type="button" value="OK" id="btnCloseMsg" onclick="$('#divMessage').dialog('close');" style="width: 40pt" />
-                </div>
-
-                <div id="divValidationFail" title="Zamba Software" style="display: none; height: 70px; overflow: visible; align-content: center">
-                    <span>Algunos campos no superaron las validaciones.<br />
-                        Por favor revise los campos incorrectos.</span>
-                    <br />
-                    <input type="button" value="OK" id="Button1" onclick="$('#divValidationFail').dialog('close');" style="width: 40pt" />
-                </div>
-
-                <%-- Hidden para marcar si la regla consulta o no --%>
-                <input id="hdnRuleActionType" type="text" style="display: none" name="hdnRuleActionType" />
-
-            </div>
-        </div>
     </div>
-    <!-- /#page-content-wrapper -->
-
-</div>
-
+ 
 
 
 
@@ -187,7 +186,6 @@
     }
 
     function ReloadFrame() {
-
         var iframe = document.frames ? document.frames["ctl00_ContentPlaceHolder1_formBrowser"] : $("#ContentPlaceHolder1_formBrowser");
         var ifWin = iframe.contentWindow || iframe;
         var url = ifWin.location;
@@ -197,7 +195,6 @@
     }
 
     function CloseMe() {
-
         parent.CloseModal();
     }
 

@@ -585,65 +585,56 @@ Public Class ReportBuilderFactory
         Try
             Dim colnameflag As Boolean = False
             Dim fields As String = GetFields(id)
-            If String.IsNullOrEmpty(fields) = False Then
-                For Each Str As String In fields.Split(",")
-                    If Not String.IsNullOrEmpty(Str) Then
-                        If Str.Contains(" As ") Then
-                            If Str.Split(Chr(34) & " As")(3).Contains(" ") Then
-                                colnameflag = True
-                                Exit For
-                            End If
-                        Else
-                            If Str.Split(",")(0).Replace(Chr(34), "").Split(".")(1).Contains(" ") Then
-                                colnameflag = True
-                                Exit For
-                            End If
+
+            For Each Str As String In fields.Split(",")
+                If Not String.IsNullOrEmpty(Str) Then
+                    If Str.Contains(" As ") Then
+                        If Str.Split(Chr(34) & " As")(3).Contains(" ") Then
+                            colnameflag = True
+                            Exit For
+                        End If
+                    Else
+                        If Str.Split(",")(0).Replace(Chr(34), "").Split(".")(1).Contains(" ") Then
+                            colnameflag = True
+                            Exit For
+                        End If
+                    End If
+                End If
+            Next
+
+            Dim relations As String = GetRelations(id)
+            If Not colnameflag Then
+                For Each Str As String In relations.Split(",")
+                    If Not String.IsNullOrEmpty(Str) AndAlso Str.Split(New Char() {Chr(34)}, StringSplitOptions.RemoveEmptyEntries).Length = 7 Then
+                        If Str.Split(New Char() {Chr(34)}, StringSplitOptions.RemoveEmptyEntries)(2).Contains(" ") OrElse Str.Split(New Char() {Chr(34)}, StringSplitOptions.RemoveEmptyEntries)(6).Contains(" ") Then
+                            colnameflag = True
+                            Exit For
                         End If
                     End If
                 Next
             End If
 
-            Dim relations As String = GetRelations(id)
-
-            If Not colnameflag Then
-                If String.IsNullOrEmpty(relations) = False Then
-                    For Each Str As String In relations.Split(",")
-                        If Not String.IsNullOrEmpty(Str) AndAlso Str.Split(New Char() {Chr(34)}, StringSplitOptions.RemoveEmptyEntries).Length = 7 Then
-                            If Str.Split(New Char() {Chr(34)}, StringSplitOptions.RemoveEmptyEntries)(2).Contains(" ") OrElse Str.Split(New Char() {Chr(34)}, StringSplitOptions.RemoveEmptyEntries)(6).Contains(" ") Then
-                                colnameflag = True
-                                Exit For
-                            End If
-                        End If
-                    Next
-                End If
-            End If
-
             Dim cond As String = GetConditions(id)
             If Not colnameflag Then
-                If String.IsNullOrEmpty(cond) = False Then
-                    For Each Str As String In cond.Split(",")
-                        If Not String.IsNullOrEmpty(Str) AndAlso Str.Split(Chr(34) & " As")(3).Contains(" ") Then
-                            colnameflag = True
-                            Exit For
-                        End If
-                    Next
-                End If
+                For Each Str As String In cond.Split(",")
+                    If Not String.IsNullOrEmpty(Str) AndAlso Str.Split(Chr(34) & " As")(3).Contains(" ") Then
+                        colnameflag = True
+                        Exit For
+                    End If
+                Next
             End If
 
-                Dim SortEx As String = GetSortExpression(id)
+            Dim SortEx As String = GetSortExpression(id)
             If Not colnameflag Then
-                If String.IsNullOrEmpty(SortEx) = False Then
-                    For Each Str As String In SortEx.Split("#")
-                        If Not String.IsNullOrEmpty(Str) AndAlso Str.Split(Chr(34))(3).Contains(" ") Then
-                            colnameflag = True
-                            Exit For
-                        End If
-                    Next
-                End If
-
+                For Each Str As String In SortEx.Split("#")
+                    If Not String.IsNullOrEmpty(Str) AndAlso Str.Split(Chr(34))(3).Contains(" ") Then
+                        colnameflag = True
+                        Exit For
+                    End If
+                Next
             End If
 
-                Dim sql As New System.Text.StringBuilder()
+            Dim sql As New System.Text.StringBuilder()
             sql.Append("Select ")
             If GetDistinct(id) = True Then
                 sql.Append("Distinct ")

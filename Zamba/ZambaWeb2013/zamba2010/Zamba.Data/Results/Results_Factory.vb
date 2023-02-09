@@ -814,14 +814,10 @@ Public Class Results_Factory
                         For Each SpecifiedIndex As Int32 In OnlySpecifiedIndexsids
                             If SpecifiedIndex = DirectCast(_result.Indexs(i), Index).ID Then
                                 SaveIndexDataNoReindex(_result, i, Columns, Values)
-                                _result.Indexs(i).Data = _result.Indexs(i).DataTemp
-                                _result.Indexs(i).dataDescription = _result.Indexs(i).dataDescriptionTemp
                             End If
                         Next
                     Else
                         SaveIndexDataNoReindex(_result, i, Columns, Values)
-                        _result.Indexs(i).Data = _result.Indexs(i).DataTemp
-                        _result.Indexs(i).dataDescription = _result.Indexs(i).dataDescriptionTemp
                     End If
 
                 Next
@@ -851,14 +847,11 @@ Public Class Results_Factory
                     If Not IsNothing(OnlySpecifiedIndexsids) Then
                         If OnlySpecifiedIndexsids.Contains(DirectCast(_result.Indexs(i), Core.Index).ID) Then
                             SaveIndexDataAndReindex(_result, i, strset)
-                            _result.Indexs(i).Data = _result.Indexs(i).DataTemp
-                            _result.Indexs(i).dataDescription = _result.Indexs(i).dataDescriptionTemp
                         End If
                     Else
                         SaveIndexDataAndReindex(_result, i, strset)
-                        _result.Indexs(i).Data = _result.Indexs(i).DataTemp
-                        _result.Indexs(i).dataDescription = _result.Indexs(i).dataDescriptionTemp
                     End If
+
                     'End If
                 Next
 
@@ -943,44 +936,6 @@ Public Class Results_Factory
         End Try
 
     End Sub
-
-
-    ''' -----------------------------------------------------------------------------
-    ''' <summary>
-    '''     Get date for token --  Zss table.
-    ''' </summary>
-    ''' <param name="UserId">User Id</param>
-    ''' <remarks>
-    ''' </remarks>
-    ''' <history>
-    ''' 	[Felipe]     31/01/2022    Created
-    ''' </history>
-    ''' -----------------------------------------------------------------------------
-    Public Function getUserSessionInfo(ByVal UserId As Int64) As DataTable
-
-        Try
-            Dim DSIndexDataLst As New DateTime
-            DSIndexDataLst = DateTime.Now().AddDays(1)
-
-            Dim ObjSlect As String = "SELECT * FROM ZSS  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE USERID = " + UserId.ToString()
-
-            Dim ds = Server.Con.ExecuteDataset(CommandType.Text, ObjSlect)
-            Dim dt As DataTable
-            If ds IsNot Nothing And ds.Tables.Count > 0 And ds.Tables(0).Rows.Count > 0 Then
-                dt = ds.Tables(0)
-            End If
-
-            Return dt
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-            Throw
-        End Try
-
-
-    End Function
-
-
-
 
     ''' -----------------------------------------------------------------------------
     ''' <summary>
@@ -1352,7 +1307,7 @@ Public Class Results_Factory
             If String.Compare(ex.Message.ToString.Substring(0, 9), "ORA-00001") = 0 OrElse ex.Message.IndexOf("clave duplicada") > 0 OrElse ex.Message.IndexOf("duplicate key") > 0 Then
                 Throw New Exception("Clave unica violada")
             End If
-            Throw
+            Throw ex
         Finally
             Con.Close()
             Con.dispose()
@@ -1426,7 +1381,7 @@ Public Class Results_Factory
                 Throw New Exception("Clave unica violada")
             End If
             ZClass.raiseerror(ex)
-            Throw
+            Throw ex
         Finally
             TableName = Nothing
             InsertQuery = Nothing
@@ -1535,7 +1490,7 @@ Public Class Results_Factory
                 Con.dispose()
                 Throw New Exception("Clave unica violada")
             End If
-            Throw
+            Throw ex
         Finally
             '  T.Dispose()
             Con.Close()
@@ -1659,14 +1614,14 @@ Public Class Results_Factory
     ''' </summary>
     ''' <param name="res"></param>
     ''' <remarks></remarks>
-    Public Shared Sub UpdateDOCB(ByVal result As IResult)
-        Dim query As String = "UPDATE DOC_B" & result.DocTypeId.ToString & " SET DOCFILE = @docFile WHERE DOC_ID = " & result.ID.ToString
+    Public Shared Sub UpdateDOCB(ByVal res As Result)
+        Dim query As String = "UPDATE DOC_B" & res.DocTypeId.ToString & " SET DOCFILE = @docFile WHERE DOC_ID = " & res.ID.ToString
 
         If Server.isOracle Then
             Throw New NotImplementedException()
         Else
             Dim pDocFile As New SqlParameter("@docFile", SqlDbType.VarBinary)
-            pDocFile.Value = result.EncodedFile
+            pDocFile.Value = res.EncodedFile
             Dim params As IDbDataParameter() = {pDocFile}
 
             Server.Con.ExecuteNonQuery(CommandType.Text, query, params)
@@ -1964,62 +1919,59 @@ Public Class Results_Factory
 
             For Each CurrentIndex As Index In Result.Indexs
                 If Not IsNothing(CurrentIndex) Then
-                    If CurrentIndex.isReference = False Then
-                        Select Case CInt(CurrentIndex.Type)
-                            Case 4
-                                Columns.Append(",I")
-                                Columns.Append(CurrentIndex.ID)
-                                If CStr(CurrentIndex.DataTemp).Trim = "" Then
-                                    Columns.Append(" = null")
-                                Else
-                                    Columns.Append(" = ")
-                                    Columns.Append(Server.Con.ConvertDate(CurrentIndex.DataTemp))
-                                End If
-                            Case 5
-                                Columns.Append(",I")
-                                Columns.Append(CurrentIndex.ID)
-                                If CStr(CurrentIndex.DataTemp).Trim = "" Then
-                                    Columns.Append(" = null")
-                                Else
-                                    Columns.Append(" = ")
-                                    Columns.Append(Server.Con.ConvertDateTime(CurrentIndex.DataTemp))
-                                End If
-                            Case 7, 8
-                                Columns.Append(",I")
-                                Columns.Append(CurrentIndex.ID)
-                                If CStr(CurrentIndex.DataTemp).Trim = "" Then
-                                    Columns.Append(" = null")
-                                Else
-                                    Columns.Append(" = '")
-                                    Columns.Append(CurrentIndex.DataTemp)
-                                    Columns.Append("'")
-                                End If
-                            Case 1, 2, 3, 6
-                                Columns.Append(",I")
-                                Columns.Append(CurrentIndex.ID)
-                                If CStr(CurrentIndex.DataTemp).Trim = "" Then
-                                    Columns.Append(" = null")
-                                Else
-                                    Columns.Append(" = ")
-                                    Columns.Append(Replace(CurrentIndex.DataTemp, ",", "."))
-                                End If
-                            Case Else
-                                Columns.Append(",I")
-                                Columns.Append(CurrentIndex.ID)
-                                If CStr(CurrentIndex.DataTemp).Trim = "" Then
-                                    Columns.Append(" = null")
-                                Else
-                                    Columns.Append(" = ")
-                                    Columns.Append(Replace(CurrentIndex.DataTemp, ",", "."))
-                                End If
-                        End Select
-                        'If Result.DocumentalId > 0 AndAlso CurrentIndex.ID = Result.DocumentalId Then
-                        '    SaveIndexText(Result, CurrentIndex.DataTemp)
-                        'End If
-                        CurrentIndex.Data = CurrentIndex.DataTemp
-                        CurrentIndex.dataDescription = CurrentIndex.dataDescriptionTemp
-
-                    End If
+                    Select Case CInt(CurrentIndex.Type)
+                        Case 4
+                            Columns.Append(",I")
+                            Columns.Append(CurrentIndex.ID)
+                            If CStr(CurrentIndex.DataTemp).Trim = "" Then
+                                Columns.Append(" = null")
+                            Else
+                                Columns.Append(" = ")
+                                Columns.Append(Server.Con.ConvertDate(CurrentIndex.DataTemp))
+                            End If
+                        Case 5
+                            Columns.Append(",I")
+                            Columns.Append(CurrentIndex.ID)
+                            If CStr(CurrentIndex.DataTemp).Trim = "" Then
+                                Columns.Append(" = null")
+                            Else
+                                Columns.Append(" = ")
+                                Columns.Append(Server.Con.ConvertDateTime(CurrentIndex.DataTemp))
+                            End If
+                        Case 7, 8
+                            Columns.Append(",I")
+                            Columns.Append(CurrentIndex.ID)
+                            If CStr(CurrentIndex.DataTemp).Trim = "" Then
+                                Columns.Append(" = null")
+                            Else
+                                Columns.Append(" = '")
+                                Columns.Append(CurrentIndex.DataTemp)
+                                Columns.Append("'")
+                            End If
+                        Case 1, 2, 3, 6
+                            Columns.Append(",I")
+                            Columns.Append(CurrentIndex.ID)
+                            If CStr(CurrentIndex.DataTemp).Trim = "" Then
+                                Columns.Append(" = null")
+                            Else
+                                Columns.Append(" = ")
+                                Columns.Append(Replace(CurrentIndex.DataTemp, ",", "."))
+                            End If
+                        Case Else
+                            Columns.Append(",I")
+                            Columns.Append(CurrentIndex.ID)
+                            If CStr(CurrentIndex.DataTemp).Trim = "" Then
+                                Columns.Append(" = null")
+                            Else
+                                Columns.Append(" = ")
+                                Columns.Append(Replace(CurrentIndex.DataTemp, ",", "."))
+                            End If
+                    End Select
+                    'If Result.DocumentalId > 0 AndAlso CurrentIndex.ID = Result.DocumentalId Then
+                    '    SaveIndexText(Result, CurrentIndex.DataTemp)
+                    'End If
+                    CurrentIndex.Data = CurrentIndex.DataTemp
+                    CurrentIndex.dataDescription = CurrentIndex.dataDescriptionTemp
                 End If
             Next
 
@@ -2133,89 +2085,88 @@ Public Class Results_Factory
         Const I As String = ", I"
 
         For Each CurrentIndex As Index In Result.Indexs
-            If CurrentIndex.isReference = False Then
-                If Not String.IsNullOrEmpty(CurrentIndex.DataTemp) Then
+            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp) Then
 
-                    Select Case CInt(CurrentIndex.Type)
+                Select Case CInt(CurrentIndex.Type)
 
-                        Case 1, 2, 3 ' Es Numerico
-                            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
-                                If IsNumeric(CStr(CurrentIndex.DataTemp).Trim) Then
-                                    columns = columns & I & CurrentIndex.ID
-                                    idValues = idValues & "," & Replace(CStr(CurrentIndex.DataTemp), ",", ".")
-                                End If
-                            End If
-                        Case 6 ' Es Decimal el 6
-                            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
-                                If CurrentIndex.DataTemp.IndexOf(",") <> -1 AndAlso CurrentIndex.DataTemp.IndexOf(".") <> -1 Then
-                                    CurrentIndex.DataTemp = CurrentIndex.DataTemp.Replace(".", "")
-                                End If
-                                If IsNumeric(CStr(CurrentIndex.DataTemp).Trim) Then
-                                    columns = columns & I & CurrentIndex.ID
-                                    idValues = idValues & "," & Replace(CStr(CurrentIndex.DataTemp), ",", ".")
-                                End If
-                            End If
-                        Case 4 'Es Fecha 
-                            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                    Case 1, 2, 3 ' Es Numerico
+                        If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            If IsNumeric(CStr(CurrentIndex.DataTemp).Trim) Then
                                 columns = columns & I & CurrentIndex.ID
-                                idValues = idValues & ", " & Server.Con.ConvertDate(CurrentIndex.DataTemp)
+                                idValues = idValues & "," & Replace(CStr(CurrentIndex.DataTemp), ",", ".")
                             End If
-                        Case 5
-                            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
-                                columns = columns & I & CurrentIndex.ID
-                                idValues = idValues & "," & Server.Con.ConvertDateTime(CurrentIndex.DataTemp)
+                        End If
+                    Case 6 ' Es Decimal el 6
+                        If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            If CurrentIndex.DataTemp.IndexOf(",") AndAlso CurrentIndex.DataTemp.IndexOf(".") Then
+                                CurrentIndex.DataTemp = CurrentIndex.DataTemp.Replace(".", "")
                             End If
-                        Case 7, 8 'Es Texto
-                            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            If IsNumeric(CStr(CurrentIndex.DataTemp).Trim) Then
                                 columns = columns & I & CurrentIndex.ID
-                                Dim DataLen As Int32 = Len(CurrentIndex.DataTemp.Trim)
-                                Dim indexLen As Int32 = CurrentIndex.Len
-                                '[Sebasti?n]solo se cabio mayor por menor para que saltee esta parte, porque hacia un substring
-                                'de 0 a 0 y eso banquea datatemp
-                                '{Martin} Se volvio a > ya que con menor no funcionaba y daba error, si la longitud de los datos es mayor 
-                                'que la longitud maxima del indice, se debe recortar los datos.
-                                'todo sebas: mostrar el error de 0 a 0
-                                If DataLen > indexLen Then
-                                    CurrentIndex.DataTemp = CurrentIndex.DataTemp.Substring(0, indexLen)
-                                End If
-                                If CurrentIndex.DataTemp.Contains("'") Then
-                                    CurrentIndex.DataTemp = CurrentIndex.DataTemp.Replace("'", "?")
-                                End If
-                                idValues = idValues & ",'" & CurrentIndex.DataTemp & "'"
+                                idValues = idValues & "," & Replace(CStr(CurrentIndex.DataTemp), ",", ".")
                             End If
-                        Case Else
-                            If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
-                                columns = columns & I & CurrentIndex.ID
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, String.Format("Completando Atributo {0} {1} {2} {3}", CurrentIndex.ID, CurrentIndex.Name, CurrentIndex.Type.ToString(), CurrentIndex.DataTemp))
-                                Dim DataLen As Int32
-                                If CurrentIndex.Type = Zamba.IndexDataType.Si_No Then
-                                    If CurrentIndex.DataTemp.Trim = "False" OrElse CurrentIndex.DataTemp.Trim = "false" OrElse CurrentIndex.DataTemp.Trim = "0" OrElse CurrentIndex.DataTemp.Trim = "" OrElse CurrentIndex.DataTemp.Trim = "N" OrElse CurrentIndex.DataTemp.Trim = "NO" OrElse CurrentIndex.DataTemp.Trim = "No" OrElse CurrentIndex.DataTemp.Trim = "no" Then
-                                        DataLen = 0
-                                    ElseIf CurrentIndex.DataTemp.Trim = "True" OrElse CurrentIndex.DataTemp.Trim = "true" OrElse CurrentIndex.DataTemp.Trim = "1" OrElse CurrentIndex.DataTemp.Trim = "-1" OrElse CurrentIndex.DataTemp.Trim = "S" OrElse CurrentIndex.DataTemp.Trim = "SI" OrElse CurrentIndex.DataTemp.Trim = "Si" OrElse CurrentIndex.DataTemp.Trim = "si" Then
-                                        DataLen = -1
-                                    Else
-                                        DataLen = CurrentIndex.DataTemp.Trim
-                                    End If
-
+                        End If
+                    Case 4 'Es Fecha 
+                        If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            columns = columns & I & CurrentIndex.ID
+                            idValues = idValues & ", " & Server.Con.ConvertDate(CurrentIndex.DataTemp)
+                        End If
+                    Case 5
+                        If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            columns = columns & I & CurrentIndex.ID
+                            idValues = idValues & "," & Server.Con.ConvertDateTime(CurrentIndex.DataTemp)
+                        End If
+                    Case 7, 8 'Es Texto
+                        If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            columns = columns & I & CurrentIndex.ID
+                            Dim DataLen As Int32 = Len(CurrentIndex.DataTemp.Trim)
+                            Dim indexLen As Int32 = CurrentIndex.Len
+                            '[Sebasti?n]solo se cabio mayor por menor para que saltee esta parte, porque hacia un substring
+                            'de 0 a 0 y eso banquea datatemp
+                            '{Martin} Se volvio a > ya que con menor no funcionaba y daba error, si la longitud de los datos es mayor 
+                            'que la longitud maxima del indice, se debe recortar los datos.
+                            'todo sebas: mostrar el error de 0 a 0
+                            If DataLen > indexLen Then
+                                CurrentIndex.DataTemp = CurrentIndex.DataTemp.Substring(0, indexLen)
+                            End If
+                            If CurrentIndex.DataTemp.Contains("'") Then
+                                CurrentIndex.DataTemp = CurrentIndex.DataTemp.Replace("'", "?")
+                            End If
+                            idValues = idValues & ",'" & CurrentIndex.DataTemp & "'"
+                        End If
+                    Case Else
+                        If Not String.IsNullOrEmpty(CurrentIndex.DataTemp.Trim) Then
+                            columns = columns & I & CurrentIndex.ID
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, String.Format("Completando Atributo {0} {1} {2} {3}", CurrentIndex.ID, CurrentIndex.Name, CurrentIndex.Type.ToString(), CurrentIndex.DataTemp))
+                            Dim DataLen As Int32
+                            If CurrentIndex.Type = Zamba.IndexDataType.Si_No Then
+                                If CurrentIndex.DataTemp.Trim = "False" OrElse CurrentIndex.DataTemp.Trim = "false" OrElse CurrentIndex.DataTemp.Trim = "0" OrElse CurrentIndex.DataTemp.Trim = "" OrElse CurrentIndex.DataTemp.Trim = "N" OrElse CurrentIndex.DataTemp.Trim = "NO" OrElse CurrentIndex.DataTemp.Trim = "No" OrElse CurrentIndex.DataTemp.Trim = "no" Then
+                                    DataLen = 0
+                                ElseIf CurrentIndex.DataTemp.Trim = "True" OrElse CurrentIndex.DataTemp.Trim = "true" OrElse CurrentIndex.DataTemp.Trim = "1" OrElse CurrentIndex.DataTemp.Trim = "-1" OrElse CurrentIndex.DataTemp.Trim = "S" OrElse CurrentIndex.DataTemp.Trim = "SI" OrElse CurrentIndex.DataTemp.Trim = "Si" OrElse CurrentIndex.DataTemp.Trim = "si" Then
+                                    DataLen = -1
                                 Else
                                     DataLen = CurrentIndex.DataTemp.Trim
                                 End If
 
-                                Dim indexLen As Int32 = CurrentIndex.Len
-                                If DataLen > indexLen Then
-                                    CurrentIndex.DataTemp = CurrentIndex.DataTemp.Substring(0, indexLen)
-                                End If
-                                If CurrentIndex.Type = Zamba.IndexDataType.Si_No Then
-                                    idValues = idValues & "," & DataLen & ""
-                                Else
-                                    idValues = idValues & ",'" & CurrentIndex.DataTemp & "'"
-                                End If
+                            Else
+                                DataLen = CurrentIndex.DataTemp.Trim
                             End If
-                    End Select
-                    CurrentIndex.Data = CurrentIndex.DataTemp
-                    CurrentIndex.dataDescription = CurrentIndex.dataDescriptionTemp
-                End If
+
+                            Dim indexLen As Int32 = CurrentIndex.Len
+                            If DataLen > indexLen Then
+                                CurrentIndex.DataTemp = CurrentIndex.DataTemp.Substring(0, indexLen)
+                            End If
+                            If CurrentIndex.Type = Zamba.IndexDataType.Si_No Then
+                                idValues = idValues & "," & DataLen & ""
+                            Else
+                                idValues = idValues & ",'" & CurrentIndex.DataTemp & "'"
+                            End If
+                        End If
+                End Select
+                CurrentIndex.Data = CurrentIndex.DataTemp
+                CurrentIndex.dataDescription = CurrentIndex.dataDescriptionTemp
             End If
+
 
         Next
 
@@ -2369,8 +2320,6 @@ Public Class Results_Factory
         strselect.Append("SELECT T.DOC_ID, T.DISK_GROUP_ID,T.PLATTER_ID,T.VOL_ID,T.DOC_FILE,T.OFFSET,T.DOC_TYPE_ID,")
         strselect.Append("T.NAME,T.ICON_ID,T.SHARED")
         strselect.Append(",T.ver_Parent_id,T.version,T.RootId,T.original_Filename, T.NumeroVersion,disk_Vol_id, DISK_VOL_PATH, I.crdate ")
-        strselect.Append(", DL.importance IsImportant, DLS.favorite IsFavorite")
-
 
         Dim f As Int16
         For f = 0 To indexs.Count - 1
@@ -2384,10 +2333,6 @@ Public Class Results_Factory
         strselect.Append(" FROM ")
         strselect.Append(MainJoin)
         strselect.Append($" left outer join disk_Volume on disk_Vol_id = T.vol_id ")
-
-        strselect.Append(" left join DocumentLabels DL On DL.doctypeid = T.DOC_TYPE_ID And DL.docid=T.Doc_ID And DL.userid=" + Membership.MembershipHelper.CurrentUser.ID.ToString() + " ")
-        strselect.Append(" left join (Select * from DocumentLabels  where userid=" + Membership.MembershipHelper.CurrentUser.ID.ToString() + ") DLS On DLS.doctypeid = T.DOC_TYPE_ID And DLS.docid = T.Doc_ID ")
-
 
         If refIndexs IsNot Nothing AndAlso refIndexs.Count > 0 Then
             Dim joinStr As String
@@ -3051,7 +2996,9 @@ Public Class Results_Factory
                 End If
             End If
 
-
+            'If Volume.Type = VolumeTypes.DataBase Then
+            '    ReplaceDigitalDocument(Result)
+            'End If
 
         Catch ex As Exception
             ZClass.raiseerror(ex)
@@ -3060,23 +3007,7 @@ Public Class Results_Factory
         End Try
     End Sub
 
-    Public Shared Sub ReplaceDigitalDocument(ByVal result As IResult)
-        Dim count As Int32 = Server.Con.ExecuteScalar(CommandType.Text, "SELECT COUNT(1) FROM DOC_B" & result.DocTypeId & " WITH(NOLOCK) WHERE DOC_ID = " & result.ID)
-        If Server.isOracle Then
-            count = Server.Con.ExecuteScalar(CommandType.Text, "SELECT COUNT(1) FROM DOC_B" & result.DocTypeId & " WHERE DOC_ID = " & result.ID)
-        Else
-            count = Server.Con.ExecuteScalar(CommandType.Text, "SELECT COUNT(1) FROM DOC_B" & result.DocTypeId & " WITH(NOLOCK) WHERE DOC_ID = " & result.ID)
-        End If
-
-        If count = 0 Then
-            InsertIntoDOCB(result, False)
-        Else
-            UpdateDOCB(result)
-        End If
-    End Sub
-
-
-    Public Sub LogDropzoneHistory(ByVal taskID As Int64, ByVal taskName As String, ByVal docTypeId As Int32, ByVal docTypeName As String, ByVal stepId As Int32, ByVal workflowId As Int32, ByVal State As String, ByVal stepname As String, WFName As String)
+    Public Sub LogDropzoneHistory(ByVal taskID As Int64, ByVal taskName As String, ByVal docTypeId As Int32, ByVal docTypeName As String, ByVal stepId As Int32, ByVal workflowId As Int32, ByVal State As String)
 
         'ByVal statename As String, ByVal assignedTo As String, ByVal workflowId As Int32)
 
@@ -3086,16 +3017,20 @@ Public Class Results_Factory
             Dim QueryBuilder As New StringBuilder
             Dim table As String = RF.MakeTable(docTypeId, TableType.Document)
 
-            If IsDBNull(stepname) AndAlso stepname Is Nothing Then
-                stepname = String.Empty
+            Dim stepName As Object = Server.Con.ExecuteScalar(CommandType.Text, "select name from wfstep where step_id= " & stepId)
+
+            If IsDBNull(stepName) AndAlso stepName Is Nothing Then
+                stepName = String.Empty
             End If
 
-            If IsDBNull(WFName) AndAlso WFName Is Nothing Then
-                WFName = String.Empty
+            Dim wfName As Object = Server.Con.ExecuteScalar(CommandType.Text, "select name from wfworkflow where work_id= " & workflowId)
+
+            If IsDBNull(wfName) AndAlso wfName Is Nothing Then
+                wfName = String.Empty
             End If
 
             QueryBuilder.Append("INSERT INTO WFStepHst(Doc_Id, Doc_Name, DocTypeId, Doc_Type_Name, FOLDER_Id, StepId, Step_Name, UserName, Accion,  Fecha, WorkflowId, WorkflowName,State) VALUES (" &
-                                  taskID & ",'" & taskName & "'," & docTypeId & ",'" & docTypeName & "',0," & stepId & ",'" & stepname & "','" & RightFactory.CurrentUser.Name & "','Subio un archivo',sysdate," & workflowId & ",'" & WFName & "','" & State & "')")
+                                  taskID & ",'" & taskName & "'," & docTypeId & ",'" & docTypeName & "',0," & stepId & ",'" & stepName & "','" & RightFactory.CurrentUser.Name & "','Subio un archivo',sysdate," & workflowId & ",'" & wfName & "','" & State & "')")
 
             'QueryBuilder.Append(" WHERE DOC_ID = " & Result.ID)
             If Servers.Server.isSQLServer Then
@@ -4465,7 +4400,15 @@ Public Class Results_Factory
         Dim tempString As String = Results_Factory.EncodeQuotedString(p1)
         Return tempString
     End Function
-
+    Public Shared Function EncodeHTML(p1 As String) As String
+        Dim ret As String = p1
+        ret = Replace(ret, "&", "&amp")
+        ret = Replace(ret, ">", "&lt")
+        ret = Replace(ret, "<", "&gt")
+        ret = Replace(ret, """", "&quot")
+        ret = Replace(ret, "'", "&apos")
+        Return ret
+    End Function
     ''' <summary>
     ''' Encodea un string de forma que las comillas simples que cortan un string literal en SQl sean reemplazadas por ''(doble comilla simple)
     ''' </summary>
@@ -4473,15 +4416,7 @@ Public Class Results_Factory
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Shared Function EncodeQuotedString(ByVal p1 As String) As String
-        Dim quotedIndex As Integer = p1.IndexOf("'")
-        Dim prevIndex As Integer = 0
-        Dim sb As New StringBuilder
-
-        If quotedIndex > -1 Then
-            Return p1.Replace("'", "''")
-        Else
-            Return p1
-        End If
+        Return p1.Replace("'", "").Replace("""", "")
     End Function
 
     Public Function ValidateNewResult(ByVal DocTypeId As Integer, ByVal Doc_ID As Integer) As Boolean
@@ -4685,7 +4620,7 @@ Public Class Results_Factory
     Public Function setIndexData(ByVal indexId As Int64, ByVal entityId As Int64, ByVal parentResultId As Int64,
                                  ByVal indexValue As String) As Boolean
         Try
-            Dim StrUpdate As String = "update doc_i" & entityId & " set i" & indexId & " = '" & indexValue & "' where doc_id = " & parentResultId & ""
+            Dim StrUpdate As String = "update doc_i" & entityId & " set i" & indexId & " = '" & EncodeQuotedString(indexValue) & "' where doc_id = " & parentResultId & ""
             Server.Con.ExecuteNonQuery(CommandType.Text, StrUpdate)
             Return True
         Catch ex As Exception
@@ -4693,70 +4628,68 @@ Public Class Results_Factory
         End Try
     End Function
 
-    'Public Function GetFamiliasCantidadBynroDespacho(ByVal nroDespacho As String) As DataTable
-    '    Dim strQuery As StringBuilder = New StringBuilder()
+    Public Function GetFamiliasCantidadBynroDespacho(ByVal nroDespacho As String) As DataTable
+        Dim strQuery As StringBuilder = New StringBuilder()
 
-    '    strQuery.Append("select i139603 as codigo, i139609 as cantidad from DOC_I139084 where i139548 = ")
-    '    strQuery.Append(nroDespacho)
+        strQuery.Append("select i139603 as codigo, i139609 as cantidad from DOC_I139084 where i139548 = ")
+        strQuery.Append(nroDespacho)
 
-    '    Dim dt As DataSet = Servers.Server.Con.ExecuteDataset(CommandType.Text, strQuery.ToString())
-    '    strQuery.Clear()
-    '    strQuery = Nothing
+        Dim dt As DataSet = Servers.Server.Con.ExecuteDataset(CommandType.Text, strQuery.ToString())
+        strQuery.Clear()
+        strQuery = Nothing
 
-    '    If dt IsNot Nothing Then
-    '        Return dt.Tables(0)
-    '    End If
-    'End Function
+        If dt IsNot Nothing Then
+            Return dt.Tables(0)
+        End If
+    End Function
 
 
     Public Function GetCalendar(ByVal entityId As String, titleAttriute As String, startAttribute As String, endAttribute As String, filterColumn As String, filterValue As String) As DataTable
         Try
-            If entityId > 0 Then
-                Dim DSIndexDataLst As New DataSet
+            Dim DSIndexDataLst As New DataSet
 
-                Dim StrSelect As New StringBuilder
-                StrSelect.Append("select I" & titleAttriute)
-                If Servers.Server.isOracle Then
-                    StrSelect.Append(" title, I")
-                Else
-                    StrSelect.Append(" ""title"", I")
-                End If
-                StrSelect.Append(startAttribute)
-                If Servers.Server.isOracle Then
-                    StrSelect.Append(" [start], I")
-                Else
-                    StrSelect.Append(" ""start"", I")
-                End If
-
-                StrSelect.Append(endAttribute)
-                If Servers.Server.isOracle Then
-                    StrSelect.Append(" end from Doc_I")
-                Else
-                    StrSelect.Append(" ""end"" from Doc_I")
-                End If
-                StrSelect.Append(entityId)
-                StrSelect.Append(" where I")
-                StrSelect.Append(titleAttriute)
-                StrSelect.Append(" is not null and I")
-                StrSelect.Append(startAttribute)
-                StrSelect.Append(" is not null and I")
-                StrSelect.Append(endAttribute)
-                StrSelect.Append(" is not null ")
-
-                If (filterColumn <> String.Empty AndAlso filterValue <> String.Empty) Then
-                    StrSelect.Append(" and ")
-                    StrSelect.Append(filterColumn)
-                    StrSelect.Append(" = '")
-                    StrSelect.Append(filterValue)
-                    StrSelect.Append("'")
-                End If
-                DSIndexDataLst = Server.Con.ExecuteDataset(CommandType.Text, StrSelect.ToString())
-                Return DSIndexDataLst.Tables(0)
-
+            Dim StrSelect As New StringBuilder
+            StrSelect.Append("select I" & titleAttriute)
+            If Servers.Server.isOracle Then
+                StrSelect.Append(" title, I")
+            Else
+                StrSelect.Append(" ""title"", I")
             End If
-            Return New DataTable
+            StrSelect.Append(startAttribute)
+            If Servers.Server.isOracle Then
+                StrSelect.Append(" [start], I")
+            Else
+                StrSelect.Append(" ""start"", I")
+            End If
+
+            StrSelect.Append(endAttribute)
+            If Servers.Server.isOracle Then
+                StrSelect.Append(" end from Doc_I")
+            Else
+                StrSelect.Append(" ""end"" from Doc_I")
+            End If
+            StrSelect.Append(entityId)
+            StrSelect.Append(" where I")
+            StrSelect.Append(titleAttriute)
+            StrSelect.Append(" is not null and I")
+            StrSelect.Append(startAttribute)
+            StrSelect.Append(" is not null and I")
+            StrSelect.Append(endAttribute)
+            StrSelect.Append(" is not null ")
+
+            If (filterColumn <> String.Empty AndAlso filterValue <> String.Empty) Then
+                StrSelect.Append(" and ")
+                StrSelect.Append(filterColumn)
+                StrSelect.Append(" = '")
+                StrSelect.Append(filterValue)
+                StrSelect.Append("'")
+            End If
+            DSIndexDataLst = Server.Con.ExecuteDataset(CommandType.Text, StrSelect.ToString())
+            Return DSIndexDataLst.Tables(0)
+
+
         Catch ex As Exception
-            ZClass.raiseerror(ex)
+
         End Try
     End Function
 
@@ -4874,256 +4807,5 @@ Public Class Results_Factory
         Server.Con.ExecuteNonQuery(CommandType.Text, deleteSentence)
     End Sub
 
-    ''' <summary>
-    ''' Inserta los ultimos resultados obtenidos de la dosearch.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function InsertDoSearchResults(ByVal data As String, ByVal UserId As Int64) As Object
-        Dim sqlBuilder As New System.Text.StringBuilder
-        Try
-            'sqlBuilder.Append("DELETE FROM ZDoSearchResults ")
-            'sqlBuilder.Append("WHERE UserId = " + UserId.ToString())
 
-            sqlBuilder.Append("INSERT INTO ZDoSearchResults ")
-            sqlBuilder.Append("([UserId], [ExpirationDate], [ResultsData]) ")
-            sqlBuilder.Append("VALUES ")
-            sqlBuilder.Append("(" + UserId.ToString() + ", DATEADD(hour, 24, GETDATE()) , " + data + ")")
-
-            Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-        End Try
-    End Function
-
-    ''' <summary>
-    ''' Inserta los ultimos filtros aplicados.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function InsertFilterSettings(ByVal ResultsFilters As String, ByVal SearchObject As String, ByVal mode As String, ByVal UserId As Int64) As Object
-        Dim sqlBuilder As New System.Text.StringBuilder
-
-        Try
-            sqlBuilder.Append("INSERT INTO ZDoSearchResults ")
-            sqlBuilder.Append("([UserId], [Mode], [ExpirationDate], [ResultsFilters], [SearchObject]) ")
-            sqlBuilder.Append("VALUES ")
-            sqlBuilder.Append("(" + UserId.ToString() + ", " + mode + ", DATEADD(hour, 24, GETDATE()), " + ResultsFilters + "," + SearchObject + ")")
-
-            Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-        End Try
-    End Function
-
-    ''' <summary>
-    ''' Inserta los ultimos resultados obtenidos de la dosearch.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function UpdateDoSearchResults(ByVal data As String, ByVal UserId As Int64) As Object
-        Dim sqlBuilder As New System.Text.StringBuilder
-        Try
-            sqlBuilder.Append("UPDATE ZDoSearchResults ")
-
-            sqlBuilder.Append("SET")
-            sqlBuilder.Append("[ExpirationDate] = DATEADD(hour, 24, GETDATE())" + ", ")
-            sqlBuilder.Append("[ResultsData] = " + data)
-
-            sqlBuilder.Append("WHERE UserId = " + UserId.ToString())
-
-            Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-        End Try
-    End Function
-
-    ''' <summary>
-    ''' Inserta o actualiza el ultimo objeto search resultado del DoSearch.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function InsertOrUpdateDoSearchResults(ByVal SearchObject As String, ByVal Mode As String, ByVal UserId As Int64, ByVal ExpirationDate As DateTime) As Object
-        Dim sqlBuilder As New System.Text.StringBuilder
-        Dim count As Int64
-        Try
-            If Server.isSQLServer Then
-                sqlBuilder.Append("if exists (SELECT UserId FROM [ZDoSearchResults] where UserId = " + UserId.ToString() + " AND Mode = '" + Mode + "') ")
-                sqlBuilder.Append("UPDATE [ZDoSearchResults] ")
-                sqlBuilder.Append("Set ")
-                sqlBuilder.Append("[ExpirationDate] = CAST('" + ExpirationDate.ToString("yyyyMMdd HH:mm:ss") + "' AS DATETIME), ")
-                sqlBuilder.Append("[SearchObject] = " + SearchObject + ", ")
-                sqlBuilder.Append("[Mode] = '" + Mode + "' ")
-                sqlBuilder.Append("WHERE UserId = " + UserId.ToString() + " AND Mode = '" + Mode + "'")
-                sqlBuilder.Append(" else ")
-                sqlBuilder.Append("INSERT INTO [ZDoSearchResults] ")
-                sqlBuilder.Append("([UserId], [ExpirationDate], [SearchObject], [Mode]) ")
-                sqlBuilder.Append("VALUES ")
-                sqlBuilder.Append("(" + UserId.ToString() + ", CAST('" + ExpirationDate.ToString("yyyyMMdd HH:mm:ss") + "' AS DATETIME), " + SearchObject + ", '" + Mode + "')")
-                Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-            Else
-                SearchObject = Replace(SearchObject, "0x", "")
-                Dim SplitFile() As String = SplitFileClob(SearchObject)
-                sqlBuilder.Append("DECLARE ")
-                sqlBuilder.Append("FileClob CLOB;")
-                sqlBuilder.AppendLine("BEGIN ")
-                For Each PartialFile As String In SplitFile
-                    sqlBuilder.AppendLine("FileClob := FileClob || '" & PartialFile & "';")
-                Next
-                count = Zamba.Servers.Server.Con().ExecuteScalar(CommandType.Text, $"SELECT count(1)  FROM ZDoSearchResults where UserId = {UserId.ToString()} AND MODESEARCH = '{Mode}'")
-                If count = 0 Then
-                    sqlBuilder.AppendLine("INSERT INTO ZDoSearchResults")
-                    sqlBuilder.AppendLine("(USERID,ExpirationDate,SearchObject,MODESEARCH)")
-                    sqlBuilder.AppendLine("values(")
-                    sqlBuilder.Append(UserId.ToString())
-                    sqlBuilder.Append(",TO_DATE('" & ExpirationDate.ToString("yyyy/MM/dd HH:mm:ss") & "', 'yyyy/mm/dd hh24:mi:ss')")
-                    sqlBuilder.Append(",FileClob")
-                    sqlBuilder.Append(",'" & Mode & "')")
-                Else
-                    sqlBuilder.AppendLine("update ZDoSearchResults set ")
-                    sqlBuilder.AppendLine("MODESEARCH='" & Mode & "',")
-                    sqlBuilder.AppendLine("SEARCHOBJECT=FileClob")
-                    sqlBuilder.AppendLine("WHERE USERID=" & UserId.ToString())
-                End If
-                sqlBuilder.AppendLine(";")
-                sqlBuilder.AppendLine("END;")
-                Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-            End If
-        Catch ex As Exception
-
-            ZClass.raiseerror(ex)
-            Throw
-        End Try
-    End Function
-
-    Public Function InsertOrUpdateLastSearchResults(ByVal SearchObject As String, ByVal Mode As String, ByVal UserId As Int64, ByVal ExpirationDate As DateTime, name As String) As Object
-        Dim count As Int64
-        If Server.isSQLServer Then
-            count = Zamba.Servers.Server.Con().ExecuteScalar(CommandType.Text, $"SELECT count(1)  FROM ZLSR  WITH(NOLOCK)  where UserId = {UserId.ToString()} AND Mode = '{Mode}' and name = '{name}' ")
-            If count = 0 Then
-                Dim sqlBuilder As New System.Text.StringBuilder
-                sqlBuilder.Append("INSERT INTO [ZLSR] ")
-                sqlBuilder.Append("([UserId], [SearchDate], [SearchObject], [Mode], Name) ")
-                sqlBuilder.Append("VALUES ")
-                sqlBuilder.Append("(" & UserId.ToString() & ", CAST('" & ExpirationDate.ToString("yyyyMMdd HH:mm:ss") & "' AS DATETIME), " & SearchObject & ", '" & Mode & "', '" & name & "')")
-                Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-            Else
-                Zamba.Servers.Server.Con().ExecuteScalar(CommandType.Text, $"update ZLSR set SearchDate = '{ExpirationDate.ToString("yyyyMMdd HH:mm:ss")}' where UserId = {UserId.ToString()} AND Mode = '{Mode}'  and name = '{name}' ")
-            End If
-        Else
-            count = Zamba.Servers.Server.Con().ExecuteScalar(CommandType.Text, $"SELECT count(1)  FROM ZLSR where UserId = {UserId.ToString()} AND MODESEARCH = '{Mode}' and name = '{name}' ")
-            Dim sqlBuilder As New System.Text.StringBuilder
-            Dim MaxLength As Int64 = 4000
-            SearchObject = Replace(SearchObject, "0x", "")
-            Dim SplitFile() As String = SplitFileClob(SearchObject)
-            sqlBuilder.Append("DECLARE ")
-            sqlBuilder.Append("FileClob CLOB;")
-            sqlBuilder.AppendLine("BEGIN ")
-            For Each PartialFile As String In SplitFile
-                sqlBuilder.AppendLine("FileClob := FileClob || '" & PartialFile & "';")
-            Next
-            If count = 0 Then
-                sqlBuilder.AppendLine("INSERT INTO ZLSR")
-                sqlBuilder.AppendLine("(USERID,SEARCHDATE,SEARCHOBJECT,MODESEARCH,NAME)")
-                sqlBuilder.AppendLine("values(")
-                sqlBuilder.AppendLine(UserId.ToString())
-                sqlBuilder.AppendLine(",TO_DATE('" & ExpirationDate.ToString("yyyy/MM/dd HH:mm:ss") & "', 'yyyy/mm/dd hh24:mi:ss')")
-                sqlBuilder.AppendLine(",FileClob")
-                sqlBuilder.AppendLine(",'" & Mode & "'")
-                sqlBuilder.AppendLine(",'" & name & "')")
-            Else
-                sqlBuilder.AppendLine("update ZLSR set ")
-                sqlBuilder.AppendLine("MODESEARCH='" & Mode & "',")
-                sqlBuilder.AppendLine("SEARCHDATE=TO_DATE('" & ExpirationDate.ToString("yyyy/MM/dd HH:mm:ss") & "', 'yyyy/mm/dd hh24:mi:ss'),")
-                sqlBuilder.AppendLine("SEARCHOBJECT=FileClob")
-                sqlBuilder.AppendLine("NAME='" & name & "'")
-                sqlBuilder.AppendLine("WHERE USERID=" & UserId.ToString())
-            End If
-            sqlBuilder.AppendLine(";")
-            sqlBuilder.AppendLine("END;")
-            Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
-        End If
-    End Function
-    Private Function SplitFileClob(FileContent As String) As Array
-        Dim MaxLength As Int64 = 4000
-        Dim SplitFile() As String = 'Separa el archivo en partes iguales de 4000 caracteres teniendo en cuenta si el ultimo mide menos inclusive
-                New String("*", FileContent.Length / MaxLength - 1).
-                Select(Function(n, index) FileContent.
-                Substring(index * MaxLength,
-                          IIf(FileContent.Length - index * MaxLength < MaxLength,
-                              FileContent.Length - index * MaxLength,
-                              MaxLength)
-                          )).ToArray
-        Return SplitFile
-    End Function
-
-    ''' <summary>
-    ''' Obtiene el ultimo objeto search resultado del DoSearch.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function SelectDoSearchResults(ByVal UserId As Int64, ByVal Mode As String) As DataTable
-        Dim sqlBuilder As New System.Text.StringBuilder
-        Dim DT_Result As DataTable
-
-        Try
-            If Server.isSQLServer Then
-                sqlBuilder.Append("SELECT * FROM ZDoSearchResults ")
-                sqlBuilder.Append("WHERE UserId = " & UserId.ToString() & " And Mode = '" & Mode & "'")
-            Else
-                sqlBuilder.Append("SELECT ")
-                sqlBuilder.Append("USERID")
-                sqlBuilder.Append(",MODESEARCH AS ""MODE""")
-                sqlBuilder.Append(",SEARCHOBJECT")
-                sqlBuilder.Append(",EXPIRATIONDATE")
-                sqlBuilder.Append(" FROM ZDoSearchResults")
-                sqlBuilder.Append(" WHERE UserId = " & UserId.ToString() & " And ModeSearch = '" & Mode & "'")
-            End If
-            DT_Result = Server.Con.ExecuteDataset(CommandType.Text, sqlBuilder.ToString()).Tables(0)
-            Return DT_Result
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-            Throw
-        End Try
-    End Function
-
-    Public Function SelectLastSearchResults(ByVal UserId As Int64) As DataTable
-        Dim sqlBuilder As New System.Text.StringBuilder
-        Dim DT_Result As DataTable
-
-        Try
-            If Server.isSQLServer Then
-                sqlBuilder.Append("SELECT top(20) * FROM ZLSR  WITH(NOLOCK) ")
-            Else
-                sqlBuilder.Append("SELECT * FROM ZLSR ")
-            End If
-            sqlBuilder.Append("WHERE UserId = " & UserId.ToString())
-            If Server.isOracle Then
-                sqlBuilder.Append(" and rownum <= 20 ")
-            End If
-            sqlBuilder.Append("  order by searchdate desc ")
-
-            DT_Result = Server.Con.ExecuteDataset(CommandType.Text, sqlBuilder.ToString()).Tables(0)
-            Return DT_Result
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-            Throw
-        End Try
-    End Function
-    Public Function DeleteDoSearchResults(userId As Long, Mode As String) As Object
-        Dim sqlBuilder As New System.Text.StringBuilder
-        Dim DT_Result As DataTable
-
-        Try
-            If Server.isSQLServer Then
-                sqlBuilder.Append("DELETE FROM ZDoSearchResults ")
-                sqlBuilder.Append("WHERE UserId = " & userId.ToString() & " AND Mode = '" & Mode & "'")
-            Else
-                sqlBuilder.Append("DELETE FROM ZDoSearchResults ")
-                sqlBuilder.Append("WHERE UserId = " & userId.ToString() & " AND MODESEARCH = '" & Mode & "'")
-            End If
-
-            DT_Result = Server.Con.ExecuteDataset(CommandType.Text, sqlBuilder.ToString()).Tables(0)
-            Return DT_Result
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-            Throw
-        End Try
-    End Function
 End Class

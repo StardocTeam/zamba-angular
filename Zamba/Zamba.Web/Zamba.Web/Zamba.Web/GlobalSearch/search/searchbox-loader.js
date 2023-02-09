@@ -1,84 +1,66 @@
-﻿
-var app = angular.module('app', ['ui.bootstrap', 'LocalStorageModule', 'ngSanitize', 'ngEmbed', 'ngAnimate', 'ngMessages', 'ui.select', 'ngMaterial', 'pascalprecht.translate']);
+﻿var app = angular.module('app', ['ui.bootstrap', 'LocalStorageModule', 'ngSanitize', 'ngEmbed', 'ngAnimate', 'ngMessages']);
+app.run(['$http', '$rootScope', 'authService', 'cacheService', 'uiService', function ($http, $rootScope, authService, cacheService, uiService) {
+    
+    authService.checkToken();
 
-////Configuracion de formato de fecha
-//angular.module('app').config(function ($mdDateLocaleProvider) {
-//    $mdDateLocaleProvider.formatDate = function (date) {
-//        //return moment(date).format('L');
-//        return moment(date).format('DD/MM/YYYY') != "Invalid date" ? moment(date).format('DD/MM/YYYY') : "";
-//    };
-//});
-
-
-
-app.run(['$http', '$rootScope', 'authService', 'cacheService', 'uiService', '$translate', function ($http, $rootScope, authService, cacheService, uiService, $translate) {
     try {
 
         try {
             cacheService.CheckLastDesignVersion();
         } catch (e) {
-            console.error(e);
-        }
+            
+            console.log(e.message);
+        }        
+        
 
+        // comentado por sebastian (inicio)
 
-        if (!$("#modalLogin").hasClass("in")) {
+        //Comprueba token en LS y verifica que no haya caducado
+        //var token = authService.fillAuthData();
+        //if (token == "invalid user") {
+        //    authService.logOut();
+        //    return;
+        //}
 
-            //Comprueba token en LS y verifica que no haya caducado
-            var token = authService.fillAuthData();
-            if (token == "invalid user") {
-                authService.logOut();
-                return;
-            }
+        //if (token == null) {
+        //    authService.getNewAuthData().then(function (d) {
+        //        if (d == "") {
+        //            console.log("No se pudo generar RS token");
+        //            authService.logOut();
+        //            return;
+        //        }
+        //        else {
+        //            var tokenStr = JSON.parse(d).token;
+        //            $http.defaults.headers.common['Authorization'] = 'Bearer ' + tokenStr;
+        //            $http.defaults.headers.common['UserId'] = GetUID();
+        //            //  localStorageService.set('authorizationData', JSON.parse(d));
+        //            //  angular.element($('#zambasearchcontrol')).scope().GetEntities();
+        //            //  GetTree();
+        //            // authService.CheckIfTokenIsValid();
+        //            keepSessionAlive();
 
-            if (token == null || token == "invalid user") {
-                authService.getNewAuthData().then(function (d) {
-                    if (d == "") {
-                        console.log("No se pudo generar RS token");
-                        authService.logOut();
-                        return;
-                    }
-                    else {
-                        var tokenStr = JSON.parse(d.data).token;
-                        $http.defaults.headers.common['Authorization'] = 'Bearer ' + tokenStr;
-                        $http.defaults.headers.common['UserId'] = GetUID();
-                        //  localStorageService.set('authorizationData', JSON.parse(d));
-                        // authService.CheckIfTokenIsValid();
-                        try {
-                            keepSessionAlive();
-                        } catch (e) {
-                            console.error(e);
-                        }
+        //        }
+        //    }).catch(function (err) {
+        //        console.log(err);
+        //        authService.logOut();
+        //        return;
+        //    });
 
-                    }
-                }).catch(function (err) {
-                    console.log(err);
-                    authService.logOut();
-                    return;
-                });
+        //}
+        //else {
+        //    authService.CheckIfTokenIsValid(token);
+        //    $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        //    $http.defaults.headers.common['UserId'] = GetUID();
+        //    //       angular.element($('#zambasearchcontrol')).scope().GetEntities();
+        //    //   GetTree();
+        //    keepSessionAlive();
+        //}
 
-            }
-            else {
-                authService.CheckIfTokenIsValid(token);
-                $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                $http.defaults.headers.common['UserId'] = GetUID();
-                try {
-                    keepSessionAlive();
-                } catch (e) {
-                    console.error(e);
-                }
+        // comentado por sebastian (fin)
 
-            }
-        }
-
-        try {
-            var language = "es-ar";
-            $translate.use(language);
-        } catch (e) {
-            console.error(e);
-        }
 
     } catch (e) {
-        console.error(e);
+        console.log(e.message);
         //window.onbeforeunload = function () {
         //    showedDialog = true;
         //};
@@ -116,8 +98,10 @@ app.run(['$http', '$rootScope', 'authService', 'cacheService', 'uiService', '$tr
 
 //Config for Cross Domain
 app.config(['$httpProvider', function ($httpProvider) {
+    
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    
 }
 ]);
 
@@ -130,15 +114,18 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
 
     $scope.MyUnreadTasks = 0;
 
+    //LoadMyTasksCount($("#MyTasksAnchor"));
+
     $scope.CurrentUserName = 'Iniciar sesion';
 
     $scope.GetCurrentUserName = function () {
         try {
             var userId = GetUID();
 
-            if (window.localStorage) {
-                var a = window.localStorage.getItem('UD|' + userId);
+            if (localStorage) {
+                var a = localStorage.getItem('UD|' + userId);
                 if (a != undefined) {
+                    var a = JSON.parse(data.data)
                     $scope.CurrentUserName = a[0];
                     $scope.CurrentApellido = a[1];
                     $scope.CurrentUsuario = a[2];
@@ -154,7 +141,6 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
             }
 
         } catch (e) {
-            console.error(e);
             $scope.LoadUserNameFromDB();
 
         }
@@ -162,49 +148,47 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
 
     $scope.LoadUserNameFromDB = function () {
         var idusuario = GetUID();
-        if (idusuario != undefined && idusuario > 0) {
-            $http({
-                method: 'GET',
-                url: ZambaWebRestApiURL + "/search/GetUserData?userId=" + idusuario,
-                crossDomain: true,
-                //params: { userId: idusuario },
-                dataType: 'json',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function (data) {
-                var a = JSON.parse(data.data)
-                $scope.CurrentUserName = a[0];
-                $scope.CurrentApellido = a[1];
-                $scope.CurrentUsuario = a[2];
-                $scope.CurrentPuesto = a[3];
-                $scope.CurrentTelefono = a[4];
-
-                if (window.localStorage) {
-                    window.localStorage.setItem('UD|' + idusuario, a);
-                }
-            });
-        }
+        $http({
+            method: 'GET',
+            url: ZambaWebRestApiURL + "/search/GetUserData?userId=" + idusuario,
+            crossDomain: true,
+            //params: { userId: idusuario },
+            dataType: 'json',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(function (data) {
+            var a = JSON.parse(data.data)
+            $scope.CurrentUserName = a[0];
+            $scope.CurrentApellido = a[1];
+            $scope.CurrentUsuario = a[2];
+            $scope.CurrentPuesto = a[3];
+            $scope.CurrentTelefono = a[4];
+           
+            if (localStorage) {
+                localStorage.setItem('UD|' + idusuario, a);
+            }
+        });
     };
 
     $scope.IsInitializingThumbs = true;
 
     $scope.ThumbsPathHome = function () {
         var userid = GetUID();
-        if (userid != undefined && userid > 0) {
-            //if (userid != undefined && userid != '' && $scope.IsInitializingThumbs === true) {
-            //    $scope.IsInitializingThumbs = false;
+
+        //if (userid != undefined && userid != '' && $scope.IsInitializingThumbs === true) {
+        //    $scope.IsInitializingThumbs = false;
 
 
-            if (window.localStorage) {
-                var userPhoto = window.localStorage.getItem('userPhoto-' + userid);
+            if (localStorage) {
+                var userPhoto = localStorage.getItem('userPhoto-' + userid);
                 if (userPhoto != undefined && userPhoto != null) {
                     try {
                         var response = userPhoto;
                         $scope.thumphoto = userPhoto;
-
+                       
                         return response;
 
                     } catch (e) {
-                        console.error(e);
+                        console.log(e);
                         var response = $scope.LoadUserPhotoFromDB(userid);
                         $scope.thumphoto = response;
                         return response;
@@ -220,8 +204,8 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
                 var response = $scope.LoadUserPhotoFromDB(userid);
                 $scope.thumphoto = response;
                 return response;
-            }
-        }
+            }            
+        //}
 
     };
 
@@ -245,7 +229,7 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
                 function (data, status, headers, config) {
                     response = data;
                     $scope.thumphoto = response;
-                    window.localStorage.setItem('userPhoto-' + userid, response);
+                    localStorage.setItem('userPhoto-' + userid, response);
 
                 }
         });
@@ -295,73 +279,82 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
 
     $scope.UserView = function () {
 
-        var userid = GetUID();
-        if (userid != undefined && userid > 0) {
-            userid = parseInt(userid);
+        var userid = parseInt(GetUID());
 
-            if (userid != undefined && userid != '' && $scope.IsInitializing === true) {
-                $scope.IsInitializing = false;
+        if (userid != undefined && userid != '' && $scope.IsInitializing === true) {
+            $scope.IsInitializing = false;
 
 
-                var UV = null;
+            var DV = null;
 
-                if (window.localStorage) {
-                    UV = window.localStorage.getItem("UV|" + userid);
-                }
-
-                if (UV != null && UV != '') {
-                    $scope.IsAdminUserView = UV;
-                    return UV;
-                }
-
-
-                var response = null;
-                var genericRequest = {
-                    UserId: parseInt(userid),
-
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: ZambaWebRestApiURL + "/Account/GetUserRights",
-                    data: JSON.stringify(genericRequest),
-
-                    contentType: "application/json; charset=utf-8",
-                    async: false,
-                    success:
-                        function (data, status, headers, config) {
-                            response = data;
-                            $scope.IsAdminUserView = response;
-                            if (window.localStorage) {
-                                window.localStorage.setItem("UV|" + userid, response);
-                            }
-                        }
-                });
-
-
+            if (localStorage) {
+                DV = localStorage.getItem("UV|" + userid);
             }
+
+            if (DV != null && DV != '') {
+                $scope.IsAdminUserView = DV;
+                return DV;
+            }
+
+
+            var response = null;
+            var genericRequest = {
+                UserId: parseInt(userid),
+
+            };
+
+            $.ajax({
+                type: "POST",
+                url: ZambaWebRestApiURL + "/Account/GetUserRights",
+                data: JSON.stringify(genericRequest),
+
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success:
+                    function (data, status, headers, config) {
+                        response = data;
+                        $scope.IsAdminUserView = response;
+                        if (localStorage) {
+                            localStorage.setItem("UV|" + userid, response);
+                        }
+                    }
+            });
+
+
         }
-            return $scope.IsAdminUserView;
+        return $scope.IsAdminUserView; 
     }
 
     $scope.GetCurrentUserName();
 
     $scope.Logout = function () {
+        var isOkta = false;
+        var token_id_okta = localStorage.getItem('OKTA');
+        if (token_id_okta != undefined && token_id_okta != null && token_id_okta != "") {
+            var isOkta = true;
+        }
         authService.logOut();
         window.onbeforeunload = function () {
             showedDialog = true;
         };
-        var destinationURL = "../../views/Security/Login.aspx?ReturnUrl=" + window.location;
+        if (isOkta) {
+            var destinationURL = "../../views/Security/OktaAuthentication.html?logout=true";//?ReturnUrl=" + window.location;
+        }
+        else {
+            var destinationURL = "../../views/Security/Login.aspx";//?ReturnUrl=" + window.location;
+        }        
         document.location = destinationURL;
     }
 
+    //if (authService.authentication.isAuth) {
+        $rootScope.$emit('GetEntities');
+        //        $scope.GetEntities();
+    //}
     $scope.GetNextUrl = function (data) {
-        
         $rootScope.$emit('GetNextUrl', data);
     };
 
     $scope.DoSearchByQS = function (data) {
-        
         $rootScope.$emit('DoSearchByQS', data);
     };
 }]);
@@ -467,13 +460,13 @@ function GetUID() {
     if (userid > 0) return userid;
 
 
-    var authData = window.localStorage.getItem('authorizationData');
+    var authData = localStorage.getItem('authorizationData');
     if (authData == undefined || authData == null || authData == "[object Object]" || authData == "") {
         return;
     }
 
     authData = JSON.parse(authData);
-    if (authData != null && authData.UserId != undefined) {
+    if (authData == null || authData.UserId == undefined) {
         userid = authData.UserId;
         if (userid > 0) return userid;
 

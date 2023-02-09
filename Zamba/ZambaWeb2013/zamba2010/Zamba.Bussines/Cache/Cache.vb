@@ -27,10 +27,10 @@ Public Class CacheBusiness
 
         ZCore.RemoveCurrentInstance()
 
-        ' Membership.MembershipHelper.CurrentSession.Clear()
+        Membership.MembershipHelper.CurrentSession.Clear()
 
         RightFactory.Permisos.Clear()
-        ZTrace.ResetListeners()
+
     End Sub
 
     Public Shared Sub ClearCachesByUser(userId As Int64)
@@ -83,6 +83,8 @@ Public Class CacheBusiness
         Cache.RestrictionsStrings.RemoveCurrentInstance()
         Cache.SpecificIndexsRights.RemoveCurrentInstance()
         Cache.UsersAndGroups.RemoveCurrentInstance()
+        Membership.MembershipHelper.CurrentSession.Clear()
+
     End Sub
 
     Public Shared Sub ClearStructureCaches()

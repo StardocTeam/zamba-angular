@@ -32,12 +32,12 @@ namespace Zamba.Services
         /// Trae todos los ids y nombres de los tipos de documentos
         /// </summary>
         /// <returns>Dataset con Ids y Nombres</returns>
-        public List<IDocType> GetDocTypesIdsAndNames(Int64 userId)
+        public List<DocType> GetDocTypesIdsAndNames(Int64 userId)
         {
          
             return DocTypesBusiness.GetDocTypesbyUserRights(userId, RightsType.Create);
         }
-        public List<IDocType> GetDocTypesIdsAndNamesbyRightView(long userId)
+        public List<DocType> GetDocTypesIdsAndNamesbyRightView(long userId)
         {
             return DocTypesBusiness.GetDocTypesbyUserRights(userId, RightsType.View);
         }

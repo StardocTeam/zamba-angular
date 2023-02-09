@@ -418,31 +418,20 @@ namespace Controls.Indexs
                 
             _dSaved();
 
-            var SaveIndexResult = Session["SaveIndexResult"];
-            if (SaveIndexResult == null)
+            var SaveIndexResult = Session["SaveIndexResult"].ToString();
+            Session["SaveIndexResult"] = string.Empty;
+            if (SaveIndexResult == "true")
             {
-                string script = "$(document).ready(function() { swal('', 'Verifique Modificaciones en atributos', 'info'); });";
+                string script = "$(document).ready(function() { swal('', 'Se Actualizo Atributo Correctamente', 'success'); location.reload(); });";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "IndicesPanel", script, true);
+                
+
             }
-            else {
-
-                Session["SaveIndexResult"] = string.Empty;
-                if (SaveIndexResult.ToString() == "true")
-                {
-                    string script = "$(document).ready(function() { swal('', 'Se Actualizo Atributo Correctamente', 'success'); location.reload(); });";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "IndicesPanel", script, true);
-
-
-                }
-                else
-                {
-
-
-                    string script = "$(document).ready(function() { swal('', 'Debe modificar por lo menos un atributo', 'info'); });";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "IndicesPanel", script, true);
-
-                }
-
+            else
+            {
+                string script = "$(document).ready(function() { swal('', 'Erros al Modificar atributos', 'error'); });";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "IndicesPanel", script, true);
+               
             }
 
         }
@@ -766,7 +755,7 @@ namespace Controls.Indexs
                 //15/07/11: Se debe reconsiderar los casos de usos de el currentIndexs, ya que esto es un parche rápido
                 if ((!Page.IsPostBack && (mode == WebModuleMode.Search || mode == WebModuleMode.Result)) || Page.IsPostBack || Session["ShowIndexOfInsert"] != null)
                 {
-                    if (((indexs != null && indexs.Count > 0) || CurrentIndexs == null) && !(Session["popup"] != null && (Boolean)Session["popup"])) CurrentIndexs = indexs;
+                    if ((indexs.Count > 0 || CurrentIndexs == null) && !(Session["popup"] != null && (Boolean)Session["popup"])) CurrentIndexs = indexs;
                     else
                     {
                         indexs = CurrentIndexs;
@@ -843,7 +832,7 @@ namespace Controls.Indexs
                                     isEnabled = true;
                                     break;
                                 case Visibility.NotVisible:
-                                    continue;
+                                   continue;
                             }
                         }
 

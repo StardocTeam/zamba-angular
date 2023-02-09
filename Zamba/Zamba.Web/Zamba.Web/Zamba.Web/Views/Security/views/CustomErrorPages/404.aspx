@@ -17,7 +17,9 @@
     <%: Scripts.Render("~/bundles/bootstrap") %>
     <%: Scripts.Render("~/bundles/ZScripts") %>--%>
 
-  
+    <%--<script src="../../scripts/jq_datepicker.js" type="text/javascript"></script>
+    <script src="../../scripts/Zamba.js" type="text/javascript"></script>
+    <script src="../../scripts/Zamba.Validations.js" type="text/javascript"></script>--%>
 
     <script type="text/javascript">
         function pageLoad() {

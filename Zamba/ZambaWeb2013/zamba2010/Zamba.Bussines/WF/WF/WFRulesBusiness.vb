@@ -10,7 +10,6 @@ Imports System.Web.UI
 Imports Zamba.Core.Cache
 Imports Zamba.Servers
 Imports Zamba.Membership
-Imports System.Runtime.InteropServices
 
 Public Class WFRulesBusiness
     Implements IWFRuleBusiness
@@ -203,27 +202,29 @@ Public Class WFRulesBusiness
 
 
         Dim dsRule As DataSet = Nothing
-        Dim zoptb As New ZOptBusiness
+            Dim zoptb As New ZOptBusiness
 
-        Try
-            ' ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo Reglas de la Etapa = " & stepId)
+            Try
+                ' ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo Reglas de la Etapa = " & stepId)
 
-            dsRule = GetDSRulesByRuleId(ruleId)
+                dsRule = GetDSRulesByRuleId(ruleId)
 
-            rule = ReturnInstanceRule(dsRule.Tables("WFRuleParamItems"), dsRule.Tables("WFRules").Rows(0), TypesofRules.Regla)
+                rule = ReturnInstanceRule(dsRule.Tables("WFRuleParamItems"), dsRule.Tables("WFRules").Rows(0), TypesofRules.Regla)
 
             If rule Is Nothing Then
                 Throw New Exception(String.Format("No se pudo obtener la Regla con Id {0}", ruleId))
             End If
         Catch ex As Exception
-            ZClass.raiseerror(New Exception($"ERROR: al instanciar la regla con id: {ruleId}", ex))
-        Finally
-            zoptb = Nothing
-            If dsRule IsNot Nothing Then
-                dsRule.Dispose()
-                dsRule = Nothing
-            End If
-        End Try
+                ZClass.raiseerror(ex)
+            Finally
+                zoptb = Nothing
+                If dsRule IsNot Nothing Then
+                    dsRule.Dispose()
+                    dsRule = Nothing
+                End If
+            End Try
+
+
         Return rule
     End Function
 
@@ -259,42 +260,35 @@ Public Class WFRulesBusiness
 
 
 
-        'Try
-        'Instancio las variables
-        If IsNothing(ExecutedIDs) Then
-            ExecutedIDs = New List(Of Int64)
-        End If
-        RulePendingEvent = RulePendingEvents.NoPendingEvent
-        ExecutionResult = RuleExecutionResult.NoExecution
-        wfstepbuss = New WFStepBusiness()
+        Try
+            'Instancio las variables
+            If IsNothing(ExecutedIDs) Then
+                ExecutedIDs = New List(Of Int64)
+            End If
+            RulePendingEvent = RulePendingEvents.NoPendingEvent
+            ExecutionResult = RuleExecutionResult.NoExecution
+            wfstepbuss = New WFStepBusiness()
 
-        rule = GetInstanceRuleById(ruleID)
-        rule.IsAsync = IsAsync
-        Return ExecuteWebRule(rule, results, RulePendingEvent, ExecutionResult, ExecutedIDs, Params, PendingChildRules, RefreshRule, TaskIdsToRefresh, IsAsync)
-        'Catch ex As Exception
-        '    If Not IsNothing(PendingChildRules) Then
-        '        PendingChildRules.Clear()
-        '    End If
-        '    Throw
-        'Finally
-        'Limpio las variables
-        If Not IsNothing(wfstepbuss) Then
-            wfstepbuss = Nothing
-        End If
-        'End Try
+            rule = GetInstanceRuleById(ruleID)
+            rule.IsAsync = IsAsync
+            Return ExecuteWebRule(rule, results, RulePendingEvent, ExecutionResult, ExecutedIDs, Params, PendingChildRules, RefreshRule, TaskIdsToRefresh, IsAsync)
+        Catch ex As Exception
+            If Not IsNothing(PendingChildRules) Then
+                PendingChildRules.Clear()
+            End If
+            Throw ex
+        Finally
+            'Limpio las variables
+            If Not IsNothing(wfstepbuss) Then
+                wfstepbuss = Nothing
+            End If
+        End Try
     End Function
 
     Private Function ExecuteWebRule(ByVal rule As WFRuleParent, ByVal results As List(Of ITaskResult), ByRef RulePendingEvent As RulePendingEvents,
                                     ByRef ExecutionResult As RuleExecutionResult, ByRef ExecutedIDs As List(Of Int64), ByRef Params As Hashtable, ByRef PendingChildRules As List(Of Int64), ByRef RefreshRule As Boolean, ByRef TaskIdsToRefresh As List(Of Long), ByVal IsAsync As Boolean) As List(Of ITaskResult)
         'Si la regla ya se ejecuto, ejecuto los hijos
         '28/10/11:Se agrega pregunta para saber si la regla está habilitada.
-
-        If (rule.ChildRulesIds Is Nothing OrElse rule.ChildRulesIds.Count = 0) Then
-            rule.ChildRulesIds = GetChildRulesIds(rule.ID, rule.RuleClass, results)
-        End If
-
-        ZTrace.WriteLineIf(ZTrace.IsInfo, String.Format("Reglas Hijas obtenidas: {0}", rule.ChildRulesIds.Count))
-
 
         If ExecutedIDs.Contains(rule.ID) = False AndAlso rule.Enable Then
 
@@ -319,7 +313,7 @@ Public Class WFRulesBusiness
                         Dim Result = results(0)
                         If rule.RuleType = TypesofRules.AccionUsuario Then
 
-                            WFTB.LogTask(Result, "Ejecuto :" & rule.Name & $"({rule.ID})")
+                            WFTB.LogTask(Result, "Ejecuto :" & rule.Name)
 
                         End If
 
@@ -373,6 +367,11 @@ Public Class WFRulesBusiness
             '[AlejandroR] 01/03/2011 - verificar si la regla tiene configurado que no se ejecuten las hijas
             If Not rule.DisableChildRules.Value AndAlso rule.RuleClass <> "DoForEach" Then
 
+                ' ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
+                If (rule.ChildRulesIds Is Nothing OrElse rule.ChildRulesIds.Count = 0) Then
+                    rule.ChildRulesIds = GetChildRulesIds(rule.ID)
+                End If
+                ZTrace.WriteLineIf(ZTrace.IsInfo, String.Format("Reglas Hijas obtenidas: {0}", rule.ChildRulesIds.Count))
 
 
                 For Each RId As Int64 In rule.ChildRulesIds
@@ -449,7 +448,13 @@ Public Class WFRulesBusiness
     ''' <param name="Params"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
+    Private Function ExecuteWebRule(ByVal rule As WFRuleParent, ByVal results As List(Of ITaskResult), ByRef RulePendingEvent As RulePendingEvents, ByRef ExecutionResult As RuleExecutionResult, ByRef ExecutedIDs As List(Of Int64), ByRef Params As Hashtable, ByRef RefreshRule As Boolean, ByRef TaskIdsToRefresh As List(Of Long), ByVal IsAsync As Boolean) As List(Of ITaskResult)
+        If ExecutedIDs.Contains(rule.ID) = False Then
 
+
+        End If
+        Return results
+    End Function
 
     ''' <summary>
     ''' Ejecuta una regla a partir de su id, el id del step y la collecion de resultsa ejecutarse
@@ -721,7 +726,7 @@ Public Class WFRulesBusiness
 
         Dim Rule As IWFRuleParent = GetInstanceRuleById(p_iRuleId)
         If Rule IsNot Nothing Then
-            Return Rule.Name
+            Return Rule.name
         Else
             Return String.Empty
         End If
@@ -3164,7 +3169,7 @@ Public Class WFRulesBusiness
 
                 FillRulePreference(Rule)
 
-                'Rule.ChildRulesIds = GetChildRulesIds(Rule.ID, Rule.RuleClass, Results)
+                Rule.ChildRulesIds = GetChildRulesIds(Rule.ID)
                 'For Each SubRule As DataRow In dsRules.Rows
                 '    'If (SubRule.Item("ParentType") = 10 OrElse SubRule.Item("ParentType") >= 30) AndAlso SubRule.Item("ParentId") = Rule.ID Then
                 '    If (SubRule.Item("ParentId") = Rule.ID Then
@@ -3247,13 +3252,9 @@ Public Class WFRulesBusiness
 
     Private Function GetClassType(ByVal engine As Assembly, ByVal className As String) As Type
         If Not GlobalRulesEngine.GetInstance.ContainsClass(className) Then
-            Try
-                Dim classType As Type = engine.GetType("Zamba.WFActivity.Regular." & className, True, True)
-                GlobalRulesEngine.GetInstance.AddClassType(className, classType)
-                Return classType
-            Catch ex As Exception
-                Return Nothing
-            End Try
+            Dim classType As Type = engine.GetType("Zamba.WFActivity.Regular." & className, True, True)
+            GlobalRulesEngine.GetInstance.AddClassType(className, classType)
+            Return classType
         Else
             Return GlobalRulesEngine.GetInstance.GetClassType(className)
         End If
@@ -3845,44 +3846,16 @@ Public Class WFRulesBusiness
         End Try
     End Sub
 
-    Public Function GetChildRulesIds(ByVal ParentRuleId As Int64, RuleClass As String, results As List(Of ITaskResult)) As List(Of Int64) Implements IWFRuleBusiness.GetChildRulesIds
-        If Cache.Rules.ChildRules.ContainsKey(ParentRuleId) = False Then
+    Public Function GetChildRulesIds(ByVal ruleId As Int64) As List(Of Int64) Implements IWFRuleBusiness.GetChildRulesIds
+        Using dt As DataTable = WFRulesFactory.GetChildRulesIds(ruleId)
             Dim ids As New List(Of Int64)
-            Using dt As DataTable = WFRulesFactory.GetChildRulesIds(ParentRuleId)
-                For i As Int32 = 0 To dt.Rows.Count - 1
-                    ids.Add(CLng(dt.Rows(i)(0)))
-                Next
-            End Using
-            If RuleClass = "DOExecuteRule" Then
-                Dim dsParams As DataSet = GetRuleParamItems(ParentRuleId)
-                If (dsParams.Tables.Count > 0 AndAlso dsParams.Tables(0).Rows.Count > 0) Then
-                    Dim RuleIDToExecute As Int64
-                    Dim RuleExecuteMode As Boolean = dsParams.Tables("WFRuleParamItems").Rows.Count > 3 AndAlso Boolean.Parse(dsParams.Tables("WFRuleParamItems").Rows(3).Item("Value"))
-                    If RuleExecuteMode Then
-                        Dim RuleToExecute As String = dsParams.Tables("WFRuleParamItems").Rows(2).Item("Value")
-                        Dim VarInterReglas As New VariablesInterReglas()
-                        RuleToExecute = Zamba.Core.TextoInteligente.ReconocerCodigo(RuleToExecute, results(0)).Trim
-                        If RuleToExecute.Contains("zvar") = True Then
-                            RuleToExecute = VarInterReglas.ReconocerVariablesValuesSoloTexto(RuleToExecute)
-                        End If
-                        RuleIDToExecute = Int64.Parse(RuleToExecute)
-                    Else
-                        RuleIDToExecute = Int64.Parse(dsParams.Tables("WFRuleParamItems").Rows(0).Item("Value"))
-                    End If
-                    ids.Insert(0, RuleIDToExecute)
-                End If
-            End If
 
-            SyncLock Cache.Rules.ChildRules
-                If Cache.Rules.ChildRules.ContainsKey(ParentRuleId) = False Then
-                    Cache.Rules.ChildRules.Add(ParentRuleId, ids)
-                End If
-            End SyncLock
+            For i As Int32 = 0 To dt.Rows.Count - 1
+                ids.Add(CLng(dt.Rows(i)(0)))
+            Next
 
             Return ids
-        Else
-            Return Cache.Rules.ChildRules(ParentRuleId)
-        End If
+        End Using
     End Function
 
 

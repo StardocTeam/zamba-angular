@@ -24,7 +24,6 @@ Public Class ZCore
     ''' <remarks></remarks>
     Public Shared Function GetInstance() As ZCore
         If Membership.MembershipHelper.isWeb Then
-
             Dim zCoreKey As String = Membership.MembershipHelper.CurrentUser.ID
             If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
                 _hsSingletonZCoreInstances.Add(zCoreKey, New ZCore())
@@ -61,7 +60,7 @@ Public Class ZCore
 
     Public Sections As New SynchronizedHashtable
     Public DocTypes As New Generic.Dictionary(Of Int64, DocType)
-    'Public Indexs As New SynchronizedHashtable
+    Public Indexs As New SynchronizedHashtable
     Public Volumes As New SynchronizedHashtable
     Private _HtHierarchyRelation As New SynchronizedHashtable
 
@@ -104,7 +103,7 @@ Public Class ZCore
         DsCore = New DataSet
         Sections = New SynchronizedHashtable
         DocTypes = New Dictionary(Of Int64, DocType)
-        'Indexs = New SynchronizedHashtable
+        Indexs = New SynchronizedHashtable
         Volumes = New SynchronizedHashtable
     End Sub
 
@@ -204,18 +203,6 @@ Public Class ZCore
 
 #Region "Atributos"
     Dim FlagIndexLoaded As Boolean
-
-    Class IndexDataR
-        Public Property IndexId As Int64
-        Public Property MustComplete As Boolean
-        Public Property IsReferenced As Boolean
-
-        Public Sub New(_indexId As Int64, _mustComplete As Boolean, _isReferenced As Boolean)
-            Me.IndexId = _indexId
-            Me.MustComplete = _mustComplete
-            Me.IsReferenced = _isReferenced
-        End Sub
-    End Class
     ''' -----------------------------------------------------------------------------
     ''' <summary>
     ''' Funcion para obtener los Indices que comparten un conjunto de Doc_types
@@ -234,7 +221,7 @@ Public Class ZCore
         Dim DvIndexR As New DataView
         Dim i As Int32
         Dim Filter As New System.Text.StringBuilder
-        Dim IndexData As New Dictionary(Of Int64, IndexDataR)
+        Dim IndexData As New Hashtable
         Dim Where As New System.Text.StringBuilder
         Dim cAux As New SortedList
 
@@ -271,9 +258,7 @@ Public Class ZCore
                             If DvIndexR(x).Item("INDEX_ID") = DvIndexR(x + SelectedDocTypes.Count - 1).Item("INDEX_ID") Then
                                 Where.Append("INDEX_ID = ")
                                 Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                                If Not IndexData.ContainsKey(CInt(DvIndexR(x).Item("INDEX_ID"))) Then
-                                    IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), New IndexDataR(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
-                                End If
+                                IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                                 FlagFirst = False
                                 ' LastId = DvIndexR(x).Item("INDEX_ID")
                             End If
@@ -281,10 +266,8 @@ Public Class ZCore
                             If DvIndexR(x).Item("INDEX_ID") = DvIndexR(x + SelectedDocTypes.Count - 1).Item("INDEX_ID") Then
                                 Where.Append(" Or INDEX_ID =")
                                 Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                                If Not IndexData.ContainsKey(CInt(DvIndexR(x).Item("INDEX_ID"))) Then
-                                    IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), New IndexDataR(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
-                                    '  LastId = DvIndexR(x).Item("INDEX_ID")
-                                End If
+                                IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
+                                '  LastId = DvIndexR(x).Item("INDEX_ID")
                             End If
                         End If
                     Catch ex As Exception
@@ -296,17 +279,12 @@ Public Class ZCore
                     If FlagFirst Then
                         Where.Append("INDEX_ID = ")
                         Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                        If Not IndexData.ContainsKey(CInt(DvIndexR(x).Item("INDEX_ID"))) Then
-                            IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), New IndexDataR(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
-                        End If
+                        IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                         FlagFirst = False
                     Else
                         Where.Append(" Or INDEX_ID =")
                         Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                        If Not IndexData.ContainsKey(CInt(DvIndexR(x).Item("INDEX_ID"))) Then
-                            IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), New IndexDataR(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
-                        End If
-
+                        IndexData.Add(CInt(DvIndexR(x).Item("INDEX_ID")), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                     End If
                 Next
             End If
@@ -322,15 +300,14 @@ Public Class ZCore
             'Obtiene todos los indices desde los DataView.
             'Agrega cada indice a una lista ordenada, utilizando como clave el Index_id de la tabla Doc_Index
             For i = 0 To IndexCount
-                Dim mustcomplete As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).MustComplete
-                Dim isREFERENCED As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).IsReferenced
+                Dim mustcomplete As Boolean = CBool(IndexData(CInt(DvIndex(i).Item("Index_Id"))))
                 Dim ind As Index
                 If Not IsDBNull(DvIndex(i).Item("DataTableName")) Then
                     ind = New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"),
-                                    False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, DvIndex(i).Item("DataTableName"),,, isREFERENCED)
+                                    False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, DvIndex(i).Item("DataTableName"))
                 Else
                     ind = New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"),
-                                    False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, String.Empty,,, isREFERENCED)
+                                    False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, String.Empty)
                 End If
 
                 If Not _HtHierarchyRelation(ind.ID) Is Nothing Then
@@ -390,7 +367,7 @@ Public Class ZCore
         Dim DvIndexR As New DataView
         Dim i As Int32
         Dim Filter As New System.Text.StringBuilder
-        Dim IndexData As New Dictionary(Of Int64, IndexDataR)
+        Dim IndexData As New Hashtable
         Dim Where As New System.Text.StringBuilder
         Dim cAux As New SortedList
 
@@ -428,7 +405,7 @@ Public Class ZCore
                             IndexIdsList.Add(indexrow("Index_Id"))
                             Where.Append(indexrow("INDEX_ID"))
                             Where.Append(",")
-                            IndexData.Add(CInt(indexrow("INDEX_ID")), New IndexDataR(CInt(indexrow("INDEX_ID")), CBool(indexrow("MUSTCOMPLETE")), CBool(indexrow("ISREFERENCED"))))
+                            IndexData.Add(CInt(indexrow("INDEX_ID")), CBool(indexrow("MUSTCOMPLETE")))
                         End If
                     Next
                 Next
@@ -446,18 +423,17 @@ Public Class ZCore
             'Obtiene todos los indices desde los DataView.
             'Agrega cada indice a una lista ordenada, utilizando como clave el Index_id de la tabla Doc_Index
             For i = 0 To IndexCount
-                Dim mustcomplete As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).MustComplete
-                Dim isREFERENCED As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).IsReferenced
+                Dim mustcomplete As Boolean = CBool(IndexData(CInt(DvIndex(i).Item("Index_Id"))))
 
                 'Si el indice no está repetido se agrega a la lista
                 If Not cAux.ContainsKey(DvIndex(i).Item("Index_Id").ToString) Then
                     Dim ind As Index
                     If Not IsDBNull(DvIndex(i).Item("DataTableName")) Then
                         ind = New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"),
-                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, DvIndex(i).Item("DataTableName"),,, isREFERENCED)
+                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, DvIndex(i).Item("DataTableName"))
                     Else
                         ind = New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"),
-                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, String.Empty,,, isREFERENCED)
+                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, String.Empty)
                     End If
 
                     If Not _HtHierarchyRelation(ind.ID) Is Nothing Then
@@ -515,7 +491,7 @@ Public Class ZCore
         Dim DvIndexR As New DataView
         Dim i As Int32
         Dim Filter As New System.Text.StringBuilder
-        Dim IndexData As New Dictionary(Of Int64, IndexDataR)
+        Dim IndexData As New Hashtable
         Dim Where As New System.Text.StringBuilder
         Dim cAux As New SortedList
 
@@ -544,7 +520,7 @@ Public Class ZCore
                             If DvIndexR(x).Item("INDEX_ID") = DvIndexR(x + SelectedDocTypes.Length - 1).Item("INDEX_ID") Then
                                 Where.Append("INDEX_ID = ")
                                 Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                                IndexData.Add(DvIndexR(x).Item("INDEX_ID"), New IndexDataR(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
+                                IndexData.Add(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                                 FlagFirst = False
                                 '   LastId = DvIndexR(x).Item("INDEX_ID")
                             End If
@@ -552,7 +528,7 @@ Public Class ZCore
                             If DvIndexR(x).Item("INDEX_ID") = DvIndexR(x + SelectedDocTypes.Length - 1).Item("INDEX_ID") Then
                                 Where.Append(" OR INDEX_ID =")
                                 Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                                IndexData.Add(DvIndexR(x).Item("INDEX_ID"), New IndexDataR(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
+                                IndexData.Add(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                                 '    LastId = DvIndexR(x).Item("INDEX_ID")
                             End If
                         End If
@@ -566,12 +542,12 @@ Public Class ZCore
                         If FlagFirst Then
                             Where.Append("INDEX_ID = ")
                             Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                            IndexData.Add(DvIndexR(x).Item("INDEX_ID"), New IndexDataR(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
+                            IndexData.Add(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                             FlagFirst = False
                         Else
                             Where.Append(" OR INDEX_ID =")
                             Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                            IndexData.Add(DvIndexR(x).Item("INDEX_ID"), New IndexDataR(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
+                            IndexData.Add(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")))
                         End If
                     Catch ex As Exception
                         Zamba.Core.ZClass.raiseerror(ex)
@@ -589,18 +565,17 @@ Public Class ZCore
             'Obtiene todos los indices desde los DataView.
             'Agrega cada indice a una lista ordenada, utilizando como clave el Index_id de la tabla Doc_Index
             For i = 0 To IndexCount
-                Dim mustcomplete As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).MustComplete
-                Dim isREFERENCED As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).IsReferenced
+                Dim mustcomplete As Boolean = CBool(IndexData(CInt(DvIndex(i).Item("Index_Id"))))
 
                 'Si el indice no está repetido se agrega a la lista
                 If Not cAux.ContainsKey(DvIndex(i).Item("Index_Id").ToString) Then
                     Dim ind As Index
                     If Not IsDBNull(DvIndex(i).Item("DataTableName")) Then
                         ind = New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"),
-                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, DvIndex(i).Item("DataTableName"),,, isREFERENCED)
+                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, DvIndex(i).Item("DataTableName"))
                     Else
                         ind = New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"),
-                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, String.Empty,,, isREFERENCED)
+                                        False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, String.Empty, DvIndex(i).Item("IndicePadre"), Nothing, String.Empty)
                     End If
 
                     If Not _HtHierarchyRelation(ind.ID) Is Nothing Then
@@ -711,19 +686,19 @@ Public Class ZCore
 
                         If Not IsDBNull(DvIndex("DataTableName")) Then
                             ind = New Index(DvIndex("Index_Id"), DvIndex("Index_Name"), DvIndex("Index_Type"), DvIndex("Index_Len"),
-                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, defaultValue, DvIndex("IndicePadre"), Nothing, DvIndex("DataTableName"),,, isreference)
+                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, defaultValue, DvIndex("IndicePadre"), Nothing, DvIndex("DataTableName"))
                         Else
                             ind = New Index(DvIndex("Index_Id"), DvIndex("Index_Name"), DvIndex("Index_Type"), DvIndex("Index_Len"),
-                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, defaultValue, DvIndex("IndicePadre"), Nothing, String.Empty,,, isreference)
+                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, defaultValue, DvIndex("IndicePadre"), Nothing, String.Empty)
                         End If
                     Else
                         'CREA EL INDICE SIN DEFAULT VALUE
                         If Not IsDBNull(DvIndex("DataTableName")) Then
                             ind = New Index(DvIndex("Index_Id"), DvIndex("Index_Name"), DvIndex("Index_Type"), DvIndex("Index_Len"),
-                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, String.Empty, DvIndex("IndicePadre"), Nothing, DvIndex("DataTableName"),,, isreference)
+                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, String.Empty, DvIndex("IndicePadre"), Nothing, DvIndex("DataTableName"))
                         Else
                             ind = New Index(DvIndex("Index_Id"), DvIndex("Index_Name"), DvIndex("Index_Type"), DvIndex("Index_Len"),
-                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, String.Empty, -1, Nothing, String.Empty,,, isreference)
+                                                False, False, DvIndex("DropDown"), False, False, mustcomplete, String.Empty, -1, Nothing, String.Empty)
                         End If
                     End If
 
@@ -773,7 +748,7 @@ Public Class ZCore
         Dim i As Int32
         Dim x As Int32
         Dim Where As New System.Text.StringBuilder
-        Dim IndexData As New Dictionary(Of Int64, IndexDataR)
+        Dim IndexData As New Hashtable
         Try
             DvIndexR.Table = DsCore.Tables("INDEX_R_DOC_TYPE")
             DvIndexR.RowFilter = "DOC_TYPE_ID = " & DocTypeId
@@ -783,11 +758,11 @@ Public Class ZCore
                     If x = 0 Then
                         Where.Append("INDEX_ID in (")
                         Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                        If IndexData.ContainsKey(DvIndexR(x).Item("INDEX_ID")) = False Then IndexData.Add(DvIndexR(x).Item("INDEX_ID"), New IndexDataR(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
+                        If IndexData.ContainsKey(DvIndexR(x).Item("INDEX_ID")) = False Then IndexData.Add(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("COMPLETE")))
                     Else
                         Where.Append(",")
                         Where.Append(DvIndexR(x).Item("INDEX_ID"))
-                        If IndexData.ContainsKey(DvIndexR(x).Item("INDEX_ID")) = False Then IndexData.Add(DvIndexR(x).Item("INDEX_ID"), New IndexDataR(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("MUSTCOMPLETE")), CBool(DvIndexR(x).Item("ISREFERENCED"))))
+                        If IndexData.ContainsKey(DvIndexR(x).Item("INDEX_ID")) = False Then IndexData.Add(DvIndexR(x).Item("INDEX_ID"), CBool(DvIndexR(x).Item("COMPLETE")))
                     End If
                 Catch ex As Exception
                     Zamba.Core.ZClass.raiseerror(ex)
@@ -799,9 +774,8 @@ Public Class ZCore
             Dim IndexCount As Int32 = DvIndex.Count - 1
             Dim CIndexs(IndexCount) As Index
             For i = 0 To IndexCount
-                Dim mustcomplete As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).MustComplete
-                Dim isREFERENCED As Boolean = IndexData(CInt(DvIndex(i).Item("Index_Id"))).IsReferenced
-                CIndexs.SetValue(New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"), False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete, ,,,,,, isREFERENCED), i)
+                Dim mustcomplete As Boolean = CBool(IndexData(DvIndex(i).Item("Index_Id")))
+                CIndexs.SetValue(New Index(DvIndex(i).Item("Index_Id"), DvIndex(i).Item("Index_Name"), DvIndex(i).Item("Index_Type"), DvIndex(i).Item("Index_Len"), False, False, DvIndex(i).Item("DropDown"), False, False, mustcomplete), i)
             Next
             Return CIndexs
         Catch ex As StackOverflowException
@@ -833,33 +807,33 @@ Public Class ZCore
     ''' -----------------------------------------------------------------------------
     Public Function GetIndex(ByVal IndexId As Int64) As Index
         Try
-            'If Indexs.ContainsKey(IndexId) Then
-            '    Return New Index(Indexs(IndexId))
-            'Else
-            LoadCore()
-            Dim DvIndex As New DataView
-            DvIndex.Table = DsCore.Tables("DOC_INDEX")
-            Dim Where As New System.Text.StringBuilder
-            Try
-                Where.Append("INDEX_ID = ")
-                Where.Append(IndexId)
-                DvIndex.RowFilter = Where.ToString
-                If DvIndex.Count > 0 Then
-                    Dim index As New Index(DvIndex(0).Item("Index_Id"), DvIndex(0).Item("Index_Name"), DvIndex(0).Item("Index_Type"), DvIndex(0).Item("Index_Len"), False, False, DvIndex(0).Item("DropDown"), False, False, 0)
-                    'Indexs.Add(IndexId, index)
-                    Return index
-                Else
+            If Indexs.ContainsKey(IndexId) Then
+                Return New Index(Indexs(IndexId))
+            Else
+                LoadCore()
+                Dim DvIndex As New DataView
+                DvIndex.Table = DsCore.Tables("DOC_INDEX")
+                Dim Where As New System.Text.StringBuilder
+                Try
+                    Where.Append("INDEX_ID = ")
+                    Where.Append(IndexId)
+                    DvIndex.RowFilter = Where.ToString
+                    If DvIndex.Count > 0 Then
+                        Dim index As New Index(DvIndex(0).Item("Index_Id"), DvIndex(0).Item("Index_Name"), DvIndex(0).Item("Index_Type"), DvIndex(0).Item("Index_Len"), False, False, DvIndex(0).Item("DropDown"), False, False, 0)
+                        Indexs.Add(IndexId, index)
+                        Return index
+                    Else
+                        Return Nothing
+                    End If
+                Catch ex As Exception
+                    Zamba.Core.ZClass.raiseerror(ex)
                     Return Nothing
-                End If
-            Catch ex As Exception
-                Zamba.Core.ZClass.raiseerror(ex)
-                Return Nothing
-            Finally
-                DvIndex.Dispose()
-                DvIndex = Nothing
-                Where = Nothing
-            End Try
-            '  End If
+                Finally
+                    DvIndex.Dispose()
+                    DvIndex = Nothing
+                    Where = Nothing
+                End Try
+            End If
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)
             Return Nothing
@@ -1114,31 +1088,19 @@ Public Class ZCore
     Public Sub InitializeSystem(ByVal moduleName As String)
 
         Dim UP As New UserPreferences
-        Dim ERB As New ErrorReportBusiness
         Dim ZOPTB As New ZOptBusiness
         Dim TB As New ToolsBusiness
         Dim DBB As New DBBusiness
+
+        'If VariablesInterReglas.ZVarsRulesRepo Is Nothing Then
+        '    VariablesInterReglas.ZVarsRulesRepo = New ZVarsRulesRepo()
+        'End If
 
         DBB.InitializeDB()
         StartTrace(moduleName)
         ZOPTB.LoadAllOptions()
         UP.LoadAllMachineConfigValues()
         TB.loadGlobalVariables()
-
-        If (ERB IsNot Nothing) Then
-            If Boolean.Parse(UP.getValue("LogErrorsInDB", UPSections.MonitorPreferences, False)) Then
-                RemoveHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.AddException
-                AddHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.AddException
-            End If
-            If Boolean.Parse(UP.getValue("LogPerformanceIssuesInDB", UPSections.MonitorPreferences, False)) Then
-                RemoveHandler Zamba.Servers.utilities.LogPerformanceIssue, AddressOf ERB.AddPerformanceIssue
-                AddHandler Zamba.Servers.utilities.LogPerformanceIssue, AddressOf ERB.AddPerformanceIssue
-            End If
-            If Boolean.Parse(UP.getValue("SendErrorsbyMail", UPSections.MonitorPreferences, False)) Then
-                RemoveHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.SendException
-                AddHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.SendException
-            End If
-        End If
 
         ZOPTB = Nothing
         UP = Nothing
@@ -1174,12 +1136,11 @@ Public Class ZCore
         Dim level As Int32
         Try
             level = Int32.Parse(UP.getValueForMachine("TraceLevel", Zamba.UPSections.UserPreferences, "4"))
-            If level = 0 Then level = 1
         Catch
             level = 4
         End Try
         ZTrace.SetLevel(level, moduleName)
-        ZTrace.WriteLineIf(ZTrace.IsError, "Nivel de trace: " & level)
+        '        If level > 0 Then ZTrace.WriteLine("Nivel de trace: " & level)
         UP = Nothing
     End Sub
 

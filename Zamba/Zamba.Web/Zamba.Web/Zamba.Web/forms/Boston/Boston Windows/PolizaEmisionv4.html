@@ -9,8 +9,8 @@
 <head>
     <title></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     
-    
+    <script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
     
     <style type="text/css">
         input {
@@ -112,8 +112,17 @@
                 document.getElementById("zamba_index_5").value = "1";
             }
 
-
-
+            $(function () {
+                $('#zamba_index_29').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'calendar.png',
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
         }
 
         function esDigito(sChr) {
@@ -283,7 +292,7 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon" style="background-color:#e5e5e5">Vigencia Desde:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_29" name="zamba_index_29" />
                     </div>
                 </div>
@@ -388,14 +397,14 @@
             <div class="row">
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">PolizaEmisionv4.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

@@ -8,7 +8,6 @@ Namespace Cache
         Public Shared lsStepDSRules As New SynchronizedHashtable
 
         Public Shared lsRulesDSRules As New SynchronizedHashtable
-        Public Shared ChildRules As New SynchronizedHashtable
 
         ''' <summary>
         ''' El constructor es privado
@@ -50,10 +49,18 @@ Namespace Cache
             End If
         End Function
 
+
+
+
+
+
+
+
+
         Public Shared Sub ClearAll()
             lsStepDSRules.Clear()
             lsRulesDSRules.Clear()
-            ChildRules.Clear()
+
         End Sub
     End Class
 End Namespace

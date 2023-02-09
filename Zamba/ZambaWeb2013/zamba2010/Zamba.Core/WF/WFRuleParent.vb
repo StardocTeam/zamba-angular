@@ -576,10 +576,6 @@ Public MustInherit Class WFRuleParent
 
 
             'Try
-            If (ChildRulesIds Is Nothing OrElse ChildRulesIds.Count = 0) Then
-                ChildRulesIds = ruleBusiness.GetChildRulesIds(ID, Me.RuleClass, results)
-            End If
-
             If Not IsNothing(results) AndAlso (results.Count > 0 OrElse ((results.Count = 0) AndAlso Me.ExecuteWhenResult = False)) Then
 
                 '[AlejandroR] 01/03/2011 - se ejecuta solo si la regla esta habilitada 
@@ -646,16 +642,6 @@ Public MustInherit Class WFRuleParent
                             End If
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "Id de novedad: " & BCHistoryID)
                         End If
-
-                        If Me.SaveUpdate Then
-                            If VariablesInterReglas.ContainsKey("LastNewsID") = False Then
-                                VariablesInterReglas.Add("LastNewsID", BCHistoryID)
-                            Else
-                                VariablesInterReglas.Item("LastNewsID") = BCHistoryID
-                            End If
-
-                        End If
-
                     Catch ex As Exception
                         Dim ex2string As String = "Error en regla: " & Me.Name + " ID:" + Me.ID.ToString & " - " & ex.ToString
                         ZTrace.WriteLineIf(ZTrace.IsInfo, ex2string)
@@ -713,10 +699,14 @@ Public MustInherit Class WFRuleParent
                 Else
                     '[AlejandroR] 01/03/2011 
                     'si no se ejecuto la regla, se asignan los nuevos results para que los usen las reglas hijas, sino no se ejecutan
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "La regla esta deshabilitada: " & Me.Name + " ID: " + Me.ID.ToString)
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "La regla no se ejecuto, se encuentra deshabilitada: " & Me.Name + " ID:" + Me.ID.ToString)
                     newresults = results
                 End If
 
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
+                If (ChildRulesIds Is Nothing OrElse ChildRulesIds.Count = 0) Then
+                    ChildRulesIds = ruleBusiness.GetChildRulesIds(ID)
+                End If
 
                 'Comente esta linea porque hay reglas q no necesitan results para ejecutarse - MC
                 'If newresults.Count > 0 Then
@@ -748,14 +738,14 @@ Public MustInherit Class WFRuleParent
                                     '[Ezequiel] 08/06/09 - Valido si debo cortar la ejecucion de la tarea
                                     ' en base a la regla que se esta ejecutando actualmente.
                                     If R.ContinueWithError = False Then
-                                        Throw New Exception("Se finaliza la ejecución de la tarea debido a un error en la regla: " & R.Name + " ID: " + Me.ID.ToString, ex)
+                                        Throw New Exception("Se finaliza la ejecución de la tarea debido a un error en la regla: " & R.Name, ex)
                                     Else
                                         ZClass.raiseerror(ex)
                                     End If
                                 End Try
                             Next
                         Else
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Las Reglas hijas estan deshabilitadas: " & Me.Name + " ID: " + Me.ID.ToString)
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "- Child Rules Are Not Enabled -")
                         End If
                     End If
                 End If
@@ -763,12 +753,6 @@ Public MustInherit Class WFRuleParent
         Else
             newresults = results
         End If
-
-        If CloseTask Then
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Se encuentra marcada la opcion de cerrado de tarea en regla: " & ID)
-
-        End If
-
 
         Return newresults
     End Function
@@ -919,7 +903,7 @@ Public MustInherit Class WFRuleParent
     End Function
 
 
-
+    
     Public Shared Function ObtenerNombreVariable(ByVal TextoaValidar As String) As String
         Dim variable As String
         If TextoaValidar <> String.Empty AndAlso TextoaValidar.ToLower().IndexOf("zvar") <> -1 Then
@@ -1264,7 +1248,7 @@ Public MustInherit Class WFRuleParent
         Return TextoaValidar
     End Function
 
-
+    
 
     ''' <summary>
     '''     Obtain files from an object and give them a specified format
@@ -1320,16 +1304,13 @@ Public MustInherit Class WFRuleParent
             Try
                 If IsNothing(Params) OrElse Params.Count = 0 Then
                     ZTrace.WriteLineIf(ZTrace.IsInfo, "**************************************************************************************")
-                    If results.Count > 1 Then
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, $"<b>EXEC Rule: {RuleClass} ({ID}) '{Name}' -- Tasks Count: {results.Count}<b/>")
-                    Else
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, $"<b>EXEC Rule: {RuleClass} ({ID}) '{Name}' -- Task: {results(0).Name} ({results(0).TaskId})<b/>")
-                    End If
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando: " & RuleClass & " " & ID & " '" & Name & "' para " & results.Count & " tarea/s.")
                 End If
 
                 Dim RID As Int64 = ID
                 Me.StartTime = Date.Now
                 newresults = Me.PlayWeb(results, RulePendingEvent, ExecutionResult, Params)
+
 
                 If IsNothing(ExecutionResult) OrElse ExecutionResult = RuleExecutionResult.NoExecution Then
                     ExecutionResult = RuleExecutionResult.CorrectExecution
@@ -1342,7 +1323,7 @@ Public MustInherit Class WFRuleParent
                     End If
                 End If
             Catch ex As Exception
-                Dim ex2string As String = "Error en regla: " & Me.Name + " ID:" + Me.ID.ToString & " - " & ex.Message
+                Dim ex2string As String = "Error en regla: " & Me.Name + " ID:" + Me.ID.ToString & " - " & ex.ToString
                 ZTrace.WriteLineIf(ZTrace.IsInfo, ex2string)
 
 
@@ -1375,9 +1356,7 @@ Public MustInherit Class WFRuleParent
                             Throw New Exception(Me.MessageToShowInCaseOfError, ex)
                         End If
                     Else
-                        If ex.Message <> "El usuario cancelo la ejecucion de la regla" Then
-                            ZClass.raiseerror(ex)
-                        End If
+                        ZClass.raiseerror(ex)
                         newresults = results
                     End If
                 Else
@@ -1386,7 +1365,6 @@ Public MustInherit Class WFRuleParent
                 End If
             End Try
 
-            Dim BCHistoryID As Int64
             'Guarda ultima actualizacion
             If Me.SaveUpdate Then
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se guardan datos de actualizacion")
@@ -1396,28 +1374,12 @@ Public MustInherit Class WFRuleParent
                 If Not IsNothing(results) AndAlso results.Count > 0 Then
                     For Each Result As Result In results
                         If Not IsNothing(Me.SaveUpdateInHistory) Then
-                            BCHistoryID = taskbusiness.SetLastUpdate(Result, _comment, Me.SaveUpdateInHistory, Membership.MembershipHelper.CurrentUser.ID, Me.Name)
+                            taskbusiness.SetLastUpdate(Result, _comment, Me.SaveUpdateInHistory, Membership.MembershipHelper.CurrentUser.ID, Me.Name)
                         Else
-                            BCHistoryID = taskbusiness.SetLastUpdate(Result, _comment, False, Membership.MembershipHelper.CurrentUser.ID, Me.Name)
+                            taskbusiness.SetLastUpdate(Result, _comment, False, Membership.MembershipHelper.CurrentUser.ID, Me.Name)
                         End If
                     Next
                 End If
-
-                If VariablesInterReglas.ContainsKey("LastBCHistoryID") = False Then
-                    VariablesInterReglas.Add("LastBCHistoryID", BCHistoryID)
-                Else
-                    VariablesInterReglas.Item("LastBCHistoryID") = BCHistoryID
-                End If
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Id de novedad: " & BCHistoryID)
-
-
-
-                If VariablesInterReglas.ContainsKey("LastNewsID") = False Then
-                    VariablesInterReglas.Add("LastNewsID", BCHistoryID)
-                Else
-                    VariablesInterReglas.Item("LastNewsID") = BCHistoryID
-                End If
-
 
                 _comment = String.Empty
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se han guardado los datos de actualizacion")

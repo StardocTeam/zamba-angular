@@ -120,9 +120,9 @@ namespace ZambaWeb.RestApi.Controllers.Customs
             //return js;
 
 
-            //var user = GetUser(userId);
-            //    if (user == null)
-            //        throw new Exception("InvalidUser");
+            var user = GetUser(userId);
+                if (user == null)
+                    throw new Exception("InvalidUser");
                 try
                 {
                     

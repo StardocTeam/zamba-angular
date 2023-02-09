@@ -49,7 +49,6 @@ Public Class PlayDODistribuir
 
 
                 Params.Add("StepID", Me._myRule.NewWFStepId)
-                Params.Add("CloseTask", Me._myRule.CloseTask)
                 Params.Add("TasksToExecute", results)
             Else
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "No hay tareas para distribuir.")

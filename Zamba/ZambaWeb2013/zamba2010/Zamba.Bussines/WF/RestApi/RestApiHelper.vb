@@ -65,6 +65,15 @@ Public Class RestApiHelper
 
             JsonMessage = JsonConvert.SerializeObject(JsonMessage, Formatting.Indented)
         End If
+
+
+
+
+
+
+
+
+
         Dim WebRequest As HttpWebRequest
         WebRequest = CType(WebRequest.Create(New Uri(url)), HttpWebRequest)
         WebRequest.Timeout = 700000

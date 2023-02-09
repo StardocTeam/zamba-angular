@@ -4,11 +4,7 @@
     Private mChildCount As Int64
     Private mSubEntity As System.Collections.Generic.List(Of EntityView)
 
-    Private Sub New()
-        Me.mSubEntity = New System.Collections.Generic.List(Of EntityView)
-    End Sub
     Public Sub New(ByVal pID As Int64, ByVal pName As String, ByVal pChildCount As Int64)
-        Me.New()
         Me.ID = pID
         Me.Name = pName
         Me.ChildCount = pChildCount
@@ -64,5 +60,4 @@
         End Get
     End Property
 
-    Public Property ParentId As Long
 End Class

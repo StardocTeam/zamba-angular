@@ -53,6 +53,9 @@ public class GetDocFile : IHttpHandler, System.Web.SessionState.IReadOnlySession
 
             if (res != null && res.FullPath != null && res.FullPath.Contains("."))
             {
+
+
+
                 byte[] file = null;
                 Boolean IsBlob = false;
 
@@ -78,6 +81,7 @@ public class GetDocFile : IHttpHandler, System.Web.SessionState.IReadOnlySession
                             filename = res.FullPath;
                             filename = filename.Replace(".msg", ".html");
                             res.Doc_File = Path.GetFileName(res.FullPath).ToLower().Replace(".msg", ".html");
+
                         }
                     }
 
@@ -86,26 +90,12 @@ public class GetDocFile : IHttpHandler, System.Web.SessionState.IReadOnlySession
                         (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase ||
                         (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
 
-                        sResult.LoadFileFromDB(ref res);
+                        sResult.LoadFileFromDB(res);
 
                     //Verifica si el result contiene el documento guardado
                     if (res.EncodedFile != null)
                     {
                         file = res.EncodedFile;
-                        String TempDir = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "TEMP");
-                        TempDir = Path.Combine(TempDir, res.DocTypeId.ToString());
-                        try
-                        {
-                            if (Directory.Exists(TempDir) == false) Directory.CreateDirectory(TempDir);
-                        }
-                        catch (Exception)
-                        {
-                            TempDir = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Pdfs", res.DocTypeId.ToString());
-                        }
-                        string tempPDFFile = Path.Combine(TempDir, Path.GetFileName(res.FullPath));
-                        FileEncode.Decode(tempPDFFile, file);
-                        filename = tempPDFFile;
-                        res.File = tempPDFFile;
                     }
                     else
                     {
@@ -335,7 +325,7 @@ public class GetDocFile : IHttpHandler, System.Web.SessionState.IReadOnlySession
                 context.Response.AppendHeader("content-disposition", "inline; filename=" + FI.Name);
 
                 if (filename != null && filename.ToLower().EndsWith("pdf"))
-                    ((BaseImageFileResult)res).MimeType = "application/pdf";
+                    ((BaseImageFileResult)res)._mimeType = "application/pdf";
 
                 context.Response.ContentType = (fileNotFound) ? "text/html" : res.MimeType;
                 context.Response.OutputStream.Write(file, 0, file.Length);

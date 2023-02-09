@@ -260,7 +260,6 @@ TryAgain:
 
 
 #Region "private utility methods & constructors"
-    Private utilities As New utilities()
 
     'Since this class provides only static methods, make the default constructor private to prevent 
     'instances from being created with "new SqlHelper()".
@@ -350,19 +349,9 @@ TryAgain:
             If commandParameters(i).DbType = OracleDbType.RefCursor Then
                 commandParameters(i).Direction = ParameterDirection.Output
                 commandParameters(i).Value = Nothing
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "param: " & i + 1 & " " & commandParameters(i).ParameterName & " = " & commandParameters(i).Value)
-            ElseIf commandParameters(i).DbType = DbType.String Then
-                If parameterValues(i).ToString().StartsWith("'") Then
-                    parameterValues(i) = parameterValues(i).ToString().Remove(0, 1)
-                End If
-                If parameterValues(i).ToString().EndsWith("'") Then
-                    parameterValues(i) = parameterValues(i).ToString().Remove(parameterValues(i).ToString().Length - 1, 1)
-                End If
-                commandParameters(i).Value = parameterValues(i)
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "param: " & i + 1 & " " & commandParameters(i).ParameterName & " = " & commandParameters(i).Value)
             Else
                 commandParameters(i).Value = parameterValues(i)
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "param: " & i + 1 & " " & commandParameters(i).ParameterName & " = " & commandParameters(i).Value)
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "param " & i & "  " & parameterValues(i))
             End If
         Next
 

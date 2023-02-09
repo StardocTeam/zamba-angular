@@ -32,19 +32,6 @@ namespace Zamba.FileTools
     public class SpireTools : ISpireTools
     {
         private string barcodeInBase64;
-        public byte[] BytesFile { get; set; }
-        public Stream StreamFile { get; private set; }
-
-        public SpireTools()
-        {
-
-        }
-
-        public SpireTools(byte[] file)
-        {
-            this.BytesFile = file;
-            StreamFile = new MemoryStream(BytesFile);
-        }
 
         /// <summary>
         /// Exporta un datatable a Excel
@@ -56,13 +43,13 @@ namespace Zamba.FileTools
         {
             Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
             System.Type t = tt.GetType("Zamba.SpireTools.SpireTools", true, true);
-
+          
             ISpireTools Rule = (ISpireTools)Activator.CreateInstance(t);
             return Rule.GetExcelAsDataSet(file, sheetName);
 
         }
 
-
+       
 
         public Boolean ExportToXLS(DataTable dt, String path)
         {
@@ -226,47 +213,10 @@ namespace Zamba.FileTools
             try
             {
                 doc = new Document();
-
                 //Load word 2007 file from disk.
-                if (File.Exists(wordPath))
-                    doc.LoadFromFile(wordPath);
-                else if (StreamFile != null)
-                    doc.LoadFromStream(StreamFile, Spire.Doc.FileFormat.PDF);
-
+                doc.LoadFromFile(wordPath);
                 //Save doc file to pdf.
                 doc.SaveToFile(PDFPath, Spire.Doc.FileFormat.PDF);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(new Exception($"Error al convertir a PDF el archivo: {wordPath} {ex}"));
-                return false;
-            }
-
-            finally
-            {
-                if (doc != null)
-                {
-                    doc.Close();
-                    doc = null;
-                }
-            }
-        }
-        public Boolean ConvertXPSToPFD(String wordPath, String PDFPath)
-        {
-            //Document doc = null;
-            PdfDocument doc = null;
-            try
-            {
-                doc = new PdfDocument();
-
-                if (File.Exists(wordPath))
-                    doc.LoadFromXPS(wordPath);
-                else if (StreamFile != null)
-                    doc.LoadFromXPS(StreamFile);
-
-                doc.SaveToFile(PDFPath);
-                doc.Close();
                 return true;
             }
             catch (Exception ex)
@@ -294,12 +244,7 @@ namespace Zamba.FileTools
             {
                 doc = new Document();
                 //Load word 2007 file from disk.
-
-                if (File.Exists(wordPath))
-                    doc.LoadFromFile(wordPath, Spire.Doc.FileFormat.Html, XHTMLValidationType.None);
-                else if (StreamFile != null)
-                    doc.LoadFromStream(StreamFile, Spire.Doc.FileFormat.Html, XHTMLValidationType.None);
-
+                doc.LoadFromFile(wordPath, Spire.Doc.FileFormat.Html, XHTMLValidationType.None);
                 //Save doc file to pdf.
                 doc.SaveToFile(PDFPath, Spire.Doc.FileFormat.PDF);
                 return true;
@@ -358,13 +303,8 @@ namespace Zamba.FileTools
             {
                 //create PPT document
                 presentation = new Spire.Presentation.Presentation();
-
-                //load PPT file from disk or db
-                if (File.Exists(wordPath))
-                    presentation.LoadFromFile(wordPath);
-                else if (StreamFile != null)
-                    presentation.LoadFromStream(StreamFile, Spire.Presentation.FileFormat.PDF);
-
+                //load PPT file from disk
+                presentation.LoadFromFile(wordPath);
                 //save the PPT do PDF file format
                 presentation.SaveToFile(PDFPath, Spire.Presentation.FileFormat.PDF);
                 return true;
@@ -395,30 +335,19 @@ namespace Zamba.FileTools
                 PdfPageBase page = doc.Pages.Add();
 
                 //Load a tiff image from system
-                PdfImage image = null;
+                PdfImage image = PdfImage.FromFile(wordPath);
+                //Set image display location and size in PDF
+                float widthFitRate = image.PhysicalDimension.Width / page.Canvas.ClientSize.Width;
+                float heightFitRate = image.PhysicalDimension.Height / page.Canvas.ClientSize.Height;
+                float fitRate = Math.Max(widthFitRate, heightFitRate);
+                float fitWidth = image.PhysicalDimension.Width / fitRate;
+                float fitHeight = image.PhysicalDimension.Height / fitRate;
+                page.Canvas.DrawImage(image, 10, 10, fitWidth, fitHeight);
 
-                if (File.Exists(wordPath))
-                    image = PdfImage.FromFile(wordPath);
-                else if (StreamFile != null)
-                    image = PdfImage.FromStream(StreamFile);
-
-                if (image != null)
-                {
-                    //Set image display location and size in PDF
-                    float widthFitRate = image.PhysicalDimension.Width / page.Canvas.ClientSize.Width;
-                    float heightFitRate = image.PhysicalDimension.Height / page.Canvas.ClientSize.Height;
-                    float fitRate = Math.Max(widthFitRate, heightFitRate);
-                    float fitWidth = image.PhysicalDimension.Width / fitRate;
-                    float fitHeight = image.PhysicalDimension.Height / fitRate;
-                    page.Canvas.DrawImage(image, 10, 10, fitWidth, fitHeight);
-
-                    //save and launch the file
-                    doc.SaveToFile(PDFPath);
-                    doc.Close();
-                    return true;
-                }
-                else
-                    return false;
+                //save and launch the file
+                doc.SaveToFile(PDFPath);
+                doc.Close();
+                return true;
             }
             catch (Exception ex)
             {
@@ -443,13 +372,7 @@ namespace Zamba.FileTools
 
                 using (PdfDocument pdfDoc = new PdfDocument())
                 {
-                    Image image = null;
-
-                    if (File.Exists(ImageFilename))
-                        image = Image.FromFile(ImageFilename);
-                    else if (StreamFile != null)
-                        image = Image.FromStream(StreamFile);
-
+                    Image image = Image.FromFile(ImageFilename);
                     Image[] img = SplitImages(image, ImageFormat.Png);
 
                     for (int i = 0; i < img.Length; i++)
@@ -508,11 +431,7 @@ namespace Zamba.FileTools
                 workbook = new Workbook();
                 try
                 {
-                    if (File.Exists(wordPath))
-                        workbook.LoadFromFile(wordPath, ExcelVersion.Version2013);
-                    else if (StreamFile != null)
-                        workbook.LoadFromStream(StreamFile, ExcelVersion.Version2013);
-
+                    workbook.LoadFromFile(wordPath, ExcelVersion.Version2013);
                     //Save doc file to pdf.
                     workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                 }
@@ -522,10 +441,7 @@ namespace Zamba.FileTools
                     {
                         try
                         {
-                            if (File.Exists(wordPath))
-                                workbook.LoadFromFile(wordPath, ExcelVersion.Version2010);
-                            else if (StreamFile != null)
-                                workbook.LoadFromStream(StreamFile, ExcelVersion.Version2010);
+                            workbook.LoadFromFile(wordPath, ExcelVersion.Version2010);
                             //Save doc file to pdf.
                             workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                         }
@@ -533,10 +449,7 @@ namespace Zamba.FileTools
                         {
                             try
                             {
-                                if (File.Exists(wordPath))
-                                    workbook.LoadFromFile(wordPath, ExcelVersion.Version2007);
-                                else if (StreamFile != null)
-                                    workbook.LoadFromStream(StreamFile, ExcelVersion.Version2007);
+                                workbook.LoadFromFile(wordPath, ExcelVersion.Version2007);
                                 //Save doc file to pdf.
                                 workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                             }
@@ -544,11 +457,7 @@ namespace Zamba.FileTools
                             {
                                 try
                                 {
-                                    if (File.Exists(wordPath))
-                                        workbook.LoadFromFile(wordPath, ExcelVersion.Version97to2003);
-                                    else if (StreamFile != null)
-                                        workbook.LoadFromStream(StreamFile, ExcelVersion.Version97to2003);
-
+                                    workbook.LoadFromFile(wordPath, ExcelVersion.Version97to2003);
                                     //Save doc file to pdf.
                                     workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                                 }
@@ -556,11 +465,7 @@ namespace Zamba.FileTools
                                 {
                                     try
                                     {
-                                        if (File.Exists(wordPath))
-                                            workbook.LoadFromFile(wordPath, ExcelVersion.ODS);
-                                        else if (StreamFile != null)
-                                            workbook.LoadFromStream(StreamFile, ExcelVersion.ODS);
-
+                                        workbook.LoadFromFile(wordPath, ExcelVersion.ODS);
                                         //Save doc file to pdf.
                                         workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                                     }
@@ -568,11 +473,7 @@ namespace Zamba.FileTools
                                     {
                                         try
                                         {
-                                            if (File.Exists(wordPath))
-                                                workbook.LoadFromFile(wordPath, ExcelVersion.Xlsb2010);
-                                            else if (StreamFile != null)
-                                                workbook.LoadFromStream(StreamFile, ExcelVersion.Xlsb2010);
-
+                                            workbook.LoadFromFile(wordPath, ExcelVersion.Xlsb2010);
                                             //Save doc file to pdf.
                                             workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                                         }
@@ -580,11 +481,7 @@ namespace Zamba.FileTools
                                         {
                                             try
                                             {
-                                                if (File.Exists(wordPath))
-                                                    workbook.LoadFromFile(wordPath, ExcelVersion.Xlsb2007);
-                                                else if (StreamFile != null)
-                                                    workbook.LoadFromStream(StreamFile, ExcelVersion.Xlsb2007);
-
+                                                workbook.LoadFromFile(wordPath, ExcelVersion.Xlsb2007);
                                                 //Save doc file to pdf.
                                                 workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                                             }
@@ -592,11 +489,7 @@ namespace Zamba.FileTools
                                             {
                                                 try
                                                 {
-                                                    if (File.Exists(wordPath))
-                                                        workbook.LoadFromFile(wordPath);
-                                                    else if (StreamFile != null)
-                                                        workbook.LoadFromStream(StreamFile);
-
+                                                    workbook.LoadFromFile(wordPath);
                                                     //Save doc file to pdf.
                                                     workbook.SaveToFile(PDFPath, Spire.Xls.FileFormat.PDF);
                                                 }
@@ -605,13 +498,9 @@ namespace Zamba.FileTools
                                                     try
                                                     {
                                                         Spire.Doc.Document document = new Spire.Doc.Document();
-
-                                                        if (File.Exists(wordPath))
-                                                            document.LoadFromFile(wordPath, Spire.Doc.FileFormat.Auto);
-                                                        else if (StreamFile != null)
-                                                            document.LoadFromStream(StreamFile, Spire.Doc.FileFormat.Auto);
-
+                                                        document.LoadFromFile(wordPath, Spire.Doc.FileFormat.Auto);
                                                         document.SaveToFile(PDFPath, Spire.Doc.FileFormat.PDF);
+
                                                     }
                                                     catch (Exception e8)
                                                     {
@@ -651,235 +540,6 @@ namespace Zamba.FileTools
             }
         }
 
-        /// <summary>
-        /// Obtiene de los volumenes o de la base de datos y estandariza el archivo CSV pasado por parametro y lo guarda en una ruta temporal.
-        /// </summary>
-        /// <param name="wordPath"></param>
-        /// <param name="PDFPath"></param>
-        /// <returns></returns>
-        public Boolean ConvertCSVToPDF(String wordPath, String PDFPath)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo CSV almacenado.");
-
-                StreamReader sr = null;
-                Workbook wb = new Workbook();
-                string fullCSV = "";
-                string CSVPath = "";
-
-                if (File.Exists(wordPath))
-                {
-                    sr = File.OpenText(wordPath);
-                    fullCSV = sr.ReadToEnd();
-
-                    if (fullCSV.Split(';').Length > fullCSV.Split(',').Length)
-                    {
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Empieza convercion de CSV.");
-                        CSVPath = Convert_CSVSemicolonToCSVComma(sr);
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convercion de CSV OK.");
-                        wb.LoadFromFile(CSVPath, ",", 1, 1);
-                    }
-                    else
-                        wb.LoadFromFile(wordPath, ",", 1, 1);
-
-                    wb.ConverterSetting.SheetFitToPage = true;
-                }
-                else if (StreamFile != null)
-                {
-                    sr = new StreamReader(StreamFile);
-                    fullCSV = sr.ReadToEnd();
-
-                    if (fullCSV.Split(';').Length > fullCSV.Split(',').Length)
-                    {
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Empieza convercion de CSV.");
-                        CSVPath = Convert_CSVSemicolonToCSVComma(sr);
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convercion de CSV OK.");
-                        wb.LoadFromFile(CSVPath, ",", 1, 1);
-                    }
-                    else
-                        wb.LoadFromStream(StreamFile, ",", 1, 1);
-
-                    wb.ConverterSetting.SheetFitToPage = true;
-                }
-
-                Worksheet sheet = wb.Worksheets[0];
-                for (int i = 1; i < sheet.Columns.Length; i++)
-                {
-                    sheet.AutoFitColumn(i);
-                }
-
-                sr.Close();
-                sr.Dispose();
-
-                wb.SaveToPdf(PDFPath);
-                wb.Dispose();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(new Exception($"Error al convertir a PDF el archivo: {wordPath} {ex}"));
-                return false;
-            }
-        }
-
-        //private string Convert_CSVSemicolonToCSVComma(string path)
-        private string Convert_CSVSemicolonToCSVComma(StreamReader SR)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicio la funcion [Convert_CSVSemicolonToCSVComma].");
-                string TemporaryPath = Zamba.Membership.MembershipHelper.AppTempDir(@"\OfficeTemp\").FullName + DateTime.Now.Ticks.ToString() + ".csv";
-                //StreamReader SR = new StreamReader(path);
-                StreamWriter SW = new StreamWriter(TemporaryPath, false, Encoding.UTF8);
-
-                string CSVInput = SR.ReadToEnd();
-                string CSVOutput = "";
-
-                string[] Array_Lines = CSVInput.Split('\n');
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Empieza convercion de CSV...");
-                foreach (String itemRow in Array_Lines)
-                {
-                    CSVReadStates VarState = CSVReadStates.StartRow;
-                    string Cell = "";
-                    string Row = "";
-
-                    for (int i = 0; i < itemRow.Length; i++)
-                    {
-                        char Character = itemRow.ToCharArray()[i];
-                        char? NextCharacter = null;
-
-                        if (i < itemRow.Length - 1)
-                            NextCharacter = itemRow.ToCharArray()[i + 1];
-                        else
-                            VarState = CSVReadStates.EndRow;
-
-                        switch (VarState)
-                        {
-                            case CSVReadStates.StartRow:
-                                if (Character != '\"')
-                                {
-                                    Cell += Character.ToString();
-                                    VarState = CSVReadStates.ReadingWithoutQuotes;
-                                }
-                                else
-                                    VarState = CSVReadStates.ReadingBetweenQuotes;
-
-                                break;
-                            case CSVReadStates.StartCell:
-                                Row += ",";
-
-                                if (Character == '\"')
-                                    VarState = CSVReadStates.ReadingBetweenQuotes;
-                                else
-                                {
-                                    if (Character != ';')
-                                    {
-                                        Cell += Character.ToString();
-                                        VarState = CSVReadStates.ReadingWithoutQuotes;
-                                    }
-                                }
-
-                                break;
-                            case CSVReadStates.ReadingBetweenQuotes:
-                                if (Character == '\"')
-                                {
-                                    if (VarState != CSVReadStates.EndRow)
-                                    {
-                                        if (NextCharacter == '\"')
-                                        {
-                                            Cell += "\"\"";
-                                            i++;
-                                        }
-                                        else
-                                        {
-                                            VarState = CSVReadStates.EndCell;
-                                        }
-                                    }
-                                }
-                                else
-                                    Cell += Character.ToString();
-
-                                break;
-                            case CSVReadStates.ReadingWithoutQuotes:
-                                if (Character == ';')
-                                {
-                                    Row += '"' + Cell + '"';
-                                    Cell = "";
-                                    VarState = CSVReadStates.StartCell;
-                                }
-                                else
-                                    Cell += Character.ToString();
-
-                                break;
-                            case CSVReadStates.EndRow:
-                                Row += '"' + Cell + '"';
-                                VarState = CSVReadStates.StartCell;
-
-                                if (Character == ';')
-                                    Row += ",\"\"";
-
-                                Cell = "";
-
-                                CSVOutput += Row + "\n";
-
-                                break;
-                            case CSVReadStates.EndCell:
-                                Row += '"' + Cell + '"';
-                                VarState = CSVReadStates.StartCell;
-
-                                Cell = "";
-
-                                break;
-                            default:
-                                break;
-                        }
-
-                    }
-
-                }
-
-                // Creo el Archivo CSV.
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Terminado convercion de CSV.");
-
-                SW.Write(CSVOutput);
-                SW.Close();
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Se creo el archivo CSV correspondiente en la ruta" + TemporaryPath);
-
-                return TemporaryPath;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(new Exception($"Error al convertir CSV: {ex}"));
-                throw;
-            }
-        }
-
-        private enum CSVReadStates
-        {
-            StartRow,
-            StartCell,
-            ReadingBetweenQuotes,
-            ReadingWithoutQuotes,
-            EndRow,
-            EndCell
-        }
-
-        public static void WriteToFile()
-        {
-            using (StreamWriter sw = File.CreateText(@"E:\Programming Practice\CSharp\Console\table.tbl"))
-            {
-                sw.WriteLine("Please find the below generated table of 1 to 10");
-
-                sw.WriteLine("");
-                for (int i = 1; i <= 10; i++)
-                {
-                    sw.WriteLine("==============");
-                }
-            }
-        }
 
 
         /// <summary>
@@ -888,7 +548,7 @@ namespace Zamba.FileTools
         /// <param name="msgPath"></param>
         /// <param name="PDFPath"></param>
         /// <returns></returns>
-        public object ConvertMSGToJSON(String msgPath, String PDFPath, bool includeAttachs)
+        public object ConvertMSGToHTML(String msgPath, String PDFPath, bool includeAttachs)
         {
             try
             {
@@ -897,34 +557,15 @@ namespace Zamba.FileTools
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
                 MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
-
                 object obj_toJson = miMailPreview;
                 return obj_toJson;
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
-        /// <summary>
-        /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
-        /// </summary>
-        /// <param name="msgPath"></param>
-        /// <param name="PDFPath"></param>
-        /// <returns></returns>
-        public object ConvertMSGToJSON(Stream msgFile, String PDFPath, bool includeAttachs)
-        {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
-            MailMessage miMailMessage = MailMessage.Load(msgFile, MailMessageFormat.Msg);
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
-            MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
-
-            object obj_toJson = miMailPreview;
-            return obj_toJson;
-
-        }
 
         /// <summary>
         /// Reemplaza texto en un documento de word
@@ -1306,7 +947,7 @@ namespace Zamba.FileTools
                     }
                     ZException.Log(new Exception("Error al obtener el documento : " + wordPath + " " + ex.ToString()));
 
-                    throw;
+                    throw ex;
 
                 }
                 finally
@@ -1470,7 +1111,8 @@ namespace Zamba.FileTools
 
         public string GenerateBarcodeImage(string templatePath, long barcodeId)
         {
-           
+            try
+            {
                 //Spire.License.LicenseProvider.SetLicenseKey("f8EtGD4252xT64cBAPDOf9M+Cd1SPbPLWcuUZaCfbE28yxH9vjXouk1R6RxmIIDOkYjefGNH+GvHblXKlf5s/8w/tus4H/n1f3D50w7lUl92XvbW6Cv5XnXgdsv2yr8+JZ4KaekZi5DH5ZfVicftemM/MqGSFl3GmzdpFHGhMOrD0OLteC+bUKiYKDtGx5953q4f/fzDE5JhUK6W9TQfkrdIjKgyliBzvLRQwae6PpVyu2iIXSr8Iezdyf1r7DKycQdg6zxxS7BR8UojG3JLDI4y/Iw7nmTSjAz5u12LhJ0Rwn+6AjvEDAS/Dqj2tAWpirGCGQqGFTl/LrPSGJ7kUkMcRGwDB14OJ8ezMJb6qwgcE8RsvakynQEMunzMMpPK/86UDo1XUCF9okhqGzF1sGRr7+j3vYWGra1gGm3hPupPDVvSq/XBoZz/0jVsGctYQ955woQStIawztZ4LSamLupgzT486h/rxAvdB0REvBwdtI/vX3bI3Q+h4HgoR4Uutm00XI3AGeM4N9ExBOkMlSqkg/jA4OS50Xi5zhUZVuS7MTSoZDwNIe4DCtFAJKQRFZQJvC4SgR6TJuynYD1o8XM6ApeI/hVjcMPFCQnMfLW5EHvY/lH+YqWKmBx1uMhjZMhgRrW3gZ6Mnvjn9+6RuDWgIHTlWAJZBAWZVk9L3Y1aRQ773T1MXlMMwaGu0QTI7tWSrOTQrd8YPVgfHnMk3oWKluz1sSSb+Bo0Lvd9upGsmJCJXf/uHP5ahNMnBCIwrJCxoUmDBUpmFzvK9Bg1g4o/nWNQgunpjEgTj2XoFP4Dukk5Gk7USnCpvSLpFqGngKF4aBq1vatZThH/00nHIdfVLsdxH0mX+Vm1obTc49JdpmzRZ/reYQcCXiPku6u6ErsdZyk8m6SBHePTP7G9tBUKYFyubN0JAnQboUYHm8CbbjU9zY6qCqLinvhhVES9JY1spb3pD4TLJ1tZt/WmNWHJO9IlEEts/NTUZKFUMYBXJSamUuv6adb3HB1NnX6FKdwnvcWEnXS2GBxqYnmJx6Lp9gu+62gRP8nYA4PY8QgJtdvsUwkzdUg5Ag5UsSs3am2U6WvbQ0DbJuMT7DSoK8Hbv1RDY8GiFqkgZMjG2ltiCUJKIW4cDEaPuRUz3yJaqkTQdHLNP/7sOEmrK3nUpChgYGxy4Ob1tQ59XIZmwdwEjmT/Sqw8DXERhTWMA4FUm6SsJThHnpLjHNxq6RL48H0HH1H4N7OYwLTao6Vq0BeKCHCQEQa7AkUhD/9zrQc9wcHF331Uwa+73lDN+xxPwG3viNU+kY637SLuWS7DecTAm5Xxent0tF6oLxvaztpufkMs3nNclN7DMiIE/jEe5IP4KZwAN/yK182z4kae3LEVJ4AUTnGaft2uxatxPYEIYijdEQhBFACjgut3RqdWsdBjb7K7N9e282pjCqcsfY9grQPiLovuvwj5XAxM8XYHMzbtWP5DUEdQSOlmzOWxGw==");
 
                 Spire.Barcode.BarcodeSettings.ApplyKey("G769Y-1ZXJP-ZVDB4-D851K-4WNPB");
@@ -1491,8 +1133,7 @@ namespace Zamba.FileTools
                 bcSettings.Data = barcodeId.ToString();
                 bcSettings.Data2D = barcodeId.ToString();
 
-                Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-                int bcType = Int32.Parse(UP.getValueForMachine("BarCodeType", UPSections.Barcode, 1));
+                int bcType = Int32.Parse(UserPreferences.getValueForMachine("BarCodeType", UPSections.Barcode, 1, true));
 
                 switch (bcType)
                 {
@@ -1528,7 +1169,11 @@ namespace Zamba.FileTools
                 //}
 
                 return GetBase64StringFromImage(barcodeImage, ImageFormat.Png);
-           
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public string GetBase64StringFromImage(Image img, ImageFormat imgFormat)
@@ -1727,35 +1372,34 @@ namespace Zamba.FileTools
                 }
             }
 
-
             from = msg.From.Address;
             subject = msg.Subject;
             date = msg.Date.ToString();
             body = msg.BodyHtml;
         }
     }
-}
 
-public class AttachmentDTO
-{
-    public string Id { get; set; }
-    public string FileName { get; set; }
-    public string Size { get; set; }
-    public string MediaType { get; set; }
-
-    public string Data { get; set; }
-
-    public AttachmentDTO()
+    public class AttachmentDTO
     {
+        public string Id { get; set; }
+        public string FileName { get; set; }
+        public string Size { get; set; }
+        public string MediaType { get; set; }
 
-    }
+        public string Data { get; set; }
 
-    public AttachmentDTO(Attachment att) : this()
-    {
-        this.Id = att.ContentId;
-        this.FileName = att.ContentType.Name;
-        this.Size = att.Data.Length.ToString();
-        this.MediaType = att.ContentType.MediaType;
-        this.Data = System.Convert.ToBase64String(((MemoryStream)att.Data).ToArray());
+        public AttachmentDTO()
+        {
+
+        }
+
+        public AttachmentDTO(Attachment att) : this()
+        {
+            this.Id = att.ContentId;
+            this.FileName = att.ContentType.Name;
+            this.Size = att.Data.Length.ToString();
+            this.MediaType = att.ContentType.MediaType;
+            this.Data = System.Convert.ToBase64String(((MemoryStream)att.Data).ToArray());
+        }
     }
 }

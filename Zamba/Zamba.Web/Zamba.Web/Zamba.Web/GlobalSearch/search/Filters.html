@@ -9,57 +9,59 @@
 </script>
 
 <div data-ng-controller="appFilterController">
-   
-    <div class="col-xs-12" style="margin: 0;padding: 0;">
+    
 
-        <div class="input-group" style="width:95%">
-            <div class="input-group-btn" style="width:31%">
-                <select ng-model="Filter.Index" placeholder="Selecciona un filtro" ng-change="FiltersIndexSelected()" class="btn btn-group-xs filter-select" style="border-color: dodgerblue;text-align:left;" ng-options="option.Name for option in Search.SearchResultsObject.filterIndexs | orderBy:'Name' track by option.ID">
-                    <!--<option ng-repeat="findex in Search.Indexs | orderBy:'Name'" ng-value="findex.ID">
-                        {{findex.Name}}
-                    </option>-->
-                    <option value="" disabled selected>Agregar filtro</option>
-                </select>
+        
+            <div class="col-xs-12" style="margin: 0;padding: 0;">
+               
+                    <div class="input-group" style="width:84%">
+                        <div class="input-group-btn" style="width:45%">
+                            <select ng-model="Filter.Index" placeholder="Selecciona un filtro" ng-change="FiltersIndexSelected()" class="btn btn-group-xs filter-select" style="border-color: dodgerblue;" ng-options="option.Name for option in Search.SearchResultsObject.filterIndexs | orderBy:'Name' track by option.ID">
+                                <!--<option ng-repeat="findex in Search.Indexs | orderBy:'Name'" ng-value="findex.ID">
+                    {{findex.Name}}
+                </option>-->
+                                <option value="" disabled selected>Agregar filtro</option>
+                            </select>
 
 
-                <select id="DropVal" class="btn btn-group-xs filter-select" ng-model="Filter.CompareOperator" ng-change="FiltersOperatorSelected()" ng-disabled="Filter == null" style="border-color: dodgerblue;">
-                    <option value="=">=</option>
-                    <option value=">">></option>
-                    <option value="<"><</option>
-                    <option value=">=">>=</option>
-                    <option value="<="><=</option>
-                    <option value="<>"><></option>
-                    <option value="empieza">Inicia</option>
-                    <option value="termina">Termina</option>
-                    <option value="distinto">No contiene</option>
-                    <option value="contiene">Contiene</option>
-                </select>
+                            <select id="DropVal" class="btn btn-group-xs filter-select" ng-model="Filter.CompareOperator" ng-change="FiltersOperatorSelected()" ng-disabled="Filter == null" style="border-color: dodgerblue;">
+                                <option value="=">=</option>
+                                <option value=">">></option>
+                                <option value="<"><</option>
+                                <option value=">=">>=</option>
+                                <option value="<="><=</option>
+                                <option value="<>"><></option>
+                                <option value="empieza">Inicia</option>
+                                <option value="termina">Termina</option>
+                                <option value="distinto">No contiene</option>
+                                <option value="contiene">Contiene</option>
+                            </select>
+                        </div>
+                        <input id="IndexValue" style="display: none;" />
+                        <input id="IdSubList" style="display: none; " />
+                        <input id="SubListName" style="display: none;" />
+                        <filter-index></filter-index>
+                        <!--<%--Input del usuario--%>-->
+                        <div class="input-group-btn">
+                            <button id="BtnAgregar" class="btn btn-primary btn-group-xs" ng-show="Filter != null" ng-click="AddFilter()">Agregar</button>
+                        </div>
+                    </div>
+              
+                <!--<%--   boton muestra los filtros--%>-->
             </div>
-            <input id="IndexValue" style="display: none;" />
-            <input id="IdSubList" style="display: none; " />
-            <input id="SubListName" style="display: none;" />
-            <filter-index></filter-index>
-            <!--<%--Input del usuario--%>-->
-            <div class="input-group-btn">
-                <button id="BtnAgregar" class="btn btn-primary btn-group-xs" ng-show="Filter != null" ng-click="AddFilter()">Agregar</button>
-            </div>
-        </div>
 
-        <!--<%--   boton muestra los filtros--%>-->
+
+            <div class="panel-body">
+
+                <div class="input-group col-xs-3 col-md-5 CurrentFilterWrapper" ng-repeat="usedfilter in usedFilters">
+                    <input class="form-control CurrentFilter" ng-attr-value="{{usedfilter.Name}}&nbsp;{{usedfilter.CompareOperator}}&nbsp;{{((usedfilter.dataDescription == undefined || usedfilter.dataDescription == '') ? usedfilter.Data : usedfilter.dataDescription)}}" ng-attr-title="{{usedfilter.IndexName}}&nbsp;{{usedfilter.CompareOperator}}&nbsp;{{((usedfilter.dataDescription == undefined || usedfilter.dataDescription == '') ? usedfilter.Data : usedfilter.dataDescription)}}" />
+                    <div class="input-group-btn">
+                        <button id="btnDeleteFilter" ng-click="DeleteFilter(usedfilter)" class="btn btn-default fa fa-trash CurrentFilter"></button>
+                    </div>
+                </div>
+            </div>
+
+       
     </div>
-
-
-    <div class="panel-body" >
-
-        <div class="input-group col-xs-6 col-md-5 CurrentFilterWrapper" ng-repeat="usedfilter in Search.usedFilters">
-            <input class="form-control CurrentFilter" ng-attr-value="{{usedfilter.Name}}&nbsp;{{usedfilter.CompareOperator}}&nbsp;{{((usedfilter.dataDescription == undefined || usedfilter.dataDescription == '') ? usedfilter.Data : usedfilter.dataDescription)}}" ng-attr-title="{{usedfilter.IndexName}}&nbsp;{{usedfilter.CompareOperator}}&nbsp;{{((usedfilter.dataDescription == undefined || usedfilter.dataDescription == '') ? usedfilter.Data : usedfilter.dataDescription)}}" />
-            <div class="input-group-btn">
-                <button id="btnDeleteFilter" ng-click="DeleteFilter(usedfilter)" class="btn btn-default fa fa-trash CurrentFilter"></button>
-            </div>
-        </div>
-    </div>
-
-
-</div>
 
 

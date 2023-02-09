@@ -4,10 +4,10 @@
     <link rel="stylesheet" type="text/css" href="../Content/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="../Content/themes/base/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="../Content/bootstrap-theme.css" />
-<%--    <link rel="stylesheet" type="text/css" href="../Content/HomeWidget.css" />--%>
+    <link rel="stylesheet" type="text/css" href="../Content/HomeWidget.css" />
     <link rel="stylesheet" type="text/css" href="../Content/toastr.css" />
     <link rel="stylesheet" type="text/css" href="../Scripts/ng-embed/ng-embed.min.css" />
-    <link rel="stylesheet" type="text/css" href="../Content/partialSearchIndexs.css?v=248" />
+    <link rel="stylesheet" type="text/css" href="../Content/partialSearchIndexs.css" />
     <link rel="stylesheet" type="text/css" href="../GlobalSearch/search/Filters.css" />
     <link rel="stylesheet" type="text/css" href="../Content/bootstrap.min.css" />
 

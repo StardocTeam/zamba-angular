@@ -18,7 +18,7 @@ function Redirect(page)
 
 
 function InsertFormModal(formid) {
-    var url = "../WF/DocInsertModal.aspx?formid=" + formid + "&userid=" + GetUID();
+    var url = "../WF/DocInsertModal.aspx?formid=" + formid;
     ShowIFrameModal("Insertar documentos", url, 550, 960);
     StartObjectLoadingObserverById("IFDialogContent");
 }

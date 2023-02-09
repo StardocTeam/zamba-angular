@@ -41,9 +41,9 @@ namespace Zamba.Services
             return DocAsociatedBusiness.GetUniqueDocTypeIdsAsociation(DTID);
         }
 
-        public DataTable getAsociatedResultsFromResultAsList(Int64 DocTypeId, IResult res, Int64 UserId, Boolean onlyImportants)
+        public DataTable getAsociatedResultsFromResultAsList(Int64 DocTypeId, IResult res, Int64 UserId)
         {
-            return DocAsociatedBusiness.getAsociatedResultsFromResultAsList(DocTypeId, res, 200, UserId, onlyImportants);
+            return DocAsociatedBusiness.getAsociatedResultsFromResultAsList(DocTypeId, res, 200, UserId);
         }
 
     }

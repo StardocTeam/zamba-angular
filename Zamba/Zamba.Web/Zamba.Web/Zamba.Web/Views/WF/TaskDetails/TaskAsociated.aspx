@@ -22,22 +22,17 @@
 </head>
 <body>
     <form id="form2" runat="server">
-        <div id="divButtons" style="margin-top:7px" >
-            <button id="btnRefresh" type="button" class="btn btn-default btn-xs" onclick="Refresh_Click(this)" style="margin: 5px; display:none">
+        <div id="divButtons">
+            <button id="btnRefresh" type="button" class="btn btn-default btn-xs" onclick="Refresh_Click(this)" style="margin: 5px">
                 <span class="glyphicon glyphicon-refresh"></span>Refrescar                                   
             </button>
         </div>
-        <div id="tbDocAsoc" style="overflow-y: scroll; width: 99%; margin-bottom:10px;height: 470px;">
+        <div id="tbDocAsoc" style="overflow-y: scroll; width: 99%; margin-bottom:10px;height: 454px;">
             <uc2:ucDocAssociatedGrid ID="ucDocAssociatedGrid" runat="server" />
         </div>
     </form>
 
     <script type="text/javascript">
-        $(window).on("resize", function () {
-            var rdo = window.innerHeight - 106
-            $("#tbDocAsoc").height(rdo);
-        });
-
         $(document).ready(function () {
             //var screenHeight = $(window).height() - $("#divButtons").outerHeight(true);
             //$("#tbDocAsoc").height(screenHeight - 50);

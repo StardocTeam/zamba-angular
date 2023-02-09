@@ -101,11 +101,7 @@
         }
 
         function getFilterControl() {
-            try {
-                return $("#<%=TaskGrid.FindControl("ucTaskGridFilter").FindControl("pnlFilter").ClientID%>");
-            } catch (e) {
-                return 0;
-            }
+            return $("#<%=TaskGrid.FindControl("ucTaskGridFilter").FindControl("pnlFilter").ClientID%>");
         }
     </script>
 </asp:Content>

@@ -38,10 +38,9 @@ export class EditComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   FilterProtocolOptions;
   dataSourceMails: MatTableDataSource<Mail>;
-  displayedColumns: string[] = ['Date', 'Sender','Subject'];
+  displayedColumns: string[] = ['UniqueId', 'Date', 'Sender'];
   ShowMailsGrid:Boolean = false;
   NgFilter:boolean = false;
-  datalenght:number;
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -86,7 +85,7 @@ export class EditComponent implements OnInit {
     ngOnInit(): void {
         let imapProcessData = new Imap();
         this.currentProcessId = -1;
-        this.FilterFieldOptions = ['Ninguno','To','From','CC','CCO','Body','Subject'];
+        this.FilterFieldOptions = ['Ninguno','Para','De','CC','CCO','Body'];
         this.FilterProtocolOptions = ['None','Ssl','StartTls'];
 
         var value = this._routeActivated.queryParamMap.subscribe(params => {
@@ -107,7 +106,6 @@ export class EditComponent implements OnInit {
             username: [(this.isUpdate ? imapProcessData.USER_NAME : ''), [Validators.required]],
             email: [(this.isUpdate ? imapProcessData.EMAIL : ''), [Validators.required, Validators.email]],
             password: [(this.isUpdate ? imapProcessData.USER_PASSWORD : ''), [Validators.required]],
-            GenericInbox: [(this.isUpdate ? imapProcessData.GENERIC_INBOX : '')],
         });
 
         this.horizontalStepperStep2 = this._formBuilder.group({
@@ -120,7 +118,6 @@ export class EditComponent implements OnInit {
         this.horizontalStepperStep3 = this._formBuilder.group({
             ExportAttachment: [(this.isUpdate ? imapProcessData.EXPORT_ATTACHMENTS_SEPARATELY : '')],
             Folder_Name: [(this.isUpdate ? imapProcessData.FOLDER_NAME : ''), Validators.required],
-            Folder_Name_Dest: [(this.isUpdate ? imapProcessData.FOLDER_NAME_DEST : ''), Validators.required],
             Filter_Field: [(this.isUpdate ? imapProcessData.FILTER_FIELD : '')],
             Filter_Value: [(this.isUpdate ? imapProcessData.FILTER_VALUE : '')],
             Filter: [(this.isUpdate ? imapProcessData.HAS_FILTERS : '0')],
@@ -161,6 +158,7 @@ export class EditComponent implements OnInit {
                     });
 
         } catch (error) {
+            console.log("hola");
             console.log(error);
         }
     }
@@ -194,7 +192,6 @@ export class EditComponent implements OnInit {
                     "EMAIL": this.horizontalStepperStep1.value.email,
                     "USER_ID": parseInt(localStorage.getItem("UserID")),
                     "USER_PASSWORD": this.horizontalStepperStep1.value.password,
-                    "GenericInbox":this.horizontalStepperStep1.value.GenericInbox == 1 ? 1 : 0,
 
                     "IP_ADDRESS": this.horizontalStepperStep2.value.ipAddress,
                     "FIELD_PORT": this.horizontalStepperStep2.value.port,
@@ -207,7 +204,6 @@ export class EditComponent implements OnInit {
                     "EXPORT_ATTACHMENTS_SEPARATELY": this.horizontalStepperStep3.value.ExportAttachment == true ? 1: 0,
 
                     "FOLDER_NAME": this.horizontalStepperStep3.value.Folder_Name,
-                    "FOLDER_NAME_DEST": this.horizontalStepperStep3.value.Folder_Name_Dest,
                     "ENTITY_ID": this.selectedEntity,
                     "SENT_BY": this.horizontalStepperStep4.value.SentBy,
                     "FIELD_TO": this.horizontalStepperStep4.value.To,
@@ -225,7 +221,7 @@ export class EditComponent implements OnInit {
             console.log(ObjImap);
             this.waitingResponse = true;
             this._EditService.SaveImapProcess(ObjImap).subscribe(
-                OkResponse  => { this.showInsertProcessMessageOK(OkResponse) },
+                OkResponse  => { this.InsertObject(OkResponse) },
                 error  => {
                     this.showInsertProcessMessageError(error);
                     
@@ -234,7 +230,7 @@ export class EditComponent implements OnInit {
             
         }
 
-        showInsertProcessMessageOK(OkResponse){
+        InsertObject(OkResponse){
 
             let message = "";
             if(this.isUpdate)   
@@ -303,8 +299,6 @@ export class EditComponent implements OnInit {
                         "ProtCon": this.horizontalStepperStep2.value.protocol,
                         "UserName": this.horizontalStepperStep1.value.username,
                         "UserPass": this.horizontalStepperStep1.value.password,
-                        "GenericInbox":this.horizontalStepperStep1.value.GenericInbox == 1 ? "true" : "false",
-                        "EMAIL": this.horizontalStepperStep1.value.email,
                     }
                 }
     
@@ -348,7 +342,6 @@ export class EditComponent implements OnInit {
                 "UserName": this.horizontalStepperStep1.value.username,
                 "UserPass": this.horizontalStepperStep1.value.password,
                 "Folder": this.horizontalStepperStep3.value.Folder_Name,
-                "FolderDest": this.horizontalStepperStep3.value.Folder_Name_Dest,
                 "Filter_Field": this.horizontalStepperStep3.value.Filter_Field,
                 "Filter_Value": this.horizontalStepperStep3.value.Filter_Value,
                 "NewEmails": this.horizontalStepperStep3.value.Filter_NotReads == 1 ? "true" : "false",
@@ -356,9 +349,7 @@ export class EditComponent implements OnInit {
                 "Todos": this.horizontalStepperStep3.value.Filter == "0" ? "true" : "false",
                 "Filtrado": this.horizontalStepperStep3.value.Filter == "1" ? "true" : "false",
                 "resultIds": "0",
-                "userId": parseInt(localStorage.getItem("UserID")),
-                "GenericInbox":this.horizontalStepperStep1.value.GenericInbox == 1 ? "true" : "false",
-                "EMAIL": this.horizontalStepperStep1.value.email,
+                "userId": parseInt(localStorage.getItem("UserID"))
             }
         }
 
@@ -383,7 +374,6 @@ export class EditComponent implements OnInit {
 
     private ListEmailsTable(data) {
         var dataParced: Mail[] = JSON.parse(data);
-         this.datalenght = dataParced.length;
         var dataSource = new MatTableDataSource(dataParced);
         console.log(dataParced);
         this.dataSourceMails = dataSource;
@@ -402,7 +392,6 @@ export class EditComponent implements OnInit {
                 "UserName": this.horizontalStepperStep1.value.username,
                 "UserPass": this.horizontalStepperStep1.value.password,
                 "Folder": this.horizontalStepperStep3.value.Folder_Name,
-                "FolderDest": this.horizontalStepperStep3.value.Folder_Name_Dest,
                 "Filter_Field": this.horizontalStepperStep3.value.Filter_Field,
                 "Filter_Value": this.horizontalStepperStep3.value.Filter_Value,
                 "Entity": this.horizontalStepperStep4.value.Entity,
@@ -412,9 +401,7 @@ export class EditComponent implements OnInit {
                 "Todos": this.horizontalStepperStep3.value.Filter == "0" ? "true" : "false",
                 "Filtrado": this.horizontalStepperStep3.value.Filter == "1" ? "true" : "false",
                 "resultIds": "0",
-                "userId": parseInt(localStorage.getItem("UserID")),
-                "GenericInbox":this.horizontalStepperStep1.value.GenericInbox == 1 ? "true" : "false",
-                "EMAIL": this.horizontalStepperStep1.value.email,
+                "userId": parseInt(localStorage.getItem("UserID"))
             }
         }
 

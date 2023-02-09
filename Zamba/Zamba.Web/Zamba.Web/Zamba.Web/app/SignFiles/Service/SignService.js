@@ -5,73 +5,6 @@ var serviceBase = ZambaWebRestApiURL;
 app.factory('ZambaSignFileService', ['$http', '$q', function ($http, $q) {
     var ZambaSignFileFactory = {};
 
-
-
-
-    function _doReceptionByGuia(solicitudFirmaDigital) {
-        var result;
-        $.ajax({
-            type: "POST",
-            url: serviceBase + "/SignPDF/RecepcionDespachoByGuia",
-            data: JSON.stringify(solicitudFirmaDigital),
-            contentType: "application/json; charset=utf-8",
-            async: false,
-            success:
-                function (data, status, headers, config) {
-                    console.log("Recepcion Realizada.");
-                    result = data;
-                },
-
-            error: function (data) {
-                console.log(data);
-                result = data;
-            }
-        });
-        return result;
-    }
-
-
-    function _signFileByGuia(solicitudFirmaDigital) {
-        var result;
-        $.ajax({
-            type: "POST",
-            url: serviceBase + "/SignPDF/SignPDFByGuia",
-            data: JSON.stringify(solicitudFirmaDigital),
-            contentType: "application/json; charset=utf-8",
-            async: false,
-            success:
-                function (data, status, headers, config) {
-                    console.log("Archivos firmados.");
-                    result = data;
-                },
-
-            error: function (data) {
-
-                console.log(data);
-                result = data;
-            }
-        });
-        return result;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     function _doReception(solicitudFirmaDigital) {
         var result;
         $.ajax({
@@ -189,8 +122,6 @@ app.factory('ZambaSignFileService', ['$http', '$q', function ($http, $q) {
 
     ZambaSignFileFactory.doReception = _doReception;
     ZambaSignFileFactory.signFile = _signFile;
-    ZambaSignFileFactory.doReceptionByGuia = _doReceptionByGuia;
-    ZambaSignFileFactory.signFileByGuia = _signFileByGuia;
     ZambaSignFileFactory.GetLegajo = _doGetLegajo;
 
     return ZambaSignFileFactory;

@@ -124,7 +124,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
     Public Property FileLength() As Decimal Implements INewResult.FileLength
         Get
             If ISVIRTUAL = False Then
-                If _fileLength = 0 AndAlso New IO.FileInfo(NewFile).Exists Then
+                If _fileLength = 0 Then
                     Try
                         _fileLength = CDec(New IO.FileInfo(NewFile).Length / 1024)
                     Catch ex As Exception

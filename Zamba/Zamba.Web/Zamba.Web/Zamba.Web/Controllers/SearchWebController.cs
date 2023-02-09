@@ -63,105 +63,105 @@ namespace Zamba.Web.Controllers
             }
         }
 
-        //[System.Web.Http.AcceptVerbs("GET", "POST")]
-        //[Route("api/SearchWeb/Results")]
-        //public DataTable Results(Filter parameters)
-        //{
-        //    if (parameters != null)
-        //    {
-        //        UserBusiness UB = new UserBusiness();
-        //        IUser User = UB.ValidateLogIn(parameters.UserId, ClientType.Web);
-        //        if (User != null)
-        //        {
-        //            SearchHelper sh = new SearchHelper();
-        //            ModDocuments md = new ModDocuments();
-        //            try
-        //            {
-        //                var search = sh.GetSearch(ref parameters);
-        //                search.UserId = parameters.UserId;
-        //                Int64 TotalCount = 0;
-        //                var dt = md.DoSearch(ref search, User.ID, 0, 100, false, false, true, ref TotalCount);
-        //                // DataTable dt = md.DoSearch(search, search.UserId, 1, 10, false, true, false);
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/SearchWeb/Results")]
+        public DataTable Results(Filter parameters)
+        {
+            if (parameters != null)
+            {
+                UserBusiness UB = new UserBusiness();
+                IUser User = UB.ValidateLogIn(parameters.UserId, ClientType.Web);
+                if (User != null)
+                {
+                    SearchHelper sh = new SearchHelper();
+                    ModDocuments md = new ModDocuments();
+                    try
+                    {
+                        var search = sh.GetSearch(ref parameters);
+                        search.UserId = parameters.UserId;
+                        Int64 TotalCount = 0;
+                        var dt = md.DoSearch(ref search, User.ID, 0, 100, false, false, true, ref TotalCount);
+                        // DataTable dt = md.DoSearch(search, search.UserId, 1, 10, false, true, false);
 
-        //                return dt;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                ZClass.raiseerror(ex);
+                        return dt;
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
 
-        //                return new DataTable("Error al obtener los resultados " + ex.ToString());
-        //            }
-        //            finally
-        //            {
-        //                sh = null;
-        //                md = null;
-        //                UB = null;
-        //            }
-        //        }
-        //    }
-        //    return null;
-        //}
+                        return new DataTable("Error al obtener los resultados " + ex.ToString());
+                    }
+                    finally
+                    {
+                        sh = null;
+                        md = null;
+                        UB = null;
+                    }
+                }
+            }
+            return null;
+        }
 
-        //[Route("api/searchweb/Entities")]
-        //public List<Entity> GetEntities(int? userId)
-        //{
-        //    UserBusiness UB = new UserBusiness();
+        [Route("api/searchweb/Entities")]
+        public List<Entity> GetEntities(int? userId)
+        {
+            UserBusiness UB = new UserBusiness();
 
-        //    var user = UB.ValidateLogIn(userId.Value, ClientType.Web);
+            var user = UB.ValidateLogIn(userId.Value, ClientType.Web);
 
-        //    if (user == null)
-        //        throw new Exception(StringHelper.InvalidUser);
-
-
-        //    RightsSchema rightsSchema = new RightsSchema(user.ID);
-
-        //    try
-        //    {
-        //        return rightsSchema.GetEntities();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ZClass.raiseerror(ex);
-
-        //        throw new Exception("Error al obtener las entidades y sus atributos");
-        //    }
-        //    finally
-        //    {
-        //        rightsSchema = null;
-        //        UB = null;
-        //    }
-        //}
+            if (user == null)
+                throw new Exception(StringHelper.InvalidUser);
 
 
-        //[Route("api/SearchWeb/Indexs")]
-        //[HttpPost, HttpGet]
-        //public string Indexs(List<Int64> SelectedEntitiesIds)
-        //{
-        //    Zamba.Core.IndexsBusiness IB;
-        //    try
-        //    {
-        //        IB = new Zamba.Core.IndexsBusiness();
-        //        List<IIndex> Indexs = new List<IIndex>();
-        //        if (SelectedEntitiesIds != null)
-        //            Indexs = IB.GetIndexsSchema(Zamba.Membership.MembershipHelper.CurrentUser.ID, SelectedEntitiesIds);
+            RightsSchema rightsSchema = new RightsSchema(user.ID);
 
-        //        var newresults = JsonConvert.SerializeObject(Indexs, Formatting.Indented,
-        //        new JsonSerializerSettings
-        //        {
-        //            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-        //        });
-        //        return newresults;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ZClass.raiseerror(ex);
-        //        throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
-        //    }
-        //    finally
-        //    {
-        //        IB = null;
-        //    }
-        //}
+            try
+            {
+                return rightsSchema.GetEntities();
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+
+                throw new Exception("Error al obtener las entidades y sus atributos");
+            }
+            finally
+            {
+                rightsSchema = null;
+                UB = null;
+            }
+        }
+
+
+        [Route("api/SearchWeb/Indexs")]
+        [HttpPost, HttpGet]
+        public string Indexs(List<Int64> SelectedEntitiesIds)
+        {
+            Zamba.Core.IndexsBusiness IB;
+            try
+            {
+                IB = new Zamba.Core.IndexsBusiness();
+                List<IIndex> Indexs = new List<IIndex>();
+                if (SelectedEntitiesIds != null)
+                    Indexs = IB.GetIndexsSchema(Zamba.Membership.MembershipHelper.CurrentUser.ID, SelectedEntitiesIds);
+
+                var newresults = JsonConvert.SerializeObject(Indexs, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+                return newresults;
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
+            }
+            finally
+            {
+                IB = null;
+            }
+        }
 
 
         [Route("api/SearchWeb/FillIndex")]
@@ -330,7 +330,7 @@ namespace Zamba.Web.Controllers
             public Int64 UserId { get; set; }
         }
 
-        const string _URLFORMAT = "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+        const string _URLFORMAT = "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&userid={2}&token={3}";
 
         [Route("api/search/GetFileUrl")]
         [HttpPost]
@@ -338,7 +338,8 @@ namespace Zamba.Web.Controllers
         {
             try
             {
-                var url = string.Format(_URLFORMAT, resultDto.DOC_TYPE_ID, resultDto.DOC_ID, resultDto.UserId);
+                String token = new ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
+                var url = string.Format(_URLFORMAT, resultDto.DOC_TYPE_ID, resultDto.DOC_ID, resultDto.UserId,token);
                 return url;
             }
             catch (Exception ex)

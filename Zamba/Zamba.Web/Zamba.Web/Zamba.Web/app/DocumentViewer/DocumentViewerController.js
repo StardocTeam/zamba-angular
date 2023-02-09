@@ -1,10 +1,12 @@
-﻿app.controller('DocumentViewerController', function ($scope, $filter, $http, DocumentViewerServices, ZambaUserService) {
+﻿//var app = angular.module('DocumentViewer', []);
+
+app.controller('DocumentViewerController', function ($scope, $filter, $http, DocumentViewerServices) {
 
     $scope.onlyMsg = false;
 
     $scope.pageindex = 1;
     $scope.maxindex;
-    $scope.pdfAsArray; 
+    $scope.pdfAsArray;
 
     //Metodo invocable que obtiene el archivo asociado a la tarea.
     $scope.ShowViewer = function () {
@@ -34,13 +36,12 @@
                     switchToDocumentViewer("MSG");
                     console.log("Visualización de formato MSG exitosa.");
                     try {
-                        $scope.$applyAsync();
-
+                        $scope.$apply();
                     } catch (e) {
-                        console.error(e);
+
                     }
                 } else {
-                    console.log("Archivo no disponible!");
+                    console.log("No hay un archivo para mostrar.");
                     swal({
                         title: "Archivo no disponible!",
                         text: 'El archivo no esta disponible',
@@ -60,7 +61,13 @@
 
                 switchToDocumentViewer("PDF");
             } else {
+                //var a = "data:application/pdf;base64," + JsonResult.data;
+
+                //  switchToDocumentViewer("PDFForIE");
+                //  if ($("#previewDocIframe")[0] != undefined) $("#previewDocIframe")[0].contentWindow.OpenUrl(url, index);
+                //  $("#previewDocIframe").attr("src", a);
                 switchToDocumentViewer("PDFForIE");
+
 
                 var pdfAsDataUri = JsonResult.data;
                 var pdfAsArray = convertDataURIToBinary(pdfAsDataUri);
@@ -84,9 +91,9 @@
             });
         }
 
-        $scope.$applyAsync();
-
+        $scope.$apply();
     }
+
 
     function convertDataURIToBinary(base64) {
         var raw = window.atob(base64);
@@ -99,197 +106,124 @@
         return array;
     }
 
+
+
     //Cuando el componente termina de cargar, obtiene el archivo asociado a la tarea, .
     $scope.ShowDocument = function (url, ICON_ID) {
-        try {
-            var UrlParams = getUrlParameters(url);
+        var UrlParams = getUrlParameters(url);
 
-            if (UrlParams != undefined) {
-                if (UrlParams.user != undefined) {
-                    $scope.userid = UrlParams.user;
-                } else if (UrlParams.userid != undefined) {
-                    $scope.userid = UrlParams.userid;
-                } else if (UrlParams.u != undefined) {
-                    $scope.userid = UrlParams.u;
-                }
+        var userId;
 
-                $scope.docid = UrlParams.docid;
-
-                if ($scope.entityId != undefined) {
-                    $scope.doctypeid = $scope.entityId;
-                } else if (UrlParams.doctypeid != undefined) {
-                    $scope.doctypeid = UrlParams.doctypeid;
-                } else if (UrlParams.doctype != undefined) {
-                    $scope.doctypeid = UrlParams.doctype;
-                } else {
-                    console.log("[Error]: Fallo al obtener el ID de la entidad (DocTypeId).")
-                    return;
-                }
-
-                if ($scope.doctypeid != undefined) {
-
-                    var tokenSearchId = $("#TokenSearchIDs").val();
-
-                    $scope.CleanIframe();
-
-                    if (!(navigator.userAgent.indexOf('MSIE') !== -1 ||
-                        navigator.appVersion.indexOf('Trident/') > 0 ||
-                        navigator.userAgent.toString().indexOf('Edge/') > 0) && ICON_ID == 9) {
-                        DocumentViewerServices.getDocumentService($scope.userid, $scope.doctypeid, $scope.docid, tokenSearchId, false, $scope.LoadDocument, true);
-
-                    } else {
-
-                        DocumentViewerServices.getDocumentService($scope.userid, $scope.doctypeid, $scope.docid, tokenSearchId, true, $scope.LoadDocument, true);
-                    }
-                }
-            } else {
-                console.error("Ocurrio un error al cargar el archivo.");
-                switchToDocumentViewer("Error");
-            }
-        } catch (e) {
-            console.error(e);
-            switchToDocumentViewer("Error");
+        if (UrlParams.user != undefined) {
+            userId = UrlParams.user;
+        } else if (UrlParams.userid != undefined) {
+            userId = UrlParams.userid;
+        } else if (UrlParams.u != undefined) {
+            userId = UrlParams.u;
         }
-    }
 
-    $scope.ShowDocument_FromItem = function (userId, docTypeId, docId, pathFile = "") {
-        if (userId != undefined && docTypeId != undefined && docId != undefined) {
-            $scope.userid = userId;
-            $scope.doctypeid = docTypeId;
-            $scope.docid = docId;
-            
+        var docId = UrlParams.docid;
+
+        if ($scope.entityId != undefined) {
+            var docTypeId = $scope.entityId;
+        } else if (UrlParams.doctypeid != undefined) {
+            var docTypeId = UrlParams.doctypeid;
+        } else if (UrlParams.doctype != undefined) {
+            var docTypeId = UrlParams.doctype;
+        } else {
+            console.log("[Error]: Fallo al obtener el ID de la entidad (DocTypeId).")
+        }
+        if (docTypeId == null || docTypeId == undefined || docId == null || docId == undefined)
+            return;
+        var tokenSearchId = $("#TokenSearchIDs").val();
+
             $scope.CleanIframe();
+
             if (!(navigator.userAgent.indexOf('MSIE') !== -1 ||
                 navigator.appVersion.indexOf('Trident/') > 0 ||
-                navigator.userAgent.toString().indexOf('Edge/') > 0)) {
-                var tokenSearchId = "";
-                DocumentViewerServices.getDocumentService($scope.userid, $scope.doctypeid, $scope.docid, tokenSearchId, false, $scope.LoadDocument, true, true, pathFile);
+                navigator.userAgent.toString().indexOf('Edge/') > 0) && ICON_ID == 9) {
+                DocumentViewerServices.getDocumentService(userId, docTypeId, docId, tokenSearchId, false, $scope.LoadDocument, true);
 
             } else {
 
-                DocumentViewerServices.getDocumentService($scope.userid, $scope.doctypeid, $scope.docid, tokenSearchId, true, $scope.LoadDocument, true, true, pathFile);
+                DocumentViewerServices.getDocumentService(userId, docTypeId, docId, tokenSearchId, true, $scope.LoadDocument, true);
             }
-        }        
-    }
+        }
 
-    $scope.CleanVars = function () {
-        $scope.userid = 0;
-        $scope.doctypeid = 0;
-        $scope.docid = 0;
-    }
+
+    
 
     $scope.CleanIframe = function () {
         $("#iframeID").attr("src", "about:blank");
         document.getElementById('previewDocIframe').setAttribute('src', 'about:blank');
     }
 
+
     $scope.LoadDocument = function (RDO) {
-        
-        try {
-            if (RDO != undefined) {
-                var JsonResult = JSON.parse(RDO);
-                if (JsonResult.dataObject != null) {
+        if (RDO != undefined) {
+            var JsonResult = JSON.parse(RDO);
+            if (JsonResult.dataObject != null) {
 
-                    $scope.subject = JsonResult.dataObject.subject;
-                    $scope.from = JsonResult.dataObject.from;
-                    $scope.to = JsonResult.dataObject.to;
-                    $scope.date = JsonResult.dataObject.date;
-                    $scope.body = JsonResult.dataObject.body;
-                    $("#txtAreaBody")[0].srcdoc = $scope.body;
-                    $scope.isMsg = JsonResult.dataObject.isMsg;
-                    $scope.attachs = JsonResult.dataObject.attachs;
+                $scope.subject = JsonResult.dataObject.subject;
+                $scope.from = JsonResult.dataObject.from;
+                $scope.to = JsonResult.dataObject.to;
+                $scope.date = JsonResult.dataObject.date;
+                $scope.body = JsonResult.dataObject.body;
+                $("#txtAreaBody")[0].srcdoc = $scope.body;
+                $scope.isMsg = JsonResult.dataObject.isMsg;
+                $scope.attachs = JsonResult.dataObject.attachs;
 
-                    switchToDocumentViewer("MSG");
-                    console.log("Visualización de formato MSG exitosa.");
-                    try {
-                        $scope.$applyAsync();
+                switchToDocumentViewer("MSG");
+                console.log("Visualización de formato MSG exitosa.");
+                try {
+                    $scope.$apply();
+                } catch (e) {
 
-                    } catch (e) {
-                        console.error(e);
-                    }
                 }
-                else if (!esIE() && !JsonResult.fileName.endsWith(".pdf")) {
-                    if (JsonResult.fileName.endsWith(".html") == true) {
-                        JsonResult.ContentType = "text/html";
-                        var a = "data:" + JsonResult.ContentType + ";base64," + JsonResult.data;// "data:application/pdf;base64," + JsonResult.data;
-                        $("#iframeID").attr("src", a);
-                        switchToDocumentViewer("PDF");
-                    } else {
-                        var Controller = angular.element(document.getElementById("DocumentViewerFromSearch")).scope();
-
-                        console.log("Archivo encontrado, pero no es posible mostrarlo.");
-
-                        try {
-
-                            if ($scope.currentModeSearch == undefined || ( $scope.currentModeSearch == 'results' && ZambaUserService.VisualizerMode == 'preview')) {
-                                swal({
-                                    text: 'No es posible mostrar el archivo. Desea descargarlo?',
-                                    icon: "warning",
-                                    buttons: true,
-                                    dangerMode: true,
-                                })
-                                    .then((Download) => {
-                                        if (Download) {
-                                            try {
-                                                Controller.DownloadFile($scope.userid, $scope.doctypeid, $scope.docid);
-                                            } catch (e) {
-                                                DownloadFile();
-                                            }
-                                        }
-                                        $scope.CleanVars();
-                                    });
-                            }
-                        } catch (e) {
-                            console.error(e);
-                        }
-
-                        switchToDocumentViewer("ErrorPreview");
-                    }
-                }
-                else {
-                    switchToDocumentViewer("PDFForIE");
-                    var pdfAsDataUri = JsonResult.data;
-                    var pdfAsArray = convertDataURIToBinary(pdfAsDataUri);
-                    ////$scope.pdfAsArray = pdfAsDataUri; 
-                    var url = '../../NGTemplates/PDFViewer/viewer.html?file=';
-                    $scope.showZeditorview(JsonResult.fileName);
-                    var binaryData = [];
-                    binaryData.push(pdfAsArray);
-                    var dataPdf = window.URL.createObjectURL(new Blob(binaryData, { type: JsonResult.ContentType }))
-
-                    document.getElementById('previewDocIframe').setAttribute('src', url + encodeURIComponent(dataPdf));
-
-                    //document.getElementById('previewDocIframe').style.display = "none";
-                    //$scope.canvasPDF($scope.pdfAsArray, $scope.pageindex);
-                }
-            } else {
-
-                let currentUrl = window.location.href;
-                if (currentUrl.includes("TaskViewer") && currentUrl.includes("docviewer")) {
-
-                    console.log("No hay un archivo para mostrar.");
-                    //swal({
-                    //    title: "Archivo no disponible!",
-                    //    text: 'El archivo no esta disponible',
-                    //    icon: "warning",
-                    //    timer: 2000
-                    //});
-                }
-               
-
-                switchToDocumentViewer("Error");
             }
-        } catch (e) {
-            console.error(e + "Lanzado por: $scope.LoadDocument(" + RDO + ")");
-            switchToDocumentViewer("Error");
+            else if (!esIE() && !JsonResult.fileName.endsWith(".pdf")) {
+                if (JsonResult.fileName.endsWith(".html") == true) {
+                    JsonResult.ContentType = "text/html";
+                }
+                var a = "data:" + JsonResult.ContentType + ";base64," + JsonResult.data;// "data:application/pdf;base64," + JsonResult.data;
+                $("#iframeID").attr("src", a);
+                switchToDocumentViewer("PDF");
+            }
+            else {
+                switchToDocumentViewer("PDFForIE");
+                var pdfAsDataUri = JsonResult.data;
+                $scope.pdfAsArray = pdfAsDataUri;
+                var pdfAsArray = convertDataURIToBinary(pdfAsDataUri);
+                //$scope.showZeditorview(JsonResult.fileName);
+
+                //El siguiente bloque de codigo comentado es para poner el visualizador de adobe viejo
+
+                var url = '../../NGTemplates/PDFViewer/viewer.html?file=';
+                 var binaryData = [];
+                binaryData.push(pdfAsArray);
+                var dataPdf = window.URL.createObjectURL(new Blob(binaryData, { type: JsonResult.ContentType }))
+                document.getElementById('previewDocIframe').setAttribute('src', url + encodeURIComponent(dataPdf));
+
+
+                //document.getElementById('previewDocIframe').style.display = "none";
+                //$scope.canvasPDF($scope.pdfAsArray, $scope.pageindex);
+            }
+        } else {
+            console.log("No hay un archivo para mostrar.");
+            swal({
+                title: "Archivo no disponible!",
+                text: 'El archivo no esta disponible',
+                icon: "warning",
+                timer: 2000
+            });
+            //TO DO: Podria haber una pantalla de error para este o cualqueir caso.
         }
     }
- 
 
-    $scope.canvasPDF = function (pdfAsArray,pagNumber) {
-        
-        document.getElementById('prev').addEventListener('click', onPrevPage);  
-        document.getElementById('next').addEventListener('click', onNextPage);  
+    $scope.canvasPDF = function (pdfAsArray, pagNumber) {
+
+        document.getElementById('prev').addEventListener('click', onPrevPage);
+        document.getElementById('next').addEventListener('click', onNextPage);
 
         var pdfData = atob(pdfAsArray);
 
@@ -310,7 +244,7 @@
                 console.log('Page loaded');
 
                 var scale = 2;
-               var viewport = page.getViewport({ scale: scale });
+                var viewport = page.getViewport({ scale: scale });
 
                 // Prepare canvas using PDF page dimensions
                 var canvas = document.getElementById('the-canvas');
@@ -330,7 +264,7 @@
                 document.getElementById('page_count').textContent = pdf._pdfInfo.numPages;
                 /*$scope.pageindex = pdf._pdfInfo.numPages;*/
 
-                
+
                 // Render PDF page into canvas context
                 var renderContext = {
                     canvasContext: context,
@@ -348,11 +282,10 @@
     }
 
     function onPrevPage() {
-        
         if ($scope.pageindex <= 1) {
             return;
         }
-        $scope.canvasPDF($scope.pdfAsArray,--$scope.pageindex);
+        $scope.canvasPDF($scope.pdfAsArray, --$scope.pageindex);
 
     }
 
@@ -361,39 +294,19 @@
             return;
         }
 
-        $scope.canvasPDF($scope.pdfAsArray,++$scope.pageindex);
+        $scope.canvasPDF($scope.pdfAsArray, ++$scope.pageindex);
     }
 
-    $scope.showZeditorview = function (e) {
-
-        $scope.showEditor = false;
-        if (e.includes(".docx")) {
-            $scope.showEditor = true;
-            $scope.$applyAsync();
-        }
-
-        $scope.showBtnEditor = false;
-        ////Creamos la instancia
-        let urlParams = new URLSearchParams(location.search);
-
-        ////Accedemos a los valores
-        let Ed = urlParams.get('Ed');
-        if (Ed != null)
-            $scope.showBtnEditor = true;
-    }
 
     $scope.ShowDocument_FromItem = function (userId, docTypeId, docid) {
-        var result = true
-        var success = DocumentViewerServices.getDocumentService(userId, docTypeId, docid, '', true, $scope.LoadDocument, true);
-        if (!success) {
-            result = false;
+        DocumentViewerServices.getDocumentService(userId, docTypeId, docid, '', true, $scope.LoadDocument, true);
 
-        }
-        return result;
     }
+
 
     $scope.DownloadFile = function (userId, docTypeId, docid) {
         DocumentViewerServices.getDocumentService(userId, docTypeId, docid, '', false, $scope.DownloadResult, false);
+
     }
 
     $scope.DownloadResult = function (RDO) {
@@ -479,7 +392,7 @@
                     break
             }
         } catch (e) {
-            console.error(e + "Lanzado por: $scope.fileSize_Format(" + Size + ", " + Format + ")");
+            console.log(e + "Lanzado por: $scope.fileSize_Format(" + Size + ", " + Format + ")");
         }
 
         return ret.toFixed(2) + " " + Format.toLowerCase().replace(/\b\w/g, function (l) { return l.toUpperCase() });
@@ -492,16 +405,6 @@
 
         elemento.href = dataBase64;
         elemento.click();
-    }
-
-    $scope.ResizeIframe = function() {
-        var PaddingTopHeader = 5;
-
-        var TotalHeight = window.innerHeight;
-        var Toolbar = parseInt(document.getElementById("Toolbar").style.height);
-        var EspacioAsignado = TotalHeight - (Toolbar + PaddingTopHeader) - 25;
-
-        $("#IFPreview").height(EspacioAsignado);
     }
 
     function esIE() {
@@ -517,47 +420,31 @@
                 return true;
             }
         } catch (e) {
-            console.error(e);
+            console.log(e);
             return false;
         }
     }
 
     //Cambia la visualizacion entre DocumentViewer y Iframe para mostrar un MSG o por otro lado cualquier archivo diferente a MSG.
     function switchToDocumentViewer(value) {
+
         switch (value) {
             case "MSG":
                 $("#MSG").css("display", "block");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
-                $("#Error404").css("display", "none");
                 break
 
             case "PDF":
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "block");
                 $("#PDFForIE").css("display", "none");
-                $("#Error404").css("display", "none");
                 break
 
             case "PDFForIE":
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "block");
-                $("#Error404").css("display", "none");
-                break
-
-            case "Error":
-                $("#MSG").css("display", "none");
-                $("#PDF").css("display", "none");
-                $("#PDFForIE").css("display", "none");
-                $("#Error404").css("display", "block");
-                break
-
-            case "ErrorPreview":
-                $("#MSG").css("display", "none");
-                $("#PDF").css("display", "none");
-                $("#PDFForIE").css("display", "none");
-                $("#ErrorPreview").css("display", "block");
                 break
 
             default:
@@ -584,19 +471,14 @@
             }
             return res;
         }
-    }    
+    }
 });
 
 app.directive('zambaDocumentViewer', function ($sce) {
-
     return {
         restrict: 'E',
         transclude: true,
         link: function ($scope, element, attributes) {
-            $scope.preview = attributes.preview;
-            $scope.userid = attributes.userid;
-            $scope.doctypeid = attributes.doctypeid;
-            $scope.docid = attributes.docid;
             $scope.subject = attributes.subject;
             $scope.entityId = attributes.entityId;
             $scope.body = attributes.from;
@@ -608,35 +490,11 @@ app.directive('zambaDocumentViewer', function ($sce) {
             $scope.src = attributes.src;
             $scope.onlyMsg = attributes.onlyMsg;
 
-            //Si la vista donde se encuentra el componente no es un DocViewer, variable flag que determina el alto del textArea (body). 
-            var url = window.location.href;
-            if (url.toLowerCase().indexOf("docviewer") != -1) {
-                $scope.ResizeIframe();
-            } else {
-                if (attributes.height) {
-                    $scope.height = attributes.height;
-                }
-            }
+            if (window.location.href.split("&").length > 1) {
+                setTimeout(function () { $scope.ShowDocument(); }, 200);
 
-            if ($scope.userid != undefined && $scope.doctypeid != undefined && $scope.docid != undefined) {
-                setTimeout(function () {
-                    $scope.ShowDocument_FromItem($scope.userid, $scope.doctypeid, $scope.docid);
-                }, 200);
-            }
-
-            if ($("#GridDocumentViewer").length > 0) {
-                var ScopeDocumentViewer = angular.element($("#GridDocumentViewer")).scope();
-                var FirstData = $("#zamba_grid_index_all").data().kendoGrid._data[0];
-
-                setTimeout(function () {
-                    ScopeDocumentViewer.ShowDocument_FromItem(GetUID(), FirstData.DOC_TYPE_ID, FirstData.DOC_ID);
-                }, 200);
-            } else if (window.location.href.split("&").length > 1) {
-                setTimeout(function () {
-                    $scope.ShowDocument();
-                }, 200);
             }
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../app/DocumentViewer/DocumentViewer.html'), //Implementar HTML en la carpeta DocumentViewer.
+        templateUrl: $sce.getTrustedResourceUrl('../../app/DocumentViewer/DocumentViewer.html?v=168'), //Implementar HTML en la carpeta DocumentViewer.
     }
 });

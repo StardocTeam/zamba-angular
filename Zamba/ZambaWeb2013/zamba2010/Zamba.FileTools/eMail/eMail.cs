@@ -10,23 +10,17 @@ using Spire.Email.IMap;
 using System.Net;
 using System.Collections.ObjectModel;
 using Zamba.Core;
-using Zamba.FUS;
 using System.Reflection;
-using System.IO;
-using Zamba.FileTools;
-using Zamba.FileTools.eMail;
-using System.Data;
-using MsgKit.Enums;
 
-namespace Zamba.SpireTools.SpireT
+namespace Zamba.FileTools.eMail
 {
-    public class eMail : ISpireEmailTools
+    public class eMail
     {
         public string ReadInBox()
         {
             try
             {
-                Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+                UserPreferences UP = new UserPreferences();
 
                 #region Codigo Original
                 //Create an IMAP client
@@ -77,12 +71,34 @@ namespace Zamba.SpireTools.SpireT
             }
         }
 
+        //public string GetFilteredEmails(Dictionary<string, string> Params)
+        public List<ImapMessageDTO> GetFilteredEmails(Dictionary<string, string> Params)
+        {
+            return GetMails_WithRules(ConnectToExchange(Params), Params);
+        }
 
+        /// <summary>
+        /// Se conecta al servidor Exchange con una instancia nueva para luego obtener los correos.
+        /// </summary>
+        /// <param name="Params"></param>
+        /// <returns>Los correos de la casilla predefinida mediante parametros</returns>
+        public List<ImapMessageDTO> GetFilteredEmails(DTOObjectImap Params)
+        {
+            return GetMails_WithRules(ConnectToExchange(Params), Params);
+        }
 
+        /// <summary>
+        /// Obtiene los correos del servidor Exchange con una instancia de conexion previa.
+        /// </summary>
+        /// <param name="Params"></param>
+        /// <returns>Los correos de la casilla predefinida mediante parametros</returns>
+        public List<ImapMessageDTO> GetFilteredEmails(DTOObjectImap Params, ImapClient ImapObj)
+        {
+            return GetMails_WithRules(ImapObj, Params);
+        }
 
-
-
-        private List<ImapMessageDTO> GetMails_WithRules(Dictionary<string, string> Params)
+        //private String GetMails_WithRules(ImapClient ObjImap, Dictionary<string, string> Params)
+        private List<ImapMessageDTO> GetMails_WithRules(ImapClient ObjImap, Dictionary<string, string> Params)
         {
             try
             {
@@ -90,23 +106,23 @@ namespace Zamba.SpireTools.SpireT
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "- Parametros: " + Params.ToString());
 
                 //DATO HARDCODEADO
-                imapClient.Select(Params["Folder"]);
+                ObjImap.Select(Params["Folder"]);
                 List<ImapMessageDTO> List_ImapMessageDTO = new List<ImapMessageDTO>();
 
                 if (bool.Parse(Params["Todos"]))
                 {
-                    foreach (ImapMessage item in imapClient.GetAllMessageHeaders())
+                    foreach (ImapMessage item in ObjImap.GetAllMessageHeaders())
                     {
-                        if (Val_ParamsToGetMails(Params, item))
-                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(item.UniqueId)));
+                        if (Val_ParamsToGetMails(ObjImap, Params, item))
+                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(ObjImap, item.UniqueId)));
                     }
                 }
                 else if (bool.Parse(Params["Filtrado"]))
                 {
-                    foreach (ImapMessage item in FilterFolderSelected(Params["Filter_Field"], Params["Filter_Value"]))
+                    foreach (ImapMessage item in FilterFolderSelected(ObjImap, Params["Filter_Field"], Params["Filter_Value"]))
                     {
-                        if (Val_ParamsToGetMails(Params, item))
-                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(item.UniqueId)));
+                        if (Val_ParamsToGetMails(ObjImap, Params, item))
+                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(ObjImap, item.UniqueId)));
                     }
                 }
                 else
@@ -123,49 +139,49 @@ namespace Zamba.SpireTools.SpireT
             }
         }
 
-        //private String GetMails_WithRules(ImapClient imapClient, Dictionary<string, string> Params)
-        private List<ImapMessageDTO> GetMails_WithRules(DTOObjectImap Params)
+        //private String GetMails_WithRules(ImapClient ObjImap, Dictionary<string, string> Params)
+        private List<ImapMessageDTO> GetMails_WithRules(ImapClient ObjImap, DTOObjectImap Params)
         {
             try
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecucion de metodo de filtrado.");
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecucion de GetMails_WithRules:");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "- Parametros: " + Params.ToString());
 
-                imapClient.Select(Params.Carpeta);
+                //DATO HARDCODEADO
+                ObjImap.Select(Params.Carpeta);
                 List<ImapMessageDTO> List_ImapMessageDTO = new List<ImapMessageDTO>();
 
                 if (Convert.ToInt32(Params.Filtrado.ToString()) == 0)
                 {
-                    foreach (ImapMessage item in imapClient.GetAllMessageHeaders())
+                    foreach (ImapMessage item in ObjImap.GetAllMessageHeaders())
                     {
-                        if (Val_ParamsToGetMails(Params, item))
-                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(item.UniqueId)));
+                        if (Val_ParamsToGetMails(ObjImap, Params, item))
+                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(ObjImap, item.UniqueId)));
                     }
                 }
-                else if (Convert.ToInt32(Params.Filtrado.ToString()) != 0)
+                else if (Convert.ToInt32(Params.Filtrado.ToString()) == 0)
                 {
-                    foreach (ImapMessage item in FilterFolderSelected(Params.Filtro_campo, Params.Filtro_valor))
+                    foreach (ImapMessage item in FilterFolderSelected(ObjImap, Params.Filtro_campo, Params.Filtro_valor))
                     {
-                        if (Val_ParamsToGetMails(Params, item))
-                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(item.UniqueId)));
+                        if (Val_ParamsToGetMails(ObjImap, Params, item))
+                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(ObjImap, item.UniqueId)));
                     }
                 }
                 else
                 {
-                    throw new Exception("Ocurrio un error en los parametros de filtrado.");
+                    throw new Exception("Ocurrio un error en los parametros.s");
                 }
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se han filtrado " + List_ImapMessageDTO.Count + " correo/s.");
 
                 return List_ImapMessageDTO;
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsError, "- Parametros: " + Params.ToString());
                 throw ex;
             }
         }
 
-        private bool Val_ParamsToGetMails(Dictionary<string, string> Params, ImapMessage item)
+        private bool Val_ParamsToGetMails(ImapClient ObjImap, Dictionary<string, string> Params, ImapMessage item)
         {
 
             if (Params.ContainsKey("TrashMails") != false)
@@ -192,7 +208,7 @@ namespace Zamba.SpireTools.SpireT
                 {
                     if (bool.Parse(Params["RecentEmails"]) == true)
                     {
-                        if (TEST_RangodeTiempo(3, DateTime.Now, item.Date))
+                        if (TEST_RangodeTiempo(5, DateTime.Now, item.Date))
                         {
                             return true;
                         }
@@ -209,7 +225,7 @@ namespace Zamba.SpireTools.SpireT
             {
                 if (bool.Parse(Params["RecentEmails"]) == true)
                 {
-                    if (TEST_RangodeTiempo(3, DateTime.Now, item.Date))
+                    if (TEST_RangodeTiempo(5, DateTime.Now, item.Date))
                     {
                         return true;
                     }
@@ -224,29 +240,11 @@ namespace Zamba.SpireTools.SpireT
             return false;
         }
 
-        private bool Val_ParamsToGetMails(DTOObjectImap Params, ImapMessage item)
+        private bool Val_ParamsToGetMails(ImapClient ObjImap, DTOObjectImap Params, ImapMessage item)
         {
-            try
+            if (Convert.ToInt32(Params.Filtro_noleidos.ToString()) == 1)
             {
-                if (Convert.ToInt32(Params.Filtro_noleidos.ToString()) == 1)
-                {
-                    if (RecentMailValidation(item.Date.Ticks))
-                    {
-                        if (Convert.ToInt32(Params.Filtro_recientes.ToString()) == 1)
-                        {
-                            if (TEST_RangodeTiempo(3, DateTime.Now, item.Date))
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            return true;
-                        }
-
-                    }
-                }
-                else
+                if (RecentMailValidation(item.Date.Ticks))
                 {
                     if (Convert.ToInt32(Params.Filtro_recientes.ToString()) == 1)
                     {
@@ -254,17 +252,19 @@ namespace Zamba.SpireTools.SpireT
                         {
                             return true;
                         }
-
                     }
                     else
                     {
                         return true;
                     }
-                }
 
+                }
+            }
+            else
+            {
                 if (Convert.ToInt32(Params.Filtro_recientes.ToString()) == 1)
                 {
-                    if (TEST_RangodeTiempo(3, DateTime.Now, item.Date))
+                    if (TEST_RangodeTiempo(5, DateTime.Now, item.Date))
                     {
                         return true;
                     }
@@ -274,19 +274,27 @@ namespace Zamba.SpireTools.SpireT
                 {
                     return true;
                 }
+            }
 
-                return false;
-            }
-            catch (Exception ex)
+            if (Convert.ToInt32(Params.Filtro_recientes.ToString()) == 1)
             {
-                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                throw;
+                if (TEST_RangodeTiempo(5, DateTime.Now, item.Date))
+                {
+                    return true;
+                }
+
             }
+            else
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private bool RecentMailValidation(long Ticks)
         {
-            Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+            UserPreferences UP = new UserPreferences();
 
             if (Ticks > long.Parse(UP.getValue("LastDateObtained", UPSections.Mail, "0")))
             {
@@ -298,7 +306,7 @@ namespace Zamba.SpireTools.SpireT
             }
         }
 
-        public void ConnectToExchange(Dictionary<string, string> Params)
+        public ImapClient ConnectToExchange(Dictionary<string, string> Params)
         {
             try
             {
@@ -316,22 +324,21 @@ namespace Zamba.SpireTools.SpireT
                         ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
                 }
 
-                imapClient = new ImapClient(Host, Puerto, NomUsuario, Contraseña, Protocolo_conexion);
+                ImapClient imap = new ImapClient(Host, Puerto, NomUsuario, Contraseña, Protocolo_conexion);
 
-                imapClient.Connect();
+                imap.Connect();
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Conexion al Exchange exitosa.");
 
-
+                return imap;
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.Message.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]: Fallo la conexion al Exchange:" + ex.Message.ToString());
                 throw ex;
             }
         }
 
-        ImapClient imapClient = null;
-        public void ConnectToExchange(IDTOObjectImap Params)
+        public ImapClient ConnectToExchange(DTOObjectImap Params)
         {
             try
             {
@@ -346,14 +353,16 @@ namespace Zamba.SpireTools.SpireT
                 //if (!bool.Parse(Params["Cert"]))
                 //    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-                imapClient = new ImapClient(Host, Puerto, NomUsuario, Contraseña, Protocolo_conexion);
+                ImapClient imap = new ImapClient(Host, Puerto, NomUsuario, Contraseña, Protocolo_conexion);
 
-                imapClient.Connect();
+                imap.Connect();
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Conexion al Exchange exitosa.");
+
+                return imap;
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.Message.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]: Fallo la conexion al Exchange:" + ex.Message.ToString());
                 throw ex;
             }
         }
@@ -370,335 +379,36 @@ namespace Zamba.SpireTools.SpireT
             return ((int)(FechaACtual - FechaDelCorreo).Days) < Dias ? true : false;
         }
 
-        private ImapMessageCollection FilterFolderSelected(string Campo, string Valor)
+        public ImapMessageCollection FilterFolderSelected(ImapClient Obj, string Campo, string Valor)
         {
-            return imapClient.Search("'" + Campo + "' " + "Contains" + " '" + Valor + "'");
+            return Obj.Search("'" + Campo + "' " + "Contains" + " '" + Valor + "'");
         }
 
-        private AttachmentCollection ExtraerAdjuntos(string UniqueId)
+        public AttachmentCollection ExtraerAdjuntos(ImapClient ObjImap, string UniqueId)
         {
-            return imapClient.GetFullMessage(UniqueId).Attachments;
+            return ObjImap.GetFullMessage(UniqueId).Attachments; 
         }
 
-        public void saveEmail(string From, string eMailTo, string Subject, string Body, List<attach> Attachments, string TemporaryPath) {
-
-
-            try
-            {
-                MailMessage mail = new MailMessage(From, eMailTo);
-
-                mail.Subject = Subject;
-                mail.BodyHtml = Body;
-
-                //foreach (Attachment item in eMail.Attachments)
-                //{
-                //    mail.Attachments.Add(item);
-                //}
-
-                foreach (attach item in Attachments)
-                {
-                    Attachment dto = new Attachment(item.Data, item.FileName);
-
-                    dto.Data = item.Data;
-                    dto.ContentId = item.ContentId;
-                    dto.ContentType = new Spire.Email.ContentType();
-                    dto.ContentType.Boundary = item.ContentType.Boundary;
-                    dto.ContentType.CharSet = item.ContentType.CharSet;
-                    dto.ContentType.MediaType = item.ContentType.MediaType;
-                    dto.ContentType.Name = item.ContentType.Name;
-
-
-                    dto.DispositionType = item.DispositionType;
-                    dto.FileName = item.FileName;
-                    dto.Size = item.Size;
-
-
-                    mail.Attachments.Add(dto);
-                }
-
-                mail.Save(TemporaryPath, MailMessageFormat.Msg);
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                throw new Exception(ex.ToString());
-            }
-
-
-        }
-
-        public void saveEmailWithKit(string From, string eMailcc,string eMailcco, string eMailTo, string Subject, string Body, DateTime sendOn, List<attach> Attachments, string TemporaryPath)
+        public void MoveEmail(object ObjImap, int sequenceNo, string folderName)
         {
 
-
-            try
-            {
-                using (var email = new MsgKit.Email(
-                new MsgKit.Sender(From, string.Empty),
-                Subject,
-                false,
-                false))
-                {
-                    email.Recipients.AddTo(eMailTo);
-                    email.Recipients.AddCc(eMailcc);
-                    email.Recipients.AddBcc(eMailcco);
-                    email.Subject = Subject;
-                    email.BodyText = Body;
-                    email.BodyHtml = Body;
-                    email.SentOn = sendOn.ToUniversalTime();
-
-                    
-
-                    email.IconIndex = MessageIconIndex.ReceiptMail;
-                    foreach (attach item in Attachments)
-                    {
-                        //Debe existir en esta ruta el archivo                       
-                        email.Attachments.Add(item.FileName);
-                        //Esto seria para las imagenes embebidas
-                        //email.Attachments.Add("Images\\tinkerbell.jpg", -1, true, "tinkerbell.jpg");
-                    }
-                    email.Save(TemporaryPath);
-                }
-              
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                throw new Exception(ex.ToString());
-            }
-
+            SpireTools sp = new SpireTools();
+            sp.MoveEmail(ObjImap, sequenceNo, folderName);
 
         }
 
-        public List<IListEmail> GetEMailsFromServer(Dictionary<string, string> Dic_paramRequest)
-        {
-            try
-            {
-                //Instanciar el ImapClient
-                ConnectToExchange(Dic_paramRequest);
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo correos de '" + Dic_paramRequest["Folder"] + "'...");
-                List<ImapMessageDTO> ListaDeEmails = GetMails_WithRules(Dic_paramRequest);
-
-                if (bool.Parse(Dic_paramRequest["NewEmails"]))
-                {
-                    Zamba.Core.UserPreferences UP = new Core.UserPreferences();
-                    if (ListaDeEmails.Count > 0)
-                        UserPreferences.setValue("LastDateObtained", DateTime.Now.Ticks.ToString(), Zamba.UPSections.Mail);
-                }
-
-
-                List<IListEmail> listEmail = new List<IListEmail>();
-                foreach (var item in ListaDeEmails)
-                {
-                    listEmail.Add(new ListEmail { UniqueId = item.UniqueId, Date = item.Date, Sender = item.Sender, Subject = item.Subject });
-                }
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se obtuvieron " + listEmail.Count + " correos obtenidos del servidor.");
-                return listEmail;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest["Folder"] + "'.");
-                throw ex;
-            }
-        }
-
-        public List<ImapMessageDTO> GetEmailsFromServer(DTOObjectImap Dic_paramRequest)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo correos de '" + Dic_paramRequest.Carpeta + "'...");
-                List<ImapMessageDTO> ListaDeEmails = GetMails_WithRules(Dic_paramRequest);
-
-                if (Convert.ToInt32(Dic_paramRequest.Filtro_noleidos.ToString()) == 1)
-                {
-                    if (ListaDeEmails.Count > 0)
-                        UserPreferences.setValue("LastDateObtained", DateTime.Now.Ticks.ToString(), Zamba.UPSections.Mail);
-                }
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Correos obtenidos del servidor.");
-                return ListaDeEmails;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest.Carpeta + "'.");
-                throw ex;
-            }
-        }
-
-
-
-        public void InsertEmailsInZamba(List<IDTOObjectImap> imapProcessList, Object rb)
-        {
-            //Agregar trace log
-            IResults_Business RB = (IResults_Business)rb;
-
-            foreach (DTOObjectImap imapProcess in imapProcessList)
-            {
-                if (imapProcess.Is_Active != 0) { 
-                
-             
-                string originalUserName = imapProcess.Nombre_usuario;
-
-                if (imapProcess.GenericInbox != 0) {
-
-                    //ZOptBusiness zopt = new ZOptBusiness();
-                    string CasillaGenericaImap =  ZOptBusiness.GetValue("CasillaGenericaImap");
-                    imapProcess.Nombre_usuario = CasillaGenericaImap + "\\" + imapProcess.Nombre_usuario + "\\" + imapProcess.Correo_electronico;
-
-                }
-                //Instanciar el ImapClient
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Iniciada ejecucion de proceso con ID:" + imapProcess.Id_proceso + " Nombre del proceso:" + imapProcess.Nombre_proceso);
-                ConnectToExchange(imapProcess);
-
-                //IsProcessEnabledAndValid
-
-                //GetEmails               
-                List<ImapMessageDTO> ListaDeEmails = GetEmailsFromServer(imapProcess).OrderByDescending(i => i.SequenceNumber).ToList();
-
-                imapProcess.Nombre_usuario = originalUserName;
-                foreach (ImapMessageDTO eMail in ListaDeEmails)
-                {
-                    try
-                    {
-                        eMail.Body = imapClient.GetFullMessage(eMail.UniqueId).BodyHtml;
-
-                        InsertResult eMailInsertResult = InsertResult.NoInsertado;
-                        INewResult eMailNewResult = InsertEMail(imapProcess, eMail, ref eMailInsertResult, RB);
-
-                        if (eMailInsertResult == InsertResult.Insertado)
-                        {
-                            if (imapProcess.Exportar_adjunto_por_separado == 1)
-                            {
-                                foreach (var attach in eMail.Attachments)
-                                {
-                                    InsertResult attachInsertResult = InsertResult.NoInsertado;
-                                    INewResult attachNewResult = InsertEMail(imapProcess, eMail, ref attachInsertResult, RB);
-                                }
-                            }
-                               MoveEmail(eMail.SequenceNumber, imapProcess.CarpetaDest);
-                        }
-
-                        eMail.Attachments.Clear();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        //ZClass.raiseerror(ex);
-                        ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo con uniqueID: " + eMail.UniqueId);
-                        ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
-                        continue;
-                    }
-                }
-            }
-            }
-        }
-
-        public  INewResult InsertEMail(DTOObjectImap imapProcess, ImapMessageDTO eMail, ref InsertResult insertResult, IResults_Business RB)
-        {
-            try
-            {
-                INewResult newResult;
-
-                newResult = RB.GetNewNewResult(imapProcess.Entidad);
-
-                if (imapProcess.Codigo_mail != 0)
-                    newResult.get_GetIndexById(imapProcess.Codigo_mail).DataTemp = eMail.UniqueId;
-
-                newResult.get_GetIndexById(imapProcess.Enviado_por).DataTemp = string.IsNullOrEmpty(eMail.From) ? eMail.From : eMail.Sender;
-                newResult.get_GetIndexById(imapProcess.Para).DataTemp = eMail.To;
-
-                if (imapProcess.Cc != 0)
-                    newResult.get_GetIndexById(imapProcess.Cc).DataTemp = eMail.Cc;
-
-                newResult.get_GetIndexById(imapProcess.Fecha).DataTemp = eMail.Date;
-                newResult.get_GetIndexById(imapProcess.Asunto).DataTemp = eMail.Subject;
-
-                //Guardar en temporal el archivo BodyText como HTML
-                string TemporaryPath = Zamba.Membership.MembershipHelper.AppTempDir(@"\IMAPTemp\Imap").FullName + DateTime.Now.Ticks.ToString() + ".msg";
-
-                //using (FileStream FS = new FileStream(TemporaryPath, FileMode.Create))
-                //{
-                //    using (StreamWriter SW = new StreamWriter(FS, Encoding.UTF8))
-                //    {
-                //        SW.Write(eMail.Body);
-                //    }
-                //}
-
-                MailAddress addressFrom = new MailAddress(eMail.From.ToString());
-                //System.Net.Mail.MailAddress addressFrom = new System.Net.Mail.MailAddress();
-                if (eMail.Cc != "")
-                {
-                    MailAddress addressTo = new MailAddress(eMail.Cc);
-                }
-
-
-
-
-                MailMessage mail = new MailMessage(eMail.From, eMail.To.ToString());
-
-                mail.Subject = eMail.Subject;
-                mail.BodyHtml = eMail.Body;
-
-                foreach (Attachment item in eMail.Attachments)
-                {
-                    mail.Attachments.Add(item);
-                }
-
-
-                mail.Save(TemporaryPath, MailMessageFormat.Msg);
-
-
-                newResult.File = TemporaryPath;
-                insertResult = RB.Insert(ref newResult, false, false, false, false, false, false, false);
-                File.Delete(TemporaryPath);
-                return newResult;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw new Exception(ex.ToString());
-            }
-        }
-
-        public void MoveEmail(int sequenceNo, string folderName)
-        {
-            try
-            {
-                var a = imapClient.BeginCopy(sequenceNo, folderName, MoveCB);
-                imapClient.EndCopy(a);
-
-                var b = imapClient.BeginMarkAsDeleted(sequenceNo, DeleteCB);
-                imapClient.EndMarkAsDeleted(b);
-                imapClient.DeleteMarkedMessages();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private void MoveCB(IAsyncResult ar)
-        {
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Mail copiado");
-        }
-        private void DeleteCB(IAsyncResult ar)
-        {
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Mail Borrado");
-        }
 
     }
 
+    public class ListEmail {
 
+        public string UniqueId { get; set; }
+        public string Sender { get; set; }
+        public string Date { get; set; }
+        public string Subject { get; set; }
+    }
 
-
-
-    public class ImapMessageDTO : Zamba.FileTools.eMail.test.IImapMessageDTO
+    public class ImapMessageDTO
     {
         #region Atributos
         public string UniqueId { get; set; }
@@ -780,7 +490,5 @@ namespace Zamba.SpireTools.SpireT
 
             this.Attachments = Attachs;
         }
-
-
     }
 }

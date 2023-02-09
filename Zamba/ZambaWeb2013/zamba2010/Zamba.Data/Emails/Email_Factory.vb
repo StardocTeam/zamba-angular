@@ -740,7 +740,6 @@ Public NotInheritable Class Email_Factory
             query_z_me_pd.Append(",FILTER_NOT_READS")
             query_z_me_pd.Append(",EXPORT_ATTACHMENTS_SEPARATELY")
             query_z_me_pd.Append(",PROCESS_ID")
-            query_z_me_pd.Append(",GENERIC_INBOX")
             query_z_me_pd.Append(") values(")
 
             query_z_me_pd.Append("'" + dtoObjectImap.Direccion_servidor + "',")
@@ -752,15 +751,13 @@ Public NotInheritable Class Email_Factory
             query_z_me_pd.Append(dtoObjectImap.Filtro_recientes.ToString() + ",")
             query_z_me_pd.Append(dtoObjectImap.Filtro_noleidos.ToString() + ",")
             query_z_me_pd.Append(dtoObjectImap.Exportar_adjunto_por_separado.ToString() + ",")
-            query_z_me_pd.Append(lastProcessId.ToString() + ",")
-            query_z_me_pd.Append(dtoObjectImap.GenericInbox.ToString() + ",")
+            query_z_me_pd.Append(lastProcessId.ToString())
             query_z_me_pd.Append(")")
 
             t.Con.ExecuteNonQuery(t.Transaction, CommandType.Text, query_z_me_pd.ToString())
 
             query_z_me_pm.Append("INSERT INTO Z_ME_PM(")
             query_z_me_pm.Append("FOLDER_NAME")
-            query_z_me_pm.Append(",FOLDER_NAME_DEST")
             query_z_me_pm.Append(",ENTITY_ID")
             query_z_me_pm.Append(",SENT_BY")
             query_z_me_pm.Append(",FIELD_TO")
@@ -777,7 +774,6 @@ Public NotInheritable Class Email_Factory
             query_z_me_pm.Append(") values(")
 
             query_z_me_pm.Append("'" + dtoObjectImap.Carpeta + "',")
-            query_z_me_pm.Append("'" + dtoObjectImap.CarpetaDest + "',")
             query_z_me_pm.Append(dtoObjectImap.Entidad.ToString() + ",")
             query_z_me_pm.Append(dtoObjectImap.Enviado_por.ToString() + ",")
             query_z_me_pm.Append(dtoObjectImap.Para.ToString() + ",")
@@ -837,8 +833,7 @@ Public NotInheritable Class Email_Factory
             query_z_me_pd.Append("FILTER_VALUE = " + "'" + dtoObjectImap.Filtro_valor.ToString() + "',")
             query_z_me_pd.Append("FILTER_RECENTS = " + "'" + dtoObjectImap.Filtro_recientes.ToString() + "',")
             query_z_me_pd.Append("FILTER_NOT_READS = " + "'" + dtoObjectImap.Filtro_noleidos.ToString() + "',")
-            query_z_me_pd.Append("EXPORT_ATTACHMENTS_SEPARATELY = " + "'" + dtoObjectImap.Exportar_adjunto_por_separado.ToString() + "',")
-            query_z_me_pd.Append("GENERIC_INBOX = " + "'" + dtoObjectImap.GenericInbox.ToString() + "'")
+            query_z_me_pd.Append("EXPORT_ATTACHMENTS_SEPARATELY = " + "'" + dtoObjectImap.Exportar_adjunto_por_separado.ToString() + "'")
             query_z_me_pd.Append(" WHERE")
             query_z_me_pd.Append(" PROCESS_ID = " + "'" + dtoObjectImap.Id_proceso.ToString() + "'")
 
@@ -847,7 +842,6 @@ Public NotInheritable Class Email_Factory
             query_z_me_pm.Append("UPDATE Z_ME_PM ")
             query_z_me_pm.Append("SET ")
             query_z_me_pm.Append("FOLDER_NAME = " + "'" + dtoObjectImap.Carpeta.ToString() + "',")
-            query_z_me_pm.Append("FOLDER_NAME_DEST = " + "'" + dtoObjectImap.CarpetaDest.ToString() + "',")
             query_z_me_pm.Append("ENTITY_ID = " + "'" + dtoObjectImap.Entidad.ToString() + "',")
             query_z_me_pm.Append("SENT_BY = " + "'" + dtoObjectImap.Enviado_por.ToString() + "',")
             query_z_me_pm.Append("FIELD_TO = " + "'" + dtoObjectImap.Para.ToString() + "',")

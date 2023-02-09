@@ -103,9 +103,8 @@ Public Class PlayDOInputIndex
     Public Function PlayWeb(ByVal results As System.Collections.Generic.List(Of Core.ITaskResult), ByVal Params As Hashtable) As System.Collections.Generic.List(Of Core.ITaskResult)
         If validarIndice(results) Then
             'Pregunto por el valor del indice
-            Dim indexname As String = New IndexsBusiness().GetIndexNameById(_myRule.Index)
-            ZTrace.WriteLineIf(ZTrace.IsInfo, $"Solicitando Atributo {indexname} con id {_myRule.Index}")
-            Params.Add("IndexName", indexname)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Mostrando el formulario.")
+            Params.Add("IndexName", New IndexsBusiness().GetIndexNameById(_myRule.Index))
             Params.Add("IndexId", _myRule.Index)
         End If
 

@@ -1,0 +1,100 @@
+﻿.clientlogo
+{
+    cursor:pointer;
+    background-image: url("../Aysa/images/Logo.png");
+    height:40px;
+    width: 86px;
+    float:right;
+	max-height: 40px;
+}
+
+.clientPhrase
+{
+    background-color: #3266af;
+    background-image: url("../Aysa/images/ClientPhrase.png");
+    height:85px;
+    width: 480px;
+    float:right;
+}
+
+.topheader
+{
+    background-image: url("../Aysa/Images/HeaderBg.jpg");
+    background-repeat: no-repeat;
+    height:85px;
+    width:100%;
+}
+
+.divExternToolbar
+{
+	background: #5c9ccc url("../Aysa/Images/ToolBar.gif") repeat-x;
+	border: solid 1px #4297d7;
+	color: #ffffff;
+	display: block;
+	font-family: Verdana;
+	font-size: 10px;
+	font-weight: 700;
+	height:100%;
+	margin: 0px 0px 1px;
+	padding: 0.1em;
+}
+
+.divToolbar a
+{
+	color: #ffffff;	
+}
+
+.divInternToolbar
+{
+	border-color: #ffffff;
+	color: #ffffff;
+	display: block;
+	float: left;
+	margin: auto 1.5em auto auto;
+	padding: 0px 0px 0px 1px;
+}
+
+.toolbarButton
+{
+	background: #dfeffc url("../Aysa/images/Button-Default.gif") repeat-x 50% 50%;
+	border: solid 1px #c5dbec;
+	color: #2e6e9e;
+	cursor: pointer;
+	float: left;
+	font-family: Verdana;
+	font-size: 9px;
+	font-weight: 700;
+	left: 412px;
+	margin: 0px 4px 0px 0px;
+	padding: 0.4em 1em;
+	text-decoration: none;
+}
+
+.toolbarButton:hover
+{
+	border: 1px solid #79b7e7; 
+	background: #d0e5f5 url("../Aysa/images/Button-Hover.png") 50% 50% repeat-x; 
+	font-weight: bold; 
+	color: #1d5987;
+	cursor: pointer;
+	float: left;
+	font-family: Verdana;
+	font-size: 9px;
+	left: 412px;
+	margin: 0px 4px 0px 0px;
+	padding: 0.4em 1em;
+	text-decoration: none;
+}
+
+.HomeLink
+{
+	text-decoration:none;
+	cursor:pointer;
+	font-size:10pt;
+}
+
+.tdUser
+{
+	font-size:10pt;
+	white-space:nowrap;	
+}

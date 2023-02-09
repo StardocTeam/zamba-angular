@@ -21,13 +21,13 @@ public partial class Views_Insert_Insert {
     protected global::System.Web.UI.HtmlControls.HtmlHead Head2;
     
     /// <summary>
-    /// modalIframe control.
+    /// WFExecForEntryRulesFrame control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlIframe modalIframe;
+    protected global::System.Web.UI.HtmlControls.HtmlIframe WFExecForEntryRulesFrame;
     
     /// <summary>
     /// aspnetForm control.
@@ -37,15 +37,6 @@ public partial class Views_Insert_Insert {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlForm aspnetForm;
-    
-    /// <summary>
-    /// UC_WFExecution control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::UC_WF_UCWFExecution UC_WFExecution;
     
     /// <summary>
     /// hdnUserId control.
@@ -138,15 +129,6 @@ public partial class Views_Insert_Insert {
     protected global::System.Web.UI.UpdatePanel DropPanel;
     
     /// <summary>
-    /// lnkInsertar control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.LinkButton lnkInsertar;
-    
-    /// <summary>
     /// ucUploadFile control.
     /// </summary>
     /// <remarks>
@@ -172,6 +154,15 @@ public partial class Views_Insert_Insert {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.UpdatePanel NavPanel;
+    
+    /// <summary>
+    /// lnkInsertar control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.LinkButton lnkInsertar;
     
     /// <summary>
     /// lnkReplicar control.

@@ -31,7 +31,7 @@
             if (userid > 0) return userid;
 
 
-            var authData = window.localStorage.getItem('authorizationData');
+            var authData = localStorage.getItem('authorizationData');
             if (authData == undefined || authData == null || authData == "[object Object]" || authData == "") {
                 return;
             }

@@ -203,7 +203,6 @@ app.controller('ZambaSignFileController', function ($scope, $filter, $http, Zamb
         solicitudFirmaDigital.cuitDeclarante = cuitDespachante;
         solicitudFirmaDigital.nroDespacho = nroDespacho;
         solicitudFirmaDigital.codigo = codigo;
-        solicitudFirmaDigital.cantidadFojas = validateIfValueIsNull($("#zamba_index_139608").val());
     }
 
     function validateIfValueIsNull(value) {

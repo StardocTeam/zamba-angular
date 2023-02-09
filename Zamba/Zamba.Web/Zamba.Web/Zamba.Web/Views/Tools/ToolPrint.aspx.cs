@@ -20,8 +20,9 @@ public partial class Views_Tools_ToolPrint : System.Web.UI.Page
         {
             Int64.TryParse(Request.QueryString["doctypeid"], out _doctypeId);
             Int64.TryParse(Request.QueryString["docid"], out _docId);
+            String token = new ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
 
-            _url = string.Format(MembershipHelper.Protocol + "{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&UserID={4}", Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, _doctypeId, _docId, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+            _url = string.Format(MembershipHelper.Protocol + "{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&userid={4},token={5}", Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, _doctypeId, _docId, Zamba.Membership.MembershipHelper.CurrentUser.ID,token);
 
             if (!string.IsNullOrEmpty(_url))
             {

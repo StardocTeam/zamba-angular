@@ -120,7 +120,7 @@ app.controller('ModalInstanceCtrl', function ($uibModalInstance, $scope, data, D
         try {
             setTimeout(function () { document.getElementsByTagName("zamba-associated")[0].querySelector(".BtnRefresh").click(); });
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
     }    
 });

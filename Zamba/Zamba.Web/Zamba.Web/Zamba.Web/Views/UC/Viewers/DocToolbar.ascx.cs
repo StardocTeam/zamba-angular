@@ -57,7 +57,6 @@ public partial class Views_UC_Viewers_DocToolbar : System.Web.UI.UserControl
         //    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.DocTypes, RightsType.RemoveSendMailInTasks, Int64.Parse(DocTypeId)) != false &&
         //    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.Documents, RightsType.EnviarPorMailWeb, -1) == true);
         // btnPrint.Visible = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.Documents, RightsType.Print, -1);
-        btnAttach.Visible = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.InsertWeb, RightsType.View, -1);
         Results_Business RB = new Results_Business();
         if (DocTypeId != "")
         {

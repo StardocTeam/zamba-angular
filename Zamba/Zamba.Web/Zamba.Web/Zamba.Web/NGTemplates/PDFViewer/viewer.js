@@ -670,7 +670,6 @@ var pdfjsWebLibs = {
                 }
 
                 function pdfHistoryBeforeUnload() {
-                    
                     var previousParams = self._getPreviousParams(null, true);
                     if (previousParams) {
                         var replacePrevious = (!self.current.dest &&

@@ -82,9 +82,6 @@ Namespace WF.WF
                     If Not IsDBNull(r("Date_Asigned_By")) Then
                         Result.AsignedDate = r.Item("Date_Asigned_By")
                     End If
-                    If Not IsDBNull(r("Username_Asigned")) Then
-                        Result.Username_Asigned = r.Item("Username_Asigned")
-                    End If
 
                     If Not IsDBNull(r("Disk_group_ID")) Then
                         Result.Disk_Group_Id = r.Item("Disk_group_ID")
@@ -259,7 +256,7 @@ Namespace WF.WF
         ''' </history>
         Public Function GetTasksByStepIdDataTable(ByVal stepId As Int64, ByVal WithRights As Boolean, ByVal CurrentUserId As Int64, ByVal LastDocId As Int64, ByVal PageSize As Int32) As DataTable
 
-            Dim DTList As List(Of Int64) = WFStepBusiness.GetDocTypesAssociatedToWFbyStepId(stepId)
+            Dim DTList As ArrayList = WFStepBusiness.GetDocTypesAssociatedToWFbyStepId(stepId)
             Dim DtTasks As New DataTable
 
             Dim count As Long
@@ -346,29 +343,10 @@ Namespace WF.WF
                     Next
                 End If
 
-
-                'Busco los indices referenciales de la entidad.
-                Dim refIndexs As List(Of ReferenceIndex) = (New ReferenceIndexBusiness).GetReferenceIndexesByDoctypeId(DocTypeId)
-
-                dt = WTF.GetTasksByStepandDocTypeId(stepId, DocTypeId, indexsaux, WithGridRights, FilterString, ColumCondstring.ToString(),
-                                                    dateDeclarationString.ToString(), LastDocId, PageSize, CheckInColumnIsShortDate,
-                                                    totalCount, order, RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,
-                                                    ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosAOtros, stepId),
-                                                    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps,
-                                                    Zamba.Core.RightsType.VerAsignadosANadie, stepId), HabilitarFavoritos, autosustindex, refIndexs)
+                dt = WTF.GetTasksByStepandDocTypeId(stepId, DocTypeId, indexsaux, WithGridRights, FilterString, ColumCondstring.ToString(), dateDeclarationString.ToString(), LastDocId, PageSize, CheckInColumnIsShortDate, totalCount, order, RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosAOtros, stepId), RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosANadie, stepId), HabilitarFavoritos, autosustindex)
             Else
-
-                'Busco los indices referenciales de la entidad.
-                Dim refIndexs As List(Of ReferenceIndex) = (New ReferenceIndexBusiness).GetReferenceIndexesByDoctypeId(DocTypeId)
-
                 indexs.AddRange(DTB.GetDocType(DocTypeId).Indexs)
-                dt = WTF.GetTasksByStepandDocTypeId(stepId, DocTypeId, indexs, WithGridRights, FilterString, ColumCondstring.ToString(),
-                                                    dateDeclarationString.ToString(), LastDocId, PageSize, CheckInColumnIsShortDate,
-                                                    totalCount, order, RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,
-                                                    ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosAOtros, stepId),
-                                                    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,
-                                                    ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosANadie, stepId),
-                                                    HabilitarFavoritos, Nothing, refIndexs)
+                dt = WTF.GetTasksByStepandDocTypeId(stepId, DocTypeId, indexs, WithGridRights, FilterString, ColumCondstring.ToString(), dateDeclarationString.ToString(), LastDocId, PageSize, CheckInColumnIsShortDate, totalCount, order, RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosAOtros, stepId), RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosANadie, stepId), HabilitarFavoritos, Nothing)
             End If
             DTB = Nothing
             If isCount = True Then
@@ -397,7 +375,7 @@ Namespace WF.WF
         Public Function GetTasksCountByStepandDocTypeId(ByVal stepId As Int64, ByVal DocTypeId As Int64, ByVal WithGridRights As Boolean, ByVal CurrentUserID As Int64, ByRef FC As IFiltersComponent) As Long
             Dim ColumCondstring As New StringBuilder
             Dim dateDeclarationString As New StringBuilder
-            Dim UserGroupBusiness As New UserGroupBusiness
+            Dim UserGroupBusiness As UserGroupBusiness
             Dim UB As New UserBusiness
             getRestrictionString(ColumCondstring, dateDeclarationString, DocTypeId, CurrentUserID)
 
@@ -438,19 +416,10 @@ Namespace WF.WF
             If String.IsNullOrEmpty(dinamycRestriciton) OrElse Not Boolean.Parse(dinamycRestriciton) Then
                 Dim key As String = DocTypeId & "-" & CurrentUserID
                 If Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings.ContainsKey(key) = False Then
-                    SyncLock Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings
-                        If Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings.ContainsKey(key) = False Then
-                            Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings.Add(key, RF.GetRestrictionIndexs(CurrentUserID, DocTypeId))
-                            indRestriction = Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key)
-                        End If
-                    End SyncLock
-                ElseIf Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key) Is Nothing Then
-                    SyncLock Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings
-                        If Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key) Is Nothing Then
-                            Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key) = RF.GetRestrictionIndexs(CurrentUserID, DocTypeId)
-                            indRestriction = Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key)
-                        End If
-                    End SyncLock
+                    Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings.Add(key, RF.GetRestrictionIndexs(CurrentUserID, DocTypeId))
+                End If
+                If Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings.ContainsKey(key) = False OrElse Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key) Is Nothing Then
+                    Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key) = RF.GetRestrictionIndexs(CurrentUserID, DocTypeId)
                 Else
                     indRestriction = Cache.RestrictionsStrings.GetInstance().hsRestrictionsStrings(key)
                 End If
@@ -521,10 +490,8 @@ Namespace WF.WF
             indexs.AddRange(DTB.GetDocType(DocTypeId).Indexs)
             DTB = Nothing
 
-            'Busco los indices referenciales de la entidad.
-            Dim refIndexs As List(Of ReferenceIndex) = (New ReferenceIndexBusiness).GetReferenceIndexesByDoctypeId(DocTypeId)
 
-            dt = WTF.GetTaskByTaskIdAndDocTypeId(taskId, WFStepId, DocTypeId, indexs, False, String.Empty, ColumCondstring.ToString, dateDeclarationString.ToString, FilterTypes.Task, True, Nothing, refIndexs)
+            dt = WTF.GetTaskByTaskIdAndDocTypeId(taskId, WFStepId, DocTypeId, indexs, False, String.Empty, ColumCondstring.ToString, dateDeclarationString.ToString, FilterTypes.Task, True)
 
             If Not IsNothing(dt) AndAlso dt.Rows.Count > 0 Then
                 '                Dim WFSB As New WFStepBusiness
@@ -578,7 +545,7 @@ Namespace WF.WF
             End If
 
             Dim IB As New IndexsBusiness
-            indexs.AddRange(IB.GetIndexsSchemaAsListOfDT(DocTypeId))
+            indexs.AddRange(IB.GetIndexsSchema(DocTypeId))
             IB = Nothing
 
             Dim refIndexs As List(Of ReferenceIndex) = (New ReferenceIndexBusiness).GetReferenceIndexesByDoctypeId(DocTypeId)
@@ -1093,13 +1060,10 @@ Namespace WF.WF
         '''     [Javier P.]   10/10/2012  Modified    Se modifica el metodo para aumentar la performance
         ''' </history>
         Public Function GetTask(ByVal taskId As Int64, ByVal userID As Int64) As ITaskResult
-            Dim taskResult As ITaskResult = Nothing
             Dim ds As DataSet = GetStepIdDocTypeIdByTaskId(taskId)
-            If (ds.Tables(0).Rows IsNot Nothing) AndAlso (ds.Tables(0).Rows.Count > 0) Then
-                Dim taskIDs As New List(Of Long)
-                taskIDs.Add(taskId)
-                taskResult = GetTasksByTaskIdsAndDocTypeIdAndStepId(taskIDs, Int64.Parse(ds.Tables(0).Rows(0).Item("Doc_type_Id").ToString()), Int64.Parse(ds.Tables(0).Rows(0).Item("Step_Id").ToString()), SearchType.OpenTask, userID)
-            End If
+            Dim taskIDs As New List(Of Long)
+            taskIDs.Add(taskId)
+            Dim taskResult As ITaskResult = GetTasksByTaskIdsAndDocTypeIdAndStepId(taskIDs, Int64.Parse(ds.Tables(0).Rows(0).Item("Doc_type_Id").ToString()), Int64.Parse(ds.Tables(0).Rows(0).Item("Step_Id").ToString()), SearchType.OpenTask, userID)
             If taskResult Is Nothing Then
                 Return Nothing
             Else
@@ -1326,7 +1290,7 @@ Namespace WF.WF
                     If Not IsNothing(WF.InitialStep) Then
                         If WF.InitialStep.ID = S.ID Then
                             For Each r As WFRuleParent In S.Rules
-                                If r.ParentType = TypesofRules.Entrada AndAlso r.Enable Then
+                                If r.ParentType = TypesofRules.Entrada Then
 
                                     r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
 
@@ -1342,9 +1306,9 @@ Namespace WF.WF
                 Next
 
                 'Realiza el refresh
-                'If OpenTaskAfterInsert Then
-                '    RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
-                'End If
+                If OpenTaskAfterInsert Then
+                    RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
+                End If
             End If
         End Sub
 
@@ -1408,7 +1372,7 @@ Namespace WF.WF
                         End If
 
                         WTF.InsertTasks(New List(Of ITaskResult) From {t}, WF, -1, tran, timeout)
-                        UB.SaveAction(t.ID, ObjectTypes.WFTask, RightsType.insert, "Se inserto la tarea: " & t.ID & " en el WF: " & WF.Name, currentUserid, tran)
+                        UB.SaveAction(t.ID, ObjectTypes.WFTask, RightsType.insert, "Se inserto la tarea: " & t.ID & " en el WF: " & WF.Name, 0, tran)
                     Else
                         Throw New Exception("No hay definida una etapa inicial en el Workflow: " & WF.Name)
                     End If
@@ -1448,34 +1412,82 @@ Namespace WF.WF
                 End If
             Next
 
-            If OpenTaskAfterInsert = False Then
-                For Each S As WFStep In WF.Steps.Values
-                    If Not IsNothing(WF.InitialStep) Then
-                        If WF.InitialStep.ID = S.ID Then
-                            For Each r As WFRuleParent In S.Rules
+            For Each S As WFStep In WF.Steps.Values
+                If Not IsNothing(WF.InitialStep) Then
+                    If WF.InitialStep.ID = S.ID Then
+                        For Each r As WFRuleParent In S.Rules
 
-                                If r.ParentType = TypesofRules.Entrada AndAlso r.Enable Then
-                                    r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
-                                End If
+                            If r.ParentType = TypesofRules.Entrada Then
+                                r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
+                            End If
 
-                                If r.ParentType = TypesofRules.Insertar Then
-                                    r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
-                                End If
+                            If r.ParentType = TypesofRules.Insertar Then
+                                r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
+                            End If
 
-                            Next
-                        End If
+                        Next
                     End If
-                Next
-            End If
+                End If
+            Next
 
-            'If OpenTaskAfterInsert Then
-            '    RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
-            'End If
+            If OpenTaskAfterInsert Then
+                RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
+            End If
 
         End Sub
 
+        ''' <summary>
+        ''' </summary>
+        ''' <param name="Results"></param>
+        ''' <param name="WF"></param>
+        ''' <remarks></remarks>
+        ''' <history>
+        ''' [Sebastian 12-05-09]    COMENTED    Agrega un result al wf que esta relacionado o se pretende agregar.
+        ''' [Sebastian 12-05-09] se agrego try-catch
+        ''' [Tomas] - 13/05/2009 - Modified - Se remueve el try-catch que Sebastian habia puesto ya que generabla conflictos con la interfaz gráfica.
+        ''' </history>
+        'Public Function AddResultsToWorkFLow(ByVal Results As ArrayList, ByVal WF As WorkFlow, ByRef tr As Transaction) As ArrayList
+        '    Dim TasksResults As New System.Collections.Generic.List(Of Core.ITaskResult)
+        '    Dim values As New ArrayList(2)
+        '    Dim WFB As New WFBusiness
 
+        '    For Each Result As Result In Results
+        '        ' valido que no exista el result en el workflow
+        '        If WFB.ValidateDocIdInWF(Result.ID, WF.ID, tr) = False Then
+        '            If IsNothing(WF.InitialStep) = False Then
+        '                Dim t As New TaskResult(WF.InitialStep, CoreData.GetNewID(IdTypes.Tasks, tr), Result.ID, Result.DocType, Result.Name, Result.IconId, 0, Zamba.Core.TaskStates.Desasignada, Result.Indexs, WF.InitialStep.InitialState)
+        '                t.WorkId = WF.ID
+        '                t.CheckIn = Now
+        '                'If Not WF.InitialStep.InitialState Is Nothing Then ChangeState(t, WF.InitialStep.InitialState, tr)
+        '                t.Name = Result.Name
+        '                'Se asigna el fullpath
+        '                t.Disk_Group_Id = Result.Disk_Group_Id
+        '                t.DISK_VOL_PATH = Result.DISK_VOL_PATH
+        '                t.Parent.ID = Result.Parent.ID
+        '                t.OffSet = Result.OffSet
+        '                t.Doc_File = Result.Doc_File
+        '                t.AsignedToId = Membership.MembershipHelper.CurrentUser.ID
+        '                t.AsignedById = Membership.MembershipHelper.CurrentUser.ID
 
+        '                TasksResults.Add(t)
+        '                LogCheckIn(t, tr)
+        '            Else
+        '                Throw New Exception("No hay definida una etapa inicial en el Workflow: " & WF.Name)
+
+        '            End If
+        '        Else
+        '            Throw New Exception("El documento ya esta ingresado en el Workflow: " & WF.Name)
+        '        End If
+        '    Next
+        '    ' valido que haya un result al menos para meter en el workflow
+        '    If TasksResults.Count > 0 Then
+        '        WTF.InsertTasks(TasksResults, WF, -1, tr, 30)
+        '    End If
+        '    values.Add(WF)
+        '    values.Add(TasksResults)
+
+        '    Return values
+        'End Function
 
         Public Sub executeWF(ByVal wfs As ArrayList)
             executeWF(wfs, True, False)
@@ -1509,7 +1521,7 @@ Namespace WF.WF
                     If Not IsNothing(WF.InitialStep) Then
                         If WF.InitialStep.ID = S.ID Then
                             For Each r As WFRuleParent In S.Rules
-                                If r.ParentType = TypesofRules.Entrada AndAlso r.Enable Then
+                                If r.ParentType = TypesofRules.Entrada Then
 
                                     r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
 
@@ -1521,9 +1533,9 @@ Namespace WF.WF
 
                 'If OpenTaskAfterInsert Then
                 'Realiza el refresh
-                'If RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.ModuleWorkFlow, RightsType.Use) = True Then
-                '    RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
-                'End If
+                If RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.ModuleWorkFlow, RightsType.Use) = True Then
+                    RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
+                End If
 
                 For Each S As WFStep In WF.Steps.Values
                     If Not IsNothing(WF.InitialStep) Then
@@ -1637,9 +1649,23 @@ Namespace WF.WF
             Return TasksResults
         End Function
 
+        Private Function GetEntrada(ByVal Rule As IWFRuleParent) As Boolean
 
+            If (Rule.ParentType = TypesofRules.Entrada) Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
 
+        Private Function GetValidacionEntrada(ByVal Rule As IWFRuleParent) As Boolean
 
+            If (Rule.ParentType = TypesofRules.ValidacionEntrada) Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
 
         Public Shared Event LastInsertedTask(ByVal Task As ITaskResult, ByVal OpenTaskAfterInsert As Boolean)
         ''' <summary>
@@ -1716,7 +1742,7 @@ Namespace WF.WF
                 For Each S As WFStep In workflow.Steps.Values
                     If workflow.InitialStep.ID = S.ID Then
                         For Each r As WFRuleParent In S.Rules
-                            If r.ParentType = TypesofRules.Entrada AndAlso r.Enable Then
+                            If r.ParentType = TypesofRules.Entrada Then
 
                                 r.ExecuteRule(TasksResults, Me, New WFRulesBusiness, IsAsync)
 
@@ -1728,7 +1754,7 @@ Namespace WF.WF
 
                 'If OpenTaskAfterInsert Then
                 'Realiza el refresh
-                'RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
+                RaiseEvent AddedTask(TasksResults, OpenTaskAfterInsert)
                 'End If
 
             End If
@@ -1953,7 +1979,7 @@ Namespace WF.WF
 #Region "Actions"
 
 #Region "Add"
-        'Public Shared Event AddedTask(ByVal Results As Generic.List(Of ITaskResult), ByVal OpenTaskAfterInsert As Boolean)
+        Public Shared Event AddedTask(ByVal Results As Generic.List(Of ITaskResult), ByVal OpenTaskAfterInsert As Boolean)
         Public Shared Event ShowTask(ByVal result As Zamba.Core.ITaskResult, ByVal OpenTaskAfterInsert As Boolean)
 
         'Private Sub RefreshAdd(ByVal r As DsDocuments.DocumentsRow, ByVal wf As WorkFlow)
@@ -2181,16 +2207,16 @@ Namespace WF.WF
                             'Log Checkin
                             LogTask(Result, "La Tarea paso a: " & newWFStep.Name)
 
-                            'Ejecuto reglas de entrada
-                            If Not IsNothing(newWFStep.Rules) Then
-                                For Each r As WFRuleParent In newWFStep.Rules
-                                    If r.ParentType = TypesofRules.Entrada Then
-                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecuto las reglas de ENTRADA")
-                                        Dim WFRB As New WFRulesBusiness
-                                        WFRB.ExecuteRule(r, Resultsaux, False)
-                                    End If
-                                Next
-                            End If
+                            ''Ejecuto reglas de entrada
+                            'If Not IsNothing(newWFStep.Rules) Then
+                            '    For Each r As WFRuleParent In newWFStep.Rules
+                            '        If r.ParentType = TypesofRules.Entrada Then
+                            '            ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecuto las reglas de ENTRADA")
+                            '            Dim WFRB As New WFRulesBusiness
+                            '            WFRB.ExecuteRule(r, Resultsaux)
+                            '        End If
+                            '    Next
+                            'End If
 
                             'Quito la tarea de la grilla y actualizo la visualizacion
                             'RaiseEvent Distributed(Result)
@@ -2365,7 +2391,6 @@ Namespace WF.WF
         Public Sub CloseOpenTasksByConId(ByVal conId As Int64)
             Try
                 If Server.ConInitialized = True Then
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "CloseOpenTasksByConId" & conId.ToString())
                     WTF.CloseOpenTasksByConId(conId)
                     Dim UCMF As New UcmFactory
                     Dim UserId As Int64 = UCMF.GetUserIdByConId(conId)
@@ -2752,9 +2777,7 @@ Namespace WF.WF
             Dim WorkflowNameByWFId = "Sin proceso"
 
             Try
-                If (TaskResult.DocTypeId <> 0) Then
-                    TypeName = New DocTypesBusiness().GetDocTypeName(TaskResult.DocTypeId)
-                End If
+                TypeName = New DocTypesBusiness().GetDocTypeName(TaskResult.DocTypeId)
                 StepNameById = WFStepBusiness.GetStepNameById(TaskResult.StepId)
                 StepStateById = New WFStepStatesComponent().GetStepStateById(TaskResult.StateId).Name
                 WorkflowNameByWFId = New WFBusiness().GetWorkflowNameByWFId(TaskResult.WorkId)
@@ -2835,27 +2858,6 @@ Namespace WF.WF
             Return WTF.GetTasksBalanceGroupByStep(stepid)
         End Function
 
-        Public Function GetMyTasks(ByVal userId As Int64) As List(Of TaskDTO)
-            Dim newsDataset As DataSet = WTF.GetMyTasks(userId)
-            Dim Tasks As New List(Of TaskDTO)
-            If newsDataset IsNot Nothing AndAlso newsDataset.Tables(0) IsNot Nothing Then
-                For Each row As DataRow In newsDataset.Tables(0).Rows
-                    Tasks.Add(New TaskDTO(row("Tarea"), row("Task_id"), row("doc_id"), row("DOC_TYPE_ID"),
-                                          row("Ingreso"), row("Etapa"), row("Asignado"), row("Ingreso"), row("Vencimiento")))
-                Next
-            End If
-            Return Tasks
-        End Function
-        Public Function GetMyTasksCount(userId As Long) As Long
-            Return WTF.GetMyTasksCount(userId)
-        End Function
-
-        Public Function GetRecentTasks(ByVal userId As Int64) As DataSet
-            Return WTF.GetRecentTasks(userId)
-        End Function
-        Public Function GetRecentTasksCount(userId As Long) As Long
-            Return WTF.GetRecentTasksCount(userId)
-        End Function
         Public Function GetAsignedTasksCountsGroupByUser(ByVal workflowid As Int64) As DataSet
             Return WTF.GetAsignedTasksCountsGroupByUser(workflowid)
         End Function
@@ -2878,8 +2880,8 @@ Namespace WF.WF
         Public Function GetTasksAverageTimeByStep(ByVal stepid As Int64) As Hashtable
             Return WTF.GetTasksAverageTimeByStep(stepid)
         End Function
-        Public Function GetTaskHistory(ByVal task_id As Int64) As DataSet
-            Return WTF.GetTaskHistoryByResultId(task_id)
+        Public Function GetTaskHistory(ByVal taskId As Int64) As DataSet
+            Return WTF.GetTaskHistoryByResultId(taskId)
         End Function
 
         Public Function GetOnlyIndexsHistory(ByVal doc_Id As Int64) As DataSet
@@ -3477,7 +3479,6 @@ Namespace WF.WF
 
 
         Public Shared Function UnLockTasks(UserId As Int64) As Boolean
-
             Dim StrBuilder As New StringBuilder
             Dim StrWhere As String
             StrBuilder.Append("Update WFDocument Set ")
@@ -3485,11 +3486,11 @@ Namespace WF.WF
             If Server.isOracle Then
                 StrBuilder.Append(" c_exclusive = 0")
                 StrBuilder.Append(",LastUpdateDate=sysdate")
-                StrWhere = " where  c_exclusive = " & UserId
+                StrWhere = " where  c_exclusive = " & Membership.MembershipHelper.CurrentUser.ID
             Else
                 StrBuilder.Append(" exclusive = 0")
                 StrBuilder.Append(",LastUpdateDate=getdate()")
-                StrWhere = " where exclusive = " & UserId
+                StrWhere = " where exclusive = " & Membership.MembershipHelper.CurrentUser.ID
             End If
 
             StrBuilder.Append(StrWhere)

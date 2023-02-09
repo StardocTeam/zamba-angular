@@ -48,7 +48,7 @@ Public Class PlayDoReplaceTextInWord
                         _replacetext = String.Empty
                         _replaceto = String.Empty
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Cantidad de campos a reemplazar: " & _myRule.ReplaceFields.Split("§").Length)
-                        Dim spireoffice As New Zamba.FileTools.SpireTools
+                        Dim spireoffice As New SpireTools
                         For Each replacefield As String In _myRule.ReplaceFields.Split(New String() {"§"}, StringSplitOptions.RemoveEmptyEntries)
                             _replacetext = replacefield.Split("¶")(0)
                             _replaceto = replacefield.Split("¶")(1)

@@ -85,7 +85,7 @@ Public Class WFStepStatesComponent
     ''' <param name="isReload">True para volver a cargar el estado de la base de datos</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function GetStepStatesByStepId(ByVal WfStepId As Int64) As Generic.List(Of IWFStepState)
+    Public Shared Function GetStepStatesByStepId(ByVal WfStepId As Int32) As Generic.List(Of IWFStepState)
         If Cache.Workflows.hsStepsStates.ContainsKey(WfStepId) = False Then
             SyncLock (Cache.Workflows.hsStepsStates)
                 Cache.Workflows.hsStepsStates.Add(WfStepId, WFStepStatesFactory.GetStepStatesByStepId(WfStepId))

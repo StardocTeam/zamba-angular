@@ -9,7 +9,7 @@
 
 <head runat="server">
 
-    <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
+     <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../Content/Site.css" />
     <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
 
@@ -48,45 +48,38 @@
     <script src="../../Scripts/Token.js"></script>
 
 
-    <script src="../../Scripts/Zamba.js?v=257"></script>
-    <script src="../../Scripts/Zamba.Fn.js?v=235"></script>
+    <script src="../../Scripts/Zamba.js?v=169"></script>
+    <script src="../../Scripts/Zamba.Fn.js?v=168"></script>
+    <script src="../../Scripts/Zamba.Fn.min.js"></script>
 
-    <script src="../../app/zapp.js?v=235"></script>
-    <script src="../../app/i18n/i18n.js?v=235"></script>
-    <script src="../../Scripts/bower-angular-translate-2.9.0.1/angular-translate.js"></script>
-    <!--locale translate-->
-
-
-    <script src="../../GlobalSearch/services/angular-local-storage.min.js"></script>
+    <script src="../../app/zapp.js?v=168"></script>
 
     <script src="../../scripts/kendoui/js/kendo.all.min.js"></script>
-    <script src="../../Scripts/app/Grids/KendoGrid.js?v=256"></script>
+    <script src="../../Scripts/app/Grids/KendoGrid.js?v=168"></script>
 
 
-    <script src="../../app/Tasks/Controller/TaskController.js?v=235"></script>
-    <script src="../../app/Tasks/Service/TaskService.js?v=235"></script>
-    <script src="../../scripts/zamba.associated.js?v=248"></script>
-
-    <%--<script src="../../Scripts/sweetalert2/sweetalert2.all.js"></script>
-    <script src="../../Scripts/sweetalert2/sweetalert2.js"></script>
-    <script src="../../Scripts/sweetalert2/sweetalert2.all.min.js"></script>--%>
+    <script src="../../app/Tasks/Controller/TaskController.js?v=168"></script>
+    <script src="../../app/Tasks/Service/TaskService.js?v=168"></script>
+    <script src="../../Scripts/Zamba.Associated.js?v=227"></script>
 
     <title></title>
 </head>
 
-<body style="" data-ng-app="app">
+<%--<body style="background-image: url('../../content/images/bg-pattern.png'); ">--%>
+<body style="background-color: rgb(245,245,245);" data-ng-app="app" ng-cloak>
 
     <form id="form" runat="server">
 
-
-        <style>
-            .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable {
-                position: absolute !important;
-                top: 23px !important;
-                z-index: 6666 !important;
-                background-color: white !important;
-            }
-        </style>
+        
+   <style>
+       .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable {
+            position: absolute !important;
+            top: 23px !important;
+            z-index: 6666 !important;
+            background-color: white !important;
+        
+        }
+   </style>
 
         <asp:HiddenField ID="hdnUserId" runat="server" />
         <asp:HiddenField ID="hdnPushNotification_player_id" runat="server" />
@@ -98,17 +91,13 @@
         <asp:HiddenField runat="server" ID="HiddenDocID" />
         <asp:HiddenField runat="server" ID="HiddenCurrentFormID" />
 
-        <asp:LinkButton runat="server" ID="hdnsender" OnClick="hdnsender_Click" Text="TEST" Style="display: none" />
+        <asp:LinkButton runat="server" ID="hdnsender" OnClick="hdnsender_Click" Text="TEST" style="display:none" />
 
         <asp:ScriptManager ID="ScriptManager1" runat="server">
         </asp:ScriptManager>
 
 
         <UC6:UCWFExecution ID="UC_WFExecution" runat="server" height="200" width="200" />
-        <h6 style="text-align: center; margin-top: 50px;" id="emptyMessage" runat="server"><b>No tenemos registros por ahora.</b>
-            <br />
-            <br />
-            Aca encontraras las acciones y reportes definidos para tu perfil.</h6>
 
 
         <div id="pnl" class="container-fluid" runat="server">
@@ -134,23 +123,23 @@
                 </div>
             </div>
         </div>--%>
-        <div id="openModalIF" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position: -ms-page; margin-top: 0px;width: 100%; height: 98%;">
-            <div class="modal-dialog" style="width: 100%; height: 97%;">
-                <div class="modal-content" id="openModalIFContent" style="width: 100%; height: 96%;">
+        <div id="openModalIF" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position: -ms-page; margin-top: 20px;">
+            <div class="modal-dialog">
+                <div class="modal-content" id="openModalIFContent" style="width: 100%; height: 100%;">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" id="closeModalIF"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                         <%--<button type="button" class="close" onclick="OpenModalIF.fullscreen(this);"><span aria-hidden="true">&#9633;</span></button>--%>
                         <h5 class="modal-title" id="modalFormTitle"></h5>
                     </div>
                     <div class="modal-body" id="modalFormHome">
-                        <div id="modalDivBody" style="width: 100%; height: 98%;"></div>
-                        <iframe id="modalIframe" runat="server" style="width: 98%; height: 92%;" frameborder="0" allowtransparency="true"></iframe>
+                        <div id="modalDivBody"></div>
+                        <iframe id="modalIframe" runat="server" style="width: 100%; height: 100%;" frameborder="0" allowtransparency="true"></iframe>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        
         <script type="text/javascript">
             function getValueFromWebConfig(key) {
                 var pathName = null;
@@ -176,23 +165,23 @@
                 });
                 return pathName;
             }
-
+            
 
 
         </script>
 
-        <script type="text/javascript">
+         <script type="text/javascript">
 
-            var thisDomain = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
-            var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
-            var zambaApplication = "Zamba";
-            var URLServer = thisDomain + "/ZambaChat/";
-            var urlGlobalSearch = thisDomain + "/Views/Search/";
-            var URLServer = thisDomain + "/ZambaChat/";
-            var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
-            var zCollServer = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
+        var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
+        var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
+        var zambaApplication = "Zamba";
+        var URLServer = thisDomain + "/ZambaChat/";
+        var urlGlobalSearch = thisDomain + "/Views/Search/";
+        var URLServer = thisDomain + "/ZambaChat/";
+        var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
+        var zCollServer = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
 
-        </script>
+         </script>
 
 
     </form>

@@ -35,14 +35,14 @@ namespace Zamba.Web.Models
 
             }
             entityNames = (Dictionary<long, string>)cache.Get("AllEntityNames");
-            List<IDocType> docTypes = DTB.GetDocTypesbyUserRights(userID, RightsType.View);
+            List<DocType> docTypes = DTB.GetDocTypesbyUserRights(userID, RightsType.View);
             DTB = null; 
-            foreach (IDocType doc in docTypes)
+            foreach (DocType doc in docTypes)
             {
                 Entity entity = new Entity(doc.ID, entityNames[doc.ID], 0);
                 IndexsBusiness IB = new IndexsBusiness();
 
-                entity.indexes =  IB.getIndexsByDocTypeIdAndRightTypeAsIIndex(doc, userID, RightsType.IndexView);
+                entity.indexes =  IB.getIndexsByDocTypeIdAndRightTypeAsIIndex(Convert.ToInt64(doc.ID), userID, RightsType.IndexView);
                 entities.Add(entity);
             }
         }

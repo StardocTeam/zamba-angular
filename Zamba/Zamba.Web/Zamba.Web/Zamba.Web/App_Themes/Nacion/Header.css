@@ -1,0 +1,184 @@
+﻿.clientlogo {
+    background: url("../Nacion/Images/Nacion-seguros-LogoMenu.png") no-repeat;
+    height: 35px;
+    width: 80px;
+    position: relative;
+    left: 9px;
+    margin-top: 20%;
+    background-size:95%;
+    border-radius:4px;
+    border-color:black;
+ 
+    
+}
+
+.clientPhrase
+{
+    background: url("../AysaDiseno/Images/logoAysa.png") no-repeat;
+    background-position:center; 
+    width:500px;
+    margin: 0 auto;
+    height:100%;
+    cursor:pointer;
+}
+
+
+
+.topheader
+{
+    background: url("../AysaDiseno/Images/logoAysa.png") no-repeat;
+    background-position:center; 
+    
+    margin: 0 auto;
+    height:100px;
+    cursor:pointer;
+    
+}
+
+.divExternToolbar
+{
+	background: #5c9ccc url("../Aysa/Images/logoAysa.png") repeat-x;
+	border: solid 1px #4297d7;
+	color: #ffffff;
+	display: block;
+	font-family: Verdana;
+	font-size: 10px;
+	font-weight: 700;
+	height:100%;
+	margin: 0px 0px 1px;
+	padding: 0.1em;
+}
+
+.divToolbar a
+{
+	color: #ffffff;	
+}
+
+.divInternToolbar
+{
+	border-color: #ffffff;
+	color: #ffffff;
+	display: block;
+	float: left;
+	margin: auto 1.5em auto auto;
+	padding: 0px 0px 0px 1px;
+}
+
+.toolbarButton
+{
+	background: #dfeffc url("../Aysa/images/Button-Default.gif") repeat-x 50% 50%;
+	border: solid 1px #c5dbec;
+	color: #2e6e9e;
+	cursor: pointer;
+	float: left;
+	font-family: Verdana;
+	font-size: 9px;
+	font-weight: 700;
+	left: 412px;
+	margin: 0px 4px 0px 0px;
+	padding: 0.4em 1em;
+	text-decoration: none;
+}
+
+.toolbarButton:hover
+{
+	border: 1px solid #79b7e7; 
+	background: #d0e5f5 url("../Aysa/images/Button-Hover.png") 50% 50% repeat-x; 
+	font-weight: bold; 
+	color: #1d5987;
+	cursor: pointer;
+	float: left;
+	font-family: Verdana;
+	font-size: 9px;
+	left: 412px;
+	margin: 0px 4px 0px 0px;
+	padding: 0.4em 1em;
+	text-decoration: none;
+}
+
+.HomeLink
+{
+	text-decoration:none;
+	cursor:pointer;
+	font-size:10pt;
+}
+
+.tdUser
+{
+	font-size:10pt;
+	white-space:nowrap;	
+}
+
+
+/*****Agregado  04-11-2011*****/
+#header-Cabezera-Master
+{
+    display:none;
+}
+
+.header-currentuser
+{
+color:White;
+}
+.header-closesession
+{
+ display:none;
+ }
+ .header-changepassword
+{
+ display:none;
+ }
+
+  /*@media (min-width: 768px) {
+    #Advfilter2 {
+        margin-top:-56px !important;
+    }
+}
+ @media (min-width: 992px) {
+    #Advfilter2 {
+        margin-top: 0px !important;
+    }
+}*/
+
+ .body-Main{
+     background-color: #0E2B8D;
+ }
+
+ @media (min-width: 992px) {
+    /*#Advfilter2 {
+        margin-top: 0px !important;
+        position:relative;
+       
+        left:15%;
+        
+    }*/
+    .mh-logo {
+        margin-top: 0px !important;   
+    }
+}
+ @media (max-width: 992px) { 
+     .mh-logo {     
+           padding-left: 50px;
+    
+    }
+      /*.mh-search {     
+           padding-top: 10px;   
+    }*/  
+}
+
+@media only screen and (max-width: 767px) {
+    /*#Advfilter2 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }*/
+}
+.tasklogo {
+    border: none;
+    left: 20px;
+    position: relative;
+    display: block;
+    background: url("images/Logo.jpg") no-repeat left center;
+    height: 35px;
+    width: 185px;
+    text-decoration: none;
+}

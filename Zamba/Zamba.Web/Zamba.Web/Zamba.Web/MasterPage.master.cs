@@ -23,11 +23,13 @@ namespace Zamba.Web
         public bool loadGlobalSearch { get; set; }
 
         public string WebServiceResultsURL;
-       
+       // public string ZambaWebRestApiURL;
+
 
         protected void Page_Init(object sender, System.EventArgs e)
         {
             WebServiceResultsURL = ZOptBusiness.GetValueOrDefault("WSResultsUrl", "http://www.zamba.com.ar/zambastardocWS");
+          //  ZambaWebRestApiURL = ZOptBusiness.GetValueOrDefault("ZambaWebRestApiURL", "http://localhost/zambaweb.restapi/api");
             //icono del titulo
             lnkWebIcon.Attributes.Add("href", "~/App_Themes/" + Page.Theme + "/Images/WebIcon.jpg");
 

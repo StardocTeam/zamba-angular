@@ -65,6 +65,21 @@ public partial class Views_WF_WFExecutionForEntryRules : System.Web.UI.UserContr
 
     public Boolean RegisterStartupScript { get; set; }
 
+    #region "Page Events"
+    protected void Page_PreLoad(object sender, EventArgs e)
+    {
+        if (Request.QueryString.Count > 0)
+        {
+            Response.StatusCode = 401;
+            Response.StatusDescription = "Unauthorized";
+        }
+        this.WFExec = new WFExecution(Zamba.Membership.MembershipHelper.CurrentUser);
+        this.WFExec._haceralgoEvent += HandleWFExecutionPendingEvents;
+    }
+
+
+    #endregion
+
     protected void Page_Load(object sender, EventArgs e)
     {
 

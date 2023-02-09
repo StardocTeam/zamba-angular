@@ -55,7 +55,7 @@ public partial class Views_UC_Grid_ucDocAssociatedGrid : System.Web.UI.UserContr
                 HeaderText = "Ver",
                 Target = "_blank",
                 Text = "Ver",
-                DataTextFormatString = "<img src=\"../../Tools/icono.aspx?id={0}\" border=0/ style=\"Height:24px\">",
+                DataTextFormatString = "<img src=\"../../Tools/icono.aspx?id={0}\" border=0/ style=\"Height:48px\">",
                 DataTextField = "ICON_ID"
             };
 
@@ -79,15 +79,6 @@ public partial class Views_UC_Grid_ucDocAssociatedGrid : System.Web.UI.UserContr
         //    e.Row.Attributes.Add("style", "cursor:pointer;");
         //    e.Row.Attributes.Add("onclick", "location='patron_detail.aspx?id=" + e.Row.Cells[0].Text + "'");
         //}
-        if(e.Row.RowType==DataControlRowType.Header)
-        {
-            e.Row.Attributes.Add("style", "padding:25px;text-align:center");
-        }
-        else
-        {
-            e.Row.Attributes.Add("style", "padding:20px");
-        }
-        
     }
 
     private void generateGridColumns(DataTable _dt)

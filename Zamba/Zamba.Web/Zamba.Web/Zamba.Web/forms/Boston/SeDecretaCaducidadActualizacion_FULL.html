@@ -10,8 +10,8 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     
-    
+    <script src="scripts/jquery-3.1.1.min.js" type="text/javascript" language="JavaScript"></script>
+    <script src="scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
     
     <script type="text/javascript" language="JavaScript">
         $(document).ready(function () {
@@ -151,20 +151,20 @@
 <body>
     <div class="container-fluid">
         <form name="frmMain" action="SeDecretaCaducidadActualizacion.html">
-            <div>
-                
+            <div style="font-family:'Times New Roman', Times, serif">
+                <div class="col-md-1"></div>
 
                 <div class="form-group row"></div>
                 <input id="hdnRuleId" type="hidden" />
 
-                <div id="tblOferta" >
+                <div id="tblOferta" class="attributes_table">
                     <div class="form-group row">
 
                         <div class="col-md-12">
 
                             <div>
                                 <center>
-                                    <h5 style="color: black;"> Se Decreta Caducidad</h5>
+                                    <h5 style="background-color:#418ad4;color: white;"> Se Decreta Caducidad</h5>
                                 </center>
                             </div>
 
@@ -174,23 +174,23 @@
                     <div class="form-group row">
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Fecha de
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de
                                     Caducidad:</span>
-                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_index_2844" name="zamba_index_2844" onblur="valFecha(this)">
                             </div>
                         </div>
                         
                         <div class="col-md-2">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Monto $:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Monto $:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_index_2809" name="zamba_index_2809" class="moneda">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Copia:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Copia:</span>
                                 <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_index_2810" size="1" name="zamba_index_2810"></select>
                             </div>
@@ -199,7 +199,7 @@
 
                         <div class="col-md-2">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Copia
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Copia
                                     Allanamiento:</span>
                                 <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold; padding: 2px;"
                                     id="zamba_index_2811" size="1" name="zamba_index_2811"></select>
@@ -208,16 +208,16 @@
                     
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Fecha de
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de
                                     Actualizacion:</span>
-                                <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_index_2838" name="zamba_index_2838" class="moneda">
                             </div>
                         </div>
 
                     </div>
 
-                    <div id="tblObervaciones" >
+                    <div id="tblObervaciones" class="attributes_table">
                         <div class="form-group row">
                             <div class="col-md-1">
                                 <input class="btn  btn-info btn-md" id="zamba_rule_11443" name="zamba_rule_11443"
@@ -227,13 +227,13 @@
                         <div class="form-group row">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <span class="input-group-addon" style="">Observación:</span>
+                                    <span class="input-group-addon" style="background-color:#e5e5e5">Observación:</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12" style="position:relative;top:-20px">
-                                <textarea class="form-control input-sm" cols="1" rows="5"
+                                <textarea class="form-control input-sm" cols="1" rows="3"
                                     style=" color: #090A0A; font-weight: bold" id="zamba_Index_64" name="zamba_Index_64"
                                     maxlength="5000" onblur="return CheckMaxLengthAfterLosingFocus(this);"
                                     disabled="disabled"></textarea>
@@ -252,14 +252,14 @@
                     </center>
                     <center>
                         <div class="col-md-2" style="position:relative;left:20px;">
-                            
+                            <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                         </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-2">
                             <span style="color:white">SeDecretaCaducidadActualizacion.html</span>
                         </div>
                         <div class="col-md-5">
-                            
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                             <div class="form-group row">
                             </div>
                         </div>

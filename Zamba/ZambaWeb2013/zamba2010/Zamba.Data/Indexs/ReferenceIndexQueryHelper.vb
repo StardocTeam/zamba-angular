@@ -79,26 +79,6 @@ Public Class ReferenceIndexQueryHelper
         Return JoinString.ToString
     End Function
 
-    Public Function GetFirstSideStringJoinQuery(indexId As Long, doctypeId As Long, refIndexes As List(Of ReferenceIndex)) As String
-
-        Dim JoinString As New StringBuilder
-        Dim refIndex As ReferenceIndex
-
-        refIndex = refIndexes.Where(Function(ind) ind.IndexId = indexId AndAlso ind.DoctypeId = doctypeId).FirstOrDefault
-        If refIndex IsNot Nothing Then
-
-            JoinString.Append(If(Not String.IsNullOrEmpty(refIndex.DBServer), refIndex.DBServer & ".", String.Empty))
-            JoinString.Append(If(Not String.IsNullOrEmpty(refIndex.DBDataBase), refIndex.DBDataBase & ".", "dtbbpm."))
-            JoinString.Append(If(Not String.IsNullOrEmpty(refIndex.DBUser), refIndex.DBUser & ".", "bpm."))
-            JoinString.Append(If(Not String.IsNullOrEmpty(refIndex.DBTable), refIndex.DBTable, String.Empty))
-            JoinString.Append($".{refIndex.DBColumn}")
-            '            JoinString.Append($"{refIndex.RefColumn} = I.I{refIndex.RefIndexId}")
-        End If
-
-        Return JoinString.ToString
-    End Function
-
-
     Public Function GetFilterRefIndexRealColumn(filterString As String, refIndexes As List(Of ReferenceIndex)) As String
 
         Dim columnString As New StringBuilder

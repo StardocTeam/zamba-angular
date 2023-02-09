@@ -35,7 +35,7 @@
         <script src="../../Scripts/sweetalert.min.js"></script>   
 
     <script src="../../Scripts/Zamba.Fn.js"></script>
-
+<%--    <script src="../../Scripts/Zamba.js"></script>--%>
     <title>Zamba Home</title>
   
       <script>
@@ -91,7 +91,7 @@
               $.ajax({
                   type: "GET",
                   dataType: "json",
-                  url: ZambaWebAdminRestApiURL + "/News",
+                  url: ZambaWebAdminRestApiURL + "/api/News",
                   success: function (data) {
                       var AllData = data;
                       if(AllData.length > 0){
@@ -112,7 +112,7 @@
               $.ajax({
                   type: "GET",
                   dataType: "json",
-                  url: ZambaWebAdminRestApiURL + "/news/GetImportants",
+                  url: ZambaWebAdminRestApiURL + "/api/news/GetImportants",
                   data: { Userid: user },
                   success: function (data) {
                       for (var i = 0; i < data.length; i++) {
@@ -127,7 +127,7 @@
               $.ajax({
                   type: "GET",
                   dataType: "json",
-                  url: ZambaWebAdminRestApiURL + "/news/GetFavorites",
+                  url: ZambaWebAdminRestApiURL + "/api/news/GetFavorites",
                   data: { Userid: user },
                   success: function (data) {
                       for (var i = 0; i < data.length; i++) {
@@ -141,7 +141,7 @@
               $.ajax({
                   type: "GET",
                   dataType: "json",
-                  url: ZambaWebAdminRestApiURL  + "/news/GetRecents",
+                  url: ZambaWebAdminRestApiURL  + "/api/news/GetRecents",
                   data: { Userid: user },
                   success: function (data) {
                       for (var i = 0; i < data.length; i++) {
@@ -156,7 +156,7 @@
               $.ajax({
                   type: "GET",
                   dataType: "json",
-                  url: ZambaWebAdminRestApiURL  + "/news/GetNovedades",
+                  url: ZambaWebAdminRestApiURL  + "/api/news/GetNovedades",
                   data: { Userid: user },
                   success: function (data) {
                       for (var i = 0; i < data.length; i++) {

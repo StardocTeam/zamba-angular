@@ -22,8 +22,6 @@ Namespace Searchs
         Public Property StepStateId As Long Implements ISearch.StepStateId
         Public Property TaskStateId As Long Implements ISearch.TaskStateId
         Public Property WorkflowId As Long Implements ISearch.WorkflowId
-        Public Property UserAssignedId As Long Implements ISearch.UserAssignedId
-        Public Property UserAssignedEnabled As Boolean Implements ISearch.UserAssignedEnabled
         Public Property Textsearch As String Implements ISearch.Textsearch
 
         Public Property Name As String Implements ISearch.Name
@@ -56,30 +54,16 @@ Namespace Searchs
 
         Public Property Lista_ColumnasFiltradas As List(Of String) Implements ISearch.Lista_ColumnasFiltradas
 
-        Public Property crdateFilters As Generic.List(Of kendoFilter) Implements ISearch.crdateFilters
-
-        Public Property lupdateFilters As Generic.List(Of kendoFilter) Implements ISearch.lupdateFilters
-
-        Public Property nameFilters As Generic.List(Of kendoFilter) Implements ISearch.nameFilters
-
-        Public Property originalFilenameFilters As Generic.List(Of kendoFilter) Implements ISearch.originalFilenameFilters
-
-        Public Property stateFilters As Generic.List(Of kendoFilter) Implements ISearch.stateFilters
-
-        Public Property ParentEntity As IResult Implements ISearch.ParentEntity
-
 
 
 #End Region
 
 #Region "Constructores"
         Public Sub New()
-            Me.UserAssignedId = -1
-            Me.UserAssignedEnabled = True
+
         End Sub
 
         Public Sub New(ByVal indexs As Generic.List(Of IIndex), ByVal txtSearchInAllIndex As String, ByVal InAllDocTypes As Boolean, ByVal doctypes As Generic.List(Of IDocType), ByVal RaiseResults As Boolean, ByVal ParentName As String, ByVal UserId As Int64)
-            Me.New()
             Me.Indexs = indexs
             Me.Textsearch = txtSearchInAllIndex
             Me.Doctypes = doctypes

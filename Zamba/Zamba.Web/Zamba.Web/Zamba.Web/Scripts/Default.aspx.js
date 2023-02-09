@@ -119,12 +119,14 @@ $(function () {
             $("#liNews").css("display", "block");
         }
         else {
-          
+           // <%-- todo: una vez terminado la busqueda, volver a descomentar esta linea de codigo
+            //initaltab = "tabhome";--%>
+            // initaltab = "tabtasklist";
             $("#liNews").css("display", "none");
         }
     }
     else {
-       
+        // initaltab = "tabtasklist";
         $("#liNews").css("display", "none");
     }
 

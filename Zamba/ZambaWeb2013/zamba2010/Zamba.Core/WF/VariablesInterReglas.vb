@@ -303,12 +303,8 @@ Public Class VariablesInterReglas
         If ZVarsRulesRepo IsNot Nothing Then
             ZVarsRulesRepo.Add(Membership.MembershipHelper.CurrentUser.ID, key.ToString().ToLower(), value, 0)
         End If
-        Dim valueString As String
-        Try
-            valueString = value.ToString
-        Catch ex As Exception
-        End Try
-        ZTrace.WriteLineIf(ZTrace.IsVerbose, String.Format("VARS: Se agrega la Variable {0} con valor: {1}", key.ToString(), valueString))
+
+        ZTrace.WriteLineIf(ZTrace.IsVerbose, String.Format("VARS: Se agrega la Variable {0} con valor: {1}", key.ToString(), value.ToString()))
 
     End Sub
 

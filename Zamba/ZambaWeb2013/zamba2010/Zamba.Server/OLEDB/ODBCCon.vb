@@ -129,7 +129,6 @@ Public Class ODBCCon
 #End Region
 
 #Region "private utility methods & constructors"
-    Private utilities As New utilities()
     Public Sub New(ByVal OleconnectionString As String, ByVal DbOwner As String, Optional ByVal Flagclose As Boolean = True)
         _CN = New OdbcConnection(OleconnectionString)
         Me.CloseFlag = Flagclose

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Configuration;
 using System.Web.Security;
+using System.Configuration;
 using System.Web.UI.HtmlControls;
 using Zamba.Services;
 using Zamba.Core;
@@ -16,11 +17,10 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Net;
 using System.Net.Sockets;
-using System.IO;
-using System.Configuration;
 using System.Linq;
 using Newtonsoft.Json;
-using System.Text;
+using System.IO;
+using Zamba.Framework;
 
 public partial class Login : System.Web.UI.Page
 {
@@ -41,7 +41,62 @@ public partial class Login : System.Web.UI.Page
 
     bool _allowZambaLogin = false;
     bool _loadWindowsUser = false;
+    bool _loadOKTAUser = false;
+
     UserPreferences UP = new UserPreferences();
+
+
+    public void GenerateGUID()
+    {
+        Guid guid = Guid.NewGuid();
+        //'Request.QueryString[""]
+        String UrlRedirect = Page.ClientQueryString;
+
+        if (UrlRedirect == "")
+            UrlRedirect = "location.origin.trim() + '" + GetWebConfigElement("ThisDomain") + "/globalsearch/search/search.html?";
+        else
+        {
+            UrlRedirect = HttpUtility.UrlDecode(UrlRedirect);
+            String Url = UrlRedirect.Split('?')[0].Replace("ReturnUrl=", "");
+            if (UrlRedirect.Split('?').Length > 1)
+            {
+                String QueryString = "";
+                if (UrlRedirect.Split('?').Length==1)
+                {
+                    QueryString = UrlRedirect.Split('?')[1];
+                    String[] Parameters = QueryString.Split('&');
+                    UrlRedirect = Url + "?";
+                    foreach (String Parameter in Parameters)
+                    {
+                        String Key = Parameter.Split('=')[0];
+                        String Value = Parameter.Split('=')[1];
+                        if (Key != "userid" && Key != "token")
+                        {
+                            UrlRedirect += Key + "=" + Value + "&";
+                        }
+                    }
+                }
+            }
+            if (!UrlRedirect.Contains("http://"))
+                UrlRedirect = "location.origin.trim() + '" + UrlRedirect;
+            else
+                UrlRedirect = "'" + UrlRedirect;
+        }        
+        Zss zss = new Zss();
+        zss.ConnectionId = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId;
+        zss.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+        zss.CreateDate = DateTime.Now;
+        zss.TokenExpireDate = DateTime.Now.AddMinutes(1);
+        zss.Token = guid.ToString();
+        zss.OktaAccessToken = "";
+        zss.OktaIdToken = "";
+        ZssFactory zssFactory = new ZssFactory();
+        zssFactory.SetZssValues(zss);
+        var js = "$(document).ready(function () {LoginByGuid('" + zss.UserId.ToString() + "','" + zss.Token + "'," + UrlRedirect + "');});";
+        ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "LoginByGuid_" + zss.Token.Split('-').First() , js, true);
+
+    }
+
     UserGroupBusiness UserGroupBusiness = new UserGroupBusiness();
     UserBusiness UB = new UserBusiness();
 
@@ -89,10 +144,7 @@ public partial class Login : System.Web.UI.Page
                 FormsAuthentication.SignOut();
                 bool.TryParse(WebConfigurationManager.AppSettings["AllowLoginZambaUser"], out _allowZambaLogin);
                 bool.TryParse(WebConfigurationManager.AppSettings["LoadWindowsUser"], out _loadWindowsUser);
-                
-                //Habilitar para emular AD
-               // _loadWindowsUser = true;
-                //END Emulacion AD
+                bool.TryParse(WebConfigurationManager.AppSettings["LoadOktaUser"], out _loadOKTAUser);
 
                 Session["flagIsFirstLoad"] = true;
                 ZOptBusiness zoptb = new ZOptBusiness();
@@ -110,11 +162,21 @@ public partial class Login : System.Web.UI.Page
                     pnlWindowsLogin.Visible = true;
                     btnLoginWindows_Click(null, null);
                 }
+                else if (_loadOKTAUser)
+                {
+                    btnLogin.Visible = false;
+                    pnlZambaLogin.Visible = true;
+                    pnlWindowsLogin.Visible = false;
+                    btnLoginWindows.Visible = false;
+                    //btnLoginOKTA.Visible = true;
+                }
                 else
                 {
                     btnLogin.Visible = true;
                     pnlZambaLogin.Visible = true;
+                    btnLoginWindows.Visible = true;
                     pnlWindowsLogin.Visible = false;
+                    //btnLoginOKTA.Visible = false;
                 }
             }
         }
@@ -132,14 +194,37 @@ public partial class Login : System.Web.UI.Page
         }
 
     }
+    public async void btnLoginOKTA_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsFormFieldsRigth())
+                return;
+            SRights sRights = new SRights();
+            String OktaToken = WebConfigurationManager.AppSettings["OKTAToken"]; ;
+            String OktaDomainURL = WebConfigurationManager.AppSettings["OKTADomainURL"];
+            var user = await sRights.ValidateLoginOKTA(txtUserName.Value, txtPassword.Value, ClientType.Web, OktaDomainURL, OktaToken);
+            sRights = null;
+            if (user != null)
+            {
+                DoLogin(false);
+            }
+            else
+            {
+                ShowErrorMessage("No es posible autenticar con OKTA");
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowErrorMessage(ex.Message);
+            ZTrace.WriteLineIf(ZTrace.IsInfo, ex.Message);
+        }
+    }
 
     public void btnLoginWindows_Click(object sender, EventArgs e)
     {
         SUsers Users = new SUsers();
         string userName = getWindowsUser();
-        //Solo para emular AD
-        //userName = "stardoc";
-        //END Emulacion AD
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Usuario de Windows: " + userName);
         if (userName.Length > 0)
         {
@@ -151,13 +236,9 @@ public partial class Login : System.Web.UI.Page
             {
                 if (userRoles != null && userRoles.Count > 0)
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Perfiles en AD del usuario" + userRoles.Count);
-
                     UserBusiness UB = new UserBusiness();
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"WinUserName: {userName}");
-                    IUser currentWinUser = UB.GetUserByname(userName, true);
+                    IUser currentWinUser = UB.GetUserByname(userName, false);
                     var UserProperties = adlogin.GetUserProperties(userName);
-                    
                     if (currentWinUser != null)
                     {
 
@@ -194,7 +275,7 @@ public partial class Login : System.Web.UI.Page
 
                             try
                             {
-                                if (UserProperties.ContainsKey("ThumbNailPhoto") && UserProperties["ThumbNailPhoto"] != null)
+                                if (UserProperties.ContainsKey("ThumbNailPhoto"))
                                     LastAdUser.ThumbNailPhoto = UserProperties["ThumbNailPhoto"].ToString();
                                 else
                                     LastAdUser.ThumbNailPhoto = string.Empty;
@@ -250,20 +331,13 @@ public partial class Login : System.Web.UI.Page
                         }
                         else
                         {
-                            //newuser.Name = userName;
-                            //newuser.Nombres = userName;
-                            //newuser.Apellidos = userName;
-                            //newuser.ID = Zamba.Data.CoreData.GetNewID(Zamba.Core.IdTypes.USERTABLEID);
+                            newuser.Name = userName;
+                            newuser.Nombres = userName;
+                            newuser.Apellidos = userName;
+                            newuser.ID = Zamba.Data.CoreData.GetNewID(Zamba.Core.IdTypes.USERTABLEID);
 
-                            //UB.AddUser(newuser);
-                            //Zamba.Membership.MembershipHelper.SetCurrentUser(newuser);
-
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "el usuario no  contiene al menos un rol de zamba, se muestran labels de autenticacion");
-
-                            btnLogin.Visible = true;
-                            pnlZambaLogin.Visible = true;
-                            pnlWindowsLogin.Visible = false;
-                            return;
+                            UB.AddUser(newuser);
+                            Zamba.Membership.MembershipHelper.SetCurrentUser(newuser);
                         }
                     }
 
@@ -493,10 +567,8 @@ public partial class Login : System.Web.UI.Page
     {
         try
         {
-            lblError.InnerText = "";
             if (!IsFormFieldsRigth())
                 return;
-
             SRights sRights = new SRights();
             Zamba.Core.IUser user = sRights.ValidateLogIn(txtUserName.Value, txtPassword.Value, ClientType.Web);
             sRights = null;
@@ -516,13 +588,11 @@ public partial class Login : System.Web.UI.Page
             if (ex.Message.Contains("incorrecto") || ex.Message.Contains("incorrecta"))
             {
                 ShowErrorMessage("Usuario o Clave incorrectas");
-                Toastr("Usuario o Clave incorrectas.", "error", "loginValidationError");
             }
             else
             {
                 ZClass.raiseerror(ex);
-                ShowErrorMessage("Ocurrio un error al validar el usuario.");
-                Toastr("Ocurrio un error al validar el usuario.", "error", "loginError");
+                ShowErrorMessage("Ocurrio un error al validar el usuario");
             }
         }
     }
@@ -604,83 +674,80 @@ public partial class Login : System.Web.UI.Page
                             if (Zamba.Membership.MembershipHelper.CurrentUser.Name.Length > 0)
                             {
                                 ADResources adlogin = new ADResources();
-                                if (bool.Parse(ZOptBusiness.GetValueOrDefault("FileUserPropertyForAd", "True")))
-                                { 
-                                    try
+                                try
+                                {
+                                    var UserProperties = adlogin.GetUserProperties(Zamba.Membership.MembershipHelper.CurrentUser.Name);
+
+                                    short mailPort = short.Parse(ZOptBusiness.GetValueOrDefault("DefaultMailPort", "25"));
+                                    string smtpProvider = ZOptBusiness.GetValueOrDefault("DefaultMailSMTPProvider", "mx04.main.pseguros.com");
+                                    bool enablessl = bool.Parse(ZOptBusiness.GetValueOrDefault("DefaultMailEnableSsl", "True"));
+
+                                    if (UserProperties != null)
                                     {
-                                        var UserProperties = adlogin.GetUserProperties(Zamba.Membership.MembershipHelper.CurrentUser.Name);
-
-                                        short mailPort = short.Parse(ZOptBusiness.GetValueOrDefault("DefaultMailPort", "25"));
-                                        string smtpProvider = ZOptBusiness.GetValueOrDefault("DefaultMailSMTPProvider", "mx04.main.pseguros.com");
-                                        bool enablessl = bool.Parse(ZOptBusiness.GetValueOrDefault("DefaultMailEnableSsl", "True"));
-
-                                        if (UserProperties != null && UserProperties.Count > 0)
+                                        if (UserProperties.ContainsKey("EMAIL"))
                                         {
-                                            if (UserProperties.ContainsKey("EMAIL"))
+                                            Zamba.Membership.MembershipHelper.CurrentUser.eMail = new Correo()
                                             {
-                                                Zamba.Membership.MembershipHelper.CurrentUser.eMail = new Correo()
-                                                {
-                                                    Mail = UserProperties["EMAIL"].ToString(),
-                                                    UserName = UserProperties["EMAIL"].ToString(),
-                                                    EnableSsl = enablessl,
-                                                    ProveedorSMTP = smtpProvider,
-                                                    Type = MailTypes.NetMail,
-                                                    Puerto = mailPort
-                                                };
-                                            }
-
-
-                                            if (UserProperties.ContainsKey("NOMBRE"))
-                                                Zamba.Membership.MembershipHelper.CurrentUser.Nombres = UserProperties["NOMBRE"].ToString();
-
-                                            if (UserProperties.ContainsKey("APELLIDO"))
-                                                Zamba.Membership.MembershipHelper.CurrentUser.Apellidos = UserProperties["APELLIDO"].ToString();
-
-
-                                            UB.UpdateUser(Zamba.Membership.MembershipHelper.CurrentUser);
-                                            UB.UpdateAllById(Zamba.Membership.MembershipHelper.CurrentUser);
-
-                                            try
-                                            {
-                                                if (UserProperties.ContainsKey("ThumbNailPhoto"))
-                                                {
-                                                    byte[] ThumbNailPhoto = (Byte[])UserProperties["ThumbNailPhoto"];
-                                                    if (ThumbNailPhoto != null && ThumbNailPhoto.Length > 0)
-                                                    {
-                                                        // Zamba.Membership.MembershipHelper.CurrentUser.ThumbNailPhoto = Convert.ToBase64String(ThumbNailPhoto);
-
-                                                        ZOptBusiness zopt = new ZOptBusiness();
-                                                        string ThumbDirectory = zopt.GetValue("ThumbStoreDirectory");
-
-                                                        if (ThumbDirectory == string.Empty)
-                                                            throw new Exception("Thumbs Directory For File System is not configured in ZOPT for ThumbStoreDirectory");
-
-                                                        String thumbpath = Path.Combine(ThumbDirectory, "users");
-                                                        thumbpath = Path.Combine(thumbpath, Zamba.Membership.MembershipHelper.CurrentUser.ID + ".jpg");
-
-                                                        MemoryStream ms = new MemoryStream(ThumbNailPhoto);
-                                                        System.Drawing.Image i = System.Drawing.Image.FromStream(ms);
-                                                        i.Save(thumbpath);
-                                                    }
-                                                }
-
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                if (!ex.Message.Contains("GDI"))
-                                                    ZClass.raiseerror(ex);
-                                            }
+                                                Mail = UserProperties["EMAIL"].ToString(),
+                                                UserName = UserProperties["EMAIL"].ToString(),
+                                                EnableSsl = enablessl,
+                                                ProveedorSMTP = smtpProvider,
+                                                Type = MailTypes.NetMail,
+                                                Puerto = mailPort
+                                            };
                                         }
 
+
+                                        if (UserProperties.ContainsKey("NOMBRE"))
+                                            Zamba.Membership.MembershipHelper.CurrentUser.Nombres = UserProperties["NOMBRE"].ToString();
+
+                                        if (UserProperties.ContainsKey("APELLIDO"))
+                                            Zamba.Membership.MembershipHelper.CurrentUser.Apellidos = UserProperties["APELLIDO"].ToString();
+
+
+                                        UB.UpdateUser(Zamba.Membership.MembershipHelper.CurrentUser);
+                                        UB.UpdateAllById(Zamba.Membership.MembershipHelper.CurrentUser);
+
+                                        try
+                                        {
+                                            if (UserProperties.ContainsKey("ThumbNailPhoto"))
+                                            {
+                                                byte[] ThumbNailPhoto = (Byte[])UserProperties["ThumbNailPhoto"];
+                                                if (ThumbNailPhoto != null && ThumbNailPhoto.Length > 0)
+                                                {
+                                                    // Zamba.Membership.MembershipHelper.CurrentUser.ThumbNailPhoto = Convert.ToBase64String(ThumbNailPhoto);
+
+                                                    ZOptBusiness zopt = new ZOptBusiness();
+                                                    string ThumbDirectory = zopt.GetValue("ThumbStoreDirectory");
+
+                                                    if (ThumbDirectory == string.Empty)
+                                                        throw new Exception("Thumbs Directory For File System is not configured in ZOPT for ThumbStoreDirectory");
+
+                                                    String thumbpath = Path.Combine(ThumbDirectory, "users");
+                                                    thumbpath = Path.Combine(thumbpath, Zamba.Membership.MembershipHelper.CurrentUser.ID + ".jpg");
+
+                                                    MemoryStream ms = new MemoryStream(ThumbNailPhoto);
+                                                    System.Drawing.Image i = System.Drawing.Image.FromStream(ms);
+                                                    i.Save(thumbpath);
+                                                }
+                                            }
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            if (!ex.Message.Contains("GDI"))
+                                                ZClass.raiseerror(ex);
+                                        }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        ZClass.raiseerror(ex);
-                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "No se pudo autenticar el usuario en AD");
-                                        btnLogin.Visible = true;
-                                        pnlZambaLogin.Visible = true;
-                                        pnlWindowsLogin.Visible = false;
-                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    ZClass.raiseerror(ex);
+                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "No se pudo autenticar el usuario en AD");
+                                    btnLogin.Visible = true;
+                                    pnlZambaLogin.Visible = true;
+                                    pnlWindowsLogin.Visible = false;
                                 }
                             }
 
@@ -692,28 +759,18 @@ public partial class Login : System.Web.UI.Page
                         var ScriptToDoLogin = string.Empty;
                         try
                         {
-                            // var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
-                            // var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                            //var token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, GetComputerNameOrIp(false) + HttpContext.Current.Session.SessionID);
-
-                            //ScriptManager.RegisterClientScriptBlock(this, GetType(), "timeout", "$(document).ready(function () { if (window.localStorage)  window.localStorage.setItem('ConnId', '" + connectionid + "'); });", true);
-                            //ScriptManager.RegisterClientScriptBlock(this, GetType(), "timeout2", "$(document).ready(function () {  if (window.localStorage) window.localStorage.setItem('UserId', '" + userid + "'); });", true);
-                            //ScriptManager.RegisterClientScriptBlock(this, GetType(), "authorizationToken", "$(document).ready(function () {  if (window.localStorage) window.localStorage.setItem('authorizationData', '" + token + "');});", true);
-
-                            //ScriptToDoLogin = "$(document).ready(function () { " +
-                            //   " if (window.localStorage){ " +
-                            //   " window.localStorage.setItem('ConnId', '" + connectionid + "');" +
-                            //   " window.localStorage.setItem('UserId', '" + userid + "');" +
-                            //   " window.localStorage.setItem('authorizationData', '" + token + "');" +
-                            //   " }});";
-
+                            GenerateGUID();
                         }
                         catch (Exception ex)
                         {
                             Zamba.AppBlock.ZException.Log(ex);
                         }
 
-                        if (Page.ClientQueryString.ToLower().Contains("search.html"))
+                        if (Page.ClientQueryString.Contains("Modal"))
+                        {
+                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "CloseLogin", "$(document).ready(function() { $('#openModalTimeout').modal('hide'); });", true);
+                        }
+                        else if (Page.ClientQueryString.ToLower().Contains("search.html"))
                         {
                             string querystring = string.Empty;
 
@@ -740,87 +797,23 @@ public partial class Login : System.Web.UI.Page
 
                             var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
                             var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
+                            var token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
 
-                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "HttpContext.Current.Request.UserHostAddress.Replace(::1, 127.0.0.1) : " + HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"));
-                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Request.Url.Scheme + :// + Request.Url.OriginalString.Split('/')[2] + Request.Url.Scheme + ://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
-                            string token = string.Empty;
-                            string tokenstr = string.Empty;
-
-                            TokenInfo ti = null;
-                            try
-                            {
-
-                                token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
-
-                                if (token.Length > 0)
-                                {
-                                    try
-                                    {
-                                        ti = JsonConvert.DeserializeObject<TokenInfo>(token);
-                                        tokenstr = ti.token;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                                        ti = new TokenInfo();
-                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                        ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                        ti.refreshToken = "";
-                                        ti.useRefreshTokens = false;
-                                        ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                                    }
-                                }
-                                else
-                                {
-                                    ti = new TokenInfo();
-                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                    ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                    ti.refreshToken = "";
-                                    ti.useRefreshTokens = false;
-                                    ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                                ti = new TokenInfo();
-                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                ti.refreshToken = "";
-                                ti.useRefreshTokens = false;
-                                ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                            }
-
-                            if (Convert.ToBoolean(Request.QueryString["showModal"]) == true)
-                            {
-
-                                string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
-                                
-                                ScriptToDoLogin += "var loginContainer = $('#loginContainer');if(loginContainer != undefined){loginContainer.hide();};";
-                                string DomainName = GetWebConfigElement("ThisDomain");
-                                FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-
-                                var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "'); window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "'); ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + "}); "; 
-                                Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
-                                    
-                            }
-                            else { 
                             // string DomainName = hdnthisdomian.Value;
-                            ScriptToDoLogin += "var loginContainer = $('#loginContainer');if(loginContainer != undefined){loginContainer.hide();};";
                             string DomainName = GetWebConfigElement("ThisDomain");
                             FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
                             ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
-                              window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "'); ExecutePostLoginActions();" +
-                           " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
+                              localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
+                           " localStorage.removeItem('authorizationData'); localStorage.setItem('authorizationData', '" + token + "');" +
                               " " +
-                              " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; window.location.href =  rurl;", true);
-                                //                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @"$(document).ready(function() { var rurl = 'location.origin.trim()+ '" + dominianname + "/../../globalsearch/search/search.html?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; $(location).attr('href', rurl);});", true);
-                                //Response.Redirect(Page.ClientQueryString.Replace("ReturnUrl=","") + "?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID);
-                            }
+                              " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; window.location.href =  rurl;", true);
+                            //                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @"$(document).ready(function() { var rurl = 'location.origin.trim()+ '" + dominianname + "/../../globalsearch/search/search.html?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; $(location).attr('href', rurl);});", true);
+                            //Response.Redirect(Page.ClientQueryString.Replace("ReturnUrl=","") + "?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID);
                         }
                         else if (Page.ClientQueryString != "")
                         {
+
+
                             string querystring = System.Web.HttpUtility.UrlDecode(Page.ClientQueryString.Replace("ReturnUrl=", ""));
 
                             String NewQueryString = string.Empty;
@@ -830,6 +823,8 @@ public partial class Login : System.Web.UI.Page
                                 {
                                     if (!item.ToLower().Contains("user"))
                                     {
+
+                                  
                                         NewQueryString += '&' + item;
                                     }
                                 }
@@ -851,78 +846,18 @@ public partial class Login : System.Web.UI.Page
                             string DomainName = GetWebConfigElement("ThisDomain");
                             var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
                             var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                            string token = string.Empty;
-                            string tokenstr = string.Empty;
-                            TokenInfo ti = null;
+                            var token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
 
-                            try
-                            {
-
-                                token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
-                                if (token.Length > 0)
-                                {
-                                    try
-                                    {
-                                        ti = JsonConvert.DeserializeObject<TokenInfo>(token);
-                                        tokenstr = ti.token;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-
-                                        ti = new TokenInfo();
-                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                        ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                        ti.refreshToken = "";
-                                        ti.useRefreshTokens = false;
-                                        ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-
-                                    }
-                                }
-                                else
-                                {
-                                    ti = new TokenInfo();
-                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                    ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                    ti.refreshToken = "";
-                                    ti.useRefreshTokens = false;
-                                    ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-
-                                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                                ti = new TokenInfo();
-                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                ti.refreshToken = "";
-                                ti.useRefreshTokens = false;
-                                ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                            }
                             FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
 
-                            String url = NewQueryString + "&t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            String url =   NewQueryString + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID;
 
                             if (url.StartsWith("&")) url = url.Substring(1, url.Length - 1);
 
-                            if (Convert.ToBoolean(Request.QueryString["showModal"]) == true)
-                            {
-                                string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
-
-                                var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + " }); ";
-                                Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
-
-                            }
-                            else {
-                                ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
-                             window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');  ExecutePostLoginActions();" +
-                               " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
-                                  "  " + " var rurl = location.origin.trim()+ '" + url + "'; window.location.href =  rurl;", true);
-                            }
-
-                           
+                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
+                             localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
+                            " localStorage.removeItem('authorizationData'); localStorage.setItem('authorizationData', '" + token + "');" +
+                               "  " + " var rurl = location.origin.trim()+ '" + url + "'; window.location.href =  rurl;", true);
                         }
                         else
                         {
@@ -930,77 +865,36 @@ public partial class Login : System.Web.UI.Page
 
                             var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
                             var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
+                            var token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
 
-                            var token = string.Empty;
-                            string tokenstr = string.Empty;
-                            TokenInfo ti = null;
-
-                            try
-                            {
-                                token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
-                                if (token.Length > 0)
-                                {
-                                    try
-                                    {
-                                        ti = JsonConvert.DeserializeObject<TokenInfo>(token);
-                                        tokenstr = ti.token;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                                        ti = new TokenInfo();
-                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                        ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                        ti.refreshToken = "";
-                                        ti.useRefreshTokens = false;
-                                        ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                                    }
-                                }
-                                else
-                                {
-                                    ti = new TokenInfo();
-                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                    ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                    ti.refreshToken = "";
-                                    ti.useRefreshTokens = false;
-                                    ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                                }
-
-                            }
-                            catch (Exception ex)
-                            {
-                                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                                ti = new TokenInfo();
-                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                                ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                ti.refreshToken = "";
-                                ti.useRefreshTokens = false;
-                                ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                            }
-                            ScriptToDoLogin += "var loginContainer = $('#loginContainer');if(loginContainer != undefined){loginContainer.hide();};";
                             // string DomainName = hdnthisdomian.Value;
                             string DomainName = GetWebConfigElement("ThisDomain");
+                            FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
+                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
+                              localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
+                            " localStorage.removeItem('authorizationData'); localStorage.setItem('authorizationData', '" + token + "');" +
+                               " " +
+                               " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "'; window.location.href =  rurl;", true);
 
-                            if (Convert.ToBoolean(Request.QueryString["showModal"]) == true)
-                            {
-                                string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
 
-                                FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-                                var script = "$(document).ready(function(){ window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "'); window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "'); ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + "}); ";
-                                Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
 
-                            }
-                            else {
 
-                                FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-                                ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
-                              window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');  ExecutePostLoginActions();" +
-                                " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
-                                   " " +
-                                   " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "'; window.location.href =  rurl;", true);
 
-                            }
 
+
+
+                            //string dominianname = hdnthisdomian.Value;
+
+                            //ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @"$(document).ready(function() { var rurl = '../.." + dominianname + "/globalsearch/search/search.html?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; $(location).attr('href', rurl);});", true);
+
+                            //((Global)Context.ApplicationInstance).EnablePreload = true;
+
+
+
+
+                            // FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
+                            //  FormsAuthentication.RedirectFromLoginPage(Zamba.Membership.MembershipHelper.CurrentUser.Name, false);
+                            //Response.Redirect("~/Views/Main/default.aspx");}
 
                         }
 
@@ -1043,7 +937,6 @@ public partial class Login : System.Web.UI.Page
     {
         lblError.InnerText = error;
         lblError.Visible = true;
-        ScriptManager.RegisterClientScriptBlock(this, GetType(),"hideSpinnerLogin", "window.onload = function(){ hideSpinnerLogin();}",true);
     }
     private bool DoConsumeLicense(Boolean blnWindowsLogin, string userName, Int64 userId, int connectionId)
     {
@@ -1186,33 +1079,16 @@ public partial class Login : System.Web.UI.Page
         if (String.IsNullOrEmpty(txtUserName.Value.Trim()))
         {
             RequiredFieldValidator1.Visible = true;
-            //txtUserName.Style.Value;
-            //Toastr("Faltan campos por llenar.", "warning", "validateData");
             flagCorrect = false;
         }
 
-        //if ((RequiredFieldValidator1.Visible || RequiredFieldValidator2.Visible) && String.IsNullOrEmpty(lblError.InnerText) && String.IsNullOrEmpty(lblMensajeLogin.Text))
-        if ((RequiredFieldValidator1.Visible || RequiredFieldValidator2.Visible))
+        if ((RequiredFieldValidator1.Visible || RequiredFieldValidator2.Visible) && String.IsNullOrEmpty(lblError.InnerText) && String.IsNullOrEmpty(lblMensajeLogin.Text))
         {
-            Toastr("Favor de completar todos los campos.", "warning", "fillData");
-            //lblMensajeLogin.Text = "Favor de completar todos los campos.";
+            lblMensajeLogin.Text = "Favor de completar todos los campos.";
         }
 
         return flagCorrect;
     }
-
-    private void Toastr(string text, string toastrType, string scriptName)
-    {
-        StringBuilder SB = new StringBuilder();
-
-        SB.Append("<script type='text/javascript'>");
-        SB.Append("toastr."+ toastrType.ToLower() + "('"+ text + "');");
-        SB.Append("</script>");
-
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), scriptName, SB.ToString(), false);
-    }
-
-
     protected string MockValidateInAD(string UserName, string UserPass)
     {
         return string.Empty;

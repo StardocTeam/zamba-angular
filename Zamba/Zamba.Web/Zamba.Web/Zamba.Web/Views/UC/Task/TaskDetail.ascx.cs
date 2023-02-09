@@ -64,7 +64,6 @@ public partial class TaskDetail : System.Web.UI.UserControl
             }
             else
             {
-                Session["ExecutingOpenRules"] = false;
                 if (string.IsNullOrEmpty(this.HiddenCurrentFormID.Value) == false)
                 {
                     TaskResult.CurrentFormID = Int64.Parse(this.HiddenCurrentFormID.Value);
@@ -92,7 +91,8 @@ public partial class TaskDetail : System.Web.UI.UserControl
                 viewer.Result = TaskResult;
                 pnlViewer.Controls.Add(viewer);
             }
-//            Zamba.Services.SZOptBusiness ZOptBusines = new Zamba.Services.SZOptBusiness();
+
+            Zamba.Services.SZOptBusiness ZOptBusines = new Zamba.Services.SZOptBusiness();
             Page.Title = TaskResult.Name;
 
             //if (IsPostBack)
@@ -126,7 +126,6 @@ public partial class TaskDetail : System.Web.UI.UserControl
         try
         {
             List<ITaskResult> List = new List<ITaskResult>();
-
             Int64 formId = TaskResult.CurrentFormID;
             TaskResult.CurrentFormID = 0;
             List.Add(TaskResult);
@@ -144,10 +143,8 @@ public partial class TaskDetail : System.Web.UI.UserControl
                         if ((rule.RuleType == TypesofRules.AbrirDocumento))
                         {
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "TypesofRules.AbrirDocumento ThrowExecuteRule(rule.ID : " + rule.ID.ToString());
-                            Session["ExecutingOpenRules"] = true;
-                            ThrowExecuteRule(rule.ID, List);
-                            Session["ExecutingOpenRules"] = false;
 
+                            ThrowExecuteRule(rule.ID, List);
                             break;
                         }
                     }

@@ -1,15 +1,8 @@
 'use strict';
-var app = angular.module('app', ['ui.bootstrap', 'LocalStorageModule', 'ngSanitize', 'ngEmbed', 'ngAnimate', 'ngMessages', "xeditable", 'angular.filter', 'pascalprecht.translate']);
+var app = angular.module('app', ['ui.bootstrap', 'LocalStorageModule', 'ngSanitize', 'ngEmbed', 'ngAnimate', 'ngMessages', "xeditable", 'angular.filter']);
 
-app.run(['$http', '$rootScope', 'editableOptions', "$translate", function ($http, $rootScope, editableOptions, $translate) {
+app.run(['$http', '$rootScope', 'editableOptions', function ($http, $rootScope, editableOptions) {
     editableOptions.theme = 'bs3';
-    try {
-        var language = "es-ar";
-        $translate.use(language);
-    } catch (e) {
-        console.error(e);
-    }
-
 }]);
 
 
@@ -33,7 +26,7 @@ app.factory('Search', function () {
         RaiseResults: false,
         ParentName: '',
         CaseSensitive: false,
-        MaxResults: 100,
+        MaxResults: 1000,
         ShowIndexOnGrid: true,
         UseVersion: false,
         UserId: 0,
@@ -73,18 +66,19 @@ app.factory('FieldsService', function ($http) {
 });
 
 
-app.controller('appController', ['$http', '$scope', '$rootScope', 'Search', 'authService', function ($http, $scope, $rootScope, Search, authService) {
+app.controller('appController', ['$http', '$scope', '$rootScope',  'Search', function ($http, $scope, $rootScope,  Search) {
 
     $scope.CurrentUserName = 'Iniciar sesion';
 
-
+   
     $scope.GetCurrentUserName = function () {
         try {
             var userId = GetUID();
 
-            if (window.localStorage) {
-                var a = window.localStorage.getItem('UD|' + userId);
+            if (localStorage) {
+                var a = localStorage.getItem('UD|' + userId);
                 if (a != undefined) {
+                    var a = JSON.parse(data.data)
                     $scope.CurrentUserName = a[0];
                     $scope.CurrentApellido = a[1];
                     $scope.CurrentUsuario = a[2];
@@ -100,7 +94,6 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'Search', 'aut
             }
 
         } catch (e) {
-            console.error(e);
             $scope.LoadUserNameFromDB();
 
         }
@@ -109,215 +102,29 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'Search', 'aut
 
     $scope.LoadUserNameFromDB = function () {
         var idusuario = GetUID();
-        if (idusuario != undefined && idusuario > 0) {
-            $http({
-                method: 'GET',
-                url: ZambaWebRestApiURL + "/search/GetUserData?userId=" + idusuario,
-                crossDomain: true,
-                //params: { userId: idusuario },
-                dataType: 'json',
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function (data) {
-                var a = JSON.parse(data.data)
-                $scope.CurrentUserName = a[0];
-                $scope.CurrentApellido = a[1];
-                $scope.CurrentUsuario = a[2];
-                $scope.CurrentPuesto = a[3];
-                $scope.CurrentTelefono = a[4];
+        $http({
+            method: 'GET',
+            url: ZambaWebRestApiURL + "/search/GetUserData?userId=" + idusuario,
+            crossDomain: true,
+            //params: { userId: idusuario },
+            dataType: 'json',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(function (data) {
+            var a = JSON.parse(data.data)
+            $scope.CurrentUserName = a[0];
+            $scope.CurrentApellido = a[1];
+            $scope.CurrentUsuario = a[2];
+            $scope.CurrentPuesto = a[3];
+            $scope.CurrentTelefono = a[4];
 
-                if (window.localStorage) {
-                    window.localStorage.setItem('UD|' + idusuario, a);
-                }
-            });
-
-        }
-        return '';
+            if (localStorage) {
+                localStorage.setItem('UD|' + idusuario, a);
+            }
+        });
     };
 
 
     $scope.GetCurrentUserName();
-
-
-    $scope.ThumbsPathHome = function () {
-        var userid = GetUID();
-
-        if (userid != undefined && userid != '') {
-            //    $scope.IsInitializingThumbs = false;
-
-
-            if (window.localStorage) {
-                var userPhoto = window.localStorage.getItem('userPhoto-' + userid);
-                if (userPhoto != undefined && userPhoto != null) {
-                    try {
-                        var response = userPhoto;
-                        $scope.thumphoto = userPhoto;
-
-                        return response;
-
-                    } catch (e) {
-                        console.error(e);
-                        var response = $scope.LoadUserPhotoFromDB(userid);
-                        $scope.thumphoto = response;
-                        return response;
-                    }
-                }
-                else {
-                    var response = $scope.LoadUserPhotoFromDB(userid);
-                    $scope.thumphoto = response;
-                    return response;
-                }
-            }
-            else {
-                var response = $scope.LoadUserPhotoFromDB(userid);
-                $scope.thumphoto = response;
-                return response;
-            }
-        }
-
-    };
-
-
-
-    $scope.LoadUserPhotoFromDB = function (userid) {
-
-        var response = null;
-        var genericRequest = {
-            UserId: parseInt(userid),
-
-        };
-
-        $.ajax({
-            type: "POST",
-            url: ZambaWebRestApiURL + "/Search/GetThumbsPathHome",
-            data: JSON.stringify(genericRequest),
-
-            contentType: "application/json; charset=utf-8",
-            async: false,
-            success:
-                function (data, status, headers, config) {
-                    response = data;
-                    $scope.thumphoto = response;
-                    window.localStorage.setItem('userPhoto-' + userid, response);
-
-                }
-        });
-        return response;
-    }
-
-
-    $scope.ChangePassword = function (inputs) {
-
-        var CurrentPassword = inputs.CurrentPassword || "",
-            NewPassword = inputs.NewPassword || "",
-            NewPassword2 = inputs.NewPassword2 || "";
-
-        $scope.UserChangePassword = {
-            Userid: parseInt(GetUID()),
-            CurrentPassword: CurrentPassword,
-            NewPassword: NewPassword,
-            NewPassword2: NewPassword2
-        };
-        $http.post(ZambaWebRestApiURL + '/Account/Password', $scope.UserChangePassword).then(function successCallback(response) {
-
-            toastr.info(response.data);
-            $("#ModalChangePassword").modal('hide');
-            inputs.CurrentPassword = "";
-            inputs.NewPassword = "";
-            inputs.NewPassword2 = "";
-
-            $scope.UpdateUserCache(GetUID());
-
-        }, function errorCallback(response) {
-            toastr.error("Error al actulizar su contraseña");
-
-        });
-    }
-
-    $scope.UpdateUserCache = function (userid) {
-
-        //actualizo cache en zamba.web
-        ClearUserCache(userid);
-        //actualizo cache en rest api
-        $http.get(ZambaWebRestApiURL + '/Account/ClearUserCache/' + userid);
-
-    }
-
-    $scope.IsInitializing = true;
-    $scope.IsAdminUserView = false;
-
-    $scope.UserView = function () {
-
-        var userid = GetUID();
-        if (userid != undefined && userid > 0) {
-            userid = parseInt(userid);
-
-            if (userid != undefined && userid != '' && $scope.IsInitializing === true) {
-                $scope.IsInitializing = false;
-
-
-                var UV = null;
-
-                if (window.localStorage) {
-                    UV = window.localStorage.getItem("UV|" + userid);
-                }
-
-                if (UV != null && UV != '') {
-                    $scope.IsAdminUserView = UV;
-                    return UV;
-                }
-
-
-                var response = null;
-                var genericRequest = {
-                    UserId: parseInt(userid),
-
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: ZambaWebRestApiURL + "/Account/GetUserRights",
-                    data: JSON.stringify(genericRequest),
-
-                    contentType: "application/json; charset=utf-8",
-                    async: false,
-                    success:
-                        function (data, status, headers, config) {
-                            response = data;
-                            $scope.IsAdminUserView = response;
-                            if (window.localStorage) {
-                                window.localStorage.setItem("UV|" + userid, response);
-                            }
-                        }
-                });
-
-
-            }
-        }
-        return $scope.IsAdminUserView;
-    }
-
-    $scope.UserView();
-
-    $scope.Logout = function () {
-        authService.logOut();
-        window.onbeforeunload = function () {
-            showedDialog = true;
-        };
-        var destinationURL = "../../views/Security/Login.aspx?ReturnUrl=" + window.location;
-        document.location = destinationURL;
-    }
-
-    $scope.GetNextUrl = function (data) {
-        
-        $rootScope.$emit('GetNextUrl', data);
-    };
-
-    $scope.DoSearchByQS = function (data) {
-        $rootScope.$emit('DoSearchByQS', data);
-    };
-
-
-
 
 }]);
 
@@ -344,7 +151,7 @@ function GetUID() {
     if (userid > 0) return userid;
 
 
-    var authData = window.localStorage.getItem('authorizationData');
+    var authData = localStorage.getItem('authorizationData');
     if (authData == undefined || authData == null || authData == "[object Object]" || authData == "") {
         return;
     }
@@ -408,9 +215,7 @@ function GetDocTypeId() {
         if (docTypeId > 0)
             return docTypeId;
 
-        docTypeId = getUrlParameters().doctypeid;
-        if (docTypeId > 0)
-            return docTypeId
+
         return docTypeId;
     } catch (e) {
 

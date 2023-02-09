@@ -2,6 +2,8 @@ var urlGlobalSearch = ZambaWebRestApiURL + "/Search/";
 var searchResults;
 var iMsgTxt = [];
 
+
+
 var GSLoading = {
     Show: function (txt) {
         var g = $("#globalSearchModalLoading");
@@ -17,6 +19,10 @@ var GSLoading = {
     }
 };
 
+//(function () {
+//    'use strict';
+//    angular.module('zamba-search', ['ngSanitize', 'ngEmbed', 'ngAnimate', 'Search'])
+
 app.directive('zambaSearch', function ($sce) {
     return {
         restrict: 'E',
@@ -24,12 +30,12 @@ app.directive('zambaSearch', function ($sce) {
         //    model: '=ngModel',
         //    parameters: '='
         //},
-        //  replace: true,
+      //  replace: true,
         transclude: true,
         link: function (scope, element, attributes) {
         },
         templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/searchbox.html'),
-
+      
     };
 })
 
@@ -102,7 +108,47 @@ app.directive('checkIfSearch', [function () {
         }
     };
 }])
-
+//.directive('hideShowInput', [function () {
+//    return {
+//        restrict: 'A',
+//        replace: true,
+//        link: function (scope, element, attrs) {
+//            element.bind('mouseenter', function (e) {
+//                //e.stopPropagation();
+//                $(this).children(".typeahead").fadeIn().css("display", "inline-block");
+//                if ($(this).children("ul").css("display")=="none")
+//                    $(this).children(".typeahead").focus();
+//                $(this).tooltip();
+//                var $btn = $(this).children('button');
+//                if ($btn.text() == '+') {
+//                    var $li = $(this).children('ul').children("li");
+//                    var t = '';
+//                    var c = 0;
+//                    for (var i = 0; i <= $li.length - 1; i++) {
+//                        if ($($li[i]).attr("class").indexOf('ng-hide') != -1) {
+//                            var txt = $($li[i]).children('label').text();
+//                            t += (txt ? txt : $($li[i]).text().trim()) + '<br>';
+//                            c++;
+//                            if (c == 10) {
+//                                t += "<br>Ver mas...";
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    $btn.attr("data-title", t);
+//                    $btn.tooltip();
+//                }
+//                else
+//                    $btn.removeAttr("data-title");
+//            });
+//            element.bind('mouseleave', function (e) {
+//                 e.stopPropagation();
+//                if (!$(this).children(".typeahead").val().length)
+//                    $(this).children(".typeahead").fadeOut();
+//            });
+//        }
+//    };
+//}])
 
 app.directive('chkboxControl', [function () {
     return {
@@ -730,7 +776,7 @@ app.directive('filtersGrid', function ($sce) {
         transclude: true,
         link: function (scope, element, attributes) {
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/filters.html?v=185')
+        templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/filters.html')
     };
 })
 
@@ -796,7 +842,7 @@ app.directive('searchResults', function ($sce) {
         transclude: true,
         link: function (scope, element, attributes) {
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/resultsgrid.html?v=248')
+        templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/resultsgrid.html?v=168')
     };
 })
 app.directive('resultsGrid', function ($sce) {
@@ -805,10 +851,24 @@ app.directive('resultsGrid', function ($sce) {
         transclude: true,
         link: function (scope, element, attributes) {
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/resultsgrid.html?v=248')
+        templateUrl: $sce.getTrustedResourceUrl('../../scripts/app/partials/resultsgrid.html?v=168')
     };
 })
 
+//.directive('scrollPagging', function ($document) {
+//    return {
+//        restrict: 'A',
+//        link: function (scope, element, attrs) {
+
+//            $document.bind('scroll', function () {
+//                scope.$apply(attrs.scrolly);
+//            });
+//            $document.bind('wheel', function () {
+//                scope.$apply(attrs.scrolly);
+//            });
+//        }
+//    };
+//})
 
 app.filter('uniqueName', function () {
     return function (items) {
@@ -945,10 +1005,12 @@ angular.element(document).ready(function () {
     // angular.bootstrap(todoRootNode, ['Advfilter3']);
 });
 
+//})();
 
 window.load = function () {
     if ($('#loadingModZmb').hasClass('in')) return;
 
+    //  waitingDialog.show('Cargando');
     //GSLoading.Show('Cargando...');
     //bottom: 0;
     //position: fixed;
@@ -960,6 +1022,7 @@ window.load = function () {
 window.wait = function () {
     if ($('#loadingModZmb').hasClass('in')) return;
     GSLoading.Show('Procesando su busqueda');
+    //waitingDialog.show('Procesando su busqueda');
 }
 
 window.ready = function () {
@@ -967,6 +1030,7 @@ window.ready = function () {
     if (typeof (zambaApplication) != "undefined" && zambaApplication == "ZambaQuickSearch" && $("#advSearchSave").length)
         $("#advSearchSave").remove();
     GSLoading.Hide();
+    //waitingDialog.hide();
     var $m = $('#loadingModZmb');
     if ($m.hasClass('in')) {
         $m.removeClass("in");
@@ -1068,13 +1132,13 @@ function BuildTH(th, data) {
 function showGSHelp() {
     bootbox.dialog({
         message:
-            "<b>Caracteristicas</b><hr/>" +
-            "<i>  Zamba Global Search</i> permite realizar busquedas de toda la informacion de su, sin importar su origen o ubicacion, permitiendo indexar la informacion del usuario y de la organizacion, haciendola accesible desde un unico lugar." +
-            " Su interfaz simple y atractiva consta de una caja de texto inteligente programada para arrojar resultados a medida que  se va introduciendo texto en ella. En la misma se podra buscar cualquier informacion o dato particular contenido en cualquier documento, atributo o tarea, entre otros, dentro de Zamba o de todas las aplicaciones que  se hayan vinculado al motor de indexacion.<hr/>" +
-            "<b>Modo de uso</b><hr/>" +
-            "  Ingrese su busqueda dentro de la caja de texto inteligente, ya sea un indice, entidad, palabra, etc. El buscador arrojara el resultado cargando una grilla debajo de la caja de texto si es que encontro algun resultado.<br/> " +
-            "Si desea continuar filtrando los resultados, puede continuar colocando filtros al ya aplicado volviendo a introducir un nuevo parametro a buscar, esto hara que se ejecute una nueva busqueda y se actualizaran los datos en la grilla. Tambien puede combinar y agrupar por indices, atributos y palabras en comun." +
-            "<hr/><i><span class='glyphicon glyphicon-book'></span> Para mas informacion <a href='http://www.zambabpm.com.ar/Zamba/Zamba%20Global%20Search%20v1.docx'>Zamba Global Search Manual</a> <i/>",
+        "<b>Caracteristicas</b><hr/>" +
+        "<i>  Zamba Global Search</i> permite realizar busquedas de toda la informacion de su, sin importar su origen o ubicacion, permitiendo indexar la informacion del usuario y de la organizacion, haciendola accesible desde un unico lugar." +
+        " Su interfaz simple y atractiva consta de una caja de texto inteligente programada para arrojar resultados a medida que  se va introduciendo texto en ella. En la misma se podra buscar cualquier informacion o dato particular contenido en cualquier documento, atributo o tarea, entre otros, dentro de Zamba o de todas las aplicaciones que  se hayan vinculado al motor de indexacion.<hr/>" +
+        "<b>Modo de uso</b><hr/>" +
+        "  Ingrese su busqueda dentro de la caja de texto inteligente, ya sea un indice, entidad, palabra, etc. El buscador arrojara el resultado cargando una grilla debajo de la caja de texto si es que encontro algun resultado.<br/> " +
+        "Si desea continuar filtrando los resultados, puede continuar colocando filtros al ya aplicado volviendo a introducir un nuevo parametro a buscar, esto hara que se ejecute una nueva busqueda y se actualizaran los datos en la grilla. Tambien puede combinar y agrupar por indices, atributos y palabras en comun." +
+        "<hr/><i><span class='glyphicon glyphicon-book'></span> Para mas informacion <a href='http://www.zambabpm.com.ar/Zamba/Zamba%20Global%20Search%20v1.docx'>Zamba Global Search Manual</a> <i/>",
         title: "<span class='glyphicon glyphicon-filter'> </span> Zamba Advanced Search",
         draggable: true,
         buttons: {
@@ -1321,7 +1385,21 @@ Date.ddmm = (function () {
     return Date.parse('2/6/2009') > Date.parse('6/2/2009');
 })()
 
-   
+    //function HideGBModal(_this) {
+    //    showSeletionModeByimage(_this);
+    //    var isGlobalSearch = false;
+    //    if ($(_this).parents("#Advfilter1").length) isGlobalSearch = true;
+
+    //    if (isGlobalSearch && zambaApplication != "ZambaSearch") {
+    //        $('#Advfilter-modal-content').slideToggle();
+    //        $('#Advfilter2').fadeIn().css('display', 'inline-flex');
+    //        $('.favAdvSearch').fadeIn();
+    //        $('#Advfilter2').children('.advancedSearchBox').css({
+    //            display: 'block', width: 'auto'
+    //        });
+    //    }
+
+    //}
 
     //Scroll directive
     ; (function (window, _, $, angular, undefined) {
@@ -1348,34 +1426,75 @@ Date.ddmm = (function () {
 $(window).on("resize", function () {
     setTabSearchSize();
     ResizeResultsArea();
-    
-    ResizeMDDatePickers();
 });
 
-$(window).on("load", function () {
-    ResizeMDDatePickers();
-});
+// Muestra u oculta la grilla correspondiente.
+function visualizerModeGSFn(_this, mode) {
+    var isGlobalSearch = false;
+    if ($(_this).parents("#Advfilter1").length) isGlobalSearch = true;
+        
+    $("#resultsGridSearchBox").hide();
+    $("#resultsGridSearchBoxThumbs").hide();
+    $("#resultsGridSearchBoxPreview").hide();
+    $("#resultsGridSearchGrid").hide(); 
+    $("#Kgrid").hide(); 
+    $("#multipleSelectionMenu").find(".activeButtonIconBar").click();
+    $("#multipleSelectionPreview").find(".activeButtonIconBar").click(); 
+    if ($("#chkThumbGrid").hasClass("ng-not-empty")) {
+        $("#chkThumbGrid").click();
+    }
+    $(".filterFunc").show();
+
+    $(".glyphicon.ngtitle.glyphicon-ok-circle").css("background-color", "#4285f4");   
+    DisableActions();
+    $(".switch").hide();
+    switch (mode) {
+        case "grid":
+            $("#resultsGridSearchGrid").show();
+            $("#Kgrid").show(); 
+            $(".btn-preview").removeClass("BtnGridStyle");
+            $(".btn-thumb").removeClass("BtnGridStyle");
+            $(".btn-grid").addClass("BtnGridStyle");
+            ResizeResultsArea();
+            $(".switch").show();
+            break;
+        case "preview":
+            $("#resultsGridSearchGrid").show();
+            $("#resultsGridSearchBoxPreview").show();
+            $(".btn-thumb").removeClass("BtnGridStyle");
+            $(".btn-grid").removeClass("BtnGridStyle");
+            $(".btn-preview").addClass("BtnGridStyle");
+            ResizeResultsArea();
+            break;
+        case "list":
+            $("#resultsGridSearchGrid").show();
+            $("#resultsGridSearchBox").show();
+            ResizeResultsArea();
+            break;
+        case "thumbs":
+            $("#resultsGridSearchGrid").show();
+            $("#resultsGridSearchBoxThumbs").show();
+            $(".btn-preview").removeClass("BtnGridStyle");
+            $(".btn-grid").removeClass("BtnGridStyle");
+            $(".btn-thumb").addClass("BtnGridStyle");
+            ResizeResultsArea();
+            break;
+    }
+        AdjustGridColumns();
+}
 
 function DisableActions() {
     try {
-        //  document.getElementById("BtnClearCheckbox").setAttribute("disabled", "disabled");
-        if (document.getElementById("BtnSendEmail") != undefined)
-            document.getElementById("BtnSendEmail").setAttribute("disabled", "disabled");
-
+      //  document.getElementById("BtnClearCheckbox").setAttribute("disabled", "disabled");
+        document.getElementById("BtnSendEmail").setAttribute("disabled", "disabled");
         document.getElementById("OpenAllSelected").setAttribute("disabled", "disabled");
-
-        if (document.getElementById("BtnSendZip") != undefined)
-            document.getElementById("BtnSendZip").setAttribute("disabled", "disabled");
-
-        if (document.getElementById("BtnDownloadZip") != undefined)
-            document.getElementById("BtnDownloadZip").setAttribute("disabled", "disabled");
-
+        document.getElementById("BtnSendZip").setAttribute("disabled", "disabled");
         document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
         document.getElementById("panel_ruleActions").setAttribute("disabled", "disabled");
 
         $("#Actions").css('display', 'none');
     } catch (e) {
-        console.error("ERROR: " + e.messages);
+        console.log("ERROR: " + e.messages);
     }
 }
 
@@ -1403,50 +1522,19 @@ function ResizeResultsArea() {
     AdjustResultHeight();
 }
 
-
-
-function ResizeMDDatePickers() {
-    //var md_calendar = $($(".md-calendar"));
-    //width = $(md_calendar[0]).width();
-    //padding_right = parseFloat($(md_calendar[0]).css("padding-right"));
-    //width_md_calendar = width + padding_right;
-
-    //md_calendar.each(function (i, e) {
-    //    var resto = parseFloat($($(".md-datepicker-button")[i]).width());
-    //    resto += parseFloat($($(".md-datepicker-button")[i]).css("padding-left"));
-    //    resto += parseFloat($($(".md-datepicker-button")[i]).css("padding-right"));
-    //    resto += parseFloat($($(".md-datepicker-button")[i]).css("margin-left"));
-    //    resto += parseFloat($($(".md-datepicker-button")[i]).css("margin-right"));
-
-    //    resto += parseFloat($($(".md-datepicker-input-container")[i]).css("margin-left"));
-
-    //    var inputContainer = $($(".md-datepicker-input")[i]);
-    //    inputContainer[0].style.width = width_md_calendar - resto + "px";
-    //});
-
-
-}
-
 // Ajusta el alto de los elementos dentro del area de resultados.
 function AdjustResultHeight() {
     var resultAreaHeight = $('results-grid').outerHeight(false);
-    if (resultAreaHeight == undefined)
-        resultAreaHeight = 0;
     var visualButtonsBarHeight = $('#ToolbarResults').outerHeight(false);
-    if (visualButtonsBarHeight == undefined)
-        visualButtonsBarHeight = 0;
     var searchinfoHeight = $('#searchinfo').outerHeight(false);
-    if (searchinfoHeight == undefined)
-        searchinfoHeight = 0;
     var resultsGridActionsHeight = $('#resultsGridActions').outerHeight(true);
-    if (resultsGridActionsHeight == undefined)
-        resultsGridActionsHeight = 0;
+    //var KendoGridButtons = $('#KendoGridButtons').outerHeight(true);
     var newHeight = (resultAreaHeight - visualButtonsBarHeight - searchinfoHeight - resultsGridActionsHeight) + "px"
     $("#Kgrid").css("height", newHeight);
     $("#resultsGridSearchBoxPreview").css("height", newHeight);
     $("#resultsGridSearchBox").css("height", newHeight);
     $("#resultsGridSearchBoxThumbs").css("height", newHeight);
-    // toastr.info(newHeight);
+  // toastr.info(newHeight);
     resizeGrid();
 }
 

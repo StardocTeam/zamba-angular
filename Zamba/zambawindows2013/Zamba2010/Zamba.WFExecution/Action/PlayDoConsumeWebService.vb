@@ -59,18 +59,17 @@ Public Class PlayDoConsumeWebService
                         value = value.Replace("zvar(", String.Empty)
                         value = value.Replace(")", String.Empty)
 
-                        VariablesInterReglas.Item(value) = If(Parameters(i) IsNot Nothing, Parameters(i), String.Empty)
-
+                        VariablesInterReglas.Item(value) = Parameters(i)
                     ElseIf value.ToLower().Contains("byref") = True And value.Contains("<<") Then
 
-                        TextoInteligente.AsignItemFromSmartText(value, r, If(Parameters(i) IsNot Nothing, Parameters(i).ToString(), String.Empty))
+                        TextoInteligente.AsignItemFromSmartText(value, r, Parameters(i).ToString)
                     Else
                         If VariablesInterReglas.ContainsKey("Param" & i) = False Then
 
-                            VariablesInterReglas.Add("Param" & i, If(Parameters(i) IsNot Nothing, Parameters(i), String.Empty), False)
+                            VariablesInterReglas.Add("Param" & i, Parameters(i), False)
                         Else
 
-                            VariablesInterReglas.Item("Param" & i) = If(Parameters(i) IsNot Nothing, Parameters(i), String.Empty)
+                            VariablesInterReglas.Item("Param" & i) = Parameters(i)
                         End If
                     End If
                     i = i + 1

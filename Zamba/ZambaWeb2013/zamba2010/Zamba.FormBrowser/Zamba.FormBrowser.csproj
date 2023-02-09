@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Zamba.FormBrowser</RootNamespace>
     <AssemblyName>Zamba.FB</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -66,6 +66,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWEL\Zamba.FWEL\Zamba.FWEL.csproj">
+      <Project>{4db15aa8-b270-40d4-bf54-e653935381f1}</Project>
+      <Name>Zamba.FWEL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
       <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
       <Name>Zamba.FWInterfaces</Name>

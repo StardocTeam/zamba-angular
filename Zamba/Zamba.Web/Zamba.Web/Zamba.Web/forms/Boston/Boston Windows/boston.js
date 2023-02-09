@@ -56,8 +56,17 @@ function Redondear(num) {
 String.prototype.trim = function () {
 	return this.replace(/^\s*/, "").replace(/\s*$/, "");
 }
-
-
+function CargarFechaIndice(indice){
+	$('#' + indice).datepicker({
+		changeMonth: true,
+		changeYear: true,
+		showOn: 'button', 
+		buttonText: 'Abrir calendario',
+		buttonImage: 'calendar.png', 
+		buttonImageOnly: true,
+		duration: ""
+	});
+}
 function esDigito(sChr){
 	var sCod = sChr.charCodeAt(0);
 	return ((sCod > 47) && (sCod < 58));

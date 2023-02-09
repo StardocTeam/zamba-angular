@@ -24,13 +24,7 @@ Public Class Newsfactory
             Query.Append(DocTypeID)
             Query.Append(",'")
             Query.Append(comment.Trim())
-            Query.Append("',")
-            If Server.isOracle Then
-                Query.Append("sysdate")
-            Else
-                Query.Append("getdate()")
-            End If
-            Query.Append(")")
+            Query.Append("')")
             Server.Con.ExecuteNonQuery(CommandType.Text, Query.ToString())
         Else
             Dim parValues() As Object = {NewsID, DocID, DocTypeID, comment.Trim()}

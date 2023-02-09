@@ -109,6 +109,10 @@ namespace Zamba.Services
         {
             return  UB.ValidateLogIn(User, Password, clientType);
         }
+        public async System.Threading.Tasks.Task<IUser> ValidateLoginOKTA(string User,string Password,ClientType clientType,String OktaDomainURL,String OktaToken)
+        {
+            return await UB.ValidateLoginOKTA(User, Password, clientType,OktaDomainURL,OktaToken);
+        }
 
 
         public void RemoveConnectionFromWeb(Int64 connectionId)

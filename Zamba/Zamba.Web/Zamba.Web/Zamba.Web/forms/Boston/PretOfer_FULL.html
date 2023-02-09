@@ -9,8 +9,8 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
         function SetRuleId(sender) {
             document.getElementById("hdnRuleId").name = sender.id;
@@ -157,18 +157,18 @@
 <body>
     <div class="container-fluid">
         <form name="frmMain" action="PretOfer.html">
-            <div>
+            <div style="font-family:'Times New Roman', Times, serif">
 
                 <div class="form-group row"></div>
                 <input id="hdnRuleId" type="hidden" />
 
-                <div id="tblOferta" >
+                <div id="tblOferta" class="attributes_table">
                     <div class="form-group row">
 
                         <div class="col-md-12">
     
                             <div>
-                                <center><h4 style="color: black;">Pretensión / Oferta</h4></center>
+                                <center><h4 style="background-color:#418ad4;color: white;">Pretensión / Oferta</h4></center>
                             </div>
     
                         </div>
@@ -177,13 +177,13 @@
                         
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">ID Reclamo:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">ID Reclamo:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2677" name="zamba_index_2677" disabled="disabled" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Fecha:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2720" name="zamba_index_2720" disabled="disabled" />
                             </div>
                         </div>
@@ -192,13 +192,13 @@
                         
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" style=""><b>Capital $:</b></span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5"><b>Capital $:</b></span>
                                 <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2744" name="zamba_index_2744" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style=""><b>Honorarios $:</b></span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5"><b>Honorarios $:</b></span>
                                 <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2746" name="zamba_index_2746" />
                             </div>
                         </div>
@@ -207,13 +207,13 @@
                         
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" style=""><b>Otros $:</b></span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5"><b>Otros $:</b></span>
                                 <input class="form-control input-sm moneda" style=" color: #090A0A; font-weight: bold" id="zamba_index_2745" name="zamba_index_2745" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style=""><b>Total $:</b></span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5"><b>Total $:</b></span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2719" name="zamba_index_2719" readonly="readonly" />
                             </div>
                         </div>
@@ -222,13 +222,13 @@
                         
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Cantidad de días:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Cantidad de días:</span>
                                 <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_2835" name="zamba_index_2835" />
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">% Honorarios:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">% Honorarios:</span>
                                 <input class="form-control input-sm moneda" id="zamba_index_2836" name="zamba_index_2836" />
                             </div>
                         </div>
@@ -237,7 +237,7 @@
                         
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Ejecutivo:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Ejecutivo:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_asoc_2523_index_2735" name="zamba_asoc_2523_index_2735" disabled />
                             </div>
                         </div>
@@ -247,7 +247,7 @@
                         
                         <div class="col-md-6">
                             <div class="input-group">
-                                <div id="tblObervaciones" >
+                                <div id="tblObervaciones" class="attributes_table">
                                     
                                     <input class="btn  btn-info btn-sm" id="zamba_rule_11443" name="zamba_rule_11443" type="submit" value="Agregar Observación" onclick="SetRuleId(this);" />
                                 </div>
@@ -259,7 +259,7 @@
                     <div class="form-group row">
                         <div class="form-group">
                             <div class="col-md-12" style=" position:relative; top:15px;">
-                                <span class="input-group-addon"  >Observación:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5;">Observación:</span>
                             </div>
                         </div>
                     </div>
@@ -279,14 +279,14 @@
             <div class="row">
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">PretOfer.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

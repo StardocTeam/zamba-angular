@@ -8,7 +8,6 @@ Imports Zamba.Office
 Imports Zamba.DataExt.WSResult.Consume
 Imports Zamba.Membership
 Imports Spire.Email
-Imports Newtonsoft.Json
 
 Public Class Results_Business
     Implements IResults_Business
@@ -27,6 +26,13 @@ Public Class Results_Business
     Dim RMF As New RestrictionsMapper_Factory
     Dim WFTB As New WFTaskBusiness
 
+    'Public Shared Function MakeTable(ByVal DocTypeId As Integer, ByVal TableType As TableType) As String
+    '    Dim tables As String
+    '    Dim RF As New Results_Factory
+    '    tables = RF.MakeTable(DocTypeId, TableType)
+    '    Return tables
+    'End Function
+
     Friend Sub UpdateResultIcon(resultId As Int64, docTypeId As Int64, IconID As Int32)
         RF.UpdateFileIcon(resultId, docTypeId, IconID)
     End Sub
@@ -41,12 +47,7 @@ Public Class Results_Business
     'Funciones para manejar archivos de distintas extensiones
     Public Function GetFileIcon(ByVal File As String) As Int32 Implements IResults_Business.GetFileIcon
         Try
-            If File IsNot Nothing Then
-                Return GetIcon(New FileInfo(File.ToUpper).Extension)
-            Else
-                Return 30
-            End If
-
+            Return GetIcon(New FileInfo(File.ToUpper).Extension)
         Catch
             Return 30
         End Try
@@ -252,7 +253,6 @@ Public Class Results_Business
         Return TmpDocsDictionary
 
     End Function
-
     Public Function SearchIndexByUserIdForWebServices(ByVal indexId As Int64, ByVal indexType As IndexDataType, ByVal comparador As String, ByVal value As String, ByVal userId As Int64) As Dictionary(Of Int64, Int64) Implements IResults_Business.SearchIndexByUserIdForWebServices
         Dim TmpDocsDictionary As New Dictionary(Of Int64, Int64)()
         Dim DTB As New DocTypesBusiness
@@ -827,8 +827,6 @@ Public Class Results_Business
                         isOk = True
                     End If
                 Else
-                    I.Data = IIf(I.Data = Nothing, "", I.Data)
-
                     If String.IsNullOrEmpty(I.Data.Trim) = False Then
                         'Dim dt As DataTable = ASB.GetIndexData(I.ID, False)
 
@@ -1397,7 +1395,7 @@ Public Class Results_Business
     '''     [Tomas]     27/08/2009  Modified    Se agrega transacciones
     '''     [Tomas]     06/10/2009  Modified    Se corrige atrapa una exception al intentar eliminar archivos de imagenes y otros.
     ''' </history>
-    Public Function Insert(ByRef newResult As INewResult, ByVal move As Boolean, Optional ByVal reIndexFlag As Boolean = False, Optional ByVal reemplazarFlag As Boolean = False, Optional ByVal showQuestions As Boolean = True, Optional ByVal isVirtual As Boolean = False, Optional ByVal isReplica As Boolean = False, Optional ByVal hasName As Boolean = False, Optional ByVal throwEx As Boolean = False, Optional ByVal RefreshWFAfterInsert As Boolean = True, Optional Userid As Decimal = Nothing, Optional newId As Int64 = 0, Optional ExecuteEntryRules As Boolean = True) As InsertResult Implements IResults_Business.Insert
+    Public Function Insert(ByRef newResult As INewResult, ByVal move As Boolean, Optional ByVal reIndexFlag As Boolean = False, Optional ByVal reemplazarFlag As Boolean = False, Optional ByVal showQuestions As Boolean = True, Optional ByVal isVirtual As Boolean = False, Optional ByVal isReplica As Boolean = False, Optional ByVal hasName As Boolean = False, Optional ByVal throwEx As Boolean = False, Optional ByVal RefreshWFAfterInsert As Boolean = True, Optional Userid As Decimal = Nothing, Optional newId As Int64 = 0) As InsertResult Implements IResults_Business.Insert
         Dim NewResultStatus As InsertResult = InsertResult.NoInsertado
         Dim DTB As New DocTypesBusiness
 
@@ -1408,12 +1406,17 @@ Public Class Results_Business
             CheckRequiredIndexs(newResult)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Ingresando a la insercion de documentos")
 
+
             'Autocompleta los indices si corresponde, Se subio en nivel la ejecucion porque quizas se utilizan valores de los indices para autonombre
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Autocompletando")
             AutocompleteIndexsNewDocument(newResult)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Se autocompletaron los indices")
 
-            MapMail(newResult)
+            Try
+                MapMail(newResult)
+            Catch ex As Exception
+                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString())
+            End Try
 
             '[sebastian 29/01/09] Se verifica si tiene el permiso de completar con el id mas alto el indice
             'y luego se lo agrega.
@@ -1493,9 +1496,7 @@ Public Class Results_Business
 
                     Try
                         'Asigna el tamaño del result
-                        If Not newResult.ISVIRTUAL Then
-                            newResult.FileLength = Math.Ceiling(newResult.EncodedFile.Length / 1024)
-                        End If
+                        newResult.FileLength = Math.Ceiling(newResult.EncodedFile.Length / 1024)
                     Catch ex As Exception
                         ZClass.raiseerror(ex)
                     End Try
@@ -1697,11 +1698,11 @@ Public Class Results_Business
 
             Try
 
-                If wf_results IsNot Nothing AndAlso ExecuteEntryRules Then
+                If wf_results IsNot Nothing Then
                     Dim WFTBusiness As New WFTaskBusiness
 
                     For Each wf_res As KeyValuePair(Of IWorkFlow, List(Of ITaskResult)) In wf_results
-                        WFTBusiness.ExecuteWFRulesFromInsert(wf_res.Key, Not ExecuteEntryRules, False, wf_res.Value)
+                        WFTBusiness.ExecuteWFRulesFromInsert(wf_res.Key, False, False, wf_res.Value)
                     Next
 
                 End If
@@ -1725,12 +1726,13 @@ Public Class Results_Business
                 Return InsertResult.NoInsertado
             Else
                 ZCore.raiseerror(ex)
-                Throw
+                Throw ex
             End If
         Finally
             DTB = Nothing
         End Try
     End Function
+    '[sebastian] se hizo un overload para poder insertar los indices de danone correctamente
 
     Public Sub MapMail(newResult As INewResult)
         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Validando MSG...")
@@ -1806,6 +1808,7 @@ Public Class Results_Business
         End If
     End Sub
 
+
     Private Shared Function GetCollectionMailingList(MailsList As MailAddressCollection) As String
         Dim result As String = ""
 
@@ -1830,7 +1833,6 @@ Public Class Results_Business
         Return result
     End Function
 
-    '[sebastian] se hizo un overload para poder insertar los indices de danone correctamente
     Public Function InsertNew(ByRef newResult As INewResult, ByVal move As Boolean, Optional ByVal reIndexFlag As Boolean = False, Optional ByVal reemplazarFlag As Boolean = False, Optional ByVal showQuestions As Boolean = True, Optional ByVal isVirtual As Boolean = False, Optional ByVal isReplica As Boolean = False, Optional ByVal hasName As Boolean = False) As InsertResult Implements IResults_Business.InsertNew
         Dim RF As New Results_Factory
 
@@ -2044,7 +2046,6 @@ Public Class Results_Business
                 RaiseEvent updateWFs()
             End If
 
-            UpdateAutoName(newResult)
             RF.InsertIndexerState(newResult.DocTypeId, newResult.ID, 0, Nothing)
 
         Catch ex As Exception
@@ -3125,14 +3126,6 @@ Public Class Results_Business
                         End If
                     End If
 
-                    If Not IsDBNull(dr("IsImportant")) Then
-                        _Result.IsImportant = CBool(dr.Item("IsImportant"))
-                    End If
-
-                    If Not IsDBNull(dr("IsFavorite")) Then
-                        _Result.IsFavorite = CBool(dr.Item("IsFavorite"))
-                    End If
-
                     Dim i As Int16
                     For i = 0 To _Result.Indexs.Count - 1
                         Try
@@ -3602,13 +3595,25 @@ Public Class Results_Business
 
 
 
-    Public Sub HistoricDocumentDropzone(ByVal taskID As Int64, ByVal taskName As String, ByVal docTypeId As Long, ByVal docTypeName As String, ByVal stepId As Long, ByVal WorkId As Long, ByVal statename As String, stepname As String) Implements IResults_Business.HistoricDocumentDropzone
+    Public Sub HistoricDocumentDropzone(ByVal taskID As Int64, ByVal taskName As String, ByVal docTypeId As Long, ByVal docTypeName As String, ByVal stepId As Long, ByVal WorkId As Long, ByVal StepN As String) Implements IResults_Business.HistoricDocumentDropzone
         Dim RF As New Results_Factory
-        Dim WFB As New WFBusiness
-        RF.LogDropzoneHistory(taskID, taskName, docTypeId, docTypeName, stepId, WorkId, statename, stepname, WFB.GetWorkflowNameByWFId(WorkId))
-        WFB = Nothing
+        RF.LogDropzoneHistory(taskID, taskName, docTypeId, docTypeName, stepId, WorkId, StepN)
+
     End Sub
 
+    'Public Sub ReplaceDocument(ByRef Result As INewResult)
+
+    '    Dim RF As New Results_Factory
+    '    RF.ReplaceDocument(Result)
+    '    RF.InsertIndexerState(Result.DocTypeId, Result.ID, 0, Nothing)
+
+    'End Sub
+    'Public Sub ReplaceDocument(ByRef Result As INewResult, ByRef t As ITransaction)
+    '    Dim RF As New Results_Factory
+    '    RF.ReplaceDocument(Result, t)
+    '    RF.InsertIndexerState(Result.DocTypeId, Result.ID, 0, Nothing)
+
+    'End Sub
     Public Sub ReplaceDocument(ByRef Result As IResult, ByVal NewDocumentFile As String, ByVal ComeFromWF As Boolean, ByVal t As ITransaction) Implements IResults_Business.ReplaceDocument
         Dim RF As New Results_Factory
 
@@ -3627,14 +3632,9 @@ Public Class Results_Business
                 Result.File = NewDocumentFile
                 Result.Doc_File = Result.ID & Path.GetExtension(NewDocumentFile)
                 Result.IconId = RB.GetFileIcon(Result.File)
-                Result.Disk_Group_Id = Volume.ID
+
                 Dim NewFi As New IO.FileInfo(NewDocumentFile)
                 RF.ReplaceDocument(Result, NewFi, Result.Doc_File, ComeFromWF, t)
-
-                If Volume.VolumeType = VolumeTypes.DataBase Then
-                    RF.ReplaceDigitalDocument(Result)
-                End If
-
                 RF.InsertIndexerState(Result.DocTypeId, Result.ID, 0, t)
 
                 'Se copia al temporal para ser abierto al refrescar la tarea
@@ -3675,114 +3675,19 @@ Public Class Results_Business
                 ZTrace.WriteLineIf(ZTrace.IsError, "No hay volumen disponible para el reemplazo")
                 Throw New Exception("No hay volumen disponible para el reemplazo")
             End If
+
             Dim UB As New UserBusiness
             UB.SaveAction(Result.ID, ObjectTypes.Documents, RightsType.Edit, Result.Name)
             UB = Nothing
-            If File.Exists(Result.FullPath) Then
-                File.Delete(Result.FullPath)
-                File.Copy(Result.File, Result.FullPath)
-            End If
-            DeleteDocumentPreview(Result)
         Catch ex As IOException
             ZClass.raiseerror(ex)
         Catch ex As Exception
             ZClass.raiseerror(ex)
         End Try
 
-    End Sub
 
-    Public Sub ReplaceDocumentForZeditor(ByRef Result As IResult, ByVal NewDocumentFile As String, ByVal ComeFromWF As Boolean, ByVal t As ITransaction, ByVal ZEditorUrl As String)
-        Dim RF As New Results_Factory
 
-        Try
-            'Verifica si el volumen es de tipo base de datos o si todavia no se inserto el documento
 
-            Dim RB As New Results_Business
-
-            Dim VolumeListId As Int32 = VolumesBusiness.GetVolumeListId(Result.DocType.ID)
-            Dim DsVols As DataSet = VolumeListsBusiness.GetActiveDiskGroupVolumes(VolumeListId)
-            Dim Volume As IVolume = VolumesBusiness.LoadVolume(Result.DocType.ID, DsVols)
-
-            If Volume IsNot Nothing AndAlso Volume.VolumeType = VolumeTypes.DataBase Then
-                'Se reemplaza el documento en Zamba
-                Result.EncodedFile = FileEncode.Encode(NewDocumentFile)
-                Result.File = NewDocumentFile
-                Result.Doc_File = Result.ID & Path.GetExtension(NewDocumentFile)
-                Result.IconId = RB.GetFileIcon(Result.File)
-                Result.Disk_Group_Id = Volume.ID
-                Dim NewFi As New IO.FileInfo(NewDocumentFile)
-                RF.ReplaceDocument(Result, NewFi, Result.Doc_File, ComeFromWF, t)
-
-                If Volume.VolumeType = VolumeTypes.DataBase Then
-                    RF.ReplaceDigitalDocument(Result)
-                End If
-
-                RF.InsertIndexerState(Result.DocTypeId, Result.ID, 0, t)
-
-                'Se copia al temporal para ser abierto al refrescar la tarea
-
-                'Dim dirInfo As DirectoryInfo = Tools.EnvironmentUtil.GetTempDir("\OfficeTemp")
-                Dim dirInfo As String = ZEditorUrl + "\OfficeTemp"
-                Dim destPath As String = dirInfo & "\" & Result.Doc_File
-
-                If Not Directory.Exists(dirInfo) Then
-                    Directory.CreateDirectory(dirInfo)
-                End If
-
-                File.Copy(NewDocumentFile, destPath, True)
-                dirInfo = Nothing
-                RB = Nothing
-
-            ElseIf Volume IsNot Nothing Then
-                Dim NewFi As New IO.FileInfo(NewDocumentFile)
-                Result.OffSet = Volume.offset
-
-                Dim NewFullFileName As String = VolumesBusiness.VolumePath(Volume, Result.DocType.ID) & "\" & Result.ID & NewFi.Extension
-                Dim NewFullFileNamePDFPreview As String = VolumesBusiness.VolumePath(Volume, Result.DocType.ID) & "\" & Result.ID & NewFi.Extension & ".pdf"
-
-                ''Custom migration for FileNet Format
-                If (NewFi.Extension.Contains(".__")) Then
-                    NewFullFileName = NewFullFileName.Replace(".__1", New FileInfo(Result.OriginalName).Extension)
-                    NewFullFileNamePDFPreview = NewFullFileNamePDFPreview.Replace("__1", New FileInfo(Result.OriginalName).Extension)
-                End If
-
-                If File.Exists(NewFullFileNamePDFPreview) Then
-                    File.Delete(NewFullFileNamePDFPreview)
-                End If
-
-                NewFi.CopyTo(NewFullFileName, True)
-                Result.File = NewDocumentFile
-                Result.IconId = RB.GetFileIcon(Result.File)
-                Result.Doc_File = Path.GetFileName(NewFullFileName)
-                Result.Disk_Group_Id = Volume.ID
-                Result.DISK_VOL_PATH = Volume.path
-                'Se reemplaza el documento y se refresca la tarea completa
-                RF.ReplaceDocument(Result, NewFi, Result.Doc_File, ComeFromWF, Nothing)
-                RF.InsertIndexerState(Result.DocTypeId, Result.ID, 0, Nothing)
-
-            Else
-                ZTrace.WriteLineIf(ZTrace.IsError, "No hay volumen disponible para el reemplazo")
-                Throw New Exception("No hay volumen disponible para el reemplazo")
-            End If
-            Dim UB As New UserBusiness
-            UB.SaveAction(Result.ID, ObjectTypes.Documents, RightsType.Edit, Result.Name)
-            UB = Nothing
-            If File.Exists(Result.FullPath) Then
-                File.Delete(Result.FullPath)
-                File.Copy(Result.File, Result.FullPath)
-            End If
-            DeleteDocumentPreview(Result)
-        Catch ex As IOException
-            ZClass.raiseerror(ex)
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-        End Try
-
-    End Sub
-    Public Sub DeleteDocumentPreview(ByRef Result As IResult)
-        If File.Exists(Result.FullPath + ".pdf") Then
-            File.Delete(Result.FullPath + ".pdf")
-        End If
     End Sub
     ''' <summary>
     ''' Inserta o actualiza un documento, en base al array de bytes y el nombre del archivo nuevo
@@ -5452,69 +5357,8 @@ Public Class Results_Business
     End Function
 
 
-    Public Function saveDoSearchResults(ByVal SearchObject As String, ByVal Mode As String, ByVal UserId As Int64, ByVal expirationDate As DateTime) As Boolean
-        Dim result = RF.InsertOrUpdateDoSearchResults(SearchObject, Mode, UserId, expirationDate)
-        Return True
-    End Function
-    Public Function saveLastSearchResults(search As ISearch, ByVal SearchObject As String, ByVal Mode As String, ByVal UserId As Int64, ByVal searchDate As DateTime) As Boolean
-        Dim Name As String
-        Dim LSB As New LastSearchBusiness
-        Name = LSB.GetSearchName(search)
-        Dim result = RF.InsertOrUpdateLastSearchResults(SearchObject, Mode, UserId, searchDate, Name)
-        Return True
-    End Function
-
-    Public Function loadDoSearchResults(ByVal UserId As Int64, ByVal Mode As String) As DataTable
-        Dim result = RF.SelectDoSearchResults(UserId, Mode)
-        Return result
-    End Function
-
-    Public Function loadLastSearchResults(ByVal UserId As Int64) As DataTable
-        Dim result = RF.SelectLastSearchResults(UserId)
-        Return result
-    End Function
 
 
-    Public Function removeDoSearchResults(userId As Long, Mode As String) As Object
-        Dim result = RF.DeleteDoSearchResults(userId, Mode)
-        Return result
-    End Function
-
-
-    ''' <summary>
-    '''  Get date for token --  Zss table.
-    ''' </summary>
-    ''' <param name="UserId"></param>
-    ''' <remarks></remarks>
-    ''' <history>
-    ''' [Felipe 29/03/2022]    Created
-    ''' </history>dd
-    Public Function getValidateActiveSession(ByVal UserId As Int64, ByVal userToken As String) As Boolean
-
-        Dim isValidSession As Boolean = True
-
-        Dim RF As New Results_Factory()
-        Dim sessionInfo As DataTable = RF.getUserSessionInfo(UserId)
-
-        If sessionInfo Is Nothing Then
-
-            isValidSession = False
-
-        Else
-            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession - DateTime.Now :  " + DateTime.Now)
-            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession : TokenExpireDate " + sessionInfo.Rows(0)("TokenExpireDate"))
-            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession : Token " + sessionInfo.Rows(0)("Token"))
-            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession : userToken " + userToken)
-
-            isValidSession = DateTime.Now <= sessionInfo.Rows(0)("TokenExpireDate") And sessionInfo.Rows(0)("Token").ToString() = userToken
-
-        End If
-
-
-
-
-        Return isValidSession
-    End Function
 
 
 

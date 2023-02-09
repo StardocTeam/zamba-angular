@@ -32,24 +32,24 @@ Public Class ZException
 
             Try
                 If (Ex.Message.Contains("ha demorado")) Then
-                    WriteFile(Ex, "PerformanceExceptions")
-                    RaiseEvent LogToDB(Ex)
+                    WriteFile(Ex, "Performance")
+
                 ElseIf (Ex.Message.Contains("Zip exception.Can't locate end of central directory record")) Then
+
                     WriteFile(Ex, "Indexer")
-                    RaiseEvent LogToDB(Ex)
+
                 ElseIf (Ex.Message.Contains("URI no válido")) Then
+
                     WriteFile(Ex, "Workflow")
-                    RaiseEvent LogToDB(Ex)
+
                 ElseIf (Ex.Message.Contains("resolver la matriz estan vacios") OrElse ex.Message.Contains("Se finaliza la ejecución de la tarea debido a un error en la regla: stop del mensaje")) Then
-                ElseIf (Ex.Message.Contains("The directive 'control' is unknown")) Then
-                ElseIf (Ex.Message.Contains("A network-related") OrElse Ex.Message.Contains("A transport-level error has occurred when receiving results from the server")) Then
-                    WriteFile(Ex, "DB Connection Error")
+
                 Else
                     WriteFile(Ex)
+
                     RaiseEvent LogToDB(Ex)
                 End If
-            Catch exc As Exception
-                Dim varExv = exc
+            Catch
             Finally
                 logExceptions = True
             End Try
@@ -68,6 +68,11 @@ Public Class ZException
             Try
                 winUser = Environment.UserName
                 machine = Environment.MachineName
+
+
+
+                'Dim algo = DirectCast(ex.Data, System.Collections.ListDictionaryInternal).Values;
+
 
                 Dim sb As New StringBuilder()
 
@@ -105,7 +110,7 @@ Public Class ZException
                     End Try
                 End Try
 
-                fileName = dir.FullName & GetExceptionFileName(SubFolder)
+                fileName = dir.FullName & GetExceptionFileName()
                 file = New IO.FileInfo(fileName)
                 dsEx.WriteXml(file.FullName, XmlWriteMode.IgnoreSchema)
 
@@ -128,11 +133,11 @@ Public Class ZException
         Return "\Excep " & Environment.MachineName & " " & Application.ExecutablePath.Substring(Application.ExecutablePath.LastIndexOf("\") + 1) & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".png"
     End Function
 
-    Private Shared Function GetExceptionFileName(SubFolder As String) As String
+    Private Shared Function GetExceptionFileName() As String
         If (MembershipHelper.CurrentUser Is Nothing) Then
-            Return "\Excep " & SubFolder & " " & Environment.MachineName & " " & Application.ExecutablePath.Substring(Application.ExecutablePath.LastIndexOf("\") + 1) & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
+            Return "\Excep " & Environment.MachineName & " " & Application.ExecutablePath.Substring(Application.ExecutablePath.LastIndexOf("\") + 1) & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
         Else
-            Return "\Excep " & SubFolder & " " & MembershipHelper.CurrentUser.Name & " " & Environment.MachineName & " " & Application.ExecutablePath.Substring(Application.ExecutablePath.LastIndexOf("\") + 1) & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
+            Return "\Excep " & MembershipHelper.CurrentUser.Name & " " & Environment.MachineName & " " & Application.ExecutablePath.Substring(Application.ExecutablePath.LastIndexOf("\") + 1) & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
         End If
 
     End Function
@@ -155,32 +160,22 @@ Public Class ZException
         Log(New Exception(strErr))
     End Sub
 
-    Public Shared Sub CleanExceptions()
-        Try
-            CleanExceptions(New IO.DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions"))
-        Catch ex As Exception
-        End Try
-    End Sub
-
-    Public Shared Sub CleanExceptions(dir As IO.DirectoryInfo)
-        Try
-            If dir.Exists = False Then
-                dir.Create()
+      Public Shared Sub CleanExceptions()
+ Try    
+   
+        Dim Dir As  New IO.DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions")
+            If Dir.Exists = False Then
+                Dir.Create()
             End If
-            Dim archivos() As IO.FileInfo = Dir.GetFiles
+        Dim archivos() As IO.FileInfo = Dir.GetFiles
 
-            For Each fi As IO.FileInfo In Dir.GetFiles
+            For each  fi As IO.FileInfo In Dir.GetFiles
                 If fi.CreationTime.Month < Now.Month Then
-                    Try
-                        fi.Delete()
-                    Catch ex As Exception
-                    End Try
+                    fi.Delete()
                 End If
             Next
-            For Each di As IO.DirectoryInfo In dir.GetDirectories
-                CleanExceptions(di)
-            Next
+
         Catch ex As Exception
-        End Try
+ End Try
     End Sub
 End Class

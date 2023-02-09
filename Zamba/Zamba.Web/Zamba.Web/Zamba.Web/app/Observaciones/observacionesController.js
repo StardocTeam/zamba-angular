@@ -6,20 +6,20 @@ app.controller('ObservacionController', function ($scope, $filter, $http, observ
 
     $scope.LoadResults = function (indexId, entityId, parentResultId, InputObservacion, bool) {
         
-        var d = observacionesServices.getResults(indexId, entityId, parentResultId, InputObservacion, bool, $scope.responseProperty);
-        //$scope.applyasync();
-    };
-
-    $scope.responseProperty = function(data){
-        if (data == "") {
+        var d = observacionesServices.getResults(indexId, entityId, parentResultId, InputObservacion, bool);
+        //alert(d);
+        if (d == "") {
+           // console.log("No se pudo consultar la observacion");
             return;
         }
         else {
-            $scope.TextareaObservacion = data;
-            $scope.$applyAsync();
-        }
+            //d = JSON.parse(d);
+            $scope.TextareaObservacion = d;
+            
 
-    }
+        }
+    };
+
     $scope.InsertResult = function (indexId, entityId, parentResultId, InputObservacion, TextareaObservacion, bool) {
 
         var d = observacionesServices.InsertResult(indexId, entityId, parentResultId, InputObservacion, TextareaObservacion, bool);
@@ -65,7 +65,7 @@ app.directive('zambaObservaciones', function ($sce) {
             var url = window.location.href;
             var segments = url.split("&");
             segments.forEach(function (valor) {
-                if (valor.includes("docid") || valor.includes("DocID") ) { $scope.parentResultId = valor.split("=")[1]; }
+                if (valor.includes("docid")) { $scope.parentResultId = valor.split("=")[1]; }
             }); 
             //$scope.parentResultId = 20455048;
             //alert($scope.parentResultId);

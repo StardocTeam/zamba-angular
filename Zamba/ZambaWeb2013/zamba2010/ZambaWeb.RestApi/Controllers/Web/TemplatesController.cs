@@ -16,6 +16,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Templates")]
+    [RestAPIAuthorize ]
     //[Authorize]
     public class TemplatesController : ApiController
     {
@@ -91,6 +92,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("GetTemplates")]
+        [OverrideAuthorization]
         public IHttpActionResult GetTemplates()
         {
             var user = GetUser(null);
@@ -105,6 +107,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("DownloadTemplate")]
+        [OverrideAuthorization]
         public HttpResponseMessage DownloadTemplate(string path)
         {
             var user = GetUser(null);

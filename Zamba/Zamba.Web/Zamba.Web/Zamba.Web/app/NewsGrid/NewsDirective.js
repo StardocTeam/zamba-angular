@@ -4,7 +4,7 @@
 
         restrict: 'E',
         transclude: true,
-        templateUrl: $sce.getTrustedResourceUrl('../../app/NewsGrid/NewsCardsTemplate.html'),
+        templateUrl: $sce.getTrustedResourceUrl('../../app/NewsGrid/NewsTemplate.html'),
 
         link: function ($scope, element, attributes) {
             $scope.init();

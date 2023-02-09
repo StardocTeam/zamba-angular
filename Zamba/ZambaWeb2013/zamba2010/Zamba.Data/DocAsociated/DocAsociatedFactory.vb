@@ -12,7 +12,7 @@ Public NotInheritable Class DocAsociatedFactory
         Servers.Server.Con.ExecuteNonQuery(CommandType.Text, strDel)
     End Sub
 
-    Public Shared Function GetUniqueDocTypeIdsAsociation(ByVal DocTypeId As Int64) As List(Of Int64)
+    Public Shared Function GetUniqueDocTypeIdsAsociation(ByVal DocTypeId As Int32) As List(Of Int64)
         Try
             Dim ds As DataSet = Servers.Server.Con.ExecuteDataset(CommandType.Text, "select  distinct doctypeID2 from DOC_TYPE_R_DOC_TYPE where doctypeid1=" & DocTypeId)
             If ds IsNot Nothing AndAlso ds.Tables.Count > 0 Then

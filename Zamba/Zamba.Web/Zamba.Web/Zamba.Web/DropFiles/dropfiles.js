@@ -18,7 +18,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
 
     $scope.model = '=ngModel';
     $scope.parameters = '=';
-    var MultiDropzone = null;
+
     $scope.SetDZ = function (id) {
         var Array_docIds = [];
         var entityId = $("#dZFUpload" + id).parents("zamba-drop").attr("EntityId");
@@ -26,29 +26,12 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
         var ruleId = $("#dZFUpload" + id).parents("zamba-drop").attr("ruleId");
         var docId = $("#dZFUpload" + id).parents("zamba-drop").attr("docid");
         var elemId = $("#dZFUpload" + id).attr("elemId");
-
-
         var FilesCount = 1;
         if (entityId > 0) FilesCount = 99;
 
-
-        MultiDropzone = $("#dZFUpload" + id).parents("zamba-drop").attr("MultiDropzone");
-        if (window.localStorage.getItem("NewAssociatedIndexIdsMultiDropzone") != null &&
-            window.localStorage.getItem("NewAssociatedIndexIdsMultiDropzone") != undefined) {
-            localStorage.removeItem("NewAssociatedIndexIdsMultiDropzone");
-        }
-        if (MultiDropzone != undefined && MultiDropzone != null) {
-
-            //Nota: evalular la carga de la lista y ponerla en cache eso evitaria llamar al service varias veces
-            $("#MensajeMultiDropzone").css("display", "block");
-            var resultLoadIndex = LoadIndexForDropzone(entityId);
-            $("#AsignedEntity")[0].innerHTML = resultLoadIndex[0].Name;
-        }
-
-
         $("#dZFUpload" + id).dropzone({
             maxFiles: FilesCount,
-            acceptedFiles: "application/*,audio/*,image/*,video/*,.psd,.pdf,.docx,.doc,.xlsx,.xls,.ppt,.pptx,.txt,.pps,.ppsx,.zip,.rar,.7zip,.msg,.eml,.dat,.xps",
+            acceptedFiles: "application/*,audio/*,image/*,video/*,.psd,.pdf,.docx,.doc,.xlsx,.xls,.ppt,.pptx,.txt,.pps,.ppsx,.zip,.rar,.7zip,.msg,.eml",
 
             addRemoveLinks: false,
 
@@ -122,20 +105,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
 
                 }
             },
-            processing: function (file, xhr, formData) {
-
-                if (MultiDropzone != undefined && MultiDropzone != null) {
-                    var MultiIndexId = window.localStorage.getItem("NewAssociatedIndexIdsMultiDropzone");
-                    if (MultiIndexId != null && MultiIndexId != undefined) {
-                        entityId = MultiIndexId;
-                    }
-                     
-                }
-                
-            },
-
             sending: function (file, xhr, formData) {
-
                 window.swal({
                     title: "Subiendo archivo...",
                     text: "Espere",
@@ -163,7 +133,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
                 //  if (errors) console.log("There were errors! dropfiles.js");               
             },
 
-            dictDefaultMessage: "Arrastra y solta aquí los archivos, o haga click y seleccionelo desde una ubicación. * Imagenes, Audio, Video, Office, Zip, ...",
+            dictDefaultMessage: "Arrastra y solta aqui los archivos, o haga click y seleccionelo desde una ubicación. * Imagenes, Audio, Video, Office, Zip, ...",
             dictFallbackMessage: "El explorador no soporta drap and drop.",
             dictFallbackText: "Por favor usar el formulario para subir archivos.",
             dictFileTooBig: "El archivo que intenta subir es muy grande ({{filesize}}MiB). Tamaño maximo: {{maxFilesize}}MiB.",
@@ -201,7 +171,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
                     if ($(".modal-backdrop").hasClass("in") == true) {
                         $(".modal-backdrop").css("position", "relative");
                     }
-                    $("#listaID").empty();
+
                     for (var i = 0; i < ElementoJson.length; i++) {
                         var name = ElementoJson[i].Value,
                             id = ElementoJson[i].$id,
@@ -267,7 +237,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
                 if ($(".modal-backdrop").hasClass("in") == true) {
                     $(".modal-backdrop").css("position", "relative");
                 }
-                $("#listaID").empty();
+
                 for (var i = 0; i < ElementoJson.length; i++) {
                     var name = ElementoJson[i].Value,
                         id = ElementoJson[i].$id,
@@ -322,7 +292,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
                 if ($(".modal-backdrop").hasClass("in") == true) {
                     $(".modal-backdrop").css("position", "relative");
                 }
-                $("#listaID").empty();
+
                 for (var i = 0; i < ElementoJson.length; i++) {
                     var name = ElementoJson[i].Value,
                         id = ElementoJson[i].$id,
@@ -342,7 +312,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
 
 
 
-    $scope.AssociatedIndexsModalselectBtn = function (sender) {
+    $scope.AssociatedIndexsModalselectBtn = function(sender) {
         var IndexListSelectedValue = sender.id;
         var NewAssociatedEntityId = localStorage.getItem("NewAssociatedEntityId");
         var NewAssociatedDocIds = localStorage.getItem("NewAssociatedDocIds");
@@ -356,10 +326,13 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
             NewAssociatedDocIds = [NewAssociatedDocIds];
         }
 
+        //for (i = 0; i < NewAssociatedDocIds.length; i++) {
         for (i = 0; i < List_FilesIds.length; i++) {
             $.ajax({
                 type: "POST",
                 url: ZambaWebRestApiURL + '/Tasks/UpdateTaskIndex?' + jQuery.param({ DoCTypeId: NewAssociatedEntityId, DocId: List_FilesIds[i], IndexId: NewAssociatedIndexIds, Data: IndexListSelectedValue }),
+                //url: ZambaWebRestApiURL + '/Tasks/UpdateTaskIndex?' + jQuery.param({ DoCTypeId: NewAssociatedEntityId, DocId: NewAssociatedDocIds[i], IndexId: NewAssociatedIndexIds, Data: IndexListSelectedValue }),
+                //url: ZambaWebRestApiURL + '/Tasks/Call_UpdateTaskIndex?' + jQuery.param({ DoCTypeId: NewAssociatedEntityId, DocId: emi[i], IndexId: NewAssociatedIndexIds, Data: IndexListSelectedValue }),
                 contentType: "application/json; charset=utf-8",
                 async: false,
                 success: function (data) {
@@ -405,7 +378,6 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
             "success": function () {
                 toastr.success('Se ha ejecutado la acción');
 
-
             },
             "error": function () {
                 toastr.error('Error al ejecutar acción');
@@ -428,78 +400,6 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
     }
 
 
-    $scope.LoadMultiIndex = function () {
-
-        
-        var ElementoJson = "";
-        if ($('#listaMultiIndexID')[0].childElementCount == 0) {
-            $.ajax({
-                type: "POST",
-                url: ZambaWebRestApiURL + '/Tasks/GetMultiIndexsDropzon?' + jQuery.param({ indexId: MultiDropzone }),
-                contentType: "application/json; charset=utf-8",
-                async: false,
-                success: function (data) {
-                    ElementoJson = JSON.parse(data);
-                    $("#ModalMultiIndexDropzone").modal();
-                    if ($(".modal-backdrop").hasClass("in") == true) {
-                        $(".modal-backdrop").css("position", "relative");
-                    }
-                    $('#listaMultiIndexID').empty()
-                    for (var i = 0; i < ElementoJson.length; i++) {
-                        var name = ElementoJson[i].Name,
-                            id = ElementoJson[i].$id,
-                            Code = ElementoJson[i].Value;
-
-                        $('#listaMultiIndexID').append('<li class="ModalClassUl" id="' + Code + '" name="' + name.toString() + '"  onclick="selectOpcionMultiIndex(this);">' + Code + ' - ' + name.toString() + '</li>');
-
-                    }
-
-                }, error: function (error) {
-                    console.log(error);
-                }
-
-            });
-        } else {
-            $("#ModalMultiIndexDropzone").modal();
-            if ($(".modal-backdrop").hasClass("in") == true) {
-                $(".modal-backdrop").css("position", "relative");
-            }
-        }
-    }
-
-
-    $scope.selectOpcionMultiIndex = function (sender) {
-
-        window.localStorage.setItem("NewAssociatedIndexIdsMultiDropzone", sender.id);
-
-        $("#AsignedEntity")[0].innerHTML = sender.outerText.split("-")[1];
-
-        $("#ModalMultiIndexDropzone").modal('hide');//ocultamos el modal
-        $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
-        $('.modal-backdrop').remove();//eliminamos el backdrop del modal
-
-        $("#filtrarIndex").val("");
-
-    }
-
-
-    $scope.LoadIndexForDropzone = function (indexId) {
-        var ElementoJson = "";
-            $.ajax({
-                type: "POST",
-                url: ZambaWebRestApiURL + '/Tasks/GetMultiIndexsDropzon?' + jQuery.param({ indexId: indexId }),
-                contentType: "application/json; charset=utf-8",
-                async: false,
-                success: function (data) {
-                    ElementoJson = JSON.parse(data);
-                  
-                }, error: function (error) {
-                    console.log(error);
-                }
-
-            });
-        return ElementoJson;
-    }
 
 
 }]);

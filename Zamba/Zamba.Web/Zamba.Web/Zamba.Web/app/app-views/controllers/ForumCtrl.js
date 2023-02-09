@@ -106,7 +106,7 @@ app.directive('zambaForum', function ($sce) {
 
             $scope.LoadForums($scope.entityId, $scope.parentResultId);
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../app/app-views/views/forum.html?v=248'),
+        templateUrl: $sce.getTrustedResourceUrl('../../app/app-views/views/forum.html?v=168'),
 
     }
 });

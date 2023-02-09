@@ -10,7 +10,7 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
     <style>
         #navbarNavDropdown {
             list-style: none;
@@ -117,7 +117,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon" style="background-color:#e5e5e5;"
                                         id="basic-addon1">Fecha de Cálculo</span>
-                                    <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2796" name="zamba_index_2796">
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon" style="background-color:#e5e5e5;"
                                         id="basic-addon1">Fecha de Notific.</span>
-                                    <input class="form-control " style=" color: #090A0A; font-weight: bold"
+                                    <input class="form-control datepicker" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2704" name="zamba_index_2704">
                                 </div>
                             </div>
@@ -196,7 +196,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon" style="background-color:#e5e5e5;padding:1px;"
                                             id="basic-addon1">Fecha de Sentencia</span>
-                                        <input class="form-control "
+                                        <input class="form-control datepicker"
                                             style=" color: #090A0A; font-weight: bold" id="zamba_index_2829"
                                             name="zamba_index_2829" />
                                     </div>
@@ -246,7 +246,7 @@
             <center>
                 <div class="form-group row">
                 <div class="col-md-4">
-                    
+                    <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                 </div>
 
                 <div class="col-md-4">
@@ -254,7 +254,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    
+                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                    
                 </div>
             </div>
@@ -272,8 +272,21 @@
             frmMain.submit();
         }
 
-       
+        // $(".datepicker").datepicker({
+        //     changeMonth: true,
+        //     changeYear: true,
+        //     showOn: 'focus',
+        //     dateFormat: "dd/mm/yy"
+        // })
 
+
+        //function ZFUNCTION() {
+        //    var Historial = document.getElementById("zamba_Index_1148").value
+        //    while (Historial.indexOf(" ", 0) != -1) {
+        //        Historial = Historial.replace(" ", "\n");
+        //    }
+        //    document.getElementById("zamba_Index_1148").value = Historial;
+        //}
 
         function prev(sender, path) {
             var iframe = document.getElementById("zamba_innerdoctype_variable");

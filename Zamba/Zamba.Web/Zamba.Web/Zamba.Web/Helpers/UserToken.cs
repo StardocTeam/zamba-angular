@@ -40,10 +40,9 @@ namespace Zamba.Web.Helpers
             try
             {
                 //ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault(); //
-                //  string url =  ZOptBusiness.GetValueOrDefault("ZambaWebRestApiURL", "http://localhost/zambaweb.Restapi/api") + "/account/login";
+              //  string url =  ZOptBusiness.GetValueOrDefault("ZambaWebRestApiURL", "http://localhost/zambaweb.Restapi/api") + "/account/login";
                 //ConfigurationManager.AppSettings["RestApiUrl"]
-                ServiceURL = (ServiceURL.IndexOf("/api") != -1) ? ServiceURL : ServiceURL + "/api";
-                string url = ServiceURL + "/account/login";
+                string url = ServiceURL + "/api/account/login";
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Login Web Service Url: " + url);
                 var l = new LoginVM()
                 {
@@ -80,7 +79,7 @@ namespace Zamba.Web.Helpers
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "ERROR: " + ex.ToString());
+                ZClass.raiseerror(ex);
                 return string.Empty;
             }
         }

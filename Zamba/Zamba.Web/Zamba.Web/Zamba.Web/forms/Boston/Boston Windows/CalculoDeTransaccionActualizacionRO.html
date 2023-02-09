@@ -4,9 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="boston_styles.css" type="text/css" />
 	<link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
-	 
-	 
-	
+	<link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+	<script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+	<script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
 	<script src="boston.js" type="text/javascript" language="JavaScript"></script>
 	<script type="text/javascript" language="JavaScript">
 	$(document).ready(function(){
@@ -45,7 +45,19 @@
 		//Suma los valores obtenidos y lo asigna al indice Total
 		$("#zamba_index_2719").val(Redondear(sum));
 	}
-	
+	function CargarFechasyBotones(){
+		$('#zamba_index_2812').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			showOn: 'button', 
+			buttonText: 'Abrir calendario',
+			buttonImage: 'calendar.png', 
+			buttonImageOnly: true,
+			duration: "",
+			maxDate: new Date()
+		});
+		CargarFechaIndice('zamba_index_2820');
+	}
 	</script>
 </head>
 <body onload="javascript:CargarFechasyBotones();">

@@ -18,12 +18,20 @@ namespace Zamba.Web
 
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-
-			//if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected || (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined"  && MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))
-			//{
-			//	FormsAuthentication.RedirectToLoginPage();
-			//	return;
-			//}
+			try
+			{
+				if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected || (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined" && MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))
+				{
+					FormsAuthentication.RedirectToLoginPage();
+					return;
+				}
+			}
+			catch (Exception ex)
+			{
+				FormsAuthentication.RedirectToLoginPage();
+				return;
+			}
+			
 
 			//if (Membership.MembershipHelper.CurrentUser == null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined")
 			//{
@@ -35,11 +43,11 @@ namespace Zamba.Web
 			//	//FormsAuthentication.RedirectToLoginPage();
 			//}
 
-			//if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)
-			//{
-			//	FormsAuthentication.RedirectToLoginPage();
-			//	return;
-			//}
+			if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)
+			{
+				FormsAuthentication.RedirectToLoginPage();
+				return;
+			}
 
 
 		}

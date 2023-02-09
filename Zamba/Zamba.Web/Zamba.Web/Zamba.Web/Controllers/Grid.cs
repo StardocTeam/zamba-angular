@@ -155,15 +155,15 @@ namespace Presenters
             return new STasks().GetTaskByTaskIdAndDocTypeIdAndStepId(TaskId, DocTypeId, WFStepId, PageSize);
         }
 
-        //public DataTable LoadTaskHistory(int DocId)
-        //{
-        //    DataSet ds = new DataSet();
+        public DataTable LoadTaskHistory(int taskId)
+        {
+            DataSet ds = new DataSet();
 
-        //    STasks Tasks = new STasks();
-        //    ds = Tasks.GetTaskHistory(DocId);
+            STasks Tasks = new STasks();
+            ds = Tasks.GetTaskHistory(taskId);
 
-        //    return ds.Tables[0];
-        //}
+            return ds.Tables[0];
+        }
 
         public DataTable LoadIndexHistory(int taskId)
         {
@@ -196,37 +196,37 @@ namespace Presenters
 
         }
 
-        //public DataTable LoadDocAsoc(Int64 taskId, Int64 DocTypeId, Int64 WFStepId, Int32 PageSize)
-        //{
-        //    DataTable dt = new DataTable();
+        public DataTable LoadDocAsoc(Int64 taskId, Int64 DocTypeId, Int64 WFStepId, Int32 PageSize)
+        {
+            DataTable dt = new DataTable();
 
-        //    STasks Tasks = new STasks();
+            STasks Tasks = new STasks();
 
-        //    ITaskResult task = Tasks.GetTaskByTaskIdAndDocTypeIdAndStepId(taskId, DocTypeId, WFStepId, PageSize);
+            ITaskResult task = Tasks.GetTaskByTaskIdAndDocTypeIdAndStepId(taskId, DocTypeId, WFStepId, PageSize);
 
-        //    if (task != null)
-        //    {
-        //        dt = Tasks.getAsociatedDTResultsFromResult(task, 0, false, user, false);
+            if (task != null)
+            {
+                dt = Tasks.getAsociatedDTResultsFromResult(task, 0, false, user, false);
 
-        //        if (dt.Rows.Count > 0)
-        //        {
-        //            dt.Columns.Add(imagen_currUserConfig, typeof(Image)).SetOrdinal(1);
+                if (dt.Rows.Count > 0)
+                {
+                    dt.Columns.Add(imagen_currUserConfig, typeof(Image)).SetOrdinal(1);
 
-        //            if (dt.Columns.Contains(nombreDocumento_currUserConfig))
-        //                dt.Columns[nombreDocumento_currUserConfig].SetOrdinal(0);
+                    if (dt.Columns.Contains(nombreDocumento_currUserConfig))
+                        dt.Columns[nombreDocumento_currUserConfig].SetOrdinal(0);
 
-        //            dt.Columns[FechaCreacion_currUserConfig].SetOrdinal(dt.Columns.Count - 1);
-        //            dt.Columns[FechaModificacion_currUserConfig].SetOrdinal(dt.Columns.Count - 1);
-        //            dt.Columns[Nombre_Original_currUserConfig].SetOrdinal(dt.Columns.Count - 1);
-        //            dt.Columns["Numero de Version"].ColumnName = this.NroVersion_UserConfig;
-        //            dt.Columns["Entidad"].ColumnName = this.TipoDocumento_currUserConfig;
-        //        }
+                    dt.Columns[FechaCreacion_currUserConfig].SetOrdinal(dt.Columns.Count - 1);
+                    dt.Columns[FechaModificacion_currUserConfig].SetOrdinal(dt.Columns.Count - 1);
+                    dt.Columns[Nombre_Original_currUserConfig].SetOrdinal(dt.Columns.Count - 1);
+                    dt.Columns["Numero de Version"].ColumnName = this.NroVersion_UserConfig;
+                    dt.Columns["Entidad"].ColumnName = this.TipoDocumento_currUserConfig;
+                }
 
 
-        //        return dt;
-        //    }
-        //    return dt;
-        //}
+                return dt;
+            }
+            return dt;
+        }
 
         public void GenerateGridScript(DataTable dt, string gridKey, string gridType)
         {

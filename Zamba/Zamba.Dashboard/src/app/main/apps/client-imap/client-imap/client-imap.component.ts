@@ -27,7 +27,7 @@ export interface UserData {
 export class ClientIMAPComponent implements OnInit {
   componentName: string = "Cliente IMAP";
   //displayedColumns es un array de strings para determinar el orden de la tabla.
-  displayedColumns: string[] = ['IS_ACTIVE','PROCESS_ID','PROCESS_NAME', 'EMAIL', 'actions'];
+  displayedColumns: string[] = ['IS_ACTIVE','PROCESS_ID', 'EMAIL', 'PROCESS_NAME', 'actions'];
   dataSourceProcess: MatTableDataSource<TableMap>;
   waitingResponse: Boolean = false;
   waitingProcessAllResponse:Boolean = false;

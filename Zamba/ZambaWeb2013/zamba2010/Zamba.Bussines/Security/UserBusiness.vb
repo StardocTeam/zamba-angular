@@ -1,11 +1,16 @@
 Imports Zamba.Membership
 Imports Zamba.Data
-
+Imports System.Linq
 Imports System.Collections.Generic
 Imports Zamba.Tools
 Imports System.Text
 Imports Zamba.Servers
 Imports System.IO
+Imports System.Reflection
+Imports Zamba.Core.Cache
+
+
+
 
 Public Class UserBusiness
 
@@ -24,6 +29,7 @@ Public Class UserBusiness
     Public Sub AddUser(ByVal usr As IUser)
         UserFactory.AddUser(usr)
         Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
+
     End Sub
 
 #Region "Get"
@@ -112,6 +118,26 @@ Public Class UserBusiness
 
         Return user
     End Function
+
+    Public Function GetUserByPeopleId(ByVal PeopleId As String) As IUser
+        SyncLock Cache.UsersAndGroups.hsUserTable
+            Dim usr As IUser = UserFactory.GetUserByPeopeId(PeopleId)
+            'Comento esta llamada porque ya se hace en el GetUserByName
+            'UserBusiness.Mail.FillUserMailConfig(usr)
+            If Not IsNothing(usr) Then
+                Dim UserGroupBusiness As New UserGroupBusiness
+                usr.Groups = UserGroupBusiness.getUserGroups(usr.ID)
+                UserGroupBusiness = Nothing
+                SyncLock Cache.UsersAndGroups.hsUsersNames.SyncRoot
+                    If Not Cache.UsersAndGroups.hsUserTable.ContainsKey(usr.ID) Then
+                        Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
+                    End If
+                End SyncLock
+            End If
+            Return usr
+        End SyncLock
+    End Function
+
     ''' <summary>
     ''' Devuelve un usuario por su nombre
     ''' </summary>
@@ -162,6 +188,30 @@ Public Class UserBusiness
 
     End Function
 
+    Public Function GetUserByMail(ByVal mail As String, UseCache As Boolean) As IUser
+        SyncLock Cache.UsersAndGroups.hsUserTable
+            If UseCache Then
+                For Each u As IUser In Cache.UsersAndGroups.hsUserTable.Values
+                    If String.Compare(u.eMail.Mail, mail, True) = 0 Then
+                        Return u
+                    End If
+                Next
+            End If
+            Dim usr As IUser = UserFactory.GetUserByMail(mail)
+            If Not IsNothing(usr) Then
+                Dim UserGroupBusiness As New UserGroupBusiness
+                usr.Groups = UserGroupBusiness.getUserGroups(usr.ID)
+                UserGroupBusiness = Nothing
+                SyncLock Cache.UsersAndGroups.hsUsersNames.SyncRoot
+                    If Not Cache.UsersAndGroups.hsUserTable.ContainsKey(usr.ID) Then
+                        Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
+                    End If
+                End SyncLock
+            End If
+            Return usr
+        End SyncLock
+    End Function
+
     ''' -----------------------------------------------------------------------------
     ''' <summary>
     ''' Obtiene todos los usuarios que pertenecen a un grupo
@@ -185,7 +235,7 @@ Public Class UserBusiness
             Return u
         End If
         Try
-            Dim CurrentUser As IUser = GetUserByname(name, False)
+            Dim CurrentUser As IUser = GetUserByname(name, True)
             If CurrentUser Is Nothing Then
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar: " & name)
                 Return Nothing
@@ -505,10 +555,6 @@ Public Class UserBusiness
 #Region "Encriptación"
     Private key As Byte() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6}
     Private iv As Byte() = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6}
-
-    Public Sub New()
-
-    End Sub
 #End Region
 
     ''' -----------------------------------------------------------------------------
@@ -953,56 +999,53 @@ Public Class UserBusiness
     Public Function GetAssociatedIndexsRightsCombined(ByVal ParentDocType As Int64, ByVal DocTypeId As Int64, ByVal GID As Int64) As Hashtable
         Try
             Dim hashIndexRights As New Hashtable
+            Dim IB As New IndexsBusiness
 
-            If Not Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.ContainsKey(ParentDocType & "§" & DocTypeId & "§" & GID) Then
-                SyncLock Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.SyncRoot
-                    If Not Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.ContainsKey(ParentDocType & "§" & DocTypeId & "§" & GID) Then
-
-                        Dim IB As New IndexsBusiness
-
-                        Dim Indexs As Generic.List(Of IIndex) = IB.GetIndexsSchemaAsListOfDT(DocTypeId)
-                        Dim GroupsUsersIds As New Generic.List(Of Int64)
-                        Dim AllowedGroupsUsersIds As New Generic.List(Of Int64)
+            Dim Indexs As Generic.List(Of IIndex) = IB.GetIndexsSchemaAsListOfDT(DocTypeId)
+            Dim GroupsUsersIds As New Generic.List(Of Int64)
+            Dim AllowedGroupsUsersIds As New Generic.List(Of Int64)
 
 
-                        Dim PermisoEspecificoIndexAsociado As Boolean = RightFactory.GetUserRights(GID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ViewAssociateRightsByIndex, ParentDocType)
-                        If PermisoEspecificoIndexAsociado Then
-                            AllowedGroupsUsersIds.Add(GID)
-                        End If
-
-                        'Obtengo los permisos por indices habilitados para asociados
-                        Dim dt As DataTable
-                        If AllowedGroupsUsersIds.Count > 0 Then
-                            dt = RightFactory.GetAssociateIndexRightCombined(ParentDocType, DocTypeId, AllowedGroupsUsersIds)
-                        End If
-
-                        'Se filtran atributos, se crea el permiso de índice asociado y se deshabilita si para todos los grupos 
-                        'está deshabilitado
-                        For Each I As IIndex In Indexs
-                            Dim AIR As New Zamba.Core.AssociatedIndexsRightsInfo(ParentDocType, DocTypeId, I.ID, I.Name)
-
-                            'Si hay al menos un grupo con el permiso por asociado se filtra, sino deja todos los indices en true
-                            If AllowedGroupsUsersIds.Count > 0 Then
-                                Dim DV As DataRow() = dt.Select("IndexId = " & I.ID & " AND RightType = " & RightsType.AssociateIndexView)
-
-                                If DV.Count = AllowedGroupsUsersIds.Count Then
-                                    AIR.DisableIndexRightValue(RightsType.AssociateIndexView)
-                                End If
-                            End If
-
-                            hashIndexRights.Add(I.ID, AIR)
-                        Next
-
-                        Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.Add(ParentDocType & "§" & DocTypeId & "§" & GID, hashIndexRights)
-                        IB = Nothing
-                    End If
-                    Return hashIndexRights
-                End SyncLock
-
-            Else
-                Return Cache.DocTypesAndIndexs.hsAssociatedIndexsRights(ParentDocType & "§" & DocTypeId & "§" & GID)
+            Dim PermisoEspecificoIndexAsociado As Boolean = RightFactory.GetUserRights(GID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ViewAssociateRightsByIndex, ParentDocType)
+            If PermisoEspecificoIndexAsociado Then
+                AllowedGroupsUsersIds.Add(GID)
             End If
 
+            'Obtengo los permisos por indices habilitados para asociados
+            Dim dt As DataTable
+            If AllowedGroupsUsersIds.Count > 0 Then
+
+
+                If Not Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.ContainsKey(ParentDocType & "§" & DocTypeId & "§" & GID) Then
+                    SyncLock Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.SyncRoot
+                        If Not Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.ContainsKey(ParentDocType & "§" & DocTypeId & "§" & GID) Then
+                            Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.Add(ParentDocType & "§" & DocTypeId & "§" & GID, RightFactory.GetAssociateIndexRightCombined(ParentDocType, DocTypeId, AllowedGroupsUsersIds))
+                        End If
+                    End SyncLock
+                End If
+                dt = Cache.DocTypesAndIndexs.hsAssociatedIndexsRights.Item(ParentDocType & "§" & DocTypeId & "§" & GID)
+
+            End If
+
+            'Se filtran atributos, se crea el permiso de índice asociado y se deshabilita si para todos los grupos 
+            'está deshabilitado
+            For Each I As IIndex In Indexs
+                Dim AIR As New Zamba.Core.AssociatedIndexsRightsInfo(ParentDocType, DocTypeId, I.ID, I.Name)
+
+                'Si hay al menos un grupo con el permiso por asociado se filtra, sino deja todos los indices en true
+                If AllowedGroupsUsersIds.Count > 0 Then
+                    Dim DV As DataRow() = dt.Select("IndexId = " & I.ID & " AND RightType = " & RightsType.AssociateIndexView)
+
+                    If DV.Count = AllowedGroupsUsersIds.Count Then
+                        AIR.DisableIndexRightValue(RightsType.AssociateIndexView)
+                    End If
+                End If
+
+                hashIndexRights.Add(I.ID, AIR)
+            Next
+            Return hashIndexRights
+
+            IB = Nothing
         Catch ex As Exception
             ZClass.raiseerror(ex)
             Return Nothing
@@ -1062,8 +1105,7 @@ Public Class UserBusiness
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function ValidateLogIn(ByVal User As String, ByVal Password As String, ByVal clientType As ClientType) As IUser
-        Dim oldLevel As Int32 = ZTrace.Level
-        ZTrace.SetLevel(3)
+
         Dim currentUser As IUser = validateUser(User, Password)
 
         If IsNothing(currentUser) Then
@@ -1077,11 +1119,61 @@ Public Class UserBusiness
         End If
 
         MembershipHelper.ClientType = clientType
-        ZTrace.SetLevel(oldLevel)
+
         Return currentUser
 
     End Function
 
+    Public Async Function ValidateLoginOKTA(ByVal User As String, ByVal Password As String, ByVal clientType As ClientType, OktaDomainURL As String, OktaToken As String) As Threading.Tasks.Task(Of IUser)
+        Dim currentUser As IUser
+
+        currentUser = GetUserByname(User, False)
+
+        If IsNothing(currentUser) Then
+            Throw New Exception("El Usuario o password no es válido")
+        End If
+        If currentUser.State <> 0 Then
+            Throw New Exception("El usuario esta bloqueado, por favor contacte a su administrador de sistema")
+        End If
+        MembershipHelper.ClientType = clientType
+        Dim RutaOktaSeparar() As String = Zamba.Membership.MembershipHelper.StartUpPath.Split("\")
+        ReDim Preserve RutaOktaSeparar(RutaOktaSeparar.Length - 2)
+        Dim RutaOkta As String = Join(RutaOktaSeparar, "\") & "\Okta\"
+        Dim DLLs() As String = {"YamlDotNet.dll", "FlexibleConfiguration.dll", "Okta.Sdk.Abstractions.dll", "System.Interactive.Async.dll"}
+        DLLs.AsEnumerable.ToList().ForEach(Function(n) Assembly.LoadFrom(RutaOkta & n))
+        Dim DLLAutenticacion As Assembly = Assembly.LoadFrom(RutaOkta & "Okta.Auth.Sdk.dll")
+        Dim ClassTypeTestZambaAuhtentication As Type = DLLAutenticacion.GetType("Okta.Auth.Sdk.ZambaAuthentication", True, True)
+        Dim ZambaAuthentication = Activator.CreateInstance(ClassTypeTestZambaAuhtentication)
+        Dim response = Await ZambaAuthentication.Autenticar(OktaToken, OktaDomainURL, User, Password)
+        If response.AuthenticationStatus.Value <> "SUCCESS" Then
+            'UNAUTHENTICATED,
+            'PASSWORD_EXPIRED,
+            'PASSWORD_WARN,
+            'PASSWORD_RESET,
+            'SUCCESS,
+            'LOCKED_OUT,
+            'MFA_REQUIRED,
+            'UNKNOWN,
+            'MFA_ENROLL,
+            'MFA_ENROLL_ACTIVATE,
+            'MFA_CHALLENGE,
+            'RECOVERY_CHALLENGE,
+            'RECOVERY,
+            Throw New Exception("Falló autenticación con OKTA (" & response.AuthenticationStatus.Value.ToString.Replace("_", " ") & ")")
+        End If
+        MembershipHelper.SetCurrentUser(currentUser)
+        Return currentUser
+    End Function
+
+    Private Function GetClassType(ByVal engine As Assembly, ByVal className As String) As Type
+        If Not GlobalRulesEngine.GetInstance.ContainsClass(className) Then
+            Dim classType As Type = engine.GetType(className, True, True)
+            GlobalRulesEngine.GetInstance.AddClassType(className, classType)
+            Return classType
+        Else
+            Return GlobalRulesEngine.GetInstance.GetClassType(className)
+        End If
+    End Function
     Public Function ValidateLogIn(ByVal ID As Long, ByVal clientType As ClientType) As IUser
         Dim oldLevel As Int32 = ZTrace.Level
         ZTrace.SetLevel(3)
@@ -1100,15 +1192,14 @@ Public Class UserBusiness
     End Function
 
     Public Function ValidateLogIn(ByVal CurrentUser As IUser, ByVal clientType As ClientType) As IUser
-        Dim oldLevel As Int32 = ZTrace.Level
-        ZTrace.SetLevel(3)
+
         If CurrentUser Is Nothing Then
             ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar.")
             Throw New Exception("El usuario no se pudo validar.")
         End If
         MembershipHelper.SetCurrentUser(CurrentUser)
         MembershipHelper.ClientType = clientType
-        ZTrace.SetLevel(oldLevel)
+
         Return CurrentUser
     End Function
 
@@ -1168,9 +1259,8 @@ Public Class UserBusiness
     Public Function SaveAction(ByVal ObjectId As Int64, ByVal ObjectType As ObjectTypes, ByVal ActionType As RightsType, Optional ByVal S_Object_ID As String = "", Optional ByVal _userid As Int32 = 0) As Boolean
 
         Try
+
             If Not (IsNothing(Zamba.Membership.MembershipHelper.CurrentUser)) Then
-
-
 
                 'Persiste la acción y devuelve un valor dependiendo de la acción a realizar.
                 Select Case RightFactory.SaveAction(ObjectId, ObjectType, machineNameProc, ActionType, S_Object_ID, _userid)
@@ -1185,6 +1275,31 @@ Public Class UserBusiness
                 End Select
 
             End If
+            Return False
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Es una replica de setValue solo para marsh, tener en cuenta a lahora de fusionar con la rama prinipal de hacer una sobrecarga
+    ''' </summary>
+    ''' <param name="ObjectId"></param>
+    ''' <param name="ObjectType"></param>
+    ''' <param name="ActionType"></param>
+    ''' <param name="S_Object_ID"></param>
+    ''' <param name="_userid"></param>
+    ''' <remarks></remarks>
+    ''' <history>
+    '''     [felipe]	17/10/2022	create
+    ''' </history>
+    Public Function setValueLastUser(ByVal ObjectId As Int64, ByVal ObjectType As ObjectTypes, ByVal ActionType As RightsType, Optional ByVal S_Object_ID As String = "", Optional ByVal _userid As Int32 = 0) As Boolean
+
+        Try
+
+            UserPreferences.setValueLastUser("LastUserAction", S_Object_ID, UPSections.UserPreferences, _userid)
+
+
             Return False
         Catch ex As Exception
             ZClass.raiseerror(ex)
@@ -1335,7 +1450,9 @@ Public Class UserBusiness
 
         End Sub
 
-
+        Public Sub CleanExceptions()
+            ActionsBusiness.CleanExceptions()
+        End Sub
     End Class
 
 

@@ -93,5 +93,4 @@
     TraceId = 111
     RuleBreakpoint = 112
     Observaciones = 113
-    FilterWeb = 115
 End Enum

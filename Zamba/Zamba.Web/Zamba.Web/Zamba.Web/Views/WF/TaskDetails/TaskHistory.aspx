@@ -76,7 +76,6 @@
             hideLoading();
             parent.parent.SetTabContentHeight();
         });
-        
 
         //$(window).load(function () {
         //    parent.parent.hideLoading();

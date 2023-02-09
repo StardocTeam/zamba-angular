@@ -261,7 +261,7 @@ public partial class UC_WF_Rules_UCDoRequestData : UserControl, IRule
         //UpdatePanel upNewIndex;
         //TableCell tcFilterSearch = null;
 
-        var AditionalScript = new StringBuilder("$(document).ready(function(){ $('.chosen-select').each(function(this){this.chosen();});");
+        var AditionalScript = new StringBuilder("$(document).ready(function(){ $('.chosen-select').each(function(){$(this).chosen();});");
         string containerID = ClientID;
 
         int lenind = 0;
@@ -294,11 +294,11 @@ public partial class UC_WF_Rules_UCDoRequestData : UserControl, IRule
             lbName = new Label
             {
                 Text = currentIndex.Name,
-                //Width = lenind,
+                Width = lenind,
                 ID = currentIndex.ID + "L"
             };
 
-            lbName.Style.Add(HtmlTextWriterStyle.FontSize, "16px");
+            lbName.Style.Add(HtmlTextWriterStyle.FontSize, "Small");
             tcIndexName.Controls.Add(lbName);
             tcIndexName.Style.Add(HtmlTextWriterStyle.PaddingRight, "20px !important");
 
@@ -330,6 +330,8 @@ public partial class UC_WF_Rules_UCDoRequestData : UserControl, IRule
                     Enabled = isIndexEnable,
                     BackColor =
                         (isIndexEnable ? Color.FromArgb(248, 248, 248) : Color.FromArgb(204, 204, 204))
+
+,                       
                 };
 
                 if (!isIndexEnable)
@@ -342,22 +344,31 @@ public partial class UC_WF_Rules_UCDoRequestData : UserControl, IRule
                     //Se agregan los atributos necesarios para generar las validaciones
                     if (this._results != null && this._results.Count > 0 && this._results[0] != null)
                     {
-                        tbValue = (TextBox)Validators.GetControlWithValidations(currentIndex, tbValue, WebModuleMode.Result, this._results[0], ZFieldType.RuleField);
+                        tbValue = (TextBox)Validators.GetControlWithValidations(currentIndex, tbValue, WebModuleMode.Result, this._results[0], ZFieldType.RuleField,false);
                     }
                     else
                     {
                         STasks service = new STasks();
-                        tbValue = (TextBox)Validators.GetControlWithValidations(currentIndex, tbValue, WebModuleMode.Result, service.GetTask(TaskID, Zamba.Membership.MembershipHelper.CurrentUser.ID), ZFieldType.RuleField);
+                        tbValue = (TextBox)Validators.GetControlWithValidations(currentIndex, tbValue, WebModuleMode.Result, service.GetTask(TaskID, Zamba.Membership.MembershipHelper.CurrentUser.ID), ZFieldType.RuleField,false);
                         service = null;
                     }
                 }
 
 
                 //Declaramos un datepicker de jquery.
-                AditionalScript.Append("AddCalendar('" + containerID + '_' + tbValue.ID + "');");
+                //AditionalScript.Append("AddCalendar('" + containerID + '_' + tbValue.ID + "');");
+                
+                
+                AditionalScript.Append("AddCalendar_Version2('" + containerID + '_' + tbValue.ID + "');");
+                AditionalScript.Append("$('.ui-datepicker-trigger').css('height','20px');");
+                AditionalScript.Append("$('.ui-datepicker-trigger').css('margin-left','5px');");
+                AditionalScript.Append("$('.ui-datepicker-trigger').css('margin-right','5px');");
+                //AditionalScript.Append("});");
+
+
                 //Lo ocultamos, ya que al mostrar el dialogo se ve mal.
-                AditionalScript.Append("setTimeout(\"$('#ui-datepicker-div').css('top',-1000);$('#" + containerID + '_' +
-                                       tbValue.ID + "').datepicker('hide');\",1);");
+                //AditionalScript.Append("setTimeout(\"$('#ui-datepicker-div').css('top',-1000);$('#" + containerID + '_' +
+                //tbValue.ID + "').datepicker('hide');\",1);");
 
                 tcIndexValue = new TableCell();
                 tcIndexValue.Controls.Add(tbValue);

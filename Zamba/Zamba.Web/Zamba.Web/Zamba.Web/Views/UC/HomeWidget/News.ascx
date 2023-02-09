@@ -1,6 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="News.ascx.cs" Inherits="Zamba.Web.Views.UC.HomeWidget.News" %>
 
-
+<%--   <script src="../../Scripts/jquery-2.2.2.min.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="../../Scripts/Zamba.js"></script>--%>
 <div class="HRWidgetContent"> 
         <div id="CarouselNews" class="carousel slide" data-ride="carousel" >
                <!-- Indicators -->

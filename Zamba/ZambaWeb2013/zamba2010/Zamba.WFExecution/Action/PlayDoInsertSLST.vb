@@ -26,7 +26,6 @@ Public Class PlayDoInsertSLST
         description = _myRule.Description.ToString
         indexID = _myRule.IDSLST.ToString
         Try
-            Dim ASB As New AutoSubstitutionBusiness
             For Each t As Core.TaskResult In results
                 code = Zamba.Core.TextoInteligente.ReconocerCodigo(Me._myRule.Code, t).Trim
                 description = Zamba.Core.TextoInteligente.ReconocerCodigo(Me._myRule.Description, t).Trim
@@ -46,10 +45,9 @@ Public Class PlayDoInsertSLST
                 End If
 
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Descripcion = " + description)
-                ASB.InsertIndexSust(indexID, code.ToString, description.ToString)
-
+                IndexsBusiness.InsertIndexSust(indexID, code.ToString, description.ToString)
             Next
-            ASB = Nothing
+
 
         Catch ex As Exception
             ZClass.raiseerror(ex)

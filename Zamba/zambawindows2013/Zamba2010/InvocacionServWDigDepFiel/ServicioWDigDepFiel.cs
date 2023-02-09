@@ -12,7 +12,6 @@ using System.Security.Cryptography;
 using Newtonsoft.Json;
 using System.Xml;
 using System.IO;
-using Zamba.Core;
 
 namespace InvocacionServWDigDepFiel
 {
@@ -58,7 +57,6 @@ namespace InvocacionServWDigDepFiel
                     {
                         PreserveReferencesHandling = PreserveReferencesHandling.Objects
                     });
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, newresultsavisoDigitRequest);
 
              //   XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsavisoDigitRequest);
 
@@ -105,7 +103,7 @@ namespace InvocacionServWDigDepFiel
                     {
                         PreserveReferencesHandling = PreserveReferencesHandling.Objects
                     });
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, newresultsavisoDigitRequest);
+
                 //XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsavisoDigitRequest);
 
                 return GetAvisoDigitResponse(avisoDigitRequest, wDigDepFielSoap).Body.AvisoDigitResult;
@@ -124,7 +122,7 @@ namespace InvocacionServWDigDepFiel
             ValidarCuitDeclarante(cuitDeclarante);
             ValidarCUITPSAD(autenticacion, cuitPSAD);
             ValidarCodigo(codigo);
-            ValidarCuitIE(codigo,ref cuitIE);
+            ValidarCuitIE(codigo, cuitIE);
             ValidarTicket(codigo,ref ticket);
             var hashing = "";// CalcularHashEnHexadecimalArchivoIngresado(LeerArchivoURL(url));
            // ValidarHashing(hashing, codigo);
@@ -149,7 +147,7 @@ namespace InvocacionServWDigDepFiel
             avisoRecepAceptRequestBody.fechaHoraAcept = fechaHoraAcept;
             avisoRecepAceptRequestBody.idEnvio = idEnvio;
             avisoRecepAceptRequestBody.indLugarFisico = indLugarFisico;
-            avisoRecepAceptRequestBody.nroGuia = nroGuia;
+            avisoRecepAceptRequestBody.nroGuia = nroGuia;;
 
             return avisoRecepAceptRequestBody;
         }
@@ -163,8 +161,8 @@ namespace InvocacionServWDigDepFiel
             ValidarCuitDeclarante(cuitDeclarante);
             ValidarCUITPSAD(autenticacion, cuitPSAD);
             ValidarCodigo(codigo);
-            ValidarCuitIE(codigo, ref cuitIE);
-            ValidarCuitATA(codigo, ref cuitATA);
+            ValidarCuitIE(codigo, cuitIE);
+            ValidarCuitATA(codigo, cuitATA);
             ValidarURL(url);
             ValidarTicket(codigo, ref ticket);
              hashing =  CalcularHashEnHexadecimalArchivoIngresado(LeerArchivo(PdfFile));
@@ -200,7 +198,7 @@ namespace InvocacionServWDigDepFiel
 
 
 
-        private void ValidarCuitIE(string codigo, ref string cuitIE)
+        private void ValidarCuitIE(string codigo, string cuitIE)
         {
             if (codigo != "100" && codigo != "101")
             {
@@ -216,11 +214,13 @@ namespace InvocacionServWDigDepFiel
             else
             {
                 cuitIE = "";
-                    }
+                if (!string.IsNullOrEmpty(cuitIE))
+                    throw new Exception("El cuit del importador/exportador no se debe ingresar para este caso.");
+            }
 
         }
 
-        private void ValidarCuitATA(string codigo,ref string cuitATA)
+        private void ValidarCuitATA(string codigo, string cuitATA)
         {
             if (codigo == "100" || codigo == "101")
             {

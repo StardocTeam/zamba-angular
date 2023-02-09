@@ -341,7 +341,7 @@ Public Class WFRulesFactory
     ''' </history>
     Public Shared Function GetRuleParamItems(ByVal p_iRuleID As Int32) As DataSet
 
-        Dim sql As String = "SELECT Id, Name, step_Id, Type, ParentId, ParentType, Class, Enable, Version FROM wfRules  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE Id=" & p_iRuleID.ToString
+        Dim sql As String = "SELECT Id, Name, step_Id, Type, ParentId, ParentType, Class, Enable, Version FROM wfRules WHERE Id=" & p_iRuleID.ToString
         Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, sql)
         Dim Dsrules As New DataSet
 
@@ -381,7 +381,7 @@ Public Class WFRulesFactory
     Public Shared Function GetRuleByID(ByVal p_iRuleID As Int64) As DataSet
         Dim dsRule As New DataSet
 
-        Dim sql As String = "SELECT Id, Name, step_Id, Type, ParentId, ParentType, Class, Enable, Version FROM wfRules  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE Id=" & p_iRuleID.ToString()
+        Dim sql As String = "SELECT Id, Name, step_Id, Type, ParentId, ParentType, Class, Enable, Version FROM wfRules WHERE Id=" & p_iRuleID.ToString()
         Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, sql)
         ds.Tables(0).TableName = "WFRules"
         dsRule.Merge(ds)

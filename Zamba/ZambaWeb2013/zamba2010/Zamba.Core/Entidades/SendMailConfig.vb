@@ -26,7 +26,6 @@ Public Class SendMailConfig
     Private _useWebService As Boolean
     Private _saveHistory As Boolean
     Private _sourceDocID As Long
-    Private _mailDateTime As DateTime
     Private _sourceDocTypeId As Long
     Private _attachFileNames As List(Of String)
     Private _arrayLinks As ArrayList
@@ -47,15 +46,6 @@ Public Class SendMailConfig
             _arrayLinks = value
         End Set
     End Property
-    Public Property MailDateTime As DateTime
-        Get
-            Return _mailDateTime
-        End Get
-        Set(value As DateTime)
-            _mailDateTime = value
-        End Set
-    End Property
-
 
     Public Property AttachFileNames As List(Of String) Implements ISendMailConfig.AttachFileNames
         Get
@@ -137,7 +127,6 @@ Public Class SendMailConfig
             _isHtml = value
         End Set
     End Property
-    Public Property TaskName As String Implements ISendMailConfig.TaskName
 
     Public Property MailTo As String Implements ISendMailConfig.MailTo
         Get

@@ -2305,7 +2305,7 @@ Public Class FormBusinessExt
                     LoadAutosustitutionLists()
                     LoadSearchList()
 
-                    Dim doc1 As System.Windows.Forms.HtmlDocument
+                    Dim doc1 As System.Windows.Forms.HtmlDocument ' mshtml.HTMLDocumentClass
                     doc1 = WBrowser.Document
 
                     Try
@@ -2547,7 +2547,8 @@ Public Class FormBusinessExt
 
                     Catch ex As Exception
                         ZClass.raiseerror(ex)
-
+                        'Finally
+                        'AxWebBrowser1.ResumeLayout()
                     End Try
                 End If
             End If
@@ -3261,9 +3262,9 @@ Public Class FormBusinessExt
         Try
 
             If withDataTemp Then
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Atributo " & I.Name & " con valor en DATA = " & I.Data & " - Valor Atributo en DATATEMP = " & I.DataTemp)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Valor Atributo en DATA = " & I.Data & " - Valor Atributo en DATATEMP = " & I.DataTemp)
             Else
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Atributo " & I.Name & " con valor en DATA = " & I.Data)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Valor Atributo en DATA = " & I.Data)
             End If
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)

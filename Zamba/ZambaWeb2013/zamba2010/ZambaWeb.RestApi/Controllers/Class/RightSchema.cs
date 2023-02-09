@@ -30,17 +30,16 @@ namespace ZambaWeb.RestApi.Models
                     if (Zamba.Core.Cache.DocTypesAndIndexs.hsFiltersEntities.ContainsKey(userID) == false)
                     {
                         DocTypesBusiness DTB = new DocTypesBusiness();
-                        List<IDocType> docTypes = DTB.GetDocTypesbyUserRights(userID, RightsType.View);
-                        
+                        List<DocType> docTypes = DTB.GetDocTypesbyUserRights(userID, RightsType.View);
                         DTB = null;
-                        foreach (IDocType doctype in docTypes)
+                        foreach (DocType doctype in docTypes)
                         {
                             Entity entity = new Entity(doctype.ID, doctype.Name, 0, doctype.ObjecttypeId);
 
                             if (FillType == FillTypes.WithIndexs)
                             {
                                 IndexsBusiness IB = new IndexsBusiness();
-                                List<IIndex> Indexs = IB.getIndexsByDocTypeIdAndRightTypeAsIIndex(doctype, userID, RightsType.IndexView);
+                                List<IIndex> Indexs = IB.getIndexsByDocTypeIdAndRightTypeAsIIndex(doctype.ID, userID, RightsType.IndexView);
 
                                 if (Indexs.Count >= 1)
                                 {

@@ -59,7 +59,7 @@
                                     <div class="input-group">
                                         <!--CBU-->
                                         <span class="input-group-addon">CBU: </span>
-                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cbu || '' }} " onkeypress="val_SoloNumeros(event); getValidate(benef)" style="font-weight:600;" ng-style="{ 'border-color' : ((benef.data.payMethod != '1-Cheque' && benef.data.payMethod != '5-Cheque Certificado'  && benef.data.payMethod != '6-Cheque Imputado' ) && (benef.data.cbu == null || benef.data.cbu == '')) ? 'red' : 'rgb(204,204,204)'  }"  maxlength="22" />
+                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cbu || '' }} " onkeypress="getValidate(benef)" style="font-weight:600;" ng-style="{ 'border-color' : ((benef.data.payMethod != '1-Cheque' && benef.data.payMethod != '5-Cheque Certificado'  && benef.data.payMethod != '6-Cheque Imputado' ) && (benef.data.cbu == null || benef.data.cbu == '')) ? 'red' : 'rgb(204,204,204)'  }" />
                                         <!--<input name="zamba_index_10290" ng-model="resultToInsert.cbu" size="1" class="form-control" />-->
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                     <div class="input-group">
                                         <!--CUIT-->
                                         <span class="input-group-addon">CUIT:</span>
-                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cuit || '' }} " onkeypress="val_SoloNumeros(event);" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.cuit == null || benef.data.cuit == ''  || benef.data.cuit.length < 11) ? 'red' : 'rgb(204,204,204)'  }"  maxlength="11"  ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" />
+                                        <input class="form-control input-sm" disabled="disabled" value="  {{ benef.data.cuit || '' }} " onkeypress="getValidateCuit(benef.data.cuit)" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.cuit == null || benef.data.cuit == '') ? 'red' : 'rgb(204,204,204)'  }" />
                                     </div>
                                 </div>
                             </div>
@@ -116,8 +116,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">CUIT del Profesional:</span>
                                         <input ng-model="benef.data.cuitpro" disabled="disabled"
-                                               onkeypress="val_SoloNumeros(event);" maxlength="11" 
-                                               class="form-control" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.cuitpro == null || benef.data.cuitpro == '' || benef.data.cuitpro.length < 11) ? 'red' : 'rgb(204,204,204)'  }"  ng-Blur="ValidateCharacters(11,benef.data.cuitpro,'CUIT')"/>
+                                               class="form-control" style="font-weight:600;" ng-style="{ 'border-color' : (benef.data.cuitpro == null || benef.data.cuitpro == '') ? 'red' : 'rgb(204,204,204)'  }" />
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +179,7 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <!--EMAIL-->
+                                    <!--CUIT-->
                                     <span class="input-group-addon">EMAIL:</span>
                                     <input type="email" name="zamba_index_1128" ng-model="benef.data.email" size="1" class="form-control" ng-Blur="getValidateEmail(benef.data.email)" ng-style="{ 'border-color' : (benef.data.email == null || benef.data.email == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" ng-disabled="BenefAllInputEnable" />
 
@@ -209,7 +208,7 @@
                                 <div class="input-group">
                                     <!--CBU-->
                                     <span class="input-group-addon">CBU:</span>
-                                    <input name="zamba_index_10290" ng-disabled="BenefAllInputEnable || benef.data.payMethod == '1-Cheque' || benef.data.payMethod == '5-Cheque Certificado'  || benef.data.payMethod == '6-Cheque Imputado'" ng-model="benef.data.cbu" class="form-control" ng-Blur="ValidateCharacters(22,benef.data.cbu,'CBU')" ng-style="{ 'border-color' : ((benef.data.payMethod != '1-Cheque' && benef.data.payMethod != '5-Cheque Certificado'  && benef.data.payMethod != '6-Cheque Imputado' ) && (benef.data.cbu == null || benef.data.cbu == '')) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" onkeypress="val_SoloNumeros(event);"  maxlength="22" />
+                                    <input name="zamba_index_10290" ng-disabled="BenefAllInputEnable || benef.data.payMethod == '1-Cheque' || benef.data.payMethod == '5-Cheque Certificado'  || benef.data.payMethod == '6-Cheque Imputado'" ng-model="benef.data.cbu" class="form-control" ng-Blur="ValidateCharacters(22,benef.data.cbu,'CBU')" ng-style="{ 'border-color' : ((benef.data.payMethod != '1-Cheque' && benef.data.payMethod != '5-Cheque Certificado'  && benef.data.payMethod != '6-Cheque Imputado' ) && (benef.data.cbu == null || benef.data.cbu == '')) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" onkeypress="val_SoloNumeros(event);" />
 
                                 </div>
                             </div>
@@ -218,8 +217,7 @@
                                 <div class="input-group">
                                     <!--CUIT-->
                                     <span class="input-group-addon">CUIT:</span>
-                                    <input name="zamba_index_1128" ng-disabled="BenefAllInputEnable" ng-model="benef.data.cuit" size="1" class="form-control" ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" ng-style="{ 'border-color' : (benef.data.cuit == null || benef.data.cuit == '' || benef.data.cuit.length < 11) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on"  maxlength="11" 
-                                           onkeypress="val_SoloNumeros(event);"/>
+                                    <input name="zamba_index_1128" ng-disabled="BenefAllInputEnable" ng-model="benef.data.cuit" size="1" class="form-control" ng-Blur="ValidateCharacters(11,benef.data.cuit,'CUIT')" ng-style="{ 'border-color' : (benef.data.cuit == null || benef.data.cuit == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" onkeypress="val_SoloNumeros(event);"/>
                                 </div>
                             </div>
 
@@ -273,8 +271,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon">CUIT del Profesional</span>
                                     <input ng-model="benef.data.cuitpro"
-                                           class="form-control" ng-style="{ 'border-color' : (benef.data.cuitpro == null || benef.data.cuitpro == '' || benef.data.cuitpro.length < 11) ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" 
-                                           onkeypress="val_SoloNumeros(event);"  maxlength="11"  ng-Blur="ValidateCharacters(11,benef.data.cuitpro,'CUIT')"/>
+                                           class="form-control" ng-style="{ 'border-color' : (benef.data.cuitpro == null || benef.data.cuitpro == '') ? 'red' : 'rgb(204,204,204)'  }" autocomplete="on" />
                                 </div>
                             </div>
                         </div>

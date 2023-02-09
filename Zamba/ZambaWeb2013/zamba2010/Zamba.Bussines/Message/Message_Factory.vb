@@ -170,7 +170,7 @@ Public Class Message_Factory
             ZTrace.WriteLineIf(ZTrace.IsError, "Error al enviar el email: " + ex.ToString())
             ZClass.raiseerror(ex)
             mailSent = False
-            Throw
+            Throw ex
 
         Finally
             Try

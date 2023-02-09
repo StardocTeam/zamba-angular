@@ -47,7 +47,7 @@ public class GetDownloadFile : IHttpHandler, System.Web.SessionState.IReadOnlySe
                 throw new ArgumentException("No parameter specified");
 
             SResult sResult = new SResult();
-            IResult res = (Result)sResult.GetResult(DocId, DocTypeId,false);
+            Result res = (Result)sResult.GetResult(DocId, DocTypeId,false);
             bool fileNotFound = false;
 
             if (res != null && res.FullPath != null && res.FullPath.Contains("."))
@@ -91,7 +91,7 @@ public class GetDownloadFile : IHttpHandler, System.Web.SessionState.IReadOnlySe
                         (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase ||
                         (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
 
-                        sResult.LoadFileFromDB(ref res);
+                        sResult.LoadFileFromDB(res);
 
                     //Verifica si el result contiene el documento guardado
                     if (res.EncodedFile != null)
@@ -125,7 +125,7 @@ public class GetDownloadFile : IHttpHandler, System.Web.SessionState.IReadOnlySe
                             }
                         }
 
-                        if ((res.IsHTML || res.IsRTF || res.IsText || res.IsXoml))
+                        if ((res.IsHtml || res.IsRTF || res.IsText || res.IsXoml))
                         {
                             if (ConvertToPDf)
                             {
@@ -287,7 +287,7 @@ public class GetDownloadFile : IHttpHandler, System.Web.SessionState.IReadOnlySe
                 String FileName = res.OriginalName.Split('\\').Last();
                 context.Response.AppendHeader("content-disposition", "inline; filename=" + FileName);
                 if (filename != null && filename.ToLower().EndsWith("pdf"))
-                    res.MimeType = "application/pdf";
+                    res._mimeType = "application/pdf";
                 context.Response.ContentType = (fileNotFound) ? "text/html" : res.MimeType;
                 context.Response.OutputStream.Write(file, 0, file.Length);
                 context.Response.OutputStream.Flush();

@@ -27,9 +27,10 @@ namespace ZambaWeb.RestApi.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/TasksOptions")]
     //[Authorize]
+    [RestAPIAuthorize]
     public class TasksOptionsController : ApiController
     {
-
+        
         #region Init&ClassHelpers
         public TasksOptionsController()
         {
@@ -105,6 +106,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("GetRecentTasks")]
+        [OverrideAuthorization]
         public IHttpActionResult GetRecentTasks()
         {
             Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();

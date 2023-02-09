@@ -8,20 +8,20 @@
         try {
             var docid = results[i].DOC_ID;
             if (resultsIds.indexOf(docid) !== -1) {
-                results.splice(i, 1);                
-                i--;
+                results.splice(i, 1);
+                break;
             }
             else {
                 resultsIds.push(docid);
             }
         } catch (e) {
-            console.error(e);
+
         }
         // Icon
         results[i].Icon = GetImgIcon(results[i].ICON_ID);
 
         // Asignado
-        results[i].AsignedTo = SetFieldTextIgnoreCaseSensitiveProperty(results[i].ASIGNEDTO, results[i].ASIGNADO, results[i].Asignado, "(Sin Asignar)");
+        results[i].AsignedTo = SetFieldText(results[i].ASIGNEDTO, results[i].ASIGNADO, "(Sin Asignar)");
 
         // Nombre de la tarea
         if (results[i].Tarea == undefined)
@@ -34,9 +34,10 @@
         if (results[i].FULLPATH !== undefined && results[i].FULLPATH !== null) {
             results[i].FULLPATH = results[i].FULLPATH.replace(/\//g, '\\');
         }
+
         try {
             // Mostrar como novedad
-            if (results[i].LEIDO == 0 && (results[i].User_Asigned == search.UserId || (search.GroupsIds != null && search.GroupsIds.includes(results[i].USER_ASIGNED)))) {
+            if (results[i].LEIDO == 0 && (results[i].USER_ASIGNED == search.UserId || (search.GroupsIds != null && search.GroupsIds.includes(results[i].USER_ASIGNED)))) {
                 results[i].ShowUnread = true;
             }
             else {
@@ -44,7 +45,7 @@
             }
 
         } catch (e) {
-            console.error(e);
+
         }
     }
 
@@ -64,7 +65,7 @@
     //        console.log("No se pudo obtener la ruta de los thumbs");
     //    });
 
-    //SetDocsThumbs(results);
+            //      SetDocsThumbs(results);
 
 };
 
@@ -76,7 +77,7 @@ function SetDocsThumbs(results) {
                 GetThumbImg(result);
             }
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
     });
 }
@@ -131,24 +132,6 @@ function SetFieldText(objectData, responseData, valueIfEmpty) {
     return text;
 };
 
-function SetFieldTextIgnoreCaseSensitiveProperty(objectData, responseData, responseDataAlternative, valueIfEmpty) {
-    var text = "";
-
-    if (objectData !== undefined && objectData !== null && objectData !== " ") {
-        text = objectData;
-    }
-    else if (responseData !== " " && responseData !== undefined && responseData !== null) {
-        text = responseData;
-    }
-    else if (responseDataAlternative !== " " && responseDataAlternative !== undefined && responseDataAlternative !== null) {
-        text = responseDataAlternative;
-    }
-    else {
-        text = valueIfEmpty;
-    }
-
-    return text;
-};
 
 //if (!Array.prototype.includes) {
 //    Object.defineProperty(Array.prototype, "includes", {

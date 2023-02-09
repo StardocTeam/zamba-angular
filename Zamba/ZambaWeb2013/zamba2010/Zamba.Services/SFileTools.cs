@@ -16,7 +16,7 @@ namespace Zamba.Services
         /// <param name="path"></param>
         public Boolean ExportToXLS(DataTable dt, String path)
         {
-            Zamba.FileTools.SpireTools sp = new Zamba.FileTools.SpireTools();
+            SpireTools sp = new SpireTools();
             try
             {
                 sp.ExportToXLS(dt, path);
@@ -40,7 +40,7 @@ namespace Zamba.Services
         /// <param name="path"></param>
         public Boolean ExportToCSV(DataTable dt, String path)
         {
-            Zamba.FileTools.SpireTools sp = new Zamba.FileTools.SpireTools();
+            SpireTools sp = new SpireTools();
             try
             {
                 sp.ExportToCSV(dt, path);

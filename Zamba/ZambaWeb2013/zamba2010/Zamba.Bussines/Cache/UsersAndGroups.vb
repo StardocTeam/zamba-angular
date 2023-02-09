@@ -24,6 +24,7 @@ Namespace Cache
         Public Shared hsUserGroupInheritance As SynchronizedHashtable = New SynchronizedHashtable
 
         Public Shared hUserPreferencesByUserIdAndName As SynchronizedHashtable = New SynchronizedHashtable
+        Public Shared Property hsUserPreferences As SynchronizedHashtable = New SynchronizedHashtable
 
         Public Shared Property hsUserPhotos As SynchronizedHashtable = New SynchronizedHashtable
 
@@ -42,6 +43,7 @@ Namespace Cache
             hsUserRuleViewRight.Clear()
             hsUserGroupInheritance.Clear()
             hUserPreferencesByUserIdAndName.Clear()
+            hsUserPreferences.Clear()
             hsUserGroupsInStep.Clear()
             hsUsersInStep.Clear()
             hsUserPhotos.Clear()

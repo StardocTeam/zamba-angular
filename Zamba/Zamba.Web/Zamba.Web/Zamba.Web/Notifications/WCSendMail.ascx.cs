@@ -521,7 +521,7 @@ public partial class WCSendMail : System.Web.UI.UserControl
             try
             {
                 SResult sResult = new SResult();
-                IResult res = sResult.GetResult(_res.ID, _res.DocTypeId, true);
+                Result res = (Result)sResult.GetResult(_res.ID, _res.DocTypeId, true);
 
                 if (res != null)
                 {
@@ -532,7 +532,7 @@ public partial class WCSendMail : System.Web.UI.UserControl
                         (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase ||
                         (!String.IsNullOrEmpty(zopt.GetValue("ForceBlob")) && bool.Parse(zopt.GetValue("ForceBlob")))))
                     {
-                        sResult.LoadFileFromDB(ref res);
+                        sResult.LoadFileFromDB(res);
                     }
 
                     //Verifica si el result contiene el documento guardado

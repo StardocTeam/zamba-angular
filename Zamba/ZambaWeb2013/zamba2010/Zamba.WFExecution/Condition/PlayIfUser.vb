@@ -6,7 +6,7 @@ Public Class PlayIfUser
         Dim WFRB As New WFRulesBusiness
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
         If (myrule.ChildRulesIds Is Nothing OrElse myrule.ChildRulesIds.Count = 0) Then
-            myrule.ChildRulesIds = WFRB.GetChildRulesIds(myrule.ID, myrule.RuleClass, results)
+            myrule.ChildRulesIds = WFRB.GetChildRulesIds(myrule.ID)
         End If
 
         If myrule.ChildRulesIds.Count = 2 Then

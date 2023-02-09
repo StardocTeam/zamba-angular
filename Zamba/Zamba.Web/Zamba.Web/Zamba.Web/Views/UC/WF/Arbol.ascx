@@ -266,7 +266,7 @@
                 }
                 return obj;//.string;
             } catch (e) {
-                console.error(e);
+                console.log(e.message);
             }
         }
 

@@ -392,6 +392,51 @@ Public Class UserFactory
             End If
         End If
     End Function
+
+    Public Shared Function GetUserByMail(ByVal UserMail As String) As IUser
+        Dim ds As DataSet = Nothing
+        Try
+            UserMail = Replace(UserMail, "'", "")
+            UserMail = Replace(UserMail, """", "")
+            Dim strselect As String = "Select * from usrtable where lower(correo) = '" & UserMail.ToLower() & "'"
+            ds = Server.Con.ExecuteDataset(CommandType.Text, strselect)
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+        Dim CurrentUser As IUser = Nothing
+        If (IsNothing(ds) OrElse ds.Tables.Count = 0 OrElse ds.Tables(0).Rows.Count = 0) Then
+            CurrentUser = Nothing
+        Else
+            CurrentUser = BuildUser(ds.Tables(0).Rows(0))
+        End If
+        If Not IsNothing(CurrentUser) Then
+            CurrentUser.eMail = Mail.FillUserMailConfigByRef(CurrentUser.ID)
+        End If
+        Return CurrentUser
+    End Function
+
+    Public Shared Function GetUserByPeopeId(ByVal PeopeID As String) As IUser
+        Dim ds As DataSet = Nothing
+        Try
+            PeopeID = Replace(PeopeID, "'", "")
+            PeopeID = Replace(PeopeID, """", "")
+            Dim strselect As String = "select usrtable.* from doc_i204182 INNER JOIN usrtable on doc_i204182.I1354 = usrtable.ID where doc_i204182.i204277='" & PeopeID & "'"
+            ds = Server.Con.ExecuteDataset(CommandType.Text, strselect)
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+        Dim CurrentUser As IUser = Nothing
+        If (IsNothing(ds) OrElse ds.Tables.Count = 0 OrElse ds.Tables(0).Rows.Count = 0) Then
+            CurrentUser = Nothing
+        Else
+            CurrentUser = BuildUser(ds.Tables(0).Rows(0))
+        End If
+        If Not IsNothing(CurrentUser) Then
+            CurrentUser.eMail = Mail.FillUserMailConfigByRef(CurrentUser.ID)
+        End If
+        Return CurrentUser
+    End Function
+
     Public Shared Function GetUserByName(ByVal UserName As String) As IUser
 
         Dim ds As DataSet = Nothing
@@ -408,6 +453,8 @@ Public Class UserFactory
             '        ds = Server.Con.ExecuteDataset("Zsp_users_200.GetUserByName", parValues)
             '    End If
             'Catch ex As Exception
+            UserName = Replace(UserName, "'", "")
+            UserName = Replace(UserName, """", "")
             Dim strselect As String = "Select * from usrtable where lower(name) = '" & UserName.ToLower() & "'"
             ds = Server.Con.ExecuteDataset(CommandType.Text, strselect)
 
@@ -477,9 +524,6 @@ Public Class UserFactory
             If Not _UserGroupsIdsByUseridList.ContainsKey(userid) Then
                 LoadUserGroupsIdsByUserid(userid)
             ElseIf reload Then
-                _UserGroupsIdsByUseridList.Remove(userid)
-                LoadUserGroupsIdsByUserid(userid)
-            ElseIf DirectCast(_UserGroupsIdsByUseridList(userid), List(Of Long)).count = 0 Then
                 _UserGroupsIdsByUseridList.Remove(userid)
                 LoadUserGroupsIdsByUserid(userid)
             End If

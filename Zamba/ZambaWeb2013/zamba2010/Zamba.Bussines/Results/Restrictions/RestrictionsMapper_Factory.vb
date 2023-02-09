@@ -87,37 +87,37 @@ Public Class RestrictionsMapper_Factory
 
         Dim key As String = userId & "-" & docTypeId
         If Not Cache.DocTypesAndIndexs.hsRestrictionsIndexsByUserId.ContainsKey(key) Then
-            Dim ds As DataSet = Nothing
-            Dim ind As Index
-            Dim indvalue As String
-            Dim RF As New Zamba.Data.RestrictionsFactory
-            Dim IB As New IndexsBusiness
-            Dim restrictionH As New RestrictionHelper(userId)
+                Dim ds As DataSet = Nothing
+                Dim ind As Index
+                Dim indvalue As String
+                Dim RF As New Zamba.Data.RestrictionsFactory
+                Dim IB As New IndexsBusiness
+                Dim restrictionH As New RestrictionHelper(userId)
 
-            Try
-                ds = RF.getRestrictionIndexs(userId, docTypeId)
-                ds.Tables(0).TableName = "Restriction"
+                Try
+                    ds = RF.getRestrictionIndexs(userId, docTypeId)
+                    ds.Tables(0).TableName = "Restriction"
 
 
-                For i As Int32 = 0 To ds.Tables(0).Rows.Count - 1
-                    ind = IB.GetIndex(ds.Tables(0)(i)("INDEX_ID"))
-                    restrictionH.Load(ds.Tables(0)(i)("STRING_VALUE"))
-                    ind.Operator = restrictionH.Operator
-                    ind.Data = restrictionH.Value
-                    Indexs.Add(ind)
-                Next
+                    For i As Int32 = 0 To ds.Tables(0).Rows.Count - 1
+                        ind = IB.GetIndex(ds.Tables(0)(i)("INDEX_ID"))
+                        restrictionH.Load(ds.Tables(0)(i)("STRING_VALUE"))
+                        ind.Operator = restrictionH.Operator
+                        ind.Data = restrictionH.Value
+                        Indexs.Add(ind)
+                    Next
 
-            Catch ex As Exception
-                Return Nothing
-            Finally
-                IB = Nothing
-                RF = Nothing
-                restrictionH = Nothing
-                If Not ds Is Nothing Then
-                    ds.Dispose()
-                    ds = Nothing
-                End If
-            End Try
+                Catch ex As Exception
+                    Return Nothing
+                Finally
+                    IB = Nothing
+                    RF = Nothing
+                    restrictionH = Nothing
+                    If Not ds Is Nothing Then
+                        ds.Dispose()
+                        ds = Nothing
+                    End If
+                End Try
 
             SyncLock Cache.DocTypesAndIndexs.hsRestrictionsIndexsByUserId.SyncRoot
                 If Not Cache.DocTypesAndIndexs.hsRestrictionsIndexsByUserId.ContainsKey(key) Then

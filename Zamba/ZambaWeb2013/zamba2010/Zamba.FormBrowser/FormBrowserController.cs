@@ -39,11 +39,11 @@
                 String CurrentTheme = zoptb.GetValue("CurrentTheme");
                 zoptb = null;
                 if (HttpContext.Current == null)
-                    return Zamba.Membership.MembershipHelper.AppFormPath(CurrentTheme) + "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+                    return Zamba.Membership.MembershipHelper.AppFormPath(CurrentTheme) + "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&userid={2},token={3}";
 
                 HttpRequest req = HttpContext.Current.Request;
 
-                return "http://" + req.ServerVariables["HTTP_HOST"] + req.ApplicationPath + "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+                return "http://" + req.ServerVariables["HTTP_HOST"] + req.ApplicationPath + "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&userid={2},token={3}";
             }
         }
 
@@ -277,6 +277,7 @@
                     //bool useOriginal;
                     string path;
                     IDtoTag dto;
+                    String token = new Zamba.Core.ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
 
                     foreach (Match item in matches)
                     {
@@ -286,7 +287,7 @@
                             //useOriginal = false;
                             if (id <= 0)
                             {
-                                path = string.Format(DocUrl, CurrentResult.DocTypeId, CurrentResult.ID, CurrentUser.ID);
+                                path = string.Format(DocUrl, CurrentResult.DocTypeId, CurrentResult.ID, CurrentUser.ID,token);
 
                                 string tag = item.Value;
                                 replazarAtributoSrc(ref tag, path);
@@ -925,7 +926,7 @@
             if (asociatedResults == null)
             {
                 asociatedResults = new List<IResult>();
-                DataTable dt = DocAsociatedBusiness.getAsociatedResultsFromResultAsList(asocDocTypeId, CurrentResult, 1, UserId, false);
+                DataTable dt = DocAsociatedBusiness.getAsociatedResultsFromResultAsList(asocDocTypeId, CurrentResult, 1, UserId);
 
                 if (dt != null) {
                     Results_Business Rb = new Results_Business();

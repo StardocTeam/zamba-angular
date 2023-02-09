@@ -1,6 +1,6 @@
 Imports Zamba.Core
 
-<RuleCategory("Reglas"), RuleDescription("Ejecutar Regla"), RuleHelp("Permite seleccionar y ejecutar una regla en el Work Flow actual al momento de realizar la tarea"), RuleFeatures(False)>
+<RuleCategory("Reglas"), RuleDescription("Ejecutar Regla"), RuleHelp("Permite seleccionar y ejecutar una regla en el Work Flow actual al momento de realizar la tarea"), RuleFeatures(False)> _
 <Serializable()> Public Class DOExecuteRule
     Inherits WFRuleParent
     Implements IDOExecuteRule
@@ -85,15 +85,17 @@ Imports Zamba.Core
         If IsNothing(Params) Then
             Params = New Hashtable
         End If
-        ' If IsNothing(Params) OrElse Params.Count = 0 Then
-        ' ExecutionResult = RuleExecutionResult.PendingEventExecution
-        ' RulePendingEvent = RulePendingEvents.ExecuteRule
-        results = playRule.PlayWeb(results, Params)
-        '  Else
-        Params.Clear()
-        '  ExecutionResult = RuleExecutionResult.CorrectExecution
-        '  RulePendingEvent = RulePendingEvents.NoPendingEvent
-        Return results
-        '  End If
+        If IsNothing(Params) OrElse Params.Count = 0 Then
+                ExecutionResult = RuleExecutionResult.PendingEventExecution
+                RulePendingEvent = RulePendingEvents.ExecuteRule
+                Return playRule.PlayWeb(results, Params)
+            Else
+                Params.Clear()
+                ExecutionResult = RuleExecutionResult.CorrectExecution
+                RulePendingEvent = RulePendingEvents.NoPendingEvent
+                Return results
+            End If
+
+
     End Function
 End Class

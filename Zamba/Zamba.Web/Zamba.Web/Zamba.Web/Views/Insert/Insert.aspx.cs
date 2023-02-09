@@ -37,9 +37,6 @@ public partial class Views_Insert_Insert : Page
 
                 ucDocTypes._DocTypesSelected += new ucDocTypes.DocTypesSelected(ucDocTypes__DocTypesSelected);
 
-                String NR = string.Empty;
-                string RefreshParentDataFromChildWindowScript = string.Empty;
-
                 if (!Page.IsPostBack)
                 {
                     ucDocTypesIndexs.Visible = false;
@@ -47,25 +44,6 @@ public partial class Views_Insert_Insert : Page
                     //  lnkInsertar.Visible = false;
                     lnkReplicar.Visible = false;
                     lnkRefresh.Visible = false;
-                }
-                if ((Request.Form["__EVENTTARGET"] == "UserControlBody" && Request.Form["__EVENTARGUMENT"] == "Refresh:0,1,2") )
-                {
-
-                    var script2 = "swal('Insertar', 'Su documento se inserto correctamente', 'success')";
-
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "fileuploaded", "$(document).ready(function(){" +  script2 + "});", true);
-                }
-                if (Request.Form["__EVENTTARGET"] == "UserControlBodyValidation" && Request.Form["__EVENTARGUMENT"] == "Refresh:0,1,2")
-                {
-
-                    var script2 = "swal('','Ingrese al menos un archivo', 'warning')";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "fileuploaded", "$(document).ready(function(){" +  script2 + "});", true);
-                }
-                if (Request.Form["__EVENTTARGET"] == "UserControlBodyValidationInputs" && Request.Form["__EVENTARGUMENT"] == "Refresh:0,1,2")
-                {
-
-                    var script2 = "swal('','Por favor completar campos obligatorios', 'warning')";                    
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "fileuploaded", "$(document).ready(function(){" +  script2 + "});", true);
                 }
 
                 ucDocTypesIndexs.SaveButtonName = lnkInsertar.ClientID;
@@ -78,16 +56,6 @@ public partial class Views_Insert_Insert : Page
                 //ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "closeDialogSript", script, true);
 
                 hdnUserId.Value = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-
-               
-                //if (!String.IsNullOrEmpty(Request.QueryString["NR"]))
-                //{
-                //    NR = Request.QueryString["NR"];
-                //    RefreshParentDataFromChildWindowScript = $" RefreshParentDataFromChildWindow({NR}); ";
-                //    ScriptManager.RegisterStartupScript(this, this.GetType(), "fileuploaded", "$(document).ready(function(){" + RefreshParentDataFromChildWindowScript + "});", true);
-                //}
-
-
             }
             else
             {
@@ -109,7 +77,6 @@ public partial class Views_Insert_Insert : Page
 
         try
         {
-
             var indexList = new List<IIndex>();
 
             List<IIndex> indexs = null;
@@ -180,9 +147,6 @@ public partial class Views_Insert_Insert : Page
                             foreach (Index indexWithData in toFillIndexs.Where(indexWithData => indexWithData.ID == indexToFill.ID))
                             {
                                 indexToFill.Data = indexWithData.Data;
-                                indexToFill.DataTemp = indexWithData.Data;
-                                indexToFill.dataDescription = indexWithData.dataDescription;
-                                indexToFill.dataDescriptionTemp = indexWithData.dataDescription;
                             }
                         }
                     }
@@ -192,7 +156,9 @@ public partial class Views_Insert_Insert : Page
             }
             else
             {
-                indexs = ZCore.GetInstance().FilterIndex(docTypeId,true,true );
+                var ar = new ArrayList();
+                ar.Add(docTypeId);
+                indexs = ZCore.GetInstance().FilterSearchIndex(ar);
             }
 
             // var clonedIndexs = new List<IIndex>();
@@ -245,8 +211,8 @@ public partial class Views_Insert_Insert : Page
                 ucDocTypesIndexs.Visible = true;
                 ucUploadFile.Visible = true;
                 ///lnkInsertar.Visible = true;
-                lnkReplicar.Visible = false;
-                lnkRefresh.Visible = false;
+                lnkReplicar.Visible = true;
+                lnkRefresh.Visible = true;
                 NavPanel.Update();
                 //  this.DropPanel.Update();
             }
@@ -259,13 +225,9 @@ public partial class Views_Insert_Insert : Page
                 lnkRefresh.Visible = false;
                 //  this.DropPanel.Update();
             }
-            //$(document).ready(function() { parent.ResizeInsertDialogToShow(600); });
-            var javaScript = "$(document).ready(function() {RemoveClassDropPanelDisplay(); SetAutocompleteIndex16();});";
+            var javaScript = "SetAutocompleteIndex16();";
             //Page.ClientScript.RegisterStartupScript(this.GetType(), "AutocompleteIndex16", script, true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "AutocompleteIndex16", javaScript, true);
-
-
-
 
             UpdatePanel2.Update();
         }
@@ -292,37 +254,38 @@ public partial class Views_Insert_Insert : Page
         if (Session["Insert_UploadedFile"] != null)
         {
             var lst = (List<string>)Session["Insert_UploadedFile"];
-            bool resultInsert = true;
-
             if (lst.Count() > 0)
-            {
-                resultInsert = InsertDoc();
-            }
+                InsertDoc();
 
             Session["LastInsert_UploadedFile"] = Session["Insert_UploadedFile"];
             Session["Insert_UploadedFile"] = null;
-
         }
         else
         {
-            var script = "__doPostBack('UserControlBodyValidation','Refresh:0,1,2');";
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile2", "$(document).ready(function(){" + script + "});", true);
+            var script = "swal('', 'Ingrese al menos un archivo', 'warning'); SetInsertOK();";
+
+            Page.ClientScript.RegisterStartupScript(this.GetType(),
+               "DoOpenTaskScript",
+                "$(document).ready(function(){" + script + "});",
+                true
+            );
+
             lnkReplicar.Visible = false;
             lnkRefresh.Visible = false;
         }
+
     }
 
     protected void lnkReplicar_clic(object sender, EventArgs e)
     {
         //return;
-        bool resultInsert = true;
         if (Session["LastInsert_UploadedFile"] != null)
         {
             Session["Insert_UploadedFile"] = Session["LastInsert_UploadedFile"];
 
             var lst = (List<string>)Session["LastInsert_UploadedFile"];
             if (lst.Count() > 0)
-                resultInsert = InsertDoc();
+                InsertDoc();
         }
         else
         {
@@ -336,7 +299,7 @@ public partial class Views_Insert_Insert : Page
         Session["Insert_UploadedFile"] = null;
     }
 
-    private bool InsertDoc()
+    private void InsertDoc()
     {
         try
         {
@@ -354,7 +317,7 @@ public partial class Views_Insert_Insert : Page
 
                     ind.Data = ind.Data.Split('-').First().Trim();
                     ind.Data2 = ind.Data2.Split('-').First().Trim();
-                    ind.DataTemp = (string.IsNullOrEmpty(ind.DataTemp)) ? ind.Data.Split('-').First().Trim() : ind.DataTemp.Split('-').First().Trim();
+                    ind.DataTemp = ind.DataTemp.Split('-').First().Trim();
                     ind.DataTemp2 = ind.DataTemp2.Split('-').First().Trim();
 
                     var indicesID = Convert.ToInt32(ind.Column.Replace("I", ""));
@@ -374,7 +337,7 @@ public partial class Views_Insert_Insert : Page
                         {
                             OriginalDes = OriginalText.Split('-')[1].Trim();
                         }
-                        if (OriginalText.Split('-').Length >= 3)
+                        if (OriginalText.Split('-').Length >= 3 )
                         {
                             var a = @"-";
                             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(a);
@@ -414,8 +377,7 @@ public partial class Views_Insert_Insert : Page
                             }
                         }
                     }
-                    else
-                    {
+                    else {
                         correctCode = true;
                     }
 
@@ -432,15 +394,13 @@ public partial class Views_Insert_Insert : Page
                         pnlDatos.Visible = true;
                         //script += "swal('Insertar', 'Su documento se inserto correctamente', 'success');";
 
-                        var script2 = "__doPostBack('UserControlBodyValidationInputs','Refresh:0,1,2');";
-
                         Page.ClientScript.RegisterStartupScript(this.GetType(),
-                           "scriptFormato",
-                            "$(document).ready(function(){" + scriptFormato + script2 + "});",
+                           "DoOpenTaskScript",
+                            "$(document).ready(function(){" + scriptFormato + "});",
                             true
                         );
                         zopt = null;
-                        return false;
+                        return;
                     }
 
 
@@ -449,19 +409,17 @@ public partial class Views_Insert_Insert : Page
                 }
 
 
-                if (ind.Required && (string.IsNullOrEmpty(ind.DataTemp) && string.IsNullOrEmpty(ind.Data)))
+                if (ind.Required && string.IsNullOrEmpty(ind.DataTemp))
                 {
                     lblMsj.Text = "Los indices marcados con (*) son de ingreso obligatorio";
                     lblMsj.Visible = true;
-                    return false;
+                    return;
                 }
                 else if ((ind.DropDown == IndexAdditionalType.AutoSustitución || ind.DropDown == IndexAdditionalType.AutoSustituciónJerarquico) &&
-                    !string.IsNullOrEmpty(ind.Data))
+                    !string.IsNullOrEmpty(ind.Data) &&
+                    string.IsNullOrEmpty(ind.dataDescription))
                 {
-                    var description = string.Empty;
-                    description = new AutoSubstitutionBusiness().getDescription(ind.Data, ind.ID);
-                    ind.dataDescription = description;
-                    ind.dataDescriptionTemp = description;
+                    ind.dataDescription = new AutoSubstitutionBusiness().getDescription(ind.Data, ind.ID);
                 }
             }
 
@@ -480,7 +438,7 @@ public partial class Views_Insert_Insert : Page
             foreach (string filename in filenames)
             {
                 INewResult newresult = new SResult().GetNewNewResult(docTypeId);
-                res = sResult.Insert(ref newresult, filename, docTypeId, Indexs, MembershipHelper.CurrentUser.ID);
+                res = sResult.Insert(ref newresult, filename, docTypeId, Indexs);
                 if (res == InsertResult.Insertado)
                 {
                     if (newresult.Disk_Group_Id > 0 &&
@@ -513,8 +471,7 @@ public partial class Views_Insert_Insert : Page
                         //Realiza la apertura del documento dependiendo de si tiene tareas o permisos.
                         if (Task != null)
                         {
-                            if (Page.Session["Entrada" + Task.ID] == null)
-                                Page.Session.Add("Entrada" + newresult.ID, true);
+                            Page.Session.Add("Entrada" + newresult.ID, true);
                         }
 
                         //string urlTask = "../WF/TaskSelector.ashx?docid=" + newresult.ID.ToString() + "&doctype=" + docTypeId.ToString() + "&userId=" + Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
@@ -532,7 +489,7 @@ public partial class Views_Insert_Insert : Page
                         exec.StartRule = -1;
                         ((List<IExecutionRequest>)Session["ListOfTask"]).Add(exec);
 
-                        //script += "SetNewEntryRulesGroup();";
+                        script += "SetNewEntryRulesGroup();";
                     }
 
                     if (!String.IsNullOrEmpty(Request.QueryString["FillIndxDocTypeID"]) && !String.IsNullOrEmpty(Request.QueryString["isview"]) && Task != null)
@@ -540,11 +497,7 @@ public partial class Views_Insert_Insert : Page
                         Session[Task.TaskId + "CurrentExecution"] = null;
                         Session["EntryRulesExecution"] = null;
                     }
-
-                        var script2 = "__doPostBack('UserControlBody','Refresh:0,1,2');";
-
-                    script += "swal('', 'Su documento se inserto correctamente, cantidad de archivos(" + filenames.Count.ToString() + ")', 'success'); " + script2;
-
+                    script += "swal('', 'Su documento se inserto correctamente, cantidad de archivos(" + filenames.Count.ToString() + ")', 'success');";
                 }
                 else if (res == InsertResult.ErrorIndicesIncompletos || res == InsertResult.ErrorIndicesInvalidos)
                 {
@@ -568,51 +521,23 @@ public partial class Views_Insert_Insert : Page
             pnlDatos.Visible = true;
             //script += "swal('Insertar', 'Su documento se inserto correctamente', 'success');";
 
-            String NR = string.Empty;
-            if (!String.IsNullOrEmpty(Request.QueryString["NR"]))
-            {
-                NR = Request.QueryString["NR"];
-            }
-
-            String PrincipalView = String.Empty;
-            if (!String.IsNullOrEmpty(Request.QueryString["InsertView"]))
-            {
-                PrincipalView = Request.QueryString["InsertView"];
-            }
-
-            if (PrincipalView != "Main")
-            {
-                var RefreshParentDataFromChildWindowScript = $" RefreshParentDataFromChildWindow({NR}); ";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile3", " $(document).ready(function(){" + RefreshParentDataFromChildWindowScript + script + "});", true);
-            }
-            else {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile3", " $(document).ready(function(){" + script + "});", true);
-            }
-            
-            //Page.ClientScript.RegisterStartupScript(this.GetType(),
-            //   "DoOpenTaskScript",
-            //    "$(document).ready(function(){" + RefreshParentDataFromChildWindowScript + script + "});",
-            //    true
-            //);
-
-
-            
+            Page.ClientScript.RegisterStartupScript(this.GetType(),
+               "DoOpenTaskScript",
+                "$(document).ready(function(){" + script + "});",
+                true
+            );
             zopt = null;
-            return true;
+
         }
         catch (Exception ex)
         {
             ZClass.raiseerror(ex);
             var script = "swal('', 'Ocurrio un error al insertar el documento.', 'error');";
-            var script2 = " __doPostBack('UserControlBodyValidationInputs','Refresh:0,1,2');";
-       
             Page.ClientScript.RegisterStartupScript(this.GetType(),
                "InsertErrorScript",
-                "$(document).ready(function(){" + script + script2 +  "});",
+                "$(document).ready(function(){" + script + "});",
                 true
             );
-
-            return false;
         }
     }
 

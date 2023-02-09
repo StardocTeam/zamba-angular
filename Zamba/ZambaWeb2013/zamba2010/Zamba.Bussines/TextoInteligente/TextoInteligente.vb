@@ -356,9 +356,7 @@ Public Class TextoInteligente
                         Dim values() As String = codedText.Replace(">>.<<", "¦").Replace("<<", "").Replace(">>", "").Split("¦")
                         If lista(0).Value.Split(".")(0).ToLower() = "<<tarea>>" Then
                             'DecodedText.Append(Search(lista(0).Value, TaskResult))
-                            If Not Cambios.ContainsKey(lista(0).Value) Then
-                                Cambios.Add(lista(0).Value, Search(lista(0).Value, TaskResult))
-                            End If
+                            Cambios.Add(lista(0).Value, Search(lista(0).Value, TaskResult))
                         Else
                             'DecodedText.Append(Search(lista(0).Value))
                             Cambios.Add(lista(0).Value, Search(lista(0).Value))

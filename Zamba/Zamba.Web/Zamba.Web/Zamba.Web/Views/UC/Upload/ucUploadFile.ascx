@@ -51,7 +51,7 @@
         <div class="UserControlBody">
             <form name="form1" method="post" enctype="multipart/form-data" >
             </form>
-            <form action="../../Services/FileUpload.ashx" style="max-height: 1000px; overflow-x: hidden; text-overflow: ellipsis;" class="dropzone" id="dZUpload">
+            <form action="../../Services/FileUpload.ashx" style="max-height: 1000px" class="dropzone" id="dZUpload">
                 <div class="fallback">
                     <div class="dz-default dz-message" />
                     <input type="file" name="file" multiple />
@@ -80,7 +80,7 @@
         //GetInsertTemplates();
   
     Dropzone.options.dZUpload = {
-        maxFilesize: 30,
+        maxFilesize: 45,
         //maxFiles: 1,
         addRemoveLinks: true,
         init: function () {
@@ -94,7 +94,6 @@
                         $("#previewItemIframe").attr('src', fileURL);
                         EnableInsert();
                     });
-                    RemoveClaseBtnInsert();
                 }
             } catch (e) {
 
@@ -115,10 +114,7 @@
                     }
                 },
                 callback: function (result) {
-                    if (result) {
-                        DeleteFileDZ();
-                        AddClaseBtnInsert();
-                    } 
+                    if (result) DeleteFileDZ();
                 }
             });
 
@@ -203,7 +199,7 @@
             function downloadOfficeTemplate(_this) {
                 var id = $(_this).attr("id");
                 var path = $(_this).attr("path");
-                var uri = thisDomain + "/WebTemplates/DownloadTemplate?path=" + path;
+                var uri = thisDomain + "/api/WebTemplates/DownloadTemplate?path=" + path;
                 var downloadLink = document.createElement("a");
                 downloadLink.href = uri;
                 document.body.appendChild(downloadLink);

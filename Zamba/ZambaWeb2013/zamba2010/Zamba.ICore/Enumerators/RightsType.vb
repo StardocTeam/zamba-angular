@@ -199,10 +199,4 @@ Public Enum RightsType As Integer ' Tipos de Permisos a asignar
     RecognizeBarCode = 188
     GlobalSearch = 190
     ChangePassword = 191
-    ShowWFTreeView = 192
-
-    ShowHome = 193
-    ShowMyTask = 194
-    ShowAnchorSidebar = 195
-    UsebtnFlotante = 196
 End Enum

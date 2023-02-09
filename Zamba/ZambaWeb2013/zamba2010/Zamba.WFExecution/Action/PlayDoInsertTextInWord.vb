@@ -54,7 +54,7 @@ Public Class PlayDoInsertTextInWord
 
                         File.Copy(_wordPath, newfile)
 
-                        Dim spireoffice As New Zamba.FileTools.SpireTools
+                        Dim spireoffice As New SpireTools
 
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtener texto a insertar")
                         Dim wordTextVar As Object

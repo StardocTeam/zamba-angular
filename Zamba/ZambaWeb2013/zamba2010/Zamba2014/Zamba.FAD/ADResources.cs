@@ -140,39 +140,36 @@ namespace Zamba.FAD
             {
 
                 var url = ADResources.GetValue("ActiveDirectoryUrl");
-                if (!string.IsNullOrEmpty(url))
+                DirectoryEntry root = new DirectoryEntry(url, null, null, AuthenticationTypes.None);
+
+                DirectorySearcher adsSearcherGroups = new DirectorySearcher(root);
+                adsSearcherGroups.Filter = @"(&(objectClass=user)(sAMAccountName=" + username + "))";
+
+                var result = adsSearcherGroups.FindAll();
+
+                foreach (SearchResult props in result)
                 {
-                    DirectoryEntry root = new DirectoryEntry(url, null, null, AuthenticationTypes.None);
 
-                    DirectorySearcher adsSearcherGroups = new DirectorySearcher(root);
-                    adsSearcherGroups.Filter = @"(&(objectClass=user)(sAMAccountName=" + username + "))";
+                    if (props.GetDirectoryEntry().Properties.Contains("mail"))
+                        PropertiesList.Add("EMAIL", props.GetDirectoryEntry().Properties["mail"].Value.ToString());
+                    else
+                        PropertiesList.Add("EMAIL", string.Empty);
 
-                    var result = adsSearcherGroups.FindAll();
+                    if (props.GetDirectoryEntry().Properties.Contains("sn"))
+                        PropertiesList.Add("APELLIDO", props.GetDirectoryEntry().Properties["sn"].Value.ToString());
+                    else
+                        PropertiesList.Add("APELLIDO", string.Empty);
 
-                    foreach (SearchResult props in result)
-                    {
+                    if (props.GetDirectoryEntry().Properties.Contains("givenName"))
+                        PropertiesList.Add("NOMBRE", props.GetDirectoryEntry().Properties["givenName"].Value.ToString());
+                    else
+                        PropertiesList.Add("NOMBRE", string.Empty);
 
-                        if (props.GetDirectoryEntry().Properties.Contains("mail"))
-                            PropertiesList.Add("EMAIL", props.GetDirectoryEntry().Properties["mail"].Value.ToString());
-                        else
-                            PropertiesList.Add("EMAIL", string.Empty);
+                    if (props.GetDirectoryEntry().Properties.Contains("ThumbNailPhoto"))
+                        PropertiesList.Add("ThumbNailPhoto", props.GetDirectoryEntry().Properties["ThumbNailPhoto"].Value);
+                    else
+                        PropertiesList.Add("ThumbNailPhoto",null);
 
-                        if (props.GetDirectoryEntry().Properties.Contains("sn"))
-                            PropertiesList.Add("APELLIDO", props.GetDirectoryEntry().Properties["sn"].Value.ToString());
-                        else
-                            PropertiesList.Add("APELLIDO", string.Empty);
-
-                        if (props.GetDirectoryEntry().Properties.Contains("givenName"))
-                            PropertiesList.Add("NOMBRE", props.GetDirectoryEntry().Properties["givenName"].Value.ToString());
-                        else
-                            PropertiesList.Add("NOMBRE", string.Empty);
-
-                        if (props.GetDirectoryEntry().Properties.Contains("ThumbNailPhoto"))
-                            PropertiesList.Add("ThumbNailPhoto", props.GetDirectoryEntry().Properties["ThumbNailPhoto"].Value);
-                        else
-                            PropertiesList.Add("ThumbNailPhoto", null);
-
-                    }
                 }
                 return PropertiesList;
             }

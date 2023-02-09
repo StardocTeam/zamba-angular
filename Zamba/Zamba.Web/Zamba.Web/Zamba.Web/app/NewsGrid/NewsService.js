@@ -7,7 +7,7 @@ app.service('NewsService', function ($http) {
 
     var _getNews = function (userId, searchType, onSucces, onError) {
 
-        var url = serviceBase + '/HomeTabs/GetNewsSummary/';
+        var url = serviceBase + '/Tasks/GetNewsSummary/';
 
         var data = {
             UserId: userId,
@@ -30,11 +30,13 @@ app.service('NewsService', function ($http) {
         return $http.post(url, data);
     };
 
-    var _setRead = function (NewsId) {        
-        var url = serviceBase + '/HomeTabs/SetNewsRead/';
+    var _setRead = function (docId, docTypeId) {
+
+        var url = serviceBase + '/Tasks/SetNewsRead/';
 
         var data = {
-            NewsId: NewsId
+            DocId: docId,
+            DocTypeId: docTypeId
         };
 
         return $http.post(url, data);

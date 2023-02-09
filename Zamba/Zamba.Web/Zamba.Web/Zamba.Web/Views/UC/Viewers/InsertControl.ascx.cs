@@ -488,13 +488,13 @@ public partial class UC_Viewers_FormBrowser : System.Web.UI.UserControl
                             //Realiza la apertura del documento dependiendo de si tiene tareas o permisos.
                             if (Task != null)
                             {
-                                //Page.Session.Add("Entrada" + nr.ID, true);
+                                Page.Session.Add("Entrada" + nr.ID, true);
                                 SRights sRights = new SRights();
 
                                 //Verifica si tiene permisos de abrir la tarea
                                 if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.WFSteps, RightsType.Use, Task.StepId))
                                 {
-                                    script = "parent.OpenTask('../WF/TaskViewer.aspx?doctype=" + Task.DocTypeId.ToString() + "&docid=" + Task.ID.ToString() + "&taskid=" + Task.TaskId + "'," + Task.TaskId + ",'" + Task.Name + "');";                                    
+                                    script = "parent.OpenTask('../WF/TaskViewer.aspx?taskid=" + Task.TaskId + "'," + Task.TaskId + ",'" + Task.Name + "');";                                    
                                 }
                                 else
                                     script = "parent.OpenDocTask('../Search/DocViewer.aspx?doctype=" + nr.DocTypeId.ToString() + "&docid=" + nr.ID.ToString() + "'," + nr.ID + ",'" + nr.Name + "');";
@@ -540,9 +540,6 @@ public partial class UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 else
                 {
                     lblError.Text = "Ha ocurrido un error al insertar el formulario";
-                    var scriptMsg = $" swal('Error', '{lblError.Text}');";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorMsg", "$(document).ready(function(){" + scriptMsg + "});", true);
-
                 }
             }
         }
@@ -550,8 +547,6 @@ public partial class UC_Viewers_FormBrowser : System.Web.UI.UserControl
         {
             Zamba.AppBlock.ZException.Log(ex);
             lblError.Text = "Ha ocurrido un error al insertar el formulario";
-            var scriptMsg = $" swal('Error', '{lblError.Text}');";
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorMsg", "$(document).ready(function(){" + scriptMsg + "});", true);
         }
     }
 

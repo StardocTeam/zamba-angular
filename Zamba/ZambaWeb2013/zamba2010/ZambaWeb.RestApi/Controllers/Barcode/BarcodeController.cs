@@ -33,8 +33,8 @@ namespace ZambaWeb.RestApi.Controllers.Barcode
 
             try
             {
-                AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AccountController AC = new AccountController();
+                //AC.LoginById((int)paramRequest.UserId);
 
                 //UserBusiness UBR = new UserBusiness();
                 // IUser user = UBR.ValidateLogIn(paramRequest.UserId, ClientType.WebApi); 
@@ -115,8 +115,8 @@ namespace ZambaWeb.RestApi.Controllers.Barcode
 
             try
             {
-                AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AccountController AC = new AccountController();
+                //AC.LoginById(paramRequest.UserId);
 
                 //UserBusiness UBR = new UserBusiness();
                 // IUser user = UBR.ValidateLogIn(paramRequest.UserId, ClientType.WebApi); 
@@ -195,8 +195,8 @@ namespace ZambaWeb.RestApi.Controllers.Barcode
 
             try
             {
-                AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AccountController AC = new AccountController();
+                //AC.LoginById(paramRequest.UserId);
 
                 BarcodesBusiness BCB = new BarcodesBusiness();
                 DataTable DT = BCB.dsFilterCaratulas(paramRequest.UserId);

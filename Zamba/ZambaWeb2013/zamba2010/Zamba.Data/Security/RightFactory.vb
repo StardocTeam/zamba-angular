@@ -19,23 +19,22 @@ Public Class RightFactory
 
     Public Shared ReadOnly Property GetAllUserOrGroupsRights(ByVal id As Int64) As DataSet
         Get
-            If Permisos.ContainsKey(id) = False Then
+            SyncLock Permisos.SyncRoot
+                If Permisos.ContainsKey(id) = False Then
+                    Dim ds As DataSet
+                    ds = Server.Con.ExecuteDataset(CommandType.Text, "select * from usr_Rights where groupid = " & id & " or groupid in (select inheritedusergroup from group_r_group where usergroup = " & id & ") or groupid in ( Select groupid from usr_r_group where usrid=" & id & ") or groupid in (select inheritedusergroup from group_r_group where usergroup in ( Select groupid from usr_r_group where usrid=" & id & "))")
 
-                Dim ds As DataSet
-                ds = Server.Con.ExecuteDataset(CommandType.Text, "select * from usr_Rights where groupid = " & id & " or groupid in (select inheritedusergroup from group_r_group where usergroup = " & id & ") or groupid in ( Select groupid from usr_r_group where usrid=" & id & ") or groupid in (select inheritedusergroup from group_r_group where usergroup in ( Select groupid from usr_r_group where usrid=" & id & "))")
+                    ds.Tables(0).TableName = "usr_rights"
 
-                ds.Tables(0).TableName = "usr_rights"
-                SyncLock Permisos.SyncRoot
                     If Not Permisos.Contains(id) Then
                         Permisos.Add(id, ds)
                     End If
-                End SyncLock
-                Return ds
-
-            Else
-                Dim ds As DataSet = DirectCast(Permisos.Item(id), DataSet)
-                Return ds
-            End If
+                    Return ds
+                Else
+                    Dim ds As DataSet = DirectCast(Permisos.Item(id), DataSet)
+                    Return Permisos(id)
+                End If
+            End SyncLock
         End Get
     End Property
 
@@ -203,12 +202,12 @@ Public Class RightFactory
         Return False
     End Function
 
-    <Obsolete("Las entidades no corresponden a la capa de datos")>
+    <Obsolete("Las entidades no corresponden a la capa de datos")> _
     Public Shared Function GetArchivosUserRight(ByVal ds As Data_Group_Doc) As DataSet
         '1/1/2006
         Dim dstemp As DataSet
 
-        If Server.isOracle Then
+        If Server.IsOracle Then
             Dim ParValues() As Object = {CurrentUser.ID, 2}
             'Dim ParNames() As Object = {"UserId", "io_cursor"}
             ' Dim parTypes() As Object = {OracleType.Number, OracleType.Cursor}
@@ -767,51 +766,6 @@ Public Class RightFactory
         End If
     End Function
 
-    Public Shared Function GetFiltersWeb(ByVal DocTypeId As Int64, ByVal UserId As Int64) As DataSet
-        If Server.isOracle Then
-            Dim consulta As StringBuilder = New StringBuilder()
-            Dim _GUIDtemp As Generic.List(Of Int64) = UserFactory.GetUserGroupsIdsByUserid(UserId, False)
-
-            consulta.Append("SELECT * FROM zfiltersweb where DocTypeId = ")
-            consulta.Append(DocTypeId.ToString)
-            consulta.Append(" and ( ")
-            If Not IsNothing(_GUIDtemp) Then
-                For Each Guid As Int64 In _GUIDtemp
-                    consulta.Append("userid=")
-                    consulta.Append(Guid)
-                    consulta.Append(" or ")
-                Next
-            End If
-            consulta.Remove(consulta.Length - 4, 4)
-            consulta.Append(" )")
-
-            Return Server.Con.ExecuteDataset(CommandType.Text, consulta.ToString())
-        Else
-            Dim ParValues() As Object = {DocTypeId, UserId}
-            Return Server.Con.ExecuteDataset("ZSP_FILTERS_100_GetFiltersWeb", ParValues)
-        End If
-    End Function
-
-    Public Shared Function GetFiltersWebByView(ByVal DocTypeId As Int64, ByVal UserId As Int64, ByVal filterType As String) As DataSet
-        'para oracle agregar la parte del view en el where
-        If Server.isOracle Then
-            Dim consulta As StringBuilder = New StringBuilder()
-            Dim _GUIDtemp As Generic.List(Of Int64) = UserFactory.GetUserGroupsIdsByUserid(UserId, False)
-            consulta.AppendLine("SELECT * FROM ZFILTERS")
-            consulta.AppendLine("WHERE DOCTYPEID = " & DocTypeId)
-            consulta.AppendLine("And FilterType = '" & filterType & "'")
-            consulta.AppendLine("And (USERID = " & UserId)
-            consulta.AppendLine("Or USERID IN")
-            consulta.AppendLine("(SELECT GROUPID FROM USR_R_GROUP WHERE usrid = " & UserId & "))")
-
-            Return Server.Con.ExecuteDataset(CommandType.Text, consulta.ToString())
-        Else
-            Dim ParValues() As Object = {DocTypeId, UserId, filterType}
-            Return Server.Con.ExecuteDataset("ZSP_FILTERS_200_GetFiltersWebByView", ParValues)
-        End If
-    End Function
-
-
     ''' <summary>
     ''' Inserta un filtro
     ''' </summary>
@@ -851,41 +805,6 @@ Public Class RightFactory
         Return FilterId
     End Function
 
-    Public Shared Function InsertFilterWeb(ByVal FilterAttribute As String, ByVal FilterValue As String, ByVal FilterDataType As Int32, ByVal FilterComparator As String, ByVal FilterType As String, ByVal DocTypeId As Int64, ByVal UserId As Int64, ByVal FilterDbName As String, ByVal IndexDropDown As Int32) As Int64
-        Dim FilterId As Int64
-        'TODO: La parte de Oracle le falta el DataDescription y las palabras reservadas no se si tiran exception, como por ej VALUE
-        If Server.isOracle Then
-            FilterId = CoreData.GetNewID(IdTypes.FilterWeb)
-            Dim consulta As String = "INSERT INTO ZFILTERS (id, attribute, ""VALUE"", enabled, datatype, comparator, filtertype, doctypeid, userid, description, indexdropdown ) values ("
-            consulta &= FilterId.ToString() & ",'" & FilterAttribute & "','" & FilterValue & "',1,'" & FilterDataType.ToString & "','" & FilterComparator & "','" & FilterType & "'," & DocTypeId.ToString() & "," & UserId.ToString() & ",'" & FilterDbName & "'," & IndexDropDown.ToString & "')"
-            Server.Con.ExecuteNonQuery(CommandType.Text, consulta)
-        Else
-            Dim ParValues() As Object = {FilterAttribute,
-                                         FilterValue,
-                                         FilterDataType,
-                                         FilterComparator,
-                                         FilterType,
-                                         DocTypeId,
-                                         UserId,
-                                         FilterDbName,
-                                         IndexDropDown}
-            FilterId = Int64.Parse(Server.Con.ExecuteScalar("ZSP_FILTERS_200_InsertFilterWeb", ParValues))
-        End If
-
-        Return FilterId
-    End Function
-
-
-    Public Shared Function DeleteUserAssignedFilter(ByVal UserId As Int64, ByVal DocTypeId As Int64, ByVal FilterType As String)
-        Dim query As String = "DELETE ZFILTERS WHERE USERID = " & UserId & " AND DoctypeId = " & DocTypeId & " AND FILTERTYPE = '" & FilterType & "' AND Attribute = 'uag.NAME'"
-        Server.Con.ExecuteNonQuery(CommandType.Text, query)
-    End Function
-
-    Public Shared Function DeleteStepFilter(ByVal UserId As Int64, ByVal DocTypeId As Int64, ByVal FilterType As String)
-        Dim query As String = "DELETE ZFILTERS WHERE USERID = " & UserId & " AND DoctypeId = " & DocTypeId & " AND FILTERTYPE = '" & FilterType & "' AND Attribute = 'STEPID'"
-        Server.Con.ExecuteNonQuery(CommandType.Text, query)
-    End Function
-
     ''' <summary>
     ''' Elimina un filtro en específico por Id de filtro.
     ''' </summary>
@@ -923,93 +842,6 @@ Public Class RightFactory
             Server.Con.ExecuteNonQuery("ZSP_FILTERS_100_RemoveDefaultFilter", ParValues)
         End If
     End Sub
-    ''' <summary>
-    ''' Elimina un filtro en específico por DocTypeId, IndexId, y UserId.
-    ''' </summary>
-    ''' <param name="docTypeId"></param>
-    ''' <param name="userId"></param>
-    ''' <param name="indexId"></param>
-    ''' <param name="value"></param>
-    ''' <remarks>Se utiliza para remover filtros por defecto desde el Administrador.</remarks>
-    Public Shared Sub RemoveFilterWeb(ByVal docTypeId As Int64, ByVal userId As Int64, ByVal attribute As String, ByVal comparator As String, ByVal value As String)
-        Dim query As New StringBuilder
-        query.Append("DELETE FROM ZFILTERSWEB WHERE ATTRIBUTE = '")
-        query.Append(attribute & "' AND DoctypeId = ")
-        query.Append(docTypeId & " AND UserId = ")
-        query.Append(userId & " AND [Value] =  '(" & value & ")'") 'En Oracle las palabras reservadas se escapan tambien con corchetes?
-        query.Append(" AND Comparator = '" & comparator & "'")
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub RemoveFilterWebById(ByVal zfilterWebId As Int64)
-        Dim query As New StringBuilder
-        query.Append("DELETE FROM ZFILTERS WHERE id = " & zfilterWebId)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    ''' <summary>
-    ''' Quita los filtros para las columnas fijas
-    ''' </summary>
-    ''' <param name="docTypeId"></param>
-    ''' <param name="userId"></param>
-    ''' <param name="attribute"></param>
-    ''' <param name="comparator"></param>
-    ''' <param name="value"></param>
-    Public Shared Sub RemoveZambaColumnsFilterWeb(ByVal docTypeId As Int64, ByVal userId As Int64, ByVal filterType As String)
-        Dim query As New StringBuilder
-        query.Append("DELETE zfw FROM ZFILTERS as zfw where zfw.Description in ('Tarea','Nombre Original','Fecha Creacion','Modificación')")
-        query.Append(" AND zfw.DoctypeId = " & docTypeId)
-        query.Append(" AND zfw.UserId = " & userId)
-        query.Append(" AND zfw.FilterType = '" & filterType & "'")
-
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub UpdateFilterValue(ByVal zfilterId As Int64, ByVal filterValue As String)
-        Dim query As New StringBuilder
-        query.Append("UPDATE ZFILTERSWEB SET")
-        query.Append(" [Value] = '(" & filterValue & ")', ")
-        query.Append(" [Enabled] = 1 ")
-        query.Append(" WHERE Id = " & zfilterId)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub SetDisabledAllFiltersByUser(ByVal userId As Int64, ByVal FilterType As String)
-        Dim query As New StringBuilder
-        query.Append("UPDATE ZFILTERS SET")
-        query.Append(" [Enabled] = 0 ")
-        query.Append(" WHERE UserId = " & userId & " And FilterType = '" & FilterType & "'")
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub SetDisabledAllFiltersByUserViewDoctype(ByVal userId As Int64, ByVal FilterType As String, ByVal DocTypeId As Int64)
-        Dim query As New StringBuilder
-        query.Append("UPDATE ZFILTERS SET")
-        query.Append(" [Enabled] = 0 ")
-        query.Append(" WHERE UserId = " & userId & " And FilterType = '" & FilterType & "' AND DoctypeId = " & DocTypeId)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub SetEnabledAllFiltersByUserViewDoctype(ByVal userId As Int64, ByVal FilterType As String, ByVal DocTypeId As Int64)
-        Dim query As New StringBuilder
-        query.Append("UPDATE ZFILTERS SET")
-        query.Append(" [Enabled] = 1 ")
-        query.Append(" WHERE UserId = " & userId & " And FilterType = '" & FilterType & "' AND DoctypeId = " & DocTypeId)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub RemoveAllZambaColumnsFilter(ByVal filterIdsString As String)
-        Dim query As New StringBuilder
-        query.Append("DELETE FROM ZFILTERS where Id in " & filterIdsString)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-    Public Shared Sub RemoveAllFilters(ByVal userId As Int64, ByVal FilterType As String, ByVal DocTypeId As Int64)
-        Dim query As New StringBuilder
-        query.Append("DELETE FROM ZFILTERS where userId = " & userId & " and FilterType = '" & FilterType & "' and DocTypeId = " & DocTypeId)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
 
     ''' <summary>
     ''' Elimina todos los filtros de un entidad de un usuario específico.
@@ -1030,13 +862,13 @@ Public Class RightFactory
         If Server.isOracle Then
             'TODO: PASAR ESTA PARTE A SP DE ORACLE.
             If removeDefaults Then
-                Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " And USERID = " & userId.ToString)
+                Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " AND USERID = " & userId.ToString)
             Else
-                Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " And USERID = " & userId.ToString & " And FILTERTYPE <> 'defecto'")
-        End If
+                Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " AND USERID = " & userId.ToString & " AND FILTERTYPE <> 'defecto'")
+            End If
         Else
-        Dim ParValues() As Object = {DocTypeId, userId, remove}
-        Server.Con.ExecuteNonQuery("ZSP_FILTERS_200_ClearDocTypeFiltersByUserId", ParValues)
+            Dim ParValues() As Object = {docTypeId, userId, remove}
+            Server.Con.ExecuteNonQuery("ZSP_FILTERS_200_ClearDocTypeFiltersByUserId", ParValues)
         End If
     End Sub
 
@@ -1068,25 +900,6 @@ Public Class RightFactory
             Server.Con.ExecuteNonQuery("ZSP_FILTERS_100_UpdateFilterEnabled", ParValues)
         End If
     End Sub
-
-    Public Shared Sub UpdateFilterWebEnabled(ByVal docTypeId As Int64, ByVal userId As Int64, ByVal attribute As String, ByVal comparator As String, ByVal value As String, ByVal enabled As Int64)
-        Dim query As New StringBuilder
-        query.Append("UPDATE ZFILTERSWEB set Enabled = " & enabled)
-        query.Append(" WHERE ATTRIBUTE = '")
-        query.Append(attribute & "' AND DoctypeId = ")
-        query.Append(docTypeId & " AND UserId = ")
-        query.Append(userId & " AND [Value] =  '(" & value & ")'") 'En Oracle las palabras reservadas se escapan tambien con corchetes?
-        query.Append(" AND Comparator = '" & comparator & "'")
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-    Public Shared Sub UpdateFilterWebEnabledById(ByVal id As Int64, ByVal enabled As Int64)
-        Dim query As New StringBuilder
-        query.Append("UPDATE ZFILTERS set Enabled = " & enabled)
-        query.Append(" WHERE id = " & id)
-        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
-    End Sub
-
-
 
     Public Shared Function GetDocTypeUserRightFromArchive(ByVal UserId As Long, ByVal Doc_GroupID As Integer) As DsDoctypeRight
         'TODO Martin: Esta yendo a la base para traer los doctypes que el usuario tiene permisos, aprobechar zcore
@@ -1147,7 +960,7 @@ Public Class RightFactory
         End Try
     End Sub
 
-
+  
     Public Overrides Sub Dispose()
 
     End Sub
@@ -1230,11 +1043,11 @@ Public Class RightFactory
 #End Region
 
     Public Shared Sub ClearHashTables()
-        'If Not IsNothing(Permisos) Then
-        '    Permisos.Clear()
-        '    Permisos = Nothing
-        '    Permisos = New SynchronizedHashtable()
-        'End If
+        If Not IsNothing(Permisos) Then
+            Permisos.Clear()
+            Permisos = Nothing
+            Permisos = New SynchronizedHashtable()
+        End If
     End Sub
 
     ''' <summary>

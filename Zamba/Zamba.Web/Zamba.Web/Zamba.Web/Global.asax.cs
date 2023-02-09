@@ -12,6 +12,9 @@ using Zamba.Core;
 using System.IO;
 using Zamba.Membership;
 using System.Net;
+using Microsoft.AspNet.FriendlyUrls.Resolvers;
+using System.Text;
+using BundleTransformer.Core.Resources;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -33,7 +36,39 @@ namespace Zamba.Web
         {
             // System.Web.HttpContext.Current.SetSessionStateBehavior(System.Web.SessionState.SessionStateBehavior.Required);
         }
+        protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
+        {
+            if (Request.Url.Scheme == "https")
+            {
+                Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
+            }
+            HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
+            HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
+            HttpContext.Current.Response.Headers.Remove("Server");
+            //HttpContext.Current.Request.Headers.Add("Content-Security-Policy", "default-src 'self';");
+            //HttpContext.Current.Response.Headers.Add("X-XSS-Protection", "1");
+            HttpContext.Current.Response.Headers.Remove("X-Powered-By");
+            HttpContext.Current.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+            //HttpContext.Current.Response.Headers.Remove("X-Frame-Options");
+            //HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
+            //String myhtml = "<html><body>hola mundo</body><html>";
+            //byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
+            //HttpContext.Current.Response.Clear();
+            //System.IO.StreamReader sr = new StreamReader(HttpContext.Current.Response.OutputStream);
+            //string output = sr.ReadToEnd();
 
+
+            //HttpContext.Current.Response.BinaryWrite(misbytes);
+            
+
+
+        }
+        protected void Application_EndRequest()
+        {
+            //String myhtml = "<html><body>hola mundo</body><html>";
+            //byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
+            //HttpContext.Current.Response.BinaryWrite(misbytes);
+        }
         void Application_Start(object sender, EventArgs e)
         {
             // Código que se ejecuta al iniciar la aplicación
@@ -42,13 +77,15 @@ namespace Zamba.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            MvcHandler.DisableMvcResponseHeader = true;
             ZCore ZC = new ZCore();
 
             if (Servers.Server.ConInitialized == false)
                 ZC.InitializeSystem("Zamba.Web - Application");
 
             ZC.VerifyFileServer();
+            Application["okta_states"] = new List<string>();
+
             // checkActions = new System.Timers.Timer(60000);
             // checkActions.Elapsed += CheckInactiveSessionsHandler;
             //  checkActions.Enabled = true;
@@ -59,20 +96,289 @@ namespace Zamba.Web
 
         }
 
-
+      
 
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            if (Request.Params.Count > 0)
+            {
+                if (Request.Params.AllKeys[0] == "zamba:\\\\DT")
+                {
+                    String URL = Request.Url.OriginalString;
+                    URL = URL.Replace("zamba:%5C%5C", "");
+                    Response.Redirect(URL);
+                }
+            }
+            if (HttpContext.Current.Request.IsSecureConnection.Equals(false) && HttpContext.Current.Request.IsLocal.Equals(false))
+            {
+                //Response.Redirect("https://" + Request.ServerVariables["HTTP_HOST"] + HttpContext.Current.Request.RawUrl);
+            }
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            if (!RequestAuthorization(Request))
+            {
+                //Context.Response.StatusCode = 401; // Unauthorized
+
+                FormsAuthentication.RedirectToLoginPage();
+                //Context.Response.End();
+
+                //throw new HttpNotFoundException();
+            }
+            var app = sender as HttpApplication;
+            if (app != null && app.Context != null)
+            {
+                app.Context.Response.Headers.Remove("Server");
+            }
+
+
+            Response.AppendHeader("Cache-Control", "no-cache,no-store,must-revalidate");
+            Response.AppendHeader("Pragma", "no-cache");
+            Response.AppendHeader("Expires", "0");
+
+
+
+
             if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
             {
                 HttpContext.Current.Response.AddHeader("Cache-Control", "no-cache");
+                HttpContext.Current.Response.Headers.Remove("Access-Control-Allow-Methods");
                 HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
                 HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
                 HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "1728000");
                 HttpContext.Current.Response.End();
             }
+        }
+        private string[] GetResourcesSenitive()
+        {
+            List<String> RecursosSensibles = new List<string>();
+            RecursosSensibles.Add("services");
+            RecursosSensibles.Add("config");
+            RecursosSensibles.Add("test");
+            RecursosSensibles.Add("src");
+            RecursosSensibles.Add("package.json");
+            RecursosSensibles.Add("bower.json");
+            RecursosSensibles.Add("gulpfile.js");
+            return RecursosSensibles.ToArray();
+        }
+
+        private string[] GetListAuthorizationResources()
+        {
+            //Agregue aquellos recursos que desea autorizar donde la autenticacion
+            List<String> RecursosYMetodosWeb = new List<string>();
+            RecursosYMetodosWeb.Add("taskviewer");
+            RecursosYMetodosWeb.Add("docviewer");
+            RecursosYMetodosWeb.Add("taskviewer.aspx");
+            RecursosYMetodosWeb.Add("docviewer.aspx");
+            RecursosYMetodosWeb.Add("search.html");
+            RecursosYMetodosWeb.Add("GetDocFile.ashx");
+            RecursosYMetodosWeb.Add("TaskService.asmx/getUsedFilters");
+            RecursosYMetodosWeb.Add("TaskService.asmx/CloseAllAsignedTask");
+            RecursosYMetodosWeb.Add("TaskService.asmx/GetUserFeeds");
+            RecursosYMetodosWeb.Add("TaskService.asmx/SetNewRuleExecution");
+            RecursosYMetodosWeb.Add("TaskService.asmx/filterdata");
+            RecursosYMetodosWeb.Add("TaskService.asmx/ClearAllCache");
+            RecursosYMetodosWeb.Add("TaskService.asmx/ClearUserCache");
+            RecursosYMetodosWeb.Add("TaskService.asmx/ClearRightsCache");
+            RecursosYMetodosWeb.Add("TaskService.asmx/ClearUserCache");
+            RecursosYMetodosWeb.Add("TaskService.asmx/getUsedFilters");
+            RecursosYMetodosWeb.Add("TaskService.asmx/KeepSessionAlive");
+            RecursosYMetodosWeb.Add("TaskService.asmx/filterdata");
+            RecursosYMetodosWeb.Add("TaskService.asmx/ClearRulesCache");
+            RecursosYMetodosWeb.Add("TaskService.asmx/ClearStructureCache");
+            RecursosYMetodosWeb.Add("TaskService.asmx/CheckTimeOut");
+            RecursosYMetodosWeb.Add("TaskService.asmx/deleteFilter");
+            return RecursosYMetodosWeb.Select(n => n.ToLower()).ToArray();
+        }
+        private Boolean RequestAuthorization(HttpRequest Request)
+        {
+            //return true;
+            //if (Request.UrlReferrer != null)
+            //{
+            //    if (Request.UrlReferrer.Host != Request.Url.Host)
+            //        throw new HttpException(401, "Unauthorized");
+            //}
+            //if (!ValidateOktaAuthenticacionHTML(Request))
+            //    throw new HttpException(401, "Unauthorized");
+            string[] SubscriptionResourcesSensitive = GetResourcesSenitive();
+            string[] SubscriptionResourcesAuthentication = GetListAuthorizationResources();
+            Boolean AutenticationIsValid = true;
+            try
+            {
+                int userid = 0;
+                string token = "";
+                List<String> WebMethods = new List<string>();
+                List<String> Resources = new List<string>();
+                WebMethods = SubscriptionResourcesAuthentication.Where(n => n.Contains("/")).Select(m => m.ToLower()).ToList();
+                Resources = SubscriptionResourcesAuthentication.Where(n => !(n.Contains("/"))).Select(m => m.ToLower()).ToList();
+                String Url = Request.AppRelativeCurrentExecutionFilePath;
+
+                List<String> SplitUrl = Url.Split('/').ToList();
+                String PossibleWebMethod = "";
+                String PossibleResource = "";
+                if (SplitUrl.Count > 1)
+                {
+                    PossibleWebMethod = (SplitUrl.ElementAt(SplitUrl.Count - 2) + "/" + SplitUrl.ElementAt(SplitUrl.Count - 1)).ToLower();
+                }
+                PossibleResource = SplitUrl.ElementAt(SplitUrl.Count - 1).ToLower();
+                if (SubscriptionResourcesSensitive.Contains(PossibleResource))
+                    return false;
+
+                if (PossibleResource == "login.aspx")
+                {
+
+                    bool OktaAuthentication;
+                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
+                    if (OktaAuthentication)
+                    {
+                        if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                        {
+                            string QueryStringUrl = Request.QueryString["ReturnUrl"].Split('?').First();
+                            string QueryStringParams = Request.QueryString["ReturnUrl"].Split('?').Last();
+                            QueryStringParams = String.Join("&", QueryStringParams.Split('&').Where(n => n.Split('=').First() != "token" && n.Split('=').First() != "userid").AsEnumerable());
+                            QueryStringParams = (QueryStringUrl + "?" + QueryStringParams)
+                                .Replace("/", "%2F")
+                                .Replace(":", "%3A")
+                                .Replace("?", "%3F")
+                                .Replace("=", "%3D")
+                                .Replace("&", "%26");
+
+                            Response.Redirect("~/Views/Security/OktaAuthentication.html?ReturnUrl=" + QueryStringParams);
+                        }
+                        else
+                        {
+                            Response.Redirect("~/Views/Security/OktaAuthentication.html");
+                        }
+                    }
+                    // Response.Redirect("~/Views/Security/Okta2.html");
+
+
+                }
+                if (SubscriptionResourcesAuthentication.Contains(PossibleResource) || SubscriptionResourcesAuthentication.Contains(PossibleWebMethod))
+                {
+                    if (Request.Headers.GetValues("Authorization") != null)
+                    {
+                        List<string> Authorization = System.Text.ASCIIEncoding.ASCII.GetString(Convert.FromBase64String(Request.Headers.GetValues("Authorization").First().Split(' ').Last())).Split(':').ToList<String>();
+                        userid = Convert.ToInt32(Authorization.First());
+                        token = Authorization.Last();
+                    }
+                    else
+                    {
+                        var useridstring = "";
+
+                        if (Request.QueryString["userid"] == null)
+                            useridstring = "0";
+                        else
+                            useridstring = Request.QueryString["userid"].ToString().Split(',')[0];
+                        userid = Convert.ToInt32(useridstring);
+                        token = Request.QueryString["token"];
+                    }
+                    ZssFactory zssFactory = new ZssFactory();
+                    AutenticationIsValid = zssFactory.CheckTokenInDatabase(userid, token, true);
+                }
+                if (AutenticationIsValid)
+                {
+                    if (Membership.MembershipHelper.CurrentUser == null)
+                    {
+                        Zamba.Services.SUsers sUsers = new Zamba.Services.SUsers();
+                        Zamba.Membership.MembershipHelper.SetCurrentUser(sUsers.GetUser(userid));
+                    }
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Usuario intento usar un recurso sin autorizacion." + System.Environment.NewLine + "url:" + Url + System.Environment.NewLine + "user:" + userid + System.Environment.NewLine + "token:" + token);
+                }
+                return AutenticationIsValid;
+            }
+            catch (Exception e)
+            {
+                //Request.AppRelativeCurrentExecutionFilePath + " (" + e.Message + ")";
+                AutenticationIsValid = false;
+            }
+
+            return AutenticationIsValid;
+        }
+
+
+        public Boolean ValidateOktaState(String state, String Domain)
+        //public Boolean ValidateOktaState(String state, string Domain)
+        {
+            //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            try
+            {
+                WebClient client = new WebClient();
+
+                string url = Domain + System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"] + "/api";
+                var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+                http.Method = "POST";
+                http.Accept = "*/*";
+                http.ContentType = "application/x-www-form-urlencoded";
+                CookieContainer cookieContainer = new CookieContainer();
+                http.Referer = baseAddress;
+                var postData = "";
+                var data = Encoding.ASCII.GetBytes(postData);
+                http.ContentLength = data.Length;
+                using (var stream = http.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                    stream.Close();
+                }
+                using (var s = http.GetResponse().GetResponseStream())
+                {
+                    using (var sr = new StreamReader(s))
+                    {
+                        var json = sr.ReadToEnd();
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, json);
+                        if (json == "true")
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+
+
+        }
+        private Boolean ValidateOktaAuthenticacionHTML(HttpRequest Request)
+        {
+
+            var url = Request.AppRelativeCurrentExecutionFilePath.ToString().Split('/').ToList().Last();
+            if (url == "OktaAuthentication.html")
+            {
+                string code = Request.QueryString["code"];
+                string state = Request.QueryString["state"];
+                string retururl = Request.QueryString["returnurl"];
+                string logout = Request.QueryString["logout"];
+                if (Request.QueryString.Count == 0)
+                {
+                    return true; // sin parametros
+                }
+                if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count != 1)
+                {
+                    return false; //logout y otros parametros
+                }
+                if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count == 1)
+                {
+                    if (logout == "true")
+                        return true;
+                    else
+                        return false;
+                    // solo logout
+                }
+                if (!String.IsNullOrEmpty(code) && String.IsNullOrEmpty(state) && Request.QueryString.Count != 2)
+                {
+                    return false; // code + state + otros parametros
+                };
+                return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
+
+            }
+            // valido state
+            return true;
         }
 
 
@@ -82,35 +388,21 @@ namespace Zamba.Web
         void Application_End(object sender, EventArgs e)
         {
             //  Code that runs on application shutdown
-            try
-            {
-                if (Zamba.Servers.Server.ConInitialized == true)
-                {
-                    Ucm ucm = new Ucm();
-                    ucm.CheckInactiveSessions();
-                    ucm = null;
-                    ActionsBusiness.CleanExceptions();
-                }
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
+            // CheckInactiveSessions();
         }
 
         void Application_Error(object sender, EventArgs e)
         {
+            //Response.StatusCode = 401;
+            //return;
             try
             {
                 Exception ex = Server.GetLastError();
                 Server.ClearError();
-                String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
-
                 HttpContext.Current.Response.Clear();
                 //                ((System.CodeDom.Compiler.CompilerError)(new System.Linq.SystemCore_EnumerableDebugView(((System.Web.HttpCompileException)((System.Web.HttpApplication)sender).LastError).ResultsWithoutDemand.Errors).Items[0])).errorText
 
-                Zamba.AppBlock.ZException.Log(ex);
-                HttpContext.Current.Response.Redirect( BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
+                //HttpContext.Current.Response.Redirect(".//views/CustomErrorPages/Error.html?e=" + ex.Message);
             }
             catch (Exception)
             {
@@ -135,20 +427,6 @@ namespace Zamba.Web
             // Note: The Session_End event is raised only when the sessionstate mode
             // is set to InProc in the Web.config file. If session mode is set to StateServer 
             // or SQLServer, the event is not raised.
-            try
-            {
-                if (Zamba.Servers.Server.ConInitialized == true)
-                {
-                    Ucm ucm = new Ucm();
-                    ucm.CheckInactiveSessions();
-                    ucm = null;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
             //CheckInactiveSessions();
             //  ActionsBusiness.CleanExceptions();
         }
@@ -159,10 +437,11 @@ namespace Zamba.Web
             {
                 if (Zamba.Servers.Server.ConInitialized == true)
                 {
-                    Ucm ucm = new Ucm();
-                    ucm.CheckInactiveSessions();
-                    ucm = null;
+
                 }
+
+
+                //  CheckInactiveSessions();
 
             }
             catch (Exception ex)

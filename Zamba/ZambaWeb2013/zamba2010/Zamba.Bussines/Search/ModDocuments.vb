@@ -10,8 +10,6 @@ Imports Zamba.Framework.Search.Components
 Imports Zamba.Framework.Search.Data
 Imports Zamba.Core.DocTypes.DocAsociated
 Imports Zamba.Framework
-Imports System.Reflection
-Imports Microsoft.Office.Core
 
 Namespace Search
     ''' -----------------------------------------------------------------------------
@@ -37,14 +35,14 @@ Namespace Search
 
 
 #Region "IndexSearch"
-        Public Overloads Function DoSearchAsocWithWF(ByVal CurrentDocType As DocType, ByVal Indexs As List(Of IIndex), ByVal UserId As Int64, ByVal LastPage As Int64, ByVal PageSize As Int32, ByVal result As IResult, ByVal currentUserName As String) As DataTable
+        Public Overloads Function DoSearchAsocWithWF(ByVal CurrentDocType As DocType, ByVal Indexs As List(Of IIndex), ByVal UserId As Int64, ByVal LastPage As Int64, ByVal PageSize As Int32, ByVal docId As Int64, ByVal currentUserName As String) As DataTable
             Dim dtResults As New DataTable
             Try
                 Dim i As Int32
                 dtResults.MinimumCapacity = 0
 
                 Dim MD As New ModDocuments
-                Dim dt As DataTable = MD.SearchRowsAsocForm(CurrentDocType, Indexs, UserId, LastPage, PageSize, result, currentUserName)
+                Dim dt As DataTable = MD.SearchRowsAsocForm(CurrentDocType, Indexs, UserId, LastPage, PageSize, docId, currentUserName)
                 MD = Nothing
                 If dt IsNot Nothing Then
                     dtResults.MinimumCapacity = dtResults.MinimumCapacity + dt.MinimumCapacity
@@ -72,14 +70,12 @@ Namespace Search
                                            ByVal PageSize As Int32,
                                            ByVal isAssociatedSearch As Boolean,
                                            ByVal UseFilters As Boolean,
-                                           ByVal DtoOnly As Boolean, ByRef TotalCount As Int64, onlyImportants As Boolean) As DataTable
+                                           ByVal DtoOnly As Boolean, ByRef TotalCount As Int64) As DataTable
             Dim dtResults As New DataTable
             Dim SearchName As String = String.Empty
 
             Dim SearchsEntities As New List(Of Int64)
-            If IsNothing(search.Doctypes) Then
-                Return dtResults
-            End If
+
             For Each DocType As IDocType In search.Doctypes
                 SearchsEntities.Add(DocType.ID)
             Next
@@ -124,8 +120,6 @@ Namespace Search
                     Dim CurrentDocType As DocType
                     Dim i As Int32
                     dtResults.MinimumCapacity = 0
-
-
                     For i = 0 To search.Doctypes.Count - 1
                         CurrentDocType = search.Doctypes(i)
                         If CurrentDocType.Indexs Is Nothing OrElse CurrentDocType.Indexs.Count = 0 Then
@@ -133,7 +127,7 @@ Namespace Search
                         End If
 
                         Dim Count As Int64
-                        Dim dt As DataTable = SearchRows(CurrentDocType, search.Indexs, UserId, LastPage, PageSize, UseFilters, SearchsEntities, DtoOnly, UserId, search.OrderBy, search.Filters, search, Count, False, onlyImportants)
+                        Dim dt As DataTable = SearchRows(CurrentDocType, search.Indexs, UserId, LastPage, PageSize, UseFilters, SearchsEntities, DtoOnly, UserId, search.OrderBy, search.Filters, search, Count, False)
                         If Not IsNothing(dt) Then
                             Try
                                 dtResults.Merge(dt, True, MissingSchemaAction.Add)
@@ -154,7 +148,7 @@ Namespace Search
 
                             Dim HabilitarFavoritos As Boolean = up.getValue("HabilitarFavoritos", UPSections.UserPreferences, False, search.UserId)
                             If (search.View IsNot Nothing AndAlso search.View.Contains("MyTasks") AndAlso HabilitarFavoritos) Then
-                                dt = SearchRows(CurrentDocType, search.Indexs, UserId, LastPage, PageSize, UseFilters, SearchsEntities, DtoOnly, UserId, search.OrderBy, search.Filters, search, Count, True, False)
+                                dt = SearchRows(CurrentDocType, search.Indexs, UserId, LastPage, PageSize, UseFilters, SearchsEntities, DtoOnly, UserId, search.OrderBy, search.Filters, search, Count, True)
                                 If Not IsNothing(dt) Then
                                     TotalCount = TotalCount + Count
                                     dtResults.Merge(dt, True, MissingSchemaAction.Add)
@@ -180,8 +174,8 @@ Namespace Search
                                     Next
                                 End If
                                 UB.SaveAction(2, ObjectTypes.Documents, RightsType.Buscar,
-                                                                   "Se realizó búsqueda por el entidad: " _
-                                                                   & CurrentDocType.Name & " (" & CurrentDocType.ID & ")" & indexsstring)
+                                                               "Se realizó búsqueda por el entidad: " _
+                                                               & CurrentDocType.Name & " (" & CurrentDocType.ID & ")" & indexsstring)
 
                             Catch ex As Exception
                                 ZClass.raiseerror(ex)
@@ -250,7 +244,7 @@ Namespace Search
                         CurrentDocType = search.Doctypes(i)
                         CurrentDocType.Indexs = ZCore.GetInstance().FilterIndex(CurrentDocType.ID)
                         Dim Count As Int64
-                        Dim dt As DataTable = SearchRows(CurrentDocType, search.Indexs, UserId, LastPage, PageSize, UseFilters, SearchsEntities, DtoOnly, UserId, search.OrderBy, search.Filters, search, Count, False, False)
+                        Dim dt As DataTable = SearchRows(CurrentDocType, search.Indexs, UserId, LastPage, PageSize, UseFilters, SearchsEntities, DtoOnly, UserId, search.OrderBy, search.Filters, search, Count, False)
                         If Not IsNothing(dt) Then
                             TotalCount = TotalCount + Count
                             dtResults.Merge(dt)
@@ -329,8 +323,7 @@ Namespace Search
             query = query.Replace(") as Q", ")")
             strQuery.Replace(") as Q", String.Empty)
 
-            strQuery.Insert(0, DeclareString & "select " & strPREselect.ToString() & " from (")
-            '            strQuery.Insert(0, DeclareString & "select " & strPREselect.ToString() & ",I.* from (")
+            strQuery.Insert(0, DeclareString & "select " & strPREselect.ToString() & ",I.* from (")
 
             If Boolean.Parse(ZOptBusiness.GetValueOrDefault("Usefetch", "false")) Then
                 strQuery.Append(String.Format(" offset {0} rows fetch first {1} rows only ", Desde - 1, PageSize))
@@ -392,15 +385,8 @@ Namespace Search
                     joinString = auxStrCountQuery.ToString().Substring(leftIndex)
                 End If
 
-                Dim whereRefIndex As New List(Of ReferenceIndex)
                 For Each refInd As ReferenceIndex In refIndexs
-                    If whereString IsNot Nothing AndAlso (whereString.ToLower.Contains(refInd.DBTable.ToLower) OrElse whereString.ToLower.Contains($"slst_s{refInd.IndexId}")) Then
-                        whereRefIndex.Add(refInd)
-                    End If
-                Next
-
-                For Each refInd As ReferenceIndex In refIndexs
-                    If whereRefIndex.Find(Function(value As ReferenceIndex) value.DBTable = refInd.DBTable) Is Nothing AndAlso (joinString.ToLower.Contains(refInd.DBTable.ToLower) AndAlso (String.IsNullOrEmpty(whereString)) OrElse (Not whereString.ToLower.Contains(refInd.DBTable.ToLower) OrElse Not whereString.ToLower.Contains($"slst_s{refInd.IndexId}"))) Then
+                    If joinString.ToLower.Contains(refInd.DBTable.ToLower) AndAlso (String.IsNullOrEmpty(whereString) OrElse Not whereString.ToLower.Contains(refInd.DBTable.ToLower)) Then
                         auxStrCountQuery = auxStrCountQuery.Replace(refIndexsQueryHelper.GetStringJoinQuery(refInd.IndexId, refInd.DoctypeId, refIndexs), String.Empty)
                     End If
                 Next
@@ -441,7 +427,7 @@ Namespace Search
                                                      ByVal CurrentUserId As Int64,
                                                      ByVal LastPage As Int64,
                                                      ByVal PageSize As Int32,
-                                                     ByVal result As IResult,
+                                                     ByVal doc_id As Int64,
                                                      ByVal currentUserName As String) As DataTable
 
 
@@ -496,9 +482,6 @@ Namespace Search
                 Dim search As ISearch = New Zamba.Core.Searchs.Search()
                 search.SearchType = SearchTypes.AsociatedSearch
                 search.UserId = CurrentUserId
-                search.ParentEntity = result
-                search.View = ""
-                search.AddDocType(DocType)
                 Dim IB As New IndexsBusiness
                 Dim DTIndexs As New List(Of IIndex)
                 ' If search.SearchType <> SearchTypes.AsignedTasks Then
@@ -529,7 +512,7 @@ Namespace Search
                 i = 0
                 Dim dt As DataTable = New DataTable
                 strselect.Append(" And I.doc_id <> ")
-                strselect.Append(result.ID)
+                strselect.Append(doc_id)
                 Dim Count As Int64
                 dt = GetTaskTable(strselect, strPREselect, strPOSTselect, Orderstring.ToString, PageSize, LastPage, search, Count, dateDeclarationString.ToString, refIndexs)
 
@@ -695,7 +678,7 @@ Namespace Search
                                              ByVal Filters As List(Of ikendoFilter),
                                              ByVal search As ISearch,
                                              ByRef Count As Int64,
-                                             ByVal isFavoriteSearch As Boolean, onlyImportants As Boolean) As DataTable
+                                             ByVal isFavoriteSearch As Boolean) As DataTable
 
 
             Dim ColumCondstring As New StringBuilder
@@ -710,8 +693,6 @@ Namespace Search
 
                 'Indices de la entidad, filtrados segun permisos del usuario
                 Dim dtIndexs As List(Of IIndex) = New IndexsBusiness().FilterIndexsByUserRights(DocType.ID, CurrentUserId, DocType.Indexs, RightsType.TaskGridIndexView)
-
-
 
                 Dim externalOrderBy As StringBuilder = GetExternalOrderString(DocType, dtIndexs, OrderBy)
                 Dim internalOrderBy As String = GetInternalOrderString(DocType, dtIndexs, OrderBy)
@@ -737,13 +718,8 @@ Namespace Search
                 'Busco los indices referenciales de la entidad.
                 Dim refIndexs As List(Of ReferenceIndex) = New ReferenceIndexBusiness().GetReferenceIndexesByDoctypeId(DocType.ID)
 
-                'Obtener los filtros cuando solo tiene 1 entidad seleccionada
-                Dim filtersWeb As New List(Of IFilterElem)
-                If search.Doctypes.Count = 1 Then
-                    filtersWeb = New FiltersComponent().GetFiltersWebByView(search.Doctypes.First().ID, CurrentUserId, search.View).Where(Function(f) IsNumeric(f.Filter.Substring(1)) And f.Enabled).Select(Function(f) f).ToList()
-                End If
                 'Primero el where porque si se ordena por indice lo hace desde aca
-                Dim whereQuery As StringBuilder = CreateWhere(DocType, Indexs, Valuestring, FlagCase, ColumCondstring, externalOrderBy, First, dateDeclarationString, SearchsEntities, indRestriction, RestrictionString, UserId, filtersWeb, refIndexs, DocType.Indexs)
+                Dim whereQuery As StringBuilder = CreateWhere(DocType, Indexs, Valuestring, FlagCase, ColumCondstring, externalOrderBy, First, dateDeclarationString, SearchsEntities, indRestriction, RestrictionString, UserId, Filters, refIndexs)
 
                 Dim strselect As New StringBuilder
                 Dim strPREselect As New StringBuilder
@@ -825,20 +801,17 @@ Namespace Search
                         _column = "I.User_Asigned"
                     ElseIf _column.ToLower.Trim.Equals("checkin") Then
                         _column = "I.INGRESO"
-                    ElseIf _column.ToLower.Trim.Equals("name") Then
-                        _column = "NAME"
                     End If
 
                     If _column.Split(" ").Count > 1 Then
                         _order.Append($" ""{_column}"" {_operator} ")
-
                     Else
                         _order.Append($" {_column} {_operator} ")
                     End If
 
                 End If
 
-                If Server.isSQLServer Then
+                If Server.isOracle Then
                     _order = _order.Replace("""", "'")
                 Else
                     _order = _order.Replace("'", """")
@@ -898,13 +871,11 @@ Namespace Search
                     ElseIf _column.ToLower.Trim.Equals("step id") OrElse _column.ToLower.Trim.Equals("step") Then
                         _column = "step_id"
                     ElseIf _column.ToLower.Trim.Equals("name") Then
-                        _column = If(Server.isOracle, "to_char(wd.Name)", "wd.Name")
+                        _column = If(Server.isOracle, "to_char(Name)", "Name")
                     ElseIf _column.ToLower.Trim.Equals("user asigned") OrElse _column.ToLower.Trim.Equals("assignedto") Then
                         _column = "User_Asigned"
                     ElseIf _column.ToLower.Trim.Equals("ingreso") Then
                         _column = "checkin"
-                    ElseIf _column.ToLower.Trim.Equals("original") Then
-                        _column = "original_filename"
                     Else
                         _column = GridColumns.GetColumnNameByAliasName(_column).Trim
                     End If
@@ -913,12 +884,7 @@ Namespace Search
                         tempOrderStr = String.Empty
                     Else
                         If _column.Split(" ").Count > 1 Then
-                            If Server.isOracle Then
-                                tempOrderStr = $" ""{_column}"" {_operator} "
-                            Else
-                                tempOrderStr = $" '{_column}' {_operator} "
-                            End If
-
+                            tempOrderStr = $" ""{_column}"" {_operator} "
                         Else
                             tempOrderStr = $" {_column} {_operator} "
                         End If
@@ -948,15 +914,12 @@ Namespace Search
                                      ByRef indRestriction As Generic.List(Of IIndex),
                                      ByRef RestrictionString As StringBuilder,
                                      ByVal UserId As Int64,
-                                     ByVal Filters As List(Of IFilterElem),
-                                     ByVal refIndexs As List(Of ReferenceIndex),
-                                     ByVal EntityIndexs As List(Of IIndex)) As StringBuilder
+                                     ByVal Filters As List(Of ikendoFilter),
+                                     ByVal refIndexs As List(Of ReferenceIndex)) As StringBuilder
 
             If Not Indexs Is Nothing Then
                 For i As Integer = 0 To Indexs.Count - 1
-                    If EntityIndexs.Count = 0 OrElse EntityIndexs.Exists(Function(x) x.ID = Indexs(i).ID) Then
-                        createWhereSearch(DocType.ID, Valuestring, Indexs, i, FlagCase, ColumCondstring, Orderstring, First, dateDeclarationString, DocType.ID.ToString, SearchsEntities, refIndexs)
-                    End If
+                    createWhereSearch(DocType.ID, Valuestring, Indexs, i, FlagCase, ColumCondstring, Orderstring, First, dateDeclarationString, DocType.ID.ToString, SearchsEntities, refIndexs)
                 Next
             End If
 
@@ -967,29 +930,13 @@ Namespace Search
             End If
 
 
-            Dim auxIndexFilterList As New List(Of IIndex)
+
             If Not Filters Is Nothing Then
-                For i As Integer = 0 To Filters.Count - 1
-                    Dim indexID As Long = Int64.Parse(Filters(i).Filter.Substring(1))
-                    Dim auxIndex As IIndex = New IndexsBusiness().GetIndex(indexID)
-                    If Not String.IsNullOrEmpty(Filters(i).Value) Then
-                        Dim valueLength = Filters(i).Value.Length
-                        If auxIndex.DropDown = IndexAdditionalType.AutoSustitución Or auxIndex.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Or auxIndex.DropDown = IndexAdditionalType.DropDown Or auxIndex.DropDown = IndexAdditionalType.DropDownJerarquico Then
-                            auxIndex.dataDescription = Filters(i).Value.Remove(0, 1).Remove(valueLength - 2, 1)
-                        End If
-                        auxIndex.Data = Filters(i).Value.Remove(0, 1).Remove(valueLength - 2, 1)
-                    Else
-                        auxIndex.Data = String.Empty
-                    End If
-                    auxIndex.Operator = Filters(i).Comparator
-                    auxIndexFilterList.Add(auxIndex)
+                For Each kf As ikendoFilter In Filters
+                    createKFilterWhereSearch(DocType.ID, Valuestring, Indexs, FlagCase, ColumCondstring, Orderstring, First, dateDeclarationString, DocType.ID.ToString, SearchsEntities, kf)
                 Next
             End If
-            If Not auxIndexFilterList Is Nothing Then
-                For i As Integer = 0 To auxIndexFilterList.Count - 1
-                    createWhereSearch(DocType.ID, Valuestring, auxIndexFilterList, i, FlagCase, ColumCondstring, Orderstring, First, dateDeclarationString, DocType.ID.ToString, SearchsEntities, refIndexs)
-                Next
-            End If
+
             Return ColumCondstring
         End Function
 
@@ -1151,7 +1098,7 @@ Namespace Search
             End If
             Select Case Indexs(i).DropDown
                 Case IndexAdditionalType.AutoSustitución, IndexAdditionalType.AutoSustituciónJerarquico
-                    If (Ind.[Operator] <> "=" OrElse Ind.Data.Length = 0) OrElse (Ind.[Operator] = "=" And (Ind.Type <> IndexDataType.Numerico AndAlso Ind.Type <> IndexDataType.Numerico_Largo)) Then
+                    If Ind.[Operator] <> "=" OrElse Ind.Data.Length = 0 Then
                         'En busqueda global web se usa [Data] para guardar valores
                         Dim dd As String = IIf(Ind.dataDescription = String.Empty, Ind.Data, Ind.dataDescription)
                         sbValue.Append(dd)
@@ -1180,10 +1127,8 @@ Namespace Search
                 sbValue.Append(Indexs(i).Data)
             End If
 
-            If sbValue.Length > 0 OrElse Indexs(i).[Operator].ToLower = "es nulo" OrElse Indexs(i).[Operator].ToLower = "no es nulo" Then
-                mainVal = ""
+            If sbValue.Length > 0 OrElse Indexs(i).[Operator].ToLower = "es nulo" Then
                 If (Indexs(i).[Operator] <> "SQL" AndAlso Not sbValue.ToString.StartsWith("select ", True, Nothing)) AndAlso Indexs(i).[Operator].ToLower() <> "sql sin atributo" Then
-
                     If sbValue.ToString.Split(";").Length > 1 Then
                         If Indexs(i).Type = IndexDataType.Alfanumerico OrElse Indexs(i).Type = IndexDataType.Alfanumerico_Largo Then
                             FlagCase = True
@@ -1194,16 +1139,7 @@ Namespace Search
                             Case IndexDataType.Numerico, IndexDataType.Numerico_Largo
                                 If sbValue.Length <> 0 Then
                                     If Indexs(i).DropDown = IndexAdditionalType.AutoSustitución OrElse Indexs(i).DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
-                                        Dim code = AutoSubstitutionDataFactory.getCode(Indexs(i).ID, sbValue.ToString)
-                                        If String.IsNullOrEmpty(code) Or Indexs(i).Operator.ToLower = "contiene" Or Indexs(i).Operator.ToLower = "no contiene" Or Indexs(i).Operator.ToLower = "<>" Or Indexs(i).Operator.ToLower = "empieza" Or Indexs(i).Operator.ToLower = "termina" Then
-                                            If indexColName.ToLower.Contains(".descripcion") Then
-                                                mainVal = "'" & sbValue.ToString & "'"
-                                            Else
-                                                mainVal = sbValue.ToString
-                                            End If
-                                        Else
-                                            mainVal = "'" & code.ToString & "'"
-                                        End If
+                                        mainVal = "'" & sbValue.ToString & "'"
                                     Else
                                         mainVal = Int64.Parse(sbValue.ToString)
                                     End If
@@ -1226,8 +1162,7 @@ Namespace Search
                             Case IndexDataType.Fecha, IndexDataType.Fecha_Hora
                                 If Not String.IsNullOrEmpty(sbValue.ToString.Trim) Then
                                     If Server.isSQLServer Then
-                                        mainVal = "@fecdesde" & Indexs(i).Column & "_" & i.ToString
-
+                                        mainVal = "@fecdesde" & Indexs(i).Column
                                         sbDate.Append("declare " & mainVal & " datetime ")
                                         If Indexs(i).Type = IndexDataType.Fecha Then
                                             sbDate.Append("set " & mainVal & " = " & Server.Con.ConvertDate(sbValue.ToString) & " ")
@@ -1279,55 +1214,22 @@ Namespace Search
                             Op = "="
                             If FlagCase AndAlso (Indexs(i).Type = IndexDataType.Alfanumerico OrElse Indexs(i).Type = IndexDataType.Alfanumerico_Largo) AndAlso (IsNumeric(Results_Business.ReplaceChar(mainVal)) = False) Then
                                 ColumCondstring.Append(" (lower(" & indexColName & ") = " & LCase(mainVal) & ") ")
-                            ElseIf Indexs(i).Type = IndexDataType.Fecha Or Indexs(i).Type = IndexDataType.Fecha_Hora Then
-                                ColumCondstring.Append(" ( CAST(" & indexColName & " AS DATE) =  CAST(" & mainVal & " AS DATE)) ")
                             Else
 
                                 ColumCondstring.Append(" (" & indexColName & " = " & mainVal & " ) ")
-
                             End If
 
-                        Case "<>", "distinto"
+                        Case "<>"
                             Op = "<>"
-                            If Indexs(i).Type = IndexDataType.Fecha Or Indexs(i).Type = IndexDataType.Fecha_Hora Then
-                                If Server.Con.isOracle Then
-                                    ColumCondstring.Append(" (" & indexColName & "<>(" & mainVal & ") or " & indexColName & " is null) ")
-                                Else
-                                    ColumCondstring.Append(String.Format("(CONVERT(DATE,{0} , 102) <> {1} or " & indexColName & " is null) ", indexColName, mainVal))
-                                End If
-                            Else
-                                ColumCondstring.Append(" (" & indexColName & "<>(" & mainVal & ") or " & indexColName & " is null) ")
-                            End If
+                            ColumCondstring.Append(" (" & indexColName & "<>(" & mainVal & ") or " & indexColName & " is null) ")
 
                         Case ">", "<", ">=", "<="
                             Op = Indexs(i).[Operator]
+                            ColumCondstring.Append(" (" & indexColName & Op & "(" & mainVal & ")) ")
 
-                            If Indexs(i).Type = IndexDataType.Fecha Or Indexs(i).Type = IndexDataType.Fecha_Hora Then
-                                If Server.Con.isOracle Then
-                                    ColumCondstring.Append(" (" & indexColName & Op & "(" & mainVal & ")) ")
-                                Else
-                                    ColumCondstring.Append(String.Format("CONVERT(DATE,{0} , 102) " & Op & " {1} ", indexColName, mainVal))
-                                End If
-                            Else
-                                ColumCondstring.Append(" (" & indexColName & Op & "(" & mainVal & ")) ")
-                            End If
-
-                        Case "es nulo", "no es nulo"
-                            If Indexs(i).[Operator].ToLower() = "es nulo" Then
-                                Op = "is null"
-                                If Indexs(i).Type = IndexDataType.Alfanumerico Or Indexs(i).Type = IndexDataType.Alfanumerico_Largo Then
-                                    ColumCondstring.Append(" (" & indexColName & " is null or " & indexColName & " = '') ")
-                                Else
-                                    ColumCondstring.Append(" (" & indexColName & " is null) ")
-                                End If
-                            Else
-                                Op = "is not null"
-                                If Indexs(i).Type = IndexDataType.Alfanumerico Or Indexs(i).Type = IndexDataType.Alfanumerico_Largo Then
-                                    ColumCondstring.Append(" (" & indexColName & " is not null and " & indexColName & " <> '') ")
-                                Else
-                                    ColumCondstring.Append(" (" & indexColName & " is not null) ")
-                                End If
-                            End If
+                        Case "es nulo"
+                            Op = "is null"
+                            ColumCondstring.Append(" (" & indexColName & " is null) ")
 
                         Case "entre"
                             Dim Data2Added As Boolean
@@ -1391,9 +1293,9 @@ Namespace Search
                             End If
 
                         Case "contiene"
-                            If mainVal.Contains("  ") Then
-                                mainVal = mainVal.Replace("  ", " ")
-                            End If
+                            While mainVal.Contains("  ")
+                                mainVal.Replace("  ", " ")
+                            End While
                             mainVal = mainVal.Trim.Replace(" ", "%")
 
                             If FlagCase AndAlso (IsNumeric(Results_Business.ReplaceChar(Replace(Trim(LCase(mainVal)), "'", String.Empty))) = False) Then
@@ -1457,11 +1359,8 @@ Namespace Search
                             SomeValues = Nothing
                             somestring = Nothing
 
-                        Case "no contiene"
-
+                        Case "distinto"
                             Op = "NOT LIKE"
-
-                            'Op = "NOT LIKE"
                             mainVal = mainVal.Replace(";", ",")
                             While mainVal.Contains("  ")
                                 mainVal = mainVal.Replace("  ", " ")
@@ -1480,15 +1379,10 @@ Namespace Search
                                             somestring = " (" & indexColName & " " & Op & " ('%" & Val.Replace("'", String.Empty) & "%')"
                                         End If
                                     ElseIf x = 0 Then
-
                                         If FlagCase AndAlso (IsNumeric(Results_Business.ReplaceChar(LCase(Val).Replace("'", String.Empty))) = False) Then
                                             somestring = " (lower(" & indexColName & ") " & Op & " ('%" & LCase(Val).Replace("'", String.Empty) & "%')"
                                         Else
-                                            If Server.isSQLServer Then
-                                                somestring = " (" & indexColName & " " & Op & " ('%" & Val.Replace("'", String.Empty) & "%') OR " & indexColName & " is null"
-                                            Else
-                                                somestring = " (" & indexColName & " " & Op & " ('%" & Val.Replace("'", String.Empty) & "%')"
-                                            End If
+                                            somestring = " (" & indexColName & " " & Op & " ('%" & Val.Replace("'", String.Empty) & "%')"
                                         End If
                                     Else
                                         If String.IsNullOrEmpty(somestring) Then
@@ -1801,20 +1695,19 @@ Namespace Search
                                        ByRef strPOSTselect As StringBuilder,
                                        ByVal isFavoriteSearch As Boolean,
                                        ByVal whereStr As String,
-                                       Optional refIndexs As List(Of ReferenceIndex) = Nothing, Optional onlyImportants As Boolean = False)
+                                       Optional refIndexs As List(Of ReferenceIndex) = Nothing)
 
-            Dim withnolock = If(Server.isSQLServer, " with(nolock) ", " ")
+            Dim strTableI As String = MakeTable(docType.ID, TableType.Indexs)
             Dim strTableT As String = MakeTable(docType.ID, TableType.Document)
-            Dim MainJoin As String = String.Format(" inner join {0} T  " & withnolock & " on T.doc_id = I.doc_id", strTableT)
+            Dim MainJoin As String = String.Format(" inner join {0} T on T.doc_id = I.doc_id", strTableT)
             Dim concatString As String = If(Server.isOracle, "||", "+")
 
-            Dim autoSubstitutionIndexes As New List(Of IIndex)
+            Dim autoSubstitutionIndexes As New List(Of Int64)
             If String.IsNullOrEmpty(internalOrderBy) Then
                 internalOrderBy = "I.Doc_Id Desc"
             End If
 
             strselect.Append("SELECT I.DOC_ID, '' as THUMB ")
-            strPREselect.Append("I.DOC_ID, I.THUMB,")
 
             If DtoOnly AndAlso Server.isSQLServer Then
                 strPREselect.Append($"(LTRIM(RTRIM(DISK_VOL_PATH)) + '\' + convert(nvarchar,{docType.ID}) + '\' + convert(nvarchar,OFFSET) + '\' + LTRIM(RTRIM(DOC_FILE))) as FullPath")
@@ -1825,11 +1718,9 @@ Namespace Search
             End If
 
             strselect.Append($", {docType.ID} as DOC_TYPE_ID ")
-            strPREselect.Append(", I.DOC_TYPE_ID ")
 
             If Search.SearchType = SearchTypes.AsignedTasks AndAlso Not IsNothing(Search.UserId) Then
-                strselect.Append(", LTRIM(RTRIM(WD.NAME)) as NAME")
-                strPREselect.Append(", I.NAME")
+                strselect.Append(", LTRIM(RTRIM(NAME)) as NAME")
             Else
                 strPREselect.Append(", LTRIM(RTRIM(T.NAME)) as NAME")
                 If Not DtoOnly Then
@@ -1837,20 +1728,28 @@ Namespace Search
                 End If
             End If
 
+            If Server.isOracle Then
+                strPREselect.Append(",get_filename(LTRIM(RTRIM(original_Filename)))")
+            Else
+                strPREselect.Append(",REVERSE(SUBSTRING(REVERSE(LTRIM(RTRIM(original_Filename))), 0, CHARINDEX('\', REVERSE(LTRIM(RTRIM(original_Filename))))))")
+            End If
 
+            strPREselect.Append(" as ORIGINAL ")
 
-            strPREselect.Append(",I.Execution, I.Do_State_ID, Task_Id, I.STEP_ID, I.work_id")
-
-            strPREselect.Append($", {IsNullString()}ws.Name,'')  as STEP, {IsNullString()} wss.Name ,'')  as State, '{docType.Name}' as ENTIDAD ")
+            If Search.SearchType = SearchTypes.AsignedTasks AndAlso Not IsNothing(Search.UserId) Then
+                strselect.Append(", ICONID as ICON_ID, checkin as INGRESO")
+            Else
+                strPREselect.Append(", t.ICON_ID")
+                strselect.Append(", i.crdate as CREADO, i.lupdate as MODIFICADO")
+            End If
 
             strselect.Append($", {IsNullString()}User_Asigned ,0) as User_Asigned")
-            strPREselect.Append(",I.User_Asigned")
 
             If Search.SearchType = SearchTypes.AsignedTasks AndAlso Not IsNothing(Search.UserId) Then
                 If Not isFavoriteSearch Then
                     strPREselect.Append($" ,{IsNullString()}U.NAME, '')  AssignedTo")
                 Else
-                    strPREselect.Append($" ,{IsNullString()}(select {IsNullString()} favorite, 0) from DocumentLabels DL  " & withnolock & $" where DL.doctypeid = {docType.ID}")
+                    strPREselect.Append($" ,{IsNullString()}(select {IsNullString()} favorite, 0) from DocumentLabels DL where DL.doctypeid = {docType.ID}")
                     strPREselect.Append($" And DL.docid = I.Doc_ID And DL.userid = {Search.UserId}")
                     strPREselect.Append(" And (FAVORITE = 1 Or IMPORTANCE = 1) ),0) IsFavorite")
                 End If
@@ -1863,26 +1762,7 @@ Namespace Search
             strselect.Append($"{IsNullString()}wd.TASK_ID ,0) as Task_Id, {IsNullString()}wd.STEP_ID,0) as STEP_ID, {IsNullString()}wd.work_id")
             strselect.Append($",0) as work_id")
 
-            If Server.isOracle Then
-                strPREselect.Append(",get_filename(LTRIM(RTRIM(original_Filename)))")
-            Else
-                strPREselect.Append(",REVERSE(SUBSTRING(REVERSE(LTRIM(RTRIM(original_Filename))), 0, CHARINDEX('\', REVERSE(LTRIM(RTRIM(original_Filename))))))")
-            End If
-
-            strPREselect.Append(" as ORIGINAL ")
-
-            strPREselect.Append(",T.ICON_ID")
-
-            ' If Search.SearchType = SearchTypes.AsignedTasks AndAlso Not IsNothing(Search.UserId) Then
-            strselect.Append(", checkin as INGRESO")
-            strPREselect.Append(", I.INGRESO")
-            ' Else
-            '                strPREselect.Append(", t.ICON_ID")
-            '   End If
-
-            strselect.Append(", i.crdate as CREADO, i.lupdate as MODIFICADO")
-            strPREselect.Append(",I.CREADO, I.MODIFICADO")
-
+            strPREselect.Append($", {IsNullString()}ws.Name,'')  as STEP, {IsNullString()} wss.Name ,'')  as State, '{docType.Name}' as ENTIDAD ")
 
             Dim UseIndexsRights As Boolean = New RightsBusiness().GetUserRights(Search.UserId, ObjectTypes.DocTypes, RightsType.ViewRightsByIndex, docType.ID)
             Dim FirstTryError As Boolean = False
@@ -1896,14 +1776,9 @@ ReloadCache:
             End If
 
             If UseIndexsRights Then
-                IndexsRights = New UserBusiness().GetIndexsRights(docType.ID, Search.UserId)
+                IndexsRights = New UserBusiness().GetIndexsRights(docType.ID, Membership.MembershipHelper.CurrentUser.ID)
             End If
 
-
-
-
-
-            'ML Falta ordenar los Indices por Orden de Admin.
             For Each _Index As Index In Indexs
 
                 If UseIndexsRights Then
@@ -1912,47 +1787,34 @@ ReloadCache:
                     If IR Is Nothing AndAlso FirstTryError = False Then
                         FirstTryError = True
                         CacheBusiness.ClearRightsCaches(Search.UserId)
-                        If UseIndexsRights Then
-                            IndexsRights = Nothing
-                            IndexsRights = New UserBusiness().GetIndexsRights(docType.ID, Search.UserId)
-                        End If
+                        GoTo ReloadCache
                     End If
 
                     If IR IsNot Nothing AndAlso IR.GetIndexRightValue(RightsType.TaskGridIndexView) = True Then
 
-                        If Search.SearchType <> SearchTypes.AsociatedSearch OrElse IsAssociatedIndexVisible(Search.ParentEntity.ID, docType.ID, _Index.ID, Search.UserId) Then
+                        If _Index.isReference Then
+                            strselect.Append($",{refIndexsQueryHelper.GetStringForDocIQuery(_Index.ID, docType.ID, refIndexs)} AS ")
 
-                            If _Index.isReference Then
-                                strselect.Append($",{refIndexsQueryHelper.GetStringForDocIQuery(_Index.ID, docType.ID, refIndexs)} AS ")
-
-                                If _Index.DropDown = IndexAdditionalType.AutoSustitución OrElse _Index.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
-                                    autoSubstitutionIndexes.Add(_Index)
-                                    strselect.Append($"I{_Index.ID}")
-                                    strPREselect.Append($",I.I{_Index.ID}")
-
-                                    strPREselect.Append($", slst_s{_Index.ID}.Descripcion as [{_Index.Name}]")
-                                Else
-                                    strselect.Append($"[{_Index.Name}]")
-                                    strPREselect.Append($",[{_Index.Name}]")
-
-                                End If
-
+                            If _Index.DropDown = IndexAdditionalType.AutoSustitución OrElse _Index.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
+                                autoSubstitutionIndexes.Add(_Index.ID)
+                                strselect.Append($"I{_Index.ID}")
+                                strPREselect.Append($", slst_s{_Index.ID}.Descripcion as [{_Index.Name}]")
                             Else
+                                strselect.Append($"[{_Index.Name}]")
+                            End If
 
-                                strselect.Append($",I.I{_Index.ID}")
+                        Else
 
-                                If _Index.DropDown = IndexAdditionalType.AutoSustitución OrElse _Index.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
-                                    strPREselect.Append($",I.I{_Index.ID}")
-                                    strPREselect.Append($", slst_s{_Index.ID}.Descripcion as [{_Index.Name}]")
-                                    autoSubstitutionIndexes.Add(_Index)
-                                Else
-                                    strselect.Append($" as [{_Index.Name}]")
-                                    strPREselect.Append($",[{_Index.Name}]")
-                                End If
-
+                            strselect.Append($",I.I{_Index.ID}")
+                            If _Index.DropDown = IndexAdditionalType.AutoSustitución OrElse _Index.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
+                                strPREselect.Append($", slst_s{_Index.ID}.Descripcion as [{_Index.Name}]")
+                                autoSubstitutionIndexes.Add(_Index.ID)
+                            Else
+                                strselect.Append($" as [{_Index.Name}]")
                             End If
 
                         End If
+
                     End If
 
                 Else
@@ -1962,13 +1824,11 @@ ReloadCache:
                         strselect.Append($",{refIndexsQueryHelper.GetStringForDocIQuery(_Index.ID, docType.ID, refIndexs)} AS ")
 
                         If _Index.DropDown = IndexAdditionalType.AutoSustitución OrElse _Index.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
-                            autoSubstitutionIndexes.Add(_Index)
+                            autoSubstitutionIndexes.Add(_Index.ID)
                             strselect.Append($"I{_Index.ID}")
-                            strPREselect.Append($",I.I{_Index.ID}")
                             strPREselect.Append($", slst_s{_Index.ID}.Descripcion as [{_Index.Name}]")
                         Else
                             strselect.Append($"[{_Index.Name}]")
-                            strPREselect.Append($",[{_Index.Name}]")
                         End If
 
                     Else
@@ -1976,14 +1836,12 @@ ReloadCache:
                         strselect.Append($",I.I{_Index.ID}")
 
                         If _Index.DropDown = IndexAdditionalType.AutoSustitución OrElse _Index.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
-                            strPREselect.Append($",I.I{_Index.ID}")
                             strPREselect.Append($", slst_s{_Index.ID}.Descripcion as [{_Index.Name}]")
-                            autoSubstitutionIndexes.Add(_Index)
+                            autoSubstitutionIndexes.Add(_Index.ID)
                         End If
 
                         If _Index.DropDown <> IndexAdditionalType.AutoSustitución AndAlso _Index.DropDown <> IndexAdditionalType.AutoSustituciónJerarquico Then
                             strselect.Append($" as [{_Index.Name}]")
-                            strPREselect.Append($", [{_Index.Name}]")
                         End If
 
                     End If
@@ -1991,31 +1849,17 @@ ReloadCache:
                 End If
             Next
 
-
-
-
-
             ' 1 = true = leido / 0 = false = No Leido
             If Server.isOracle Then
-                strPREselect.Append(" ,NVL2(dRead.DOCID, 1,0) AS LEIDO")
+                strPREselect.Append(" ,NVL2(dRead.DOCID, 1,0) AS Leido")
             Else
-                strPREselect.Append(", CASE WHEN dRead.DOCID Is NULL THEN 0 Else 1 End AS LEIDO")
+                strPREselect.Append(", CASE WHEN dRead.DOCID Is NULL THEN 0 Else 1 End AS Leido")
             End If
 
             'Se agrega la paginacion, ademas el ordenamiento iria acá
             strselect.Append(" ,row_number() over (order by ")
 
-            If internalOrderBy.ToLower.Contains("etapa") Then
-                strselect.Append($"ws.Name) rn FROM DOC_I{docType.ID} I " & withnolock)
-            Else
-                If internalOrderBy.ToLower.Contains("state") Then
-                    strselect.Append($"wss.Name) rn FROM DOC_I{docType.ID} I " & withnolock)
-                Else
-                    strselect.Append($"{CreateInternalOrderBy(internalOrderBy)}) rn FROM DOC_I{docType.ID} I " & withnolock)
-                End If
-
-            End If
-
+            strselect.Append($"{internalOrderBy}) rn FROM DOC_I{docType.ID} I ")
 
             If refIndexs IsNot Nothing Then
                 Dim joinStr As String
@@ -2027,57 +1871,33 @@ ReloadCache:
                 Next
             End If
 
-            strPOSTselect.Append($"{MainJoin} left outer join doc_type  " & withnolock & " On doc_type.doc_type_id = T.doc_type_id left outer join disk_Volume  " & withnolock & " On disk_Vol_id = vol_id ")
+            strPOSTselect.Append($"{MainJoin} left outer join doc_type On doc_type.doc_type_id = T.doc_type_id left outer join disk_Volume On disk_Vol_id = vol_id ")
 
-            strselect.Append($" left outer join WFDOCUMENT wd  " & withnolock & $" On I.DOC_ID = wd.DOC_ID and wd.doc_type_id = {docType.ID} ")
-            strselect.Append($" left outer join doc_t{docType.ID} T  " & withnolock & " On I.DOC_ID = T.DOC_ID")
-            strselect.Append($" left outer join usrtable usr" & withnolock & " On isNull(wd.User_Asigned, 0) = usr.ID")
-            strselect.Append($" left outer join wfstepstates wss" & withnolock & " ON isNull(wd.do_state_id, 0) = wss.doc_state_id")
-
-            If internalOrderBy.ToLower.Contains("etapa") Then
-                strselect.Append(" left outer join WFSTEP ws  " & withnolock & " On step_id = ws.step_id ")
-            End If
-
-            'If internalOrderBy.ToLower.Contains("state") Then
-            '    strselect.Append(" left outer join WFSTEPSTATES wss  " & withnolock & " On do_state_id = wss.doc_state_id ")
-            'End If
-
+            strselect.Append($" left outer join WFDOCUMENT wd On I.DOC_ID = wd.DOC_ID and wd.doc_type_id = {docType.ID} ")
 
             If autoSubstitutionIndexes.Count > 0 Then
-                For Each currentIndex As IIndex In autoSubstitutionIndexes
-                    If currentIndex.isReference Then
-                        Dim FirstSideStringJoinQuery As String = refIndexsQueryHelper.GetFirstSideStringJoinQuery(currentIndex.ID, docType.ID, refIndexs)
-                        'Joins externos para las slst
-                        strPOSTselect.Append($" left outer join slst_s{currentIndex.ID}  " & withnolock & $" On i.i{currentIndex.ID} = slst_s{currentIndex.ID}.codigo ")
+                For Each indiceID As Long In autoSubstitutionIndexes
 
-                        'Si hay filtro u ordenamiento por slst se agrega join interno
-                        If internalOrderBy.ToLower.Contains($"slst_s{currentIndex.ID}") OrElse whereStr.ToLower.Contains($"slst_s{currentIndex.ID}") Then
-                            strselect.Append($" left outer join slst_s{currentIndex.ID}  " & withnolock & $" On {FirstSideStringJoinQuery} = slst_s{currentIndex.ID}.codigo ")
-                        End If
+                    'Joins externos para las slst
+                    strPOSTselect.Append($" left outer join slst_s{indiceID} On i.i{indiceID} = slst_s{indiceID}.codigo ")
 
-                    Else
-                        'Joins externos para las slst
-                        strPOSTselect.Append($" left outer join slst_s{currentIndex.ID}  " & withnolock & $" On i.i{currentIndex.ID} = slst_s{currentIndex.ID}.codigo ")
-
-                        'Si hay filtro u ordenamiento por slst se agrega join interno
-                        If internalOrderBy.ToLower.Contains($"slst_s{currentIndex.ID}") OrElse whereStr.ToLower.Contains($"slst_s{currentIndex.ID}") Then
-                            strselect.Append($" left outer join slst_s{currentIndex.ID}  " & withnolock & $" On i.i{currentIndex.ID} = slst_s{currentIndex.ID}.codigo ")
-                        End If
-
+                    'Si hay filtro u ordenamiento por slst se agrega join interno
+                    If internalOrderBy.ToLower.Contains($"slst_s{indiceID}") OrElse whereStr.ToLower.Contains($"slst_s{indiceID}") Then
+                        strselect.Append($" left outer join slst_s{indiceID} On i.i{indiceID} = slst_s{indiceID}.codigo ")
                     End If
 
                 Next
             End If
 
-            strPOSTselect.Append(" left join WFWORKFLOW ww  " & withnolock & " On i.work_id = ww.work_id ")
-            strPOSTselect.Append(" left outer join WFSTEP ws  " & withnolock & " On i.step_id = ws.step_id ")
-            strPOSTselect.Append(" left outer join WFSTEPSTATES wss  " & withnolock & " On i.do_state_id = wss.doc_state_id ")
-            strPOSTselect.Append(" left outer join zuser_or_group u  " & withnolock & " On i.User_asigned = u.id ")
-            strPOSTselect.Append($" LEFT JOIN ZDOCREADS dRead  " & withnolock & $" On i.DOC_ID = dRead.DOCID And dRead.userid = {Search.UserId}")
+            strPOSTselect.Append(" left join WFWORKFLOW ww On i.work_id = ww.work_id ")
+            strPOSTselect.Append(" left outer join WFSTEP ws On i.step_id = ws.step_id ")
+            strPOSTselect.Append(" left outer join WFSTEPSTATES wss On i.do_state_id = wss.doc_state_id ")
+            strPOSTselect.Append(" left outer join zuser_or_group u On i.User_asigned = u.id ")
+            strPOSTselect.Append($" LEFT JOIN ZDOCREADS dRead On i.DOC_ID = dRead.DOCID And dRead.userid = {Search.UserId}")
 
             If Search.SearchType = SearchTypes.AsignedTasks AndAlso Not IsNothing(Search.UserId) Then
 
-                ' strPOSTselect.Append(" LEFT JOIN ZVW_USR_R_GROUPSANDTHEIRINH ZVW  " & withnolock & " On I.USER_ASIGNED = ZVW.GROUPID And I.USER_ASIGNED = Zvw.Usrid")
+                ' strPOSTselect.Append(" LEFT JOIN ZVW_USR_R_GROUPSANDTHEIRINH ZVW On I.USER_ASIGNED = ZVW.GROUPID And I.USER_ASIGNED = Zvw.Usrid")
 
                 Dim usrsAndGroupsStr As StringBuilder = New StringBuilder()
 
@@ -2113,7 +1933,7 @@ ReloadCache:
                             Dim MyTeams As String = UP.getValue("MyTeams", UPSections.UserPreferences, "", Search.UserId)
                             UP = Nothing
                             If MyTeams IsNot Nothing AndAlso MyTeams <> String.Empty Then
-                                strselect.Append(String.Format(" or User_Asigned In (select usrid from usr_r_group  {1} where groupid in ({0})  ", MyTeams, withnolock))
+                                strselect.Append(String.Format(" or User_Asigned In (select usrid from usr_r_group where groupid in ({0})  ", MyTeams))
                                 strselect.Append("  )")
                             End If
                         End If
@@ -2124,18 +1944,11 @@ ReloadCache:
                 End If
 
                 If isFavoriteSearch Then
-                    strselect.Append("  exists(select 'x' from DocumentLabels DL  " & withnolock & " where dl.docid = i.doc_id and dl.userid = ")
+                    strselect.Append("  exists(select 'x' from DocumentLabels DL where dl.docid = i.doc_id and dl.userid = ")
                     strselect.Append(Search.UserId)
                     strselect.Append(" and dl.doctypeid = ")
                     strselect.Append(docType.ID)
                     strselect.Append(" and ( FAVORITE = 1 or IMPORTANCE = 1 )) ")
-                End If
-
-                If onlyImportants Then
-                    strselect.Append("  exists(select 'x' from DocumentLabels DL  " & withnolock & " where dl.docid = i.doc_id ")
-                    strselect.Append(" and dl.doctypeid = ")
-                    strselect.Append(docType.ID)
-                    strselect.Append(" and ( IMPORTANCE = 1 )) ")
                 End If
 
             End If
@@ -2154,313 +1967,13 @@ ReloadCache:
                 End If
             End If
 
-            Dim allFilters As New List(Of IFilterElem)
-            Dim stepIdFilters As New List(Of IFilterElem)
-            If Search.Doctypes.Count = 1 Then
-                allFilters = New FiltersComponent().GetFiltersWebByView(Search.Doctypes.First().ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, Search.View)
-                If allFilters IsNot Nothing Then
-                    stepIdFilters = allFilters.Where(Function(f) f.Filter = "STEPID" And f.Enabled).Select(Function(f) f).ToList()
-                End If
-            End If
-
-            If Search.View <> "MyProcess" Then
-                Search.StepId = 0
-            End If
-
-            If stepIdFilters.Count > 0 Then
-                Dim filterValue As String = stepIdFilters.First().Value.Substring(1, stepIdFilters.First().Value.Length - 2)
-                Search.StepId = Int64.Parse(filterValue)
-            End If
-
             If Search.StepId > 0 Then
                 If strselect.ToString.Contains("WHERE") Then
                     strselect.Append(" And ")
                 Else
                     strselect.Append(" WHERE ")
                 End If
-                strselect.Append($"wd.step_Id in ({Search.StepId}) ")
-
-                If Search.View.ToLower <> "search" Then
-                    Dim RiB As New RightsBusiness
-
-                    Dim VerAsignadosAOtros As Boolean = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosAOtros, Search.StepId)
-                    Dim VerAsignadosANadie As Boolean = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.VerAsignadosANadie, Search.StepId)
-
-                    AppendWhereRights(strselect, VerAsignadosANadie, VerAsignadosAOtros)
-                End If
-            End If
-
-            If Search.StepStateId > 0 Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                strselect.Append($"wd.do_state_Id in ({Search.StepStateId}) ")
-            End If
-
-            Dim userAssignedFilters As New List(Of IFilterElem)
-            userAssignedFilters = allFilters.Where(Function(f) (f.Filter.ToLower = "uag.name" Or f.Filter.ToLower = "asignado" Or f.Filter.ToLower = "assignedto")).Select(Function(f) f).ToList()
-
-            If userAssignedFilters.Count > 0 Then
-                If userAssignedFilters.Last().Enabled Then
-                    Dim filterValue As String = userAssignedFilters.Last().Value.Substring(1, userAssignedFilters.Last().Value.Length - 2)
-                    If filterValue <> "-1" Then
-                        If strselect.ToString.Contains("WHERE") Then
-                            strselect.Append(" And ")
-                        Else
-                            strselect.Append(" WHERE ")
-                        End If
-                        If filterValue = "" And userAssignedFilters.Last().Comparator.ToLower = "es nulo" Then
-                            strselect.Append($"(usr.NAME = '{filterValue}' or usr.NAME Is null)")
-
-                        ElseIf filterValue = "" And userAssignedFilters.Last().Comparator.ToLower = "no es nulo" Then
-                            strselect.Append("(usr.NAME is not null and RTRIM(LTRIM(usr.NAME)) <> '')")
-                        Else
-
-                            strselect.Append($"(usr.NAME = '{filterValue}')")
-                        End If
-                    End If
-                End If
-            End If
-            'Filtros por columnas propias del sistema Zamba
-            Dim crdateFiltersList As New List(Of IFilterElem)
-            Dim lupdateFilters As New List(Of IFilterElem)
-            Dim nameFilters As New List(Of IFilterElem)
-            Dim originalFilenameFilters As New List(Of IFilterElem)
-            Dim stateFilters As New List(Of IFilterElem)
-
-
-            crdateFiltersList = allFilters.Where(Function(f) (f.Filter.ToLower = "i.crdate" Or f.Filter.ToLower = "fecha creacion") And
-                                                     f.Enabled And
-                                                     f.Comparator.ToLower <> "contiene" And
-                                                     f.Comparator.ToLower <> "no contiene").
-                                                     Select(Function(f) f).ToList()
-
-            If crdateFiltersList.Count > 0 Then
-
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                For i As Integer = 0 To crdateFiltersList.Count - 1
-                    Dim filterValue As String = crdateFiltersList(i).Value.Substring(1, crdateFiltersList(i).Value.Length - 2)
-                    If i > 0 Then
-                        strselect.Append(" And ")
-                    End If
-                    Select Case crdateFiltersList(i).Comparator.ToLower()
-                        Case "empieza"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.crdate,'DD/MM/YYYY') LIKE '{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.crdate AS DATE) LIKE '{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-
-                        Case "termina"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.crdate,'DD/MM/YYYY') LIKE '%{0}' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.crdate AS DATE) LIKE '%{0}' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-
-                        Case "distinto"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.crdate,'DD/MM/YYYY') [NOT] LIKE '{0}' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.crdate AS DATE) NOT LIKE '{0}' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-                        Case "contiene"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.crdate,'DD/MM/YYYY') LIKE '%{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.crdate AS DATE) LIKE '%{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-                        Case "es nulo"
-                            strselect.Append("(i.crdate is null or i.crdate = '')")
-                        Case "no es nulo"
-                            strselect.Append("(i.crdate is not null and i.crdate <> '')")
-                        Case Else
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.crdate,'DD/MM/YYYY') {0} {1} ", crdateFiltersList(i).Comparator, Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.crdate AS DATE) {0} {1} ", crdateFiltersList(i).Comparator, Server.Con.ConvertDate(filterValue)))
-                            End If
-
-                    End Select
-                Next
-            End If
-
-
-            lupdateFilters = allFilters.Where(Function(f) f.Filter = "I.lupdate" And
-                                                  f.Enabled And
-                                                  f.Comparator.ToLower <> "contiene" And
-                                                  f.Comparator.ToLower <> "no contiene").
-                                                  Select(Function(f) f).ToList()
-
-            If lupdateFilters.Count > 0 Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                For i As Integer = 0 To lupdateFilters.Count - 1
-                    Dim filterValue As String = lupdateFilters(i).Value.Substring(1, lupdateFilters(i).Value.Length - 2)
-                    If i > 0 Then
-                        strselect.Append(" And ")
-                    End If
-                    Select Case lupdateFilters(i).Comparator.ToLower
-                        Case "empieza"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.lupdate,'DD/MM/YYYY') LIKE '{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.lupdate AS DATE) LIKE '{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-                        Case "termina"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.lupdate,'DD/MM/YYYY') LIKE '%{0}' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.lupdate AS DATE) LIKE '%{0}' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-                        Case "distinto"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("To_date(i.lupdate,'DD/MM/YYYY') [NOT] LIKE '{0}' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.lupdate AS DATE) NOT LIKE '{0}' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-                        Case "contiene"
-                            If Server.isOracle Then
-                                strselect.Append(String.Format("To_date(i.lupdate,'DD/MM/YYYY') LIKE '%{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.lupdate AS DATE) LIKE '%{0}%' ", Server.Con.ConvertDate(filterValue)))
-                            End If
-                        Case "es nulo"
-                            strselect.Append("(i.lupdate is null or i.lupdate = '')")
-                        Case "no es nulo"
-                            strselect.Append("(i.lupdate is not null and i.lupdate <> '') ")
-                        Case Else
-                            If Server.isOracle Then
-                                strselect.Append(String.Format("To_date(i.lupdate,'DD/MM/YYYY') {0} {1} ", lupdateFilters(i).Comparator, Server.Con.ConvertDate(filterValue)))
-                            Else
-                                strselect.Append(String.Format("CAST(i.lupdate AS DATE) {0} {1} ", lupdateFilters(i).Comparator, Server.Con.ConvertDate(filterValue)))
-                            End If
-
-                    End Select
-                Next
-            End If
-
-            nameFilters = allFilters.Where(Function(f) (f.Filter.ToUpper = "WD.NAME" Or f.Filter.ToUpper = "NOMBRE DEL DOCUMENTO") And f.Enabled).Select(Function(f) f).ToList()
-
-            If nameFilters.Count > 0 Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                For i As Integer = 0 To nameFilters.Count - 1
-                    Dim filterValue As String = nameFilters(i).Value.Substring(1, nameFilters(i).Value.Length - 2)
-                    If i > 0 Then
-                        strselect.Append(" And ")
-                    End If
-                    Select Case nameFilters(i).Comparator.ToLower
-                        Case "empieza"
-                            strselect.Append(String.Format("wd.NAME LIKE '{0}%' ", filterValue))
-                        Case "termina"
-                            strselect.Append(String.Format("wd.NAME LIKE '%{0}' ", filterValue))
-                        Case "distinto"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("wd.NAME [NOT] LIKE '{0}' ", filterValue))
-                            Else
-                                strselect.Append(String.Format("wd.NAME NOT LIKE '{0}' ", filterValue))
-                            End If
-                        Case "no contiene"
-                            strselect.Append(String.Format("wd.NAME NOT LIKE '%{0}%' ", filterValue))
-                        Case "contiene"
-                            strselect.Append(String.Format("wd.NAME LIKE '%{0}%' ", filterValue))
-                        Case "es nulo"
-                            strselect.Append("(wd.NAME is null or RTRIM(LTRIM(wd.NAME)) = '')")
-                        Case "no es nulo"
-                            strselect.Append("(wd.NAME is not null and RTRIM(LTRIM(wd.NAME)) <> '')")
-                        Case Else
-                            strselect.Append(String.Format("wd.NAME {0} '{1}' ", nameFilters(i).Comparator, filterValue))
-                    End Select
-                Next
-            End If
-
-            originalFilenameFilters = allFilters.Where(Function(f) (f.Filter.ToUpper = "ORIGINAL_FILENAME" Or f.Filter.ToUpper = "NOMBRE ORIGINAL") And f.Enabled).Select(Function(f) f).ToList()
-
-            If originalFilenameFilters.Count > 0 Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                For i As Integer = 0 To originalFilenameFilters.Count - 1
-                    Dim filterValue As String = originalFilenameFilters(i).Value.Substring(1, originalFilenameFilters(i).Value.Length - 2)
-                    If i > 0 Then
-                        strselect.Append(" And ")
-                    End If
-                    Select Case originalFilenameFilters(i).Comparator.ToLower
-                        Case "empieza"
-                            strselect.Append(String.Format("T.Original_filename LIKE '{0}%' ", filterValue))
-                        Case "termina"
-                            strselect.Append(String.Format("T.Original_filename LIKE '%{0}' ", filterValue))
-                        Case "distinto"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("T.Original_filename [NOT] LIKE '{0}' ", filterValue))
-                            Else
-                                strselect.Append(String.Format("T.Original_filename NOT LIKE '{0}' ", filterValue))
-                            End If
-                        Case "no contiene"
-                            strselect.Append(String.Format("T.Original_filename NOT LIKE '%{0}%' ", filterValue))
-                        Case "contiene"
-                            strselect.Append(String.Format("T.Original_filename LIKE '%{0}%' ", filterValue))
-                        Case "es nulo"
-                            strselect.Append("(T.Original_filename is null or RTRIM(LTRIM(T.Original_filename)) = '')")
-                        Case "no es nulo"
-                            strselect.Append("(T.Original_filename is not null and RTRIM(LTRIM(T.Original_filename)) <> '')")
-                        Case Else
-                            strselect.Append(String.Format("T.Original_filename {0} '{1}' ", originalFilenameFilters(i).Comparator, filterValue))
-                    End Select
-                Next
-            End If
-
-            stateFilters = allFilters.Where(Function(f) f.Description.ToUpper = "ESTADO TAREA" And f.Enabled).Select(Function(f) f).ToList()
-
-            If stateFilters.Count > 0 Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                For i As Integer = 0 To stateFilters.Count - 1
-                    Dim filterValue As String = stateFilters(i).Value.Substring(1, stateFilters(i).Value.Length - 2)
-                    If i > 0 Then
-                        strselect.Append(" And ")
-                    End If
-                    Select Case stateFilters(i).Comparator.ToLower
-                        Case "empieza"
-                            strselect.Append(String.Format("wss.NAME LIKE '{0}%' ", filterValue))
-                        Case "termina"
-                            strselect.Append(String.Format("wss.NAME LIKE '%{0}' ", filterValue))
-                        Case "distinto"
-                            If Server.Con.isOracle Then
-                                strselect.Append(String.Format("wss.NAME [NOT] LIKE '{0}' ", filterValue))
-                            Else
-                                strselect.Append(String.Format("wss.NAME NOT LIKE '{0}' ", filterValue))
-                            End If
-                        Case "no contiene"
-                            strselect.Append(String.Format("wss.NAME NOT LIKE '%{0}%' ", filterValue))
-                        Case "contiene"
-                            strselect.Append(String.Format("wss.NAME LIKE '%{0}%' ", filterValue))
-                        Case "es nulo"
-                            strselect.Append("(wss.NAME is null or RTRIM(LTRIM(wss.NAME)) = '')")
-                        Case "no es nulo"
-                            strselect.Append("(wss.NAME is not null and RTRIM(LTRIM(wss.NAME)) <> '')")
-                        Case Else
-                            strselect.Append(String.Format("wss.NAME {0} '{1}' ", stateFilters(i).Comparator, filterValue))
-                    End Select
-                Next
+                strselect.Append($"wd.step_Id = {Search.StepId} ")
             End If
 
             If Server.isOracle Then
@@ -2483,74 +1996,8 @@ ReloadCache:
             autoSubstitutionIndexes = Nothing
 
         End Sub
-        Private Function CreateInternalOrderBy(expression As String)
-            Dim ArrExpression() As String
-            ArrExpression = expression.Split(" ")
-            Select Case ArrExpression(1).ToLower
-                Case "step_id", "do_state_id", "user_asigned"
-                    ArrExpression(1) = "wd." + ArrExpression(1)
-            End Select
-            expression = Join(ArrExpression, " ")
-            Return expression
-        End Function
 
 
-        Public Function IsAssociatedIndexVisible(parentEntityId, EntityId, CurrentIndexId, UserId) As Boolean
-            Dim IRI As Hashtable = UB.GetAssociatedIndexsRightsCombined(parentEntityId, EntityId, UserId)
-            If (IRI.ContainsKey(CurrentIndexId) AndAlso DirectCast(IRI(CurrentIndexId), AssociatedIndexsRightsInfo).GetIndexRightValue(RightsType.AssociateIndexView)) Then
-                Return True
-            Else
-                Return False
-            End If
-        End Function
-
-
-        ''' <summary>
-        ''' Agrega los where de permisos al select dado
-        ''' 
-        ''' </summary>
-        ''' <param name="strselect"></param>
-        ''' <param name="VerAsignadosANadie"></param>
-        ''' <param name="VerAsignadosAOtros"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Private Sub AppendWhereRights(ByRef strselect As StringBuilder, ByVal VerAsignadosANadie As Boolean,
-                                             ByVal VerAsignadosAOtros As Boolean)
-            If Not VerAsignadosAOtros AndAlso VerAsignadosANadie Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-
-                strselect.Append("  (user_asigned = " & RightFactory.CurrentUser.ID & " Or user_asigned = 0")
-                For i As Int32 = 0 To RightFactory.CurrentUser.Groups.Count - 1
-                    strselect.Append(" Or user_asigned = ")
-                    strselect.Append(RightFactory.CurrentUser.Groups(i).ID())
-                Next
-                strselect.Append(")")
-            ElseIf VerAsignadosAOtros AndAlso Not VerAsignadosANadie Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                strselect.Append(" user_asigned <> 0")
-            ElseIf Not VerAsignadosAOtros AndAlso Not VerAsignadosANadie Then
-                If strselect.ToString.Contains("WHERE") Then
-                    strselect.Append(" And ")
-                Else
-                    strselect.Append(" WHERE ")
-                End If
-                strselect.Append("  (user_asigned = " & RightFactory.CurrentUser.ID)
-                For i As Int32 = 0 To RightFactory.CurrentUser.Groups.Count - 1
-                    strselect.Append(" Or user_asigned = ")
-                    strselect.Append(RightFactory.CurrentUser.Groups(i).ID())
-                Next
-                strselect.Append(")")
-            End If
-
-        End Sub
         ''' -----------------------------------------------------------------------------
         ''' <summary>
         ''' Devuelve un Arraylist de objetos Results obtenidos al ejecutar la sentencia SQL

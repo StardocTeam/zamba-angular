@@ -1226,8 +1226,8 @@ function toDataUrl(url, callback) {
 }
 
 function CheckCorrectUserInfo() {
-    if (window.localStorage.userId != thisUserId && !(window.localStorage.isdebbug === "true")) {
-        window.localStorage.clear();
+    if (localStorage.userId != thisUserId && !(localStorage.isdebbug === "true")) {
+        localStorage.clear();
         return false;
     }
     else

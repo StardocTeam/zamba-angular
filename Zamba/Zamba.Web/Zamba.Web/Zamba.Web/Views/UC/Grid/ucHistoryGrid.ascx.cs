@@ -27,11 +27,11 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
 
     public string currBind
     {
-        get
+        get 
         {
             return hdnAction.Value;
         }
-        set
+        set 
         {
             hdnAction.Value = value;
         }
@@ -107,11 +107,10 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
             grdHistory.Visible = false;
             Zamba.AppBlock.ZException.Log(ex);
         }
-        finally
-        {
+        finally {
             Thread.CurrentThread.CurrentCulture = oldCulture;
             Thread.CurrentThread.CurrentUICulture = oldUICulture;
-        }
+        }    
     }
 
     public void LoadOnlyIndexsHistory(Int64 docId)
@@ -184,37 +183,25 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
 
             if (dt.Rows.Count > 0)
             {
-                
+                //Formato de columnas
                 FormatGridview();
                 generateGridColumns(dt, GridType.Mails);
                 dt.Columns.Add("ICONID");
                 dt.Columns["ICONID"].SetOrdinal(0);
+
+                //Se cargan los datos
                 grdHistory.DataSource = dt;
                 grdHistory.DataBind();
-                foreach(DataControlField dataControlField in grdHistory.Columns)
-                {
-                    if (dataControlField.HeaderText == "ID")
-                        dataControlField.Visible = false;
-                }
-                
-                lblMessage.Visible = false;
-                for(int i = 0;i<dt.Rows.Count;i++)
-                {
-                    if (grdHistory.Rows.Count > i) {
-                        grdHistory.Rows[i].Attributes.Add("onclick", "javascript: showMailSwal(\"" + dt.Rows[i]["ID"].ToString() + "\");");
-                        grdHistory.Rows[i].Style.Add("cursor", "pointer");
-                    }
-                }
-                   
-                
-                
 
+                //Se oculta la columna del ID
+                grdHistory.Columns[dt.Columns["ID"].Ordinal].Visible = false;
+                lblMessage.Visible = false;
             }
             else
             {
                 lblMessage.Text = "No se han encontrado mails";
                 lblMessage.Visible = true;
-                grdHistory.Visible = false;                
+                grdHistory.Visible = false;
             }
 
             currTarget = docId;
@@ -229,13 +216,13 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
         }
     }
 
-    private DataTable getTaskHistory(Int64 task_id)
-    {
+    private DataTable getTaskHistory(Int64 TaskId)
+    {        
         DataSet ds = new DataSet();
 
         STasks Tasks = new STasks();
-        ds = Tasks.GetTaskHistory(task_id);
-
+        ds = Tasks.GetTaskHistory(TaskId);
+        
         return ds.Tables[0];
     }
 
@@ -346,15 +333,16 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
                     //Si hara falta crear un archivo para el Historial de mensajes enviados.
                     //Como crea el archivo de historial si es que lo hace donde lo guarda.
 
-                    //CommandField cf = new CommandField { SelectText = "Ver", ShowSelectButton = true };
-                    //grdHistory.Columns.Add(cf);
-                    //grdHistory.Columns[0].Visible = false;
+                    CommandField cf = new CommandField { SelectText = "Ver", ShowSelectButton = true };
+                    grdHistory.Columns.Add(cf);
+                    grdHistory.Columns[0].Visible = false;
                     #endregion
-
+                    
                     //Evento que abre el mail
-                    //grdHistory.SelectedIndexChanged -= new EventHandler(grdHistory_SelectedEventChange);
-                    //grdHistory.SelectedIndexChanged += new EventHandler(grdHistory_SelectedEventChange);
+                    grdHistory.SelectedIndexChanged -= new EventHandler(grdHistory_SelectedEventChange);
+                    grdHistory.SelectedIndexChanged += new EventHandler(grdHistory_SelectedEventChange);
                 }
+
                 foreach (DataColumn c in dt.Columns)
                 {
                     BoundField f = new BoundField
@@ -367,7 +355,6 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
 
                     grdHistory.Columns.Add(f);
                 }
-
             }
         }
         catch (Exception ex)
@@ -403,11 +390,11 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
         }
     }
 
-    private void ExecuteBindAction(string ActionName, Int64 Target)
+    private void ExecuteBindAction(string ActionName,Int64 Target)
     {
-        //formBrowser.Visibility = "hidden";
+       //formBrowser.Visibility = "hidden";
 
-        switch (ActionName)
+        switch (ActionName) 
         {
             case "LoadTaskHistory":
                 LoadTaskHistory(Target);
@@ -415,7 +402,7 @@ public partial class Views_UC_Grid_ucHistoryGrid : System.Web.UI.UserControl
             case "LoadOnlyIndexsHistory":
                 LoadOnlyIndexsHistory(Target);
                 break;
-            case "LoadMailsHistory":
+            case "LoadMailsHistory": 
                 LoadMailsHistory(Target);
                 break;
             case "LoadMailsHistoryByDocId":

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Zamba.SpireTools</RootNamespace>
     <AssemblyName>Zamba.SpireTools</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>%24/StardocTeam/ZambaWeb2013/zamba2010/Zamba.FileTools</SccProjectName>
     <SccLocalPath>.</SccLocalPath>
@@ -65,9 +65,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-      <HintPath>..\Zamba2014\packages\Microsoft.Office.Interop.PowerPoint.12.0.4518.1014\lib\net20\Microsoft.Office.Interop.PowerPoint.dll</HintPath>
+    <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\Assemblys\Office\Microsoft.Office.Interop.PowerPoint.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Zamba2014\packages\WindowsAPICodePack-Core.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -75,9 +76,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\Zamba2014\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Office, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
-      <HintPath>..\Zamba2014\packages\Office.12.0.0\lib\net40\Office.dll</HintPath>
+    <Reference Include="Office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\Assemblys\Office\Office.dll</HintPath>
     </Reference>
     <Reference Include="Spire.Barcode, Version=1.4.6.11040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -180,10 +182,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Helpers\MsgKit\MsgKit.csproj">
-      <Project>{8d465141-b98d-49fd-ba1c-de12f50e0cd3}</Project>
-      <Name>MsgKit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Stardoc\Tools\BetaProjects\PechkinHtmlToPDF\Pechkin\Zamba.CFTool.csproj">
       <Project>{023df833-b252-48b3-b6af-dbbb13e39b13}</Project>
       <Name>Zamba.CFTool</Name>
@@ -204,10 +202,6 @@
       <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
       <Name>Zamba.FWInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
-      <Project>{952c9b3b-3d9e-4ae2-a823-6b8e1f4f4756}</Project>
-      <Name>Zamba.Bussines</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
       <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
       <Name>Zamba.Core</Name>
@@ -215,10 +209,6 @@
     <ProjectReference Include="..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
       <Project>{c6b645ee-2668-404d-b41e-28d5ac6caeb6}</Project>
       <Name>Zamba.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zamba.FileTools\Zamba.FileTools.csproj">
-      <Project>{93c44ba5-4699-4764-85a3-35a6c1138dfb}</Project>
-      <Name>Zamba.FileTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zamba.FormBrowser\Zamba.FormBrowser.csproj">
       <Project>{23d004c2-7034-48a0-8caa-fe8a94f6246d}</Project>

@@ -16,8 +16,17 @@
     <%: Scripts.Render("~/bundles/bootstrap") %>
     <%: Scripts.Render("~/bundles/ZScripts") %>--%>
 
-  
-
+    <%--<script src="../../scripts/jq_datepicker.js" type="text/javascript"></script>
+    <script src="../../scripts/Zamba.js" type="text/javascript"></script>
+    <script src="../../scripts/Zamba.Validations.js" type="text/javascript"></script>--%>
+            <script>
+                function redirect() {
+                    var queryString = localStorage.queryStringAuthorization;
+                    if (queryString == "undefined")
+                        queryString = "";
+                    location.href = "../../globalsearch/search/search.html?" + queryString;
+                }
+        </script> 
     <script type="text/javascript">
         function pageLoad() {
         }
@@ -61,7 +70,7 @@
                                     <h4>Ha ocurrido un error en la aplicacion, por favor intente nuevamente o contactese con el Administrador del sistema.</h4>
                                 
                                     <hr style="margin-top:18%;" />
-                                    <a id="btnHome" href="../../globalsearch/search/search.html">Volver a la pagina principal.</a>
+                                    <a id="btnHome" href="#" onclick="redirect();">Volver a la pagina principal.</a>
                                 </div>
                             </div>
                         </td>

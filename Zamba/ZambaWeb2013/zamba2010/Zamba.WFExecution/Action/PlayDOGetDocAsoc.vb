@@ -51,7 +51,7 @@ Public Class PlayDOGetDocAsoc
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se retornan " + S.Count.ToString() + " documentos asociados")
                 Return S
             Else
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se continua el resto de las reglas con la tarea original")
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se retorna el result original")
                 Return results
             End If
         Finally

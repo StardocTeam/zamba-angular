@@ -40,7 +40,7 @@ public partial class Views_Tools_AdminTool : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            FileExplorer1.InitialPath = Page.ResolveUrl(@"~/");
+            FileExplorer1.InitialPath = Page.ResolveUrl(@"~/Views/Tools/toolsup");
             try
             {
                 ZOptBusiness zopt = new ZOptBusiness();

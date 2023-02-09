@@ -134,7 +134,7 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
                 cuit: AssociatedResult.CUIT,
                 concept: getElementFromListoByElementIndex($scope.ConceptoAttributeLists, AssociatedResult.CONCEPTO),
                 alternativeConcept: AssociatedResult.CONCEPTOALTERNATIVO,
-                cuitpro: AssociatedResult.CUITPRO,
+				cuitpro: AssociatedResult.CUITPRO,
                 amount: currentAmount,
                 email: AssociatedResult.MAIL,
                 personNumber: AssociatedResult.NRO_DE_PERSONA
@@ -304,7 +304,7 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
 
     // save edits
     $scope.saveTable = function () {
-        var SaveResult = true;
+
         for (var result in $scope.asociatedResults) {
             console.log($scope.asociatedResults);
 
@@ -316,10 +316,8 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
                 //    $scope.asociatedResults[result].data.concept = "22 Otros: " + String($scope.asociatedResults[result].data.concept).replace("22 Otros: ", "").replace("22-Otros", "") + $scope.asociatedResults[result].data.alternativeConcept;
                 //}
 
-                if (gridService.insertResult($scope.asociatedResults[result]) == true) {
-                    $scope.asociatedResults[result].isNew = false;
-                }
-                else { SaveResult = false;}
+                gridService.insertResult($scope.asociatedResults[result]);
+                $scope.asociatedResults[result].isNew = false;
             } else if ($scope.asociatedResults[result].isNew == false || $scope.asociatedResults[result].isDeleted == false) {
                 //if ($scope.asociatedResults[result].data.concept == "22-Otros" &&
                 //    ($scope.asociatedResults[result].data.alternativeConcept != undefined &&
@@ -327,15 +325,12 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
                 //    $scope.asociatedResults[result].data.concept = "22 Otros: " + String($scope.asociatedResults[result].data.concept).replace("22 Otros: ", "").replace("22-Otros", "") + $scope.asociatedResults[result].data.alternativeConcept;
 
                 //}
-                if (gridService.saveResult($scope.asociatedResults[result]) == true) {
-                    $scope.asociatedResults[result].isEdited = false;
-                }
-                else {
-                    SaveResult = false;}
+                gridService.saveResult($scope.asociatedResults[result]);
+                $scope.asociatedResults[result].isEdited = false;
             }
 
         }
-        return SaveResult;
+        return true;
     };
 
 
@@ -345,7 +340,7 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
     $scope.validateTable = function () {
         try {
 
-            var msg = '';
+
             var array = [];
             for (var result in $scope.asociatedResults) {
                 console.log($scope.asociatedResults);
@@ -358,62 +353,44 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
                     if ($scope.asociatedResults[result].data.concept == "22-Otros") {
                         if ($scope.asociatedResults[result].data.alternativeConcept == undefined ||
                             $scope.asociatedResults[result].data.alternativeConcept == null || $scope.asociatedResults[result].data.alternativeConcept == '') {
-                            msg = "Por favor, ingrese concepto alternativo";
-                            window.localStorage.setItem("valido", "false");
+                            swal("", "Por favor, ingrese concepto alternativo", "error");
+                            localStorage.setItem("valido", "false");
                             $scope.IsEditingMode = true;
                             $scope.IsViewMode = false;
-                            return msg;
+                            return false;
                         }
                     }
-
                     if ($scope.asociatedResults[result].data.concept == "12-IVA Deposito") {
-                        if ($scope.asociatedResults[result].data.cuitpro == undefined ||
-                            $scope.asociatedResults[result].data.cuitpro == null || $scope.asociatedResults[result].data.cuitpro == '') {
-                            msg = "Por favor, ingrese el cuit del profesional";
-                            window.localStorage.setItem("valido", "false");
-                            $scope.IsEditingMode = true;
-                            $scope.IsViewMode = false;
-                            return msg;
-                        }
-                        else if ($scope.ValidateCuit($scope.asociatedResults[result].data.cuitpro) == false) {
-                            msg = "El campo CUIT Profesional debe tener 11 digitos";
-                            window.localStorage.setItem("valido", "false");
-                            $scope.IsEditingMode = true;
-                            $scope.IsViewMode = false;
-                            return msg;
+						//if ($scope.asociatedResults[result].data.cuitpro == undefined ||
+      //                      $scope.asociatedResults[result].data.cuitpro == null || $scope.asociatedResults[result].data.cuitpro == '') {
+      //                      swal("", "Por favor, ingrese el cuit del profesional", "error");
+      //                      localStorage.setItem("valido", "false");
+      //                      $scope.IsEditingMode = true;
+      //                      $scope.IsViewMode = false;
+      //                      return false;
+      //                  }
 
-                        }
-                        else if ($scope.ValidateCuitChars($scope.asociatedResults[result].data.cuitpro) == false) {
-                            msg = "El campo CUIT no debe contener ni puntos (.), ni guiones (-)";
-                            window.localStorage.setItem("valido", "false");
-                            $scope.IsEditingMode = true;
-                            $scope.IsViewMode = false;
-                            return msg;
-
-                        }
-
-
-                        //  $scope.asociatedResults[result].data.concept = "22 Otros: " + String($scope.asociatedResults[result].data.concept).replace("22 Otros: ", "").replace("22-Otros", "") + $scope.asociatedResults[result].data.alternativeConcept;
+                        //                        $scope.asociatedResults[result].data.concept = "22 Otros: " + String($scope.asociatedResults[result].data.concept).replace("22 Otros: ", "").replace("22-Otros", "") + $scope.asociatedResults[result].data.alternativeConcept;
 
 
                     }
                     var find = $scope.asociatedResults.length;
                     if ($scope.asociatedResults[result].data.amount == "" || $scope.asociatedResults[result].data.favorTo == null || $scope.asociatedResults[result].data.cuit == null || $scope.asociatedResults[result].data.email == null) {
                         $scope.asociatedResults[result].IsComplete = false;
-                        msg = "Por favor Cargar todos los datos en beneficiarios";
-                        window.localStorage.setItem("valido", "false");
+                        swal("", "Por favor Cargar todos los datos en beneficiarios");
+                        localStorage.setItem("valido", "false");
                         $scope.IsEditingMode = true;
                         $scope.IsViewMode = false;
 
-                        return msg;
+                        return false;
                     }
                     else if (result == find - 1 && $scope.asociatedResults[result].data.amount != "" && $scope.asociatedResults[result].data.favorTo != null && $scope.asociatedResults[result].data.cuit != null && $scope.asociatedResults[result].data.email != null) {
                         $scope.asociatedResults[result].IsComplete = true;
-                        window.localStorage.setItem("valido", "true");
+                        localStorage.setItem("valido", "true");
                         $scope.IsEditingMode = false;
                         $scope.IsViewMode = true;
 
-                        return msg;
+                        return true;
                     }
 
 
@@ -421,23 +398,21 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
                 } else {
 
                     $scope.asociatedResults[result].IsComplete = false;
-                    window.localStorage.setItem("valido", "false");
+                    localStorage.setItem("valido", "false");
                     $scope.IsEditingMode = true;
                     $scope.IsViewMode = false;
-                    msg = "Por favor Cargar todos los datos en beneficiarios";
-                    return msg;
+
+                    return false;
 
 
 
 
                 }
 
+
             }
-
-            return '';
-
         } catch (e) {
-            return e;
+            return false;
         }
     };
 
@@ -539,22 +514,6 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
         return true;
     }
 
-    $scope.ValidateCuit = function (result) {
-        if (result != undefined && result != null && String(result).length != 11 && String(result).length > 0) {
-            //swal("", "El campo CUIT debe tener 11 digitos", "warning");
-            return false;
-        }
-        return true;
-    }
-
-    $scope.ValidateCuitChars = function (result) {
-        if (String(result).contains(".") || String(result).contains("-")) {
-            // swal("", "El campo CUIT no debe contener ni puntos (.), ni guiones (-)", "warning");
-            return false;
-        }
-        return true;
-    }
-
     $scope.getValidateEmail = function (result) {
         if (result == undefined && result == undefined && result == null || String(result).contains("@") == false && String(result).contains(".") == false) {
             swal("", "El campo E-MAIL debe ser una dirección valida", "info");
@@ -581,7 +540,7 @@ app.controller('BenefCtrl', function ($scope, $filter, $http, gridService) {
                 email: '',
                 personNumber: '',
                 alternativeConcept: '',
-                cuitpro: '',
+				cuitpro: '',
             },
             isDeleted: false,
             isNew: true,
@@ -718,7 +677,7 @@ app.directive('zambaGrid', function ($sce) {
             $scope.parentEntityId = "2544,1020129";
             $scope.LoadAsociatedResults($scope.parentResultId, $scope.entityId, $scope.parentEntityId);
         },
-        templateUrl: $sce.getTrustedResourceUrl("../../Grid/PedidoFondos/PedidosFondosEditGrid.html?v=248")
+        templateUrl: $sce.getTrustedResourceUrl("../../Grid/PedidoFondos/PedidosFondosEditGrid.html")
     };
 })
 
@@ -740,157 +699,3 @@ function setTagValueById(tagId, value) {
 
 
 
-//enviar
-function ValidarDatosFaltantes() {
-
-    try {
-        var scope = angular.element($("#appID")).scope();
-    SaveFormData();
-
-    //Validaciones para submit(save).
-    var valido = false;
-
-    if ($("#zamba_index_10287")[0].checked == false && ($("#zamba_index_2719").val() == '' || $("#zamba_index_2719").val() == 0 || $("#zamba_index_2719").val() == '0,00' || $("#zamba_index_2719").val() == '0.00')) {
-        swal("", "Por favor,carga Estimacion de Pagos");
-         valido = false;
-
-    } else if ($("#zamba_index_10284").val() == "") {
-        swal("", "Por favor, ingresa Estado.");
-        valido = false;
-    } else if ($("#hdnCount").val() == 0) {
-        swal("", "Por favor,carga al menos un beneficiario");
-        valido = false;
-
-
-
-    } else if ($("#zamba_index_1020168").val() == "") {
-        swal("", "Por favor,carga la fecha de pago");
-        valido = false;
-    } else if (ValidarFechaMayorIgualActual($("#zamba_index_1020168").val())) {
-        swal("", "Por favor, carga una Fecha de Pago Valida.");
-        valido = false;
-    }
-
-    else {
-       
-
-        if (scope.saveTable() == true) {
-            var msg = scope.validateTable();
-            if (msg == '') {
-                swal("Enviando Pedido...", "", "success");
-
-                window.localStorage.removeItem("valido");
-                valido = true;
-            }
-            else {
-                swal("", msg, "error");
-                valido = false;
-                window.localStorage.removeItem("valido");
-               
-                
-            }
-        }
-        else {
-            swal("No se pudieron guardar los datos, por favor llamar a la mesa de ayuda", "", "warning");
-          
-            valido = false;
-        }
-        }
-
-        if (valido == false)
-            scope.LoadAsociatedResults(scope.parentResultId, scope.entityId, scope.parentEntityId);
-
-    return valido;
-
-    } catch (e) {
-        console.error(e);
-       
-        return false;
-    }
-
-    }
-
-function ValidarFechaMayorIgualActual(valueDate) {
-    var currentDate = new Date();
-    var dateParts = valueDate.split('/');
-    var validateDate = new Date(dateParts[1] + "/" + dateParts[0] + "/" + dateParts[2]);
-
-    if (Date.parse(currentDate) >= Date.parse(validateDate)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function SaveFormData() {
-
-    try {
-        var entityId = GetDocTypeId();
-        var parentResultId = GetDOCID();
-        var taskId = GetTASKID();
-
-        if (entityId == null) {
-                       entityId = 0;
-        }
-
-
-        saveIndexValidated(10284, entityId, parentResultId, taskId, $("#zamba_index_10284").val());
-        saveIndexValidated(1020168, entityId, parentResultId, taskId, $("#zamba_index_1020168").val());
-
-
-        saveIndexValidated(2793, entityId, parentResultId, taskId, $("#zamba_index_2793").val());
-        saveIndexValidated(10293, entityId, parentResultId, taskId, $("#zamba_index_10293").val());
-        saveIndexValidated(10294, entityId, parentResultId, taskId, $("#zamba_index_10294").val());
-        saveIndexValidated(10295, entityId, parentResultId, taskId, $("#zamba_index_10295").val());
-        saveIndexValidated(10296, entityId, parentResultId, taskId, $("#zamba_index_10296").val());
-        saveIndexValidated(1025183, entityId, parentResultId, taskId, $("#zamba_index_1025183").val());
-        saveIndexValidated(10297, entityId, parentResultId, taskId, $("#zamba_index_10297").val());
-        saveIndexValidated(2801, entityId, parentResultId, taskId, $("#zamba_index_2801").val());
-        saveIndexValidated(10298, entityId, parentResultId, taskId, $("#zamba_index_10298").val());
-        saveIndexValidated(10288, entityId, parentResultId, taskId, $("#zamba_index_10288").val());
-        saveIndexValidated(10319, entityId, parentResultId, taskId, $("#zamba_index_10319").val());
-        saveIndexValidated(2719, entityId, parentResultId, taskId, $("#zamba_index_2719").val());
-
-
-        if ($("#zamba_index_10287").attr("checked") == 'checked') {
-            saveIndexValidated(10287, entityId, parentResultId, taskId, $("#zamba_index_10287"), 1);
-        }
-        else {
-            saveIndexValidated(10287, entityId, parentResultId, taskId, $("#zamba_index_10287"), 0);
-        }
-
-    } catch (e) {
-
-    }
-}
-
-
-function GuardarBorrador() {
-    var scope = angular.element($("#appID")).scope();
-    if (scope.saveTable() == true) {
-        swal("Datos guardados en Borrador", "", "success");
-        SetRuleId(this);
-        return true;
-
-    }
-    else {
-        swal("No se pudieron guardar los datos, por favor llamar a la mesa de ayuda", "", "warning");
-        return false;
-    }
-}
-
-
-function validateBenef() {
-    var valido = false;
-    if (window.localStorage.getItem("valido").contains("true")) {
-        SetRuleId(sender);
-        valido = true;
-        window.localStorage.removeItem("valido");
-    } else {
-        swal("", "Por favor Cargar todos los Campos de beneficiarios", "error");
-        valido = false;
-        window.localStorage.removeItem("valido");
-    }
-    return valido;
-
-}

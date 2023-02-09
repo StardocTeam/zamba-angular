@@ -34,7 +34,6 @@ public partial class Views_Tools_Default : System.Web.UI.Page
     protected void btnClean_Click(object sender, EventArgs e)
     {
         DocTypesBusiness DTB = new DocTypesBusiness();
-
         if (chkCleanWF.Checked)
         {
             Zamba.Core.WFStepBusiness.ClearHashTables();  //workflows
@@ -49,10 +48,8 @@ public partial class Views_Tools_Default : System.Web.UI.Page
         }
         if (chkCleanIndexs.Checked)
         {
-        AutoSubstitutionBusiness ASB = new AutoSubstitutionBusiness();
-            ASB.ClearHashTables(); //atributos
+            Zamba.Core.AutoSubstitutionBusiness.ClearHashTables(); //atributos
             Zamba.Core.IndexsBusiness.ClearHashTables();
-            ASB = null;
         }
         if (chkCleanUsers.Checked)
         {
@@ -83,9 +80,7 @@ public partial class Views_Tools_Default : System.Web.UI.Page
         Zamba.Core.WFRulesBusiness.ClearHashTables();
             //volumenes
         new FormBusiness().ClearHashTables(); //forms
-        AutoSubstitutionBusiness ASB = new AutoSubstitutionBusiness();
-        ASB.ClearHashTables(); //atributos
-        ASB = null;
+        Zamba.Core.AutoSubstitutionBusiness.ClearHashTables(); //atributos
         Zamba.Core.IndexsBusiness.ClearHashTables();
         Zamba.Core.UserGroupBusiness.ClearHashTables(); //usuarios y permisos           
         Zamba.Core.UserComponent.ClearHashTables();

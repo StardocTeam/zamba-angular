@@ -24,7 +24,7 @@ using Zamba.Services;
 using ZambaWeb.RestApi.Models;
 namespace ZambaWeb.RestApi.Controllers
 {
-
+    [RestAPIAuthorize]
     public class InsertFilesController : ApiController
     {
 
@@ -82,6 +82,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         //[Authorize]
+        [OverrideAuthorization]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/GetIndexsFromDocType")]
         public List<IIndexList> GetIndexsFromDocType(int DocTypeId)
@@ -114,6 +115,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/GetDocTypes")]
+        [OverrideAuthorization]
         public System.Collections.ArrayList GetDocTypes()
         {
             DocTypesBusiness DTB = new DocTypesBusiness();
@@ -126,7 +128,8 @@ namespace ZambaWeb.RestApi.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/UploadFile")]
-        public string UploadFile([FromBody] insert insert)
+        [OverrideAuthorization]
+        public string UploadFile([FromBody]insert insert)
         {
             Int64 newId = 0;
             string pathTemp = string.Empty;
@@ -244,7 +247,8 @@ namespace ZambaWeb.RestApi.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/UploadFileWithIndexReturn")]
-        public string UploadFileWithIndexReturn([FromBody] insert insert)
+        [OverrideAuthorization]
+        public string UploadFileWithIndexReturn([FromBody]insert insert)
         {
             string pathTemp = string.Empty;
             Int64 newId = 0;
@@ -253,17 +257,14 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
 
+                newId = Zamba.Data.CoreData.GetNewID(IdTypes.DOCID);
+                CopyFileBKP(ref pathTemp, insert, newId);
                 if (insert != null)
                 {
                     var user = GetUser(insert.Userid);
                     if (user == null)
                         return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
                             new HttpError(StringHelper.InvalidUser))).ToString();
-
-                    newId = Zamba.Data.CoreData.GetNewID(IdTypes.DOCID);
-                    CopyFileBKP(ref pathTemp, insert, newId);
-
-
                     try
                     {
                         SUsers us = new SUsers();
@@ -275,7 +276,6 @@ namespace ZambaWeb.RestApi.Controllers
                         foreach (var InsertIndex in insert.indexs)
                         {
                             Boolean IndexValidate = false;
-                            String ErrorMsg = "";
                             foreach (var NewResultIndex in newresult.Indexs)
                             {
 
@@ -293,7 +293,7 @@ namespace ZambaWeb.RestApi.Controllers
                                 }
                             }
                             if (!IndexValidate)
-                                throw new Exception($"El atributo no existe en la Entidad seleccionada. ({InsertIndex.id} : {InsertIndex.value})");
+                                throw new Exception("Uno o mas campos no existen.");
                         }
 
                         ZTrace.WriteLineIf(ZTrace.IsInfo, IndexDataLog.ToString());
@@ -338,16 +338,11 @@ namespace ZambaWeb.RestApi.Controllers
                                 }
                                 Int64 internalId = Int64.Parse(NewID);
 
-                                IIndex ReturnNewIndex = res.get_GetIndexById(insert.ReturnId);
-
-                                      if (ReturnNewIndex == null)
-                                    throw new Exception($"El atributo de retorno es indexistenteen la entidad seleccionada. ({insert.ReturnId})");
-
                                 IR = new insertResult
                                 {
                                     Id = internalId,
                                     ReturnId = insert.ReturnId,
-                                    ReturnValue = ReturnNewIndex.Data,
+                                    ReturnValue = res.get_GetIndexById(insert.ReturnId).Data,
                                     msg = "OK"
                                 };
                             }

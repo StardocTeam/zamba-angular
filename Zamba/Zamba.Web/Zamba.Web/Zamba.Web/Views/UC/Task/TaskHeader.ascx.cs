@@ -45,7 +45,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                 {
                     iTaskResult.TaskState = TaskStates.Asignada;
                     STasks staks = new STasks();
-                    staks.UpdateTaskState(iTaskResult.TaskId, (long)TaskStates.Asignada);
+                    staks.UpdateTaskState(iTaskResult.TaskId, TaskStates.Asignada);
                     staks = null;
                 }
 
@@ -54,11 +54,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                 UACCell.Controls.Clear();
                 DisablePropertyControls();
 
-
                 WFTB.RegisterTaskAsOpen(TaskResult.TaskId, MembershipHelper.CurrentUser.ID);
-                SRights srights = new SRights();
-                srights.SaveActionWebView(TaskResult.ID, ObjectTypes.Documents, Request.UserHostAddress.Replace("::1", "127.0.0.1"), RightsType.View, TaskResult.DocTypeId.ToString());
-                srights = null;
 
                 List<long> users = UserGroupBusiness.GetUsersIds(TaskResult.m_AsignedToId);
                 if (TaskResult.AsignedToId == MembershipHelper.CurrentUser.ID || TaskResult.AsignedToId == 0 || users.Contains(MembershipHelper.CurrentUser.ID)) // Si el asignado soy yo o nadie
@@ -76,9 +72,8 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                         Boolean IsGroup = false;
 
                         SUsers = new SUsers();
-                        userOrGroupName = SUsers.GetUserorGroupNamebyId(TaskResult.AsignedToId, ref IsGroup);
-                        userOrGroupName = (string.IsNullOrEmpty(userOrGroupName)) ? "otro usuario" : userOrGroupName;
-                        DisableGUI($"Tarea en ejecución por {userOrGroupName}");
+                        userOrGroupName = SUsers.GetUserorGroupNamebyId(TaskResult.AsignedToId,ref IsGroup);
+                        DisableGUI("Esta tarea se encuentra en ejecución por el usuario " + userOrGroupName);
                     }
                     //else if (!RB.GetUserRights(MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.UnAssign, Convert.ToInt32(TaskResult.StepId))) // O no tengo permiso para desasignar
                     //{
@@ -88,7 +83,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                     //}
                 }
 
-                if (CheckUserActionLoad(users))
+                if (CheckUserActionLoad())
                     LoadUserAction();
                 else
                     HideFormRules();
@@ -154,7 +149,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                 {
                     //[Ezequiel] Obtengo los ids de las reglas de entrada.
 
-                    var ruleIDs = from rule in rules where rule.ParentType == TypesofRules.Entrada && rule.Enable == true select rule.ID;
+                    var ruleIDs = from rule in rules where rule.ParentType == TypesofRules.Entrada select rule.ID;
 
                     foreach (Int64 rid in ruleIDs)
                     {
@@ -229,7 +224,6 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                 if (TaskResult.AsignedToId == 0)
                 {
                     Stasks.AsignTask(ref iTaskResult, Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, false);
-                    iTaskResult.TaskState = TaskStates.Ejecucion;
                     ExecuteAsignedToRules();
                 }
                 else if (users.Contains(Zamba.Membership.MembershipHelper.CurrentUser.ID))
@@ -241,35 +235,30 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                         if (dt.Rows[0][2] == null || dt.Rows[0][2].ToString() == "0")
                         {
                             Stasks.AsignTask(ref iTaskResult, Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, false);
-                            iTaskResult.TaskState = TaskStates.Ejecucion;
                             ExecuteAsignedToRules();
                         }
                     }
                     else
                     {
                         Stasks.AsignTask(ref iTaskResult, Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, false);
-                        iTaskResult.TaskState = TaskStates.Ejecucion;
                         ExecuteAsignedToRules();
                     }
 
                 }
-                else if (TaskResult.m_AsignedToId == Zamba.Membership.MembershipHelper.CurrentUser.ID && TaskResult.TaskState != TaskStates.Ejecucion)
+                else if (TaskResult.m_AsignedToId == Zamba.Membership.MembershipHelper.CurrentUser.ID && TaskResult.TaskState !=  TaskStates.Ejecucion)
                 {
                     Stasks.AsignTask(ref iTaskResult, Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, true);
-                    iTaskResult.TaskState = TaskStates.Ejecucion;
                     ExecuteAsignedToRules();
                 }
                 else if ((TaskResult.TaskState == Zamba.Core.TaskStates.Asignada && RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.UnAssign, Convert.ToInt32(TaskResult.StepId)) == true))
                 {
                     Stasks.AsignTask(ref iTaskResult, Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, true);
-                    iTaskResult.TaskState = TaskStates.Ejecucion;
                     ExecuteAsignedToRules();
                 }
 
                 //La coleccion de tareas se pasa por referencia
                 TaskResult.TaskState = TaskStates.Ejecucion;
                 Stasks.InitialiceTask(ref iTaskResult);
-                Stasks.UpdateTaskState(TaskResult.TaskId, (long)TaskResult.TaskState);
 
                 System.Collections.Generic.List<ITaskResult> Results = new System.Collections.Generic.List<ITaskResult>();
                 Results.Add(TaskResult);
@@ -287,7 +276,6 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                 if (TaskResult.AsignedById != Zamba.Membership.MembershipHelper.CurrentUser.ID)
                 {
                     this.lblmsj.InnerHtml = "El usuario no tiene permiso para iniciar la tarea o la misma esta siendo utilizada por otro usuario";
-                    this.lblmsj.Visible = true;
                 }
                 return;
             }
@@ -322,7 +310,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
 
                 try
                 {
-                    // string currentLockedUser = null;
+                   // string currentLockedUser = null;
 
                     //if (WFTaskBusiness.LockTask(TaskResult.TaskId, ref currentLockedUser))
                     //{
@@ -413,7 +401,6 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
         //BtnIniciar.Visible = false;
         dontLoadUAC = true;
         lblmsj.InnerHtml = message;
-        lblmsj.Visible = true;
         string script = "$(function (){$('#dropOptions').hide();}); ";
         ScriptManager.RegisterClientScriptBlock(this, Page.GetType(), "CloseOptionsScript", script, true);
     }
@@ -455,7 +442,6 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             }
 
             sTasks.Finalizar(TaskResult);
-            sTasks.UpdateTaskState(TaskResult.TaskId, (long)TaskResult.TaskState);
             ExecuteFinishRules();
             //Zamba.Core.WF.WF.WFTaskBusiness.CloseOpenTasksByTaskId(TaskResult.TaskId)
             SetAsignedTo();
@@ -628,15 +614,15 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
         else
             lblAsignedTo.InnerHtml = "Ninguno";
 
-        //  this.IconAssigned.Attributes.Add("title", "Asignado: " + this.lblAsignedTo.InnerHtml);
-        // this.lblAsignedTo.Attributes.Add("title", this.lblAsignedTo.InnerHtml);
+      //  this.IconAsigned.Attributes.Add("title", "Asignado: " + this.lblAsignedTo.InnerHtml);
+       // this.lblAsignedTo.Attributes.Add("title", this.lblAsignedTo.InnerHtml);
 
         lbletapadata2.InnerHtml = SSteps.GetStepNameById(TaskResult.StepId);
         // this.IconStep.Attributes.Add("title", "Etapa: " + this.lbletapadata2.InnerHtml);
 
 
         dtpFecVenc.InnerHtml = TaskResult.ExpireDate.ToString("dd/MM/yyyy");
-        //       dtpFecVenc.Text = TaskResult.ExpireDate.ToString("dd/MM/yyyy");
+ //       dtpFecVenc.Text = TaskResult.ExpireDate.ToString("dd/MM/yyyy");
         this.IconValidate.Attributes.Add("title", "Fecha de vencimiento: " + dtpFecVenc.InnerHtml);
 
         //CboStates.Items.Clear();
@@ -651,9 +637,9 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
         //    CboStates.DataBind();
         CboStates.InnerHtml = TaskResult.State.Name;
 
-        //        CboStates.SelectedValue = TaskResult.State.ID.ToString();
-        //        IconState.Attributes.Add("title", "Estado: " + TaskResult.State.Name.ToString());
-        //      CboStates.SelectedIndexChanged += CboStates_SelectedIndexChanged;
+//        CboStates.SelectedValue = TaskResult.State.ID.ToString();
+        IconState.Attributes.Add("title", "Estado: " + TaskResult.State.Name.ToString());
+  //      CboStates.SelectedIndexChanged += CboStates_SelectedIndexChanged;
         //lblNombreDocumento.InnerHtml = stask.NombreDocumento_currUserConfig;
     }
 
@@ -744,11 +730,11 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             {
                 if ((RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.AllowStateComboBox, TaskResult.StepId) == true))
                 {
-                    //  CboStates.Enabled = true;
+                  //  CboStates.Enabled = true;
                 }
                 else
                 {
-                    //  CboStates.Enabled = false;
+                  //  CboStates.Enabled = false;
                 }
 
                 if (TaskResult.AsignedToId == Zamba.Membership.MembershipHelper.CurrentUser.ID)
@@ -763,8 +749,8 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             }
             else
             {
-                // this.CboStates.Enabled = false;
-                //  this.dtpFecVenc.Enabled = false;
+               // this.CboStates.Enabled = false;
+              //  this.dtpFecVenc.Enabled = false;
                 this.chkTakeTask.Enabled = false;
                 this.chkCloseTaskAfterDistribute.Enabled = false;
             }
@@ -812,6 +798,11 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             return false;
         }
     }
+    private bool CheckUserActionLoad()
+    {
+        System.Collections.Generic.List<long> users = UserGroupBusiness.GetUsersIds(TaskResult.AsignedToId);
+        return CheckUserActionLoad(users);
+    }
 
     //TODO: MOVER A CAPA DE NEGOCIOS
     private bool GetExecuteAssignedToOtherRight()
@@ -835,21 +826,21 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
         }
 
 
-        //  this.dtpFecVenc.Enabled = RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.ModificarVencimiento, Convert.ToInt32(TaskResult.StepId));
+      //  this.dtpFecVenc.Enabled = RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.ModificarVencimiento, Convert.ToInt32(TaskResult.StepId));
 
-        //  if (TaskResult.TaskState == TaskStates.Ejecucion || TaskResult.TaskState == TaskStates.Asignada)
-        // {
+      //  if (TaskResult.TaskState == TaskStates.Ejecucion || TaskResult.TaskState == TaskStates.Asignada)
+       // {
 
-        this.BtnDerivar.Visible = RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.Delegates, Convert.ToInt32(TaskResult.StepId));
+            this.BtnDerivar.Visible = RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.Delegates, Convert.ToInt32(TaskResult.StepId));
 
-        //        }
+//        }
 
 
 
         if (TaskResult.TaskState != TaskStates.Ejecucion)
         {
-            //  CboStates.Enabled = false;
-            // this.dtpFecVenc.Enabled = false;
+          //  CboStates.Enabled = false;
+           // this.dtpFecVenc.Enabled = false;
             this.chkTakeTask.Enabled = false;
             this.chkCloseTaskAfterDistribute.Enabled = false;
         }
@@ -869,7 +860,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             string userActionName = string.Empty;
             idRules.Clear();
             UACCell.Controls.Clear();
-            Boolean ShowButtonActions = false;
+
             //todo wf falta ver si no se modificaron las reglas y cargarlas de nuevo desde la base en el wfstep
 
             List<Zamba.Core.IWFRuleParent> Rules = SRules.GetCompleteHashTableRulesByStep(TaskResult.StepId);
@@ -881,100 +872,83 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
 
                 foreach (Zamba.Core.WFRuleParent Rule in Rules)
                 {
-                    if (Rule.ParentType == TypesofRules.AccionUsuario)
+                    if (TaskResult.UserRules.ContainsKey(Rule.ID))
                     {
-                        if (TaskResult.UserRules.ContainsKey(Rule.ID))
+                        //Lista que en la posicion 0 guarda si esta habilitada la regla o no
+                        //y en la 1 si se acumula a la habilitacion de las solapas o no
+                        List<bool> lstRulesEnabled = (List<bool>)TaskResult.UserRules[Rule.ID];
+                        RuleEnabled = lstRulesEnabled[0];
+                    }
+                    else
+                    {
+                        RuleEnabled = true;
+                    }
+
+                    if (RuleEnabled && Rule.ParentType == TypesofRules.AccionUsuario && !idRules.Contains(Rule.ID))
+                    {
+                        Button UAB = new Button();
+                        HtmlGenericControl li = new HtmlGenericControl("li");
+                        li.Attributes.Add("style", "padding:1px");
+
+                        UAB.ID = "UAB_Rule_" + Rule.ID;
+                        UAB.CssClass = "btn btn-primary btn-xs";
+                        UAB.OnClientClick = "ShowLoadingAnimation();";
+                        UAB.TabIndex = -1;
+
+                        UAB.Click += UAB_Click;
+
+                        //Busca en la tabla si existe un nombre de acción de usuario para esa regla
+                        try
                         {
-                            //Lista que en la posicion 0 guarda si esta habilitada la regla o no
-                            //y en la 1 si se acumula a la habilitacion de las solapas o no
-                            List<bool> lstRulesEnabled = (List<bool>)TaskResult.UserRules[Rule.ID];
-                            RuleEnabled = lstRulesEnabled[0];
+                            userActionName = SRules.GetUserActionName(Rule);
+                        }
+                        catch (Exception ex)
+                        {
+                            Zamba.Core.ZClass.raiseerror(ex);
+                            userActionName = string.Empty;
+                        }
+
+                        //Si el nombre no existe entonces le asigna el nombre de la regla
+                        if (string.IsNullOrEmpty(userActionName))
+                        {
+                            userActionName = Rule.Name.ToUpper();
+                        }
+
+                        //Asigna el nombre al botón. Si este es mayor que 20 lo corta y le agrega 3 puntos
+                        UAB.ToolTip = userActionName;
+
+                        if (userActionName.Length > 20)
+                        {
+                            UAB.Text = userActionName.Substring(0, 20) + "...";
                         }
                         else
                         {
-                            RuleEnabled = true;
-                        }
-
-                        if (RuleEnabled && !idRules.Contains(Rule.ID))
-                        {
-                            Button UAB = new Button();
-
-                            //HtmlGenericControl li = new HtmlGenericControl("li");
-                            //li.Attributes.Add("style", "padding: 1px");
-
-                            UAB.ID = "UAB_Rule_" + Rule.ID;
-                            UAB.CssClass = UP.getValue("FormActionsClass", UPSections.UserPreferences, "UAB GruposUsuarios btn btn-sm btn-info");
-                            UAB.OnClientClick = "ShowLoadingAnimation();";
-                            UAB.TabIndex = -1;
-                            UAB.Click += UAB_Click;
-
-                            //Busca en la tabla si existe un nombre de acción de usuario para esa regla
-                            try
-                            {
-                                userActionName = SRules.GetUserActionName(Rule);
-                            }
-                            catch (Exception ex)
-                            {
-                                Zamba.Core.ZClass.raiseerror(ex);
-                                userActionName = string.Empty;
-                            }
-
-                            //Si el nombre no existe entonces le asigna el nombre de la regla
-                            if (string.IsNullOrEmpty(userActionName))
-                            {
-                                userActionName = Rule.Name.ToUpper();
-                            }
-
-                            //Asigna el nombre al botón. Si este es mayor que 20 lo corta y le agrega 3 puntos
-                            UAB.ToolTip = userActionName;
-
-                            //if (userActionName.Length > 20)
-                            //{
-                            //    UAB.Text = userActionName.Substring(0, 20) + "...";
-                            //}
-                            //else
-                            //{
                             UAB.Text = userActionName;
-                            //}
-
-                            //Guarda el nombre en un hash para luego utilizarlo cuando se llame al saveAction
-                            if (hshRulesNames.ContainsKey(Rule.ID))
-                            {
-                                hshRulesNames[Rule.ID] = userActionName;
-                            }
-                            else
-                            {
-                                hshRulesNames.Add(Rule.ID, userActionName);
-                            }
-
-                            if (Convert.ToBoolean(Request.QueryString.Get("previewmode")))
-                            {
-                                ShowButtonActions = false;
-                            }
-                            else
-                            {
-                                ShowButtonActions = true;
-                            }
-
-                            //                        li.Controls.Add(UAB);
-                            this.UACCell.Controls.Add(UAB);
-                            //this.divActions.Controls.Add(a);
-
-                            //Se guarda el id de la regla
-                            idRules.Add(Rule.ID);
                         }
+
+                        //Guarda el nombre en un hash para luego utilizarlo cuando se llame al saveAction
+                        if (hshRulesNames.ContainsKey(Rule.ID))
+                        {
+                            hshRulesNames[Rule.ID] = userActionName;
+                        }
+                        else
+                        {
+                            hshRulesNames.Add(Rule.ID, userActionName);
+                        }
+
+                        li.Controls.Add(UAB);
+                        this.UACCell.Controls.Add(li);
+
+                        //Se guarda el id de la regla
+                        idRules.Add(Rule.ID);
                     }
                 }
-                //BtnAcciones.Visible = ShowButtonActions;
-                this.UACCell.Visible = ShowButtonActions;
+
                 userActionName = string.Empty;
                 WFRB = null;
 
                 //Oculta/muestra reglas segun preferencias por cada result
                 GetStatesOfTheButtonsRule();
-
-                string script = " setTimeout(function(){ try { $('#ctl00_ContentPlaceHolder_ucTaskHeader_UACCell').show(); } catch (e) { console.error(e);  }},500);";
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "ShowUserActionsScript", script, true);
 
             }
         }
@@ -1001,8 +975,6 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
 
             if (UACCell.Controls.Count > 0)
             {
-                List<Control> UABToRemove = new List<Control>();
-
                 //Recorre cada regla activa en el documento
                 foreach (Int64 idRule in idRules)
                 {
@@ -1033,24 +1005,10 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                     if (useTabEnable)
                     {
                         WFBusiness WFB = new WFBusiness();
-                        Boolean isVisible = WFB.CanExecuteRules(idRule, Zamba.Membership.MembershipHelper.CurrentUser.ID, (WFStepState)TaskResult.State, (TaskResult)TaskResult);
-                        UACCell.Controls[contador].Visible = isVisible;
-
-                        if (isVisible == false)
-                        {
-                            UABToRemove.Add(UACCell.Controls[contador]);
-                        }
-
+                        UACCell.Controls[contador].Visible = WFB.CanExecuteRules(idRule, Zamba.Membership.MembershipHelper.CurrentUser.ID, (WFStepState)TaskResult.State, (TaskResult)TaskResult);
                     }
                     contador = contador + 1;
                 }
-
-                //foreach (Control UA in UABToRemove) {
-                //    if (UA.Visible == false) {
-                //        UACCell.Controls.Remove(UA);
-                //    }
-                //}
-                //UABToRemove.Clear();
             }
 
         }
@@ -1131,7 +1089,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             WFTB.UpdateTaskState(TaskResult.TaskId, StateID);
 
             //log in the change state
-            WFTB.LogTask(TaskResult, "Cambio Estado");
+            WFTB.LogTask(TaskResult,"Cambio Estado");
 
         }
         catch (Exception ex)
@@ -1253,7 +1211,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
             //update the change state
             if ((TaskResult != null))
             {
-                WFTB.ChangeExpireDate(TaskResult.TaskId, DateTime.Parse(FecVenc));
+                WFTB.ChangeExpireDate( TaskResult.TaskId, DateTime.Parse(FecVenc));
             }
         }
         catch (Exception ex)
@@ -1370,7 +1328,7 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
 
     private void SetOption(bool value, string checkOption)
     {
-        // UserPreferences sup = default(UserPreferences);
+       // UserPreferences sup = default(UserPreferences);
 
         try
         {
@@ -1396,4 +1354,5 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
     //    Load += Page_Load;
     //}
 }
+
 

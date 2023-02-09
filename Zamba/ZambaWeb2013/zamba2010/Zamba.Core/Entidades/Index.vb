@@ -423,7 +423,7 @@ Imports Zamba
                     If Value.Trim <> _Data2 Then Me.Datachange = True
                     _Data2 = Value
                 ElseIf Me.Type = IndexDataType.Fecha Then
-                    Dim Newdate As Date = Date.ParseExact(Value, "dd/MM/yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo)
+                    Dim Newdate As Date = Date.Parse(Value)
                     If Newdate.ToShortDateString <> _Data2 Then
                         Me.Datachange = True
                     End If
@@ -643,7 +643,7 @@ Imports Zamba
     '''</history>
     Public Sub New(ByVal Id As Int32, ByVal Name As String, ByVal Type As Int32, ByVal Len As Int32, ByVal AutoFill As Boolean, ByVal NoIndex As Boolean, ByVal DropDown As Int16,
                    ByVal AutoDisplay As Boolean, ByVal Invisible As Boolean, ByVal requerido As Int16, Optional ByVal _defaultValue As String = STRINGEMPTY, Optional ByVal HierarchicalParentID As Int32 = -2,
-                   Optional ByVal HierarchicalChildID As Int32 = -2, Optional ByVal HierarchicalDataTableName As String = STRINGEMPTY, Optional ByVal minValue As String = STRINGEMPTY, Optional ByVal maxValue As String = STRINGEMPTY, Optional Reference As Boolean = False)
+                   Optional ByVal HierarchicalChildID As Int32 = -2, Optional ByVal HierarchicalDataTableName As String = STRINGEMPTY, Optional ByVal minValue As String = STRINGEMPTY, Optional ByVal maxValue As String = STRINGEMPTY)
         Me.ID = Id
         Me.Name = Name
         Me.Type = CType(Type, IndexDataType)
@@ -679,7 +679,6 @@ Imports Zamba
         Me._minValue = minValue
         Me._maxValue = maxValue
 
-        Me._isReference = Reference
         FillIndexTypes()
     End Sub
 

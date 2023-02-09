@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using Zamba.Core;
+using Zamba.Web.GlobalSearch.search;
 
 namespace ScriptWebServices
 {
@@ -49,7 +50,8 @@ namespace ScriptWebServices
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
+                //throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
+                return "";
             }
 
         }
@@ -60,10 +62,23 @@ namespace ScriptWebServices
             return fullServerPath.ToLower().Replace(HttpContext.Current.Request.PhysicalApplicationPath.ToLower(), String.Empty);
         }
 
+        [WebMethod(EnableSession = true)]
+        public bool LoginOkta(int userid, string token)
+        {
+            Zamba.Core.ZssFactory zssFactory = new Zamba.Core.ZssFactory();
+            Zamba.Services.SUsers suser = new Zamba.Services.SUsers();
+            var user = suser.GetUser(userid);
+            //zssFactory.CheckTokenInDatabase(System.Convert.ToInt64(userid), token, false);
+            if (!zssFactory.CheckTokenInDatabase(userid, token, false))
+                return false;
+            Zamba.Membership.MembershipHelper.SetCurrentUser(user);
+            return true;
+
+        }
 
         [WebMethod(EnableSession = true)]
         public string getValueFromWebConfig(string key)
-        {            
+        {
             try
             {
                 if (string.IsNullOrEmpty(key)) {

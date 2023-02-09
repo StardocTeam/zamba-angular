@@ -162,8 +162,7 @@
 
       try {
         return document.querySelector(selector) ? selector : null;
-      } catch (e) {
-          console.error(e);
+      } catch (err) {
         return null;
       }
     },
@@ -2039,8 +2038,7 @@
       } else {
         rect = element.getBoundingClientRect();
       }
-    } catch (e) {
-        console.error(e);}
+    } catch (e) {}
 
     var result = {
       left: rect.left,

@@ -9,5 +9,4 @@ Public Enum SearchTypes
     QuickSearch = 2
     AsociatedSearch = 3
     AsignedTasks = 4
-    Process = 5
 End Enum

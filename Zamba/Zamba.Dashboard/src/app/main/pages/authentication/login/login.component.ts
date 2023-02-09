@@ -9,7 +9,6 @@ import {
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { JsonpClientBackend } from '@angular/common/http';
 
 @Component({
     selector: 'login',
@@ -121,29 +120,20 @@ export class LoginComponent implements OnInit {
     }
 
     ValidateLogin(LoginObject) {
+
+        
         var tokenUser = LoginObject.token;
         if (tokenUser != null && tokenUser !== undefined && tokenUser != "") {
+            debugger;
+            localStorage.setItem("token", tokenUser);
+            localStorage.setItem("username", this.loginForm.value.username);
+            localStorage.setItem("UserID", LoginObject.USERID);
 
 
 
-            try {
-                var data = {
-                    Params:
-                    {
-                        "userIdEncrip": LoginObject.userID
-                    }                   
-                }
-               this.loginService.DecryptUserName(data)
-               .subscribe(
-                   
-                 x  => { this.setNameValues(x,LoginObject) },
-                error  => {console.log("Error", error);}
-               );
-                
-                
-            } catch (error) {
-                console.log(error);
-            }
+            this._snackBar.dismiss();
+            //this.router.navigate(['apps/dashboards/analytics']);
+            this.router.navigate(['/apps/IMAP/client']);
             
             
         } else {
@@ -151,24 +141,6 @@ export class LoginComponent implements OnInit {
 
         }
         this.validating = false;
-
-    }
-
-    setNameValues(name, LoginObject){
-
-
-        var tokenUser = LoginObject.token;
-        localStorage.setItem("token", tokenUser);
-        localStorage.setItem("username", this.loginForm.value.username);
-        localStorage.setItem("UserID", JSON.parse(name).UserIdDecryp);
-
-
-
-        this._snackBar.dismiss();
-        //this.router.navigate(['apps/dashboards/analytics']);
-        this.router.navigate(['/apps/IMAP/client']);
-
-       
 
     }
 

@@ -8,8 +8,8 @@
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
     <script src="boston.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
         function zamba_save_onclick() {
@@ -27,7 +27,20 @@
                 })
             });
         });
-        
+        // function CargarFechasyBotones(){
+        //     $('#zamba_index_2763').datepicker({
+        //         changeMonth: true,
+        //         changeYear: true,
+        //         showOn: 'button', 
+        //         buttonText: 'Abrir calendario',
+        //         buttonImage: 'calendar.png', 
+        //         buttonImageOnly: true,
+        //         yearRange: '-100:+0',
+        //         duration: ""
+        // //     });
+        //     $('#zamba_index_2709').val("Argentino");
+        //     $('#zamba_index_2706').focus();			
+        // }
         </script>
 </head>
 <body>
@@ -109,7 +122,7 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de Nacimiento:</span>
-                                <input class="form-control input-sm " style=" color: #090A0A; font-weight: bold" id="zamba_index_2763" name="zamba_index_2763" onblur="valFecha(this)" />
+                                <input class="form-control input-sm datepicker" style=" color: #090A0A; font-weight: bold" id="zamba_index_2763" name="zamba_index_2763" onblur="valFecha(this)" />
                             </div>
                         </div>
                     </div>
@@ -134,14 +147,14 @@
                 </center>
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">Demandado - Insert.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

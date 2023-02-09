@@ -92,7 +92,7 @@ Public Class PlayDOAutoMail
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Automail enviado con éxito!")
 
                         ' [AlejandroR] 03/12/2009 - Created - Guardar el envio de este email en el historial
-                        MessagesBusiness.SaveHistory(automail.MailTo, automail.CC, automail.CCO, automail.Subject, automail.Body, _
+                        MessagesBusiness.SaveHistory(automail.MailTo, automail.CC, automail.CCO, automail.Subject, automail.Body,
                                                      automail.AttachmentsPaths, automail.TaskId, automail.DocTypeID, results(0).UserId, String.Empty)
                     Catch ex As Exception
                         Throw ex

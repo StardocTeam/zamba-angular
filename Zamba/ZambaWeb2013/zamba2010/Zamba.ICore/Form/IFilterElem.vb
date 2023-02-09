@@ -12,8 +12,6 @@
     Overloads Function ToString() As String
     Property DocTypeId() As Int64
     Property UserId() As Int64
-    Property DataDescription() As String
-
 
     ''' <summary>
     ''' Formatea el valor a filtrar para que se realize el filtrado de manera correcta.

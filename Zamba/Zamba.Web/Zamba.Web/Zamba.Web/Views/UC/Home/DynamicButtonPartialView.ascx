@@ -3,14 +3,6 @@
 <%@ Import Namespace="System.Linq" %>
 <%@ Import Namespace="Zamba.Core" %>
 <%@ Import Namespace="System.Collections.Generic" %>
- <link rel="stylesheet" type="text/css" href="../../Content/css/ZClass.css" />
-
-<%if (RenderButtons.Count == 0)
-    {%>
-            <div class="notAvailableOptionsMessage ng-scope" style="">
-               <p>No hay acciones de usuario para ser ejecutadas</p>
-            </div>
-            <% } %>
 
 
 <%foreach (var group in this.RenderButtons.Select(b => new { b.GroupName, b.GroupClass, b.PlaceId }).Distinct())
@@ -20,7 +12,7 @@
 <div class=" col-sm-2" style="padding: 0 0 0 0">
     <% } %>
     <div style="padding: 5px 5px 5px 5px; text-align: center;" class="<%--DynamicBtnGroup--%> <%--dropdown--%> <%--btn--%> <%=group.GroupClass %> DynamicBtnListHeader">
-        <p id="Grn" <%--data-toggle="dropdown"--%> class="" style="text-align: center; font-size: 15px; font-weight: bold; color: var(--ZBlue); min-height: 14px"><%=(group.GroupName.Equals("") ? "Acciones" : group.GroupName) %></p>
+        <p id="Grn" <%--data-toggle="dropdown"--%> class="" style="text-align: center; font-size: 15px; font-weight: bold; color: rgb(0,115,177); min-height: 14px"><%=(group.GroupName.Equals("") ? "Acciones" : group.GroupName) %></p>
 
         <ul class=" col-sm-12 <%--dropdown-menu--%>" id="dynamicbtnlist" style="font-size: 14px; padding: 1px 0 1px 0"
             <%if (group.PlaceId == Zamba.Core.ButtonPlace.WebHeader)
@@ -32,13 +24,11 @@
             <%if (group.GroupName.Contains("Reporte") || item.Caption.Contains("Reporte") || item.Caption.Contains("Listado"))
                 {%>
             <li style="text-align: center" class="DynamicBtnLIRpt">
-            <% }
-                else
-                { %>
+            <% }  else { %>
             <li style="text-align: center" class="DynamicBtnLI">
             <% } %>
 
-                <a href="#" class="<%=item.ViewClass %> list-group-item "  id="<%=item.ButtonId %>" title="<%=item.Caption%>" onclick="<%=(item.TypeId == Zamba.Core.ButtonType.Rule)?"PreventClick(event); RuleButtonClick(this," + item.RuleId + ");" : string.Empty %>" ">
+                <a href="#" class="<%=item.ViewClass %> list-group-item "  id="<%=item.ButtonId %>" title="<%=item.Caption%>" onclick="<%=(item.TypeId == Zamba.Core.ButtonType.Rule)?"RuleButtonClick(this," + item.RuleId + ");" : string.Empty %>" ">
                     <%=item.Caption%>
                 </a>
             </li>
@@ -118,32 +108,6 @@
         -webkit-font-smoothing: antialiased;
     }
 
-    .notAvailableOptionsMessage {
-        position: relative;
-        margin: 20rem 60rem;
-        background-color: var(--ZBlue);
-        color: white;
-        padding: 2rem 0 1rem 0;
-        width: 30%;
-        text-align: center;
-        border-radius: 3px;
-        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
-    }
-
-    @media (max-width: 1350px) {
- .notAvailableOptionsMessage {
-        position: relative;
-        margin: 16rem 35rem;
-        background-color: var(--ZBlue);
-        color: white;
-        padding: 2rem 0 1rem 0;
-        width: 40%;
-        text-align: center;
-        border-radius: 3px;
-        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 26%);
-    }
-}
-
     .DynamicBtnLI {
         margin: 7px;
     }
@@ -151,8 +115,9 @@
         .DynamicBtnLI a {
             max-height: 155px;
             min-height: 24px;
-            background-color: var(--ZBlue);
-            border-color: var(--ZBlue);
+            /*background-color: #559cda;*/
+            background-color: rgb(0,115,177);
+            border-color: rgb(0,115,177);
             overflow: hidden;
             white-space: unset;
             text-overflow: ellipsis;
@@ -162,44 +127,44 @@
             padding: 6px 4px 6px 4px;
         }
 
-    .DynamicBtnAction a {
-        max-height: 155px;
-        min-height: 24px;
-        /*background-color: #559cda;*/
-        background-color: #398439;
-        border-color: #398439;
-        overflow: hidden;
-        white-space: unset;
-        text-overflow: ellipsis;
-        font-family: Verdana,'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: rgb(255,255,255);
-        font-size: 13px;
-        padding: 6px 4px 6px 4px;
-    }
+          .DynamicBtnAction a {
+            max-height: 155px;
+            min-height: 24px;
+            /*background-color: #559cda;*/
+            background-color: #398439;
+            border-color: #398439;
+            overflow: hidden;
+            white-space: unset;
+            text-overflow: ellipsis;
+            font-family: Verdana,'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: rgb(255,255,255);
+            font-size: 13px;
+            padding: 6px 4px 6px 4px;
+        }
 
-    .DynamicBtnLIRpt a {
-        max-height: 155px;
-        min-height: 24px;
-        /*background-color: #559cda;*/
-        /*background-color: rgb(0,115,177);
+                .DynamicBtnLIRpt a {
+            max-height: 155px;
+            min-height: 24px;
+            /*background-color: #559cda;*/
+            /*background-color: rgb(0,115,177);
             border-color: rgb(0,115,177);*/
-        overflow: hidden;
-        white-space: unset;
-        text-overflow: ellipsis;
-        font-family: Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
-        color: rgb(0,115,177);
-        font-size: 13px;
-        padding: 6px 4px 6px 4px;
-    }
+            overflow: hidden;
+            white-space: unset;
+            text-overflow: ellipsis;
+            font-family: Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+            color: rgb(0,115,177);
+            font-size: 13px;
+            padding: 6px 4px 6px 4px;
+        }
 
 
-    .DynamicBtnLI a:hover {
-        box-shadow: 3px;
-    }
+            .DynamicBtnLI a:hover {
+                box-shadow: 3px;
+            }
 
-    .DynamicBtnLI a:focus {
-        box-shadow: 3px;
-    }
+            .DynamicBtnLI a:focus {
+                box-shadow: 3px;
+            }
 </style>
 
 <script>
@@ -214,7 +179,6 @@
             function () {
                 $(this).children("ul").css("display", "none");
             });
-
 
         //$(".DynamicBtnGroup").hover(
         //    function () {

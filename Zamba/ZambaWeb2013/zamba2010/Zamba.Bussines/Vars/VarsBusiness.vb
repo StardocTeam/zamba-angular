@@ -13,16 +13,10 @@ Public Class VarsBusiness
 
     Public Function AsignVarsValues(strhtml As String) As String
         Dim html As New HtmlDocument
-        Dim htmlElement As New HtmlDocument
-        'strhtml = strhtml.Replace(vbCr, "").Replace(vbLf, "").Replace(vbCrLf, "").Replace(vbTab, "")
         html.LoadHtml(strhtml)
-        strhtml = html.DocumentNode.OuterHtml
+
         For Each varName As String In VariablesInterReglas.Keys()
             Dim e As HtmlNode = html.GetElementbyId(String.Format("zvar_{0}", varName))
-            If e Is Nothing Then
-                e = html.GetElementbyId(String.Format("zvar({0})", varName))
-            End If
-
             If e IsNot Nothing Then
 
                 If (TypeOf VariablesInterReglas.Item(varName) Is DataSet) Then
@@ -104,9 +98,8 @@ Public Class VarsBusiness
                                     e.SetAttributeValue("value", VarValue)
                                 End If
                         End Select
-                        htmlElement.LoadHtml(e.OuterHtml)
 
-                        strhtml = strhtml.Replace(oldTag, e.OuterHtml)
+                        strhtml = strhtml.Replace(oldTag.Replace(">", " />"), e.OuterHtml)
 
 
                     Catch ex As System.Runtime.InteropServices.COMException

@@ -18,17 +18,17 @@
         <div class="container-fluid">
             <center>
                 <div class="header background-blue">
-                    <h5 style="margin-bottom: -30px">INGRESO SOLICITUD DE COMPRA DE BIENES Y/O CONTRATACIÓN DE SERVICIOS</h5>
+                    <h5 style="margin-bottom: -30px">INGRESO SOLICITUD DE COMPRA DE BIENES Y/O CONTRATACION DE SERVICIOS</h5>
                 </div>
             </center>
             <ul class=" nav nav-tabs">
                 <li class=" active"><a href="#Solicitud" data-toggle="tab">Solicitud</a></li>
                 <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
                 <!--<li><a href="#Cotizacion" data-toggle="tab">Cotizaciones</a></li>
-                <li><a href="#OrdenesCompra" data-toggle="tab">Ordenes de Compra</a></li>
-                <li><a href="#Evaluaciones" data-toggle="tab">Evaluaciones</a></li>
-                <li><a href="#Remitos" data-toggle="tab">Remitos</a></li>
-                <li><a href="#Pagos" data-toggle="tab">Pagos</a></li>-->
+            <li><a href="#OrdenesCompra" data-toggle="tab">Ordenes de Compra</a></li>
+            <li><a href="#Evaluaciones" data-toggle="tab">Evaluaciones</a></li>
+            <li><a href="#Remitos" data-toggle="tab">Remitos</a></li>
+            <li><a href="#Pagos" data-toggle="tab">Pagos</a></li>-->
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="Solicitud">
@@ -84,7 +84,7 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <!--Descripcion de la Solicitud-->
-                                <span class="input-group-addon">Descripción de la Solicitud:</span>
+                                <span class="input-group-addon">Descripcion de la Solicitud:</span>
                                 <textarea id="zamba_index_51" name="zamba_index_51" rows="5" onkeypress="return check(event)" class="form-control input-sm"></textarea>
 
                             </div>
@@ -204,7 +204,7 @@
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-8 ">
                                 <input name="zamba_save" id="zamba_save" onclick="return zamba_save_draw_onclick(this);" class="btn btn-primary" type="submit" value="Guardar">
-                                <input name="zamba_rule_2102" id="zamba_rule_2102" onclick="return Submit(this);" class="btn btn-success" type="button" value="Solicitar">
+                                <input name="zamba_rule_2102" id="zamba_rule_2102" onclick="return zamba_save_onclick(this);" class="btn btn-success" type="submit" value="Solicitar">
                                 <input name="zamba_rule_1122772" id="zamba_rule_1122772" onclick="return ExecutetaskRuleWithConfirmMessage('Queres cancelar la solicitud', 1122772, CloseCurrentTask);" class="btn btn-warning" type="submit" value="Cancelar">
                             </div>
                         </div>
@@ -223,9 +223,9 @@
                     </div>
 
                     <!--<div class="tablesorter" id="zamba_associated_documents_11">
-                    </div>-->
+                </div>-->
                 </div>
-                <div class="tab-pane" id="Cotización">
+                <div class="tab-pane" id="Cotizacion">
                     <div class="form-group row"></div>
                     <!--<div class="tablesorter" id="zamba_associated_documents_"></div>-->
                     <div class="form-group row"></div>
@@ -297,17 +297,11 @@
         </div>
 
         <!--Referencias Grilla de Solicitud y Compras-->
-        <script src="../../Grid/SolCompCont2/SolCompContController2.js?v=248"></script>
-        <script src="../../Grid/SolCompCont2/SolCompContService2.js?v=248"></script>
+        <script src="../../Grid/SolCompCont2/SolCompContController2.js?v=168"></script>
+        <script src="../../Grid/SolCompCont2/SolCompContService2.js?v=168"></script>
 
         <script type="text/javascript">
-            var flag = true;
 
-            function Submit(sender) {
-                if (flag) {
-                    zamba_save_onclick(sender);
-                }
-            }
 
             function ValidarComprasyServicios(result) {
                 var CYS = false;
@@ -355,7 +349,7 @@
                         valido = false;
 
                     } else if ($.trim(document.getElementById("zamba_index_51").value) == "") {
-                        swal("", "Por favor, ingrese Descripción de la Solicitud");
+                        swal("", "Por favor, ingrese Descripcion de la Solicitud");
                         valido = false;
                     } else if (document.getElementById("zamba_index_155").value == "") {
                         swal("", "Por favor, ingrese el Estado de la Solicitud");
@@ -397,9 +391,6 @@
 
                                 SetRuleId(sender);
                                 valido = true;
-                                flag = false;
-
-                                $("form")[0].submit();
                             }
                         }
                         else {

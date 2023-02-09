@@ -421,7 +421,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                 lenind = currentIndex.Name.Length;
         }
 
-        lenind *= 8;
+        lenind *= 6;
 
         //Obtengo los permisos de los indices
         long doctypeid = (long)Session["Insert_DocTypeId"];
@@ -484,8 +484,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                 isIndexEnable = true;
                 isIndexVisible = true;
             }
-            if (currentIndex.AutoIncremental)
-                isIndexEnable = false;
+
             currentRow = new TableRow();
 
             //agrega los label
@@ -708,10 +707,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                     cbValue.Attributes.Add("DefaultValue", Index.DefaultValue);
                 }
                 sbClasses.Append(" insertAttribute");
-                sbClasses.Append(" input-sm");
                 cbValue.CssClass += sbClasses.ToString();
-
-                cbValue.Attributes.Add("onkeyup", "RemoveClaseBtnInsert();");
 
                 if (autocompleteIndexsindexIds.Contains(Index.ID))
                 {
@@ -732,7 +728,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                 ((TextBox)controlToReturn).Attributes.Add("readOnly", "readOnly");
             }
 
-
+          
 
             controlToReturn.ID = Index.ID.ToString();
             return controlToReturn;
@@ -808,10 +804,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                     cbValue.Attributes.Add("DefaultValue", Index.DefaultValue);
                 }
                 sbClasses.Append(" insertAttribute");
-                sbClasses.Append(" input-sm");
                 cbValue.CssClass += sbClasses.ToString();
-
-                cbValue.Attributes.Add("onchange", "RemoveClaseBtnInsert();");
 
                 if (autocompleteIndexsindexIds.Contains(Index.ID))
                 {
@@ -839,7 +832,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                 controlToReturn = new TextBox
                 {
                     Text = textOfControl,
-                    CssClass = "inputFromInsert-readonly",
+                    CssClass = "readOnly",
                     ToolTip = "No tiene permisos para editar este índice.",
                     Width = 320
                 };
@@ -847,7 +840,7 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                 ((TextBox)controlToReturn).Attributes.Add("readOnly", "readOnly");
             }
 
-
+           
 
             controlToReturn.ID = Index.ID.ToString();
             return controlToReturn;
@@ -861,50 +854,27 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
 
     private Control GetLineTextIndexControl(IIndex Index, bool IndexEnable)
     {
-        //Text = Server.HtmlEncode(Index.Data),
         try
         {
             TextBox tbValue = new TextBox
             {
-                Text = Index.Data,
-                CssClass = "inputFromInsert",
+                Text = Server.HtmlEncode(Index.Data),
+                Width = 320,
                 ID = Index.ID.ToString()
             };
-            
+
             if (IndexEnable)
             {
                 //Se agregan validaciones en base a configuracion de índice
                 StringBuilder sbClasses = new StringBuilder();
                 if (Index.ID == 16)
-                {
                     sbClasses.Append(" generatelistdinamic");
-                }
-                else
-                {
-
-                    tbValue.Attributes.Add("autocomplete", "off");
-                }
-
                 sbClasses.Append(" dataType");
-                sbClasses.Append(" Type");
-                String DataType = GetTypeToValidateFromIndex(Index.Type);
-                if (DataType == "numeric" || DataType == "decimal_2_16")
-                {
-                    tbValue.Attributes.Add("Type", "number");
-                }
-                else
-                {
-                    tbValue.Attributes.Add("Type", "text");
-                }
-                tbValue.Attributes.Add("dataType", DataType);
-
+                tbValue.Attributes.Add("dataType", GetTypeToValidateFromIndex(Index.Type));
                 if (Index.Required)
                     sbClasses.Append(" isRequired");
                 sbClasses.Append(" length");
                 tbValue.Attributes.Add("length", Index.Len.ToString());
-
-                tbValue.Attributes.Add("onkeyup", "RemoveClaseBtnInsert();");
-
                 if (!string.IsNullOrEmpty(Index.DefaultValue))
                 {
                     sbClasses.Append(" haveDefaultValue");
@@ -924,20 +894,18 @@ public partial class Views_UC_Index_ucDocTypeIndexsForInsert : System.Web.UI.Use
                 }
 
                 sbClasses.Append(" insertAttribute");
-                sbClasses.Append(" input-sm");
                 tbValue.CssClass += sbClasses.ToString();
             }
             else
             {
                 tbValue.Attributes.Add("readOnly", "readOnly");
-                tbValue.CssClass = "inputFromInsert-readonly";
+                tbValue.CssClass = " readOnly";
             }
 
             if (Index.Type == IndexDataType.Alfanumerico || Index.Type == IndexDataType.Alfanumerico_Largo)
             {
                 tbValue.TextMode = TextBoxMode.MultiLine;
                 tbValue.CssClass += (IndexEnable) ? " overflowHidden" : " overflowHidden readOnly";
-                tbValue.CssClass += " resizeNone";
                 tbValue.Wrap = true;
                 tbValue.Rows = 1;
                 tbValue.Attributes.Add("ondblclick", "modifyTextBoxSize(this);");

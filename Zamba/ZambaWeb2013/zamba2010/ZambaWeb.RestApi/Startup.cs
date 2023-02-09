@@ -102,27 +102,5 @@ namespace ZambaWeb.RestApi
             app.UseStageMarker(PipelineStage.MapHandler);
             //[Configure External Logins...]
         }
-
-
-        void Application_End(object sender, EventArgs e)
-        {
-            //  Code that runs on application shutdown
-        }
-
-        void Application_Error(object sender, EventArgs e)
-        {
-
-            try
-            {
-
-                Zamba.AppBlock.ZException.Log(new Exception("Error de App en RA"));
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-
-
     }
 }

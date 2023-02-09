@@ -369,7 +369,7 @@ Public Class Server
             MakeConString()
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw New Exception("No se pudo cargar la configuracion actual " & ex.ToString, ex)
+            Throw New Exception("No se pudo cargar la configuracion actual " & ex.ToString)
         End Try
     End Sub
 
@@ -534,8 +534,18 @@ Public Class Server
                     ConInitialized = False
                     Throw New ZConnectionException(ex, "Err: 101. No se puede conectar con la Base de Datos, por favor contacte a su administrador del sistema")
                 Else
-                    If Membership.MembershipHelper.ClientType = Core.ClientType.Desktop OrElse Membership.MembershipHelper.ClientType = Core.ClientType.Undefined AndAlso Server.ConInitialized = True AndAlso Server.ConInitializing = False Then
+                    If Membership.MembershipHelper.ClientType = Core.ClientType.Desktop Or Membership.MembershipHelper.ClientType = Core.ClientType.Undefined AndAlso Server.ConInitialized = True AndAlso Server.ConInitializing = False Then
+                        Dim WP As FrmWaitConnection
+                        WP = New FrmWaitConnection(ex)
 
+                        If WP.ShowDialog() = DialogResult.Cancel Then
+                            ConInitialized = False
+                            WP.Dispose()
+                            WP = Nothing
+                            Throw New ZConnectionException(ex, "Err: 101. No se puede conectar con la Base de Datos, por favor contacte a su administrador del sistema")
+                        End If
+                        WP.Dispose()
+                        WP = Nothing
                     Else
                         If Server.ConInitialized = False AndAlso Server.ConInitializing = True Then
                             ConInitialized = False
@@ -799,7 +809,7 @@ Public Class Server
     Private Shared Function GetConexionFileFromRelease(File As FileInfo) As FileInfo
         If IsNothing(File) OrElse Not File.Exists Then
             Try
-                File = New FileInfo(Environment.CurrentDirectory & "\app.ini")
+                File = New FileInfo(Application.StartupPath & "\app.ini")
             Catch
                 File = New FileInfo(".\app.ini")
             End Try
@@ -812,7 +822,7 @@ Public Class Server
 
                 If IsNothing(File) OrElse Not File.Exists Then
                     Try
-                        Dim FileInis As String() = Directory.GetFiles(Environment.CurrentDirectory, "*app*.ini")
+                        Dim FileInis As String() = Directory.GetFiles(Application.StartupPath, "*app*.ini")
                         File = New FileInfo(FileInis(0))
                     Catch ex As Exception
                     End Try

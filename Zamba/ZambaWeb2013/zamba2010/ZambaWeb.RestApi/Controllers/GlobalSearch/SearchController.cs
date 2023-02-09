@@ -27,14 +27,13 @@ using Zamba.Membership;
 using System.Web.Script.Serialization;
 using Zamba.FileTools;
 using Microsoft.Ajax.Utilities;
-using Zamba.Core.Cache;
-using ZambaWeb.RestApi.Controllers.Common;
-using System.Text;
-using Zamba.Filters;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RestAPIAuthorize]
+
+
     public class SearchController : ApiController
     {
         public SearchController()
@@ -81,7 +80,7 @@ namespace ZambaWeb.RestApi.Controllers
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.ToLower().Contains("user"))
                         {
                             dataItem = item;
                         }
@@ -116,6 +115,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUserName")]
         [AllowAnonymous]
+        [OverrideAuthorization]
         public string GetUserName(int userId)
         {
             Zamba.Core.UserBusiness UB;
@@ -221,6 +221,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Test")]
+        [OverrideAuthorization]
         //[Authorize]
         public string Test()
         {
@@ -246,6 +247,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/BasicTest")]
+        [OverrideAuthorization]
         public string BasicTest()
         {
             try
@@ -271,6 +273,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/TestParam")]
+        [OverrideAuthorization]
         public string TestParam(string val)
         {
             try
@@ -293,8 +296,10 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Suggestions")]
+        //[OverrideAuthorization]
         public IEnumerable<Dictionary<string, object>> GetSuggestions(string text = "")
         {
             SearchSuggestions ss;
@@ -327,6 +332,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         // [System.Web.Http.HttpGet]
         [Route("api/search/SuggestionsByIndex")]       //no hubo forma de pasar desde AJAX lista de entidades
+        [OverrideAuthorization]
         public IEnumerable<Dictionary<string, object>> SuggestionsByIndex(int index, string entities, string word)
         {
             SearchSuggestions ss;
@@ -357,6 +363,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/SuggestionsList")]
+        [OverrideAuthorization]
         public IEnumerable<Dictionary<string, object>> SuggestionsList(string index, string entities, string word)
         {
             SearchSuggestions ss;
@@ -390,6 +397,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/SuggestionsAdvEnt")]
+        [OverrideAuthorization]
         public IEnumerable<Dictionary<string, object>> SuggestionsAdvEnt(int entity, string entWord, string index, string word, string filter, string filterword)
         {
             SearchSuggestions ss;
@@ -430,6 +438,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/SuggestionsAdvInd")]
+        [OverrideAuthorization]
         public IEnumerable<Dictionary<string, object>> SuggestionsAdvInd(int index, string indWord, string entities, string filter, string filterword)
         {
             SearchSuggestions ss;
@@ -464,6 +473,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/Results")]
+        [OverrideAuthorization]
         public IHttpActionResult FilterResults(Filter parameters)
         {
             if (parameters != null)
@@ -483,7 +493,7 @@ namespace ZambaWeb.RestApi.Controllers
                     var lp = parameters.SizePage.LastPage;
                     var pz = parameters.SizePage.PageSize;
                     Int64 TotalCount = 0;
-                    var results = md.DoSearch(ref search, user.ID, lp, pz, false, false, true, ref TotalCount, false);
+                    var results = md.DoSearch(ref search, user.ID, lp, pz, false, false, true, ref TotalCount);
 
                     searchResult sr = new searchResult();
 
@@ -496,9 +506,6 @@ namespace ZambaWeb.RestApi.Controllers
                             ColumnsToRemove.Add(c.ColumnName);
                         }
                     }
-
-                    //List<string> SRColumnList = SetColumnsOrder(results, ColumnsToRemove, search.View);
-
                     //Remuevo las columnas
                     if (ColumnsToRemove.Count > 0)
                     {
@@ -542,237 +549,8 @@ namespace ZambaWeb.RestApi.Controllers
             return null;
         }
 
-
-        [Route("api/search/GetEntitiesTree")]
-        [HttpGet, HttpPost]
-        public IHttpActionResult GetEntitiesTree(genericRequest paramRequest)
-        {
-            IUser user = null;
-            if (paramRequest != null)
-            {
-                user = GetUser(paramRequest.UserId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                        new HttpError(StringHelper.InvalidUser)));
-
-
-                string EntitiesString = string.Empty;
-
-                if (DocTypesAndIndexs.hsSearchEntities.ContainsKey(user.ID) == false)
-                {
-                    try
-                    {
-
-                        string LastSelectedNodesIds = GetLastSelectedNodesIds(user.ID);
-                        DataTable entities = GetEntitiesByUser(user.ID);
-                        EntitiesString = GetTreeNodeJsonString(entities, LastSelectedNodesIds);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        ZClass.raiseerror(ex);
-
-                        throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
-                    }
-
-                    lock (DocTypesAndIndexs.hsSearchEntities)
-                    {
-                        if (!DocTypesAndIndexs.hsSearchEntities.ContainsKey(user.ID))
-                            DocTypesAndIndexs.hsSearchEntities.Add(user.ID, EntitiesString);
-                    }
-
-                    return Ok(EntitiesString);
-
-                }
-                else
-                {
-                    return Ok(DocTypesAndIndexs.hsSearchEntities[user.ID].ToString());
-                }
-
-            }
-            else
-            {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                 new HttpError(StringHelper.InvalidParameter)));
-            }
-        }
-
-
-        private string GetLastSelectedNodesIds(Int64 currentuserid)
-        {
-            Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-            string lastSelectedNodeIds = UP.getEspecificUserValue("WebSearchLastNodes", UPSections.Viewer, string.Empty, currentuserid);
-            lastSelectedNodeIds = FormatNodesIds(lastSelectedNodeIds);
-
-            return lastSelectedNodeIds;
-        }
-
-        private string FormatNodesIds(string lastSelectedNodeIds)
-        {
-            lastSelectedNodeIds = lastSelectedNodeIds.Replace("=", "").Replace("Section", "").Replace("Entity", "").Replace("-", "");
-            if (lastSelectedNodeIds.Length == 0) lastSelectedNodeIds = "0";
-            return lastSelectedNodeIds;
-        }
-
-        private DataTable GetEntitiesByUser(long userId)
-        {
-            StringBuilder entitiesQuery = new StringBuilder();
-
-            entitiesQuery.Append("SELECT distinct e.DOC_TYPE_ID id, RTRIM(e.DOC_TYPE_NAME) text, DocTypeDocGroup.orden orden ");
-            entitiesQuery.Append("FROM doc_type e inner join USR_RIGHTS re on re.RTYPE = 7 and re.ADITIONAL = e.DOC_TYPE_ID AND ");
-            entitiesQuery.Append($"(groupid = {userId} or groupid in (select inheritedusergroup from group_r_group where usergroup = {userId}) OR ");
-            entitiesQuery.Append($"groupid in ( Select groupid from usr_r_group where usrid = {userId}) or groupid IN ");
-            entitiesQuery.Append($"(select inheritedusergroup from group_r_group where usergroup in ( Select groupid from usr_r_group where usrid = {userId} ))) ");
-            entitiesQuery.Append("INNER JOIN (select * from(select doc_type_id, min(doc_order) orden from doc_type_r_doc_type_group A group by doc_type_id) q ) ");
-            entitiesQuery.Append("DocTypeDocGroup ON DocTypeDocGroup.doc_type_id = e.DOC_TYPE_ID order by text");
-
-            var Entities = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, entitiesQuery.ToString());
-
-            Entities.Tables[0].Columns.RemoveAt(2);
-
-            return Entities.Tables[0];
-        }
-
-        private string GetTreeNodeJsonString(DataTable entities, string lastselectednodeid)
-        {
-            try
-            {
-                string[] lastSelectedNodesId = lastselectednodeid.Split(',');
-                StringBuilder EntitiesTree = new StringBuilder();
-                EntitiesTree.Append("[{\"id\":-1,\"text\":\"Todas las entidades\",\"PARENT_ID\":0,\"spriteCssClass\":\"glyphicon glyphicon-folder-open\",\"NodeType\":\"Section\",\"checked\":\"false\",\"items\":[");
-
-                foreach (DataRow r in entities.Rows)
-                {
-                    EntitiesTree.Append("{");
-                    EntitiesTree.Append($"\"id\":{r["id"].ToString()},\"text\":\"{r["text"].ToString()}\",\"EntityOrder\":1,\"ParentId\":1,\"spriteCssClass\":\"glyphicon glyphicon-file\",\"NodeType\":\"Entity\",\"checked\":\"");
-                    EntitiesTree.Append(lastSelectedNodesId.Contains(r["id"].ToString()) ? "true" : "false");
-                    EntitiesTree.Append("\"},");
-                }
-                if (entities.Rows.Count > 0)
-                {
-                    EntitiesTree.Remove(EntitiesTree.Length - 1, 1);
-                }
-                else
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no tiene permisos para buscar ninguna entidad");
-                }
-                EntitiesTree.Append("]}]");
-
-                return EntitiesTree.ToString();
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
-            }
-
-        }
-        public string GetTree(int currentuserid, string token = "")
-        {
-            Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-            try
-            {
-                if (Zamba.Servers.Server.isSQLServer)
-                {
-                    var lastselectednodeid = UP.getEspecificUserValue("WebSearchLastNodes", Zamba.UPSections.Viewer, string.Empty, currentuserid);
-                    lastselectednodeid = lastselectednodeid.Replace("=", "");
-                    lastselectednodeid = lastselectednodeid.Replace("Section", "");
-                    lastselectednodeid = lastselectednodeid.Replace("Entity", "");
-                    lastselectednodeid = lastselectednodeid.Replace("-", "");
-                    if (lastselectednodeid.Length == 0) lastselectednodeid = "0";
-                    StringBuilder querybldr = new StringBuilder();
-                    querybldr.Append("SET ARITHABORT ON SET QUOTED_IDENTIFIER ON declare @userid numeric(18); declare @lastselectednodeid nvarchar(MAX); declare @q nvarchar(MAX); set @userid = {0};");
-                    querybldr.Append(" set @lastselectednodeid = '{1}'; Declare @SQL nvarchar(MAX); DECLARE @xml AS XML;");
-                    querybldr.Append(" set @sql = N'set @XML = (");
-                    querybldr.Append(" select( select  Secciones1.*, (");
-                    querybldr.Append(" Select distinct e.DOC_TYPE_ID id, RTRIM(e.DOC_TYPE_NAME) text, r.DOC_ORDER EntityOrder, r.DOC_TYPE_GROUP ParentId, ''glyphicon glyphicon-file'' as spriteCssClass, ''Entity'' as NodeType, (CASE WHEN convert(nvarchar, e.DOC_TYPE_ID) in (' + @lastselectednodeid + ')  THEN ''true'' ELSE ''false'' END) as checked from DOC_TYPE e");
-                    querybldr.Append(" left join DOC_TYPE_R_DOC_TYPE_GROUP r on e.DOC_TYPE_ID = r.DOC_TYPE_ID");
-                    querybldr.Append(" inner join USR_RIGHTS re on re.RTYPE = 1");
-                    querybldr.Append(" and re.ADITIONAL = e.DOC_TYPE_ID");
-                    querybldr.Append(" and(re.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or re.GROUPID = ' + convert(nvarchar,@userid) + ')");
-                    querybldr.Append(" where Secciones1.id = r.DOC_TYPE_GROUP");
-                    querybldr.Append(" for XML path (''item'') , type");
-                    querybldr.Append(" ) items , (");
-                    querybldr.Append(" select  S2.*, (");
-                    querybldr.Append(" Select distinct e.DOC_TYPE_ID id, RTRIM(e.DOC_TYPE_NAME)text, r.DOC_ORDER EntityOrder, r.DOC_TYPE_GROUP ParentId, ''glyphicon glyphicon-file'' as spriteCssClass, ''Entity'' as NodeType, (CASE WHEN convert(nvarchar, e.DOC_TYPE_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked    from DOC_TYPE e");
-                    querybldr.Append(" left join DOC_TYPE_R_DOC_TYPE_GROUP r on e.DOC_TYPE_ID = r.DOC_TYPE_ID");
-                    querybldr.Append(" inner join USR_RIGHTS re on re.RTYPE = 1");
-                    querybldr.Append(" and re.ADITIONAL = e.DOC_TYPE_ID");
-                    querybldr.Append(" and(re.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or re.GROUPID = ' + convert(nvarchar,@userid) + ')");
-                    querybldr.Append(" where S2.id = r.DOC_TYPE_GROUP for XML path (''item'') , type) items , (");
-                    querybldr.Append(" select  S3.*, (");
-                    querybldr.Append(" Select distinct e.DOC_TYPE_ID id, RTRIM(e.DOC_TYPE_NAME)text, r.DOC_ORDER EntityOrder, r.DOC_TYPE_GROUP ParentId, ''glyphicon glyphicon-file'' as spriteCssClass, ''Entity'' as NodeType, (CASE WHEN convert(nvarchar, e.DOC_TYPE_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked   from DOC_TYPE e");
-                    querybldr.Append(" left join DOC_TYPE_R_DOC_TYPE_GROUP r on e.DOC_TYPE_ID = r.DOC_TYPE_ID");
-                    querybldr.Append(" inner join USR_RIGHTS re on re.RTYPE = 1");
-                    querybldr.Append(" and re.ADITIONAL = e.DOC_TYPE_ID and (re.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or re.GROUPID = ' + convert(nvarchar,@userid) + ')");
-                    querybldr.Append(" where S3.id = r.DOC_TYPE_GROUP ");
-                    querybldr.Append(" for XML path (''item'') , type ) items");
-                    querybldr.Append(" , (select  S4.*, (");
-                    querybldr.Append(" Select distinct e.DOC_TYPE_ID id, RTRIM(e.DOC_TYPE_NAME)text, r.DOC_ORDER EntityOrder, r.DOC_TYPE_GROUP ParentId, ''glyphicon glyphicon-file'' as spriteCssClass, ''Entity'' as NodeType, (CASE WHEN convert(nvarchar, e.DOC_TYPE_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked   from DOC_TYPE e");
-                    querybldr.Append(" left join DOC_TYPE_R_DOC_TYPE_GROUP r on e.DOC_TYPE_ID = r.DOC_TYPE_ID");
-                    querybldr.Append(" inner join USR_RIGHTS re on re.RTYPE = 1 and re.ADITIONAL = e.DOC_TYPE_ID");
-                    querybldr.Append(" and (re.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or re.GROUPID = ' + convert(nvarchar,@userid) + ')");
-                    querybldr.Append(" where S4.id = r.DOC_TYPE_GROUP");
-                    querybldr.Append(" for XML path (''item'') , type ) items");
-                    querybldr.Append(" from(select distinct s.DOC_TYPE_GROUP_ID as id, s.DOC_TYPE_GROUP_NAME as text, s.PARENT_ID, ''glyphicon glyphicon-folder-open'' as spriteCssClass, ''Section'' as NodeType, (CASE WHEN convert(nvarchar, s.DOC_TYPE_GROUP_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked  from doc_type_group s");
-                    querybldr.Append(" inner join USR_RIGHTS rs on rs.RTYPE = 1 and rs.ADITIONAL = DOC_TYPE_GROUP_ID");
-                    querybldr.Append(" and(rs.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or rs.GROUPID = ' + convert(nvarchar,@userid) + ')) S4");
-                    querybldr.Append(" where S3.id = PARENT_ID ");
-                    querybldr.Append(" for XML path (''item''), type ) items");
-                    querybldr.Append(" from(select distinct s.DOC_TYPE_GROUP_ID as id, s.DOC_TYPE_GROUP_NAME as text, s.PARENT_ID, ''glyphicon glyphicon-folder-open'' as spriteCssClass, ''Section'' as NodeType, (CASE WHEN convert(nvarchar, s.DOC_TYPE_GROUP_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked  from doc_type_group s");
-                    querybldr.Append(" inner join USR_RIGHTS rs on rs.RTYPE = 1 and rs.ADITIONAL = DOC_TYPE_GROUP_ID");
-                    querybldr.Append(" and (rs.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or rs.GROUPID = ' + convert(nvarchar,@userid) + ')) S3");
-                    querybldr.Append(" where S2.id = PARENT_ID for XML path (''item''), type) items");
-                    querybldr.Append(" from(select distinct s.DOC_TYPE_GROUP_ID as id, s.DOC_TYPE_GROUP_NAME as text, s.PARENT_ID, ''glyphicon glyphicon-folder-open'' as spriteCssClass, ''Section'' as NodeType, (CASE WHEN convert(nvarchar, s.DOC_TYPE_GROUP_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked  from doc_type_group s");
-                    querybldr.Append(" inner join USR_RIGHTS rs on rs.RTYPE = 1");
-                    querybldr.Append(" and rs.ADITIONAL = DOC_TYPE_GROUP_ID and(rs.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or rs.GROUPID = ' + convert(nvarchar,@userid) + ')) S2");
-                    querybldr.Append(" where Secciones1.id = PARENT_ID ");
-                    querybldr.Append(" for XML path (''item''), type) items");
-                    querybldr.Append(" from(select distinct s.DOC_TYPE_GROUP_ID as id, s.DOC_TYPE_GROUP_NAME as text, s.PARENT_ID, ''glyphicon glyphicon-folder-open'' as spriteCssClass, ''Section'' as NodeType, (CASE WHEN convert(nvarchar, s.DOC_TYPE_GROUP_ID) in (' + @lastselectednodeid + ') THEN ''true'' ELSE ''false'' END) as checked   from doc_type_group s");
-                    querybldr.Append(" inner join USR_RIGHTS rs on rs.RTYPE = 1");
-                    querybldr.Append(" and rs.ADITIONAL = DOC_TYPE_GROUP_ID ");
-                    querybldr.Append(" and (rs.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = ' + convert(nvarchar,@userid) + ') or rs.GROUPID = ' + convert(nvarchar,@userid) + ')) Secciones1");
-                    querybldr.Append(" where PARENT_ID = 0 for XML path (''item''), type) as Tree)'");
-                    querybldr.Append(" execute sp_executesql @sql, N'@XML XML OUTPUT', @XML OUTPUT");
-                    querybldr.Append(" select ");
-                    querybldr.Append(Zamba.Servers.Server.dbOwner);
-                    querybldr.Append(".qfn_XmlToJson(@XML);");
-
-                    string query = string.Format(querybldr.ToString(), currentuserid, lastselectednodeid);
-                    var JsonTree = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, query);
-                    return JsonTree.ToString();
-                }
-                else
-                {
-                    var lastselectednodeid = UP.getEspecificUserValue("WebSearchLastNodes", Zamba.UPSections.Viewer, string.Empty, currentuserid);
-                    lastselectednodeid = lastselectednodeid.Replace("=", "");
-                    lastselectednodeid = lastselectednodeid.Replace("Section", "");
-                    lastselectednodeid = lastselectednodeid.Replace("Entity", "");
-                    lastselectednodeid = lastselectednodeid.Replace("-", "");
-                    if (lastselectednodeid.Length == 0) lastselectednodeid = "0";
-                    StringBuilder querybldr = new StringBuilder();
-                    querybldr.Append(" Select distinct e.DOC_TYPE_ID id, RTRIM(e.DOC_TYPE_NAME) text from doc_type e inner join USR_RIGHTS re on re.RTYPE = 1 and re.ADITIONAL = e.DOC_TYPE_ID and (re.GROUPID in (select ug.GROUPID from USR_R_GROUP ug where ug.USRID = {0}) or re.GROUPID = {0})");
-
-                    string query = string.Format(querybldr.ToString(), currentuserid);
-                    var JsonTree = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, query);
-                    return JsonTree.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw new Exception("Error al obtener el Arbol de Busqueda: " + ex.ToString());
-            }
-            finally
-            {
-                UP = null;
-            }
-
-        }
-
-
-
         [Route("api/search/Entities")]
+        //[OverrideAuthorization]
         [System.Web.Http.HttpGet]
         //    [Authorize]
         public IHttpActionResult GetEntities(int? userId)//Int64 userId
@@ -805,12 +583,13 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Indexs")]
+        [OverrideAuthorization]
         [HttpPost, HttpGet]
         public string Indexs(List<Int64> SelectedEntitiesIds)
         {
             try
             {
-                IUser user = MembershipHelper.CurrentUser;
+                IUser user = Zamba.Membership.MembershipHelper.CurrentUser;
                 if (user == null)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
                         new HttpError(StringHelper.InvalidUser))).ToString();
@@ -848,6 +627,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/Index")]
+        [OverrideAuthorization]
         [HttpPost, HttpGet]
         public string Index(long IndexId)
         {
@@ -881,6 +661,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// </param>
         /// <returns></returns>
         [Route("api/search/ListOptions")]
+        [OverrideAuthorization]
         [HttpPost]
         public string ListOptions(searchList searchlist)
         {
@@ -917,7 +698,7 @@ namespace ZambaWeb.RestApi.Controllers
             public string title { get; set; }
         }
 
-        public class searchResult : ICloneable
+        private class searchResult
         {
             public DataTable data { get; set; }
             public List<string> columns { get; set; } = new List<string>();
@@ -943,43 +724,10 @@ namespace ZambaWeb.RestApi.Controllers
             public List<IIndex> Index { get; set; } = new List<IIndex>();
             public List<ViewDto> views { get; set; } = new List<ViewDto>();
             public List<StepDTO> Steps { get; set; } = new List<StepDTO>();
-            public List<StateDTO> States { get; set; } = new List<StateDTO>();
-            public List<UserAsignedDTO> UsersAsigned { get; set; } = new List<UserAsignedDTO>();
-
-            public List<MappingColumnDisplayName> MappingColumnToDisplay { get; set; } = new List<MappingColumnDisplayName>();
-
-            public object Clone()
-            {
-                return MemberwiseClone();
-            }
-        }
-
-
-        public class CacheResults
-        {
-            public string ResultsData { get; set; }
-            public string ResultsFilters { get; set; }
-            public string ObjectSearch { get; set; }
-            public string CurrentMode { get; set; }
-            public bool HasResults { get; set; }
-            public DateTime ExpirationDate { get; set; }
-        }
-
-        public class LastSearchs
-        {
-            public string ResultsFilters { get; set; }
-            public string ObjectSearch { get; set; }
-            public string Name { get; set; }
-            public DateTime SearchDate { get; set; }
-        }
-
-        public class MappingColumnDisplayName
-        {
-            public String ColumnName { get; set; }
-            public String DisplayName { get; set; }
 
         }
-        public class searchResultList
+
+        private class searchResultList
         {
             public object value { get; set; }
             public long Type { get; set; }
@@ -1010,7 +758,8 @@ namespace ZambaWeb.RestApi.Controllers
                     .Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_")
                     .Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_")
                     .Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_")
-                    .Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("+", "_").Replace("°", "_").Replace("__", "_");
+                    .Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("$", "_")
+                    .Replace("+", "_").Replace("°", "_").Replace("__", "_");
             }
             return nombre;
         }
@@ -1021,15 +770,15 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/search/DoSearch")]
         [HttpPost]
         [HttpGet]
+
         public string DoSearch(SearchDto searchDto)
         {
             DocTypesBusiness UB = new DocTypesBusiness();
             UserBusiness UBR = new UserBusiness();
-
             try
             {
                 IUser User = UBR.ValidateLogIn(searchDto.UserId, ClientType.WebApi);
-
+                //IUser User = Zamba.Membership.MembershipHelper.CurrentUser;
                 if (User != null)
                 {
                     Search search = null;
@@ -1051,7 +800,6 @@ namespace ZambaWeb.RestApi.Controllers
                         TinyMapper.Bind<SearchDto, Search>();
                         search = TinyMapper.Map<Search>(searchDto);
                     }
-
 
                     searchResult sr = new searchResult();
 
@@ -1081,17 +829,13 @@ namespace ZambaWeb.RestApi.Controllers
                     else
                     {
 
-                        List<long> StepEntities = new List<long>();
                         if (searchDto.StepId > 0)
-                        {
                             search.StepId = searchDto.StepId;
-                            StepEntities = GetStepEntities(search.StepId);
-                        }
 
                         if (searchDto.AsignedTasks)
                         {
                             search.SearchType = SearchTypes.AsignedTasks;
-
+                            //search.SearchType = SearchTypes.CommonSearch;
                             if (search.View == null)
                                 search.View = string.Empty;
 
@@ -1117,10 +861,6 @@ namespace ZambaWeb.RestApi.Controllers
                             sr.columnsStringTeam = UP.getValue("columnStringTeam", UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID);
                             sr.columnsStringAll = UP.getValue("columnStringAll", UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID);
 
-                            sr.columnsStringMyTasks = RemoveSpecialCharsJsonKgrid(sr.columnsStringMyTasks);
-                            sr.columnsStringTeam = RemoveSpecialCharsJsonKgrid(sr.columnsStringTeam);
-                            sr.columnsStringAll = RemoveSpecialCharsJsonKgrid(sr.columnsStringAll);
-
 
                             if (search.Doctypes == null)
                                 search.Doctypes = new List<IDocType>();
@@ -1129,197 +869,77 @@ namespace ZambaWeb.RestApi.Controllers
                             MyTaskEntitiesList.AddRange(MyTaskEntities.Trim().Split(new char[] { char.Parse(",") }, StringSplitOptions.RemoveEmptyEntries));
 
                             List<string> IdsAllTasksList = new List<string>();
+                            IdsAllTasksList.AddRange(IdsAllTasks.Trim().Split(new char[] { char.Parse(",") }, StringSplitOptions.RemoveEmptyEntries));
 
-                            if (searchDto.StepId == 0)
-                            {
-                                IdsAllTasksList.AddRange(IdsAllTasks.Trim().Split(new char[] { char.Parse(",") }, StringSplitOptions.RemoveEmptyEntries));
-                            }
                             foreach (IDocType Doctype in Doctypes)
                             {
-                                if ((search.View.Contains("MyTasks") || search.View.Contains("MyTeam") || search.View.Contains("MyAllTeam")))
+                                if (MyTaskEntitiesList.Count == 0 || MyTaskEntitiesList.Contains(Doctype.ID.ToString()))
                                 {
-                                    if (MyTaskEntitiesList.Count == 0 || MyTaskEntitiesList.Contains(Doctype.ID.ToString()))
+                                    if (search.View.Contains("ViewAllMy") && IdsAllTasksList.Count > 0)
                                     {
-                                        if (searchDto.entities.Count == 0)
+                                        if (IdsAllTasksList.Contains(Doctype.ID.ToString()))
                                         {
-                                            if (searchDto.StepId > 0)
-                                            {
-                                                if (StepEntities.Contains(Doctype.ID))
-                                                {
-                                                    search.Doctypes.Add(Doctype);
-                                                    sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name, enabled = true });
-                                                }
-
-                                            }
-                                            else
+                                            if (searchDto.entities.Count == 0)
                                             {
                                                 search.Doctypes.Add(Doctype);
                                                 sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name, enabled = true });
                                             }
-                                        }
-                                        else
-                                        {
-                                            EntityDto E = searchDto.entities.Find(x => x.id == Doctype.ID);
-                                            if (E.enabled)
-                                            {
-                                                if (searchDto.StepId > 0)
-                                                {
-                                                    if (StepEntities.Contains(Doctype.ID))
-                                                    {
-                                                        search.Doctypes.Add(Doctype);
-                                                    }
-
-                                                }
-                                                else
-                                                {
-                                                    search.Doctypes.Add(Doctype);
-                                                }
-                                            }
-                                            sr.entities.Add(E);
-
-                                        }
-                                    }
-                                }
-                                else if (search.View.Contains("ViewAllMy"))
-                                {
-                                    if (IdsAllTasksList.Count == 0 || IdsAllTasksList.Contains(Doctype.ID.ToString()))
-                                    {
-                                        if (searchDto.entities.Count == 0)
-                                        {
-                                            if (searchDto.StepId > 0)
-                                            {
-                                                if (StepEntities.Contains(Doctype.ID))
-                                                {
-                                                    search.Doctypes.Add(Doctype);
-                                                    sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name, enabled = true });
-                                                }
-
-                                            }
                                             else
                                             {
-                                                search.Doctypes.Add(Doctype);
-                                                sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name, enabled = true });
-                                            }
-                                        }
-                                        else
-                                        {
-                                            EntityDto E = searchDto.entities.Find(x => x.id == Doctype.ID);
-                                            if (E.enabled)
-                                            {
-                                                if (searchDto.StepId > 0)
-                                                {
-                                                    if (StepEntities.Contains(Doctype.ID))
-                                                    {
-                                                        search.Doctypes.Add(Doctype);
-                                                    }
-
-                                                }
-                                                else
+                                                EntityDto E = searchDto.entities.Find(x => x.id == Doctype.ID);
+                                                if (E.enabled)
                                                 {
                                                     search.Doctypes.Add(Doctype);
                                                 }
-                                            }
-                                            sr.entities.Add(E);
+                                                sr.entities.Add(E);
 
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    //View.MyProcess
-                                    if (searchDto.entities.Count == 0)
-                                    {
-                                        if (searchDto.StepId > 0)
-                                        {
-                                            if (StepEntities.Contains(Doctype.ID))
-                                            {
-                                                search.Doctypes.Add(Doctype);
-                                                sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name });
                                             }
-
-                                        }
-                                        else
-                                        {
-                                            search.Doctypes.Add(Doctype);
-                                            sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name });
                                         }
                                     }
                                     else
                                     {
-                                        EntityDto E = searchDto.entities.Find(x => x.id == Doctype.ID);
-                                        if (E.enabled)
+                                        if (searchDto.entities.Count == 0)
                                         {
-                                            if (searchDto.StepId > 0)
-                                            {
-                                                if (StepEntities.Contains(Doctype.ID))
-                                                {
-                                                    search.Doctypes.Add(Doctype);
-                                                }
-
-                                            }
-                                            else
+                                            search.Doctypes.Add(Doctype);
+                                            sr.entities.Add(new EntityDto() { id = Doctype.ID, name = Doctype.Name });
+                                        }
+                                        else
+                                        {
+                                            EntityDto E = searchDto.entities.Find(x => x.id == Doctype.ID);
+                                            if (E.enabled)
                                             {
                                                 search.Doctypes.Add(Doctype);
                                             }
-                                        }
-                                        sr.entities.Add(E);
+                                            sr.entities.Add(E);
 
+                                        }
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            if (searchDto.DoctypesIds != null)
+                            foreach (Int64 EntityId in searchDto.DoctypesIds)
                             {
-
-
-                                foreach (Int64 EntityId in searchDto.DoctypesIds)
-                                {
-                                    IDocType Entity = UB.GetDocType(EntityId);
-                                    if (searchDto.StepId > 0)
-                                    {
-                                        if (StepEntities.Contains(Entity.ID))
-                                        {
-                                            search.AddDocType(Entity);
-                                            sr.entities.Add(new EntityDto() { id = Entity.ID, name = Entity.Name });
-                                        }
-
-                                    }
-                                    else
-                                    {
-
-                                        search.AddDocType(Entity);
-                                        sr.entities.Add(new EntityDto() { id = Entity.ID, name = Entity.Name });
-                                    }
-                                }
+                                IDocType Entity = UB.GetDocType(EntityId);
+                                search.AddDocType(Entity);
+                                sr.entities.Add(new EntityDto() { id = Entity.ID, name = Entity.Name });
                             }
                         }
-
-                        search.UserAssignedEnabled = true;
-                        if (searchDto.UserAssignedFilter != null)
-                            search.UserAssignedEnabled = searchDto.UserAssignedFilter.IsChecked;
 
                         search.Indexs = new List<IIndex>();
                         var searchDtoIndexs = searchDto.Indexs;
 
-
-                        List<UsedFilter> usedFilters = new List<UsedFilter>();
-
-                        if (searchDto.UsedFilters != null)
-                        {
-                            foreach (object item in searchDto.UsedFilters)
-                            {
-                                var usedFilter = JsonConvert.DeserializeObject<UsedFilter>(item.ToString());
-                                usedFilters.Add(usedFilter);
-                            }
-                        }
-
-
-
-
+                        //                    if (searchDto.Indexs != null && search.SearchType != SearchTypes.AsignedTasks)
                         if (searchDto.Indexs != null)
                         {
+                            //foreach (object searchDtoIndex in searchDto.Indexs)
+                            //{
+                            //    var index = JsonConvert.DeserializeObject<Zamba.Core.Index>(searchDtoIndex.ToString());
+                            //    if ((index.Data != null && index.Data != string.Empty) || (index.dataDescription != null && index.dataDescription != string.Empty))
+                            //        search.AddIndex(index);
+                            //}
+
                             foreach (object searchDtoIndex in searchDto.Indexs)
                             {
 
@@ -1342,9 +962,8 @@ namespace ZambaWeb.RestApi.Controllers
                                     }
                                 }
 
-                                if ((index.Data != null && index.Data != string.Empty) || (index.dataDescription != null && index.dataDescription != string.Empty)) {
-                                     search.AddIndex(index);
-                                }
+                                if ((index.Data != null && index.Data != string.Empty) || (index.dataDescription != null && index.dataDescription != string.Empty))
+                                    search.AddIndex(index);
                             }
                         }
 
@@ -1390,8 +1009,6 @@ namespace ZambaWeb.RestApi.Controllers
                             tempOrderBy = search.OrderBy.Substring(0, indexof).ToString().Trim();
                             tempOrderBy = GridColumns.GetColumnNameByAliasName(tempOrderBy);
 
-
-
                             if (tempOrderBy.Contains("_"))
                             {
                                 tempOrderBy = tempOrderBy.Replace("_", " ");
@@ -1399,15 +1016,7 @@ namespace ZambaWeb.RestApi.Controllers
                                 if (tempOrderBy.Split().Length > 1)
                                     tempOrderBy = string.Format("{0}", tempOrderBy.Trim());
                             }
-                            foreach (IDocType docType in search.Doctypes)
-                            {
-                                foreach (IIndex index in docType.Indexs)
-                                {
-                                    //if (QuitarAcentosAColumna(index.Name) == tempOrderBy)
-                                    if (index.Name == tempOrderBy)
-                                        tempOrderBy = index.Name;
-                                }
-                            }
+
                             if (Zamba.Servers.Server.isOracle)
                             {
                                 search.OrderBy = string.Format("\"{0}\" {1}", tempOrderBy, sortOp);
@@ -1419,21 +1028,8 @@ namespace ZambaWeb.RestApi.Controllers
                         }
 
 
-
                         ModDocuments MD = new ModDocuments();
-                        results = MD.DoSearch(ref search, User.ID, search.LastPage, search.PageSize, false, false, true, ref TotalCount, false);
-
-
-                        try
-                        {
-                            Results_Business RB = new Results_Business();
-                            RB.saveLastSearchResults(search, new CommonFuntions().ConvertStringtoBinary(JsonConvert.SerializeObject(searchDto)), search.View, searchDto.UserId, DateTime.Now);
-                        }
-                        catch (Exception ex)
-                        {
-                            ZClass.raiseerror(ex);
-                        }
-
+                        results = MD.DoSearch(ref search, User.ID, search.LastPage, search.PageSize, false, false, true, ref TotalCount);
 
                     }
 
@@ -1450,62 +1046,6 @@ namespace ZambaWeb.RestApi.Controllers
                             results.Columns[item.Value].ColumnName = item.Key;
                     }
 
-                    results.AcceptChanges();
-
-                    if (results.Rows.Count > 0 && results.Columns.Contains("WORK_ID") && results.Columns.Contains("PROCESO") && results.Columns.Contains("STEP_ID") && results.Columns.Contains("Etapa"))
-                    {
-                        DataTable dsSteps = results.DefaultView.ToTable(true, "WORK_ID", "PROCESO", "STEP_ID", "Etapa");
-                        sr.Steps = (from DataRow dr in dsSteps.Rows
-                                    select new StepDTO()
-                                    {
-                                        ID = Convert.ToInt64(dr["STEP_ID"]),
-                                        Name = dr["Etapa"].ToString(),
-                                        WFID = Convert.ToInt64(dr["WORK_ID"]),
-                                        WFName = dr["Proceso"].ToString(),
-                                    }).ToList();
-
-                    }
-
-                    foreach (StepDTO dr in sr.Steps) 
-                    {
-                        if (dr.Name.Length >= 27)
-                        {
-                            dr.Name = dr.Name.Substring(0, 27);
-                            dr.Name += "..."; 
-                        }
-
-                    }
-
-                    if (results.Rows.Count > 0 && results.Columns.Contains("DO_STATE_ID") && results.Columns.Contains("Estado"))
-                    {
-
-                        DataTable dsStates = results.DefaultView.ToTable(true, "DO_STATE_ID", "Estado");
-                        sr.States = (from DataRow dr in dsStates.Rows
-                                     select new StateDTO()
-                                     {
-                                         ID = Convert.ToInt64(dr["DO_STATE_ID"]),
-                                         Name = dr["Estado"].ToString(),
-                                     }).ToList();
-
-                    }
-                    if (results.Rows.Count > 0 && results.Columns.Contains("USER_ASIGNED") && results.Columns.Contains("Asignado"))
-                    {
-                        DataTable dsUsersAsigned = results.DefaultView.ToTable(true, "USER_ASIGNED", "Asignado");
-                        sr.UsersAsigned = (from DataRow dr in dsUsersAsigned.Rows
-                                           orderby dr["Asignado"].ToString()
-                                           select new UserAsignedDTO()
-                                           {
-                                               ID = Convert.ToInt64(dr["USER_ASIGNED"]),
-                                               Name = String.IsNullOrEmpty(dr["Asignado"].ToString()) ? "(Sin Asignar)" : dr["Asignado"].ToString(),
-                                           }
-                                           ).ToList();
-
-                    }
-                    if (sr.UsersAsigned.Count > 0)
-                    {
-                        sr.UsersAsigned.Add(new UserAsignedDTO { ID = -1, Name = "- Todos -" });
-                        sr.UsersAsigned.Add(new UserAsignedDTO { ID = -2, Name = "- Solo asignadas -" });
-                    }
                     Boolean OrderbyContainsColumn = false;
                     IndexsBusiness IB = new IndexsBusiness();
                     foreach (DataColumn c in results.Columns)
@@ -1519,12 +1059,9 @@ namespace ZambaWeb.RestApi.Controllers
                             if (search.OrderBy.Contains(c.ColumnName))
                                 OrderbyContainsColumn = true;
 
-
                             try
                             {
                                 Int64 indexId = IndexsBusiness.GetIndexIdByName(c.ColumnName);
-
-
                                 if (indexId != 0)
                                 {
                                     IIndex i = IB.GetIndex(indexId);
@@ -1533,16 +1070,9 @@ namespace ZambaWeb.RestApi.Controllers
                             }
                             catch (Exception)
                             {
-                                //throw ex;
                             }
-                            string newColName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_").Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_").Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("+", "_").Replace("°", "_").Replace("__", "_");
-                            sr.MappingColumnToDisplay
-                                .Add(new MappingColumnDisplayName
-                                {
-                                    ColumnName = newColName,
-                                    DisplayName = c.ColumnName
-                                });
 
+                            string newColName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_").Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_").Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("$", "_").Replace("+", "_").Replace("°", "_").Replace("__", "_");
                             //string newColName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_").Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_").Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("$", "_").Replace("+", "_").Replace("°", "_").Replace("ó", "_").Replace("ú", "_").Replace("__", "_");
                             c.ColumnName = newColName;
                             sr.columns.Add(newColName);
@@ -1551,7 +1081,15 @@ namespace ZambaWeb.RestApi.Controllers
                     }
                     IB = null;
 
-                    List<string> SRColumnList = SetColumnsOrder(results, ColumnsToRemove, search.View);
+                    //Remuevo las columnas
+                    if (ColumnsToRemove.Count > 0)
+                    {
+                        foreach (string colName in ColumnsToRemove)
+                            results.Columns.Remove(colName);
+                    }
+
+
+
 
                     foreach (Zamba.Core.Index c in search.Indexs)
                     {
@@ -1583,6 +1121,11 @@ namespace ZambaWeb.RestApi.Controllers
                         if (searchDto.FiltersResetables)
                         {
                             ResetCountsOfResults(sr.entities);
+
+                            //foreach (var item in sr.entities)
+                            //{
+                            //    item.ResultsCount = 0;
+                            //}
                         }
 
                         if (search.ResultsCount != null && search.ResultsCount.Count > 0)
@@ -1638,26 +1181,21 @@ namespace ZambaWeb.RestApi.Controllers
                         results.DefaultView.Sort = search.OrderBy;
                         results.AcceptChanges();
                         sr.data = results.DefaultView.ToTable();
-                        sr.columns = SRColumnList;
                     }
                     else if (results.Rows.Count > 0 && OrderbyContainsColumn)
                     {
                         results.DefaultView.Sort = search.OrderBy;
                         results.AcceptChanges();
                         sr.data = results.DefaultView.ToTable();
-                        sr.columns = SRColumnList;
                     }
                     else
                     {
                         results.AcceptChanges();
                         sr.data = results;
-                        sr.columns = SRColumnList;
                     }
                     Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
 
                     sr.VirtualEntities = zopt.GetValue("VirtualEntities");
-
-
 
                     sr.total = TotalCount;
 
@@ -1713,31 +1251,11 @@ namespace ZambaWeb.RestApi.Controllers
                         ZClass.raiseerror(ex);
                     }
 
-
-
-                    // Quita los acentos (Sebastian M)
-
-                    sr.columns = sr.columns
-                        .Select(n => n)
-                        //.Select(n => QuitarAcentosAColumna(n))
-                        .ToList<String>();
-
-                    foreach (EntityDto entityDto in sr.entities)
-                        entityDto.name = entityDto.name;
-                    //entityDto.name = QuitarAcentosAColumna(entityDto.name);
-
-                    foreach (DataColumn dataColumn in sr.data.Columns)
-                        dataColumn.ColumnName = dataColumn.ColumnName;
-                    //dataColumn.ColumnName = QuitarAcentosAColumna(dataColumn.ColumnName);
-
-
-
-
-
                     var newresults = JsonConvert.SerializeObject(sr, Formatting.Indented, new JsonSerializerSettings
                     {
                         PreserveReferencesHandling = PreserveReferencesHandling.Objects
                     });
+
                     return newresults;
                 }
                 return string.Empty;
@@ -1749,458 +1267,49 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        private static List<long> GetStepEntities(long stepId)
-        {
-            List<long> StepEntities = new List<long>();
-            WFStepBusiness WFSB = new WFStepBusiness();
-            StepEntities = WFSB.GetDocTypesByWfStepAsDT(stepId).AsEnumerable().Select(dr => (long)dr.Field<decimal>("doc_type_id")).ToList();
-            WFSB = null;
-            return StepEntities;
-        }
 
-        [Route("api/search/GetStepEntities")]
-        [HttpPost, HttpGet]
-        public List<long> GetStepEntities(genericRequest genericRequest)
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [Route("api/search/GetStepsCount")]
+        [AllowAnonymous]
+        public string GetStepsCount(string userId)
         {
-            List<long> StepEntities;
-            var stepId = long.Parse(genericRequest.Params["stepId"].ToString());
-            StepEntities = GetStepEntities(stepId);
-            return StepEntities;
-        }
 
-        /// <summary>
-        /// Reordena las columnas obtenidas para aplicar el cambio en la grilla.
-        /// </summary>
-        /// <param name="results"></param>
-        /// <param name="ColumnsToRemove"></param>
-        /// <returns>Un orden de columnas para aplicarlo en la grilla.</returns>
-        private List<string> SetColumnsOrder(DataTable results, List<string> ColumnsToRemove, string mode)
-        {
             try
             {
-                //Se crea una lista de string con los nombres de las columnas ordenadas para asignarla a sr.columns
-                List<string> SRColumnList = new List<string>();
+                List<StepDTO> steps = new List<StepDTO>();
+                WFStepBusiness wFStepBusiness = new WFStepBusiness();
+                DataTable stepsTable = wFStepBusiness.GetWFsAndStepsAndCountByUser(Int64.Parse(userId));
 
-                if (results.Rows.Count > 0)
+                stepsTable.DefaultView.Sort = "wfname ASC";
+                stepsTable = stepsTable.DefaultView.ToTable();
+
+                foreach (DataRow row in stepsTable.Rows)
                 {
-                    string[] DefaultaColumns = { "Tarea", "Etapa", "Estado", "Asignado", "Ingreso", "Creado", "Modificado", "Original", "Vencimiento", "Situacion" };
-                    //Origen del orden de columnas
-                    List<string> DefaultaColumnsToRemove = new List<string>(DefaultaColumns);
-                    Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-                    String columnsorders = UP.getValue(mode + "-ColumnOrderForKendoGrid", UPSections.UserPreferences, "Tarea,Etapa,Estado,Asignado,Ingreso|Atributos|Creado,Modificado,Original");
-
-                    columnsorders = columnsorders.Replace("Tarea", "Tarea,NAME");
-                    columnsorders = columnsorders.Replace("Etapa", "Etapa,STEP");
-                    columnsorders = columnsorders.Replace("Estado", "Estado,State");
-                    columnsorders = columnsorders.Replace("Asignado", "Asignado,AssignedTo");
-
-                    //Segmentacion de columnas
-                    string splitedA = columnsorders.Split('|')[0];
-                    List<string> splitedAList = splitedA.Split(',').ToList();
-
-                    string splitedB = columnsorders.Split('|')[1];
-
-                    string splitedC = columnsorders.Split('|')[2];
-                    List<string> splitedCList = splitedC.Split(',').ToList();
-
-                    //Aplica el orden asignado de las primeras ultimas columnas
-                    for (int i = 0; i < splitedAList.Count; i++)
+                    steps.Add(new StepDTO
                     {
-                        if (results.Columns.IndexOf(splitedAList[i]) != -1)
-                        {
-                            results.Columns[results.Columns.IndexOf(splitedAList[i])].SetOrdinal(i);
-                        }
-                        else if (splitedAList[i] == "Estado")
-                        {
-                            results.Columns[results.Columns.IndexOf("State")].SetOrdinal(i);
-                        }
-                        else if (splitedAList[i] == "Etapa")
-                        {
-                            results.Columns[results.Columns.IndexOf("STEP")].SetOrdinal(i);
-                        }
-                        else if (splitedAList[i] == "Asignado")
-                        {
-                            results.Columns[results.Columns.IndexOf("AssignedTo")].SetOrdinal(i);
-                        }
-                        else if (splitedAList[i] == "Tarea")
-                        {
-                            results.Columns[results.Columns.IndexOf("NAME")].SetOrdinal(i);
-                        }
-                    }
-
-                    //Aplica el orden asignado de las ultimas columnas.
-                    for (int i = splitedCList.Count - 1; i != -1; i--)
-                    {
-                        var Index = results.Columns.IndexOf(splitedCList[i]);
-                        if (Index != -1)
-                        {
-                            results.Columns[Index].SetOrdinal((results.Columns.Count) - (splitedCList.Count - i));
-                        }
-                    }
-
-                    List<string> completeList = splitedAList.Concat(splitedCList).ToList();
-
-                    foreach (string item in DefaultaColumnsToRemove)
-                    {
-                        if (item == "Estado")
-                        {
-                            if (!completeList.Contains("State"))
-                            {
-                                ColumnsToRemove.Add("State");
-                            }
-                        }
-                        else if (item == "Etapa")
-                        {
-                            if (!completeList.Contains("STEP"))
-                            {
-                                ColumnsToRemove.Add("STEP");
-                            }
-                        }
-                        else if (item == "Asignado")
-                        {
-                            if (!completeList.Contains("AssignedTo"))
-                            {
-                                ColumnsToRemove.Add("AssignedTo");
-                            }
-                        }
-                        else if (item == "Tarea")
-                        {
-                            if (!completeList.Contains("NAME"))
-                            {
-                                ColumnsToRemove.Add("NAME");
-                            }
-                        }
-                        else
-                        {
-                            if (!completeList.Contains(item))
-                            {
-                                ColumnsToRemove.Add(item);
-                            }
-                        }
-                    }
-
-                    //Remuevo las columnas
-                    if (ColumnsToRemove.Count > 0)
-                    {
-                        foreach (string colName in ColumnsToRemove)
-                        {
-                            if (results.Columns.Contains(colName))
-                                results.Columns.Remove(colName);
-                        }
-                    }
-
-                    foreach (DataColumn item in results.Columns)
-                    {
-                        SRColumnList.Add(item.Caption);
-                    }
+                        ID = long.Parse(row["wfstepid"].ToString()),
+                        Name = row["wfstepName"].ToString(),
+                        Count = int.Parse(row["cantidad"].ToString()),
+                        WFID = long.Parse(row["wfid"].ToString()),
+                        WFName = row["wfname"].ToString()
+                    });
                 }
 
-                return SRColumnList;
+                var newresults = JsonConvert.SerializeObject(steps, Formatting.Indented, new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
+
+                return newresults;
+
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
                 throw ex;
             }
+
         }
-
-        /// <summary>
-        /// Aplica filtros por entidad y usuario/grupo. Estos filtros se configuran desde la tabla ZFILTERS
-        /// </summary>
-        /// <param name="DocTypeID">ID de la Entidad</param>
-        /// <param name="userID">ID del usuario actual</param>
-        private void ApplyEntityFilters(long DocTypeID, long userID,List<object> indexList)
-        {
-            try
-            {
-                //Busca los filtros por entidad para el grupo/usuario
-                var filterComponents = new FiltersComponent();
-                var filterList = filterComponents.GetFiltersWebByDocTypeIdAndUserId(DocTypeID, userID);
-
-                if (filterList.Count > 0)
-                {
-                    foreach (IFilterElem filterElement in filterList)
-                    {
-                        //si el filtro se encuentra habilitado, 
-                        if (filterElement.Enabled)
-                        {
-
-                            //foreach (var item in collection)
-                            //{
-                            //        var foo = null;
-                            //}
-
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Error al aplicar filtros por entidad");
-            }
-        }
-
-        /// <summary>
-        /// Inserta o actualiza el ultimo objeto search resultado del DoSearch.
-        /// </summary>
-        /// <param name="GenericRequest"></param>
-        /// <returns></returns>
-        [Route("api/search/SaveSearch")]
-        [HttpGet, HttpPost]
-        public IHttpActionResult SaveSearch(genericRequest GenericRequest)
-        {
-            DateTime expirationDate = DateTime.Now;
-
-            try
-            {
-                Results_Business RB = new Results_Business();
-                bool Results = RB.saveDoSearchResults(
-                    new CommonFuntions().ConvertStringtoBinary(GenericRequest.Params["SearchObject"]),
-                    GenericRequest.Params["Mode"],
-                    GenericRequest.UserId,
-                    expirationDate);
-                RB = null;
-
-                Search search = null;
-
-                return Ok(expirationDate);
-            }
-            catch (System.Threading.ThreadAbortException ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-            catch (System.Threading.ThreadInterruptedException ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-            catch (System.Threading.ThreadStateException ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-        }
-
-
-        /// <summary>
-        /// Inserta o actualiza el ultimo objeto search resultado del DoSearch.
-        /// </summary>
-        /// <param name="GenericRequest"></param>
-        /// <returns></returns>
-        [Route("api/search/RemoveSearch")]
-        [HttpGet, HttpPost]
-        public IHttpActionResult RemoveSearch(genericRequest GenericRequest)
-        {
-            try
-            {
-                return Ok(new SResult().removeDoSearchResults(GenericRequest.UserId, GenericRequest.Params["Mode"].ToString()));
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-        }
-
-        /// <summary>
-        /// Obtiene el ultimo objeto search resultado del DoSearch.
-        /// </summary>
-        /// <param name="GenericRequest"></param>
-        /// <returns></returns>
-        [Route("api/search/GetLastSearch")]
-        [HttpGet, HttpPost]
-        public IHttpActionResult GetLastSearch(genericRequest GenericRequest)
-        {
-            CacheResults CResults = new CacheResults();
-            try
-            {
-                DataTable DT_Results = new SResult().loadDoSearchResults(
-                    Int64.Parse(GenericRequest.UserId.ToString()),
-                    GenericRequest.Params["Mode"].ToString());
-
-                if (DT_Results.Rows.Count != 0)
-                {
-                    String FileContent = DT_Results.Rows[0]["SearchObject"].ToString();
-                    byte[] ByteSearchObject;
-                    if (DT_Results.Rows[0]["SearchObject"].GetType().Name=="Byte[]")
-                    {
-                        ByteSearchObject = (byte[])DT_Results.Rows[0]["SearchObject"];
-                    }
-                    else
-                        ByteSearchObject = Enumerable.Range(0, FileContent.Length)
-                                              .Where(x => x % 2 == 0)
-                                              .Select(x => Convert.ToByte(FileContent.Substring(x, 2), 16))
-                                              .ToArray();
-                    CResults.ObjectSearch = Encoding.Default.GetString(ByteSearchObject);
-                    CResults.CurrentMode = DT_Results.Rows[0]["Mode"].ToString();
-
-                    CResults.ExpirationDate = (DateTime)DT_Results.Rows[0]["ExpirationDate"];
-                    CResults.HasResults = DT_Results.Rows.Count == 1;
-                }
-                else
-                {
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent, new HttpError("No se pudo obtener el recurso")));
-                }
-
-                return Ok(CResults);
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-        }
-
-
-        /// <summary>
-        /// Obtiene el ultimo objeto search resultado del DoSearch.
-        /// </summary>
-        /// <param name="GenericRequest"></param>
-        /// <returns></returns>
-        [Route("api/search/GetLastSearchs")]
-        [HttpGet, HttpPost]
-        public IHttpActionResult GetLastSearchs(genericRequest GenericRequest)
-        {
-            List<LastSearchs> CResults = new List<LastSearchs>();
-            try
-            {
-                DataTable DT_Results = new Results_Business().loadLastSearchResults(GenericRequest.UserId);
-
-                foreach(DataRow r in DT_Results.Rows) {
-                    LastSearchs LS = new LastSearchs();
-                    byte[] ByteSearchObject = (byte[])r["SearchObject"];
-                    LS.ObjectSearch = Encoding.Default.GetString(ByteSearchObject);
-                    LS.Name = r["Name"].ToString();
-                    LS.SearchDate = (DateTime)r["SearchDate"];
-                    CResults.Add(LS);                                        
-                }
-
-                return Ok(CResults);
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
-            }
-        }
-
-        private String RemoveSpecialCharsJsonKgrid(String Json)
-        {
-            String JsonReturn = "";
-            if (String.IsNullOrEmpty(Json))
-                return "";
-            List<KGridColumnConfiguration> ListColumnsKendoConfiguration = JsonConvert.DeserializeObject<List<KGridColumnConfiguration>>(Json);
-            ListColumnsKendoConfiguration = (from n
-                                            in ListColumnsKendoConfiguration.AsEnumerable()
-                                             select new KGridColumnConfiguration
-                                             {
-                                                 Field = String.IsNullOrEmpty(n.Field) ? null : n.Field.Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_").Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_").Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("+", "_").Replace("°", "_").Replace("__", "_"),
-                                                 Filterable = n.Filterable,
-                                                 Format = n.Format,
-                                                 Hidden = n.Hidden,
-                                                 Resizable = n.Resizable,
-                                                 Sortable = n.Sortable,
-                                                 Template = n.Template,
-                                                 Width = n.Width,
-                                                 Selectable = n.Selectable
-                                             }).ToList();
-            JsonReturn = JsonConvert.SerializeObject(ListColumnsKendoConfiguration);
-            return JsonReturn;
-        }
-
-
-        //public string QuitarAcentosAColumna(String ColumnaConAcento)
-        //{
-        //    String ColumnaSinAcento=ColumnaConAcento ;
-        //    ColumnaSinAcento = ColumnaSinAcento
-        //        .Replace('á', 'a')
-        //        .Replace('é', 'e')
-        //        .Replace('í', 'i')
-        //        .Replace('ó', 'o')
-        //        .Replace('ú', 'u');
-        //    return ColumnaSinAcento;
-        //}
-
-
-
-        public partial class KGridColumnConfiguration
-        {
-            [JsonProperty("selectable", NullValueHandling = NullValueHandling.Ignore)]
-            public bool? Selectable { get; set; }
-
-            [JsonProperty("width")]
-            public long Width { get; set; }
-
-            [JsonProperty("filterable")]
-            public bool Filterable { get; set; }
-
-            [JsonProperty("resizable")]
-            public bool Resizable { get; set; }
-
-            [JsonProperty("field", NullValueHandling = NullValueHandling.Ignore)]
-            public string Field { get; set; }
-
-            [JsonProperty("format", NullValueHandling = NullValueHandling.Ignore)]
-            public string Format { get; set; }
-
-            [JsonProperty("template", NullValueHandling = NullValueHandling.Ignore)]
-            public string Template { get; set; }
-
-            [JsonProperty("sortable", NullValueHandling = NullValueHandling.Ignore)]
-            public bool? Sortable { get; set; }
-
-            [JsonProperty("hidden", NullValueHandling = NullValueHandling.Ignore)]
-            public bool? Hidden { get; set; }
-        }
-
-        //[System.Web.Http.AcceptVerbs("GET", "POST")]
-        //[Route("api/search/GetStepsCount")]
-        //[AllowAnonymous]
-        //public string GetStepsCount(string userId)
-        //{
-
-        //    try
-        //    {
-        //        List<StepDTO> steps = new List<StepDTO>();
-        //        WFStepBusiness wFStepBusiness = new WFStepBusiness();
-        //        DataTable stepsTable = wFStepBusiness.GetWFsAndStepsAndCountByUser(Int64.Parse(userId));
-
-        //        stepsTable.DefaultView.Sort = "wfname ASC";
-        //        stepsTable = stepsTable.DefaultView.ToTable();
-
-        //        foreach (DataRow row in stepsTable.Rows)
-        //        {
-        //            steps.Add(new StepDTO
-        //            {
-        //                ID = long.Parse(row["wfstepid"].ToString()),
-        //                Name = row["wfstepName"].ToString(),
-        //                Count = int.Parse(row["cantidad"].ToString()),
-        //                WFID = long.Parse(row["wfid"].ToString()),
-        //                WFName = row["wfname"].ToString()
-        //            });
-        //        }
-
-        //        var newresults = JsonConvert.SerializeObject(steps, Formatting.Indented, new JsonSerializerSettings
-        //        {
-        //            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-        //        });
-
-        //        return newresults;
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ZClass.raiseerror(ex);
-        //        throw ex;
-        //    }
-
-        //}
 
         /// <summary>
         /// Exporta a un archivo Excel el resultado actual de la Grilla de resultados.
@@ -2208,6 +1317,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="searchDto">SearchDto</param>
         [Route("api/search/ExportToExcel")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult ExportToExcel(SearchDto searchDto)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
@@ -2221,28 +1331,26 @@ namespace ZambaWeb.RestApi.Controllers
                 string Formatocompleto_NombreArchivo = NombreArchivo + FechaYHora + Extencion;
 
                 JsonDto dataGridResults = JsonConvert.DeserializeObject<JsonDto>(DoSearch(searchDto));
-                if (dataGridResults.data.Rows.Count != 0)
+                searchDto.Lista_ColumnasFiltradas.ForEach(n => dataGridResults.data.Columns.Remove(n));
+
+                //El siguiente codigo ejecuta un metodo de Spire que en realidad no pertenece al DLL, fue agregado manualmente.
+                if (new SpireTools().ExportToXLSx(dataGridResults.data, MembershipHelper.AppTempDir("\\temp") + "\\" + Formatocompleto_NombreArchivo))
                 {
-                    searchDto.Lista_ColumnasFiltradas.ForEach(n => dataGridResults.data.Columns.Remove(n));
-                    //El siguiente codigo ejecuta un metodo de Spire que en realidad no pertenece al DLL, fue agregado manualmente.
-                    if (new SpireTools().ExportToXLSx(dataGridResults.data, MembershipHelper.AppTempDir("\\temp") + "\\" + Formatocompleto_NombreArchivo))
-                    {
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicio la exportacion a Excel...");
-                        SZOptBusiness zOptBusiness = new SZOptBusiness();
-                        var rutaRelativa = MembershipHelper.AppTempDir("\\temp") + "\\" + Formatocompleto_NombreArchivo;
-                        byte[] docBytes = File.ReadAllBytes(rutaRelativa);
-                        MemoryStream ms = new MemoryStream();
-                        ms.Write(docBytes, 0, docBytes.Length);
-                        Stream stream = new FileStream(rutaRelativa, FileMode.Open, FileAccess.Read);
-                        String ret = Convert.ToBase64String(docBytes);
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Exportacion a Excel de la Grilla de Resultados Exitosa");
-                        return Ok(ret);
-                    }
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicio la exportacion a Excel...");
+                    SZOptBusiness zOptBusiness = new SZOptBusiness();
+                    var rutaRelativa = MembershipHelper.AppTempDir("\\temp") + "\\" + Formatocompleto_NombreArchivo;
+                    byte[] docBytes = File.ReadAllBytes(rutaRelativa);
+                    MemoryStream ms = new MemoryStream();
+                    ms.Write(docBytes, 0, docBytes.Length);
+                    Stream stream = new FileStream(rutaRelativa, FileMode.Open, FileAccess.Read);
+                    String ret = Convert.ToBase64String(docBytes);
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Exportacion a Excel de la Grilla de Resultados Exitosa");
+                    return Ok(ret);
                 }
                 else
                 {
                     ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]: Fallo la exportacion a Excel de la Grilla de Resultados");
-                    return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Se ha excedido el tiempo preestablecido para realizar ésta operación. Por favor, intente nuevamente o contacte a sistemas.", new TimeoutException()));
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
                 }
             }
             catch (Exception ex)
@@ -2304,6 +1412,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
             return result;
         }
+
         /// <summary>
         /// Obtiene un archivo en formato de tipo String.
         /// </summary>
@@ -2319,8 +1428,8 @@ namespace ZambaWeb.RestApi.Controllers
 
                 string userId = request.Params["userId"].ToString();
 
-                AccountController AC = new AccountController();
-                AC.LoginById(Int64.Parse(userId));
+                //AccountController AC = new AccountController();
+                //AC.LoginById(Int64.Parse(userId));
 
                 string doctypeId = request.Params["doctypeId"].ToString();
                 string docId = request.Params["docid"].ToString();
@@ -2341,13 +1450,7 @@ namespace ZambaWeb.RestApi.Controllers
                 SResult sResult = new SResult();
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Result Data");
                 Result res = (Result)sResult.GetResult(long.Parse(docId), long.Parse(doctypeId), true);
-                Boolean IsHistoryMail = request.Params.ContainsKey("IsHistoryMail") && Convert.ToBoolean(request.Params["IsHistoryMail"]);
-                if (IsHistoryMail)
-                {
-                    res.Disk_Group_Id = 0;
-                    String TempPath = System.Configuration.ConfigurationManager.AppSettings["ZambaSofwareAppDataPath"] + "\\Temp";
-                    res.File = TempPath + "\\" + request.Params["PathFile"].ToString();
-                }
+
                 DocumentData DD = new DocumentData();
 
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Doc Data");
@@ -2356,10 +1459,7 @@ namespace ZambaWeb.RestApi.Controllers
                 bool MsgViewerAux = bool.Parse(request.Params["viewer"].ToString().ToLower());
 
                 string data = GetDocumentData(userId, doctypeId, docId, ref convertToPDf, res, MsgViewerAux, includeAttachs, ref newPDFFile);
-                if (IsHistoryMail)
-                {
-                    System.IO.File.Delete(res.File);
-                }
+
                 if (convertToPDf)
                 {
                     DD.fileName = newPDFFile;
@@ -2395,7 +1495,6 @@ namespace ZambaWeb.RestApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Zamba.AppBlock.ZException.Log(ex);
                     ZClass.raiseerror(ex);
                 }
 
@@ -2403,7 +1502,7 @@ namespace ZambaWeb.RestApi.Controllers
                 {
 
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "ToBase64 Archivo");
-                    if (DD.ContentType == "audio/mpeg" || DD.ContentType == "video/mpeg")
+                    if (DD.ContentType == "audio/mpeg")
                     {
                         DD.data = System.Convert.FromBase64String(data);
                     }
@@ -2423,9 +1522,8 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     DD.iframeID = iframeID;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Zamba.AppBlock.ZException.Log(ex);
                 }
 
 
@@ -2448,7 +1546,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsWarning, ex.Message);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el recurso")));
             }
         }
@@ -2464,7 +1561,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+                UserPreferences UP = new UserPreferences();
                 if (Boolean.Parse(UP.getValue("ShowIndexLinkUnderTask", UPSections.UserPreferences, "False")))
                 {
                     return Ok(true);
@@ -2478,91 +1575,6 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el recurso")));
-            }
-        }
-
-        /// <summary>
-        /// Obtiene el valor de un index si existe.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns>Regresa valor de index</returns>
-        [AcceptVerbs("GET", "POST")]
-        [Route("api/search/GetValueFromIndex")]
-        public IHttpActionResult GetValueFromIndex(genericRequest paramRequest)
-        {
-
-            if (paramRequest != null)
-            {
-                var newresults = string.Empty; ;
-                var user = GetUser(paramRequest.UserId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                        new HttpError(StringHelper.InvalidUser)));
-                try
-                {
-
-                            Int64 doctypeId = Convert.ToInt64(paramRequest.Params["doctypeId"].ToString());
-                            Int64 docId = Convert.ToInt64(paramRequest.Params["docid"].ToString());
-                            Int64 indexId = Convert.ToInt64(paramRequest.Params["indexId"].ToString());
-
-
-                    STasks STasks = new STasks();
-                    ITaskResult TaskResult = STasks.GetTaskByDocIdAndDocTypeId(docId, doctypeId);
-
-                    for (int i = 0; i < TaskResult.Indexs.Count; i++)
-                    {
-                        if (TaskResult.Indexs[i].ID == indexId)
-                        {
-                            newresults = TaskResult.Indexs[i].dataDescription;
-                        }
-                    }
-
-                    newresults = JsonConvert.SerializeObject(newresults, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                    });
-
-                    return Ok(newresults);
-
-                }
-                catch (Exception ex)
-                {
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el recurso")));
-                }
-            }
-            return null;
-        }
-
-
-
-
-
-        /// <summary>
-        /// Obtiene un archivo en formato de tipo String.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns>Devuelve un ActionResult</returns>
-        [AcceptVerbs("GET", "POST")]
-        [Route("api/search/DecryptUser")]
-        public IHttpActionResult DecryptUser(genericRequest request)
-        {
-            try
-            {
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicia proceso de desencriptacion de usuario");
-                string _userId = DecryptString(request.Params["userIdEncrip"].ToString());
-                var JsonResult = new { UserIdDecryp = _userId };
-                var newresults = JsonConvert.SerializeObject(JsonResult, Formatting.Indented, new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
-
-                return Ok(newresults);
-
-            }
-            catch (Exception ex)
-            {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se desencriptar el id de usuario")));
             }
         }
 
@@ -2584,8 +1596,8 @@ namespace ZambaWeb.RestApi.Controllers
 
                 string userId = request.Params["userId"].ToString();
 
-                AccountController AC = new AccountController();
-                AC.LoginById(Int64.Parse(userId));
+                //AccountController AC = new AccountController();
+                //AC.LoginById(Int64.Parse(userId));
 
                 string doctypeId = request.Params["doctypeId"].ToString();
                 string docId = request.Params["docid"].ToString();
@@ -2662,8 +1674,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsWarning, ex.Message);
-
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el recurso")));
             }
         }
@@ -2685,7 +1695,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "ExternalSearchController metodo GetDocFile");
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Datos recibidos:");
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, request.Params["externuserid"].ToString());
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, Request.Headers.GetValues("Authorization").First() != null ? Request.Headers.GetValues("Authorization").First() : string.Empty);
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, Request.Headers.GetValues("Authorization").First() != null ? Request.Headers.GetValues("Authorization").First() : string.Empty);
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, request.Params["id"] != null ? request.Params["id"].ToString() : string.Empty);
             }
             catch (Exception e)
@@ -2697,9 +1707,9 @@ namespace ZambaWeb.RestApi.Controllers
             string token;
             try
             {
-                token = Request.Headers.GetValues("Authorization").First();
-                if (string.IsNullOrEmpty(token))
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token Nulo")));
+                //token = Request.Headers.GetValues("Authorization").First();
+                //if (string.IsNullOrEmpty(token))
+                //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token Nulo")));
             }
             catch (Exception e)
             {
@@ -2710,59 +1720,60 @@ namespace ZambaWeb.RestApi.Controllers
             byte[] _file = null;
             try
             {
-                string _userId = DecryptString(request.Params["externuserid"].ToString());
-                if (String.IsNullOrEmpty(_userId))
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el usuario")));
 
-                long userID = long.Parse(_userId);
+                string _userId = MembershipHelper.CurrentUser.ID.ToString();  //DecryptString(request.Params["externuserid"].ToString());
+                                                                              // if (String.IsNullOrEmpty(_userId))
+                                                                              //     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el usuario")));
+
+                //long userID = long.Parse(_userId);
+
                 //if (!validateToken(userID, token))
                 //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
                 UserBusiness UB = new UserBusiness();
-                IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
-                if (User != null)
+                //IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
+                //if (User != null)
+                //{
+
+                string _documentId = DecryptString(request.Params["id"].ToString());
+
+                if (string.IsNullOrEmpty(_documentId))
+                    throw new Exception("No se reconoce ID del documento");
+
+                string _doctypeId = _documentId.Split('-')[1];
+                string _docId = _documentId.Split('-')[0];
+                bool convertToPDf = true;
+                bool includeAttachs = true;
+
+                if (request.Params.ContainsKey("converttopdf"))
+                    convertToPDf = bool.Parse(request.Params["converttopdf"].ToString());
+
+                if (request.Params.ContainsKey("includeAttachs"))
+                    includeAttachs = bool.Parse(request.Params["includeAttachs"].ToString());
+
+
+                SResult sResult = new SResult();
+                Result res = (Result)sResult.GetResult(long.Parse(_docId), long.Parse(_doctypeId), false);
+
+                //string documentdata = GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res);
+                try
                 {
-
-                    string _documentId = DecryptString(request.Params["id"].ToString());
-
-                    if (string.IsNullOrEmpty(_documentId))
-                        throw new Exception("No se reconoce ID del documento");
-
-                    string _doctypeId = _documentId.Split('-')[1];
-                    string _docId = _documentId.Split('-')[0];
-                    bool convertToPDf = true;
-                    bool includeAttachs = true;
-
-                    if (request.Params.ContainsKey("converttopdf"))
-                        convertToPDf = bool.Parse(request.Params["converttopdf"].ToString());
-
-                    if (request.Params.ContainsKey("includeAttachs"))
-                        includeAttachs = bool.Parse(request.Params["includeAttachs"].ToString());
-
-
-                    SResult sResult = new SResult();
-                    Result res = (Result)sResult.GetResult(long.Parse(_docId), long.Parse(_doctypeId), false);
-
-                    //string documentdata = GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res);
-                    try
-                    {
-                        //JsonConvert.DeserializeObject(documentdata);
-                        string newPDFFile = string.Empty;
-                        return Ok(GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res, true, includeAttachs, ref newPDFFile));
-                        //return Ok(documentdata);
-                    }
-                    catch (Exception ex)
-                    {
-                        ZTrace.WriteLineIf(ZTrace.IsWarning, ex.Message);
-
-                        string newPDFFile = string.Empty;
-                        return Ok(System.Convert.FromBase64String(GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res, false, includeAttachs, ref newPDFFile)));
-                    }
+                    //JsonConvert.DeserializeObject(documentdata);
+                    string newPDFFile = string.Empty;
+                    return Ok(GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res, true, includeAttachs, ref newPDFFile));
+                    //return Ok(documentdata);
                 }
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
+                catch (Exception ex)
+                {
+                    string newPDFFile = string.Empty;
+                    return Ok(System.Convert.FromBase64String(GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res, false, includeAttachs, ref newPDFFile)));
+                    throw ex;
+                }
+                //}
+                //return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsWarning, ex.Message);
+                ZClass.raiseerror(ex);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
             }
             finally
@@ -2793,7 +1804,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="docId"></param>
         /// <param name="convertToPDf"></param>
         /// <returns>Devuelve un JSON o Bytes[] como String</returns>
-        public string GetDocumentData(string userId, string doctypeId, string docId, ref bool convertToPDf, IResult res, bool MsgPreview, bool includeAttachs, ref string newPDFFile)
+        private string GetDocumentData(string userId, string doctypeId, string docId, ref bool convertToPDf, Result res, bool MsgPreview, bool includeAttachs, ref string newPDFFile)
         {
             SZOptBusiness Zopt = new SZOptBusiness();
             SResult sResult = new SResult();
@@ -2828,7 +1839,6 @@ namespace ZambaWeb.RestApi.Controllers
 
 
             byte[] _file = null;
-
             if (res != null && res.FullPath != null && res.FullPath.Contains("."))
             {
                 bool IsBlob = false;
@@ -2862,31 +1872,12 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo MSG");
-                            string a = "";
 
-                            try
-                            {
-                                a = JsonConvert.SerializeObject(ST.ConvertMSGToJSON(res.FullPath, newPDFFile, includeAttachs), Formatting.Indented,
-                                  new JsonSerializerSettings
-                                  {
-                                      PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                                  });
-                            }
-                            catch (FileNotFoundException ex)
-                            {
-                                //Verifica que el volumen sea de tipo blob o que se encuentre forzada la opción de volumenes del mismo tipo
-                                _file = GetFilesBytesFromDB(res, Zopt, sResult, userID, ref IsBlob);
-
-                                MemoryStream stream = new MemoryStream();
-                                stream.Write(_file, 0, _file.Length);
-
-                                a = JsonConvert.SerializeObject(ST.ConvertMSGToJSON(stream, newPDFFile, includeAttachs), Formatting.Indented,
-                                  new JsonSerializerSettings
-                                  {
-                                      PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                                  });
-                            }
-
+                            var a = JsonConvert.SerializeObject(ST.ConvertMSGToHTML(res.FullPath, newPDFFile, includeAttachs), Formatting.Indented,
+                              new JsonSerializerSettings
+                              {
+                                  PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                              });
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Retornando Archivo");
                             return a;
                         }
@@ -2895,7 +1886,7 @@ namespace ZambaWeb.RestApi.Controllers
                     //Verifica que el volumen sea de tipo blob o que se encuentre forzada la opción de volumenes del mismo tipo
                     if (res.Disk_Group_Id > 0 && (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase || (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
                     {
-                        sResult.LoadFileFromDB(ref res);
+                        sResult.LoadFileFromDB(res);
                     }
                     //Verifica si el result contiene el documento guardado
                     if (res.EncodedFile != null)
@@ -2919,14 +1910,7 @@ namespace ZambaWeb.RestApi.Controllers
                             if (convertToPDf)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
-
-                                if (!File.Exists(res.FullPath) && _file.Length > 0)
-                                {
-                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Copiando Archivo");
-                                    File.WriteAllBytes(res.FullPath, _file);
-                                }
-
+                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                                 if (ST.ConvertWordToPDF(res.FullPath, newPDFFile))
                                 {
                                     _file = FileEncode.Encode(newPDFFile);
@@ -2935,34 +1919,12 @@ namespace ZambaWeb.RestApi.Controllers
                                 else { filename = res.FullPath; convertToPDf = false; }
                             }
                         }
-                        if (res.IsXPS)
+
+                        if ((res.IsHtml || res.IsRTF || res.IsText || res.IsXoml))
                         {
                             if (convertToPDf)
                             {
-                                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
-
-                                if (!File.Exists(res.FullPath) && _file.Length > 0)
-                                {
-                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Copiando Archivo");
-                                    File.WriteAllBytes(res.FullPath, _file);
-                                }
-
-                                if (ST.ConvertXPSToPFD(res.FullPath, newPDFFile))
-                                {
-                                    _file = FileEncode.Encode(newPDFFile);
-                                    filename = newPDFFile;
-                                }
-                                else { filename = res.FullPath; convertToPDf = false; }
-                            }
-                        }
-
-
-                        if ((res.IsHTML || res.IsRTF || res.IsText || res.IsXoml))
-                        {
-                            if (convertToPDf)
-                            {
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
+                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                                 if (ST.ConvertHTMLToPDF(res.FullPath, newPDFFile))
                                 {
                                     _file = FileEncode.Encode(newPDFFile);
@@ -2977,30 +1939,8 @@ namespace ZambaWeb.RestApi.Controllers
                             if (convertToPDf)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
-
+                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                                 if (ST.ConvertExcelToPDF(res.FullPath, newPDFFile))
-                                {
-                                    _file = FileEncode.Encode(newPDFFile);
-                                    filename = newPDFFile;
-                                }
-                                else
-                                {
-                                    filename = res.FullPath;
-                                    convertToPDf = false;
-                                }
-                            }
-                        }
-
-
-                        if (res.IsCSV)
-                        {
-                            if (convertToPDf)
-                            {
-                                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
-
-                                if (ST.ConvertCSVToPDF(res.FullPath, newPDFFile))
                                 {
                                     _file = FileEncode.Encode(newPDFFile);
                                     filename = newPDFFile;
@@ -3018,55 +1958,17 @@ namespace ZambaWeb.RestApi.Controllers
                             if (convertToPDf)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
-
-                                if (File.Exists(res.FullPath))
+                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
+                                if (ST.ConvertImageToPDF(res.FullPath, newPDFFile))
                                 {
-                                    if (ST.ConvertImageToPDF(res.FullPath, newPDFFile))
-                                    {
-                                        _file = FileEncode.Encode(newPDFFile);
-                                        filename = newPDFFile;
-                                    }
-                                    else
-                                    {
-                                        filename = res.FullPath;
-                                        convertToPDf = false;
-                                    }
-
+                                    _file = FileEncode.Encode(newPDFFile);
+                                    filename = newPDFFile;
                                 }
                                 else
                                 {
-
-                                    //Check if directory exist
-
-                                    var NewPath = Zamba.Membership.MembershipHelper.AppTempPath + "\\temp\\";
-
-                                    if (!System.IO.Directory.Exists(NewPath))
-                                    {
-                                        System.IO.Directory.CreateDirectory(NewPath); //Create directory if it doesn't exist
-                                    }
-
-                                    string imageName = res.Doc_File;
-
-                                    //set the image path
-                                    string imgPath = Path.Combine(NewPath, imageName);
-                                    File.WriteAllBytes(imgPath, _file);
-
-
-                                    if (ST.ConvertImageToPDF(NewPath + imageName, newPDFFile))
-                                    {
-                                        _file = FileEncode.Encode(newPDFFile);
-                                        filename = newPDFFile;
-                                    }
-                                    else
-                                    {
-                                        filename = res.FullPath;
-                                        convertToPDf = false;
-                                    }
-
-
+                                    filename = res.FullPath;
+                                    convertToPDf = false;
                                 }
-
                             }
                         }
 
@@ -3108,7 +2010,7 @@ namespace ZambaWeb.RestApi.Controllers
                                         string tempPDFFile = Path.Combine(TempDir, Path.GetFileName(res.FullPath));
                                         FileEncode.Decode(tempPDFFile, _file);
                                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                        Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
+                                        Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                                         if (ST.ConvertTIFFToPDF(tempPDFFile, newPDFFile))
                                         {
                                             _file = FileEncode.Encode(newPDFFile);
@@ -3134,47 +2036,13 @@ namespace ZambaWeb.RestApi.Controllers
                                 else
                                 {
                                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                    Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
-
-
-                                    if (File.Exists(res.FullPath))
+                                    Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
+                                    if (ST.ConvertTIFFToPDF(res.FullPath, newPDFFile))
                                     {
-                                        if (ST.ConvertTIFFToPDF(res.FullPath, newPDFFile))
-                                        {
-                                            _file = FileEncode.Encode(newPDFFile);
-                                            filename = newPDFFile;
-                                        }
-                                        else { filename = res.FullPath; convertToPDf = false; }
-
+                                        _file = FileEncode.Encode(newPDFFile);
+                                        filename = newPDFFile;
                                     }
-                                    else
-                                    {
-
-                                        //Check if directory exist
-
-                                        var NewPath = Zamba.Membership.MembershipHelper.AppTempPath + "\\temp\\";
-
-                                        if (!System.IO.Directory.Exists(NewPath))
-                                        {
-                                            System.IO.Directory.CreateDirectory(NewPath); //Create directory if it doesn't exist
-                                        }
-
-                                        string imageName = res.Doc_File;
-
-                                        //set the image path
-                                        string imgPath = Path.Combine(NewPath, imageName);
-                                        File.WriteAllBytes(imgPath, _file);
-
-
-                                        if (ST.ConvertTIFFToPDF(NewPath + imageName, newPDFFile))
-                                        {
-                                            _file = FileEncode.Encode(newPDFFile);
-                                            filename = newPDFFile;
-                                        }
-                                        else { filename = res.FullPath; convertToPDf = false; }
-
-
-                                    }
+                                    else { filename = res.FullPath; convertToPDf = false; }
                                 }
                             }
                         }
@@ -3184,7 +2052,7 @@ namespace ZambaWeb.RestApi.Controllers
                             if (convertToPDf)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
-                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools(_file);
+                                Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                                 if (ST.ConvertPowerPointToPDF(res.FullPath, newPDFFile))
                                 {
                                     _file = FileEncode.Encode(newPDFFile);
@@ -3208,31 +2076,6 @@ namespace ZambaWeb.RestApi.Controllers
                 return System.Convert.ToBase64String(_file);
             }
             throw new Exception("No se pudo obtener el recurso");
-        }
-
-        private static byte[] GetFilesBytesFromDB(IResult res, SZOptBusiness Zopt, SResult sResult, long userID, ref bool IsBlob)
-        {
-            byte[] _file;
-            if (res.Disk_Group_Id > 0 && (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase || (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
-            {
-                sResult.LoadFileFromDB(ref res);
-            }
-
-            //Verifica si el result contiene el documento guardado
-            if (res.EncodedFile != null)
-            {
-                _file = res.EncodedFile;
-            }
-            else
-            {
-                //Verifica si debe utilizar el webservice para obtener el documento
-                string sUseWebService = Zopt.GetValue("UseWebService");
-                if (!String.IsNullOrEmpty(sUseWebService) && bool.Parse(sUseWebService))
-                    _file = sResult.GetWebDocFileWS(res.DocTypeId, res.ID, userID);
-                else
-                    _file = sResult.GetFileFromResultForWeb(res, out IsBlob);
-            }
-            return _file;
         }
 
 
@@ -3261,6 +2104,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/DoSearch")]
+        [OverrideAuthorization]
         [HttpPost]
         [HttpGet]
         public string FillWF(long userId)
@@ -3325,7 +2169,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
+        [OverrideAuthorization]
         [Route("api/search/FillIndex")]
         [HttpPost]
         public string FillIndex(string IndexId)
@@ -3376,7 +2220,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-
+        [OverrideAuthorization]
         [Route("api/search/GetIndexWords")]
         public List<Word> GetIndexWords(Int64 userId, int entity, int index)
         {
@@ -3397,7 +2241,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-
+        [OverrideAuthorization]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getResultsDoShowTable")]
@@ -3434,7 +2278,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-
+        [OverrideAuthorization]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getInsertDoShowTable")]
@@ -3536,7 +2380,7 @@ namespace ZambaWeb.RestApi.Controllers
             return;
         }
 
-
+        [OverrideAuthorization]
         [Route("api/search/Tree")]
         public IHttpActionResult GetTree(int currentuserid)
         {
@@ -3561,15 +2405,17 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-        const string _URLFORMAT = "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+        const string _URLFORMAT = "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&userid={2},token={3}";
 
+        //[OverrideAuthorization]
         [Route("api/search/GetFileUrl")]
         [HttpPost]
         public string GetFileUrl(ResultDto resultDto)
         {
             try
             {
-                var url = string.Format(_URLFORMAT, resultDto.DOC_TYPE_ID, resultDto.DOC_ID, resultDto.UserId);
+                String token = new Zamba.Core.ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).TokenQueryString;
+                var url = string.Format(_URLFORMAT, resultDto.DOC_TYPE_ID, resultDto.DOC_ID, resultDto.UserId, token);
                 return url;
             }
             catch (Exception ex)
@@ -3583,6 +2429,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetIndexData")]
+        //[OverrideAuthorization]
         [HttpPost]
         public string GetIndexData(ResultDto resultDto)
         {
@@ -3647,7 +2494,7 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
             }
         }
-
+        [OverrideAuthorization]
         [Route("api/search/GetIndexDataSelectDinamic")]
         [HttpPost]
         public IHttpActionResult GetIndexDataSelectDinamic(genericRequest paramRequest)
@@ -3694,6 +2541,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         [Route("api/search/GetFile")]
+        //[OverrideAuthorization]
         [HttpPost]
         public byte[] GetFile(ResultDto resultDto)
         {
@@ -3725,6 +2573,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/SetLastNodes")]
+        [OverrideAuthorization]
         [HttpPost]
         public IHttpActionResult SetLastNodes(genericRequest lastNodeObj)
 
@@ -3747,10 +2596,6 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     PreserveReferencesHandling = PreserveReferencesHandling.Objects
                 });
-                if (DocTypesAndIndexs.hsSearchEntities.ContainsKey(user.ID))
-                {
-                    DocTypesAndIndexs.hsSearchEntities.Remove(user.ID);
-                }
                 return Ok(newresults);
             }
             catch (Exception ex)
@@ -3765,6 +2610,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetLastNodes")]
+        [OverrideAuthorization]
         [HttpPost]
         public string GetLastNodes(string LastNodes, int currentuserid)
         {
@@ -3787,6 +2633,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetMyUnreadTasksCount")]
+        [OverrideAuthorization]
         [HttpGet]
         public long GetMyUnreadTasksCount(long currentUserId)
         {
@@ -3804,6 +2651,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetGroupsByUserIds")]
+        [OverrideAuthorization]
         [HttpGet]
         public List<long> GetGroupsByUserIds(long usrID)
         {
@@ -3823,8 +2671,10 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        [OverrideAuthorization]
         [HttpPost]
         [Route("api/Search/NotifyDocumentRead")]
+
         public IHttpActionResult NotifyDocumentRead(long UserId, long DocTypeId, long DocId)
         {
             try
@@ -3855,6 +2705,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getNewId")]
+        [OverrideAuthorization]
         public IHttpActionResult getNewId(genericRequest paramRequest)
         {
 
@@ -3890,6 +2741,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAddComentarios")]
+        [OverrideAuthorization]
         public IHttpActionResult getResultsComentarios(genericRequest paramRequest)
         {
 
@@ -3970,6 +2822,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByAllReport")]
+        [OverrideAuthorization]
         public string GetResultsByAllReport(genericRequest paramRequest)
         {
 
@@ -4002,60 +2855,10 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [Route("api/search/GetEntityName")]
-        public IHttpActionResult GetEntityName(genericRequest paramRequest)
-        {
-
-            if (paramRequest != null)
-            {
-                var user = GetUser(paramRequest.UserId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                        new HttpError(StringHelper.InvalidUser)));
-                try
-                {
-                    var indexName = string.Empty;
-                    int formid = 0;
-
-                    if (paramRequest.Params != null)
-                    {
-
-                        formid = Int32.Parse(paramRequest.Params["formid"]);
-
-                        if (formid > 0)
-                        {
-                            DocTypesBusiness DTB = new DocTypesBusiness();
-                            int entityId = DTB.GetDocTyIdFromID(formid);
-                            indexName = DTB.GetDocTypeName(Convert.ToInt64(entityId));
-                        }
-                    }
-
-
-                    var newresults = JsonConvert.SerializeObject(indexName, Formatting.Indented,
-                       new JsonSerializerSettings
-                       {
-                           DateFormatString = "yyyy-MM-dd",
-                           PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                       });
-
-                    return Ok(newresults);
-                }
-
-                catch (Exception ex)
-                {
-                    ZClass.raiseerror(ex);
-                    throw new Exception("Error al obtener el nombre de la entidad: " + ex.ToString());
-                }
-            }
-            return null;
-
-        }
-
         [System.Web.Http.AcceptVerbs("GET", "POST")]
 
         [Route("api/search/GetResultsByReportId")]
+        [OverrideAuthorization]
         public IHttpActionResult GetResultsByReportId(genericRequest paramRequest)
         {
 
@@ -4127,6 +2930,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByReportIdDoShowTable")]
+        [OverrideAuthorization]
         public string GetResultsByReportIdDoShowTable(genericRequest paramRequest)
         {
             cleanRuleVariables_ByConvention();
@@ -4175,13 +2979,10 @@ namespace ZambaWeb.RestApi.Controllers
                     Zamba.ReportBuilder.Business.ReportBuilderComponent RB = new Zamba.ReportBuilder.Business.ReportBuilderComponent();
 
                     var newresultss = RB.EvaluationRunWebQueryBuilder(ReportID, true, dicFormVariables, null);
-                    DataTable dtAsoc = new DataTable();
-                    if (newresultss != null)
-                    {
-                        dtAsoc = newresultss.Tables[0];
-                    }
+                    DataTable dtAsoc = newresultss.Tables[0];
 
                     var ObjectResult = new { data = dtAsoc };
+
                     var newresults = JsonConvert.SerializeObject(ObjectResult, Formatting.Indented,
                     new JsonSerializerSettings
                     {
@@ -4205,6 +3006,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByReportIdDoShowTablePro")]
+        [OverrideAuthorization]
         public IHttpActionResult GetResultsByReportIdDoShowTablePro(genericRequest paramRequest)
         {
             cleanRuleVariables_ByConvention();
@@ -4374,6 +3176,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByReportIdDash")]
+        [OverrideAuthorization]
         public string GetResultsByReportIdDash(genericRequest paramRequest)
         {
 
@@ -4462,6 +3265,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetExportExcel")]
+        [OverrideAuthorization]
         public string GetExportExcel(genericRequest paramRequest)
         {
 
@@ -4532,6 +3336,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetNewInsertDoShowTable")]
+        [OverrideAuthorization]
         public IHttpActionResult GetNewInsertDoShowTable(genericRequest paramRequest)
         {
 
@@ -4657,6 +3462,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/getTimeLineNews")]
+        [OverrideAuthorization]
         public IHttpActionResult getTimeLineNews(genericRequest paramRequest)
         {
 
@@ -4748,6 +3554,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getTimeLineAprobaciones")]
+        [OverrideAuthorization]
         public IHttpActionResult getAsociatedResultsTimeLine(genericRequest paramRequest)
         {
 
@@ -4779,7 +3586,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                     if (result != null)
                     {
-                        dtAsoc = Zamba.Core.DocTypes.DocAsociated.DocAsociatedBusiness.getAsociatedResultsFromResultAsList(AsociatedIdsList, result, 100, user.ID, false);
+                        dtAsoc = Zamba.Core.DocTypes.DocAsociated.DocAsociatedBusiness.getAsociatedResultsFromResultAsList(AsociatedIdsList, result, 100, user.ID);
                     }
                     if (dtAsoc.Columns.Contains("Fecha Accion Aprobacion"))
                     {
@@ -4857,8 +3664,7 @@ namespace ZambaWeb.RestApi.Controllers
                         if (r.Table.Columns.Contains("Fecha de Accion Aprobacion"))
                         {
                             dto.date = r["Fecha de Accion Aprobacion"].ToString();
-                        }
-                        else if (r.Table.Columns.Contains("Fecha Accion Aprobacion"))
+                        }else                          if (r.Table.Columns.Contains("Fecha Accion Aprobacion"))
                         {
                             dto.date = r["Fecha Accion Aprobacion"].ToString();
                         }
@@ -4917,6 +3723,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultsByReportIdTimeLine")]
+        [OverrideAuthorization]
         public IHttpActionResult GetResultsByReportIdTimeLine(genericRequest paramRequest)
         {
 
@@ -5170,6 +3977,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAsociatedResults")]
+        [OverrideAuthorization]
         public IHttpActionResult getAsociatedResults(genericRequest paramRequest)
         {
 
@@ -5271,6 +4079,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/setTaskIndex")]
+        [OverrideAuthorization]
         public IHttpActionResult setTaskIndex(genericRequest paramRequest)
         {
 
@@ -5321,6 +4130,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/setTaskIndexs")]
+        [OverrideAuthorization]
         public IHttpActionResult setTaskIndexs(genericRequest paramRequest)
         {
 
@@ -5393,6 +4203,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetTaskFilterConfig")]
+        [OverrideAuthorization]
         public IHttpActionResult GetTaskFilterConfig(genericRequest paramRequest)
         {
 
@@ -5456,6 +4267,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetBaremosAsociatedResults")]
+        [OverrideAuthorization]
         public IHttpActionResult GetBaremosAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5536,6 +4348,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetRequestAsociatedResults")]
+        [OverrideAuthorization]
         public IHttpActionResult GetRequestAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5607,6 +4420,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetRequestAsociatedResults2")]
+        [OverrideAuthorization]
         public IHttpActionResult GetRequestAsociatedResults2(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5680,6 +4494,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetDispatcherAsociatedResults")]
+        [OverrideAuthorization]
         public IHttpActionResult GetDispatcherAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5753,6 +4568,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetRemitoAsociatedResults")]
+        [OverrideAuthorization]
         public IHttpActionResult GetRemitoAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5826,6 +4642,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/ModifyAssociatedResult")]
+        [OverrideAuthorization]
         public void ModifyAssociatedResult(genericRequest paramRequest)
         {
             SResult sResult = new SResult();
@@ -5840,7 +4657,7 @@ namespace ZambaWeb.RestApi.Controllers
             Char separator = ',';
             associatedIds = paramRequest.Params["associatedIds"].ToString().Split(separator).ToList();
             Int64 parentResultID = Int64.Parse(paramRequest.Params["parentResultId"].ToString());
-            emptyIndexs = indexBusiness.GetIndexsSchemaAsListOfDT(entityId);
+            emptyIndexs = indexBusiness.GetIndexsSchema(entityId);
             indexBusiness = null;
 
             DataTable parentsIds = new DataTable();
@@ -5874,7 +4691,6 @@ namespace ZambaWeb.RestApi.Controllers
                 string mail = validateParamRequest(paramRequest.Params["email"]);
                 string personNumber = validateParamRequest(paramRequest.Params["personNumber"]);
                 string alternativeConcept = validateParamRequest(paramRequest.Params["alternativeConcept"]);
-                string cuitpro = validateParamRequest(paramRequest.Params["cuitpro"]);
 
                 indexs.Add(SetIndexData(idReclamo.ToString(), 2677, emptyIndexs));
                 indexs.Add(SetIndexData(favorTo.ToString(), 10289, emptyIndexs));
@@ -5888,7 +4704,6 @@ namespace ZambaWeb.RestApi.Controllers
                 indexs.Add(SetIndexData(mail.ToString(), 2885, emptyIndexs));
                 indexs.Add(SetIndexData(personNumber.ToString(), 1020144, emptyIndexs));
                 indexs.Add(SetIndexData(alternativeConcept.ToString(), 1220204, emptyIndexs));
-                indexs.Add(SetIndexData(cuitpro.ToString(), 11535246, emptyIndexs));
             }
             else if (paramRequest.Params.ContainsKey("isRequest"))
             {
@@ -6008,6 +4823,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/ModifyAssociatedResult2")]
+        [OverrideAuthorization]
         public void ModifyAssociatedResult2(genericRequest paramRequest)
         {
             SResult sResult = new SResult();
@@ -6022,7 +4838,7 @@ namespace ZambaWeb.RestApi.Controllers
             Char separator = ',';
             associatedIds = paramRequest.Params["associatedIds"].ToString().Split(separator).ToList();
             Int64 parentResultID = Int64.Parse(paramRequest.Params["parentResultId"].ToString());
-            emptyIndexs = indexBusiness.GetIndexsSchemaAsListOfDT(entityId);
+            emptyIndexs = indexBusiness.GetIndexsSchema(entityId);
             indexBusiness = null;
 
             DataTable parentsIds = new DataTable();
@@ -6193,6 +5009,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/InsertAssociatedResult")]
+        [OverrideAuthorization]
         public InsertResult InsertAssociatedResult(genericRequest paramRequest)
         {
 
@@ -6214,7 +5031,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
                 IndexsBusiness indexBusiness = new IndexsBusiness();
-                emptyIndexs = indexBusiness.GetIndexsSchemaAsListOfDT(DocTypeId);
+                emptyIndexs = indexBusiness.GetIndexsSchema(DocTypeId);
                 indexBusiness = null;
 
 
@@ -6353,6 +5170,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/InsertAssociatedResult2")]
+        [OverrideAuthorization]
         public InsertResult InsertAssociatedResult2(genericRequest paramRequest)
         {
 
@@ -6374,7 +5192,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
                 IndexsBusiness indexBusiness = new IndexsBusiness();
-                emptyIndexs = indexBusiness.GetIndexsSchemaAsListOfDT(DocTypeId);
+                emptyIndexs = indexBusiness.GetIndexsSchema(DocTypeId);
                 indexBusiness = null;
 
 
@@ -6627,6 +5445,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("api/search/GetUserRightToSearchWeb")]
+        [OverrideAuthorization]
         public bool GetUserRightToSearchWeb(long userid)
         {
             if (userid > 0)
@@ -6708,6 +5527,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultIndexs")]
+        //[OverrideAuthorization]
         public List<Int64> GetResultIndexs(genericRequest paramRequest)
         {
             IResult result = GetResultFromParamRequest(paramRequest);
@@ -6788,6 +5608,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetCalendarReport")]
+        [OverrideAuthorization]
         public IHttpActionResult GetCalendarReport(genericRequest paramRequest)
         {
 
@@ -6884,6 +5705,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetGraphResults")]
+        [OverrideAuthorization]
         public IHttpActionResult GetGraphResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -6938,7 +5760,6 @@ namespace ZambaWeb.RestApi.Controllers
                 var userId = paramRequest.UserId;
                 var taskId = Int64.Parse(paramRequest.Params["taskId"].ToString());
                 var zvarName = paramRequest.Params["zvarName"].ToString();
-                var ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
 
                 var repo = new ZVarsRulesRepo();
                 var data = repo.GetByVarName(userId, taskId, zvarName);
@@ -6958,18 +5779,10 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-
-
-        public static List<Int64> GetUniqueDocTypeIdsAsociation(Int64 EntityId)
-        {
-            if (!DocAsociations.GetInstance().hsDocAsociationsIds.ContainsKey(EntityId))
-                DocAsociations.GetInstance().hsDocAsociationsIds.Add(EntityId, DocAsociatedFactory.GetUniqueDocTypeIdsAsociation(EntityId));
-            return DocAsociations.GetInstance().hsDocAsociationsIds[EntityId];
-        }
-
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAssociatedResults")]
+        [OverrideAuthorization]
         public IHttpActionResult getAssociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -6986,211 +5799,144 @@ namespace ZambaWeb.RestApi.Controllers
                     Int64 parentEntityId = 0;
                     List<string> AsociatedIds = new List<string>();
 
-                    if (paramRequest.Params["parentResultId"] != null)
+                    parentResultId = Int64.Parse(paramRequest.Params["parentResultId"].ToString());
+                    parentEntityId = Int64.Parse(paramRequest.Params["parentEntityId"].ToString());
+                    parentTaskId = Int64.Parse(paramRequest.Params["parentTaskId"].ToString());
+                    if (parentEntityId == 0)
                     {
-                        parentResultId = Int64.Parse(paramRequest.Params["parentResultId"].ToString());
-                        parentEntityId = Int64.Parse(paramRequest.Params["parentEntityId"].ToString());
-                        parentTaskId = Int64.Parse(paramRequest.Params["parentTaskId"].ToString());
-                        if (parentEntityId == 0)
-                        {
-                            parentEntityId = stasks.GetDocTypeId(parentTaskId);
-                        }
+                        parentEntityId = stasks.GetDocTypeId(parentTaskId);
+                    }
+                    AsociatedIds.AddRange(paramRequest.Params["AsociatedIds"].ToString().Split(char.Parse(",")));
 
-                        Boolean onlyimportants = false;
-                        try
+
+                    Results_Business RB = new Results_Business();
+                    IResult result = RB.GetResult(parentResultId, parentEntityId, true);
+
+                    //DataTable dtAsoc = null;
+
+                    //if (result != null)
+                    //{
+                    //    dtAsoc = Zamba.Core.DocTypes.DocAsociated.DocAsociatedBusiness.getAsociatedResultsFromResultAsDT(result, 100, AsociatedIds, user.ID);
+                    //}
+
+
+                    SDocAsociated sda = new SDocAsociated();
+                    DataTable AsociatedResults = new DataTable();
+
+                    Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+
+                    searchResult sr = new searchResult();
+                    sr.columnsStringAssociated = UP.getValue("columnStringAssociated-" + parentEntityId + "-" + String.Join("-", AsociatedIds), UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID);
+
+                    var customUserAssociatedOrderBy = UP.getValue("customUserAssociatedOrderBy-" + parentEntityId + "-" + String.Join("-", AsociatedIds), UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID);
+
+                    if (customUserAssociatedOrderBy != string.Empty)
+                    {
+                        sr.OrderBy = customUserAssociatedOrderBy;
+                    }
+
+                    foreach (string DocTypeId in AsociatedIds)
+                    {
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, $"Buscando en Entidad {DocTypeId}");
+
+                        if (AsociatedResults.Rows.Count == 0)
+                            AsociatedResults = sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+                        else
+                            AsociatedResults.Merge(sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID), true, MissingSchemaAction.Ignore);
+
+                        sr.entities.Add(new EntityDto() { id = Int64.Parse(DocTypeId), name = new DocTypesBusiness().GetDocTypeName(Int64.Parse(DocTypeId)), enabled = true });
+                    }
+
+                    sda = null;
+
+                    List<string> ColumnsToRemove = new List<string>();
+                    foreach (DataColumn c in AsociatedResults.Columns)
+                    {
+                        if ((c.ColumnName.ToLower().StartsWith("i") && IsNumeric(c.ColumnName.Remove(0, 1))) || (GridColumns.ColumnsVisibility.ContainsKey(c.ColumnName.ToLower()) && GridColumns.ColumnsVisibility[c.ColumnName.ToLower()] == false))
                         {
-                            if (paramRequest.Params["onlyimportants"] != null)
+                            ColumnsToRemove.Add(c.ColumnName);
+                        }
+                    }
+                    //Remuevo las columnas
+                    if (ColumnsToRemove.Count > 0)
+                    {
+                        foreach (string colName in ColumnsToRemove)
+                            if (colName != "ICON_ID")
                             {
-                                Boolean.TryParse(paramRequest.Params["onlyimportants"].ToString(), out onlyimportants);
+                                AsociatedResults.Columns.Remove(colName);
                             }
-                        }
-                        catch (Exception)
+                    }
+
+                    // Cambia el nombre por el alias para mostrar en la grilla
+                    foreach (var item in GridColumns.ZambaColumns)
+                    {
+                        if (AsociatedResults.Columns.Contains(item.Value))
+                            AsociatedResults.Columns[item.Value].ColumnName = item.Key;
+                    }
+
+
+                    foreach (DataColumn c in AsociatedResults.Columns)
+                    {
+                        c.ColumnName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace("__", "_");
+                    }
+
+                    String CustomOrderBy = string.Empty;
+                    string tempOrderBy = string.Empty;
+                    string sortOp = string.Empty;
+
+
+                    if (!string.IsNullOrEmpty(customUserAssociatedOrderBy))
+                    {
+                        sr.OrderBy = customUserAssociatedOrderBy;
+
+                        if (customUserAssociatedOrderBy.ToLower().Contains(" desc"))
+                            sortOp = "desc";
+                        else
+                            sortOp = "asc";
+
+                        var indexof = customUserAssociatedOrderBy.IndexOf(sortOp);
+                        if (indexof == -1) indexof = customUserAssociatedOrderBy.Length;
+                        tempOrderBy = customUserAssociatedOrderBy.Substring(0, indexof).ToString().Trim();
+                        tempOrderBy = GridColumns.GetColumnNameByAliasName(tempOrderBy);
+
+                        if (tempOrderBy.Contains("_"))
                         {
-                        }
+                            tempOrderBy = tempOrderBy.Replace("_", " ");
 
-
-                        string AsociatedIdsString = paramRequest.Params["AsociatedIds"].ToString();
-                        if (AsociatedIdsString.Length > 0)
-                            AsociatedIds.AddRange(AsociatedIdsString.Split(char.Parse(",")));
-
-                        Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-
-
-                        var customUserAssociatedOrderBy = UP.getValue("customUserAssociatedOrderBy-" + parentEntityId + "-" + String.Join("-", AsociatedIds), UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID);
-
-                        try
-                        {
-                            if (AsociatedIds.Count == 0)
-                            {
-                                DocTypesBusiness DTB = new DocTypesBusiness();
-
-                                List<Int64> dtAsociated;
-                                dtAsociated = GetUniqueDocTypeIdsAsociation(parentEntityId);
-                                List<IDocType> EntitiesWithViewRight = DTB.GetDocTypesbyUserRights(user.ID, RightsType.View);
-
-
-                                customUserAssociatedOrderBy = UP.getValue("customUserAssociatedOrderByAll", UPSections.UserPreferences, "doc_id desc", MembershipHelper.CurrentUser.ID);
-
-                                foreach (Int64 DT2 in dtAsociated)
-                                {
-                                    foreach (IDocType IDT in EntitiesWithViewRight)
-                                    {
-                                        if (DT2 == IDT.ID)
-                                        {
-                                            AsociatedIds.Add(IDT.ID.ToString());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            ZClass.raiseerror(ex);
+                            if (tempOrderBy.Split().Length > 1)
+                                tempOrderBy = string.Format("{0}", tempOrderBy.Trim());
                         }
 
+                        //Se pregunta si el result tiene filas y si esta filtrando por columna
 
-
-
-                        Results_Business RB = new Results_Business();
-                        IResult result = RB.GetResult(parentResultId, parentEntityId, true);
-
-                        //DataTable dtAsoc = null;
-
-                        //if (result != null)
-                        //{
-                        //    dtAsoc = Zamba.Core.DocTypes.DocAsociated.DocAsociatedBusiness.getAsociatedResultsFromResultAsDT(result, 100, AsociatedIds, user.ID);
-                        //}
-
-
-                        SDocAsociated sda = new SDocAsociated();
-                        DataTable AsociatedResults = new DataTable();
-
-
-                        searchResult sr = new searchResult();
-                        sr.columnsStringAssociated = UP.getValue("columnStringAssociated-" + parentEntityId + "-" + String.Join("-", AsociatedIds), UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID);
-
-
-                        if (customUserAssociatedOrderBy != string.Empty)
+                        if (Zamba.Servers.Server.isOracle)
                         {
-                            sr.OrderBy = customUserAssociatedOrderBy;
-                        }
-
-                        foreach (string DocTypeId in AsociatedIds)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsVerbose, $"Buscando en Entidad {DocTypeId}");
-
-                            if (AsociatedResults.Rows.Count == 0)
-                                AsociatedResults = sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID, onlyimportants);
-                            else
-                                AsociatedResults.Merge(sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID, onlyimportants), true, MissingSchemaAction.Add);
-
-                            sr.entities.Add(new EntityDto() { id = Int64.Parse(DocTypeId), name = new DocTypesBusiness().GetDocTypeName(Int64.Parse(DocTypeId)), enabled = true });
-                        }
-
-                        sda = null;
-
-                        List<string> ColumnsToRemove = new List<string>();
-                        foreach (DataColumn c in AsociatedResults.Columns)
-                        {
-                            if ((c.ColumnName.ToLower().StartsWith("i") && IsNumeric(c.ColumnName.Remove(0, 1))) || (GridColumns.ColumnsVisibility.ContainsKey(c.ColumnName.ToLower()) && GridColumns.ColumnsVisibility[c.ColumnName.ToLower()] == false))
-                            {
-                                ColumnsToRemove.Add(c.ColumnName);
-                            }
-                        }
-
-                        string keyName = parentEntityId.ToString() + (AsociatedIdsString.ToString() != string.Empty ? "-" + AsociatedIdsString.ToString() : "");
-
-                        List<string> SRColumnList = SetColumnsOrder(AsociatedResults, ColumnsToRemove, keyName);
-
-                        //TO DO: VER ICONID
-                        //Remuevo las columnas
-                        //if (ColumnsToRemove.Count > 0)
-                        //{
-                        //    foreach (string colName in ColumnsToRemove)
-                        //        if (colName != "ICON_ID")
-                        //        {
-                        //            AsociatedResults.Columns.Remove(colName);
-                        //        }
-                        //}
-
-                        // Cambia el nombre por el alias para mostrar en la grilla
-                        foreach (var item in GridColumns.ZambaColumns)
-                        {
-                            if (AsociatedResults.Columns.Contains(item.Value))
-                                AsociatedResults.Columns[item.Value].ColumnName = item.Key;
-                        }
-
-
-                        foreach (DataColumn c in AsociatedResults.Columns)
-                        {
-                            c.ColumnName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace("__", "_");
-                        }
-
-                        String CustomOrderBy = string.Empty;
-                        string tempOrderBy = string.Empty;
-                        string sortOp = string.Empty;
-
-
-                        if (!string.IsNullOrEmpty(customUserAssociatedOrderBy))
-                        {
-                            sr.OrderBy = customUserAssociatedOrderBy;
-
-                            if (customUserAssociatedOrderBy.ToLower().Contains(" desc"))
-                                sortOp = "desc";
-                            else
-                                sortOp = "asc";
-
-                            var indexof = customUserAssociatedOrderBy.IndexOf(sortOp);
-                            if (indexof == -1) indexof = customUserAssociatedOrderBy.Length;
-                            tempOrderBy = customUserAssociatedOrderBy.Substring(0, indexof).ToString().Trim();
-                            tempOrderBy = GridColumns.GetColumnNameByAliasName(tempOrderBy);
-
-                            if (tempOrderBy.Contains("_"))
-                            {
-                                tempOrderBy = tempOrderBy.Replace("_", " ");
-
-                                if (tempOrderBy.Split().Length > 1)
-                                    tempOrderBy = string.Format("{0}", tempOrderBy.Trim());
-                            }
-
-                            //Se pregunta si el result tiene filas y si esta filtrando por columna
-
-                            if (Zamba.Servers.Server.isOracle)
-                            {
-                                CustomOrderBy = string.Format("{0} {1}", tempOrderBy.Replace(" ", "_").Replace("\"", ""), sortOp);
-                            }
-                            else
-                            {
-                                CustomOrderBy = string.Format("{0} {1}", tempOrderBy.Replace(" ", "_").Replace("\"", ""), sortOp);
-                            }
-                        }
-
-                        if (AsociatedResults.Rows.Count > 0 && CustomOrderBy.Length > 0)
-                        {
-                            AsociatedResults.DefaultView.Sort = CustomOrderBy;
-                            AsociatedResults.AcceptChanges();
-
-                            sr.data = AsociatedResults.DefaultView.ToTable();
-                            sr.columns = SRColumnList;
+                            CustomOrderBy = string.Format("{0} {1}", tempOrderBy.Replace(" ", "_").Replace("\"", ""), sortOp);
                         }
                         else
                         {
-                            sr.data = AsociatedResults;
-                            sr.columns = SRColumnList;
+                            CustomOrderBy = string.Format("{0} {1}", tempOrderBy.Replace(" ", "_").Replace("\"", ""), sortOp);
                         }
+                    }
 
-                        var newresults = JsonConvert.SerializeObject(sr, Formatting.Indented, new JsonSerializerSettings
-                        {
-                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                        });
+                    if (AsociatedResults.Rows.Count > 0 && CustomOrderBy.Length > 0)
+                    {
+                        AsociatedResults.DefaultView.Sort = CustomOrderBy;
+                        AsociatedResults.AcceptChanges();
 
-                        return Ok(newresults);
+                        sr.data = AsociatedResults.DefaultView.ToTable();
                     }
                     else
                     {
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-new HttpError(StringHelper.InvalidParameter)));
+                        sr.data = AsociatedResults;
                     }
+
+                    var newresults = JsonConvert.SerializeObject(sr, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    });
+
+                    return Ok(newresults);
                 }
                 catch (Exception ex)
                 {
@@ -7202,9 +5948,9 @@ new HttpError(StringHelper.InvalidParameter)));
             return null;
         }
 
-
         [AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUsersOrGroupsById")]
+        [OverrideAuthorization]
         public IHttpActionResult GetUsersOrGroupsById(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -7275,6 +6021,7 @@ new HttpError(StringHelper.InvalidParameter)));
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultsByUserConfigModule")]
+        [OverrideAuthorization]
         public IHttpActionResult GetResultsByUserConfigModule(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -7522,6 +6269,7 @@ new HttpError(StringHelper.InvalidParameter)));
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetInsertByUserConfigModule")]
+        [OverrideAuthorization]
         public IHttpActionResult GetInsertByUserConfigModule(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -7606,6 +6354,7 @@ new HttpError(StringHelper.InvalidParameter)));
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetUserOrGroupAvatarById")]
+        [OverrideAuthorization]
         public IHttpActionResult GetUserOrGroupAvatarById(genericRequest paramRequest)
         {
             try
@@ -7638,6 +6387,7 @@ new HttpError(StringHelper.InvalidParameter)));
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetUsersOrGroupsAvatarsByIds")]
+        [OverrideAuthorization]
         public IHttpActionResult GetUsersOrGroupsAvatarsByIds(genericRequest paramRequest)
         {
             try
@@ -7746,6 +6496,7 @@ new HttpError(StringHelper.InvalidParameter)));
 
         [HttpGet]
         [Route("api/search/GetThumbsPath")]
+        [OverrideAuthorization]
         public IHttpActionResult GetThumbsPath()
         {
             try
@@ -7770,6 +6521,7 @@ new HttpError(StringHelper.InvalidParameter)));
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetThumbsPathHome")]
+        [OverrideAuthorization]
         public IHttpActionResult GetThumbsPathHome(genericRequest paramRequest)
         {
             try
@@ -7806,8 +6558,6 @@ new HttpError(StringHelper.InvalidParameter)));
 
     }
 
-    public delegate void LogToDBEventHandler(Exception ex);
-
     class MsgData
     {
         public string id { get; set; }
@@ -7830,12 +6580,7 @@ new HttpError(StringHelper.InvalidParameter)));
 
         public string iframeID { get; set; }
     }
-    class DownloadDataResponse
-    {
-        public string fileName { get; set; }
-        public byte[] data { get; set; }
-        public bool missingAttachment { get; set; }
-    }
+
     /// <summary>
     /// Clase DTO para mapper un Json que contenga "data" a un DataTable. 
     /// </summary>

@@ -1,5 +1,5 @@
 ﻿function ValueEdit(e) {
-    var MultiSelection = window.localStorage.getItem("MultipleSelection");
+    var MultiSelection = localStorage.getItem("MultipleSelection");
     if (MultiSelection == "false") {
         var idgrilla = $("zamba-associated-kendo:visible")[0].children[0].id;
         var gridElement = $("#" + idgrilla);
@@ -113,7 +113,7 @@ function newInputConfiguration_ForSWAL() {
         newInput.isConnected = true;
         return newInput;
     } catch (e) {
-        console.error(e + " - Lanzado por: newInputConfiguration_ForSWAL");
+        console.log(e + " - Lanzado por: newInputConfiguration_ForSWAL");
     }
 }
 

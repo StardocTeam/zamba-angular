@@ -4,7 +4,7 @@ Imports Zamba.Core
 
 Public Class utilities
 
-    Private SQLTrace As New SQLTrace
+    Private Shared SQLTrace As New SQLTrace
     Public Shared Event LogPerformanceIssue(subject As String, description As String)
 
     Public Shared Function Convert_Datetime(ByVal str As String) As String
@@ -75,7 +75,7 @@ Public Class utilities
         Return strFinal
     End Function
 
-    Public Function StringClean(ByVal str As String) As String
+    Public Shared Function StringClean(ByVal str As String) As String
         Dim straux As String = String.Empty
         Dim i As Int16 = 0
         For i = 0 To str.Length
@@ -95,8 +95,8 @@ Public Class utilities
     '''     Javier  11/01/2011  Modified    Se lee config para saber si loguear querys o no (sale de app.ini)
     '''     Tomas   07/10/2011  Modified    Se modifica el encabezado del log de trace
     ''' </history>
-    Private LogEnabled As Boolean = True
-    Public Sub LogCommands(ByVal Text As String, ByVal Params As System.Data.IDataParameterCollection, ByVal duration As TimeSpan)
+    Private Shared LogEnabled As Boolean = True
+    Public Shared Sub LogCommands(ByVal Text As String, ByVal Params As System.Data.IDataParameterCollection, ByVal duration As TimeSpan)
         Dim StrParams As String
         Dim querytime As Int64
 
@@ -130,15 +130,16 @@ Public Class utilities
 
                 querytime = ((duration.Minutes * 60 * 1000) + (duration.Seconds * 1000) + duration.Milliseconds)
 
-                If Not Text.Contains("ZDoSearchResults") Then
+                If Zamba.Core.ZTrace.Level = TraceLevel.Verbose Then
                     SQLTrace.Write(DateTime.Now.ToString("dd/MM/yy HH:mm:ss") & vbTab & querytime & vbTab & Text & " " & StrParams)
+                End If
 
-                    If querytime > 1500 Then
-                        Dim subject As String = "Una consulta SQL ha demorado " & querytime & " milisegundos"
-                        Dim description As String = String.Format("La consulta ha demorado {0} milisegundos: {1}", querytime, vbCrLf & Text & " " & StrParams)
-                        ZClass.raiseerror(New Exception(description))
-                        RaiseEvent LogPerformanceIssue(subject, description)
-                    End If
+                If querytime > 2000 Then
+                    Dim subject As String = "Una consulta SQL ha demorado " & querytime & " milisegundos"
+                    Dim description As String = String.Format("La consulta ha demorado {0} milisegundos: {1}", querytime, vbCrLf & Text & " " & StrParams)
+                    ZClass.raiseerror(New Exception(description))
+                    RaiseEvent LogPerformanceIssue(subject, description)
+
                 End If
 
             Catch ex As Exception
@@ -147,7 +148,5 @@ Public Class utilities
             End Try
         End If
     End Sub
-
-
 
 End Class

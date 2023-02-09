@@ -374,9 +374,9 @@
         </center>
 
 
-        <script src="../../app/DoShowTablePro/DoShowTableController.js?v=179"></script>
-        <script src="../../app/DoShowTablePro/DoShowTableServices.js?v=179"></script>
-        <script src="FacturasyPagos.js?v=179"></script>
+        <script src="../../app/DoShowTablePro/DoShowTableController.js?v=168"></script>
+        <script src="../../app/DoShowTablePro/DoShowTableServices.js?v=168"></script>
+        <script src="FacturasyPagos.js?v=168"></script>
 
         <script>
             $(document).ready(function () {
@@ -392,82 +392,49 @@
 			
 			
 			function ValidarTasadecambio(e){
-			
-			var valido = false;
+			debugger;
+			var putero = false;
 			if($("#zamba_index_92").val() == "EUR" || $("#zamba_index_92").val() == "USD"){
 			
 			if($("#zamba_index_11535222").val() == ""){
-			valido = false;
 					swal("error", "Tenes que completar Importe", "error");
-					return;
 				}else if($("#zamba_index_11535223").val() != ""){
-					valido = true;
-					
+					SetRuleId(e);
+					$($("form")[0]).submit()
 				}else
 				{
-				valido = false;
 					 swal("error", "Tenes que completar  Tipo de Cambio", "error");
-					 return;
 				}
 				
 				
-			if(valido == true && $("#zamba_index_11535223").val() == ""){
-					valido = false;
+			if($("#zamba_index_11535223").val() == ""){
 					swal("error", "Tenes que completar  Tasa de Cambio", "error");
-					return;
 				}else if($("#zamba_index_11535222").val() != ""){
-					valido = true;
+					SetRuleId(e);
+					$($("form")[0]).submit()
 				}else
 				{
-				valido = false;
 					 swal("error", "Tenes que completar Importe", "error");
-					 return;
 				}	
 			
-		                                   
-                                   
-//Valido Fecha Comprobante No este vacia
-                                    if ($('#zamba_index_73').val() == '') {
-swal("error", "Fecha Comprobante No puede estar vacia", "error");
-                                       
-                                        valido = false;
-										return;
-
-                                    }
-                                    else {
-                                        valido = true;
-                                        
-                                    }
-									
-									//Valido Fecha vewncimiento No este vacia
-									 if ($('#zamba_index_74').val() == '') {
-swal("error", "Fecha Vto CAI No puede estar vacia", "error");
-                                       
-                                        valido = false;
-										return;
-
-                                    }
-                                    else {
-                                        valido = true;
-                                        
-                                    }
-									
-									
-									
+			
+			
+			
+			 <!-- if($("#zamba_index_11535222").val() == "" && $("#zamba_index_11535223").val() == ""){ -->
+				<!-- swal("error", "Tenes que completar Importe y Tipo de Cambio", "error"); -->
+			 <!-- }else{ -->
+			 <!-- SetRuleId(this); -->
+			 <!-- } -->
+			
+			
+				
 				}else{
-					valido = true;
+					SetRuleId(e);
+					$($("form")[0]).submit()
 					
 				}
 			
-			if (valido == true)
-{
-SetRuleId(e);
-					
-					$($("form")[0]).submit();
-					
-					}
-                                    return valido;
-									
+			
 			}
 
 

@@ -26,89 +26,7 @@ public partial class DocViewer : Page
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
-
-        Int64 UrlUserId = 0;
-        string userToken = string.Empty;
-        try
-        {
-            // se optiene el user de la url
-            if (!string.IsNullOrEmpty(Request.QueryString["user"]))
-            {
-                UrlUserId = Convert.ToInt64(Request.QueryString["user"]);
-            }
-            if (!string.IsNullOrEmpty(Request.QueryString["userid"]))
-            {
-                UrlUserId = Convert.ToInt64(Request.QueryString["userid"]);
-            }
-            if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
-            {
-                UrlUserId = Convert.ToInt64(Request.QueryString["userId"]);
-            }
-
-            if (!string.IsNullOrEmpty(Request.QueryString["t"]))
-            {
-                userToken = Request.QueryString["t"].ToString().Trim();
-            }
-
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "UrlUserId : " + UrlUserId);
-
-            //HttpContext.Current.Session["User"] = null;
-
-            Results_Business RB = new Results_Business();
-
-            if (MembershipHelper.CurrentUser != null && Response.IsClientConnected)
-            {
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 1 - El currentUser no es null ");
-                Int64 userid = MembershipHelper.CurrentUser.ID;
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "userid :  " + userid);
-                //Se evalua si el usuario de la url es diferente al del MembershipHelper para hacer relogin
-
-                // si el usuario es diferente el usuario se sacar del currentuser y se relogea, vuelve a pasar y valida ya q el usuario esta bien
-                bool reloadModalLogin = userid != UrlUserId ? true : false;
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "reloadModalLogin :  " + reloadModalLogin);
-
-                bool isActiveSession = true;
-
-                if (!reloadModalLogin)
-                {
-                    isActiveSession = RB.getValidateActiveSession(userid, userToken);
-                }
-
-
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "isActiveSession :  " + isActiveSession);
-
-
-                if (!reloadModalLogin && !isActiveSession)
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 1.1 - isActiveSession es false se dispara modal ");
-                    Modal_login(reloadModalLogin);
-                }
-            }
-            else
-            {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2 - El currentUser  es null ");
-                bool isActiveSession = RB.getValidateActiveSession(UrlUserId, userToken);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "isActiveSession :  " + isActiveSession);
-
-                if (isActiveSession)
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.1 - isActiveSession  es true, reestablezo la session ");
-                    UserBusiness ub = new UserBusiness();
-                    ub.ValidateLogIn(UrlUserId, ClientType.Web);
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.1.1 -  valido el usuario creado" + MembershipHelper.CurrentUser.ID);
-                }
-                else
-                {
-
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.2 - isActiveSession  es false, se dispara modal ");
-                    Modal_login(true);
-                }
-            }
-        }
-        catch (global::System.Exception ex)
+        if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)/*|| (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined"))*/ /*&& MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))*/
         {
             FormsAuthentication.RedirectToLoginPage();
             return;
@@ -117,13 +35,6 @@ public partial class DocViewer : Page
         ZCore ZC = new ZCore();
         Page.Theme = ZC.InitWebPage();
         ZC.VerifyFileServer();
-    }
-
-    public void Modal_login(Boolean reloadModalLogin)
-    {
-        string loginUrl = FormsAuthentication.LoginUrl.ToString();
-        string script = "$(document).ready(function() {  var linkSrc = location.origin.trim() + '" + loginUrl.Replace(".aspx", "").Trim() + "?showModal=true&reloadLogin=" + reloadModalLogin + "';  document.getElementById('iframeModalLogin').src = linkSrc; $('#modalLogin').modal('show');});";
-        Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -151,8 +62,26 @@ public partial class DocViewer : Page
         //        UserBusiness UB = new UserBusiness();
         //        IUser User = UB.ValidateLogIn(Int64.Parse(userId), ClientType.Web);
 
-        //    }
-        //}
+            //}
+            ZssFactory zssFactory = new ZssFactory();
+            Zamba.Framework.Zss zss;
+            zss = zssFactory.GetZss(MembershipHelper.CurrentUser);
+            if (IsPostBack)
+            {
+                if (hdnToken.Value != zss.Token)
+                {
+                    Context.Response.StatusCode = 401;
+                    Context.Response.StatusDescription = "Unauthorized";
+                    throw new HttpException(401, "Unauthorized");
+                }
+                    
+            }
+            else
+            {
+                hdnToken.Value = zss.Token;
+            }
+
+        
 
         if (Zamba.Membership.MembershipHelper.CurrentUser != null)
         {
@@ -184,17 +113,8 @@ public partial class DocViewer : Page
                     _result = GetResult(_docId, _doctypeId);
                     hdnResultId.Value = _result.ID.ToString();
                     hdnDocTypeId.Value = _result.DocTypeId.ToString();
-                    Page.Title = _result.Name;
-
 
                     sf = new SForms();
-
-                    if (!Page.IsPostBack)
-                    {
-                        // Se registra la lectura de este documento   
-                        SRights srights = new SRights();
-                        srights.SaveActionWebView(_result.ID, ObjectTypes.Documents, Request.UserHostAddress.Replace("::1", "127.0.0.1"), RightsType.View, _result.DocTypeId.ToString());
-                    }
 
                     //Si tiene formulario se carga el control correspondiente.
                     if (sf.HasForms(_doctypeId) && !_showoriginal)
@@ -202,7 +122,7 @@ public partial class DocViewer : Page
                         Views_UC_Viewers_FormBrowser viewer;
                         viewer = (Views_UC_Viewers_FormBrowser)LoadControl("../UC/Viewers/FormBrowser.ascx");
                         viewer.Result = _result;
-                       // deleteCtrl.Result = _result;
+                        deleteCtrl.Result = _result;
                         viewer.IsShowing = true;
                         pnlViewer.Controls.Add(viewer);
                     }
@@ -211,13 +131,13 @@ public partial class DocViewer : Page
                         Views_UC_Viewers_DocViewer viewer;
                         viewer = (Views_UC_Viewers_DocViewer)LoadControl("../UC/Viewers/DocViewer.ascx");
                         viewer.Result = _result;
-                        //deleteCtrl.Result = _result;
+                        deleteCtrl.Result = _result;
                         pnlViewer.Controls.Add(viewer);
                     }
 
                     //Muestra u oculta el boton de eliminar dependindo de los permisos del usuario
-                    //deleteCtrl.Visible = (Boolean.Parse(UP.getValue("ShowDeleteButton", UPSections.UserPreferences, true)) &&
-                    //    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.DocTypes, RightsType.Delete, _result.DocType.ID));
+                    deleteCtrl.Visible = (Boolean.Parse(UP.getValue("ShowDeleteButton", UPSections.UserPreferences, true)) &&
+                        RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.DocTypes, RightsType.Delete, _result.DocType.ID));
                 }
             }
             catch (Exception ex)

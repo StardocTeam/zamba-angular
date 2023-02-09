@@ -8,58 +8,60 @@
     }
 </script>
 
-<div data-ng-controller="appFilterController" id="filterController">
+<div data-ng-controller="appFilterController">
+    
 
-    <div style="margin: 0;padding: 0;">
+        
+            <div class="col-xs-12" style="margin: 0;padding: 0;">
+               
+                    <div class="input-group" style="width:84%">
+                        <div class="input-group-btn" style="width:45%">
+                            <select ng-model="Filter.Index" placeholder="Selecciona un filtro" ng-change="FiltersIndexSelected()" class="btn btn-group-xs filter-select" style="border-color: dodgerblue;" ng-options="option.Name for option in Search.SearchResultsObject.filterIndexs | orderBy:'Name' track by option.ID">
+                                <!--<option ng-repeat="findex in Search.Indexs | orderBy:'Name'" ng-value="findex.ID">
+                    {{findex.Name}}
+                </option>-->
+                                <option value="" disabled selected>Agregar filtro</option>
+                            </select>
 
-        <select ng-model="Filter.Index" placeholder="Selecciona un filtro" ng-change="FiltersIndexSelected()" class="btn btn-group-xs filter-select z-select-filter" style="border-color: dodgerblue;text-align:left;" ng-options="option.Name for option in Search.SearchResultsObject.filterIndexs | orderBy:'Name' track by option.ID">
-            {{findex.Name}}
-            <option value="" disabled selected> - Seleccionar Atributo -</option>
-        </select>
 
-        <select id="DropVal" class="btn btn-group-xs filter-select z-operator-filter" ng-model="Filter.CompareOperator" ng-change="FiltersOperatorSelected()" ng-keypress="searchFiltersByEnter($event)" ng-disabled="Filter == null" style="border-color: dodgerblue;">
-            <option value="=">=</option>
-            <option value=">">></option>
-            <option value="<"><</option>
-            <option value=">=">>=</option>
-            <option value="<="><=</option>
-            <option value="<>"><></option>
-            <option value="Es Nulo">Es nulo</option>
-            <option value="No es Nulo">No es Nulo</option>
-            <option value="empieza">Inicia</option>
-            <option value="termina">Termina</option>
-            <option value="No Contiene">No contiene</option>
-            <option value="Contiene">Contiene</option>
-        </select>
+                            <select id="DropVal" class="btn btn-group-xs filter-select" ng-model="Filter.CompareOperator" ng-change="FiltersOperatorSelected()" ng-disabled="Filter == null" style="border-color: dodgerblue;">
+                                <option value="=">=</option>
+                                <option value=">">></option>
+                                <option value="<"><</option>
+                                <option value=">=">>=</option>
+                                <option value="<="><=</option>
+                                <option value="<>"><></option>
+                                <option value="empieza">Inicia</option>
+                                <option value="termina">Termina</option>
+                                <option value="distinto">No contiene</option>
+                                <option value="contiene">Contiene</option>
+                            </select>
+                        </div>
+                        <input id="IndexValue" style="display: none;" />
+                        <input id="IdSubList" style="display: none; " />
+                        <input id="SubListName" style="display: none;" />
+                        <filter-index></filter-index>
+                        <!--<%--Input del usuario--%>-->
+                        <div class="input-group-btn">
+                            <button id="BtnAgregar" class="btn btn-primary btn-group-xs" ng-show="Filter != null" ng-click="AddFilter()">Agregar</button>
+                        </div>
+                    </div>
+              
+                <!--<%--   boton muestra los filtros--%>-->
+            </div>
 
-        <input id="IndexValue" style="display: none;" />
-        <input id="IdSubList" style="display: none; " />
-        <input id="SubListName" style="display: none;" />
-        <div ng-if="showFilterIndex" style="display:inline">
-            <filter-index></filter-index>
-        </div>
-        <button ng-if="!showFilterIndex" class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" ng-show="Filter != null" ng-click="AddFilter()">
-            <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt" title="Agregar">
-                add
-            </md-icon>
-        </button>
-        <!--<button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" ng-show="Filter != null" ng-click="AddFilter()">
-        <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt" title="Agregar">
-            add
-        </md-icon>
-    </button>-->
+
+            <div class="panel-body">
+
+                <div class="input-group col-xs-3 col-md-5 CurrentFilterWrapper" ng-repeat="usedfilter in usedFilters">
+                    <input class="form-control CurrentFilter" ng-attr-value="{{usedfilter.Name}}&nbsp;{{usedfilter.CompareOperator}}&nbsp;{{((usedfilter.dataDescription == undefined || usedfilter.dataDescription == '') ? usedfilter.Data : usedfilter.dataDescription)}}" ng-attr-title="{{usedfilter.IndexName}}&nbsp;{{usedfilter.CompareOperator}}&nbsp;{{((usedfilter.dataDescription == undefined || usedfilter.dataDescription == '') ? usedfilter.Data : usedfilter.dataDescription)}}" />
+                    <div class="input-group-btn">
+                        <button id="btnDeleteFilter" ng-click="DeleteFilter(usedfilter)" class="btn btn-default fa fa-trash CurrentFilter"></button>
+                    </div>
+                </div>
+            </div>
+
+       
     </div>
-<style>
-    .z-select-filter {
-        height: 29px !important;
-        width: 180px !important;
-        text-align: left !important;
-        font-size: 11px !important;
-    }
-    .z-operator-filter {
-        height: 29px !important;
-        width: 107px;
-        text-align: center;
-        font-size: 11px !important;
-    }
-</style>
+
+

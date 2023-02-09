@@ -50,6 +50,7 @@
 
                         <li id="liResults" style="display: none;"><a href="#tabresults">Resultados</a></li>
                         <li><a href="#tabInsert" class="navigation-item" id="liInsert">Insertar</a></li>
+                        <li><a id="tasklist" class="navigation-item" href="#tabtasklist">Listados</a></li>
                         <li id="liTasks" style="display: none;"><a id="anchorTabTasks" href="#tabtasks">Tareas</a></li>
                         <li id="liTabRule" style="display: none;"><a href="#tabRules" id="rule">Rule</a></li>
                     </ul>
@@ -142,7 +143,7 @@
             </div>
 
             <div id="tabsearch" style="display: block;" class="MainTabberTabs TabSpace">
-                <div id="EntitiesCtrl" data-ng-controller="maincontroller" class="container-fluid" style="height: 100%;">
+                <div id="EntitiesCtrl" data-ng-controller="entitiescontroller" class="container-fluid" style="height: 100%;">
                     <div class="row">
                         <div class="col-md-12">
                             <input id="txtMensajes" runat="server" style="display: none;" />
@@ -453,7 +454,7 @@
 
 <%--    <script src="../../scripts/kendoui/js/kendo.all.min.js"></script>--%>
 
-    <script src="../../Scripts/app/Grids/KendoGrid.js?v=256"></script>
+    <script src="../../Scripts/app/Grids/KendoGrid.js?v=165"></script>
     <script src="../../Scripts/app/Grids/Grids.js"></script>
 
     <%--Obtencion de front end data--%>

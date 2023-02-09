@@ -1,12 +1,12 @@
 <div>
 
-    <nav class="" id="GlobalSearchNavBar">
+    <nav class="navbar" id="GlobalSearchNavBar">
         <div class="container-fluid" style="width:100%;">
             <div class="row">
                
-                <div class="col-xs-12 col-sm-7">
-                    <form class="navbar navbar-form" style=" width: 500px;" >
-                        <div class="container-fluid" style="width: 500px;" >
+                <div class="col-xs-12 col-sm-7 col-sm-offset-3">
+                    <form class="navbar navbar-form" >
+                        <div class="container-fluid" >
                             <div class="advancedSearchBox" ng-class="{active:focus}" ng-init="focus = false" ng-click="setSearchFocus = true">
                                 <a ng-href="" id="advSearchRemAll" title="Quitar filtros" ng-show="model.parameters.length > 0 || model.query.length > 0" ng-click="removeAll()" role="button">
                                     <span class="remove-all-icon fa fa-trash-o fa-2x"></span>

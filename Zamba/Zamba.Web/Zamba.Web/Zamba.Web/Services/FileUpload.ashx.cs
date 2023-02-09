@@ -9,8 +9,6 @@ using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using Zamba.Core;
 
-
-
 namespace Zamba.Web.Services
 {
     /// <summary>
@@ -24,7 +22,7 @@ namespace Zamba.Web.Services
         /// </summary>
         /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
-        {   
+        {
             var tempPath = Zamba.Membership.MembershipHelper.AppTempPath + "\\temp\\";
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Inicio de Trace Dropzone");
             ZTrace.WriteLineIf(ZTrace.IsInfo, "temPath " + tempPath);
@@ -67,7 +65,7 @@ namespace Zamba.Web.Services
                     {
                         List<string> FileNames = new List<string>();
                         List<string> FileNamesOnly = new List<string>();
-                       
+
                         foreach (string s in context.Request.Files)//Itera de a uno asincronico
                         {
                             HttpPostedFile file = context.Request.Files[s];
@@ -122,7 +120,6 @@ namespace Zamba.Web.Services
                             context.Response.Write(
                             resultstr
                             );
-                            context.Session["Insert_UploadedFile"] = new List<string>();
                         }
                         else
                         {
@@ -130,8 +127,6 @@ namespace Zamba.Web.Services
                             resultstr = "[{\"tempFiles\":\"" + string.Join(",", FileNamesOnly) + "\"}]";
                             context.Response.Write(resultstr);
                         }
- 
-                        
                     }
                     catch (Exception ex)
                     {

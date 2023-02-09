@@ -16,7 +16,6 @@ app.controller('Modal', function ($uibModal, $log, $filter, $http, $scope, DoSho
     var pc = this;
 
     pc.open = function (size) {
-
         pc.data = [];
         pc.valueForRuleQuery = [];
 
@@ -85,7 +84,7 @@ app.controller('Modal', function ($uibModal, $log, $filter, $http, $scope, DoSho
 
             return Result;
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
     };
 
@@ -211,7 +210,7 @@ app.controller('ModalInstanceCtrl', function ($uibModalInstance, $scope, data, D
             setTimeout(function () { document.getElementsByTagName("zamba-associated")[0].querySelector(".BtnRefresh").click(); });
 
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
     }
     

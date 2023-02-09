@@ -70,151 +70,7 @@ app.controller('ZambaSignFileController', function ($scope, $filter, $http, $tim
     };
 
 
-    $scope.doReceptionByGuia = function(){
-        var genericRequest = {
-            UserId: parseInt(GetUID()),
-            Params: {
-                nroGuia: validateIfValueIsNull($("#zamba_index_139614").val()),
-                docid: getElementFromQueryString("docid")
-            }
-        };
-        var result = ZambaSignFileService.doReceptionByGuia(genericRequest);
-        if (result != null) {
-            if (result.responseText != undefined) {
-                swal('Error al Informar a AFIP, error: ' + result.responseText).then(function (result) { window.location.reload(); });
-            }
-            else {
-                if (result != undefined && (result.result != undefined || result.Message != undefined || result.status != undefined)) {
-                }
-                else {
-                    result = JSON.parse(result);
-                }
 
-                if (result != undefined && result.result != undefined && (result.result == 2)) {
-                    if (result.RecepcionResponse.codError == 0) {
-                        if (result.DigitalizacionResponse.codError == 0) {
-                            //zamba_rule_165752
-                            var entityId = getElementFromQueryString("DocType");
-                            var ResultId = getElementFromQueryString("docid");
-                            swal('Documento(s) Firmado(s) y pasado(s) a Estado DIGI ok en AFIP', '', 'success');
-                            executeTaskRule(165752, ResultId, RefreshCurrentPage);
-
-                        }
-                        else {
-                            swal('Error al Informar a AFIP la Digitalizacion, error: ' + result.DigitalizacionResponse.codError + ': ' + result.DigitalizacionResponse.descError).then(function (result) { window.location.reload(); });
-                        }
-                    }
-                    else {
-                        swal('Error al Informar a AFIP las Recepciones, error: ' + result.RecepcionResponse.codError + ': ' + result.RecepcionResponse.descError).then(function (result) { window.location.reload(); });
-                    }
-                }
-                else if (result != undefined && result.result != undefined && (result.result == 3)) {
-                    //zamba_rule_165752
-                    var entityId = getElementFromQueryString("DocType");
-                    var ResultId = getElementFromQueryString("docid");
-                    swal('Documento Firmado y pasado a Estado DIGI ok en AFIP', '', 'success');
-                    executeTaskRule(165752, ResultId, RefreshCurrentPage);
-
-                }
-                else {
-                    if (result.codError != undefined) {
-                        swal('Error al Informar a AFIP, error: ' + result.codError + ': ' + result.descError).then(function (result) { window.location.reload(); });
-                    }
-                    else if (result.Message != undefined) {
-                        swal('Error al Informar a AFIP, error: ' + result.Message).then(function (result) { window.location.reload(); });
-                    }
-                    else {
-                        swal('Error al Informar a AFIP, error: ' + result).then(function (result) { window.location.reload(); });
-                    }
-                }
-            }
-        }
-        else {
-            if (result.codError != undefined) {
-                swal('Error al Informar a AFIP, error: ' + result.codError + ': ' + result.descError).then(function (result) { window.location.reload(); });
-            }
-            else if (result.Message != undefined) {
-                swal('Error al Informar a AFIP, error: ' + result.Message).then(function (result) { window.location.reload(); });
-            }
-            else {
-                swal('Error al Informar a AFIP, error: ' + result).then(function (result) { window.location.reload(); });
-            }
-        }
-
-    }
-
-    $scope.signFileByGuia = function () {
-        var genericRequest = {
-            UserId: parseInt(GetUID()),
-            Params: {
-                nroGuia: validateIfValueIsNull($("#zamba_index_139614").val()),
-                docid: getElementFromQueryString("docid")
-            }
-        };
-        var result = ZambaSignFileService.signFileByGuia(genericRequest);
-        if (result != null) {
-            if (result.responseText != undefined) {
-                swal('Error al Informar a AFIP, error: ' + result.responseText).then(function (result) { window.location.reload(); });
-            }
-            else {
-                if (result != undefined && (result.result != undefined || result.Message != undefined || result.status != undefined)) {
-                }
-                else {
-                    result = JSON.parse(result);
-                }
-
-                if (result != undefined && result.result != undefined && (result.result == 2)) {
-                    if (result.RecepcionResponse.codError == 0) {
-                        if (result.DigitalizacionResponse.codError == 0) {
-                            //zamba_rule_165752
-                            var entityId = getElementFromQueryString("DocType");
-                            var ResultId = getElementFromQueryString("docid");
-                            swal('Documento Firmado y pasado a Estado DIGI ok en AFIP', '', 'success');
-                            executeTaskRule(165752, ResultId, RefreshCurrentPage);
-
-                        }
-                        else {
-                            swal('Error al Informar a AFIP la Digitalizacion, error: ' + result.DigitalizacionResponse.codError + ': ' + result.DigitalizacionResponse.descError).then(function (result) { window.location.reload(); });
-                        }
-                    }
-                    else {
-                        swal('Error al Informar a AFIP la Recepcion, error: ' + result.RecepcionResponse.codError + ': ' + result.RecepcionResponse.descError).then(function (result) { window.location.reload(); });
-                    }
-                }
-                else if (result != undefined && result.result != undefined && (result.result == 3)) {
-                    //zamba_rule_165752
-                    var entityId = getElementFromQueryString("DocType");
-                    var ResultId = getElementFromQueryString("docid");
-                    swal('Documento Firmado y pasado a Estado DIGI ok en AFIP', '', 'success');
-                    executeTaskRule(165752, ResultId, RefreshCurrentPage);
-
-                }
-                else {
-                    if (result.codError != undefined) {
-                        swal('Error al Informar a AFIP, error: ' + result.codError + ': ' + result.descError).then(function (result) { window.location.reload(); });
-                    }
-                    else if (result.Message != undefined) {
-                        swal('Error al Informar a AFIP, error: ' + result.Message).then(function (result) { window.location.reload(); });
-                    }
-                    else {
-                        swal('Error al Informar a AFIP, error: ' + result).then(function (result) { window.location.reload(); });
-                    }
-                }
-            }
-        }
-        else {
-            if (result.codError != undefined) {
-                swal('Error al Informar a AFIP, error: ' + result.codError + ': ' + result.descError).then(function (result) { window.location.reload(); });
-            }
-            else if (result.Message != undefined) {
-                swal('Error al Informar a AFIP, error: ' + result.Message).then(function (result) { window.location.reload(); });
-            }
-            else {
-                swal('Error al Informar a AFIP, error: ' + result).then(function (result) { window.location.reload(); });
-            }
-        }
-
-    }
 
     $scope.signFile = function () {
         var solicitudFirmaDigital = getNewSolicitudFirmaDigital();
@@ -342,7 +198,7 @@ app.controller('ZambaSignFileController', function ($scope, $filter, $http, $tim
             }
         } catch (e) {
             console.log('Obteniendo Legajos ERROR');
-            console.error(e);
+            console.log(e);
         }
     };
 
@@ -407,7 +263,7 @@ app.controller('ZambaSignFileController', function ($scope, $filter, $http, $tim
             solicitudFirmaDigital.cuitDeclarante = cuitDespachante;
 
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
 
         try {
@@ -421,16 +277,15 @@ app.controller('ZambaSignFileController', function ($scope, $filter, $http, $tim
             solicitudFirmaDigital.codigo = codigo;
 
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
         try {
 
             var sigea = validateIfValueIsNull($("#zamba_index_139578").val());
             solicitudFirmaDigital.sigea = sigea;
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
-        
         
     }
 

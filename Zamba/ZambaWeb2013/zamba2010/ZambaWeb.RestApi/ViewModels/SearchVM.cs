@@ -59,6 +59,7 @@ public class ViewDto
 
 }
 
+
 public class SearchDto
 {
     public Int64 SearchId { get; set; }
@@ -66,7 +67,6 @@ public class SearchDto
     public List<Int64> DoctypesIds { get; set; } = new List<long>();
     public List<EntityDto> entities { get; set; } = new List<EntityDto>();
     public List<Object> Indexs { get; set; } = new List<object>();
-    public List<Object> UsedFilters { get; set; } = new List<object>();
     public Boolean blnSearchInAllDocsType { get; set; }
     public string TextSearchInAllIndexs { get; set; }
     public Boolean RaiseResults { get; set; }
@@ -80,9 +80,6 @@ public class SearchDto
     public Int64 StepStateId { get; set; }
     public Int64 TaskStateId { get; set; }
     public Int64 WorkflowId { get; set; }
-    public long UserAssignedId { get; set; }
-    public UsedFilter UserAssignedFilter { get; set; }
-    public UsedFilter StepFilter { get; set; }
     public string NotesSearch { get; set; }
     public string Textsearch { get; set; }
 
@@ -104,34 +101,17 @@ public class SearchDto
     public List<string> Lista_ColumnasFiltradas{ get; set; } = new List<string>();
 
     public bool FiltersResetables { get; set; }
-
-    public Dictionary<string, string> Params { get; set; } = new Dictionary<string, string>();
-
-    public List<kendoFilter> crdateFilters { get; set; } = new List<kendoFilter>();
-
-    public List<kendoFilter> lupdateFilters { get; set; } = new List<kendoFilter>();
-
-    public List<kendoFilter> nameFilters { get; set; } = new List<kendoFilter>();
-
-    public List<kendoFilter> originalFilenameFilters { get; set; } = new List<kendoFilter>();
-
-    public List<kendoFilter> stateFilters { get; set; } = new List<kendoFilter>();
-    
-
 }
 
-public class UsedFilter
+
+
+public class KendoFilter : ikendoFilter
 {
-    public long ID { get; set; }
-    public string Name { get; set; }
-    public string Data { get; set; }
-    public string dataDescription { get; set; }
-    public string CompareOperator { get; set; }
-    public string CurrentUserId { get; set; }
-    public bool IsChecked { get; set; }
-    public int StepId { get; set; }
-    public string EntitiesIds { get; set; }
-    public long zFilterWebID { get; set; }
+    public string Field { get; set; } 
+    public string Operator { get; set; } 
+    public string Value { get; set; }
+    public string DataBaseColumn { get; set; }
+
 }
 
 public class SearchDtoIndex
@@ -156,33 +136,18 @@ public class ResultDto
     public Int64 UserId { get; set; }
 }
 
-public class WorkflowDTO
+class WorkflowDTO
 {
     public long ID { get; set; }
     public string Name { get; set; }
     public List<StepDTO> Steps { get; set; } = new List<StepDTO>();
 }
 
-public class StepDTO
+class StepDTO
 {
     public long ID { get; set; }
     public string Name { get; set; }
     public long WFID { get; set; }
     public string WFName { get; set; }
-    public int Count { get; set; }
-}
-
-public class StateDTO
-{
-    public long ID { get; set; }
-    public string Name { get; set; }
-    public long StepID { get; set; }
-    public string StepName { get; set; }
-    public int Count { get; set; }
-}
-public class UserAsignedDTO
-{
-    public long ID { get; set; }
-    public string Name { get; set; }
     public int Count { get; set; }
 }

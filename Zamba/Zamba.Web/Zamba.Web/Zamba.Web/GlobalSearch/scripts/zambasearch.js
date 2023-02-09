@@ -120,6 +120,8 @@
         }
     });
 
+    //if (initaltab != null && initaltab == 'tabhome')
+    //    $('#Advfilter2').hide();
 
     function setGSTooltips() {
         var $m = $('#Advfilter-modal-content');
@@ -144,6 +146,7 @@ function openGlobalSearch(event) {
     $m.find("input").focus();
     $m.find("input").val(String.fromCharCode(event.charCode)); //keyCode   
     $("#searchWrapperh").fadeOut();
+    $('#MainTabber').zTabs("select", 'tabsearch');
     $("#btnGlobalSearch").show();
     $("#btnAdvanceSearch").show();
     $("#Advfilter-modal-content").show();

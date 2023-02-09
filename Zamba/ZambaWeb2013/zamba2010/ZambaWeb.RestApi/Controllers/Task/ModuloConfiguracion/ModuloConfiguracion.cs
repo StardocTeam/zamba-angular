@@ -20,6 +20,7 @@ using System.Web.Script.Serialization;
 namespace ZambaWeb.RestApi.Controllers.Task.ModuloConfiguracion
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RestAPIAuthorize]
     public class ModuloConfiguracion : ApiController
     {
 

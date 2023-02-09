@@ -18,7 +18,6 @@
     <!--Fecha de Modificacion: 28/11/2019><Cambio: Se Agregaron los Conceptos 136, 227 , 510-->
     <!--Modificado por: EEB -->
     <!--Fecha de Modificacion: 20/11/2020><Cambio: Se Agregaro el boton y la solapa de Facturas asociadas -->
-	<!--Fecha de Modificacion: 28/04/2021><Cambio: Se Agregaro mensaje relativo a Facturas asociadas -->
 
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -91,8 +90,8 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Codigo de Proveedor-->
-                                <span class="input-group-addon">Código del Proveedor:</span>
-                                <input id="zamba_index_15" name="zamba_index_15" size="1" class="form-control solonums required" disabled />
+                                <span class="input-group-addon">Codigo del Proveedor:</span>
+                                <input id="zamba_index_15" name="zamba_index_15" size="1" class="form-control solonums required" disabled/>
                                 
                             </div>
                         </div>
@@ -101,7 +100,7 @@
                             <div class="input-group">
                                 <!--Orden Nro de Compra-->
                                 <span class="input-group-addon">Orden de Compra Nro:</span>
-                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled editgroups= "12601,12868" />
+                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled/>
                             </div>
                         </div>
                         <div class="col-md-3"></div>
@@ -153,7 +152,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Metodo de Pago-->
-                                <span class="input-group-addon">Método de Pago:</span>
+                                <span class="input-group-addon">Metodo de Pago:</span>
                                 <select id="zamba_index_1020169" name="zamba_index_1020169" class="form-control input-sm" disabled editgroups="71,12872,12598" ></select>
                             </div>
                         </div>
@@ -163,7 +162,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--delegación-->
-                                <span class="input-group-addon">Delegación:</span>
+                                <span class="input-group-addon">delegación:</span>
                                 <input id="zamba_index_82" name="zamba_index_82" size="1" class="form-control input-sm" disabled />
                             </div>
                         </div>
@@ -283,13 +282,9 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Estado FAC-->
-                                <span class="input-group-addon">Estado Validación:</span>
+                                <span class="input-group-addon">Estado Validacion:</span>
                                 <input id="zamba_index_1020138" name="zamba_index_1020138" size="1" class="form-control input-sm" disabled />
                             </div>
-                        </div>
-						<div class="col-md-3">
-                           
-                                <h5 style="color:#FF0000">En el caso que el presente Pago tenga facturas asociadas, son estas (las facturas) las que se deben ingresar a OF y no el Pago.</h5>
                         </div>
 
                     </div>
@@ -375,7 +370,7 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6">
-                            <span class="input-group-addon">Descripción:</span>
+                            <span class="input-group-addon">Descripcion:</span>
                             <textarea id="zamba_index_1220185" name="zamba_index_1220185" rows="5" class="form-control input-sm" disabled></textarea>
                         </div>
 
@@ -398,7 +393,7 @@
                                 <!--DropZone-->
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <h5 align="center">Ingrese aquí documentacion anexa al Expediente</h5>
+                                        <h5 align="center">Ingrese aqui documentacion anexa al Expediente</h5>
                                     </div>
                                 </div>
                                 <div id="appblankID" ng-controller="appController">
@@ -407,21 +402,18 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
+					
+					<div class="row">
 
                         <center>
                             <div class="col-xs-2 col-md-offset-5">
                                 <!--Botones FORM-->
-                                
-							<div class="col-xs-2">
-                                <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-warning" type="submit" value="Guardar" style="display: none" enableGroups="12868,12601" >
+                                <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-success" type="submit" value="guardar">
                             </div>
-                           
+                            
                         </center>
 
                     </div>
-
 
                     <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
 
@@ -518,17 +510,15 @@
             </div>
             <!-- Nuevo -->
 
-            <script src="FacturasyPagos.js?v=248"></script>
+            <script src="FacturasyPagos.js?v=168"></script>
 
             <script type="text/javascript" language="JavaScript">
 
                 $(document).ready(function () {
-				
-				//Establece Puntos millares y coma a los importes traidos del origen.
+                    $("#IDtramite").val("(" + $("#zamba_index_86").val() + ")");
+					//Establece Puntos millares y coma a los importes traidos del origen.
                     setInputSeparator('zamba_index_109');
                     setInputSeparator('zamba_index_11535222');
-				
-                    $("#IDtramite").val("(" + $("#zamba_index_86").val() + ")");
                 });
 
             </script>

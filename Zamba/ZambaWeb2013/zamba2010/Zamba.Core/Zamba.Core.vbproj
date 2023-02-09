@@ -51,7 +51,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -314,7 +314,6 @@
     <Compile Include="WF\IndexAndVariable.vb" />
     <Compile Include="WF\IndexAndVariableConfiguration.vb" />
     <Compile Include="WF\RuleDescription.vb" />
-    <Compile Include="WF\TaskDTO.vb" />
     <Compile Include="WF\TaskResult.vb">
       <SubType>Code</SubType>
     </Compile>

@@ -76,12 +76,9 @@ Public Class ActionsBusiness
         ActionsFactory.SaveActioninDB(ObjectId, ObjectType, ActionType, S_Object_ID, _userid, ConnectionId)
     End Sub
     Public Shared Sub CleanExceptions()
-        Try
-            ZException.CleanExceptions()
-            Dim errorRB As New ErrorReportBusiness
-            errorRB.CleanDBErrors()
-        Catch ex As Exception
-        End Try
+        ZException.CleanExceptions()
+        Dim errorRB As New ErrorReportBusiness
+        errorRB.CleanDBErrors
     End Sub
     Public Event LogError(ByVal ex As Exception)
 

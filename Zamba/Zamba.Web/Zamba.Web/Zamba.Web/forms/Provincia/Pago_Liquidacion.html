@@ -18,11 +18,7 @@
     <!--Fecha de Modificacion: 28/11/2019><Cambio: Se Agregaron los Conceptos 136, 227 , 510-->
     <!--Modificado por: EEB -->
     <!--Fecha de Modificacion: 20/11/2020><Cambio: Se Agregaro el boton y la solapa de Facturas asociadas -->
-	<!--Modificado por: EEB -->
-    <!--Fecha de Modificacion: 15/04/2021><Cambio: HAcer editable el Metodo de Pago y Boton guardar para los grupos 71,12872,12598, antes willy hizo modif x o/c -->
-	<!--Modificado por: EEB -->
-	<!--Fecha de Modificacion: 28/04/2021><Cambio: Se Agregaro mensaje relativo a Facturas asociadas -->
-	
+
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
@@ -94,7 +90,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Codigo de Proveedor-->
-                                <span class="input-group-addon">Código del Proveedor:</span>
+                                <span class="input-group-addon">Codigo del Proveedor:</span>
                                 <input id="zamba_index_15" name="zamba_index_15" size="1" class="form-control solonums required" disabled/>
                                 
                             </div>
@@ -104,7 +100,7 @@
                             <div class="input-group">
                                 <!--Orden Nro de Compra-->
                                 <span class="input-group-addon">Orden de Compra Nro:</span>
-                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled editgroups= "12601,12868" />
+                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled/>
                             </div>
                         </div>
                         <div class="col-md-3"></div>
@@ -156,8 +152,8 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Metodo de Pago-->
-                                <span class="input-group-addon">Método de Pago:</span>
-                  	            <select id="zamba_index_1020169" name="zamba_index_1020169" class="form-control input-sm" disabled editgroups="71,12872,12598" ></select>			
+                                <span class="input-group-addon">Metodo de Pago:</span>
+                                <input id="zamba_index_1020169" name="zamba_index_1020169" class="form-control input-sm" disabled />
                             </div>
                         </div>
 
@@ -166,7 +162,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--delegación-->
-                                <span class="input-group-addon">Delegación:</span>
+                                <span class="input-group-addon">delegación:</span>
                                 <input id="zamba_index_82" name="zamba_index_82" size="1" class="form-control input-sm" disabled />
                             </div>
                         </div>
@@ -286,14 +282,9 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Estado FAC-->
-                                <span class="input-group-addon">Estado Validación:</span>
+                                <span class="input-group-addon">Estado Validacion:</span>
                                 <input id="zamba_index_1020138" name="zamba_index_1020138" size="1" class="form-control input-sm" disabled />
                             </div>
-                        </div>
-
-						<div class="col-md-3">
-                           
-                                <h5 style="color:#FF0000">En el caso que el presente Pago tenga facturas asociadas, son estas (las facturas) las que se deben ingresar a OF y no el Pago.</h5>
                         </div>
 
                     </div>
@@ -369,7 +360,7 @@
                                             <div class="input-group">
                                                 <!--Orden Nro de Compra-->
                                                 <span class="input-group-addon">Orden de Compra Nro:</span>
-                                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled editgroup= "12601,12868" />
+                                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -379,16 +370,13 @@
                         </div>
 
                         <div class="col-md-6 col-sm-6">
-                            <span class="input-group-addon">Descripción:</span>
+                            <span class="input-group-addon">Descripcion:</span>
                             <textarea id="zamba_index_1220185" name="zamba_index_1220185" rows="5" class="form-control input-sm" disabled></textarea>
                         </div>
                         <div></div>
                         <div class="form-group row">
                             <div class="col-md-2">
                                 <input name="zamba_rule_1224660" id="zamba_rule_1224660" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Pago Liquidado" style="display:none;">
-                            </div>
-							<div class="col-xs-2">
-                                <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);" class="btn btn-warning" type="submit" value="Guardar" style="display: none" enableGroups="12868,12601,71,12872,12598" >
                             </div>
                             <!--div class="col-md-2">
                                 <input name="zamba_rule_1224654" id="zamba_rule_1224654" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Enviar a Validación" style="display:none;">
@@ -426,7 +414,7 @@
                                 <!--DropZone-->
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <h5 align="center">Ingrese aquí documentación anexa al Expediente</h5>
+                                        <h5 align="center">Ingrese aqui documentacion anexa al Expediente</h5>
                                     </div>
                                 </div>
                                 <div id="appblankID" ng-controller="appController">
@@ -531,7 +519,7 @@
             </div>
             <!-- Nuevo -->
 
-            <script src="FacturasyPagos.js?v=248"></script>
+            <script src="FacturasyPagos.js?v=168"></script>
 
             <script type="text/javascript" language="JavaScript">
 

@@ -37,11 +37,9 @@ Public Class PlayDoRequestData
                 Next
 
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Cantidad de atributos a mostrar: " & indexlist.Count)
-                'If (Params IsNot Nothing) Then
                 Params.Add("indexlist", indexlist)
-                    Params.Add("DocTypeId", Me._myRule.DocTypeId)
-                    Params.Add("Result", r)
-                'End If
+                Params.Add("DocTypeId", Me._myRule.DocTypeId)
+                Params.Add("Result", r)
 
             Next
         Finally

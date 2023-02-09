@@ -26,30 +26,24 @@ Namespace Cache
         Public Shared hsStepsColors As New SynchronizedHashtable()
         'Guarda los Workflows
         Public Shared hsWorkflow As New SynchronizedHashtable()
-        Public Shared hsStepsNames As New SynchronizedHashtable
+
+        Friend Shared Sub RemoveCurrentInstance()
+        hsRuleParamsDS.Clear
+        hsWFStepsDS.Clear
+        hsWFStepStatesDS.Clear
+        hsStepsStates.Clear
+        hsSteps.Clear()
+        hsStates.Clear
+        hsStepsColors.Clear()
+        hsWorkflow.Clear()
+        hsWFStepId.Clear()
+            hsDocTypesAsWFbyStepId.Clear()
+            hsStepsinitialState.Clear()
+        End Sub
 
         'Guarda el id de etapa (GetWFStepIdbyRuleID)
         Public Shared hsWFStepId As New SynchronizedHashtable()
         Public Shared hsDocTypesAsWFbyStepId As New SynchronizedHashtable()
-        Public Shared hsWFAndStepIdsAndNamesAndTaskCount As New SynchronizedHashtable()
-
-
-        Friend Shared Sub RemoveCurrentInstance()
-            hsRuleParamsDS.Clear()
-            hsWFStepsDS.Clear()
-            hsWFStepStatesDS.Clear()
-            hsStepsStates.Clear()
-            hsSteps.Clear()
-            hsStates.Clear()
-            hsStepsColors.Clear()
-            hsWorkflow.Clear()
-            hsWFStepId.Clear()
-            hsDocTypesAsWFbyStepId.Clear()
-            hsStepsinitialState.Clear()
-            hsStepsNames.Clear()
-            hsWFAndStepIdsAndNamesAndTaskCount.Clear()
-        End Sub
-
 
     End Class
 End Namespace

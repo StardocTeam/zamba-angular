@@ -6,7 +6,6 @@ using System.Collections;
 using Zamba.Services;
 using System.Collections.Generic;
 using Zamba.Core;
-using Zamba;
 
 public partial class ucDocTypes : UserControl
 {
@@ -19,7 +18,7 @@ public partial class ucDocTypes : UserControl
         {
             if (Zamba.Membership.MembershipHelper.CurrentUser != null)
             {
-                List<IDocType> dsdt = new sDocType().GetDocTypesIdsAndNamesbyRightView(( Zamba.Membership.MembershipHelper.CurrentUser).ID);
+                List<DocType> dsdt = new sDocType().GetDocTypesIdsAndNamesbyRightView(( Zamba.Membership.MembershipHelper.CurrentUser).ID);
 
                 DocTypes.DataValueField = "ID";
                 DocTypes.DataTextField = "NAME";
@@ -72,7 +71,7 @@ public partial class ucDocTypes : UserControl
         {
             if (Zamba.Membership.MembershipHelper.CurrentUser != null)
             {
-                List<IDocType> dsdt = new sDocType().GetDocTypesIdsAndNamesbyRightView(( Zamba.Membership.MembershipHelper.CurrentUser).ID);
+                List<DocType> dsdt = new sDocType().GetDocTypesIdsAndNamesbyRightView(( Zamba.Membership.MembershipHelper.CurrentUser).ID);
 
                 DocTypes.DataValueField = "ID";
                 DocTypes.DataTextField = "NAME";

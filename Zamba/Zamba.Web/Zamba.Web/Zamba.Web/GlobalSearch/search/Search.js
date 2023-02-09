@@ -2,7 +2,7 @@
 
 app.controller('searchController', function ($scope, $http) {
     //Se utiliza para la busqueda de tareas
-    $scope.CheckIfExecuteSearchByQueryStringOrLoadDefaultView = function (d) {
+    $scope.initSearch = function (d) {
        
         var parameters = [];
 
@@ -14,7 +14,7 @@ app.controller('searchController', function ($scope, $http) {
             this.maingroup = type == 0 ? true : editMode;
             this.name = name || "";
             this.type = type;//0: palabra
-            this.operator = operator || "=";
+            this.operator = operator || "Empieza";
             this.placeholder = placeholder || "";
             this.value = value || "";
             this.value2 = value2 || "";
@@ -49,7 +49,7 @@ app.controller('searchController', function ($scope, $http) {
                                 if (attributes[k] == index.id && parametersIndexs.indexOf(attributes[k]) == -1)
                                 {
                                     if (attributes[k] == index.id && parametersIndexs.indexOf(attributes[k]) == -1) {
-                                    parameters.push(new parameter(true, attributes[k], index.name, 2, "=", searchs[k]));
+                                    parameters.push(new parameter(true, attributes[k], index.name, 2, "Empieza", searchs[k]));
                                     parametersIndexs.push(attributes[k]);
                                     break;
                                 }

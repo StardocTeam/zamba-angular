@@ -22,10 +22,12 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class EditGridController :ApiController
     {
+        [RestAPIAuthorize]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        [Route("api/search/getAssociatedEDITResults")]
-        public IHttpActionResult getAssociatedEDITResults(genericRequest paramRequest)
+        [Route("api/search/NewgetAssociatedResults")]
+        [OverrideAuthorization]
+        public IHttpActionResult NewgetAssociatedResults(genericRequest paramRequest)
         {
 
             if (paramRequest != null)
@@ -83,9 +85,9 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
                     foreach (string DocTypeId in AsociatedIds)
                     {
                         if (AsociatedResults.Rows.Count == 0)
-                            AsociatedResults = sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID,false);
+                            AsociatedResults = sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID);
                         else
-                            AsociatedResults.Merge(sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID, false), true, MissingSchemaAction.Ignore);
+                            AsociatedResults.Merge(sda.getAsociatedResultsFromResultAsList(Int64.Parse(DocTypeId), result, Zamba.Membership.MembershipHelper.CurrentUser.ID), true, MissingSchemaAction.Ignore);
 
                         sr.entities.Add(new EntityDto() { id = Int64.Parse(DocTypeId), name = new DocTypesBusiness().GetDocTypeName(Int64.Parse(DocTypeId)), enabled = true });
                     }
@@ -231,7 +233,9 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
+        [OverrideAuthorization]
         [Route("api/search/NewgetAssociatedlist")]
+
         public IHttpActionResult NewgetAssociatedlist(genericRequest paramRequest)
         {
 
@@ -291,6 +295,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
+        [OverrideAuthorization]
         [Route("api/search/InsertResultGrid")]
         public IHttpActionResult InsertResultGrid(genericRequest paramRequest)
         {
@@ -370,6 +375,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
+        [OverrideAuthorization]
         [Route("api/search/setTaskIndexsSaveTable")]
         public IHttpActionResult setTaskIndexsSaveTable(genericRequest paramRequest)
         {
@@ -442,6 +448,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/DeleteAsociatedResult")]
+        [OverrideAuthorization]
         public void DeleteAsociatedResult(genericRequest paramRequest)
         {
             SResult sResult = new SResult();
@@ -466,6 +473,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/InsertResultGridOneResult")]
+        [OverrideAuthorization]
         public IHttpActionResult InsertResultGridOneResult(genericRequest paramRequest)
         {
 

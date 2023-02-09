@@ -980,9 +980,7 @@ Public Class CommonFunctions
                     sr.Close()
                     sr.Dispose()
                 End If
-                If Not String.IsNullOrEmpty(text) Then
-                    text = VarInterReglas.ReconocerVariablesValuesSoloTexto(text)
-                End If
+                text = VarInterReglas.ReconocerVariablesValuesSoloTexto(text)
                 Return text
             Catch ex As Exception
                 ZClass.raiseerror(ex)
@@ -1121,7 +1119,7 @@ Public Class CommonFunctions
                 Dim Spire As ISpireTools = Activator.CreateInstance(classType)
                 classType = Nothing
 
-                Spire.ExportToXLSx(resultado.Tables(0), RutaArchivo)
+                Spire.ExportToXLS(resultado.Tables(0), RutaArchivo)
 
                 Return RutaArchivo
             Catch ex As Exception
@@ -1252,9 +1250,8 @@ Public Class CommonFunctions
                         Result.IconId = RB.GetFileIcon(Result.File)
                         Dim VolumeListId As Int64 = VolumesBusiness.GetVolumeListId(Result.DocTypeId)
                         Dim DsVols As DataSet = VolumeListsBusiness.GetActiveDiskGroupVolumes(VolumeListId)
-
-                        Dim RF As New Results_Business
-                        RF.ReplaceDocument(Result, Result.Doc_File, True, Nothing)
+                        Dim RF As New Results_Factory
+                        RF.ReplaceDocument(Result, New FileInfo(Result.Doc_File), String.Empty, True, Nothing)
                         RF = Nothing
                         'Se copia al temporal para ser abierto al refrescar la tarea
                         Dim dirInfo As DirectoryInfo = Tools.EnvironmentUtil.GetTempDir("\OfficeTemp")
@@ -1712,7 +1709,7 @@ Public Class CommonFunctions
         Get
             Try
                 Dim sb As New StringBuilder
-                Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://zamba.com.ar/bpm")
+                Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://bpm.provinciaseguros.com.ar/bpm")
                 sb.Append("<style>.btn,body{font-weight:400;line-height:1.5}<style>.btn:not(:disabled):not(.disabled){cursor:pointer}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}.btn-outline-success{color:#28a745;background-color:transparent;background-image:none;border-color:#28a745}.btn{display:inline-block;text-align:center;white-space:nowrap;vertical-align:middle;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid transparent;padding:.375rem .75rem;font-size:1rem;border-radius:.25rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.btn:hover{color:#fff;background-color:#28a745;border-color:#28a745}button,select{text-transform:none}button,input{overflow:visible}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{border-radius:0}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,""Segoe UI"",Roboto,""Helvetica Neue"",Arial,sans-serif,""Apple Color Emoji"",""Segoe UI Emoji"",""Segoe UI Symbol"";font-size:1rem;color:#212529;text-align:left;background-color:#fff}:root{--blue:#007bff;--indigo:#6610f2;--purple:#6f42c1;--pink:#e83e8c;--red:#dc3545;--orange:#fd7e14;--yellow:#ffc107;--green:#28a745;--teal:#20c997;--cyan:#17a2b8;--white:#fff;--gray:#6c757d;--gray-dark:#343a40;--primary:#007bff;--secondary:#6c757d;--success:#28a745;--info:#17a2b8;--warning:#ffc107;--danger:#dc3545;--light:#f8f9fa;--dark:#343a40;--breakpoint-xs:0;--breakpoint-sm:576px;--breakpoint-md:768px;--breakpoint-lg:992px;--breakpoint-xl:1200px;--font-family-sans-serif:-apple-system,BlinkMacSystemFont,""Segoe UI"",Roboto,""Helvetica Neue"",Arial,sans-serif,""Apple Color Emoji"",""Segoe UI Emoji"",""Segoe UI Symbol"";--font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,""Liberation Mono"",""courier New"",monospace}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent}*,::after,::before{box-sizing:border-box}</style>")
                 sb.Append(String.Format("<a href=""{4}/views/WF/TaskSelector.ashx?DocTypeId={0}&docid={1}&taskid={2}&wfstepid=0""><button type=""button"" class=""btn btn-outline-success"">{3}</button></a>", AllObjects.Tarea.DocTypeId, AllObjects.Tarea.ID, AllObjects.Tarea.TaskId, nombre, url))
                 Return sb.ToString()
@@ -1728,7 +1725,7 @@ Public Class CommonFunctions
         Get
             Try
                 Dim sb As New StringBuilder
-                Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://zamba.com.ar/bpm")
+                Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://bpm.provinciaseguros.com.ar/bpm")
                 ' sb.Append("<style>.btn,body{font-weight:400;line-height:1.5}<style>.btn:not(:disabled):not(.disabled){cursor:pointer}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}.btn-outline-success{color:#28a745;background-color:transparent;background-image:none;border-color:#28a745}.btn{display:inline-block;text-align:center;white-space:nowrap;vertical-align:middle;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid transparent;padding:.375rem .75rem;font-size:1rem;border-radius:.25rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.btn:hover{color:#fff;background-color:#28a745;border-color:#28a745}button,select{text-transform:none}button,input{overflow:visible}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{border-radius:0}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,""Segoe UI"",Roboto,""Helvetica Neue"",Arial,sans-serif,""Apple Color Emoji"",""Segoe UI Emoji"",""Segoe UI Symbol"";font-size:1rem;color:#212529;text-align:left;background-color:#fff}:root{--blue:#007bff;--indigo:#6610f2;--purple:#6f42c1;--pink:#e83e8c;--red:#dc3545;--orange:#fd7e14;--yellow:#ffc107;--green:#28a745;--teal:#20c997;--cyan:#17a2b8;--white:#fff;--gray:#6c757d;--gray-dark:#343a40;--primary:#007bff;--secondary:#6c757d;--success:#28a745;--info:#17a2b8;--warning:#ffc107;--danger:#dc3545;--light:#f8f9fa;--dark:#343a40;--breakpoint-xs:0;--breakpoint-sm:576px;--breakpoint-md:768px;--breakpoint-lg:992px;--breakpoint-xl:1200px;--font-family-sans-serif:-apple-system,BlinkMacSystemFont,""Segoe UI"",Roboto,""Helvetica Neue"",Arial,sans-serif,""Apple Color Emoji"",""Segoe UI Emoji"",""Segoe UI Symbol"";--font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,""Liberation Mono"",""courier New"",monospace}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent}*,::after,::before{box-sizing:border-box}</style>")
                 sb.Append(String.Format("<a href=""{4}/views/WF/Taskviewer.aspx?DocTypeId={0}&docid={1}&taskid={2}&wfstepid=0""><button type=""button"" class=""btn btn-outline-success"">{3}</button></a>", AllObjects.Tarea.DocTypeId, AllObjects.Tarea.ID, AllObjects.Tarea.TaskId, nombre, url))
                 Return sb.ToString()
@@ -1743,7 +1740,7 @@ Public Class CommonFunctions
     Public ReadOnly Property LinkPublico() As String
         Get
             Try
-                Return ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://zamba.com.ar/bpm")
+                Return ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://bpm.provinciaseguros.com.ar/bpm")
             Catch ex As Exception
                 ZClass.raiseerror(ex)
                 Return String.Empty
@@ -1756,7 +1753,7 @@ Public Class CommonFunctions
         Get
             Try
                 Dim sb As New StringBuilder
-                Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://zamba.com.ar/bpm")
+                Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://bpm.provinciaseguros.com.ar/bpm")
                 url = url & "/Execute.html?processId=" & RuleId & "-" & AllObjects.Tarea.TaskId & "-" & AllObjects.Tarea.DocTypeId & "-" & AllObjects.Tarea.ID
                 '                sb.Append("<style>.btn,body{font-weight:400;line-height:1.5}<style>.btn:not(:disabled):not(.disabled){cursor:pointer}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}.btn-outline-success{color:#28a745;background-color:transparent;background-image:none;border-color:#28a745}.btn{display:inline-block;text-align:center;white-space:nowrap;vertical-align:middle;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid transparent;padding:.375rem .75rem;font-size:1rem;border-radius:.25rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.btn:hover{color:#fff;background-color:#28a745;border-color:#28a745}button,select{text-transform:none}button,input{overflow:visible}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button{border-radius:0}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,""Segoe UI"",Roboto,""Helvetica Neue"",Arial,sans-serif,""Apple Color Emoji"",""Segoe UI Emoji"",""Segoe UI Symbol"";font-size:1rem;color:#212529;text-align:left;background-color:#fff}:root{--blue:#007bff;--indigo:#6610f2;--purple:#6f42c1;--pink:#e83e8c;--red:#dc3545;--orange:#fd7e14;--yellow:#ffc107;--green:#28a745;--teal:#20c997;--cyan:#17a2b8;--white:#fff;--gray:#6c757d;--gray-dark:#343a40;--primary:#007bff;--secondary:#6c757d;--success:#28a745;--info:#17a2b8;--warning:#ffc107;--danger:#dc3545;--light:#f8f9fa;--dark:#343a40;--breakpoint-xs:0;--breakpoint-sm:576px;--breakpoint-md:768px;--breakpoint-lg:992px;--breakpoint-xl:1200px;--font-family-sans-serif:-apple-system,BlinkMacSystemFont,""Segoe UI"",Roboto,""Helvetica Neue"",Arial,sans-serif,""Apple Color Emoji"",""Segoe UI Emoji"",""Segoe UI Symbol"";--font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,""Liberation Mono"",""courier New"",monospace}html{font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent}*,::after,::before{box-sizing:border-box}</style>")
                 sb.Append(String.Format("<a href=""{1}"" target=""_blank""><button type=""button"" class=""btn btn-outline-success"">{0}</button></a>", nombre, url))
@@ -2234,7 +2231,7 @@ Public Class CommonFunctions
     Public ReadOnly Property ObtenerUrlPublica() As String
         Get
             Try
-                Return ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://zamba.com.ar/bpm")
+                Return ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://bpm.provinciaseguros.com.ar/bpm")
             Catch ex As Exception
                 ZClass.raiseerror(ex)
                 Return String.Empty

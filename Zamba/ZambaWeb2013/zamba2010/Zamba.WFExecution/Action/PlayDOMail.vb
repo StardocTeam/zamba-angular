@@ -53,7 +53,6 @@ Public Class PlayDOMail
     ''' <history> 
     ''' </history>
     Public Function Play(ByVal results As System.Collections.Generic.List(Of Core.ITaskResult)) As System.Collections.Generic.List(Of Core.ITaskResult)
-        'Seteamos una variable que guarda el path del documento local
         Return PlayWeb(results, Nothing)
     End Function
 
@@ -129,7 +128,7 @@ Public Class PlayDOMail
             ZTrace.WriteLineIf(ZTrace.IsInfo, "CC: " & Me.CC)
 
             obtenerCCO(res)
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "CCO: " & Me.CCO)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "CC: " & Me.CCO)
 
             Try
 
@@ -167,10 +166,6 @@ Public Class PlayDOMail
 
         Me.Para = Me.ReconocerGruposYUsuarios(Me.Para)
         ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail To: " & Me.Para)
-        If (String.IsNullOrEmpty(Me.Para) AndAlso ZOptBusiness.GetValueOrDefault("EMailThrowErrorIfTOIsEmpty", True)) Then
-            Throw New Exception("ERROR: Email - El destinatario no puede estar vacio, para permitir valor vacio en el Destinatario, configurar EMailThrowErrorIfTOIsEmpty en False")
-        End If
-
         Params.Add("To", Me.Para)
 
         Me.CC = Me.ReconocerGruposYUsuarios(Me.CC)
@@ -289,7 +284,6 @@ Public Class PlayDOMail
         ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail Imagenes: " & Me._myRule.PathImages)
         Params.Add("AttachPaths", PathImages)
         Params.Add("MailPathVariable", _myRule.MailPath)
-
         Return Params
     End Function
 
@@ -519,20 +513,17 @@ Public Class PlayDOMail
 
                         'si el grupo tiene usuario obtenemos los mails de todos
                         If usuarios.Count > 0 Then
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, $"El grupo tiene {usuarios.Count} usuarios")
-
                             For Each User As IUser In usuarios
                                 email = UB.FillUserMailConfig(User.ID)
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, $"El usuario {User.Name} en el grupo con email: {email}")
+
                                 If email IsNot Nothing AndAlso email.Mail IsNot Nothing AndAlso Not lsMails.Contains(email.Mail) Then
                                     lsMails.Add(email.Mail)
                                 End If
                             Next
                         Else
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, $"El grupo tiene {usuarios.Count} usuarios, se verifica si es un usuario directo")
                             'Si no es grupo es usuario (usuarios.Count = 0)
                             email = UB.FillUserMailConfig(Convert.ToInt64(valor))
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, $"El usuario con id {valor} con email: {email}")
+
                             If email IsNot Nothing AndAlso Not lsMails.Contains(email.Mail) Then
                                 lsMails.Add(email.Mail)
                             End If
@@ -551,20 +542,15 @@ Public Class PlayDOMail
                             usuarios = UserBusiness.GetGroupUsers(grId)
 
                             If usuarios.Count > 0 Then
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, $"El grupo tiene {usuarios.Count} usuarios")
                                 For Each User As IUser In usuarios
                                     email = UB.FillUserMailConfig(User.ID)
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"El usuario {User.Name} en el grupo con email: {email}")
 
                                     If email IsNot Nothing AndAlso Not lsMails.Contains(email.Mail) Then
                                         lsMails.Add(email.Mail)
                                     End If
                                 Next
                             Else
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, $"El grupo tiene {usuarios.Count} usuarios, se verifica si es un usuario directo")
-                                'Si no es grupo es usuario (usuarios.Count = 0)
                                 email = UB.FillUserMailConfig(us.ID)
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, $"El usuario con id {valor} con email: {email}")
 
                                 If email IsNot Nothing AndAlso Not lsMails.Contains(email.Mail) Then
                                     lsMails.Add(email.Mail)
@@ -620,8 +606,11 @@ Public Class PlayDOMail
         Dim smptMail As String
         Dim enableSsl As Boolean
 
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "**Inicio de regla PalyDoMail")
+
         Try
             If IsNothing(Params) Then
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**Los parametros son diferentes a nada")
                 Params = New Hashtable
             End If
 
@@ -629,17 +618,27 @@ Public Class PlayDOMail
             Me.resultsAux = New System.Collections.Generic.List(Of Core.ITaskResult)
 
             Try
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**iniciando el checkeo del historial")
                 MessagesBusiness.CheckHistoryExportPath()
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**Finalizado el checkeo del historial")
             Catch ex As Exception
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**Error en CheckHistoryExportPath()")
+
                 If Not Me._myRule.Automatic Then
                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en MessagesBusiness.CheckHistoryExportPath()")
                 End If
                 raiseerror(ex)
-                Throw
+                Throw ex
             End Try
 
             If Me._myRule.UseSMTPConfig Then
-
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**Regla DoMail: Obtenido configuracion de SMTP:")
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpServer: " & Me._myRule.SmtpServer)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpPass: " & Me._myRule.SmtpPass)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpUser: " & Me._myRule.SmtpUser)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpPort: " & Me._myRule.SmtpPort)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpMail: " & Me._myRule.SmtpMail)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpEnableSsl: " & Me._myRule.SmtpEnableSsl.ToString())
 
                 Dim valor As String = Me._myRule.SmtpServer
                 valor = WFRuleParent.ReconocerVariablesValuesSoloTexto(valor)
@@ -678,10 +677,11 @@ Public Class PlayDOMail
                 enableSsl = Me._myRule.SmtpEnableSsl
 
             Else
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "**Regla DoMail: NO HAY configuracion de SMTP...")
                 Dim ZOptB As New ZOptBusiness
 
                 If (ZOptB.GetValue("WebView_SendBySMTP") IsNot Nothing AndAlso ZOptB.GetValue("WebView_SendBySMTP").ToLower = "true") Then
-
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Obteniendo datos de la ZOPT cuando la opcion 'WebView_SendBySMTP' es 'true':")
                     mailUser = ZOptB.GetValue("WebView_UserSMTP")
                     mailPass = ZOptB.GetValue("WebView_PassSMTP")
                     smptMail = ZOptB.GetValue("WebView_FromSMTP")
@@ -693,6 +693,7 @@ Public Class PlayDOMail
                     End Try
 
                 ElseIf (Zamba.Membership.MembershipHelper.CurrentUser.eMail.Type = MailTypes.NetMail) Then '// el Then usuario usa smtp?
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Obteniendo datos del Zamba.Membership (CurrentUser.eMail.Type = MailTypes.NetMail):")
                     mailServer = Membership.MembershipHelper.CurrentUser.eMail.ProveedorSMTP
                     mailPass = Membership.MembershipHelper.CurrentUser.eMail.Password
                     mailUser = Membership.MembershipHelper.CurrentUser.eMail.UserName
@@ -700,6 +701,7 @@ Public Class PlayDOMail
                     smptMail = Membership.MembershipHelper.CurrentUser.eMail.Mail
                     enableSsl = Membership.MembershipHelper.CurrentUser.eMail.EnableSsl
                 Else
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Obteniendo datos de la ZOPT:")
                     mailUser = ZOptB.GetValue("WebView_UserSMTP")
                     mailPass = ZOptB.GetValue("WebView_PassSMTP")
                     smptMail = ZOptB.GetValue("WebView_FromSMTP")
@@ -713,6 +715,16 @@ Public Class PlayDOMail
                 End If
             End If
 
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpServer: " & mailServer)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpPass: " & mailPass)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpUser: " & mailUser)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpPort: " & mailPort)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpMail: " & smptMail)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**SmtpEnableSsl: " & enableSsl.ToString())
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**Configuracion SMTP obtenida con exito")
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "**Regla DoMail - groupMailTo: " & Me._myRule.groupMailTo.ToString())
             If (Me._myRule.groupMailTo) Then
                 If (results.Count > 0) Then
                     results(0).AutoName = "sinAttach"
@@ -727,29 +739,34 @@ Public Class PlayDOMail
                 Me.resultsAux.Clear()
                 Me.counter = 0
                 For Each r As TaskResult In results
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Result: " & r.ID.ToString())
                     Dim mailpath As String
                     Me.resultAux = results(Me.counter)
 
                     Dim parameters As Hashtable = Me.ReemplazarVariables(r, Zamba.Membership.MembershipHelper.CurrentUser.ID)
                     Dim entry As DictionaryEntry
                     For Each entry In parameters
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "**Result - parameters: " & entry.Value.ToString() & ": " & entry.Key.ToString())
                         Params.Add(entry.Key, entry.Value)
                     Next
 
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Result - AttachLink: " & _myRule.AttachLink.ToString())
                     Params.Add("AttachLink", _myRule.AttachLink)
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Result - SendDocument: " & _myRule.SendDocument.ToString())
                     Params.Add("SendDocument", _myRule.SendDocument)
 
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Result - ChildRulesIds: " & _myRule.ChildRulesIds.ToString())
                     If (_myRule.ChildRulesIds IsNot Nothing) Then
                         Params.Add("NextRuleIds", String.Join(",", _myRule.ChildRulesIds))
                     End If
 
                     entry = Nothing
-
                     parameters.Clear()
                     parameters = Nothing
 
                     isSendDocument(Me.resultAux)
-
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "**Regla PlayDoMail - Automatic: " & Me._myRule.Automatic.ToString())
 
                     If (Me._myRule.Automatic) Then
                         Dim mail As SendMailConfig = Nothing
@@ -759,6 +776,7 @@ Public Class PlayDOMail
                         Dim useWebService As Boolean
 
                         Try
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "**Regla PlayDoMail - SendDocument: " & Me._myRule.SendDocument.ToString())
                             If (Me._myRule.SendDocument) Then
                                 '//ver cuando el volumen es -2
                                 AttachOriginalDocument(r)
@@ -814,6 +832,7 @@ Public Class PlayDOMail
                             Next
 
                             sUseWebService = Zoptb.GetValue("UseWSSendMail")
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "**sUseWebService: " & sUseWebService)
 
                             If String.IsNullOrEmpty(sUseWebService) Then
                                 useWebService = False
@@ -831,7 +850,7 @@ Public Class PlayDOMail
                                 .MailTo = Params("To")
                                 .Cc = Params("CC")
                                 .Cco = Params("CCO")
-                                .Subject = Params("Subject").ToString().Replace(Environment.NewLine, " ").Replace(vbLf, " ")
+                                .Subject = Params("Subject")
                                 .Body = Params("Body")
                                 .IsBodyHtml = True
                                 .AttachFileNames = filePath
@@ -851,7 +870,7 @@ Public Class PlayDOMail
                             Return results
                         Catch ex As Exception
                             raiseerror(ex)
-                            Throw
+                            Throw ex
 
                         Finally
                             filePath = Nothing
@@ -871,7 +890,7 @@ Public Class PlayDOMail
                 Next
             End If
         Catch ex As Exception
-            Throw
+            Throw ex
         End Try
         Return results
     End Function
@@ -926,10 +945,10 @@ Public Class MailActions
         Me._smtpConfig = smtpconfig
     End Sub
 
-   
+
 
 #Region "Mensajes"
-   
+
 
     ''' <summary>
     ''' Obtiene los nombres originales de una lista de documentos y 

@@ -2,28 +2,28 @@
     display: none !important;
 }
 
-#MasterHeader {
+#MasterHeader{
     /*margin-bottom: 1px !important;*/
 }
 
 
 .advancedSearchBox {
-    /*display: block;
-    position: relative;*/
+    display: block;
+    position: relative;
     /*margin: 12px 0 0 0;*/
     /*margin-left: 20px;*/
-    /*border: 1px solid #337ab7;
+    border: 1px solid #337ab7;
     border-radius: 4px;
     -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;*/
+    -moz-border-radius: 4px;
     /*width: 95%;*/
-    /*margin: auto;*/
+    margin: auto;
     /*margin-top: 10px;
     margin-bottom: 3px;*/
-    /*padding: 0 9px;
+    padding: 0 9px;
     background-color: #fff;
     cursor: text;
-    box-shadow: 0.5px 0.5px 0.5px rgba(0,0,0,0.6)*/
+    box-shadow: 0.5px 0.5px 0.5px rgba(0,0,0,0.6)
 }
 
 #tabhome {
@@ -122,10 +122,11 @@
 
 .advancedSearchBox .search-parameter-input {
     display: inline-block;
+    width: auto;
     /*height: 24px;
         width: 200px;*/
-    height: auto;
-    width: 100%;
+    height:auto;
+    /*width: 80%;*/
     border: 0;
     margin: 0;
     /*padding: 0;*/
@@ -135,13 +136,6 @@
     position: relative;
     background-color: rgba(255, 255, 255, 0);
     bottom: 3px;
-    color: #777;
-    font-family: Roboto,Helvetica Neue,sans-serif;
-    border-color: #f5f5f5;
-    color: #FAFAFD;
-    border-radius: 0;
-    border-style: solid;
-    border-width: 0 0 1px;
 }
 
     .advancedSearchBox .search-parameter-input:focus {
@@ -172,15 +166,6 @@
         background-color: #bdbdbd;
         color: #fff;
     }
-
-
-.borderColor {
-    border-color: #ceced2 !important;
-}
-
-.search-parameter-input .ng-pristine .ng-valid .ng-empty .ng-touched::placeholder {
-    color: red;
-}
 
 /*.entity {
  
@@ -705,6 +690,7 @@ strong {
     margin-left: 45px;
     position: relative;
     bottom: 12px;
+    
 }
 
 #searchboxControl > ul > li:nth-child(even) {
@@ -712,8 +698,7 @@ strong {
 }
 
 #searchboxControl > ul > li:hover {
-    background-image: linear-gradient(to bottom,#f5f5f5,#fafafa 100%) !important;
-    color: #777;
+    background-image: linear-gradient(to bottom,#f4fbfd,#f4fbfd 100%) !important;
 }
 
 .GSTxtInModalHeader {
@@ -764,17 +749,15 @@ strong {
     font-size: 13px;
     margin: 0;
     padding: 0;
-    margin-right: 4px;
+    margin-right: 10px;
 }
 
 /*Para provincia*/
 .clientlogo {
     /*background: url(../../App_Themes/Modoc/Images/Logo.jpg) no-repeat;
     background: url(../../App_Themes/Provincia/Images/Logo.jpg) no-repeat;*/
-    width: 285px !important;
-    margin-left: -44px;
+    width: 112px;
     position: relative;
-    height: 158px !important;
     background-size: contain !important;
 }
 
@@ -794,6 +777,18 @@ strong {
 }
 
 
+.customer-photo {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-size: 32px 35px;
+    background-position: center center;
+    vertical-align: middle;
+    line-height: 32px;
+    box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+    margin-left: 5px;
+}
 
 .k-grid td {
     white-space: nowrap;
@@ -804,353 +799,14 @@ strong {
     padding-top: 2px !important;
 }
 
-.md-btn {
-    margin-left: 4px !important;
-    margin-right: 4px !important;
-}
-
-.md-badge {
-    background-color: white !important;
-    color: #57c1e0 !important;
-}
-
-
-#md-visualizerModeGS {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    /*fix to glifIcon*/
-    top: 0px !important;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-    font-size: xx-large !important;
-    font-family: unset !important;
-}
-
-/*fabButton white*/
-.md-fab-white {
-    background-color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    border-color: black !important;
-    /*fix to glifIcon*/
-    top: 0px !important;
-    font-size: xx-large !important;
-    font-family: unset !important;
-}
-
-.md-fab-white {
-    background-color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    border-color: black !important;
-    /*fix to glifIcon*/
-    top: 0px !important;
-    font-size: xx-large !important;
-    font-family: unset !important;
-}
-
-
-
-/*#previewDocSearch{
-    height: 100% !important;
-}*/
-
-.md-btn-info {
-    background-color: #57c1e0 !important;
-    color: white !important;
-}
-
-    .md-btn-info active {
-        background-color: #ffb700 !important;
-        color: #634700 !important;
-    }
-
-.md-btn-warning {
-    background-color: #42bd3e !important;
-    color: white !important;
-}
-
-    .md-btn-warning active {
-        background-color: #42bd3e !important;
-        color: white !important;
-    }
-
-
-.md-warn .sm-warn .lg-warn {
-    background-color: rgb(255,87,34) !important;
-    color: white !important;
-}
-
-.md-button.md-warn.md-raised:not([disabled]) md-icon {
-    color: aliceblue !important;
-}
-
-.md-fab-MyTasksAnchor {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px !important;
-    margin-right: 1px !important;
-}
-/*Toolbar*/
-.div#taskController {
-    display: inline-block !important;
-}
-
-#BtnAcciones {
-    background-color: var(--ZBlue) !important;
+#showpanel, #btnshowfilters {
+    background-color: deepskyblue;
+    border: 1px deepskyblue solid;
     color: white;
-    font-size: 11px;
-}
-
-.toolbarKendoGrid {
-    font-size: 12px;
-}
-
-.k-checkbox {
-    margin-left: 35% !important;
-}
-
-.md-fab#btnshowfilters {
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 5px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-
-.md-fab#BtnDerivar {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-
-.md-fab.BtnPreview {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-
-.md-fab#OpenAllSelected {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-
-.md-fab#BtnSendEmail {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-
-.md-fab#BtnSendZip {
-    background-color: var(--ZBlue) !important;
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-
-.md-fab#BtnDownloadZip {
-    background-color: var(--ZBlue);
-    color: white !important;
-    line-height: 3.6rem !important;
-    min-width: 0px !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 50% !important;
-    top: 0px !important;
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: xx-large;
-    font-family: unset;
-}
-/*Toolbar*/
-.BtnZipDisable {
-    background-color: #999 !important;
-    pointer-events: none;
-}
-
-
-#navbarSupportedContent {
-    margin-top: 10px !important;
-}
-
-#ToolbaResults {
-    margin-bottom: 0px !important;
-}
-
-.md-label {
-    margin-top: 10px !important;
-    margin-bottom: 7px !important;
-}
-
-.md-span {
-    margin-top: inherit !important;
-    margin-left: -2px !important;
-}
-
-
-#md-span-white #BtnExportToExcel {
-    background-color: none;
-    line-height: 3.6rem;
-    min-width: 0px;
-    width: 3.6rem;
-    height: 3.6rem;
-    border-radius: 0%;
-    top: 0px;
-    margin-left: 1px;
-    margin-right: 1px;
-}
-
-    #md-span-white #BtnExportToExcel img {
-       // width: 30px;
-        height: 30px;
-        margin-bottom: inherit;
-        margin-left: -5px;
-        border-radius: 0%;
-    }
-
-.mdnoTop {
-    margin-top: 0px !important;
-}
-
-.md-btn-green {
-    background-color: #42bd3e !important;
-    color: white !important;
-}
-
-    .md-btn-green:not([disabled]):hover {
-        background-color: #81de7e !important;
-        color: white !important;
-    }
-
-.md-btn-filter {
-    background-color: #40d8ff !important;
-    color: white !important;
-}
-
-    .md-btn-filter:not([disabled]):hover {
-        background-color: #87e7ff !important;
-        color: white !important;
-    }
-
-.mdhoverWhite:not([disabled]):hover {
-    background-color: rgb(255, 255, 255);
-}
-
-.md-btn-basic {
-    background-color: white !important;
-    color: black !important;
-}
-
-    .md-btn-basic.btn-disabled {
-        background-color: #cccccc !important;
-        color: #777777 !important;
-    }
-
-.md-datepicker-triangle-button.md-icon-button.md-button{
-    display: none !important;
-}
-
-.md-searchbox-on {
-    background-color: #ffb100 !important;
-}
-
-input::placeholder{
-    color: gray;
-}
-
-.IFFLoatOpenBtn {
-    width: 33px;
-    height: 33px;
-    background: var(--ZDarkBlue);
-    right: 0;
-    position: absolute;
-    margin-right: 28px;
-    margin-top: 4px;
-    border: none;
-    border-radius: 4px;
-    outline: none;
-    color: #FFF;
-    transition: .3s;
-}
-    .IFFLoatOpenBtn:hover {
-        background: #337ab78f;
-    }    
-
-    .IFFLoatOpenBtn:active {
-        transform: scale(1.1);
-    }
-
-.md-span-IFFLoatOpenBtn {
-    font-size: 22px !important;
-    line-height: 19.5px !important;
-    padding-left: 1.5px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 #VisualButtonsBar {
@@ -1175,8 +831,8 @@ input::placeholder{
     z-index: 9;
 }
 
-.typeaheadTR {
-    cursor: pointer;
+.typeaheadTR{
+    cursor:pointer;
 }
 
 
@@ -1205,8 +861,8 @@ input::placeholder{
 .switch {
     position: relative;
     display: inline-block;
-    width: 45px;
-    height: 20px;
+    width: 60px;
+    height: 26px;
 }
 
     /* Hide default HTML checkbox */
@@ -1230,9 +886,9 @@ input::placeholder{
     .slider:before {
         position: absolute;
         content: "";
-        height: 16px;
-        width: 16px;
-        left: 2px;
+        height: 22px;
+        width: 22px;
+        left: 4px;
         bottom: 2px;
         background-color: white;
         -webkit-transition: .4s;
@@ -1240,7 +896,7 @@ input::placeholder{
     }
 
 input:checked + .slider {
-    background-color: var(--ZBlue);
+    background-color: #337ab7;
 }
 
 input:focus + .slider {
@@ -1250,7 +906,7 @@ input:focus + .slider {
 input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
-    transform: translateX(25px);
+    transform: translateX(26px);
 }
 
 /* Rounded sliders */
@@ -1262,24 +918,25 @@ input:checked + .slider:before {
         border-radius: 50%;
     }
 
-.switch {
-    vertical-align: sub;
-    top: 8px;
-}
+
 
 ::-webkit-input-placeholder {
+   
     opacity: 1 !important;
 }
 
 :-moz-placeholder { /* Firefox 18- */
+  
     opacity: 1 !important;
 }
 
 ::-moz-placeholder { /* Firefox 19+ */
+ 
     opacity: 1 !important;
 }
 
 :-ms-input-placeholder {
+   
     opacity: 1 !important;
 }
 
@@ -1419,14 +1076,3 @@ input:checked + .slider:before {
     background-image: linear-gradient(to bottom, #db8c1c 0%, #db8c1c 100%) !important;
 }
 
-
-
-
-.k-treeview .k-in {
-    margin: 0 0 0 0.3333 em;
-    padding: 0.3 em 0.4 em 0.3 em 0.5833 em;
-    line-height: 1.3333em;
-    text-decoration: none;
-    border-style: solid;
-    border-width: 1 px;
-}

@@ -4,8 +4,8 @@ var serviceBase = ZambaWebRestApiURL;
 app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
     var zambaTaskFactory = {};
 
-    //ver de poner async en IE
-    function executeTaskRule(ruleId, resultIds, formVars) {
+        //ver de poner async en IE
+    function executeTaskRule(ruleId, resultIds, formVars) {  
         var response = null;
 
         if (formVars == undefined) {
@@ -57,8 +57,8 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
                 }
             };
         }
-
-        return $http.post(serviceBase + '/tasks/ExecuteTaskRule', JSON.stringify(genericRequest));
+        
+        return $http.post(serviceBase + '/tasks/ExecuteTaskRule', JSON.stringify(genericRequest));  
     };
 
     function MarkAsFavorite(TaskId, UserId, Mark) {
@@ -91,31 +91,7 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
                     response = data;
                 }
         });
-        return response;
-    }
-
-    //Obtiene las RuleActions para el usuario conectado.
-    function _LoadUserAction_ForMyTaskGrid(stepId, docId) {
-        var response = null;
-        var paramRequest = {
-            UserId: parseInt(GetUID()),
-            Params: {
-                "stepId": stepId,
-                "docId": docId
-            }
-        };
-
-        $.ajax({
-            type: "POST",
-            url: serviceBase + '/Tasks/LoadUserAction_ForMyTaskGrid',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(paramRequest),
-            async: false,
-            success: function (data, status, headers, config) {
-                response = data;
-            }
-        });
-        return response;
+        return response; 
     }
 
 
@@ -123,12 +99,11 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
     zambaTaskFactory.executeTaskRule = executeTaskRule;
     zambaTaskFactory.executeAction_onItems = _executeAction_onItems;
     zambaTaskFactory.getResultsGridActions = _getResultsGridActions;
-    zambaTaskFactory.LoadUserAction_ForMyTaskGrid = _LoadUserAction_ForMyTaskGrid;
     zambaTaskFactory.MarkAsFavorite = MarkAsFavorite;
 
 
 
-    function _getAttributeDescription(AttributeId, AttributeValue) {
+     function _getAttributeDescription(AttributeId, AttributeValue) {
         var genericRequest = {
             UserId: parseInt(GetUID()),
             Params: {
@@ -141,7 +116,7 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
 
     zambaTaskFactory.getAttributeDescription = _getAttributeDescription;
 
-
+   
 
     function _getAttributeDescriptionMotivoDemanda(Motivo, Ramo, reportId) {
         var genericRequest = {
@@ -159,11 +134,11 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
 
 
 
-    function getAttributeListMotivoDemanda(Ramo, reportId) {
+    function getAttributeListMotivoDemanda( Ramo, reportId) {
         var genericRequest = {
             UserId: parseInt(GetUID()),
             Params: {
-
+               
                 "Ramo": Ramo,
                 "reportId": reportId
             }
@@ -174,7 +149,7 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
     zambaTaskFactory.getAttributeListMotivoDemanda = getAttributeListMotivoDemanda;
 
 
-
+    
 
     return zambaTaskFactory;
 }]);

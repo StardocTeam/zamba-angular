@@ -9,9 +9,8 @@
 
 
 
-public partial class TaskViewer
-{
-
+public partial class TaskViewer {
+    
     /// <summary>
     /// hdnTaskID control.
     /// </summary>
@@ -20,7 +19,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnTaskID;
-
+    
     /// <summary>
     /// hdnUserId control.
     /// </summary>
@@ -29,7 +28,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnUserId;
-
+    
     /// <summary>
     /// hdnPushNotification_player_id control.
     /// </summary>
@@ -38,7 +37,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnPushNotification_player_id;
-
+    
     /// <summary>
     /// hdnPushNotification_app_id control.
     /// </summary>
@@ -47,7 +46,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnPushNotification_app_id;
-
+    
     /// <summary>
     /// hdnConnectionId control.
     /// </summary>
@@ -56,7 +55,16 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnConnectionId;
-
+    
+    /// <summary>
+    /// hdnToken control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField hdnToken;
+    
     /// <summary>
     /// UC_WFExecution control.
     /// </summary>
@@ -65,7 +73,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::UC_WF_UCWFExecution UC_WFExecution;
-
+    
     /// <summary>
     /// ucTaskHeader control.
     /// </summary>
@@ -74,7 +82,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::TaskHeader ucTaskHeader;
-
+    
     /// <summary>
     /// ucTaskDetail control.
     /// </summary>
@@ -83,7 +91,7 @@ public partial class TaskViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::TaskDetail ucTaskDetail;
-
+    
     /// <summary>
     /// modalIframe control.
     /// </summary>

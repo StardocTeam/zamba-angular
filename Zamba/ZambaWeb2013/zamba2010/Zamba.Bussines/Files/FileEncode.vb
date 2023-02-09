@@ -30,7 +30,8 @@ Public Class FileEncode
             Return filebytes
 
         Catch ex As Exception
-            ZTrace.WriteLineIf(ZTrace.IsWarning, ex.Message)
+            ZTrace.WriteLineIf(ZTrace.IsError, ex.Message)
+            Zamba.Core.ZClass.raiseerror(ex)
             Return Nothing
         End Try
     End Function

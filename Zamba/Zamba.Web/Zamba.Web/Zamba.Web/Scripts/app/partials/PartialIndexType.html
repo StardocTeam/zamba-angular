@@ -1,61 +1,37 @@
 ﻿
-    <div class="InputFilter" ng-show="Filter.Name != '' && Filter.Name != undefined"style="display: inline" ngcloak>
-
+    <div class="col-xs-8 InputFilter">
         <!--Numerico (1.2)-->
-        <input style="  margin-right: 5px;  " name="srch-term" autocomplete="off" ng-keypress="searchFiltersByEnter($event)" required class=" form-control form-control-sm  activeIn2 activeIn TaskInput z-select-filter" type="number" ng-attr-id=" " placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && (Filter.Type == 1 || Filter.Type == 2) && (Filter.DropDown != 2 && Filter.DropDown != 4 )" format-number />
-
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class=" form-control form-control-sm  activeIn2 activeIn TaskInput" type="number" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="(Filter.Type == 1 || Filter.Type == 2) && (Filter.DropDown != 2 && Filter.DropDown != 4 )" format-number />
 
         <!--Moneda y Decimal (3.6)-->
-        <input style="  margin-right: 5px; " name="srch-term" autocomplete="off" ng-keypress="searchFiltersByEnter($event)" required class="form-control form-control-sm  activeIn2 activeIn TaskInput z-select-filter" type="number" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-keypress="val_formatNumber($event);" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 3" format-number />
-
-        <input style="  margin-right: 5px; " name="srch-term" autocomplete="off" ng-keypress="searchFiltersByEnter($event)" required class="form-control form-control-sm  activeIn2 activeIn TaskInput z-select-filter" type="number" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-keypress="val_formatNumber($event);" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 6" format-number />
-
-
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput" type="number" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 3" format-number />
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput" type="number" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 6" format-number />
         <!--Fecha y Fecha y Hora (4.5)-->
-        <input style="  margin-right: 5px;  " name="srch-term" required class="fechaInput form-control form-control-sm datepicker activeIn2 activeIn TaskInput z-select-filter" autocomplete="off" ng-focus="subscribeItem_datepicker()" type="text" ng-attr-id="Filter.ID" ng-attr-name="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 4" ng-keypress="searchFiltersByEnter($event)" />
-
-        <input style="  margin-right: 5px; " name="srch-term" required class="fechaInput form-control form-control-sm datepicker  activeIn2 activeIn TaskInput z-select-filter" autocomplete="off" ng-focus="subscribeItem_datepicker()" type="text" ng-attr-id="Filter.ID" ng-attr-name="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 5" ng-keypress="searchFiltersByEnter($event)"/>
-
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class="fechaInput form-control form-control-sm datepicker activeIn2 activeIn TaskInput" autocomplete="off" ng-focus="subscribeItem_datepicker()" type="text" ng-attr-id="Filter.ID" ng-attr-name="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 4" />
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class="fechaInput form-control form-control-sm datepicker  activeIn2 activeIn TaskInput" autocomplete="off" ng-focus="subscribeItem_datepicker()" type="text" ng-attr-id="Filter.ID" ng-attr-name="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 5" />
 
         <!--Alfanumerico (7.8)-->
-        <input style="  margin-right: 5px; " name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput z-select-filter" autocomplete="off" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && (Filter.Type == 7 || Filter.Type == 8)  && (Filter.DropDown == 0) " ng-keypress="searchFiltersByEnter($event)"/>
-
-        <input style="  margin-right: 5px;  " name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput z-select-filter" autocomplete="off" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.dataDescription" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && (Filter.Type == 7 || Filter.Type == 8)  && (Filter.DropDown == 1|| Filter.DropDown == 3) " uib-typeahead="item.Value for item in getList(Filter,$viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-cancelButton="true" typeahead-template-url="itemTpl.html" ng-keypress="searchFiltersByEnter($event)"/>
-
-        <input style="  margin-right: 5px;  " name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput z-select-filter" autocomplete="off" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.dataDescription" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && (Filter.Type == 7 || Filter.Type == 8  || Filter.Type == 1 || Filter.Type == 2) && (Filter.DropDown == 2 || Filter.DropDown == 4 )" uib-typeahead="item.Value for item in getList(Filter,$viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-cancelButton="true" typeahead-template-url="itemTpl.html" ng-keypress="searchFiltersByEnter($event)"/>
-
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="(Filter.Type == 7 || Filter.Type == 8)  && (Filter.DropDown == 0) " />
+        <input style="border-right:none;  margin-right: 21px;" name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.dataDescription" ng-change="FilterDataChanged()" ng-if="(Filter.Type == 7 || Filter.Type == 8)  && (Filter.DropDown == 1|| Filter.DropDown == 3) " uib-typeahead="item.Value for item in getList(Filter,$viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-cancelButton="true" typeahead-template-url="itemTpl.html" />
+        <input style="border-right:none;" name="srch-term" required class="form-control form-control-sm  activeIn2 activeIn TaskInput" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.dataDescription" ng-change="FilterDataChanged()" ng-if="(Filter.Type == 7 || Filter.Type == 8  || Filter.Type == 1 || Filter.Type == 2) && (Filter.DropDown == 2 || Filter.DropDown == 4 )" uib-typeahead="item.Value for item in getList(Filter,$viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-cancelButton="true" typeahead-template-url="itemTpl.html" />
 
         <!--Checkbox (9)-->
         <label ng-if="Filter.Type == 9" class="control-label col-md-8" for="{{Filter.ID}}">{{Filter.Name}}</label>
-        <input type="checkbox" ng-attr-id="Filter.ID" style="float:left;" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="saveData(Search.Filters[$Filter])" ng-if="FilterIsShowing == true && Filter.Type == 9" value="{{Filter.Name}}" />
+        <input type="checkbox" ng-attr-id="Filter.ID" style="float:left;" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="saveData(Search.Filters[$Filter])" ng-if="Filter.Type == 9" value="{{Filter.Name}}" />
 
-        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="tel" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 10" />
-        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="time" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 11" />
-        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="url" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 13" />
-        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="week" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 12" />
-        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="image" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 14" />
-        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="email" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="FilterIsShowing == true && Filter.Type == 15" />
+        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="tel" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 10" />
+        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="time" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 11" />
+        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="url" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 13" />
+        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="week" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 12" />
+        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="image" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 14" />
+        <input class="form-control form-control-sm  activeIn activeIn2 TaskInput" onchange="InputSelec(this)" type="email" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model="Filter.Data" ng-change="FilterDataChanged()" ng-if="Filter.Type == 15" />
         <!--Borra todos los inputs-->
     </div>
-    <div class="input-group hidden-xs">
+    <div class="input-group hidden-xs" >
         <input class="btn btn-default " id="BtnClear" style="display:none;" ng-click="CleanAllInputs()" onclick="cleanBorder(this)" type="submit" />
-        <!--<span class="btn-circleMaterialInBoostrap " > <i class="fa fa-search btnBlue"></i></span>-->
-        <span class="material-icons" id="Slst" ng-if="FilterIsShowing == true &&  ( Filter.DropDown == 1 || Filter.DropDown == 2 || Filter.DropDown == 3|| Filter.DropDown == 4) && (Filter.Name != '' && Filter.Name != undefined)" ng-click="showListFirstTime2(Filter,false) ">
-            search
-        </span>
-        <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" id="btnAddFilter" ng-show="Filter != null" ng-click="AddFilter()">
-            <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt" title="Agregar">
-                add
-            </md-icon>
-        </button>
-        <button class="md-button md-ink-ripple alignTextIcon" ng-hide="Filter == null" ng-click="CleanFilterInputs()" ng-if="FilterIsShowing == true && (Filter.Name != '' && Filter.Name != undefined)" type="button" ng-transclude="" id="btnclear">
-            <md-icon class="material-icons-outlined md-span ng-scope material-icons" role="img" aria-label="filter_alt">
-                delete
-            </md-icon>
-        </button>
-        <!--<span class="btn-circleMaterialInBoostrap " ng-hide="Filter == null" ng-click="CleanFilterInputs()"  type="submit" ng-if="FilterIsShowing == true && (Filter.Name != '' && Filter.Name != undefined)"><i class="fa fa-trash-o "></i></span>-->
+        <span class="btn  btn-default " id="Slst" ng-if="Filter.DropDown == 1 || Filter.DropDown == 2 || Filter.DropDown == 3|| Filter.DropDown == 4" ng-click="showListFirstTime2(Filter,false)"> <i class="fa fa-search btnBlue"></i></span>
+        <span class="btn btn-default btntrash" ng-hide="Filter == null" ng-click="CleanData(Search.Filters[$Filter])" onclick="ClearBtn(); cleanBorder(this)" type="submit"><i class="fa fa-trash-o "></i></span>
     </div>
-
 <div class="col-xs-3 col-md-2 " style="display:none">
     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
     <div ng-show="noResults">
@@ -84,9 +60,8 @@
             </div>
             <div class="modal-body" id="modalFormHome">
                 <div class="SelecRow">
-                    <form action="/" method="post" autocomplete="off">
-                        <input class="form-control form-control-smcol-xs-12 col-sm-12 col-md-8 ModalInput" autocomplete="off" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model=" Filter.dataDescription" ng-change="showlistFilter(Filter,false,false)" />
-                    </form>
+                    <input class="form-control form-control-smcol-xs-12 col-sm-12 col-md-8 ModalInput" type="text" ng-attr-id="Filter.ID" placeholder="{{Filter.Name}}" ng-model=" Filter.dataDescription" ng-change="showlistFilter(Filter,false,false)" />
+
                     <!--<a class="BtnTrashModal" onclick="CleanInputModal()" ng-click="ShowListAfter()"><i class="fa fa-trash-o fa-2x"></i></a>-->
                 </div>
                 <table class="table">

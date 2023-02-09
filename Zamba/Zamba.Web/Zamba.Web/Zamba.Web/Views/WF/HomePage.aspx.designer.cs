@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Zamba.Web.Views.UC.Home
-{
-
-
-    public partial class HomePage
-    {
-
+namespace Zamba.Web.Views.UC.Home {
+    
+    
+    public partial class HomePage {
+        
         /// <summary>
         /// form control.
         /// </summary>
@@ -22,7 +20,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form;
-
+        
         /// <summary>
         /// hdnUserId control.
         /// </summary>
@@ -31,7 +29,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnUserId;
-
+        
         /// <summary>
         /// hdnPushNotification_player_id control.
         /// </summary>
@@ -40,7 +38,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnPushNotification_player_id;
-
+        
         /// <summary>
         /// hdnPushNotification_app_id control.
         /// </summary>
@@ -49,7 +47,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnPushNotification_app_id;
-
+        
         /// <summary>
         /// hdnConnectionId control.
         /// </summary>
@@ -58,7 +56,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnConnectionId;
-
+        
         /// <summary>
         /// hidLastTab control.
         /// </summary>
@@ -67,7 +65,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidLastTab;
-
+        
         /// <summary>
         /// HiddenTaskId control.
         /// </summary>
@@ -76,7 +74,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HiddenTaskId;
-
+        
         /// <summary>
         /// HiddenDocID control.
         /// </summary>
@@ -85,7 +83,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HiddenDocID;
-
+        
         /// <summary>
         /// HiddenCurrentFormID control.
         /// </summary>
@@ -94,7 +92,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HiddenCurrentFormID;
-
+        
         /// <summary>
         /// hdnsender control.
         /// </summary>
@@ -103,7 +101,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton hdnsender;
-
+        
         /// <summary>
         /// ScriptManager1 control.
         /// </summary>
@@ -112,7 +110,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager ScriptManager1;
-
+        
         /// <summary>
         /// UC_WFExecution control.
         /// </summary>
@@ -121,16 +119,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::UC_WF_UCWFExecution UC_WFExecution;
-
-        /// <summary>
-        /// emptyMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl emptyMessage;
-
+        
         /// <summary>
         /// pnl control.
         /// </summary>
@@ -139,7 +128,7 @@ namespace Zamba.Web.Views.UC.Home
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl pnl;
-
+        
         /// <summary>
         /// modalIframe control.
         /// </summary>

@@ -14,13 +14,13 @@ for (i = 0; i < accd.length; i++) {
     });
 }
 function ConfigurationModuleUser() {
-    var data = window.localStorage.getItem('UV|' + GetUID());
+    var data = localStorage.getItem('UV|' + GetUID());
     //alert(data );
     if (data == "true") {
         GetUsersPanel();
         GetGroupsPanel();
     } else {
-        var userValue = $(".z-userName")[0].title;
+        var userValue = $('#UserNameLink')[0].innerHTML;
         $('.UserSelected')[0].textContent = userValue;
         $('.UserSelected')[0].id = parseInt(GetUID());
         PanelShow();
@@ -52,19 +52,19 @@ $("#SearchGoupsPanel").on("keyup", function () {
 function GetGroupsPanel() {
     $(".GroupsPanel").empty();
     var userActivo = GetUID();
-    var eia = window.localStorage.getItem('TaskFilterConfig-' + userActivo);
+    var eia = localStorage.getItem('TaskFilterConfig-' + userActivo);
     var eia = JSON.parse(eia);
     var stepId = eia.UserId;
 
     var data;
-    if (window.localStorage) {
-        var localUserGroupsByStepId = window.localStorage.getItem('localUserGroupsByStepId' + stepId);
+    if (localStorage) {
+        var localUserGroupsByStepId = localStorage.getItem('localUserGroupsByStepId' + stepId);
         if (localUserGroupsByStepId != undefined && localUserGroupsByStepId != null && localUserGroupsByStepId != "null") {
             try {
                 data = JSON.parse(localUserGroupsByStepId);
 
             } catch (e) {
-                console.error(e);
+                console.log(e);
                 data = LoadlocalUserGroupsByStepIdFromDB1(stepId);
             }
         }
@@ -89,19 +89,19 @@ function GetGroupsPanel() {
 function GetUsersPanel() {
     $(".Users").empty();
     var userActivo = GetUID();
-    var eia = window.localStorage.getItem('TaskFilterConfig-' + userActivo);
+    var eia = localStorage.getItem('TaskFilterConfig-' + userActivo);
     var eia = JSON.parse(eia);
     var stepId = eia.UserId;
 
     var data;
-    if (window.localStorage) {
-        var localUsersByStepId = window.localStorage.getItem('localUsersByStepId' + stepId);
+    if (localStorage) {
+        var localUsersByStepId = localStorage.getItem('localUsersByStepId' + stepId);
         if (localUsersByStepId != undefined && localUsersByStepId != null && localUsersByStepId != "null") {
             try {
                 data = JSON.parse(localUsersByStepId);
 
             } catch (e) {
-                console.error(e);
+                console.log(e);
                 data = LoadlocalUsersByStepIdFromDB1(stepId);
             }
         }
@@ -407,7 +407,7 @@ function LoadUserConfigModul() {
     }
     arrayList.push({ key: "MyTeamEntities", value: cbxTareaEquipoArray });
 
-    clearAllCache(false);
+    clearAllCache();
 }
 
 

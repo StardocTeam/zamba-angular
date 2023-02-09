@@ -4,8 +4,8 @@
 
 
 
-<link rel="Stylesheet" type="text/css" href="../../Content/Styles/GridThemes/GridViewGray.css?v=249" />
-<script type="text/javascript" src="../../Scripts/jquery.quicksearch.min.js?v=248"></script>
+<link rel="Stylesheet" type="text/css" href="../../Content/Styles/GridThemes/GridViewGray.css" />
+<script type="text/javascript" src="../../Scripts/jquery.quicksearch.min.js"></script>
 
 <%--<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>--%>
 <%--<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>--%>
@@ -15,20 +15,12 @@
 
 
 <script type="text/javascript">
-
+   
     var doubleclickevent = false;
     var EnterEvent = false;
     var pos = 0;
 
     $(document).ready(function (e) {
-
-
-        //var ModalIF = document.getElementById("openModalIFContentUcRules");
-
-        //ModalIF.parentElement.style.minHeight = "562px";
-        //ModalIF.parentElement.style.maxHeight = "662px";
-        //ModalIF.parentElement.style.minWidth = "1000px";
-        //ModalIF.parentElement.style.maxWidth = "1200px";
 
         $(".Body-Master-Blanck").css("overflow", "hidden");
 
@@ -54,21 +46,10 @@
         $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody tr ');
         FormatTable();
 
-        $('#openModalIFContentUcRules').dialog({ height: 'auto', width: '72%' });
-        document.getElementById("openModalIFContentUcRules").style.minWidth = "1000px";
-        document.getElementById("openModalIFContentUcRules").style.maxWidth = "1350px";
-        document.getElementById("openModalIFContentUcRules").style.minHeight = "500px";
-        document.getElementById("openModalIFContentUcRules").style.maxHeight = "662px";
-        document.getElementById("openModalIFContentUcRules").parentElement.style.minWidth = "1000px";
-        document.getElementById("openModalIFContentUcRules").parentElement.style.maxWidth = "1350px";
-        document.getElementById("openModalIFContentUcRules").parentElement.style.minHeight = "530px";
-        document.getElementById("openModalIFContentUcRules").parentElement.style.maxHeight = "687px";
-        document.getElementById("openModalIFContentUcRules").parentElement.style.left = "12%";
-        document.getElementById("openModalIFContentUcRules").parentElement.style.top = "20px";
-        document.getElementById("openModalIFContentUcRules").style.overflow = "hidden";
+        $('#openModalIFContentUcRules').dialog({ height: 'auto', width: '90%' });
 
-        $('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable').css('z-index', '9999');
-        $('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable').css('top', '38px');
+        $('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable').css('z-index', '2000');
+        $('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable').css('top', '45px');
 
         $('.modal-backdrop.fade.in').css('display', 'none');
 
@@ -81,10 +62,11 @@
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
 
+       
 
     });
 
-
+ 
 
     jQuery.fn.single_double_click = function (single_click_callback, double_click_callback, timeout) {
         return this.each(function () {
@@ -106,9 +88,8 @@
     }
 
 
-    function InitializeTable() {
-
-
+    function InitializeTable()
+    {
         var grid = $("#ContentPlaceHolder_UC_WFExecution_ShowDoShowTable_dgValue");
 
         //Por cada GridView que se encuentre modificar el código HTML generado para agregar el THEAD.
@@ -127,7 +108,7 @@
 
         var justShow = $("#<%=hdnJustShow.ClientID %>").val();
         //Si la tabla es de solo consulta se habilita el botón OK
-        if (justShow == 'True') {
+        if (justShow == 'True') {            
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
     }
@@ -147,7 +128,8 @@
         }
     }
 
-    function CheckFuncionality(chkObject) {
+    function CheckFuncionality(chkObject)
+    {
 
         //Al seleccionar un item se habilita el botón OK
         $('#<%=_btnok.ClientID %>').removeAttr("disabled");
@@ -163,20 +145,21 @@
             var lstControls = tblControl.getElementsByTagName("input");
 
             //Descheckeamos todos los checkbox 
-            for (var i = 0; i < lstControls.length; i++) {
-                if (lstControls[i].checked) {
+            for (var i = 0; i < lstControls.length ; i++) {
+                if (lstControls[i].checked)
+                { 
                     if (lstControls[i].id == chkObject.id) {
                         selectedChecksIndexes = i;
                         pos = i;
                     }
-
+                        
                 }
                 lstControls[i].checked = false;
                 $(lstControls[i]).parent().parent().removeClass("backColor");
 
             }
 
-            //Checkeamos el control clickeado
+           //Checkeamos el control clickeado
             chkObject.checked = true;
             $(chkObject).parent().parent().addClass("backColor")
             anyChecked = true;
@@ -198,11 +181,12 @@
         }
         var justShow = $("#<%=hdnJustShow.ClientID %>").val();
 
-        if (anyChecked || justShow == 'True') {
-            $('#<%=_btnok.ClientID %>').removeAttr("disabled");
-        }
-        else {
-            $('#<%=_btnok.ClientID %>').attr("disabled", "disabled");
+        if (anyChecked || justShow == 'True')
+            {
+                $('#<%=_btnok.ClientID %>').removeAttr("disabled");
+            }
+            else {
+                $('#<%=_btnok.ClientID %>').attr("disabled", "disabled");
         }
 
         getHdnChecks().val(selectedChecksIndexes);
@@ -220,7 +204,7 @@
     $(document).keydown(function (e) {
         var tblControl = document.getElementById("<%=dgValue.ClientID %>")
         var lstControls = tblControl.getElementsByTagName("input");
-
+        
         var keyCode = e.keyCode || e.which;
         var arrow = { left: 37, up: 38, right: 39, down: 40 };
         switch (keyCode) {
@@ -228,14 +212,14 @@
                 break;
             case arrow.up:
 
-                if (pos > 0)
+                if(pos > 0)
                     pos -= 1;
 
                 lstControls[pos].checked = true;
                 $(lstControls[pos]).focus();
                 CheckFuncionality(lstControls[pos])
                 break;
-
+  
             case arrow.down:
                 if (pos < lstControls.length - 1)
                     pos += 1;
@@ -258,7 +242,8 @@
         }
     });
 
-    function FormatTable() {
+    function FormatTable()
+    {
         var div = $("#<%=GridContainer.ClientID %> div:first");
         var table = $("#<%=GridContainer.ClientID %> table:first");
         table.appendTo("#<%=GridContainer.ClientID %>");
@@ -270,81 +255,67 @@
         location.reload();
     }
 
+   
 </script>
 
 <style type="text/css">
-    .notFixed {
+    .notFixed 
+    {
         table-layout: auto !important;
         font-size: 11px;
     }
 
-    .mGrid > tbody > tr:hover {
-        background-color: #dae7f5;
-        color: white;
-        cursor: pointer;
+    .mGrid > tbody > tr:hover
+   {
+       background-color: #dae7f5;
+       color:white;
+       cursor:pointer;
+   }
+
+   .mGrid > tbody > tr
+   {
+      height:40px;
+   }
+
+   .backColor 
+   {
+        background-color: #dae7f5 !important;
     }
 
-    #GridContainer {
-        height: 460px;
+   #GridContainer{
+       height: 460px;
         width: 100%;
         overflow: auto;
-    }
-/*
-    .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable {
-        width:38% !important;
-        min-width:730px;
-    }*/
+        border: 0;
 
-    .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable {
-        min-width:730px;
-    }
-    #search_dgValue {
-        border-color: rgb(162, 162, 162) !important;
-    }
-
-    .mGrid th {
-        height: 35px;
-        text-align:center;
-    }
-
-    #modalFormHomeUcRules{
-        min-width: 1000px !important;
-        min-height: 500px !important;
-        max-width: 1340px !important;
-        max-height: 562px !important;
-    }
-
-
+   }
 </style>
+
 
 <div class="container-fluid">
     <div class="row">
         <asp:HiddenField ID="hdnMultipleCheck" runat="server" />
-        <asp:HiddenField ID="hdnJustShow" runat="server" Value="false" />
-        <div class="col-xs-1 " style="text-align: left; font-size: 15px; margin-left: 1px; margin-top: 6px;">
+        <asp:HiddenField ID="hdnJustShow" runat="server" value="false"/>
+        <div class="col-xs-1 col-md-offset-1" style="text-align: left">
             Buscar
         </div>
-        <div class="col-xs-10" style="text-align: left; border-color: rgb(162, 162, 162) !important; margin-left: -22px;">
-            <input type="text" id="search_dgValue" class="form-control" style="width: 32%" />
+        <div class="col-xs-10" style="text-align: left" >
+            <input type="text" id="search_dgValue" class="form-control" style="width: 90%" />
         </div>
     </div>
-    <div class="row" style="padding-top: 10px;">
+    <div class="row">
         <div class="col-xs-12">
-            <div id="GridContainer" runat="server" style="height: 380px; width: 100%; overflow: scroll">
-                <asp:GridView ID="dgValue" runat="server"
-                    AllowSorting="true" GridLines="Both"
+            <div id="GridContainer" runat="server" style="height: 400px; width:95%; overflow:scroll ">
+                <asp:GridView ID="dgValue" runat="server" 
+                    AllowSorting="true" GridLines="None"
                     EmptyDataText="No hay registros para visualizar"
-                    CssClass="mGrid notFixed doShowTableGridView"
+                    CssClass="mGrid notFixed"
                     PagerStyle-CssClass="pgr"
-                    AlternatingRowStyle-CssClass="alt"
-                    Style="margin-top: 0px;"
-                    >
+                    AlternatingRowStyle-CssClass="alt" >
                     <Columns>
-                        <asp:TemplateField HeaderText="">
-                            <ItemStyle HorizontalAlign="Center"  />
-
+                       <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:CheckBox ID="chkSelected" OnClick="CheckFuncionality(this)" Enabled="true" runat="server" />
+                                     <asp:CheckBox ID="chkSelected" OnClick="CheckFuncionality(this)" Enabled="true" runat="server"   />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
@@ -353,12 +324,12 @@
         </div>
     </div>
     <div class="row">
-        <div style="text-align: center; margin-top: 20px;" class="col-xs-12">
-            <asp:Button ID="_btnok" Text="Aceptar" BackColor="#42bd3e" ForeColor="White" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="102px" Height="35px" disabled="disabled" CssClass="btn btn-primary btn-xs" />
+        <div style="text-align: center; margin-top: 5px;" class="col-xs-12">
+            <asp:Button ID="_btnok" Text="Aceptar" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="97px" disabled="disabled" CssClass="btn btn-primary btn-xs" />
             <asp:Button ID="_btnCancel" Text="Cancel" runat="server" Width="102px" UseSubmitBehavior="false" CssClass="btn btn-primary btn-xs"
-                OnClick="_btnCancel_Click" Style="display: none" />
-            <button type="button" class="btn btn-primary btn-xs" style="width: 102px;height: 35px;" onclick="RealoadDoShowTable()">Cancelar </button>
-
+                OnClick="_btnCancel_Click" style="display:none"/>
+            <button type="button" class="btn btn-primary btn-xs" style="width:102px" onclick="RealoadDoShowTable()"> Cancelar </button>
+            
         </div>
     </div>
 </div>

@@ -6,6 +6,6 @@ Public Interface IFileResult
     Property CreateDate() As Date
     Property EditDate() As Date
     Property OriginalName() As String
-    Property MimeType() As String
+    ReadOnly Property MimeType() As String
 
 End Interface

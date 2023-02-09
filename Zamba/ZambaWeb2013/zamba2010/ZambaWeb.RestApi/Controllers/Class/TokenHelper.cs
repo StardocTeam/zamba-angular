@@ -26,7 +26,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Security.Claims;
 using System.Security.Principal;
-using Newtonsoft.Json.Linq;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -42,17 +41,8 @@ namespace ZambaWeb.RestApi.Controllers
                 UserBusiness UserBusiness = new UserBusiness();
                 Zamba.Core.IUser user = userName != string.Empty ? UserBusiness.GetUserByname(userName, true) : null;
                 var zssFactory = new ZssFactory();
-                var tokenString = zssFactory.GetTokenIfIsValid(user);
-                if (tokenString == null) return null;
-                var tI = new TokenInfo
-                {
-                    token = tokenString.SelectToken(@"access_token").Value<string>(),
-                    tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
-                    connectionId = tokenString.SelectToken(@"connectionId").Value<string>(),
-                    userName = user.Name,
-                    UserId = user.ID.ToString()
-                };
-                user.ConnectionId = int.Parse(tI.connectionId);
+                var tokenValid = zssFactory.GetTokenIfIsValid(user);
+                if (tokenValid == null) return null;
                 return UB.ValidateLogIn(user, ClientType.WebApi);
             }
             else

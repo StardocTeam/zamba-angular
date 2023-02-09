@@ -8,14 +8,14 @@ export const navigation: FuseNavigation[] = [
         type     : 'group',
         icon     : 'apps',
         children : [
-            // {
-            //     id       : 'dashboards',
-            //     title    : 'Dashboards',
-            //     translate: 'NAV.DASHBOARDS',
-            //     type     : 'item',
-            //     icon     : 'dashboard',
-            //     url      : '/apps/dashboards/analytics'
-            // },
+            {
+                id       : 'dashboards',
+                title    : 'Dashboards',
+                translate: 'NAV.DASHBOARDS',
+                type     : 'item',
+                icon     : 'dashboard',
+                url      : '/apps/dashboards/analytics'
+            },
             {
                 id       : 'ClietImap',
                 title    : 'Cliente IMAP',

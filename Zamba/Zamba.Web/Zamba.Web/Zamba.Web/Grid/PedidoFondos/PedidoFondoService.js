@@ -68,7 +68,7 @@ app.factory('gridService', ['$http', '$q', 'ngZambaSettings', function ($http, $
             }
         };
 
-        var insertionState = null;
+        
         $.ajax({            
             type: "POST",
             url: serviceBase + '/search/ModifyAssociatedResult',
@@ -77,13 +77,15 @@ app.factory('gridService', ['$http', '$q', 'ngZambaSettings', function ($http, $
             async: false,
             success:
                 function (data, status, headers, config) {
-                    console.log(data);
-                    insertionState = true;
-                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                insertionState = false;
+
+
+
+                console.log(data);
                 }
         });
-        return insertionState;
+
+
+
     };
 
     var _insertResult = function (result) {
@@ -122,10 +124,7 @@ app.factory('gridService', ['$http', '$q', 'ngZambaSettings', function ($http, $
             async: false,
             success:
             function (data, status, headers, config) {
-                insertionState = true;
-
-                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                insertionState = false;
+                insertionState = data;
             }
         });
         return insertionState;
@@ -165,7 +164,7 @@ app.factory('gridService', ['$http', '$q', 'ngZambaSettings', function ($http, $
             Params: [{ idType: EntityId }]
         };
 
-        return $http.post(serviceBase + '/search/getNewId', genericRequest).then(function (response) {
+        return $http.post(serviceBase + 'api/search/getNewId', genericRequest).then(function (response) {
             return response;
         });
     };
@@ -182,7 +181,7 @@ app.factory('gridService', ['$http', '$q', 'ngZambaSettings', function ($http, $
 
     var _loadAttributeList = function (AttributeId, parentValue) {
 
-        return $http.post(serviceBase + '/search/loadAttributeList', AttributeId, parentValue).then(function (response) {
+        return $http.post(serviceBase + 'api/search/loadAttributeList', AttributeId, parentValue).then(function (response) {
             return response;
         });
     };

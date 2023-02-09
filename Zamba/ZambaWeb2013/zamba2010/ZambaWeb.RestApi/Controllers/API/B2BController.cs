@@ -35,7 +35,7 @@ namespace ZambaWeb.RestApi.Controllers.API
             try
             {
                 AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AC.LoginById(paramRequest.UserId);
 
                 //UserBusiness UBR = new UserBusiness();
                 // IUser user = UBR.ValidateLogIn(paramRequest.UserId, ClientType.WebApi); 
@@ -119,7 +119,7 @@ namespace ZambaWeb.RestApi.Controllers.API
             try
             {
                 AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AC.LoginById(paramRequest.UserId);
 
                
 
@@ -180,7 +180,7 @@ namespace ZambaWeb.RestApi.Controllers.API
         }
 
 
-        private string GetDocumentData(string userId, string doctypeId, string docId, ref bool convertToPDf, IResult res)
+        private string GetDocumentData(string userId, string doctypeId, string docId, ref bool convertToPDf, Result res)
         {
             SZOptBusiness Zopt = new SZOptBusiness();
             SResult sResult = new SResult();
@@ -245,7 +245,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
 
-                            var a = JsonConvert.SerializeObject(ST.ConvertMSGToJSON(res.FullPath, newPDFFile, true), Formatting.Indented,
+                            var a = JsonConvert.SerializeObject(ST.ConvertMSGToHTML(res.FullPath, newPDFFile, true), Formatting.Indented,
                               new JsonSerializerSettings
                               {
                                   PreserveReferencesHandling = PreserveReferencesHandling.Objects
@@ -261,7 +261,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                         (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase ||
                         (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
 
-                        sResult.LoadFileFromDB(ref res);
+                        sResult.LoadFileFromDB(res);
 
                     //Verifica si el result contiene el documento guardado
                     if (res.EncodedFile != null)
@@ -294,7 +294,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                             }
                         }
 
-                        if ((res.IsHTML || res.IsRTF || res.IsText || res.IsXoml))
+                        if ((res.IsHtml || res.IsRTF || res.IsText || res.IsXoml))
                         {
                             if (convertToPDf)
                             {

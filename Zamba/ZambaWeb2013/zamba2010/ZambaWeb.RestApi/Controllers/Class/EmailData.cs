@@ -8,6 +8,7 @@ namespace ZambaWeb.RestApi.Controllers.Class
 {
     public class EmailData
     {
+
         public List<IdInfo> Idinfo { get; set; }
 
         public string mailto;
@@ -67,6 +68,7 @@ namespace ZambaWeb.RestApi.Controllers.Class
         }
 
 
+
         public class IdInfo
         {
             public Int64 DocTypeid { get; set; }
@@ -92,16 +94,21 @@ namespace ZambaWeb.RestApi.Controllers.Class
         }
 
 
-        public string zippassword;
+        public string zipinfo;
         [Required]
-        public string ZipPassword
+        public string ZipInfo
         {
 
-            get { return zippassword; }
-            set { zippassword = value; }
+            get { return zipinfo; }
+            set { zipinfo = value; }
         }
+
         public bool? SendDocument { get; set; }
         public Dictionary<string, string>[] Base64StringArray { get; set; }
         public string MailPathVariable { get; set; }
-    }    
+
+    }
+
+
+    
 }

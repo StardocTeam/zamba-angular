@@ -1,5 +1,10 @@
 ﻿'use strict';
+//var serviceBase = ZambaWebRestApiURL.toLowerCase().replace("/api", "/");
 var serviceBase = ZambaWebRestApiURL;
+//appTimeLine.constant('ngZambaSettings', {
+//    apiServiceBaseUri: serviceBase,
+//    clientId: 'ngZambaApp'
+//});
 
 app.factory('observacionesNewServices', ['$http', '$q', function ($http, $q) {
 
@@ -65,15 +70,13 @@ app.factory('observacionesNewServices', ['$http', '$q', function ($http, $q) {
         return response;
     };
 
-    var _migracion = function (AtributeId, entityId) {
+    var _migracion = function (AtributeId) {
         var response = null;
         var genericRequest = {
             UserId: parseInt(GetUID()),
             Params:
             {
-                "AtributeId": AtributeId,
-                "entityId": entityId
-
+                "AtributeId": AtributeId
             }
 
         };

@@ -55,13 +55,11 @@ namespace Zamba.FileTools
 
         List<IListEmail> GetEMailsFromServer(Dictionary<string, string> Dic_paramRequest);
 
-
-
-
+       
     }
 
 
-public interface IDTOObjectImap
+    public interface IDTOObjectImap
     {
         void Dispose();
 

@@ -76,8 +76,6 @@
     ''' Diccionario que guarda las columnas de Zamba como key y si son visibles o no como valor
     ''' </summary>
     Public Shared ColumnsVisibility As New Dictionary(Of String, Boolean)(StringComparer.InvariantCultureIgnoreCase)
-
-    Public Shared ColumnsOwnForZamba As New Dictionary(Of String, Int32)(StringComparer.InvariantCultureIgnoreCase)
     ''' <summary>
     ''' Diccionario que almacena las columnas visibles con indices, para poder cargar el combo de filtros en grilla de tareas web
     ''' </summary>
@@ -93,7 +91,7 @@
         '        ZambaColumns.Add(NOMBRE_DOCUMENTO_COLUMNNAME, "wd.NAME")
         ZambaColumns.Add(NAME_DOCUMENTO_COLUMNNAME, "NAME")
         ZambaColumns.Add(DOC_TYPE_NAME_COLUMNNAME, "DOC_TYPE_NAME")
-        ZambaColumns.Add(ORIGINAL_FILENAME_COLUMNNAME, "ORIGINAL")
+        ZambaColumns.Add(ORIGINAL_FILENAME_COLUMNNAME, "ORIGINAL_FILENAME")
         ZambaColumns.Add(NUMERO_DE_VERSION_COLUMNNAME, "NUMEROVERSION")
         ZambaColumns.Add(ICONID_COLUMNNAME, "T.Icon_Id")
         ZambaColumns.Add(CHECKIN_COLUMNNAME, "wd.CHECKIN")
@@ -140,7 +138,7 @@
         ColumnsVisibility.Add(GridColumns.TASK_ID_COLUMNNAME.ToLower(), True)
         ColumnsVisibility.Add(GridColumns.DO_STATE_ID_COLUMNNAME.ToLower(), False)
         ColumnsVisibility.Add(GridColumns.ICONID_COLUMNNAME.ToLower(), True)
-        ColumnsVisibility.Add(GridColumns.USER_ASIGNED_COLUMNNAME.ToLower(), True)
+        ColumnsVisibility.Add(GridColumns.USER_ASIGNED_COLUMNNAME.ToLower(), False)
         ColumnsVisibility.Add(GridColumns.USER_ASIGNED_BY_COLUMNNAME.ToLower(), False)
         ColumnsVisibility.Add(GridColumns.DATE_ASIGNED_BY_COLUMNNAME.ToLower(), False)
         ColumnsVisibility.Add(GridColumns.TASK_STATE_ID_COLUMNNAME.ToLower(), True)
@@ -194,21 +192,6 @@
         ZambaColumnsType.Add(GridColumns.VER_COLUMNNAME.ToLower(), IndexDataType.Alfanumerico)
         ZambaColumnsType.Add(GridColumns.CRDATE_COLUMNNAME.ToLower(), IndexDataType.Fecha)
         ZambaColumnsType.Add(GridColumns.CHECKIN_COLUMNNAME.ToLower(), IndexDataType.Fecha)
-
-        ColumnsOwnForZamba.Add(GridColumns.USER_ASIGNED_COLUMNNAME.ToLower(), -10)
-        ColumnsOwnForZamba.Add(GridColumns.ETAPA_COLUMNAME.ToLower(), -11)
-        ColumnsOwnForZamba.Add(GridColumns.ORIGINAL_FILENAME_COLUMNNAME.ToLower(), -12)
-        ColumnsOwnForZamba.Add(GridColumns.EXECUTION_COLUMNNAME.ToLower(), -13)
-        ColumnsOwnForZamba.Add("step", True)
-        ColumnsOwnForZamba.Add(GridColumns.EXPIREDATE_COLUMNNAME.ToLower(), -1)
-        ColumnsOwnForZamba.Add(GridColumns.ESTADO_TAREA_COLUMNNAME.ToLower(), -4)
-        ColumnsOwnForZamba.Add(GridColumns.ASIGNADO_COLUMNNAME.ToLower(), -5)
-        ColumnsOwnForZamba.Add(GridColumns.SITUACION_COLUMNNAME.ToLower(), -6)
-        ColumnsOwnForZamba.Add(GridColumns.CRDATE_COLUMNNAME.ToLower(), -8)
-        ColumnsOwnForZamba.Add(GridColumns.CHECKIN_COLUMNNAME.ToLower(), -9)
-        'ColumnsOwnForZamba.Add(GridColumns.EXPIREDATE_COLUMNNAME.ToLower(), -1)
-
-
 
     End Sub
 

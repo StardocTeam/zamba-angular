@@ -35,9 +35,7 @@ Imports System.Collections.Generic
     ''' -----------------------------------------------------------------------------
     Public Shared Sub raiseerror(ByVal ex As Exception)
         ZException.Log(ex)
-        ZTrace.WriteLineIf(ZTrace.IsError, "*************************************************   ERROR    ****************************************")
-        ZTrace.WriteLineIf(ZTrace.IsError, "ERROR: " & ex.ToString())
-        ZTrace.WriteLineIf(ZTrace.IsError, "*************************************************   END ERROR    ****************************************")
+        ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString())
     End Sub
 
     Public MustOverride Sub Dispose() Implements IZClass.Dispose

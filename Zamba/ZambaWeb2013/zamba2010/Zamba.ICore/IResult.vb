@@ -16,8 +16,6 @@ Public Interface IResult
     ReadOnly Property IsWord() As Boolean
     ReadOnly Property IsTif() As Boolean
     ReadOnly Property IsPowerpoint() As Boolean
-
-    ReadOnly Property IsXPS As Boolean
     ReadOnly Property IsMAG() As Boolean
     ReadOnly Property IsRTF() As Boolean
     ReadOnly Property IsPDF() As Boolean
@@ -48,8 +46,7 @@ Public Interface IResult
     Property AutoName() As String
     Property DocumentalId() As Int32
     Property CurrentFormID() As Int64
-    Property ModalFormID() As Int64
-    Property PreviusFormID() As Int64
+      Property PreviusFormID() As Int64
     Property IsShared() As Boolean
     Property IsImportant() As Boolean
     Property IsFavorite() As Boolean
@@ -77,7 +74,6 @@ Public Interface IResult
     Property HasVersion As Integer
     Property RootDocumentId As Long
     Property barcodeInBase64 As String
-    ReadOnly Property IsCSV As Boolean
 
     Enum DocumentDates
         Entrada

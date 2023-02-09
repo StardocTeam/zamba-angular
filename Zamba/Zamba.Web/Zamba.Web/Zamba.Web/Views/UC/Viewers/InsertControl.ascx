@@ -1,4 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="UC_Viewers_FormBrowser"  Codebehind="InsertControl.ascx.cs" %>
+﻿
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="UC_Viewers_FormBrowser"  Codebehind="InsertControl.ascx.cs" %>
 
 <script type="text/javascript">
 //    function SaveHtmlAndInsertDoc()

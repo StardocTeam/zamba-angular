@@ -126,32 +126,32 @@ Public Class WFStepsFactory
     '''     Es una copia de GetDsStepsByWFIdAndUserId pero se optimizó la 
     '''     consulta obteniendo unicamente las columnas deseadas.
     ''' </remarks>
-    'Public Shared Function GetWFAndStepIdsAndNamesAndTaskCount(ByVal UserId As Int64) As DataTable
-    '    Dim DS As DataSet = Nothing
+    Public Shared Function GetWFAndStepIdsAndNamesAndTaskCount(ByVal UserId As Int64) As DataTable
+        Dim DS As DataSet = Nothing
 
 
-    '    If Server.isOracle Then
-    '        Dim query As String = "SELECT CASE WHEN WFDocument.step_Id is null THEN 0 ELSE COUNT(1) END AS Cantidad,             WFWorkflow.work_id AS WFId, WFWorkflow.Name AS WFName, WFStep.step_Id AS WFStepId, WFStep.Name AS WFStepName             FROM WFWorkflow               INNER JOIN WFStep  ON WFStep.work_id = WFWorkflow.work_id             INNER JOIN USR_RIGHTS  on aditional = step_id and objid = 42 and rtype = 19 and              (groupid = " & UserId & " OR groupid IN (SELECT groupid FROM usr_r_group  WHERE usrid = " & UserId & "))             left JOIN WFDocument  ON WFDocument.step_Id = WFStep.step_Id             where WFWorkflow.work_id not in (             SELECT usrHideRights.aditional             FROM USR_RIGHTS usrHideRights              WHERE usrHideRights.objid = 55 and usrHideRights.rtype = 178 and             (usrHideRights.groupid = " & UserId & " OR usrHideRights.groupid IN             (SELECT groupid FROM usr_r_group  WHERE usrid = " & UserId & "))             )             GROUP BY WFWorkflow.work_id, WFWorkflow.Name, WFStep.orden, WFStep.Name, WFDocument.step_Id,WFStep.step_Id ORDER BY WFWorkflow.Name, WFStep.orden"
+        If Server.isOracle Then
+            Dim query As String = "SELECT CASE WHEN WFDocument.step_Id is null THEN 0 ELSE COUNT(1) END AS Cantidad,             WFWorkflow.work_id AS WFId, WFWorkflow.Name AS WFName, WFStep.step_Id AS WFStepId, WFStep.Name AS WFStepName             FROM WFWorkflow               INNER JOIN WFStep  ON WFStep.work_id = WFWorkflow.work_id             INNER JOIN USR_RIGHTS  on aditional = step_id and objid = 42 and rtype = 19 and              (groupid = " & UserId & " OR groupid IN (SELECT groupid FROM usr_r_group  WHERE usrid = " & UserId & "))             left JOIN WFDocument  ON WFDocument.step_Id = WFStep.step_Id             where WFWorkflow.work_id not in (             SELECT usrHideRights.aditional             FROM USR_RIGHTS usrHideRights              WHERE usrHideRights.objid = 55 and usrHideRights.rtype = 178 and             (usrHideRights.groupid = " & UserId & " OR usrHideRights.groupid IN             (SELECT groupid FROM usr_r_group  WHERE usrid = " & UserId & "))             )             GROUP BY WFWorkflow.work_id, WFWorkflow.Name, WFStep.orden, WFStep.Name, WFDocument.step_Id,WFStep.step_Id ORDER BY WFWorkflow.Name, WFStep.orden"
 
 
-    '        DS = Server.Con.ExecuteDataset(CommandType.Text, query)
+            DS = Server.Con.ExecuteDataset(CommandType.Text, query)
 
-    '    Else
-    '        Dim parValues As Object() = {UserId}
-    '        DS = Server.Con.ExecuteDataset("zsp_workflowWeb_100_GetWorkflowTreesData", parValues)
-    '        parValues = Nothing
-    '    End If
+        Else
+            Dim parValues As Object() = {UserId}
+            DS = Server.Con.ExecuteDataset("zsp_workflowWeb_100_GetWorkflowTreesData", parValues)
+            parValues = Nothing
+        End If
 
-    '    If IsNothing(DS) Then
-    '        Return New DataTable()
-    '    Else
-    '        If DS.Tables.Count = 0 Then
-    '            Return New DataTable()
-    '        Else
-    '            Return DS.Tables(0)
-    '        End If
-    '    End If
-    'End Function
+        If IsNothing(DS) Then
+            Return New DataTable()
+        Else
+            If DS.Tables.Count = 0 Then
+                Return New DataTable()
+            Else
+                Return DS.Tables(0)
+            End If
+        End If
+    End Function
 
     ''' <summary>
     '''     Obtiene el id, nombre y por etapa.
@@ -171,7 +171,7 @@ Public Class WFStepsFactory
             QueryBuilder.Append(" WFWorkflow.work_id AS WFId, WFWorkflow.Name AS WFName, WFStep.step_Id AS WFStepId, WFStep.Name AS WFStepName FROM WFWorkflow")
             QueryBuilder.Append(" INNER JOIN WFStep  ON WFStep.work_id = WFWorkflow.work_id")
             QueryBuilder.Append(" INNER JOIN USR_RIGHTS  on aditional = step_id and objid = 42 and rtype = 19 and")
-            QueryBuilder.Append(" (groupid = " & UserId & " or groupid in (select inheritedusergroup from group_r_group where usergroup = " & UserId & ") or groupid in (Select groupid from usr_r_group where usrid= " & UserId & ") or groupid in (select inheritedusergroup from group_r_group where usergroup in (Select groupid from usr_r_group where usrid= " & UserId & "))")
+            QueryBuilder.Append(" (groupid = " & UserId & " OR groupid IN (SELECT groupid FROM usr_r_group  WHERE usrid = " & UserId & "))")
             QueryBuilder.Append(" Left JOIN WFDocument  ON WFDocument.step_Id = WFStep.step_Id")
             QueryBuilder.Append(" where WFWorkflow.work_id not in (SELECT usrHideRights.aditional FROM USR_RIGHTS usrHideRights")
             QueryBuilder.Append(" WHERE usrHideRights.objid = 55 and usrHideRights.rtype = 178 and")
@@ -772,8 +772,17 @@ Public Class WFStepsFactory
     Public Shared Function GetDocTypesByWfStep(ByVal stepId As Int64) As DataTable
         Dim Ds As DataSet = Nothing
 
-        Dim query As String = String.Format("SELECT DISTINCT d.doc_type_id, d.doc_type_name FROM (select doc_type_id from wfdocument " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE wfdocument.step_id = {0}) w INNER JOIN doc_type d " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON w.doc_type_id = d.doc_type_id", stepId)
-        Ds = Server.Con.ExecuteDataset(CommandType.Text, query)
+        If Server.isOracle Then
+            Dim parNames() As String = {"stepId", "io_cursor"}
+            ' Dim parTypes() As Object = {OracleType.Number, OracleType.Cursor}
+            Dim parValues() As Object = {stepId, 2}
+            'Ds = Server.Con.ExecuteDataset("zsp_workflow_200.GetDocTypesByStepId", parValues)
+            Dim query As String = "SELECT DISTINCT wfdocument.doc_type_id, doc_type.doc_type_name FROM wfdocument INNER JOIN doc_type ON wfdocument.doc_type_id = doc_type.doc_type_id WHERE wfdocument.step_id = " & stepId
+            Ds = Server.Con.ExecuteDataset(CommandType.Text, query)
+        Else
+            Dim parameters() As Object = {(stepId)}
+            Ds = Server.Con.ExecuteDataset("zsp_workflow_200_GetDocTypesByStepId", parameters)
+        End If
 
         If Ds.Tables.Count = 1 Then
             Return Ds.Tables(0)

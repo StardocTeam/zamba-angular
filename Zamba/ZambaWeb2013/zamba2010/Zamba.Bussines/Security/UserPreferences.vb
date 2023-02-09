@@ -118,10 +118,10 @@ Partial Public Class UserPreferences
                 LoadAllMachineConfigValues()
                 If Not Cache.UsersAndGroups.hsAllMachineConfigValues.ContainsKey(name) Then
 
-                    Dim valor As String = UserPreferencesFactory.getValueDBByMachine(name, Section, Environment.MachineName)
+                    Dim valor As String ' = UserPreferencesFactory.getValueDBByMachine(name, Section, Environment.MachineName)
 
-                    'si no hay valor especifico de la PC busco el valor por default para las PC
-                    valor = UserPreferencesFactory.getValueDBByMachine(name, Section, "default")
+                        'si no hay valor especifico de la PC busco el valor por default para las PC
+                        valor = UserPreferencesFactory.getValueDBByMachine(name, Section, "default")
 
                         'Si no esta en la zmachineconfig el valor por defecto de las PC
                         If valor Is Nothing Then
@@ -206,6 +206,27 @@ Partial Public Class UserPreferences
                     End If
                 End SyncLock
             End If
+
+
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
+    Public Shared Sub setValueLastUser(ByVal name As String, ByVal valor As String, ByVal Section As UPSections, ByVal userId As Long)
+        Try
+
+            UserPreferencesFactory.setValueDB(name, valor, Section, userId)
+
+
+            SyncLock Cache.UsersAndGroups.hUserPreferencesByUserIdAndName.SyncRoot
+                If Cache.UsersAndGroups.hUserPreferencesByUserIdAndName.ContainsKey(userId & "-" & name & "-" & Section) Then
+                    Cache.UsersAndGroups.hUserPreferencesByUserIdAndName(userId & "-" & name & "-" & Section) = valor
+                Else
+                    Cache.UsersAndGroups.hUserPreferencesByUserIdAndName.Add(userId & "-" & name & "-" & Section, valor)
+                End If
+            End SyncLock
+
 
 
         Catch ex As Exception

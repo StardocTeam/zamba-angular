@@ -107,7 +107,7 @@ Namespace DocTypes.DocAsociated
             IndexsAsociated = IndexsAsociatedaux
             If (indexs.Count > 0 AndAlso allIndexsAsocComplete) Then
                 Dim MD As New Zamba.Core.Search.ModDocuments
-                Return MD.DoSearchAsocWithWF(docTypeAsociated, indexs, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, PageSize, result, Zamba.Membership.MembershipHelper.CurrentUser.Name)
+                Return MD.DoSearchAsocWithWF(docTypeAsociated, indexs, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, PageSize, result.ID, Zamba.Membership.MembershipHelper.CurrentUser.Name)
                 MD = Nothing
             Else
                 Return New DataTable
@@ -173,7 +173,7 @@ Namespace DocTypes.DocAsociated
                 Dim search As New Searchs.Search(indexs, String.Empty, True, DocTypesAssociated, False, String.Empty, UserId)
                 Dim MD As New Zamba.Core.Search.ModDocuments
                 Dim TotalCount As Int64 = 0
-                Dim dt As DataTable = MD.DoSearch(search, UserId, 0, PageSize, True, False, False, TotalCount, False)
+                Dim dt As DataTable = MD.DoSearch(search, UserId, 0, PageSize, True, False, False, TotalCount)
                 MD = Nothing
                 Dim results As New ArrayList()
                 If IsNothing(dt) = False Then
@@ -214,14 +214,12 @@ Namespace DocTypes.DocAsociated
         '''     [Gaston]	30/12/2008	Modified    Se agrego el parámetro docTypeAsociated que indica el entidad asociado y se retorna 
         '''                                         nothing en caso de que indexs sea cero
         ''' </history>
-        Private Shared Function getSearchAsociatedResultsAsList(ByVal result As IResult, ByVal IndexsAsociated As Generic.List(Of Asociados), ByVal docTypeAsociated As Core.DocType, ByVal PageSize As Int32, ByVal UserId As Int64, onlyImportants As Boolean) As DataTable ' As List(Of IResult)
+        Private Shared Function getSearchAsociatedResultsAsList(ByVal result As IResult, ByVal IndexsAsociated As Generic.List(Of Asociados), ByVal docTypeAsociated As Core.DocType, ByVal PageSize As Int32, ByVal UserId As Int64) As DataTable ' As List(Of IResult)
             Dim indexs As New Generic.List(Of IIndex)
             Dim ASB As New AutoSubstitutionBusiness
 
             Dim allIndexsAsocComplete As Boolean = True
             For Each associate As Asociados In IndexsAsociated
-                If allIndexsAsocComplete = False Then Exit For
-
                 For Each i As Index In result.Indexs
                     If i.ID = associate.Index1.ID Then
                         If i.Data <> String.Empty Then
@@ -235,11 +233,10 @@ Namespace DocTypes.DocAsociated
                                 End If
                             End If
                             associate.Index2.DataTemp = i.Data
-                            associate.Index2.Operator = "="
                             indexs.Add(associate.Index2)
                             Exit For
                         Else
-                            allIndexsAsocComplete = False
+                            'allIndexsAsocComplete = False
                             associate.Index2.Data = ""
                             associate.Index2.DataTemp = ""
                             associate.Index2.Operator = "es nulo"
@@ -251,10 +248,10 @@ Namespace DocTypes.DocAsociated
                 Next
             Next
             ASB = Nothing
-            'Dim IndexsAsociatedaux As New Generic.List(Of Asociados)
-            'For Each associate As Asociados In IndexsAsociated
-            '    IndexsAsociatedaux.Add(associate)
-            'Next
+            Dim IndexsAsociatedaux As New Generic.List(Of Asociados)
+            For Each associate As Asociados In IndexsAsociated
+                IndexsAsociatedaux.Add(associate)
+            Next
 
             'IndexsAsociated = IndexsAsociatedaux
 
@@ -263,10 +260,9 @@ Namespace DocTypes.DocAsociated
                 DocTypesAsociates.Add(docTypeAsociated)
                 Dim search As New Searchs.Search(indexs, String.Empty, True, DocTypesAsociates, False, String.Empty, UserId)
                 search.SearchType = SearchTypes.AsociatedSearch
-                search.ParentEntity = result
                 Dim MD As New Zamba.Core.Search.ModDocuments
                 Dim TotalCount As Int64 = 0
-                Dim dt As DataTable = MD.DoSearch(search, UserId, 0, PageSize, True, False, False, TotalCount, onlyImportants)
+                Dim dt As DataTable = MD.DoSearch(search, UserId, 0, PageSize, True, False, False, TotalCount)
                 MD = Nothing
                 'Dim results As New List(Of IResult)
                 'If IsNothing(dt) = False Then
@@ -305,7 +301,7 @@ Namespace DocTypes.DocAsociated
         '''     [Marcelo]   26/08/2009  Modified    Devuelve un datatable en lugar de un arraylist
         '''     [Javier]    22/10/2010  Modified    Se agrega datadecription al indice asociado para usar al armar la query para traer asociados
         ''' </history>
-        Private Function getSearchAsociatedResultsDT(ByVal result As IResult, ByRef IndexsAsociated As Generic.List(Of Asociados), ByRef docTypeAsociated As Core.DocType, ByVal LastDocId As Int64, ByVal blnOpen As Boolean, ByVal GetTaskId As Boolean, ByVal UserId As Int64, ByVal orderby As String) As DataTable
+        Private Function getSearchAsociatedResultsDT(ByVal result As IResult, ByRef IndexsAsociated As Generic.List(Of Asociados), ByRef docTypeAsociated As Core.DocType, ByVal LastDocId As Int64, ByVal blnOpen As Boolean, ByVal GetTaskId As Boolean, ByVal UserId As Int64) As DataTable
             Dim indexs As New Generic.List(Of IIndex)
 
             Dim allIndexsAsocComplete As Boolean = True
@@ -335,15 +331,10 @@ Namespace DocTypes.DocAsociated
             If (indexs.Count > 0 AndAlso allIndexsAsocComplete) Then
                 Dim DocTypesAsociates As New List(Of IDocType)
                 DocTypesAsociates.Add(docTypeAsociated)
-
                 Dim search As New Searchs.Search(indexs, String.Empty, True, DocTypesAsociates, False, String.Empty, UserId)
-                If String.IsNullOrEmpty(orderby) Then
-                    orderby = "doc_id desc"
-                End If
-                search.OrderBy = orderby
                 Dim MD As New Zamba.Core.Search.ModDocuments
                 Dim TotalCount As Int64 = 0
-                Return MD.DoSearch(search, UserId, LastDocId, 100, True, False, False, TotalCount, False)
+                Return MD.DoSearch(search, UserId, LastDocId, 100, True, False, False, TotalCount)
                 MD = Nothing
             Else
                 Return (Nothing)
@@ -546,55 +537,32 @@ Namespace DocTypes.DocAsociated
                 dt.MinimumCapacity = 0
                 Dim dtAsociated As List(Of Long)
                 dtAsociated = GetUniqueDocTypeIdsAsociation(Result.DocTypeId)
-                Dim DTB As New DocTypesBusiness()
-                Dim Doctypes As List(Of IDocType) = DTB.GetDocTypesbyUserRights(UserId, RightsType.View)
 
-                Dim UP As New UserPreferences
-
-                Dim customUserAssociatedOrderByAll As String = UP.getValue("customUserAssociatedOrderByAll", UPSections.UserPreferences, "doc_id desc", MembershipHelper.CurrentUser.ID)
-
+                Dim DTB As New DocTypesBusiness
                 For Each DT2 As Int64 In dtAsociated
-                    For Each IDT As IDocType In Doctypes
-                        If (DT2 = IDT.ID) Then
-                            Try
-                                Dim IndexsAsociated As List(Of Asociados) = getAsociations(Result.DocTypeId, DT2)
-                                If IndexsAsociated IsNot Nothing Then
-                                    ' Se obtienen los documentos asociados a la búsqueda
-                                    Dim Doctype2 As IDocType = DTB.GetDocType(DT2)
-                                    If Doctype2 IsNot Nothing Then
-
-                                        Dim customUserAssociatedOrderBy As String
-                                        If String.IsNullOrEmpty(customUserAssociatedOrderByAll) Then
-                                            customUserAssociatedOrderBy = UP.getValue("customUserAssociatedOrderBy-" & Result.DocTypeId.ToString() & "-" & DT2.ToString(), UPSections.UserPreferences, "", MembershipHelper.CurrentUser.ID)
-                                        Else
-                                            customUserAssociatedOrderBy = customUserAssociatedOrderByAll
-                                        End If
-
-                                        Dim asociatedDocuments As DataTable = getSearchAsociatedResultsDT(Result, IndexsAsociated, Doctype2, LastDocId, blnOpen, GetTaskId, UserId, customUserAssociatedOrderBy)
-
-                                            If asociatedDocuments IsNot Nothing AndAlso asociatedDocuments.Rows.Count > 0 Then
-                                                dt.Merge(asociatedDocuments)
-                                                dt.MinimumCapacity += asociatedDocuments.MinimumCapacity
-                                                asociatedDocuments = Nothing
-                                            End If
-                                            IndexsAsociated = Nothing
-                                        End If
-                                    End If
-                            Catch ex As Exception
-                                ZClass.raiseerror(ex)
-                            End Try
+                    Try
+                        Dim IndexsAsociated As List(Of Asociados) = getAsociations(Result.DocTypeId, DT2)
+                        If IndexsAsociated IsNot Nothing Then
+                            ' Se obtienen los documentos asociados a la búsqueda
+                            Dim Doctype2 As IDocType = DTB.GetDocType(DT2)
+                            If Doctype2 IsNot Nothing Then
+                                Dim asociatedDocuments As DataTable = getSearchAsociatedResultsDT(Result, IndexsAsociated, Doctype2, LastDocId, blnOpen, GetTaskId, UserId)
+                                If asociatedDocuments IsNot Nothing AndAlso asociatedDocuments.Rows.Count > 0 Then
+                                    dt.Merge(asociatedDocuments)
+                                    dt.MinimumCapacity += asociatedDocuments.MinimumCapacity
+                                    asociatedDocuments = Nothing
+                                End If
+                                IndexsAsociated = Nothing
+                            End If
                         End If
-                    Next
+                    Catch ex As Exception
+                        ZClass.raiseerror(ex)
+                    End Try
+
                 Next
-
-                If String.IsNullOrEmpty(customUserAssociatedOrderByAll) = False Then
-                    dt.DefaultView.Sort = customUserAssociatedOrderByAll
-                    dt.AcceptChanges()
-                End If
-
                 DTB = Nothing
                 Return dt
-                End If
+            End If
         End Function
 
         ''' <summary>
@@ -607,7 +575,7 @@ Namespace DocTypes.DocAsociated
         '''     [Gaston]	29/12/2008	Modified
         '''     [Gaston]	30/12/2008	Modified    Se agregaron validaciones y nothings en variables que dejaron de utilizarse
         ''' </history>
-        Public Shared Function getAsociatedResultsFromResultAsList(ByVal AssociatedDocTypeId As Int64, ByVal Result As IResult, ByVal PageSize As Int32, ByVal UserId As Int64, onlyImportants As Boolean) As DataTable ' List(Of IResult)
+        Public Shared Function getAsociatedResultsFromResultAsList(ByVal AssociatedDocTypeId As Int64, ByVal Result As IResult, ByVal PageSize As Int32, ByVal UserId As Int64) As DataTable ' List(Of IResult)
             Dim DocTypesAsociated As Generic.List(Of Int64)
             Dim IndexsAsociated As Generic.List(Of Asociados)
 
@@ -634,7 +602,7 @@ Namespace DocTypes.DocAsociated
                                     If Not (IsNothing(IndexsAsociated)) Then
                                         Dim DocType2 As IDocType = DTB.GetDocType(DT2)
                                         ' Se obtienen los documentos asociados a la búsqueda
-                                        Return getSearchAsociatedResultsAsList(Result, IndexsAsociated, DocType2, PageSize, UserId, onlyImportants)
+                                        Return getSearchAsociatedResultsAsList(Result, IndexsAsociated, DocType2, PageSize, UserId)
                                     End If
                                 End If
                             Catch ex As Exception
@@ -644,7 +612,7 @@ Namespace DocTypes.DocAsociated
                         DTB = Nothing
                     End If
                 End If
-                Return New DataTable ' List(Of IResult)
+                    Return New DataTable ' List(Of IResult)
             Finally
                 If Not IsNothing(DocTypesAsociated) Then
                     DocTypesAsociated = Nothing

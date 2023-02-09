@@ -96,7 +96,7 @@ app.factory('gridService', ['$http', '$q', 'ngZambaSettings', function ($http, $
 
     var _loadAttributeList = function (AttributeId, parentValue) {
 
-        return $http.post(serviceBase + '/search/loadAttributeList', AttributeId, parentValue).then(function (response) {
+        return $http.post(serviceBase + 'api/search/loadAttributeList', AttributeId, parentValue).then(function (response) {
             return response;
         });
     };

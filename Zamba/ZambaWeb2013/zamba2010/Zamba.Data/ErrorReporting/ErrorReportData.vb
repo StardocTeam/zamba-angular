@@ -22,15 +22,14 @@ Public Class ErrorReportData
     '  VALUES({0}, '{1}','{2}', 1, {3}, {7},{7}, '', '{4}', '{5}', '{6}')",report.Id, report.Subject, report.Description, report.UserId, report.WinUser, report.Machine, report.Version, datestring))
     End Sub
 
-    Public Sub DeleteErrors()
-
+      Public Sub DeleteErrors()
         Dim datestring As String = "GETDATE()-30"
-            If Server.isOracle Then
-                datestring = "SYSDATE-30"
-            End If
+        If Server.isOracle Then
+            datestring = "SYSDATE()-30"
+        End if
 
-            Server.Con.ExecuteNonQuery(CommandType.Text, $"delete ZErrorReportAttachments where ID in (select id from ZErrorReports where Updated < ({datestring}))")
-            Server.Con.ExecuteNonQuery(CommandType.Text, $"delete ZErrorReports where Updated < ({datestring})")
+        Server.Con.ExecuteNonQuery(CommandType.Text, "delete ZErrorReportAttachments where ID in (select id from ZErrorReports where Updated < (GETDATE()-30))")
+        Server.Con.ExecuteNonQuery(CommandType.Text, "delete ZErrorReports where Updated < (GETDATE()-30)")
     End Sub
 
     ''' <summary>

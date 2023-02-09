@@ -31,6 +31,5 @@
     LookingForFileToPrint = 35
     ExecuteScript = 36
     EnableRules = 37
-    EntryRules = 38
 
 End Enum

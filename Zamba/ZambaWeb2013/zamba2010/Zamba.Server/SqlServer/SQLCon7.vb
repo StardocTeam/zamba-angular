@@ -3,8 +3,6 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports Zamba.Core
 Imports Zamba
-Imports System.Globalization
-
 Public Class SQLCon7
     Implements IConnection, IDisposable
 
@@ -115,14 +113,8 @@ Public Class SQLCon7
     End Function
 
 
-    Public Function ConvertDate(ByVal datetime As String, Optional ByVal ResolveDate As Boolean = True) As String Implements IConnection.ConvertDate
-        Dim tmpdate As DateTime
-        Try
-            tmpdate = Convert.ToDateTime(datetime)
-        Catch ex As Exception
-            Dim culture As New CultureInfo("es-ES")
-            tmpdate = Date.Parse(datetime, culture)
-        End Try
+    Public Function ConvertDate(ByVal datetime As String,Optional byval ResolveDate As Boolean = true) As String Implements IConnection.ConvertDate
+        Dim tmpdate As DateTime = Convert.ToDateTime(datetime)
         Return String.Format(Constant.SQLCon.DB_CONVERT_DATE_FORMAT, tmpdate.Year, tmpdate.Month, tmpdate.Day)
     End Function
 
@@ -146,7 +138,6 @@ Public Class SQLCon7
 
 
 #Region "private utility methods & constructors"
-    Private utilities As New utilities()
 
     'Since this class provides only static methods, make the default constructor private to prevent 
     'instances from being created with "new SqlHelper()".
@@ -556,7 +547,7 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(commandType, commandText, commandParameters)
             Else
-                Throw
+                Throw ex
             End If
         Catch ex As System.InvalidOperationException
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))

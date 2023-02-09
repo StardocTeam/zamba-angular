@@ -25,18 +25,6 @@ Public Class PlayDoGenerateBarcodeInWord
     '''     Javier 28/10/2010   Created
     '''     Javier 02/12/2010   Modified     reconocervariables and reconocertextointeligente added in template path
     ''' </history>
-    ''' 
-    Public Sub ConstruirDirectorioSiNoExiste(Path As String)
-        Dim SubCarpetas() As String
-        SubCarpetas = Path.Split("\")
-        Dim CreandoRuta As String = SubCarpetas(0)
-        For i As Int32 = 1 To SubCarpetas.Length - 1
-            CreandoRuta += "\" + SubCarpetas(i)
-            If (Not Directory.Exists(CreandoRuta)) Then
-                Directory.CreateDirectory(CreandoRuta)
-            End If
-        Next i
-    End Sub
     Public Function Play(ByVal results As List(Of ITaskResult)) As List(Of ITaskResult)
         Dim newResults As New List(Of ITaskResult)
         Dim _res As NewResult
@@ -48,13 +36,13 @@ Public Class PlayDoGenerateBarcodeInWord
         Dim cambiosZvar As Hashtable = Nothing
         Dim cambiosTextInt As Hashtable = Nothing
         Dim VarInterReglas As New VariablesInterReglas()
-        Dim spireOffice As Zamba.FileTools.SpireTools = Nothing
+        Dim spireOffice As SpireTools = Nothing
 
         Dim DTB As New DocTypesBusiness
         Dim RB As New Results_Business
         Dim WFTB As New WFTaskBusiness
         Try
-            spireOffice = New Zamba.FileTools.SpireTools
+            spireOffice = New SpireTools
             For Each r As ITaskResult In results
                 _res = New NewResult()
                 _res.Parent = DTB.GetDocType(_myrule.docTypeId)
@@ -68,18 +56,16 @@ Public Class PlayDoGenerateBarcodeInWord
                 source = VarInterReglas.ReconocerVariablesAsObject(source)
 
                 Dim random As New Random(Now.Millisecond) 'Dejar la instancia dentro del foreach
-                ConstruirDirectorioSiNoExiste(Membership.MembershipHelper.AppTempPath & "\temp\")
                 If TypeOf source Is Byte() Then
                     extension = VarInterReglas.ReconocerVariablesValuesSoloTexto(Me._myrule.DocPathVar)
                     If Not extension.StartsWith(".") Then extension = "." & extension
                     path = Membership.MembershipHelper.AppTempPath & "\temp\" & random.Next(1000000, 9999999).ToString & extension
-
                     FileEncode.Decode(path, DirectCast(source, Byte()))
                 Else
                     path = source.ToString
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Ruta del archivo: " & path)
                     file = New FileInfo(path)
                     path = Membership.MembershipHelper.AppTempPath & "\temp\" & random.Next(1000000, 9999999).ToString & file.Name
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Ruta del archivo: " & path)
                     file.CopyTo(path, True)
                     file = Nothing
                 End If
@@ -100,21 +86,7 @@ Public Class PlayDoGenerateBarcodeInWord
                     _res.Disk_Group_Id = 0
 
                     If Me._myrule.WithoutInsert Then
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "El documento no   fué insertado por la configuración de la regla")
-                    Else
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Insertando documentacion")
-                        Select Case (RB.Insert(_res, False, False, False, False, False))
-                            Case InsertResult.Insertado
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Insertado en Zamba ")
-                            Case InsertResult.ErrorIndicesIncompletos
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "No se pudo insertar por falta de atributos obligatorios")
-                            Case InsertResult.ErrorIndicesInvalidos
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "No se pudo insertar, hay indices con datos invalidos")
-                        End Select
-                    End If
-                Else
-                    If Me._myrule.WithoutInsert Then
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "El documento no   fué insertado por la configuración de la regla")
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "El documento no fué insertado por la configuración de la regla")
                     Else
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Insertando documentacion")
                         Select Case (RB.Insert(_res, False, False, False, False, False))
@@ -127,6 +99,7 @@ Public Class PlayDoGenerateBarcodeInWord
                         End Select
                     End If
                 End If
+
                 If Not Me._myrule.ContinueWithCurrentTasks Then
                     Dim task As ITaskResult = WFTB.GetTaskByDocIdAndWorkFlowId(_res.ID, 0)
                     If Not IsNothing(task) Then
@@ -138,10 +111,9 @@ Public Class PlayDoGenerateBarcodeInWord
                         task.Indexs = _res.Indexs
                         task.DocType = _res.DocType
                         task.DocTypeId = _res.DocTypeId
+
                         task.OffSet = _res.OffSet
-                        If Not String.IsNullOrEmpty(_res.File) Then
-                            task.File = _res.File
-                        End If
+                        task.File = _res.File
                         task.Disk_Group_Id = _res.Disk_Group_Id
                         task.DISK_VOL_PATH = _res.DISK_VOL_PATH
                         task.Doc_File = _res.Doc_File

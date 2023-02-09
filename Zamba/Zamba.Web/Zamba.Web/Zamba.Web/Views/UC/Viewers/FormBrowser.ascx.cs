@@ -13,6 +13,7 @@ using Zamba.Core;
 using Zamba.Core.Enumerators;
 using Zamba.Services;
 using Zamba.Tools;
+using Zamba.Framework;
 using Zamba.Membership;
 using Zamba;
 using Zamba.Web.App_Code.Helpers;
@@ -83,7 +84,8 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     {
         get
         {
-            return EnvironmentUtil.curProtocol(Request) + @"://" + Request.ServerVariables["HTTP_HOST"] + Request.ApplicationPath + @"/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+            String token = new ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
+            return EnvironmentUtil.curProtocol(Request) + @"://" + Request.ServerVariables["HTTP_HOST"] + Request.ApplicationPath + @"/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2},token={3}";
         }
     }
     public bool IsShowing
@@ -141,9 +143,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 {
                     if (_ITaskResult != null)
                     {
-
                         _result = (IResult)_ITaskResult;
-                        _result.Indexs = new List<IIndex>((new SIndex().GetIndexs(_result.ID, _result.DocTypeId)));
 
                         if (Page.IsPostBack)
                         {
@@ -229,7 +229,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                         UserPreferences = null;
                     }
                 }
-
+               
 
             }
         }
@@ -242,73 +242,65 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     private void LoadIndexsPanel(bool useSessionIndexs)
     {
         SRights Rights = new SRights();
-        if (_result != null)
+
+        //Se cargan los permisos del tipo de documento
+        Int64 docTypeId = _result.DocTypeId;
+        isShared = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.Share, _result.DocTypeId);
+        isReindex = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ReIndex, _result.DocTypeId);
+
+        //Se validan otros permisos para el caso de reindex
+        if (_result.DocTypeId != 0)
         {
-            Int64 docTypeId = _result.DocTypeId;
-            isShared = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.Share, _result.DocTypeId);
-            isReindex = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ReIndex, _result.DocTypeId);
-
-            //Se validan otros permisos para el caso de reindex
-            if (_result.DocTypeId != 0)
+            if (isShared)
             {
-                if (isShared)
-                {
-                    isReindex = false;
-                }
-                else
-                {
-                    if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ReIndex, docTypeId))
-                    {
-                        if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.OwnerChanges, docTypeId) && Zamba.Membership.MembershipHelper.CurrentUser.ID == _result.OwnerID && !isReindex)
-                            isReindex = true;
-
-                        if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.OwnerChanges, docTypeId) && Zamba.Membership.MembershipHelper.CurrentUser.ID != _result.OwnerID && isReindex)
-                        {
-                            if (!UB.DisableOwnerChanges(user.ID, docTypeId))
-                                isReindex = false;
-                        }
-                    }
-                }
-            }
-
-            Rights = null;
-            user = null;
-
-            if (_result.Indexs.Count > 0)
-            {
-                List<IIndex> indexs;
-
-                if (useSessionIndexs)
-                {
-                    indexs = (List<IIndex>)Session["CurrentIndexs"];
-                }
-                else
-                {
-                    indexs = new List<IIndex>();
-                    for (int i = 0; i < _result.Indexs.Count; i++)
-                        indexs.Add((Index)_result.Indexs[i]);
-                }
-
-                completarindice.DtId = _result.DocTypeId;
-                completarindice.Visible = true;
-                completarindice.ShowIndexs(indexs, WebModuleMode.Result);
-                completarindice.SaveChanges.Visible = isReindex;
-                completarindice.CleanIndexs.Visible = isReindex;
-                completarindice.SaveChangesImgUrl = "../../../Content/Images/Toolbars/disk_blue.png";
-                completarindice.CleanIndexImgUrl = "../../../Content/Images/Toolbars/cleanIndex.png";
+                isReindex = false;
             }
             else
             {
-                completarindice.Visible = false;
+                if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ReIndex, docTypeId))
+                {
+                    if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.OwnerChanges, docTypeId) && Zamba.Membership.MembershipHelper.CurrentUser.ID == _result.OwnerID && !isReindex)
+                        isReindex = true;
+
+                    if (RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.OwnerChanges, docTypeId) && Zamba.Membership.MembershipHelper.CurrentUser.ID != _result.OwnerID && isReindex)
+                    {
+                        if (!UB.DisableOwnerChanges(user.ID, docTypeId))
+                            isReindex = false;
+                    }
+                }
+            }
+        }
+
+        Rights = null;
+        user = null;
+
+        if (_result.Indexs.Count > 0)
+        {
+            List<IIndex> indexs;
+
+            if (useSessionIndexs)
+            {
+                indexs = (List<IIndex>)Session["CurrentIndexs"];
+            }
+            else
+            {
+                indexs = new List<IIndex>();
+                for (int i = 0; i < _result.Indexs.Count; i++)
+                    indexs.Add((Index)_result.Indexs[i]);
             }
 
+            completarindice.DtId = _result.DocTypeId;
+            completarindice.Visible = true;
+            completarindice.ShowIndexs(indexs, WebModuleMode.Result);
+            completarindice.SaveChanges.Visible = isReindex;
+            completarindice.CleanIndexs.Visible = isReindex;
+            completarindice.SaveChangesImgUrl = "../../../Content/Images/Toolbars/disk_blue.png";
+            completarindice.CleanIndexImgUrl = "../../../Content/Images/Toolbars/cleanIndex.png";
         }
         else
         {
             completarindice.Visible = false;
         }
-        //Se cargan los permisos del tipo de documento
-
     }
 
     /// <summary>
@@ -395,7 +387,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
         user = Zamba.Membership.MembershipHelper.CurrentUser;
         SForms SForms = new SForms();
         IZwebForm zfrm = SForms.GetForm(Int64.Parse(Request["formid"].ToString()));
-        
+
         string Script = "$(document).ready(function(){ parent.$('#openModalIFContent')" +
                                 ".find('#modalFormTitle').text('" + zfrm.Name + "') });";
         Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "ShowError", Script, true);
@@ -437,21 +429,10 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
     private void EvaluateShowForm()
     {
-        Int64 FormId = 0;
-        if (!string.IsNullOrEmpty(Request.QueryString["mf"]) && Request.QueryString["mf"] != "undefined")
-        {
-            FormId = Convert.ToInt64(Request.QueryString["mf"]);
-            TaskResult.ModalFormID = FormId;
-            string Script = "$(document).ready(function(){  setCurrentForm(" + TaskResult.ModalFormID + "); });";
-            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "setCurrentForm", Script, true);
-
-            ShowDocumentFromDoShowForm(TaskResult.ModalFormID);
-        } else if (TaskResult.CurrentFormID > 0)
+        Int64 FormId;
+        if (TaskResult.CurrentFormID > 0)
         {
             Page.Session.Add("CurrentFormID" + TaskResult.ID, TaskResult.CurrentFormID);
-            string Script = "$(document).ready(function(){  setCurrentForm(" + TaskResult.CurrentFormID + "); });";
-            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "setCurrentForm", Script, true);
-
             ShowDocumentFromDoShowForm(TaskResult.CurrentFormID);
         }
         else if (Page.Session["CurrentFormID" + TaskResult.ID] != null && Int64.TryParse(Page.Session["CurrentFormID" + TaskResult.ID].ToString(), out FormId))
@@ -505,9 +486,6 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
         string strItem;
         long RuleId = 0;
 
-        if(IsTask)
-            NewResult = null;
-
         for (int i = 0; i < keysCount; i++)
         {
             if (postBackForm.AllKeys[i] == null) continue;
@@ -554,7 +532,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 //Si se llama al save pero se está insertando(NewResult != null)
                 if (NewResult != null)
                 {
-                    InsertDocument(true);
+                    InsertDocument();
                     //Luego de hacer el comit del documento, se fija si tiene archivos para insertar
                     SaveAttachedDocuments();
                     NewResult = null;
@@ -563,7 +541,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 }
                 else
                 {
-                    SaveFormData(IsTask, true);
+                    SaveFormData(IsTask);
                     //Luego de hacer el comit del documento, se fija si tiene archivos para insertar
                     SaveAttachedDocuments();
                 }
@@ -587,7 +565,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 break;
             }
 
-            if (!(strItem.StartsWith("zamba_rule_cancel") || strItem.StartsWith("zamba_rule_save")) && strItem.StartsWith("zamba_rule_"))
+            if (IsTask && !(strItem.StartsWith("zamba_rule_cancel") || strItem.StartsWith("zamba_rule_save")) && strItem.StartsWith("zamba_rule_"))
             {
 
                 RuleId = long.Parse(strItem.Replace("zamba_rule_", String.Empty));
@@ -668,38 +646,13 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
         if (RuleId > 0)
         {
-
-            //Si se llama al save pero se está insertando(NewResult != null)
-            if (NewResult != null)
-            {
-                InsertDocument(false);
-                //Luego de hacer el comit del documento, se fija si tiene archivos para insertar
-                SaveAttachedDocuments();
-                //Una vez insertado se limpia la variable de session
-                Session.Remove("SpecificAttrubutes" + _ruleCallTaskID.ToString());
-
-                STasks stasks = new STasks();
-                TaskResult = stasks.GetTaskByDocId(NewResult.ID);                
-
-            }
-            else
-            {
-                //when executing a rule, the save MUSN't execute Indexs Event Rules
-                SaveFormData(IsTask,false);
-                //Luego de hacer el comit del documento, se fija si tiene archivos para insertar
-                SaveAttachedDocuments();
-            }
-
-
             List<ITaskResult> list = new List<ITaskResult>();
             list.Add(TaskResult);
 
             Session["ExecutingRule"] = RuleId;
 
-            //when executing a rule, the save MUSN't execute Indexs Event Rules
             if (string.IsNullOrEmpty(postBackForm["hdnRuleActionType"]) || postBackForm["hdnRuleActionType"] == "Save")
-                SaveFormData(IsTask, false);
-
+                SaveFormData(IsTask);
             WFRulesBusiness WRB = new WFRulesBusiness();
             Zamba.Core.WF.WF.WFTaskBusiness WFTB = new Zamba.Core.WF.WF.WFTaskBusiness();
             UserBusiness UB = new UserBusiness();
@@ -782,42 +735,28 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     }
     private void ScriptDocument()
     {
-
-        var url = string.Format("'../Search/DocViewer.aspx?docid={0}&doctype={1}&showoriginal={2}'", _result.ID.ToString(), _result.DocTypeId.ToString(), true);
+        Zss zss = (new ZssFactory()).GetZss(MembershipHelper.CurrentUser);
+        var url = string.Format("'../Search/DocViewer.aspx?docid={0}&doctype={1}&showoriginal={2}&userid={3}&token={4}'", _result.ID.ToString(), _result.DocTypeId.ToString(),zss.UserId.ToString(),zss.Token  , true);
         ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "OpenDocTask3", "$(document).ready(function(){parent.OpenDocTaskfronMaster2(" + 0.ToString() + ',' + _result.ID.ToString() + ',' + _result.DocTypeId + ',' + "true" + ',' + "'" + _result.Name.ToString() + "'" + ',' + url.ToString() + "," + Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString() + "); } ); ", true);
     }
 
     /// <summary>
     /// Inserta un documento en base al INewResult almacenado en la session.
     /// </summary>
-    private void InsertDocument(bool CloseWindowAfterInserted)
+    private void InsertDocument()
     {
         try
         {
             NewResult.Indexs = FillNewResultIndex(NewResult.Indexs);
             if (NewResult.ID == 0)
             {
-                Boolean DontOpenTaskAfterInsert = false;
-                if (!string.IsNullOrEmpty(Request.QueryString["DontOpenTaskAfterInsert"]))
-                {
-                    DontOpenTaskAfterInsert = Boolean.Parse(Request.QueryString["DontOpenTaskAfterInsert"].ToString().Trim());
-                }
 
-                InsertResult insertresult = IndexDocument(NewResult, true, !DontOpenTaskAfterInsert);
+                InsertResult insertresult = IndexDocument(NewResult, true);
 
                 if (insertresult == InsertResult.Insertado)
                 {
-                    var script2 = " swal('Insertar', 'ingreso finalizado', 'success');";
-
-                    if (CloseWindowAfterInserted)
-                    {
-                        script2 = " swal('Insertar', 'Ingreso finalizado', 'success').then(function() {window.close()});";
-                    }
-
-                    var RefreshParentDataFromChildWindowScript = " RefreshParentDataFromChildWindow(); ";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "RefreshParentDataFromChildWindowAndNotification", "$(document).ready(function(){" + RefreshParentDataFromChildWindowScript + script2 + "});", true);
-                   
-                    if (!DontOpenTaskAfterInsert)
+                    lblDoc.Text = "El documento ha sido insertado correctamente";
+                    
                     OpenTask(NewResult);
                 }
                 else
@@ -839,10 +778,6 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 lblDoc.Text = "Ha ocurrido un error al cargar el formulario";
                 return;
             }
-
-            var scriptMsg = $" swal('Error', '{lblDoc.Text}');";
-           ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorMsg", "$(document).ready(function(){" + scriptMsg + "});", true);
-
             Zamba.AppBlock.ZException.Log(ex);
         }
     }
@@ -886,28 +821,14 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             if (showDocAfterInsert || opendoc)
             {
                 //Realiza la apertura del documento dependiendo de si tiene tareas o permisos.
-                Int64 StepId = 0;
                 if (task != null)
                 {
-                    //Page.Session.Add("Entrada" + ResultToOpen.ID, true);
-                    StepId = task.StepId;
-                }
-                int openmode = 0;
-                try
-                {
-                    if (Page.Request.Url.AbsolutePath.IndexOf("DocInsertModal") > 0)
-                    { openmode = 4; }
-                    
-                }
-                catch (Exception)
-                {
-
-                    throw;
+                    Page.Session.Add("Entrada" + ResultToOpen.ID, true);
                 }
 
                 string urlTask = "../WF/TaskSelector.ashx?docid=" + ResultToOpen.ID.ToString() + "&doctype=" + ResultToOpen.DocTypeId.ToString() + "&userId=" + user.ID;
                 script += "parent.SelectTaskFromModal();";
-                script += string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6},{7},{8});", 0, ResultToOpen.ID, ResultToOpen.DocTypeId, "false", ResultToOpen.Name, urlTask, user.ID, StepId, openmode);
+                script += string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6});", 0, ResultToOpen.ID, ResultToOpen.DocTypeId, "false", ResultToOpen.Name, urlTask, user.ID);
             }
             else
             {
@@ -944,7 +865,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
     /// <param name="DisableAutomaticVersion">Parámetro no tenido en cuenta, evaluar si es necesario.</param>
     /// <returns>>Resultado de la insersión.</returns>
-    private InsertResult IndexDocument(INewResult ResultToInsert, bool DisableAutomaticVersion, bool OpenTask)
+    private InsertResult IndexDocument(INewResult ResultToInsert, bool DisableAutomaticVersion)
     {
         InsertResult InsertResult = InsertResult.NoInsertado;
         try
@@ -1011,8 +932,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                     }
                 }
 
-                bool ExecuteEntryRules = !OpenTask;
-                InsertResult = SResult.Insert(ref ResultToInsert, false, false, false, false, ResultToInsert.ISVIRTUAL, false, false, true, false,0,0,ExecuteEntryRules);
+                InsertResult = SResult.Insert(ref ResultToInsert, false, false, false, false, ResultToInsert.ISVIRTUAL, false, false, true, false);
                 SResult = null;
                 SIndex = null;
             }
@@ -1022,9 +942,6 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             InsertResult = InsertResult.NoInsertado;
             Zamba.AppBlock.ZException.Log(ex);
             lblDoc.Text = "Ha ocurrido un error al insertar el formulario";
-            var scriptMsg = $" swal('Error', '{lblDoc.Text}');";
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorMsg", "$(document).ready(function(){" + scriptMsg + "});", true);
-
         }
 
         return InsertResult;
@@ -1143,7 +1060,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     }
 
     //03/10/2011: Se agrega este método para salvar los datos que llegan desde el formulario.
-    private void SaveFormData(bool IsTask,bool executeIndexRules)
+    private void SaveFormData(bool IsTask)
     {
         if (_result == null) return;
 
@@ -1175,49 +1092,48 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 for (int i = 0; i < indexsCount; i++)
                 {
                     currIndex = (IIndex)_result.Indexs[i];
-                    if (currIndex.isReference == false)
+
+                    oldDataValue = currIndex.Data;
+                    oldDescriptionValue = currIndex.dataDescription;
+
+                    if (CurrentZFrom != null && CurrentZFrom.ContainsKey(currIndex.ID))
+                        indexValue = getInputIndexValue(currIndex, true);
+                    else
+                        indexValue = getInputIndexValue(currIndex, false);
+
+                    if (indexValue != null && currIndex.Data.Trim() != indexValue.Trim())
                     {
-                        oldDataValue = currIndex.Data;
-                        oldDescriptionValue = currIndex.dataDescription;
+                        listModifiedIndex.Add(currIndex.ID);
+                        DataRow row = dtModifiedIndex.NewRow();
+                        row["ID"] = currIndex.ID;
+                        row["OldValue"] = currIndex.Data;
+                        row["NewValue"] = indexValue.Trim();
+                        dtModifiedIndex.Rows.Add(row);
 
-                        if (CurrentZFrom != null && CurrentZFrom.ContainsKey(currIndex.ID))
-                            indexValue = getInputIndexValue(currIndex, true);
-                        else
-                            indexValue = getInputIndexValue(currIndex, false);
+                        currIndex = SetIndexData(indexValue, currIndex);
+                    }
 
-                        if (indexValue != null && currIndex.Data.Trim() != indexValue.Trim())
+                    if (oldDataValue == null)
+                    {
+                        oldDataValue = String.Empty;
+                    }
+                    if (_result.ID != 0)
+                    {
+                        if (oldDataValue != null && String.CompareOrdinal(oldDataValue.Trim(), currIndex.Data.Trim()) != 0)
                         {
-                            listModifiedIndex.Add(currIndex.ID);
-                            DataRow row = dtModifiedIndex.NewRow();
-                            row["ID"] = currIndex.ID;
-                            row["OldValue"] = currIndex.Data;
-                            row["NewValue"] = indexValue.Trim();
-                            dtModifiedIndex.Rows.Add(row);
-
-                            currIndex = SetIndexData(indexValue, currIndex);
-                        }
-
-                        if (oldDataValue == null)
-                        {
-                            oldDataValue = String.Empty;
-                        }
-                        if (_result.ID != 0)
-                        {
-                            if (oldDataValue != null && String.CompareOrdinal(oldDataValue.Trim(), currIndex.Data.Trim()) != 0)
+                            changes = true;
+                            //Si existen cambios se guardan para el historial
+                            if (String.IsNullOrEmpty(oldDescriptionValue))
                             {
-                                changes = true;
-                                //Si existen cambios se guardan para el historial
-                                if (String.IsNullOrEmpty(oldDescriptionValue))
-                                {
-                                    sbIndexHistory.Append("índice '" + currIndex.Name + "' de '" + oldDataValue.Trim() + "' a '" + currIndex.Data.Trim() + "', ");
-                                }
-                                else
-                                {
-                                    sbIndexHistory.Append("índice '" + currIndex.Name + "' de '" + oldDescriptionValue + "' a '" + currIndex.dataDescription + "', ");
-                                }
+                                sbIndexHistory.Append("índice '" + currIndex.Name + "' de '" + oldDataValue.Trim() + "' a '" + currIndex.Data.Trim() + "', ");
+                            }
+                            else
+                            {
+                                sbIndexHistory.Append("índice '" + currIndex.Name + "' de '" + oldDescriptionValue.Trim() + "' a '" + currIndex.dataDescription.Trim() + "', ");
                             }
                         }
                     }
+
                 }
 
                 if (listModifiedIndex.Count > 0)
@@ -1236,7 +1152,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                         SRules rulesS = new SRules();
                         List<IWFRuleParent> rules = rulesS.GetCompleteHashTableRulesByStep(TaskResult.StepId);
 
-                        if (executeIndexRules && rules != null)
+                        if (rules != null)
                         {
                             var ruleIDs = from rule in rules
                                           where rule.RuleType == TypesofRules.Indices
@@ -1259,6 +1175,13 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 Zamba.AppBlock.ZException.Log(ex);
             }
         }
+        //else
+        //{
+        //    string script = "$(document).ready(function(){ $('#divMessage').dialog({ closeOnEscape: false,open: function(event, ui) { $(\".ui-dialog-titlebar-close\").hide(); }, autoOpen: true, modal: true, position: 'top', resizable: false });" +
+        //        "$('#divMessage').parent().css('top', '20px');" +
+        //        "$('#divMessage').parent().css('position', 'absolute'); });";
+        //    ScriptManager.RegisterClientScriptBlock(this, GetType(), "ErrorMsg", script, true);
+        //}
         string script = "$(document).ready(function(){ RefreshParentDataFromChildWindow()});";
         ScriptManager.RegisterClientScriptBlock(this, GetType(), "RefreshParentDataFromChildWindow", script, true);
     }
@@ -1580,7 +1503,8 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                                     {
                                         if (!string.IsNullOrEmpty(_result.FullPath) || !string.IsNullOrEmpty(_result.Doc_File))
                                         {
-                                            string Path = string.Format(GetDocFileUrl, _result.DocTypeId, _result.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+                                            String token = new ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
+                                            string Path = string.Format(GetDocFileUrl, _result.DocTypeId, _result.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID,token);
 
                                             if (_result.IsMsg && (File.Exists(_result.FullPath.ToLower().Replace(".msg", ".html")) || File.Exists(_result.FullPath.ToLower().Replace(".msg", ".txt"))))
                                             {
@@ -1609,50 +1533,33 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                                             Docutip.Add(".gif");
                                             Docutip.Add(".raw");
 
-                                            if (!string.IsNullOrEmpty(_result.FullPath))
+                                            foreach (string tipo in Docutip)
                                             {
-                                                foreach (string tipo in Docutip)
+
+
+                                                if (_result.FullPath.ToLower().Contains(tipo))
                                                 {
-
-
-                                                    if (_result.FullPath.ToLower().Contains(tipo))
-                                                    {
-                                                        string tag = item.Value;
-                                                        SForms.replazarAtributoSrc(ref tag, Path);
-                                                        IDtoTag dto = SForms.instanceDtoTag(item.Value, tag);
-                                                        listaTags.Add(dto);
-                                                        useOriginal = true;
-
-                                                    }
-
-                                                    else
-                                                    {
-                                                        string tag = item.Value;
-                                                        IDtoTag dtoo = SForms.instanceDtoTag(item.Value, tag);
-
-                                                        var newbutton = string.Format("<a  href='" + Path + "' class='btn btn-primary' target='_blank'>Descargar Archivo</a>");
-
-                                                        IDtoTag dto = SForms.instanceDtoTag(item.Value, newbutton);
-                                                        listaTags.Add(dto);
-                                                        useOriginal = true;
-
-                                                    }
-                                                }
-
-                                            }
-                                            else
-                                            {
-                                                if (item != null && item.Value != null)
-                                                {
-                                                    string tag = SForms.RemoveSrcTag(item.Value);
-                                                    if (string.Compare(item.Value, tag) != 0)
-                                                    {
-                                                        IDtoTag dto = SForms.instanceDtoTag(item.Value, tag);
-                                                        listaTags.Add(dto);
-                                                    }
-
+                                                    string tag = item.Value;
+                                                    SForms.replazarAtributoSrc(ref tag, Path);
+                                                    IDtoTag dto = SForms.instanceDtoTag(item.Value, tag);
+                                                    listaTags.Add(dto);
                                                     useOriginal = true;
+
                                                 }
+
+                                                else
+                                                {
+                                                    string tag = item.Value;
+                                                    IDtoTag dtoo = SForms.instanceDtoTag(item.Value, tag);
+
+                                                    var newbutton = string.Format("<a  href='" + Path + "' class='btn btn-primary' target='_blank'>Descargar Archivo</a>");
+
+                                                    IDtoTag dto = SForms.instanceDtoTag(item.Value, newbutton);
+                                                    listaTags.Add(dto);
+                                                    useOriginal = true;
+
+                                                }
+
                                             }
                                         }
                                         else
@@ -1805,7 +1712,6 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                         conditionScripts = new StringBuilder().AppendFormat(HTML.DOCUMENT_READY_FORMAT,
                             HTML.MakeDynamicConditions(strBody, this.CurrentForm.ID, NewResult.Indexs)).ToString();
                     }
-                    if (string.IsNullOrEmpty(conditionScripts) == false)
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DynamicConditionScript", conditionScripts, true);
 
                     docViewer.Visible = true;
@@ -1953,6 +1859,493 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     }
 
     /// <summary>
+    /// Convierte el contenido de un listado de results en un Datatable
+    /// </summary>
+    /// <param name="results"></param>
+    /// <returns></returns>
+    /// <remarks></remarks>
+    /// <history> 
+    ///     [Gaston]    19/11/2008     Modified     Se agrego la columna "Estado" y verificación del documento asociado para ver si es una tarea
+    ///     [Gaston]    20/11/2008     Modified     Se agrego la columna "Usuario Asignado" 
+    ///     [Gaston]    05/01/2009     Modified     Verificación de la columna "Nombre del Documento" en el UserPreferences para mostrar o ocultar 
+    ///                                             dicha columna
+    ///     [Gaston]    06/01/2009     Modified     Validación del valor de "Nombre del Documento" y código comentado en donde se intenta colocar
+    ///                                             un String.Empty en una columna que no existe
+    ///     Marcelo     05/02/2009     Modified     Se modifico la carga de los indices para mejorar la performance 
+    ///     Marcelo     06/01/2010     Modified     Se agrego variable para cargar solo las tareas que esten en WF
+    /// </history>
+    public DataTable ParseResult(List<IResult> results, bool onlyWF, string tableId)
+    {
+        //En caso de que el contendido sea vacio retornamos una tabla vacia
+        if (results.Count == 0)
+            return new DataTable();
+
+        DataTable Dt = new DataTable();
+        Dictionary<Int64, Int64> taskids = new Dictionary<Int64, Int64>();
+
+        STasks STasks = new STasks();
+        SRights SRights = new SRights();
+        UserPreferences UserPreferences = new UserPreferences();
+
+        Char mander = Char.Parse("§");
+        Char pipe = Char.Parse("/");
+        Char equal = Char.Parse("=");
+
+        //Dt.Columns.Add(new DataColumn("Ver"));
+
+        if (string.IsNullOrEmpty(tableId) == false)
+        {
+            if (tableId.Split(mander).Length <= 1)
+                tableId = string.Empty;
+            else
+                foreach (string btn in tableId.Split(mander))
+                {
+                    String[] items = btn.Split(pipe);
+                    Dt.Columns.Add(items[1].ToString());
+                }
+        }
+
+        Dt.Columns.Add(new DataColumn("Nombre"));
+
+        Dt.Columns.Add(new DataColumn("Estado"));
+
+        Dt.Columns.Add(new DataColumn("Usuario Asignado"));
+
+
+        try
+        {
+            Type CurrentIndexType = null;
+
+            //Cargo todos los indices de todos los results , como pueden ser diferentes tipos de documento recorro todos
+            //Solo visualizo en la tabla los indices sobre los cuales tiene permiso el documento. Mariela
+            Int64 lastDocTypeId = 0;
+            Hashtable IRI = null;
+
+            foreach (IResult CurrentResult in results)
+            {
+                // Se verifica si el documento es una tarea
+                Int64 TaskId = -1;
+
+                List<Int64> taskIdList = STasks.GetTaskIDsByDocId(CurrentResult.ID);
+
+                if ((taskIdList != null) && taskIdList.Count == 1)
+                {
+                    TaskId = taskIdList[0];
+                    taskids.Add(CurrentResult.ID, TaskId);
+                }
+
+                if (onlyWF == false | TaskId != -1)
+                {
+                    //Guardo el entidad anterior asi no recargo los indices mas veces de las necesarias
+                    if (lastDocTypeId != CurrentResult.DocTypeId)
+                    {
+                        lastDocTypeId = CurrentResult.DocTypeId;
+                        //26/10/2011: Se cambia la forma de obtener los permisos por indices a la misma que en windows. Dado que no los obtenia en forma correcta
+                        IRI = UB.GetAssociatedIndexsRightsCombined(this._result.DocTypeId, lastDocTypeId, user.ID);
+                    }
+
+                    foreach (IIndex CurrentIndex in CurrentResult.Indexs)
+                    {
+                        bool ShowIndex = false;
+
+                        if (IRI.ContainsKey(CurrentIndex.ID))
+                        {
+                            AssociatedIndexsRightsInfo IR = (AssociatedIndexsRightsInfo)IRI[CurrentIndex.ID];
+
+                            //26/10/2011: Se cambia el tipo de permiso a buscar.
+                            if (IR.GetIndexRightValue(RightsType.AssociateIndexView))
+                                ShowIndex = true;
+                        }
+                        else
+                        {
+                            ShowIndex = true;
+                        }
+
+                        if (ShowIndex)
+                        {
+                            if (!Dt.Columns.Contains(CurrentIndex.Name))
+                            {
+                                CurrentIndexType = typeof(string);
+
+                                if (CurrentIndex.DropDown == IndexAdditionalType.LineText)
+                                {
+                                    CurrentIndexType = GetIndexType(CurrentIndex.Type);
+                                }
+                                else
+                                {
+                                    CurrentIndexType = typeof(string);
+                                }
+
+                                Dt.Columns.Add(CurrentIndex.Name.Trim(), CurrentIndexType);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (bool.Parse(UP.getValue("FechaCreacion", UPSections.FormPreferences, "True")) == true)
+            {
+                Dt.Columns.Add(new DataColumn("Creado"));
+            }
+            if (bool.Parse(UP.getValue("TipodeDocumento", UPSections.FormPreferences, "True")) == true)
+            {
+                Dt.Columns.Add(new DataColumn("Entidad"));
+            }
+            if (bool.Parse(UP.getValue("FechaModificacion", UPSections.FormPreferences, "True")) == true)
+            {
+                Dt.Columns.Add(new DataColumn("Modificado"));
+            }
+            if (bool.Parse(UP.getValue("NombreOriginal", UPSections.FormPreferences, "True")) == true)
+            {
+                Dt.Columns.Add(new DataColumn("Original"));
+            }
+            if (bool.Parse(UP.getValue("NumerodeVersion", UPSections.FormPreferences, "True")) == true)
+            {
+                Dt.Columns.Add(new DataColumn("Numero de Version"));
+            }
+            if (bool.Parse(UP.getValue("ParentId", UPSections.FormPreferences, "True")) == true)
+            {
+                Dt.Columns.Add(new DataColumn("ParentId"));
+            }
+
+
+            Dt.Columns.Add(new DataColumn("Ruta Documento"));
+            Dt.Columns.Add(new DataColumn("DoctypeId"));
+            Dt.Columns.Add(new DataColumn("IdDoc", typeof(Int64)));
+            Dt.AcceptChanges();
+
+            DataRow CurrentRow = null;
+
+            foreach (IResult CurrentResult in results)
+            {
+                // Se verifica si el documento es una tarea
+                if (onlyWF == false | taskids.ContainsKey(CurrentResult.ID))
+                {
+                    CurrentRow = Dt.NewRow();
+
+
+                    CurrentRow["Nombre"] = CurrentResult.Name;
+
+
+                    CurrentRow["IdDoc"] = CurrentResult.ID;
+                    CurrentRow["Ruta Documento"] = CurrentResult.FullPath;
+
+
+                    if (bool.Parse(UP.getValue("TipodeDocumento", UPSections.FormPreferences, "True")) == true)
+                    {
+                        CurrentRow["Entidad"] = CurrentResult.Parent.Name;
+                    }
+                    if (bool.Parse(UP.getValue("NumerodeVersion", UPSections.FormPreferences, "True")) == true)
+                    {
+                        CurrentRow["Numero de Version"] = CurrentResult.VersionNumber;
+                    }
+                    if (bool.Parse(UP.getValue("ParentId", UPSections.FormPreferences, "True")) == true)
+                    {
+                        CurrentRow["ParentId"] = CurrentResult.ParentVerId;
+                    }
+
+                    CurrentRow["DoctypeId"] = CurrentResult.DocType.ID;
+
+
+                    Type IndexType = typeof(string);
+
+                    foreach (IIndex CurrentIndex in CurrentResult.Indexs)
+                    {
+                        IndexType = GetIndexType(CurrentIndex.Type);
+
+                        try
+                        {
+                            //Si Data tiene un valor que se le asigne al Item
+                            if (!string.IsNullOrEmpty(CurrentIndex.Data) && CurrentRow.Table.Columns.Contains(CurrentIndex.Name))
+                            {
+                                if (CurrentIndex.DropDown == IndexAdditionalType.LineText)
+                                {
+                                    if (CurrentIndex.Type == IndexDataType.Si_No)
+                                    {
+                                        if (int.Parse(CurrentIndex.Data) == 0)
+                                        {
+                                            CurrentRow[CurrentIndex.Name] = "No";
+                                        }
+                                        else
+                                        {
+                                            CurrentRow[CurrentIndex.Name] = "Si";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        CurrentRow[CurrentIndex.Name] = CurrentIndex.Data;
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (string.Compare(string.Empty, CurrentIndex.dataDescription) != 0)
+                                    {
+                                        CurrentRow[CurrentIndex.Name] = CurrentIndex.dataDescription;
+                                    }
+                                    else
+                                    {
+                                        CurrentRow[CurrentIndex.Name] = CurrentIndex.Data;
+                                    }
+                                }
+
+                                //Si Data no tiene valor se le asigna el de DataDescription
+                                //(si es que no esta vacío)
+                            }
+                            else if (!string.IsNullOrEmpty(CurrentIndex.dataDescription) && CurrentRow.Table.Columns.Contains(CurrentIndex.Name))
+                            {
+                                CurrentRow[CurrentIndex.Name] = CurrentIndex.dataDescription;
+                                //Si no hay valor para asignar no hace nada
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Zamba.AppBlock.ZException.Log(ex);
+                        }
+                    }
+
+                    if (taskids.ContainsKey(CurrentResult.ID))
+                    {
+                        DataSet dsTask = STasks.GetTaskDs(taskids[CurrentResult.ID]);
+
+                        // Si el documento es una tarea entonces se coloca el estado actual de la tarea, sino, el estado se coloca como vacío
+                        if (dsTask != null && dsTask.Tables.Count == 1 && dsTask.Tables[0].Rows.Count >= 1)
+                        {
+                            if ((bool.Parse(UP.getValue("State", UPSections.FormPreferences, "True")) == true))
+                            {
+                                SStepStates SStepStates = new SStepStates(ref user);
+                                CurrentRow["Estado"] = SStepStates.GetStateName(Int64.Parse(dsTask.Tables[0].Rows[0]["Do_State_Id"].ToString()));
+                            }
+
+                            if ((bool.Parse(UP.getValue("UserAsigned", UPSections.FormPreferences, "True")) == true))
+                            {
+                                Boolean IsGroup = false;
+
+                                SUserGroup SUserGroup = new SUserGroup(ref user);
+                                CurrentRow["Usuario Asignado"] = SUserGroup.GetUserorGroupNamebyId(Int64.Parse(dsTask.Tables[0].Rows[0]["User_Asigned"].ToString()), ref IsGroup);
+                            }
+
+                            dsTask.Dispose();
+                            dsTask = null;
+                        }
+                    }
+
+                    Results_Business RB = new Results_Business();
+                    var DataTale = RB.GetIndexByAssociateIndex(Convert.ToInt32(CurrentResult.DocType.ID), Convert.ToInt32(CurrentResult.ID));
+                    if (DataTale != null)
+                    {
+
+                        if (CurrentResult.DocType.ID == 2525)
+                        {
+                            CurrentRow["Creado"] = DataTale.Rows[0][1];
+                            CurrentRow["Modificado"] = DataTale.Rows[0][2];
+                            CurrentRow["ID Reclamo"] = DataTale.Rows[0][10];
+                            CurrentRow["Juicio o Mediacion"] = DataTale.Rows[0][11];
+                            CurrentRow["Nro Juicio Mediacion"] = DataTale.Rows[0][13];
+                            CurrentRow["ID Notificacion"] = DataTale.Rows[0][14];
+                            CurrentRow["Tipo de Doc Juicios"] = DataTale.Rows[0][15];
+                            CurrentRow["Estudio"] = DataTale.Rows[0][16];
+                            CurrentRow["ID Documentacion"] = DataTale.Rows[0][18];
+                            CurrentRow["Fecha de Notificacion"] = DataTale.Rows[0][24];
+                        }
+
+
+
+                    }
+                    else
+                    {
+                        if (bool.Parse(UP.getValue("FechaCreacion", UPSections.FormPreferences, "True")) == true)
+                        {
+                            CurrentRow["Creado"] = (DateTime)CurrentResult.CreateDate;
+                        }
+
+                        if (bool.Parse(UP.getValue("FechaModificacion", UPSections.FormPreferences, "True")) == true)
+                        {
+                            CurrentRow["Modificado"] = (DateTime)CurrentResult.EditDate;
+                        }
+                    }
+
+                    //Nombre del documento
+                    if (bool.Parse(UP.getValue("NombreOriginal", UPSections.FormPreferences, "True")) == true)
+                    {
+                        string FileName = CurrentResult.OriginalName;
+
+                        if (FileName == null)
+                            FileName = CurrentResult.Name;
+
+                        Int32 indexpath = FileName.LastIndexOf("\\");
+
+                        if (indexpath == -1 || FileName.Length - 1 == -1)
+                        {
+                        }
+                        else
+                        {
+                            if (indexpath == -1)
+                                indexpath = 0;
+                            try
+                            {
+                                FileName = FileName.Substring(indexpath + 1, FileName.Length - indexpath - 1);
+                            }
+                            catch
+                            {
+                                FileName = CurrentResult.OriginalName;
+                            }
+                        }
+                        CurrentRow["Original"] = FileName;
+                    }
+
+                    StringBuilder InnerHtml = new StringBuilder();
+
+                    if (string.IsNullOrEmpty(tableId) == false)
+                    {
+                        string textItem2 = null;
+                        string textAux = null;
+
+                        if (tableId.Split(mander).Length <= 1)
+                            tableId = string.Empty;
+                        else
+                            foreach (string btn in tableId.Split(mander))
+                            {
+                                InnerHtml.Remove(0, InnerHtml.Length);
+                                String[] items = btn.Split(pipe);
+                                Int32 itemNum = default(Int32);
+                                String[] zvarItems = null;
+                                string @params = null;
+
+                                InnerHtml.Append("&nbsp;<INPUT id=");
+                                InnerHtml.Append(Convert.ToChar(34));
+
+                                //Si tiene zvar
+                                if (items.Length > 2)
+                                {
+                                    textItem2 = items[2].ToString();
+                                    InnerHtml.Append(items[0] + "_");
+
+                                    while (string.IsNullOrEmpty(textItem2) == false)
+                                    {
+                                        textAux = textItem2.Remove(0, 5);
+                                        zvarItems = textAux.Remove(textAux.IndexOf(")")).Split(equal);
+                                        textItem2 = textItem2.Remove(0, textItem2.IndexOf(")") + 1);
+
+                                        if (Int32.TryParse(zvarItems[1].ToString(), out itemNum) == false)
+                                        {
+                                            if (zvarItems[1].ToString().ToLower().Contains("length"))
+                                            {
+                                                itemNum = Dt.Columns.Count - Int32.Parse(zvarItems[1].ToString().Split(Char.Parse("-"))[1]);
+                                            }
+                                        }
+                                        InnerHtml.Append("zvar(" + zvarItems[0].ToString() + "=" + CurrentRow[itemNum].ToString() + ")");
+
+                                        @params = @params + "'" + CurrentRow.ItemArray[itemNum].ToString() + "',";
+                                    }
+                                }
+                                else
+                                {
+                                    InnerHtml.Append(items[0]);
+                                }
+
+                                InnerHtml.Append(Convert.ToChar(34));
+                                InnerHtml.Append(" type=button onclick=");
+
+                                //Si hay un cuarto parametro es el nombre de la funcion JS que hay que llamar,
+                                //sino se llama a SetRuleId por default
+                                if (items.Length > 3)
+                                {
+                                    InnerHtml.Append(Convert.ToChar(34));
+                                    InnerHtml.Append(items[3] + "(this, ");
+                                    InnerHtml.Append(@params.Substring(0, @params.Length - 1).Replace("\\", "\\\\"));
+                                    InnerHtml.Append(");");
+                                    InnerHtml.Append(Convert.ToChar(34));
+                                }
+                                else
+                                {
+                                    InnerHtml.Append(Convert.ToChar(34));
+                                    InnerHtml.Append("SetRuleId(this);");
+                                    InnerHtml.Append(Convert.ToChar(34));
+                                }
+
+                                InnerHtml.Append(" value = ");
+                                InnerHtml.Append(Convert.ToChar(34));
+                                InnerHtml.Append(items[1]);
+                                InnerHtml.Append(Convert.ToChar(34));
+                                InnerHtml.Append(" Name = ");
+                                InnerHtml.Append(Convert.ToChar(34));
+                                InnerHtml.Append(items[0]);
+                                InnerHtml.Append(Convert.ToChar(34));
+                                InnerHtml.Append(" >");
+
+                                CurrentRow[items[1]] = InnerHtml.ToString();
+                                @params = string.Empty;
+                            }
+                    }
+
+                    InnerHtml = null;
+                    Dt.Rows.Add(CurrentRow);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Zamba.AppBlock.ZException.Log(ex);
+        }
+
+        Dt.AcceptChanges();
+        Dt.DefaultView.Sort = "IdDoc DESC";
+
+        return Dt.DefaultView.ToTable();
+    }
+
+    /// <summary>
+    /// Castea el tipo de un índice a Type
+    /// </summary>
+    /// <param name="indexType"></param>
+    /// <returns></returns>
+    /// <remarks></remarks>
+    private Type GetIndexType(IndexDataType indexType)
+    {
+        Type ParsedIndexType = null;
+
+        switch (indexType)
+        {
+            case IndexDataType.Alfanumerico:
+                ParsedIndexType = typeof(string);
+                break;
+            case IndexDataType.Alfanumerico_Largo:
+                ParsedIndexType = typeof(string);
+                break;
+            case IndexDataType.Fecha:
+                ParsedIndexType = typeof(System.DateTime);
+                break;
+            case IndexDataType.Fecha_Hora:
+                ParsedIndexType = typeof(DateTime);
+                break;
+            case IndexDataType.Moneda:
+                ParsedIndexType = typeof(decimal);
+                break;
+            case IndexDataType.None:
+                ParsedIndexType = typeof(string);
+                break;
+            case IndexDataType.Numerico:
+                ParsedIndexType = typeof(Int64);
+                break;
+            case IndexDataType.Numerico_Decimales:
+                ParsedIndexType = typeof(decimal);
+                break;
+            case IndexDataType.Numerico_Largo:
+                ParsedIndexType = typeof(decimal);
+                break;
+            case IndexDataType.Si_No:
+                ParsedIndexType = typeof(string);
+                break;
+            default:
+                ParsedIndexType = typeof(string);
+                break;
+        }
+
+        return ParsedIndexType;
+    }
+
+    /// <summary>
     /// Carga las columnas header de un DataTable en el una tabla Html del documento
     /// </summary>
     /// <param name="table"></param>
@@ -2012,99 +2405,98 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     /// <param name="tableId"></param>
     /// <param name="dt"></param>
     /// <remarks></remarks>
-    //private String LoadAsocData(String tableName, String strHtml, bool onlyWF, List<Int64> AsociatedResultsIDs)
-    //{
-    //    try
-    //    {
-    //        //sustraigo del strHtml, del inicio del archivo hasta la etiqueta de nombre tableName
-    //        String item = strHtml.Substring(0, strHtml.LastIndexOf(tableName, StringComparison.InvariantCultureIgnoreCase) + (tableName).Length);
-    //        String aux2 = "";
-    //        String itemTotal = "";
-    //        if (item.LastIndexOf("<") > 0)
-    //        {
-    //            //sustraigo la apertura de la etiqueta con id           
-    //            String tableTag = item.Substring(item.LastIndexOf("<"));
-    //            aux2 = strHtml.Substring(strHtml.LastIndexOf(tableName, StringComparison.InvariantCultureIgnoreCase) + (tableName).Length);
-    //            if (tableTag.ToLower().IndexOf("class=\"tablesorter\"") > 0)
-    //            {
-    //                aux2 = aux2.Substring(0, aux2.ToLower().IndexOf("</div>"));
-    //            }
-    //            else
-    //            {
-    //                Int32 tableindex = aux2.ToLower().IndexOf("</table>");
-    //                if (tableindex == -1)
-    //                    return strHtml;
-    //                aux2 = aux2.Substring(0, tableindex);
-    //            }
+    private String LoadAsocData(String tableName, String strHtml, bool onlyWF, List<Int64> AsociatedResultsIDs)
+    {
+        try
+        {
+            //sustraigo del strHtml, del inicio del archivo hasta la etiqueta de nombre tableName
+            String item = strHtml.Substring(0, strHtml.LastIndexOf(tableName, StringComparison.InvariantCultureIgnoreCase) + (tableName).Length);
+            String aux2 = "";
+            String itemTotal = "";
+            if (item.LastIndexOf("<") > 0)
+            {
+                //sustraigo la apertura de la etiqueta con id           
+                String tableTag = item.Substring(item.LastIndexOf("<"));
+                aux2 = strHtml.Substring(strHtml.LastIndexOf(tableName, StringComparison.InvariantCultureIgnoreCase) + (tableName).Length);
+                if (tableTag.ToLower().IndexOf("class=\"tablesorter\"") > 0)
+                {
+                    aux2 = aux2.Substring(0, aux2.ToLower().IndexOf("</div>"));
+                }
+                else
+                {
+                    Int32 tableindex = aux2.ToLower().IndexOf("</table>");
 
-    //            if (aux2.StartsWith("_"))
-    //                return strHtml;
+                    aux2 = aux2.Substring(0, tableindex);
+                }
 
-    //            itemTotal = tableTag + aux2;
-    //            aux2 = itemTotal.Replace("<tbody>", "").Replace("</tbody>", "");
-    //            aux2 = aux2.Replace("<TBODY>", "").Replace("</TBODY>", "");
-    //        }
+                if (aux2.StartsWith("_"))
+                    return strHtml;
 
-    //        //En aux 2 esta el item.
-    //        //Item total es el que se reemplazará
+                itemTotal = tableTag + aux2;
+                aux2 = itemTotal.Replace("<tbody>", "").Replace("</tbody>", "");
+                aux2 = aux2.Replace("<TBODY>", "").Replace("</TBODY>", "");
+            }
 
-    //        item = "<tbody>";
+            //En aux 2 esta el item.
+            //Item total es el que se reemplazará
 
-    //        if (aux2.Contains("id=\"zamba_associated_documents\"") && aux2.Contains("name=\"doc_type_ids("))
-    //        {
+            item = "<tbody>";
 
-    //            //string docTypeId1 =  aux2.Substring(aux2.IndexOf("doc_type_ids("));
-    //            string docTypeIdAux = aux2.Substring(aux2.LastIndexOf(("doc_type_ids(")));
-    //            docTypeIdAux = docTypeIdAux.Replace("doc_type_ids(", "");
-    //            docTypeIdAux = docTypeIdAux.Substring(0, docTypeIdAux.IndexOf(")"));
+            if (aux2.Contains("id=\"zamba_associated_documents\"") && aux2.Contains("name=\"doc_type_ids("))
+            {
 
-    //            string[] docTypes = docTypeIdAux.Split(',');
+                //string docTypeId1 =  aux2.Substring(aux2.IndexOf("doc_type_ids("));
+                string docTypeIdAux = aux2.Substring(aux2.LastIndexOf(("doc_type_ids(")));
+                docTypeIdAux = docTypeIdAux.Replace("doc_type_ids(", "");
+                docTypeIdAux = docTypeIdAux.Substring(0, docTypeIdAux.IndexOf(")"));
 
-    //            List<Int64> lstAux = new List<Int64>();
-    //            foreach (Int64 DocTypeId in AsociatedResultsIDs)
-    //            {
-    //                if (DocTypeId.ToString() == docTypes[0] || DocTypeId.ToString() == docTypes[1])
-    //                {
-    //                    lstAux.Add(DocTypeId);
-    //                }
-    //            }
-    //            AsociatedResultsIDs = lstAux;
-    //        }
+                string[] docTypes = docTypeIdAux.Split(',');
 
-    //        //return strHtml.Replace(itemTotal, aux2 + item + "</tbody>");
-    //        string scriptToAdd = string.Empty;
+                List<Int64> lstAux = new List<Int64>();
+                foreach (Int64 DocTypeId in AsociatedResultsIDs)
+                {
+                    if (DocTypeId.ToString() == docTypes[0] || DocTypeId.ToString() == docTypes[1])
+                    {
+                        lstAux.Add(DocTypeId);
+                    }
+                }
+                AsociatedResultsIDs = lstAux;
+            }
 
-    //        SDocAsociated sda = new SDocAsociated();
-    //        DataTable AsociatedResults = new DataTable();
+            //return strHtml.Replace(itemTotal, aux2 + item + "</tbody>");
+            string scriptToAdd = string.Empty;
 
-    //        foreach (Int64 DocTypeId in AsociatedResultsIDs)
-    //        {
-    //            AsociatedResults.Merge(sda.getAsociatedResultsFromResultAsList(DocTypeId, _result, Zamba.Membership.MembershipHelper.CurrentUser.ID));
-    //        }
+            SDocAsociated sda = new SDocAsociated();
+            DataTable AsociatedResults = new DataTable();
 
-    //        sda = null;
+            foreach (Int64 DocTypeId in AsociatedResultsIDs)
+            {
+                AsociatedResults.Merge(sda.getAsociatedResultsFromResultAsList(DocTypeId, _result, Zamba.Membership.MembershipHelper.CurrentUser.ID));
+            }
 
-    //        strHtml = strHtml.Replace(itemTotal,
-    //            GetAsociatedDocumentTag(aux2, AsociatedResults, onlyWF, tableName, ref scriptToAdd));
+            sda = null;
 
-    //        //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AsociatedTagsScripts",
-    //        //    "$(document).ready(function(){" + scriptToAdd + "});", true);
-    //        Random ran = new Random();
+            strHtml = strHtml.Replace(itemTotal,
+                GetAsociatedDocumentTag(aux2, AsociatedResults, onlyWF, tableName, ref scriptToAdd));
 
-    //        if (!string.IsNullOrEmpty(scriptToAdd))
-    //            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AsociatedTagsScripts" + ran.Next().ToString(),
-    //                "$(document).ready(function(){" + scriptToAdd + "});", true);
+            //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AsociatedTagsScripts",
+            //    "$(document).ready(function(){" + scriptToAdd + "});", true);
+            Random ran = new Random();
 
-    //        //strHtml += "$(document).ready(function(){" + scriptToAdd + "});";
-    //        //strHtml.Replace("</body>", "<script>$(document).ready(function(){" + scriptToAdd + "});</scrtipt></body>");
-    //        return strHtml;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        ZClass.raiseerror(ex);
-    //        return strHtml;
-    //    }
-    //}
+            if (!string.IsNullOrEmpty(scriptToAdd))
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "AsociatedTagsScripts" + ran.Next().ToString(),
+                    "$(document).ready(function(){" + scriptToAdd + "});", true);
+
+            //strHtml += "$(document).ready(function(){" + scriptToAdd + "});";
+            //strHtml.Replace("</body>", "<script>$(document).ready(function(){" + scriptToAdd + "});</scrtipt></body>");
+            return strHtml;
+        }
+        catch (Exception ex)
+        {
+            ZClass.raiseerror(ex);
+            return strHtml;
+        }
+    }
 
     private string GetAsociatedDocumentTag(string Item, DataTable AsociatedResults,
          bool OnlyWF, string TableName, ref string ScriptToAdd)
@@ -2480,7 +2872,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             //Verifica si existen controles html de asociados
             if (strHtml.ToLower().Contains("zamba_zvar") || strHtml.ToLower().Contains("zvar"))
             {
-                strHtml = strHtml.Replace("zamba_zvar_", "zvar_");
+                strHtml = strHtml.Replace("zamba_zvar(", "zvar(");
 
                 VarsBusiness VB = new VarsBusiness();
                 strHtml = VB.AsignVarsValues(strHtml);
@@ -2488,7 +2880,6 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
 
             }
-
 
 
 
@@ -2598,10 +2989,10 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             //char[] chrToReplace = { Char.Parse("_") };
 
             //Se cargan las tablas asociadas o de WF
-            //if (ContainsCaseInsensitive(strHtml, "zamba_associated_documents"))
-            //    strHtml = LoadAsocData("zamba_associated_documents", strHtml, false, docTypeAsocIDs);
-            //if (ContainsCaseInsensitive(strHtml, "zamba_associated_documents_WF"))
-            //    strHtml = LoadAsocData("zamba_associated_documents_WF", strHtml, true, docTypeAsocIDs);
+            if (ContainsCaseInsensitive(strHtml, "zamba_associated_documents"))
+                strHtml = LoadAsocData("zamba_associated_documents", strHtml, false, docTypeAsocIDs);
+            if (ContainsCaseInsensitive(strHtml, "zamba_associated_documents_WF"))
+                strHtml = LoadAsocData("zamba_associated_documents_WF", strHtml, true, docTypeAsocIDs);
 
             string strTableName;
             int startID;
@@ -2613,17 +3004,17 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             {
                 char a = '"';
                 indexOf = 0;
-                //indexOf = strHtml.IndexOf("zamba_associated_documents_" + myDocTypeId + a,
-                //    indexOf, strHtml.Length - indexOf, StringComparison.CurrentCultureIgnoreCase);
+                indexOf = strHtml.IndexOf("zamba_associated_documents_" + myDocTypeId + a,
+                    indexOf, strHtml.Length - indexOf, StringComparison.CurrentCultureIgnoreCase);
 
-                //if (indexOf != -1)
-                //{
-                //    startID = strHtml.IndexOf("zamba_associated_documents_" + myDocTypeId, indexOf);
-                //    strTableName = strHtml.Substring(startID, strHtml.IndexOf("\"", startID) - startID);
-                //    strHtml = LoadAsocData(strTableName, strHtml, false, new List<Int64>() { myDocTypeId });
-                //    indexOf = strHtml.IndexOf("zamba_associated_documents_" + myDocTypeId + a,
-                //        indexOf + 1, strHtml.Length - indexOf - 1, StringComparison.CurrentCultureIgnoreCase);
-                //}
+                if (indexOf != -1)
+                {
+                    startID = strHtml.IndexOf("zamba_associated_documents_" + myDocTypeId, indexOf);
+                    strTableName = strHtml.Substring(startID, strHtml.IndexOf("\"", startID) - startID);
+                    strHtml = LoadAsocData(strTableName, strHtml, false, new List<Int64>() { myDocTypeId });
+                    indexOf = strHtml.IndexOf("zamba_associated_documents_" + myDocTypeId + a,
+                        indexOf + 1, strHtml.Length - indexOf - 1, StringComparison.CurrentCultureIgnoreCase);
+                }
 
                 //Atributos asociados
                 asocIndex = "ZAMBA_ASOC_" + myDocTypeId + "_";

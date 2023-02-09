@@ -659,15 +659,14 @@ Partial Public Class IndexsBusiness
     ''' <param name="_RightsType">Tupo de permiso a filtrar</param>
     ''' <returns>Dataset</returns>
     ''' <remarks></remarks>
-    Public Function getIndexsByDocTypeIdAndRightTypeAsIIndex(ByVal DocType As IDocType, ByVal GUID As Int64, ByVal _RightsType As RightsType) As List(Of IIndex)
+    Public Function getIndexsByDocTypeIdAndRightTypeAsIIndex(ByVal DocTypeId As Int64, ByVal GUID As Int64, ByVal _RightsType As RightsType) As List(Of IIndex)
         Dim Indexs As New List(Of IIndex)
         Dim UB As New UserBusiness
-        DocType.Indexs = GetIndexsSchemaAsListOfDT(DocType.ID)
-        If New RightsBusiness().GetUserRights(GUID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ViewRightsByIndex, DocType.ID) Then
-            Dim iri As Hashtable = UB.GetIndexsRights(DocType.ID, GUID)
+        If New RightsBusiness().GetUserRights(GUID, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.ViewRightsByIndex, DocTypeId) Then
+            Dim iri As Hashtable = UB.GetIndexsRights(DocTypeId, GUID)
             For Each ir As IndexsRightsInfo In iri.Values
                 If ir.GetIndexRightValue(_RightsType) = True Then
-                    Dim index As IIndex = DocType.Indexs.FirstOrDefault(Function(I) I.ID = ir.Indexid)
+                    Dim index As IIndex = GetIndexById(ir.Indexid, String.Empty)
                     If index IsNot Nothing Then
                         Indexs.Add(index)
                     End If
@@ -675,7 +674,7 @@ Partial Public Class IndexsBusiness
             Next
         Else
             UB = Nothing
-            Return DocType.Indexs
+            Return GetIndexsSchema(DocTypeId)
         End If
         Return Indexs
     End Function
@@ -699,26 +698,26 @@ Partial Public Class IndexsBusiness
     ''' 	[Marcelo]	16/10/2007	Modified
     ''' </history>
     ''' -----------------------------------------------------------------------------
-    'Public Function GetIndexsSchema(ByVal DocTypeId As Int64) As List(Of IIndex)
-    '    Dim i As Integer
-    '    Dim ISF As New Indexs_Factory
-    '    Dim dsTemp As DataSet = ISF.GetIndexsSchema(New List(Of Long) From {DocTypeId})
-    '    ISF = Nothing
+    Public Function GetIndexsSchema(ByVal DocTypeId As Int64) As List(Of IIndex)
+        Dim i As Integer
+        Dim ISF As New Indexs_Factory
+        Dim dsTemp As DataSet = ISF.GetIndexsSchema(New List(Of Long) From {DocTypeId})
+        ISF = Nothing
 
-    '    If Not IsNothing(dsTemp) Then
-    '        dsTemp.Tables(0).TableName = "DOC_INDEX"
+        If Not IsNothing(dsTemp) Then
+            dsTemp.Tables(0).TableName = "DOC_INDEX"
 
-    '        Dim Indexs As New List(Of IIndex)
+            Dim Indexs As New List(Of IIndex)
 
-    '        For i = 0 To dsTemp.Tables("DOC_INDEX").Rows.Count - 1
-    '            Indexs.Add(New Index(dsTemp.Tables("DOC_INDEX")(i)("INDEX_ID"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_NAME"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_TYPE"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_LEN"), False, False, dsTemp.Tables("DOC_INDEX")(i)("DROPDOWN"), False, False, dsTemp.Tables("DOC_INDEX")(i)("MUSTCOMPLETE"), String.Empty, dsTemp.Tables(0).Rows(i)("IndicePadre"), dsTemp.Tables(0).Rows(i)("IndiceHijo"),,, dsTemp.Tables(0).Rows(i)("IsReferenced")))
-    '        Next
+            For i = 0 To dsTemp.Tables("DOC_INDEX").Rows.Count - 1
+                Indexs.Add(New Index(dsTemp.Tables("DOC_INDEX")(i)("INDEX_ID"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_NAME"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_TYPE"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_LEN"), False, False, dsTemp.Tables("DOC_INDEX")(i)("DROPDOWN"), False, False, dsTemp.Tables("DOC_INDEX")(i)("MUSTCOMPLETE"), String.Empty, dsTemp.Tables(0).Rows(i)("IndicePadre"), dsTemp.Tables(0).Rows(i)("IndiceHijo")))
+            Next
 
-    '        Return Indexs
-    '    Else
-    '        Return Nothing
-    '    End If
-    'End Function
+            Return Indexs
+        Else
+            Return Nothing
+        End If
+    End Function
 
 
 
@@ -755,7 +754,7 @@ Partial Public Class IndexsBusiness
             For i = 0 To dsTemp.Tables("DOC_INDEX").Rows.Count - 1
                 index = New Index(dsTemp.Tables("DOC_INDEX")(i)("INDEX_ID"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_NAME"), dsTemp.Tables("DOC_INDEX")(i)("INDEX_TYPE"),
                                          dsTemp.Tables("DOC_INDEX")(i)("INDEX_LEN"), False, False, dsTemp.Tables("DOC_INDEX")(i)("DROPDOWN"), False, False, If(IsDBNull(dsTemp.Tables("DOC_INDEX")(i)("MUSTCOMPLETE")), String.Empty, dsTemp.Tables("DOC_INDEX")(i)("MUSTCOMPLETE")),
-                                         String.Empty, If(IsDBNull(dsTemp.Tables(0).Rows(i)("IndicePadre")), String.Empty, dsTemp.Tables(0).Rows(i)("IndicePadre")), If(IsDBNull(dsTemp.Tables(0).Rows(i)("IndiceHijo")), String.Empty, dsTemp.Tables(0).Rows(i)("IndiceHijo")), String.Empty, If(IsDBNull(dsTemp.Tables("DOC_INDEX")(i)("MINVALUE")), String.Empty, dsTemp.Tables("DOC_INDEX")(i)("MINVALUE")), If(IsDBNull(dsTemp.Tables("DOC_INDEX")(i)("MAXVALUE")), String.Empty, dsTemp.Tables("DOC_INDEX")(i)("MAXVALUE")), dsTemp.Tables(0).Rows(i)("IsReferenced"))
+                                         String.Empty, If(IsDBNull(dsTemp.Tables(0).Rows(i)("IndicePadre")), String.Empty, dsTemp.Tables(0).Rows(i)("IndicePadre")), If(IsDBNull(dsTemp.Tables(0).Rows(i)("IndiceHijo")), String.Empty, dsTemp.Tables(0).Rows(i)("IndiceHijo")), String.Empty, If(IsDBNull(dsTemp.Tables("DOC_INDEX")(i)("MINVALUE")), String.Empty, dsTemp.Tables("DOC_INDEX")(i)("MINVALUE")), If(IsDBNull(dsTemp.Tables("DOC_INDEX")(i)("MAXVALUE")), String.Empty, dsTemp.Tables("DOC_INDEX")(i)("MAXVALUE")))
 
                 If core.HtHierarchyRelation IsNot Nothing Then
                     index.HierarchicalChildID = core.HtHierarchyRelation(index.ID)
@@ -769,9 +768,6 @@ Partial Public Class IndexsBusiness
             Return Nothing
         End If
     End Function
-
-
-
 
     Public Function GetIndexsIdsAndNamesByEntityIdAsDictionary(ByVal EntityID As Int64) As Dictionary(Of Int64, String)
         Dim i As Integer
@@ -843,8 +839,6 @@ Partial Public Class IndexsBusiness
                     End If
                 Next
             End If
-
-
             Return tempIndexs
         Catch ex As Exception
             ZClass.raiseerror(ex)
@@ -1073,23 +1067,6 @@ Partial Public Class IndexsBusiness
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' <history>[Diego] created 4-07-2008</history>
-    Public Shared Function GetIndexDefaultValuesByDoctypeId(ByVal doctypeiD As Long) As List(Of Indexs_Factory.IndexDefaultDTO)
-        Try
-            Return Indexs_Factory.GetIndexDefaultValuesByDoctypeId(doctypeiD)
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-        End Try
-        Return New List(Of Indexs_Factory.IndexDefaultDTO)
-    End Function
-
-    ''' <summary>
-    ''' Obtiene el valor por defecto de un indice
-    ''' </summary>
-    ''' <param name="doctypeid">Id de entidad</param>
-    ''' <param name="IndexId">Id de Indice</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    ''' <history>[Diego] created 4-07-2008</history>
     Public Shared Function GetIndexDefaultValues(ByVal doctype As DocType) As Dictionary(Of Int64, String)
         Try
             Return Indexs_Factory.GetIndexDefaultValues(doctype.ID)
@@ -1098,7 +1075,6 @@ Partial Public Class IndexsBusiness
         End Try
         Return New Dictionary(Of Int64, String)
     End Function
-
     ''' -----------------------------------------------------------------------------
     ''' <summary>
     ''' Establece un indice como obligatorio para un Tipo de documento
@@ -1451,8 +1427,6 @@ Partial Public Class IndexsBusiness
             Ind.AutoFill = CBool(dr("INVISIBLE"))
             If Ind.AutoFill = True Then Ind.AutoFill1 = 1
 
-
-
         Else
             Return Nothing
 
@@ -1544,50 +1518,48 @@ Partial Public Class IndexsBusiness
                 Dim HierarchyTable As DataTable = Indexs_Factory.GetHierarchicalTableByValue(DataTableName, ParentIndex)
                 Dim index As IIndex = GetIndex(IndexId)
 
-                If HierarchyTable IsNot Nothing Then
-                    If index.DropDown = IndexAdditionalType.DropDown OrElse index.DropDown = IndexAdditionalType.DropDownJerarquico Then
-                        HierarchyTable.Rows.Add(String.Empty)
-                        Return HierarchyTable
-                    End If
-
-                    Dim max As Integer = HierarchyTable.Rows.Count - 1
-
-                    HierarchyTable.Columns.Add("Description", String.Empty.GetType)
-
-                    Dim desc As Object
-                    Dim hierarchyValue As Object
-                    Dim ASB As New AutoSubstitutionBusiness
-                    For i As Integer = 0 To max
-                        hierarchyValue = HierarchyTable.Rows(i).Item("Value")
-
-                        If IsDBNull(hierarchyValue) Then
-                            hierarchyValue = String.Empty
-                        End If
-
-                        desc = ASB.getDescription(hierarchyValue, IndexId)
-                        If IsDBNull(desc) Then
-                            HierarchyTable.Rows(i).Item("Description") = String.Empty
-                        Else
-                            HierarchyTable.Rows(i).Item("Description") = desc
-                        End If
-
-                    Next
-                    ASB = Nothing
-                    If HierarchyTable.Columns(0).DataType Is GetType(Decimal) = False AndAlso (index.Type = IndexDataType.Alfanumerico OrElse index.Type = IndexDataType.Alfanumerico_Largo) Then
-                        HierarchyTable.Columns(0).DataType = GetType(String)
-                        HierarchyTable.Rows.Add(String.Empty, "A Definir")
-                    Else
-                        HierarchyTable.Rows.Add(0, "A definir")
-                    End If
-
-                    HierarchyTable.DefaultView.Sort = "Description asc"
-
-                    If Not Cache.DocTypesAndIndexs.hsHierarchicalTableByParentValue.Contains(cacheKey) Then
-                        Cache.DocTypesAndIndexs.hsHierarchicalTableByParentValue.Add(cacheKey, HierarchyTable.DefaultView.ToTable())
-                    End If
-
-                    Return HierarchyTable.DefaultView.ToTable()
+                If index.DropDown = IndexAdditionalType.DropDown OrElse index.DropDown = IndexAdditionalType.DropDownJerarquico Then
+                    HierarchyTable.Rows.Add(String.Empty)
+                    Return HierarchyTable
                 End If
+
+                Dim max As Integer = HierarchyTable.Rows.Count - 1
+
+                HierarchyTable.Columns.Add("Description", String.Empty.GetType)
+
+                Dim desc As Object
+                Dim hierarchyValue As Object
+                Dim ASB As New AutoSubstitutionBusiness
+                For i As Integer = 0 To max
+                    hierarchyValue = HierarchyTable.Rows(i).Item("Value")
+
+                    If IsDBNull(hierarchyValue) Then
+                        hierarchyValue = String.Empty
+                    End If
+
+                    desc = ASB.getDescription(hierarchyValue, IndexId)
+                    If IsDBNull(desc) Then
+                        HierarchyTable.Rows(i).Item("Description") = String.Empty
+                    Else
+                        HierarchyTable.Rows(i).Item("Description") = desc
+                    End If
+
+                Next
+                ASB = Nothing
+                If HierarchyTable.Columns(0).DataType Is GetType(Decimal) = False AndAlso (index.Type = IndexDataType.Alfanumerico OrElse index.Type = IndexDataType.Alfanumerico_Largo) Then
+                    HierarchyTable.Columns(0).DataType = GetType(String)
+                    HierarchyTable.Rows.Add(String.Empty, "A Definir")
+                Else
+                    HierarchyTable.Rows.Add(0, "A definir")
+                End If
+
+                HierarchyTable.DefaultView.Sort = "Description asc"
+
+                If Not Cache.DocTypesAndIndexs.hsHierarchicalTableByParentValue.Contains(cacheKey) Then
+                    Cache.DocTypesAndIndexs.hsHierarchicalTableByParentValue.Add(cacheKey, HierarchyTable.DefaultView.ToTable())
+                End If
+
+                Return HierarchyTable.DefaultView.ToTable()
             End If
         End If
     End Function
@@ -1666,7 +1638,78 @@ Partial Public Class IndexsBusiness
     ''' <history>
     ''' 	(pablo)	19/02/2011	Created
     ''' </history>
+    Public Shared Sub InsertIndexSust(ByVal IndexId As String, ByVal Code As String, ByVal ColumnDescName As String)
 
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando si se debe incluir la tabla SLST_S" + IndexId.ToString + " en memoria")
+        If Cache.DocTypesAndIndexs.hsSustIndex.Contains(CLng(IndexId)) = False Then
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Incluyendo la tabla en memoria")
+            Dim dt As DataTable = New DataTable
+            Dim ds As DataSet
+            Dim f As Int16
+            dt.Columns.Add("Codigo")
+            dt.Columns.Add("Descripcion")
+            Dim columns() As DataColumn = New DataColumn() {dt.Columns("Codigo")}
+            dt.PrimaryKey = columns
+            dt.TableName = IndexId
+
+            ds = Indexs_Factory.GetSustTable(IndexId, 0)
+            If ds.Tables(0).Rows.Count > 0 Then
+                For f = 0 To ds.Tables(0).Rows.Count - 1
+                    dt.Rows.Add(ds.Tables(0).Rows(f).Item(0).ToString(), ds.Tables(0).Rows(f).Item(1).ToString())
+                Next
+            End If
+            Cache.DocTypesAndIndexs.hsSustIndex.Add(IndexId, dt)
+        Else
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "La tabla SLST_S" + IndexId.ToString + " ya se encuentra en memoria")
+        End If
+
+        Dim dsSust As DataSet = Indexs_Factory.GetSustTable(IndexId, Code)
+
+        If dsSust.Tables(0).Rows.Count > 0 Then
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Existe un registro con los datos ingresados. Actualizando.")
+            Try
+                Indexs_Factory.UpdateindexSust(IndexId, Code, ColumnDescName)
+            Catch ex As Exception
+                ZClass.raiseerror(ex)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Error. La actualizacion no ha podido completarse")
+            End Try
+        Else
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Insertando nuevo registro")
+            Try
+                Indexs_Factory.InsertSustIndex(IndexId, Code, ColumnDescName)
+            Catch ex As Exception
+                ZClass.raiseerror(ex)
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Error. La insercion no ha podido completarse")
+            End Try
+        End If
+
+        Try
+            'elimino la tabla del cache
+            Cache.DocTypesAndIndexs.hsSustIndex.Remove(CLng(IndexId))
+
+            'vuelvo a agragar la tabla actualizada
+            Dim UpdatedDt As DataTable = New DataTable
+            Dim UpdatedDs As DataSet
+            Dim f As Int16
+            UpdatedDt.Columns.Add("Codigo")
+            UpdatedDt.Columns.Add("Descripcion")
+            Dim columns() As DataColumn = New DataColumn() {UpdatedDt.Columns("Codigo")}
+            UpdatedDt.PrimaryKey = columns
+            UpdatedDt.TableName = IndexId
+
+            UpdatedDs = Indexs_Factory.GetSustTable(IndexId, 0)
+            If UpdatedDs.Tables(0).Rows.Count > 0 Then
+                For f = 0 To UpdatedDs.Tables(0).Rows.Count - 1
+                    UpdatedDt.Rows.Add(UpdatedDs.Tables(0).Rows(f).Item(0).ToString(), UpdatedDs.Tables(0).Rows(f).Item(1).ToString())
+                Next
+            End If
+            Cache.DocTypesAndIndexs.hsSustIndex.Add(CLng(IndexId), UpdatedDt)
+
+
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Sub
     ''' -----------------------------------------------------------------------------
     ''' <summary>
     ''' Crea una tabla de sustitucion asociada a un Indice
@@ -1795,5 +1838,12 @@ Partial Public Class IndexsBusiness
 
         Return htToReturn
     End Function
+
+    ''' <summary>
+    ''' Obtiene todos los hijos del atributo, segun el id
+    ''' </summary>
+    ''' <param name="indexID"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
 
 End Class

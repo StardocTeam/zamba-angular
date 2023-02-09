@@ -94,7 +94,7 @@ public partial class Views_UC_WF_Rules_UCDoShowTable : System.Web.UI.UserControl
             {
                 dgValue.AutoGenerateColumns = false;
                 //Obtenemos las columnas de la tabla.
-                 DataColumnCollection sourceColumns = _showValue.Columns;
+                DataColumnCollection sourceColumns = _showValue.Columns;
                 DataControlField tempColumn;
                 //Mapeamos las columnas.
                 foreach (DataColumn col in sourceColumns)
@@ -103,23 +103,11 @@ public partial class Views_UC_WF_Rules_UCDoShowTable : System.Web.UI.UserControl
 
                     ((BoundField)tempColumn).DataField = col.ColumnName;
                     tempColumn.HeaderText = col.Caption;
-                    int max = _showValue
-                        .AsEnumerable()
-                        .Select(
-                        n =>
-                       n.Field<Object>(col.ColumnName) == null ? 0 : n.Field<Object>(col.ColumnName).ToString().Length)
-                        .ToArray().Max();
-                    const int ColumnWIdthRatio = 12;
 
-                    tempColumn.ControlStyle.Width = max * ColumnWIdthRatio;
-                    tempColumn.ItemStyle .Width = max * ColumnWIdthRatio;
-                    tempColumn.HeaderStyle.Width = max * ColumnWIdthRatio;
-                    tempColumn.FooterStyle.Width = max * ColumnWIdthRatio;                    
                     dgValue.Columns.Add(tempColumn);
                 }
-                
-                dgValue.BorderStyle = BorderStyle.Solid;
-                                dgValue.DataSource = _showValue;
+
+                dgValue.DataSource = _showValue;
 
                 if (JustShow)
                 {

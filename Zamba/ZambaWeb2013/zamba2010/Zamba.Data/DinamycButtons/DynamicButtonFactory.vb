@@ -41,7 +41,6 @@ Public Class DynamicButtonFactory
                                       ByVal place As ButtonPlace) As DataTable
 
         Dim query As String = "SELECT b.BUTTONID, b.PARAMS, b.NEEDRIGHTS, b.CAPTION, b.BUTTONORDER, b.WFID, b.ICONID,b.VIEWCLASS, b.GroupName, b.GroupClass,r.step_id FROM ZBUTTONS B inner join wfrules r on r.id = replace(b.BUTTONID,'zamba_rule_','') WHERE PLACEID= " & CInt(place)
-        'query = "SELECT b.BUTTONID, b.PARAMS, b.NEEDRIGHTS, b.CAPTION, b.BUTTONORDER, b.WFID, b.ICONID,b.VIEWCLASS, b.GroupName, b.GroupClass,r.step_id FROM ZBUTTONS B inner join wfrules r on r.id = replace(b.BUTTONID,'zamba_rule_','')"
 
 
         If filter <> ButtonType.All Then

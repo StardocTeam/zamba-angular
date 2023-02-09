@@ -109,6 +109,7 @@
             });
 
             function ShowLoadingAnimation() {
+                alert('hola');
                 $(document).scrollTop(0);
                 $("#loading").fadeIn("slow", function () {
                     $("#loading").css("filter", "alpha(opacity=30)");

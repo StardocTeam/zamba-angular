@@ -74,7 +74,7 @@ function UpdateFeedsLoop() {
 function GetFeeds() {
     var userId = GetUID();
     $.ajax({
-        url: "../../Services/TaskService.asmx/GetUserFeeds",
+        url: "../../Services/TaskService.asmx/GetUserFeeds?" + localStorage.queryStringAuthorization,
         type: "POST",
         dataType: "json",
         cache: true,

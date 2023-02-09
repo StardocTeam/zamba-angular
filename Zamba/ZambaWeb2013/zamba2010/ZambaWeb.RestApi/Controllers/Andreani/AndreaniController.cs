@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Data;
@@ -40,8 +41,7 @@ using System.Threading;
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-
-    //[Authorize]
+    [RestAPIAuthorize]
     public class AndreaniServiciosController : ApiController
     {
         Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
@@ -69,6 +69,8 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/Login")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
+
         public IHttpActionResult Login(AndreaniServiceLoginRequest login)
         {
             try
@@ -125,10 +127,12 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ActualizarInformacionEnvio")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult ActualizarInformacionEnvio(AndreaniServiceObtenerDatosEnvio request)
         {
             try
             {
+                request.nro_guia=request.nro_guia.Replace("'","");
                 request.nro_guia = ObtenerNroGuiaConTracking(request.nro_tracking);
                 InsertarNuevoItemNotificacionesAndreani(request.nro_tracking);
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se llamo al servicio de andreani para actualizar informacion de la orden (" + request.nro_tracking + ")");
@@ -161,9 +165,11 @@ namespace ZambaWeb.RestApi.Controllers
                 return Ok(new AndreaniServiceCrearNuevaOrdenResponse() { error = "Se produjo un error al actualizar informacion del envio o no se halla la inf." });
             }
         }
+        
         [Route("api/andreaniServices/CrearNuevaOrden")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult CrearNuevaOrden(NuevaOrdenRequest orden)
         {
 
@@ -174,6 +180,7 @@ namespace ZambaWeb.RestApi.Controllers
                 return (CrearNuevaOrdenConSucursal(orden));
             try
             {
+                orden.nro_guia = orden.nro_guia.Replace("'", ""); 
                 string QueryGuiaDeDespacho = "select i10589 as 'Id_despachante',i150682 as 'nro_tracking'  from doc_i139081 where I139614 = " + orden.nro_guia;
                 DataTable tblDatosGuiaDeDespacho = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, QueryGuiaDeDespacho).Tables[0]; // 
                 if (tblDatosGuiaDeDespacho.Rows.Count == 0)
@@ -457,10 +464,11 @@ namespace ZambaWeb.RestApi.Controllers
             Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, queryUpdate);
             return true;
         }
-
+        
         [Route("api/andreaniServices/ObtenerOrdenCreada")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult ObtenerOrdenCreada(AndreaniServiceObtenerDatosEnvio request)
         {
             try
@@ -490,10 +498,11 @@ namespace ZambaWeb.RestApi.Controllers
                 return Ok(error);
             }
         }
-
+        
         [Route("api/andreaniServices/BuscarUnEnvio")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult BuscarEnvio(AndreaniServiceBuscarUnEnvioRequest DatosBusqueda)
         {
             try
@@ -524,6 +533,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ObtenerEnvio")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult ObtenerEnvio(AndreaniServiceObtenerDatosEnvio request)
         {
             try
@@ -568,10 +578,13 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ObtenerTrackingEnvio")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
+
         public IHttpActionResult ObtenerTrackingEnvio(AndreaniServiceObtenerDatosEnvio request)
         {
             try
             {
+                request.nro_tracking = request.nro_tracking.Replace("'", "");
                 var user = GetUser(request.userId);
                 string nro_tracking_original = "";
                 if (user == null)
@@ -619,6 +632,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ListarProvincias")]
         [HttpPost, HttpGet]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         public IHttpActionResult ListarProvincias()
         {
             try
@@ -642,9 +656,10 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ObtenerLinking")]
         [HttpPost, HttpGet]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         public IHttpActionResult ObtenerLinking(AndreaniServiceObtenerDatosLinking request)
         {
-            var nro_guia = request.nro_guia;
+            var nro_guia = request.nro_guia.Replace("'","");
             String StrSql = "select * from doc_i149094 as Tracking inner join doc_i149092 as Envios on Envios.I139614 = " + nro_guia + " where Envios.I150682 = Tracking.I150682";
             DataTable tblDatosDespachante = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, StrSql).Tables[0]; // 
             List<AndreaniServiceMetaContenido> respuesta = new List<AndreaniServiceMetaContenido>();
@@ -662,6 +677,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ObtenerListaSucursales")]
         [HttpPost, HttpGet]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         public IHttpActionResult ObtenerListaSucursales(AndreaniServiceListarSucursales request)
         {
             try
@@ -696,6 +712,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/ListarSucursales")]
         [HttpPost, HttpGet]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         public IHttpActionResult ListarSucursales(AndreaniServiceListarSucursales request)
         {
             try
@@ -1372,7 +1389,9 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/andreaniServices/Test")]
         [HttpPost, HttpGet]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        public IHttpActionResult Test(string SERVICIO,string param1 )
+        [OverrideAuthorization]
+
+        public IHttpActionResult Test()
         {
             try
             {
@@ -1416,7 +1435,7 @@ namespace ZambaWeb.RestApi.Controllers
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.Contains("user"))
                         {
                             dataItem = item;
                         }

@@ -15,62 +15,48 @@
     <asp:Label ID="lblDoc" runat="server" Text=""></asp:Label>
 </div>
 
-<div id="wrapper" class="toggled ">
-    <div id="divContent" style="width: 100%;  overflow: visible">
-
-        <div id="sidebar-wrapper" class="scrollbarindices hidden-xs">
-            <asp:UpdatePanel ID="Panel1" runat="server" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <asp:UpdatePanel ID="uppnDetailViewer" runat="server" UpdateMode="Conditional">
-                        <ContentTemplate>
-                            <ind:CompletarIndices ID="completarindice" runat="server" EnableViewState="false" />
-                        </ContentTemplate>
-                    </asp:UpdatePanel>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
-
-        <table style="width: 100%; height: 100%">
-            <tr style="vertical-align: top">
-
-
-
-
-                <td id="separator" style="width: 5px"></td>
-                <td id="DivDoc" runat="server" style="overflow: visible; height: 250px;">
-                    <div id="page-content-wrapper">
-                        <div class="container-fluid" ng-controller="DocumentViewerController" id="documentViewerController">
-                            <div class="row">
-                                <div class="col-md-12 " id="iframeStyle" style="height: auto">
-                                    <div class="row">
-                                        <zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
-                                    </div>
-                                </div>
-                            </div>
+<div id="wrapper"class="toggled ">
+<div id="divContent" style="width: 100%; height: 1500px; overflow: visible">
+    
+    <div id="sidebar-wrapper" class="scrollbarindices" >
+                  <asp:UpdatePanel ID="Panel1" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <asp:UpdatePanel ID="uppnDetailViewer" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <ind:CompletarIndices ID="completarindice" runat="server" EnableViewState="false" />
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+                </div>
+       
+    <table style="width: 100%; height: 100%">
+        <tr style="vertical-align: top">
+            
+                 
+              
+            
+            <td id="separator" style="width: 5px"></td>
+            <td id="DivDoc" runat="server" style="overflow: visible; height: 500px;" ng-controller="DocumentViewerController">
+                   <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                       <div class="col-md-12 " id="iframeStyle" style="height: auto"  >
+                        <div class="row">
+                            <zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
                         </div>
                     </div>
+                </div>
+  </div></div>
+                
 
-
-                </td>
-            </tr>
-        </table>
-    </div>
+            </td>
+        </tr>
+    </table>
+</div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var UrlParams;
-        var flag;
-
-        if (flag = (parent.name != "TAGGESTION")) {
-            UrlParams = getUrlParametersFromIframe();
-        } else {
-            UrlParams = parent.getUrlParametersFromIframe();
-        }
-
-        $("#closeModalDoShowForm").on("click", function () {
-            parent.window.location.reload();
-        });
-
         <% if (completarindice.Visible)
     { %>
         //Visibilidad del panel de índices
@@ -80,52 +66,19 @@
             SetIndexPnlVisibility(this, divDoc, panel2Indices);
         });
 
+        //$("#ctl00_ContentPlaceHolder_ctl01_docTB_BtnShowIndexs").click(function () {
+        //    BtnShowIndexs(this, divDoc, panel2Indices);
+        //});
+        
+
         <% }
     else
     { %>
+        //$("#DivIndices").remove();
         $("#separator").remove();
         <% } %>
 
-        function getUrlParameters(url) {
-            if (url != undefined) {
-                var pairs = url.split("?")[1].split("&");
-                var res = {}, i, pair;
-                for (i = 0; i < pairs.length; i++) {
-                    pair = pairs[i].toLowerCase().split('=');
-                    if (pair[1])
-                        res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-                }
-                return res;
-            } else {
-                var pairs = window.location.search.substring(1).split(/[&?]/);
-                var res = {}, i, pair;
-                for (i = 0; i < pairs.length; i++) {
-                    pair = pairs[i].toLowerCase().split('=');
-                    if (pair[1])
-                        res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-                }
-                return res;
-            }
-        }
-
-        function getUrlParametersFromIframe() {
-            var Url = $("#iframeDoShowForm").attr("src");
-            return getUrlParameters(Url);
-        }
-
         setTimeout(function () { CheckDocLocation(); parent.hideLoading(); }, 2000);
-
-        if (UrlParams.hasOwnProperty("previewmode")) {
-            if (UrlParams.previewmode != undefined) {
-                var isTrueSet = (UrlParams.previewmode === 'true');
-
-                if (isTrueSet)
-                    HideBtnsOnPreviewMode();
-            }
-        } else {
-            $("#modalDoShowForm").css("display", "none");
-            flag ? showVerticalScrollBar() : parent.showVerticalScrollBar();
-        }
     });
 
     function CheckDocLocation() {
@@ -138,26 +91,21 @@
         }
     }
 
-    function HideBtnsOnPreviewMode() {
-        $("#ctl00_ContentPlaceHolder_ucTaskDetail_ctl00_docTB_btnEmail").hide();
-        $("#ctl00_ContentPlaceHolder_ucTaskDetail_ctl00_docTB_btnAttach").hide();
-        $("#ctl00_ContentPlaceHolder_ucTaskDetail_ctl00_docTB_BtnShowIndexs").hide();
-        $("#ctl00_ContentPlaceHolder_ucTaskHeader_UACCell").hide();
-        $("#liMails").hide();
-        $("#liHistory").hide();
-        $("#liAsociated").hide();
-        $("#BtnFinalizar").hide();
-        $("#BtnIniciar").hide();
-        $("#liCerrar").hide();
-
-    }
-
     $(window).on("load", function () {
         var screenHeight = $(document).height() - $("#divButtons").outerHeight(true) - ($("#Header").outerHeight(true) * 2) - 20;
         $("#divContent").height(screenHeight);
 
         <% if (completarindice.Visible)
     { %>
+        <%--var indicesHeight = $("#DivIndices").height();
+
+
+        //Si el alto del panel de indices es mas grande que el alto del contenedor general, setea la altura y agrega el scroll vertical
+        if (indicesHeight > screenHeight) {
+            $("#DivIndices").height(screenHeight);
+            $('#<%=completarindice.ClientID %>' + '_Panel2').css("overflow", "auto");
+            $('#<%=completarindice.ClientID %>' + '_Panel2').height(screenHeight - 30);
+        }--%>
 
         <% } %>
     });
@@ -169,11 +117,6 @@
             if (nameTitle != "" & nameTitle != null) {
                 window.document.title = nameTitle;
             }
-        }
-        var DocviewerScope = angular.element($("#DocumentViewerIFrame")).scope();
-
-        $(window).bind("resize", function () {
-            DocviewerScope.ResizeIframe();
-        });
+        }       
     });
 </script>

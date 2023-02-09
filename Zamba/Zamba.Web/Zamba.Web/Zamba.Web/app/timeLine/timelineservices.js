@@ -13,28 +13,15 @@ app.factory('timelineService', ['$http', '$q', function ($http, $q) {
 
     var _getResults = function (TimeLineType, parentDocId, EntityId, ParentEntityId) {
         var response = null;
-        var genericRequest;
-        var UID;
-
-        try {
-            if (_mobile_userId != null && _mobile_userId != "") {
-                UID = _mobile_userId.toString();
-            } else {
-                UID = parseInt(JSON.parse(localStorage.getItem("authorizationData")).UserId);
-            }
-        } catch (e) {
-            console.error(e);
-            UID = parseInt(JSON.parse(localStorage.getItem("authorizationData")).UserId);
-        }
-
-        genericRequest = {
-            UserId: parseInt(UID),
+        var genericRequest = {
+            UserId: parseInt(GetUID()),
             Params:
             {
                 "parentDocId": parentDocId,
                 "EntityId": EntityId,
                 "ParentEntityId": ParentEntityId
             }
+
         };
 
         $.ajax({

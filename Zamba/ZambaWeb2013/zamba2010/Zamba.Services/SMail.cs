@@ -101,17 +101,6 @@ namespace Zamba.Services
             return MessagesBusiness.SendMail(conf, MailPathVariable);
         }
 
-        public bool SendMailbyZip(SendMailConfig conf, string MailPathVariable = "")
-        {
-            return MessagesBusiness.SendMailbyZip(conf, MailPathVariable);
-        }
-
-        public bool SendMailbyZipHistory(SendMailConfig conf, string MailPathVariable = "")
-        {
-            return MessagesBusiness.SendMailbyZipHistory(conf, MailPathVariable);
-        }
-
-        
         private bool CheckMailWsUsage()
         {
             ZOptBusiness zoptb = new ZOptBusiness();
@@ -165,7 +154,7 @@ namespace Zamba.Services
         /// <returns></returns>
         public string MakeHtmlLink(Int64 taskId, Int64 wfStepId, Int64 docId, Int64 docTypeId)
         {
-            return MessagesBusiness.MakeHtmlLink(taskId, wfStepId, docId, docTypeId,"");
+            return MessagesBusiness.MakeHtmlLink(taskId, wfStepId, docId, docTypeId);
         }
 
         public List<long> getAllSelectedUsers(GroupToNotifyTypes typeGroupToNotify, List<long> docIds)

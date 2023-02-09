@@ -1,20 +1,11 @@
 ﻿
-app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskService, authService) {
+app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskService) {
     $scope.rules = [];
-    $scope.actionRules = null;
     $scope.taskResult = null;
 
-    //authService._KeepAlive();
     //Prepara los parametros para ejecutar "Execute_ActionGrid".
     $scope.executeAcctionGrid = function (ruleAction) {
-        var regla;
-
-        if (ruleAction.RuleId != undefined) {
-            regla = ruleAction.RuleId;
-        } else if (ruleAction.ID != undefined) {
-            regla = ruleAction.ID;
-        }
-
+        var regla = ruleAction.RuleId;
         var listaDocIds = [];
 
         for (var i = 0; i < checkedIds.length; i++) {
@@ -30,7 +21,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
         try {
             return ZambaTaskService.executeTaskRule(ruleId, resultIds);
         } catch (e) {
-            console.error("ERROR: " + e + "Lanzado por: [$scope.ExecuteRule(" + ruleId + ", " + resultIds + ")]");
+            console.log("ERROR: " + e + "Lanzado por: [$scope.ExecuteRule(" + ruleId + ", " + resultIds + ")]");
         }
     };
 
@@ -38,11 +29,9 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
     $scope.Execute_ActionGrid = function (ruleId, resultIds, formVars) {
         ZambaTaskService.executeAction_onItems(ruleId, resultIds)
             .then(function (response) {
-                
                 ret_Response = JSON.parse(response.data).Vars;
                 $scope.EvaluateRuleExecutionResult(ret_Response);
 
-                CloseModalActions();
                 return ret_Response;
             });
     };
@@ -58,69 +47,6 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
             });
     };
 
-    ///Ejecuta una regla con parametros adicionales  y devuelve un JSON
-    $scope.Execute_zRule = function (ruleId, resultIds, formVars) {
-        return ZambaTaskService.executeTaskRule(ruleId, resultIds, formVars);
-            
-    };
-
-    //Ejecucion de Regla con nuevo Action para completado de atributos.
-    $scope.zRule = function (ruleId, inputVars, outputVars) {
-
-       
-        let ResultValues = [];
-        //assignInputVarsFromAttributes
-        try {
-            ResultValues = inputVars.map(item => {
-                return {
-                    name: Object.values(item).toString(),
-                    value: document.querySelector("#" + Object.keys(item).toString()).value
-                }
-            })
-        } catch (e) {
-            console.log("validar que existan los id que se estan pasando en el form:" + e.message)
-        }
-        let resultIds = getElementFromQueryString("docid");
-
-        // se realiza validacion ya que si un eleento esta null no dispara la zambarule
-        let objectValue = ResultValues.find(item => item.value == "");
-
-        if (objectValue == undefined) {
-
-            // se optiene los valores 
-            $scope.Execute_zRule(ruleId, resultIds, JSON.stringify(ResultValues)).then(response => {
-
-
-                var ret_Response = JSON.parse(response.data).Vars;
-
-                //se mapean los valores en el form
-                outputVars.forEach(item => {
-
-                    let itemValue = Object.values(item).toString();
-                    document.querySelector("#" + Object.keys(item).toString()).value = ret_Response[itemValue];
-                })
-
-                if (ret_Response.accion != undefined) {
-                    switch (traslateAction(ret_Response.accion)) {
-                       
-                        case "executescript":
-                            eval(ret_Response.scripttoexecute.replace('window.close();', ''));
-                            break;
-                       
-                        default:
-                            console.log("$scope.EvaluateRuleExecutionResult: No reconocio la accion a ejecutar, error ortografico en la variable o falta agregar un 'case' en codigo?");
-                            break;
-                    }
-                }
-
-            })
-
-
-        }
-
-    };
-
-
     //Muestra mensajes y/o acciones según lo que obtenga del parametro.
     $scope.EvaluateRuleExecutionResult = function (executionResult) {
         try {
@@ -130,13 +56,12 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                 console.log("$scope.EvaluateRuleExecutionResult: No existe variable 'msg' para mostrar.");
 
                 if (executionResult.error != undefined && executionResult.error != "") {
-                    swal('',executionResult.error,'error');
+                    swal(executionResult.error);
                 }
                 else {
                     console.log("$scope.EvaluateRuleExecutionResult: No existe variable 'error' para mostrar.");
                 }
             }
-            
 
             if (executionResult.accion != undefined) {
                 switch (traslateAction(executionResult.accion)) {
@@ -161,12 +86,6 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                     case "gohome":
                         searchModeGSFn(this, 'Home');
                         break;
-                    case "opentask":
-                        $scope.opentask();
-                        break;
-                    case "doshowtable":
-
-                        break;
                     default:
                         console.log("$scope.EvaluateRuleExecutionResult: No reconocio la accion a ejecutar, error ortografico en la variable o falta agregar un 'case' en codigo?");
                         break;
@@ -175,7 +94,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                 console.log("$scope.EvaluateRuleExecutionResult: No existe accion para ejecutar.");
             }
         } catch (e) {
-            console.error(e + " - Lanzado por: [$scope.EvaluateRuleExecutionResult]");
+            console.log(e + " - Lanzado por: [$scope.EvaluateRuleExecutionResult]");
             //swal("Sin resultados para el valor ingresado, intente con otro");
         }
     };
@@ -189,9 +108,6 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
         $scope.Execute_ZambaRule(ruleId, resultIds);
     }
 
-    function CloseModalActions() {
-        $("#btnCloseModal").click();
-    }
 
     ///Realiza una pregunta con swal para completar controles dentro del mismo.
     $scope.doAsk = function (executionResult) {
@@ -224,7 +140,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                     }
                 });
         } catch (e) {
-            console.error(e + " - Lanzado por: $scope.doAsk");
+            console.log(e + " - Lanzado por: $scope.doAsk");
         }
     };
 
@@ -269,7 +185,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
             newInput.isConnected = true;
             return newInput;
         } catch (e) {
-            console.error(e + " - Lanzado por: $scope.newInputConfiguration_ForSWAL");
+            console.log(e + " - Lanzado por: $scope.newInputConfiguration_ForSWAL");
         }
     };
 
@@ -303,7 +219,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                                     founded = true;
                                 }
                             } catch (e) {
-                                console.error(e);
+                                console.log(e);
                             }
                         }
 
@@ -339,7 +255,6 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
 
             }
         } catch (e) {
-            console.error(e);
             $scope.task.motivodescripcion = '';
         }
     };
@@ -367,7 +282,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                                         SaveIndexbyId(10264, motivoList[i]["descripcion"]);
                                     }
                                 } catch (e) {
-                                    console.error(e);
+                                    console.log(e);
                                 }
                             }
                             if (founded === false) {
@@ -381,15 +296,13 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                 });
             }
         } catch (e) {
-            console.error(e);
             $scope.task.motivodescripcion = '';
         }
     };
 
     $scope.MarkAsFavorite = function () {
+        ZambaTaskService.MarkAsFavorite(GetTASKID(), GetUID(), true);
         $scope.taskResult._IsFavorite = !$scope.taskResult._IsFavorite;
-        ZambaTaskService.MarkAsFavorite(GetTASKID(), GetUID(), $scope.taskResult._IsFavorite);
-        
     };
 
     //Obtiene las ruleActions relacionados al usuario.
@@ -406,17 +319,6 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
 
         return $scope.rules;
     }
-
-    //Obtiene las ruleActions relacionados al usuario.
-    $scope.LoadUserAction_ForMyTaskGrid = function (STEP_ID, DOC_ID) {
-        $scope.actionRules = JSON.parse(ZambaTaskService.LoadUserAction_ForMyTaskGrid(STEP_ID, DOC_ID));
-
-        if ($("#chkThumbGrid")[0].checked)
-            document.getElementById("panel_ruleActions").hidden = true;        
-        else 
-            document.getElementById("panel_ruleActions").hidden = false;
-    }
-
 });
 
 
@@ -427,7 +329,7 @@ function getAttributeListMotivoDemanda(sender) {
             scope.getAttributeListMotivoDemanda(sender);
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 }
 
@@ -473,7 +375,7 @@ function LoadMotivoDemandaListAndDescription() {
         }
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
 
     }
 
@@ -529,7 +431,7 @@ function traslateAction(palabra) {
                 break;
         }
     } catch (e) {
-        console.error(e + " - Lanzado por: " + "[" + arguments.callee.name + "]");
+        console.log(e + " - Lanzado por: " + "[" + arguments.callee.name + "]");
     }
 }
 
@@ -571,4 +473,3 @@ function SaveIndexbyId(indexId, indexValue) {
     saveIndexValidated(indexId, entityId, parentResultId, taskId, indexValue);
 
 }
-

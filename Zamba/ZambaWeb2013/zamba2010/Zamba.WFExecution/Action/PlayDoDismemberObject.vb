@@ -51,22 +51,14 @@ Public Class PlayDoDismemberObject
 
             If Not IsNothing(objetoObtenido) Then
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "El objeto es del tipo: " & objetoObtenido.GetType().ToString())
-                Dim setEmptyValue = New Boolean
-                If objetoObtenido.GetType().ToString() = "System.Data.DataSet" Then
-                    Dim auxObjetoObtenido As DataSet = CType(objetoObtenido, DataSet)
-                    If auxObjetoObtenido.Tables(0).Rows.Count() = 0 Then
-                        setEmptyValue = True
-                    End If
-                End If
-                For j As Int32 = 0 To results.Count - 1
 
+                For j As Int32 = 0 To results.Count - 1
                     dtModifiedIndex = New DataTable()
                     dtModifiedIndex.Columns.Add("ID", GetType(Int64))
                     dtModifiedIndex.Columns.Add("OldValue", GetType(String))
                     dtModifiedIndex.Columns.Add("NewValue", GetType(String))
 
                     Me.indexs = New List(Of Int64)()
-
                     For Each parent As IDoDismemberObject.IZvarVariable In Me._myRule.Zvars
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: " & parent.PropertyName())
                         Me.FlagDirect = New Boolean
@@ -81,7 +73,6 @@ Public Class PlayDoDismemberObject
                             End If
                             Me.FirstProp = Nothing
                             If Not IsNothing(Index) Then
-
                                 FirstProp = objetoObtenido.GetType().GetProperty(Index(0))
                                 FirstProp = FirstProp.GetValue(objetoObtenido, Nothing)
                                 If IsNumeric(Index(1)) Then
@@ -100,17 +91,12 @@ Public Class PlayDoDismemberObject
                                 If Props(i).Contains(parAbre) Then
                                     Index = Props(i).Split(parAbre)
                                     Index(1) = Index(1).Replace(parCierra, String.Empty)
-
-                                    If setEmptyValue Then
-                                        newprop = String.Empty
+                                    newprop = GetProperty(Index(0), tempprop)
+                                    newprop = newprop.GetValue(tempprop, Nothing)
+                                    If IsNumeric(Index(1)) Then
+                                        newprop = newprop(Int32.Parse(Index(1)))
                                     Else
-                                        newprop = GetProperty(Index(0), tempprop)
-                                        newprop = newprop.GetValue(tempprop, Nothing)
-                                        If IsNumeric(Index(1)) Then
-                                            newprop = newprop(Int32.Parse(Index(1)))
-                                        Else
-                                            newprop = newprop(Index(1))
-                                        End If
+                                        newprop = newprop(Index(1))
                                     End If
                                 Else
                                     newprop = GetProperty(Props(i), tempprop)

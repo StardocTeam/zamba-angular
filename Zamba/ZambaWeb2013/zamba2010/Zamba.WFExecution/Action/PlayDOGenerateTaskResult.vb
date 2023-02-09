@@ -132,7 +132,7 @@ Public Class PlayDOGenerateTaskResult
                 ' Si el archivo no existe en la ruta lanzo exception
                 If Not File.Exists(Me._filepath) Then
                     ZTrace.WriteLineIf(ZTrace.IsError, "No existe el archivo en la ruta: " & Me._filepath)
-                    Throw New Exception("No se pudo realizar la acción solicitada por no encontrarse el archivo requerido")
+                    Throw New Exception("No existe el archivo en la ruta: " & Me._filepath)
                 End If
 
             End If
@@ -591,7 +591,7 @@ Public Class PlayDOGenerateTaskResult
                 ' Si el archivo no existe en la ruta lanzo exception
                 If Not File.Exists(Me._filepath) Then
                     ZTrace.WriteLineIf(ZTrace.IsError, "No existe el archivo en la ruta: " & Me._filepath)
-                    Throw New Exception("No se pudo realizar la acción solicitada por no encontrarse el archivo requerido ")
+                    Throw New Exception("No existe el archivo en la ruta: " & Me._filepath)
                 End If
 
             End If
@@ -746,17 +746,12 @@ Public Class PlayDOGenerateTaskResult
                             Else
                                 VariablesInterReglas.Add("GeneratedDocId", newRes.ID)
                             End If
-                            'If VariablesInterReglas.ContainsKey("accion") Then
-                            '    VariablesInterReglas.Item("accion") = newRes.ID
-                            'Else
-                            '    VariablesInterReglas.Add("accion", newRes.ID)
-                            'End If
 
                             If Params.Contains("ResultID") = False Then
                                 Params.Add("ResultID", newRes.ID)
                                 Params.Add("DocTypeId", newRes.DocTypeId)
                                 Params.Add("DocName", newRes.Name)
-                                ' step id y taskid
+
                             End If
                             Params.Add("OpenTaskAfterInsert", Not Me.MyRule.DontOpenTaskAfterInsert)
                             Params.Add("OpenMode", MyRule.OpenMode)
@@ -896,8 +891,7 @@ Public Class PlayDOGenerateTaskResult
 
 
                 'Inserto el nuevo result en zamba
-                Dim ExecuteEntryRules As Boolean = MyRule.DontOpenTaskAfterInsert
-                Select Case ResultBusiness.Insert(newRes, False, False, False, False, isVirtual, False, False, ExecuteEntryRules)
+                Select Case ResultBusiness.Insert(newRes, False, False, False, False, isVirtual, False, False, Not MyRule.DontOpenTaskAfterInsert)
                     Case InsertResult.Insertado
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Insertado en Zamba:" & newRes.ID)
 

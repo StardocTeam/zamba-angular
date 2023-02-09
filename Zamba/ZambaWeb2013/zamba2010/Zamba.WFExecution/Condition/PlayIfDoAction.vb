@@ -4,7 +4,7 @@ Public Class PlayIfDoAction
 
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
         If (rule.ChildRulesIds Is Nothing OrElse rule.ChildRulesIds.Count = 0) Then
-            rule.ChildRulesIds = WFRB.GetChildRulesIds(rule.ID, rule.RuleClass, results)
+            rule.ChildRulesIds = WFRB.GetChildRulesIds(rule.ID)
         End If
 
         If rule.ChildRulesIds.Count = 2 Then

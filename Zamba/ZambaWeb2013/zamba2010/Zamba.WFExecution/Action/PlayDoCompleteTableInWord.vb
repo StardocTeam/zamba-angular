@@ -114,7 +114,7 @@ Public Class PlayDoCompleteTableInWord
 
                         End If
 
-                        Dim spireoffice As New Zamba.FileTools.SpireTools
+                        Dim spireoffice As New SpireTools
 
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Completando tabla.")
 

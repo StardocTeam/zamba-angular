@@ -22,45 +22,8 @@ public partial class Views_UC_WF_Rules_UCDoAskDesition : System.Web.UI.UserContr
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        var ScriptFixLookAndFeel = "";
-        ScriptFixLookAndFeel += "if($('.fix-size').length==1){";
-        ScriptFixLookAndFeel += "timerFixSizeTxtValue = setInterval(";
-        ScriptFixLookAndFeel += "function(){";
-        ScriptFixLookAndFeel += "if($('.fix-size')[0].scrollHeight!=0){";
-        ScriptFixLookAndFeel += "clearInterval(timerFixSizeTxtValue);";
-        ScriptFixLookAndFeel += "$('.fix-size')[0].style.height= $('.fix-size')[0].scrollHeight + 'px';"; 
-        ScriptFixLookAndFeel += "$('#modalFormTitleUcRules').parent()[0].classList.remove('modal-header');"; 
-        ScriptFixLookAndFeel += "$($($('.fix-size')[0]).parent()[0])[0].style='overflow:hidden;height:auto';"; 
-        ScriptFixLookAndFeel += "$($('#modalFormTitleUcRules').parent()[0]).parent()[0].classList.remove('modal-content');"; 
-        ScriptFixLookAndFeel += "}},1);}";
-        ScriptManager.RegisterStartupScript(this, this.GetType(), "fixSizeMessage", "$(document).ready(function(){" + ScriptFixLookAndFeel + "});", true);
         Page.Response.Cache.SetCacheability(HttpCacheability.NoCache);
-    }
-
-    private void txtValueConfig() {
-        try
-        {
-            this.txtvalue.ReadOnly = true;
-            this.txtvalue.TextMode = TextBoxMode.MultiLine;
-            int charRows = 0;
-            string tbCOntent;
-            int chars = 0;
-            tbCOntent = this.txtvalue.Text;
-            int lineBreaks = this.txtvalue.Text.Where(c => c == '\n').Count();
-            this.txtvalue.Columns = 120;
-            chars = tbCOntent.Length;
-            charRows = chars / this.txtvalue.Columns;
-            int remaining = chars - charRows * this.txtvalue.Columns;
-            if (remaining == 0)
-                this.txtvalue.Rows = charRows;
-            else
-                this.txtvalue.Rows = charRows + lineBreaks;
-        }
-        catch (Exception ex)
-        {
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Error al calcular el size de textbox para la DoAskDesition - Exception message: " + ex.Message);
-        }
-
+        this.txtvalue.ReadOnly = true;
     }
 
     public string ask
@@ -271,7 +234,6 @@ public partial class Views_UC_WF_Rules_UCDoAskDesition : System.Web.UI.UserContr
     public void LoadOptions()
     {
         this.ReturnValue = Params["txtQuestionText"].ToString();
-        txtValueConfig();
     }
 }
 

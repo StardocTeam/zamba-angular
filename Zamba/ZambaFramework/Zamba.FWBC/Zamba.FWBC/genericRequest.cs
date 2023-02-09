@@ -45,10 +45,7 @@ namespace Zamba.Framework
     {
         public long UserId { get; set; }
         public Dictionary<string, string> Params { get; set; } = new Dictionary<string, string>();
-
-
     };
-
 
 
     public class genericRequestParam
@@ -116,17 +113,5 @@ namespace Zamba.Framework
 
 
     };
-
-
-
-
-    public class EditDto
-    {        
-        public List<Object> Indexs { get; set; } = new List<object>();
-        
-        public string ExternUserID { get; set; }
-        public string Id { get; set; }
-
-    }
 
 }

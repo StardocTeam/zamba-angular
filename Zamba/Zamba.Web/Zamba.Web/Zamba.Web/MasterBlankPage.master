@@ -4,12 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head id="Head2" runat="server">
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=11; IE=9; IE=8; IE=7; IE=EDGE,chrome=1" />
     <title title="Zamba Web"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <asp:ContentPlaceHolder ID="header_css" runat="server">
     </asp:ContentPlaceHolder>
     <link rel="shortcut icon" id="lnkWebIcon" runat="server" type="image/x-icon" />
@@ -19,7 +20,7 @@
         <%:Styles.Render("~/Content/themes/base/datepicker")%>
 
         <%:Styles.Render("~/bundles/Styles/ZStyles")%>
-
+    
         <%:Styles.Render("~/bundles/Styles/bootstrap")%>
 
         <%:Styles.Render("~/bundles/Styles/grids")%>
@@ -27,16 +28,15 @@
         <%:Scripts.Render("~/bundles/jqueryAddIns") %>
         <%:Scripts.Render("~/bundles/tabber") %>
 
-        <%--        <script src="../../Scripts/jquery.validate.js?v=217"></script>
-        <script src="../../Scripts/jquery.validate-vsdoc.js?v=217"></script>--%>
-
+<%--        <script src="../../Scripts/jquery.validate.js?v=168"></script>
+        <script src="../../Scripts/jquery.validate-vsdoc.js?v=168"></script>--%>
+      
 
         <%:Scripts.Render("~/bundles/bootstrap") %>
         <%:Scripts.Render("~/bundles/moment") %>
         <%:Scripts.Render("~/bundles/angular") %>
 
-
-
+    
 
         <script type="text/javascript">
             function getValueFromWebConfig(key) {
@@ -63,7 +63,6 @@
                 });
                 return pathName;
             }
-
             var photoValue = getValueFromWebConfig("WebClient");
 
             if (photoValue == "Marsh") {
@@ -71,10 +70,30 @@
                 $("#ctl00_lnkWebIcon")[0].href = "../../App_Themes/Marsh/Images/WebIcon.jpg";
             }
 
+            var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
+            var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
+            var zambaApplication = "Zamba";
+            var URLServer = thisDomain + "/ZambaChat7/";
+            var urlGlobalSearch = thisDomain + "/Views/Search/";
+            var URLServer = thisDomain + "/ZambaChat7/";
 
+ //        var URLServer ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ChatURLServer","http://www.zamba.com.ar/zambastardoc/ZambaChat7/") %>';
+
+// var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain"),
+  //          ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api",
+    //        zambaApplication = "Zamba";
+
+//var thisDomain ='<%=Zamba.Membership.MembershipHelper.AppUrl %>';  
+
+            $(document).ready(function () {
+                document.config = {
+                    urlBase: "<%=GetAppRootUrl(false) %>",
+
+                };
+            });
 
         </script>
-
+        
         <script>
             /**
      * Copyright (c) 2014, Facebook, Inc.
@@ -1201,6 +1220,7 @@
     </asp:PlaceHolder>
     <script type="text/javascript">
 
+
         function CloseTask(taskid, isCloseFromButton) {
             var id;
 
@@ -1239,8 +1259,9 @@
         }
 
         function ShowLoadingAnimation() {
+            if (parent != this)
+                parent.ShowLoadingAnimation();
         }
-        
         function CloseThisTab() {
             CheckUserTimeOut()
             if (parent != this)
@@ -1264,35 +1285,17 @@
 
         var baseUrl = location.origin;
 
-        $(document).ready(function () {
-            try {
-                let divSelect = document.querySelector("#navbarSupportedContent");
-                if (divSelect != null) {
-                    if ($("#THNavBar").length == 0) {
-
-                        $(".Body-Master-Blanck").css("padding-top", "0px");
-                    } else if (divSelect.parentNode.parentNode.parentNode.id == "divButtons") {
-
-                        $(".Body-Master-Blanck").css("padding-top", "20px");
-                    } else if ($("#THNavBar").length > 0) {
-
-                        $(".Body-Master-Blanck").css("padding-top", "99px");
-                    }
-                }
-            } catch (e) {
-                console.error("Error en masterblanck")
-            }
-        });
-
     </script>
 
     <asp:ContentPlaceHolder ID="header_js" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 
-<body class="Body-Master-Blanck container-fluid" data-ng-app="app">
+<body class="Body-Master-Blanck container-fluid" data-ng-app="app" style="padding-top: 99px">
     <div class="Div-principal-MasterBlank" id="divPrincipalMasterBlank">
         <form id="form2" runat="server" class="form" enctype="multipart/form-data" data-ng-controller="appController">
+
+        
             <asp:HiddenField ID="hdReload" runat="server" Value="false"></asp:HiddenField>
             <asp:HiddenField ID="hdnUserId" runat="server" />
             <asp:HiddenField ID="hdnConnectionId" runat="server" />
@@ -1318,21 +1321,5 @@
     <asp:ContentPlaceHolder ID="footer_js" runat="server">
     </asp:ContentPlaceHolder>
 
-    <%--<div class="container">
-  <h2>Large Modal</h2>--%>
-    <!-- Trigger the modal with a button -->
-    <%-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalLogin">Open Large Modal</button>--%>
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalLogin" role="dialog" style="align-items: center; z-index: 9999;">
-        <div class="modal-dialog">
-            <%-- <div class="modal-content">
-        <div class="modal-body" style="padding: 0px;height: 627px;">--%>
-            <iframe id="iframeModalLogin" title="login iframe" style="width: -webkit-fill-available; height: 38pc; border: none; border-radius: 27px;"></iframe>
-            <%-- </div>
-      </div>--%>
-        </div>
-    </div>
-    <%--</div>--%>
 </body>
 </html>

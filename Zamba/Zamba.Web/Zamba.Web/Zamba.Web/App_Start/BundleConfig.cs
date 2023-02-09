@@ -27,13 +27,33 @@ namespace Zamba.Web
             #endregion
 
             #region FrameworkJS
-           
+            //bundles.Add(new ScriptBundle("~/bundles/WebFormsJs").Include(
+            //               "~/Scripts/WebForms/WebForms.js",
+            //               "~/Scripts/WebForms/WebUIValidation.js",
+            //               "~/Scripts/WebForms/MenuStandards.js",
+            //               "~/Scripts/WebForms/Focus.js",
+            //               "~/Scripts/WebForms/GridView.js",
+            //               "~/Scripts/WebForms/DetailsView.js",
+            //               "~/Scripts/WebForms/TreeView.js",
+            //               "~/Scripts/WebForms/WebParts.js"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/MsAjaxJs").Include(
+            //        "~/Scripts/WebForms/MsAjax/MicrosoftAjax.js",
+            //        "~/Scripts/WebForms/MsAjax/MicrosoftAjaxApplicationServices.js",
+            //        "~/Scripts/WebForms/MsAjax/MicrosoftAjaxTimer.js",
+            //        "~/Scripts/WebForms/MsAjax/MicrosoftAjaxWebForms.js"));
 
             // Use la versión de desarrollo de Modernizr para desarrollar y aprender. Luego, cuando esté listo
             // para la producción, use la herramienta de creación en http://modernizr.com para elegir solo las pruebas que necesite
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                             "~/Scripts/modernizr-3.4.0.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/particles").Include(
+                           "~/Scripts/Particulas/particles.js",
+                            "~/Scripts/Particulas/app.js",
+                              //"~/Scripts/Particulas/particles.json",
+                              "~/Scripts/Particulas/lib/stats.js"
+                           ));
 
             bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
                                     "~/Scripts/toastr.js*",
@@ -43,6 +63,8 @@ namespace Zamba.Web
                         "~/Scripts/moment.min.js"
                         ));
 
+            //bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+            //                        "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/Globalize").Include(
                                "~/Scripts/globalize.js",
@@ -59,7 +81,9 @@ namespace Zamba.Web
                 .Include("~/Scripts/jquery.*")
                 .Include("~/Scripts/jquery-ui-*", new CssRewriteUrlTransformWrapper())
                 .Include("~/Scripts/jquery.caret.js")
-.Include("~/Scripts/jquery.ba-resize.min.js")
+.Include("~/Scripts/jquery.ba-resize.min.js").Include("~/Scripts/jquery.blockUI.js")
+.Include("~/Scripts/jquery.blockUI.js")
+.Include("~/Scripts/jquery.blockUI.js")
 .Include("~/Scripts/jquery.bootstrap-autohidingnavbar.js")
 .Include("~/Scripts/jquery.bootstrap-pureClearButton.min.js")
 .Include("~/Scripts/jquery.caret.1.02.min.js")
@@ -242,21 +266,19 @@ namespace Zamba.Web
                 "~/Scripts/lodash.min.js",
                 "~/GlobalSearch/services/angular-local-storage.min.js",
 
-                "~/GlobalSearch/search/searchbox-loader.js?v=247",
-                "~/GlobalSearch/services/authService.js?v=257",
-                "~/GlobalSearch/services/authInterceptorService.js?v=247",
-                "~/GlobalSearch/search/search-directives.js?v=247",
+                "~/GlobalSearch/search/searchbox-loader.js?v=165",
+                "~/GlobalSearch/services/authService.js?v=165",
+                "~/GlobalSearch/services/authInterceptorService.js?v=165",
+                "~/GlobalSearch/search/search-directives.js?v=165",
                 "~/Scripts/app/_common/forms/directives/input/smartDatepicker.js",
-                "~/Scripts/app/search/zamba.search.js?v=257",
-                "~/GlobalSearch/scripts/zambasearch.js?v=247"
+                "~/Scripts/app/search/zamba.search.js?v=165",
+                "~/GlobalSearch/scripts/zambasearch.js?v=165"
             ));
             #endregion
 
             #region KendoUI
 
-            bundles.Add(new StyleBundle("~/bundles/Styles/fonts/glyphs").Include(
-                "~/Scripts/KendoUI/styles/fonts/glyphs/WebComponentsIcons.ttf")
-                );
+
             bundles.Add(new StyleBundle("~/bundles/Styles/kendo").Include(
 
                       "~/Scripts/KendoUI/styles/kendo.common.min.css",
@@ -292,7 +314,7 @@ namespace Zamba.Web
                 //.Include("~/scripts/kendoui/js/kendo.all.min.js")
                 "~/Scripts/KendoUI/js/kendo.all.min.js",
                 "~/Scripts/KendoUI/js/kendo.grid.min.js",
-                                "~/Scripts/app/grids/kendogrid.js?v=256",
+                                "~/Scripts/app/grids/kendogrid.js?v=165",
                                 "~/Scripts/KendoUI/js/cultures/kendo.culture.es-AR.min.js",
                 "~/scripts/jszip.min.js"
                 ));
@@ -305,29 +327,13 @@ namespace Zamba.Web
             #endregion
             //BundleTable.EnableOptimizations = false;
             #region Minificacion
-
-            //BundleTable.EnableOptimizations = true;
-            //bundles.UseCdn = false;   //enable CDN support
-            //var cdnPath = "/fonts";
-            //bundles.Add(new StyleBundle("~/fonts", cdnPath));
-
+#if (!DEBUG)
+            BundleTable.EnableOptimizations = true;
+            bundles.UseCdn = false;   //enable CDN support
+            var cdnPath = "/fonts";
+            bundles.Add(new StyleBundle("~/fonts", cdnPath));
+#endif
             #endregion
-
-            #region Login
-            
-            bundles.Add(new ScriptBundle("~/bundles/Login").Include(
-                "~/Scripts/angular.min.js",
-                "~/Content/Login/animsition/js/animsition.min.js",
-                "~/Content/Login/select2/select2.min.js",
-                "~/Content/Login/select2/select2.js",
-                "~/Content/Login/main.js",
-                "~/Scripts/GeneralConfiguration.js",
-                "~/Scripts/toastr.js"
-            ));
-            #endregion
-
-
-
         }
 
         #region BundleConfig

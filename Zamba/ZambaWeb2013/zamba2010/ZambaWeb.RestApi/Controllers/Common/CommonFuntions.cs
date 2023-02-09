@@ -25,8 +25,6 @@ using System.Collections;
 using Zamba.Membership;
 using System.Web.Script.Serialization;
 using Zamba.FileTools;
-using System.Text;
-
 
 namespace ZambaWeb.RestApi.Controllers.Common
 {
@@ -142,7 +140,7 @@ namespace ZambaWeb.RestApi.Controllers.Common
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.Contains("user"))
                         {
                             dataItem = item;
                         }
@@ -204,17 +202,6 @@ namespace ZambaWeb.RestApi.Controllers.Common
             else
                 B64Photo = Zamba.Core.Cache.UsersAndGroups.hsUserPhotos[userId].ToString();
             return B64Photo;
-        }
-
-        public string ConvertStringtoBinary(String data)
-        {
-            string result = "0x" + String.Join("",
-            data.ToCharArray().
-            Select(n => (Byte)n).ToArray().
-            Select(n => n.ToString("X2")).
-            ToArray());
-
-            return result;
         }
     }
 }

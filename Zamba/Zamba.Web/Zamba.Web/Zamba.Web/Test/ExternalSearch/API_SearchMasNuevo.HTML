@@ -63,7 +63,7 @@
     <div class="container-fluid">
         <div class="page-header">
             <h1><small>External Search</small></h1>
-            <img src="../../content/images/logozamba.jpg" height="45" class="imgclass" width="135" longdesc="Probando imagen abajo y en el centro" />
+            <img src="../../forms/Provincia/images/zamba_BPM_color.jpg" height="45" class="imgclass" width="135" longdesc="Probando imagen abajo y en el centro" />
 
         </div>
 
@@ -348,7 +348,7 @@
             </div>
 
 
-            <button class="accordion">Cierre de sesión</button>
+            <button class="accordion">Cierre de session</button>
             <div class="panel">
                 <div class="container" style="margin-top:10px">
 
@@ -398,9 +398,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="../../Scripts/angular.js"></script>
-    <script src="../../app/user/Service/UserService.js?v=248"></script>
-    <script src="../../app/DocumentViewer/DocumentViewerController.js?v=248"></script>
-    <script src="../../app/DocumentViewer/DocumentViewerService.js?v=248"></script>
+    <script src="../../app/DocumentViewer/DocumentViewerController.js?v=168"></script>
+    <script src="../../app/DocumentViewer/DocumentViewerService.js?v=168"></script>
 
 
 
@@ -590,7 +589,7 @@
                 try {
                     $("#docFileResult").text(JSON.stringify(data));
                 } catch (e) {
-                    console.error(e);
+                    console.log(e);
                 }
 
                 var a = "data:application/pdf;base64," + data;

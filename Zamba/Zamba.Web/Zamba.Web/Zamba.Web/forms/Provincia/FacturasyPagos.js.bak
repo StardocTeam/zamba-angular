@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     //Establece Puntos millares y coma a los importes traidos del origen.
-    // setInputSeparator('zamba_index_109');
+   // setInputSeparator('zamba_index_109');
 
     //Renderizacion de valor numerico a importe.
     $("#zamba_index_109").on({
@@ -43,7 +43,7 @@ function CheckImporteMoneda() {
 
         $("#zamba_index_11535223").removeAttr('readonly', 'readonly');
         $("#zamba_index_11535222").removeAttr('readonly', 'readonly');
-        //   $("#zamba_index_109").val('');
+     //   $("#zamba_index_109").val('');
         //$("#zamba_index_11535223").attr('display', 'block');
         //$("#zamba_index_11535222").attr('display', 'block');
 
@@ -63,12 +63,13 @@ function CheckImporteMoneda() {
         }
         else {
             if (importeOtraMoneda != undefined && importeOtraMoneda != null && importeOtraMoneda != '') {
-                $("#zamba_index_109").val("0");
-                $("#importeError").attr("inneHtml", "Tipo de Cambio obligatorio");
-            }
-            else {
-                $("#zamba_index_11535222").val((importePesos));
-                $("#importeError").attr("inneHtml", "Tipo de Cambio obligatorio");
+            $("#zamba_index_109").val("0");
+            $("#importeError").attr("inneHtml", "Tipo de Cambio obligatorio");
+             }
+             else
+            {
+            $("#zamba_index_11535222").val((importePesos));
+            $("#importeError").attr("inneHtml", "Tipo de Cambio obligatorio");
             }
         }
     }
@@ -108,161 +109,14 @@ function ValidateRequieredFields(sender) {
     if (concepto != undefined && concepto != '' && gasto != undefined && gasto != '') {
         if (gasto == 100 && (oc == undefined || oc == '')) {
             swal('Datos requeridos', 'Tenes que completar el Nro de Orden de Compra', 'warning');
-            return false;
+			return false;
         }
-
+	
     }
     else {
         swal('Datos requeridos', 'Tenes que seleccionar el Tipo de Gasto y Concepto', 'warning');
-        return false;
-    }
-
+   return false;
+   }
+   			
 };
 
-function zamba_save_onclick_ingresoPago(sender) {
-
-    var valido = true;
-    if (document.getElementById("zamba_index_105").value == "") {
-        swal("", "Por favor, ingrese un Nombre y Apellido o Razón Social.", "error");
-        try {
-            $("#zamba_index_105").focus();
-            $("#zamba_index_105").css("bordercolor", "red");
-        } catch (e) {
-
-        }
-        valido = false;
-    } else if (document.getElementById("zamba_index_110").value == "") {
-        swal("", "Por favor, ingrese un Tipo de Gasto.", "error");
-        valido = false;
-        //} else if (document.getElementById("zamba_index_2725").value == "") {
-        //    swal("", "Por favor, ingrese un Concepto.", "error");
-        //    valido = false;
-    } else if (document.getElementById("zamba_index_82").value == "") {
-        swal("", "Por favor, ingrese una delegación.", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_126").value == "") {
-        swal("", "Por favor, ingrese el Sector.", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_53", "error").value == "") {
-        swal("", "Por favor, ingrese el  Solicitante", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_92").value == "") {
-        swal("", "Por favor, ingrese Tipo de Moneda", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_109").value == "") {
-        swal("", "Por favor, ingrese Importe", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_86").value == "") {
-        swal("", "Por favor, ingrese el  ID trámite", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_73").value == "") {
-        swal("", "Por favor, ingrese Fecha Comprobante", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_11525202").value == "") {
-        swal("", "Por favor, ingrese Fecha Vencimiento", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_4").value == "") {
-        swal("", "Por favor, ingrese el  Recepcion", "error");
-        valido = false;
-    } else if (document.getElementById("zamba_index_1020169").value == "") {
-        swal("", "Por favor, ingrese Metodos de Pago", "error");
-        valido = false;
-    } else if (ValidationExtFctura() == false) {
-        swal("", "El campo ingrese factura debe ser SI", "error");
-        valido = false;
-    } else if (ValidateTipoComprobante() == false) {
-        swal("", "Por favor, ingrese tipo de Comprobante", "error");
-        valido = false;
-    } else if (ValidateTipoLetra() == false) {
-        swal("", "Por favor, ingrese tipo de Letra", "error");
-        valido = false;
-    } else if (ValidatePuntoVenta() == false) {
-        swal("", "Por favor, ingrese el punto de venta", "error");
-        valido = false;
-    } else if (ValidateNroComprobante() == false) {
-        swal("", "Por favor, ingrese Nro Comprobante", "error");
-        valido = false;
-    } else if (ValidateFechaCAI() == false) {
-        swal("", "Por favor, ingrese Fecha CAI", "error");
-        valido = false;
-    } else if (ValidateOrdenComrpra() == false) {
-        swal("", "Por favor, ingrese Orden de Compra", "error");
-        valido = false;
-    } else if (ValidarTasadecambioPago() == false) {
-       // swal("", "Por favor, ingrese MONEDA, IMPORTE Y TASA DE CAMBIO", "error");
-        valido = false;
-    }else {
-        SetRuleId(sender);
-        valido = true;
-    }
-    return valido;
-
-};
-
-function ValidarTasadecambioPago() {
-
-    var validoPago = false;
-    if ($("#zamba_index_92").val() == "EUR" || $("#zamba_index_92").val() == "USD") {
-
-        if ($("#zamba_index_11535222").val() == "") {
-            validoPago = false;
-            swal("error", "Tenes que completar Importe", "error");
-            return validoPago;
-        } else if ($("#zamba_index_11535223").val() != "") {
-            validoPago = true;
-
-        } else {
-            validoPago = false;
-            swal("error", "Tenes que completar  Tipo de Cambio", "error");
-            return validoPago;
-        }
-
-
-        if (validoPago == true && $("#zamba_index_11535223").val() == "") {
-            validoPago = false;
-            swal("error", "Tenes que completar  Tasa de Cambio", "error");
-            return validoPago;
-        } else if ($("#zamba_index_11535222").val() != "") {
-            validoPago = true;
-        } else {
-            validoPago = false;
-            swal("error", "Tenes que completar Importe", "error");
-            return validoPago;
-        }
-
-        //Valido Fecha Comprobante No este vacia
-        if ($('#zamba_index_73').val() == '') {
-            swal("error", "Fecha Comprobante No puede estar vacia", "error");
-
-            validoPago = false;
-            return validoPago;
-
-        }
-        else {
-            validoPago = true;
-
-        }
-
-        //Valido Fecha vewncimiento No este vacia
-        if ($('#zamba_index_74').val() == '') {
-            swal("error", "Fecha Vto CAI No puede estar vacia", "error");
-
-            validoPago = false;
-            return validoPago;
-
-        }
-        else {
-            validoPago = true;
-
-        }
-
-
-
-    } else {
-        validoPago = true;
-
-    }
-
-    return validoPago;
-
-}

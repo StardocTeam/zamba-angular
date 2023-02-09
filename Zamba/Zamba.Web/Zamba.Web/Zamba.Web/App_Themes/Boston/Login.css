@@ -27,8 +27,19 @@ right:5em;
 .cabecera-login
 {   
     background: url("Images/LogoBoston1.jpg") no-repeat;
-
+    width: 342px;
+    height: 180px;
 }
+
+@media (min-width:100px) {
+   .cabecera-login{
+         position:relative;
+         margin-left:42%;
+     
+    }
+   }
+
+
 
 /*logo pelota*/
 
@@ -80,6 +91,9 @@ right:5em;
     display:none;
 }
 
+#loginBody{
+    padding:20px;
+}
 
 /*footer
 .LogIn {

@@ -11,12 +11,12 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
     <script src="boston.js" type="text/javascript" language="JavaScript"></script>
     <script src="SiniestroAlta.js" type="text/javascript" language="JavaScript" charset="ISO-8859-1"></script>
     <script src="GestionReclamos.js" type="text/javascript" language="JavaScript"></script>
     <script src="tabber.js" type="text/javascript" language="JavaScript"></script>
-    <script src="reclamo.js" type="text/javascript"></script>
+    <script src="scripts/reclamo.js" type="text/javascript"></script>
     <script type="text/javascript" language="JavaScript">
 
         function SetRuleId(sender) {
@@ -155,8 +155,18 @@
                 $('#zamba_index_2833').attr('disabled', 'disabled');
             }
 
-
-
+            if ($('#zamba_index_2682').val() == "") {
+                $('#zamba_index_2682').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'calendar.png',
+                    buttonImageOnly: true,
+                    yearRange: '-100:+0',
+                    duration: ""
+                });
+            }
             //Sirve para guardar los estados previos. Al detectar una modificacion desde 
             //el evento indices de wf se impacta en SISE mediante webservices
             $("#zamba_index_2875").val($("#zamba_index_2740").val());
@@ -384,7 +394,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon" style="background-color:#e5e5e5">F. 1era
                                         Notif.:</span>
-                                    <input class="form-control  "
+                                    <input class="form-control datepicker "
                                         style=" color: #090A0A; font-weight: bold" id="zamba_index_2682"
                                         name="zamba_index_2682" />
                                 </div>
@@ -431,7 +441,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon" style=" background-color:#e5e5e5">F.Cierre
                                         Med:</span>
-                                    <input class="form-control  " 
+                                    <input class="form-control datepicker " 
                                         style=" color: #090A0A; font-weight: bold" id="zamba_index_1001012"
                                         name="zamba_index_1001012">
                                 </div>
@@ -903,14 +913,14 @@
             </div>
             <center>
                 <div class="col-md-2" style="position:relative;left:20px;">
-                    
+                    <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-2">
                     <span style="color:white">ReclamoAltaJuicio.html</span>
                 </div>
                 <div class="col-md-5">
-                    
+                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                     <div class="form-group row">
                     </div>
                 </div>

@@ -31,7 +31,11 @@ Public Class PlayDoCloseZamba
     Public Function Play(ByVal results As System.Collections.Generic.List(Of Core.ITaskResult)) As System.Collections.Generic.List(Of Core.ITaskResult)
         Dim ucm As New Ucm
         ucm.RemoveConnection()
+  
+        ActionsBusiness.CleanExceptions()
+        
         Application.Exit()
+
     End Function
 
 End Class

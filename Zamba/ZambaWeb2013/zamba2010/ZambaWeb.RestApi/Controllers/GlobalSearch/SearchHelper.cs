@@ -63,7 +63,6 @@ namespace ZambaWeb.RestApi.Models
                         IIndex index = indexBusiness.GetIndex(f.Id);
                         indexBusiness = null;
                         index.Data = f.Value;//DataTemp
-                        index.Operator = f.Operator;
                         s.AddIndex(index);
                         //ESTE ESTA OK PORQUE VALIDA LAS ENTIDADES QUE EL USUARIO TIENE PERMISO
 
@@ -144,7 +143,6 @@ namespace ZambaWeb.RestApi.Models
                         if (index.Name == docIndex.Name && index.ID != docIndex.ID)
                         {
                             docIndex.DataTemp = index.DataTemp;
-                            docIndex.Operator = index.Operator;
                             search.AddIndex(docIndex);
                         }
                     }

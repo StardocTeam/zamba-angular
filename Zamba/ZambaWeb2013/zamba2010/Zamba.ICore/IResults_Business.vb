@@ -32,7 +32,7 @@ Public Interface IResults_Business
     Sub Fill(ByRef instance As IZBaseCore)
     Sub Fill(ByRef instance As IZBatch)
     Sub getRelatedsResults(idDocSelected As Long, ByRef relatedResultFinal As IResult)
-    Sub HistoricDocumentDropzone(taskID As Long, taskName As String, docTypeId As Long, docTypeName As String, stepId As Long, WorkId As Long, ByVal statename As String, stepname As String)
+    Sub HistoricDocumentDropzone(taskID As Long, taskName As String, docTypeId As Long, docTypeName As String, stepId As Long, WorkId As Long, StepN As String)
     Sub InheritUsersToNotify(oldResultId As Long, newResultId As Long)
     Sub InsertDocFile(res As IResult, file() As Byte, fileName As String)
     Sub InsertIntoDOCB(res As IResult)
@@ -121,7 +121,7 @@ Public Interface IResults_Business
     Function GetWebDocFileWS(docTypeId As Long, docId As Long, userId As Long) As Byte()
     Function GetWIFromZIWhereRuleID(lngRuleID As Long) As List(Of Long)
     Function GetWIFromZWFI(ruleID As Long) As List(Of Long)
-    Function Insert(ByRef newResult As INewResult, move As Boolean, Optional reIndexFlag As Boolean = False, Optional reemplazarFlag As Boolean = False, Optional showQuestions As Boolean = True, Optional isVirtual As Boolean = False, Optional isReplica As Boolean = False, Optional hasName As Boolean = False, Optional throwEx As Boolean = False, Optional RefreshWFAfterInsert As Boolean = True, Optional Userid As Decimal = 0, Optional newId As Long = 0, Optional ExecuteEntryRules As Boolean = True) As InsertResult
+    Function Insert(ByRef newResult As INewResult, move As Boolean, Optional reIndexFlag As Boolean = False, Optional reemplazarFlag As Boolean = False, Optional showQuestions As Boolean = True, Optional isVirtual As Boolean = False, Optional isReplica As Boolean = False, Optional hasName As Boolean = False, Optional throwEx As Boolean = False, Optional RefreshWFAfterInsert As Boolean = True, Optional Userid As Decimal = 0, Optional newId As Long = 0) As InsertResult
     Function Insert(name As String, binaryDocument() As Byte, fileExtension As String, docTypeId As Long, indexs As DataTable, DontOpenTaskAfterInsertInDoGenerateCoverPage As Boolean) As Long
     Function InsertDocFileWS(docId As Long, docTypeId As Long, fileBytes() As Byte, incomingFile As String, userId As Long) As Boolean
     Function InsertDocumentNew(ByRef newResult As INewResult, move As Boolean, Optional ReindexFlag As Boolean = False, Optional Reemplazar As Boolean = False, Optional showQuestions As Boolean = True, Optional IsVirtual As Boolean = False, Optional IsReplica As Boolean = False, Optional hasName As Boolean = False) As InsertResult

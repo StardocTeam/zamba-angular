@@ -30,7 +30,10 @@ namespace Zamba.Services
         private const string VOL_ID_COLUMNNAME = "VOL_ID";
         private const string OFFSET_COLUMNNAME = "OFFSET";
 
-        
+        public void UpdateTaskState(long taskId, TaskStates asignada)
+        {
+
+        }
 
         private const string ICON_ID_COLUMNNAME = "ICON_ID";
         private const string SHARED_COLUMNNAME = "SHARED";
@@ -387,9 +390,9 @@ namespace Zamba.Services
             WFTaskBusiness.Finalizar(ref TaskResult, Membership.MembershipHelper.CurrentUser.ID);
         }
 
-        public DataSet GetTaskHistory(Int64 task_id)
+        public DataSet GetTaskHistory(Int64 taskId)
         {
-            return WFTaskBusiness.GetTaskHistory(task_id);
+            return WFTaskBusiness.GetTaskHistory(taskId);
         }
 
         public DataSet GetOnlyIndexsHistory(Int64 docId)
@@ -485,10 +488,10 @@ namespace Zamba.Services
             return EmailBusiness.getHistory(DocId);
         }
 
-        //public DataTable getAsociatedDTResultsFromResult(IResult Result, Int64 LastDocId, Boolean blnOpen, IUser currentUser, Boolean GetTaskId)
-        //{
-        //    return DocAsociatedBusiness.getAsociatedDTResultsFromResult(Result, LastDocId, blnOpen, GetTaskId, currentUser.ID);
-        //}
+        public DataTable getAsociatedDTResultsFromResult(IResult Result, Int64 LastDocId, Boolean blnOpen, IUser currentUser, Boolean GetTaskId)
+        {
+            return DocAsociatedBusiness.getAsociatedDTResultsFromResult(Result, LastDocId, blnOpen, GetTaskId, currentUser.ID);
+        }
 
 
         public DataTable getAsociatedDTResultsFromResult(IResult Result, Int64 LastDocId, Boolean blnOpen, Int64 currentUser, Boolean GetTaskId)

@@ -32,7 +32,7 @@ namespace Zamba.SpireTools
     public class SpireTools : ISpireTools
     {
 
-
+       
 
 
         private string barcodeInBase64;
@@ -69,8 +69,6 @@ namespace Zamba.SpireTools
             try
             {
                 ef = new Workbook();
-                ef.Version = ExcelVersion.Version2013;
-
                 ws = ef.Worksheets.Add("Exportacion");
 
                 while (ef.Worksheets.Count != 1)
@@ -80,12 +78,7 @@ namespace Zamba.SpireTools
 
                 ws.InsertDataTable(dt, true, 1, 1);
 
-                if (path.EndsWith(".xls"))
-                {
-                    path = path.Replace(".xls", ".xlsx");
-                }
-
-                ef.SaveToFile(path, ExcelVersion.Version2013);
+                ef.SaveToFile(path);
                 return true;
             }
             catch (Exception ex)
@@ -107,44 +100,6 @@ namespace Zamba.SpireTools
                     ef = null;
                 }
             }
-
-            //OLD METHOD FOR XLS FORMAT
-            //Workbook ef = null;
-            //Worksheet ws = null;
-            //try
-            //{
-            //    ef = new Workbook();
-            //    ws = ef.Worksheets.Add("Exportacion");
-
-            //    while (ef.Worksheets.Count != 1)
-            //    {
-            //        ef.Worksheets.Remove(0);
-            //    }
-
-            //    ws.InsertDataTable(dt, true, 1, 1);
-
-            //    ef.SaveToFile(path);
-            //    return true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    ZClass.raiseerror(new Exception($"Error al convertir a PDF el archivo {ex}"));
-            //    return false;
-            //}
-
-            //finally
-            //{
-            //    if (ws != null)
-            //    {
-            //        ws.Dispose();
-            //        ws = null;
-            //    }
-            //    if (ef != null)
-            //    {
-            //        ef.Dispose();
-            //        ef = null;
-            //    }
-            //}
         }
 
 
@@ -195,8 +150,8 @@ namespace Zamba.SpireTools
             Workbook book = new Workbook();
             Worksheet sheet = book.Worksheets[0];
             sheet.InsertDataTable(dt, true, 1, 1);
-            book.SaveToFile("DocumentoEXCEL.xlsx", ExcelVersion.Version2013);
-            System.Diagnostics.Process.Start("DocumentoEXCEL.xlsx");
+            book.SaveToFile("DocumentoEXCEL.xls", ExcelVersion.Version97to2003);
+            System.Diagnostics.Process.Start("DocumentoEXCEL.xls");
 
 
         }
@@ -319,9 +274,9 @@ namespace Zamba.SpireTools
 
 
                     Thread thread = new Thread(() =>
-                    {
-                        pdf.LoadFromHTML(htmlCode, true, setting, htmlLayoutFormat);
-                    });
+                   {
+                       pdf.LoadFromHTML(htmlCode, true, setting, htmlLayoutFormat);
+                   });
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
                     thread.Join();
@@ -1189,7 +1144,7 @@ namespace Zamba.SpireTools
                 bcSettings.Data = barcodeId.ToString();
                 bcSettings.Data2D = barcodeId.ToString();
 
-                int bcType = Int32.Parse(new UserPreferences().getValueForMachine("BarCodeType", UPSections.Barcode, true));
+                int bcType = Int32.Parse(UserPreferences.getValueForMachine("BarCodeType", UPSections.Barcode, 1, true));
 
                 switch (bcType)
                 {
@@ -1428,18 +1383,9 @@ namespace Zamba.SpireTools
 
         public MailPreview(MailMessage msg, bool includeAttachs) : this()
         {
-            //Hacer split por ; para obtener el array o hacer una validacion para ver si tiene ;s.
-
-            if (msg.To.Count == 1)
+            foreach (MailAddress item in msg.To)
             {
-                to.AddRange(msg.To[0].ToString().Split(';'));
-            }
-            else if (msg.To.Count > 1)
-            {
-                foreach (MailAddress item in msg.To)
-                {
-                    to.Add(item.Address);
-                }
+                to.Add(item.Address);
             }
 
             if (includeAttachs)
@@ -1453,11 +1399,10 @@ namespace Zamba.SpireTools
                 }
             }
 
-
             from = msg.From.Address;
             subject = msg.Subject;
             date = msg.Date.ToString();
-            body = msg.BodyHtml;
+            body = msg.BodyText;
         }
     }
 

@@ -12,11 +12,6 @@
     <link rel="stylesheet" href="css/css_GUIA.css" type="text/css" />
     <title></title>
 
-    <script src="../../Scripts/sweetalert2/sweetalert2.all.js"></script>
-    <script src="../../Scripts/sweetalert2/sweetalert2.js"></script>
-    <script src="../../Scripts/sweetalert2/sweetalert2.all.min.js"></script>
-
-    <script src="FuncionNewLegajo.js"></script>
 
     <style>
         /* latin */
@@ -134,9 +129,9 @@
                 <div class="form-group row" style=" margin-bottom: 0; padding: 0 0 0 0">
                     <div class="col-md-4">
                         <div class="input-group">
-                            <!--Recepcion / Fecha-->
+                            <!--Recepcion / Fecha--> 
                             <span class="input-group-addon" style=" border: none;background-color: transparent; font-size: small;">Fecha Solicitud Guia</span>
-                            <input id="zamba_index_139633" name="zamba_index_139633" class="form-control input-sm" disabled="disabled" style=" border: none;
+                            <input id="zamba_index_139633" name="zamba_index_139633"class="form-control input-sm" disabled="disabled" style=" border: none;
                              box-shadow: none;background-color: transparent;font-size: small;" />
                         </div>
                     </div>
@@ -156,23 +151,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group row" style=" margin-bottom: 0; padding: 0 0 0 0;">
-                    <div class="col-md-5">
-                        <div class="input-group">
-                            <!--Cajas-->
-                            <span class="input-group-addon" style=" border: none;background-color: transparent; font-size: small;">Cajas:</span>
-                            <input id="zamba_index_161663" name="zamba_index_161663" class="form-control input-sm" disabled="disabled" style="
-							border: none;box-shadow: none;background-color: transparent;font-size: small;" />
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <!--Despachante CUIT-->
-                    <input id="zamba_index_139600" name="zamba_index_139600" class="form-control input-sm" disabled="disabled" style="display:none" />
-
-                </div>
-
                 <div class="form-group row" style=" margin-bottom: 0; padding: 0 0 0 0; display: none">
                     <div class="col-xs-2">
                         <div class="input-group">
@@ -251,15 +229,7 @@
 
                         <div class="col-md-2" style=" margin-left: 10px;">
                             <input type="submit" name="zamba_rule_165698" id="zamba_rule_165698" onclick="return confirmarGuia(this);" class="btn-sm btn-warning" value="Finalizar Carga y Pedir Retiro">
-
-						
                         </div>
-						
-						<!-- <div class="col-md-2" ng-controller="ZambaSignFileController"> -->
-                             <button type="button" onclick="FuncionNewLegajoPSAD()"  class="btn-sm btn-success">Obtener Legajos Nuevo PSAD</button>
-
-                        <!-- </div> -->
-						
                         <!-- <div class="col-md-1"> -->
                         <!-- <input type="submit" name="zamba_rule_" id="zamba_rule_" onclick="SetRuleId(this);" class="btn-sm btn-danger" value="Anular"> -->
                         <!-- </div> -->
@@ -379,7 +349,7 @@
                     <div class="form-group row">
                         <div>
                             <div ng-controller="ZambaAssociatedController">
-                                <zamba-associated entities="139072" rule-ids="176194" default-enable-mode="grid" table-height="content"
+                                <zamba-associated entities="139072" rule-ids="176194" default-enable-mode="grid" table-height="full"
                                                   grid-title="Legajos">
                                 </zamba-associated>
                             </div>
@@ -23506,12 +23476,12 @@
         </script>
 
 
-        <script src="scripts/Andreani.js?v=169"></script>
-        <script src="../../app/DoTablePro/DoShowTableController.js?v=169"></script>
-        <script src="../../app/DoTablePro/DoShowTableServices.js?v=169"></script>
-        <script src="../../app/SignFiles/Controller/SignController.js?v=169"></script>
-        <script src="../../app/SignFiles/Service/SignService.js?v=169"></script>
-        <script src="../../Scripts/GridAandDoshowtable/CommonFunctions.js?v=169"></script>
+        <script src="scripts/Andreani.js?v=168"></script>
+        <script src="../../app/DoTablePro/DoShowTableController.js?v=168"></script>
+        <script src="../../app/DoTablePro/DoShowTableServices.js?v=168"></script>
+        <script src="../../app/SignFiles/Controller/SignController.js?v=168"></script>
+        <script src="../../app/SignFiles/Service/SignService.js?v=168"></script>
+        <script src="../../Scripts/GridAandDoshowtable/CommonFunctions.js?v=168"></script>
 
     </form>
 </body>

@@ -108,11 +108,4 @@ Public Enum ObjectTypes As Integer
 
     Observaciones = 134
     Views = 135
-    WFStepsTree = 136
-
-    HomeWeb = 137
-    ShowAnchorSidebar = 138
-    UsebtnFlotante = 139
-    Cache = 140
-
 End Enum

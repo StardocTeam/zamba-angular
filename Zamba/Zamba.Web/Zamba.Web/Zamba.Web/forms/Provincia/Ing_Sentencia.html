@@ -94,7 +94,7 @@
                                 <div class="input-group">
 
                                     <span class="input-group-addon">Tasa (*):</span>
-                                    <select id="zamba_index_2795" name="zamba_index_2795" class="form-control input-sm" class="form-control ZDecimal"></select>
+                                    <select id="zamba_index_2795" name="zamba_index_2795" class="form-control input-sm"></select>
                                 </div>
                             </div>
 
@@ -113,7 +113,7 @@
                                 <div class="input-group">
 
                                     <span class="input-group-addon"></span>
-                                    <input id="zamba_index_2744" name="zamba_index_2744" size="1" class="form-control " placeholder="$" class="form-control ZDecimal"/>
+                                    <input id="zamba_index_2744" name="zamba_index_2744" size="1" class="form-control " placeholder="$" />
                                     <span class="input-group-btn">
                                     </span>
                                 </div>
@@ -137,7 +137,7 @@
                                 <div class="input-group">
 
                                     <span class="input-group-addon"></span>
-                                    <input id="zamba_index_2793" name="zamba_index_2793" size="1" class="form-control " placeholder="$"  class="form-control ZDecimal"/> <!--oninput="this.value = this.value.replace(/(?![0-9])./gmi,'')"-->
+                                    <input id="zamba_index_2793" name="zamba_index_2793" size="1" class="form-control " placeholder="$"  /> <!--oninput="this.value = this.value.replace(/(?![0-9])./gmi,'')"-->
                                     <span class="input-group-btn">
                                     </span>
                                 </div>
@@ -155,7 +155,7 @@
                                 <div class="input-group">
 
                                     <span class="input-group-addon"></span>
-                                    <input id="zamba_index_10223" name="zamba_index_10223" size="10" class="form-control " placeholder="$"  class="form-control ZDecimal"/> <!--oninput="this.value = this.value.replace(/(?![0-9])./gmi,'')"-->
+                                    <input id="zamba_index_10223" name="zamba_index_10223" size="10" class="form-control " placeholder="$"  /> <!--oninput="this.value = this.value.replace(/(?![0-9])./gmi,'')"-->
 
                                     <span class="input-group-btn">
                                     </span>
@@ -174,7 +174,7 @@
                                 <div class="input-group">
 
                                     <span class="input-group-addon"></span>
-                                    <input id="zamba_index_2719" name="zamba_index_2719" size="1" class="form-control" placeholder="$" readonly="readonly" class="form-control ZDecimal"/>
+                                    <input id="zamba_index_2719" name="zamba_index_2719" size="1" class="form-control" placeholder="$" readonly="readonly" />
 
                                     <span class="input-group-btn">
                                     </span>
@@ -388,7 +388,30 @@
                             .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".")).replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
                     }
 
+                    var value10223 = $("#zamba_index_10223").val();
+                    if (value10223 != '') {
+                        var newvalue = parseFloat(value10223).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                        $("#zamba_index_10223").val(newvalue);
+                    }
+
+                    var value2793 = $("#zamba_index_2793").val();
+                    if (value2793 != '') {
+                        var newvalue = parseFloat(value2793).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                        $("#zamba_index_2793").val(newvalue);
+                    }
+
+                    var value2744 = $("#zamba_index_2744").val();
+                    if (value2744 != '') {
+                        var newvalue = parseFloat(value2744).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                        $("#zamba_index_2744").val(newvalue);
+                    }
                   
+                    var value2719 = $("#zamba_index_2719").val();
+                    if (value2719 != '') {
+                        var newvalue = parseFloat(value2719).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                        $("#zamba_index_2719").val(newvalue);
+                    }
+
                 });
 
 

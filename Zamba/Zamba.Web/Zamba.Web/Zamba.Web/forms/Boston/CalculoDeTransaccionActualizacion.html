@@ -1,22 +1,49 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
-<!--Autor:Stardoc-->
-<!--Fecha Creacion: 11.2018-->
-<!--Modificado por: RG 16.06.2021-->
-<!-- Fecha de Transacción y ID Reclamo: Cambio de posicion -->
-<!-- Boton Guardar, Logos y nombre del Formuloario: Se agrego espacio despues de atributos-->
-<!--Modificado por: GR--> 
-<!--Fecha Modificacion: 17.03.2022-->
-<!--Modificacion Realizada: Cambio de posicion de todos los campos. Se ajusto el Form para que sea responsive-->
 
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="boston_styles.css" type="text/css" />
-    <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
-    <script src="CalculoDeTransaccionActualizacion.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function () {
+            $(".moneda").each(function () {
+                $(this).keyup(function (e) {
+                    if (DecimalCheck($('#' + e.target.id))) {
+                        SumarCampos();
+                    }
+                })
+            });
+        });
+        function zamba_save_onclick() {
+            if (document.getElementById("zamba_index_2719").value == "" || document.getElementById("zamba_index_2719").value == "0") {
+                alert("Debe completar el Total de la Transacción");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if (document.getElementById("zamba_index_2838").value == "") {
+                alert("Debe completar la Fecha de Actualización");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else if ($('input[type=text]').hasClass('error')) {
+                alert("Verifique que todos los datos de los campos sean válidos");
+                document.getElementById("hdnRuleId").name = "zamba_rule_cancel";
+            } else {
+                document.getElementById("hdnRuleId").name = "zamba_rule_save";
+            }
+        }
+        function SumarCampos() {
+            //Obtiene cada valor y lo convierte a decimal
+            var sum = parseFloat($("#zamba_index_2744").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2813").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2814").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2815").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2816").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2817").val().replace('', '0'));
+            sum += parseFloat($("#zamba_index_2818").val().replace('', '0'));
 
+            //Suma los valores obtenidos y lo asigna al indice Total
+            $("#zamba_index_2719").val(Redondear(sum));
+        }
+       
+    </script>
 </head>
 
 <body>
@@ -24,152 +51,148 @@
         <form name="frmMain" action="CalculoDeTransaccionActualizacion.html">
             <input id="hdnRuleId" type="hidden" />
             <input id="hdnAsocId" type="hidden" />
-
-            <div id="tblRubro">
+           
                 <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Fecha de Transacción</span>
-                            <input class="form-control  input-sm" id="zamba_index_2812" name="zamba_index_2812"
-                                   onblur="valFecha(this)" style=" color: #090A0A; font-weight: bold ">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">ID Reclamo</span>
-                            <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677"
-                                   readonly="readonly" style=" color: #090A0A; font-weight: bold ">
-                        </div>
+                    <div class="col-md-12">
+                        <center>
+                            <div>
+                                <h4 style="background-color:#418ad4; color:white;">Calculo de Transaccion</h4>
+                            </div>
+                        </center>
                     </div>
                 </div>
+    
 
-                <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Capital $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2744" name="zamba_index_2744" style=" color: #090A0A; font-weight: bold ">
+                <div id="tblRubro" class="attributes_table">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" >ID Reclamo</span>
+                                <input class="form-control input-sm" id="zamba_index_2677" name="zamba_index_2677"
+                                    readonly="readonly" >
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Letrado Req. $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2813" name="zamba_index_2813" style=" color: #090A0A; font-weight: bold" />
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Fecha de Transacción</span>
+                                <input class="form-control datepicker input-sm" id="zamba_index_2812" name="zamba_index_2812"
+                                    onblur="valFecha(this)" >
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Letrado Cia $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2814" name="zamba_index_2814" style=" color: #090A0A; font-weight: bold" />
-                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Mediador $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2815" name="zamba_index_2815" style=" color: #090A0A; font-weight: bold ">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Capital $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2744" name="zamba_index_2744">
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Peritos $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2816" name="zamba_index_2816" style=" color: #090A0A; font-weight: bold ">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Letrado Req. $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2813" name="zamba_index_2813"  style=" color: #090A0A; font-weight: bold"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Tasa de Justicia $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2817" name="zamba_index_2817" style=" color: #090A0A; font-weight: bold ">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Letrado Cia $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2814" name="zamba_index_2814" style=" color: #090A0A; font-weight: bold"/>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Otros Gastos $</span>
-                            <input class="form-control input-sm moneda ZDecimal" id="zamba_index_2818" name="zamba_index_2818" style=" color: #090A0A; font-weight: bold ">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Mediador $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2815" name="zamba_index_2815" >
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Copia de Convenio</span>
-                            <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold " id="zamba_index_2819"
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Peritos $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2816" name="zamba_index_2816" >
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Tasa de Justicia $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2817" name="zamba_index_2817" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Otros Gastos $</span>
+                                <input class="form-control input-sm moneda" id="zamba_index_2818" name="zamba_index_2818" >
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Copia de Convenio</span>
+                                <select class="form-control input-sm"  id="zamba_index_2819"
                                     name="zamba_index_2819"></select>
+                            </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Fecha de Recepción de Convenio</span>
+                                <input class="form-control datepicker input-sm" id="zamba_index_2820" name="zamba_index_2820"
+                                 onblur="valFecha(this)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Total de Transacción $</span>
+                                <input class="form-control input-sm" id="zamba_index_2719" name="zamba_index_2719"
+                                 readonly="readonly">
+                            </div>
+                        </div>
+                 
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" >Fecha de Actualización</span>
+                                <input  style=" color: #090A0A; font-weight: bold"  class="form-control datepicker input-sm" id="zamba_index_2838" name="zamba_index_2838"
+                                    onblur="valFecha(this)">
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Fecha de Recepción de Convenio</span>
-                            <input class="form-control  input-sm" id="zamba_index_2820" name="zamba_index_2820"
-                                   style=" color: #090A0A; font-weight: bold " onblur="valFecha(this)">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Total de Transacción $</span>
-                            <input class="form-control input-sm ZDecimal" id="zamba_index_2719" name="zamba_index_2719"
-                                   style=" color: #090A0A; font-weight: bold " readonly="readonly">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-md-2"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="">Fecha de Actualización</span>
-                            <input style=" color: #090A0A; font-weight: bold" class="form-control  input-sm" id="zamba_index_2838" name="zamba_index_2838"
-                                   onblur="valFecha(this)">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-offset-5 col-sm-3">
+                <center>
                     <input class="btn  btn-primary" id="zamba_save" name="zamba_save" type="submit"
-                           onclick="return zamba_save_onclick_CalculoTransaccionActualizacion();" value="Guardar" />
-                </div>
-            </div>
-            <div class=" row"> </div>
-
-
-            <div class=" row">
-                <div class="col-md-12 col-xs-12">
-                    <div id="ComprobantesAsociadas" ng-controller="ZambaAssociatedController">
-                        <zamba-associated entities="2550" default-enable-mode="grid" table-height="400" grid-title="Convenio Transaccion"></zamba-associated>
+                        onclick="return zamba_save_onclick();" value="Guardar" />
+                </center>
+                <center>
+                    <div class="col-md-2" style="position:relative;left:20px;">
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
-                </div>
-            </div>
-
-            <div class=" row"> </div>
-
-            <!--Logos y nombre del Formulario-->
-            <div class="form-group row"></div>
-            <div class="form-group row">
-                <div class="col-md-3"></div>
-                <div class="col-md-2">
-                    <span style="color:grey">CalculoDeTransaccionActualizacion.html</span>
-                </div>
-            </div>
-
-
-        </form>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <span style="color:white">CalculoDeTransaccionActualizacion.html</span>
+                    </div>
+                    <div class="col-md-5">
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
+                        <div class="form-group row">
+                        </div>
+                    </div>
+                </center>
+           
     </div>
+    </form>
 </body>
 
 </html>

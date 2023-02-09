@@ -6,7 +6,7 @@
 End Interface
 
 Public Interface IWFRuleBusiness
-    Function GetChildRulesIds(ByVal RuleId As Int64, ByVal RuleClass As String, results As List(Of ITaskResult)) As List(Of Int64)
+    Function GetChildRulesIds(ByVal RuleId As Int64) As List(Of Int64)
     Function GetWFStepIdbyRuleID(ByVal RuleId As Int64) As Int64
 
     Function GetInstanceRuleById(ByVal RuleId As Int64) As IWFRuleParent

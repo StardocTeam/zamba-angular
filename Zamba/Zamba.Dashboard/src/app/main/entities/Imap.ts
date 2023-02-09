@@ -5,7 +5,6 @@ export class Imap{
     EMAIL: string; 
     USER_ID: number; 
     USER_PASSWORD: string; 
-    GENERIC_INBOX: String;
 
     IP_ADDRESS: string; 
     FIELD_PORT: string; 
@@ -17,8 +16,7 @@ export class Imap{
     FILTER_NOT_READS: string; 
     EXPORT_ATTACHMENTS_SEPARATELY: string;
 
-    FOLDER_NAME: string;
-    FOLDER_NAME_DEST: string;     
+    FOLDER_NAME: string;     
     ENTITY_ID: string; 
     SENT_BY: string; 
     FIELD_TO: string; 
@@ -41,8 +39,7 @@ export class Imap{
         this.PROCESS_NAME = ''; 
         this.EMAIL = ''; 
         this.USER_ID = -1; 
-        this.USER_PASSWORD = '';
-        this.GENERIC_INBOX = '';  
+        this.USER_PASSWORD = ''; 
 
         this.IP_ADDRESS = ''; 
         this.FIELD_PORT = ''; 
@@ -54,8 +51,7 @@ export class Imap{
         this.FILTER_NOT_READS = '';
         this.EXPORT_ATTACHMENTS_SEPARATELY = ''; 
 
-        this.FOLDER_NAME = '';
-        this.FOLDER_NAME_DEST = '';     
+        this.FOLDER_NAME = '';     
         this.ENTITY_ID = ''; 
         this.SENT_BY = ''; 
         this.FIELD_TO = ''; 

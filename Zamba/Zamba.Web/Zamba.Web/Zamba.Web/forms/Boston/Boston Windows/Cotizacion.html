@@ -12,9 +12,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="boston_styles.css" type="text/css" />
     <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
-     
-    
-    <!--  -->
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <!-- <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script> -->
     <script src="boston.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
 
@@ -174,8 +174,27 @@
                 $('#zamba_index_154').attr('disabled', false);
             }
 
-
-
+            /* $('#zamba_index_98').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                yearRange: '-100:+0',
+                duration: ""
+            });
+            $('#zamba_index_95').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'button',
+                buttonText: 'Abrir calendario',
+                buttonImage: 'calendar.png',
+                buttonImageOnly: true,
+                yearRange: '-100:+0',
+                duration: ""
+            });
+*/
             MostrarIDPymeSegunResguardo();
 
             if ($('#zamba_index_94').val() == '' || $('#zamba_index_94').val() == null) {
@@ -223,7 +242,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon" style="background-color:#e5e5e5;">Fecha Ingreso
                                     Compañía:</span>
-                                <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                                <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_index_95" onblur="valFecha(this)" name="zamba_index_95" />
                             </div>
                         </div>
@@ -231,7 +250,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon" style="background-color:#e5e5e5">Plazo Límite
                                     Cotización:</span>
-                                <input class="form-control input-sm "
+                                <input class="form-control input-sm datepicker"
                                     style=" color: #090A0A; font-weight: bold" id="zamba_index_98" name="zamba_index_98"
                                     onblur="valFecha(this)" />
                             </div>
@@ -368,14 +387,14 @@
     </div>
     <center>
         <div class="col-md-2" style="position:relative;left:20px;">
-            
+            <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
         </div>
         <div class="col-md-3"></div>
         <div class="col-md-2">
             <span style="color:white">Cotizacion.html</span>
         </div>
         <div class="col-md-5">
-            
+            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
             <div class="form-group row">
             </div>
         </div>

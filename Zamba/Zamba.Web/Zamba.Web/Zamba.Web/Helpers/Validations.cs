@@ -20,7 +20,7 @@ namespace Zamba.Web.App_Code.Helpers
         /// <param name="Index">Atributo base para validaciones.</param>
         /// <param name="ValidateControl">Control base para volcar los datos</param>
         /// <returns></returns>
-        public static Control GetControlWithValidations(IIndex Index, Control ValidateControl, WebModuleMode indexLocation, ITaskResult taskResult, ZFieldType fieldType)
+        public static Control GetControlWithValidations(IIndex Index, Control ValidateControl, WebModuleMode indexLocation, ITaskResult taskResult, ZFieldType fieldType,Boolean SetearCalendario = true)
         {
             TextBox tbControl;
             DropDownList ddControl;
@@ -28,7 +28,7 @@ namespace Zamba.Web.App_Code.Helpers
             AttributeCollection acAttributes = new AttributeCollection(new StateBag());
 
             string[] types = GetTypeToValidateFromIndex(Index.Type);
-            if (types != null)
+            if (types != null && SetearCalendario)
             {
                 if (Index.Type.ToString() == "Fecha")
                 {
@@ -110,7 +110,6 @@ namespace Zamba.Web.App_Code.Helpers
             {
                 tbControl = (TextBox)ValidateControl;
                 sbClasses.Append(" insertAttribute");
-                sbClasses.Append(" input-sm");
                 tbControl.CssClass += sbClasses.ToString();
 
                 while (keys.MoveNext())
@@ -124,7 +123,6 @@ namespace Zamba.Web.App_Code.Helpers
 
             ddControl = (DropDownList)ValidateControl;
             sbClasses.Append(" insertAttribute");
-            sbClasses.Append(" input-sm");
             ddControl.CssClass += sbClasses.ToString();
 
             while (keys.MoveNext())

@@ -168,7 +168,7 @@ Public Class DocTypesBusiness
                 End If
 
                 If docType Is Nothing Then Return Nothing
-                docType.Indexs = IB.GetIndexsSchemaAsListOfDT(DocTypeId)
+                docType.Indexs = core.FilterIndex(DocTypeId)
                 core = Nothing
 
                 If _cache.hsDocTypes.ContainsKey(DocTypeId) Then
@@ -273,29 +273,6 @@ Public Class DocTypesBusiness
     ''' -----------------------------------------------------------------------------
     Public Function GetDocTypeName(ByVal DocTypeId As Int64) As String
         Return GetDocType(DocTypeId).Name
-    End Function
-
-
-    ''' -----------------------------------------------------------------------------
-    ''' <summary>
-    ''' Devuelve el doctypeid a partir del from id 
-    ''' </summary>
-    ''' <param name="formid">ID del Tipo de documento</param>
-    ''' <returns>Cantidad</returns>
-    ''' <remarks>
-    ''' </remarks>
-    ''' <history>
-    ''' 	[FELIPE]	03/01/2022	Created
-    ''' </history>
-    ''' -----------------------------------------------------------------------------
-    Public Function GetDocTyIdFromID(ByVal formid As Int32) As Int32
-        Try
-            Return DTF.GetDocTyIdFromID(formid)
-        Catch ex As Exception
-            ZClass.raiseerror(ex)
-            'Si no pudo acceder a la columna, que devuelva 0
-            Return 0
-        End Try
     End Function
     ''' -----------------------------------------------------------------------------
     ''' <summary>
@@ -688,7 +665,7 @@ Public Class DocTypesBusiness
     Public Sub AddColumnTextindex(ByVal DocTypeId As Int64, ByVal IndexId As Int32)
         DTF.AddColumnTextindex(DocTypeId, IndexId)
     End Sub
-    Public Function GetDocTypesbyUserRights(ByVal UserId As Int64, ByVal RightType As Zamba.Core.RightsType) As List(Of IDocType)
+    Public Function GetDocTypesbyUserRights(ByVal UserId As Int64, ByVal RightType As Zamba.Core.RightsType) As List(Of DocType)
         If (Cache.DocTypes.DocTypesByUserIdAndRightType.ContainsKey(UserId & "-" & RightType.ToString) = False) Then
             SyncLock Cache.DocTypes.DocTypesByUserIdAndRightType
                 If (Cache.DocTypes.DocTypesByUserIdAndRightType.ContainsKey(UserId & "-" & RightType.ToString) = False) Then

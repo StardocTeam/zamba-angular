@@ -33,8 +33,8 @@ namespace ZambaWeb.RestApi.Controllers.Insert
 
             try
             {
-                AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AccountController AC = new AccountController();
+                //AC.LoginById(paramRequest.UserId);
 
                 if (paramRequest.Params.ContainsKey("entityId") && !string.IsNullOrEmpty(paramRequest.Params["entityId"]) &&
                 paramRequest.Params.ContainsKey("indexs") && !string.IsNullOrEmpty(paramRequest.Params["indexs"]))
@@ -104,8 +104,8 @@ namespace ZambaWeb.RestApi.Controllers.Insert
 
             try
             {
-                AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AccountController AC = new AccountController();
+                //AC.LoginById(paramRequest.UserId);
 
                 //UserBusiness UBR = new UserBusiness();
                 // IUser user = UBR.ValidateLogIn(paramRequest.UserId, ClientType.WebApi); 
@@ -184,8 +184,8 @@ namespace ZambaWeb.RestApi.Controllers.Insert
 
             try
             {
-                AccountController AC = new AccountController();
-                AC.LoginById(paramRequest.UserId);
+                //AccountController AC = new AccountController();
+                //AC.LoginById(paramRequest.UserId);
 
                 BarcodesBusiness BCB = new BarcodesBusiness();
                 DataTable DT = BCB.dsFilterCaratulas(paramRequest.UserId);

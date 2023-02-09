@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using Zamba;
@@ -16,11 +18,9 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
     const string _INDEXUPDATE2 = "' de '";
     const string _INDEXUPDATE3 = "' a '";
     const string _INDEXUPDATE4 = "', ";
-    const string _URLFORMAT = "{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&UserID={4}";
+    const string _URLFORMAT = "{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&userid={4}&token={5}";
     Int64 docTypeId;
     Int64 docId;
-    Boolean IsFavorite;
-    Boolean IsImportant;
     string url = string.Empty;
     static string fileName = string.Empty;
     IResult result;
@@ -41,9 +41,6 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
         {
             result = value;
             docTypeId = result.DocTypeId;
-            IsFavorite = result.IsFavorite;
-            IsImportant = result.IsImportant;
-            
             docId = result.ID;
         }
         get
@@ -54,23 +51,53 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
-        if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)
+
+        Int64 userId = 0;
+        string quserId = string.Empty;
+        if (Request.QueryString.HasKeys())
         {
-            //FormsAuthentication.RedirectToLoginPage();
+            if (Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined")
+            {
+                quserId = Request.QueryString["userid"];
+            }
+            if (string.IsNullOrEmpty(quserId))
+            {
+                if (Request.QueryString["user"] != null && Request.QueryString["user"] != "undefined")
+                {
+                    quserId = Request.QueryString["user"];
+                }
+            }
+            if (string.IsNullOrEmpty(quserId))
+            {
+                if (Request.QueryString["u"] != null && Request.QueryString["u"] != "undefined")
+                {
+                    quserId = Request.QueryString["u"];
+                }
+            }
+
+            if (!string.IsNullOrEmpty(quserId))
+            {
+                userId = long.Parse(quserId);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "userId: " + userId);
+            }
+
+            if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected || (MembershipHelper.CurrentUser != null && userId > 0 && MembershipHelper.CurrentUser.ID != userId))
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "User no Identificado ");
+                FormsAuthentication.RedirectToLoginPage();
+                return;
+            }
+
+        }
+        else {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "User no Identificado sin QueryString");
+            FormsAuthentication.RedirectToLoginPage();
             return;
         }
 
         ZCore ZC = new ZCore();
         Page.Theme = ZC.InitWebPage();
         ZC.VerifyFileServer();
-    }
-
-
-    public void Modal_login(Boolean reloadModalLogin)
-    {
-        string loginUrl = FormsAuthentication.LoginUrl.ToString();
-        string script = "$(document).ready(function() {  var linkSrc = location.origin.trim() + '" + loginUrl.Replace(".aspx", "").Trim() + "?showModal=true&reloadLogin=" + reloadModalLogin + "';  document.getElementById('iframeModalLogin').src = linkSrc; $('#modalLogin').modal('show');});";
-        Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -97,23 +124,15 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
 
                     Boolean print = this.Result.IsWord || this.Result.IsExcel;
 
-                    // TaskName.Text = this.result.Name;
+                   // TaskName.Text = this.result.Name;
                     docTB.ShowPrint = print.ToString().ToLower();
                     docTB.DocId = docId.ToString();
                     docTB.DocTypeId = docTypeId.ToString();
-                    docTB.IsImportant = IsImportant;
-                    docTB.IsFavorite = IsFavorite;
                     docTB.StepId = Request["wfstepid"];
                     string[] temp = url.Split(new char[1] { '.' });
                     docTB.DocExt = temp[temp.Length - 1];
 
                     ShowDocument();
-                }
-                else
-                {
-                    string script = "$(document).ready(function() { swal({ title: '', text: 'No tiene permisos para ver esta tarea', icon: 'info', buttons: true, dangerMode: true, closeOnClickOutside: false, buttons:{ agregar: { text: 'ok' }, }, }) .then((value) => { switch (value) { case 'agregar': window.close(); break; } }); });";
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
-
                 }
             }
             catch (Exception ex)
@@ -124,7 +143,7 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
                 Zamba.AppBlock.ZException.Log(ex);
             }
 
-            //        Verifica si debe mostrar el panel de atributos
+    //        Verifica si debe mostrar el panel de atributos
             if (Boolean.Parse(UP.getValue("ShowIndexLinkUnderTask", UPSections.UserPreferences, "False")))
             {
                 LoadIndexsPanel(Page.IsPostBack);
@@ -138,7 +157,7 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
             if (user.ConnectionId > 0)
             {
                 Ucm ucm = new Ucm();
-                ucm.UpdateOrInsertActionTime(user.ID, user.Name, Request.UserHostAddress.Replace("::1", "127.0.0.1"), user.ConnectionId, Int32.Parse(UP.getValue("TimeOut", Zamba.UPSections.UserPreferences, "30")), type);
+                ucm.UpdateOrInsertActionTime(user.ID, user.Name, Request.UserHostAddress.Replace("::1","127.0.0.1"), user.ConnectionId, Int32.Parse(UP.getValue("TimeOut", Zamba.UPSections.UserPreferences, "30")), type);
             }
 
         }
@@ -165,7 +184,7 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
         {
             // Se registra la lectura de este documento   
             SRights srights = new SRights();
-            srights.SaveActionWebView(result.ID, ObjectTypes.Documents, Request.UserHostAddress.Replace("::1", "127.0.0.1"), RightsType.View, result.DocTypeId.ToString());
+            srights.SaveActionWebView(result.ID, ObjectTypes.Documents, Request.UserHostAddress.Replace("::1","127.0.0.1"), RightsType.View, result.Name);
         }
     }
 
@@ -178,7 +197,8 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
         //else 
         //{ 
         //Visualizador por defecto: iframe
-        url = string.Format(Tools.GetProtocol(Request) + _URLFORMAT, Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, result.DocTypeId, result.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+        String token = new ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
+        url = string.Format(Tools.GetProtocol(Request) + _URLFORMAT, Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, result.DocTypeId, result.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID,token);
         docTB.FilePath = url;
         //formBrowser.Attributes["src"] = url;
         //formBrowser.Attributes["url"] = url;

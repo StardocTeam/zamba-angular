@@ -18,7 +18,7 @@
             </telerik:RadFileExplorer>
         </div>
         <div>
-            <br /><asp:Label ID="lblMsg" runat="server" style="color:black"></asp:Label><br />
+            <br /><asp:Label ID="lblMsg" runat="server" style="color:white"></asp:Label><br />
             <asp:TextBox runat="server" style="width:800px" ID="txtfilepath"></asp:TextBox>
             <asp:Button text="Upload" runat="server" onclick="btnUp_Click" style="border-style:none; background-color:white"/></div>
            </form></div>

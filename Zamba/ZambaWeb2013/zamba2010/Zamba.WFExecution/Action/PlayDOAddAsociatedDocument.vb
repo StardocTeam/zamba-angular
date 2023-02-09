@@ -22,24 +22,20 @@ Public Class PlayDOAddAsociatedDocument
             If RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.DocTypes, RightsType.Create, rule.AsociatedDocType.ID) Then
                 params.Add("DocID", results(0).ID)
                 params.Add("DocTypeId", rule.AsociatedDocType.ID)
-                If (rule.ChildRulesIds IsNot Nothing) Then
-                    params.Add("NextRuleIds", String.Join(",", rule.ChildRulesIds))
-                End If
 
                 '19/07/11: Sumado un parámetro mas para poder obtener los indices del documento que llama la regla
                 If Not IsNothing(results(0).DocType) Then
-                        params.Add("FillIndxDocTypeID", results(0).DocType.ID)
-                    End If
+                    params.Add("FillIndxDocTypeID", results(0).DocType.ID)
+                End If
 
-                params.Add("DontOpenTaskIfIsAsociatedToWF", rule.DontOpenTaskIfIsAsociatedToWF)
                 params.Add("HaveSpecificAttributes", rule.HaveSpecificAttributes)
                 If rule.HaveSpecificAttributes Then
-                        'Si hay configuracion especifica, obtenemos el diccionario con los valores
-                        params.Add("SpecificAttrubutes", GetHashFromSpecificAttributes(rule.SpecificAttrubutes, results))
-                    End If
+                    'Si hay configuracion especifica, obtenemos el diccionario con los valores
+                    params.Add("SpecificAttrubutes", GetHashFromSpecificAttributes(rule.SpecificAttrubutes, results))
+                End If
 
-                Else
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "No se pudo crear un entidad asociado porque no posee los permisos requeridos.")
+            Else
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "No se pudo crear un entidad asociado porque no posee los permisos requeridos.")
             End If
 
         Catch ex As UriFormatException

@@ -1,7 +1,26 @@
 ﻿
 var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
 var serviceBaseAndreani = ZambaWebRestApiURL + "/andreaniServices/";
+function TestAsmx(key) {
+    var pathName = null;
+    $.ajax({
+        "async": false,
+        "crossDomain": true,
+        "url": "../../Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
+        "method": "GET",
+        "headers": {
+            "cache-control": "no-cache"
+        },
+        "success": function (response) {
+            
 
+        },
+        "error": function (data, status, headers, config) {
+            console.log(data);
+        }
+    });
+    return pathName;
+}
 
 $(document).ready(function () {
 
@@ -13,6 +32,8 @@ $(document).ready(function () {
         $("#respuesta_login").val(JSON.stringify(respuesta));
     }
     );
+    TestAsmx("/api");
+    
 
     $("#listar_provincias").click(function (n) {
         var Provincias = ObtenerProvincias();
@@ -199,12 +220,40 @@ function login(user, password) {
         }
     });
 }
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 
+function GetHeaderAuthorization() {
+    var user;
+    var token;
+    if (localStorage.authorizationData != undefined) {
+        var authorizationData = JSON.parse(localStorage.authorizationData);
+        user = authorizationData.UserId;
+        token = authorizationData.token;
+    }
+    else {
+        user = getUrlParameter("UserId");
+        token = getUrlParameter("Token");
+    }
+        var header = "Basic " + window.btoa(user + ":" + token);
+        return header;
+    }
 function Test() {
+    
+    
+    var data = {
+        userId: 1
+    };
+    var url = "http://localhost/ZambaWeb.RestApi/search/GetUser?userId=1";
     $.ajax({
-        type: "POST",
-        url: serviceBaseAndreani + "Test",
+    type: "GET",
+        url: url,
         async: false,
+        //data: JSON.stringify(data),
         success: function (response) {
             return response;
         },
@@ -212,7 +261,7 @@ function Test() {
             return error
         }
     });
-    return provincias;
+    
 }
 
 function ObtenerProvincias() {

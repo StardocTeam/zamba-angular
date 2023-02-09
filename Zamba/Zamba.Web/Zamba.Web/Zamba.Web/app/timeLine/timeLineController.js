@@ -1,9 +1,10 @@
 ﻿//var app = angular.module('timeline', []);
 
 app.controller('TimelineController', function ($scope, $filter, $http, timelineService) {
+    
 
+    $scope.LoadResults = function (TimeLineType, parentResultId, EntityId, ParentId, reportId) {  
 
-    $scope.LoadResults = function (TimeLineType, parentResultId, EntityId, ParentId, reportId) {
 
         if (reportId == "" || reportId == undefined) {
             var d = timelineService.getResults(TimeLineType, parentResultId, EntityId, ParentId)
@@ -11,7 +12,7 @@ app.controller('TimelineController', function ($scope, $filter, $http, timelineS
             $scope.parentTaskId = getElementFromQueryString("taskid");
 
             var d = timelineService.Report(reportId, $scope.parentTaskId);
-        }
+        }        
 
         if (d == "") {
             console.log("No se pudo obtener el timeline");
@@ -22,17 +23,17 @@ app.controller('TimelineController', function ($scope, $filter, $http, timelineS
         }
     };
 
-    $scope.RefreshTimeLine = function () {
-        var d = timelineService.getResults($scope.timelineType, $scope.parentResultId, $scope.entityId, $scope.parentEntityId)
-        //alert(d);
-        if (d == "") {
-            console.log("No se pudo obtener el timeline");
-            return;
-        }
-        else {
-            $scope.Results = JSON.parse(d);
-        }
-    }
+  $scope.RefreshTimeLine = function () {
+      var d = timelineService.getResults($scope.timelineType, $scope.parentResultId, $scope.entityId, $scope.parentEntityId)
+      //alert(d);
+      if (d == "") {
+          console.log("No se pudo obtener el timeline");
+          return;
+      }
+      else {
+          $scope.Results = JSON.parse(d);
+      }
+  }
 
     $scope.toggleAllActivities = function () {
         $scope.activities.map(function (activity) {
@@ -52,23 +53,10 @@ app.controller('TimelineController', function ($scope, $filter, $http, timelineS
         $scope.refreshEvents();
     }
 
-
+   
 });
 
 app.directive('zambaTimeline', function ($sce) {
-    var TrustedResourceUrl = "";
-
-    try {
-        if (_appOrigin != null && _appOrigin != "") {
-            TrustedResourceUrl = '../../timeLine/timeline.html';
-        } else {
-            TrustedResourceUrl = '../../app/timeLine/timeline.html';
-        }
-    } catch (e) {
-        console.error(e);
-        TrustedResourceUrl = '../../app/timeLine/timeline.html';
-    }
-
     return {
         restrict: 'E',
         //scope: false,
@@ -79,32 +67,25 @@ app.directive('zambaTimeline', function ($sce) {
             $scope.parentEntityId = attributes.parentEntityId;
             $scope.entityId = attributes.entityId;
             $scope.reportId = attributes.reportId;
-            $scope.resultId = attributes.resultId;
 
             try {
 
-                if ($scope.resultId != undefined
-                    && $scope.resultId != null
-                    && $scope.resultId != "") {
-                    $scope.parentResultId = $scope.resultId;
+            
+            var url = window.location.href;
+            var segments = url.split("&");
+            segments.forEach(function (valor) {
+                if (valor.indexOf("docid") == 0) {
+                    $scope.parentResultId = valor.split("=")[1];
                 }
-                else {
-                    var url = window.location.href;
-                    var segments = url.split("&");
-                    segments.forEach(function (valor) {
-                        if (valor.indexOf("docid") == 0) {
-                            $scope.parentResultId = valor.split("=")[1];
-                        }
-                    });
-                }
-
-                $scope.LoadResults($scope.timelineType, $scope.parentResultId, $scope.entityId, $scope.parentEntityId, $scope.reportId);
+            });       
+           
+            $scope.LoadResults($scope.timelineType, $scope.parentResultId, $scope.entityId, $scope.parentEntityId, $scope.reportId);
 
             } catch (e) {
-                console.error(e);
+
             }
-        },
-        templateUrl: $sce.getTrustedResourceUrl(TrustedResourceUrl),
+            },
+        templateUrl: $sce.getTrustedResourceUrl('../../app/timeLine/timeline.html'),
 
     }
 });

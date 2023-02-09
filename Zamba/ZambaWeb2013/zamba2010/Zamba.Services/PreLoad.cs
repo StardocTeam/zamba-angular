@@ -152,7 +152,7 @@ namespace Zamba.PreLoad
 
                 if (null != ChangeTextEvent)
                         ChangeTextEvent("Obteniendo entidades");
-                    List<IDocType> Entities = DTB.GetDocTypesbyUserRights(UserId, RightsType.View);
+                    List<DocType> Entities = DTB.GetDocTypesbyUserRights(UserId, RightsType.View);
 
                     if (Entities != null)
                     {

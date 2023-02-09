@@ -29,7 +29,7 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
             async: false,
-            headers: { "Authorization": tokenSearchId },
+            //headers: { "Authorization": tokenSearchId },
             success: function (data) {
                 result = data;
             },
@@ -41,18 +41,16 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
         return result;
     };
 
-    var _getDocumentService = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, callBack, viewer,IsHistoryMail=false,pathFile="") {
-        var result = false;
+    var _getDocumentService = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, callBack, viewer) {
+        var result;
         var value = {
             Params: {
                 "userId": UserId,
                 "doctypeId": DocTypeId,
                 "docid": DocId,
                 "converttopdf": convertToPDF,
-                "includeAttachs": true,
-                "viewer": viewer,
-                "IsHistoryMail": IsHistoryMail,
-                "PathFile": pathFile
+                "includeAttachs": false,
+                "viewer": viewer
             }   
         }       
         $.ajax({
@@ -62,19 +60,11 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
             async: false,
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
-            headers: { "Authorization": tokenSearchId },
+            //headers: { "Authorization": tokenSearchId },
             success: function (data) {
                 eval(callBack(data));
-                result = true;
             },
             error: function (ex) {
-                result = false;
-                //setTimeout(function (n) {
-                //    swal("Obtener mail", "El correo no existe o no se pudo encontrar", "error");
-                //},2000
-                //);
-
-                
                 //console.log(ex.responseJSON.Message);
                 eval(callBack(null));
             },

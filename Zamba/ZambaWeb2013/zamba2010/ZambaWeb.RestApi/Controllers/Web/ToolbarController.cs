@@ -13,6 +13,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Toolbar")]
+    [RestAPIAuthorize]
     public class ToolbarController : ApiController
     {
 
@@ -20,11 +21,13 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetTaskHistory")]
-        public DataSet GetTaskHistory(Int64 task_id)
+        [OverrideAuthorization]
+        public DataSet GetTaskHistory(Int64 DocId)
         {
             DataSet ListHistory; 
-            STasks Tasks = new STasks();        
-            ListHistory = Tasks.GetTaskHistory(task_id);
+            STasks Tasks = new STasks();
+            var task = Tasks.GetTaskIdAndNameByDocId(DocId);
+            ListHistory = Tasks.GetTaskHistory(task.ID);
             return ListHistory;
 
         }
@@ -34,6 +37,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetAssociates")]
+        [OverrideAuthorization]
         public DataTable GetAssociates(long DocId,long DocTypeId,long Userid)
         {
             STasks Tasks = new STasks();
@@ -49,6 +53,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetEmailHistory")]
+        [OverrideAuthorization]
         public DataSet GetEmailHistory(long docId)
         {
 

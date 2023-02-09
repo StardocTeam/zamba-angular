@@ -22,7 +22,7 @@
             return;
         }
 
-        toastr.options.timeOut = 3000;
+        toastr.options.timeOut = 0;
         toastr.options.extendedTimeOut = 0;
         toastr.info("Cargando novedades");
 
@@ -53,19 +53,16 @@
 
     $scope.OpenTask = function (result) {
 
-        let userToken = JSON.parse(localStorage.getItem('authorizationData'));
-        let { token } = userToken;
-
         BCHistoryService.getTaskId(result.DocId, result.DocTypeId).then(function (response) {
 
             var url;
             var taskId = response.data;
 
             if (taskId > 0) {
-                url = (thisDomain + "/views/WF/TaskViewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&taskid=" + taskId + "&mode=s" + "&s=" + 0 + "&userId=" + GetUID() + "&t=" + token);
+                url = (thisDomain + "/views/WF/TaskViewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&taskid=" + taskId + "&mode=s" + "&s=" + 0 + "&userId=" + GetUID());
             }
             else {
-                url = (thisDomain + "/views/search/docviewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&mode=s" + "&userId=" + GetUID() + "&t=" + token);
+                url = (thisDomain + "/views/search/docviewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&mode=s" + "&userId=" + GetUID());
             }
 
             window.open(url, '_blank');

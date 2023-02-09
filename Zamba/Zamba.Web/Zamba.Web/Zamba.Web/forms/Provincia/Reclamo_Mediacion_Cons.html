@@ -33,7 +33,6 @@
                     <!--li><a href="#Embargos" data-toggle="tab">Embargos</a></li-->
                     <!--<li><a href="#Importantes" data-toggle="tab">Resumen</a></li>-->
                     <li><a href="#Solicitudes" data-toggle="tab">Solicitudes</a></li>
-                    <li><a href="#ResumenGerencial" data-toggle="tab">Resumen Gerencial</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -44,8 +43,7 @@
                         <div class="form-group row">
 
                             <div class="col-md-11">
-                                <div class="input-group-btn"><input class="btn  btn-info btn-sm btn-warning" id="zamba_rule_1013868" name="zamba_rule_1013868" type="submit" value="Editar RAJ" onclick="SetRuleId(this);" style="display:none" enableGroups="12943,39"/></div>
-                                <div class="input-group-btn"><button class="btn  btn-success btn-sm navbar-btn" disableGroups="11542215" id="zamba_rule_11547277" name="zamba_rule_11547277" type="submit" style="margin-left: 5px; margin-right: 5px;" value="Crear Reporte Gerencial" onclick="SetRuleId(this);" enableGroups="13510,13511,13512,13513,13514,13515,13516" >Crear Reporte Gerencial</button></div>
+                                <div class="input-group-btn"><input class="btn  btn-info btn-sm btn-warning" id="zamba_rule_1013868" name="zamba_rule_1013868" type="submit" value="Editar RAJ" onclick="SetRuleId(this);" style="display:none" /></div>
                             <!--<div class="col-md-2">
                                 <div class="input-group-btn"><input class="btn  btn-info btn-sm btn-success" id="zamba_rule_1016970" name="zamba_rule_1016970" type="submit" value="Referenciaci&oacute;n" onclick="SetRuleId(this);" /></div>
                             </div>-->
@@ -617,7 +615,6 @@
 
                         </div>
   </div>
-  
                         <div class="form-group row">
                             <div id="filenetTable" ng-controller="ZambaAssociatedController">
                                 <zamba-associated entities="10122" default-enable-mode="grid" table-height="400" grid-title="Solicitudes">
@@ -625,17 +622,6 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div class="tab-pane" id="ResumenGerencial">
-
-                        <div class="form-group row"></div>
-                       
-                        <div class="form-group row">
-                            <div id="filenetTable" ng-controller="ZambaAssociatedController">
-                                <zamba-associated entities="11535045" default-enable-mode="grid" table-height="400" grid-title="Resumen Gerencial">
-                                </zamba-associated>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="tab-pane" id="Documentacion">

@@ -5,7 +5,7 @@ Public Class PlayIfFileSize
         Dim WFRB As New WFRulesBusiness
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la existencia de Reglas hijas")
         If (Me._rule.ChildRulesIds Is Nothing OrElse Me._rule.ChildRulesIds.Count = 0) Then
-            Me._rule.ChildRulesIds = WFRB.GetChildRulesIds(Me._rule.ID, Me._rule.RuleClass, results)
+            Me._rule.ChildRulesIds = WFRB.GetChildRulesIds(Me._rule.ID)
         End If
 
         If myrule.ChildRulesIds.Count = 2 Then

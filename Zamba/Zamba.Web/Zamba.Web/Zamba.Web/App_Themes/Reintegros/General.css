@@ -1,0 +1,424 @@
+﻿
+/*Cuerpo */
+body
+{
+ background-color:#0E2B8D; 
+ font-family: "Microsoft Sans Serif",Arial, Helvetica, Sans-Serif;
+ color: Black;
+}
+
+/***************MENU BARRA SUPERIOR CON UL****************/
+#menusup 
+{
+ position: fixed;
+ padding-left:0px;
+ padding-top:5px; 
+ height:25px;
+ width:100%;
+ background: #666FB0; 
+ font-family : Tahoma ;
+        font-size : small ;
+       text-align : left ;
+}
+#menusup ul
+{
+ list-style:none; /* Eliminamos los bullets */
+ margin:0px; /* Quitamos los margenes */
+ padding:0px; /* Quitamos el padding */
+}
+#menusup ul li 
+{
+ float:left; /* Hacemos que el menu se muestre horizontal */
+ padding-left:10px;
+ padding-right:10px;
+ border-right:1px solid #FFFFFF;
+}
+#menusup ul li a
+{
+ text-decoration:none;
+ color:White;
+ font-weight:bold;
+}
+#menusup ul li a:hover
+{
+ color:#FFFFFF;
+}
+
+/***************MENU BARRA SUPERIOR CON BOTONES****************/
+
+
+
+
+
+
+/*****************Botones****************/
+/* botones medianos */
+.button, .button:visited,.medium.button, .medium.button:visited {
+font-size: 13px;
+line-height: 1;
+text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+color:White;
+}
+
+/* botones grandes */
+.large.button, .large.button:visited {
+font-size:14px;
+padding: 8px 14px 9px;
+}
+
+/* botones extra grandes */
+.super.button, .super.button:visited {
+font-size: 34px;
+padding: 8px 14px 9px;
+}
+
+
+.blue.button, .blue.button:visited { background-color: #019DC3; }
+.blue.button:hover{ background-color: #019DC3; }
+
+
+/*****Formulario Search******/
+.Fielset-Frm-Search
+{
+    
+    border-style:none;
+}
+
+#Table-Principal-Search
+{
+    width: 100%;
+    
+}
+
+
+.Fielset-Control-DocTypesIndex
+{
+	BORDER-BOTTOM: none;
+	BORDER-LEFT: #8C8C8C 1px solid;
+	PADDING-BOTTOM: 2px; 
+	PADDING-LEFT: 2px; 
+	PADDING-RIGHT: 10px; 
+	BORDER-TOP: none; 
+	BORDER-RIGHT: none; 
+	PADDING-TOP: 2px;
+	
+	
+}
+
+.Legend-Control-DocTypesIndex
+{
+    border-style: none; color:#0E2B8D; margin-left: 5px;
+}
+
+#Table-Footer-Search
+{
+    background-color:#0E2B8D;
+}
+
+.chkBuscar-footer-search
+{
+    color:White !important;
+}
+
+.check-box-by-task label{
+    color: White;
+}
+
+.Legend-search
+{
+    border-style: none;
+    color:#0E2B8D;
+    margin-left:5px
+}
+
+.Table-SustitutioList-Search
+{
+    
+}
+
+/***********Master Blank*******************/
+.Table-Principal-MasterBlank
+{
+   
+   width:100%;
+}
+
+.Div-principal-MasterBlank
+{
+    
+    height:100%
+}
+
+/*******************Frm TaskDetail***************/
+.Table-Task-Detail
+{
+    
+}
+
+.TabDoc-Task-Detail
+{
+    background-color:#E6E6E6 !important;
+}
+
+.TabAsociate-Task-Detail
+{
+    background-color:#E6E6E6 !important;
+    overflow-y:visible;
+    
+}
+
+.TabForum-Task-Detail
+{
+    background-color:#E6E6E6 !important;
+    overflow-y:visible;
+}
+
+.TabHistory-Task-Detail
+{
+    background-color:#E6E6E6 !important;
+     overflow-y:visible;
+}
+
+
+/*****************Frm TaskHistory**********/
+.Frm-Task-History
+{
+    
+}
+
+/**************Frm Forum*********************/
+.PanelPrincipal-Frm-Forum
+{
+    
+}
+
+.pnlRespuesta-Frm-Forum
+{
+    
+}
+
+/****************Frm Forum*********************/
+
+.NewsTab .ajax__tab_header {font-family:verdana,tahoma,helvetica;background:url(images/tabs/tab-line.gif) repeat-x bottom;}
+.NewsTab .ajax__tab_outer {height:2em;padding-right:4px;background:url(images/tabs/tab-right.gif) no-repeat right top;}
+.NewsTab .ajax__tab_inner {padding-left:3px;background:url(images/tabs/tab-left.gif) no-repeat;}
+.NewsTab .ajax__tab_tab {height:2em;line-height:1.8em;padding:0 4px;margin:0!important;background:url(images/tabs/tab.gif) repeat-x;}
+.NewsTab .ajax__tab_hover .ajax__tab_outer {background:url(images/tabs/tab-hover-right.gif) no-repeat right top;}
+.NewsTab .ajax__tab_hover .ajax__tab_inner {background:url(images/tabs/tab-hover-left.gif) no-repeat;}
+.NewsTab .ajax__tab_hover .ajax__tab_tab {background:url(images/tabs/tab-hover.gif) repeat-x;}
+.NewsTab .ajax__tab_active .ajax__tab_outer {background:url(images/tabs/tab-active-right.gif) no-repeat right top;}
+.NewsTab .ajax__tab_active .ajax__tab_inner {background:url(images/tabs/tab-active-left.gif) no-repeat;}
+.NewsTab .ajax__tab_active .ajax__tab_tab {background:url(images/tabs/tab-active.gif) repeat-x;}
+.NewsTab .ajax__tab_body {font-family:verdana,tahoma,helvetica;border:0px solid #A3CEE0;border-top:0;padding:8px;}
+.NewsTab .ajax__tab_body ul {list-style-type:disc;line-height:1.5em;padding-left:1em;}
+.NewsTab .ajax__tab_body ul ul {list-style-type:square;}
+.NewsTab .ajax__tab_body p {text-indent:1em;line-height:1.3em;margin-bottom:1em;}
+
+/*****Frm TaskForm******/
+
+.Body-Task-Forum
+{
+    
+}
+
+/********Frm Default**********/
+.tabresults-Frm-Default
+{
+
+}
+
+
+/**********Frm MainAysa***************/
+.TablePrincipal-MainAysa
+{
+    background: url("../Reintegros/Images/MainAysa.png") no-repeat;
+    background-position:center;    
+    margin: 0 auto;   
+    height:440px;
+}
+
+
+#btnAltaIndustria-Aysa
+{
+ background-image: url("../Reintegros/Images/AltaIndustria.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+}
+.btnAltaEntidad
+{
+ background-image: url("../Reintegros/Images/AltaIndustria.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+ cursor:pointer;
+}
+.btnAltaEntidadReintegro
+{
+ background-image: url("../Reintegros/Images/AltaReintegro.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+ cursor:pointer;
+}
+.btnAltaEntidadAfiliado
+{
+ background-image: url("../Reintegros/Images/AltaAfiliado.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+ cursor:pointer;
+}
+.btnAltaEntidadPrestacion
+{
+ background-image: url("../Reintegros/Images/AltaPrestacion.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+ cursor:pointer;
+}
+
+
+#btnBusqueda-Aysa
+{
+ background-image: url("../Reintegros/Images/Busqueda.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+}
+
+
+#btnListados-Aysa
+{
+ background-image: url("../Reintegros/Images/Listados.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+}
+
+#btnModificacion-Aysa
+{
+ background-image: url("../Reintegros/Images/Modificacion.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+}
+
+#btnGeneralReport
+{
+ background-image: url("../Reintegros/Images/ReporteGeneral.png");
+ width:150px;
+ height:20px;
+ border:none;
+ margin-right:5px;
+ cursor:pointer;
+}
+
+.btnModificacion-Aysa2
+{
+    background-image: url("../Reintegros/Images/Modificacion.png");
+    width:150px;
+    height:20px;
+    border:none;
+    margin-right:5px;
+}
+
+
+#btnInspecPendientes-Aysa
+{
+ background-image: url("../Reintegros/Images/InspeccionesPendientes.png");
+ width:150px;
+ height:20px;
+ border:none;
+}
+
+
+.footer-MainAysa
+{
+    position:fixed; 
+    bottom:0;
+    width:100%; 
+    z-index: 99; 
+    text-align:center;
+    font-size: 8pt; 
+    font-family: tahoma; 
+    vertical-align: middle;
+    padding-left:25px;
+    padding-top:50px;
+    color: White;
+}
+
+/*****************Master Page*******************/
+
+.div-presentation-Main{ 
+ 
+ position: absolute;
+ z-index: 0;
+ width:100%;
+ background:#0E2B8D;
+}
+
+.second-div-presentation-Main
+{
+    padding-top:10px; 
+    text-align: center; 
+    background-image: url('Images/MainAysa2.png'); 
+    background-position:center; 
+    background-repeat:no-repeat; 
+    height: 460px;
+}
+
+/***********Controles****************/
+.Fielset-controles-UC
+{
+    
+}
+
+
+/**********Frm Views - Insert****************/
+.div-Frm-Views-Insert
+{
+    
+}
+
+
+.body-Frm-Views-Insert
+{
+    
+}
+
+/*************Master Blank******************/
+.Body-Master-Blanck
+{
+    
+}
+
+
+/********Control RuleShowTable***************/
+.RuleRowStyle
+{
+    border-bottom: solid 1px black;    
+}
+
+.RuleAltRowStyle
+{
+}
+
+/*************Pagina TaskHistory*******************/
+.body-TaskHistory
+{
+    
+}
+
+.OverflowAuto
+{
+    overflow:auto;
+}

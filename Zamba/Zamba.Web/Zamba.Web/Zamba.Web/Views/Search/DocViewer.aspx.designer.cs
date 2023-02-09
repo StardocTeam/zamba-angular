@@ -9,9 +9,17 @@
 
 
 
-public partial class DocViewer
-{
-
+public partial class DocViewer {
+    
+    /// <summary>
+    /// hdnToken control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField hdnToken;
+    
     /// <summary>
     /// hdnResultId control.
     /// </summary>
@@ -20,7 +28,7 @@ public partial class DocViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnResultId;
-
+    
     /// <summary>
     /// hdnDocTypeId control.
     /// </summary>
@@ -29,16 +37,25 @@ public partial class DocViewer
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnDocTypeId;
-
+    
     /// <summary>
-    /// modalIframe control.
+    /// updHeader control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlIframe modalIframe;
-
+    protected global::System.Web.UI.UpdatePanel updHeader;
+    
+    /// <summary>
+    /// deleteCtrl control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Views_UC_Common_ZDeleteButton deleteCtrl;
+    
     /// <summary>
     /// pnlViewer control.
     /// </summary>

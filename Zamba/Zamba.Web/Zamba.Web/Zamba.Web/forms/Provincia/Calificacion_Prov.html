@@ -2,13 +2,10 @@
 <html>
 <!--Autor:Stardoc by GMR-->
 <!--Fecha Creacion:12/03/2018-->
-<!--Modificado por: EEB --> 
-<!--Fecha de Modificacion: 28/05/2021-->
-<!--Modificacion:  agregue utf8 --> 
-<!--Fecha de Modificacion: 16/7/21 EEB  validacioin de formato de fecha en campo i75 -->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
 <head>
     <title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
@@ -70,7 +67,7 @@
                                                         <div class="input-group">
                                                             <!--Periodo Partida Evaluada-->
                                                             <span class="input-group-addon">Periodo/Partida Evaluada :</span>
-                                                            <input id="zamba_index_75" name="zamba_index_75" size="1" class="form-control input-sm dataType datepicker" />
+                                                            <input id="zamba_index_75" name="zamba_index_75" size="1" class="form-control dataType datepicker" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
@@ -312,30 +309,11 @@
                         <script type="text/javascript">
 
                             //Valicaciones para el btn guardar "todos los campos son requeridos"
-							function isValidDate (value) {
-							  var valid = false,
-								  info,
-								  real;
-							  
-							  // Validar formato
-							  if (/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/.test(value)) {
-								
-								// Validar fecha
-								info = value.split(/\//);
-								real = (new Date(info[2], info[1] - 1, info[0])).toISOString().substr(0,10).split('-');
-								if (info[0] === real[2] && info[1] === real[1] && info[2] === real[0]) {
-								  valid = true;
-								}
-							  }
-							  return valid;
-							}
+
                             function zamba_save_onclick(sender) {
                                 var valido = true;
-		                        if (document.getElementById("zamba_index_75").value == "") {
+                                if (document.getElementById("zamba_index_75").value == "") {
                                     swal("", "Por favor, ingrese Periodo/Partida Evaluada", "error");
-                                    valido = false;
-								} else if ( isValidDate(document.getElementById("zamba_index_75").value) == false) {
-                                    swal("", "Por favor,ingrese una Fecha Valida en Periodo/Partida Evaluada", "error");
                                     valido = false;
                                 } else if (document.getElementById("zamba_index_169").value == "") {
                                     swal("", "Por favor,ingrese un Producto o Servicio", "error");

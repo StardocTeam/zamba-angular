@@ -1,5 +1,5 @@
 ﻿'use strict';
-var serviceBase = ZambaWebRestApiURL;
+var serviceBase = ZambaWebRestApiURL.toLowerCase().replace("/api", "/");
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
@@ -12,28 +12,25 @@ app.factory('cacheService', ['$http', '$q', 'localStorageService', 'ngAuthSettin
     var _CheckLastDesignVersion = function () {
 
         var version = 0;
-        if (window.localStorage) {
-             version = parseInt(window.localStorage.getItem("StructureVersion"));
+        if (localStorage) {
+             version = parseInt(localStorage.getItem("StructureVersion"));
         }
 
         if (isNaN(version) || version == undefined) version = 0; 
 
-        var UserId = GetUID();
-        if (UserId != undefined && UserId > 0) {
-            UserId = parseInt(UserId);
+        var UserId = parseInt(GetUID());
 
-            $http.post(serviceBase + '/Cache/CheckStructure?userId=' + UserId)
-                .then(function (response) {
-                    if (response.data.Success && window.localStorage && response.data.Data > version) {
-                        clearAllCache(false);
-                        window.localStorage.setItem("StructureVersion", response.data.Data);
-                        window.location.reload(true);
-                    }
-
-                }).catch(function (err, status) {
-                    console.log(err);
-                });
-        }
+        $http.post(serviceBase + 'api/Cache/CheckStructure?userId=' + UserId)
+            .then(function (response) {
+                if (response.data.Success && localStorage && response.data.Data > version) {
+                    localStorage.clear();
+                    localStorage.setItem("StructureVersion", response.data.Data);
+                    window.location.reload(true);
+                }
+                
+            }).catch(function (err, status) {
+                console.log(err);
+            });
     }
 
     cacheServiceFactory.CheckLastDesignVersion = _CheckLastDesignVersion;

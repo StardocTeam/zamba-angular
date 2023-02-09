@@ -47,12 +47,7 @@ namespace Zamba.Web.Views.UC.Home
                 DynamicButtonPartialViewBase dynBtnView = dynamicBtnController.GetViewHomeButtons(MembershipHelper.CurrentUser);
                 //La agrego
                 if (dynBtnView != null)
-                {
-                    emptyMessage.Visible = false;
                     pnl.Controls.Add(dynBtnView);
-                }
-                else
-                    emptyMessage.Visible = true;
             }
             else
             {
@@ -139,7 +134,7 @@ namespace Zamba.Web.Views.UC.Home
             //string url = ;
             Zamba.Core.WF.WF.WFTaskBusiness WFTB = new Zamba.Core.WF.WF.WFTaskBusiness();
             //string host = Request.Url.Host;
-            string url = "'/bpm/Views/WF/TaskViewer.aspx?doctypeid=" + task.DocTypeId.ToString() + "&taskid=" + task.TaskId.ToString() + "&docid=" + task.ID.ToString() + "&mode=&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString() + "#Zamba/'";
+            string url = "'/bpm/Views/WF/TaskViewer.aspx?taskid=" + task.TaskId.ToString() + "&docid=" + task.ID.ToString() + "&mode=&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString() + "#Zamba/'";
 
             sbScript.Append("$(document).ready(function(){");
             sbScript.Append("window.open(");

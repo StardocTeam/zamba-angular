@@ -123,9 +123,6 @@ Public Class MessagesBusiness
             Dim UserBusiness As New UserBusiness
             Dim user As IUser = UserBusiness.GetUserById(userId)
             UserBusiness = Nothing
-            'TODO (Emiliano 29/8/22): Revisar si algo esta mal en el parametro pocional 'exportPath'
-            'no se condice con la firma del metodo. Puse "" para coincidir
-            'la invocacion al metodo con la nueva firma que ahora tiene un opcional mas.
             success = Email_Factory.SaveHistory(para, cc, cco, subject, body, attachs, docId, docTypeId, user, exportPath, "", MailPathVariable, remitente)
         End If
 
@@ -632,9 +629,9 @@ Public Class MessagesBusiness
     ''' <summary>
     ''' Realiza el envio de mail normal pero si useWebService está en true, usará WSResults para llevar a cabo la accion
     ''' </summary>
-    Public Shared Function SendMail(ByVal conf As ISendMailConfig, Optional ByVal MailPathVariable As String = "") As Boolean
+    Public Shared Function SendMail(ByVal conf As ISendMailConfig, Optional ByVal MailPathVariable As String = "", Optional ByVal remitente As String = "") As Boolean
         If conf.LinkToZamba Then
-            conf.Body += MakeHtmlLink(0, 0, conf.SourceDocId, conf.SourceDocTypeId, conf.TaskName)
+            conf.Body += MakeHtmlLink(0, 0, conf.SourceDocId, conf.SourceDocTypeId)
         End If
 
         conf.Body = FormatHTMLBody(conf.Body)
@@ -658,7 +655,13 @@ Public Class MessagesBusiness
         If returnVal Then
             Try
                 If conf.SaveHistory Then
-                    If conf.UseWebService Then
+                    Dim ZOPTB As New ZOptBusiness
+                    Dim sForceBlob As String = ZOPTB.GetValue("ForceBlob")
+                    ZOPTB = Nothing
+
+                    'Dim forceBlob As Boolean = String.IsNullOrEmpty(sForceBlob) OrElse Not Boolean.Parse(sForceBlob)
+
+                    If conf.UseWebService OrElse sForceBlob Then
                         Dim mB As New MessagesBusiness
                         returnVal = mB.SaveMailHistoryWS(conf.MailTo, conf.Cc, conf.Cco, conf.Subject, conf.Body, conf.AttachFileNames, conf.SourceDocId, conf.SourceDocTypeId, conf.UserId, String.Empty)
 
@@ -666,65 +669,6 @@ Public Class MessagesBusiness
                     Else
                         returnVal = SaveHistory(conf.MailTo, conf.Cc, conf.Cco, conf.Subject, conf.Body,
                          Nothing, conf.SourceDocId, conf.SourceDocTypeId, conf.UserId, String.Empty, MailPathVariable, conf.From)
-                    End If
-                End If
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-
-        Else
-            'Guardo el Mail para reintentar mas tarde.
-            QuequeMail(conf)
-        End If
-
-        Return returnVal
-    End Function
-
-
-    ''' <summary>
-    ''' Realiza el envio de mail normal pero si useWebService está en true, usará WSResults para llevar a cabo la accion
-    ''' </summary>
-    Public Shared Function SendMailbyZip(ByVal conf As ISendMailConfig, Optional ByVal MailPathVariable As String = "") As Boolean
-        If conf.LinkToZamba Then
-            conf.Body += MakeHtmlLink(0, 0, conf.SourceDocId, conf.SourceDocTypeId, conf.TaskName)
-        End If
-
-        conf.Body = FormatHTMLBody(conf.Body)
-
-        Dim returnVal As Boolean = False
-        If conf.UseWebService Then
-            Using wsFactory As New WSResultsFactory()
-                Try
-                    returnVal = SendMailByWS(conf, wsFactory)
-                Catch ex As Exception
-                    ZClass.raiseerror(ex)
-                End Try
-            End Using
-        Else
-            Dim mf As New Message_Factory
-            returnVal = mf.SendMailNet(conf)
-            mf = Nothing
-        End If
-
-        Return returnVal
-    End Function
-
-
-    Public Shared Function SendMailbyZipHistory(ByVal conf As ISendMailConfig, Optional ByVal MailPathVariable As String = "") As Boolean
-
-        Dim returnVal As Boolean = True
-
-        If returnVal Then
-            Try
-                If conf.SaveHistory Then
-                    If conf.UseWebService Then
-                        Dim mB As New MessagesBusiness
-                        returnVal = mB.SaveMailHistoryWS(conf.MailTo, conf.Cc, conf.Cco, conf.Subject, conf.Body, conf.AttachFileNames, conf.SourceDocId, conf.SourceDocTypeId, conf.UserId, String.Empty)
-
-                        mB = Nothing
-                    Else
-                        returnVal = SaveHistory(conf.MailTo, conf.Cc, conf.Cco, conf.Subject, conf.Body,
-                         Nothing, conf.SourceDocId, conf.SourceDocTypeId, conf.UserId, String.Empty, MailPathVariable)
                     End If
                 End If
             Catch ex As Exception
@@ -892,17 +836,12 @@ Public Class MessagesBusiness
                 '.Puesto =  drMail.Item("USR_PC") - NO EXISTE ESTA PROPIEDAD
                 .SourceDocId = drMail.Item("DOC_ID")
                 .SourceDocTypeId = drMail.Item("DOC_TYPE")
-                .MailDateTime = Convert.ToDateTime(drMail.Item("FECHA"))
                 .MailTo = drMail.Item("MSG_TO")
                 .Cc = drMail.Item("MSG_CC")
                 .Cco = drMail.Item("MSG_BCC")
                 .Subject = drMail.Item("MSG_SUBJECT")
                 .OriginalDocumentFileName = drMail.Item("PATH")
-
-                If drMail.Item("EncodeFile").ToString() <> String.Empty Then
-                    .OriginalDocument = drMail.Item("EncodeFile")
-                End If
-
+                .OriginalDocument = drMail.Item("EncodeFile")
                 '.ID = drMail.Item("ID") - NO EXISTE ESTA PROPIEDAD
             End With
 
@@ -979,37 +918,28 @@ Public Class MessagesBusiness
     ''' <param name="docTypeId"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function MakeHtmlLink(taskId As Int64,
-                                 wfStepId As Int64,
-                                 docId As Int64,
-                                 docTypeId As Int64, TaskName As String) As String
+    Public Shared Function MakeHtmlLink(taskId As Int64, _
+                                 wfStepId As Int64, _
+                                 docId As Int64, _
+                                 docTypeId As Int64) As String
         Dim html As String
-
+        If taskId > 0 AndAlso wfStepId > 0 Then
+            html = String.Format(Membership.MembershipHelper.TaskWebLink, taskId, docId, docTypeId, wfStepId)
+        Else
+            html = String.Format(Membership.MembershipHelper.DocumentWebLink, docId, docTypeId)
+        End If
         Dim zopt As New ZOptBusiness
-        html = $"<h4>{TaskName}</h4>"
-        html += GetHtmlLinkWithZOpt(docId, docTypeId, taskId, wfStepId)
         Dim webPath As Object = zopt.GetValue("MultiPlatformMailLinks")
         zopt = Nothing
         If webPath IsNot Nothing AndAlso Boolean.Parse(webPath) Then
             Dim RB As New Results_Business
-            html += "Link Cliente Desktop: "
-            html += RB.GetHtmlLinkFromResult(docTypeId, docId)
+            html += "Link Cliente Windows: "
+            html += RB.GetHtmlLinkFromResult(docId, docTypeId)
             RB = Nothing
         End If
         webPath = Nothing
 
         Return html
-    End Function
-
-    Private Shared Function GetHtmlLinkWithZOpt(docId As Int64, docTypeId As Int64, taskId As Int64, wfStepId As Int64) As String
-        Dim url As String = ZOptBusiness.GetValueOrDefault("ThisDomainPublic", "https://zamba.com.ar/bpm")
-        Dim result As String
-
-        If (url.Length > 0) Then
-            result = String.Format("<br><br>Link Cliente Web: <a href=""{0}/Views/WF/TaskSelector.ashx?docid={1}&doctype={2}&taskid={3}&wfstepid={4}"">Acceder al documento</a><br>", url, docId, docTypeId, taskId, wfStepId)
-        End If
-
-        Return result
     End Function
 
     Private Shared Function FormatHTMLBody(ByVal htmlBody As String) As String
@@ -1190,28 +1120,26 @@ Public Class MessagesBusiness
         Dim attachsCount As Long
 
         Try
-            If Not String.IsNullOrEmpty(MsgFile) Then
 
-                If Not extensions.Count > 0 Then
+            If Not extensions.Count > 0 Then
 
-                    attachsCount = spTools.GetEmailAttachsCount(MsgFile)
+                attachsCount = spTools.GetEmailAttachsCount(MsgFile)
 
-                Else
+            Else
 
-                    Dim attachs As List(Of String) = spTools.GetEmailAttachsNames(MsgFile)
+                Dim attachs As List(Of String) = spTools.GetEmailAttachsNames(MsgFile)
 
-                    For Each _attach As String In attachs
-                        For Each ext As String In extensions
-                            If _attach.ToLower.EndsWith(ext.ToLower) Then
-                                attachsCount += 1
-                            End If
-                        Next
+                For Each _attach As String In attachs
+                    For Each ext As String In extensions
+                        If _attach.ToLower.EndsWith(ext.ToLower) Then
+                            attachsCount += 1
+                        End If
                     Next
+                Next
 
-                End If
-
-                Return attachsCount
             End If
+
+            Return attachsCount
 
         Catch ex As Exception
             raiseerror(ex)

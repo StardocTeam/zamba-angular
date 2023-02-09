@@ -52,8 +52,8 @@ Public Class Indexs_Factory
             strselect &= " NVL(ZHP.DataValuesTable, '') AS DataTableName "
         End If
 
-        strselect &= " FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")
-        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE "
+        strselect &= " FROM DOC_INDEX DI "
+        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE "
         strselect &= " WHERE DROPDOWN = " & type & " ORDER BY INDEX_NAME"
 
         Dim DSTEMP As DataSet = Server.Con.ExecuteDataset(CommandType.Text, strselect)
@@ -80,8 +80,8 @@ Public Class Indexs_Factory
             strselect &= " NVL(ZHP.DataValuesTable, '') AS DataTableName "
         End If
 
-        strselect &= " FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")
-        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE "
+        strselect &= " FROM DOC_INDEX DI "
+        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE "
         strselect &= " WHERE DROPDOWN IN (" & IndexAdditionalType.DropDown & "," & IndexAdditionalType.DropDownJerarquico & ", " & IndexAdditionalType.AutoSustitución & ", " & IndexAdditionalType.AutoSustituciónJerarquico & ") "
 
         strselect &= " ORDER BY INDEX_NAME"
@@ -109,8 +109,8 @@ Public Class Indexs_Factory
             strselect &= " NVL(ZHP.DataValuesTable, '') AS DataTableName "
         End If
 
-        strselect &= " FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & ""
-        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE "
+        strselect &= " FROM DOC_INDEX DI "
+        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE "
 
         strselect &= " ORDER BY INDEX_NAME "
 
@@ -137,8 +137,8 @@ Public Class Indexs_Factory
             strselect &= " NVL(ZHP.DataValuesTable, '') AS DataTableName "
         End If
 
-        strselect &= " FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & ""
-        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE "
+        strselect &= " FROM DOC_INDEX DI "
+        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE "
         strselect &= " WHERE Index_Id = " & id
 
         Dim DSTEMP As DataSet = Server.Con.ExecuteDataset(CommandType.Text, strselect)
@@ -156,7 +156,7 @@ Public Class Indexs_Factory
         Dim strselect As New StringBuilder()
         Dim IndexName As String = Nothing
         Try
-            strselect.Append("Select Index_Name from Doc_Index " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " where(Index_Id = ")
+            strselect.Append("Select Index_Name from Doc_Index where(Index_Id = ")
             strselect.Append(IndexId)
             strselect.Append(")")
             IndexName = Server.Con.ExecuteScalar(CommandType.Text, strselect.ToString)
@@ -172,7 +172,7 @@ Public Class Indexs_Factory
 
 
     Public Shared Function GetIndexDsNames() As DataSet
-        Dim strselect As String = "Select Index_Name from Doc_Index " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " order by Index_Name"
+        Dim strselect As String = "Select Index_Name from Doc_Index order by Index_Name"
 
         Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, strselect)
 
@@ -184,21 +184,21 @@ Public Class Indexs_Factory
 
     Public Shared Function GetIndexIdByName(ByVal IndexName As String) As Int64
         If Server.isOracle Then
-            Dim sql As String = "SELECT INDEX_ID FROM DOC_INDEX  WHERE LOWER(LTRIM(RTRIM(INDEX_NAME))) = '" + IndexName.ToLower().Trim + "'"
+            Dim sql As String = "SELECT INDEX_ID FROM DOC_INDEX WHERE LOWER(LTRIM(RTRIM(INDEX_NAME))) = '" + IndexName.ToLower().Trim + "'"
             Return Server.Con.ExecuteScalar(CommandType.Text, sql)
         Else
-            Dim sql As String = "SELECT INDEX_ID FROM DOC_INDEX  WITH(NOLOCK)  WHERE LTRIM(RTRIM(INDEX_NAME)) = '" + IndexName.Trim + "'"
+            Dim sql As String = "SELECT INDEX_ID FROM DOC_INDEX WHERE LTRIM(RTRIM(INDEX_NAME)) = '" + IndexName.Trim + "'"
             Return Server.Con.ExecuteScalar(CommandType.Text, sql)
         End If
     End Function
 
     Public Shared Function GetIndexParentID(ByVal IndexId As Integer) As Integer
-        Dim sql As String = "SELECT IndicePadre FROM ZIndexHierarchyKey " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE Indice = " & IndexId
+        Dim sql As String = "SELECT IndicePadre FROM ZIndexHierarchyKey WHERE Indice = " & IndexId
         Return Server.Con.ExecuteScalar(CommandType.Text, sql)
     End Function
 
     Public Shared Function GetIndexChildID(ByVal IndexId As Integer) As Integer
-        Dim sql As String = "SELECT Indice FROM ZIndexHierarchyKey " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE IndicePadre = " & IndexId
+        Dim sql As String = "SELECT Indice FROM ZIndexHierarchyKey WHERE IndicePadre = " & IndexId
         Return Server.Con.ExecuteScalar(CommandType.Text, sql)
     End Function
 
@@ -226,7 +226,7 @@ Public Class Indexs_Factory
 
     'Javier: Agregado el nombre de la tabla a levantar los datos
     Public Shared Function GetIndexDataTableName(ByVal IndexId As Integer) As String
-        Dim sql As String = "SELECT DataValuesTable FROM ZIndexHierarchyKey " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE IndicePadre = " & IndexId
+        Dim sql As String = "SELECT DataValuesTable FROM ZIndexHierarchyKey WHERE IndicePadre = " & IndexId
         Return Server.Con.ExecuteScalar(CommandType.Text, sql)
     End Function
 
@@ -256,7 +256,7 @@ Public Class Indexs_Factory
 
         strSQL.Append(") As ITEM from doc")
         strSQL.Append(docTypeId.ToString())
-        strSQL.Append(If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  where convert(nvarchar,I")
+        strSQL.Append(" where convert(nvarchar,I")
         strSQL.Append(indexId.ToString())
         strSQL.Append(") <> ''")
 
@@ -284,8 +284,8 @@ Public Class Indexs_Factory
             strselect &= " NVL(ZHP.DataValuesTable, '') AS DataTableName "
         End If
 
-        strselect &= " FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & ""
-        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE "
+        strselect &= " FROM DOC_INDEX DI "
+        strselect &= " LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE "
         strselect &= " WHERE DI.Index_Id = " & id & " ORDER BY INDEX_NAME"
 
         Return Server.Con.ExecuteDataset(CommandType.Text, strselect)
@@ -309,9 +309,9 @@ Public Class Indexs_Factory
                 strSelect.Append(" NVL(ZHP.DataValuesTable, '') AS DataTableName ")
             End If
 
-            strSelect.Append(" FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "")
-            strSelect.Append(" LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE ")
-            strSelect.Append(" INNER JOIN Index_R_Doc_Type IRDOC " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  ON DI.Index_Id = IRDOC.Index_Id ")
+            strSelect.Append(" FROM DOC_INDEX DI ")
+            strSelect.Append(" LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE ")
+            strSelect.Append(" INNER JOIN Index_R_Doc_Type IRDOC ON DI.Index_Id = IRDOC.Index_Id ")
             strSelect.Append(" WHERE IRDOC.Doc_Type_Id  =" & DocTypeId.ToString())
             strSelect.Append(" ORDER BY IRDOC.Orden")
 
@@ -345,9 +345,9 @@ Public Class Indexs_Factory
                 strSelect.Append(" NVL(ZHP.DataValuesTable, '') AS DataTableName ")
             End If
 
-            strSelect.Append(" FROM DOC_INDEX DI " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "")
-            strSelect.Append(" LEFT JOIN ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ON DI.INDEX_ID = ZHP.INDICE ")
-            strSelect.Append(" INNER JOIN Index_R_Doc_Type " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " IRDOC ON DI.Index_Id = IRDOC.Index_Id ")
+            strSelect.Append(" FROM DOC_INDEX DI ")
+            strSelect.Append(" LEFT JOIN ZIndexHierarchyKey ZHP ON DI.INDEX_ID = ZHP.INDICE ")
+            strSelect.Append(" INNER JOIN Index_R_Doc_Type IRDOC ON DI.Index_Id = IRDOC.Index_Id ")
             strSelect.Append(" WHERE IRDOC.Doc_Type_Id = " & DocTypeId.ToString)
             strSelect.Append(" ORDER BY IRDOC.Orden")
 
@@ -375,14 +375,14 @@ Public Class Indexs_Factory
         Try
             If Server.isSQLServer Then
                 If DocTypeId > 0 And IndexId = 0 Then
-                    strSelect.Append("select * from ZSearchValues_DT e " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " inner join ZSearchValues w " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " on w.Id = e.WordId where DTID=" & DocTypeId)
+                    strSelect.Append("select * from ZSearchValues_DT e inner join ZSearchValues w on w.Id = e.WordId where DTID=" & DocTypeId)
                 ElseIf DocTypeId = 0 And IndexId > 0 Then
-                    strSelect.Append("select * from ZSearchValues_DT e " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " inner join ZSearchValues w " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " on w.Id = e.WordId where IndexId=" & IndexId)
+                    strSelect.Append("select * from ZSearchValues_DT e inner join ZSearchValues w on w.Id = e.WordId where IndexId=" & IndexId)
                 ElseIf DocTypeId > 0 And IndexId > 0 Then
-                    strSelect.Append("select * from ZSearchValues_DT e " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " inner join ZSearchValues w " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " on w.Id = e.WordId where IndexId=" & IndexId)
+                    strSelect.Append("select * from ZSearchValues_DT e inner join ZSearchValues w on w.Id = e.WordId where IndexId=" & IndexId)
                     strSelect.Append(" and DTID = " & DocTypeId)
                 Else
-                    strSelect.Append("select Top 1000 * from ZSearchValues_DT e " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " inner join ZSearchValues w " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " on w.Id = e.WordId")
+                    strSelect.Append("select Top 1000 * from ZSearchValues_DT e inner join ZSearchValues w on w.Id = e.WordId")
                 End If
             Else
 
@@ -470,13 +470,13 @@ Public Class Indexs_Factory
                 strSelect.Append(" NVL(ZHP.DataValuesTable, '') AS DataTableName ")
             End If
 
-            strSelect.Append(" , max(irdoc.orden) as maxorder , (select CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END as MUSTCOMPLETE from INDEX_R_DOC_TYPE " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE MUSTCOMPLETE = 1 AND ")
+            strSelect.Append(" , max(irdoc.orden) as maxorder , (select CASE WHEN COUNT(1) > 0 THEN 1 ELSE 0 END as MUSTCOMPLETE from INDEX_R_DOC_TYPE WHERE MUSTCOMPLETE = 1 AND ")
             strSelect.Append(WhereString.ToString)
             strSelect.Append(" And Index_Id = DI.Index_Id) as MUSTCOMPLETE,")
 
             If Server.isSQLServer Then
                 strSelect.Append(" IsNull(MinValue,'') as MinValue,IsNull(MaxValue,'') as MaxValue ")
-                strSelect.Append("From DOC_INDEX DI  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  Left Join ZIndexHierarchyKey ZHP " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " On DI.INDEX_ID = ZHP.INDICE    INNER Join Index_R_Doc_Type IRDOC " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " On DI.Index_Id = IRDOC.Index_Id And ")
+                strSelect.Append("From DOC_INDEX DI    Left Join ZIndexHierarchyKey ZHP On DI.INDEX_ID = ZHP.INDICE    INNER Join Index_R_Doc_Type IRDOC On DI.Index_Id = IRDOC.Index_Id And ")
                 strSelect.Append(WhereString.ToString)
                 strSelect.Append(" Group By DI.Index_Id, DI.Index_Name, DI.Index_Type, DI.Index_Len, DI.dropdown, IsReferenced, IndicePadre, IsNull(ZHP.DataValuesTable, ''),MinValue,MaxValue    HAVING(COUNT(DI.Index_Name) = ")
             Else
@@ -519,7 +519,7 @@ Public Class Indexs_Factory
             End If
         Next
 
-        QueryBuilder.Append($" FROM Doc_I{docTypeId.ToString()} I " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "")
+        QueryBuilder.Append($" FROM Doc_I{docTypeId.ToString()} I ")
 
         If refIndexs IsNot Nothing AndAlso refIndexs.Count > 0 Then
             Dim joinStr As String
@@ -573,7 +573,7 @@ Public Class Indexs_Factory
 
         QueryBuilder.Append(" FROM Doc")
         QueryBuilder.Append(docTypeId.ToString())
-        QueryBuilder.Append(If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " where doc_id = ")
+        QueryBuilder.Append(" where doc_id = ")
         QueryBuilder.Append(taskId.ToString())
 
         Dim DsIndexValues As DataSet = Server.Con.ExecuteDataset(CommandType.Text, QueryBuilder.ToString())
@@ -807,7 +807,7 @@ Public Class Indexs_Factory
     ''' </history>
     ''' -----------------------------------------------------------------------------
     Public Shared Function GetIndexsDsIdsAndNames() As DataSet
-        Dim strselect As String = "Select Index_id, Index_Name from Doc_Index " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " order by Index_Name"
+        Dim strselect As String = "Select Index_id, Index_Name from Doc_Index order by Index_Name"
 
         Return Server.Con.ExecuteDataset(CommandType.Text, strselect)
     End Function
@@ -827,7 +827,7 @@ Public Class Indexs_Factory
     ''' </history>
     ''' -----------------------------------------------------------------------------
     Public Shared Function GetIndexValues() As DataSet
-        Dim strselect As String = "SELECT INDEX_ID, INDEX_NAME, INDEX_TYPE, INDEX_LEN, AUTOFILL, NOINDEX, DROPDOWN, AUTODISPLAY, INVISIBLE, OBJECT_TYPE_ID FROM DOC_INDEX " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ORDER BY INDEX_NAME"
+        Dim strselect As String = "SELECT INDEX_ID, INDEX_NAME, INDEX_TYPE, INDEX_LEN, AUTOFILL, NOINDEX, DROPDOWN, AUTODISPLAY, INVISIBLE, OBJECT_TYPE_ID FROM DOC_INDEX ORDER BY INDEX_NAME"
         Dim DSTEMP As DataSet = Server.Con.ExecuteDataset(CommandType.Text, strselect)
 
         DSTEMP.Tables(0).TableName = "DOC_INDEX"
@@ -893,7 +893,7 @@ Public Class Indexs_Factory
         Dim query As New StringBuilder
 
         query.Append("Select DROPDOWN from doc_index")
-        query.Append(If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  where index_id = ")
+        query.Append(" where index_id = ")
         query.Append(IndexId)
         Return Server.Con.ExecuteScalar(CommandType.Text, query.ToString)
     End Function
@@ -2523,98 +2523,6 @@ Public Class Indexs_Factory
         Return DefaultValues
     End Function
 
-    ''' <summary>
-    ''' Obtiene los valores por defecto de los indices atachados al entidad
-    ''' </summary>
-    ''' <param name="doctypeid">Id de entidad</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    ''' <history>[felipe] created 14-07-2021</history>
-    Public Shared Function GetIndexDefaultValuesByDoctypeId(ByVal doctypeid As Int64) As List(Of IndexDefaultDTO)
-        Dim str As New System.Text.StringBuilder
-        Dim DefaultValues As New List(Of IndexDefaultDTO)
-
-
-        If Server.isSQLServer Then
-            str.Append("select distinct R.index_id as IndexId, isnull(co.text,'') as DefaultValue,MUSTCOMPLETE, r.DOC_TYPE_ID ")
-            str.Append("from INDEX_R_DOC_TYPE R ")
-            str.Append("LEFT join syscolumns c on  'I' + CONVERT(NVARCHAR,r.INDEX_ID) = c.name  ")
-            str.Append("inner join sysobjects o on c.id = o.id and o.name = 'DOC_I' + CONVERT(NVARCHAR,r.doc_type_id) ")
-            str.Append("LEFT JOIN syscomments co  on  co.id = c.cdefault  ")
-
-            str.Append("where R.doc_type_id = ")
-            str.Append(doctypeid)
-
-            Dim objectvalue As DataSet = Server.Con.ExecuteDataset(CommandType.Text, str.ToString())
-
-            If Not objectvalue Is Nothing Then
-                For Each R As DataRow In objectvalue.Tables(0).Rows
-
-                    Dim cDataDefault As String = If(Not IsDBNull(R("DEFAULTVALUE")), R("DEFAULTVALUE"), String.Empty)
-
-                    While cDataDefault.StartsWith("(")
-                        cDataDefault = cDataDefault.Remove(0, 1)
-                    End While
-                    While cDataDefault.EndsWith(")")
-                        cDataDefault = cDataDefault.Remove(cDataDefault.Length - 1, 1)
-                    End While
-
-                    If cDataDefault.StartsWith("'") AndAlso cDataDefault.Length > 2 Then cDataDefault = cDataDefault.Remove(0, 1)
-                    If cDataDefault.EndsWith("'") AndAlso cDataDefault.Length > 1 Then cDataDefault = cDataDefault.Remove(cDataDefault.Length - 1, 1)
-                    If cDataDefault.ToUpper.Contains("CONVERT") AndAlso cDataDefault.ToUpper.Contains("DATETIME") Then
-                        cDataDefault = Server.Con.ExecuteScalar(CommandType.Text, "SELECT " & cDataDefault.ToString)
-                    End If
-
-
-                    DefaultValues.Add(New IndexDefaultDTO() With {
-                    .IndexId = R("IndexId"),
-                    .DefaultValue = Convert.ToString(cDataDefault),
-                    .MUSTCOMPLETE = R("MUSTCOMPLETE")
-                    })
-
-                    'DefaultValues.Add(R("IndexId"), cDataDefault)
-
-                Next
-            End If
-        Else
-
-            str.Append("select R.index_id as IndexId, nvl(r.defaultvalue,'') as DefaultValue,MUSTCOMPLETE, r.DOC_TYPE_ID ")
-            str.Append("from INDEX_R_DOC_TYPE R ")
-            str.Append("where R.doc_type_id = ")
-            str.Append(doctypeid)
-
-            Dim objectvalue As DataSet = Server.Con.ExecuteDataset(CommandType.Text, str.ToString())
-
-            If Not objectvalue Is Nothing Then
-                For Each R As DataRow In objectvalue.Tables(0).Rows
-
-                    Dim cDataDefault As String = If(Not IsDBNull(R("DEFAULTVALUE")), R("DEFAULTVALUE"), String.Empty)
-
-                    If cDataDefault.ToUpper.StartsWith("TO_DATE") Then
-                        cDataDefault = Server.Con.ExecuteScalar(CommandType.Text, "SELECT " & cDataDefault & " From DUAL")
-                    End If
-                    cDataDefault = cDataDefault.Replace("'", String.Empty)
-
-
-                    DefaultValues.Add(New IndexDefaultDTO() With {
-                    .IndexId = R("IndexId"),
-                    .DefaultValue = Convert.ToString(cDataDefault),
-                    .MUSTCOMPLETE = R("MUSTCOMPLETE")
-                    })
-                    'DefaultValues.Add(R("INDEXID"), cDataDefault)
-                Next
-            End If
-        End If
-
-        Return DefaultValues
-    End Function
-
-
-    Class IndexDefaultDTO
-        Public IndexId As Int32
-        Public DefaultValue As String
-        Public MUSTCOMPLETE As Int32
-    End Class
 
     ''' <summary>
     ''' Método que sirve para verificar si el índice es un índice referenciado o no
@@ -2628,198 +2536,198 @@ Public Class Indexs_Factory
     ''' </history>
     Public Shared Function verifyIfAIndexReferenced(ByVal indexId As Int64, ByVal docTypeId As Long) As Boolean
 
-            Dim query As String = "SELECT IsReferenced FROM INDEX_R_DOC_TYPE Where INDEX_ID = " & indexId & " AND DOC_TYPE_ID = " & docTypeId
-            Dim result As Integer = Server.Con.ExecuteScalar(CommandType.Text, query)
+        Dim query As String = "SELECT IsReferenced FROM INDEX_R_DOC_TYPE Where INDEX_ID = " & indexId & " AND DOC_TYPE_ID = " & docTypeId
+        Dim result As Integer = Server.Con.ExecuteScalar(CommandType.Text, query)
 
-            If (result = 0) Then
-                Return (False)
-            Else
-                Return (True)
-            End If
+        If (result = 0) Then
+            Return (False)
+        Else
+            Return (True)
+        End If
 
-        End Function
+    End Function
 
-        ''' <summary>
-        ''' sumar uno:
-        ''' Devuelve el mayor id de la doc. Luego se usa para insertarlo como valor por defecto en el indice.
-        ''' [sebastian 27/01/2009]
-        ''' </summary>
-        ''' <history>Marcelo Modified 20/09/2009</history>
-        ''' <param name="IndexId"></param>
-        ''' <param name="DocTypeId"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Function SelectMaxIndexValue(ByVal IndexId As Int64, ByVal DocTypeId As Int64) As Int64
-            Dim IndexValue As Int64 = 0
-            Dim DSTEMP As New DataSet
+    ''' <summary>
+    ''' sumar uno:
+    ''' Devuelve el mayor id de la doc. Luego se usa para insertarlo como valor por defecto en el indice.
+    ''' [sebastian 27/01/2009]
+    ''' </summary>
+    ''' <history>Marcelo Modified 20/09/2009</history>
+    ''' <param name="IndexId"></param>
+    ''' <param name="DocTypeId"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Shared Function SelectMaxIndexValue(ByVal IndexId As Int64, ByVal DocTypeId As Int64) As Int64
+        Dim IndexValue As Int64 = 0
+        Dim DSTEMP As New DataSet
 
+        If Server.isOracle Then
+            Dim parNames() As String = {"INDEXID", "DOCTYPEID", "io_cursor"}
+            ' Dim parTypes() As Object = {13, 13, 5}
+            Dim parValues() As Object = {IndexId, DocTypeId, 2}
+            Try
+                DSTEMP = Zamba.Servers.Server.Con.ExecuteDataset("zsp_index_incremental_100.GetAndSetLastId", parValues)
+                IndexValue = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString())
+            Catch ex As Exception
+                System.Threading.Thread.Sleep(500)
+                DSTEMP = Zamba.Servers.Server.Con.ExecuteDataset("zsp_index_incremental_100.GetAndSetLastId", parValues)
+                If DSTEMP.Tables(0).Rows.Count > 0 Then
+                    IndexValue = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString())
+                Else
+                    IndexValue = 0
+                End If
+            End Try
+        Else
+            Dim parameters() As Object = {IndexId, DocTypeId}
+            Try
+                IndexValue = Zamba.Servers.Server.Con.ExecuteScalar("zsp_index_incremental_100_GetAndSetLastId", parameters)
+            Catch ex As Exception
+                System.Threading.Thread.Sleep(500)
+                IndexValue = Zamba.Servers.Server.Con.ExecuteScalar("zsp_index_incremental_100_GetAndSetLastId", parameters)
+            End Try
+        End If
+
+        'Mantengo la funcionalidad anterior
+        If IndexValue = 0 Then
+            Dim query As String
             If Server.isOracle Then
-                Dim parNames() As String = {"INDEXID", "DOCTYPEID", "io_cursor"}
-                ' Dim parTypes() As Object = {13, 13, 5}
-                Dim parValues() As Object = {IndexId, DocTypeId, 2}
-                Try
-                    DSTEMP = Zamba.Servers.Server.Con.ExecuteDataset("zsp_index_incremental_100.GetAndSetLastId", parValues)
-                    IndexValue = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString())
-                Catch ex As Exception
-                    System.Threading.Thread.Sleep(500)
-                    DSTEMP = Zamba.Servers.Server.Con.ExecuteDataset("zsp_index_incremental_100.GetAndSetLastId", parValues)
-                    If DSTEMP.Tables(0).Rows.Count > 0 Then
-                        IndexValue = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString())
-                    Else
-                        IndexValue = 0
-                    End If
-                End Try
+                query = "SELECT MAX(TO_NUMBER(I" & IndexId & ")) from doc" & DocTypeId
             Else
-                Dim parameters() As Object = {IndexId, DocTypeId}
-                Try
-                    IndexValue = Zamba.Servers.Server.Con.ExecuteScalar("zsp_index_incremental_100_GetAndSetLastId", parameters)
-                Catch ex As Exception
-                    System.Threading.Thread.Sleep(500)
-                    IndexValue = Zamba.Servers.Server.Con.ExecuteScalar("zsp_index_incremental_100_GetAndSetLastId", parameters)
-                End Try
+                query = "SELECT MAX(convert(numeric,I" & IndexId & ")) from doc" & DocTypeId
             End If
 
-            'Mantengo la funcionalidad anterior
-            If IndexValue = 0 Then
-                Dim query As String
-                If Server.isOracle Then
-                    query = "SELECT MAX(TO_NUMBER(I" & IndexId & ")) from doc" & DocTypeId
-                Else
-                    query = "SELECT MAX(convert(numeric,I" & IndexId & ")) from doc" & DocTypeId
-                End If
-
-                DSTEMP = Zamba.Servers.Server.Con.ExecuteDataset(CommandType.Text, query)
-                If DSTEMP.Tables(0).Rows.Count = 0 Or IsDBNull(DSTEMP.Tables(0).Rows(0).Item(0)) Then
-                    Return 1
-                Else
-                    IndexValue = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString())
-                    'obtengo el mayor valor y le sumo uno
-                    IndexValue = IndexValue + 1
-                End If
-            End If
-
-            Return IndexValue
-        End Function
-
-        ''' <summary>
-        ''' Arma los filtros por atributos específicos
-        ''' </summary>
-        ''' <param name="query">Consulta que obtendrá el resultado del filtrado</param>
-        ''' <returns>Valores filtrados separados</returns>
-        ''' <history>
-        '''     [Tomas] 03/03/2010  Created
-        ''' </history>
-        Public Shared Function GetIndexFilterText(ByVal query As String) As String
-            'Se obtienen los filtros
-            Dim dtFilters As DataTable = Server.Con.ExecuteDataset(CommandType.Text, query).Tables(0)
-
-            If dtFilters.Rows.Count > 0 Then
-                'Se arma el filtro con os valores obtenidos
-                Dim filters As New StringBuilder
-
-                'Verifica si la columna es de tipo String.
-                If String.Compare(dtFilters.Columns(0).DataType.ToString, "System.String") = 0 Then
-                    For Each row As DataRow In dtFilters.Rows
-                        filters.Append("'")
-                        filters.Append(row(0).ToString)
-                        filters.Append("',")
-                    Next
-                    'Se remueve la última comilla
-                    filters.Remove(filters.Length - 1, 1)
-
-                    dtFilters.Dispose()
-                    dtFilters = Nothing
-                    Return filters.ToString
-
-                Else
-                    For Each row As DataRow In dtFilters.Rows
-                        filters.Append(row(0).ToString)
-                        filters.Append(",")
-                    Next
-                    'Se remueve la última comilla
-                    filters.Remove(filters.Length - 1, 1)
-
-                    dtFilters.Dispose()
-                    dtFilters = Nothing
-                    Return filters.ToString
-                End If
-
+            DSTEMP = Zamba.Servers.Server.Con.ExecuteDataset(CommandType.Text, query)
+            If DSTEMP.Tables(0).Rows.Count = 0 Or IsDBNull(DSTEMP.Tables(0).Rows(0).Item(0)) Then
+                Return 1
             Else
-                'Si no hay filtros se devuelve vacio
+                IndexValue = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString())
+                'obtengo el mayor valor y le sumo uno
+                IndexValue = IndexValue + 1
+            End If
+        End If
+
+        Return IndexValue
+    End Function
+
+    ''' <summary>
+    ''' Arma los filtros por atributos específicos
+    ''' </summary>
+    ''' <param name="query">Consulta que obtendrá el resultado del filtrado</param>
+    ''' <returns>Valores filtrados separados</returns>
+    ''' <history>
+    '''     [Tomas] 03/03/2010  Created
+    ''' </history>
+    Public Shared Function GetIndexFilterText(ByVal query As String) As String
+        'Se obtienen los filtros
+        Dim dtFilters As DataTable = Server.Con.ExecuteDataset(CommandType.Text, query).Tables(0)
+
+        If dtFilters.Rows.Count > 0 Then
+            'Se arma el filtro con os valores obtenidos
+            Dim filters As New StringBuilder
+
+            'Verifica si la columna es de tipo String.
+            If String.Compare(dtFilters.Columns(0).DataType.ToString, "System.String") = 0 Then
+                For Each row As DataRow In dtFilters.Rows
+                    filters.Append("'")
+                    filters.Append(row(0).ToString)
+                    filters.Append("',")
+                Next
+                'Se remueve la última comilla
+                filters.Remove(filters.Length - 1, 1)
+
                 dtFilters.Dispose()
                 dtFilters = Nothing
-                Return String.Empty
+                Return filters.ToString
+
+            Else
+                For Each row As DataRow In dtFilters.Rows
+                    filters.Append(row(0).ToString)
+                    filters.Append(",")
+                Next
+                'Se remueve la última comilla
+                filters.Remove(filters.Length - 1, 1)
+
+                dtFilters.Dispose()
+                dtFilters = Nothing
+                Return filters.ToString
             End If
-        End Function
 
-        Private Shared Function GetColumnType(ByVal TableName As String, ByVal ColumnName As String) As String
-            Try
-                Dim sbSQL As New StringBuilder()
+        Else
+            'Si no hay filtros se devuelve vacio
+            dtFilters.Dispose()
+            dtFilters = Nothing
+            Return String.Empty
+        End If
+    End Function
 
-                sbSQL.Append("select data_type 'DataType', character_maximum_length 'MaximumLength', numeric_precision 'Precision', numeric_scale 'Scale'  ")
-                sbSQL.Append("from information_schema.columns where table_name = '")
-                sbSQL.Append(TableName)
-                sbSQL.Append("' and column_name = '")
-                sbSQL.Append(ColumnName & "'")
+    Private Shared Function GetColumnType(ByVal TableName As String, ByVal ColumnName As String) As String
+        Try
+            Dim sbSQL As New StringBuilder()
 
-                Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, sbSQL.ToString())
+            sbSQL.Append("select data_type 'DataType', character_maximum_length 'MaximumLength', numeric_precision 'Precision', numeric_scale 'Scale'  ")
+            sbSQL.Append("from information_schema.columns where table_name = '")
+            sbSQL.Append(TableName)
+            sbSQL.Append("' and column_name = '")
+            sbSQL.Append(ColumnName & "'")
 
-                If Not ds Is Nothing AndAlso ds.Tables.Count > 0 AndAlso
+            Dim ds As DataSet = Server.Con.ExecuteDataset(CommandType.Text, sbSQL.ToString())
+
+            If Not ds Is Nothing AndAlso ds.Tables.Count > 0 AndAlso
                 Not ds.Tables(0) Is Nothing Then
 
-                    Dim RowDataType As DataRow = ds.Tables(0).Rows(0)
+                Dim RowDataType As DataRow = ds.Tables(0).Rows(0)
 
-                    If RowDataType("DataType") = "char" OrElse RowDataType("DataType") = "varchar" _
+                If RowDataType("DataType") = "char" OrElse RowDataType("DataType") = "varchar" _
                     OrElse RowDataType("DataType") = "nchar" OrElse RowDataType("DataType") = "nvarchar" Then
-                        Return RowDataType("DataType") & "(" & RowDataType("MaximumLength") & ")"
-                    Else
-                        If RowDataType("DataType") = "numeric" OrElse RowDataType("DataType") = "decimal" Then
-                            Return RowDataType("DataType") & "(" & RowDataType("Precision") & "," & RowDataType("Scale") & ")"
-                        Else
-                            Return "int"
-                        End If
-                    End If
-
-                End If
-
-                Return String.Empty
-
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-        End Function
-
-        Public Shared Function GetReferencedIndexsByDocTypeID(ByVal docTypeIdFrom As Int64, ByVal docTypeIdTo As Int64) As DataTable
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando el store que devuelve los indices referenciales (zsp_index_200_GetReferenceIndexsByDocTypeID)")
-            Try
-                Dim parValues() As Object = {docTypeIdFrom, docTypeIdTo}
-
-                Dim DtReferencedIndexs As New DataSet
-                DtReferencedIndexs = Zamba.Servers.Server.Con.ExecuteDataset("zsp_index_200_GetReferenceIndexsByDocTypeID", parValues)
-                If DtReferencedIndexs.Tables.Count > 0 Then
-                    Return DtReferencedIndexs.Tables(0)
+                    Return RowDataType("DataType") & "(" & RowDataType("MaximumLength") & ")"
                 Else
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "DataSet vacio (zsp_index_200_GetReferenceIndexsByDocTypeID)")
-                    DtReferencedIndexs = Nothing
-                    Return Nothing
+                    If RowDataType("DataType") = "numeric" OrElse RowDataType("DataType") = "decimal" Then
+                        Return RowDataType("DataType") & "(" & RowDataType("Precision") & "," & RowDataType("Scale") & ")"
+                    Else
+                        Return "int"
+                    End If
                 End If
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-        End Function
 
-        Shared Function GetHierarchicalRelations() As DataTable
-            Dim ds As DataSet
-            If Server.isOracle = True Then
-                ds = Server.Con.ExecuteDataset(CommandType.Text, "SELECT IndicePadre, Indice FROM ZIndexHierarchyKey ORDER BY IndicePadre")
-            Else
-                ds = Server.Con.ExecuteDataset("zsp_Index_100_GHTBL")
             End If
 
-            If ds Is Nothing OrElse ds.Tables.Count = 0 Then
+            Return String.Empty
+
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Function
+
+    Public Shared Function GetReferencedIndexsByDocTypeID(ByVal docTypeIdFrom As Int64, ByVal docTypeIdTo As Int64) As DataTable
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando el store que devuelve los indices referenciales (zsp_index_200_GetReferenceIndexsByDocTypeID)")
+        Try
+            Dim parValues() As Object = {docTypeIdFrom, docTypeIdTo}
+
+            Dim DtReferencedIndexs As New DataSet
+            DtReferencedIndexs = Zamba.Servers.Server.Con.ExecuteDataset("zsp_index_200_GetReferenceIndexsByDocTypeID", parValues)
+            If DtReferencedIndexs.Tables.Count > 0 Then
+                Return DtReferencedIndexs.Tables(0)
+            Else
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "DataSet vacio (zsp_index_200_GetReferenceIndexsByDocTypeID)")
+                DtReferencedIndexs = Nothing
                 Return Nothing
-            Else
-                Return ds.Tables(0)
             End If
-        End Function
-    End Class
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Function
+
+    Shared Function GetHierarchicalRelations() As DataTable
+        Dim ds As DataSet
+        If Server.isOracle = True Then
+            ds = Server.Con.ExecuteDataset(CommandType.Text, "SELECT IndicePadre, Indice FROM ZIndexHierarchyKey ORDER BY IndicePadre")
+        Else
+            ds = Server.Con.ExecuteDataset("zsp_Index_100_GHTBL")
+        End If
+
+        If ds Is Nothing OrElse ds.Tables.Count = 0 Then
+            Return Nothing
+        Else
+            Return ds.Tables(0)
+        End If
+    End Function
+End Class

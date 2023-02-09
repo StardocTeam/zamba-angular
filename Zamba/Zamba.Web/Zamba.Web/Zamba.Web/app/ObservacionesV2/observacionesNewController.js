@@ -21,7 +21,7 @@ app.controller('ObservacionNewController', function ($scope, $filter, $http, obs
     };
 
     $scope.Migracion = function () {
-        observacionesNewServices.migracion($scope.AtributeId, $scope.entityId);
+        observacionesNewServices.migracion($scope.AtributeId);
         //Elimintar este load, es solo para prueba de migracion
         $scope.LoadResults($scope.entityId, $scope.parentResultId, $scope.TipoId, $scope.AtributeId);
     }
@@ -39,7 +39,6 @@ app.controller('ObservacionNewController', function ($scope, $filter, $http, obs
                 $("#BtnObservacion").val("");
             }
         } catch (e) {
-            console.error(e);
             swal("", "Error al Insertar Observacion", "warning");
         }
        

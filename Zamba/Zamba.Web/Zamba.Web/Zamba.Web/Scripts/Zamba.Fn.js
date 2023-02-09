@@ -84,7 +84,7 @@ function xml2json(xml) {
         }
         return typeof (obj) == "object" ? obj.string : obj;
     } catch (e) {
-        console.error(e);
+        console.log(e.message);
     }
 }
 //Login timeout
@@ -99,7 +99,7 @@ $(document).ready(function () {
         data.ConnectionId = $("[id$=ConnectionId]").val();
         $.ajax({
             type: "POST",
-            url: thisDomain + "/Services/TaskService.asmx/TimeOutLogin",
+            url: thisDomain + "/Services/TaskService.asmx/TimeOutLogin?" + localStorage.queryStringAuthorization ,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             //data: '{userTxt: "' + $("#timeOutUserTxt").val() + '",password: "' + $("#timeOutPassTxt").val() + '",connectionId: "' + '"}',

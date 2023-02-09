@@ -32,6 +32,7 @@ using static ZambaWeb.RestApi.Controllers.SearchController;
 
 namespace ZambaWeb.RestApi.Controllers
 {
+    [RestAPIAuthorize]
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Tasks")]
     //[Authorize]
@@ -55,20 +56,9 @@ namespace ZambaWeb.RestApi.Controllers
         private const string VOL_ID_COLUMNNAME = "VOL_ID";
         private const string OFFSET_COLUMNNAME = "OFFSET";
 
-        public void UpdateTaskState(long taskId, TaskStates stateId)
+        public void UpdateTaskState(long taskId, TaskStates asignada)
         {
-            WFTaskBusiness wFTaskBusiness = new WFTaskBusiness();
-            DataTable dataSet = wFTaskBusiness.GetTaskDs(taskId).Tables[0];
-            if (dataSet.Rows.Count == 1)
-            {
-                DataRow dr = dataSet.Rows[0];
-                if (
-                    (stateId == TaskStates.Ejecucion && dr["Task_State_ID"].ToString() == "1")
-                    ||
-                    (stateId == TaskStates.Asignada && dr["Task_State_ID"].ToString() == "2")
-                   )
-                    wFTaskBusiness.UpdateTaskState(taskId, (Int64)stateId);
-            }
+
         }
 
         ///// <summary>
@@ -91,8 +81,6 @@ namespace ZambaWeb.RestApi.Controllers
             Results_Business RB = new Results_Business();
             IResult R = RB.GetResult(DocId, DoCTypeId, true);
             IIndex I = R.get_GetIndexById(IndexId);
-            if (I.DropDown == IndexAdditionalType.AutoSustitución)
-                I.dataDescriptionTemp = new AutoSubstitutionBusiness().getDescription(Data, IndexId);
             I.DataTemp = Data;
             RB.SaveModifiedIndexData(ref R, true, false, new List<long>() { IndexId }, null);
 
@@ -225,7 +213,7 @@ namespace ZambaWeb.RestApi.Controllers
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.Contains("user"))
                         {
                             dataItem = item;
                         }
@@ -343,31 +331,28 @@ namespace ZambaWeb.RestApi.Controllers
                 try
                 {
                     FillHeader();
-                    if (iTaskResult != null)
+                    WFTaskBusiness WFTB = new WFTaskBusiness();
+                    if (iTaskResult.TaskState == TaskStates.Desasignada && iTaskResult.m_AsignedToId != 0)
                     {
-                        WFTaskBusiness WFTB = new WFTaskBusiness();
-                        if (iTaskResult.TaskState == TaskStates.Desasignada && iTaskResult.m_AsignedToId != 0)
-                        {
-                            iTaskResult.TaskState = TaskStates.Asignada;
-                            STasks staks = new STasks();
-                            staks.UpdateTaskState(iTaskResult.TaskId, (long)TaskStates.Asignada);
-                            staks = null;
-                        }
+                        iTaskResult.TaskState = TaskStates.Asignada;
+                        STasks staks = new STasks();
+                        staks.UpdateTaskState(iTaskResult.TaskId, TaskStates.Asignada);
+                        staks = null;
+                    }
 
-                        TaskResult.EditDate = DateTime.Now;
-                        SetStepName(TaskResult.StepId);
-                        //UACCell.Controls.Clear();
-                        ////DisablePropertyControls();
-                        //IniciarTareaAlAbrir(TaskResult);
-                        WFTB.RegisterTaskAsOpen(TaskResult.TaskId, Zamba.Membership.MembershipHelper.CurrentUser.ID);
-                        if (CheckUserActionLoad())
-                        {
-                            LoadUserAction();
-                        }
-                        else
-                        {
-                            HideFormRules();
-                        }
+                    TaskResult.EditDate = DateTime.Now;
+                    SetStepName(TaskResult.StepId);
+                    //UACCell.Controls.Clear();
+                    ////DisablePropertyControls();
+                    //IniciarTareaAlAbrir(TaskResult);
+                    WFTB.RegisterTaskAsOpen(TaskResult.TaskId, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+                    if (CheckUserActionLoad())
+                    {
+                        LoadUserAction();
+                    }
+                    else
+                    {
+                        HideFormRules();
                     }
                 }
                 catch (Exception ex)
@@ -534,11 +519,18 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-       
+        //public DataTable GetTasksByStepandDocTypeId(long stepId, long DocTypeId, Boolean WithGridRights, List<IFilterElem> filterElements, Int64 LastDocId, Int32 PageSize, ref long totalCount)
+        //{
+        //    IFiltersComponent fc = new FiltersComponent();
+        //    fc.AddFiltersElements(filterElements);
+        //    long userId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+        //    return WFTaskBusiness.GetTasksByStepandDocTypeId(stepId, DocTypeId, WithGridRights, userId, ref fc, LastDocId, PageSize, ref totalCount, false);
+        //}
         #endregion
 
         [AcceptVerbs("GET", "POST")]
         [Route("LoadTree")]
+        [OverrideAuthorization]
         public IHttpActionResult LoadTree()
         {
             try
@@ -571,6 +563,8 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("LoadTasks")]
+        [OverrideAuthorization]
+
         public IHttpActionResult LoadTasks(LoadTasksParamVM param)
         {
             var user = GetUser(null);
@@ -601,6 +595,8 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [AcceptVerbs("GET", "POST")]
         [Route("GetTask")]
+        //[OverrideAuthorization]
+
         public IHttpActionResult GetTask(int taskId)
         {
             var user = GetUser(null);
@@ -639,6 +635,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [AcceptVerbs("GET", "POST")]
         [Route("GetResult")]
+        [OverrideAuthorization]
         public IHttpActionResult GetResult(long docId, long docTypeId)
         {
             if (docId == 0 || docTypeId == 0) return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se ingreso docId-docTypeId")));
@@ -659,6 +656,68 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("GetNewsSummary")]
+        public IHttpActionResult GetNewsSummary(NewsPostDto newsDto)
+        {
+            try
+            {
+                if (newsDto == null)
+                    return BadRequest("Objeto request nulo");
+
+                if (newsDto.UserId <= 0)
+                    return BadRequest("Id de usuario debe ser mayor a cero");
+
+                var searchType = (NewsSearchType)Enum.Parse(typeof(NewsSearchType), newsDto.SearchType.ToUpper());
+
+                List<News> newsList = new NewsBusiness().GetNewsSummary(newsDto.UserId, searchType);
+                return Ok(newsList);
+
+            }
+            catch (Exception e)
+            {
+                ZClass.raiseerror(e);
+                return InternalServerError(new Exception("Error al obtener el listado de novedades"));
+            }
+        }
+
+        public class NewsPostDto
+        {
+            public long UserId { get; set; }
+            public string SearchType { get; set; }
+        }
+
+        [HttpPost]
+        [Route("SetNewsRead")]
+        public IHttpActionResult SetNewsRead(SetNewsReadPostDto setReadDto)
+        {
+            try
+            {
+                if (setReadDto == null)
+                    return BadRequest("Objeto request nulo");
+
+                if (setReadDto.DocId <= 0)
+                    return BadRequest("Id de documento debe ser mayor a cero");
+
+                if (setReadDto.DocTypeId <= 0)
+                    return BadRequest("Id de tipo de documento debe ser mayor a cero");
+
+                new NewsBusiness().SetRead(setReadDto.DocTypeId, setReadDto.DocId);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                ZClass.raiseerror(e);
+                return InternalServerError(new Exception("Error al obtener el listado de novedades"));
+            }
+        }
+
+        public class SetNewsReadPostDto
+        {
+            public long DocId { get; set; }
+            public long DocTypeId { get; set; }
+        }
 
 
         [HttpPost]
@@ -679,7 +738,7 @@ namespace ZambaWeb.RestApi.Controllers
                 var task = new WFTaskBusiness().GetTaskByDocIdAndDocTypeId(getTaskDto.DocId, getTaskDto.DocTypeId);
 
                 if (task != null)
-                    return Ok(task.TaskId);
+                    return Ok(task.ID);
 
                 return Ok(0);
 
@@ -699,6 +758,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("GetNewsResults")]
+        [OverrideAuthorization]
         public List<ListNews> GetNewsResults(genericRequest paramRequest)
         {
             UserBusiness UB = new UserBusiness();
@@ -751,6 +811,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetUsers")]
+        //[OverrideAuthorization]
         public List<BaseImageFileResult> GetUsers(long stepId)
         {
 
@@ -770,6 +831,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetGroups")]
+        [OverrideAuthorization]
         public List<BaseImageFileResult> GetGroups(long stepId)
         {
             try
@@ -788,6 +850,7 @@ namespace ZambaWeb.RestApi.Controllers
         //[AcceptVerbs("GET", "POST")]
         //[AllowAnonymous]
         //[Route("GetUsersAndGroups")]
+
         //public List<UsersAndGroups> GetUsersAndGroups(long WFstepId)
         //{
 
@@ -817,6 +880,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("DeriveTask")]
+        [OverrideAuthorization]
 
         public IHttpActionResult DeriveTask(long taskId, long userIDToAsign, long currentUserID, bool isUser, string url, string comments)
         {
@@ -837,48 +901,41 @@ namespace ZambaWeb.RestApi.Controllers
                 string userOrGroupName = UserGroups.GetUserorGroupNamebyId(userIDToAsign, ref IsGroup);
                 string username = UserGroups.GetUserorGroupNamebyId(currentUserID, ref IsGroup);
                 WFTB.Derivar(task, task.StepId, userIDToAsign, userOrGroupName, currentUserID, DateTime.Now, true, currentUserID);
-                WFTaskBusiness.setCExclusive(task.TaskId, 0);
-
                 string usermail = UserGroups.GetUserMail(userIDToAsign);
 
-                if (usermail.Length == 0)
-                {
-                    return Ok($"Se derivo al usuario {userOrGroupName}, pero el usuario no tiene email para ser notificado.");
-                }
-                else
-                {
-                    AllObjects.Tarea = task;
+                AllObjects.Tarea = task;
 
 
-                    string subject = ZOptBusiness.GetValueOrDefault("DerivateMailSubject", "<<FuncionesComunes>>.<<UsuarioActualNombreYApellido>> te ha derivado la siguiente tarea:   <<Tarea>>.<<Nombre>>   ");
-                    subject = TextoInteligente.GetValueFromZvarOrSmartText(subject, task);
+                string subject = ZOptBusiness.GetValueOrDefault("DerivateMailSubject", "<<FuncionesComunes>>.<<UsuarioActualNombreYApellido>> te ha derivado la siguiente tarea:   <<Tarea>>.<<Nombre>>   ");
+                subject = TextoInteligente.GetValueFromZvarOrSmartText(subject, task);
 
-                    string messageBody = ZOptBusiness.GetValueOrDefault("DerivateMailBody", "<<FuncionesComunes>>.<<UsuarioActualNombreYApellido>> te ha derivado la siguiente tarea: <br/> <br/> <b>   <<Tarea>>.<<Nombre>>   </b>");
-                    messageBody = TextoInteligente.GetValueFromZvarOrSmartText(messageBody, task);
+                string messageBody = ZOptBusiness.GetValueOrDefault("DerivateMailBody", "<<FuncionesComunes>>.<<UsuarioActualNombreYApellido>> te ha derivado la siguiente tarea: <br/> <br/> <b>   <<Tarea>>.<<Nombre>>   </b>");
+                comments = Results_Factory.EncodeHTML(comments);
+                messageBody = TextoInteligente.GetValueFromZvarOrSmartText(messageBody, task);
+                messageBody += "<br>";
+                messageBody += "<br>";
+                messageBody += comments;
+                messageBody += "<br>";
+                messageBody += "<br>";
 
-                    messageBody += "<br>";
-                    messageBody += "<br>";
-                    messageBody += comments;
-                    messageBody += "<br>";
-                    messageBody += "<br>";
 
+                Int64 docId = task.ID;
+                Int64 doctypeId = task.DocTypeId;
 
-                    Int64 docId = task.ID;
-                    Int64 doctypeId = task.DocTypeId;
+                var IdInfo = new EmailData.IdInfo();
+                IdInfo.DocId = docId;
+                IdInfo.DocTypeid = doctypeId;
 
-                    var IdInfo = new EmailData.IdInfo();
-                    IdInfo.DocId = docId;
-                    IdInfo.DocTypeid = doctypeId;
+                var attachsIds = new List<EmailData.IdInfo>();
+                attachsIds.Add(IdInfo);
+                emailData.Idinfo = attachsIds;
 
-                    var attachsIds = new List<EmailData.IdInfo>();
-                    attachsIds.Add(IdInfo);
-                    emailData.Idinfo = attachsIds;
+                setMailContent(emailData, usermail, subject, messageBody);
+                emailData.AddLink = true;
+                EmailController emailController = new EmailController();
+                emailController.SendEmail(emailData);
 
-                    setMailContent(emailData, usermail, subject, messageBody);
-                    emailData.AddLink = true;
-                    EmailController emailController = new EmailController();
-                    emailController.SendEmail(emailData);
-                }
+                WFTaskBusiness.setCExclusive(task.TaskId, 0);
 
                 return Ok();
             }
@@ -892,6 +949,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("DeriveTasks")]
+        [OverrideAuthorization]
 
         public IHttpActionResult DeriveTasks(string docIds, long userIDToAsign, long currentUserID, bool isUser, string url, string comments)
         {
@@ -927,6 +985,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("EndTask")]
+        [OverrideAuthorization]
         public void EndTask(bool isTakeTask, long taskId, long userId)
         {
             long userID = GetUser(userId).ID;
@@ -946,7 +1005,7 @@ namespace ZambaWeb.RestApi.Controllers
                 }
 
 
-                if (TaskResult.TaskState == Zamba.Core.TaskStates.Asignada && TaskResult.AsignedToId != userId)
+                if (TaskResult.TaskState == Zamba.Core.TaskStates.Asignada && TaskResult.AsignedToId != Zamba.Membership.MembershipHelper.CurrentUser.ID)
                 {
 
 
@@ -958,9 +1017,9 @@ namespace ZambaWeb.RestApi.Controllers
                     if (isTakeTask == false)
                     {
                         TaskResult.TaskState = Zamba.Core.TaskStates.Asignada;
-                        TaskResult.AsignedToId = userId;
+                        TaskResult.AsignedToId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                     }
-                    else if (RB.GetUserRights(userId, ObjectTypes.WFSteps, Zamba.Core.RightsType.Terminar, Convert.ToInt32(TaskResult.StepId)))
+                    else if (RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.Terminar, Convert.ToInt32(TaskResult.StepId)))
                     {
                         TaskResult.TaskState = Zamba.Core.TaskStates.Desasignada;
                         TaskResult.AsignedToId = 0;
@@ -968,7 +1027,7 @@ namespace ZambaWeb.RestApi.Controllers
                     else
                     {
                         TaskResult.TaskState = Zamba.Core.TaskStates.Asignada;
-                        TaskResult.AsignedToId = userId;
+                        TaskResult.AsignedToId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                     }
                 }
 
@@ -976,6 +1035,7 @@ namespace ZambaWeb.RestApi.Controllers
                 sTasks.Finalizar(TaskResult);
                 StateWasChanged = true;
                 ExecuteFinishRules();
+                //Zamba.Core.WF.WF.WFTaskBusiness.CloseOpenTasksByTaskId(TaskResult.TaskId)
                 SetAsignedTo();
                 LoadUserAction();
                 GetStatesOfTheButtonsRule();
@@ -994,9 +1054,11 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [Route("GetUsersWFStepsRights")]
-        public bool GetUsersWFStepsRights(long stepId, RightsType right, long userid)
+        [Route("GetUsersRights")]
+        [OverrideAuthorization]
+        public bool GetUsersRights(long stepId, RightsType right, long userid)
         {
+            //long userID = Zamba.Membership.MembershipHelper.CurrentUser.ID;
             long userID = GetUser(userid).ID;
             try
             {
@@ -1015,28 +1077,8 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [Route("UserHasRight")]
-        public bool UserHasRight(long userid, ObjectTypes objectType, RightsType right, long aditionalParam)
-        {
-            long userID = GetUser(userid).ID;
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, string.Format("Obteniendo permisos del usuario {0} , objectType {1}, right {2}, aditionalParam {3}", userID, objectType, right, aditionalParam));
-
-                return RB.GetUserRights(userID, objectType, right, aditionalParam);
-
-            }
-            catch (Exception e)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsError, string.Format("Obteniendo permisos del usuario {0} , objectType {1}, right {2}, aditionalParam {3}", userID, objectType, right, aditionalParam));
-                ZClass.raiseerror(e);
-                return false;
-            }
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
         [Route("StartTask")]
+        [OverrideAuthorization]
         public ITaskResult StartTask(long taskId, long userid)
         {
             long userID = GetUser(userid).ID;
@@ -1094,10 +1136,6 @@ namespace ZambaWeb.RestApi.Controllers
 
                     //La coleccion de tareas se pasa por referencia
                     TaskResult.TaskState = TaskStates.Ejecucion;
-                    if ((TaskResult.AsignedToId == Zamba.Membership.MembershipHelper.CurrentUser.ID || users.Contains(Zamba.Membership.MembershipHelper.CurrentUser.ID)))
-                    {
-                        Stasks.UpdateTaskState(TaskResult.TaskId, (Int64)TaskStates.Ejecucion);
-                    }
                     Stasks.InitialiceTask(ref iTaskResult);
                     //WFTaskBusiness.setCExclusiveToZero(docId);
 
@@ -1125,6 +1163,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("LoadUserAction")]
+        [OverrideAuthorization]
         private void LoadUserAction()
         {
             try
@@ -1234,6 +1273,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetStatesOfTheButtonsRule")]
+        [OverrideAuthorization]
         public void GetStatesOfTheButtonsRule()
         {
             try
@@ -1246,6 +1286,9 @@ namespace ZambaWeb.RestApi.Controllers
                 //Dice si se va a usar el enable del tab o no
                 bool useTabEnable = false;
 
+
+                //if (UACCell.Controls.Count > 0)
+                //{
                 //Recorre cada regla activa en el documento
                 foreach (Int64 idRule in idRules)
                 {
@@ -1280,6 +1323,8 @@ namespace ZambaWeb.RestApi.Controllers
                     }
                     contador = contador + 1;
                 }
+                //}
+
             }
             catch (Exception ex)
             {
@@ -1290,6 +1335,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("EnablePropietaryControls")]
+        [OverrideAuthorization]
         public void EnablePropietaryControls()
         {
 
@@ -1481,6 +1527,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("GetGroupsByUserIds")]
+        [OverrideAuthorization]
         public List<long> GetGroupsByUserIds(long usrID)
         {
             try
@@ -1502,6 +1549,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("OnLoadPage")]
+        [OverrideAuthorization]
         public ITaskResult OnLoadPage(long taskId, long userid)
         {
             //Para validar el usuario, y setearlo para el Web Api en caso de ser necesario.
@@ -1521,6 +1569,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getStepNameById")]
+        [OverrideAuthorization]
         public string getStepNameById(Int64 stepid)
         {
             SSteps SSteps = new SSteps();
@@ -1531,6 +1580,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetUserorGroupNamebyId")]
+        [OverrideAuthorization]
         public string GetUserorGroupNamebyId(Int64 asginedToId)
         {
             SUsers SUsers = new SUsers();
@@ -1542,6 +1592,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetAsociatedIndexsDropzon")]
+        [OverrideAuthorization]
         public string GetAsociatedIndexsDropzon(Int64 indexId, Int64 entityId)
         {
 
@@ -1579,53 +1630,8 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [Route("GetMultiIndexsDropzon")]
-        public string GetMultiIndexsDropzon(string indexId)
-        {
-
-            try
-            {
-                DocTypesBusiness DTB = new DocTypesBusiness();
-
-                var indexList = indexId.Split(char.Parse(","));
-                List<DtoMultiIndex> indexListResult = new List<DtoMultiIndex>();
-
-
-                for (int i = 0; i < indexList.Length; i++)
-                {
-                    var indexName = DTB.GetDocTypeName(Convert.ToInt64(indexList[i]));
-                    indexListResult.Add(new DtoMultiIndex { Value = indexList[i], Name = indexName });
-
-                }
-
-
-                var newresults = JsonConvert.SerializeObject(indexListResult, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
-                return newresults;
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw new Exception("Error al obtener la lista de Indices: " + ex.ToString());
-            }
-            finally
-            {
-            }
-
-        }
-
-        public class DtoMultiIndex
-        {
-            public string Name { get; set; }
-            public string Value { get; set; }
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
         [Route("GeneratePdfCoverPage")]
+        [OverrideAuthorization]
         public string GeneratePdfCoverPage(string TempPath, short CopiesCount, float width, float height)
         {
             string _Pdfile = string.Empty;
@@ -1650,6 +1656,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetResultDocumentContent")]
+        [OverrideAuthorization]
         public string GetResultDocumentContent(long docid, long doctypeid)
         {
             string docContent = string.Empty;
@@ -1683,6 +1690,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("SaveResultDocContent")]
+        [OverrideAuthorization]
         public void SaveResultDocContent(HtmlContent obj)
         {
             try
@@ -1707,6 +1715,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GeneratePdf")]
+        [OverrideAuthorization]
         public List<string> GeneratePdf(genericRequest paramRequest)
         {
             try
@@ -1742,6 +1751,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("MarkAsFavorite")]
+        [OverrideAuthorization]
         public IHttpActionResult MarkAsFavorite(genericRequest paramRequest)
         {
 
@@ -1758,7 +1768,7 @@ namespace ZambaWeb.RestApi.Controllers
                     ITaskResult task = WFTB.GetTask(TaskId, paramRequest.UserId);
                     if (task != null)
                     {
-                        task.IsFavorite = Mark;
+                        task.IsFavorite = !Mark;
                         DLB.UpdateFavoriteLabel(task);
                         return Ok();
                     }
@@ -1778,6 +1788,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetRuleNames")]
+        [OverrideAuthorization]
         public IHttpActionResult GetRuleNames(genericRequest paramRequest)
         {
             List<string> ruleIds = new List<string>();
@@ -1815,6 +1826,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ExecuteTaskRule")]
+        //[OverrideAuthorization]
         public IHttpActionResult ExecuteTaskRule(genericRequest paramRequest)
         {
             cleanRuleVariables_ByConvention();
@@ -1836,7 +1848,7 @@ namespace ZambaWeb.RestApi.Controllers
                     ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
                     if (paramRequest.Params.ContainsKey("resultIds") && !string.IsNullOrEmpty(paramRequest.Params["resultIds"]))
                     {
-                        docIds.AddRange(paramRequest.Params["resultIds"].ToString().Split(char.Parse(",")));
+                        docIds.AddRange( paramRequest.Params["resultIds"].ToString().Split(char.Parse(",")));
                     }
 
                     string FormVariables = string.Empty;
@@ -1874,7 +1886,7 @@ namespace ZambaWeb.RestApi.Controllers
                         ExecutionTask.UserId = (int)user.ID;
                         ExecutionTask.TaskId = 0;
                         ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
-                                                                             //ExecutionTask.StartRule = ruleId;
+                                                                        //ExecutionTask.StartRule = ruleId;
 
                         Results.Add(ExecutionTask);
                     }
@@ -1939,179 +1951,6 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-
-
-
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("getResultsByZvarANdRuleId")]
-        public IHttpActionResult getResultsByZvarANdRuleId(genericRequest paramRequest)
-        {
-            cleanRuleVariables_ByConvention();
-
-            try
-            {
-                var user = GetUser(paramRequest.UserId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                        new HttpError(StringHelper.InvalidUser)));
-
-                if (paramRequest.Params.ContainsKey("ruleId") && !string.IsNullOrEmpty(paramRequest.Params["ruleId"]))
-                {
-                    Int64 ruleId = 0;
-                    List<string> docIds = new List<string>();
-                    String varName = "";
-
-                    STasks sTasks = new STasks();
-                    List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
-
-                    ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
-                    varName = paramRequest.Params["zvar"].ToString();
-
-                    if (paramRequest.Params.ContainsKey("resultIds") && !string.IsNullOrEmpty(paramRequest.Params["resultIds"]))
-                    {
-                        docIds.AddRange(paramRequest.Params["resultIds"].ToString().Split(char.Parse(",")));
-                    }
-
-                    string FormVariables = string.Empty;
-                    if (paramRequest.Params.ContainsKey("FormVariables") && !string.IsNullOrEmpty(paramRequest.Params["FormVariables"]))
-                    {
-                        FormVariables = paramRequest.Params["FormVariables"];
-                    }
-
-                    if (docIds.Count > 0)
-                    {
-                        for (int i = 0; i < docIds.Count; i++)
-                        {
-                            if (int.Parse(docIds[i]) > 0)
-                            {
-                                Results.Add(sTasks.GetTaskByDocId(Int64.Parse(docIds[i])));
-                            }
-                            else
-                            {
-
-                                ITaskResult ExecutionTask = new TaskResult();
-                                ExecutionTask.AsignedToId = user.ID;
-                                ExecutionTask.UserId = (int)user.ID;
-                                ExecutionTask.TaskId = 0;
-                                ExecutionTask.Name = "Ejecucion de regla IMAP"; //
-                                                                                //ExecutionTask.StartRule = ruleId;
-
-                                Results.Add(ExecutionTask);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        ITaskResult ExecutionTask = new TaskResult();
-                        ExecutionTask.AsignedToId = user.ID;
-                        ExecutionTask.UserId = (int)user.ID;
-                        ExecutionTask.TaskId = 0;
-                        ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
-                                                                             //ExecutionTask.StartRule = ruleId;
-
-                        Results.Add(ExecutionTask);
-                    }
-
-                    if (FormVariables != string.Empty)
-                    {
-                        Dictionary<string, string> dicFormVariables = new Dictionary<string, string>();
-                        List<itemVars> listFormVariables = JsonConvert.DeserializeObject<List<itemVars>>(FormVariables);
-
-                        if (!string.IsNullOrEmpty(FormVariables))
-                        {
-                            for (int i = 0; i < listFormVariables.Count; i++)
-                            {
-                                dicFormVariables.Add(listFormVariables[i].name, listFormVariables[i].value);
-                            }
-                        }
-
-                        //Se itera el diccionario de los valores
-                        foreach (var itemlist in dicFormVariables)
-                        {
-                            if (!VariablesInterReglas.ContainsKey(itemlist.Key))
-                                VariablesInterReglas.Add(itemlist.Key, itemlist.Value);
-                            else
-                                VariablesInterReglas.set_Item(itemlist.Key, itemlist.Value);
-                        }
-                    }
-
-                    WFTaskBusiness WFTB = new WFTaskBusiness();
-                    GenericExecutionResponse genericExecutionResult = null;
-                    foreach (ITaskResult result in Results)
-                    {
-                        List<ITaskResult> currentResults = new List<ITaskResult>() { result };
-                        genericExecutionResult = ExecuteRule(ruleId, currentResults, true);
-
-                    }
-                    WFTB = null;
-
-
-                    searchResult sr = new searchResult();
-
-                    //foreach (DataColumn c in AsociatedResults.Columns)
-                    //{
-                    //    c.ColumnName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace("__", "_");
-                    //}
-
-                    var data = genericExecutionResult.Vars[varName];
-                    if (data != null)
-                    {
-                        if (data is DataSet)
-                        {
-                            sr.data = ((DataSet)data).Tables[0];
-                        }
-                        if (data is DataTable)
-                        {
-                            sr.data = (DataTable)genericExecutionResult.Vars[varName];
-                        }
-                    }
-
-                    if (sr.data != null)
-                    {
-                        foreach (DataColumn c in sr.data.Columns)
-                        {
-
-                            string newColName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_").Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_").Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("$", "_").Replace("+", "_").Replace("°", "_").Replace("__", "_");
-
-                            sr.MappingColumnToDisplay
-                                .Add(new MappingColumnDisplayName
-                                {
-                                    ColumnName = newColName,
-                                    DisplayName = c.ColumnName
-                                });
-
-                            c.ColumnName = newColName;
-                            sr.columns.Add(newColName);
-
-                        }
-
-                        sr.data.AcceptChanges();
-                    }
-
-                    var newresults = JsonConvert.SerializeObject(sr, Formatting.Indented, new JsonSerializerSettings
-                    {
-                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                    });
-
-                    return Ok(newresults);
-                }
-                else
-                {
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
-                }
-            }
-            catch (Exception ex)
-            {
-                Zamba.Core.ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.ToString())));
-            }
-
-        }
-
-
-
         /// <summary>
         /// Elimina las variables interreglas definidas por convencion en el enumerador "EVariablesInterReglas_Convencion".
         /// </summary>
@@ -2127,6 +1966,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("Execute_ZambaTaskRule")]
+        //[OverrideAuthorization]
         public IHttpActionResult Execute_ZambaTaskRule(genericRequest paramRequest)
         {
             try
@@ -2187,6 +2027,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetEnabledRuleId")]
+        [OverrideAuthorization]
         public IHttpActionResult GetEnabledRuleId(genericRequest paramRequest)
         {
             List<string> ruleIds = new List<string>();
@@ -2452,7 +2293,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
                     //    //"instalamos" el javascript cuando refresca la página.
-                    //    string script = "$(document).ready(function () { $('#IFDialogContent').unbind('load'); parent.ShowInsertAsociated('" + url.ToString() + "',true); });";
+                    //    string script = "$(document).ready(function () { $('#IFDialogContent').unbind('load'); parent.ShowInsertAsociated('" + url.ToString() + "'); });";
 
                     //    if (!VariablesInterReglas.ContainsKey("accion"))
                     //        VariablesInterReglas.Add("accion", "executescript");
@@ -2681,7 +2522,7 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             //Ezequiel: Obtengo las id de las reglas de entrada de la etapa a derivar.
                             var stepRules = from rule in rules
-                                            where rule.ParentType == TypesofRules.Entrada && rule.Enable == true
+                                            where rule.ParentType == TypesofRules.Entrada
                                             select rule.ID;
 
 
@@ -2738,7 +2579,6 @@ namespace ZambaWeb.RestApi.Controllers
                         //Realiza la apertura del documento dependiendo de si tiene tareas o permisos.
                         if (Task != null)
                         {
-
                             //Page.Session.Add("Entrada" + Task.ID, true);
                             SRights sRights = new SRights();
 
@@ -2755,7 +2595,7 @@ namespace ZambaWeb.RestApi.Controllers
                             url.Append(Task.ID);
                             url.Append("&userId=");
                             url.Append(Zamba.Membership.MembershipHelper.CurrentUser.ID);
-                            ExecuteEntryInWFDoGenerateTaskResultscript = string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6},{7},{8});", Task.TaskId, Task.ID , Task.DocTypeId, "false", Task.Name, url, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, openMode);
+                            ExecuteEntryInWFDoGenerateTaskResultscript = string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6},{7},{8});", Task.TaskId, 0, Task.DocTypeId, "false", Task.Name, url, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, openMode);
                             ExecuteEntryInWFDoGenerateTaskResultscript += "parent.SelectTabFromMasterPage('tabtasks');";
                         }
                         // }
@@ -2873,10 +2713,6 @@ namespace ZambaWeb.RestApi.Controllers
 
                 //08/07/11: Sumado el caso de la DoShowTable, para que carge nuevamente el control.
                 case RulePendingEvents.ShowDoShowTable:
-                    if (!VariablesInterReglas.ContainsKey("accion"))
-                        VariablesInterReglas.Add("accion", "doshowtable");
-                    else
-                        VariablesInterReglas.set_Item("accion", "doshowtable");
                     //ucrule = (Views_UC_WF_Rules_UCDoShowTable)LoadControl("~/Views/UC/WF/Rules/UCDoShowTable.ascx");
                     //if (Params != null && pnlUcRules != null && Params.ContainsKey("tableTitle"))
                     //    pnlUcRules.Attributes.Add("title", Params["tableTitle"].ToString());
@@ -3176,6 +3012,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getValuesToHerarchicalTag")]
+        [OverrideAuthorization]
         public IHttpActionResult getValuesToHerarchicalTag(Int64 UserId, Int64 parentTagValue)
         {
             var user = GetUser(UserId);
@@ -3214,6 +3051,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getHerarchicalTagValues")]
+        [OverrideAuthorization]
         public IHttpActionResult getHerarchicalTagValues(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -3271,6 +3109,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getAttributeDescription")]
+        [OverrideAuthorization]
         public IHttpActionResult getAttributeDescription(genericRequest paramRequest)
         {
             try
@@ -3320,6 +3159,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getAttributeDescriptionMotivoDemanda")]
+        [OverrideAuthorization]
         public IHttpActionResult getAttributeDescriptionMotivoDemanda(genericRequest paramRequest)
         {
             try
@@ -3379,6 +3219,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getAttributeListMotivoDemanda")]
+        [OverrideAuthorization]
         public IHttpActionResult getAttributeListMotivoDemanda(genericRequest paramRequest)
         {
             try
@@ -3442,6 +3283,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getHerarchicalEstudiosByJurisdiccion")]
+        [OverrideAuthorization]
         public IHttpActionResult getEstudiosByJurisdiccion(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -3514,6 +3356,8 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetResultsGridButtons")]
+
+        [OverrideAuthorization]
         public List<IDynamicButton> GetResultsGridButtons(genericRequest paramRequest)
         {
             List<IDynamicButton> List_ActionsForResultsGrid = new List<IDynamicButton>();
@@ -3524,104 +3368,8 @@ namespace ZambaWeb.RestApi.Controllers
 
             return List_ActionsForResultsGrid;
         }
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("GetResultsGridButtonsByPlace")]
-        public List<IDynamicButton> GetResultsGridButtonsByPlace(genericRequest paramRequest)
-        {
-            //arbol tareas (3)
-            ButtonPlace buttonPlace= (ButtonPlace)Int32.Parse(paramRequest.Params["placeId"].ToString());
-            List<IDynamicButton> List_ActionsForResultsGrid = new List<IDynamicButton>();
-            DynamicButtonBusiness miDinamicButtonInstance = DynamicButtonBusiness.GetInstance();
-            List_ActionsForResultsGrid = miDinamicButtonInstance.GetButtons(ButtonType.Rule, buttonPlace , GetUser(paramRequest.UserId));
-            return List_ActionsForResultsGrid;
-        }
 
 
-
-        /// <summary>
-        /// Carga las acciones de usuario
-        /// </summary>
-        /// <remarks></remarks>
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("LoadUserAction_ForMyTaskGrid")]
-        public IHttpActionResult LoadUserAction_ForMyTaskGrid(genericRequest paramRequest)
-        {
-            try
-            {
-                ITaskResult Task = new STasks().GetTaskByDocId(Int64.Parse(paramRequest.Params["docId"]));
-                List<IWFRuleParent> rules = new SRules().GetCompleteHashTableRulesByStep(long.Parse(paramRequest.Params["stepId"]));
-                List<IWFRuleParent> RV_Rules = getRulesByTaskAndUser(Task, rules);
-
-                return Ok(JsonConvert.SerializeObject(RV_Rules, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                }));
-            }
-            catch (Exception ex)
-            {
-                Zamba.Core.ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.ToString())));
-            }
-        }
-
-
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("getActions")]
-        public IHttpActionResult getActions(genericRequest paramRequest)
-        {
-            try
-            {
-                ITaskResult Task = new STasks().GetTaskByDocId(Int64.Parse(paramRequest.Params["docid"]));
-                List<IWFRuleParent> Rules = new SRules().GetCompleteHashTableRulesByStep(Task.StepId);
-                List<IWFRuleParent> ResultRules = getRulesByTaskAndUser(Task, Rules);
-
-                var Json_Rules = JsonConvert.SerializeObject(ResultRules, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
-
-                return Ok(Json_Rules);
-            }
-            catch (Exception ex)
-            {
-                //throw;
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.ToString())));
-            }
-        }
-
-        private List<IWFRuleParent> getRulesByTaskAndUser(ITaskResult Task, List<IWFRuleParent> Rules)
-        {
-            List<IWFRuleParent> ResultRules = new List<IWFRuleParent>();
-            bool RuleEnabled = false;
-
-            foreach (Zamba.Core.WFRuleParent Rule in Rules)
-            {
-                if (Task.UserRules.ContainsKey(Rule.ID))
-                {
-                    //Lista que en la posicion 0 guarda si esta habilitada la regla o no
-                    //y en la 1 si se acumula a la habilitacion de las solapas o no
-                    List<bool> lstRulesEnabled = (List<bool>)Task.UserRules[Rule.ID];
-                    RuleEnabled = lstRulesEnabled[0];
-                }
-                else
-                    RuleEnabled = true;
-                Zamba.Services.SRules sRules = new SRules();
-                Rule.Name = sRules.GetUserActionName(Rule);
-                if (RuleEnabled && Rule.ParentType == TypesofRules.AccionUsuario && !idRules.Contains(Rule.ID))
-                {
-                    if (new WFBusiness().CanExecuteRules(Rule.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, (WFStepState)Task.State, (TaskResult)Task))
-                        ResultRules.Add(Rule);
-                }
-            }
-
-            return ResultRules;
-        }
     }
 
     /// <summary>

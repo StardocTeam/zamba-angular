@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 export class LoginService {
 
   
-  LOGIN_URL = environment.urlApi + 'Account/LoginImap';
+  LOGIN_URL = environment.urlApi + '/ExternalSearch/Login';
   
 
   constructor(private httpClient: HttpClient) { }
@@ -23,17 +23,4 @@ export class LoginService {
       };
       return this.httpClient.post(this.LOGIN_URL,data,httpOptions);
     }
-
-
-    public DecryptUserName(data){
-
-      var urlDecryptUserName = environment.urlApi + 'search/DecryptUser';
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json'
-        })
-      };
-      return this.httpClient.post(urlDecryptUserName,data,httpOptions);
-    }
-
 }

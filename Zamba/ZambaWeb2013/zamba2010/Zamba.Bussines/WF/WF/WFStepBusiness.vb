@@ -437,9 +437,9 @@ Public Class WFStepBusiness
     ''' <history>
     '''     [Javier] 14/10/2010  Created.
     ''' </history>
-    Public Shared Function GetDocTypesAssociatedToWFbyStepId(ByVal stepId As Int64) As List(Of Int64)
+    Public Shared Function GetDocTypesAssociatedToWFbyStepId(ByVal stepId As Int64) As ArrayList
         If Cache.Workflows.hsDocTypesAsWFbyStepId.Contains(stepId) = False Then
-            Dim ar As New List(Of Int64)
+            Dim ar As New ArrayList
             Dim dtids As DataTable = WFStepsFactory.GetDocTypesAssociatedToWFbyStepId(stepId)
 
             If dtids IsNot Nothing Then
@@ -466,19 +466,13 @@ Public Class WFStepBusiness
     ''' <remarks></remarks>
     Public Shared Function GetStepNameById(ByVal StepId As Int64) As String
         If StepId > 0 Then
-            If (Cache.Workflows.hsStepsNames.Contains(StepId)) Then
-                Return Cache.Workflows.hsStepsNames(StepId)
+            If (Cache.Workflows.hsSteps.Contains(StepId)) Then
+                Return DirectCast(Cache.Workflows.hsSteps(StepId), WFStep).Name
             Else
-                Dim StepName As String = WFStepsFactory.GetStepNameById(StepId)
-                SyncLock Cache.Workflows.hsStepsNames
-                    If (Cache.Workflows.hsStepsNames.Contains(StepId) = False) Then
-                        Cache.Workflows.hsStepsNames.Add(StepId, StepName)
-                    End If
-                End SyncLock
-                Return StepName
+                Return WFStepsFactory.GetStepNameById(StepId)
             End If
         Else
-                Return String.Empty
+            Return String.Empty
         End If
 
     End Function
@@ -845,14 +839,14 @@ Public Class WFStepBusiness
     ''' </summary>
     ''' <param name="user">Usuario del que se quieren ver etapas.</param>
     ''' <returns>Tabla con ID y Nombre de las etapas.</returns>
-    'Public Function GetWFsAndStepsAndCountByUser(userId As Long) As DataTable
+    Public Function GetWFsAndStepsAndCountByUser(userId As Long) As DataTable
 
-    '    Dim stepsTable As DataTable
-    '    stepsTable = WFStepsFactory.GetWFAndStepIdsAndNamesAndTaskCount(userId)
+        Dim stepsTable As DataTable
+        stepsTable = WFStepsFactory.GetWFAndStepIdsAndNamesAndTaskCount(userId)
 
-    '    Return stepsTable
+        Return stepsTable
 
-    'End Function
+    End Function
 
     ''' <summary>
     ''' Método que sirve para obtener las etapas según un id de workflow

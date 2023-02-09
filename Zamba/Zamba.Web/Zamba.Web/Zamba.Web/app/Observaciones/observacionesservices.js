@@ -1,11 +1,16 @@
 ﻿'use strict';
+//var serviceBase = ZambaWebRestApiURL.toLowerCase().replace("/api", "/");
 var serviceBase = ZambaWebRestApiURL;
+//appTimeLine.constant('ngZambaSettings', {
+//    apiServiceBaseUri: serviceBase,
+//    clientId: 'ngZambaApp'
+//});
 
 app.factory('observacionesServices', ['$http', '$q', function ($http, $q) {
 
     var observacionesServicesFactory = {};
 
-    var _getResults = function (indexId, entityId, parentResultId, InputObservacion, bool, responseProperty) {
+    var _getResults = function (indexId, entityId, parentResultId, InputObservacion, bool) {
         var response = null;
         var genericRequest = {
             UserId: parseInt(GetUID()),
@@ -17,6 +22,7 @@ app.factory('observacionesServices', ['$http', '$q', function ($http, $q) {
                 "InputObservacion": InputObservacion,
                 "bool": bool
             }
+
         };
 
         $.ajax({
@@ -25,13 +31,13 @@ app.factory('observacionesServices', ['$http', '$q', function ($http, $q) {
             data: JSON.stringify(genericRequest),
 
             contentType: "application/json; charset=utf-8",
-            async: true,
+            async: false,
             success:
             function (data, status, headers, config) {
-                responseProperty(data);
+                 response = data;
             }
         });
-        return;
+        return response;
     };
 
     var _InsertResult = function (indexId, entityId, parentResultId, InputObservacion, TextareaObservacion, bool) {

@@ -331,14 +331,12 @@ Public Class PlayDOApproveMatrix
 
                 'Lista de Grupos Aprobadores
                 Dim CurrentAproversMatrixStr As New StringBuilder
-                CurrentAproversMatrixStr.Append("Select  a.i153 Secuencia, b.name grupo, i1020136 Accion,  a.i10253 grupid from doc_i")
-                CurrentAproversMatrixStr.Append(_myRule.MatrixEntityId)
-                CurrentAproversMatrixStr.Append(" a, usrgroup b where a.i10253 = b.id")
+                CurrentAproversMatrixStr.Append("Select  a.i153 Secuencia, b.name grupo, i1020136 Accion,  a.i10253 grupid from doc_i1020007 a, usrgroup b where a.i10253 = b.id")
                 CurrentAproversMatrixStr.Append(" And (")
 
                 Dim OneFound As Boolean = False
                 For Each i As IIndex In NotNullTaskIndexs
-                    If i.ID <> _myRule.OutputIndex1 AndAlso i.ID <> _myRule.OutputIndex2 AndAlso i.ID <> _myRule.OutputIndex3 AndAlso i.ID <> _myRule.ApproverIndex AndAlso i.ID <> _myRule.SecuenceIndex AndAlso i.ID <> _myRule.LevelIndex AndAlso i.ID <> _myRule.AmountIndex AndAlso i.Data <> "" AndAlso (i.Data <> "0" OrElse i.Type = IndexDataType.Si_No) Then
+                    If i.ID <> _myRule.OutputIndex1 AndAlso i.ID <> _myRule.OutputIndex2 AndAlso i.ID <> _myRule.OutputIndex3 AndAlso i.ID <> _myRule.ApproverIndex AndAlso i.ID <> _myRule.SecuenceIndex AndAlso i.ID <> _myRule.LevelIndex AndAlso i.ID <> _myRule.AmountIndex AndAlso i.Data <> "" AndAlso i.Data <> "0" Then
 
                         CurrentAproversMatrixStr.Append(" I")
                         CurrentAproversMatrixStr.Append(i.ID)
@@ -391,7 +389,7 @@ Public Class PlayDOApproveMatrix
                         ZTrace.WriteLineIf(ZTrace.IsError, String.Format("Secuencia: {0} - Grupo: {1} ", GrupoAprobacion("secuencia").ToString, GroupName))
 
                         If GroupName.Contains("*") Then
-                            If GroupName.ToLower() = CurrentUserGenericAprover.ToLower() Then
+                            If GroupName = CurrentUserGenericAprover Then
                                 'El usuario es aprobador INdirecto, es decir con Zamba_*_*..... hay que ver si la matrix tiene que tener el area para generar mejor la comparacion
                                 CurrentUserAproverSecuence = GrupoAprobacion("secuencia").ToString
                                 CurrentUserAproverAction = GrupoAprobacion("Accion").ToString
@@ -698,7 +696,7 @@ Public Class PlayDOApproveMatrix
                     NextLevelStr.Append(" And (")
 
                     For Each i As IIndex In NotNullTaskIndexs
-                        If i.ID <> _myRule.OutputIndex1 AndAlso i.ID <> _myRule.OutputIndex2 AndAlso i.ID <> _myRule.OutputIndex3 AndAlso i.ID <> _myRule.ApproverIndex AndAlso i.ID <> _myRule.SecuenceIndex AndAlso i.ID <> _myRule.LevelIndex AndAlso i.ID <> _myRule.AmountIndex AndAlso i.Data <> "" AndAlso (i.Data <> "0" OrElse i.Type = IndexDataType.Si_No) Then
+                        If i.ID <> _myRule.OutputIndex1 AndAlso i.ID <> _myRule.OutputIndex2 AndAlso i.ID <> _myRule.OutputIndex3 AndAlso i.ID <> _myRule.ApproverIndex AndAlso i.ID <> _myRule.SecuenceIndex AndAlso i.ID <> _myRule.LevelIndex AndAlso i.ID <> _myRule.AmountIndex AndAlso i.Data <> "" AndAlso i.Data <> "0" Then
                             NextLevelStr.Append(" I")
                             NextLevelStr.Append(i.ID)
                             NextLevelStr.Append(" = ")

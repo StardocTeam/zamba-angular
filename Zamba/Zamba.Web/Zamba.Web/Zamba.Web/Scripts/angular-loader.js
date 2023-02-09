@@ -1,6 +1,6 @@
 /**
- * @license AngularJS v1.8.2
- * (c) 2010-2020 Google LLC. http://angularjs.org
+ * @license AngularJS v1.6.6
+ * (c) 2010-2017 Google, Inc. http://angularjs.org
  * License: MIT
  */
 
@@ -76,8 +76,7 @@ function toDebugString(obj, maxDepth) {
 */
 
 var minErrConfig = {
-  objectMaxDepth: 5,
-  urlErrorParamsEnabled: true
+  objectMaxDepth: 5
 };
 
 /**
@@ -100,20 +99,11 @@ var minErrConfig = {
  * * `objectMaxDepth`  **{Number}** - The max depth for stringifying objects. Setting to a
  *   non-positive or non-numeric value, removes the max depth limit.
  *   Default: 5
- *
- * * `urlErrorParamsEnabled`  **{Boolean}** - Specifies whether the generated error url will
- *   contain the parameters of the thrown error. Disabling the parameters can be useful if the
- *   generated error url is very long.
- *
- *   Default: true. When used without argument, it returns the current value.
  */
 function errorHandlingConfig(config) {
   if (isObject(config)) {
     if (isDefined(config.objectMaxDepth)) {
       minErrConfig.objectMaxDepth = isValidObjectMaxDepth(config.objectMaxDepth) ? config.objectMaxDepth : NaN;
-    }
-    if (isDefined(config.urlErrorParamsEnabled) && isBoolean(config.urlErrorParamsEnabled)) {
-      minErrConfig.urlErrorParamsEnabled = config.urlErrorParamsEnabled;
     }
   } else {
     return minErrConfig;
@@ -129,12 +119,11 @@ function isValidObjectMaxDepth(maxDepth) {
   return isNumber(maxDepth) && maxDepth > 0;
 }
 
-
 /**
  * @description
  *
  * This object provides a utility for producing rich Error messages within
- * AngularJS. It can be called as follows:
+ * Angular. It can be called as follows:
  *
  * var exampleMinErr = minErr('example');
  * throw exampleMinErr('one', 'This {0} is {1}', foo, bar);
@@ -151,7 +140,7 @@ function isValidObjectMaxDepth(maxDepth) {
  * Since data will be parsed statically during a build step, some restrictions
  * are applied with respect to how minErr instances are created and called.
  * Instances should have names of the form namespaceMinErr for a minErr created
- * using minErr('namespace'). Error codes, namespaces and template strings
+ * using minErr('namespace') . Error codes, namespaces and template strings
  * should all be static strings, not variables or general expressions.
  *
  * @param {string} module The namespace to use for the new minErr instance.
@@ -162,11 +151,6 @@ function isValidObjectMaxDepth(maxDepth) {
 
 function minErr(module, ErrorConstructor) {
   ErrorConstructor = ErrorConstructor || Error;
-
-  var url = 'https://errors.angularjs.org/1.8.2/';
-  var regex = url.replace('.', '\\.') + '[\\s\\S]*';
-  var errRegExp = new RegExp(regex, 'g');
-
   return function() {
     var code = arguments[0],
       template = arguments[1],
@@ -176,27 +160,21 @@ function minErr(module, ErrorConstructor) {
       }),
       paramPrefix, i;
 
-    // A minErr message has two parts: the message itself and the url that contains the
-    // encoded message.
-    // The message's parameters can contain other error messages which also include error urls.
-    // To prevent the messages from getting too long, we strip the error urls from the parameters.
-
     message += template.replace(/\{\d+\}/g, function(match) {
       var index = +match.slice(1, -1);
 
       if (index < templateArgs.length) {
-        return templateArgs[index].replace(errRegExp, '');
+        return templateArgs[index];
       }
 
       return match;
     });
 
-    message += '\n' + url + (module ? module + '/' : '') + code;
+    message += '\nhttp://errors.angularjs.org/1.6.6/' +
+      (module ? module + '/' : '') + code;
 
-    if (minErrConfig.urlErrorParamsEnabled) {
-      for (i = 0, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
-        message += paramPrefix + 'p' + i + '=' + encodeURIComponent(templateArgs[i]);
-      }
+    for (i = 0, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
+      message += paramPrefix + 'p' + i + '=' + encodeURIComponent(templateArgs[i]);
     }
 
     return new ErrorConstructor(message);
@@ -209,7 +187,7 @@ function minErr(module, ErrorConstructor) {
  * @module ng
  * @description
  *
- * Interface for configuring AngularJS {@link angular.module modules}.
+ * Interface for configuring angular {@link angular.module modules}.
  */
 
 function setupModuleLoader(window) {
@@ -236,9 +214,9 @@ function setupModuleLoader(window) {
      * @module ng
      * @description
      *
-     * The `angular.module` is a global place for creating, registering and retrieving AngularJS
+     * The `angular.module` is a global place for creating, registering and retrieving Angular
      * modules.
-     * All modules (AngularJS core or 3rd party) that should be available to an application must be
+     * All modules (angular core or 3rd party) that should be available to an application must be
      * registered using this mechanism.
      *
      * Passing one argument retrieves an existing {@link angular.Module},
@@ -488,13 +466,13 @@ function setupModuleLoader(window) {
            * @ngdoc method
            * @name angular.Module#filter
            * @module ng
-           * @param {string} name Filter name - this must be a valid AngularJS expression identifier
+           * @param {string} name Filter name - this must be a valid angular expression identifier
            * @param {Function} filterFactory Factory function for creating new instance of filter.
            * @description
            * See {@link ng.$filterProvider#register $filterProvider.register()}.
            *
            * <div class="alert alert-warning">
-           * **Note:** Filter names must be valid AngularJS {@link expression} identifiers, such as `uppercase` or `orderBy`.
+           * **Note:** Filter names must be valid angular {@link expression} identifiers, such as `uppercase` or `orderBy`.
            * Names with special characters, such as hyphens and dots, are not allowed. If you wish to namespace
            * your filters, then you can use capitalization (`myappSubsectionFilterx`) or underscores
            * (`myapp_subsection_filterx`).
@@ -531,8 +509,7 @@ function setupModuleLoader(window) {
            * @ngdoc method
            * @name angular.Module#component
            * @module ng
-           * @param {string|Object} name Name of the component in camelCase (i.e. `myComp` which will match `<my-comp>`),
-           *    or an object map of components where the keys are the names and the values are the component definition objects.
+           * @param {string} name Name of the component in camel-case (i.e. myComp which will match as my-comp)
            * @param {Object} options Component definition object (a simplified
            *    {@link ng.$compile#directive-definition-object directive definition object})
            *
@@ -548,13 +525,7 @@ function setupModuleLoader(window) {
            * @param {Function} configFn Execute this function on module load. Useful for service
            *    configuration.
            * @description
-           * Use this method to configure services by injecting their
-           * {@link angular.Module#provider `providers`}, e.g. for adding routes to the
-           * {@link ngRoute.$routeProvider $routeProvider}.
-           *
-           * Note that you can only inject {@link angular.Module#provider `providers`} and
-           * {@link angular.Module#constant `constants`} into this function.
-           *
+           * Use this method to register work which needs to be performed on module loading.
            * For more about how to configure services, see
            * {@link providers#provider-recipe Provider Recipe}.
            */

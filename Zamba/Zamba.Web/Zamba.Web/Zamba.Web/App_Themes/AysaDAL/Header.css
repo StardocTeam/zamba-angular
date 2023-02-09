@@ -1,0 +1,230 @@
+﻿/*#MasterHeader {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 65px !important;
+}*/
+
+.clientlogo {
+    background: url("../AysaDal/Images/logoAysa22.png") no-repeat;
+    height: 49px;
+    width: 48px;
+    margin: 0 !important;
+    padding: 0 !important;
+   
+    /*background-position: left;*/
+    /*cursor: pointer;*/
+ 
+}
+
+/*Input buscador*/
+.advancedSearchBox {
+    /*width: 100%;*/
+}
+
+.mh-logo {
+    position: fixed !important;
+    height: 40px !important;
+    width: 40px !important;
+    padding: 0 !important;
+    left: 0% !important;
+    top: 0% !important;
+}
+
+.mh-user {
+    position: fixed !important;
+    right: 0% !important;
+    top: 0% !important;
+    z-index: 0 !important;
+}
+
+.mh-search {
+    padding: 0 !important;
+}
+
+@media (max-width: 319px) {
+    .mh-search {
+        position: fixed !important;
+        top: 52px !important;
+        width: 80% !important;
+        margin-left: 5% !important;
+        margin-right: 10% !important;
+    }
+
+    /*#MasterHeader {
+        height: 110px !important;
+    }*/
+}
+
+@media (min-width: 320px) and (max-width:519px) {
+    .mh-search {
+        position: fixed !important;
+        top: 52px !important;
+        width: 80% !important;
+        margin-left: 5% !important;
+        margin-right: 10% !important;
+    }
+
+    /*#MasterHeader {
+        height: 110px !important;
+    }*/
+}
+
+@media (min-width: 520px) and (max-width:767px) {
+    .mh-search {
+        top: 0 !important;
+        right: -16% !important;
+        width: 60%;
+    }
+
+    /*#MasterHeader {
+        height: 70px !important;
+    }*/
+}
+
+/* col-sm */
+@media (min-width:768px) and (max-width:991px) {
+    .mh-search {
+        left: 35% !important;
+        width: 50% !important;
+        top: 10px;
+    }
+}
+
+/* col-md y col-lg*/
+@media (min-width:992px) {
+    .mh-search {
+        left: 35% !important;
+        /*width: 40% !important; Ocupa mucho espacio boton de acciones se superpone*/
+        top: 12px;
+    }
+}
+
+
+
+.clientPhrase {
+    background: url("../AysaDAL/Images/logoAysa13.png") no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    height: 60px;
+    cursor: pointer;
+    position: absolute;
+    width: 90%;
+    top: 0;
+    left: 0;
+}
+
+.topheader {
+    background: url("../AysaDAL/Images/logoAysa22.png") no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    height: 100px;
+    cursor: pointer;
+}
+
+.divExternToolbar {
+    background: #5c9ccc url("../AysaDAL/Images/logoAysa.png") repeat-x;
+    border: solid 1px #4297d7;
+    color: #ffffff;
+    display: block;
+    font-family: Verdana;
+    font-size: 10px;
+    font-weight: 700;
+    height: 100%;
+    margin: 0px 0px 1px;
+    padding: 0.1em;
+}
+
+.divToolbar a {
+    color: #ffffff;
+}
+
+.divInternToolbar {
+    border-color: #ffffff;
+    color: #ffffff;
+    display: block;
+    float: left;
+    margin: auto 1.5em auto auto;
+    padding: 0px 0px 0px 1px;
+}
+
+.toolbarButton {
+    background: #dfeffc url("../AysaDAL/images/Button-Default.gif") repeat-x 50% 50%;
+    border: solid 1px #c5dbec;
+    color: #2e6e9e;
+    cursor: pointer;
+    float: left;
+    font-family: Verdana;
+    font-size: 9px;
+    font-weight: 700;
+    left: 412px;
+    margin: 0px 4px 0px 0px;
+    padding: 0.4em 1em;
+    text-decoration: none;
+}
+
+    .toolbarButton:hover {
+        border: 1px solid #79b7e7;
+        background: #d0e5f5 url("../AysaDAL/images/Button-Hover.png") 50% 50% repeat-x;
+        font-weight: bold;
+        color: #1d5987;
+        cursor: pointer;
+        float: left;
+        font-family: Verdana;
+        font-size: 9px;
+        left: 412px;
+        margin: 0px 4px 0px 0px;
+        padding: 0.4em 1em;
+        text-decoration: none;
+    }
+
+.HomeLink {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 10pt;
+}
+
+.tdUser {
+    font-size: 10pt;
+    white-space: nowrap;
+}
+
+
+/*****Agregado  04-11-2011*****/
+#header-Cabezera-Master {
+    display: none;
+}
+
+.header-currentuser {
+    color: #302682;
+}
+
+.header-closesession {
+    display: none;
+}
+
+.header-changepassword {
+    display: none;
+}
+
+.buttonHeader {
+    background-color: #4f6eb0;
+    width: 95px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+    /*float: left;*/
+    margin-left: 2px;
+    margin-right: 2px;
+    color: White;
+    padding-top: 3px;
+    font-size: 100%;
+    font-family: Verdana,Arial,Sans-serif;
+    text-align: left;
+    padding-left: 3px;
+}
+
+    .buttonHeader:hover {
+        color: White;
+        text-decoration: none;
+    }

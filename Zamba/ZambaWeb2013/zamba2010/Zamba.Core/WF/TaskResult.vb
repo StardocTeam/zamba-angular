@@ -20,7 +20,6 @@ Public Class TaskResult
     Private _exclusive As Int32
     Private _asignedToId As Int64 = 0
     Private _asignedById As Int64 = 0
-    Private _usernameAsigned As String = ""
     Private _asignedDate As Date = Nothing
     Private _Variables As Hashtable = New Hashtable()
 #End Region
@@ -116,14 +115,7 @@ Public Class TaskResult
             _asignedToId = value
         End Set
     End Property
-    Public Property Username_Asigned() As String
-        Get
-            Return _usernameAsigned
-        End Get
-        Set(ByVal value As String)
-            _usernameAsigned = value
-        End Set
-    End Property
+
     Public Property AsignedById() As Int64 Implements ITaskResult.AsignedById
         Get
             Return _asignedById
@@ -601,7 +593,6 @@ Public Class GridTaskResult
     End Property
 
     Private _stateId As Int64
-    <PropiedadesType(Propiedades.PropiedadPublica)>
     Public Property StateId() As Int64
         Get
             Return _stateId

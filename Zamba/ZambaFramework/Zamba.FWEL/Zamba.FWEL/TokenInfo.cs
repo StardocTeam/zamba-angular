@@ -13,9 +13,10 @@ namespace Zamba.Core
         public string userName { get; set; }
         public string refreshToken { get; set; } = "";
         public bool useRefreshTokens { get; set; } = false;
-        public string UserId { get; set; }
-
-        public string connectionId { get; set; }
-
+        public Int64 userid { get; set; }
+        public String oktaUrlSignOut { get; set; }
+        public String oktaIdToken { get; set; }
+        public String oktaAccessToken { get; set; }
+        public String oktaRedirectLogout { get; set; }
     }
 }

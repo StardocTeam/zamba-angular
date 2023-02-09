@@ -218,7 +218,6 @@ Public Class OraClientCon
 
 
 #Region "private utility methods & constructors"
-    Private utilities As New utilities()
 
     'Since this class provides only static methods, make the default constructor private to prevent 
     'instances from being created with "new SqlHelper()".

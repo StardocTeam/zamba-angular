@@ -40,7 +40,7 @@ using System.Web.Script.Serialization;
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-
+    [RestAPIAuthorize]
     //[Authorize]
     public class PushNotificationController : ApiController
     {
@@ -49,6 +49,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/PushNotification/GetPlayerID")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult SetPlayerId(int user_id, string player_id)
         {
             try
@@ -66,6 +67,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [Route("api/PushNotification/Sendmessage")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         [HttpPost, HttpGet]
         private void Sendmessage(String Titulo, String Contenido, List<string> players_id, string imageUrl)
         {
@@ -139,7 +141,7 @@ namespace ZambaWeb.RestApi.Controllers
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.Contains("user"))
                         {
                             dataItem = item;
                         }

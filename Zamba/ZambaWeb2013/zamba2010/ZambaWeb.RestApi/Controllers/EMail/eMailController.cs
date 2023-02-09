@@ -13,7 +13,7 @@ using System.Data;
 
 using System.Reflection;
 using Zamba.FileTools;
-using System.IO;
+
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -55,7 +55,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
 
-
+       
 
         private void cleanRuleVariables_Emails()
         {
@@ -158,8 +158,6 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
-
                 //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
                 IUser user = null;
                 if (paramRequest != null)
@@ -171,8 +169,8 @@ namespace ZambaWeb.RestApi.Controllers
 
                     Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
                     System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
-                    ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
 
+                         ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
                     //GetProcessInfo
                     EmailBusiness EB = new EmailBusiness();
                     List<IDTOObjectImap> imapProcessList = new List<IDTOObjectImap>();
@@ -182,32 +180,25 @@ namespace ZambaWeb.RestApi.Controllers
                         DTOObjectImap item = new DTOObjectImap(row);
                         imapProcessList.Add(item);
                     }
-
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ejecutara " + imapProcessList.Count + " proceso/s.");
-
                     e.InsertEmailsInZamba(imapProcessList, (Object)new Results_Business());
 
+
+                    //Devolver OK
                     return Ok();
                 }
-                else
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsWarning, "No hay parametros en la solicitud.");
-                }
-
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                 throw new Exception(ex.ToString());
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.ToString())));
             }
         }
 
+       
 
-
-
-
+       
         [AcceptVerbs("GET", "POST")]
         [Route("ExecuteRuleForEmails")]
         public IHttpActionResult ExecuteRuleForEmails(genericRequest paramRequest)
@@ -228,7 +219,7 @@ namespace ZambaWeb.RestApi.Controllers
                     System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
 
                     ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
-                    List<IListEmail> listEmail = e.GetEMailsFromServer(paramRequest.Params);
+                    List<IListEmail> listEmail =  e.GetEMailsFromServer(paramRequest.Params);
 
                     TasksController MyTaskcontroller = new TasksController();
 
@@ -255,16 +246,16 @@ namespace ZambaWeb.RestApi.Controllers
                         VariablesInterReglas.Add("UniqueId", item.UniqueId);
 
                         VariablesInterReglas.Add("Attachments_Count", item.Attachments_Count);
-                        // VariablesInterReglas.Add("Attachments", item.Attachments);
+                       // VariablesInterReglas.Add("Attachments", item.Attachments);
 
                         VariablesInterReglas.Add("Message", item);
 
                         IHttpActionResult Obj_ExecutedRule = MyTaskcontroller.PrivEx(paramRequest);
 
-                        // item.Attachments.Clear();
+                       // item.Attachments.Clear();
                     }
 
-
+                    
                     return Ok();
                 }
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
@@ -276,46 +267,6 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.ToString())));
             }
         }
-        [AcceptVerbs("GET", "POST")]
-        [Route("GetMailBody")]
-        public IHttpActionResult GetMailBody(genericRequest paramRequest)
-        {
-            int id = Convert.ToInt32(paramRequest.Params["ID"].ToString());
-            SendMailConfig mail = MessagesBusiness.GetMessage(id);
-            if (mail.OriginalDocument == null)
-            {
-
-                string cadena = File.ReadAllText(mail.OriginalDocumentFileName,System.Text.Encoding.UTF8);
-                mail.Body = cadena;
-            }
-            else {
-
-                mail.Body = System.Text.Encoding.Default.GetString(mail.OriginalDocument);
-
-            }
-
-            String Subject = mail.Subject;
-            String CC = mail.Cc;
-            String CCo = mail.Cco;
-            String MailtTo = mail.MailTo;
-            DateTime MailDateTime = mail.MailDateTime;
-            String ResponseHTML = "";
-            String TempPath = System.Configuration.ConfigurationManager.AppSettings["ZambaSofwareAppDataPath"] + "\\Temp";
-            if (mail.OriginalDocumentFileName.EndsWith(".msg")){
-                if (!Directory.Exists(TempPath))
-                    Directory.CreateDirectory(TempPath);
-                mail.OriginalDocumentFileName = "Z_MAIL_HISTORY_" + paramRequest.UserId + "_" + id.ToString() + ".msg";
-                Stream writingStream = new FileStream(TempPath + "\\" + mail.OriginalDocumentFileName, System.IO.FileMode.Create);
-                writingStream.Write(mail.OriginalDocument, 0, mail.OriginalDocument.Length);
-                writingStream.Close();
-                writingStream.Dispose();
-            }
-            else
-            {
-                mail.Body = mail.Body.Replace("<a ", "<a target='_blank' ");
-            }
-            return Ok(mail);
-        }
 
         [AcceptVerbs("GET", "POST")]
         [Route("GetEmails")]
@@ -324,7 +275,6 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Iniciado obtenicion de correos para mostrar.");
                 IUser user = null;
                 if (paramRequest != null)
                 {
@@ -332,24 +282,13 @@ namespace ZambaWeb.RestApi.Controllers
                     if (user == null)
                         return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
                             new HttpError(StringHelper.InvalidUser)));
-
-                    if (paramRequest.Params["GenericInbox"].ToString() == "true")
-                    {
-
-                        Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
-                        string CasillaGenericaImap = zopt.GetValue("CasillaGenericaImap");
-
-                        var newUser = CasillaGenericaImap + "\\" + paramRequest.Params["UserName"] + "\\" + paramRequest.Params["EMAIL"];
-                        paramRequest.Params["UserName"] = newUser;
-
-                    }
-
+                    
                     Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
                     System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
 
                     ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
 
-                    List<IListEmail> listEmail = e.GetEMailsFromServer(paramRequest.Params);
+                    List<IListEmail> listEmail =  e.GetEMailsFromServer(paramRequest.Params);
 
                     string json = JsonConvert.SerializeObject(listEmail, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
 
@@ -358,19 +297,23 @@ namespace ZambaWeb.RestApi.Controllers
                 }
                 else
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsWarning, "No hay parametros en la solicitud.");
+                    ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]: Fallo la conexion al Exchange:" + "No hay parametros disponibles");
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No hay parametros disponibles")));
                 }
+
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.Message.ToString())));
-                //throw new Exception(ex.ToString());
+
+                throw new Exception(ex.ToString());
+
             }
         }
 
-
+      
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("ImportProcessImap")]
@@ -424,7 +367,6 @@ namespace ZambaWeb.RestApi.Controllers
                         Id_usuario = Convert.ToInt64(paramRequest.Params["USER_ID"]),
                         Password = paramRequest.Params["USER_PASSWORD"],
                         Is_Active = Convert.ToInt64(paramRequest.Params["IS_ACTIVE"]),
-                        GenericInbox = Convert.ToInt64(paramRequest.Params["GenericInbox"]),
 
                         // SM: Panel 2
                         Direccion_servidor = paramRequest.Params["IP_ADDRESS"],
@@ -433,16 +375,15 @@ namespace ZambaWeb.RestApi.Controllers
                         Filtrado = Convert.ToInt64(paramRequest.Params["HAS_FILTERS"]),
 
                         // SM: Panel 3
-                        Carpeta = paramRequest.Params["FOLDER_NAME"],
-                        CarpetaDest = paramRequest.Params["FOLDER_NAME_DEST"],
-                        Filtro_campo = paramRequest.Params["FILTER_FIELD"] == null ? "" : paramRequest.Params["FILTER_FIELD"],
-                        Filtro_valor = paramRequest.Params["FILTER_VALUE"] == null ? "" : paramRequest.Params["FILTER_VALUE"],
+                        Filtro_campo = paramRequest.Params["FILTER_FIELD"] == null ? "": paramRequest.Params["FILTER_FIELD"],
+                        Filtro_valor = paramRequest.Params["FILTER_VALUE"] == null ? "": paramRequest.Params["FILTER_VALUE"],
                         Filtro_recientes = Convert.ToInt64(paramRequest.Params["FILTER_RECENTS"]),
                         Filtro_noleidos = Convert.ToInt64(paramRequest.Params["FILTER_NOT_READS"]),
                         Exportar_adjunto_por_separado = Convert.ToInt64(paramRequest.Params["EXPORT_ATTACHMENTS_SEPARATELY"]),
 
                         // SM: Panel 4
                         Asunto = Convert.ToInt64(paramRequest.Params["SUBJECT"]),
+                        Carpeta = paramRequest.Params["FOLDER_NAME"],
                         Entidad = Convert.ToInt64(paramRequest.Params["ENTITY_ID"]),
                         Enviado_por = Convert.ToInt64(paramRequest.Params["SENT_BY"]),
                         Fecha = Convert.ToInt64(paramRequest.Params["FIELD_DATE"]),
@@ -480,7 +421,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.ToString())));
             }
-
+            
         }
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -492,17 +433,16 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 if (paramRequest != null)
                 {
-                    if (paramRequest.Params.ContainsKey("PROCESS_ID"))
-                    {
+                    if (paramRequest.Params.ContainsKey("PROCESS_ID")) {
                         var isActive = Convert.ToInt64(paramRequest.Params["IS_ACTIVE"]);
                         var processId = Convert.ToInt64(paramRequest.Params["PROCESS_ID"]);
 
                         EmailBusiness EB = new EmailBusiness();
-                        EB.SetProcessActiveState(processId, isActive);
-
+                        EB.SetProcessActiveState(processId,isActive);
+                        
                     }
-
-
+                    
+                    
                 }
                 return Ok("Se proceso correctamente");
             }
@@ -547,23 +487,12 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                if (paramRequest.Params["GenericInbox"].ToString() == "true")
-                {
-
-                    Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
-                    string CasillaGenericaImap = zopt.GetValue("CasillaGenericaImap");
-
-                    var newUser = CasillaGenericaImap + "\\" + paramRequest.Params["UserName"] + "\\" + paramRequest.Params["EMAIL"];
-                    paramRequest.Params["UserName"] = newUser;
-
-                }
-
                 Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
                 System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
 
                 ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
-                e.ConnectToExchange(paramRequest.Params);
-
+                  e.ConnectToExchange(paramRequest.Params);
+               
 
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comprobacion de conexion al Exchange exitosa.");
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, new HttpError("Conexion exitosa!.")));
@@ -589,8 +518,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                     var newresults = JsonConvert.SerializeObject(
                         result, Formatting.Indented,
-                        new JsonSerializerSettings
-                        {
+                        new JsonSerializerSettings {
                             PreserveReferencesHandling = PreserveReferencesHandling.Objects
                         });
 

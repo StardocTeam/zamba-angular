@@ -27,11 +27,11 @@
 <body class="body-TaskHistory">
     <form id="form2" runat="server">
         <div id="divButtons">
-            <button id="btnRefresh" type="button" class="btn btn-default btn-xs"  onclick="Refresh_Click()" style="margin:5px;visibility:hidden">
+            <button id="btnRefresh" type="button" class="btn btn-default btn-xs"  onclick="Refresh_Click()" style="margin:5px">
                 <span class="glyphicon glyphicon-refresh"></span> Refrescar                                   
             </button>
         </div>
-        <div id="divGrid" style="overflow:auto;width:100%;height:23em">
+        <div id="divGrid" style="overflow:auto;width:100%">
             <uc1:ucHistoryGrid ID="ucMails" runat="server" />
         </div>
     </form>
@@ -42,27 +42,17 @@
             $("#ucMails_formBrowser").height(500);
         });
 
-
         function Refresh_Click() {
             ShowLoadingAnimation();
             document.location = document.location;
         }
 
         $(window).on("load",function () {
-            //var screenHeight = $(window).height() - $("#divButtons").outerHeight(true);
-            //$("#divGrid").height(screenHeight);
+            var screenHeight = $(window).height() - $("#divButtons").outerHeight(true);
+            $("#divGrid").height(screenHeight);
             parent.parent.hideLoading();
             //hideLoading();
-
-            var rdo = window.innerHeight - 106
-           /* $("#divGrid").height(rdo);*/
         });
-
-        $(window).on("resize", function () {
-            var rdo = window.innerHeight - 106
-            /*$("#divGrid").height(rdo);*/
-        });
-
     </script>
 </body>
 </html>

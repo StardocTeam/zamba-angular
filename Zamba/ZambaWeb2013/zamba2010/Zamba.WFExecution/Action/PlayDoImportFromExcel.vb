@@ -57,7 +57,7 @@ Public Class PlayDoImportFromExcel
                     If Me._myrule.UseSpireConverter Then
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Abriendo Excel con Spire.")
                         Me._ds = New DataTable()
-                        Dim sp As New Zamba.FileTools.SpireTools
+                        Dim sp As New SpireTools
 
                         Me._ds = sp.GetExcelAsDataSet(Me._excelFile, _sheetName) '.Tables(0)
 
@@ -188,7 +188,7 @@ Public Class PlayDoImportFromExcel
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Usa Spire:" & Me._myrule.UseSpireConverter.ToString())
                 If Me._myrule.UseSpireConverter Then
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "Abriendo Excel con Spire.")
-                    Dim sp As New Zamba.FileTools.SpireTools
+                    Dim sp As New SpireTools
                     _ds = sp.GetExcelAsDataSet(Me._excelFile)
 
                     _ds.Columns(0).ColumnName = "Nombre del Prospecto"

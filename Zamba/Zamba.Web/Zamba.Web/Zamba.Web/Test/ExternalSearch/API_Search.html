@@ -63,7 +63,8 @@
     <div class="container-fluid">
         <div class="page-header">
             <h1><small>External Search</small></h1>
-            <img src="../../content/images/logozamba.jpg" height="45" class="imgclass" width="135" longdesc="Probando imagen abajo y en el centro" />
+            <img src="../../forms/Provincia/images/zamba_BPM_color.jpg" height="45" class="imgclass" width="135" longdesc="Probando imagen abajo y en el centro" />
+
         </div>
 
         <div class="col-md-12">
@@ -76,13 +77,13 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-6">
                     <span class="label label-danger">Importante!</span>
-                    <br/>
+                    </br>
                     <span style="color: #777;"> Se debe colocar el url del servidor. Ejemplo:</span>
-                    <br/>
+                    </br>
                     <span style="color: #777;"><strong>DESARROLLO:</strong> https://imageapd/Zamba.RestApi</span>
-                    <br/>
+                    </br>
                     <span style="color: #777;"><strong>TEST:</strong> http://imageapt/Zamba.RestApi</span>
-                    <br/>
+                    </br>
                     <span style="color: #777;"><strong>PRD:</strong> https://imageapp/Zamba.RestApi</span>
                 </div>
             </div>
@@ -202,17 +203,7 @@
                                 <span class="badge" data-toggle="tooltip" title="Para el ejemplo se deja ingresar un indice id y data, pero se debe enviar una coleccion de indices.">?</span>
                                 <input id="indexData" placeholder="Ingrese su indexData" class="form-control" />
                             </div>
-                            <div class="form-group ">
-                                <span>indexID2: </span>
-                                <span class="badge" data-toggle="tooltip" title="Para el ejemplo se deja ingresar un indice id y data, pero se debe enviar una coleccion de indices.">?</span>
-                                <input id="indexID2" placeholder="Ingrese su indexID2" class="form-control" />
 
-                            </div>
-                            <div class="form-group">
-                                <span>indexData2: </span>
-                                <span class="badge" data-toggle="tooltip" title="Para el ejemplo se deja ingresar un indice id y data, pero se debe enviar una coleccion de indices.">?</span>
-                                <input id="indexData2" placeholder="Ingrese su indexData2" class="form-control" />
-                            </div>
                             <div class="form-group">
                                 <button id="btn-search" class="btn btn-primary btn-md">Busqueda</button>
                             </div>
@@ -340,69 +331,8 @@
                 </div>
             </div>
 
-            <button class="accordion">Editar Atributo en documento</button>
-            <div class="panel">
 
-                <div class="container" style="margin-top:10px">
-                    <div class="form-horizontal">
-                        <div class="">
-                            Este metodo permite editar un atributo de un documento de la lista de resultados.
-                        </div>
-                    </div>
-
-                    <br />
-
-                    <div class="form-horizontal">
-                        <div class=" col-md-4">
-                            <div class="form-group">
-                                <span>token: </span>
-                                <span class="badge" data-toggle="tooltip" title="Es el token recibido como respuesta del Login">?</span>
-                                <input id="TokeneditIDs" placeholder="Ingrese su token" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <span>UserID: </span>
-                                <span class="badge" data-toggle="tooltip" title="Es el id del usuario recibido como respuesta del Login">?</span>
-                                <input id="UserEditID" placeholder="Ingrese su UserID" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <span>ID Documento: </span>
-                                <span class="badge" data-toggle="tooltip" title="Es el ID de documento a borrar">?</span>
-                                <input id="EditID" placeholder="Ingrese su id" class="form-control" />
-                            </div>
-                            <div class="form-group ">
-                                <span>indexID: </span>
-                                <span class="badge" data-toggle="tooltip" title="Para el ejemplo se deja ingresar un indice id y data, pero se debe enviar una coleccion de indices.">?</span>
-                                <input id="indexEditID" placeholder="Ingrese su indexID" class="form-control" />
-
-                            </div>
-                            <div class="form-group">
-                                <span>indexData: </span>
-                                <span class="badge" data-toggle="tooltip" title="Para el ejemplo se deja ingresar un indice id y data, pero se debe enviar una coleccion de indices.">?</span>
-                                <input id="indexEditData" placeholder="Ingrese su indexData" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <button id="btn-editDoc" class="btn btn-info btn-md">Editar Atributo</button>
-                            </div>
-                        </div>
-
-                        <div class="col-md-1">
-
-                        </div>
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <span>Request:</span>
-                                <textarea id="editFileRequest" class="form-control Textarea1" aria-label="With textarea"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <span>Response:</span>
-                                <textarea id="editFileResult" class="form-control Textarea2" aria-label="With textarea"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button class="accordion">Cierre de sesión</button>
+            <button class="accordion">Cierre de session</button>
             <div class="panel">
                 <div class="container" style="margin-top:10px">
 
@@ -534,11 +464,9 @@
     $("#btn-search").click(function () {
 
 
-        var _DoctypesIds = $("#DoctypesIds").val();
-        var _indexData = $("#indexData").val();
-        var _indexID = $("#indexID").val();
-        var _indexData2 = $("#indexData2").val();
-        var _indexID2 = $("#indexID2").val();
+        var _DoctypesIds = $("#DoctypesIds").val();;
+        var _indexData = $("#indexData").val();;
+        var _indexID = $("#indexID").val();;
         var _token = $("#TokenSearchID").val();
         var _userId = $("#UserID").val();
         var DominioUrl = $("#urlSite").val();
@@ -547,7 +475,7 @@
         var data = {
             ExternUserID: _userId,
             DoctypesIds: [_DoctypesIds],
-            Indexs: [{ "id": _indexID, "data": _indexData }, { "id": _indexID2, "data": _indexData2 }]
+            Indexs: [{ "id": _indexID, "data": _indexData }]
         }
 
         $("#searchRequest").text(JSON.stringify(data));
@@ -565,7 +493,6 @@
                 if (data != "" && data != "null" && data != "undefined") {
                     $("#SearchID").val(data[0].ID);
                     $("#DeleteID").val(data[0].ID);
-                    $("#EditID").val(data[0].ID);
                 }
 
             },
@@ -653,45 +580,6 @@
         });
     });
 
-    $("#btn-editDoc").click(function () {
-
-        var _token = $("#TokeneditIDs").val();
-        var _EditID = $("#EditID").val();
-        var _userId = $("#UserEditID").val();
-        var DominioUrl = $("#urlSite").val();
-        var _indexData = $("#indexEditData").val();
-        var _indexID = $("#indexEditID").val();
-
-        //var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/EditDocFile";
-        var apiUrl = DominioUrl + "/api/ExternalSearch/EditDoc";
-        
-
-        var data = {
-            ExternUserID: _userId,
-            Indexs: [{ "id": _indexID, "data": _indexData }],
-            Id: _EditID,
-        }
-
-
-        $("#editFileRequest").text(JSON.stringify(data));
-
-
-        $.ajax({
-            type: "post",
-            url: apiUrl,
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            crossDomain: true,
-            headers: { "Authorization": _token },
-            success: function (data) {
-                $("#editFileResult").text(JSON.stringify(data));
-            },
-            error: function (data) {
-
-                $("#editFileResult").text(JSON.stringify(data));
-            }
-        });
-    });
 
     $("#btn-endSession").click(function () {
 
@@ -731,7 +619,6 @@
             $("#TokenSearchID").val(resultToken);
             $("#TokenSearchIDs").val(resultToken);
             $("#TokenDeleteIDs").val(resultToken);
-            $("#TokeneditIDs").val(resultToken);
         }
 
         var resultID = data.userID;
@@ -740,7 +627,6 @@
             $("#UserID").val(resultID);
             $("#UserIDclose").val(resultID);
             $("#UserDeleteID").val(resultID);
-            $("#UserEditID").val(resultID);
 
         }
 

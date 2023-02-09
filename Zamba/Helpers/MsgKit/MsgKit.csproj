@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;</TargetFrameworks>
+    <TargetFrameworks>net45;</TargetFrameworks>
     <Version>2.4.3</Version>
     <Description>MsgKit is a 100% managed C# .NET library (no PINVOKE or whatsoever) which may be used for the creation of messages (E-Mail, Appointments, Journals and Stickey Notes) that are Outlook compatible</Description>
     <Authors>Kees van Spelde</Authors>
@@ -23,15 +23,15 @@
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net48|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\MsgKit.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
     <DocumentationFile>bin\$(Configuration)\MsgKit.xml</DocumentationFile>
   </PropertyGroup>
   
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net48'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45'">
     <PackageReference Include="MimeKit" Version="2.10.1" />
     <PackageReference Include="OpenMcdf" Version="2.2.1.9" />
   </ItemGroup>

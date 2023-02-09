@@ -38,10 +38,10 @@
 </div>
 <div class="row">
     <div class="col-xs-12" style="margin-top:15px">
-        <asp:Button ID="_btnok" Text="Aceptar" CssClass="btn btn-success btn-xs" runat="server" Width="102px" height= "35px" OnClick="_btnOk_Click" 
-            UseSubmitBehavior="false" ToolTip="Aceptar" />
-        <asp:Button ID="_btnCancel" Text="Cancelar" CssClass="btn btn-primary btn-xs" runat="server" Width="102px" height= "35px" UseSubmitBehavior="false" 
-            OnClick="_btnCancel_Click" ToolTip="Cancelar" />
+        <asp:Button ID="_btnok" Text="Aceptar" CssClass="btn btn-success btn-xs" runat="server" Width="97px" OnClick="_btnOk_Click" 
+            UseSubmitBehavior="false" />
+        <asp:Button ID="_btnCancel" Text="Cancelar" CssClass="btn btn-info btn-xs" runat="server" Width="102px" UseSubmitBehavior="false" 
+            OnClick="_btnCancel_Click" />
     </div>
 </div>
 
@@ -55,15 +55,15 @@
 
     function SetListFilters() {
         //Obtiene todos los tags select
-        //$('select:not(:disabled)').each(function () {
-        //    //Verifica que lo que encontro sea un índice
-        //    if ($(this).attr('id') != undefined && $(this).attr('id').toLowerCase().indexOf('showdorequestdata_') > -1 && !$(this).hasClass("readonly") && $(this).css('display') != 'none' ) {
-        //        //Agrega la lupa para filtrar y buscar valores
-        //        $(this)//.attr('id').onclick(CreateTable(this, false));
-        //            .click(function () { CreateTable(this, false) });
-        //        AddFilter($(this).attr('id'), false);
-        //    }
-        //});
+        $('select:not(:disabled)').each(function () {
+            //Verifica que lo que encontro sea un índice
+            if ($(this).attr('id') != undefined && $(this).attr('id').toLowerCase().indexOf('showdorequestdata_') > -1 && !$(this).hasClass("readonly") && $(this).css('display') != 'none' ) {
+                //Agrega la lupa para filtrar y buscar valores
+                $(this)//.attr('id').onclick(CreateTable(this, false));
+                    .click(function () { CreateTable(this, false) });
+                AddFilter($(this).attr('id'), false);
+            }
+        });
     }
 
     function CreateTable(obj, codecolumn) {

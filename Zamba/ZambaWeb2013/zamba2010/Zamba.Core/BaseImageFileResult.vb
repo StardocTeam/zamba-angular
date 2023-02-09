@@ -152,16 +152,13 @@ Imports System.Web
             _encodedFile = value
         End Set
     End Property
-    Public Property MimeType() As String Implements IBaseImageFileResult.MimeType
+    Public ReadOnly Property MimeType() As String Implements IBaseImageFileResult.MimeType
         Get
             If String.IsNullOrEmpty(_mimeType) Then
                 _mimeType = GetMimeType()
             End If
             Return _mimeType
         End Get
-        Set(value As String)
-            _mimeType = value
-        End Set
     End Property
 #End Region
 

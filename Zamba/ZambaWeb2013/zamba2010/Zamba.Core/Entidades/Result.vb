@@ -289,8 +289,8 @@ Imports Zamba.Core
             End If
             Try
                 Dim Fi As New FileInfo(FullPath)
-                If String.Compare(Fi.Extension.ToUpper, ".PPT") = 0 OrElse
-                String.Compare(Fi.Extension.ToUpper, ".PPTX") = 0 OrElse
+                If String.Compare(Fi.Extension.ToUpper, ".PPT") = 0 OrElse _
+                String.Compare(Fi.Extension.ToUpper, ".PPTX") = 0 OrElse _
                 String.Compare(Fi.Extension.ToUpper, ".POT") = 0 Then
                     Return True
                 Else
@@ -302,25 +302,6 @@ Imports Zamba.Core
             End Try
         End Get
     End Property
-    Public ReadOnly Property IsXPS() As Boolean Implements IResult.IsXPS
-        Get
-            If Me.ISVIRTUAL Then
-                Return False
-            End If
-            Try
-                Dim Fi As New FileInfo(FullPath)
-                If String.Compare(Fi.Extension.ToUpper, ".XPS") = 0 Then
-                    Return True
-                Else
-                    Return False
-                End If
-            Catch ex As Exception
-                raiseerror(ex)
-                Return False
-            End Try
-        End Get
-    End Property
-
     Public ReadOnly Property IsPDF() As Boolean Implements IResult.IsPDF
         Get
             If Me.ISVIRTUAL Then
@@ -347,29 +328,9 @@ Imports Zamba.Core
                 End If
 
                 Dim Fi As New FileInfo(FullPath)
-                If String.Compare(Fi.Extension.ToUpper, ".XLS") = 0 OrElse
-                String.Compare(Fi.Extension.ToUpper, ".XLSX") = 0 OrElse
+                If String.Compare(Fi.Extension.ToUpper, ".XLS") = 0 OrElse _
+                String.Compare(Fi.Extension.ToUpper, ".XLSX") = 0 OrElse _
                 String.Compare(Fi.Extension.ToUpper, ".XLT") = 0 Then
-                    Return True
-                Else
-                    Return False
-                End If
-
-            Catch ex As Exception
-                raiseerror(ex)
-                Return False
-            End Try
-        End Get
-    End Property
-    Public ReadOnly Property IsCSV() As Boolean Implements IResult.IsCSV
-        Get
-            Try
-                If Me.ISVIRTUAL Then
-                    Return False
-                End If
-
-                Dim Fi As New FileInfo(FullPath)
-                If String.Compare(Fi.Extension.ToUpper, ".CSV") = 0 Then
                     Return True
                 Else
                     Return False
@@ -400,7 +361,7 @@ Imports Zamba.Core
             End Try
         End Get
     End Property
-    Public ReadOnly Property IsHTML() As Boolean Implements IResult.IsHTML
+    Public ReadOnly Property IsHtml() As Boolean Implements IResult.IsHTML
         Get
             Try
                 If Me.ISVIRTUAL Then
@@ -507,7 +468,7 @@ Imports Zamba.Core
             Return String.Empty
         End Get
     End Property
-    <PropiedadesType(Propiedades.PropiedadPublica)>
+    <PropiedadesType(Propiedades.PropiedadPublica)> _
     Public Property CurrentFormID() As Int64 Implements IResult.CurrentFormID
         Get
             Return m_CurrentFormID
@@ -516,9 +477,6 @@ Imports Zamba.Core
             m_CurrentFormID = value
         End Set
     End Property
-    <PropiedadesType(Propiedades.PropiedadPublica)>
-    Public Property ModalFormID() As Int64 Implements IResult.ModalFormID
-
     Public Property IsOpen() As Boolean Implements IPrintable.IsOpen
         Get
             Return _isopen
@@ -827,7 +785,7 @@ Imports Zamba.Core
 
     Public Property DocumentalId As Integer Implements IResult.DocumentalId
 
-    <PropiedadesType(Propiedades.PropiedadPublica)>
+
     Public Property PreviusFormID As Long Implements IResult.PreviusFormID
 
 

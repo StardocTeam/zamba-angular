@@ -8,9 +8,9 @@
     <fieldset title="Listado de Atributos"  enableviewstate="true" style="margin-top:10px; padding-left:10px; padding-right:10px; border: 0px !important;"  >
         <table title="Listado de Atributos" style="width: 17%;margin-bottom: 30px;margin-left: 30px;">
             <tr>
-                 <td style="width: 55%;background-color:#eee">
+                 <td style="width: 55%">
                     <asp:LinkButton ID="btnSaveChanges" runat="server" Height="32px" Font-Overline="false"
-                        CssClass=" btn btn-info "  OnClick="SaveIndexChanges_Click" ToolTip="Guardar cambios realizados" Visible="true" style="-webkit-box-shadow: 2px 2px 5px #999;-moz-box-shadow: 2px 2px 5px #999;margin-right: 130px;">
+                        CssClass=" btn btn-info "  OnClick="SaveIndexChanges_Click" ToolTip="Guardar cambios realizados" Visible="true" style="-webkit-box-shadow: 2px 2px 5px #999;-moz-box-shadow: 2px 2px 5px #999;margin-right: 130px;margin-left: -16px;">
                         <asp:ImageButton ID="btnSaveImage"  runat="server" Height="16px" Enabled="true" style="display:none !important" />
                         <span style="cursor: pointer">Guardar</span>
                     </asp:LinkButton>

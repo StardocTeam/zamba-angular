@@ -1072,7 +1072,7 @@ public class FormControlsController
     {
         get
         {
-            return @"http://" +  @"/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+            return @"http://" +  @"/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}&token={3}";
         }
     }
 

@@ -97,21 +97,5 @@ namespace Zamba.Web.Helpers
             return protocol;
         }
 
-        public static string getValueFromWebConfig(string key)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(key))
-                {
-                    return string.Empty;
-                }
-                return System.Web.Configuration.WebConfigurationManager.AppSettings[key];
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-        }
-
     }
 }

@@ -134,7 +134,23 @@ Public NotInheritable Class ZTrace
         zTraceSw.Level = DirectCast(level, TraceLevel)
     End Sub
 
-
+    ''' <summary>
+    ''' Create a new listener and assign the tracing level.
+    ''' </summary>
+    ''' <param name="level">Trace level</param>
+    ''' <param name="zModuleName">Módule name</param>
+    ''' <history>
+    '''     [Tomas] - 04/06/2009 - Created 
+    ''' </history>
+    Public Shared Sub SetLevel(ByVal level As TraceLevel, ByVal zModuleName As String)
+        'Crea el listener
+        If level <> 0 Then
+            AddListener(zModuleName)
+            Zamba.AppBlock.ZException.ModuleName = zModuleName
+        End If
+        'Asigna el nivel de trace
+        zTraceSw.Level = level
+    End Sub
 
     ''' <summary>
     ''' Create a new listener and in the log name it adds the module name.
@@ -487,7 +503,7 @@ Public NotInheritable Class ZTrace
 
     End Function
 
-    Public Shared Function GetKey() As String
+    Private Shared Function GetKey() As String
         If Membership.MembershipHelper.isWeb Then
             Dim SessionName As String = String.Empty
             If Membership.MembershipHelper.CurrentUser IsNot Nothing Then

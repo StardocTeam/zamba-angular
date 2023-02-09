@@ -289,9 +289,9 @@ Public Class AutoSubstitutionDataFactory
                 Dim Tabla As String = "SLST_S" & indexId
                 Dim strselect As String
                 If Server.isOracle = True Then
-                    strselect = "Select Codigo, replace(DESCRIPCION,'''', ' ') as DESCRIPCION from " & Tabla & " Where Codigo = '" & code & "'"
+                    strselect = "Select trim(Codigo), replace(DESCRIPCION,'''', ' ') as DESCRIPCION from " & Tabla & " Where trim(Codigo)='" & code & "'"
                 Else
-                    strselect = "Select Codigo, replace(DESCRIPCION, '''', ' ') as DESCRIPCION from " & Tabla & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  Where Codigo = '" & code & "'"
+                    strselect = "Select ltrim(rtrim(Codigo)), replace(DESCRIPCION, '''', ' ') as DESCRIPCION from " & Tabla & " Where ltrim(rtrim(Codigo))='" & code & "'"
                 End If
                 Dim con As IConnection = Server.Con(True, True, True)
                 Try
@@ -336,9 +336,9 @@ Public Class AutoSubstitutionDataFactory
                 Dim Tabla As String = "SLST_S" & indexId
                 Dim strselect As String
                 If Server.isOracle = True Then
-                    strselect = "Select Codigo, replace(DESCRIPCION,'''', ' ') as DESCRIPCION from " & Tabla & " Where Descripcion ='" & code & "'"
+                    strselect = "Select trim(Codigo), replace(DESCRIPCION,'''', ' ') as DESCRIPCION from " & Tabla & " Where trim(Descripcion) ='" & code & "'"
                 Else
-                    strselect = "Select Codigo, replace(DESCRIPCION, '''', ' ') as DESCRIPCION from " & Tabla & " " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  Where Descripcion ='" & code & "'"
+                    strselect = "Select ltrim(rtrim(Codigo)), replace(DESCRIPCION, '''', ' ') as DESCRIPCION from " & Tabla & " Where ltrim(rtrim(Descripcion)) ='" & code & "'"
                 End If
 
                 Dim codeObj = con.ExecuteScalar(CommandType.Text, strselect)

@@ -12,8 +12,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="boston_styles.css" type="text/css" />
     <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
-     
-    <!--  -->
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+    <!-- <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script> -->
 
     <script src="boston.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
@@ -38,19 +38,19 @@
 <body>
     <div class="container-fluid">
         <form name="frmMain" action="Resumen.html" method="POST">
-            <div>
+            <div style="font-family:'Times New Roman', Times, serif">
 
                 <input id="hdnRuleId" type="hidden" />
                 <input id="hdnAsocId" type="hidden" />
 
-                <div >
+                <div class="attributes_table">
                     <div class="form-group row"></div>
 
                     <div class="form-group row">
 
                         <div class="col-md-9">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Carátula:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Carátula:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2701" name="zamba_ASOC_2523_index_2701"
                                     readonly="readonly">
@@ -58,7 +58,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Nro Jui/Med:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Nro Jui/Med:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2695" name="zamba_ASOC_2523_index_2695"
                                     readonly="readonly" />
@@ -69,14 +69,14 @@
 
                         <div class="col-md-5">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Sección:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Sección:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_32" name="zamba_ASOC_2523_index_32" readonly="readonly" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Monto Reclamo: $</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Monto Reclamo: $</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2691" name="zamba_ASOC_2523_index_2691"
                                     readonly="readonly">
@@ -84,7 +84,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Ejercicio:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Ejercicio:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2736" name="zamba_ASOC_2523_index_2736"
                                     readonly="readonly" />
@@ -95,7 +95,7 @@
 
                         <div class="col-md-5">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Jurisdicción:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Jurisdicción:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2685" name="zamba_ASOC_2523_index_2685"
                                     readonly="readonly">
@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Nro de
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Nro de
                                     Siniestro:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_1147" name="zamba_ASOC_2523_index_1147"
@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Nro de
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Nro de
                                     Subsiniestro:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2694" name="zamba_ASOC_2523_index_2694"
@@ -125,7 +125,7 @@
 
                         <div class="col-md-5">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Asegurado:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Asegurado:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_3" name="zamba_ASOC_2523_index_3" readonly="readonly">
                             </div>
@@ -133,7 +133,7 @@
 
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Estudio
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Estudio
                                     Principal:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2732" name="zamba_ASOC_2523_index_2732"
@@ -143,7 +143,7 @@
 
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Nro de Item:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Nro de Item:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_14" name="zamba_ASOC_2523_index_14" readonly="readonly" />
                             </div>
@@ -153,7 +153,7 @@
 
                         <div class="col-md-5">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Franquicia: $</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Franquicia: $</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2699" name="zamba_ASOC_2523_index_2699"
                                     readonly="readonly">
@@ -162,7 +162,7 @@
 
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Estado Procesal
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Estado Procesal
                                     Boston:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2740" name="zamba_ASOC_2523_index_2740"
@@ -172,7 +172,7 @@
 
                         <div class="col-md-3">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Fecha
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Fecha
                                     Ocurrencia:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2683" name="zamba_ASOC_2523_index_2683"
@@ -187,7 +187,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <span class="input-group-addon" style="">Hechos</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Hechos</span>
                             </div>
                         </div>
 
@@ -206,10 +206,10 @@
 
                         <div class="form-group">
                             <div class="col-md-6">
-                                <span class="input-group-addon" style="">Autor</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Autor</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="input-group-addon" style="">Causa Penal</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Causa Penal</span>
                             </div>
                         </div>
 
@@ -233,11 +233,11 @@
 
                         <div class="form-group">
                             <div class="col-md-6">
-                                <span class="input-group-addon" style="">Analisis de
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Analisis de
                                     Responsabilidad del Asegurado</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="input-group-addon" style="">Pericia Medica</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Pericia Medica</span>
                             </div>
                         </div>
 
@@ -261,10 +261,10 @@
 
                         <div class="form-group">
                             <div class="col-md-6">
-                                <span class="input-group-addon" style="">Testigos</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Testigos</span>
                             </div>
                             <div class="col-md-6">
-                                <span class="input-group-addon" style="">Sugerencias</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Sugerencias</span>
                             </div>
                         </div>
 
@@ -291,7 +291,7 @@
                     <div class="form-group row">
                         <div class="col-md-2">
                             <div class="input-group">
-                                <span class="input-group-addon" style="   padding: 2px;">Reserva:
+                                <span class="input-group-addon" style="background-color:#e5e5e5; padding: 2px;">Reserva:
                                     $</span>
                                 <input class="form-control input-sm moneda"
                                     style=" color: #090A0A; font-weight: bold; padding: 2px;" id="zamba_index_2780"
@@ -301,9 +301,9 @@
 
                         <div class="col-md-2">
                             <div class="input-group">
-                                <span class="input-group-addon" style="   padding: 2px;">Fecha de
+                                <span class="input-group-addon" style="background-color:#e5e5e5; padding: 2px;">Fecha de
                                     Reserva:</span>
-                                <input class="form-control "
+                                <input class="form-control datepicker"
                                     style=" color: #090A0A; font-weight: bold; padding: 2px;" id="zamba_index_2784"
                                     name="zamba_index_2784" onblur="valFecha(this)">
                             </div>
@@ -312,7 +312,7 @@
                         <div class="col-md-2">
                             <div class="input-group">
                                 <span class="input-group-addon"
-                                    style="   padding: 2px;">Estimación: $</span>
+                                    style="background-color:#e5e5e5; padding: 2px;">Estimación: $</span>
                                 <input class="form-control input-sm"
                                     style=" color: #090A0A; font-weight: bold; padding: 2px;"
                                     id="zamba_ASOC_2523_index_2771" name="zamba_ASOC_2523_index_2771"
@@ -321,9 +321,9 @@
                         </div>
                         <div class="col-md-2">
                             <div class="input-group">
-                                <span class="input-group-addon" style="   padding: 2px;">Fecha de
+                                <span class="input-group-addon" style="background-color:#e5e5e5; padding: 2px;">Fecha de
                                     Informe:</span>
-                                <input class="form-control "
+                                <input class="form-control datepicker"
                                     style=" color: #090A0A; font-weight: bold; padding: 2px;" id="zamba_index_2781"
                                     name="zamba_index_2781" onblur="valFecha(this)">
                             </div>
@@ -331,7 +331,7 @@
 
                         <div class="col-md-4">
                             <div class="input-group">
-                                <span class="input-group-addon" style="">Confeccionó:</span>
+                                <span class="input-group-addon" style="background-color:#e5e5e5">Confeccionó:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                     id="zamba_ASOC_2523_index_2735" name="zamba_ASOC_2523_index_2735"
                                     readonly="readonly">
@@ -352,7 +352,7 @@
                         <div class="form-group">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style="">Observaviones del
+                                    <span class="input-group-addon" style="background-color:#e5e5e5">Observaviones del
                                         Estudio:</span>
                                 </div>
                             </div>
@@ -362,7 +362,7 @@
 
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style="">Fecha de
+                                    <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de
                                         Observación:</span>
                                     <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                                         id="zamba_index_2838" name="zamba_index_2838" readonly="readonly">
@@ -383,21 +383,21 @@
                 <div class="row">
                     <center>
                         <div class="col-md-2" style="position:relative;left:20px;">
-                            
+                            <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                         </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-2">
                             <span style="color:white">Resumen.html</span>
                         </div>
                         <div class="col-md-5">
-                            
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                             <div class="form-group row">
                             </div>
                         </div>
                     </center>
                 </div>
             </div>
-    
+    </div>
     </form>
     </div>
 </body>

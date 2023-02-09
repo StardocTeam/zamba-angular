@@ -167,7 +167,7 @@ namespace InvocacionServWConsDepFiel
 
         private void ValidarCuitIE(string codigo, string cuitIE)
         {
-            if (codigo != "100" && codigo != "101")
+            if (codigo != "100" || codigo != "101")
             {
                 if (cuitIE == string.Empty)
                     throw new Exception("El cuit del importador/exportador no puede ser vacio.");
@@ -175,14 +175,15 @@ namespace InvocacionServWConsDepFiel
                 if (cuitIE == null)
                     throw new Exception("El cuit del importador/exportador no puede ser nulo.");
 
-                if (cuitIE.Length != 11)
-                    throw new Exception("El cuit del I/E debe tener 11 digitos.");
             }
             else
             {
-                cuitIE = "";
+                if (!string.IsNullOrEmpty(cuitIE))
+                    throw new Exception("El cuit del importador/exportador no se debe ingresar para este caso.");
             }
 
+            if (cuitIE.Length != 11)
+                throw new Exception("El cuit del I/E debe tener 11 digitos.");
         }
 
         private void ValidarCuitATA(string codigo, string cuitATA)

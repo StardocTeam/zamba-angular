@@ -70,7 +70,7 @@ function getGuid() {
             {
                 try
                 {
-                    value = window.localStorage.getItem(key);
+                    value = localStorage.getItem(key);
                 }
                 catch (e)
                 {
@@ -135,7 +135,7 @@ function getGuid() {
                 {
                     try
                     {
-                        window.localStorage.setItem(key, value);
+                        localStorage.setItem(key, value);
                     }
                     catch (e)
                     {
@@ -180,7 +180,7 @@ function getGuid() {
             {
                 try
                 {
-                    window.localStorage.removeItem(key);
+                    localStorage.removeItem(key);
                 }
                 catch (e)
                 {

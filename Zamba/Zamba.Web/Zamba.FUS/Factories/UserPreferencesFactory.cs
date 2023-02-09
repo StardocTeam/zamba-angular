@@ -28,7 +28,7 @@ public class UserPreferencesFactory
         {
             System.Text.StringBuilder query = new System.Text.StringBuilder();
 
-            query.Append("SELECT NVL(c_value,'EMPTY') as c_value FROM ZUserConfig  WHERE C_NAME = ");
+            query.Append("SELECT NVL(c_value,'EMPTY') as c_value FROM ZUserConfig WHERE C_NAME = ");
             query.Append("'");
             query.Append(name);
             query.Append("'");
@@ -98,7 +98,7 @@ public class UserPreferencesFactory
     {
         if (Server.isOracle)
         {
-            object ReturnValue = Server.get_Con().ExecuteScalar(CommandType.Text, "Select c_value from ZUserConfig  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + " where c_name='" + name + "' and c_section='" + Convert.ToInt32(section) + "' and c_userId=0");
+            object ReturnValue = Server.get_Con().ExecuteScalar(CommandType.Text, "Select c_value from ZUserConfig where c_name='" + name + "' and c_section='" + Convert.ToInt32(section) + "' and c_userId=0");
             if (ReturnValue == System.DBNull.Value || ReturnValue == null)
             {
                 return null;
@@ -146,7 +146,7 @@ public class UserPreferencesFactory
         }
         else
         {
-            object result = Server.get_Con().ExecuteScalar(CommandType.Text, "SELECT value from ZUserConfig   " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "  where name='" + name + "' and section='" + Convert.ToInt32(Section) + "' and (userId= " + userId + " or userId = 0) order by userid desc");
+            object result = Server.get_Con().ExecuteScalar(CommandType.Text, "SELECT value from ZUserConfig where name='" + name + "' and section='" + Convert.ToInt32(Section) + "' and (userId= " + userId + " or userId = 0) order by userid desc");
             if (result == System.DBNull.Value || result == null)
                 return null;
             return result.ToString();
@@ -168,7 +168,7 @@ public class UserPreferencesFactory
             }
             else
             {
-                DataSet ds = Server.get_Con().ExecuteDataset(CommandType.Text, string.Format("SELECT userid, name, section, value from ZUserConfig where userid={0} union ALL SELECT userid, name, section, value from ZUserConfig d   " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "  where not exists( select 1 from ZUserConfig l  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "   where d.name = l.name and d.Section = l.section and l.UserId <> 0 and l.UserId = {0}) and d.userid = 0", UserId));
+                DataSet ds = Server.get_Con().ExecuteDataset(CommandType.Text, string.Format("SELECT userid, name, section, value from ZUserConfig where userid={0} union ALL SELECT userid, name, section, value from ZUserConfig d where not exists( select 1 from ZUserConfig l where d.name = l.name and d.Section = l.section and l.UserId <> 0 and l.UserId = {0}) and d.userid = 0", UserId));
                 if (ds != null && ds.Tables.Count > 0)
                     return ds.Tables[0];
                 else
@@ -205,7 +205,7 @@ public class UserPreferencesFactory
                 };
 
 
-                string query = $"SELECT count(1) as Cantidad from ZMachineConfig   " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "  where c_name = '{name}' AND c_section = {(int)section} AND c_machinename = '{machineName}'";
+                string query = $"SELECT count(1) as Cantidad from ZMachineConfig where c_name = '{name}' AND c_section = {(int)section} AND c_machinename = '{machineName}'";
 
                 //string query = "SELECT count(1) into Cantidad from ZMachineConfig where c_name=m_name and m_section=c_section and m_machinename= c_machinename";
                 object result = Server.get_Con().ExecuteScalar(CommandType.Text, query);
@@ -278,7 +278,7 @@ public class UserPreferencesFactory
     /// <remarks></remarks>
     public static string getValueDBByMachine(string name, UPSections Section, string machineName)
     {
-        String strselect = "SELECT c_value from ZMachineConfig   " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "  where c_name='" + name + "' and c_section='" + Convert.ToInt32(Section) + "' and c_machinename='" + machineName + "'";
+        String strselect = "SELECT c_value from ZMachineConfig where c_name='" + name + "' and c_section='" + Convert.ToInt32(Section) + "' and c_machinename='" + machineName + "'";
         if (!Server.isOracle)
         {
             strselect = strselect.Replace("c_name", "name");
@@ -320,7 +320,7 @@ public class UserPreferencesFactory
             }
             else
             {
-                DataSet ds = Server.get_Con().ExecuteDataset(CommandType.Text, string.Format("SELECT machinename,name, section, value from ZMachineConfig   " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "  where machinename = '{0}' union ALL SELECT machinename, name, section, value from ZMachineConfig d   " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "  where not exists( select 1 from ZMachineConfig l where d.name = l.name and d.Section = l.section and l.machinename <> 'default' and l.machinename = '{0}') and d.machinename = 'default'", machineName));
+                DataSet ds = Server.get_Con().ExecuteDataset(CommandType.Text, string.Format("SELECT machinename,name, section, value from ZMachineConfig where machinename = '{0}' union ALL SELECT machinename, name, section, value from ZMachineConfig d where not exists( select 1 from ZMachineConfig l where d.name = l.name and d.Section = l.section and l.machinename <> 'default' and l.machinename = '{0}') and d.machinename = 'default'", machineName));
                 if (ds != null && ds.Tables.Count > 0)
                     return ds.Tables[0];
                 else

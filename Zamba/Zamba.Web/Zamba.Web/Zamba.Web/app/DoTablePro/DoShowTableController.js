@@ -58,7 +58,7 @@ app.controller('Modal', function ($uibModal, $log, $filter, $http, $scope, DoSho
 
             return Result;
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
     };
 
@@ -117,7 +117,7 @@ app.controller('Modal', function ($uibModal, $log, $filter, $http, $scope, DoSho
         try {
             $scope.LoadResults($scope.reportId, $scope.valueForRuleQuery, $scope.parentTaskId);
         } catch (e) {
-            console.error(e);
+            console.log(e.message);
         }
     }
 
@@ -207,7 +207,7 @@ app.controller('Modal', function ($uibModal, $log, $filter, $http, $scope, DoSho
                 $(document.getElementsByTagName("zamba-associated")).each(function (item) { $(item).find(".BtnRefresh").click(); });
             });
         } catch(e) {
-            console.error(e);
+            console.log(e);
         }
     }
 
@@ -244,6 +244,6 @@ app.directive('zambaDoshowtable', function ($sce) {
             $scope.open('lg');
 
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../app/DoTablePro/DoTable.html?v=248'),
+        templateUrl: $sce.getTrustedResourceUrl('../../app/DoTablePro/DoTable.html?v=168'),
     };
 });

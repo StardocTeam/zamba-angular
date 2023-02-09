@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="boston_styles.css" type="text/css" />
     <link rel="stylesheet" href="boston_styles_table.css" type="text/css" />
-     
-    
-    
+    <link rel="stylesheet" href="jq_datepicker.css" type="text/css" />
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
+    <script src="jq_datepicker.js" type="text/javascript" language="JavaScript"></script>
     <script src="boston.js" type="text/javascript" language="JavaScript"></script>
     <script type="text/javascript" language="JavaScript">
         $(document).ready(function () {
@@ -48,8 +48,20 @@
             //Suma los valores obtenidos y lo asigna al indice Total
             $("#zamba_index_2719").val(Redondear(sum));
         }
-
-
+        // function CargarFechasyBotones() {
+        //     $('#zamba_index_2812').datepicker({
+        //         changeMonth: true,
+        //         changeYear: true,
+        //         showOn: 'button',
+        //         buttonText: 'Abrir calendario',
+        //         buttonImage: 'calendar.png',
+        //         buttonImageOnly: true,
+        //         duration: "",
+        //         maxDate: new Date()
+        //     });
+        //     CargarFechaIndice('zamba_index_2820');
+        //     CargarFechaIndice('zamba_index_2838');
+        // }
     </script>
 </head>
 
@@ -82,7 +94,7 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de Transacción</span>
-                                <input class="form-control  input-sm" id="zamba_index_2812" name="zamba_index_2812"
+                                <input class="form-control datepicker input-sm" id="zamba_index_2812" name="zamba_index_2812"
                                     onblur="valFecha(this)" style=" color: #090A0A; font-weight: bold ">
                             </div>
                         </div>
@@ -151,7 +163,7 @@
                         <div class="col-md-4">
                             <div class="input-group">
                                 <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de Recepción de Convenio</span>
-                                <input class="form-control  input-sm" id="zamba_index_2820" name="zamba_index_2820"
+                                <input class="form-control datepicker input-sm" id="zamba_index_2820" name="zamba_index_2820"
                                 style=" color: #090A0A; font-weight: bold " onblur="valFecha(this)">
                             </div>
                         </div>
@@ -169,7 +181,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon" style="background-color:#e5e5e5">Fecha de Actualización</span>
-                                <input class="form-control  input-sm" id="zamba_index_2838" name="zamba_index_2838"
+                                <input class="form-control datepicker input-sm" id="zamba_index_2838" name="zamba_index_2838"
                                     onblur="valFecha(this)">
                             </div>
                         </div>
@@ -185,14 +197,14 @@
                 </center>
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">CalculoDeTransaccionActualizacion.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

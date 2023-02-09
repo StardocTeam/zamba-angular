@@ -22,6 +22,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 {
 
     [RoutePrefix("api/SignPDF")]
+    [RestAPIAuthorize]
     public class SignPDFController : ApiController
     {
 
@@ -64,7 +65,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     string dataItem = null;
                     foreach (string item in urlInPieces)
                     {
-                        if (item.Contains("User"))
+                        if (item.Contains("user"))
                         {
                             dataItem = item;
                         }
@@ -100,6 +101,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
+        [OverrideAuthorization]
         [Route("SignSinglePDF")]
         public IHttpActionResult SignSinglePDF(genericRequest paramRequest)
         {
@@ -217,6 +219,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [AcceptVerbs("GET")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SignPDFAll")]
         public IHttpActionResult SignPDFAll()
@@ -297,6 +300,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("GET")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("ReceptAll")]
         public IHttpActionResult ReceptAll()
@@ -353,16 +357,13 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SignPDF")]
         public IHttpActionResult SignPDF(SolicitudFirmaDigital solicitudFirmaDigital)
         {
             try
             {
-                var user = GetUser(solicitudFirmaDigital.userId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                        new HttpError(StringHelper.InvalidUser)));
                 string error = string.Empty;
 
                 SignPDFResponse SR = _firmarPDF(solicitudFirmaDigital);
@@ -418,6 +419,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("FirmarPDF")]
         public IHttpActionResult FirmarPDF(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -446,12 +448,10 @@ namespace ZambaWeb.RestApi.Controllers.Web
             var Codigo = solicitudFirmaDigital.codigo;
 
             var queryIsSigned = string.Empty;
-            if (Codigo == "004" || Codigo == "002" || Codigo == "003")
-            {
+            if (Codigo == "004") {
                 queryIsSigned = string.Format(@"select i139615 from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'  and i139578 = '{2}'", NroDespacho, Codigo, solicitudFirmaDigital.sigea);
             }
-            else
-            {
+            else {
                 queryIsSigned = string.Format(@"select i139615 from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'", NroDespacho, Codigo);
             }
 
@@ -460,7 +460,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             if (IsSigned != null && IsSigned.ToString() != string.Empty)
             {
                 var archivo = string.Empty;
-                if (Codigo == "004" || Codigo == "002" || Codigo == "003")
+                if (Codigo == "004")
                 {
                     archivo = string.Format(@"select (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'  and i139578 = '{2}'", NroDespacho, Codigo, solicitudFirmaDigital.sigea);
                 }
@@ -475,15 +475,15 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             //1-GENERATE ONE PDF
             var query = string.Empty;
-            if (Codigo == "004" || Codigo == "002" || Codigo == "003")
+            if (Codigo == "004")
             {
-                query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and i139578 = '{2}'", NroDespacho, Codigo, solicitudFirmaDigital.sigea);
+                 query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and i139578 = '{2}'", NroDespacho, Codigo, solicitudFirmaDigital.sigea);
             }
             else
             {
                 query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", NroDespacho, Codigo);
             }
-            DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
+                DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
 
             if (dsFiles is null || dsFiles.Tables.Count == 0 || dsFiles.Tables[0].Rows.Count == 0)
             {
@@ -528,7 +528,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             //1-BIZ - GET FULL PDF
             var queryFull = string.Empty;
-            if (Codigo == "004" || Codigo == "002" || Codigo == "003")
+            if (Codigo == "004")
             {
                 queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", NroDespacho, Codigo, solicitudFirmaDigital.sigea);
             }
@@ -554,7 +554,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Firma de Documento realizada OK: " + signedFile);
 
                 var querySigned = string.Empty;
-                if (Codigo == "004" || Codigo == "002" || Codigo == "003")
+                if (Codigo == "004")
                 {
                     querySigned = string.Format(@"update doc_i139072 set i139608 = {0}, i139615 = getdate(), i139617 = {1} where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{4}'", CantidadTotal, solicitudFirmaDigital.userId, NroDespacho, Codigo, solicitudFirmaDigital.sigea);
                 }
@@ -577,197 +577,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
         }
 
-
-
         [AcceptVerbs("POST")]
-        [AllowAnonymous]
-        [Route("RecepcionDespachoByGuia")]
-        public IHttpActionResult RecepcionDespachoByGuia(genericRequest genericRequest)
-        {
-            Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nro_guia"].ToString());
-            long user_id = Convert.ToInt64(genericRequest.Params["user_id"].ToString());
-            Int64 doc_id = Convert.ToInt64(genericRequest.Params["doc_id"].ToString());
-            var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
-            try
-            {
-                string error = string.Empty;
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
-                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108) and d.i139614=" + nro_guia.ToString());
-
-                foreach (DataRow r in dsall.Tables[0].Rows)
-                {
-                    SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
-                    solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
-                    solicitudFirmaDigital.userId = user_id;
-                    String nroDespacho = r["NroDespacho"].ToString();
-                    String  Sigea = r["Sigea"].ToString();
-                    String codDespacho = r["codigoDespacho"].ToString();
-                    solicitudFirmaDigital.sigea = Sigea;
-                    solicitudFirmaDigital.nroDespacho = nroDespacho;
-                    solicitudFirmaDigital.codigo = codDespacho;
-                    solicitudFirmaDigital.nroGuia = nro_guia.ToString();
-                    
-
-                    // faltan datos
-                    /*
-                    userid
-                    DocTypeId=139072
-                    doc_id
-                    url: solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
-                    nroDespacho (query)
-                    sigea (query)
-                    codigo (query)
-
-                    139614	Nro Guia                                                                                            
-                    139578	Nro Sigea                                                                                           
-                    139603	Codigo                                                                                              
-                    139548	Nro Despacho                                                                                        
-
-
-                     */
-                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
-                    if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
-                    {
-                        var js = JsonConvert.SerializeObject(RR);
-                    }
-                    else
-                    {
-                        ZClass.raiseerror(new Exception(RR.descError));
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
-                        var js = JsonConvert.SerializeObject(RR);
-                        return Ok(js);
-                    }
-                }
-                return Ok();
-
-
-
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
-
-        }
-
-
-        [AcceptVerbs("POST")]
-        [AllowAnonymous]
-        [Route("SignPDFByGuia")]
-        public IHttpActionResult SignPDFByGuia(genericRequest genericRequest)
-        {
-            Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nro_guia"].ToString());
-            long user_id = Convert.ToInt64(genericRequest.Params["user_id"].ToString());
-            Int64 doc_id = Convert.ToInt64(genericRequest.Params["doc_id"].ToString());
-            try
-            {
-                string error = string.Empty;
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
-                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108) and d.i139614=" + nro_guia.ToString());
-
-                foreach (DataRow r in dsall.Tables[0].Rows)
-                {
-                    // faltan datos
-                    /*
-                    userid (parametro)
-                    DocTypeId=139072
-                    doc_id (parametro)
-                    url: solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
-                    nroDespacho (query)
-                    sigea (query)
-                    codigo (query)*/
-
-                    SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
-
-                    solicitudFirmaDigital.userId = user_id;
-                    var cuitDespachante = r["cuitDespachante"].ToString();
-                    var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
-                    solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
-                    
-                    String nroDespacho = r["NroDespacho"].ToString();
-                    String Sigea = r["Sigea"].ToString();
-                    String codDespacho = r["codigoDespacho"].ToString();
-                    solicitudFirmaDigital.sigea = Sigea;
-                    solicitudFirmaDigital.nroDespacho = nroDespacho;
-                    solicitudFirmaDigital.codigo = codDespacho;
-                    solicitudFirmaDigital.nroGuia = nro_guia.ToString();
-                    solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
-                    solicitudFirmaDigital.cuitDeclarante = cuitDespachante;
-                    // faltan datos
-                    try
-                    {
-                        var user = GetUser(solicitudFirmaDigital.userId);
-                        if (user == null)
-                            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                                new HttpError(StringHelper.InvalidUser)));
-
-                        SignPDFResponse SR = _firmarPDF(solicitudFirmaDigital);
-
-                        if (SR.result == SignPDFResponse.results.signed || SR.result == SignPDFResponse.results.alreadySigned)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
-
-                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
-                            if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
-                            {
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
-                                DigitalizacionResponse DR = _digitalizacionDespacho(solicitudFirmaDigital);
-                                SR.DigitalizacionResponse = DR;
-                                SR.RecepcionResponse = RR;
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se Finaliza proceso de Digitalizacion: ");
-                                if (DR.result == DigitalizacionResponse.results.Ok)
-                                {
-                                    var js = JsonConvert.SerializeObject(SR);
-                                }
-                                else
-                                {
-                                    ZClass.raiseerror(new Exception(DR.descError));
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Digitalizacion: " + DR.descError);
-                                    var js = JsonConvert.SerializeObject(DR);
-                                    return Ok(js);
-                                }
-                            }
-                            else
-                            {
-                                ZClass.raiseerror(new Exception(RR.descError));
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
-                                var js = JsonConvert.SerializeObject(RR);
-                                return Ok(js);
-
-                            }
-                        }
-                        else
-                        {
-                            ZClass.raiseerror(new Exception(SR.error));
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Firma: " + SR.error);
-                            var js = JsonConvert.SerializeObject(SR);
-                            return Ok(js);
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ZClass.raiseerror(ex);
-                        return Ok(ex);
-                    }
-                }
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
-
-        }
-
-
-
-
-        [AcceptVerbs("POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("RecepcionDespacho")]
         public IHttpActionResult RecepcionDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -824,13 +635,13 @@ namespace ZambaWeb.RestApi.Controllers.Web
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtenieno datos del despacho para la recepcion");
 
             var querydespacho = string.Empty;
-            if (solicitudFirmaDigital.codigo == "004" || solicitudFirmaDigital.codigo == "002" || solicitudFirmaDigital.codigo == "003")
+            if (solicitudFirmaDigital.codigo == "004")
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE , i139608 cantidadfojas from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
+                 querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
             }
             else
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE, i139608 cantidadfojas  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
             }
             DataSet dsDespacho = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, querydespacho);
 
@@ -845,11 +656,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 solicitudFirmaDigital.cuitDeclarante = r["cuitDeclarante"].ToString();
                 solicitudFirmaDigital.cuitPSAD = PSADCUIT;
                 solicitudFirmaDigital.codigo = r["codigo"].ToString();
-
+               
                 solicitudFirmaDigital.cuitIE = r["cuitIE"].ToString();
-
+                
                 solicitudFirmaDigital.cuitATA = (r["cuitATA"] != null) ? r["cuitATA"].ToString() : string.Empty;
-
+                
 
 
                 solicitudFirmaDigital.ticket = (r["ticket"] != null) ? r["ticket"].ToString() : string.Empty;
@@ -857,17 +668,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 solicitudFirmaDigital.sigea = (r["sigea"] != null) ? r["sigea"].ToString() : string.Empty;
                 solicitudFirmaDigital.nroReferencia = string.Empty;
                 solicitudFirmaDigital.nroGuia = r["nroGuia"].ToString();
-                try
-                {
-                    solicitudFirmaDigital.cantidadFojas = int.Parse(r["cantidadFojas"].ToString());
-                }
-                catch (Exception)
-                {
-
-                    solicitudFirmaDigital.cantidadFojas = 0;
-                }
-
-
 
                 if (r["IE"].ToString() == "EXPORTACION")
                 {
@@ -934,16 +734,16 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Realizando recepcion de despacho en AFIP");
 
                 InvocacionServWDigDepFiel.wDigDepFiel.Recibo reciboAvisoRecepAcept = servicioWDigDepFiel.InvocarServicioAvisoRecepAceptRequest(autenticacion, solicitudFirmaDigital.nroLegajo,
-                solicitudFirmaDigital.cuitDeclarante, solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.cuitIE,
-                solicitudFirmaDigital.cuitATA, solicitudFirmaDigital.codigo, solicitudFirmaDigital.url,
-                null, solicitudFirmaDigital.ticket,
-                solicitudFirmaDigital.sigea, solicitudFirmaDigital.nroReferencia, solicitudFirmaDigital.nroGuia, solicitudFirmaDigital.cantidadFojas, solicitudFirmaDigital.fechaDespacho, solicitudFirmaDigital.fechaGeneracion, solicitudFirmaDigital.fechaHoraAcept, solicitudFirmaDigital.idEnvio, solicitudFirmaDigital.indLugarFisico);
+                      solicitudFirmaDigital.cuitDeclarante, solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.cuitIE,
+                      solicitudFirmaDigital.cuitATA, solicitudFirmaDigital.codigo, solicitudFirmaDigital.url,
+                      null, solicitudFirmaDigital.ticket,
+                      solicitudFirmaDigital.sigea, solicitudFirmaDigital.nroReferencia, solicitudFirmaDigital.nroGuia, solicitudFirmaDigital.cantidadFojas, solicitudFirmaDigital.fechaDespacho, solicitudFirmaDigital.fechaGeneracion, solicitudFirmaDigital.fechaHoraAcept, solicitudFirmaDigital.idEnvio, solicitudFirmaDigital.indLugarFisico);
 
                 var newresultsreciboAvisoRecepAcept = JsonConvert.SerializeObject(reciboAvisoRecepAcept, Newtonsoft.Json.Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
+    new JsonSerializerSettings
+    {
+        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+    });
                 //  newresultsreciboAvisoRecepAcept = newresultsreciboAvisoRecepAcept.Replace("$", "");
                 //  XmlDocument docreciboAvisoRecepAcept = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoRecepAcept);
 
@@ -955,7 +755,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'", solicitudFirmaDigital, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                         queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'", solicitudFirmaDigital, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -979,8 +779,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'", solicitudFirmaDigital, 0, "OK. Procesado", solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
-                    {
-                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}' and i139578 = '{6}'", solicitudFirmaDigital, 0, "OK. Procesado", solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
+                    { 
+                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}' and i139578 = '{6}'", solicitudFirmaDigital, 0, "OK. Procesado", solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea); 
                     }
                     Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, queryAcepted);
 
@@ -997,7 +797,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}' where i139548 = '{3}' and i139603 = '{4}'", newresultsreciboAvisoRecepAcept, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                         queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}' where i139548 = '{3}' and i139603 = '{4}'", newresultsreciboAvisoRecepAcept, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -1023,6 +823,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("DigitalizacionDespacho")]
         public IHttpActionResult DigitalizacionDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -1033,10 +834,10 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 DigitalizacionResponse DR = _digitalizacionDespacho(solicitudFirmaDigital);
 
                 var newresultsreciboAvisoDigit = JsonConvert.SerializeObject(DR.reciboAvisoDigit, Newtonsoft.Json.Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
+                    new JsonSerializerSettings
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    });
 
                 //XmlDocument docreciboAvisoDigit = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoDigit);
 
@@ -1066,11 +867,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //1-BIZ - GET FULL PDF
                 if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                 {
-                    queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                     queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                 }
                 else
                 {
-                    queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
+                     queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
 
                 }
 
@@ -1091,11 +892,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //1-GENERATE ONE PDF
                 if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                 {
-                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                     query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                 }
                 else
                 {
-                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'   and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
+                     query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'   and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
                 }
 
                 DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
@@ -1176,13 +977,13 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //obtener datos del despacho
                 if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                 {
-                    querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque,i139588 IE   from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}'  and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                     querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque,i139588 IE   from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}'  and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                 }
                 else
                 {
-                    querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque,i139588 IE   from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}'  and i139603 = '{1}'   and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
-
-                }
+                     querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque,i139588 IE   from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}'  and i139603 = '{1}'   and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
+                    
+                        }
 
                 DataSet dsDespacho = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, querydespacho);
 
@@ -1312,15 +1113,16 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //\\modocsa.lan\Recursos\VOLUMEN ZAMBA\Volumenes Zamba\Doc_Despacho02\Vol001\139089\3\xxxx.pdf
                 //solicitudFirmaDigital.url = PDFFile.Replace(rootVolumes, rooturlFS).Replace("\\","/");
                 //https://gd.modoc.com.ar/ZambaWeb.FS/Volumenes Zamba/Doc_Despacho02/Vol001/139089/3/xxxx.pdf
-                solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
+                Zss zss = new Zamba.Core.ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser);
+                solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?userid=" +  zss.UserId + "&token=" + zss.Token +  "&DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
 
                 string newresultsavisoDigitRequest = string.Empty;
                 string hashing = string.Empty;
                 InvocacionServWDigDepFiel.wDigDepFiel.Recibo reciboAvisoDigit = servicioWDigDepFiel.InvocarServicioAvisoDigitRequest(autenticacion, solicitudFirmaDigital.nroLegajo,
-                     solicitudFirmaDigital.cuitDeclarante, solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.cuitIE,
-                     solicitudFirmaDigital.cuitATA, solicitudFirmaDigital.codigo, solicitudFirmaDigital.url,
-                     familias.ToArray(), solicitudFirmaDigital.ticket, solicitudFirmaDigital.cantidadTotal,
-                     solicitudFirmaDigital.sigea, solicitudFirmaDigital.nroReferencia, PDFFile, ref newresultsavisoDigitRequest, ref hashing);
+                                    solicitudFirmaDigital.cuitDeclarante, solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.cuitIE,
+                                    solicitudFirmaDigital.cuitATA, solicitudFirmaDigital.codigo, solicitudFirmaDigital.url,
+                                    familias.ToArray(), solicitudFirmaDigital.ticket, solicitudFirmaDigital.cantidadTotal,
+                                    solicitudFirmaDigital.sigea, solicitudFirmaDigital.nroReferencia, PDFFile, ref newresultsavisoDigitRequest, ref hashing);
 
 
                 solicitudFirmaDigital.hashing = hashing;
@@ -1331,10 +1133,10 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 DR.solicitudFirmaDigital = solicitudFirmaDigital;
 
                 var newreciboAvisoDigit = JsonConvert.SerializeObject(reciboAvisoDigit, Newtonsoft.Json.Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
+                    new JsonSerializerSettings
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    });
 
                 //                if (newresultsavisoDigitRequest.Length > 199) newresultsavisoDigitRequest = newresultsavisoDigitRequest.Substring(0, 199);
                 //              if (newreciboAvisoDigit.Length > 199) newreciboAvisoDigit = newreciboAvisoDigit.Substring(0, 150);
@@ -1346,10 +1148,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}' ", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
+                   queryAcepted =     string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}' ", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
                     }
-                    else
-                    {
+                    else {
                         queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}'   and i139578 = '{5}'", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal, solicitudFirmaDigital.sigea);
                     }
                     Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, queryAcepted);
@@ -1369,7 +1170,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}'", 0, "OK. Procesado", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
+                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}'",  0, "OK. Procesado", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
                     }
                     else
                     {
@@ -1392,7 +1193,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}',  i139608 = {4} where i139548 = '{2}' and i139603 = '{3}' ", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
+                    queryAcepted =    string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}',  i139608 = {4} where i139548 = '{2}' and i139603 = '{3}' ", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
                     }
                     else
                     {
@@ -1422,7 +1223,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
 
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(), i139630 = '{0}' where i139548 = '{1}'  and i139603 = '{2}'", exstr, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                         queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(), i139630 = '{0}' where i139548 = '{1}'  and i139603 = '{2}'",  exstr, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -1448,6 +1249,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [AcceptVerbs("POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("ConsultaDespacho")]
         public IHttpActionResult ConsultaDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -1459,43 +1261,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de ConsultaDespacho: ");
 
                 EstadoResponse RR = _listaEstadoResponse(solicitudFirmaDigital);
-
-                var js = JsonConvert.SerializeObject(RR);
-                return Ok(js);
-
-
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
-
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("ConsultaDespachoAdhoc")]
-        public IHttpActionResult ConsultaDespachoAdhoc(int userId, string nrodespacho, string codigo, string sigea)
-        {
-            try
-            {
-                var user = GetUser(userId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                    new HttpError(StringHelper.InvalidUser)));
-
-                string error = string.Empty;
-
-                SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
-                solicitudFirmaDigital.nroDespacho = nrodespacho;
-                solicitudFirmaDigital.codigo = codigo;
-                solicitudFirmaDigital.sigea = sigea;
-
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de ConsultaDespacho: ");
-
-                EstadoResponse RR = _listaEstadoResponseAdHoc(solicitudFirmaDigital);
 
                 var js = JsonConvert.SerializeObject(RR);
                 return Ok(js);
@@ -1544,6 +1309,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("GetLegajosAll")]
         public IHttpActionResult GetLegajosAll(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -1553,7 +1319,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 var user = GetUser(solicitudFirmaDigital.userId);
                 if (user == null)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                    new HttpError(StringHelper.InvalidUser)));
+                        new HttpError(StringHelper.InvalidUser)));
 
 
                 string error = string.Empty;
@@ -1576,6 +1342,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("GET", "POST")]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("GetLegajosAllService")]
         public IHttpActionResult GetLegajosAllService(Int64 userId)
@@ -1585,7 +1352,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 var user = GetUser(userId);
                 if (user == null)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                    new HttpError(StringHelper.InvalidUser)));
+                        new HttpError(StringHelper.InvalidUser)));
 
                 SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
                 solicitudFirmaDigital.userId = userId;
@@ -1608,79 +1375,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
 
         }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("GetLegajosAllDesp")]
-        public IHttpActionResult GetLegajosAllDesp(Int64 despachante, Int64 userId, Int64 days)
-        {
-            try
-            {
-
-                var user = GetUser(userId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                    new HttpError(StringHelper.InvalidUser)));
-
-                SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
-                solicitudFirmaDigital.userId = userId;
-
-                string error = string.Empty;
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de ConsultaDespacho: ");
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Despachante: " + despachante.ToString());
-
-                ListadoResponse RR = _PndListaEndoResponseAllDesp(solicitudFirmaDigital, despachante, days);
-
-                var js = JsonConvert.SerializeObject(RR);
-                return Ok(js);
-
-
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
-
-        }
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("GetLegajosAllDespByDate")]
-        public IHttpActionResult GetLegajosAllDespByDate(Int64 despachante, Int64 userId, string Date)
-        {
-            try
-            {
-
-                var user = GetUser(userId);
-                if (user == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                    new HttpError(StringHelper.InvalidUser)));
-
-                SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
-                solicitudFirmaDigital.userId = userId;
-
-                string error = string.Empty;
-
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de ConsultaDespacho: ");
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Despachante: " + despachante.ToString());
-
-                ListadoResponse RR = _PndListaEndoResponseAllDespByDate(solicitudFirmaDigital, despachante, Date);
-
-                var js = JsonConvert.SerializeObject(RR);
-                return Ok(js);
-
-
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
-
-        }
-
 
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
@@ -1692,7 +1386,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 var user = GetUser(id);
                 if (user == null)
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                    new HttpError(StringHelper.InvalidUser)));
+                        new HttpError(StringHelper.InvalidUser)));
 
                 SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
                 solicitudFirmaDigital.userId = id;
@@ -1739,10 +1433,10 @@ namespace ZambaWeb.RestApi.Controllers.Web
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtenieno datos del despacho para la recepcion");
 
             var querydespacho = string.Empty;
-
+            
             if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                 querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
             }
             else
             {
@@ -1763,14 +1457,14 @@ namespace ZambaWeb.RestApi.Controllers.Web
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Realizando consulta de despacho en AFIP");
 
             ListaEstadoResponse listaEstadoResponse = servicioWConsDepFiel.InvocarServicioListaEstadoRequestRequest(autenticacion, solicitudFirmaDigital.nroLegajo,
-            solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.codigo, solicitudFirmaDigital.ticket,
-            solicitudFirmaDigital.sigea);
+                   solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.codigo, solicitudFirmaDigital.ticket,
+                  solicitudFirmaDigital.sigea);
 
             var newresultsreciboAvisoRecepAcept = JsonConvert.SerializeObject(listaEstadoResponse, Newtonsoft.Json.Formatting.Indented,
-            new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
+new JsonSerializerSettings
+{
+    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+});
             //  newresultsreciboAvisoRecepAcept = newresultsreciboAvisoRecepAcept.Replace("$", "");
             //  XmlDocument docreciboAvisoRecepAcept = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoRecepAcept);
 
@@ -1802,86 +1496,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             return RR;
         }
-
-
-
-
-        private static EstadoResponse _listaEstadoResponseAdHoc(SolicitudFirmaDigital solicitudFirmaDigital)
-        {
-            //0- Obtener Parametros del Servicio
-
-            //3- Aviso Recepcion
-
-            var PSADCUIT = ZOptBusiness.GetValueOrDefault("PSADCUIT", "30714439304");
-            var servicioWConsDepFiel = new ServicioWConsDepFiel();
-
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_URLWSAAWSDL = ZOptBusiness.GetValueOrDefault("AFIPDIGIURL", "https://wsaahomo.afip.gov.ar/ws/services/LoginCms");
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_SERVICIO = ZOptBusiness.GetValueOrDefault("AFIPCONSSERVICE", "wConsDepFiel").ToLower();
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_CERTSIGNER = ZOptBusiness.GetValueOrDefault("AFIPDIGIPFX", @"C:\OpenSSL-Win32\bin\PKMODOC2.pfx");
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_CERTSIGNER_PASSWORD = ZOptBusiness.GetValueOrDefault("AFIPDIGIPFXPASSWORD", @"modoc");
-
-            var dicAutenticacion = ClienteLoginCms.ProgramaPrincipal.Autenticacion();
-
-            InvocacionServWDigDepFiel.wConsDepFiel.Autenticacion autenticacion = servicioWConsDepFiel.CrearAutenticacion(PSADCUIT, "EXTE", dicAutenticacion["sign"], "PSAD", dicAutenticacion["token"]);
-
-            //obtener datos del despacho
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtenieno datos del despacho para la recepcion");
-
-
-
-            EstadoResponse RR = new EstadoResponse();
-
-            solicitudFirmaDigital.nroLegajo = solicitudFirmaDigital.nroDespacho;
-            solicitudFirmaDigital.cuitPSAD = PSADCUIT;
-            solicitudFirmaDigital.codigo = solicitudFirmaDigital.codigo;
-            solicitudFirmaDigital.ticket = string.Empty;
-            solicitudFirmaDigital.sigea = (solicitudFirmaDigital.sigea != null) ? solicitudFirmaDigital.sigea : string.Empty;
-
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Realizando consulta de despacho en AFIP");
-
-            ListaEstadoResponse listaEstadoResponse = servicioWConsDepFiel.InvocarServicioListaEstadoRequestRequest(autenticacion, solicitudFirmaDigital.nroLegajo,
-            solicitudFirmaDigital.cuitPSAD, solicitudFirmaDigital.codigo, solicitudFirmaDigital.ticket,
-            solicitudFirmaDigital.sigea);
-
-            var newresultsreciboAvisoRecepAcept = JsonConvert.SerializeObject(listaEstadoResponse, Newtonsoft.Json.Formatting.Indented,
-            new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
-            //  newresultsreciboAvisoRecepAcept = newresultsreciboAvisoRecepAcept.Replace("$", "");
-            //  XmlDocument docreciboAvisoRecepAcept = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoRecepAcept);
-
-
-            if (listaEstadoResponse.Body.ListaEstadoResult.Recibo.CodErr == 0)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho en AFIP OK");
-
-                RR.result = EstadoResponse.results.Ok;
-                RR.reciboEstado = listaEstadoResponse.Body.ListaEstadoResult.Recibo;
-                RR.autenticacion = autenticacion;
-                RR.solicitudFirmaDigital = solicitudFirmaDigital;
-                RR.codError = listaEstadoResponse.Body.ListaEstadoResult.Recibo.CodErr;
-                RR.descError = listaEstadoResponse.Body.ListaEstadoResult.Recibo.DescErr;
-                RR.estado = listaEstadoResponse.Body.ListaEstadoResult.LegajoEstado;
-            }
-            else
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho en AFIP ERROR: " + listaEstadoResponse.Body.ListaEstadoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.ListaEstadoResult.Recibo.DescErr);
-
-                RR.result = EstadoResponse.results.error;
-                RR.reciboEstado = listaEstadoResponse.Body.ListaEstadoResult.Recibo;
-                RR.autenticacion = autenticacion;
-                RR.solicitudFirmaDigital = solicitudFirmaDigital;
-                RR.codError = listaEstadoResponse.Body.ListaEstadoResult.Recibo.CodErr;
-                RR.descError = listaEstadoResponse.Body.ListaEstadoResult.Recibo.DescErr;
-            }
-
-
-            return RR;
-        }
-
-
-
 
         //private ListadoResponse _PndListaEndoResponse(SolicitudFirmaDigital solicitudFirmaDigital)
         //{
@@ -2032,49 +1646,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         //    return RR;
         //}
 
-        public class onlineLog
-        {
-            public string title { get; set; }
-            public long id { get; set; }
-            public DateTime date { get; set; }
-            public string details { get; set; }
 
-            public onlineLog(long id, string title, string details, DateTime date)
-            {
-                this.id = id;
-                this.title = title;
-                this.details = details;
-                this.date = date;
-            }
-        }
-
-        private void AddonlineLog(List<string> lista, string title)
-        {
-            try
-            {
-                lista.Add(title);
-                if (OnlineLog.Count > 5000) OnlineLog.Clear();
-                OnlineLog.Add(new onlineLog(OnlineLog.Count + 1, title, string.Empty, DateTime.Now));
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
-        }
-
-        private static List<onlineLog> OnlineLog = new List<onlineLog>();
-
-
-        [AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("GetOnlineLog")]
-        public IHttpActionResult GetOnlineLog(long? lastId)
-        {
-            var _lastId = lastId.HasValue ? lastId.Value : 0;
-            if (_lastId > OnlineLog.Count) _lastId = 0;
-            var results = OnlineLog.Where(x => x.id > _lastId).ToList();
-            return Ok(results);
-        }
         private ListadoResponse _PndListaEndoResponseAll(SolicitudFirmaDigital solicitudFirmaDigital)
         {
             //0- Obtener Parametros del Servicio
@@ -2113,10 +1685,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
             Int64 conteodespachante = 0;
             Int64 conteototal = 0;
             Int64 totalbackdays = Int64.Parse(ZOptBusiness.GetValueOrDefault("ModocTotalBackDays", "30"));
-
-            if (DateTime.Now.Hour == 2) totalbackdays = 365;
-            if (DateTime.Now.Hour == 19) totalbackdays = 90;
-
             foreach (DataRow r in dsDespacho.Tables[0].Rows)
             {
                 conteodespachante++;
@@ -2125,14 +1693,14 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 Int64 conteodespachanteTotal = 0;
                 Int64 conteodespachanteNuevos = 0;
 
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
+                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
 
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Cantidad de Despachantes: " + dsDespacho.Tables[0].Rows.Count.ToString());
+                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Cantidad de Despachantes: " + dsDespacho.Tables[0].Rows.Count.ToString());
 
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
+                TraceAFIP.Add(System.Environment.NewLine);
 
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Despachante: " + conteodespachante.ToString() + "/" + dsDespacho.Tables[0].Rows.Count.ToString() + " : " + r["cuitDeclarante"].ToString());
+                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Despachante: " + conteodespachante.ToString() + "/" + dsDespacho.Tables[0].Rows.Count.ToString() + " : " + r["cuitDeclarante"].ToString());
 
                 ZTrace.WriteLineIf(ZTrace.IsInfo, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
                 ZTrace.WriteLineIf(ZTrace.IsInfo, System.Environment.NewLine);
@@ -2148,7 +1716,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     foreach (string codigo in codigos)
                     {
                         int currentDays = 1;
-                        int emptyDays = int.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5"));
+                        int emptyDays = int.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5")); 
                         DateTime FechaDesde = DateTime.Now.AddDays(-currentDays);
                         DateTime FechaHasta = DateTime.Now;
                         foundLegajos = true;
@@ -2157,10 +1725,10 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         while (foundLegajos == true || emptyDays <= totalbackdays)
                         {
 
-
+                            
                             try
                             {
-                                AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                                TraceAFIP.Add(System.Environment.NewLine);
 
                                 solicitudFirmaDigital.cuitPSAD = PSADCUIT;
                                 solicitudFirmaDigital.cuitDeclarante = r["cuitDeclarante"].ToString();
@@ -2171,7 +1739,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                 //DateTime FechaHasta = DateTime.Now.AddDays(-currentDaysH); 
 
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "------- Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
-                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------  Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
+                                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------  Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
 
 
                                 var dicAutenticacion = ClienteLoginCms.ProgramaPrincipal.Autenticacion();
@@ -2194,8 +1762,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                 {
 
                                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Despachos Obtenidos para el Despachante: " + r["cuitDeclarante"].ToString() + " Cantidad: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
-                                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " CANTIDAD: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                                    TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " CANTIDAD: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
+                                    TraceAFIP.Add(System.Environment.NewLine);
 
                                     Int64 conteo = 0;
                                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la Existencia de cada Despacho");
@@ -2209,7 +1777,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             conteototal++;
 
                                             string selectLegajo = string.Empty;
-                                            if (codigo == "004" || codigo == "002" || codigo == "003")
+                                            if (codigo == "004")
                                             {
                                                 selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK)  where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", l.NroLegajo, l.Codigo, l.Sigea);
                                             }
@@ -2221,25 +1789,17 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             if (!(LegajoExiste is DBNull) && (LegajoExiste.ToString().Length > 0 && Int64.Parse(LegajoExiste.ToString()) > 0))
                                             {
                                                 //el legajo existe lo actualizamos
-
                                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho ya existe, se actualiza: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
-
-                                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho ya existe, se actualiza: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
+                                                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
 
                                                 string updateLegajo = string.Empty;
-                                                if (codigo == "004" || codigo == "003")
+                                                if (codigo == "004")
                                                 {
-                                                    updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
-                                                }
-                                                else if (codigo == "101")
-                                                {
-                                                    updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i139551 =  CONVERT(datetime,'{5}',120),i139559 = '{6}',i139578 = '{7}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{7}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
+                                                    updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = '{5}',i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
                                                 }
                                                 else
                                                 {
-                                                    updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
+                                                    updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = '{5}',i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
                                                 }
 
                                                 Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, updateLegajo);
@@ -2259,7 +1819,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             {
                                                 conteodespachanteNuevos++;
                                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho NO existe, se inserta: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " NUEVO ");
+                                                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " NUEVO ");
 
                                                 Results_Business rb = new Results_Business();
                                                 //el legajo no existe lo generamos en zamba
@@ -2292,9 +1852,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                         catch (Exception ex)
                                         {
                                             ZTrace.WriteLineIf(ZTrace.IsInfo, "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
-                                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
-                                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                                            TraceAFIP.Add(System.Environment.NewLine);
+                                            TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
+                                            TraceAFIP.Add(System.Environment.NewLine);
 
                                             RR.result = ListadoResponse.results.error;
                                             RR.autenticacion = autenticacion;
@@ -2311,8 +1871,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                     if (listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr == 0)
                                     {
                                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP OK");
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                        AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP OK");
+                                        TraceAFIP.Add(System.Environment.NewLine);
+                                        TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP OK");
 
                                         RR.result = ListadoResponse.results.Ok;
                                         RR.reciboEstado = listaEstadoResponse.Body.PndListaEndoResult.Recibo;
@@ -2325,9 +1885,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                     else
                                     {
                                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                        AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                                        TraceAFIP.Add(System.Environment.NewLine);
+                                        TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
+                                        TraceAFIP.Add(System.Environment.NewLine);
 
                                         RR.result = ListadoResponse.results.error;
                                         RR.reciboEstado = listaEstadoResponse.Body.PndListaEndoResult.Recibo;
@@ -2341,16 +1901,16 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                 {
                                     foundLegajos = false;
                                     ZTrace.WriteLineIf(ZTrace.IsInfo, "----------------------------------------- NO HAY DESPACHOS EN AFIP");
-                                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------- NO HAY DESPACHOS EN AFIP");
+                                    TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------- NO HAY DESPACHOS EN AFIP");
                                 }
 
                             }
                             catch (Exception ex)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                                AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                                TraceAFIP.Add(System.Environment.NewLine);
+                                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
+                                TraceAFIP.Add(System.Environment.NewLine);
                                 ZClass.raiseerror(ex);
                             }
 
@@ -2371,21 +1931,21 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 catch (Exception ex)
                 {
                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
+                    TraceAFIP.Add(System.Environment.NewLine);
+                    TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
+                    TraceAFIP.Add(System.Environment.NewLine);
                     ZClass.raiseerror(ex);
                 }
 
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN " + conteodespachante.ToString() + " FIN Consulta DESPACHANTE CUIT: " + r["cuitDeclarante"].ToString());
+                TraceAFIP.Add(System.Environment.NewLine);
+                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN " + conteodespachante.ToString() + " FIN Consulta DESPACHANTE CUIT: " + r["cuitDeclarante"].ToString());
 
 
 
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN PROCESO --------------------------------------------");
+                TraceAFIP.Add(System.Environment.NewLine);
+                TraceAFIP.Add(ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN PROCESO --------------------------------------------");
 
-                AddonlineLog(TraceAFIPBrief, r["cuitDeclarante"].ToString() + " TOTAL: " + conteodespachanteTotal.ToString() + " NUEVOS: " + conteodespachanteNuevos.ToString());
+                TraceAFIPBrief.Add(r["cuitDeclarante"].ToString() + " TOTAL: " + conteodespachanteTotal.ToString() + " NUEVOS: " + conteodespachanteNuevos.ToString());
 
                 if (conteodespachanteTotal > 0)
                 {
@@ -2445,7 +2005,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             try
             {
 
-                AddonlineLog(TraceAFIPBrief, "Total Despachos ENDO: " + conteototal.ToString());
+                TraceAFIPBrief.Add("Total Despachos ENDO: " + conteototal.ToString());
 
                 ISendMailConfig mail = new SendMailConfig();
 
@@ -2466,762 +2026,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             return RR;
         }
-
-
-        private ListadoResponse _PndListaEndoResponseAllDespByDate(SolicitudFirmaDigital solicitudFirmaDigital, Int64 Despachante, string date)
-        {
-            //0- Obtener Parametros del Servicio
-
-
-            //3- Aviso Recepcion
-            string currentdatetime = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
-            var PSADCUIT = ZOptBusiness.GetValueOrDefault("PSADCUIT", "30714439304");
-            var servicioWConsDepFiel = new ServicioWConsDepFiel();
-
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_URLWSAAWSDL = ZOptBusiness.GetValueOrDefault("AFIPDIGIURL", "https://wsaahomo.afip.gov.ar/ws/services/LoginCms");
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_SERVICIO = ZOptBusiness.GetValueOrDefault("AFIPCONSSERVICE", "wConsDepFiel").ToLower();
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_CERTSIGNER = ZOptBusiness.GetValueOrDefault("AFIPDIGIPFX", @"C:\OpenSSL-Win32\bin\PKMODOC2.pfx");
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_CERTSIGNER_PASSWORD = ZOptBusiness.GetValueOrDefault("AFIPDIGIPFXPASSWORD", @"modoc");
-
-
-            //obtener datos del despacho
-
-            List<string> codigos = new List<string>();
-            codigos.Add("000");
-            codigos.Add("001");
-            codigos.Add("002");
-            codigos.Add("003");
-            codigos.Add("004");
-            codigos.Add("100");
-            codigos.Add("101");
-
-            ListadoResponse RR = new ListadoResponse();
-
-            List<string> TraceAFIPNoNews = new List<string>();
-            List<string> TraceAFIPBrief = new List<string>();
-
-            Int64 conteodespachante = 0;
-            Int64 conteototal = 0;
-            Int64 totalbackdays = 100;
-
-
-            conteodespachante++;
-
-            List<string> TraceAFIP = new List<string>();
-            Int64 conteodespachanteTotal = 0;
-            Int64 conteodespachanteNuevos = 0;
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Cantidad de Despachantes: 1");
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Despachante: " + conteodespachante.ToString() + "/1 : " + Despachante.ToString());
-
-            ZTrace.WriteLineIf(ZTrace.IsInfo, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-            ZTrace.WriteLineIf(ZTrace.IsInfo, System.Environment.NewLine);
-
-            ZTrace.WriteLineIf(ZTrace.IsInfo, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Despachante: " + conteodespachante.ToString() + "/1 : " + Despachante.ToString());
-            ZTrace.WriteLineIf(ZTrace.IsInfo, System.Environment.NewLine);
-
-            try
-            {
-
-                Boolean foundLegajos = true;
-
-                foreach (string codigo in codigos)
-                {
-                    int currentDays = 1;
-                    int emptyDays = int.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5"));
-                    DateTime FechaDesde = DateTime.Now.AddDays(-currentDays);
-                    DateTime FechaHasta = DateTime.Now;
-                    foundLegajos = true;
-                    emptyDays = 0;
-
-                    while (foundLegajos == true || emptyDays <= totalbackdays)
-                    {
-
-
-                        try
-                        {
-                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                            solicitudFirmaDigital.cuitPSAD = PSADCUIT;
-                            solicitudFirmaDigital.cuitDeclarante = Despachante.ToString();
-                            solicitudFirmaDigital.codigo = codigo;
-
-                            ////string ModocDefaultMonthsAfipEndoService = ZOptBusiness.GetValueOrDefault("ModocMonthsAfip-" + Despachante.ToString(), "1");
-                            //DateTime FechaDesde = DateTime.Now.AddDays(-currentDaysD);
-                            //DateTime FechaHasta = DateTime.Now.AddDays(-currentDaysH); 
-
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "------- Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
-                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------  Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
-
-
-                            var dicAutenticacion = ClienteLoginCms.ProgramaPrincipal.Autenticacion();
-
-                            InvocacionServWDigDepFiel.wConsDepFiel.Autenticacion autenticacion = servicioWConsDepFiel.CrearAutenticacion(PSADCUIT, "EXTE", dicAutenticacion["sign"], "PSAD", dicAutenticacion["token"]);
-
-                            PndListaEndoResponse listaEstadoResponse = servicioWConsDepFiel.InvocarServicioPndListaEndoRequest(autenticacion,
-                                   solicitudFirmaDigital.cuitDeclarante, solicitudFirmaDigital.codigo, FechaDesde, FechaHasta);
-                            //try
-                            //{
-                            //    ZOptBusiness.InsertUpdateValue("ModocMonthsAfip-" + Despachante.ToString(), "1");
-                            //}
-                            //catch (Exception)
-                            //{
-
-                            //}
-
-
-                            if (listaEstadoResponse.Body.PndListaEndoResult.Legajos != null)
-                            {
-
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Despachos Obtenidos para el Despachante: " + Despachante.ToString() + " Cantidad: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
-                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " CANTIDAD: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
-                                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                                Int64 conteo = 0;
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la Existencia de cada Despacho");
-                                foreach (Legajo l in listaEstadoResponse.Body.PndListaEndoResult.Legajos)
-                                {
-
-                                    try
-                                    {
-                                        conteodespachanteTotal++;
-                                        conteo++;
-                                        conteototal++;
-
-                                        string selectLegajo = string.Empty;
-                                        if (codigo == "004" || codigo == "002" || codigo == "003")
-                                        {
-                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK)  where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", l.NroLegajo, l.Codigo, l.Sigea);
-                                        }
-                                        else
-                                        {
-                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'", l.NroLegajo, l.Codigo);
-                                        }
-                                        object LegajoExiste = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, selectLegajo);
-                                        if (!(LegajoExiste is DBNull) && (LegajoExiste.ToString().Length > 0 && Int64.Parse(LegajoExiste.ToString()) > 0))
-                                        {
-                                            //el legajo existe lo actualizamos
-                                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho ya existe, se actualiza: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
-
-                                            string updateLegajo = string.Empty;
-                                            if (codigo == "004")
-                                            {
-                                                updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
-                                            }
-                                            else
-                                            {
-                                                updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
-                                            }
-
-                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, updateLegajo);
-
-                                            //try
-                                            //{
-                                            //    EstadoResponse ER = _listaEstadoResponse(new SolicitudFirmaDigital() { nroDespacho = l.NroLegajo, codigo = l.Codigo });
-                                            //}
-                                            //catch (Exception ex)
-                                            //{
-                                            //    ZClass.raiseerror(ex);
-                                            //}
-
-
-                                        }
-                                        else
-                                        {
-                                            conteodespachanteNuevos++;
-                                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho NO existe, se inserta: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " NUEVO ");
-
-                                            Results_Business rb = new Results_Business();
-                                            //el legajo no existe lo generamos en zamba
-                                            INewResult nr = rb.GetNewNewResult(139072);
-                                            nr.get_GetIndexById(139603).DataTemp = l.Codigo;
-
-                                            nr.get_GetIndexById(139600).DataTemp = l.CuitDeclarante;
-                                            nr.get_GetIndexById(139600).dataDescriptionTemp = l.DescDeclarante;
-                                            nr.get_GetIndexById(139645).DataTemp = l.CuitDeclarante;
-                                            nr.get_GetIndexById(139579).DataTemp = l.DescDeclarante;
-
-                                            nr.get_GetIndexById(149651).DataTemp = l.CuitIE;
-                                            nr.get_GetIndexById(149651).dataDescriptionTemp = l.DescIE;
-                                            nr.get_GetIndexById(26296).DataTemp = l.CuitIE;
-                                            nr.get_GetIndexById(139562).DataTemp = l.DescIE;
-
-                                            nr.get_GetIndexById(26405).DataTemp = l.FechaEndo.ToString();
-                                            nr.get_GetIndexById(139551).DataTemp = l.FechaOfic.ToString();
-                                            nr.get_GetIndexById(139559).DataTemp = l.ImporteLiq.ToString();
-                                            nr.get_GetIndexById(139548).DataTemp = l.NroLegajo;
-                                            //nr.get_GetIndexById().DataTemp = l.NroReferencia;
-                                            //nr.get_GetIndexById().DataTemp = l.OptoCambioVia;
-                                            nr.get_GetIndexById(139578).DataTemp = l.Sigea;
-                                            nr.get_GetIndexById(139618).DataTemp = l.Ticket;
-                                            // nr.get_GetIndexById(139558).DataTemp = "2";
-                                            nr.get_GetIndexById(139638).DataTemp = "ENDO";
-                                            rb.InsertNew(ref nr, false, false, false, false, true, false, false);
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                        AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                                        RR.result = ListadoResponse.results.error;
-                                        RR.autenticacion = autenticacion;
-                                        RR.codError = 9999;
-                                        RR.descError = ex.ToString();
-                                    }
-                                }
-
-                                var newresultsreciboAvisoRecepAcept = JsonConvert.SerializeObject(listaEstadoResponse, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-                                //  newresultsreciboAvisoRecepAcept = newresultsreciboAvisoRecepAcept.Replace("$", "");
-                                //  XmlDocument docreciboAvisoRecepAcept = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoRecepAcept);
-
-
-                                if (listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr == 0)
-                                {
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP OK");
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP OK");
-
-                                    RR.result = ListadoResponse.results.Ok;
-                                    RR.reciboEstado = listaEstadoResponse.Body.PndListaEndoResult.Recibo;
-                                    RR.autenticacion = autenticacion;
-                                    RR.solicitudFirmaDigital = solicitudFirmaDigital;
-                                    RR.codError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr;
-                                    RR.descError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr;
-                                    RR.Legajos.AddRange(listaEstadoResponse.Body.PndListaEndoResult.Legajos);
-                                }
-                                else
-                                {
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                                    RR.result = ListadoResponse.results.error;
-                                    RR.reciboEstado = listaEstadoResponse.Body.PndListaEndoResult.Recibo;
-                                    RR.autenticacion = autenticacion;
-                                    RR.solicitudFirmaDigital = solicitudFirmaDigital;
-                                    RR.codError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr;
-                                    RR.descError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr;
-                                }
-                            }
-                            else
-                            {
-                                foundLegajos = false;
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "----------------------------------------- NO HAY DESPACHOS EN AFIP");
-                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------- NO HAY DESPACHOS EN AFIP");
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                            ZClass.raiseerror(ex);
-                        }
-
-                        if (foundLegajos)
-                        {
-                            FechaDesde = FechaDesde.AddDays(-currentDays);
-                            FechaHasta = FechaHasta.AddDays(-currentDays);
-                        }
-                        else
-                        {
-                            FechaHasta = FechaDesde;
-                            FechaDesde = FechaDesde.AddDays(-Int64.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5")));
-                            emptyDays += int.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5"));
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                ZClass.raiseerror(ex);
-            }
-
-            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN " + conteodespachante.ToString() + " FIN Consulta DESPACHANTE CUIT: " + Despachante.ToString());
-
-
-
-            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN PROCESO --------------------------------------------");
-
-            AddonlineLog(TraceAFIPBrief, Despachante.ToString() + " TOTAL: " + conteodespachanteTotal.ToString() + " NUEVOS: " + conteodespachanteNuevos.ToString());
-
-            if (conteodespachanteTotal > 0)
-            {
-
-                try
-                {
-                    if (ZOptBusiness.GetValueOrDefault("ModocSendOKeMail", "false") == "true")
-                    {
-                        ISendMailConfig mail = new SendMailConfig();
-
-                        mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                        mail.MailType = MailTypes.NetMail;
-                        mail.SaveHistory = false;
-                        mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar");
-                        mail.Subject = "Zamba - AFIP: " + Despachante.ToString() + " TOTAL: " + conteodespachanteTotal.ToString() + " NUEVOS: " + conteodespachanteNuevos.ToString() + " " + currentdatetime;
-                        mail.Body = string.Join(System.Environment.NewLine, TraceAFIP);
-                        mail.IsBodyHtml = true;
-                        mail.LinkToZamba = false;
-
-                        MessagesBusiness.SendQuickMail(mail);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ZClass.raiseerror(ex);
-                }
-            }
-            else
-            {
-                TraceAFIPNoNews.AddRange(TraceAFIP.ToArray());
-            }
-
-
-            try
-            {
-                if (ZOptBusiness.GetValueOrDefault("ModocSendSinDespachoseMail", "false") == "true")
-                {
-                    ISendMailConfig mail = new SendMailConfig();
-
-                    mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                    mail.MailType = MailTypes.NetMail;
-                    mail.SaveHistory = false;
-                    mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar");
-                    mail.Subject = "Zamba - AFIP: DESPACHANTES SIN DESPACHOS EN ENDO " + currentdatetime;
-                    mail.Body = string.Join(System.Environment.NewLine, TraceAFIPNoNews);
-                    mail.IsBodyHtml = true;
-                    mail.LinkToZamba = false;
-
-                    MessagesBusiness.SendQuickMail(mail);
-                }
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
-
-            try
-            {
-
-                AddonlineLog(TraceAFIPBrief, "Total Despachos ENDO: " + conteototal.ToString());
-
-                ISendMailConfig mail = new SendMailConfig();
-
-                mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                mail.MailType = MailTypes.NetMail;
-                mail.SaveHistory = false;
-                mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar");
-                mail.Subject = "Zamba - AFIP: RESUMEN " + currentdatetime;
-                mail.Body = string.Join(System.Environment.NewLine, TraceAFIPBrief);
-                mail.IsBodyHtml = true;
-                mail.LinkToZamba = false;
-
-                MessagesBusiness.SendQuickMail(mail);
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
-            return RR;
-        }
-
-        private ListadoResponse _PndListaEndoResponseAllDesp(SolicitudFirmaDigital solicitudFirmaDigital, Int64 Despachante, Int64 days)
-        {
-            //0- Obtener Parametros del Servicio
-
-
-            //3- Aviso Recepcion
-            string currentdatetime = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
-            var PSADCUIT = ZOptBusiness.GetValueOrDefault("PSADCUIT", "30714439304");
-            var servicioWConsDepFiel = new ServicioWConsDepFiel();
-
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_URLWSAAWSDL = ZOptBusiness.GetValueOrDefault("AFIPDIGIURL", "https://wsaahomo.afip.gov.ar/ws/services/LoginCms");
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_SERVICIO = ZOptBusiness.GetValueOrDefault("AFIPCONSSERVICE", "wConsDepFiel").ToLower();
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_CERTSIGNER = ZOptBusiness.GetValueOrDefault("AFIPDIGIPFX", @"C:\OpenSSL-Win32\bin\PKMODOC2.pfx");
-            ClienteLoginCms.ProgramaPrincipal.DEFAULT_CERTSIGNER_PASSWORD = ZOptBusiness.GetValueOrDefault("AFIPDIGIPFXPASSWORD", @"modoc");
-
-
-            //obtener datos del despacho
-
-            List<string> codigos = new List<string>();
-            codigos.Add("000");
-            codigos.Add("001");
-            codigos.Add("002");
-            codigos.Add("003");
-            codigos.Add("004");
-            codigos.Add("100");
-            codigos.Add("101");
-
-            ListadoResponse RR = new ListadoResponse();
-
-            List<string> TraceAFIPNoNews = new List<string>();
-            List<string> TraceAFIPBrief = new List<string>();
-
-            Int64 conteodespachante = 0;
-            Int64 conteototal = 0;
-            Int64 totalbackdays = days;
-
-
-            conteodespachante++;
-
-            List<string> TraceAFIP = new List<string>();
-            Int64 conteodespachanteTotal = 0;
-            Int64 conteodespachanteNuevos = 0;
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Cantidad de Despachantes: 1");
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Despachante: " + conteodespachante.ToString() + "/1 : " + Despachante.ToString());
-
-            ZTrace.WriteLineIf(ZTrace.IsInfo, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "*************************************************************************************************************************");
-            ZTrace.WriteLineIf(ZTrace.IsInfo, System.Environment.NewLine);
-
-            ZTrace.WriteLineIf(ZTrace.IsInfo, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Despachante: " + conteodespachante.ToString() + "/1 : " + Despachante.ToString());
-            ZTrace.WriteLineIf(ZTrace.IsInfo, System.Environment.NewLine);
-
-            try
-            {
-
-                Boolean foundLegajos = true;
-
-                foreach (string codigo in codigos)
-                {
-                    int currentDays = 1;
-                    int emptyDays = int.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5"));
-                    DateTime FechaDesde = DateTime.Now.AddDays(-currentDays);
-                    DateTime FechaHasta = DateTime.Now;
-                    foundLegajos = true;
-                    emptyDays = 0;
-
-                    while (foundLegajos == true || emptyDays <= totalbackdays)
-                    {
-
-
-                        try
-                        {
-                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                            solicitudFirmaDigital.cuitPSAD = PSADCUIT;
-                            solicitudFirmaDigital.cuitDeclarante = Despachante.ToString();
-                            solicitudFirmaDigital.codigo = codigo;
-
-                            ////string ModocDefaultMonthsAfipEndoService = ZOptBusiness.GetValueOrDefault("ModocMonthsAfip-" + Despachante.ToString(), "1");
-                            //DateTime FechaDesde = DateTime.Now.AddDays(-currentDaysD);
-                            //DateTime FechaHasta = DateTime.Now.AddDays(-currentDaysH); 
-
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "------- Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
-                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------  Codigo: " + codigo + "  -  Fecha Desde: " + FechaDesde.ToShortDateString() + " - Fecha Hasta: " + FechaHasta.ToShortDateString());
-
-
-                            var dicAutenticacion = ClienteLoginCms.ProgramaPrincipal.Autenticacion();
-
-                            InvocacionServWDigDepFiel.wConsDepFiel.Autenticacion autenticacion = servicioWConsDepFiel.CrearAutenticacion(PSADCUIT, "EXTE", dicAutenticacion["sign"], "PSAD", dicAutenticacion["token"]);
-
-                            PndListaEndoResponse listaEstadoResponse = servicioWConsDepFiel.InvocarServicioPndListaEndoRequest(autenticacion,
-                                   solicitudFirmaDigital.cuitDeclarante, solicitudFirmaDigital.codigo, FechaDesde, FechaHasta);
-                            //try
-                            //{
-                            //    ZOptBusiness.InsertUpdateValue("ModocMonthsAfip-" + Despachante.ToString(), "1");
-                            //}
-                            //catch (Exception)
-                            //{
-
-                            //}
-
-
-                            if (listaEstadoResponse.Body.PndListaEndoResult.Legajos != null)
-                            {
-
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Despachos Obtenidos para el Despachante: " + Despachante.ToString() + " Cantidad: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
-                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " CANTIDAD: " + listaEstadoResponse.Body.PndListaEndoResult.Legajos.Count().ToString());
-                                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                                Int64 conteo = 0;
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Verificando la Existencia de cada Despacho");
-                                foreach (Legajo l in listaEstadoResponse.Body.PndListaEndoResult.Legajos)
-                                {
-
-                                    try
-                                    {
-                                        conteodespachanteTotal++;
-                                        conteo++;
-                                        conteototal++;
-
-                                        string selectLegajo = string.Empty;
-                                        if (codigo == "004" || codigo == "002" || codigo == "003")
-                                        {
-                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK)  where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", l.NroLegajo, l.Codigo, l.Sigea);
-                                        }
-                                        else
-                                        {
-                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'", l.NroLegajo, l.Codigo);
-                                        }
-                                        object LegajoExiste = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, selectLegajo);
-                                        if (!(LegajoExiste is DBNull) && (LegajoExiste.ToString().Length > 0 && Int64.Parse(LegajoExiste.ToString()) > 0))
-                                        {
-                                            //el legajo existe lo actualizamos
-                                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho ya existe, se actualiza: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
-
-                                            string updateLegajo = string.Empty;
-                                            if (codigo == "004")
-                                            {
-                                                updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
-                                            }
-                                            else
-                                            {
-                                                updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
-                                            }
-
-                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, updateLegajo);
-
-                                            //try
-                                            //{
-                                            //    EstadoResponse ER = _listaEstadoResponse(new SolicitudFirmaDigital() { nroDespacho = l.NroLegajo, codigo = l.Codigo });
-                                            //}
-                                            //catch (Exception ex)
-                                            //{
-                                            //    ZClass.raiseerror(ex);
-                                            //}
-
-
-                                        }
-                                        else
-                                        {
-                                            conteodespachanteNuevos++;
-                                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Despacho NO existe, se inserta: " + l.NroLegajo + " Codigo: " + l.Codigo);
-                                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " NUEVO ");
-
-                                            Results_Business rb = new Results_Business();
-                                            //el legajo no existe lo generamos en zamba
-                                            INewResult nr = rb.GetNewNewResult(139072);
-                                            nr.get_GetIndexById(139603).DataTemp = l.Codigo;
-
-                                            nr.get_GetIndexById(139600).DataTemp = l.CuitDeclarante;
-                                            nr.get_GetIndexById(139600).dataDescriptionTemp = l.DescDeclarante;
-                                            nr.get_GetIndexById(139645).DataTemp = l.CuitDeclarante;
-                                            nr.get_GetIndexById(139579).DataTemp = l.DescDeclarante;
-
-                                            nr.get_GetIndexById(149651).DataTemp = l.CuitIE;
-                                            nr.get_GetIndexById(149651).dataDescriptionTemp = l.DescIE;
-                                            nr.get_GetIndexById(26296).DataTemp = l.CuitIE;
-                                            nr.get_GetIndexById(139562).DataTemp = l.DescIE;
-
-                                            nr.get_GetIndexById(26405).DataTemp = l.FechaEndo.ToString();
-                                            nr.get_GetIndexById(139551).DataTemp = l.FechaOfic.ToString();
-                                            nr.get_GetIndexById(139559).DataTemp = l.ImporteLiq.ToString();
-                                            nr.get_GetIndexById(139548).DataTemp = l.NroLegajo;
-                                            //nr.get_GetIndexById().DataTemp = l.NroReferencia;
-                                            //nr.get_GetIndexById().DataTemp = l.OptoCambioVia;
-                                            nr.get_GetIndexById(139578).DataTemp = l.Sigea;
-                                            nr.get_GetIndexById(139618).DataTemp = l.Ticket;
-                                            // nr.get_GetIndexById(139558).DataTemp = "2";
-                                            nr.get_GetIndexById(139638).DataTemp = "ENDO";
-                                            rb.InsertNew(ref nr, false, false, false, false, true, false, false);
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                        AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "ERROR al procesar el despacho: " + l.NroLegajo + " con Codigo: " + l.Codigo + " : " + ex.ToString());
-                                        AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                                        RR.result = ListadoResponse.results.error;
-                                        RR.autenticacion = autenticacion;
-                                        RR.codError = 9999;
-                                        RR.descError = ex.ToString();
-                                    }
-                                }
-
-                                var newresultsreciboAvisoRecepAcept = JsonConvert.SerializeObject(listaEstadoResponse, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
-                                //  newresultsreciboAvisoRecepAcept = newresultsreciboAvisoRecepAcept.Replace("$", "");
-                                //  XmlDocument docreciboAvisoRecepAcept = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoRecepAcept);
-
-
-                                if (listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr == 0)
-                                {
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP OK");
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP OK");
-
-                                    RR.result = ListadoResponse.results.Ok;
-                                    RR.reciboEstado = listaEstadoResponse.Body.PndListaEndoResult.Recibo;
-                                    RR.autenticacion = autenticacion;
-                                    RR.solicitudFirmaDigital = solicitudFirmaDigital;
-                                    RR.codError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr;
-                                    RR.descError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr;
-                                    RR.Legajos.AddRange(listaEstadoResponse.Body.PndListaEndoResult.Legajos);
-                                }
-                                else
-                                {
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                                    AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR: " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr + "  " + listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr);
-                                    AddonlineLog(TraceAFIP, System.Environment.NewLine);
-
-                                    RR.result = ListadoResponse.results.error;
-                                    RR.reciboEstado = listaEstadoResponse.Body.PndListaEndoResult.Recibo;
-                                    RR.autenticacion = autenticacion;
-                                    RR.solicitudFirmaDigital = solicitudFirmaDigital;
-                                    RR.codError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.CodErr;
-                                    RR.descError = listaEstadoResponse.Body.PndListaEndoResult.Recibo.DescErr;
-                                }
-                            }
-                            else
-                            {
-                                foundLegajos = false;
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "----------------------------------------- NO HAY DESPACHOS EN AFIP");
-                                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "----------------------------------------- NO HAY DESPACHOS EN AFIP");
-                            }
-
-                        }
-                        catch (Exception ex)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                            ZClass.raiseerror(ex);
-                        }
-
-                        if (foundLegajos)
-                        {
-                            FechaDesde = FechaDesde.AddDays(-currentDays);
-                            FechaHasta = FechaHasta.AddDays(-currentDays);
-                        }
-                        else
-                        {
-                            FechaHasta = FechaDesde;
-                            FechaDesde = FechaDesde.AddDays(-Int64.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5")));
-                            emptyDays += int.Parse(ZOptBusiness.GetValueOrDefault("ModocemptyDays", "5"));
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "Recepcion de despacho desde AFIP ERROR. " + ex.ToString());
-                AddonlineLog(TraceAFIP, System.Environment.NewLine);
-                ZClass.raiseerror(ex);
-            }
-
-            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN " + conteodespachante.ToString() + " FIN Consulta DESPACHANTE CUIT: " + Despachante.ToString());
-
-
-
-            AddonlineLog(TraceAFIP, System.Environment.NewLine);
-            AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + "-----------------------------  FIN PROCESO --------------------------------------------");
-
-            AddonlineLog(TraceAFIPBrief, Despachante.ToString() + " TOTAL: " + conteodespachanteTotal.ToString() + " NUEVOS: " + conteodespachanteNuevos.ToString());
-
-            if (conteodespachanteTotal > 0)
-            {
-
-                try
-                {
-                    if (ZOptBusiness.GetValueOrDefault("ModocSendOKeMail", "false") == "true")
-                    {
-                        ISendMailConfig mail = new SendMailConfig();
-
-                        mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                        mail.MailType = MailTypes.NetMail;
-                        mail.SaveHistory = false;
-                        mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar");
-                        mail.Subject = "Zamba - AFIP: " + Despachante.ToString() + " TOTAL: " + conteodespachanteTotal.ToString() + " NUEVOS: " + conteodespachanteNuevos.ToString() + " " + currentdatetime;
-                        mail.Body = string.Join(System.Environment.NewLine, TraceAFIP);
-                        mail.IsBodyHtml = true;
-                        mail.LinkToZamba = false;
-
-                        MessagesBusiness.SendQuickMail(mail);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ZClass.raiseerror(ex);
-                }
-            }
-            else
-            {
-                TraceAFIPNoNews.AddRange(TraceAFIP.ToArray());
-            }
-
-
-            try
-            {
-                if (ZOptBusiness.GetValueOrDefault("ModocSendSinDespachoseMail", "false") == "true")
-                {
-                    ISendMailConfig mail = new SendMailConfig();
-
-                    mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                    mail.MailType = MailTypes.NetMail;
-                    mail.SaveHistory = false;
-                    mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar");
-                    mail.Subject = "Zamba - AFIP: DESPACHANTES SIN DESPACHOS EN ENDO " + currentdatetime;
-                    mail.Body = string.Join(System.Environment.NewLine, TraceAFIPNoNews);
-                    mail.IsBodyHtml = true;
-                    mail.LinkToZamba = false;
-
-                    MessagesBusiness.SendQuickMail(mail);
-                }
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
-
-            try
-            {
-
-                AddonlineLog(TraceAFIPBrief, "Total Despachos ENDO: " + conteototal.ToString());
-
-                ISendMailConfig mail = new SendMailConfig();
-
-                mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                mail.MailType = MailTypes.NetMail;
-                mail.SaveHistory = false;
-                mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar");
-                mail.Subject = "Zamba - AFIP: RESUMEN " + currentdatetime;
-                mail.Body = string.Join(System.Environment.NewLine, TraceAFIPBrief);
-                mail.IsBodyHtml = true;
-                mail.LinkToZamba = false;
-
-                MessagesBusiness.SendQuickMail(mail);
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-            }
-            return RR;
-        }
-
         public class ListadoResponse
         {
             public results result { get; internal set; }

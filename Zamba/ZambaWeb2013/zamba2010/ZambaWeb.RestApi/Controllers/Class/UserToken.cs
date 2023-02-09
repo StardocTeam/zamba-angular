@@ -60,8 +60,7 @@ namespace ZambaWeb.RestApi.Controllers
                                         new JProperty("token_type", "bearer"),
                                         new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
                                         new JProperty("issued", ticket.Properties.IssuedUtc.ToString()),
-                                        new JProperty("expiredate", ticket.Properties.ExpiresUtc.ToString()),
-                                        new JProperty("connectionId", user.ConnectionId.ToString())
+                                        new JProperty("expiredate", ticket.Properties.ExpiresUtc.ToString())
         );
 
             return tokenResponse;

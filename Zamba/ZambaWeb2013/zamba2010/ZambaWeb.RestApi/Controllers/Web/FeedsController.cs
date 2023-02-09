@@ -24,6 +24,7 @@ using Zamba.Framework;
 namespace ZambaWeb.RestApi.Controllers
 {
     [RoutePrefix("api/Feeds")]
+    [RestAPIAuthorize]
     public class FeedsController : ApiController
     {
         #region Constructor&ClassHelpers
@@ -97,7 +98,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
         #endregion
-
+        [OverrideAuthorization]
         [System.Web.Http.AcceptVerbs("GET")]
         public IHttpActionResult Get()
         {

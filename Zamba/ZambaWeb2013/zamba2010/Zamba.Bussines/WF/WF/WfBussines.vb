@@ -146,7 +146,7 @@ Public Class WFBusiness
                 If Not RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, Zamba.Core.RightsType.HideStepFromWfTree, Int64.Parse(dr("WFStepId"))) Then
                     If (WFID <> Int64.Parse(dr("WfId"))) Then
                         WFID = Int64.Parse(dr("WfId"))
-                        ' WFCount = 0
+                        'WFCount = 0
 
                         W = New Zamba.Core.EntityView(Int64.Parse(dr("WfId")), dr("WFName").ToString(), 0)
                         W.ChildsEntities = New System.Collections.Generic.List(Of EntityView)
@@ -156,7 +156,7 @@ Public Class WFBusiness
 
                     'Dim Cantidad As Int64 = dr("Cantidad").ToString()
                     Dim s As New Zamba.Core.EntityView(Int64.Parse(dr("WFStepId")), dr("WFStepName").ToString(), 0)
-                    ' WFCount += Cantidad
+                    'WFCount += Cantidad
                     W.ChildsEntities.Add(s)
                 End If
             Next
@@ -194,23 +194,12 @@ Public Class WFBusiness
     End Function
     Public Function GetWorkflowNameByWFId(ByVal workId As Int64) As String
         If workId > 0 Then
-
-            If (Cache.Workflows.hsStepsNames.Contains(workId)) Then
-                Return Cache.Workflows.hsStepsNames(workId)
-            Else
-                Dim WF As New WFFactory
-                Dim name As String = WF.GetWorkflowNameByWFId(workId)
-                SyncLock Cache.Workflows.hsStepsNames
-                    If (Cache.Workflows.hsStepsNames.Contains(workId) = False) Then
-                        Cache.Workflows.hsStepsNames.Add(workId, name)
-                    End If
-                End SyncLock
-                Return name
-            End If
-            Else
-                Return String.Empty
-            End If
-
+            Dim WF As New WFFactory
+            Dim name As String = WF.GetWorkflowNameByWFId(workId)
+            Return name
+        Else
+            Return String.Empty
+        End If
 
     End Function
     ''' <summary>

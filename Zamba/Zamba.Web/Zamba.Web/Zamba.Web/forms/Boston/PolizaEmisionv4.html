@@ -10,8 +10,8 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     
-    
+    <script src="jquery-1.7.2.min.js" type="text/javascript" language="JavaScript"></script>
+    <script src="Scripts/Zamba.js" type="text/javascript" language="JavaScript"></script>
 
     <style type="text/css">
         input {
@@ -147,7 +147,18 @@
                 document.getElementById("zamba_index_5").value = "1";
             }
 
-          
+            $(function () {
+                $('#zamba_index_29').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: 'button',
+                    buttonText: 'Abrir calendario',
+                    buttonImage: 'calendar.png',
+                    dateFormat: "dd/mm/yy",
+                    buttonImageOnly: true,
+                    duration: ""
+                });
+            });
         }
 
         function esDigito(sChr) {
@@ -360,7 +371,6 @@
             //formatLoadDate();
         } 
     </script>
-    </head>
 
 <body style="font-family:'Times New Roman'">
     <div class="container-fluid">
@@ -373,13 +383,13 @@
             <div class="form-group row">
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">Codigo Asegurado:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Codigo Asegurado:</span>
                         <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_1143" name="zamba_index_1143" onkeypress="EnterKeyPressedHandler(event)" />
                         <span class="input-group-btn">
                             <span class="input-group-btn">
                                 <button class="btn  btn-primary btn-sm" id="zamba_rule_6072" name="zamba_rule_6072"
-                                    type="submit" onclick="SetRuleId(this);">Verificar</button>
+                                    type="button" onclick="SetRuleId(this);">Verificar</button>
                             </span>
                         </span>
                     </div>
@@ -387,7 +397,7 @@
 
                 <div class="col-md-6">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">Asegurado:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Asegurado:</span>
                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_3" name="zamba_index_3" />
                     </div>
@@ -395,8 +405,8 @@
 
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">Vigencia Desde:</span>
-                        <input class="form-control  input-sm" style=" color: #090A0A; font-weight: bold"
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Vigencia Desde:</span>
+                        <input class="form-control datepicker input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_29" name="zamba_index_29" />
                     </div>
                 </div>
@@ -407,7 +417,7 @@
             <div class="form-group row">
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">DNI Asegurado:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">DNI Asegurado:</span>
                         <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_1127" name="zamba_index_1127" />
                     </div>
@@ -415,7 +425,7 @@
 
                 <div class="col-md-3">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">CUIT Asegurado:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">CUIT Asegurado:</span>
                         <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_1128" name="zamba_index_1128" readonly="readonly" />
                     </div>
@@ -427,41 +437,41 @@
             <div class="form-group row">
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">Codigo Productor:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Codigo Productor:</span>
                         <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_4" name="zamba_index_4" onkeypress="EnterKeyPressedHandler(event)" />
-                      
+                        <span class="input-group-btn">
                             <span class="input-group-btn">
                                 <button class="btn  btn-primary btn-sm" id="zamba_rule_5035" name="zamba_rule_5035"
-                                    type="submit" onclick="SetRuleId(this);">
-                                    <img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+                                    type="button" onclick="SetRuleId(this);">
+                                    <img alt="" src="images/Lupa.png" height="11" width="11" /></button>
                             </span>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="input-group">
-                        <span class="input-group-addon" style=""> Nombre Productor:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5"> Nombre Productor:</span>
                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_58" name="zamba_index_58" />
                         <span class="input-group-btn">
                             <span class="input-group-btn">
                                 <button class="btn  btn-primary btn-sm" id="zamba_rule_5035" name="zamba_rule_5035"
-                                    type="submit" onclick="SetRuleId(this);">Verificar</button>
+                                    type="button" onclick="SetRuleId(this);">Verificar</button>
                             </span>
                         </span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">CUIT Productor:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">CUIT Productor:</span>
                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_1139" name="zamba_index_1139" onkeypress="limpiarProductor()" />
                         <span class="input-group-btn">
                             <span class="input-group-btn">
                                 <button class="btn  btn-primary btn-sm" id="zamba_rule_5019" name="zamba_rule_5019"
-                                    type="submit" onclick="SetRuleId(this);">
-                                    <img alt="" src="images/Lupa.png" height="16" width="16" /></button>
+                                    type="button" onclick="SetRuleId(this);">
+                                    <img alt="" src="images/Lupa.png" height="11" width="11" /></button>
                             </span>
                         </span>
                     </div>
@@ -470,14 +480,14 @@
 
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">Cantidad de Items:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Cantidad de Items:</span>
                         <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_5" name="zamba_index_5" />
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon" style="">Patente:</span>
+                        <span class="input-group-addon" style="background-color:#e5e5e5">Patente:</span>
                         <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
                             id="zamba_index_39" name="zamba_index_39" />
                     </div>
@@ -511,14 +521,14 @@
             <div class="row">
                 <center>
                     <div class="col-md-2" style="position:relative;left:20px;">
-                        
+                        <img alt="" src="images/boston.jpg" height="65" width="135" style="float: left" />
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:white">PolizaEmisionv4.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="115" style="float: right" />
                         <div class="form-group row">
                         </div>
                     </div>

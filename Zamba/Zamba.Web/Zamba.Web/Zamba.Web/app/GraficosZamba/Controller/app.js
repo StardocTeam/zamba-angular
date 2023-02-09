@@ -680,7 +680,7 @@ function ValuesFromTable(valueForRuleQuery) {
             }
         }
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
     return jsonlist;
 }

@@ -18,10 +18,10 @@ namespace Zamba.Filters
 
         //private string mLogicalOperator;
         private readonly string _mComparator;
-        private string _mFilter;
-        private string _mDescription;
+        private readonly string _mFilter;
+        private readonly string _mDescription;
         private readonly string _mType;
-        private string _mValue;
+        private readonly string _mValue;
         private readonly string _mFormatValue;
         private bool _nValue;
 
@@ -36,21 +36,11 @@ namespace Zamba.Filters
         public string Filter
         {
             get { return _mFilter; }
-            set
-            {
-                    _mFilter = value;
-            }
         }
-
-        
 
         public string Description
         {
             get { return _mDescription; }
-            set
-            {
-                _mDescription = value;
-            }
         }
 
         public IndexDataType DataType { get; private set; }
@@ -58,10 +48,6 @@ namespace Zamba.Filters
         public string Value
         {
             get { return _mValue; }
-            set
-            {
-                _mValue = value;
-            }
         }
 
         public string FormatValue
@@ -120,8 +106,6 @@ namespace Zamba.Filters
             return Text;
         }
 
-        public string DataDescription { get; set; }
-
         #region Constructores
 
         public FilterElem(Int64 filterId, Int64 indexId, string filterName, string v, string comparator, string filterType, IndexDataType indexType,
@@ -133,69 +117,7 @@ namespace Zamba.Filters
             UserId = currentUserId;
             Id = filterId;
             IndexSubsType = additionalType;
-            this.DataDescription = String.Empty;
-            _nValue = false;
 
-            //Se agrego este if por si en la cofiguracion de valores para la busqueda por 
-            //defecto se cargo una consulta de sql, para que esta se pueda ejecutar[sebastian 04/11/2008]
-            string queryResult = String.Empty;
-
-            //Evaluo si el valor del filtro por defecto es una consulta de sql
-            if (v.ToLower().Contains("select"))
-            {
-                string select = v.ToLower().Substring(v.ToLower().IndexOf("select"));
-
-                select = select.ToLower().Replace("currentuserid", currentUserId.ToString());
-                select = select.Replace('\"', '\'');
-
-                if (!String.IsNullOrEmpty(select))
-                    queryResult = Indexs_Factory.GetIndexFilterText(select);
-
-                v = queryResult;
-            }
-            else if (v.ToLower().Contains("currentuserid"))
-            {
-                v = v.ToLower().Replace("currentuserid", currentUserId.ToString());
-            }
-
-            _mFilter = indexId <= 0 ? GridColumns.GetColumnNameByAliasName(filterName) : "I" + indexId;
-
-            if (v.Contains(","))
-            {
-                _mFormatValue = "(" + v + ")";
-                v = v.Replace("'", String.Empty);
-                //se asigna esta propiedad para reemplazar la coma al visualizar los filtros
-
-                //En caso de que el filtrado sea manual, se formatea el valor a filtrar.
-                v = FormatMultipleValues(description, v, indexType, comparator);
-            }
-            else
-            {
-                v = "(" + v + ")";
-                _mFormatValue = v;
-            }
-
-            _mValue = v;
-            _mDescription = description.Trim();
-            _mType = filterType;
-            //this.mLogicalOperator = logicalOperator;
-
-            if (string.IsNullOrEmpty(comparator))
-                _mComparator = v.Contains(",") ? String.Empty : "=";
-            else
-                _mComparator = comparator;
-        }
-
-        public FilterElem(Int64 filterId, Int64 indexId, string filterName, string v, string comparator, string filterType, IndexDataType indexType,
-                  Int64 currentUserId, Int64 docTypeId, string description, IndexAdditionalType additionalType,string dataDescription)
-        {
-            Enabled = true;
-            DataType = indexType;
-            DocTypeId = docTypeId;
-            UserId = currentUserId;
-            Id = filterId;
-            IndexSubsType = additionalType;
-            this.DataDescription = dataDescription;
             _nValue = false;
 
             //Se agrego este if por si en la cofiguracion de valores para la busqueda por 

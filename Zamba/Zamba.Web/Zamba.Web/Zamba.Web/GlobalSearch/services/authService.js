@@ -1,117 +1,14 @@
 ﻿'use strict';
-var serviceBase = ZambaWebRestApiURL;
+var serviceBase = ZambaWebRestApiURL.toLowerCase().replace("/api", "/");
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
 
-app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$interval', function ($http, $q, localStorageService, ngAuthSettings, $interval) {
+app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
-
-    //if (window.localStorage.getItem('authorizationData') !== null && window.localStorage.getItem('authorizationData') !== "" )
-    connectionUserActive();
-
-    _KeepAlive();
-
-    function _KeepAlive() {
-
-        $interval(function () {
-
-            /* if (window.localStorage.getItem('authorizationData') != null && window.localStorage.getItem('authorizationData') != "")*/
-            //_removeCurrentUser();
-            connectionUserActive();
-
-        }, 60000);
-
-    }
-
-    function connectionUserActive() {
-        const UserIdService = parseInt(GetUID());
-        if (!$("#modalLogin").hasClass("in")) {
-            if (window.localStorage.getItem('authorizationData') != null && window.localStorage.getItem('authorizationData') != "") {
-                let userToken = JSON.parse(localStorage.getItem('authorizationData'));
-                let UserIdStorage = parseInt(localStorage.getItem('UserId'));
-                let { token } = userToken;
-
-                $.ajax({
-                    type: "POST",
-                    url: "../../Services/TaskService.asmx/IsConnectionActive",
-                    data: jQuery.param({ userId: UserIdService, token: token, userLocalStorage: UserIdStorage }),
-                    async: true,
-                    success: function (response) {
-
-
-                        let { IsValid, isReload, RebuildUrl } = JSON.parse(response.children[0].textContent);
-                        console.log("trace servicio IsValid: " + IsValid);
-                        console.log("trace servicio RebuildUrl: " + RebuildUrl);
-                        let UserIdStorage = localStorage.getItem('UserId');
-
-                        if (!IsValid) {
-
-                            console.log("trace servicio boolValue es false se manda al loguin ");
-                            _showModalLoginInSearch(UserIdService, isReload);
-
-                        }else if (RebuildUrl || UserIdStorage != UserIdService) {
-
-                            _removeCurrentUser();
-
-                            var ParameterByUrlOld = location.search.replace("?", "").split("&");
-
-                            let ParameterByUrlNew = ParameterByUrlOld.map(function (element) {
-
-                                if (element.includes("t=")) {
-                                    return element = "t=" + token;
-                                } else if (element.includes("user") || element.includes("User")) {
-
-                                    if (element.includes("user"))
-                                        return element = element.split("=")[0] + "=" + UserIdStorage;
-
-                                    if (element.includes("User"))
-                                        return element = element.split("=")[0] + "=" + UserIdStorage;
-
-                                } else {
-
-                                    if(element != "")
-                                        return element;
-                                }
-                            });
-
-
-                            let FinalUrlParameter = "?";
-                            let iteracion = 0;
-                            ParameterByUrlNew.forEach(function (element) {
-                                iteracion++;
-                                if(element != undefined)
-                                    if (iteracion === element.length) {
-                                        FinalUrlParameter += (element)
-                                    } else {
-                                        if (ParameterByUrlNew[iteracion + 1] != undefined);
-                                        FinalUrlParameter += (element + "&");
-                                    }
-                            });
-                            if (FinalUrlParameter != '?&') {
-                                window.location.href = location.href.split("?")[0] + FinalUrlParameter;
-                            }
-                            else {
-                                console.log("trace servicio boolValue es false se manda al loguin ");
-                                _showModalLoginInSearch(UserIdService, isReload);
-                            }
-                        } 
-                    },
-                    error: function (request, status, error) {
-                        console.log(error);
-                        _showModalLoginInSearch(UserIdService, true);
-                    }
-                });
-
-
-            } else {
-                _showModalLoginInSearch(UserIdService, true);
-            }
-        }
-    }
 
     var _authentication = {
         isAuth: false,
@@ -130,7 +27,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         _logOut();
 
-        return $http.post(serviceBase + '/account/register', registration).then(function (response) {
+        return $http.post(serviceBase + 'api/account/register', registration).then(function (response) {
             return response;
         });
 
@@ -149,26 +46,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
 
             if (loginData.useRefreshTokens) {
-
-                if (window.localStorage) {
-                    if (window.localStorage.getItem('authorizationData') !== undefined) {
-                        window.localStorage.removeItem('authorizationData');
-                        window.localStorage.setItem('authorizationData', JSON.stringify({ token: response.access_token, userName: loginData.userName, refreshToken: response.refresh_token, useRefreshTokens: true, UserId: GetUID() }));
-                    }
-                }
+                if (localStorage) localStorage.setItem('authorizationData', { token: response.data.access_token, userName: loginData.userName, refreshToken: response.data.refresh_token, useRefreshTokens: true, UserId: GetUID() });
             }
             else {
-
-
-                if (loginData.useRefreshTokens) {
-
-                    if (window.localStorage) {
-                        if (window.localStorage.getItem('authorizationData') !== undefined) {
-                            window.localStorage.removeItem('authorizationData');
-                            window.localStorage.setItem('authorizationData', JSON.stringify({ token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false, UserId: GetUID() }));
-                        }
-                    }
-                }
+                if (localStorage) localStorage.setItem('authorizationData', { token: response.data.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false, UserId: GetUID() });
             }
             _authentication.isAuth = true;
             _authentication.userName = loginData.userName;
@@ -176,7 +57,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             _authentication.generateDate = new Date();
             deferred.resolve(response);
 
-        }).catch(function (err, status) {
+        }).catch(function (err) {
             _logOut();
             deferred.reject(err);
         });
@@ -188,73 +69,61 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _logOut = function () {
         try {
             _removeConnectionFromWeb();
-            //_removeZzsToken();
-
-
-            //            localStorageService.remove('authorizationData');
-
-            var RecordTree = window.localStorage.getItem('localTreeData|' + GetUID())
-            if (window.localStorage)
-                window.localStorage.clear();
-            if (RecordTree != undefined)
-                window.localStorage.setItem('localTreeData|' + GetUID(), RecordTree);
+            _removeZzsToken();
+            localStorage.removeItem('authorizationData');
+            localStorage.removeItem('queryStringAuthorization');
             _authentication.isAuth = false;
             _authentication.userName = "";
             _authentication.useRefreshTokens = false;
             _authentication.generateDate = "";
+            var token_id_okta = localStorage.getItem('OKTA');
+            //if (token_id_okta != undefined && token_id_okta != null && token_id_okta != "") {
+
+            //    //https://{yourOktaDomain}/logout` +
+            //    //`?id_token_hint=${idToken}` +`&post_logout_redirect_uri=${postLogoutUri}`;
+            //    //location.href = "../../views/Security/OktaAuthenticacion.html?logout=true";
+            //    return;
+            //}
+            //else {
+            //    //location.href = "/Zamba.Web";
+            //}
+
+
         } catch (e) {
-            console.error(e);
+            console.log(e);
         }
 
-        //_showModalLoginInSearch();
+        //window.onbeforeunload = function () {
+        //    showedDialog = true;
+        //};
+        var destinationURL = "../../views/Security/Login.aspx?ReturnUrl=" + window.location;
+        //document.location = destinationURL;
+
     };
-
-
-
-    function _showModalLoginInSearch(UserId, isReload) {
-
-        var linkSrc = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1] + "/views/security/login?showModal=true&reloadLogin=" + isReload + "&userid=" + UserId;
-        document.getElementById('iframeModalLogin').src = linkSrc;
-        $('#modalLogin').modal('show');
-    }
 
     var _getNewAuthData = function () {
         var UserId = parseInt(GetUID());
         if (UserId > 0) {
             var deferred = $q.defer();
-
-
             $http.get(ZambaWebRestApiURL + "/Account/LoginById?userId=" + UserId).then(function (tkn) {
-                if (tkn == null || tkn == "") {
+                if (tkn.data == null || tkn.data == "") {
                     console.log("Problema al generar token");
                     return;
                 }
                 var datenow = new Date().toLocaleDateString();
                 var tokenInfo = JSON.parse(typeof (tkn.data) == "string" ? tkn.data : tkn.data.d);
-                /*if (new Date(tokenInfo.tokenExpire) >= datenow) {*///Token no haya expirado - Fecha exp mayor a ahora
-
-                if (window.localStorage) {
-                    if (window.localStorage.getItem('authorizationData') !== undefined) {
-                        window.localStorage.removeItem('authorizationData');
-                        window.localStorage.setItem('authorizationData', JSON.stringify({
-                            token: tokenInfo.token,
-                            userName: tokenInfo.userName,
-                            refreshToken: tokenInfo.refreshToken,
-                            useRefreshTokens: tokenInfo.useRefreshTokens,
-                            generateDate: new Date(), UserId: GetUID()
-                        }));
-                    }
-                }
+                if (localStorage) localStorage.setItem('authorizationData', {
+                    token: tokenInfo.token,
+                    userName: tokenInfo.userName,
+                    refreshToken: tokenInfo.refreshToken,
+                    useRefreshTokens: tokenInfo.useRefreshTokens,
+                    generateDate: new Date(), UserId: GetUID()
+                });
                 _authentication.isAuth = true;
                 _authentication.userName = tokenInfo.userName;
                 _authentication.useRefreshTokens = tokenInfo.useRefreshTokens;
                 deferred.resolve(tkn);
-                //}
-                //else {
-                //    //TODO relogin
-                //    console.error("Token invalido");             
-                //}
-            }).catch(function (err, status) {
+            }).catch(function (err) {
                 _logOut();
                 deferred.reject(err);
             });
@@ -265,76 +134,89 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             _logOut();
         }
     };
+    function _getQueryStringAuthorization() {
+        var userId;
+        var token;
+        var querystring = "";
+        if (localStorage.authorizationData != undefined) {
+            var authorizationData = JSON.parse(localStorage.authorizationData);
+            userId = authorizationData.UserId;
+            token = authorizationData.token;
+        }
+        else {
+            userId = getUrlParameter("userid");
+            token = getUrlParameter("token");
+        }
 
+        querystring = "userid=" + userId + "&token=" + token.substring(0,180);
+        return querystring;
+    }
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+
+    function _getHeaderAuthorization() {
+        var userId;
+        var token;
+        if (localStorage.authorizationData != undefined) {
+            var authorizationData = JSON.parse(localStorage.authorizationData);
+            userId = authorizationData.UserId;
+            token = authorizationData.token;
+        }
+        else {
+            userId = getUrlParameter("userid");
+            token = getUrlParameter("token");
+        }
+        var header = "Bearer " + window.btoa(userId + ":" + token);
+        return header;
+    }
     var _fillAuthData = function () {
-        var authData = window.localStorage.getItem('authorizationData');
-        if (authData == undefined || authData == null || authData == "[object Object]") {
+        var authData = localStorage.getItem('authorizationData');
+        if ( authData == undefined || authData == null || authData == "[object Object]" ) {
             return 'invalid user';
         }
+        if (authData != null && (authData.UserId != undefined && authData.UserId != GetUID())) {
 
-        try {
-            authData = JSON.parse(authData);
-            if (authData == null || authData.UserId == undefined || authData.UserId != GetUID()) {
-                window.localStorage.removeItem('authorizationData');
-                return 'invalid user';
-            }
-        } catch (e) {
-            console.error(e);
-            var curruserId = window.localStorage.getItem('UserId');
-            if (curruserId == null || curruserId == undefined || curruserId != GetUID()) {
-                window.localStorage.removeItem('authorizationData');
-                return 'invalid user';
-            }
+            localStorage.removeItem('authorizationData');
+            return 'invalid user';
+        }
+        else {
 
         }
 
-        var tokenExpire = moment(authData.tokenExpire);
-        var validDate = moment(new Date());
-        if (validDate.format("DD/MM/YYYY HH:mm:ss") >= tokenExpire._i) {
+        var generateDate = new Date(authData.generateDate);
+        var expireDate = generateDate.setDate(generateDate.getDate() + 10);
+        if (new Date() >= new Date(expireDate)) {
             return;
         }
-        //var tokenExpire = moment(authData.tokenExpire)
-        //if (moment(new Date()) >= tokenExpire) {
-        //    return;
-        //}
-
 
         _authentication.isAuth = true;
         _authentication.userName = authData.userName;
         _authentication.useRefreshTokens = authData.useRefreshTokens;
-
+        return;
         return authData.token;
     };
 
     var _refreshToken = function () {
         var deferred = $q.defer();
-        var authData = window.localStorage.getItem('authorizationData');
+        var authData = localStorage.getItem('authorizationData');
         if (authData) {
             if (authData.useRefreshTokens) {
                 var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + ngAuthSettings.clientId;
-
-
-                if (window.localStorage) {
-                    if (window.localStorage.getItem('authorizationData') !== undefined) {
-                        window.localStorage.removeItem('authorizationData');
-                        window.localStorage.removeItem('authorizationData');
-                    }
-                }
+                if (localStorage) localStorage.removeItem('authorizationData');
 
                 $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(function (response) {
 
-                    if (window.localStorage) {
-                        if (window.localStorage.getItem('authorizationData') !== undefined) {
-                            window.localStorage.removeItem('authorizationData');
-                            window.localStorage.setItem('authorizationData', JSON.stringify({ token: response.access_token, userName: response.userName, refreshToken: response.refresh_token, useRefreshTokens: true, UserId: GetUID() }));
-                        }
-                    }
-
-
+                    if (localStorage) localStorage.setItem('authorizationData', { token: response.data.access_token, userName: response.data.userName, refreshToken: response.data.refresh_token, useRefreshTokens: true, UserId: GetUID() });
 
                     deferred.resolve(response);
 
-                }).catch(function (err, status) {
+                }).catch(function (err) {
                     _logOut();
                     deferred.reject(err);
                 });
@@ -347,17 +229,17 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + '/account/ObtainLocalAccessToken', { params: { provider: externalData.provider, externalAccessToken: externalData.externalAccessToken } }).then(function (response) {
+        $http.get(serviceBase + 'api/account/ObtainLocalAccessToken', { params: { provider: externalData.provider, externalAccessToken: externalData.externalAccessToken } }).then(function (response) {
 
-            if (window.localStorage) window.localStorage.setItem('authorizationData', JSON.stringify({ token: response.access_token, userName: response.userName, refreshToken: "", useRefreshTokens: false, UserId: GetUID() }));
+            if (localStorage) localStorage.setItem('authorizationData', { token: response.data.access_token, userName: response.data.userName, refreshToken: "", useRefreshTokens: false, UserId: GetUID() });
 
             _authentication.isAuth = true;
-            _authentication.userName = response.userName;
+            _authentication.userName = response.data.userName;
             _authentication.useRefreshTokens = false;
 
             deferred.resolve(response);
 
-        }).catch(function (err, status) {
+        }).catch(function (err) {
             _logOut();
             deferred.reject(err);
         });
@@ -370,22 +252,17 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         var deferred = $q.defer();
 
-        $http.post(serviceBase + '/account/registerexternal', registerExternalData).then(function (response) {
+        $http.post(serviceBase + 'api/account/registerexternal', registerExternalData).then(function (response) {
 
-            if (window.localStorage) {
-                if (window.localStorage.getItem('authorizationData') !== undefined) {
-                    window.localStorage.removeItem('authorizationData');
-                    window.localStorage.setItem('authorizationData', JSON.stringify({ token: response.access_token, userName: response.userName, refreshToken: "", useRefreshTokens: false, UserId: GetUID() }));
-                }
-            }
+            if (localStorage) localStorage.setItem('authorizationData', { token: response.data.access_token, userName: response.data.userName, refreshToken: "", useRefreshTokens: false, UserId: GetUID() });
 
             _authentication.isAuth = true;
-            _authentication.userName = response.userName;
+            _authentication.userName = response.data.userName;
             _authentication.useRefreshTokens = false;
 
             deferred.resolve(response);
 
-        }).catch(function (err, status) {
+        }).catch(function (err) {
             _logOut();
             deferred.reject(err);
         });
@@ -394,108 +271,119 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     var _getTokenInfo = function () {
-        return window.localStorage.getItem('authorizationData');
+        return localStorage.getItem('authorizationData');
     };
-
 
     var _removeConnectionFromWeb = function () {
-        try {
-            var connectionId = parseInt(window.localStorage.getItem("ConnId"));
-            if (connectionId != undefined && connectionId > 0) {
-                connectionId = window.localStorage.getItem("ConnId");
-                $http.post(serviceBase + '/account/RemoveConnection?ConnId=' + connectionId).then(function (response) {
-                }).catch(function (err, status) {
+        if (localStorage) {
+            if (localStorage.getItem("ConnId") != null) {
+                var connectionId = parseInt(localStorage.getItem("ConnId"));
+                $http.post(serviceBase + 'api/account/RemoveConnection?ConnId=' + connectionId).then(function (response) {
+                }).catch(function (err) {
+
                 });
             }
-        } catch (e) {
-            console.error(e);
-        }
-
-
-    };
-
-
-
-    var _removeCurrentUser = function () {
-        try {
-            $.ajax({
-                type: "POST",
-                url: "../../Services/TaskService.asmx/RemoveConnectionFromWeb",
-                data: jQuery.param({ connectionId: 0, computer: "" }),
-                async: false,
-                success: function (response) {
-                    var result = response;
-                },
-                error: function (request, status, err) {
-                    console.log(err);
-                }
-            });
-
-        } catch (e) {
-            console.error(e);
-        }
-
-
+        }        
     };
 
 
     var _removeZzsToken = function () {
-        try {
-            var userid = GetUID();
-            if (userid != undefined && userid > 0) {
-                userid = parseInt(userid);
-
-                $http.post(serviceBase + '/account/removeZssUser?Userid=' + userid).then(function (response) {
-                }).catch(function (err, status) {
-
-                });
-            }
-        } catch (e) {
-            console.error(e);
-        }
+        var Userid = parseInt(JSON.parse(localStorage.authorizationData).UserId);
+        $http.post(serviceBase + 'api/account/removeZssUser?Userid=' + Userid).then(function (response) {
+        }).catch(function (err, status) {
+        });
     };
 
+    var _ConfigureAjaxDefaultHeaderAuthentication = function () {
 
+        if (localStorage.authorizationData == undefined || localStorage.authorizationData == null || localStorage.authorizationData == "") {
+            var queryStringUserId = getUrlParameter("userid");
+            var queryStringToken = getUrlParameter("token");
+            if (queryStringUserId != null && queryStringUserId != undefined && queryStringUserId != ""
+                &&
+                queryStringToken != null && queryStringToken != undefined && queryStringUserId != ""
+            ) {
+                localStorage.setItem('authorizationData', JSON.stringify({
+                    token: queryStringToken,
+                    userName: null,
+                    refreshToken: null,
+                    useRefreshTokens: null,
+                    generateDate: null,
+                    UserId: queryStringUserId
+                }));
+            }
+        }
+        var headerAuthorization = _getHeaderAuthorization();
+        var queryStringAuthorization = _getQueryStringAuthorization();
+        localStorage.setItem("queryStringAuthorization", queryStringAuthorization);
+        $http.defaults.headers.common['Authorization'] = headerAuthorization;
+        $.ajaxSetup({
+            headers: { 'Authorization': headerAuthorization }
+
+        })
+    };
+
+    var _checkToken = function () {
+        {
+            _ConfigureAjaxDefaultHeaderAuthentication();
+            var infotoken = JSON.parse(localStorage.authorizationData)
+            var userid = infotoken.UserId
+            var token = infotoken.token
+            var tokenQueryString = getUrlParameter("token").substring(0, 180);
+            var headerAuthorization = _getHeaderAuthorization();
+            if (token != undefined && tokenQueryString != "") {
+                if (tokenQueryString != token.substring(0, 180)) {
+                    var splitQueryString = location.search.replace("?","").split("&");
+                    var newQueryString = "?";
+                    splitQueryString.forEach(function (param) {
+                        var key = param.split('=')[0];
+                        var value = param.split('=')[1];
+                        if (key != "userid" && key != "token")
+                            newQueryString += key + "=" + value & "&";
+                    });
+                    newQueryString = location.origin + location.pathname + newQueryString;
+                    location.href = "/Zamba.Web?ReturnUrl=" + newQueryString;
+                    
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: serviceBase + 'api/account/CheckToken?UserId=' + userid + '&Token=' + token,
+                    contentType: 'application/json',
+                    async: false,
+                    success: function (response) {
+                        if (response == false) {
+                            _logOut();
+                        }
+                        else {
+
+                            _authentication.isAuth = true;
+                        }
+                    },error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        console.log(err.Message);
+                        _logOut();
+                    }
+                });
+                //$http.post(serviceBase + 'api/account/CheckToken?UserId=' + userid + '&Token=' + token).success(function (response) {
+                //    if (response == false) {
+                //        _logOut();
+                //    }
+                //    else {
+
+                //        _authentication.isAuth = true;
+                //    }
+
+                //}).error(function (err, status) {
+                //    console.log(err);
+                //    _logOut();
+                //});
+            }
+        }
+    }
 
     var _CheckIfTokenIsValid = function (token) {
-
-        if (token != undefined) {
-            $http.post(serviceBase + '/account/CheckToken?UserId=' + GetUID() + '&Token=' + token).then(function (response) {
-                if (response == false)
-                    _logOut();
-                else {
-                    $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                    $http.defaults.headers.common['UserId'] = GetUID();
-                }
-
-            }).catch(function (err, status) {
-                console.log(err);
-
-                if (window.localStorage.getItem('authorizationData') != undefined) {
-                    var currentToken = window.localStorage.getItem('authorizationData').token;
-                    token = currentToken;
-                }
-
-                if (token != undefined) {
-                    $http.post(serviceBase + '/account/CheckToken?UserId=' + GetUID() + '&Token=' + token).then(function (response) {
-                        if (response == false)
-                            _logOut();
-                        else {
-                            $http.defaults.headers.common['Authorization'] = 'Bearer ' + currentToken;
-                            $http.defaults.headers.common['UserId'] = GetUID();
-                        }
-
-                    }).catch(function (err, status) {
-                        console.log(err);
-                        _logOut();
-                    });
-
-                }
-
-
-            });
-
-        }
+        checkToken();
     }
 
 
@@ -515,10 +403,11 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     authServiceFactory.registerExternal = _registerExternal;
     authServiceFactory.removeConnectionFromWeb = _removeConnectionFromWeb;
     authServiceFactory.removeZssToken = _removeZzsToken;
-    authServiceFactory.removeCurrentUser = _removeCurrentUser;
     authServiceFactory.CheckIfTokenIsValid = _CheckIfTokenIsValid;
-
-
+    authServiceFactory.checkToken = _checkToken;
+    authServiceFactory.getHeaderAuthorization = _getHeaderAuthorization;
+    authServiceFactory.getQueryStringAuthorization = _getQueryStringAuthorization()
+    authServiceFactory.ConfigureAjaxDefaultHeaderAuthentication = _ConfigureAjaxDefaultHeaderAuthentication();
     return authServiceFactory;
 }]);
 

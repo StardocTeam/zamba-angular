@@ -107,7 +107,7 @@ function setInputSeparatorElem(elem) {
             throw("ERROR: Elemento no definido.");
         }
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 }
 

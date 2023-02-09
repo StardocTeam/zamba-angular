@@ -120,12 +120,7 @@ function LoadEstudiosList() {
         for (var i = 0; i < a.length; i++) {
             var valueFilter = a[i]["CD_JURISDICCION"];
             valueFilter = valueFilter.toString();
-
-            var JOM = a[i]["JOM"];
-            //JOM = JOM.toString();
-            
-
-            if (valueFilter == filterIdJurisdiccion && JOM == $("#zamba_index_2681").val()) {
+            if (valueFilter == filterIdJurisdiccion) {
                 lista.push(a[i]);
                 try {
                     if ((a[i]["CD_ESTUDIO"] + " - " + a[i]["DESC_ESTUDIO"] == estudioActual) || (a[i]["CD_ESTUDIO"] + " - " + a[i]["DESC_ESTUDIO"] + " - " + a[i]["DESC_JURISDICCION"] == estudioActual)) {
@@ -245,7 +240,7 @@ function ObteneryAsignarAtributoDescripcionByelement(element) {
         var AttributeId = String(AttributeId).replace('zamba_index_', '');
         ObteneryAsignarAtributoDescripcion(AttributeId, AttributeValue);
     } catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 };
@@ -279,7 +274,7 @@ function ObteneryAsignarAtributoDescripcion(AttributeId, AttributeValue) {
 
 
     } catch (e) {
-        console.error(e);
+        console.log(e);
         return;
     }
 

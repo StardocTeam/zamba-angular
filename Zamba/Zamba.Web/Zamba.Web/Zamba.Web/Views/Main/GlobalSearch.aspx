@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="GlobalSearch.aspx.cs" Inherits="Zamba.Web.Views.Main.GlobalSearch" %>
 
+<%--<%@ Register Src="~/Views/UC/HomeWidget/UCGlobalSearch.ascx" TagName="UCHWGlobalSearch" TagPrefix="zhwgs" %>--%>
 
                                                     <%--SOLO PARA WINDOWS--%>
 <!DOCTYPE html>

@@ -7,7 +7,7 @@ using Zamba.Membership;
 
 public partial class Views_ImageViewer : System.Web.UI.UserControl
 {
-    const string _URLFORMAT = "{5}{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&UserID={4}";
+    const string _URLFORMAT = "{5}{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&userid={4},token={6}";
 
     public IResult Result
     {
@@ -111,7 +111,8 @@ public partial class Views_ImageViewer : System.Web.UI.UserControl
     private string CreateTempImage()
     {
         //Se genera la url del getDocFile para descargar la imagen
-        string url = string.Format(_URLFORMAT, Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, Result.DocTypeId, Result.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, MembershipHelper.Protocol);
+        String token = new ZssFactory().GetZss(Zamba.Membership.MembershipHelper.CurrentUser).Token;
+        string url = string.Format(_URLFORMAT, Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, Result.DocTypeId, Result.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, MembershipHelper.Protocol,token);
         HttpWebRequest httpRequest = (HttpWebRequest)WebRequest.Create(url);
         httpRequest.Method = "GET";
 

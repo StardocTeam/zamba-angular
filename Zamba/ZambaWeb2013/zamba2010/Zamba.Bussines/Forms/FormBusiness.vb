@@ -295,13 +295,10 @@ Public Class FormBusiness
                                         value = value & "<option value=" & Chr(34) & row("Value").ToString() & Chr(34) & " " & IIf(I.Data.Trim = row("Value").ToString().Trim, "selected=" & Chr(34) & "selected" & Chr(34), String.Empty) & ">" & row("Value").ToString() & " - " & row("Description").ToString & "</option>"
                                     Next
                                 Else
-                                    If searchTable IsNot Nothing Then
-                                        For Each row As DataRow In searchTable.Rows
-                                            If I.Data.Trim = row("Value").ToString().Trim Then selected = True
-                                            value = value & "<option value=" & Chr(34) & row("Value").ToString() & Chr(34) & " " & IIf(I.Data.Trim = row("Value").ToString().Trim, "selected=" & Chr(34) & "selected" & Chr(34), String.Empty) & ">" & row("Description").ToString & "</option>"
-                                        Next
-                                    End If
-
+                                    For Each row As DataRow In searchTable.Rows
+                                        If I.Data.Trim = row("Value").ToString().Trim Then selected = True
+                                        value = value & "<option value=" & Chr(34) & row("Value").ToString() & Chr(34) & " " & IIf(I.Data.Trim = row("Value").ToString().Trim, "selected=" & Chr(34) & "selected" & Chr(34), String.Empty) & ">" & row("Description").ToString & "</option>"
+                                    Next
                                 End If
 
                                 If Not (value.Contains("<option value=" & Chr(34) & String.Empty & Chr(34)) OrElse value.Contains("<option value=" & Chr(34) & "0" & Chr(34))) Then

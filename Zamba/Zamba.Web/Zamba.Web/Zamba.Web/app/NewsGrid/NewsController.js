@@ -3,7 +3,6 @@
     $scope.NewsData;
     $scope.btnActive;
     $scope.DataCount;
-    $scope.title = 'Novedades';
 
     const newsSearch = {
         UNREAD: 'unread',
@@ -16,33 +15,29 @@
         NewsService.getNews(parseInt(GetUID()), newsSearch.UNREAD, GetNewsOnSucces, GetNewsOnError);
     }
 
-    $scope.Reload = function (sender, elem) {
-        
-        if (elem !== null && elem === $scope.btnActive) {
+    $scope.Reload = function (elem) {
+
+        if (elem !== null && elem.name === $scope.btnActive) {
             // Si no apreto refresh y apreto el boton que esta seleccionado actualmente
             return;
         }
-        toastr.options.timeOut = 3000;
+
+        toastr.options.timeOut = 0;
         toastr.options.extendedTimeOut = 0;
         toastr.info("Cargando novedades");
 
         if (elem != undefined && elem != null) {
-            $scope.btnActive = elem;
+            $scope.btnActive = elem.name;
         }
 
         NewsService.getNews(parseInt(GetUID()), $scope.btnActive, GetNewsOnSucces, GetNewsOnError);
     }
-    $scope.clearSearch = function () {
-        $scope.searchNewsCardText = "";
-    }
-
-
 
     function GetNewsOnSucces(response) {
         $scope.NewsData = response.data;
 
         if (response.data != undefined && response.data != null) {
-            $scope.DataCount = response.data.length;          
+            $scope.DataCount = response.data.length;
         }
         else {
             $scope.DataCount = 0;
@@ -58,22 +53,19 @@
 
     $scope.OpenTask = function (result) {
 
-        let userToken = JSON.parse(localStorage.getItem('authorizationData'));
-        let { token } = userToken;
-
         NewsService.getTaskId(result.DocId, result.DocTypeId).then(function (response) {
 
             var url;
             var taskId = response.data;
 
             if (taskId > 0) {
-                url = (thisDomain + "/views/WF/TaskViewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&taskid=" + taskId + "&mode=s" + "&s=" + 0 + "&userId=" + GetUID() + "&t=" + token);
+                url = (thisDomain + "/views/WF/TaskViewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&taskid=" + taskId + "&mode=s" + "&s=" + 0 + "&userId=" + GetUID());
             }
             else {
-                url = (thisDomain + "/views/search/docviewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&mode=s" + "&userId=" + GetUID() + "&t=" + token);
+                url = (thisDomain + "/views/search/docviewer.aspx?DocType=" + result.DocTypeId + "&docid=" + result.DocId + "&mode=s" + "&userId=" + GetUID());
             }
 
-            window.open(url, "R" + result.DocId);
+            window.open(url, '_blank');
 
             if (!result.IsRead) {
                 SetRead(result);
@@ -82,8 +74,9 @@
         });
     };
 
-    function SetRead(result) {        
-        NewsService.setRead(result.Id).then(function (response) {
+    function SetRead(result) {
+
+        NewsService.setRead(result.DocId, result.DocTypeId).then(function (response) {
 
             if (response.status === 200) {
                 result.IsRead = true;

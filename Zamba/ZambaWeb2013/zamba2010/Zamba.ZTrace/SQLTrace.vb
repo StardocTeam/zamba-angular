@@ -10,39 +10,39 @@ Public Class SQLTrace
     Private Shared fileName, rName, fecha As String
     Private Shared exceptions As String = ZTrace.GetTempDir("\Exceptions").FullName
 
-
-    Public Sub Write(ByVal text As String)
+  
+    Public Shared Sub Write(ByVal text As String)
         Try
-            Dim key As String = ZTrace.GetKey()
 
-            'Verifica si existe el trace en el hash
-            If Not hsSQLTraces.ContainsKey("SQL" & key) Then
+            If (Zamba.Core.ZTrace.Level = TraceLevel.Verbose) Then
+                'Verifica si existe el trace en el hash
+                If Not hsSQLTraces.ContainsKey("SQL") Then
 
-                Dim path As String = exceptions & "\Performance"
+                    Dim path As String = exceptions & "\Performance"
 
-                If (Not IO.Directory.Exists(path)) Then
-                    IO.Directory.CreateDirectory(path)
+                    If (Not IO.Directory.Exists(path)) Then
+                        IO.Directory.CreateDirectory(path)
+                    End If
+                    Dim ServiceName As String = String.Empty
+                    Try
+                        ServiceName = System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath.Replace("/", "")
+                    Catch ex As Exception
+
+                    End Try
+                    fileName = path & "\SQL " & Environment.MachineName & " " & ServiceName & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
+
+                    'Genera el trace
+                    hsSQLTraces.Add("SQL", New System.Diagnostics.TextWriterTraceListener(fileName))
                 End If
-                Dim ServiceName As String = String.Empty
-                Try
-                    ServiceName = System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath.Replace("/", "")
-                Catch ex As Exception
 
-                End Try
-                fileName = path & "\SQL " & key & " " & Environment.MachineName & " " & ServiceName & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
+                'Obtiene el trace
+                Dim trace As System.Diagnostics.TextWriterTraceListener = DirectCast(hsSQLTraces.Item("SQL"), System.Diagnostics.TextWriterTraceListener)
 
-                'Genera el trace
-                hsSQLTraces.Add("SQL" & key, New System.Diagnostics.TextWriterTraceListener(fileName))
+                'Escribe sobre el trace
+                trace.WriteLine(text)
+                'Libera recursos
+                trace.Flush()
             End If
-
-            'Obtiene el trace
-            Dim trace As System.Diagnostics.TextWriterTraceListener = DirectCast(hsSQLTraces.Item("SQL" & key), System.Diagnostics.TextWriterTraceListener)
-
-            'Escribe sobre el trace
-            trace.WriteLine(text)
-            'Libera recursos
-            trace.Flush()
-
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
         End Try
