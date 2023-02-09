@@ -14,7 +14,7 @@
 
                         <md-icon class="material-icons z-material-icons-align" style="color:white;" ng-if="currentMode == 'MyTasks'">
                             view_list
-                        </md-icon>          
+                        </md-icon>
                         <button class="md-button md-ink-ripple alignTextIcon no-margin-no-padding" ng-if="currentMode == 'search'" title="Nueva busqueda" ng-click='GoBackToSearch();'>
                             <md-icon class="material-icons-outlined md-span ng-scope material-icons" style="color: white; margin-top: -4px !important;" role="img" aria-label="filter_alt">
                                 arrow_back
@@ -29,10 +29,10 @@
                             </md-icon>
                         </button>
                         <!--<md-button type="button" id="btnOpenTreeview" class="md-fab md-fab-white ActualizarResultados mdhover ToolbarKendoGridBtn" title="Procesos" ng-clock ng-if="currentMode == 'MyProcess'" ng-click="ToggleWFSideBar()" style="margin-right: 0px; ">
-                            <span class="material-icons md-span revertIcon" id="iconBtnOpenTreeview">
-                                menu_open
-                            </span>
-                        </md-button>-->
+        <span class="material-icons md-span revertIcon" id="iconBtnOpenTreeview">
+            menu_open
+        </span>
+    </md-button>-->
 
                         <div ng-show="currentMode == 'MyTasks'" style="display: inline; " id="AsignedTasksId">
                             <span class="button-checkbox" ng-show="ShowchkMyTasks == true">
@@ -74,7 +74,7 @@
                                 </span>
 
                                 st
-                                
+
 
                                 <strong ng-if="!Search.AsignedTasks">Mostrando:</strong>
 
@@ -121,6 +121,18 @@
 
                                 <strong ng-if="currentMode == 'Search'">Mostrando:</strong>
                                 <span ng-if="currentMode == 'Search' && entity.ResultsCount > 0"> {{entity.name}} | </span>
+                            </span>
+                        </div>
+                        <div id="searchinfo" style="display: inline;  color: white " ng-if="currentMode == 'MyProcess'">
+                            <span ng-repeat="entity in Search.SearchResultsObject.entities" ng-init="$last ? updateCheckDisplay() : angular.noop()" ng-cloak>
+
+                                <span class="" ng-if="entity.ResultsCount > 0">
+                                    <md-button type="button" class="md-btn md-raised md-btn-info active" data-color="info">
+                                        {{entity.name}}
+                                        <span class="badge md-badge">{{entity.ResultsCount}}</span>
+                                    </md-button>
+
+                                </span>
                             </span>
                         </div>
 
@@ -183,7 +195,7 @@
                                             <div class="col-sm-12 col-md-12 margin-top-container-filter" ng-show="selectedFilterButton == 'Steps'">
                                                 <div class="filterControlContainer">
 
-                                                    <div ng-if="currentMode != 'MyProcess'" id="step-control" >
+                                                    <div ng-if="currentMode != 'MyProcess'" id="step-control">
                                                         <span id="ui-multiselect">
                                                             <input type="text" name="steplbl" id="steplblfilter" value="Etapa" class="form-control" readonly />
                                                             <ui-select ng-model="Search.StepId" style="display:inline;" on-select="StepFilterSelected($item, $model)" theme="bootstrap">
