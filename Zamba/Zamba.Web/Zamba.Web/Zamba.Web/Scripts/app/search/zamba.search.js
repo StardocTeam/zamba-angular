@@ -2745,7 +2745,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
                 // Si no trajo resultados
                 if (SearchResultsObject == undefined || SearchResultsObject == null || SearchResultsObject.data == undefined || SearchResultsObject.data.length == 0) {
-
+                    if (!$scope.filterPanelOpened)
+                        $scope.toogleFilterPanel();
                     if ($scope.Search.AsignedTasks) {
                         toastr.options.timeOut = 5000;
                         toastr.warning("No se encontraron resultados");

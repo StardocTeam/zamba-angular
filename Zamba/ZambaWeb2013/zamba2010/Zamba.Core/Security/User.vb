@@ -267,5 +267,5 @@ Imports Zamba.Core
     End Property
 
     Public Property ThumbNailPhoto As String Implements IUser.ThumbNailPhoto
-
+    Public Property TraceLevel As Integer Implements IUser.TraceLevel
 End Class

@@ -1004,9 +1004,9 @@ Public Class WFBusiness
     ''' </summary>
     ''' <remarks></remarks>
     ''' <history> Diego </history>
-    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64) As Boolean
+    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, Entityid As Int64) As Boolean
         Dim Docscount As New Int32
-        Docscount = WFF.ValidateDocIdInWF(DocId, wfid)
+        Docscount = WFF.ValidateDocIdInWF(DocId, wfid, Entityid)
         If Docscount > 0 Then
             Return True
         Else
@@ -1019,9 +1019,9 @@ Public Class WFBusiness
     ''' </summary>
     ''' <remarks></remarks>
     ''' <history> Diego </history>
-    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, ByVal t As Transaction) As Boolean
+    Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, EntityId As Int64, ByVal t As Transaction) As Boolean
         Dim Docscount As New Int32
-        Docscount = WFF.ValidateDocIdInWF(DocId, wfid, t)
+        Docscount = WFF.ValidateDocIdInWF(DocId, wfid, EntityId, t)
         If Docscount > 0 Then
             Return True
         Else

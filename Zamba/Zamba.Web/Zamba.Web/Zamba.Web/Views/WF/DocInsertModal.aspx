@@ -12,7 +12,7 @@
 
 
     <%: Scripts.Render("~/bundles/jqueryAddIns") %>
-    <script src="../../Scripts/Zamba.js?v=257"></script>
+    <script src="../../Scripts/Zamba.js?v=258"></script>
     
     <script src="../../Scripts/Validations/Fields/fields.js?v=248"></script>
 
