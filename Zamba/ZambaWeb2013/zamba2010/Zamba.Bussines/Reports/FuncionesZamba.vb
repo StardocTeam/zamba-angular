@@ -63,6 +63,16 @@ Public Class FuncionesZamba
             Return 0
         End Try
     End Function
+    Public Shared Function GetDocTypeNameById(ByVal doctypeid As Int64) As String
+        Dim Name As String
+        Try
+            Name = DocTypesFactory.GetDocTypeNameById(doctypeid).Trim 
+            Return Name
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+            Return ""
+        End Try
+    End Function
 
 
 

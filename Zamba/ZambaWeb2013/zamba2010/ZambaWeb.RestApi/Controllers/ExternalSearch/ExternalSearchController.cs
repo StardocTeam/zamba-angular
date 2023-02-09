@@ -183,6 +183,9 @@ namespace ZambaWeb.RestApi.Controllers
                             newuser.ID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
                             UB.AddUser(newuser);
                             UB.SetNewUser(ref newuser);
+                            UserPreferences UP = new UserPreferences();
+                            Int32 TraceLevel = Int32.Parse(UP.getValue("TraceLevel", UPSections.UserPreferences, 4, user.ID));
+                            user.TraceLevel = TraceLevel;
                             MembershipHelper.SetCurrentUser(newuser);
 
 

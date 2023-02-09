@@ -213,10 +213,10 @@
 
             <md-list flex>
 
-                <md-list-item class="md-2-line" ng-repeat="news in NewsData | filter:searchNewsCardText" ng-dblclick="OpenTask(news)">
+                <md-list-item class="md-2-line" ng-repeat="news in NewsData | filter:searchNewsCardText" ng-dblclick="OpenTask(news)" title="{{news.Name}}">
 
-                    <div class="md-list-item-text" layout="column" ng-class="{ 'unread': news.IsRead == false }" >
-                        <h3 class="unread-title news-title h3Style"  ng-class="{ 'unread-title': news.IsRead == false }">{{news.Name}}</h3>
+                    <div class="md-list-item-text" layout="column" ng-class="{ 'unread': news.IsRead == false }">
+                        <h3 class="unread-title news-title h3Style" ng-class="{ 'unread-title': news.IsRead == false }">{{news.Name}}</h3>
                         <p>
                             <span class="glyphicon glyphicon-calendar" style="margin-left:5px; margin-right: 3px" ng-if="news.Time"></span>{{news.Time}}
 

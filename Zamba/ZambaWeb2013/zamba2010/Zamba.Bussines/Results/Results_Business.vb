@@ -3364,7 +3364,11 @@ Public Class Results_Business
 
 
     End Sub
-
+    Public Sub RemoveDocument(ByVal docid As Int64, docTypeId As Int64)
+        Dim DocTypeName As String = FuncionesZamba.GetDocTypeNameById(docTypeId)
+        Results_Factory.RemoveDocument(docid, docTypeId)
+        UB.SaveAction(docid.ToString, ObjectTypes.Documents, RightsType.Delete, "Se elimino el documento con id " + docid.ToString + " del tipo " + DocTypeName, MembershipHelper.CurrentUser.ID)
+    End Sub
     '''<summary>
     '''  Borra un result de un workflow
     '''</summary>
@@ -4209,10 +4213,10 @@ Public Class Results_Business
     ''' <param name="resultID">ID del result a validar</param>
     ''' <returns>True si esta asignado, False si no</returns>
     ''' <remarks></remarks>
-    Public Function ExistsInOtherWFs(ByRef ResultID As Integer) As Boolean Implements IResults_Business.ExistsInOtherWFs
+    Public Function ExistsInOtherWFs(ByRef ResultID As Integer, Entityid As Int64) As Boolean Implements IResults_Business.ExistsInOtherWFs
         Try
             If ResultID = 0 Then Return False
-            Dim resultCount As Object = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) FROM wfdocument WHERE doc_id = " & ResultID.ToString())
+            Dim resultCount As Object = Server.Con.ExecuteScalar(CommandType.Text, "SELECT count(1) FROM wfdocument  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE doc_id = " & ResultID.ToString() & " and doc_type_id = " & Entityid)
             Return CInt(resultCount) > 0
             resultCount = Nothing
         Catch ex As Exception

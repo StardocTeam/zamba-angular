@@ -793,22 +793,15 @@ Public Class RightFactory
     End Function
 
     Public Shared Function GetFiltersWebByView(ByVal DocTypeId As Int64, ByVal UserId As Int64, ByVal filterType As String) As DataSet
-        'para oracle agregar la parte del view en el where
-        If Server.isOracle Then
-            Dim consulta As StringBuilder = New StringBuilder()
-            Dim _GUIDtemp As Generic.List(Of Int64) = UserFactory.GetUserGroupsIdsByUserid(UserId, False)
-            consulta.AppendLine("SELECT * FROM ZFILTERS")
-            consulta.AppendLine("WHERE DOCTYPEID = " & DocTypeId)
-            consulta.AppendLine("And FilterType = '" & filterType & "'")
-            consulta.AppendLine("And (USERID = " & UserId)
-            consulta.AppendLine("Or USERID IN")
-            consulta.AppendLine("(SELECT GROUPID FROM USR_R_GROUP WHERE usrid = " & UserId & "))")
-
-            Return Server.Con.ExecuteDataset(CommandType.Text, consulta.ToString())
-        Else
-            Dim ParValues() As Object = {DocTypeId, UserId, filterType}
-            Return Server.Con.ExecuteDataset("ZSP_FILTERS_200_GetFiltersWebByView", ParValues)
-        End If
+        Dim consulta As StringBuilder = New StringBuilder()
+        Dim _GUIDtemp As Generic.List(Of Int64) = UserFactory.GetUserGroupsIdsByUserid(UserId, False)
+        consulta.AppendLine("SELECT * FROM ZFILTERS  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " ")
+        consulta.AppendLine(" WHERE DOCTYPEID = " & DocTypeId)
+        consulta.AppendLine(" And FilterType = '" & filterType & "'")
+        consulta.AppendLine(" And (USERID = " & UserId)
+        consulta.AppendLine(" Or USERID IN")
+        consulta.AppendLine(" (SELECT GROUPID FROM USR_R_GROUP  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE usrid = " & UserId & "))")
+        Return Server.Con.ExecuteDataset(CommandType.Text, consulta.ToString())
     End Function
 
 

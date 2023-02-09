@@ -667,7 +667,7 @@ public partial class UC_WF_UCWFExecution : System.Web.UI.UserControl
                     Params["Nuevo Mensaje"].ToString();
                     if (Params.ContainsKey("Nuevo Mensaje"))
                     {
-                        String scriptmsg = "$(document).ready( function(){swal('','" + Params["Nuevo Mensaje"].ToString().Replace("\n", "<br/> ").Replace(System.Environment.NewLine, " ") + "', 'info')";
+                        String scriptmsg = "$(document).ready( function(){swal('','" + Params["Nuevo Mensaje"].ToString().Replace("\n", "\\n").Replace(System.Environment.NewLine, " ") + "', 'info')";
 
                         string ActionExecute = string.Empty;
                         if (Params.ContainsKey("Action") && Params["Action"].ToString() != string.Empty)

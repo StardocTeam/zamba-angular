@@ -21,7 +21,7 @@
         <script src="../../forms/Scripts/jquery.validate.min.js"></script>
 
         <%: Scripts.Render("~/bundles/jqueryAddIns") %>
-        <script src="../../Scripts/Zamba.js?v=257"></script>
+        <script src="../../Scripts/Zamba.js?v=258"></script>
         <link rel="stylesheet" type="text/css" href="../../Content/css/ZClass.css" />
         <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css">
         <%--     <link rel="stylesheet" type="text/css" href="../../Content/site.css"/>--%>

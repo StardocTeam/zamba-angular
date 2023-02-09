@@ -248,10 +248,10 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     $scope.LoadUserRights = function () {
         try {
-
+            $scope.CanRemoveDocuments = $scope.NewGetUserRigths(RightsTypeEnum.Delete, ObjectTypesEnum.DocTypes);
             $scope.ShowAsociatedTab = $scope.NewGetUserRigths(RightsTypeEnum.Use, ObjectTypesEnum.WFStepsTree);
-
             $scope.CanChangePassword = $scope.NewGetUserRigths(RightsTypeEnum.ChangePassword, ObjectTypesEnum.LogIn);
+
             $scope.ShowSendMailByResults = $scope.NewGetUserRigths(RightsTypeEnum.EnviarPorMailWeb, ObjectTypesEnum.Documents);
             $scope.ShowDownloadFileBtnPreview = $scope.NewGetUserRigths(RightsTypeEnum.Saveas, ObjectTypesEnum.Documents);
             $scope.IsAdminUser = $scope.NewGetUserRigths(RightsTypeEnum.Delete, ObjectTypesEnum.Cache);
@@ -739,8 +739,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             } else {
                 DV = sessionStorage.getItem('lastmainmenuitem|' + GetUID());
             }
-            
-            
+
+
             if (DV == undefined) {
                 DV = 'search';
             }
@@ -903,7 +903,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         setTimeout(function () { $("md-tab-item")[0].click(); }, 1000);
     }
     $scope.searchModeGSFn = function (_this, mode) {
-        
+
         $scope.PreviewMode = "noPreview";
         $scope.LayoutPreview = "row";
 
@@ -1076,7 +1076,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             if (mode != 'loading') {
                 $scope.$applyAsync();
                 sessionStorage.setItem('lastmainmenuitem|' + GetUID(), mode);
-            } 
+            }
         } catch (e) {
         }
 
@@ -2449,7 +2449,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     };
 
     $scope.setDisabledCurrentFilters = function () {
-        
+
         SearchFilterService.SetDisabledAllFiltersByUserViewDoctype($scope.Search.View, $scope.Search.DoctypesIds[0]);
         let docTypeIdFilter = $scope.Search.DoctypesIds[0];
         var filtersFromDB = SearchFilterService.GetFiltersByView(docTypeIdFilter, $scope.Search.View);
@@ -2745,7 +2745,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
                 // Si no trajo resultados
                 if (SearchResultsObject == undefined || SearchResultsObject == null || SearchResultsObject.data == undefined || SearchResultsObject.data.length == 0) {
-
+                    if (!$scope.filterPanelOpened)
+                        $scope.toogleFilterPanel();
                     if ($scope.Search.AsignedTasks) {
                         toastr.options.timeOut = 5000;
                         toastr.warning("No se encontraron resultados");
@@ -5008,7 +5009,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         let checkedIds = countTaskIdSelected();
         if (checkedIds.length > 1) {
-                swal("", "Seleccione solo una tarea", "info");
+            swal("", "Seleccione solo una tarea", "info");
         } else {
 
             $('#informationModal').modal({ show: true });
@@ -5028,15 +5029,51 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         }
 
-        
-    }
 
+    }
+    $scope.removeDocuments = function () {
+        swal({
+            title: "Eliminar documento(s).",
+            text: "¿Confirma que desea eliminar los documentos seleccionados?",
+            icon: "warning",
+            allowClickOutSide: false,
+            buttons: ["No", "Si"],
+            dangerMode: true,
+        })
+            .then((willconfirm) => {
+                if (willconfirm) {
+                    toastr.info("Eliminando documentos... aguarde por favor.");
+                    $("#BtnRemoveDocuments").prop('disabled', true);
+                    var removeDocs = {};
+                    let checkedIds = countTaskIdSelected();
+                    removeDocs = checkedIds;
+                    $http({
+                        method: 'POST',
+                        dataType: 'json',
+                        url: location.origin.trim() + getValueFromWebConfig("RestApiUrl") + '/api/Tasks/RemoveDocuments',
+                        data: JSON.stringify(removeDocs),
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8"
+                        },
+                    }).then(function (data, status, headers, config) {
+                        $("#BtnRemoveDocuments").prop('disabled', false);
+                        swal("Eliminar documento(s)", "Los documentos se eliminaron exitosamente.", "success");
+                        RefreshCurrentResults();
+                        return true;
+                    }).catch(function (error) {
+                        $("#BtnRemoveDocuments").prop('disabled', false);
+                        swal("Eliminar documento(s)", "Ocurrio un error mientras se eliminaban los documentos.", "warning");
+                        return false;
+                    });;
+                }
+            });
+    }
     $scope.DownLoadZip = function () {
         toastr.info("Comprimiendo archivos... aguarde por favor.");
         $scope.BtnZipDisable = true;
         var zip = {};
         let checkedIds = countTaskIdSelected();
-
+        return;
 
         zip.Idinfo = checkedIds;
         //var anyTaskHasFile = $scope.getIFAnyTaskHasFile(zip);
