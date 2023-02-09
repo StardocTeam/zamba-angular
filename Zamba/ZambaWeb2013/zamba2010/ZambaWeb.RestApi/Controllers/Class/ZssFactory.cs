@@ -32,7 +32,7 @@ namespace ZambaWeb.RestApi.Controllers
         public void SetZssValues(Zss zss)
         {
             //var delete = "Delete From Zss where Token=" +z  ;
-            var select = "SELECT count(1) FROM ZSS WHERE USERID=" + zss.UserId;
+            var select = "SELECT count(1) FROM ZSS  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "   WHERE USERID=" + zss.UserId;
             var insert = "INSERT INTO ZSS (TOKEN, USERID, CREATEDATE, TOKENEXPIREDATE, CONNECTIONID) VALUES('" + zss.Token + "'," + zss.UserId + "," + FormatDate(zss.CreateDate) + "," + FormatDate(zss.TokenExpireDate) + "," + zss.ConnectionId + ")";
             var update = "UPDATE ZSS SET TOKEN='" + zss.Token + "', CREATEDATE= " + FormatDate(zss.CreateDate) + ", TOKENEXPIREDATE=" + FormatDate(zss.TokenExpireDate) + " WHERE USERID= " + zss.UserId;
 
@@ -60,7 +60,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         private JObject GetZss(IUser user)
         {
-            String select = "SELECT * FROM ZSS WHERE USERID = " + user.ID.ToString();
+            String select = "SELECT * FROM ZSS  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "   WHERE USERID = " + user.ID.ToString();
             DataSet ds;
             try
             {
@@ -134,7 +134,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                var select = $"SELECT Count(1) FROM ZSS WHERE USERID={Userid} and TOKEN ='{token}'";
+                var select = $"SELECT Count(1) FROM ZSS  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "   WHERE USERID={Userid} and TOKEN ='{token}'";
                 object count = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, select);
                 if (count != null && int.Parse(count.ToString()) > 0)
                 {
