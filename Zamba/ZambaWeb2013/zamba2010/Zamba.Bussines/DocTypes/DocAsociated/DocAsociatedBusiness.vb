@@ -239,12 +239,12 @@ Namespace DocTypes.DocAsociated
                             indexs.Add(associate.Index2)
                             Exit For
                         Else
-                            allIndexsAsocComplete = False
+                            'allIndexsAsocComplete = False
                             associate.Index2.Data = ""
                             associate.Index2.DataTemp = ""
                             associate.Index2.Operator = "es nulo"
                             indexs.Add(associate.Index2)
-                            Exit For
+                            'Exit For
 
                         End If
                     End If
