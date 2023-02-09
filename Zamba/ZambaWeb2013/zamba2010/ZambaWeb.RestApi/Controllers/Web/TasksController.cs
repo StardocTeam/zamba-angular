@@ -534,7 +534,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-       
+
         #endregion
 
         [AcceptVerbs("GET", "POST")]
@@ -2755,7 +2755,7 @@ namespace ZambaWeb.RestApi.Controllers
                             url.Append(Task.ID);
                             url.Append("&userId=");
                             url.Append(Zamba.Membership.MembershipHelper.CurrentUser.ID);
-                            ExecuteEntryInWFDoGenerateTaskResultscript = string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6},{7},{8});", Task.TaskId, Task.ID , Task.DocTypeId, "false", Task.Name, url, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, openMode);
+                            ExecuteEntryInWFDoGenerateTaskResultscript = string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6},{7},{8});", Task.TaskId, Task.ID, Task.DocTypeId, "false", Task.Name, url, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, openMode);
                             ExecuteEntryInWFDoGenerateTaskResultscript += "parent.SelectTabFromMasterPage('tabtasks');";
                         }
                         // }
@@ -3530,10 +3530,10 @@ namespace ZambaWeb.RestApi.Controllers
         public List<IDynamicButton> GetResultsGridButtonsByPlace(genericRequest paramRequest)
         {
             //arbol tareas (3)
-            ButtonPlace buttonPlace= (ButtonPlace)Int32.Parse(paramRequest.Params["placeId"].ToString());
+            ButtonPlace buttonPlace = (ButtonPlace)Int32.Parse(paramRequest.Params["placeId"].ToString());
             List<IDynamicButton> List_ActionsForResultsGrid = new List<IDynamicButton>();
             DynamicButtonBusiness miDinamicButtonInstance = DynamicButtonBusiness.GetInstance();
-            List_ActionsForResultsGrid = miDinamicButtonInstance.GetButtons(ButtonType.Rule, buttonPlace , GetUser(paramRequest.UserId));
+            List_ActionsForResultsGrid = miDinamicButtonInstance.GetButtons(ButtonType.Rule, buttonPlace, GetUser(paramRequest.UserId));
             return List_ActionsForResultsGrid;
         }
 
@@ -3567,6 +3567,26 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+
+        [AcceptVerbs("GET", "POST")]
+        [AllowAnonymous]
+        [Route("RemoveDocuments")]
+        public IHttpActionResult RemoveDocuments(List<DocInfo> Ids)
+        {
+            try
+            {
+                Results_Business results_Business = new Results_Business();
+                foreach (DocInfo docInfo in Ids)
+                {
+                    results_Business.RemoveDocument(docInfo.DocId, docInfo.DocTypeid);
+                }
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("Ocurrio un problema interno al eliminar los documentos")));
+            }
+        }
 
 
         [AcceptVerbs("GET", "POST")]

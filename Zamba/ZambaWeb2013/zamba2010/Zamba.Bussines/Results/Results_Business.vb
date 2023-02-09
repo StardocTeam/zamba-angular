@@ -3364,7 +3364,11 @@ Public Class Results_Business
 
 
     End Sub
-
+    Public Sub RemoveDocument(ByVal docid As Int64, docTypeId As Int64)
+        Dim DocTypeName As String = FuncionesZamba.GetDocTypeNameById(docTypeId)
+        Results_Factory.RemoveDocument(docid, docTypeId)
+        UB.SaveAction(docid.ToString, ObjectTypes.Documents, RightsType.Delete, "Se elimino el documento con id " + docid.ToString + " del tipo " + DocTypeName, MembershipHelper.CurrentUser.ID)
+    End Sub
     '''<summary>
     '''  Borra un result de un workflow
     '''</summary>
