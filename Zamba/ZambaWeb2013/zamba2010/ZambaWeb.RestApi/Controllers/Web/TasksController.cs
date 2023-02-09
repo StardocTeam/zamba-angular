@@ -1844,6 +1844,7 @@ namespace ZambaWeb.RestApi.Controllers
                     ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
                     if (paramRequest.Params.ContainsKey("resultIds") && !string.IsNullOrEmpty(paramRequest.Params["resultIds"]))
                     {
+                        docIds.AddRange(paramRequest.Params["resultIds"].ToString().Split(char.Parse(",")));
                         /// Se convierte el valor en un diccionario para poder iterarlo
                         resultIds = paramRequest.Params["resultIds"];
                         listResultIds = JsonConvert.DeserializeObject<List<itemVarsResults>>(resultIds);
