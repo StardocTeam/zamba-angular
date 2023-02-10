@@ -2164,7 +2164,7 @@ ReloadCache:
 
             Dim allFilters As New List(Of IFilterElem)
             Dim stepIdFilters As New List(Of IFilterElem)
-            If Search.Doctypes.Count = 1 Then
+            If Search.Doctypes.Count = 1 AndAlso Search.View <> String.Empty Then
                 allFilters = New FiltersComponent().GetFiltersWebByView(Search.Doctypes.First().ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, Search.View)
                 If allFilters IsNot Nothing Then
                     stepIdFilters = allFilters.Where(Function(f) f.Filter = "STEPID" And f.Enabled).Select(Function(f) f).ToList()
