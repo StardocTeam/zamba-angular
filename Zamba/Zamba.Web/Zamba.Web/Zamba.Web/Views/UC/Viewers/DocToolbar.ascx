@@ -430,7 +430,7 @@
                     <div class="form-group modalControl row">
                         <label class="col-sm-1 control-label">Asunto</label>
                         <div class="col-sm-11">
-                            <input class="form-control EmailInput" name="subject" placeholder="Asunto">
+                            <input class="form-control EmailInput" name="subject" placeholder="Asunto" style="height: 75%; margin: -4px 0 4px 0">
                         </div>
                     </div>
 
@@ -849,10 +849,19 @@
         mailContainer.modal();
         mailContainer.find("input[name = 'for']").attr("required", "true");
 
-        mailContainer.find('input[name="for"]').val(To);
-        mailContainer.find('input[name="cc"]').val(CC);
-        mailContainer.find('input[name="cco"]').val(CCO);
+        //mailContainer.find('input[name="for"]').val(To);
+        //mailContainer.find('input[name="cc"]').val(CC);
+        //mailContainer.find('input[name="cco"]').val(CCO);
         mailContainer.find('input[name="subject"]').val(Subject);
+
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
+
+        formMailTo.Value = To;
+        formMailCc.Value = CC;
+        formMailCco.Value = CCO;
+
 
         if (document.getElementById("cke_1_contents") != undefined && document.getElementById("cke_1_contents") != null) {
             document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body;
@@ -930,7 +939,7 @@
             if (!docId)
                 docId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocId").value;
 
-            var IdInfo = [];
+            var IdInfo = {};
             IdInfo.DocId = parseInt(docId);
             IdInfo.DocTypeid = parseInt(doctypeId);
 
