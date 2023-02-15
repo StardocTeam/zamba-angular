@@ -1524,7 +1524,10 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.Search.StepFilter = { IsChecked: false, zFilterWebID: 0 };
         $rootScope.$broadcast('resetFiltersDefaultZambaColumnFilters');
         $scope.Search.DoctypesIds = entitieIds;
-        $scope.Search.Indexs = JSON.parse(EntityFieldsService.GetAllSync($scope.Search.DoctypesIds));
+
+        if ($scope.Search.DoctypesIds.length > 0)
+            $scope.Search.Indexs = JSON.parse(EntityFieldsService.GetAllSync($scope.Search.DoctypesIds));
+
         $scope.Search.usedFilters = [];
         if (entitieIds.length == 1) {
             let docTypeIdFilter = $scope.Search.DoctypesIds[0];
