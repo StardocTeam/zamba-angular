@@ -8,8 +8,8 @@ Public Class PlayDoInsertDocToBlob
     End Sub
 
     Public Function Play(ByVal results As System.Collections.Generic.List(Of Core.ITaskResult)) As System.Collections.Generic.List(Of Core.ITaskResult)
-        
-        Return results
+
+        Return PlayWeb(results, Nothing)
     End Function
 
     Function PlayWeb(ByVal results As List(Of ITaskResult), ByVal Params As Hashtable) As List(Of ITaskResult)

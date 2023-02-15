@@ -819,9 +819,11 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (SelectedEntitiesIds != null)
                 {
-                    IndexsBusiness IB = new IndexsBusiness();
-                    Indexs = IB.GetIndexsSchema(user.ID, SelectedEntitiesIds);
-                    IB = null;
+                    if (SelectedEntitiesIds.Count > 0) {
+                        IndexsBusiness IB = new IndexsBusiness();
+                        Indexs = IB.GetIndexsSchema(user.ID, SelectedEntitiesIds);
+                        IB = null;
+                    }
                 }
                 if (Indexs != null)
                 {
@@ -1247,23 +1249,25 @@ namespace ZambaWeb.RestApi.Controllers
                                     else
                                     {
                                         EntityDto E = searchDto.entities.Find(x => x.id == Doctype.ID);
-                                        if (E.enabled)
+                                        if (E != null)
                                         {
-                                            if (searchDto.StepId > 0)
+                                            if (E.enabled)
                                             {
-                                                if (StepEntities.Contains(Doctype.ID))
+                                                if (searchDto.StepId > 0)
+                                                {
+                                                    if (StepEntities.Contains(Doctype.ID))
+                                                    {
+                                                        search.Doctypes.Add(Doctype);
+                                                    }
+
+                                                }
+                                                else
                                                 {
                                                     search.Doctypes.Add(Doctype);
                                                 }
-
                                             }
-                                            else
-                                            {
-                                                search.Doctypes.Add(Doctype);
-                                            }
+                                            sr.entities.Add(E);
                                         }
-                                        sr.entities.Add(E);
-
                                     }
                                 }
                             }

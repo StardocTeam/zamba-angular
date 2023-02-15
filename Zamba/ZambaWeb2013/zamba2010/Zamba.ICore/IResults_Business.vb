@@ -59,7 +59,8 @@ Public Interface IResults_Business
     Function CopyBlobToVolumeWS(docId As Long, docTypeId As Long) As Boolean
     Function CountChildsVersions(DocTypeid As Long, parentid As Long) As Integer
     Function DeletMigracionObservaciones(EntitiId As Long, AtributeId As Long) As Object
-    Function ExistsInOtherWFs(ByRef ResultID As Integer) As Boolean
+    Function ExistsInOtherWFs(ByRef ResultID As Integer, EntityId As Int64) As Boolean
+
     Function exportarResultPDF(ByRef Result As IResult, sPdf As String) As Boolean
     Function FillIndexData(EntityId As Long, Id As Long, Indexs As List(Of IIndex), Optional inThread As Boolean = False) As List(Of IIndex)
     Function findIn(Indexs As List(Of IIndex), pIndex As IIndex) As IIndex

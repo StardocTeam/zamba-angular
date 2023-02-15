@@ -206,7 +206,7 @@ Public Class WFRulesFactory
 
     Public Function GetRulesOptionsDT(ruleid As Int64) As DataTable
         Dim Ds As DataSet = Nothing
-        Ds = Server.Con.ExecuteDataset(CommandType.Text, "Select DISTINCT RULEID ID,OBJVALUE,OBJEXTRADATA,OBJECTID,SECTIONID FROM ZRULEOPT where ruleid = " & ruleid)
+        Ds = Server.Con.ExecuteDataset(CommandType.Text, "Select DISTINCT RULEID ID,OBJVALUE,OBJEXTRADATA,OBJECTID,SECTIONID FROM ZRULEOPTbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " where ruleid = " & ruleid)
         Return Ds.Tables(0)
     End Function
 
@@ -429,7 +429,7 @@ Public Class WFRulesFactory
     ''' <remarks></remarks>
     Public Shared Sub InsertUsersToNotifyAboutRuleExecution(ByVal ruleid As Int64, ByVal RuleSectionId As Int32, ByVal _RulePreferenceid As Int32, ByVal DestTypeid As Int32, ByVal items As Generic.List(Of String))
         Dim query As New StringBuilder
-        query.Append("DELETE FROM ZRuleOpt WHERE RuleId =")
+        query.Append("DELETE FROM ZRuleOptbase WHERE RuleId = ")
         query.Append(ruleid)
         query.Append(" and SectionId = ")
         query.Append(RuleSectionId)
