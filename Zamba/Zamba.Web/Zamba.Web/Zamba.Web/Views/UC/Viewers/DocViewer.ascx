@@ -16,7 +16,7 @@
 </div>
 
 <div id="wrapper" class="toggled ">
-    <div id="divContent" style="width: 100%;  overflow: visible">
+    <div id="divContent" style="width: 100%;  overflow: auto">
 
         <div id="sidebar-wrapper" class="scrollbarindices hidden-xs">
             <asp:UpdatePanel ID="Panel1" runat="server" UpdateMode="Conditional">
