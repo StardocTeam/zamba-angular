@@ -82,7 +82,7 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
 
                 bool isActiveSession = true;
 
-                if (!reloadModalLogin)
+                if (!reloadModalLogin && !Page.IsPostBack)
                 {
                     isActiveSession = RB.getValidateActiveSession(userid, userToken);
                 }
