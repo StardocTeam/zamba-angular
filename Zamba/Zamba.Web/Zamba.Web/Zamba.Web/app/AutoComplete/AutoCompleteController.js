@@ -72,9 +72,11 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
 
 
     $scope.CollapsingCombo = function () {
-        $("#ListEmails" + $scope.attribute)[0].style.display = "none";
-        $("#hidePanel")[0].style.display = "none";
-        $("#hidePanelZip")[0].style.display = "none";
+        document.querySelector("#ListEmails" + $scope.attribute).style.display = "none";
+        document.querySelector("#hidePanel").style.display = "none";
+
+        if (document.querySelector("#hidePanelZip") != undefined)
+            document.querySelector("#hidePanelZip").style.display = "none";
     }
 
     $scope.ExpandCombo = function ($event) {
@@ -103,13 +105,19 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
         search = search.trim();
 
         if (self.querySearch(search, emailsList)) {
-            $("#ListEmails" + $scope.attribute)[0].style.display = "flex";
-            $("#hidePanel")[0].style.display = "block";
-            $("#hidePanelZip")[0].style.display = "block";
+            document.querySelector("#ListEmails" + $scope.attribute).style.display = "flex";
+            document.querySelector("#hidePanel").style.display = "block";
+
+            if (document.querySelector("#hidePanelZip") != undefined)
+                document.querySelector("#hidePanelZip").style.display = "block";
+
         } else {
-            $("#ListEmails" + $scope.attribute)[0].style.display = "none";
-            $("#hidePanel")[0].style.display = "none";
-            $("#hidePanelZip")[0].style.display = "none";
+            document.querySelector("#ListEmails" + $scope.attribute).style.display = "none";
+            document.querySelector("#hidePanel").style.display = "none";
+
+            if (document.querySelector("#hidePanelZip") != undefined)
+                document.querySelector("#hidePanelZip").style.display = "none";
+
         }
     }
 
@@ -143,15 +151,23 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
         var stringMails = emailsList.join('; ');
         $scope.Value = stringMails;
 
-        $("#ListEmails" + $scope.attribute)[0].style.display = "none";
-        $("#hidePanel")[0].style.display = "none";
-        $("#hidePanelZip")[0].style.display = "none";
+        document.querySelector("#ListEmails" + $scope.attribute).style.display = "none";
+        document.querySelector("#hidePanel").style.display = "none";
+
+        if (document.querySelector("#hidePanelZip") != undefined)
+            document.querySelector("#hidePanelZip").style.display = "block";
+
+
+        if (document.querySelector("#hidePanelZip") != undefined)
+            document.querySelector("#hidePanelZip").style.display = "none";
     }
 
     function onblur() {
-        $("#ListEmails" + $scope.attribute)[0].style.display = "none";
-        $("#hidePanel")[0].style.display = "none";
-        $("#hidePanelZip")[0].style.display = "none";
+        document.querySelector("#ListEmails" + $scope.attribute).style.display = "none";
+        document.querySelector("#hidePanel").style.display = "none";
+
+        if (document.querySelector("#hidePanelZip") != undefined)
+            document.querySelector("#hidePanelZip").style.display = "none";
     }
 
     $scope.$on('EmailsObtained', function (event, args) {
