@@ -430,7 +430,7 @@
                     <div class="form-group modalControl row">
                         <label class="col-sm-1 control-label">Asunto</label>
                         <div class="col-sm-11">
-                            <input class="form-control EmailInput" name="subject" placeholder="Asunto" style="height: 75%; margin: -4px 0 4px 0">
+                            <input class="form-control EmailInput" name="subject" placeholder="Asunto" autocomplete="off" style="height: 75%; margin: -4px 0 4px 0">
                         </div>
                     </div>
 
@@ -896,7 +896,7 @@
     function SendEmail() {
         var emaildata = {};
         let doctypeId, docId;
-        if (sessionStorage.getItem('ResultNewTask-' + GetUID()) !== undefined) {
+        if (sessionStorage.getItem('ResultNewTask-' + GetUID()) !== undefined && sessionStorage.getItem('ResultNewTask-' + GetUID()) != null) {
             let getNewResultsItem = JSON.parse(sessionStorage.getItem('ResultNewTask-' + GetUID()));
             docId = getNewResultsItem[0].Docid;
             doctypeId = getNewResultsItem[0].DocTypeid;
