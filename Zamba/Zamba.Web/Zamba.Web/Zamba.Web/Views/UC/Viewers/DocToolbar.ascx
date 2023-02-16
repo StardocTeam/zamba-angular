@@ -831,7 +831,7 @@
         
         var emaildata = {};
         let doctypeId, docId;
-        if (sessionStorage.getItem('ResultNewTask-' + GetUID()) !== undefined) {
+        if (sessionStorage.getItem('ResultNewTask-' + GetUID()) !== undefined && sessionStorage.getItem('ResultNewTask-' + GetUID()) !== null) {
             let getNewResultsItem = JSON.parse(sessionStorage.getItem('ResultNewTask-' + GetUID()));
             docId = getNewResultsItem[0].Docid;
             doctypeId = getNewResultsItem[0].DocTypeid;
