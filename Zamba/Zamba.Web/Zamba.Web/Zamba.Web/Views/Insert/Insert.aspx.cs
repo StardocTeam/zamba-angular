@@ -69,7 +69,8 @@ public partial class Views_Insert_Insert : Page
                 }
 
                 ucDocTypesIndexs.SaveButtonName = lnkInsertar.ClientID;
-                ucDocTypes.LoadDocTypes();
+                //ucDocTypes.LoadDocTypes();
+                ucDocTypes.LoadDocTypesByCreatePermission();
                 SZOptBusiness zOptBusines = new SZOptBusiness();
                 Page.Title = (string)zOptBusines.GetValue("WebViewTitle") + " - Insertar Documento";
                 lblMsj.Text = string.Empty;
