@@ -11,8 +11,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="SiniestrosSolicitudv4.css" type="text/css" />
-    
-    
+
+
     <script type="text/javascript" language="JavaScript">
         function SetRuleId(sender) {
             document.getElementById("hdnRuleId").name = sender.id;
@@ -58,18 +58,22 @@
                 <div class="form-group row">
                     <div class="col-md-6">
                         <div class=" input-group">
-                            <span class="input-group-addon" style="" id="basic-addon1"> Fecha
-                                Solicitud</span>
+                            <span class="input-group-addon" style="" id="basic-addon1">
+                                Fecha
+                                Solicitud
+                            </span>
                             <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                                id="zamba_index_1146" name="zamba_index_1146" readonly="readonly" disabled="disabled" />
+                                   id="zamba_index_1146" name="zamba_index_1146" readonly="readonly" disabled="disabled" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group">
-                            <span class="input-group-addon" style="" id="basic-addon1"> Fecha
-                                Respuesta</span>
+                            <span class="input-group-addon" style="" id="basic-addon1">
+                                Fecha
+                                Respuesta
+                            </span>
                             <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold"
-                                id="zamba_index_1149" name="zamba_index_1149" readonly="readonly" disabled="disabled" />
+                                   id="zamba_index_1149" name="zamba_index_1149" readonly="readonly" disabled="disabled" />
                         </div>
                     </div>
                 </div>
@@ -85,7 +89,7 @@
                     <div class="form-group">
                         <div class="col-md-12" style="position:relative;top:-18px;color: #090A0A; font-weight: bold">
                             <textarea cols="1" style="height: 50px" class="form-control" rows="5" id="zamba_index_1148"
-                                name="zamba_index_1148" readonly="readonly"></textarea>
+                                      name="zamba_index_1148" readonly="readonly"></textarea>
                         </div>
                     </div>
                 </div>
@@ -93,48 +97,39 @@
 
                 <center>
                     <input class="btn btn-sm btn-primary" id="zamba_rule_5478"
-                        style="text-align: center; margin-right: 50px;" type="submit" value="Nueva Comunicacion"
-                        name="zamba_rule_5478" onclick="SetRuleId(this);" />
+                           style="text-align: center; margin-right: 50px;" type="submit" value="Nueva Comunicacion"
+                           name="zamba_rule_5478" onclick="SetRuleId(this);" />
 
                     <input class="btn btn-sm btn-primary" id="zamba_rule_5484"
-                        style="text-align: center; margin-right: 50px;" type="submit" value="Aceptar Siniestro"
-                        name="zamba_rule_5484" onclick="SetRuleId(this);" />
+                           style="text-align: center; margin-right: 50px;" type="submit" value="Aceptar Siniestro"
+                           name="zamba_rule_5484" onclick="SetRuleId(this);" />
 
                     <input class="btn btn-sm btn-primary" id="zamba_rule_5488"
-                        style="text-align: center; margin-right: 50px;" type="submit" value="Rechazar Siniestro"
-                        name="zamba_rule_5488" onclick="SetRuleId(this);" />
+                           style="text-align: center; margin-right: 50px;" type="submit" value="Rechazar Siniestro"
+                           name="zamba_rule_5488" onclick="SetRuleId(this);" />
                 </center>
 
                 <div class="form-group row"></div>
 
                 <div class="form-group row">
-                    <div class="col-md-12">
-                        <div id="zamba_associated_documents_1014"  style="overflow: auto;" class="ZKGrid table table-bordered containerGrid">
-                            <h5> <strong>Comunicaciones</strong></h5>
-                            <div
-                                id="zamba_rule_0/Previsualizar/zvar(path=length-3)/prev§zamba_rule_6479/Responder/zvar(rutaDocumento=length-3)">
-                            </div>
+                    <div>
+                        <div ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="1014" rule-ids="6479" z-vars="rutaDocumento" default-enable-mode="grid" table-height="400" grid-title="Comunicaciones">
+                            </zamba-associated>
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <iframe border="0" style="border:1px solid black; width:100%; height: 300px" src=""
-                            name="zamba_innerdoctype_variable" id="zamba_innerdoctype_variable"></iframe>
                     </div>
                 </div>
 
                 <center>
                     <div class="col-md-2">
-                        
+
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         <span style="color:whitesmoke">SiniestrosSolicitudv4.html</span>
                     </div>
                     <div class="col-md-5">
-                        
+
                         <div class="form-group row">
                         </div>
                     </div>

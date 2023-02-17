@@ -530,7 +530,8 @@ function onDataBound(arg) {
             console.error(e);
         }
         try {
-            if (dataItems[i].Tipo_de_pagos != undefined && dataItems[i].Tipo_de_pagos != null && dataItems[i].Tipo_de_pagos.indexOf('CENTROS DE ATENCION') != -1 && IfUserInGroups(71, 11542205, 12598, 11542206, 1526096, 12872, 1020364, 1020363, 12871)) {
+            let userGroupForPending = "71,11542205,12598,11542206,1526096,12872,1020364,1020363,12871";
+            if (dataItems[i].Tipo_de_pagos != undefined && dataItems[i].Tipo_de_pagos != null && dataItems[i].Tipo_de_pagos.indexOf('CENTROS DE ATENCION') != -1 && IfUserInGroups(userGroupForPending)) {
                 row.addClass("RowPending");
             }
         } catch (e) {

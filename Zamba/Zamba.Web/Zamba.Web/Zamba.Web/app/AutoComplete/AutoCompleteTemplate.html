@@ -1,100 +1,18 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../app/AutoComplete/AutoCompleteStyle.css" type="text/css">
+</head>
 <body>
-    <style>
-        #standard-autocomplete,
-        #virtual-autocomplete {
-            width: 200px;
-        }
+    <form id="AutoCompleteController">
+        <input type="text" class="form-control estiloform" name="EstablishedEmails" placeholder="{{attribute}}" autocomplete="off" id="{{attribute}}" ng-model="Value" ng-change="ExpandCombo(event)" ng-click="ExpandCombo(event)">
 
-        .autocomplete-standard-template .md-autocomplete-suggestion,
-        .autocomplete-virtual-template .md-autocomplete-suggestion {
-            border-bottom: 1px solid #ccc;
-            height: auto;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            white-space: normal;
-        }
+        <div id="ListEmails{{attribute}}" class="ListEmails">
 
-            .autocomplete-virtual-template .md-autocomplete-suggestion:last-child,
-            .autocomplete-standard-template .md-autocomplete-suggestion:last-child {
-                border-bottom-width: 0;
-            }
-
-        .autocomplete-virtual-template .item-title,
-        .autocomplete-virtual-template .item-metadata,
-        .autocomplete-standard-template .item-title,
-        .autocomplete-standard-template .item-metadata {
-            display: block;
-            line-height: 2;
-        }
-
-            .autocomplete-virtual-template .item-title md-icon,
-            .autocomplete-standard-template .item-title md-icon {
-                height: 18px;
-                width: 18px;
-            }
-
-        .autocomplete-virtual-template .item-desc,
-        .autocomplete-standard-template .item-desc {
-            font-size: 12px;
-            margin: 0.8em 0 .8em;
-            max-width: 300px;
-        }
-
-        .standard-container,
-        .virtual-container {
-            width: 300px;
-        }
-
-        .instance-wrapper {
-            padding: 0 8px;
-        }
-
-        .mdContent {
-            padding: 0px !important;
-        }
-
-        #AutocompleteForm {
-            padding: 1px !important;
-        }
-
-        #mdAutocomplete {
-            height: 30px !important;
-        }
-
-        md-autocomplete-wrap {
-            height: 30px !important;
-        }
-
-            md-autocomplete-wrap > input {
-                line-height: 30px !important;
-                height: 30px !important;
-            }
-
-        .ListEmails {
-            flex-direction: column;
-            overflow-y: scroll;
-            height: 200px;
-            padding-bottom: 2px;
-            position: absolute;
-            z-index: 10;
-            background-color: #f7f7f7;
-            width: 96%;
-        }
-
-    </style>
-
-<form id="AutoCompleteController">
-    <input type="text" name="EstablishedEmails" autocomplete="off" id="{{attribute}}" ng-model="Value" ng-change="ExpandCombo(event)" ng-click="ExpandCombo(event)">
-
-    <div id="ListEmails{{attribute}}" class="ListEmails" style="display:none">
-
-        <md-list-item ng-repeat="item in ListedEmails track by $index" ng-click="appendEmail(item)" >
-            <p> {{item.value}} </p>
-        </md-list-item>
-
-    </div>
-</form>
-
+            <md-list-item ng-repeat="item in ListedEmails track by $index" ng-click="appendEmail(item)">
+                <p> {{item.value}} </p>
+            </md-list-item>
+        </div>
+    </form>
 </body>
 </html>

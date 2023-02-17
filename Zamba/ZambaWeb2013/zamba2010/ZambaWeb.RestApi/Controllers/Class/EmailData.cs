@@ -103,5 +103,6 @@ namespace ZambaWeb.RestApi.Controllers.Class
         public bool? SendDocument { get; set; }
         public Dictionary<string, string>[] Base64StringArray { get; set; }
         public string MailPathVariable { get; set; }
+        public string isDomail { get; set; }
     }    
 }

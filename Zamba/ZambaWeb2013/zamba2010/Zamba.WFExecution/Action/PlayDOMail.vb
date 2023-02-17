@@ -11,7 +11,9 @@ Imports System.Web.Services.Protocols
 Imports Zamba.WorkFlow.Business
 Imports Zamba.Services
 Imports Zamba.Membership
-
+Imports Spire.Email
+Imports Zamba.FileTools
+Imports System.Dynamic
 
 Public Class PlayDOMail
 
@@ -165,25 +167,58 @@ Public Class PlayDOMail
         End Try
         Dim Params As New Hashtable
 
-        Me.Para = Me.ReconocerGruposYUsuarios(Me.Para)
-        ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail To: " & Me.Para)
-        If (String.IsNullOrEmpty(Me.Para) AndAlso ZOptBusiness.GetValueOrDefault("EMailThrowErrorIfTOIsEmpty", True)) Then
-            Throw New Exception("ERROR: Email - El destinatario no puede estar vacio, para permitir valor vacio en el Destinatario, configurar EMailThrowErrorIfTOIsEmpty en False")
+        AttachOriginalDocument(res)
+        If (Me._myRule.Answer And VariablesInterReglas.ContainsKey("rutaDocumento")) Then
+            Dim rutaDocumento As String = VarInterReglas.Item("rutaDocumento").ToString()
+            If Not (rutaDocumento.Contains(".msg")) Then
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "El documento no es un .msg")
+                Throw New Exception("El documento no es de tipo mail")
+            End If
+            Dim St As New Zamba.FileTools.SpireTools
+            Dim PathPdf As String = String.Empty
+
+            Dim MailInfo = St.ConvertMSGToJSON(rutaDocumento, PathPdf, True)
+            Dim Mailto = String.Empty
+            For Each item As String In MailInfo.To
+                Mailto += item + ";"
+            Next
+            MailInfo.from = Me.ReconocerGruposYUsuarios(Mailto)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail To: " & MailInfo.from)
+            If (String.IsNullOrEmpty(MailInfo.from) AndAlso ZOptBusiness.GetValueOrDefault("EMailThrowErrorIfTOIsEmpty", True)) Then
+                Throw New Exception("ERROR: Email - El destinatario no puede estar vacio, para permitir valor vacio en el Destinatario, configurar EMailThrowErrorIfTOIsEmpty en False")
+            End If
+            Params.Add("To", MailInfo.from)
+            'Me.CC = Me.ReconocerGruposYUsuarios(Me.CC)
+            'ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
+            'Params.Add("CC", MailInfo.CC)             
+            'Me.CCO = Me.ReconocerGruposYUsuarios(Me.CCO)
+            'ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
+            'Params.Add("CCO", MailInfo.CCO)            
+            Params.Add("Subject", "RE:" + MailInfo.subject)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail Body: " & MailInfo.subject)
+            Params.Add("Body", MailInfo.Body)
+        Else
+
+            Me.Para = Me.ReconocerGruposYUsuarios(Me.Para)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail To: " & Me.Para)
+            If (String.IsNullOrEmpty(Me.Para) AndAlso ZOptBusiness.GetValueOrDefault("EMailThrowErrorIfTOIsEmpty", True)) Then
+                Throw New Exception("ERROR: Email - El destinatario no puede estar vacio, para permitir valor vacio en el Destinatario, configurar EMailThrowErrorIfTOIsEmpty en False")
+            End If
+
+            Params.Add("To", Me.Para)
+
+            Me.CC = Me.ReconocerGruposYUsuarios(Me.CC)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
+            Params.Add("CC", Me.CC)
+
+            Me.CCO = Me.ReconocerGruposYUsuarios(Me.CCO)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
+            Params.Add("CCO", Me.CCO)
+
+            Params.Add("Subject", Me.Asunto)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail Body: " & Me.Body)
+            Params.Add("Body", Me.Body)
         End If
-
-        Params.Add("To", Me.Para)
-
-        Me.CC = Me.ReconocerGruposYUsuarios(Me.CC)
-        ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
-        Params.Add("CC", Me.CC)
-
-        Me.CCO = Me.ReconocerGruposYUsuarios(Me.CCO)
-        ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
-        Params.Add("CCO", Me.CCO)
-
-        Params.Add("Subject", Me.Asunto)
-        ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail Body: " & Me.Body)
-        Params.Add("Body", Me.Body)
 
         '[Ezequiel]: Se filtran los documentos asociados a adjuntar.
         Dim TempDocAsociated As New ArrayList
@@ -848,6 +883,30 @@ Public Class PlayDOMail
                             End With
 
                             MessagesBusiness.SendMail(mail)
+                            'si es responder = true llamar
+                            Dim rb As New Results_Business
+                            If (Me._myRule.Answer And VariablesInterReglas.ContainsKey("rutaDocumento")) Then
+                                Dim sRes = New SResult()
+                                Dim exportPath As String = String.Empty
+                                For i As Int32 = 0 To results.Count - 1
+                                    Dim ZO As New SZOptBusiness()
+                                    Dim Ef As New Zamba.Data.Email_Factory
+                                    exportPath = Ef.CreateExportFolder(Convert.ToInt32(results.Item(i).ID))
+                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Ruta exportacion: " + exportPath)
+                                    Dim MailTo As String = mail.From.ToString()
+                                    Dim CC As String = String.Empty
+                                    If Not IsNothing(mail.Cc) Then
+                                        CC = mail.Cc.ToString()
+                                    End If
+                                    Dim DocID As Long = mail.SourceDocId
+                                    Dim from = ZO.GetValue("WebView_FromSMTP")
+                                    Dim MailPathVariable As String = "MailPathVariable"
+                                    Ef.SaveMsgFromDomail(mail.MailTo, CC, mail.Subject, mail.Body, DocID, MailPathVariable, from, exportPath)
+                                    Dim GetMailPathVariable As String = VariablesInterReglas.Item(MailPathVariable)
+                                    Dim Res = sRes.GetResult(Convert.ToInt64(results.Item(i).ID), results.Item(i).DocTypeId, True)
+                                    rb.ReplaceDocument(Res, GetMailPathVariable.ToString(), False, Nothing)
+                                Next
+                            End If
                             Return results
                         Catch ex As Exception
                             raiseerror(ex)
@@ -926,10 +985,10 @@ Public Class MailActions
         Me._smtpConfig = smtpconfig
     End Sub
 
-   
+
 
 #Region "Mensajes"
-   
+
 
     ''' <summary>
     ''' Obtiene los nombres originales de una lista de documentos y 
