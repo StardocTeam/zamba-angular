@@ -786,6 +786,7 @@
     function Email_Click(Subject, Body, To, AttachLink, SendDocument, NextRuleIds, MailPathVariable, CC, CCO) {
         document.querySelector("#ModalMail").querySelector("input[name='addListLinks']").hidden = false;
         document.querySelector("#ModalMail").querySelector("#LabelAddListLinks").hidden = false;
+        $('#file_upload').hide();
         var mailContainer = $("#ModalMail");
 
         mailContainer.modal();
