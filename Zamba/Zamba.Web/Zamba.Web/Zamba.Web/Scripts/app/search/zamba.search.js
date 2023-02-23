@@ -4825,11 +4825,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         ValMessage = "";
 
-        if (obj.cc == undefined)
-            obj.cc = "";
-
-        if (obj.cco == undefined)
-            obj.cco = "";
+        obj.for = obj.for == undefined ? "" : obj.for;
+        obj.cc = obj.cc == undefined ? "" : obj.cc;
+        obj.cco = obj.cco == undefined ? "" : obj.cco;
 
         MailValidation = Val_contenido(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
         MailValidation = Val_contenido(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
