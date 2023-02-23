@@ -797,7 +797,7 @@
         mailContainer.find('input[name="subject"]').val(Subject);
 
         if (document.getElementById("cke_1_contents") != undefined && document.getElementById("cke_1_contents") != null ) {
-            document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body;
+            document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body != undefined ? Body : "";
         }
        
 
