@@ -239,7 +239,7 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
                     }
                     else {
                         
-                        string script = "$(document).ready(function() { swal({ title: '', text: 'No tiene permisos para ver esta tarea', icon: 'info', buttons: true, dangerMode: true, closeOnClickOutside: false, buttons:{ agregar: { text: 'ok' }, }, }) .then((value) => { switch (value) { case 'agregar': window.location = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1]; break; } }); });";
+                        string script = "$(document).ready(function() { swal({ title: '', text: 'No tiene permisos para ver esta tarea', icon: 'info', buttons: true, dangerMode: true, closeOnClickOutside: false, buttons:{ agregar: { text: 'ok' }, }, }) .then((value) => { switch (value) { case 'agregar':  window.close(); break; } }); });";
                         Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
 
                     }

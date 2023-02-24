@@ -1524,7 +1524,10 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.Search.StepFilter = { IsChecked: false, zFilterWebID: 0 };
         $rootScope.$broadcast('resetFiltersDefaultZambaColumnFilters');
         $scope.Search.DoctypesIds = entitieIds;
-        $scope.Search.Indexs = JSON.parse(EntityFieldsService.GetAllSync($scope.Search.DoctypesIds));
+
+        if ($scope.Search.DoctypesIds.length > 0)
+            $scope.Search.Indexs = JSON.parse(EntityFieldsService.GetAllSync($scope.Search.DoctypesIds));
+
         $scope.Search.usedFilters = [];
         if (entitieIds.length == 1) {
             let docTypeIdFilter = $scope.Search.DoctypesIds[0];
@@ -4822,11 +4825,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         ValMessage = "";
 
-        if (obj.cc == undefined)
-            obj.cc = "";
-
-        if (obj.cco == undefined)
-            obj.cco = "";
+        obj.for = obj.for == undefined ? "" : obj.for;
+        obj.cc = obj.cc == undefined ? "" : obj.cc;
+        obj.cco = obj.cco == undefined ? "" : obj.cco;
 
         MailValidation = Val_contenido(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
         MailValidation = Val_contenido(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");

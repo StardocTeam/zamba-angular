@@ -51,6 +51,7 @@ Public Class DOMail
     Private _columnName As String
     Private _columnRoute As String
     Private _isValid As Boolean
+    Private _Answer As Boolean
 
     'funcionalidad ejecucion segunda regla
     Private _executeAdditionalRuleId As Int64
@@ -132,6 +133,15 @@ Public Class DOMail
         End Get
         Set(ByVal value As Boolean)
             mAutomatic = value
+        End Set
+    End Property
+
+    Public Property Answer() As Boolean Implements IDOMail.Answer
+        Get
+            Return _Answer
+        End Get
+        Set(ByVal value As Boolean)
+            _Answer = value
         End Set
     End Property
     Public Property Para() As String Implements IDOMail.Para
@@ -434,26 +444,26 @@ Public Class DOMail
     ''' <remarks></remarks>
     ''' <history>
     ''' </history>
-    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepId As Int64, _
-                   ByVal Para As String, ByVal CC As String, ByVal CCO As String, ByVal Asunto As String, _
-                   ByVal Senddocument As Boolean, ByVal Body As String, ByVal pAttachAssociatedDocument As Boolean, _
-                   ByVal imagNames As String, ByVal pathImag As String, ByVal groupMailTo As Boolean, _
-                   ByVal attachLink As Boolean, ByVal DTType As IMailConfigDocAsoc.DTTypes, _
-                   ByVal Selection As IMailConfigDocAsoc.Selections, ByVal DocTypes As String, ByVal Index As Int32, _
-                   ByVal Oper As Comparadores, ByVal IndexValue As String, ByVal Automatic As Boolean, _
-                   ByVal usesmtpconfig As Boolean, ByVal smtpserver As String, ByVal smtpport As String, _
-                   ByVal smtpuser As String, ByVal smtppass As String, ByVal smtpmail As String, _
-                   ByVal keepAssociatedDocName As Boolean, ByVal EmbedImages As Boolean, ByVal savemailpath As Boolean, _
-                   ByVal mailpath As String, ByVal disablehistory As Boolean, ByVal filterDocID As String, _
-                   ByVal RuleID As Int64, ByVal BtnName As String, ByVal VarAttachs As String, ByVal ColumnName As String, _
-                   ByVal ColumnRoute As String, ByVal ExecuteAdditionalRuleID As Int64, ByVal BtnAdditionalRuleName As String, _
-                   ByVal ViewOriginalDocument As Boolean, ByVal ViewAssociateDocument As Boolean, ByVal AdditionalRuleColumnName As String, _
-                   ByVal AdditionalRuleColumnRoute As String, _
-                   ByVal attachTableVar As String, _
-                   ByVal attachTableColDocTypeId As String, _
-                   ByVal attachTableColDocId As String, _
-                   ByVal attachTableColDocName As String, _
-                   ByVal smtpEnableSsl As Boolean)
+    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepId As Int64,
+                   ByVal Para As String, ByVal CC As String, ByVal CCO As String, ByVal Asunto As String,
+                   ByVal Senddocument As Boolean, ByVal Body As String, ByVal pAttachAssociatedDocument As Boolean,
+                   ByVal imagNames As String, ByVal pathImag As String, ByVal groupMailTo As Boolean,
+                   ByVal attachLink As Boolean, ByVal DTType As IMailConfigDocAsoc.DTTypes,
+                   ByVal Selection As IMailConfigDocAsoc.Selections, ByVal DocTypes As String, ByVal Index As Int32,
+                   ByVal Oper As Comparadores, ByVal IndexValue As String, ByVal Automatic As Boolean,
+                   ByVal usesmtpconfig As Boolean, ByVal smtpserver As String, ByVal smtpport As String,
+                   ByVal smtpuser As String, ByVal smtppass As String, ByVal smtpmail As String,
+                   ByVal keepAssociatedDocName As Boolean, ByVal EmbedImages As Boolean, ByVal savemailpath As Boolean,
+                   ByVal mailpath As String, ByVal disablehistory As Boolean, ByVal filterDocID As String,
+                   ByVal RuleID As Int64, ByVal BtnName As String, ByVal VarAttachs As String, ByVal ColumnName As String,
+                   ByVal ColumnRoute As String, ByVal ExecuteAdditionalRuleID As Int64, ByVal BtnAdditionalRuleName As String,
+                   ByVal ViewOriginalDocument As Boolean, ByVal ViewAssociateDocument As Boolean, ByVal AdditionalRuleColumnName As String,
+                   ByVal AdditionalRuleColumnRoute As String,
+                   ByVal attachTableVar As String,
+                   ByVal attachTableColDocTypeId As String,
+                   ByVal attachTableColDocId As String,
+                   ByVal attachTableColDocName As String,
+                   ByVal smtpEnableSsl As Boolean, ByVal Answer As Boolean)
 
         MyBase.New(Id, Name, wfstepId)
         Me._Para = Para
@@ -501,6 +511,7 @@ Public Class DOMail
         Me.AttachTableVar = attachTableVar
         Me.AttachTableColDocTypeId = attachTableColDocTypeId
         Me.AttachTableColDocId = attachTableColDocId
+        Me.Answer = Answer
         Me.AttachTableColDocName = attachTableColDocName
         Me.playRule = New Zamba.WFExecution.PlayDOMail(Me)
     End Sub
@@ -514,6 +525,9 @@ Public Class DOMail
         If IsNothing(Params) Then
             Params = New Hashtable
         End If
+
+        'Me.Answer = True
+
         If IsNothing(Params) OrElse Params.Count = 0 Then
             'Si el envio no es automatico quiere decir que se debe mostrar el control
             'Por ende seteo que tiene un evento pendiente

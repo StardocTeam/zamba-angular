@@ -9,8 +9,9 @@
 
 
 
-public partial class Views_UC_Viewers_DocToolbar {
-    
+public partial class Views_UC_Viewers_DocToolbar
+{
+
     /// <summary>
     /// hdnShowHistoryTab control.
     /// </summary>
@@ -19,7 +20,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnShowHistoryTab;
-    
+
     /// <summary>
     /// hdnShowForumTab control.
     /// </summary>
@@ -28,7 +29,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnShowForumTab;
-    
+
     /// <summary>
     /// hdnShowAsociatedTab control.
     /// </summary>
@@ -37,7 +38,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnShowAsociatedTab;
-    
+
     /// <summary>
     /// hdnShowMailsTab control.
     /// </summary>
@@ -46,7 +47,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnShowMailsTab;
-    
+
     /// <summary>
     /// hdnLastTab control.
     /// </summary>
@@ -55,7 +56,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnLastTab;
-    
+
     /// <summary>
     /// hdnCurrentFormID control.
     /// </summary>
@@ -64,7 +65,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnCurrentFormID;
-    
+
     /// <summary>
     /// hdnDocId control.
     /// </summary>
@@ -73,7 +74,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnDocId;
-    
+
     /// <summary>
     /// hdnFilePath control.
     /// </summary>
@@ -82,7 +83,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnFilePath;
-    
+
     /// <summary>
     /// hdnDocTypeId control.
     /// </summary>
@@ -91,7 +92,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnDocTypeId;
-    
+
     /// <summary>
     /// hdnWfstepid control.
     /// </summary>
@@ -100,7 +101,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnWfstepid;
-    
+
     /// <summary>
     /// hdnDocExt control.
     /// </summary>
@@ -109,7 +110,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnDocExt;
-    
+
     /// <summary>
     /// hdnImprimir control.
     /// </summary>
@@ -118,7 +119,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnImprimir;
-    
+
     /// <summary>
     /// hdnDocContainer control.
     /// </summary>
@@ -127,7 +128,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnDocContainer;
-    
+
     /// <summary>
     /// BtnClose control.
     /// </summary>
@@ -136,7 +137,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton BtnClose;
-    
+
     /// <summary>
     /// btnRefresh control.
     /// </summary>
@@ -145,7 +146,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnRefresh;
-    
+
     /// <summary>
     /// BtnShowIndexs control.
     /// </summary>
@@ -154,7 +155,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton BtnShowIndexs;
-    
+
     /// <summary>
     /// btnEmail control.
     /// </summary>
@@ -163,7 +164,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnEmail;
-    
+
     /// <summary>
     /// btnAttach control.
     /// </summary>
@@ -172,7 +173,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnAttach;
-    
+
     /// <summary>
     /// btnEditDoc control.
     /// </summary>
@@ -181,7 +182,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnEditDoc;
-    
+
     /// <summary>
     /// btnOpenNewTab control.
     /// </summary>
@@ -190,7 +191,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnOpenNewTab;
-    
+
     /// <summary>
     /// btnPrint control.
     /// </summary>
@@ -199,7 +200,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnPrint;
-    
+
     /// <summary>
     /// btnFav control.
     /// </summary>
@@ -208,7 +209,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnFav;
-    
+
     /// <summary>
     /// btnImportant control.
     /// </summary>
@@ -217,7 +218,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnImportant;
-    
+
     /// <summary>
     /// btnAddNews control.
     /// </summary>
@@ -226,7 +227,7 @@ public partial class Views_UC_Viewers_DocToolbar {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlButton btnAddNews;
-    
+
     /// <summary>
     /// lbltitulodocumento control.
     /// </summary>

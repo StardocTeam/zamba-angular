@@ -14,8 +14,10 @@ using System.Web.Http.Cors;
 using Zamba;
 using Zamba.Core;
 using Zamba.Core.WF.WF;
+using Zamba.Data;
 using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Class;
+using static System.Net.Mime.MediaTypeNames;
 using static ZambaWeb.RestApi.Controllers.Class.EmailData;
 
 namespace ZambaWeb.RestApi.Controllers.Web
@@ -132,6 +134,36 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 mail.LinkToZamba = false;
                 sMail.SendMail(mail ,emailData.MailPathVariable);
                 RDO = true;
+
+                if (emailData.isDomail == "true" && VariablesInterReglas.ContainsKey("rutaDocumento")) {
+
+                    string exportPath = string.Empty;
+                    for (int i = 0; i < emailData.Idinfo.Count; i++)
+                    {
+                        Results_Business rb = new Results_Business();
+                        SZOptBusiness ZO = new SZOptBusiness();
+
+                        exportPath = Email_Factory.CreateExportFolder(Convert.ToInt32(emailData.Idinfo[i].DocId));
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Ruta exportacion: " + exportPath);
+
+                        string MailTo = emailData.MailTo.ToString();
+                        string cc = emailData.CC.ToString();
+                        long DocID = emailData.Idinfo[i].DocId;
+
+                        var from = ZO.GetValue("WebView_FromSMTP");
+                        string MailPathVariable = "MailPathVariable";
+                        Email_Factory.SaveMsgFromDomail(ref MailTo, ref cc, emailData.Subject, emailData.MessageBody, ref DocID, MailPathVariable, from, ref exportPath);
+
+
+                        var GetMailPathVariable = VariablesInterReglas.get_Item(MailPathVariable);
+
+
+                        var result =  rb.GetResult(Convert.ToInt64(emailData.Idinfo[i].DocId), emailData.Idinfo[i].DocTypeid, true);
+                        rb.ReplaceDocument(ref result, GetMailPathVariable.ToString(), false, null);
+                    }
+                }
+                  
+
             }
             catch (Exception ex)
             {
