@@ -108,7 +108,11 @@ Public Class utilities
                     Dim i As Int32
                     For i = 0 To Params.Count - 1
                         If i > 0 Then StrParams += ","
-                        StrParams += DirectCast(Params(i), System.Data.IDataParameter).Value.ToString
+                        Dim Param As System.Data.IDataParameter
+                        Param = DirectCast(Params(i), System.Data.IDataParameter)
+                        If Not IsNothing(Param.Value) Then
+                            StrParams += DirectCast(Params(i), System.Data.IDataParameter).Value.ToString
+                        End If
 
                         Try
                             Dim p As IDbDataParameter = Params(i)

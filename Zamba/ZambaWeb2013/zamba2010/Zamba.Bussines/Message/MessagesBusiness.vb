@@ -653,7 +653,11 @@ Public Class MessagesBusiness
             returnVal = mf.SendMailNet(conf)
             mf = Nothing
         End If
-
+        If conf.AttachFileNames.Count = 0 Then
+            For Each FileAttach As Attachment In conf.Attachments
+                conf.AttachFileNames.Add(FileAttach.Name)
+            Next
+        End If
 
         If returnVal Then
             Try
@@ -666,8 +670,9 @@ Public Class MessagesBusiness
 
                         mB = Nothing
                     Else
+
                         returnVal = SaveHistory(conf.MailTo, conf.Cc, conf.Cco, conf.Subject, conf.Body,
-                         Nothing, conf.SourceDocId, conf.SourceDocTypeId, conf.UserId, String.Empty, MailPathVariable, conf.From)
+                         conf.AttachFileNames, conf.SourceDocId, conf.SourceDocTypeId, conf.UserId, String.Empty, MailPathVariable, conf.From)
                     End If
                 End If
             Catch ex As Exception
