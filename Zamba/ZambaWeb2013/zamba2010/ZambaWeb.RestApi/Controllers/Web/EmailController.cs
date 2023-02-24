@@ -257,14 +257,18 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 Int64 DocIdSaveHistory = mail.SourceDocId; 
                 sMail.SendMail(mail, emailData.MailPathVariable);
                 RDO = true;
-
+                List<String> Attachs = new List<string>();
+                foreach(Dictionary<String,String> FileAttach in emailData.Base64StringArray)
+                {
+                    Attachs.Add(FileAttach["FileName"]);
+                }
                 if (emailData.Idinfo.Count > 1)
                 {
                     for (int i = 0; i < emailData.Idinfo.Count; i++)
                     {
                         if (DocIdSaveHistory != emailData.Idinfo[i].DocId)
                         {
-                            MessagesBusiness.SaveHistory(emailData.MailTo, emailData.CC, emailData.CCO, emailData.Subject, emailData.messageBody, null, emailData.Idinfo[i].DocId, emailData.Idinfo[i].DocTypeid, emailData.Userid, String.Empty, "", emailData.MailTo);
+                            MessagesBusiness.SaveHistory(emailData.MailTo, emailData.CC, emailData.CCO, emailData.Subject, emailData.messageBody, Attachs, emailData.Idinfo[i].DocId, emailData.Idinfo[i].DocTypeid, emailData.Userid, String.Empty, "", emailData.MailTo);
                         }
                         
                     }
