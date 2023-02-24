@@ -18,10 +18,10 @@
         <div class="container-fluid">
             <form name="frmMain" action="NotificacionDemandaReadOnlyDropZone.html">
                 <input id="hdnRuleId" type="hidden" />
-                <hr style="border: 0 ; border-top: 3px double Blue; width: 100%;">	
-                
-                <div id="tblNotificacion" >
-					
+                <hr style="border: 0 ; border-top: 3px double Blue; width: 100%;">
+
+                <div id="tblNotificacion">
+
                     <div class="form-group row">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="input-group">
@@ -47,16 +47,16 @@
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2704" name="zamba_index_2704" disabled="disabled" />
                             </div>
                         </div>
-                    </div>					
-					
-                    <div class="form-group row">                        
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon" style="" id="basic-addon1">Tipo de Notificación:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2717" size="1" name="zamba_index_2717" disabled="disabled" />
                             </div>
-                        </div>                      
-						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon" style="" id="basic-addon1">Fecha de Vencimiento:</span>
                                 <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2705" name="zamba_index_2705" disabled="disabled" />
@@ -69,81 +69,81 @@
                             </div>
                         </div>
                     </div>
-					
-					<div class="form-group row">					
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" style="" id="basic-addon1">Carátula:</span>
-                            <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2701" name="zamba_index_2701" disabled="disabled" />
+
+                    <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="" id="basic-addon1">Carátula:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_2701" name="zamba_index_2701" disabled="disabled" />
+                            </div>
                         </div>
                     </div>
-                </div>						               
-				
-				<div class="form-group row"></div>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="form-group row" style="margin-bottom: 40px;">
-						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">
-							<div class="row">							
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<span class="input-group-addon" style=""> Observaciones</span>
-									
-									<div id="appObservaciones" ng-controller="ObservacionController">
-										<zamba-observaciones index-id="64" entity-id="2524"></zamba-observaciones>
-									</div>
-									
-								</div>
-							</div>
-						</div>
-					
-						
-						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">						
-							<div class="row">							
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<span class="input-group-addon" style=""> Agregue abajo la Notificación que está ingresando </span>
-									<div class="form-group row"></div>
-									
-									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 92%;">								
-										<div ng-controller="appController">
-											<zamba-drop id="0" > </zamba-drop>
-										</div>
-									</div>
-									
-								</div>
-							</div>						
-						</div>
-					</div>	
-				</div>
 
-				<div class="form-group row"></div>
-				<div class="form-group row">
-					<center>						
-						<input class="btn  btn-info btn-sm" id="zamba_rule_10174" name="zamba_rule_10174" type="submit" value="Enviar" onclick="SetRuleId(this);" />
-					</center>
-                </div>
-				
-				<div class="form-group row"></div>
-				<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
-				<div class="form-group row">
-					<div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
-						<div class="row">
-							<zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
-						</div>
-					</div>
-				</div>
-				<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">      
-				
-                
-                <div class="form-group row">                        
-                    <center>
-                        <div class="">
-                            <span style="color:white">NotificacionDemandaReadOnlyDropZone.html</span>
-                        </div>                        
-                    </center>
-                </div>	                    
-				
+                    <div class="form-group row"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group row" style="margin-bottom: 40px;">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <span class="input-group-addon" style=""> Observaciones</span>
+
+                                        <div id="appObservaciones" ng-controller="ObservacionController">
+                                            <zamba-observaciones index-id="64" entity-id="2524"></zamba-observaciones>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <span class="input-group-addon" style=""> Agregue abajo la Notificación que está ingresando </span>
+                                        <div class="form-group row"></div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 92%;">
+                                            <div ng-controller="appController">
+                                                <zamba-drop id="0"> </zamba-drop>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <center>
+                            <input class="btn  btn-info btn-sm" id="zamba_rule_10174" name="zamba_rule_10174" type="submit" value="Enviar" onclick="SetRuleId(this);" />
+                        </center>
+                    </div>
+
+                    <div class="form-group row"></div>
+                    <hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
+                    <div class="form-group row">
+                        <div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+                            <div class="row">
+                                <zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
+
+
+                    <div class="form-group row">
+                        <center>
+                            <div class="">
+                                <span style="color:white">NotificacionDemandaReadOnlyDropZone.html</span>
+                            </div>
+                        </center>
+                    </div>
+
             </form>
-		</div>
+        </div>
     </div>
 </body>
-	
+
 </html>
