@@ -181,7 +181,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                         let attachsIds = []; IdInfo.Docid = executionResult.Vars["generateddocid"]
                         IdInfo.DocTypeid = executionResult.Vars["nuevatarea.entityid"];
                         attachsIds.push(IdInfo);
-                        sessionStorage.setItem("ResultNewTask-" + GetUID(), JSON.stringify(attachsIds)); Email_Click(executionResult.Params.Subject, executionResult.Params.Body, executionResult.Params.To, executionResult.Params.AttachLink, executionResult.Params.SendDocument, executionResult.Params.NextRuleIds, executionResult.Params.MailPathVariable, "", "");
+                        sessionStorage.setItem("ResultNewTask-" + GetUID(), JSON.stringify(attachsIds)); Email_Click(executionResult.Params.Subject, executionResult.Params.Body, executionResult.Params.To, executionResult.Params.AttachLink, executionResult.Params.SendDocument, executionResult.Params.NextRuleIds, executionResult.Params.MailPathVariable, executionResult.Params.CC, executionResult.Params.CCO);
                     } else {
                         swal("Error al ejecutar la DoMail")
                     } break

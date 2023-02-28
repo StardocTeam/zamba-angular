@@ -14,6 +14,7 @@ Imports Zamba.Membership
 Imports Spire.Email
 Imports Zamba.FileTools
 Imports System.Dynamic
+Imports System.Collections.ObjectModel
 
 Public Class PlayDOMail
 
@@ -177,23 +178,54 @@ Public Class PlayDOMail
             Dim St As New Zamba.FileTools.SpireTools
             Dim PathPdf As String = String.Empty
 
+            ''13016524.msg            '
+            'rutaDocumento = "\\buesrvtst05\Zamba$\Volumenes\Test\Vol022\1014\19\13016524.msg" 'debugger;
+
             Dim MailInfo = St.ConvertMSGToJSON(rutaDocumento, PathPdf, True)
             Dim Mailto = String.Empty
-            For Each item As String In MailInfo.To
-                Mailto += item + ";"
+            Dim Cc = String.Empty
+            Dim Cco = String.Empty
+
+            For indexTo As Double = 0 To MailInfo.[to].Count - 1
+                If MailInfo.[to](indexTo) = MailInfo.[to](MailInfo.[to].Count - 1) Then
+                    Mailto += MailInfo.[to](indexTo)
+                Else
+                    Mailto += MailInfo.[to](indexTo) + "; "
+                End If
             Next
+
+            For indexCc As Double = 0 To MailInfo.cc.Count - 1
+                If MailInfo.cc(indexCc) = MailInfo.cc(MailInfo.cc.Count - 1) Then
+                    Cc += MailInfo.cc(indexCc)
+                Else
+                    Cc += MailInfo.cc(indexCc) + "; "
+                End If
+            Next
+
+            For indexCco As Double = 0 To MailInfo.cco.Count - 1
+                If MailInfo.cco(indexCco) = MailInfo.cco(MailInfo.cco.Count - 1) Then
+                    Cco += MailInfo.cco(indexCco)
+                Else
+                    Cco += MailInfo.cco(indexCco) + "; "
+                End If
+            Next
+
             MailInfo.from = Me.ReconocerGruposYUsuarios(Mailto)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail To: " & MailInfo.from)
             If (String.IsNullOrEmpty(MailInfo.from) AndAlso ZOptBusiness.GetValueOrDefault("EMailThrowErrorIfTOIsEmpty", True)) Then
                 Throw New Exception("ERROR: Email - El destinatario no puede estar vacio, para permitir valor vacio en el Destinatario, configurar EMailThrowErrorIfTOIsEmpty en False")
             End If
+
             Params.Add("To", MailInfo.from)
-            'Me.CC = Me.ReconocerGruposYUsuarios(Me.CC)
-            'ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
-            'Params.Add("CC", MailInfo.CC)             
-            'Me.CCO = Me.ReconocerGruposYUsuarios(Me.CCO)
-            'ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
-            'Params.Add("CCO", MailInfo.CCO)            
+
+            Me.CC = Me.ReconocerGruposYUsuarios(Cc)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
+            Params.Add("CC", Me.CC)
+
+            Me.CCO = Me.ReconocerGruposYUsuarios(Cco)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
+            Params.Add("CCO", Me.CCO)
+
             Params.Add("Subject", "RE:" + MailInfo.subject)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail Body: " & MailInfo.subject)
             Params.Add("Body", MailInfo.Body)
