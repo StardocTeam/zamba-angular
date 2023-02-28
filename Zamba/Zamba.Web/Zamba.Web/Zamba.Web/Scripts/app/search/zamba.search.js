@@ -248,7 +248,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     $scope.LoadUserRights = function () {
         try {
-            $scope.CanRemoveDocuments = $scope.NewGetUserRigths(RightsTypeEnum.Delete, ObjectTypesEnum.DocTypes);
+            $scope.CanRemoveDocuments = false;
             $scope.ShowAsociatedTab = $scope.NewGetUserRigths(RightsTypeEnum.Use, ObjectTypesEnum.WFStepsTree);
             $scope.CanChangePassword = $scope.NewGetUserRigths(RightsTypeEnum.ChangePassword, ObjectTypesEnum.LogIn);
 
@@ -1939,7 +1939,28 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             console.error(e);
         }
     }
-
+    $scope.ShowButtonRemove = function (DocTypeIds) {
+        var canRemove = true;
+        var entities = $scope.Search.SearchResultsObject.entities;
+        if (DocTypeIds.length == 0)
+            canRemove = false;
+        DocTypeIds.forEach(
+            function (DocTypeId) {
+                entities.forEach(function (entity) {
+                    if (DocTypeId == entity.id) {
+                        if (entity.UserCanRemove != undefined) {
+                            if (!entity.UserCanRemove) {
+                                canRemove = false;
+                            }
+                        }
+                        else {
+                            canRemove = false;
+                        }
+                    }
+                });
+        });
+        $scope.CanRemoveDocuments = canRemove;
+    }
     $scope.loadSearchFromLocal = function () {
         var result = false;
 
@@ -2739,7 +2760,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 $scope.Search.LastPage = 0;
             }
             return $scope.getResultsFromService(reloadResults, $scope.Search).then(function (response) {
-
+                
                 $scope.LastResponse = response;
 
                 var data = $scope.LastResponse.data;
@@ -8129,7 +8150,7 @@ function BroadcastlocalTreeDataLoaded() {
 }
 /* show checked node IDs on datasource change */
 function onCheck() {
-
+    debugger;
     var checkedNodes = [];
     var DoctypesIds = [];
     var lastNodes = "";
@@ -8403,7 +8424,7 @@ $(document).ready(function () {
         //$(this).parent().find("input").prop("checked");
     });
     //Si selecciona el padre todos los hijos quedan seleccionados
-    $("body").on("click", ".k-checkbox", function () {
+    $("body").on("click", ".k-checkbox", function () {        
         var dS = $("#treeview").data("kendoTreeView").dataSource;
         if ($(this).parent().children(".k-icon").length) {
             var chk = $(this).children().prop("checked");

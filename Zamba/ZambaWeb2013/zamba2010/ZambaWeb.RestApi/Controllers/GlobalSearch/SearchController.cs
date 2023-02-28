@@ -1726,7 +1726,17 @@ namespace ZambaWeb.RestApi.Controllers
                         .ToList<String>();
 
                     foreach (EntityDto entityDto in sr.entities)
+                    {
                         entityDto.name = entityDto.name;
+                        
+                        ObjectTypes ObjectId = ObjectTypes.DocTypes;
+                        RightsType RightType = RightsType.Delete;
+
+                        entityDto.UserCanRemove = new RightsBusiness().GetUserRights(User.ID, ObjectId, RightType, entityDto.id );
+
+
+                    }
+                        
                     //entityDto.name = QuitarAcentosAColumna(entityDto.name);
 
                     foreach (DataColumn dataColumn in sr.data.Columns)

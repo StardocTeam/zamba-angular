@@ -436,7 +436,7 @@
                                     feed
                                 </span>
                             </md-button>
-                            <md-button ng-if="CanRemoveDocuments" type="button" class="buttonColor buttonMargin buttonTopAlign" ng-class="{'BtnZipDisable': BtnZipDisable}" title="Eliminar" ng-click="removeDocuments()" id="BtnRemoveDocuments">
+                            <md-button ng-if="CanRemoveDocuments" ng-show="CanRemoveDocuments" type="button" class="buttonColor buttonMargin buttonTopAlign" ng-class="{'BtnZipDisable': BtnZipDisable}" title="Eliminar" ng-click="removeDocuments()" id="BtnRemoveDocuments">
                                 <span class="material-icons md-span">
                                     delete
                                 </span>

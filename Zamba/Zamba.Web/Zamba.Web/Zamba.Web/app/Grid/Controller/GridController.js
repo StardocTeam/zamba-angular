@@ -398,7 +398,7 @@
         $scope.onDoubleClick(e);
     }
 
-    $scope.onClick = function (e) {
+    $scope.onClick = function (e) {        
         //Varible Definition
         var gridElement = $("#" + $scope.gridIndex);
         var grid = gridElement.data("kendoGrid");
@@ -1731,7 +1731,7 @@ function getBCHistoryearch() {
     }
 }
 
-function checkValue(value, arr, from) {
+function checkValue(value, arr, from) {    
     for (var i = 0; i < arr.length; i++) {
         var name = arr[i];
 

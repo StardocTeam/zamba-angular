@@ -608,7 +608,7 @@ function getResultsTotal() {
         return localSearchResults.total;
 }
 
-function onChange(arg) {
+function onChange(arg) {    
     var selected = $.map(this.select(), function (item) {
         checkedIds = [];
         checkListIdFormDowloadZip = [];
@@ -858,7 +858,6 @@ function CleanSelectedRows() {
 
 //habilita y deshabilita el registro de la grilla de busqueda.
 function onClick(e) {
-
     var grid = $("#Kgrid").data("kendoGrid");
 
     var rowIndex = $(e.target).closest("tr")[0].sectionRowIndex;
@@ -875,7 +874,7 @@ function onClick(e) {
 
     var row_DOC_ID = grid._data[rowIndex].DOC_ID;
     var row_DOC_TYPE_ID = grid._data[rowIndex].DOC_TYPE_ID;
-
+    
     if (multipleSelectActive == "true" && row_Selected == false) {
         angular.element($("#ResultsCtrl")).scope().GetTaskDocument(checkedIds);
         $(e.currentTarget).find('[type=checkbox]').prop('checked', true);
@@ -884,7 +883,7 @@ function onClick(e) {
 
         checkedIds.push(rowIndex);
         DocIdschecked.push(row_DOC_ID);
-        DocTypesIdschecked.push(row_DOC_TYPE_ID);
+        DocTypesIdschecked.push(row_DOC_TYPE_ID);        
         selectedRecords_gridResults.push(row_STEP_ID);
 
 
@@ -942,7 +941,8 @@ function onClick(e) {
         angular.element($("#taskController")).scope().$apply();
         showBtns_ForResultsGrid();
     }
-
+    angular.element($("#ResultsCtrl")).scope().ShowButtonRemove(DocTypesIdschecked);
+    angular.element($("#taskController")).scope().$apply();
 };
 
 function Val_EventDblClick(e) {
@@ -1272,7 +1272,7 @@ function OpenSelectedRows() {
     ResultsController.AUXOpenedTasks = [];
 }
 
-function checkValue(value, arr, from) {
+function checkValue(value, arr, from) {    
     for (var i = 0; i < arr.length; i++) {
         var name = arr[i];
 
