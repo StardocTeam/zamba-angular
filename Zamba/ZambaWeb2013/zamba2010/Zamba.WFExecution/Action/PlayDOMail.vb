@@ -178,8 +178,6 @@ Public Class PlayDOMail
             Dim St As New Zamba.FileTools.SpireTools
             Dim PathPdf As String = String.Empty
 
-            ''13016524.msg            '
-            'rutaDocumento = "\\buesrvtst05\Zamba$\Volumenes\Test\Vol022\1014\19\13016524.msg" 'debugger;
 
             Dim MailInfo = St.ConvertMSGToJSON(rutaDocumento, PathPdf, True)
             Dim Mailto = String.Empty
