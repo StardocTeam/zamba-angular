@@ -436,7 +436,7 @@
 
                     <div id="hidePanel" style="height: 245px; width: 768px; position: absolute; display:none" onclick="hideEmailList(event)"></div>
                     <div class="form-group">
-                        <textarea name="messageBody" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" id="editor" rows="10" cols="80"></textarea>
+                        <textarea  id="messageBody" name="messageBody" value="" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" rows="10" cols="80"></textarea>
                     </div>
 
                     <div class="form-group row addLinkMarginBottom">
@@ -542,7 +542,8 @@
     }
 
     $(document).ready(function () {
-        CKEDITOR.replace('editor');
+        CKEDITOR.replace('messageBody');
+
         jQuery.browser = {};
         (function () {
             jQuery.browser.msie = false;
@@ -838,6 +839,17 @@
         $('#ModalMail').find("input[name = 'for']").removeAttr('required');
     }
 
+    function removeEmailsFromModal() {
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
+
+        formMailTo.Value = "";
+        formMailCc.Value = "";
+        formMailCco.Value = "";
+    }
+
+
     var LocalNextRuleIds;
     var LocalMailPathVariable;
     function Email_Click(Subject, Body, To, AttachLink, SendDocument, NextRuleIds, MailPathVariable, CC, CCO) {
@@ -864,7 +876,7 @@
 
 
         if (document.getElementById("cke_1_contents") != undefined && document.getElementById("cke_1_contents") != null) {
-            document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body;
+            document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body != undefined ? Body : "";
         }
 
         var Link = AttachLink != undefined ? (AttachLink.toLowerCase() === 'true') : false;
@@ -917,9 +929,9 @@
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        var MailTo = formMailTo.Value.replaceAll(';', ',');
-        var MailCc = formMailCc.Value.replaceAll(';', ',');
-        var MailCco = formMailCco.Value.replaceAll(';', ',');
+        var MailTo = formMailTo.Value != undefined ? formMailTo.Value.replaceAll(';', ',') : "";
+        var MailCc = formMailCc.Value != undefined ? formMailCc.Value.replaceAll(';', ',') : "";
+        var MailCco = formMailCco.Value != undefined ? formMailCco.Value.replaceAll(';', ',') : "";
 
         MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
         MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
@@ -1046,6 +1058,7 @@
             $("#btnMailZipMailClose").show();
             $(".EmailInput").val("");
             removeAttrFromFor();
+            removeEmailsFromModal();
 
             $("#ModalMail").modal('toggle');
         }
