@@ -2,7 +2,7 @@ Imports Zamba.Core
 Imports System.Xml.Serialization
 
 
-<RuleCategory("Datos"), RuleDescription("Realiza una Pregunta al Usuario"), RuleHelp("Permite realizar una pregunta al usuario y guarda la respuesta a la misma."), RuleFeatures(True)> <Serializable()> _
+<RuleCategory("Datos"), RuleDescription("Realiza una Pregunta al Usuario"), RuleHelp("Permite realizar una pregunta al usuario y guarda la respuesta a la misma."), RuleFeatures(False)> <Serializable()> _
 Public Class DoConsumeRestApi
     Inherits WFRuleParent
     Implements IDoConsumeRestApi
