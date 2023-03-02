@@ -69,5 +69,8 @@ $(document).ready(function () {
     if (($('#zamba_index_131').val() == '')) {
         $('#zamba_index_131').parent().css('display', 'none');
     }
+    if (($('#zamba_index_130').val() == '')) {
+        $('#zamba_index_130').parent().parent().parent().css('display', 'none');
+    }
 
 });
