@@ -74,11 +74,5 @@
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Zamba.Bussines\Zamba.Bussines.vbproj">
-      <Project>{952C9B3B-3D9E-4AE2-A823-6B8E1F4F4756}</Project>
-      <Name>Zamba.Bussines</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
