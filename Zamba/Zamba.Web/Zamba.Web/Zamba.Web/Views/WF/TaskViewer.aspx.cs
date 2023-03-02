@@ -82,7 +82,7 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
 
                 bool isActiveSession = true;
 
-                if (!reloadModalLogin)
+                if (!reloadModalLogin && !Page.IsPostBack)
                 {
                     isActiveSession = RB.getValidateActiveSession(userid, userToken);
                 }
@@ -238,7 +238,7 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
                         }
                     }
                     else {
-                        
+
                         string script = "$(document).ready(function() { swal({ title: '', text: 'No tiene permisos para ver esta tarea', icon: 'info', buttons: true, dangerMode: true, closeOnClickOutside: false, buttons:{ agregar: { text: 'ok' }, }, }) .then((value) => { switch (value) { case 'agregar':  window.close(); break; } }); });";
                         Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
 
@@ -609,8 +609,9 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
         catch (Exception ex)
         {
             Zamba.AppBlock.ZException.Log(ex);
-            string script = "$(document).ready(function() { swal( '','"+ ex.Message + "','info' ); });";
+            string script = "$(document).ready(function() { swal( '','" + ex.Message + "','info' ); });";
             Page.ClientScript.RegisterStartupScript(this.GetType(), "ZException", script, true);
+            throw ex;
         }
     }
 

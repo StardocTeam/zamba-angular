@@ -1179,6 +1179,7 @@ Public Class ZCore
             level = 4
         End Try
         ZTrace.SetLevel(level, moduleName)
+
         UP = Nothing
     End Sub
 

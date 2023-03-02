@@ -395,7 +395,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
         user = Zamba.Membership.MembershipHelper.CurrentUser;
         SForms SForms = new SForms();
         IZwebForm zfrm = SForms.GetForm(Int64.Parse(Request["formid"].ToString()));
-        
+
         string Script = "$(document).ready(function(){ parent.$('#openModalIFContent')" +
                                 ".find('#modalFormTitle').text('" + zfrm.Name + "') });";
         Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "ShowError", Script, true);
@@ -446,7 +446,8 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "setCurrentForm", Script, true);
 
             ShowDocumentFromDoShowForm(TaskResult.ModalFormID);
-        } else if (TaskResult.CurrentFormID > 0)
+        }
+        else if (TaskResult.CurrentFormID > 0)
         {
             Page.Session.Add("CurrentFormID" + TaskResult.ID, TaskResult.CurrentFormID);
             string Script = "$(document).ready(function(){  setCurrentForm(" + TaskResult.CurrentFormID + "); });";
@@ -505,7 +506,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
         string strItem;
         long RuleId = 0;
 
-        if(IsTask)
+        if (IsTask)
             NewResult = null;
 
         for (int i = 0; i < keysCount; i++)
@@ -679,13 +680,13 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 Session.Remove("SpecificAttrubutes" + _ruleCallTaskID.ToString());
 
                 STasks stasks = new STasks();
-                TaskResult = stasks.GetTaskByDocId(NewResult.ID);                
+                TaskResult = stasks.GetTaskByDocId(NewResult.ID);
 
             }
             else
             {
                 //when executing a rule, the save MUSN't execute Indexs Event Rules
-                SaveFormData(IsTask,false);
+                SaveFormData(IsTask, false);
                 //Luego de hacer el comit del documento, se fija si tiene archivos para insertar
                 SaveAttachedDocuments();
             }
@@ -803,6 +804,12 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                     DontOpenTaskAfterInsert = Boolean.Parse(Request.QueryString["DontOpenTaskAfterInsert"].ToString().Trim());
                 }
 
+                ZOptBusiness zopt = new ZOptBusiness();
+                string doctypeidsexc = zopt.GetValue("DTIDShowDocAfterInsert");
+                bool opendoc = false;
+                bool showDocAfterInsert = bool.Parse(UP.getValue("ShowDocAfterInsert", UPSections.InsertPreferences, "true"));
+
+
                 InsertResult insertresult = IndexDocument(NewResult, true, !DontOpenTaskAfterInsert);
 
                 if (insertresult == InsertResult.Insertado)
@@ -816,9 +823,30 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
                     var RefreshParentDataFromChildWindowScript = " RefreshParentDataFromChildWindow(); ";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "RefreshParentDataFromChildWindowAndNotification", "$(document).ready(function(){" + RefreshParentDataFromChildWindowScript + script2 + "});", true);
-                   
+
+
                     if (!DontOpenTaskAfterInsert)
-                    OpenTask(NewResult);
+                    {
+                        //Codigo de ejecucion de reglas de entrada de la nueva tarea
+                        STasks stasks = new STasks();
+                        ITaskResult Task = stasks.GetTaskByDocId(NewResult.ID);
+
+                        if (!string.IsNullOrEmpty(doctypeidsexc))
+                        {
+                            foreach (string dtid in doctypeidsexc.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                if (string.Compare(dtid.Trim(), NewResult.DocTypeId.ToString()) == 0)
+                                    if (Task.ISVIRTUAL) opendoc = true; else opendoc = false;
+                            }
+                        }
+
+                        if (Task != null)
+                        {
+                            if (Page.Session["Entrada" + Task.ID] == null)
+                                Page.Session.Add("Entrada" + NewResult.ID, true);
+                            OpenTask(NewResult);
+                        }
+                    }
                 }
                 else
                 {
@@ -841,7 +869,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
             }
 
             var scriptMsg = $" swal('Error', '{lblDoc.Text}');";
-           ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorMsg", "$(document).ready(function(){" + scriptMsg + "});", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "ErrorMsg", "$(document).ready(function(){" + scriptMsg + "});", true);
 
             Zamba.AppBlock.ZException.Log(ex);
         }
@@ -897,7 +925,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 {
                     if (Page.Request.Url.AbsolutePath.IndexOf("DocInsertModal") > 0)
                     { openmode = 4; }
-                    
+
                 }
                 catch (Exception)
                 {
@@ -1012,7 +1040,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 }
 
                 bool ExecuteEntryRules = !OpenTask;
-                InsertResult = SResult.Insert(ref ResultToInsert, false, false, false, false, ResultToInsert.ISVIRTUAL, false, false, true, false,0,0,ExecuteEntryRules);
+                InsertResult = SResult.Insert(ref ResultToInsert, false, false, false, false, ResultToInsert.ISVIRTUAL, false, false, true, false, 0, 0, ExecuteEntryRules);
                 SResult = null;
                 SIndex = null;
             }
@@ -1143,7 +1171,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     }
 
     //03/10/2011: Se agrega este método para salvar los datos que llegan desde el formulario.
-    private void SaveFormData(bool IsTask,bool executeIndexRules)
+    private void SaveFormData(bool IsTask, bool executeIndexRules)
     {
         if (_result == null) return;
 
@@ -1806,7 +1834,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                             HTML.MakeDynamicConditions(strBody, this.CurrentForm.ID, NewResult.Indexs)).ToString();
                     }
                     if (string.IsNullOrEmpty(conditionScripts) == false)
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DynamicConditionScript", conditionScripts, true);
+                        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "DynamicConditionScript", conditionScripts, true);
 
                     docViewer.Visible = true;
                     docViewer.Text = strBody;

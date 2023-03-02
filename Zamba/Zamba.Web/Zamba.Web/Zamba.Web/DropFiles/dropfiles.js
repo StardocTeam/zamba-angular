@@ -7,8 +7,10 @@ app.directive('zambaDrop', function ($sce) {
             angular.element(element.find("#dZFUpload"))
                 .attr({ "elemId": attributes.id, "id": "dZFUpload" + attributes.id });
             maxFiles: 1;
-            scope.SetDZ(attributes.id);
+            var maxFiles = attributes.maxFiles == undefined ? 1 : +attributes.maxFiles;
+            scope.SetDZ(attributes.id, maxFiles);
         },
+
         //replace: true,
         templateUrl: $sce.getTrustedResourceUrl('../../DropFiles/dropfiletmp.html')
         // template: '<div class="UserControlBody"><form action="../../Services/FileUpload.ashx" style="position:absolute" class="dropzone margenInput" id="dZFUpload">      <div class="fallback">            <div class="dz-default dz-message center-div-element" />       <input type="file" name="file" />        </div>    </form></div>'
@@ -19,7 +21,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
     $scope.model = '=ngModel';
     $scope.parameters = '=';
     var MultiDropzone = null;
-    $scope.SetDZ = function (id) {
+    $scope.SetDZ = function (id, maxFiles) {
         var Array_docIds = [];
         var entityId = $("#dZFUpload" + id).parents("zamba-drop").attr("EntityId");
         var indexIds = $("#dZFUpload" + id).parents("zamba-drop").attr("IndexIds");
@@ -27,8 +29,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
         var docId = $("#dZFUpload" + id).parents("zamba-drop").attr("docid");
         var elemId = $("#dZFUpload" + id).attr("elemId");
 
-
-        var FilesCount = 1;
+        var FilesCount = maxFiles;
         if (entityId > 0) FilesCount = 99;
 
 
@@ -108,7 +109,13 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
                     }
                     else {
                         if ($('.dz-complete') != "") {
-                            $('.dropzone').css('pointer-events', 'none');
+                            if (FilesCount > 1) {
+                                $('.dropzone').css('pointer-events', 'auto');
+
+                            }
+                            else {
+                                $('.dropzone').css('pointer-events', 'none');
+                            }
                         } else {
                             $('.dropzone').css('pointer-events', 'auto');
                         }
@@ -129,9 +136,9 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
                     if (MultiIndexId != null && MultiIndexId != undefined) {
                         entityId = MultiIndexId;
                     }
-                     
+
                 }
-                
+
             },
 
             sending: function (file, xhr, formData) {
@@ -356,10 +363,13 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
             NewAssociatedDocIds = [NewAssociatedDocIds];
         }
 
+        //for (i = 0; i < NewAssociatedDocIds.length; i++) {
         for (i = 0; i < List_FilesIds.length; i++) {
             $.ajax({
                 type: "POST",
                 url: ZambaWebRestApiURL + '/Tasks/UpdateTaskIndex?' + jQuery.param({ DoCTypeId: NewAssociatedEntityId, DocId: List_FilesIds[i], IndexId: NewAssociatedIndexIds, Data: IndexListSelectedValue }),
+                //url: ZambaWebRestApiURL + '/Tasks/UpdateTaskIndex?' + jQuery.param({ DoCTypeId: NewAssociatedEntityId, DocId: NewAssociatedDocIds[i], IndexId: NewAssociatedIndexIds, Data: IndexListSelectedValue }),
+                //url: ZambaWebRestApiURL + '/Tasks/Call_UpdateTaskIndex?' + jQuery.param({ DoCTypeId: NewAssociatedEntityId, DocId: emi[i], IndexId: NewAssociatedIndexIds, Data: IndexListSelectedValue }),
                 contentType: "application/json; charset=utf-8",
                 async: false,
                 success: function (data) {
@@ -430,7 +440,7 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
 
     $scope.LoadMultiIndex = function () {
 
-        
+
         var ElementoJson = "";
         if ($('#listaMultiIndexID')[0].childElementCount == 0) {
             $.ajax({
@@ -485,19 +495,19 @@ app.controller('appController', ['$http', '$scope', function ($http, $scope, Fie
 
     $scope.LoadIndexForDropzone = function (indexId) {
         var ElementoJson = "";
-            $.ajax({
-                type: "POST",
-                url: ZambaWebRestApiURL + '/Tasks/GetMultiIndexsDropzon?' + jQuery.param({ indexId: indexId }),
-                contentType: "application/json; charset=utf-8",
-                async: false,
-                success: function (data) {
-                    ElementoJson = JSON.parse(data);
-                  
-                }, error: function (error) {
-                    console.log(error);
-                }
+        $.ajax({
+            type: "POST",
+            url: ZambaWebRestApiURL + '/Tasks/GetMultiIndexsDropzon?' + jQuery.param({ indexId: indexId }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                ElementoJson = JSON.parse(data);
 
-            });
+            }, error: function (error) {
+                console.log(error);
+            }
+
+        });
         return ElementoJson;
     }
 

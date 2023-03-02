@@ -377,7 +377,7 @@ Public Class WFRulesBusiness
 
                 For Each RId As Int64 In rule.ChildRulesIds
                     ' ZTrace.GetInstance().IndentLevel = ZTrace.GetInstance().IndentLevel + 1
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, String.Format("Ejecutando Regla Hija Id: {0}", RId))
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"La regla {rule.Name} ({rule.ID}) ejecuta la regla hija Id: {RId}")
 
                     Dim R As WFRuleParent = GetInstanceRuleById(RId)
                     R.ParentRule = rule

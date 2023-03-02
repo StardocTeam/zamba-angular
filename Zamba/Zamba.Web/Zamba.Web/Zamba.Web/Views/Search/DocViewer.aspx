@@ -15,7 +15,7 @@
 
 
     <%: Scripts.Render("~/bundles/jqueryAddIns") %>
-    <script src="../../Scripts/Zamba.js?v=258"></script>
+    <script src="../../Scripts/Zamba.js?v=261"></script>
     <script src="../../Scripts/FormBrowser/Zamba.FormBrowser.js?v=261"></script>
     <script src="../../Scripts/Zamba.associated.js?v=261"></script>
     <link rel="stylesheet" type="text/css" href="../../Content/css/ZClass.css" />

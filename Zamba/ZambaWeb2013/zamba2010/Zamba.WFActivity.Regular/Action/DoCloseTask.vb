@@ -4,7 +4,7 @@
 ''' Regla que permite cerrar tareas.
 ''' </summary>
 ''' <remarks></remarks>
-<RuleCategory("Tareas"), RuleDescription("Cerrar tarea"), RuleHelp("Permite cerrar tareas pasandole el TaskId"), RuleFeatures(False)> <Serializable()> _
+<RuleCategory("Tareas"), RuleDescription("Cerrar tarea"), RuleHelp("Permite cerrar tareas pasandole el TaskId"), RuleFeatures(False)> <Serializable()>
 Public Class DoCloseTask
     Inherits WFRuleParent
     Implements IDoCloseTask

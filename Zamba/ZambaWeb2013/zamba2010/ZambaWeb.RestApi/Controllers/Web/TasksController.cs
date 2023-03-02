@@ -1823,7 +1823,7 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 var user = GetUser(paramRequest.UserId);
-                string[] ZvarParams = new string[] {};
+                string[] ZvarParams = new string[] { };
                 ITaskResult NewTaskResult = null;
                 string oldFullPath = string.Empty;
 
@@ -1846,17 +1846,18 @@ namespace ZambaWeb.RestApi.Controllers
                     {
                         docIds.AddRange(paramRequest.Params["resultIds"].ToString().Split(char.Parse(",")));
                         /// Se convierte el valor en un diccionario para poder iterarlo
-                        resultIds = paramRequest.Params["resultIds"];
+                        resultIds = paramRequest.Params["resultIds"];
                         listResultIds = JsonConvert.DeserializeObject<List<itemVarsResults>>(resultIds);
 
                     }
 
                   
                     string FormVariables = string.Empty;
-                    
+
                     if (paramRequest.Params.ContainsKey("FormVariables") && !string.IsNullOrEmpty(paramRequest.Params["FormVariables"]))
                     {
                         FormVariables = paramRequest.Params["FormVariables"];
+
                     }
 
                     if (paramRequest.Params.ContainsKey("zvars") && !string.IsNullOrEmpty(paramRequest.Params["zvars"]))
@@ -1875,13 +1876,14 @@ namespace ZambaWeb.RestApi.Controllers
                             {
 
                                 var TaskByDocId = sTasks.GetTaskByDocId(Int64.Parse(listResultIds[i].Docid));
-                                if (TaskByDocId == null) {
+                                if (TaskByDocId == null)
+                                {
                                     WFStep WT = new WFStep();
                                     IWorkFlow WF;
-                                      IResult res = new Results_Business().GetResult(Int64.Parse(listResultIds[i].Docid), Int64.Parse(listResultIds[i].DocTypeid),true);
+                                    IResult res = new Results_Business().GetResult(Int64.Parse(listResultIds[i].Docid), Int64.Parse(listResultIds[i].DocTypeid), true);
                                     oldFullPath = res.FullPath;
-                                   NewTaskResult = new TaskResult(ref WT
-                                                                  , 0
+                                    NewTaskResult = new TaskResult(ref WT
+                                    , 0
                                                                   ,Int64.Parse(listResultIds[i].Docid)
                                                                   ,(Zamba.Core.DocType)res.DocType
                                                                   ,res.Name
@@ -1895,7 +1897,7 @@ namespace ZambaWeb.RestApi.Controllers
                                                                   ,res.Doc_File
                                                                   ,res.Disk_Group_Id
                                                                   ,WT.InitialState,0,""
-                                                                 );
+                                    );
 
                                     
                                 }
@@ -1925,7 +1927,57 @@ namespace ZambaWeb.RestApi.Controllers
                         ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
                                                                              //ExecutionTask.StartRule = ruleId;
 
-                        Results.Add(ExecutionTask);
+                    if (listResultIds.Count > 0)
+                    {
+                        for (int i = 0; i < listResultIds.Count; i++)
+                        {
+                            if (int.Parse(listResultIds[i].Docid) > 0)
+                            {
+                                var TaskByDocId = sTasks.GetTaskByDocId(Int64.Parse(listResultIds[i].Docid));
+                                if (TaskByDocId == null)
+                                {
+                                    WFStep WT = new WFStep();
+                                    IWorkFlow WF;
+                                    IResult res = new Results_Business().GetResult(Int64.Parse(listResultIds[i].Docid), Int64.Parse(listResultIds[i].DocTypeid), true);
+                                    oldFullPath = res.FullPath;
+                                    NewTaskResult = new TaskResult(ref WT
+                                    , 0
+                                    , Int64.Parse(listResultIds[i].Docid)
+                                    , (Zamba.Core.DocType)res.DocType
+                                    , res.Name
+                                    , res.IconId
+                                    , 0
+                                    , TaskStates.Asignada
+                                    , res.Indexs
+                                    , res.DISK_VOL_PATH
+                                    , "0"
+                                    , res.OffSet.ToString()
+                                    , res.Doc_File
+                                    , res.Disk_Group_Id
+                                    , WT.InitialState, 0, ""
+                                    );
+                                }
+                                Results.Add(NewTaskResult);
+                            }
+                            else
+                            {
+                                ITaskResult ExecutionTask = new TaskResult();
+                                ExecutionTask.AsignedToId = user.ID;
+                                ExecutionTask.UserId = (int)user.ID;
+                                ExecutionTask.TaskId = 0;
+                                ExecutionTask.Name = "Ejecucion de regla IMAP"; //
+                                                                                //ExecutionTask.StartRule = ruleId;                                 Results.Add(ExecutionTask);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ITaskResult ExecutionTask = new TaskResult();
+                        ExecutionTask.AsignedToId = user.ID;
+                        ExecutionTask.UserId = (int)user.ID;
+                        ExecutionTask.TaskId = 0;
+                        ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
+                                                                             //ExecutionTask.StartRule = ruleId;                         Results.Add(ExecutionTask);
                     }
 
                     if (ZvarParams.Length > 0)
@@ -2677,10 +2729,20 @@ namespace ZambaWeb.RestApi.Controllers
                 case RulePendingEvents.ShowMail:
                     if (Params != null && Params.Count > 0)
                     {
+                        if (!VariablesInterReglas.ContainsKey("accion"))
+                            VariablesInterReglas.Add("accion", "domail");
+                        else
+                            VariablesInterReglas.set_Item("accion", "domail");
+                    }
+
+                    //{
                     //    String resultDocId = results[0].ID.ToString();
-;
-                       //Session["CC" + resultDocId] = Params["CC"].ToString();
-                       //Session["CCO" + resultDocId] = Params["CCO"].ToString();
+
+                    //    Session["Subject" + resultDocId] = Params["Subject"].ToString();
+                    //    Session["Body" + resultDocId] = Params["Body"].ToString();
+                    //    Session["To" + resultDocId] = Params["To"].ToString();
+                    //    Session["CC" + resultDocId] = Params["CC"].ToString();
+                    //    Session["CCO" + resultDocId] = Params["CCO"].ToString();
                     //    Params = null;
                     //    resultDocId = null;
                     //    StringBuilder sb = new StringBuilder();

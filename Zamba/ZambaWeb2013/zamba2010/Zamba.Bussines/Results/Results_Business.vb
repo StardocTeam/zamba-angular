@@ -2096,7 +2096,7 @@ Public Class Results_Business
     ''' </history>
     Public Function UpdateInsert(ByRef Result As INewResult, ByVal move As Boolean, Optional ByVal ReindexFlag As Boolean = False, Optional ByVal Reemplazar As Boolean = False, Optional ByVal showQuestions As Boolean = True, Optional ByVal IsVirtual As Boolean = False, Optional ByVal addToWF As Boolean = True) As InsertResult Implements IResults_Business.UpdateInsert
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Comenzando InsertDocument")
-        Dim insertresult As InsertResult = InsertResult.NoInsertado
+        Dim insertresult As InsertResult = insertresult.NoInsertado
         Dim DTB As New DocTypesBusiness
         Dim DTF As New DocTypesFactory
 
@@ -2166,7 +2166,7 @@ Public Class Results_Business
             'guardo la doc i
             '            SaveIndexData(Result, ReindexFlag)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "DocI guardada correctamente")
-            insertresult = InsertResult.Insertado
+            insertresult = insertresult.Insertado
             If IsVirtual = False Then
                 Result.Disk_Group_Id = Result.Volume.ID
             Else
@@ -2185,9 +2185,9 @@ Public Class Results_Business
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Documento Borrado")
                         ReplaceDocument(Result, Result.File, False, Nothing)
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Documento Reemplazado")
-                        insertresult = InsertResult.Remplazado
+                        insertresult = insertresult.Remplazado
                     Catch exep As Exception
-                        insertresult = InsertResult.ErrorReemplazar
+                        insertresult = insertresult.ErrorReemplazar
                         Throw New Exception("Error al Reemplazar el documento. " & exep.Message)
                     End Try
                 Else
@@ -2198,35 +2198,35 @@ Public Class Results_Business
                                 Try
                                     Delete(Result, False)
                                     ReplaceDocument(Result, Result.File, False, Nothing)
-                                    insertresult = InsertResult.Remplazado
+                                    insertresult = insertresult.Remplazado
                                 Catch exe As Exception
                                     MessageBox.Show("Ocurrió un error al reemplazar el documento", "Zamba", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                    insertresult = InsertResult.ErrorReemplazar
+                                    insertresult = insertresult.ErrorReemplazar
                                     Throw exe
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yesAll
                                 Try
                                     Delete(Result, False)
                                     ReplaceDocument(Result, Result.File, False, Nothing)
-                                    insertresult = InsertResult.RemplazadoTodos
+                                    insertresult = insertresult.RemplazadoTodos
                                 Catch exe As Exception
                                     MessageBox.Show("Ocurrió un error al reemplazar el documento", "ZAMBA", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                    insertresult = InsertResult.RemplazadoTodos
+                                    insertresult = insertresult.RemplazadoTodos
                                     Throw exe
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.no
                                 Try
                                     Delete(Result, True)
-                                    insertresult = InsertResult.NoRemplazado
+                                    insertresult = insertresult.NoRemplazado
                                 Catch exc As Exception
-                                    insertresult = InsertResult.ErrorReemplazar
+                                    insertresult = insertresult.ErrorReemplazar
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.noAll
                                 Try
                                     Delete(Result, True)
-                                    insertresult = InsertResult.NoRemplazadoTodos
+                                    insertresult = insertresult.NoRemplazadoTodos
                                 Catch exc As Exception
-                                    insertresult = InsertResult.ErrorReemplazar
+                                    insertresult = insertresult.ErrorReemplazar
                                 End Try
                         End Select
                     Else
@@ -2234,20 +2234,20 @@ Public Class Results_Business
                             Result.ID = 0
                             Insert(Result, move, ReindexFlag, Reemplazar, showQuestions, IsVirtual)
                         Catch exc As Exception
-                            insertresult = InsertResult.NoInsertado
+                            insertresult = insertresult.NoInsertado
                             Throw ex
                         End Try
                     End If
                 End If
             Else
-                insertresult = InsertResult.NoInsertado
+                insertresult = insertresult.NoInsertado
                 Throw ex
             End If
         Finally
 
         End Try
 
-        If move = True AndAlso insertresult <> InsertResult.NoInsertado Then
+        If move = True AndAlso insertresult <> insertresult.NoInsertado Then
             Try
                 File.Delete(Result.File)
             Catch ex As Exception

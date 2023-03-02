@@ -21,7 +21,12 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
             /* if (window.localStorage.getItem('authorizationData') != null && window.localStorage.getItem('authorizationData') != "")*/
             //_removeCurrentUser();
-            connectionUserActive();
+            try {
+                connectionUserActive();
+            } catch (e) {
+                console.log("Error en el login del usuario" + e)
+            }
+           
 
         }, 60000);
 
@@ -29,7 +34,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     function connectionUserActive() {
         const UserIdService = parseInt(GetUID());
-        if (!$("#modalLogin").hasClass("in")) {
+        /*if (!$("#modalLogin").hasClass("in")) {*/
             if (window.localStorage.getItem('authorizationData') != null && window.localStorage.getItem('authorizationData') != "") {
                 let userToken = JSON.parse(localStorage.getItem('authorizationData'));
                 let UserIdStorage = parseInt(localStorage.getItem('UserId'));
@@ -53,7 +58,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                             console.log("trace servicio boolValue es false se manda al loguin ");
                             _showModalLoginInSearch(UserIdService, isReload);
 
-                        }else if (RebuildUrl || UserIdStorage != UserIdService) {
+                        } else if (RebuildUrl || UserIdStorage != UserIdService) {
 
                             _removeCurrentUser();
 
@@ -73,7 +78,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
                                 } else {
 
-                                    if(element != "")
+                                    if (element != "")
                                         return element;
                                 }
                             });
@@ -83,7 +88,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                             let iteracion = 0;
                             ParameterByUrlNew.forEach(function (element) {
                                 iteracion++;
-                                if(element != undefined)
+                                if (element != undefined)
                                     if (iteracion === element.length) {
                                         FinalUrlParameter += (element)
                                     } else {
@@ -98,11 +103,16 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                                 console.log("trace servicio boolValue es false se manda al loguin ");
                                 _showModalLoginInSearch(UserIdService, isReload);
                             }
+                        } else if (IsValid) {
+                            if ($("#modalLogin").hasClass("in")) {
+                                $("#modalLogin").modal('hide');
+                            }
                         } 
                     },
                     error: function (request, status, error) {
                         console.log(error);
-                        _showModalLoginInSearch(UserIdService, true);
+                        window.location.href = thisDomain;
+                        //_showModalLoginInSearch(UserIdService, true);
                     }
                 });
 
@@ -110,7 +120,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             } else {
                 _showModalLoginInSearch(UserIdService, true);
             }
-        }
+      /*  }*/
     }
 
     var _authentication = {

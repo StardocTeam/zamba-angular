@@ -76,7 +76,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         if (String.IsNullOrEmpty(messageBodyLinkButton))
                         {
                             //string LinkPublico = AllObjects.FuncionesComunes.get_ObtenerLinkPublicoWeb(task.Name);
-                            string LinkPublico = MessagesBusiness.MakeHtmlLink(0, 0, item.DocId, item.DocTypeid,task.Name);
+                            string LinkPublico = MessagesBusiness.MakeHtmlLink(0, 0, item.DocId, item.DocTypeid, task.Name);
                             if (!body.Contains("<br>Se te ha enviado el siguiente link al documento: <br><br>"))
                             {
                                 messageBodyLinkButton = "<br>Se te ha enviado el siguiente link al documento: <br><br>" + LinkPublico;
@@ -106,37 +106,37 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[SendEmail]: emailData.SendDocument: " + emailData.SendDocument);                
 
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "[SendEmail]: Lista Idinfo: "+ emailData.Idinfo.Count.ToString());
-                    foreach (IdInfo item in emailData.Idinfo)
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "[SendEmail]: Lista Idinfo: " + emailData.Idinfo.Count.ToString());
+                foreach (IdInfo item in emailData.Idinfo)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item.DocId.ToString() + " - " + item.DocTypeid.ToString());
+                    mail.SourceDocId = item.DocId;
+                    mail.SourceDocTypeId = item.DocTypeid;
+
+                    if (emailData.AddLink != true)
+                        mail.AttachFileNames = GetTaskDocument_ForEmail(emailData);
+                }
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Revicion de archivos adjuntados:");
+                if (emailData.Base64StringArray != null)
+                {
+                    foreach (Dictionary<string, string> item in emailData.Base64StringArray)
                     {
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item.DocId.ToString() + " - " +item.DocTypeid.ToString());
-                        mail.SourceDocId = item.DocId;
-                        mail.SourceDocTypeId = item.DocTypeid;
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item["Base64"].ToString() + " - " + item["FileName"].ToString());
 
-                        if (emailData.AddLink != true)                        
-                            mail.AttachFileNames = GetTaskDocument_ForEmail(emailData);                        
+                        var imageBytes = Convert.FromBase64String(item["Base64"]);
+                        var stream = new MemoryStream(imageBytes);
+                        var attachment = new System.Net.Mail.Attachment(stream, item["FileName"]);
+
+                        mail.Attachments.Add(attachment);
                     }
-
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Revicion de archivos adjuntados:");
-                    if (emailData.Base64StringArray != null) {
-                        foreach (Dictionary<string, string> item in emailData.Base64StringArray)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item["Base64"].ToString() + " - " + item["FileName"].ToString());
-
-                            var imageBytes = Convert.FromBase64String(item["Base64"]);
-                            var stream = new MemoryStream(imageBytes);
-                            var attachment = new System.Net.Mail.Attachment(stream, item["FileName"]);
-
-                            mail.Attachments.Add(attachment);
-                        }
-                    }
+                }
 
                 mail.LinkToZamba = false;
-                sMail.SendMail(mail ,emailData.MailPathVariable);
+                sMail.SendMail(mail, emailData.MailPathVariable);
                 RDO = true;
-
-                if (emailData.isDomail == "true" && VariablesInterReglas.ContainsKey("rutaDocumento")) {
-
+                if (emailData.isDomail == "true" && VariablesInterReglas.ContainsKey("rutaDocumento"))
+                {
                     string exportPath = string.Empty;
                     for (int i = 0; i < emailData.Idinfo.Count; i++)
                     {
@@ -286,7 +286,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
                 }
                 mail.LinkToZamba = false;
-                Int64 DocIdSaveHistory = mail.SourceDocId; 
+                Int64 DocIdSaveHistory = mail.SourceDocId;
                 sMail.SendMail(mail, emailData.MailPathVariable);
                 RDO = true;
                 List<String> Attachs = new List<string>();
@@ -302,11 +302,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         {
                             MessagesBusiness.SaveHistory(emailData.MailTo, emailData.CC, emailData.CCO, emailData.Subject, emailData.messageBody, Attachs, emailData.Idinfo[i].DocId, emailData.Idinfo[i].DocTypeid, emailData.Userid, String.Empty, "", emailData.MailTo);
                         }
-                        
+
                     }
-                    
+
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -546,18 +546,19 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                                 var SenMail = sMail.SendMailbyZip(MailSetup);
                                 RDO = true;
-                                if (SenMail) {
+                                if (SenMail)
+                                {
                                     foreach (IdInfo item in zipdata.Idinfo)
                                     {
                                         MailSetup.SourceDocId = item.DocId;
                                         MailSetup.SourceDocTypeId = item.DocTypeid;
 
                                         sMail.SendMailbyZipHistory(MailSetup);
-                                        
+
                                     }
                                 }
 
-                               
+
                             }
                         }
                         catch (Exception ex)
@@ -836,22 +837,30 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [Route("getIFAnyTaskHasFile")]
         public bool getIFAnyTaskHasFile(EmailData zipData)
         {
-            List<string> partialAttachs = new List<string>();
-            //TO DO: Hay que devolver las rutas de los archivos existentes con sus respectivos DocIds y DocTypesIds, para el registro de multiples zip enviados.
-            List<string> attachs = GetTaskDocument_ForEmail(zipData);
             try
             {
-                foreach (var result in attachs)
-                {
-                    if (File.Exists(result))
-                    {
-                        partialAttachs.Add(result);
-                    }
-                }
+                List<string> partialAttachs = new List<string>();
+                //TO DO: Hay que devolver las rutas de los archivos existentes con sus respectivos DocIds y DocTypesIds, para el registro de multiples zip enviados.
+                List<string> attachs = GetTaskDocument_ForEmail(zipData);
 
-                if (partialAttachs.Count > 0)
+                if (attachs != null)
                 {
-                    return true;
+                    foreach (var result in attachs)
+                    {
+                        if (File.Exists(result))
+                        {
+                            partialAttachs.Add(result);
+                        }
+                    }
+
+                    if (partialAttachs.Count > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -860,8 +869,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
+                return false;
             }
         }
     }

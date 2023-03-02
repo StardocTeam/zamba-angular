@@ -348,6 +348,11 @@ Namespace Search
                 strQuery.Replace("]", Chr(34))
                 strCountQuery.Replace("[", Chr(34))
                 strCountQuery.Replace("]", Chr(34))
+                strQuery.Replace("IsNull(", "NVL(")
+                strQuery.Replace("isNull(", "NVL(")
+                strCountQuery.Replace("IsNull(", "NVL(")
+                strCountQuery.Replace("isNull(", "NVL(")
+
             Else
                 strQuery.Replace("NVL(", "IsNull(")
                 strQuery.Replace("nvl(", "IsNull(")
@@ -973,6 +978,11 @@ Namespace Search
                     Dim indexID As Long = Int64.Parse(Filters(i).Filter.Substring(1))
                     Dim auxIndex As IIndex = New IndexsBusiness().GetIndex(indexID)
                     If Not String.IsNullOrEmpty(Filters(i).Value) Then
+
+                        'If auxIndex.DropDown = IndexAdditionalType.AutoSustitución Or auxIndex.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Or auxIndex.DropDown = IndexAdditionalType.DropDown Or auxIndex.DropDown = IndexAdditionalType.DropDownJerarquico Then
+                        '    auxIndex.dataDescription = Filters(i).Value.TrimStart("(").TrimEnd(")")
+                        'End If
+                        'auxIndex.Data = Filters(i).Value.TrimStart("(").TrimEnd(")")
                         Dim valueLength = Filters(i).Value.Length
                         If auxIndex.DropDown = IndexAdditionalType.AutoSustitución Or auxIndex.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Or auxIndex.DropDown = IndexAdditionalType.DropDown Or auxIndex.DropDown = IndexAdditionalType.DropDownJerarquico Then
                             auxIndex.dataDescription = Filters(i).Value.Remove(0, 1).Remove(valueLength - 2, 1)

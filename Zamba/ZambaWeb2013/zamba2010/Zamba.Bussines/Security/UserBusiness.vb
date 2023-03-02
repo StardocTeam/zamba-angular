@@ -1066,6 +1066,7 @@ Public Class UserBusiness
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function ValidateLogIn(ByVal User As String, ByVal Password As String, ByVal clientType As ClientType) As IUser
+
         Dim currentUser As IUser = validateUser(User, Password)
 
         If IsNothing(currentUser) Then
@@ -1079,6 +1080,7 @@ Public Class UserBusiness
         End If
 
         MembershipHelper.ClientType = clientType
+
         Return currentUser
 
     End Function

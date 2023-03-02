@@ -970,10 +970,17 @@ Public Class RightFactory
     Public Shared Sub SetDisabledAllFiltersByUser(ByVal userId As Int64, ByVal FilterType As String)
         Dim query As New StringBuilder
         query.Append("UPDATE ZFILTERS SET")
-        query.Append(" [Enabled] = 0 ")
+
+        If Server.isOracle Then
+            query.Append(" Enabled = 0 ")
+        Else
+            query.Append(" [Enabled] = 0 ")
+        End If
+
         query.Append(" WHERE UserId = " & userId & " And FilterType = '" & FilterType & "'")
         Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
     End Sub
+
 
     Public Shared Sub SetDisabledAllFiltersByUserViewDoctype(ByVal userId As Int64, ByVal FilterType As String, ByVal DocTypeId As Int64)
         Dim query As New StringBuilder
@@ -1026,10 +1033,10 @@ Public Class RightFactory
                 Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " And USERID = " & userId.ToString)
             Else
                 Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " And USERID = " & userId.ToString & " And FILTERTYPE <> 'defecto'")
-        End If
+            End If
         Else
-        Dim ParValues() As Object = {DocTypeId, userId, remove}
-        Server.Con.ExecuteNonQuery("ZSP_FILTERS_200_ClearDocTypeFiltersByUserId", ParValues)
+            Dim ParValues() As Object = {docTypeId, userId, remove}
+            Server.Con.ExecuteNonQuery("ZSP_FILTERS_200_ClearDocTypeFiltersByUserId", ParValues)
         End If
     End Sub
 

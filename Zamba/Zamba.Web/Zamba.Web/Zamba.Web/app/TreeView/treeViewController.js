@@ -15,9 +15,9 @@
         let firstOption = {
             ButtonId: "zamba_rule_0",
             ButtonOrder: "0",
-            Caption: "Acciones",
+            Caption: "Acciones...",
             GroupClass: "",
-            GroupName: "Test",
+            GroupName: "FirstOption",
             Idicon: 0,
             NeedRights: true,
             Params: "",
@@ -27,7 +27,8 @@
             TypeId: 0,
             ViewClass: ""
         };
-        arrOptions.unshift(firstOption);
+        if (arrOptions.length>1)
+            arrOptions.unshift(firstOption);
         $scope.UserActionsForTaskTree = arrOptions;
         $scope.item = arrOptions[0];
 

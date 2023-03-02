@@ -179,7 +179,7 @@ Public Class WFRulesFactory
         sql += "    inner join wfworkflow wf on wf.work_id = wfs.work_id "
         sql += "order by "
         sql += "    wfr.NAMe "
-       
+
         Return Server.Con.ExecuteDataset(CommandType.Text, sql)
         'Cargo Items de Parametros 
         'sql = "Select * from WFRuleParamItems Order By Item"
@@ -429,7 +429,7 @@ Public Class WFRulesFactory
     ''' <remarks></remarks>
     Public Shared Sub InsertUsersToNotifyAboutRuleExecution(ByVal ruleid As Int64, ByVal RuleSectionId As Int32, ByVal _RulePreferenceid As Int32, ByVal DestTypeid As Int32, ByVal items As Generic.List(Of String))
         Dim query As New StringBuilder
-        query.Append("DELETE FROM ZRuleOptbase WHERE RuleId =")
+        query.Append("DELETE FROM ZRuleOptbase WHERE RuleId = ")
         query.Append(ruleid)
         query.Append(" and SectionId = ")
         query.Append(RuleSectionId)

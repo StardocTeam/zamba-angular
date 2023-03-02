@@ -1,5 +1,6 @@
 ﻿Imports Zamba.Data
 Imports Zamba.Core
+Imports System.Collections.Generic
 
 Public Class EmailBusiness
 
@@ -82,7 +83,8 @@ Public Class EmailBusiness
         Return path
     End Function
 
-
-
-
+    Public Function GetEmailsUsersOfTask(docIds As List(Of String)) As Object
+        Dim result As DataTable = Email_Factory.GetEmailsUsersOfTask(docIds)
+        Return result
+    End Function
 End Class

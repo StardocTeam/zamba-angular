@@ -3014,6 +3014,38 @@ Public Class Results_Factory
         query.AppendLine("DELETE FROM WfDocument where Doc_Id = " + docid.ToString + " and doc_type_id=" + DocTypeId.ToString)
         Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
     End Sub
+    Public Shared Sub RemoveDocument(ByVal docid As Int64, ByVal DocTypeId As Int64)
+        Dim query As New StringBuilder
+        For Each PrefixTable As String In {"T", "B", "I"}
+            Dim TableName As String = "DOC_" + PrefixTable + DocTypeId.ToString
+            If Server.isSQLServer Then
+                query.AppendLine("if OBJECT_ID('" + TableName + "') is not null")
+                query.AppendLine("begin")
+                query.AppendLine("delete from " + TableName + " where doc_id=" + docid.ToString)
+                query.AppendLine("end")
+            Else
+                query.AppendLine("delete from " + TableName + " where doc_id=" + docid.ToString)
+            End If
+        Next
+        query.AppendLine("DELETE FROM WfDocument where Doc_Id = " + docid.ToString + " and doc_type_id=" + DocTypeId.ToString)
+        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
+    End Sub
+    Public Shared Sub RemoveDocument(ByVal docid As Int64, ByVal DocTypeId As Int64)
+        Dim query As New StringBuilder
+        For Each PrefixTable As String In {"T", "B", "I"}
+            Dim TableName As String = "DOC_" + PrefixTable + DocTypeId.ToString
+            If Server.isSQLServer Then
+                query.AppendLine("if OBJECT_ID('" + TableName + "') is not null")
+                query.AppendLine("begin")
+                query.AppendLine("delete from " + TableName + " where doc_id=" + docid.ToString)
+                query.AppendLine("end")
+            Else
+                query.AppendLine("delete from " + TableName + " where doc_id=" + docid.ToString)
+            End If
+        Next
+        query.AppendLine("DELETE FROM WfDocument where Doc_Id = " + docid.ToString + " and doc_type_id=" + DocTypeId.ToString)
+        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
+    End Sub
 #End Region
 
 #Region "DOCFILE"

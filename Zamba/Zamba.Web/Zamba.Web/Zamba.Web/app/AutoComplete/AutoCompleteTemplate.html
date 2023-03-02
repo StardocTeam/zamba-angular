@@ -1,0 +1,18 @@
+﻿<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../app/AutoComplete/AutoCompleteStyle.css" type="text/css">
+</head>
+<body>
+    <form id="AutoCompleteController">
+        <input type="text" class="form-control estiloform" name="EstablishedEmails" placeholder="{{attribute}}" autocomplete="off" id="{{attribute}}" ng-model="Value" ng-change="ExpandCombo(event)" ng-click="ExpandCombo(event)">
+
+        <div id="ListEmails{{attribute}}" class="ListEmails">
+
+            <md-list-item ng-repeat="item in ListedEmails track by $index" ng-click="appendEmail(item)">
+                <p> {{item.value}} </p>
+            </md-list-item>
+        </div>
+    </form>
+</body>
+</html>

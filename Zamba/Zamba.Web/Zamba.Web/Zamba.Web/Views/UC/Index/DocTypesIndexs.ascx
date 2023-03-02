@@ -6,11 +6,11 @@
 <div class="">
 <asp:Panel ID="pnlListadoIndices" runat="server" Height="100%" ScrollBars="none" >
     <fieldset title="Listado de Atributos"  enableviewstate="true" style="margin-top:10px; padding-left:10px; padding-right:10px; border: 0px !important;"  >
-        <table title="Listado de Atributos" style="width: 17%;margin-bottom: 30px;margin-left: 30px;">
+        <table title="Listado de Atributos" style="width: 17%;margin-bottom: 30px;margin-left: 84px;">
             <tr>
-                 <td style="width: 55%;background-color:#eee">
+                 <td style="width: 55%;">
                     <asp:LinkButton ID="btnSaveChanges" runat="server" Height="32px" Font-Overline="false"
-                        CssClass=" btn btn-info "  OnClick="SaveIndexChanges_Click" ToolTip="Guardar cambios realizados" Visible="true" style="-webkit-box-shadow: 2px 2px 5px #999;-moz-box-shadow: 2px 2px 5px #999;margin-right: 130px;">
+                        CssClass=" btn btn-info "  OnClick="SaveIndexChanges_Click" ToolTip="Guardar cambios realizados" Visible="true" style="-webkit-box-shadow: 2px 2px 5px #999;-moz-box-shadow: 2px 2px 5px #999;margin-right: 20px;">
                         <asp:ImageButton ID="btnSaveImage"  runat="server" Height="16px" Enabled="true" style="display:none !important" />
                         <span style="cursor: pointer">Guardar</span>
                     </asp:LinkButton>
@@ -55,16 +55,16 @@
 </div>
 <asp:Panel ID="pnlSustitutionList" runat="server" Height="100%" Scr0ollBars="Auto" Visible="false">
     <fieldset title="Listado de Atributos" class="Fielset-Control-DocTypesIndex" enableviewstate="true" style="border: 0px !important;">
-        <legend class="Legend" style="border-style: none; color:#777;margin-left: 47px;"><b>Seleccionar Indice</b></legend>
+        <legend class="Legend" style="border-style: none; color:#777;margin-left: 10px; font-size: 18px; margin-bottom: 10px;"><b>Seleccionar Indice</b></legend>
             <table style="width: 100%;" class="Table-SustitutioList-Search">
                 <tr>
                     <td>
-                        <div style="overflow: auto; height: 90%; width: 325px; text-align: left; padding: 5px;">
+                        <div style="overflow: auto; height: 90%; width: 36rem; text-align: left; padding: 5px;">
                             <asp:GridView ID="gvSustitutionList" runat="server"  
                                 OnSelectedIndexChanged="gvSustitutionList_SelectedIndexChanged" OnSorting="OnSorting"                                
-                                CellPadding="3"  BorderColor="#fafafa" BackColor="white" width="98%" AllowSorting="true" >
+                                CellPadding="3"  BorderColor="#dde4ec" BackColor="#dde4ec" width="98%" AllowSorting="true" >
                                 <Columns>
-                                    <asp:CommandField ButtonType="Button" ShowSelectButton="True" SelectText="Seleccionar" ItemStyle-Width="100px"/>
+                                    <asp:CommandField ButtonType="Button" ShowSelectButton="True" SelectText="Seleccionar" ItemStyle-Width="100px" ItemStyle-CssClass="margin-left= 10px"/>
                                 </Columns>
                             </asp:GridView>
                         </div>

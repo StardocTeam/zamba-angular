@@ -922,7 +922,7 @@ Public Class WFFactory
 
     Public Function ValidateDocIdInWF(ByVal DocId As Int64, ByVal wfid As Int64, Entityid As Int64, ByVal t As Transaction) As Int32
         Dim Docscount As New Int32
-        Docscount = t.Con.ExecuteScalar(t.Transaction, CommandType.Text, "SELECT COUNT(1) FROM WFDocument  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE Doc_ID = " & DocId.ToString & " AND work_Id = " & wfid.ToString & "AND doc_type_id = " & Entityid)
+        Docscount = t.Con.ExecuteScalar(t.Transaction, CommandType.Text, "SELECT COUNT(1) FROM WFDocument  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & "  WHERE Doc_ID = " & DocId.ToString & " AND work_Id = " & wfid.ToString & " AND doc_type_id = " & Entityid)
         Return Docscount
     End Function
 
@@ -1218,7 +1218,7 @@ Public Class WFFactory
     ''' [Gaston]	27/05/2008	Created
     ''' </history>
     Public Sub setRulesPreferencesForStatesUsersOrGroups(ByVal ruleId As Int64, ByVal ruleSectionId As RuleSectionOptions, ByVal objId As RulePreferences, ByRef idCollectionDisabled As Generic.List(Of Integer))
-        setRulesPreferences(ruleId, ruleSectionId, objId, -1, idCollectionDisabled)
+        SetRulesPreferences(ruleId, ruleSectionId, objId, -1, idCollectionDisabled)
     End Sub
 
     ''' <summary>
@@ -1234,7 +1234,7 @@ Public Class WFFactory
     ''' [Gaston]	27/05/2008	Created
     ''' </history>
     Public Sub setRulesPreferencesFor_StatesAndUsers_Or_StatesAndGroups(ByVal ruleId As Int64, ByVal ruleSectionId As RuleSectionOptions, ByVal objId As RulePreferences, ByVal stateId As Integer, ByRef idCollectionDisabled As Generic.List(Of Integer))
-        setRulesPreferences(ruleId, ruleSectionId, objId, stateId, idCollectionDisabled)
+        SetRulesPreferences(ruleId, ruleSectionId, objId, stateId, idCollectionDisabled)
     End Sub
 
     ''' <summary>

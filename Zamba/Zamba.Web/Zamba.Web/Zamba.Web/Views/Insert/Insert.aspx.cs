@@ -24,7 +24,7 @@ public partial class Views_Insert_Insert : Page
             //{
             //    return;
             //}
-           
+
 
             if (MembershipHelper.CurrentUser == null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined")
             {
@@ -75,7 +75,8 @@ public partial class Views_Insert_Insert : Page
                 }
 
                 ucDocTypesIndexs.SaveButtonName = lnkInsertar.ClientID;
-                ucDocTypes.LoadDocTypes();
+                //ucDocTypes.LoadDocTypes();
+                ucDocTypes.LoadDocTypesByCreatePermission();
                 SZOptBusiness zOptBusines = new SZOptBusiness();
                 Page.Title = (string)zOptBusines.GetValue("WebViewTitle") + " - Insertar Documento";
                 lblMsj.Text = string.Empty;
@@ -294,27 +295,28 @@ public partial class Views_Insert_Insert : Page
     }
     protected void lnkInsertar_clic(object sender, EventArgs e)
     {
-            if (Session["Insert_UploadedFile"] != null)
+        //return;
+        if (Session["Insert_UploadedFile"] != null)
+        {
+            var lst = (List<string>)Session["Insert_UploadedFile"];
+            bool resultInsert = true;
+
+            if (lst.Count() > 0)
             {
-                var lst = (List<string>)Session["Insert_UploadedFile"];
-                bool resultInsert = true;
-
-                if (lst.Count() > 0)
-                {
-                    resultInsert = InsertDoc();
-                }
-
-                Session["LastInsert_UploadedFile"] = Session["Insert_UploadedFile"];
-                Session["Insert_UploadedFile"] = null;
-
+                resultInsert = InsertDoc();
             }
-            else
-            {
-                var script = "__doPostBack('UserControlBodyValidation','Refresh:0,1,2');";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile2", "$(document).ready(function(){" + script + "});", true);
-                lnkReplicar.Visible = false;
-                lnkRefresh.Visible = false;
-            }
+
+            Session["LastInsert_UploadedFile"] = Session["Insert_UploadedFile"];
+            Session["Insert_UploadedFile"] = null;
+
+        }
+        else
+        {
+            var script = "__doPostBack('UserControlBodyValidation','Refresh:0,1,2');";
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile2", "$(document).ready(function(){" + script + "});", true);
+            lnkReplicar.Visible = false;
+            lnkRefresh.Visible = false;
+        }
     }
 
     protected void lnkReplicar_clic(object sender, EventArgs e)
@@ -608,11 +610,12 @@ public partial class Views_Insert_Insert : Page
         catch (Exception ex)
         {
             ZClass.raiseerror(ex);
-            var script = " __doPostBack('insertDocumentException','showErrorMessge');";
+            var script = "swal('', 'Ocurrio un error al insertar el documento.', 'error');";
+            var script2 = " __doPostBack('UserControlBodyValidationInputs','Refresh:0,1,2');";
        
-            ScriptManager.RegisterStartupScript(this, this.GetType(),
+            Page.ClientScript.RegisterStartupScript(this.GetType(),
                "InsertErrorScript",
-                "$(document).ready(function(){" + script + "});",
+                "$(document).ready(function(){" + script + script2 +  "});",
                 true
             );
 

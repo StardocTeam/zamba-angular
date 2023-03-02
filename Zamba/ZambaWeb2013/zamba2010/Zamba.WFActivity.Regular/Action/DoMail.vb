@@ -2,7 +2,7 @@ Imports Zamba.Data
 Imports Zamba.Core
 Imports System.Xml.Serialization
 
-<RuleCategory("Mail"), RuleDescription("Enviar Mail"), RuleHelp("Permite completar y enviar un mail"), RuleFeatures(False)> <Serializable()> _
+<RuleCategory("Mail"), RuleDescription("Enviar Mail"), RuleHelp("Permite completar y enviar un mail"), RuleFeatures(False)> <Serializable()>
 Public Class DOMail
 
     Inherits WFRuleParent
@@ -144,6 +144,7 @@ Public Class DOMail
             _Answer = value
         End Set
     End Property
+
     Public Property Para() As String Implements IDOMail.Para
         Get
             Return _Para

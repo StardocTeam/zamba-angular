@@ -141,7 +141,7 @@
     $scope.currentSelectedOperator = $scope.operatorsToChoose[0];
 
     $scope.zambaFilterOnChange = function (executeSearch) {
-        
+
         var lupdateFilters = $scope.removeAngularHasKey($scope.zambaFiltersForDefaultColumns.lupdateFilters);
         var crdateFilters = $scope.removeAngularHasKey($scope.zambaFiltersForDefaultColumns.crdateFilters);
         var originalFilenameFilters = $scope.removeAngularHasKey($scope.zambaFiltersForDefaultColumns.originalFilenameFilters);
@@ -182,27 +182,28 @@
     $scope.removeAngularHasKey = function (collection) {
 
         return collection.map(function (item) {
-            return { "Field": item.Field, "Operator": item.Operator, "Value": item.Value, "DataBaseColumn": "-", "Enabled": item.Enabled, "FilterID": item.FilterID  };
+            return { "Field": item.Field, "Operator": item.Operator, "Value": item.Value, "DataBaseColumn": "-", "Enabled": item.Enabled, "FilterID": item.FilterID };
         });
     }
 
     $scope.changeEnableState = function (filter) {
         var executeSearch = true;
-        SearchFilterService.SetEnabledFilterById(filter.FilterID,filter.Enabled);
+        SearchFilterService.SetEnabledFilterById(filter.FilterID, filter.Enabled);
         $scope.zambaFilterOnChange(executeSearch);
     }
 
     $scope.searchDefaultFiltersByEnter = function (e) {
-        
+
         if (e.keyCode == 13) {
             $scope.inputValues.dateValue = e.target.value;
             $scope.addDefaultZambaColumnFilter();
+           
         }
     }
 
     //function que agrega items a la coleccion de filtros
     $scope.addDefaultZambaColumnFilter = function () {
-       
+
         try {
             var zFilterWebItem = undefined;
             var newItem = undefined;
@@ -289,7 +290,7 @@
         } catch (e) {
             console.error(e);
         }
-        
+        document.getElementById("inputPrueba").value = '';
     }
 
     $scope.validateDateFilterIsValid = function (dateToValidate) {
@@ -324,7 +325,7 @@
         switch (parenName) {
             case 'originalFilenameFilters':
                 $scope.zambaFiltersForDefaultColumns.originalFilenameFilters = $scope.zambaFiltersForDefaultColumns.originalFilenameFilters.filter(function (item) {
-                    return ('' + item.Field + item.Operator + item.Value != ''+ childItem.Field + childItem.Operator + childItem.Value);
+                    return ('' + item.Field + item.Operator + item.Value != '' + childItem.Field + childItem.Operator + childItem.Value);
                 });
                 break;
             case 'nameFilters':
@@ -416,17 +417,17 @@
             $scope.zambaFiltersForDefaultColumns.nameFilters = nameFilters;
             $scope.Search.nameFilters = nameFilters;
         }
-            
+
         if (originalFilenameFilters.length > 0) {
             $scope.zambaFiltersForDefaultColumns.originalFilenameFilters = originalFilenameFilters;
             $scope.Search.originalFilenameFilters = originalFilenameFilters;
         }
-            
+
         if (lupdateFilters.length > 0) {
             $scope.zambaFiltersForDefaultColumns.lupdateFilters = lupdateFilters;
             $scope.Search.lupdateFilters = lupdateFilters;
         }
-            
+
         if (crdateFilters.length > 0) {
             $scope.zambaFiltersForDefaultColumns.crdateFilters = crdateFilters;
             $scope.Search.crdateFilters = crdateFilters;
@@ -435,7 +436,7 @@
             $scope.zambaFiltersForDefaultColumns.stateFilters = stateFilters;
             $scope.Search.stateFilters = stateFilters;
         }
-        
+
 
         $scope.operatorsToChoose = $scope.operatorsAlphanumericToChoose;
         $scope.currentSelectedOption = $scope.optionsToChoose[0];

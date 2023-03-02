@@ -478,6 +478,15 @@ public partial class UC_WF_UCWFExecution : System.Web.UI.UserControl
                         }
                         
 
+                        if (Params.ContainsKey("CloseTask") && Convert.ToBoolean(Params["CloseTask"]))
+                        {
+
+                            string script = "$(document).ready(function () { window.close()});";
+                            Page.ClientScript.RegisterStartupScript(this.GetType(), "CloseDoDistribuir", script, true);
+                            RegisterStartupScript = true;
+
+                        }
+
 
                         WFExec.ExecuteRule(RuleId, ref results, ref PendigEvent, ref ExecutionResult,
                             ref ExecutedIDs, ref Params, ref PendingChildRules, ref RefreshRule, TaskIdsToRefresh, false);

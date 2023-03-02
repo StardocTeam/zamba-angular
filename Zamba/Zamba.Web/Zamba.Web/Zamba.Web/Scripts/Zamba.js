@@ -3541,8 +3541,9 @@ function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
 
         if (openmode == 2) {
             window.open(Url, '_self');
-//            ShowIFrameHome(Url, 600);
+            //            ShowIFrameHome(Url, 600);
         }
+
         // Nueva ventana
         if (openmode == 3) {
             Url += "&Ed=true";
@@ -5414,14 +5415,14 @@ function ShowLoadingAnimationNoClose() {
 }
 function hideLoading() {
     try {
-       // setTimeout(hideLoading, 500);
+        // setTimeout(hideLoading, 500);
     } catch (e) {
         console.error(e);
     }
 }
 
 function hideLoading() {
-     loadingShowing = false;
+    loadingShowing = false;
     if (waitingDialog) waitingDialog.hide();
 }
 
@@ -5806,6 +5807,40 @@ function GetUID() {
     return;
 };
 
+function hideEmailList(evento) {
+    var IdInput = evento.target.id
+
+    $("#AutoCompleteController input").each(function (i, item) {
+        if (evento.target.tagName == "INPUT" && item.id != IdInput.toString()) {
+            if ($("#ListEmails" + item.id)[0].style.display != "none") {
+                $("#ListEmails" + item.id)[0].style.display = "none";
+            }
+
+        } else if (IdInput == "hidePanel" || IdInput == "hidePanelZip") {
+            $(".ListEmails").each(function (A, B) {
+                B.style.display = "none";
+
+                $("#hidePanel")[0].style.display = "none";
+
+                if ($("#hidePanelZip")[0]) {
+                    $("#hidePanelZip")[0].style.display = "none";
+                }
+            })
+        }
+        else if (evento.target.tagName != "INPUT" || evento.target.tagName == "BUTTON") {
+            $(".ListEmails").each(function (A, B) {
+                B.style.display = "none";
+                $("#hidePanel")[0].style.display = "none";
+
+                if ($("#hidePanelZip")[0]) {
+                    $("#hidePanelZip")[0].style.display = "none";
+                }
+
+            })
+        }
+    });
+}
+
 function GetDOCID() {
     var docid = 0;
     docid = getUrlParameters().docid;
@@ -6142,24 +6177,24 @@ function IsIE() {
 
 function resizeGridHeight() {
     try {
-            var resultsGrid = $("#resultsGrid")[0];
-            var resultsGridHeight = resultsGrid.clientHeight;
+        var resultsGrid = $("#resultsGrid")[0];
+        var resultsGridHeight = resultsGrid.clientHeight;
 
-            var ToolbarResults = $("#ToolbarResults")[0];
-            var ToolbarResultsHeight = ToolbarResults.clientHeight;
+        var ToolbarResults = $("#ToolbarResults")[0];
+        var ToolbarResultsHeight = ToolbarResults.clientHeight;
 
-            var resultsGridActions = $("#resultsGridActions")[0];
-            var resultsGridActionsHeight = resultsGridActions.clientHeight;
+        var resultsGridActions = $("#resultsGridActions")[0];
+        var resultsGridActionsHeight = resultsGridActions.clientHeight;
 
-            var rdo = resultsGridHeight - (ToolbarResultsHeight + resultsGridActionsHeight)
+        var rdo = resultsGridHeight - (ToolbarResultsHeight + resultsGridActionsHeight)
 
-            var KAutoScrollable = $(".k-grid-content.k-auto-scrollable")[0];
-            var KGridHeader = $(".k-grid-header")[0];
-            var ThisTaskIsOpen = $("#IFThisTaskIsOpen")[0];
+        var KAutoScrollable = $(".k-grid-content.k-auto-scrollable")[0];
+        var KGridHeader = $(".k-grid-header")[0];
+        var ThisTaskIsOpen = $("#IFThisTaskIsOpen")[0];
 
-            $("#IFPreview").css("height", rdo);
-            $(ThisTaskIsOpen).css("height", rdo);
-            $(KAutoScrollable).css("height", rdo - (KGridHeader != undefined ? KGridHeader.clientHeight : 0));
+        $("#IFPreview").css("height", rdo);
+        $(ThisTaskIsOpen).css("height", rdo);
+        $(KAutoScrollable).css("height", rdo - (KGridHeader != undefined ? KGridHeader.clientHeight : 0));
     } catch (e) {
         console.error(e);
     }

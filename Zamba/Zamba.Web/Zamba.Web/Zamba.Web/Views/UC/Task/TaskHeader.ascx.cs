@@ -153,15 +153,21 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
                 if ((rules != null))
                 {
                     //[Ezequiel] Obtengo los ids de las reglas de entrada.
-
-                    var ruleIDs = from rule in rules where rule.ParentType == TypesofRules.Entrada && rule.Enable == true select rule.ID;
-
-                    foreach (Int64 rid in ruleIDs)
+                    try
                     {
-                        if (ExecuteRule != null)
+                        var ruleIDs = from rule in rules where rule.ParentType == TypesofRules.Entrada && rule.Enable == true select rule.ID;
+
+                        foreach (Int64 rid in ruleIDs)
                         {
-                            ExecuteRule(rid, results);
+                            if (ExecuteRule != null)
+                            {
+                                ExecuteRule(rid, results);
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Zamba.AppBlock.ZException.Log(ex);
                     }
                 }
 
@@ -1104,6 +1110,8 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
         {
             lblmsj.InnerHtml = "Ha ocurrido un error en la ejecucion de la regla " + sender.ToString() + " , contactese con el administrador del sistema para mas informacion";
             ZClass.raiseerror(ex);
+            string script = "$(document).ready(function(){swal('', 'Ha ocurrido un error durante la ejecución, contactese con el administrador del sistema para mas informacion','warning')});";
+            ScriptManager.RegisterClientScriptBlock(this, GetType(), "RefreshParentDataFromChildWindow", script, true);
         }
     }
 

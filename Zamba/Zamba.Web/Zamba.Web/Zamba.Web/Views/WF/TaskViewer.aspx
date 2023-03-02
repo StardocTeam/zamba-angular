@@ -384,6 +384,7 @@
                 flag ? showVerticalScrollBar() : parent.showVerticalScrollBar();
             }
 
+            $("#BarcodePanel").hide();
             checkDisabledRules();
         });
 
@@ -395,7 +396,7 @@
 
             if (DisabledRulesByTask != undefined) {
 
-            DisabledRulesByTask = DisabledRulesByTask.replaceAll('}"', '}').replaceAll('"{', '{');
+                DisabledRulesByTask = DisabledRulesByTask.replaceAll('}"', '}').replaceAll('"{', '{');
                 DisabledRulesByTask = JSON.parse(DisabledRulesByTask);
 
                 DisabledRulesByTask.forEach(function (item) {

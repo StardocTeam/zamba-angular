@@ -69,7 +69,7 @@
 
 
         <!-- Sidebar -->
-        <div id="sidebar-wrapper" class="scrollbarIndices hidden-xs">
+        <div id="sidebar-wrapper" class="scrollbarIndices hidden-xs" style="overflow-x: hidden">
             <ul class="sidebar-nav force-overflow">
                 <asp:UpdatePanel ID="uppnDetailViewer" runat="server">
                     <ContentTemplate>

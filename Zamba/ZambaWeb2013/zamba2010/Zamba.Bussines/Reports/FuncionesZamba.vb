@@ -14,7 +14,7 @@ Public Class FuncionesZamba
     Public Shared Function GetNewID(ByVal isZamba As Boolean) As Int32
         Try
             Dim id As Int32 = 0
-            If iszamba = True Then
+            If isZamba = True Then
                 id = Zamba.Data.CoreData.GetNewID(Zamba.Core.IdTypes.ZQUERY)
                 Return id
             Else
@@ -66,7 +66,7 @@ Public Class FuncionesZamba
     Public Shared Function GetDocTypeNameById(ByVal doctypeid As Int64) As String
         Dim Name As String
         Try
-            Name = DocTypesFactory.GetDocTypeNameById(doctypeid).Trim 
+            Name = DocTypesFactory.GetDocTypeNameById(doctypeid).Trim
             Return Name
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)

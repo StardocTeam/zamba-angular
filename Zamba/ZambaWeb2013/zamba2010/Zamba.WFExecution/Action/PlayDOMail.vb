@@ -14,6 +14,7 @@ Imports Zamba.Membership
 Imports Spire.Email
 Imports Zamba.FileTools
 Imports System.Dynamic
+Imports System.Collections.ObjectModel
 
 
 Public Class PlayDOMail
@@ -183,14 +184,36 @@ Public Class PlayDOMail
 
             Dim St As New Zamba.FileTools.SpireTools
             Dim PathPdf As String = String.Empty
+
+
             Dim MailInfo = St.ConvertMSGToJSON(rutaDocumento, PathPdf, True)
             Dim Mailto = String.Empty
+            Dim Cc = String.Empty
+            Dim Cco = String.Empty
 
-            For Each item As String In MailInfo.to
-
-                Mailto += item + ";"
+            For indexTo As Double = 0 To MailInfo.[to].Count - 1
+                If MailInfo.[to](indexTo) = MailInfo.[to](MailInfo.[to].Count - 1) Then
+                    Mailto += MailInfo.[to](indexTo)
+                Else
+                    Mailto += MailInfo.[to](indexTo) + "; "
+                End If
             Next
 
+            For indexCc As Double = 0 To MailInfo.cc.Count - 1
+                If MailInfo.cc(indexCc) = MailInfo.cc(MailInfo.cc.Count - 1) Then
+                    Cc += MailInfo.cc(indexCc)
+                Else
+                    Cc += MailInfo.cc(indexCc) + "; "
+                End If
+            Next
+
+            For indexCco As Double = 0 To MailInfo.cco.Count - 1
+                If MailInfo.cco(indexCco) = MailInfo.cco(MailInfo.cco.Count - 1) Then
+                    Cco += MailInfo.cco(indexCco)
+                Else
+                    Cco += MailInfo.cco(indexCco) + "; "
+                End If
+            Next
 
             MailInfo.from = Me.ReconocerGruposYUsuarios(Mailto)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail To: " & MailInfo.from)
@@ -200,13 +223,13 @@ Public Class PlayDOMail
 
             Params.Add("To", MailInfo.from)
 
-            'Me.CC = Me.ReconocerGruposYUsuarios(Me.CC)
-            'ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
-            'Params.Add("CC", MailInfo.CC)
+            Me.CC = Me.ReconocerGruposYUsuarios(Cc)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CC: " & Me.CC)
+            Params.Add("CC", Me.CC)
 
-            'Me.CCO = Me.ReconocerGruposYUsuarios(Me.CCO)
-            'ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
-            'Params.Add("CCO", MailInfo.CCO)
+            Me.CCO = Me.ReconocerGruposYUsuarios(Cco)
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail CCO: " & Me.CCO)
+            Params.Add("CCO", Me.CCO)
 
             Params.Add("Subject", "RE:" + MailInfo.subject)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "DoMail Body: " & MailInfo.subject)
@@ -905,7 +928,7 @@ Public Class PlayDOMail
 
 
                             'si es responder = true llamar
-                            Dim rb As New Results_Business
+                            Dim rb As New Results_Business
 
                             If (Me._myRule.Answer And VariablesInterReglas.ContainsKey("rutaDocumento")) Then
 
@@ -1020,6 +1043,7 @@ Public Class MailActions
 
 
 
+#Region "Mensajes"
 
 
 #Region "Mensajes"

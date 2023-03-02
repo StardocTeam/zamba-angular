@@ -111,6 +111,7 @@ public partial class Views_UC_Viewers_DocViewer : System.Web.UI.UserControl
                 }
                 else
                 {
+
                     string script = "$(document).ready(function() { swal({ title: '', text: 'No tiene permisos para ver esta tarea', icon: 'info', buttons: true, dangerMode: true, closeOnClickOutside: false, buttons:{ agregar: { text: 'ok' }, }, }) .then((value) => { switch (value) { case 'agregar': window.close(); break; } }); });";
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
 

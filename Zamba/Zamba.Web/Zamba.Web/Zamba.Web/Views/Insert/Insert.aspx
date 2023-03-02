@@ -589,11 +589,11 @@
 
 
                     <asp:Panel runat="server" ID="pnlDatos">
-                        <div class="row div-Frm-Views-Insert" style="overflow: visible; border-radius: 4px; width: auto; height: auto;">
-                            <div class="col-md-6 col-xs-12" id="test">                              
+                        <div class="row div-Frm-Views-Insert pnlInsert">
+                            <div class="col-md-6 col-xs-12" id="test">
 
                                 <div class="noprint">
-                                    <button id="InsertOptionBtn" title="Pestaña 'Archivos'" type="button" class="btnBlueMaterialInBoostrap" onclick="InsertOptionClick();" ng-click="insertMode = true">Insertar archivos</button>
+                                    <button id="InsertOptionBtn" title="Pestaña 'Archivos'" type="button" class="btnBlueMaterialInBoostrap" onclick="InsertOptionClick();" ng-click="insertMode = true" disabled>Insertar archivos</button>
                                     <button id="BarcodeOptionBtn" title="Pestaña 'Caratulas'" type="button" class="btnWhiteMaterialInBoostrap" onclick="BarcodeOptionClick();" ng-click="insertMode = false">Generar caratulas</button>
                                     <%--<a id="BtnClearIndex" class="btn btn-sm btn-outline-primary ng-scope" onclick="clearFilter()">
                                     <span class="glyphicon glyphicon-trash"></span><span class="hidden-xs" style="padding-left: 5px;">Limpiar</span>
@@ -602,7 +602,7 @@
                                     <button id="BtnClearIndex" title="Vaciar campos" type="button" class="btn-circleMaterialInBoostrap" onclick="clearFilter()"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                 </div>
 
-                             
+
 
                                 <div id="BarcodePanel" ng-show="insertMode == false">
                                     <div class="form-group row">
@@ -675,13 +675,13 @@
 
                                 </asp:UpdatePanel>
 
-                               
+
 
                                 <asp:UpdatePanel runat="server" UpdateMode="Conditional" ID="NavPanel">
                                     <ContentTemplate>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-                                <div class="nav nav-bar noprint">
+                                <div class="nav nav-bar noprint" id="CoverBtn" style="display: none">
 
 
                                     <asp:LinkButton runat="server" Text="Replicar" ID="lnkReplicar" OnClick="lnkReplicar_clic" ng-show="insertMode == true " disable
@@ -758,6 +758,24 @@
                 transform: rotate(360deg);
             }
         }
+
+        input[type="reset"][disabled], input[type="submit"][disabled], html input[type="button"][disabled], button[disabled] {
+            cursor: default;
+            color: white;
+            background-color: #286090;
+        }
+
+        #CoverBtn {
+            margin-top: 10px;
+        }
+
+        .pnlInsert {
+            overflow: visible;
+            border-radius: 4px;
+            width: auto;
+            height: auto; 
+            margin-top: 10px;
+        }
     </style>
 
 
@@ -833,15 +851,23 @@
             $("#InsertOptionBtn").addClass('btn-primary');
             $("#insertMode").val("insert");
             $("#DropPanel").show();
+            $("#BarcodePanel").hide();
+            $("#CoverBtn").hide();
+            $("#InsertOptionBtn").prop('disabled', true);
+            
         };
 
         function BarcodeOptionClick() {
             $("#InsertOptionBtn").removeClass('btn-primary');
             $("#InsertOptionBtn").addClass('btn-default');
+            $("#InsertOptionBtn").addClass('btnWhiteMaterialInBoostrap');
             $("#BarcodeOptionBtn").removeClass('btn-default');
             $("#BarcodeOptionBtn").addClass('btn-primary');
             $("#insertMode").val("BC");
             $("#DropPanel").hide();
+            $("#BarcodePanel").show();
+            $("#CoverBtn").show();
+            $("#InsertOptionBtn").prop('disabled', false);
         };
 
         function display_c() {

@@ -4,6 +4,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Net.Mail
 Imports System.Data.SqlClient
+Imports System.Collections.Generic
 
 Public NotInheritable Class Email_Factory
 
@@ -75,6 +76,33 @@ Public NotInheritable Class Email_Factory
             Zamba.Core.ZClass.raiseerror(ex)
         End Try
     End Sub
+
+    Public Shared Function GetEmailsUsersOfTask(DocIds As List(Of String)) As DataTable
+        Try
+            Dim Strselect = "select DISTINCT USRTABLE.CORREO AS value from USER_HST inner join USRTABLE ON USER_HST.USER_ID = USRTABLE.ID"
+
+            Strselect += " where " 'TODO: 'USER_HST.OBJECT_ID IN ( " + Join(DocIds, ",") + ")"
+
+            For Each item As String In DocIds
+                If item <> DocIds.Last() Then
+                    Strselect += "USER_HST.OBJECT_ID = " + item + " Or "
+                Else
+                    Strselect += "USER_HST.OBJECT_ID = " + item
+                End If
+            Next
+
+            Strselect += " And " + "ACTION_TYPE = 1"
+
+            Dim dt As DataSet = Server.Con.ExecuteDataset(CommandType.Text, Strselect)
+
+            'Deja el nombre de la columna estandarizada.
+            dt.Tables(0).Columns(dt.Tables(0).Columns.IndexOf("VALUE")).Caption = "VALUE"
+
+            Return dt.Tables(0)
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+    End Function
 
     Public Shared Function GetEmailExportPath() As String
         Try

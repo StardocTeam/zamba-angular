@@ -530,7 +530,8 @@ function onDataBound(arg) {
             console.error(e);
         }
         try {
-            let userGroupForPending = "71,11542205,12598,11542206,1526096,12872,1020364,1020363,12871"; if (dataItems[i].Tipo_de_pagos != undefined && dataItems[i].Tipo_de_pagos != null && dataItems[i].Tipo_de_pagos.indexOf('CENTROS DE ATENCION') != -1 && IfUserInGroups(userGroupForPending)) {
+            let userGroupForPending = "71,11542205,12598,11542206,1526096,12872,1020364,1020363,12871";
+            if (dataItems[i].Tipo_de_pagos != undefined && dataItems[i].Tipo_de_pagos != null && dataItems[i].Tipo_de_pagos.indexOf('CENTROS DE ATENCION') != -1 && IfUserInGroups(userGroupForPending)) {
                 row.addClass("RowPending");
             }
         } catch (e) {
@@ -608,7 +609,7 @@ function getResultsTotal() {
         return localSearchResults.total;
 }
 
-function onChange(arg) {    
+function onChange(arg) {
     var selected = $.map(this.select(), function (item) {
         checkedIds = [];
         checkListIdFormDowloadZip = [];
@@ -858,6 +859,7 @@ function CleanSelectedRows() {
 
 //habilita y deshabilita el registro de la grilla de busqueda.
 function onClick(e) {
+
     var grid = $("#Kgrid").data("kendoGrid");
 
     var rowIndex = $(e.target).closest("tr")[0].sectionRowIndex;
@@ -874,16 +876,17 @@ function onClick(e) {
 
     var row_DOC_ID = grid._data[rowIndex].DOC_ID;
     var row_DOC_TYPE_ID = grid._data[rowIndex].DOC_TYPE_ID;
-    
+
     if (multipleSelectActive == "true" && row_Selected == false) {
         angular.element($("#ResultsCtrl")).scope().GetTaskDocument(checkedIds);
+        $(e.currentTarget).addClass("k-state-selected");
         $(e.currentTarget).find('[type=checkbox]').prop('checked', true);
 
         $(e.currentTarget).addClass("k-state-selected");
 
         checkedIds.push(rowIndex);
         DocIdschecked.push(row_DOC_ID);
-        DocTypesIdschecked.push(row_DOC_TYPE_ID);        
+        DocTypesIdschecked.push(row_DOC_TYPE_ID);
         selectedRecords_gridResults.push(row_STEP_ID);
 
 
@@ -1272,7 +1275,7 @@ function OpenSelectedRows() {
     ResultsController.AUXOpenedTasks = [];
 }
 
-function checkValue(value, arr, from) {    
+function checkValue(value, arr, from) {
     for (var i = 0; i < arr.length; i++) {
         var name = arr[i];
 

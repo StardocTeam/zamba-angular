@@ -250,6 +250,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         try {
             $scope.CanRemoveDocuments = false;
             $scope.ShowAsociatedTab = $scope.NewGetUserRigths(RightsTypeEnum.Use, ObjectTypesEnum.WFStepsTree);
+
             $scope.CanChangePassword = $scope.NewGetUserRigths(RightsTypeEnum.ChangePassword, ObjectTypesEnum.LogIn);
 
             $scope.ShowSendMailByResults = $scope.NewGetUserRigths(RightsTypeEnum.EnviarPorMailWeb, ObjectTypesEnum.Documents);
@@ -1524,7 +1525,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.Search.StepFilter = { IsChecked: false, zFilterWebID: 0 };
         $rootScope.$broadcast('resetFiltersDefaultZambaColumnFilters');
         $scope.Search.DoctypesIds = entitieIds;
-
+        
         if ($scope.Search.DoctypesIds.length > 0)
             $scope.Search.Indexs = JSON.parse(EntityFieldsService.GetAllSync($scope.Search.DoctypesIds));
 
@@ -2760,7 +2761,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 $scope.Search.LastPage = 0;
             }
             return $scope.getResultsFromService(reloadResults, $scope.Search).then(function (response) {
-                
+
                 $scope.LastResponse = response;
 
                 var data = $scope.LastResponse.data;
@@ -4839,20 +4840,31 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.GetTaskDocument($scope.thumbSelectedIndexs);
     }
 
+    $scope.openModalSendMail = function () {
+        $("#ModalSendZip").modal("show");
+        $("#file_upload").css("display", "none");
+    }
+
     var ValMessage;
     $scope.SendEmail = function (obj) {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         var MailValidation = true;
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         ValMessage = "";
 
-        obj.for = obj.for == undefined ? "" : obj.for;
-        obj.cc = obj.cc == undefined ? "" : obj.cc;
-        obj.cco = obj.cco == undefined ? "" : obj.cco;
+        //TODO: Hacer lo mismo para Envio de ZIP y DocToolbar
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
 
-        MailValidation = Val_contenido(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
-        MailValidation = Val_contenido(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
-        MailValidation = Val_contenido(obj.cco.replaceAll(';', ','), reg, MailValidation, "Cco");
+        var MailTo = formMailTo.Value.replaceAll(';', ',');
+        var MailCc = formMailCc.Value.replaceAll(';', ',');
+        var MailCco = formMailCco.Value.replaceAll(';', ',');
+
+        MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(MailCco, reg, MailValidation, formMailCco.attribute);
 
         if (MailValidation == false) {
             swal("", "Error: Corrija las advertencias. \n\n" + ValMessage, "error");
@@ -4892,9 +4904,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
             emaildata.Idinfo = arrayEmailData;
 
-            emaildata.MailTo = $("#destinatario").val()
-            emaildata.CC = $('input[name="cc"]').val() == undefined ? "" : $('input[name="cc"]').val();
-            emaildata.CCO = $('input[name="cco"]').val() == undefined ? "" : $('input[name="cco"]').val();
+            emaildata.MailTo = MailTo;
+            emaildata.CC = MailCc;
+            emaildata.CCO = MailCco;
             emaildata.Subject = $('input[name="subject"]').val() == undefined ? "" : $('input[name="subject"]').val();
             emaildata.MessageBody = document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML
             emaildata.Base64StringArray = CollectionFiles;
@@ -4917,18 +4929,20 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 },
             }).then(function (data, status, headers, config) {
                 ModalView(data);
+
                 CollectionFiles = [];
                 emaildata.MessageBody = "";
                 document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = "";
                 emaildata.Subject = "";
                 $('#file_upload').val("");
+
             }).catch(function (error) {
                 ModalView_Error(error);
             });
         }
     }
 
-    function Val_contenido(List_Destinatarios, reg, Validado, field) {
+    function ValEmails(List_Destinatarios, reg, Validado, field) {
         if (List_Destinatarios != undefined) {
             if (List_Destinatarios != "") {
                 List_Destinatarios.split(",").forEach(function (elem, index) {
@@ -4936,11 +4950,23 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                         if (elem.trim() != "") {
                             if (reg.test(elem.trim()) == false) {
                                 console.log("Iteracion erronea: " + elem.trim());
-                                ValMessage += "• " + field + ": Hay caracteres o correo no valido.\n";
+
+                                if (field.search("_Zip" != 1)) {
+                                    ValMessage += "• " + field + ": Hay caracteres o correo no valido.\n";
+                                } else {
+                                    ValMessage += "• " + field.substr(0, field.lastIndexOf("_Zip")) + ": Hay caracteres o correo no valido.\n";
+                                }
+
                                 Validado = false;
                             }
                         } else {
-                            ValMessage += "• " + field + ": Ha escrito doble coma o una coma al final.\n";
+
+                            if (field.search("_Zip" != 1)) {
+                                ValMessage += "• " + field + ": Ha escrito doble punto y coma o un punto y coma al final.\n";
+                            } else {
+                                ValMessage += "• " + field.substr(0, field.lastIndexOf("_Zip")) + ": Ha escrito doble punto y coma o un punto y coma al final.\n";
+                            }
+
                             Validado = false;
                         }
                     }
@@ -5095,7 +5121,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.BtnZipDisable = true;
         var zip = {};
         let checkedIds = countTaskIdSelected();
-        return;
+
 
         zip.Idinfo = checkedIds;
         //var anyTaskHasFile = $scope.getIFAnyTaskHasFile(zip);
@@ -5136,12 +5162,18 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
         ValMessage = "";
 
-        obj.cc = obj.cc == undefined ? "" : obj.cc;
-        obj.cco = obj.cco == undefined ? "" : obj.cco;
+        //TODO: Hacer lo mismo para Envio de ZIP y DocToolbar
+        var formMailTo = angular.element($("#formMailZipMailTo")).scope();
+        var formMailCc = angular.element($("#formMailZipCc")).scope();
+        var formMailCco = angular.element($("#formMailZipCco")).scope();
 
-        MailValidation = Val_contenido(obj.for.replaceAll(';', ','), reg, MailValidation, "Para");
-        MailValidation = Val_contenido(obj.cc.replaceAll(';', ','), reg, MailValidation, "Cc");
-        MailValidation = Val_contenido(obj.cco.replaceAll(';', ','), reg, MailValidation, "Cco");
+        var MailTo = formMailTo.Value.replaceAll(';', ',');
+        var MailCc = formMailCc.Value.replaceAll(';', ',');
+        var MailCco = formMailCco.Value.replaceAll(';', ',');
+
+        MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
+        MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
+        MailValidation = ValEmails(MailCco, reg, MailValidation, formMailCco.attribute);
 
 
         if (MailValidation == false) {
@@ -5168,13 +5200,14 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             zip.Idinfo = arrayEmailData;
 
             zip.UserId = GetUID();
-            zip.MailTo = obj.for;
-            zip.CC = obj.cc;
-            zip.CCO = obj.cco;
+            zip.MailTo = MailTo;
+            zip.CC = MailCc;
+            zip.CCO = MailCco;
             zip.Subject = obj.subject || "Te han enviado archivo/s.";
             zip.ZipName = obj.zipName || "Archivo";
             zip.ZipPassword = obj.zipPasswd || "";
             zip.MessageBody = obj.MessageBody || "<br >";
+            zip.MessageBody = document.getElementById("cke_2_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML || "<br >";
 
             var anyTaskHasFile = $scope.getIFAnyTaskHasFile(zip);
 
@@ -5219,7 +5252,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             $(".loadersmall").css("display", "none");
         } else {
             swal("", "Email enviado con exito", "success");
-
+            document.getElementById("cke_2_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = "";
             $scope.zipInputs = null;
             $(".loadersmall").css("display", "none");
             $("#btnMailZipSubmit").show();
@@ -7111,9 +7144,17 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             }
         }
     }
+
     $scope.$on('LoadStep', function (event, args) {
         $scope.selectedStepStateName = args.StepStateName;
     });
+
+    $scope.GetMailUsers = function () {
+        var params = DocIdschecked;
+        var EmailController = angular.element($("#EmailController")).scope();
+        EmailController.GetMails(params);
+    }
+
 });
 
 
@@ -8150,7 +8191,7 @@ function BroadcastlocalTreeDataLoaded() {
 }
 /* show checked node IDs on datasource change */
 function onCheck() {
-    debugger;
+
     var checkedNodes = [];
     var DoctypesIds = [];
     var lastNodes = "";
@@ -8424,7 +8465,7 @@ $(document).ready(function () {
         //$(this).parent().find("input").prop("checked");
     });
     //Si selecciona el padre todos los hijos quedan seleccionados
-    $("body").on("click", ".k-checkbox", function () {        
+    $("body").on("click", ".k-checkbox", function () {
         var dS = $("#treeview").data("kendoTreeView").dataSource;
         if ($(this).parent().children(".k-icon").length) {
             var chk = $(this).children().prop("checked");

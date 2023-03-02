@@ -4,7 +4,7 @@ var serviceBase = ZambaWebRestApiURL;
 app.factory('ruleExecutionService', ['$http', '$q', function ($http, $q) {
     var ruleExecutionFactory = {};
 
-    function _executeRule(ruleId, resultIds) {
+    function _executeRule(ruleId, resultIds) {           
         var genericRequest = {
             UserId: parseInt(GetUID()),
             Params: {
