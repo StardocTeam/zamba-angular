@@ -375,7 +375,7 @@ public class FormControlsController
 
         //foreach (Int64 DocTypeId in docTypeAsocIDs)
         //{
-        AsociatedResults = sda.getAsociatedResultsFromResultAsList(AsociatedId, Task, user.ID);
+        AsociatedResults = sda.getAsociatedResultsFromResultAsList(AsociatedId, Task, user.ID, true);
         //}
 
         DataTable dt = AsociatedResults;

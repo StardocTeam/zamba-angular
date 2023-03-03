@@ -1027,16 +1027,6 @@ Public Class DocTypesFactory
         strselect.Append("select doc_type_name from doc_type where doc_type_id=" + DocTypeId.ToString)
         Return Server.Con.ExecuteScalar(CommandType.Text, strselect.ToString)
     End Function
-    Public Shared Function GetDocTypeNameById(ByVal DocTypeId As Int64) As String
-        Dim strselect As New System.Text.StringBuilder
-        strselect.Append("select doc_type_name from doc_type where doc_type_id=" + DocTypeId.ToString)
-        Return Server.Con.ExecuteScalar(CommandType.Text, strselect.ToString)
-    End Function
-    Public Shared Function GetDocTypeNameById(ByVal DocTypeId As Int64) As String
-        Dim strselect As New System.Text.StringBuilder
-        strselect.Append("select doc_type_name from doc_type where doc_type_id=" + DocTypeId.ToString)
-        Return Server.Con.ExecuteScalar(CommandType.Text, strselect.ToString)
-    End Function
 #Region "LinkIndexs"
     Public Shared Function IndexIsLinked(ByVal doctypeid As Int32, ByVal indexid As Int32) As Boolean
 

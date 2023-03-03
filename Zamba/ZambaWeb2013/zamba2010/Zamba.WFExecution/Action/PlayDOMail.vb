@@ -1041,11 +1041,6 @@ Public Class MailActions
         Me._smtpConfig = smtpconfig
     End Sub
 
-
-
-#Region "Mensajes"
-
-
 #Region "Mensajes"
     ''' <summary>
     ''' Obtiene los nombres originales de una lista de documentos y 

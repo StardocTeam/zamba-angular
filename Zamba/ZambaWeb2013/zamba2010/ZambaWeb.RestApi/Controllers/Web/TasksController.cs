@@ -1884,24 +1884,24 @@ namespace ZambaWeb.RestApi.Controllers
                                     oldFullPath = res.FullPath;
                                     NewTaskResult = new TaskResult(ref WT
                                     , 0
-                                                                  ,Int64.Parse(listResultIds[i].Docid)
-                                                                  ,(Zamba.Core.DocType)res.DocType
-                                                                  ,res.Name
-                                                                  ,res.IconId
-                                                                  ,0
-                                                                  ,TaskStates.Asignada
-                                                                  ,res.Indexs
-                                                                  ,res.DISK_VOL_PATH
-                                                                  ,"0"
-                                                                  ,res.OffSet.ToString()
-                                                                  ,res.Doc_File
-                                                                  ,res.Disk_Group_Id
-                                                                  ,WT.InitialState,0,""
+                                                                  , Int64.Parse(listResultIds[i].Docid)
+                                                                  , (Zamba.Core.DocType)res.DocType
+                                                                  , res.Name
+                                                                  , res.IconId
+                                                                  , 0
+                                                                  , TaskStates.Asignada
+                                                                  , res.Indexs
+                                                                  , res.DISK_VOL_PATH
+                                                                  , "0"
+                                                                  , res.OffSet.ToString()
+                                                                  , res.Doc_File
+                                                                  , res.Disk_Group_Id
+                                                                  , WT.InitialState, 0, ""
                                     );
 
-                                    
+
                                 }
-                               
+
                                 Results.Add(NewTaskResult);
                             }
                             else
@@ -1926,6 +1926,7 @@ namespace ZambaWeb.RestApi.Controllers
                         ExecutionTask.TaskId = 0;
                         ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
                                                                              //ExecutionTask.StartRule = ruleId;
+                    }
 
                     if (listResultIds.Count > 0)
                     {
@@ -2771,7 +2772,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                     
 
-                    }
+                    //}
                     break;
 
                 case RulePendingEvents.ExecuteRule:
