@@ -1837,10 +1837,8 @@ namespace ZambaWeb.RestApi.Controllers
                     List<string> docIds = new List<string>();
                     STasks sTasks = new STasks();
                     List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
-
                     string resultIds;
                     List<itemVarsResults> listResultIds = new List<itemVarsResults>();
-
                     ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
                     if (paramRequest.Params.ContainsKey("resultIds") && !string.IsNullOrEmpty(paramRequest.Params["resultIds"]))
                     {
@@ -1848,10 +1846,8 @@ namespace ZambaWeb.RestApi.Controllers
                         /// Se convierte el valor en un diccionario para poder iterarlo
                         resultIds = paramRequest.Params["resultIds"];
                         listResultIds = JsonConvert.DeserializeObject<List<itemVarsResults>>(resultIds);
-
                     }
 
-                  
                     string FormVariables = string.Empty;
 
                     if (paramRequest.Params.ContainsKey("FormVariables") && !string.IsNullOrEmpty(paramRequest.Params["FormVariables"]))
@@ -1859,13 +1855,11 @@ namespace ZambaWeb.RestApi.Controllers
                         FormVariables = paramRequest.Params["FormVariables"];
 
                     }
-
                     if (paramRequest.Params.ContainsKey("zvars") && !string.IsNullOrEmpty(paramRequest.Params["zvars"]))
                     {
                         string zvars = paramRequest.Params["zvars"].ToString();
                         char delimitador = ';';
                         ZvarParams = zvars.Split(delimitador);
-
                     }
 
                     if (listResultIds.Count > 0)
@@ -1874,7 +1868,6 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             if (int.Parse(listResultIds[i].Docid) > 0)
                             {
-
                                 var TaskByDocId = sTasks.GetTaskByDocId(Int64.Parse(listResultIds[i].Docid));
                                 if (TaskByDocId == null)
                                 {
@@ -1884,37 +1877,31 @@ namespace ZambaWeb.RestApi.Controllers
                                     oldFullPath = res.FullPath;
                                     NewTaskResult = new TaskResult(ref WT
                                     , 0
-                                                                  , Int64.Parse(listResultIds[i].Docid)
-                                                                  , (Zamba.Core.DocType)res.DocType
-                                                                  , res.Name
-                                                                  , res.IconId
-                                                                  , 0
-                                                                  , TaskStates.Asignada
-                                                                  , res.Indexs
-                                                                  , res.DISK_VOL_PATH
-                                                                  , "0"
-                                                                  , res.OffSet.ToString()
-                                                                  , res.Doc_File
-                                                                  , res.Disk_Group_Id
-                                                                  , WT.InitialState, 0, ""
+                                    , Int64.Parse(listResultIds[i].Docid)
+                                    , (Zamba.Core.DocType)res.DocType
+                                    , res.Name
+                                    , res.IconId
+                                    , 0
+                                    , TaskStates.Asignada
+                                    , res.Indexs
+                                    , res.DISK_VOL_PATH
+                                    , "0"
+                                    , res.OffSet.ToString()
+                                    , res.Doc_File
+                                    , res.Disk_Group_Id
+                                    , WT.InitialState, 0, ""
                                     );
-
-
                                 }
-
                                 Results.Add(NewTaskResult);
                             }
                             else
                             {
-
                                 ITaskResult ExecutionTask = new TaskResult();
                                 ExecutionTask.AsignedToId = user.ID;
                                 ExecutionTask.UserId = (int)user.ID;
                                 ExecutionTask.TaskId = 0;
                                 ExecutionTask.Name = "Ejecucion de regla IMAP"; //
-                                                                                //ExecutionTask.StartRule = ruleId;
-
-                                Results.Add(ExecutionTask);
+                                                                                //ExecutionTask.StartRule = ruleId;                                 Results.Add(ExecutionTask);
                             }
                         }
                     }
@@ -1925,7 +1912,7 @@ namespace ZambaWeb.RestApi.Controllers
                         ExecutionTask.UserId = (int)user.ID;
                         ExecutionTask.TaskId = 0;
                         ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
-                                                                             //ExecutionTask.StartRule = ruleId;
+                                                                             //ExecutionTask.StartRule = ruleId;                         Results.Add(ExecutionTask);
                     }
 
                     if (listResultIds.Count > 0)
@@ -1983,10 +1970,8 @@ namespace ZambaWeb.RestApi.Controllers
 
                     if (ZvarParams.Length > 0)
                     {
-
                         foreach (var item in ZvarParams)
                         {
-
                             switch (item)
                             {
                                 case "rutaDocumento":
@@ -1997,10 +1982,7 @@ namespace ZambaWeb.RestApi.Controllers
                                     break;
                             }
                         }
-
                     }
-
-
 
                     if (FormVariables != string.Empty)
                     {
