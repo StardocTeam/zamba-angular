@@ -173,7 +173,7 @@
         <h6 style=" text-align: center; margin-top: 50px;" ng-if="DataCount == 0"><b>No tenemos registros por ahora.</b> <br />  <br /> {{emptyMessage}}</h6>
 
         <md-list flex>
-            <md-list-item class="md-2-line" ng-repeat="news in GenericData | filter:searchCardText" ng-dblclick="OpenTask(news)">
+            <md-list-item class="md-2-line" ng-repeat="news in GenericData | filter:searchCardText" ng-dblclick="OpenTask(news)" title="{{news.Tarea}}">
                 <div class="md-list-item-text" layout="column">
                     <h3 class="unread-title news-title">{{news.Tarea}}</h3>
                     <p>
