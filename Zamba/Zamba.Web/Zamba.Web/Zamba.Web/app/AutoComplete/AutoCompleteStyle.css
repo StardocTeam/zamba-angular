@@ -76,14 +76,29 @@ md-autocomplete-wrap {
 
 
 .ListEmails {
-    flex-direction: column;
+
+    width: 96%;
+    min-height: 70px;
+    max-height: 200px;
     overflow-y: scroll;
-    height: 200px;
-    padding-bottom: 2px;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 3px;
     position: absolute;
     z-index: 10;
-    background-color: #f7f7f7;
-    width: 96%;
-    display: none
+    display: none;
 }
 
+.ItemListed {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-left: 10px;
+    border-bottom-width: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+    .ItemListed:hover {
+        background-color: var(--ZBlue);
+    }

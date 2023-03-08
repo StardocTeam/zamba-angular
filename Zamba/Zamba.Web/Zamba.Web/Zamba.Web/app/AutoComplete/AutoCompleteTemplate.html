@@ -10,7 +10,7 @@
         <div id="ListEmails{{attribute}}" class="ListEmails">
 
             <md-list-item ng-repeat="item in ListedEmails track by $index" ng-click="appendEmail(item)">
-                <p> {{item.value}} </p>
+                <p class="ItemListed"> {{item.value}} </p>
             </md-list-item>
         </div>
     </form>
