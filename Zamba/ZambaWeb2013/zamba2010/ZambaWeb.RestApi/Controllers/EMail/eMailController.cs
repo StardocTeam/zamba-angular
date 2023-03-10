@@ -290,7 +290,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
             else {
 
-                mail.Body = System.Text.Encoding.Default.GetString(mail.OriginalDocument);
+                mail.Body = System.Text.Encoding.UTF8.GetString(mail.OriginalDocument);
 
             }
 
