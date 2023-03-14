@@ -135,7 +135,7 @@
 </div>
             <div class="col-xs-3">
                 <span class="fa fa-trash-o searchTrashClass z-cardstemplate-icons" type="reset" aria-hidden="true" role="button" title="Borrar búsqueda" ng-click="clearSearch()"></span>
-                <span class="material-icons z-cardstemplate-icons searchTrashClass" title="Actualizar" ng-click="Reload(null)">
+                <span class="material-icons z-cardstemplate-icons reloadClass" title="Actualizar" ng-click="Reload(null)">
                     autorenew
                 </span>
             </div>
@@ -150,8 +150,8 @@
         <h6 style=" text-align: center; margin-top: 50px;" ng-if="DataCount == 0"><b>No tenemos registros por ahora.</b> <br />  <br /> {{emptyMessage}}</h6>
 
         <md-list flex>
-            <md-list-item class="md-2-line" ng-repeat="news in LastSearchData | filter:searchCardText" tooltip="{{news.Name}}" ng-dblclick="ExeccuteSearch(news)">
-                <div class="md-list-item-text" layout="column" >
+            <md-list-item class="md-2-line" ng-repeat="news in LastSearchData | filter:searchCardText" title="{{news.Name}}" ng-dblclick="ExeccuteSearch(news)">
+                <div class="md-list-item-text" layout="column">
                     <h3 class="unread-title news-title">{{news.Name}}</h3>
                     <p>
                         <span class="glyphicon glyphicon-calendar" style="margin-left:5px; margin-right: 3px"></span>{{FormatDateTimeDDMMYYYYHHMM(news.SearchDate)}}

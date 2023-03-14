@@ -72,5 +72,4 @@ $(document).ready(function () {
     if (($('#zamba_index_130').val() == '')) {
         $('#zamba_index_130').parent().parent().parent().css('display', 'none');
     }
-
 });
