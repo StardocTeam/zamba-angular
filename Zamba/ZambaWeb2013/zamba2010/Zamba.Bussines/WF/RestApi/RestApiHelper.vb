@@ -45,11 +45,7 @@ Public Class RestApiHelper
                 End If
             Next
 
-            If String.IsNullOrEmpty(JsonMessage) = False Then
-                Dim JsonObject As Object
-                JsonObject = JsonConvert.DeserializeObject(JsonMessage)
-                JsonMessage = JsonConvert.SerializeObject(JsonObject, Formatting.Indented)
-            End If
+            JsonMessage = JsonConvert.SerializeObject(GR, Formatting.Indented)
 
         Else
             If JsonMessage.Contains("zamba.table") Then
@@ -66,12 +62,23 @@ Public Class RestApiHelper
                 JsonMessage = VarInterReglas.ReconocerVariables(JsonMessage)
                 VarInterReglas = Nothing
             End If
+            If String.IsNullOrEmpty(JsonMessage) = False Then
+                JsonMessage = JsonConvert.SerializeObject(JsonMessage, Formatting.Indented)
+            End If
 
-            JsonMessage = JsonConvert.SerializeObject(JsonMessage, Formatting.Indented)
         End If
+
+
+
+
+
+
+
+
+
         Dim WebRequest As HttpWebRequest
         WebRequest = CType(WebRequest.Create(New Uri(url)), HttpWebRequest)
-        WebRequest.Timeout = 700000
+        WebRequest.Timeout = 7000000
         Dim response As String
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Llamada a rest api:" & vbCrLf & url & vbCrLf & Method & vbCrLf & JsonMessage)
         WebRequest.Accept = "application/json"
