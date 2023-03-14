@@ -706,6 +706,7 @@
     }
 
     function ShowAsociated() {
+        debugger;
         $("#page-content-wrapper").hide();
         Collapse(false);
         $("#tabContent").hide();
@@ -719,33 +720,28 @@
                 $(firstGrid.children[1].firstChild).attr('class', 'k-state-selected');
                 clearInterval(refreshGridElement);
                 //se utiliza para agregar media-query por JS
-                var mql = window.matchMedia("screen and (min-width: 1300px)");
+                var mql = window.matchMedia("screen and (min-width: 1600px)");
                 MediaQueryAsoc(mql);
                 mql.addListener(MediaQueryAsoc);
 
                 var mql2 = window.matchMedia("screen and (min-width: 1800px)");
                 MediaQueryAsoc2(mql2);
                 mql2.addListener(MediaQueryAsoc2);
-
-
-
-
             }
 
-        }, 2000);
-
+        }, 1000);
         $("#buttonPreview")[0].click();
-
     }
 
     function MediaQueryAsoc(mql) {
         $("#previewDocIframe").addClass('IFrameAsocHeight');
+        $("#zamba_grid_index_all").addClass('IFrameAsocHeight');
     }
 
     function MediaQueryAsoc2(mql2) {
         $("#previewDocIframe").addClass('IFrameAsocHeight2');
+        $("#zamba_grid_index_all").addClass('IFrameAsocHeight2');
     }
-
 
     function GrillaEstilos() {
         timerAplicarGrillaEstilos = window.setInterval(function () {
