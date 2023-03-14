@@ -45,7 +45,11 @@ Public Class RestApiHelper
                 End If
             Next
 
-            JsonMessage = JsonConvert.SerializeObject(GR, Formatting.Indented)
+            If String.IsNullOrEmpty(JsonMessage) = False Then
+                Dim JsonObject As Object
+                JsonObject = JsonConvert.DeserializeObject(JsonMessage)
+                JsonMessage = JsonConvert.SerializeObject(JsonObject, Formatting.Indented)
+            End If
 
         Else
             If JsonMessage.Contains("zamba.table") Then
