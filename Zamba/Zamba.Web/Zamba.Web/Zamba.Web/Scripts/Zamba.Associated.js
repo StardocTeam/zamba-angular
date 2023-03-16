@@ -1,4 +1,47 @@
-﻿function RefreshParentDataFromChildWindow(NextRulesIds) {
+﻿var RefreshParentDataFromChildWindowAsync = (NextRulesIds) =>
+    new Promise((resolve, reject) => {
+        try {
+            var parentWindow = window.opener;
+            if (parentWindow == undefined || parentWindow == null)
+                parentWindow = window.parent;
+
+            if (NextRulesIds != undefined && NextRulesIds != null && NextRulesIds != '') {
+                var scope = angular.element($("#taskController")).scope();
+                debugger;
+
+                return scope.Execute_ZambaRuleAsync(NextRulesIds, [{ Docid: GetDOCID(), DocTypeid: GetDocTypeId() }]).then((res) => {
+                    NextRulesIds = null;
+                    debugger;
+
+                    if (parentWindow.isSearchHtml())
+                        parentWindow.RefreshResultsGridFromChildWindow();
+                    else if (parentWindow.isTaskviewer())
+                        parentWindow.RefreshParent(NextRulesIds);
+                    else
+                        parentWindow.RefreshParent(NextRulesIds);
+                    resolve();
+                });
+            } else {
+                debugger;
+
+                if (parentWindow.isSearchHtml())
+                    parentWindow.RefreshResultsGridFromChildWindow();
+                else if (parentWindow.isTaskviewer())
+                    parentWindow.RefreshParent(NextRulesIds);
+                else
+                    parentWindow.RefreshParent(NextRulesIds);
+                resolve();
+            }
+        }
+        catch (e) {
+            debugger;
+
+            console.error(e);
+            reject(e);
+        }
+    });
+
+function RefreshParentDataFromChildWindow(NextRulesIds) {
     try {
         var parentWindow = window.opener;
 

@@ -589,9 +589,10 @@ public partial class Views_Insert_Insert : Page
 
             if (PrincipalView != "Main")
             {
-                var RefreshParentDataFromChildWindowScript = $" RefreshParentDataFromChildWindow({NR}); ";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile3", " $(document).ready(function(){" + RefreshParentDataFromChildWindowScript + script + "});", true);
-            }
+                var RefreshParentDataFromChildWindowAsync = $" RefreshParentDataFromChildWindowAsync({NR})";
+                RefreshParentDataFromChildWindowAsync += ".then(function(){";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "RefreshParentDataFromChildWindowAsync", " $(document).ready(function(){" + RefreshParentDataFromChildWindowAsync + script + "});});", true);
+                }
             else {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile3", " $(document).ready(function(){" + script + "});", true);
             }
