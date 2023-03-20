@@ -56,7 +56,26 @@
 
     <style>
         #divGrid .row {
-            margin:0px;
+            margin: 0px;
+        }
+
+        #divGrid {
+            overflow-x: auto;
+        }
+
+        *::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #337ab7;
+            border-radius: 5px;
+            border: 0px solid #ffffff;
         }
     </style>
 
