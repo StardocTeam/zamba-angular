@@ -38,7 +38,7 @@ Public Class PlayDoFillVar
         Try
             For Each r As TaskResult In results
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando la regla para la tarea " & r.Name)
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo valor de la variable ingresada por el usuario (" & Me._myRule.variableValue & ")")
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo valor de la variable ingresada por el usuario " & Me._myRule.variableValue)
                 Me.newMessage = String.Empty
 
                 _myRule.variableName = _myRule.variableName.Trim(vbLf)

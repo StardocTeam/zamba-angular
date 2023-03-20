@@ -917,7 +917,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 Int64 StepId = 0;
                 if (task != null)
                 {
-                    //Page.Session.Add("Entrada" + ResultToOpen.ID, true);
+                    Page.Session.Add("Entrada" + ResultToOpen.ID, true);
                     StepId = task.StepId;
                 }
                 int openmode = 0;

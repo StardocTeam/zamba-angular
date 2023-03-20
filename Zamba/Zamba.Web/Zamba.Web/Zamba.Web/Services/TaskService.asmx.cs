@@ -86,8 +86,8 @@ namespace ScriptWebServices
             string taskCount = new WFTaskBusiness().GetTaskCount(stepId, true, usrId).ToString();
             return taskCount + "|" + nodeId;
         }
-        
-        
+
+
         //[WebMethod(true)]
         //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         //public List<string> GetTaskCountArray(long usrId, string[] nodeIdArray, long[] stepIdArray)
@@ -115,7 +115,7 @@ namespace ScriptWebServices
             return (new SFeeds()).GetFeeds(userId);
         }
 
-      
+
 
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace ScriptWebServices
         public long GetUserIdByName(string userName)
         {
             UserBusiness UserBusiness = new UserBusiness();
-            IUser user = UserBusiness.GetUserByname(userName, true);           
+            IUser user = UserBusiness.GetUserByname(userName, true);
             long id = user.ID;
             return id;
         }
@@ -247,7 +247,7 @@ namespace ScriptWebServices
         {
             try
             {
-                 Dictionary<string, bool> result = new Dictionary<string, bool>();
+                Dictionary<string, bool> result = new Dictionary<string, bool>();
                 var newresults = string.Empty;
                 Results_Business RB = new Results_Business();
                 UserBusiness ub = new UserBusiness();
@@ -255,7 +255,7 @@ namespace ScriptWebServices
                 bool IsValid = Zamba.Membership.MembershipHelper.CurrentUser != null;
                 bool IsseccionValid = RB.getValidateActiveSession(userId, token);
 
-               
+
                 // para evaluar si el curren esta muerto y el usuario de la url esta vivo hacer relogin
                 if (!IsValid && IsseccionValid && userId == userLocalStorage)
                 {
@@ -264,24 +264,25 @@ namespace ScriptWebServices
                 }
 
 
-                bool isReload = Zamba.Membership.MembershipHelper.CurrentUser == null ||Zamba.Membership.MembershipHelper.CurrentUser.ID != userId;
+                bool isReload = Zamba.Membership.MembershipHelper.CurrentUser == null || Zamba.Membership.MembershipHelper.CurrentUser.ID != userId;
                 bool RebuildUrl = Zamba.Membership.MembershipHelper.CurrentUser != null && Zamba.Membership.MembershipHelper.CurrentUser.ID != userLocalStorage;
 
                 // esta condicion es para cuando se reconstruye la url
-                if (!RebuildUrl) { 
-                
-                     RebuildUrl = IsValid && isReload && !RebuildUrl; 
+                if (!RebuildUrl)
+                {
+
+                    RebuildUrl = IsValid && isReload && !RebuildUrl;
                 }
-                
+
 
                 //if (IsValid && !RebuildUrl)
                 //{
-                    
+
                 //    IsValid = RB.getValidateActiveSession(userId, token);
 
                 //    if (IsValid)
                 //    {
-                       
+
                 //        ub.ValidateLogIn(userId, ClientType.Web);
                 //    }
 
@@ -297,7 +298,7 @@ namespace ScriptWebServices
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw;
+                throw new Exception("No se pudo validar el requerimiento");
             }
         }
 
@@ -420,7 +421,7 @@ namespace ScriptWebServices
             IFiltersComponent ss = new FiltersComponent();
             WFStepBusiness WFSB = new WFStepBusiness();
             DataTable DocTypes = WFSB.GetDocTypesByWfStepAsDT(usedfilters.StepId, usedfilters.currentUserid);
-            
+
             if (DocTypes.Rows.Count == 0) return null;
             var UsedFilter = ss.GetLastUsedFilters(Convert.ToInt64(DocTypes.Rows[0][0]), usedfilters.currentUserid, true);
 
@@ -516,7 +517,7 @@ namespace ScriptWebServices
             FiltersComponent FC = new FiltersComponent();
             WFStepBusiness WFSB = new WFStepBusiness();
             DataTable DocTypes = WFSB.GetDocTypesByWfStepAsDT(deleteFilter.StepId, deleteFilter.CurrentUserId);
-            
+
 
             var UsedFilter = FC.GetLastUsedFilters(Convert.ToInt64(DocTypes.Rows[0][0]), deleteFilter.CurrentUserId, true);
 
