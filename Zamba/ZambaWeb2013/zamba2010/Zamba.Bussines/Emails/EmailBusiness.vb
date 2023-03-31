@@ -1,7 +1,7 @@
 ﻿Imports Zamba.Data
 Imports Zamba.Core
 Imports System.Collections.Generic
-
+Imports System.Configuration
 Public Class EmailBusiness
 
     Inherits ZClass
@@ -86,5 +86,24 @@ Public Class EmailBusiness
     Public Function GetEmailsUsersOfTask(docIds As List(Of String)) As Object
         Dim result As DataTable = Email_Factory.GetEmailsUsersOfTask(docIds)
         Return result
+    End Function
+
+    Public Function GetSMPTConfig() As SMTPConfig
+        Try
+            Dim smtpConfig As New SMTPConfig()
+            smtpConfig.User = ConfigurationManager.AppSettings.Get("WebViewUserSMTP")
+            smtpConfig.Pass = ConfigurationManager.AppSettings.Get("WebViewPassSMTP")
+            smtpConfig.From = ConfigurationManager.AppSettings.Get("WebViewFromSMTP")
+            smtpConfig.Port = ConfigurationManager.AppSettings.Get("WebViewPortSMTP")
+            smtpConfig.MailServer = ConfigurationManager.AppSettings.Get("WebViewSMTP")
+            smtpConfig.EnableSSL = Boolean.Parse(ConfigurationManager.AppSettings.Get("WebViewSslSMTP"))
+            If IsNothing(smtpConfig.MailServer) Then
+                smtpConfig = Nothing
+            End If
+            Return smtpConfig
+        Catch ex As Exception
+            Return Nothing
+        End Try
+
     End Function
 End Class
