@@ -97,11 +97,12 @@ Public Class EmailBusiness
             smtpConfig.Port = ConfigurationManager.AppSettings.Get("WebViewPortSMTP")
             smtpConfig.MailServer = ConfigurationManager.AppSettings.Get("WebViewSMTP")
             smtpConfig.EnableSSL = Boolean.Parse(ConfigurationManager.AppSettings.Get("WebViewSslSMTP"))
-            If IsNothing(smtpConfig.MailServer) Then
-                smtpConfig = Nothing
+            If String.IsNullOrEmpty(smtpConfig.User) Or String.IsNullOrEmpty(smtpConfig.Pass) Or String.IsNullOrEmpty(smtpConfig.From) Or String.IsNullOrEmpty(smtpConfig.Port) Or String.IsNullOrEmpty(smtpConfig.MailServer) Then
+                Throw New Exception()
             End If
             Return smtpConfig
         Catch ex As Exception
+            ZTrace.WriteLineIf(ZTrace.IsWarning, "Algunas claves de la configuración SMTP en WebConfig se encontraban vacías")
             Return Nothing
         End Try
 
