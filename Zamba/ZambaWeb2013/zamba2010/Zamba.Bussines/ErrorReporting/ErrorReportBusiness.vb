@@ -257,7 +257,7 @@ Public Class ErrorReportBusiness
             Boolean.TryParse(Zamba.Membership.MembershipHelper.CurrentUser.eMail.EnableSsl, enableSsl)
         Else
             Dim smtpConfig = New EmailBusiness().GetSMPTConfig()
-            If (smtpConfig <> Nothing) Then
+            If smtpConfig IsNot Nothing Then
                 user = smtpConfig.User
                 pass = smtpConfig.Pass
                 from = smtpConfig.From

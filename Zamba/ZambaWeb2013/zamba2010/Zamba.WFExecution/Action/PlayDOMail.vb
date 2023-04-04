@@ -759,7 +759,7 @@ Public Class PlayDOMail
 
                 Dim smtpConfig = New EmailBusiness().GetSMPTConfig()
 
-                If (smtpConfig <> Nothing) Then
+                If smtpConfig IsNot Nothing Then
                     mailUser = smtpConfig.User
                     mailPass = smtpConfig.Pass
                     smptMail = smtpConfig.From
