@@ -3894,7 +3894,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     };
 
     //#region Open Task
-    $scope.Opentask = function (arg) {
+    $scope.Opentask = function (arg,gridClicked) {
         var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
         $scope.thumbsCheckedCount = thumbsCollection.length;
 
@@ -3922,7 +3922,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             }
 
             var Url = $scope.GetTaskUrl(esTaskViewer, result, taskId, stepid, userid, token);
-
+            if (gridClicked)
+                Url += "&gridClicked=1";
             //valido si esta el preview activo y si hay cambios en la tarea
             if ($scope.PreviewMode != "noPreview") {
                 var PreviewTaskChanged = localStorage.getItem("PreviewTaskChanged");
