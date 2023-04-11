@@ -757,7 +757,17 @@ Public Class PlayDOMail
             Else
                 Dim ZOptB As New ZOptBusiness
 
-                If (ZOptB.GetValue("WebView_SendBySMTP") IsNot Nothing AndAlso ZOptB.GetValue("WebView_SendBySMTP").ToLower = "true") Then
+                Dim smtpConfig = New EmailBusiness().GetSMPTConfig()
+
+                If smtpConfig IsNot Nothing Then
+                    mailUser = smtpConfig.User
+                    mailPass = smtpConfig.Pass
+                    smptMail = smtpConfig.From
+                    mailPort = smtpConfig.Port
+                    mailServer = smtpConfig.MailServer
+                    enableSsl = smtpConfig.EnableSSL
+
+                ElseIf (ZOptB.GetValue("WebView_SendBySMTP") IsNot Nothing AndAlso ZOptB.GetValue("WebView_SendBySMTP").ToLower = "true") Then
 
                     mailUser = ZOptB.GetValue("WebView_UserSMTP")
                     mailPass = ZOptB.GetValue("WebView_PassSMTP")

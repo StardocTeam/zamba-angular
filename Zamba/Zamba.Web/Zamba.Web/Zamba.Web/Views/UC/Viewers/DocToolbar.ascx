@@ -146,7 +146,8 @@
     .titleColor {
         background-color: var(--ZBlue);
         border-radius: 4px 4px 0px 0px;
-        height: 30px;
+        height: 38px;
+        padding-top: 4px;
     }
 
     .mailColor {
@@ -250,6 +251,13 @@
                     }
                     /* control AutoComplete */
 
+    .mtSendEmail {
+        margin-top: 6px;
+    }
+
+    .mb-padding{
+        padding-top: 8px;
+    }
 </style>
 
 
@@ -396,9 +404,9 @@
                 <label class="mailColor">Enviar Mail</label>
             </div>
             <form name="formMail" >
-                <div class="modal-body" id="EmailController" ng-controller="EmailController" >
+                <div class="modal-body mb-padding" id="EmailController" ng-controller="EmailController" >
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
-                        <label class="col-sm-1 control-label">Para</label>
+                        <label class="col-sm-1 control-label mtSendEmail">Para</label>
                         <div class="col-sm-11">
 
                             <zamba-auto-complete attribute="Para" name="formMailDestinatario" id="formMailDestinatario"></zamba-auto-complete>
@@ -408,7 +416,7 @@
                     </div>
 
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
-                        <label class="col-sm-1 control-label">CC</label>
+                        <label class="col-sm-1 control-label mtSendEmail">CC</label>
                         <div class="col-sm-11">
 
                             <zamba-auto-complete attribute="Cc" name="formMailCc" id="formMailCc"></zamba-auto-complete>
@@ -418,7 +426,7 @@
                     </div>
 
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
-                        <label class="col-sm-1 control-label">CCO</label>
+                        <label class="col-sm-1 control-label mtSendEmail">CCO</label>
                         <div class="col-sm-11">
 
                             <zamba-auto-complete attribute="Cco" name="formMailCco" id="formMailCco"></zamba-auto-complete>
@@ -428,7 +436,7 @@
                     </div>
 
                     <div class="form-group modalControl row">
-                        <label class="col-sm-1 control-label">Asunto</label>
+                        <label class="col-sm-1 control-label mtSendEmail">Asunto</label>
                         <div class="col-sm-11">
                             <input class="form-control EmailInput" name="subject" placeholder="Asunto" autocomplete="off" style="height: 75%; margin: -4px 0 4px 0">
                         </div>
@@ -441,7 +449,7 @@
 
                     <div class="form-group row addLinkMarginBottom">
                         <div class="col-sm-9">
-                            <input type="checkbox" name="addListLinks"><label id="LabelAddListLinks">Agregar link a documento </label>
+                            <input type="checkbox" name="addListLinks" style="margin-right: 6px;"><label id="LabelAddListLinks">Agregar link a documento </label>
                         </div>
 
                         <div class="col-sm-3" align="right">
@@ -706,6 +714,7 @@
     }
 
     function ShowAsociated() {
+        debugger;
         $("#page-content-wrapper").hide();
         Collapse(false);
         $("#tabContent").hide();
@@ -719,33 +728,28 @@
                 $(firstGrid.children[1].firstChild).attr('class', 'k-state-selected');
                 clearInterval(refreshGridElement);
                 //se utiliza para agregar media-query por JS
-                var mql = window.matchMedia("screen and (min-width: 1300px)");
+                var mql = window.matchMedia("screen and (min-width: 1600px)");
                 MediaQueryAsoc(mql);
                 mql.addListener(MediaQueryAsoc);
 
                 var mql2 = window.matchMedia("screen and (min-width: 1800px)");
                 MediaQueryAsoc2(mql2);
                 mql2.addListener(MediaQueryAsoc2);
-
-
-
-
             }
 
-        }, 2000);
-
+        }, 1000);
         $("#buttonPreview")[0].click();
-
     }
 
     function MediaQueryAsoc(mql) {
         $("#previewDocIframe").addClass('IFrameAsocHeight');
+        $("#zamba_grid_index_all").addClass('IFrameAsocHeight');
     }
 
     function MediaQueryAsoc2(mql2) {
         $("#previewDocIframe").addClass('IFrameAsocHeight2');
+        $("#zamba_grid_index_all").addClass('IFrameAsocHeight2');
     }
-
 
     function GrillaEstilos() {
         timerAplicarGrillaEstilos = window.setInterval(function () {

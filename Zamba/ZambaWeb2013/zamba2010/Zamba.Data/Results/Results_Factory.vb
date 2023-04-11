@@ -2719,30 +2719,15 @@ Public Class Results_Factory
             Dim TableNotes As String = "Doc_Notes"
             Dim StrDelete As String
 
-            Try
-                StrDelete = "DELETE FROM " & TableI & " Where (Doc_ID = " & Result.ID & ")"
+
+            StrDelete = "DELETE FROM " & TableI & " Where (Doc_ID = " & Result.ID & ")"
                 Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-            Try
-                StrDelete = "DELETE FROM " & TableT & " Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-            Try
-                StrDelete = "DELETE FROM " & TableNotes & " Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-            Try
-                StrDelete = "DELETE FROM ZBARCODE Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
+            StrDelete = "DELETE FROM " & TableT & " Where (Doc_ID = " & Result.ID & ")"
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
+            StrDelete = "DELETE FROM " & TableNotes & " Where (Doc_ID = " & Result.ID & ")"
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
+            StrDelete = "DELETE FROM ZBARCODE Where (Doc_ID = " & Result.ID & ")"
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
 
             'Andres 4/9/28 - Si es documento virtual no tiene path , no se borra
             If Result.ISVIRTUAL = False Then

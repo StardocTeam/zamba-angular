@@ -457,19 +457,25 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
         }
         else if (Page.Session["CurrentFormID" + TaskResult.ID] != null && Int64.TryParse(Page.Session["CurrentFormID" + TaskResult.ID].ToString(), out FormId))
         {
-            ShowDocumentFromDoShowForm(FormId);
+            if (Request.QueryString["GridClicked"] == "1")
+                DefaultShowDocument();
+            else
+                ShowDocumentFromDoShowForm(FormId);
         }
         else
         {
-            var ShowDocumentResult = ShowDocument();
-            if (ShowDocumentResult != "OK")
-            {
-                string Script = "$(document).ready(function(){  toastr.error('" + ShowDocumentResult + "'); });";
-                Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "ShowError", Script, true);
-            }
+            DefaultShowDocument();
         }
     }
 
+    private void DefaultShowDocument() {
+        var ShowDocumentResult = ShowDocument();
+        if (ShowDocumentResult != "OK")
+        {
+            string Script = "$(document).ready(function(){  toastr.error('" + ShowDocumentResult + "'); });";
+            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "ShowError", Script, true);
+        }
+    }
     private INewResult GetNewResult(IZwebForm zfrm)
     {
         SForms SForms = new SForms();
@@ -917,7 +923,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                 Int64 StepId = 0;
                 if (task != null)
                 {
-                    //Page.Session.Add("Entrada" + ResultToOpen.ID, true);
+                    Page.Session.Add("Entrada" + ResultToOpen.ID, true);
                     StepId = task.StepId;
                 }
                 int openmode = 0;

@@ -92,7 +92,17 @@ namespace Controls.Notifications
 
             // esta configurada la opcion de smtp global en Zamba?
             ZOptBusiness zopt = new ZOptBusiness();
-            if (zopt.GetValue("WebView_SendBySMTP") != null)
+            var smtpConfig = new EmailBusiness().GetSMPTConfig();
+            if (smtpConfig != null)
+            {
+                user = smtpConfig.User;
+                pass = smtpConfig.Pass;
+                from = smtpConfig.From;
+                port = smtpConfig.Port;
+                smtp = smtpConfig.MailServer;
+                enableSsl = smtpConfig.EnableSSL;
+            }
+            else if(zopt.GetValue("WebView_SendBySMTP") != null)
             {
                 user = zopt.GetValue("WebView_UserSMTP");
                 pass = zopt.GetValue("WebView_PassSMTP");
