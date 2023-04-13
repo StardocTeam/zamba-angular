@@ -1033,10 +1033,10 @@ Public Class RightFactory
                 Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " And USERID = " & userId.ToString)
             Else
                 Server.Con.ExecuteNonQuery(CommandType.Text, "DELETE ZFILTERS WHERE DOCTYPEID = " & docTypeId.ToString & " And USERID = " & userId.ToString & " And FILTERTYPE <> 'defecto'")
-        End If
+            End If
         Else
-        Dim ParValues() As Object = {DocTypeId, userId, remove}
-        Server.Con.ExecuteNonQuery("ZSP_FILTERS_200_ClearDocTypeFiltersByUserId", ParValues)
+            Dim ParValues() As Object = {docTypeId, userId, remove}
+            Server.Con.ExecuteNonQuery("ZSP_FILTERS_200_ClearDocTypeFiltersByUserId", ParValues)
         End If
     End Sub
 

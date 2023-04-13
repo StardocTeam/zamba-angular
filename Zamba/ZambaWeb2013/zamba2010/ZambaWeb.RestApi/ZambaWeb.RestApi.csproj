@@ -155,8 +155,8 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\Zamba2014\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\Zamba2014\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\Zamba2014\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\Zamba2014\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
@@ -370,6 +370,7 @@
     <Compile Include="Controllers\API\B2BController.cs" />
     <Compile Include="Controllers\Barcode\BarcodeController.cs" />
     <Compile Include="Controllers\Class\CacheFactory.cs" />
+    <Compile Include="Controllers\Class\DocInfo.cs" />
     <Compile Include="Controllers\Class\UcmController.cs" />
     <Compile Include="Controllers\Class\EmailData.cs" />
     <Compile Include="Controllers\Class\TokenHelper.cs" />
@@ -463,17 +464,13 @@
     <Folder Include="Views\Despachos\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Zamba.Web\Zamba.FUS\Zamba.FUS.csproj">
-      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
-      <Name>Zamba.FUS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\ZambaWindows2013\Zamba2010\InvocacionServWDigDepFiel\InvocacionServWDigDepFiel.csproj">
-      <Project>{8B2668A6-8398-4DA0-9933-F72EF4D1EBAF}</Project>
-      <Name>InvocacionServWDigDepFiel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Services\AFIPAPI\AFIPAPI.csproj">
       <Project>{712c92bb-f975-46fd-817a-120f5cf55a53}</Project>
       <Name>AFIPAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Zamba.Web\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
       <Project>{98dcc71c-e25b-414f-95ff-e5b98b5d529d}</Project>
@@ -486,6 +483,10 @@
     <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
       <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
       <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaWindows2013\Zamba2010\InvocacionServWDigDepFiel\InvocacionServWDigDepFiel.csproj">
+      <Project>{8b2668a6-8398-4da0-9933-f72ef4d1ebaf}</Project>
+      <Name>InvocacionServWDigDepFiel</Name>
     </ProjectReference>
     <ProjectReference Include="..\ClienteLoginCms_CS\ClienteLoginCms_CS.csproj">
       <Project>{55ec46c2-fcef-4fc0-8e0c-6c50b47756c9}</Project>
@@ -532,7 +533,7 @@
       <Name>Zamba.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zamba.Services\Zamba.Services.csproj">
-      <Project>{6FE580EC-0097-4817-AB4E-280ECD96FB81}</Project>
+      <Project>{6fe580ec-0097-4817-ab4e-280ecd96fb81}</Project>
       <Name>Zamba.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">

@@ -179,7 +179,7 @@ Public Class WFRulesFactory
         sql += "    inner join wfworkflow wf on wf.work_id = wfs.work_id "
         sql += "order by "
         sql += "    wfr.NAMe "
-       
+
         Return Server.Con.ExecuteDataset(CommandType.Text, sql)
         'Cargo Items de Parametros 
         'sql = "Select * from WFRuleParamItems Order By Item"

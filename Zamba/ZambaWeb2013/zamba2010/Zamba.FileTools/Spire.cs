@@ -1696,6 +1696,8 @@ namespace Zamba.FileTools
         public string from { get; set; }
         public bool isMsg { get; set; } = true;
         public List<string> to { get; set; } = new List<string>();
+        public List<string> cc { get; set; } = new List<string>();
+        public List<string> cco { get; set; } = new List<string>();
         public List<AttachmentDTO> attachs { get; set; } = new List<AttachmentDTO>();
 
         public MailPreview() { }
@@ -1715,6 +1717,32 @@ namespace Zamba.FileTools
                     to.Add(item.Address);
                 }
             }
+
+            if (msg.Cc.Count == 1)
+            {
+                cc.AddRange(msg.Cc[0].DisplayName.Split(';'));
+            }
+            else if (msg.Cc.Count > 1)
+            {
+                foreach (MailAddress item in msg.Cc)
+                {
+                    cc.Add(item.Address);
+                }
+            }
+
+
+            if (msg.Bcc.Count == 1)
+            {
+                cco.AddRange(msg.Bcc[0].DisplayName.Split(';'));
+            }
+            else if (msg.Bcc.Count > 1)
+            {
+                foreach (MailAddress item in msg.Bcc)
+                {
+                    cco.Add(item.Address);
+                }
+            }
+
 
             if (includeAttachs)
             {

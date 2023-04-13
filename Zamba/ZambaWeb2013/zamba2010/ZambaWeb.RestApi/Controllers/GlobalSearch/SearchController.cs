@@ -1727,7 +1727,17 @@ namespace ZambaWeb.RestApi.Controllers
                         .ToList<String>();
 
                     foreach (EntityDto entityDto in sr.entities)
+                    {
                         entityDto.name = entityDto.name;
+                        
+                        ObjectTypes ObjectId = ObjectTypes.DocTypes;
+                        RightsType RightType = RightsType.Delete;
+
+                        entityDto.UserCanRemove = new RightsBusiness().GetUserRights(User.ID, ObjectId, RightType, entityDto.id );
+
+
+                    }
+                        
                     //entityDto.name = QuitarAcentosAColumna(entityDto.name);
 
                     foreach (DataColumn dataColumn in sr.data.Columns)
@@ -2032,7 +2042,7 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     String FileContent = DT_Results.Rows[0]["SearchObject"].ToString();
                     byte[] ByteSearchObject;
-                    if (DT_Results.Rows[0]["SearchObject"].GetType().Name=="Byte[]")
+                    if (DT_Results.Rows[0]["SearchObject"].GetType().Name == "Byte[]")
                     {
                         ByteSearchObject = (byte[])DT_Results.Rows[0]["SearchObject"];
                     }
@@ -2076,7 +2086,8 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 DataTable DT_Results = new Results_Business().loadLastSearchResults(GenericRequest.UserId);
 
-                foreach(DataRow r in DT_Results.Rows) {
+                foreach(DataRow r in DT_Results.Rows)
+                {
                     LastSearchs LS = new LastSearchs();
                     byte[] ByteSearchObject = (byte[])r["SearchObject"];
                     LS.ObjectSearch = Encoding.Default.GetString(ByteSearchObject);

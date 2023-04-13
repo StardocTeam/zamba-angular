@@ -248,10 +248,11 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     $scope.LoadUserRights = function () {
         try {
-
+            $scope.CanRemoveDocuments = false;
             $scope.ShowAsociatedTab = $scope.NewGetUserRigths(RightsTypeEnum.Use, ObjectTypesEnum.WFStepsTree);
 
             $scope.CanChangePassword = $scope.NewGetUserRigths(RightsTypeEnum.ChangePassword, ObjectTypesEnum.LogIn);
+
             $scope.ShowSendMailByResults = $scope.NewGetUserRigths(RightsTypeEnum.EnviarPorMailWeb, ObjectTypesEnum.Documents);
             $scope.ShowDownloadFileBtnPreview = $scope.NewGetUserRigths(RightsTypeEnum.Saveas, ObjectTypesEnum.Documents);
             $scope.IsAdminUser = $scope.NewGetUserRigths(RightsTypeEnum.Delete, ObjectTypesEnum.Cache);
@@ -1939,7 +1940,28 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             console.error(e);
         }
     }
-
+    $scope.ShowButtonRemove = function (DocTypeIds) {
+        var canRemove = true;
+        var entities = $scope.Search.SearchResultsObject.entities;
+        if (DocTypeIds.length == 0)
+            canRemove = false;
+        DocTypeIds.forEach(
+            function (DocTypeId) {
+                entities.forEach(function (entity) {
+                    if (DocTypeId == entity.id) {
+                        if (entity.UserCanRemove != undefined) {
+                            if (!entity.UserCanRemove) {
+                                canRemove = false;
+                            }
+                        }
+                        else {
+                            canRemove = false;
+                        }
+                    }
+                });
+        });
+        $scope.CanRemoveDocuments = canRemove;
+    }
     $scope.loadSearchFromLocal = function () {
         var result = false;
 
@@ -2748,7 +2770,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
                 // Si no trajo resultados
                 if (SearchResultsObject == undefined || SearchResultsObject == null || SearchResultsObject.data == undefined || SearchResultsObject.data.length == 0) {
-
+                    if (!$scope.filterPanelOpened)
+                        $scope.toogleFilterPanel();
                     if ($scope.Search.AsignedTasks) {
                         toastr.options.timeOut = 5000;
                         toastr.warning("No se encontraron resultados");
@@ -3871,7 +3894,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     };
 
     //#region Open Task
-    $scope.Opentask = function (arg) {
+    $scope.Opentask = function (arg,gridClicked) {
         var thumbsCollection = $("#resultsGridSearchBoxThumbs").find(".glyphicon-ok-sign");
         $scope.thumbsCheckedCount = thumbsCollection.length;
 
@@ -3899,7 +3922,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             }
 
             var Url = $scope.GetTaskUrl(esTaskViewer, result, taskId, stepid, userid, token);
-
+            if (gridClicked)
+                Url += "&gridClicked=1";
             //valido si esta el preview activo y si hay cambios en la tarea
             if ($scope.PreviewMode != "noPreview") {
                 var PreviewTaskChanged = localStorage.getItem("PreviewTaskChanged");
@@ -4826,6 +4850,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.SendEmail = function (obj) {
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         var MailValidation = true;
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         ValMessage = "";
 
@@ -5055,7 +5080,43 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
 
     }
-
+    $scope.removeDocuments = function () {
+        swal({
+            title: "Eliminar documento(s).",
+            text: "¿Confirma que desea eliminar los documentos seleccionados?",
+            icon: "warning",
+            allowClickOutSide: false,
+            buttons: ["No", "Si"],
+            dangerMode: true,
+        })
+            .then((willconfirm) => {
+                if (willconfirm) {
+                    toastr.info("Eliminando documentos... aguarde por favor.");
+                    $("#BtnRemoveDocuments").prop('disabled', true);
+                    var removeDocs = {};
+                    let checkedIds = countTaskIdSelected();
+                    removeDocs = checkedIds;
+                    $http({
+                        method: 'POST',
+                        dataType: 'json',
+                        url: location.origin.trim() + getValueFromWebConfig("RestApiUrl") + '/api/Tasks/RemoveDocuments',
+                        data: JSON.stringify(removeDocs),
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8"
+                        },
+                    }).then(function (data, status, headers, config) {
+                        $("#BtnRemoveDocuments").prop('disabled', false);
+                        swal("Eliminar documento(s)", "Los documentos se eliminaron exitosamente.", "success");
+                        RefreshCurrentResults();
+                        return true;
+                    }).catch(function (error) {
+                        $("#BtnRemoveDocuments").prop('disabled', false);
+                        swal("Eliminar documento(s)", "Ocurrio un error mientras se eliminaban los documentos.", "warning");
+                        return false;
+                    });;
+                }
+            });
+    }
     $scope.DownLoadZip = function () {
         toastr.info("Comprimiendo archivos... aguarde por favor.");
         $scope.BtnZipDisable = true;
@@ -5178,8 +5239,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.sendIsLoading = false;
         $("#btnZipMailSubmit").show();
         $("#btnZipMailClose").show();
-        $("#btnZipMailSubmit").prop('disabled', false);
-        $("#btnZipMailClose").prop('disabled', false);
+        $("#btnZipMailClose").removeAttr("disabled");
+        $("#btnZipMailSubmit").removeAttr("disabled");
         $("#btn btn-default cancelMailZipButton").prop('disabled', false);
         if (data.data == false) {
             swal("", "Error al enviar email", "error");

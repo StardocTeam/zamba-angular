@@ -68,8 +68,15 @@ public partial class Views_Insert_Insert : Page
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "fileuploaded", "$(document).ready(function(){" +  script2 + "});", true);
                 }
 
+                if (Request.Form["__EVENTTARGET"] == "insertDocumentException" && Request.Form["__EVENTARGUMENT"] == "showErrorMessge")
+                {
+                    var script2 = "swal('','Ocurrio un error al insertar el documento.', 'error')";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "fileuploaded", "$(document).ready(function(){" + script2 + "});", true);
+                }
+
                 ucDocTypesIndexs.SaveButtonName = lnkInsertar.ClientID;
-                ucDocTypes.LoadDocTypes();
+                //ucDocTypes.LoadDocTypes();
+                ucDocTypes.LoadDocTypesByCreatePermission();
                 SZOptBusiness zOptBusines = new SZOptBusiness();
                 Page.Title = (string)zOptBusines.GetValue("WebViewTitle") + " - Insertar Documento";
                 lblMsj.Text = string.Empty;
@@ -582,9 +589,10 @@ public partial class Views_Insert_Insert : Page
 
             if (PrincipalView != "Main")
             {
-                var RefreshParentDataFromChildWindowScript = $" RefreshParentDataFromChildWindow({NR}); ";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile3", " $(document).ready(function(){" + RefreshParentDataFromChildWindowScript + script + "});", true);
-            }
+                var RefreshParentDataFromChildWindowAsync = $" RefreshParentDataFromChildWindowAsync({NR})";
+                RefreshParentDataFromChildWindowAsync += ".then(function(){";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "RefreshParentDataFromChildWindowAsync", " $(document).ready(function(){" + RefreshParentDataFromChildWindowAsync + script + "});});", true);
+                }
             else {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "FixUploadFile3", " $(document).ready(function(){" + script + "});", true);
             }

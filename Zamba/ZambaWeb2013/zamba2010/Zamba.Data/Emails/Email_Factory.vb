@@ -145,10 +145,13 @@ Public NotInheritable Class Email_Factory
         End Try
     End Sub
 
+
     Public Shared Function getHistory(ByVal DocId As Long) As DataSet
         Dim ds As DataSet = Nothing
-        Dim strSelect As String = "SELECT Fecha, USR.NAME Usuario, MSG_TO Para, MSG_CC CC, MSG_BCC BCC, MSG_SUBJECT Asunto, H.ID FROM ZMAIL_HISTORY H INNER JOIN USRTABLE USR ON H.USR_ZMB = USR.ID WHERE DOC_ID = " & DocId & " ORDER BY FECHA DESC"
-
+        Dim strSelect As String = "SELECT Fecha, USR.NAME Usuario, MSG_TO Para, MSG_CC CC, MSG_BCC BCC, MSG_SUBJECT Asunto, H.ID,H.Attachs [Archivos adjuntos] FROM ZMAIL_HISTORY H INNER JOIN USRTABLE USR ON H.USR_ZMB = USR.ID WHERE DOC_ID = " & DocId & " ORDER BY FECHA DESC"
+        If Server.isOracle Then
+            strSelect = "SELECT Fecha, USR.NAME Usuario, MSG_TO Para, MSG_CC CC, MSG_BCC BCC, MSG_SUBJECT Asunto, H.ID FROM ZMAIL_HISTORY H INNER JOIN USRTABLE USR ON H.USR_ZMB = USR.ID WHERE DOC_ID = " & DocId & " ORDER BY FECHA DESC"
+        End If
         Try
             ds = Server.Con.ExecuteDataset(CommandType.Text, strSelect)
         Catch ex As Exception
@@ -180,7 +183,8 @@ Public NotInheritable Class Email_Factory
         Dim exportPath As String
         Dim fullPath As String = String.Empty
         Dim useBlobMails As Boolean
-
+        Dim StrAttachFiles As String
+        StrAttachFiles = Join(attachs.ToArray, ";")
         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Guardando historial de Mail")
         Try
             Dim zopt As New ZOptFactory()
@@ -250,8 +254,9 @@ Public NotInheritable Class Email_Factory
                             pFullPath.Value = "\" & docId & ".html"
                         End If
                     End If
-
-                    Dim parvalues As IDbDataParameter() = {pUserId, pPCName, pDocId, pDocTypeId, pPara, pCC, pCCO, pAsunto, pFullPath, pDocFile}
+                    Dim pAttachs As SqlParameter = New SqlParameter("@m_attachs", SqlDbType.VarChar, 1000)
+                    pAttachs.Value = StrAttachFiles
+                    Dim parvalues As IDbDataParameter() = {pUserId, pPCName, pDocId, pDocTypeId, pPara, pCC, pCCO, pAsunto, pFullPath, pDocFile, pAttachs}
                     Server.Con.ExecuteNonQuery(CommandType.StoredProcedure, "ZSP_ZMAIL_HISTORY_200_InsertarBlob", parvalues)
                     bResul = True
 
@@ -266,6 +271,7 @@ Public NotInheritable Class Email_Factory
                     pAsunto = Nothing
                     pFullPath = Nothing
                     pDocFile = Nothing
+                    pAttachs = Nothing
                     filebytes = Nothing
 
                 Else
@@ -403,7 +409,7 @@ Public NotInheritable Class Email_Factory
 
                         Server.Con.ExecuteNonQuery("ZSP_ZMAIL_HISTORY_100.Insertar", parvalues)
                     Else
-                        parvalues = {userId, String.Empty, docId, docTypeId, para, cc, cco, subject, fullPath}
+                        parvalues = {userId, String.Empty, docId, docTypeId, para, cc, cco, subject, fullPath, StrAttachFiles}
                         Server.Con.ExecuteNonQuery("ZSP_ZMAIL_HISTORY_300_Insertar", parvalues)
                     End If
 
@@ -431,7 +437,7 @@ Public NotInheritable Class Email_Factory
         ZTrace.WriteLineIf(ZTrace.IsInfo, "Exportado archivo a: " & fullPath)
     End Sub
 
-    Private Shared Sub SaveMsgFromDomail(ByRef para As String, ByRef cc As String, subject As String, body As String, ByRef docId As Long, MailPathVariable As String, remitente As String, ByRef exportPath As String)
+    Public Shared Sub SaveMsgFromDomail(ByRef para As String, ByRef cc As String, subject As String, body As String, ByRef docId As Long, MailPathVariable As String, remitente As String, ByRef exportPath As String)
         Dim SC As SmtpClient = New SmtpClient()
         Dim CreationDate As String = DateTime.Now().Ticks
         Dim _COMA As String = ","
@@ -550,7 +556,7 @@ Public NotInheritable Class Email_Factory
         End If
     End Sub
 
-    Private Shared Function CreateExportFolder(ByVal DocId As Int32) As String
+    Public Shared Function CreateExportFolder(ByVal DocId As Int32) As String
 
         Dim PathServidor As String = String.Empty
         Dim ExportPath As String = String.Empty

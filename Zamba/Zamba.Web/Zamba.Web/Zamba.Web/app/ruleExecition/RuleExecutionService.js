@@ -24,6 +24,33 @@ app.factory('ruleExecutionService', ['$http', '$q', function ($http, $q) {
         });
     }
 
+    function _executeRuleWithZvars(ruleId, resultIds, zvars) {
+        var result = null;
+        var genericRequest = {
+            UserId: parseInt(GetUID()),
+            Params: {
+                "ruleId": ruleId,
+                "resultIds": resultIds,
+                "zvars": zvars
+            }
+        };
+
+        $.ajax({
+            "async": false,
+            "url": serviceBase + "/tasks/ExecuteTaskRule",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/json"
+            },
+            "data": JSON.stringify(genericRequest),
+            "success": function (response) {
+                result = response;
+            }
+        });
+
+        return result;
+    }
+
     function _getRuleNames(ruleIds) {
         var genericRequest = {
             UserId: parseInt(GetUID()),
@@ -48,6 +75,7 @@ app.factory('ruleExecutionService', ['$http', '$q', function ($http, $q) {
         return names;
     }
 
+    ruleExecutionFactory.executeRuleWithZvars = _executeRuleWithZvars;
     ruleExecutionFactory.executeRule = _executeRule;
     ruleExecutionFactory.getRuleNames = _getRuleNames;
 

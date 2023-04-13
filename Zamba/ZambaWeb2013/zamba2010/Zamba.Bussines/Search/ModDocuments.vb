@@ -1218,6 +1218,7 @@ Namespace Search
                                         mainVal = Int64.Parse(sbValue.ToString)
                                     End If
                                 End If
+
                             Case IndexDataType.Numerico_Decimales, IndexDataType.Moneda
                                 If sbValue.Length <> 0 Then
                                     If System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator = "," Then
@@ -1907,6 +1908,7 @@ ReloadCache:
             If UseIndexsRights Then
                 IndexsRights = New UserBusiness().GetIndexsRights(docType.ID, Search.UserId)
             End If
+
 
 
 

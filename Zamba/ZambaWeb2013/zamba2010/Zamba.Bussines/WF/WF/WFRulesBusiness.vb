@@ -3846,43 +3846,48 @@ Public Class WFRulesBusiness
     End Sub
 
     Public Function GetChildRulesIds(ByVal ParentRuleId As Int64, RuleClass As String, results As List(Of ITaskResult)) As List(Of Int64) Implements IWFRuleBusiness.GetChildRulesIds
-        If Cache.Rules.ChildRules.ContainsKey(ParentRuleId) = False Then
-            Dim ids As New List(Of Int64)
-            Using dt As DataTable = WFRulesFactory.GetChildRulesIds(ParentRuleId)
-                For i As Int32 = 0 To dt.Rows.Count - 1
-                    ids.Add(CLng(dt.Rows(i)(0)))
-                Next
-            End Using
-            If RuleClass = "DOExecuteRule" Then
-                Dim dsParams As DataSet = GetRuleParamItems(ParentRuleId)
-                If (dsParams.Tables.Count > 0 AndAlso dsParams.Tables(0).Rows.Count > 0) Then
-                    Dim RuleIDToExecute As Int64
-                    Dim RuleExecuteMode As Boolean = dsParams.Tables("WFRuleParamItems").Rows.Count > 3 AndAlso Boolean.Parse(dsParams.Tables("WFRuleParamItems").Rows(3).Item("Value"))
-                    If RuleExecuteMode Then
-                        Dim RuleToExecute As String = dsParams.Tables("WFRuleParamItems").Rows(2).Item("Value")
-                        Dim VarInterReglas As New VariablesInterReglas()
-                        RuleToExecute = Zamba.Core.TextoInteligente.ReconocerCodigo(RuleToExecute, results(0)).Trim
-                        If RuleToExecute.Contains("zvar") = True Then
-                            RuleToExecute = VarInterReglas.ReconocerVariablesValuesSoloTexto(RuleToExecute)
+        Try
+
+            If Cache.Rules.ChildRules.ContainsKey(ParentRuleId) = False Then
+                Dim ids As New List(Of Int64)
+                Using dt As DataTable = WFRulesFactory.GetChildRulesIds(ParentRuleId)
+                    For i As Int32 = 0 To dt.Rows.Count - 1
+                        ids.Add(CLng(dt.Rows(i)(0)))
+                    Next
+                End Using
+                If RuleClass = "DOExecuteRule" Then
+                    Dim dsParams As DataSet = GetRuleParamItems(ParentRuleId)
+                    If (dsParams.Tables.Count > 0 AndAlso dsParams.Tables(0).Rows.Count > 0) Then
+                        Dim RuleIDToExecute As Int64
+                        Dim RuleExecuteMode As Boolean = dsParams.Tables("WFRuleParamItems").Rows.Count > 3 AndAlso Boolean.Parse(dsParams.Tables("WFRuleParamItems").Rows(3).Item("Value"))
+                        If RuleExecuteMode Then
+                            Dim RuleToExecute As String = dsParams.Tables("WFRuleParamItems").Rows(2).Item("Value")
+                            Dim VarInterReglas As New VariablesInterReglas()
+                            RuleToExecute = Zamba.Core.TextoInteligente.ReconocerCodigo(RuleToExecute, results(0)).Trim
+                            If RuleToExecute.Contains("zvar") = True Then
+                                RuleToExecute = VarInterReglas.ReconocerVariablesValuesSoloTexto(RuleToExecute)
+                            End If
+                            RuleIDToExecute = Int64.Parse(RuleToExecute)
+                        Else
+                            RuleIDToExecute = Int64.Parse(dsParams.Tables("WFRuleParamItems").Rows(0).Item("Value"))
                         End If
-                        RuleIDToExecute = Int64.Parse(RuleToExecute)
-                    Else
-                        RuleIDToExecute = Int64.Parse(dsParams.Tables("WFRuleParamItems").Rows(0).Item("Value"))
+                        ids.Insert(0, RuleIDToExecute)
                     End If
-                    ids.Insert(0, RuleIDToExecute)
                 End If
+
+                SyncLock Cache.Rules.ChildRules
+                    If Cache.Rules.ChildRules.ContainsKey(ParentRuleId) = False Then
+                        Cache.Rules.ChildRules.Add(ParentRuleId, ids)
+                    End If
+                End SyncLock
+
+                Return ids
+            Else
+                Return Cache.Rules.ChildRules(ParentRuleId)
             End If
-
-            SyncLock Cache.Rules.ChildRules
-                If Cache.Rules.ChildRules.ContainsKey(ParentRuleId) = False Then
-                    Cache.Rules.ChildRules.Add(ParentRuleId, ids)
-                End If
-            End SyncLock
-
-            Return ids
-        Else
-            Return Cache.Rules.ChildRules(ParentRuleId)
-        End If
+        Catch ex As Exception
+            ZClass.raiseerror(New Exception($"ERROR al cargar las reglas hijas de la regla: {ParentRuleId}", ex))
+        End Try
     End Function
 
 

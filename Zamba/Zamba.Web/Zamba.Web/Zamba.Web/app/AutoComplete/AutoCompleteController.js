@@ -74,11 +74,15 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
     $scope.CollapsingCombo = function () {
         $("#ListEmails" + $scope.attribute)[0].style.display = "none";
         $("#hidePanel")[0].style.display = "none";
-        $("#hidePanelZip")[0].style.display = "none";
+        if ($("#hidePanelZip")[0] != undefined) {
+            $("#hidePanelZip")[0].style.display = "none";
+        }
     }
 
     $scope.ExpandCombo = function ($event) {
-
+        if ($scope.Value == undefined) {
+            $scope.Value = '';
+        }
         var input = event.target;
         $scope.selectionStart = input.selectionStart;
         $scope.Value = $scope.Value.replaceAll(',', ';');
@@ -105,11 +109,16 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
         if (self.querySearch(search, emailsList)) {
             $("#ListEmails" + $scope.attribute)[0].style.display = "flex";
             $("#hidePanel")[0].style.display = "block";
-            $("#hidePanelZip")[0].style.display = "block";
+            if ($("#hidePanelZip")[0] != undefined) {
+                $("#hidePanelZip")[0].style.display = "block";
+            }
         } else {
             $("#ListEmails" + $scope.attribute)[0].style.display = "none";
             $("#hidePanel")[0].style.display = "none";
-            $("#hidePanelZip")[0].style.display = "none";
+
+            if ($("#hidePanelZip")[0] != undefined) {
+                $("#hidePanelZip")[0].style.display = "none";
+            }
         }
     }
 
@@ -145,13 +154,17 @@ app.controller('AutoCompleteController', function ($scope, $filter, $http, AutoC
 
         $("#ListEmails" + $scope.attribute)[0].style.display = "none";
         $("#hidePanel")[0].style.display = "none";
-        $("#hidePanelZip")[0].style.display = "none";
+        if ($("#hidePanelZip")[0] != undefined) {
+            $("#hidePanelZip")[0].style.display = "none";
+        }
     }
 
     function onblur() {
         $("#ListEmails" + $scope.attribute)[0].style.display = "none";
         $("#hidePanel")[0].style.display = "none";
-        $("#hidePanelZip")[0].style.display = "none";
+        if ($("#hidePanelZip")[0] != undefined) {
+            $("#hidePanelZip")[0].style.display = "none";
+        }
     }
 
     $scope.$on('EmailsObtained', function (event, args) {

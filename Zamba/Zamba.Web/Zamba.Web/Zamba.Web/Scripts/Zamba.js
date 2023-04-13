@@ -8193,7 +8193,7 @@ function showMailSwal(ID) {
             ResponseHTML += "<tr><td colspan='2'><b> CC: </b>" + msgMail.Cc + "</td></tr>";
         if (msgMail.Cco != "")
             ResponseHTML += "<tr><td colspan='2'><b> CCo: </b>" + msgMail.Cco + "</td></tr>";
-
+        ResponseHTML += "<td><b> Adjuntos: </b>" + msgMail.Attachs + "</td></tr>";
         ResponseHTML += "</table><hr/>";
         ResponseHTML += msgMail.Body;
         ResponseHTML += "</div>";

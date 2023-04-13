@@ -146,6 +146,14 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //ver el borrado y validacion de si ya esta firmado.
                 //TargetFile.Delete();
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Firma de Documento OK: " + TargetFile.FullName);
+                try
+                {
+                    TargetFile.Delete();
+                    File.Delete(BKSource);
+                }
+                catch (Exception)
+                {
+                }
             }
             else
             {

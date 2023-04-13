@@ -148,7 +148,7 @@
         var nameFilters = $scope.removeAngularHasKey($scope.zambaFiltersForDefaultColumns.nameFilters);
         var stateFilters = $scope.removeAngularHasKey($scope.zambaFiltersForDefaultColumns.stateFilters);
 
-        var selectedOptionsForEventParams = { lupdateFilters: lupdateFilters, crdateFilters: crdateFilters, originalFilenameFilters: originalFilenameFilters, nameFilters: nameFilters, stateFilters: stateFilters, executeSearch: executeSearch };
+        var selectedOptionsForEventParams = { lupdateFilters: lupdateFilters, crdateFilters: crdateFilters, originalFilenameFilters: originalFilenameFilters, nameFilters: nameFilters, stateFilters: stateFilters, executeSearch: executeSearch};
         //uso $rootScope porque el handler se encuentra en un controller al mismo nivel que el ZambaFiltersController
         $rootScope.$broadcast('zambaFilterOnChangeEvent', selectedOptionsForEventParams);
 

@@ -530,7 +530,8 @@ function onDataBound(arg) {
             console.error(e);
         }
         try {
-            if (dataItems[i].Tipo_de_pagos != undefined && dataItems[i].Tipo_de_pagos != null && dataItems[i].Tipo_de_pagos.indexOf('CENTROS DE ATENCION') != -1 && IfUserInGroups(71, 11542205, 12598, 11542206, 1526096, 12872, 1020364, 1020363, 12871)) {
+            let userGroupForPending = "71,11542205,12598,11542206,1526096,12872,1020364,1020363,12871";
+            if (dataItems[i].Tipo_de_pagos != undefined && dataItems[i].Tipo_de_pagos != null && dataItems[i].Tipo_de_pagos.indexOf('CENTROS DE ATENCION') != -1 && IfUserInGroups(userGroupForPending)) {
                 row.addClass("RowPending");
             }
         } catch (e) {
@@ -871,7 +872,7 @@ function onClick(e) {
     }
 
     var multipleSelectActive = SelectionMultipleIsActive();
-    var row_Selected = $(e.target).closest("tr").hasClass("k-state-selected"); DocTypesIdschecked.push(row_DOC_TYPE_ID);
+    var row_Selected = $(e.target).closest("tr").hasClass("k-state-selected");
 
     var row_DOC_ID = grid._data[rowIndex].DOC_ID;
     var row_DOC_TYPE_ID = grid._data[rowIndex].DOC_TYPE_ID;
@@ -881,6 +882,7 @@ function onClick(e) {
         $(e.currentTarget).addClass("k-state-selected");
         $(e.currentTarget).find('[type=checkbox]').prop('checked', true);
 
+        $(e.currentTarget).addClass("k-state-selected");
 
         checkedIds.push(rowIndex);
         DocIdschecked.push(row_DOC_ID);
@@ -942,7 +944,8 @@ function onClick(e) {
         angular.element($("#taskController")).scope().$apply();
         showBtns_ForResultsGrid();
     }
-
+    angular.element($("#ResultsCtrl")).scope().ShowButtonRemove(DocTypesIdschecked);
+    angular.element($("#taskController")).scope().$apply();
 };
 
 function Val_EventDblClick(e) {
@@ -962,7 +965,7 @@ function OpenTaskFromKendoGrid(ScopeResultsCtrl, e) {
     var ScopeResultsCtrl = angular.element($("#ResultsCtrl")).scope();
     if (document.getElementById("chkThumbGrid").checked == false) {
         if (ScopeResultsCtrl.PreviewMode == "noPreview") {
-            ScopeResultsCtrl.Opentask(rowIndex);
+            ScopeResultsCtrl.Opentask(rowIndex,true);
         } else {
             ScopeResultsCtrl.OpenTaskInPreview(rowIndex);
         }

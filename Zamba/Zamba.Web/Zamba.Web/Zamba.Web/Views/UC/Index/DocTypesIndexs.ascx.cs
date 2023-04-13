@@ -19,7 +19,7 @@ namespace Controls.Indexs
     public partial class DocTypesIndexs : UserControl
     {
         #region "Atributos y propiedades"
-        const Int16 INDEX_CTRL_LENGTH = 6;
+        const Int16 INDEX_CTRL_LENGTH = 7;
         const Int16 CTR_INDEX_TB_WIDTH = 164;
         const Int16 CTR_INDEX_ILST_WIDTH = 164;
         const Int16 CTR_INDEX_DATE_WIDTH = 164;

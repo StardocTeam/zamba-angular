@@ -146,7 +146,8 @@
     .titleColor {
         background-color: var(--ZBlue);
         border-radius: 4px 4px 0px 0px;
-        height: 30px;
+        height: 38px;
+        padding-top: 4px;
     }
 
     .mailColor {
@@ -250,6 +251,13 @@
                     }
                     /* control AutoComplete */
 
+    .mtSendEmail {
+        margin-top: 6px;
+    }
+
+    .mb-padding{
+        padding-top: 8px;
+    }
 </style>
 
 
@@ -396,9 +404,9 @@
                 <label class="mailColor">Enviar Mail</label>
             </div>
             <form name="formMail" >
-                <div class="modal-body" id="EmailController" ng-controller="EmailController" >
+                <div class="modal-body mb-padding" id="EmailController" ng-controller="EmailController" >
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
-                        <label class="col-sm-1 control-label">Para</label>
+                        <label class="col-sm-1 control-label mtSendEmail">Para</label>
                         <div class="col-sm-11">
 
                             <zamba-auto-complete attribute="Para" name="formMailDestinatario" id="formMailDestinatario"></zamba-auto-complete>
@@ -408,7 +416,7 @@
                     </div>
 
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
-                        <label class="col-sm-1 control-label">CC</label>
+                        <label class="col-sm-1 control-label mtSendEmail">CC</label>
                         <div class="col-sm-11">
 
                             <zamba-auto-complete attribute="Cc" name="formMailCc" id="formMailCc"></zamba-auto-complete>
@@ -418,7 +426,7 @@
                     </div>
 
                     <div class="form-group modalControl row" ng-controller="AutoCompleteController">
-                        <label class="col-sm-1 control-label">CCO</label>
+                        <label class="col-sm-1 control-label mtSendEmail">CCO</label>
                         <div class="col-sm-11">
 
                             <zamba-auto-complete attribute="Cco" name="formMailCco" id="formMailCco"></zamba-auto-complete>
@@ -428,20 +436,20 @@
                     </div>
 
                     <div class="form-group modalControl row">
-                        <label class="col-sm-1 control-label">Asunto</label>
+                        <label class="col-sm-1 control-label mtSendEmail">Asunto</label>
                         <div class="col-sm-11">
-                            <input class="form-control EmailInput" name="subject" placeholder="Asunto">
+                            <input class="form-control EmailInput" name="subject" placeholder="Asunto" autocomplete="off" style="height: 75%; margin: -4px 0 4px 0">
                         </div>
                     </div>
 
                     <div id="hidePanel" style="height: 245px; width: 768px; position: absolute; display:none" onclick="hideEmailList(event)"></div>
                     <div class="form-group">
-                        <textarea name="messageBody" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" id="editor" rows="10" cols="80"></textarea>
+                        <textarea  id="messageBody" name="messageBody" value="" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" rows="10" cols="80"></textarea>
                     </div>
 
                     <div class="form-group row addLinkMarginBottom">
                         <div class="col-sm-9">
-                            <input type="checkbox" name="addListLinks"><label id="LabelAddListLinks">Agregar link a documento </label>
+                            <input type="checkbox" name="addListLinks" style="margin-right: 6px;"><label id="LabelAddListLinks">Agregar link a documento </label>
                         </div>
 
                         <div class="col-sm-3" align="right">
@@ -458,6 +466,13 @@
                     </div>
 
                 </div>
+
+
+                <%--<div class="modal-footer" style="padding: 7px">--%>
+                <%--                    <span class="loadersmall" style="display: none"></span>
+                    <input id="btnMailZipSubmit" class="btn btn btn-default" type="button" onclick="SendEmail()" value="Enviar" style="background-color: rgb(66, 189, 62); color: white;">
+                    <button id="btnMailZipMailClose" type="button" class="btn btn-default cancelMailZipButton" onclick="removeAttrFromFor();" data-dismiss="modal" style="background-color: var(--ZBlue); color: white">Cerrar</button>--%>
+                <%--</div>--%>
             </form>
         </div>
     </div>
@@ -542,7 +557,8 @@
     }
 
     $(document).ready(function () {
-        CKEDITOR.replace('editor');
+        CKEDITOR.replace('messageBody');
+
         jQuery.browser = {};
         (function () {
             jQuery.browser.msie = false;
@@ -698,6 +714,7 @@
     }
 
     function ShowAsociated() {
+        debugger;
         $("#page-content-wrapper").hide();
         Collapse(false);
         $("#tabContent").hide();
@@ -711,33 +728,28 @@
                 $(firstGrid.children[1].firstChild).attr('class', 'k-state-selected');
                 clearInterval(refreshGridElement);
                 //se utiliza para agregar media-query por JS
-                var mql = window.matchMedia("screen and (min-width: 1300px)");
+                var mql = window.matchMedia("screen and (min-width: 1600px)");
                 MediaQueryAsoc(mql);
                 mql.addListener(MediaQueryAsoc);
 
                 var mql2 = window.matchMedia("screen and (min-width: 1800px)");
                 MediaQueryAsoc2(mql2);
                 mql2.addListener(MediaQueryAsoc2);
-
-
-
-
             }
 
-        }, 2000);
-
+        }, 1000);
         $("#buttonPreview")[0].click();
-
     }
 
     function MediaQueryAsoc(mql) {
         $("#previewDocIframe").addClass('IFrameAsocHeight');
+        $("#zamba_grid_index_all").addClass('IFrameAsocHeight');
     }
 
     function MediaQueryAsoc2(mql2) {
         $("#previewDocIframe").addClass('IFrameAsocHeight2');
+        $("#zamba_grid_index_all").addClass('IFrameAsocHeight2');
     }
-
 
     function GrillaEstilos() {
         timerAplicarGrillaEstilos = window.setInterval(function () {
@@ -838,6 +850,17 @@
         $('#ModalMail').find("input[name = 'for']").removeAttr('required');
     }
 
+    function removeEmailsFromModal() {
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
+
+        formMailTo.Value = "";
+        formMailCc.Value = "";
+        formMailCco.Value = "";
+    }
+
+
     var LocalNextRuleIds;
     var LocalMailPathVariable;
     function Email_Click(Subject, Body, To, AttachLink, SendDocument, NextRuleIds, MailPathVariable, CC, CCO) {
@@ -849,10 +872,23 @@
         mailContainer.modal();
         mailContainer.find("input[name = 'for']").attr("required", "true");
 
-        mailContainer.find('input[name="for"]').val(To);
-        mailContainer.find('input[name="cc"]').val(CC);
-        mailContainer.find('input[name="cco"]').val(CCO);
+        //mailContainer.find('input[name="for"]').val(To);
+        //mailContainer.find('input[name="cc"]').val(CC);
+        //mailContainer.find('input[name="cco"]').val(CCO);
         mailContainer.find('input[name="subject"]').val(Subject);
+
+        var formMailTo = angular.element($("#formMailDestinatario")).scope();
+        var formMailCc = angular.element($("#formMailCc")).scope();
+        var formMailCco = angular.element($("#formMailCco")).scope();
+
+        formMailTo.Value = To;
+        formMailCc.Value = CC;
+        formMailCco.Value = CCO;
+
+
+        if (document.getElementById("cke_1_contents") != undefined && document.getElementById("cke_1_contents") != null) {
+            document.getElementById("cke_1_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = Body != undefined ? Body : "";
+        }
 
 
         var Link = AttachLink != undefined ? (AttachLink.toLowerCase() === 'true') : false;
@@ -882,22 +918,34 @@
 
     var ValMessage;
     function SendEmail() {
-        var docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
-        var doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
+        
+        var emaildata = {};
+        let doctypeId, docId;
+        if (sessionStorage.getItem('ResultNewTask-' + GetUID()) !== undefined && sessionStorage.getItem('ResultNewTask-' + GetUID()) != null) {
+            let getNewResultsItem = JSON.parse(sessionStorage.getItem('ResultNewTask-' + GetUID()));
+            docId = getNewResultsItem[0].Docid;
+            doctypeId = getNewResultsItem[0].DocTypeid;
+            emaildata.isDomail = true;
+        } else {
+            docId = document.getElementById('<%=hdnDocId.ClientID %>').value;
+            doctypeId = document.getElementById('<%=hdnDocTypeId.ClientID %>').value;
+        }
+
+
         var mailContainer = $("#ModalMail");
+        var MailValidation = true;
 
         var MailValidation = true;
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-        ValMessage = "";
 
         var formMailTo = angular.element($("#formMailDestinatario")).scope();
         var formMailCc = angular.element($("#formMailCc")).scope();
         var formMailCco = angular.element($("#formMailCco")).scope();
 
-        var MailTo = formMailTo.Value.replaceAll(';', ',');
-        var MailCc = formMailCc.Value.replaceAll(';', ',');
-        var MailCco = formMailCco.Value.replaceAll(';', ',');
+        var MailTo = formMailTo.Value != undefined ? formMailTo.Value.replaceAll(';', ',') : "";
+        var MailCc = formMailCc.Value != undefined ? formMailCc.Value.replaceAll(';', ',') : "";
+        var MailCco = formMailCco.Value != undefined ? formMailCco.Value.replaceAll(';', ',') : "";
 
         MailValidation = ValEmails(MailTo, reg, MailValidation, formMailTo.attribute);
         MailValidation = ValEmails(MailCc, reg, MailValidation, formMailCc.attribute);
@@ -917,7 +965,7 @@
             if (!docId)
                 docId = document.getElementById("ctl00_ContentPlaceHolder_TabContainer_TabDocumento_ucDocViewer_hdnDocId").value;
 
-            var IdInfo = [];
+            var IdInfo = {};
             IdInfo.DocId = parseInt(docId);
             IdInfo.DocTypeid = parseInt(doctypeId);
 
@@ -925,7 +973,6 @@
             attachsIds.push(IdInfo);
 
             var addLinks = mailContainer.find('input[name="addListLinks"]').prop("checked");
-            var emaildata = {};
 
             emaildata.MailTo = MailTo;
             emaildata.CC = MailCc;
@@ -1025,6 +1072,7 @@
             $("#btnMailZipMailClose").show();
             $(".EmailInput").val("");
             removeAttrFromFor();
+            removeEmailsFromModal();
 
             $("#ModalMail").modal('toggle');
         }

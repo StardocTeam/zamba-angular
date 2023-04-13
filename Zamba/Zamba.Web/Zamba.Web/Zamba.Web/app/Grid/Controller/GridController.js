@@ -857,6 +857,9 @@
     }
 
     function onChange(arg) {
+        $scope.associatedResults;
+
+        $scope.associatedResults
         var selected = $.map(this.select(), function (item) {
             //$scope.checkedIds = [];
             for (i = 0; i < arg.sender._data.length - 1; i++) {
@@ -864,6 +867,18 @@
             }
 
             $scope.GetTaskDocument($scope.checkedIds);
+
+            var IdInfo = {};
+
+            for (var i = 0; i < arg.sender.tbody[0].children.length; i++) {
+                if (arg.sender.tbody[0].children[i].classList.contains("k-state-selected")) {
+                    IdInfo.Docid = parseInt($scope.associatedResults[i].DOC_ID);
+                    IdInfo.DocTypeid = parseInt($scope.associatedResults[i].DOC_TYPE_ID);
+                    $scope.attachsIds.push(IdInfo);
+
+                }
+            }
+          
             return item.className;
 
         });
@@ -1325,10 +1340,16 @@
     }
 
     $scope.executeCurrentRule = function (ruleName) {
+        var resultIds = [];
+        var resultIds = [];
         if ($scope.checkedIds != null && $scope.checkedIds.length > 0) {
             var ruleIds = getRuleIdFromdictionaryByName(ruleName);
-            var resultIds = getSelectedDocids().toString();
-            ruleExecutionService.executeRule(ruleIds, resultIds);
+            var resultIds = JSON.stringify($scope.attachsIds); if ($scope.Zvars != undefined && $scope.Zvar == null) {
+                var resultRule = ruleExecutionService.executeRuleWithZvars(ruleIds, resultIds, $scope.Zvars); $scope.EvaluateRuleExecutionResult(JSON.parse(resultRule))
+            } else {
+                ruleExecutionService.executeRule(ruleIds, resultIds);
+            }
+           
         } else {
             swal("No se a podido ejecutar la regla", "Seleccione al menos una tarea.", "warning");
         }
@@ -1735,7 +1756,10 @@ app.directive('zambaAssociated', function ($sce) {
         //replace: true,
         transclude: true,
         link: function ($scope, element, attributes) {
+
+            // esta zvar no se usa para nada, esta en reload de la pagina analizar de quitar
             $scope.zvar = attributes.zvar;
+
             if (attributes.onlyimportants != undefined && attributes.onlyimportants != null && attributes.onlyimportants != '' && attributes.onlyimportants == 'true')
                 $scope.onlyimportants = true;
 
@@ -1758,6 +1782,11 @@ app.directive('zambaAssociated', function ($sce) {
             $scope.partentEntityId = GetDocTypeId();
             if ($scope.partentEntityId == null) {
                 $scope.parentTaskId = GetTASKID();
+            }
+
+            $scope.Zvars = null;
+            if (attributes.zVars != null) {
+                $scope.Zvars = attributes.zVars;
             }
             $scope.parentResultId = GetDOCID();
             $scope.ruleIds = attributes.ruleIds;

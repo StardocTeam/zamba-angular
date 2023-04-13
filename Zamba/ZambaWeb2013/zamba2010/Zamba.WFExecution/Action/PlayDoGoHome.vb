@@ -7,6 +7,7 @@
     End Sub
 
     Public Function Play(ByVal results As List(Of ITaskResult)) As List(Of ITaskResult)
+        'Ir al Home de la web
         Return PlayWeb(results, Nothing)
     End Function
 

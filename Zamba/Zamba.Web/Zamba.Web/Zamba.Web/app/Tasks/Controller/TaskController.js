@@ -38,7 +38,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
     $scope.Execute_ActionGrid = function (ruleId, resultIds, formVars) {
         ZambaTaskService.executeAction_onItems(ruleId, resultIds)
             .then(function (response) {
-                
+
                 ret_Response = JSON.parse(response.data).Vars;
                 $scope.EvaluateRuleExecutionResult(ret_Response);
 
@@ -58,16 +58,29 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
             });
     };
 
+
+    $scope.Execute_ZambaRuleAsync = function (ruleId, itemResults, formVars) {
+        debugger;
+        return ZambaTaskService.executeRuleForTask(ruleId, itemResults, formVars)
+            .then(function (response) {
+                debugger;
+
+                var ret_Response = JSON.parse(response.data).Vars;
+                $scope.EvaluateRuleExecutionResult(ret_Response);
+                return ret_Response;
+            });
+    };
+
     ///Ejecuta una regla con parametros adicionales  y devuelve un JSON
     $scope.Execute_zRule = function (ruleId, resultIds, formVars) {
         return ZambaTaskService.executeTaskRule(ruleId, resultIds, formVars);
-            
+
     };
 
     //Ejecucion de Regla con nuevo Action para completado de atributos.
     $scope.zRule = function (ruleId, inputVars, outputVars) {
 
-       
+
         let ResultValues = [];
         //assignInputVarsFromAttributes
         try {
@@ -102,11 +115,11 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
 
                 if (ret_Response.accion != undefined) {
                     switch (traslateAction(ret_Response.accion)) {
-                       
+
                         case "executescript":
                             eval(ret_Response.scripttoexecute.replace('window.close();', ''));
                             break;
-                       
+
                         default:
                             console.log("$scope.EvaluateRuleExecutionResult: No reconocio la accion a ejecutar, error ortografico en la variable o falta agregar un 'case' en codigo?");
                             break;
@@ -130,13 +143,13 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                 console.log("$scope.EvaluateRuleExecutionResult: No existe variable 'msg' para mostrar.");
 
                 if (executionResult.error != undefined && executionResult.error != "") {
-                    swal('',executionResult.error,'error');
+                    swal('', executionResult.error, 'error');
                 }
                 else {
                     console.log("$scope.EvaluateRuleExecutionResult: No existe variable 'error' para mostrar.");
                 }
             }
-            
+
 
             if (executionResult.accion != undefined) {
                 switch (traslateAction(executionResult.accion)) {
@@ -150,7 +163,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                         $scope.Execute_ZambaRule(executionResult.ruleid, getElementFromQueryString("docid"));
                         break;
                     case "executescript":
-                        eval(executionResult.scripttoexecute.replace('window.close();',''));
+                        eval(executionResult.scripttoexecute.replace('window.close();', ''));
                         break;
                     case "doask":
                         $scope.doAsk(executionResult);
@@ -167,6 +180,32 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                     case "doshowtable":
 
                         break;
+                    case "domail":
+                        Console.log("execute DoMail")
+                        break
+                    default:
+                        console.log("$scope.EvaluateRuleExecutionResult: No reconocio la accion a ejecutar, error ortografico en la variable o falta agregar un 'case' en codigo?");
+                        break;
+                }
+            } else if (executionResult.Vars.accion != undefined) {
+                switch (traslateAction(executionResult.Vars.accion)) {
+
+                    case "domail":
+
+                        if (executionResult.Vars != undefined) {
+
+                            let IdInfo = {};
+                            let attachsIds = [];
+
+                            IdInfo.Docid = executionResult.Vars["generateddocid"]
+                            IdInfo.DocTypeid = executionResult.Vars["nuevatarea.entityid"];
+                            attachsIds.push(IdInfo);
+                            sessionStorage.setItem("ResultNewTask-" + GetUID(), JSON.stringify(attachsIds)); Email_Click(executionResult.Params.Subject, executionResult.Params.Body, executionResult.Params.To, executionResult.Params.AttachLink, executionResult.Params.SendDocument, executionResult.Params.NextRuleIds, executionResult.Params.MailPathVariable, executionResult.Params.CC, executionResult.Params.CCO);
+                        } else {
+                            swal("Error al ejecutar la DoMail")
+                        }
+
+                        break
                     default:
                         console.log("$scope.EvaluateRuleExecutionResult: No reconocio la accion a ejecutar, error ortografico en la variable o falta agregar un 'case' en codigo?");
                         break;
@@ -389,7 +428,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
     $scope.MarkAsFavorite = function () {
         $scope.taskResult._IsFavorite = !$scope.taskResult._IsFavorite;
         ZambaTaskService.MarkAsFavorite(GetTASKID(), GetUID(), $scope.taskResult._IsFavorite);
-        
+
     };
 
     //Obtiene las ruleActions relacionados al usuario.
@@ -400,9 +439,9 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
         }
 
         if ($("#chkThumbGrid")[0].checked)
-            document.getElementById("panel_ruleActions").hidden = true;        
-        else 
-            document.getElementById("panel_ruleActions").hidden = false;        
+            document.getElementById("panel_ruleActions").hidden = true;
+        else
+            document.getElementById("panel_ruleActions").hidden = false;
 
         return $scope.rules;
     }
@@ -412,8 +451,8 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
         $scope.actionRules = JSON.parse(ZambaTaskService.LoadUserAction_ForMyTaskGrid(STEP_ID, DOC_ID));
 
         if ($("#chkThumbGrid")[0].checked)
-            document.getElementById("panel_ruleActions").hidden = true;        
-        else 
+            document.getElementById("panel_ruleActions").hidden = true;
+        else
             document.getElementById("panel_ruleActions").hidden = false;
     }
 

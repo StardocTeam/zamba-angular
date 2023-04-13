@@ -51,4 +51,25 @@ function FormLoad() {
 
 $(document).ready(function () {
     setTimeout(function () { FormLoad(); }, 200);
+    if (($('#zamba_index_39').val() == '')) {
+        $('#zamba_index_39').parent().css('display', 'none');
+    }
+    if (($('#zamba_index_19').val() == '')) {
+        $('#zamba_index_19').parent().css('display', 'none');
+    }
+    if (($('#zamba_index_129').val() == '')) {
+        $('#zamba_index_129').parent().css('display', 'none');
+    }
+    if (($('#zamba_index_132').val() == '')) {
+        $('#zamba_index_132').parent().css('display', 'none');
+    }
+    if (($('#zamba_index_16').val() == '')) {
+        $('#zamba_index_16').parent().css('display', 'none');
+    }
+    if (($('#zamba_index_131').val() == '')) {
+        $('#zamba_index_131').parent().css('display', 'none');
+    }
+    if (($('#zamba_index_130').val() == '')) {
+        $('#zamba_index_130').parent().parent().parent().css('display', 'none');
+    }
 });

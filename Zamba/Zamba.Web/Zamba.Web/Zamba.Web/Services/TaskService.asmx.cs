@@ -88,8 +88,8 @@ namespace ScriptWebServices
             string taskCount = new WFTaskBusiness().GetTaskCount(stepId, true, usrId).ToString();
             return taskCount + "|" + nodeId;
         }
-        
-        
+
+
         //[WebMethod(true)]
         //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         //public List<string> GetTaskCountArray(long usrId, string[] nodeIdArray, long[] stepIdArray)
@@ -117,7 +117,7 @@ namespace ScriptWebServices
             return (new SFeeds()).GetFeeds(userId);
         }
 
-      
+
 
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace ScriptWebServices
         public long GetUserIdByName(string userName)
         {
             UserBusiness UserBusiness = new UserBusiness();
-            IUser user = UserBusiness.GetUserByname(userName, true);           
+            IUser user = UserBusiness.GetUserByname(userName, true);
             long id = user.ID;
             return id;
         }
@@ -315,7 +315,7 @@ namespace ScriptWebServices
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw;
+                throw new Exception("No se pudo validar el requerimiento");
             }
         }
 
@@ -438,7 +438,7 @@ namespace ScriptWebServices
             IFiltersComponent ss = new FiltersComponent();
             WFStepBusiness WFSB = new WFStepBusiness();
             DataTable DocTypes = WFSB.GetDocTypesByWfStepAsDT(usedfilters.StepId, usedfilters.currentUserid);
-            
+
             if (DocTypes.Rows.Count == 0) return null;
             var UsedFilter = ss.GetLastUsedFilters(Convert.ToInt64(DocTypes.Rows[0][0]), usedfilters.currentUserid, true);
 
@@ -534,7 +534,7 @@ namespace ScriptWebServices
             FiltersComponent FC = new FiltersComponent();
             WFStepBusiness WFSB = new WFStepBusiness();
             DataTable DocTypes = WFSB.GetDocTypesByWfStepAsDT(deleteFilter.StepId, deleteFilter.CurrentUserId);
-            
+
 
             var UsedFilter = FC.GetLastUsedFilters(Convert.ToInt64(DocTypes.Rows[0][0]), deleteFilter.CurrentUserId, true);
 

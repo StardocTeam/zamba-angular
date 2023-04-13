@@ -136,10 +136,17 @@ public partial class WCSendMail : System.Web.UI.UserControl
 
         try
         {
-          
-
-            // esta configurada la opcion de smtp global en Zamba?
-            if (ZOptB.GetValue("WebView_SendBySMTP") != null && ZOptB.GetValue("WebView_SendBySMTP") == "true")
+            var smtpConfig = new EmailBusiness().GetSMPTConfig();
+            if (smtpConfig != null)
+            {
+                user = smtpConfig.User;
+                pass = smtpConfig.Pass;
+                from = smtpConfig.From;
+                port = smtpConfig.Port;
+                smtp = smtpConfig.MailServer;
+                enableSsl = smtpConfig.EnableSSL;
+            }
+            else if (ZOptB.GetValue("WebView_SendBySMTP") != null && ZOptB.GetValue("WebView_SendBySMTP") == "true")
             {
                 user = ZOptB.GetValue("WebView_UserSMTP");
                 pass = ZOptB.GetValue("WebView_PassSMTP");

@@ -947,7 +947,7 @@ Public Class WFFactory
     ''' <remarks></remarks>
     Public Function SetRulesPreferences(ByVal ruleid As Int64, ByVal RuleSectionid As Int32, ByVal Objid As Int32, ByVal Objvalue As Int32, Optional ByVal ObjOperator As String = "")
         Dim query As New StringBuilder
-        query.Append("SELECT count(1) FROM ZRuleOpt WHERE Ruleid = " & ruleid)
+        query.Append("SELECT count(1) FROM ZRuleOptbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE Ruleid = " & ruleid)
         query.Append(" and SectionId = " & RuleSectionid)
         query.Append(" and ObjectId = " & Objid)
 
@@ -1059,7 +1059,7 @@ Public Class WFFactory
     Public Function SetRulesPreferencesSinObjectId(ByVal ruleid As Int64, ByVal RuleSectionid As Int32, ByVal Objid As Int32, ByVal Objvalue As Int32, Optional ByVal ObjOperator As String = "")
 
         Dim query As New System.Text.StringBuilder
-        query.Append("SELECT count(1) FROM ZRuleOpt WHERE Ruleid = " & ruleid)
+        query.Append("SELECT count(1) FROM ZRuleOptbase " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE Ruleid = " & ruleid)
         query.Append(" and SectionId = " & RuleSectionid)
 
         If (Server.Con.ExecuteScalar(CommandType.Text, query.ToString) = 0) Then
@@ -1218,7 +1218,7 @@ Public Class WFFactory
     ''' [Gaston]	27/05/2008	Created
     ''' </history>
     Public Sub setRulesPreferencesForStatesUsersOrGroups(ByVal ruleId As Int64, ByVal ruleSectionId As RuleSectionOptions, ByVal objId As RulePreferences, ByRef idCollectionDisabled As Generic.List(Of Integer))
-        setRulesPreferences(ruleId, ruleSectionId, objId, -1, idCollectionDisabled)
+        SetRulesPreferences(ruleId, ruleSectionId, objId, -1, idCollectionDisabled)
     End Sub
 
     ''' <summary>
@@ -1234,7 +1234,7 @@ Public Class WFFactory
     ''' [Gaston]	27/05/2008	Created
     ''' </history>
     Public Sub setRulesPreferencesFor_StatesAndUsers_Or_StatesAndGroups(ByVal ruleId As Int64, ByVal ruleSectionId As RuleSectionOptions, ByVal objId As RulePreferences, ByVal stateId As Integer, ByRef idCollectionDisabled As Generic.List(Of Integer))
-        setRulesPreferences(ruleId, ruleSectionId, objId, stateId, idCollectionDisabled)
+        SetRulesPreferences(ruleId, ruleSectionId, objId, stateId, idCollectionDisabled)
     End Sub
 
     ''' <summary>

@@ -45,6 +45,7 @@ public class EntityDto
     public bool enabled { get; set; } = true;
 
     public long ResultsCount { get; set; }
+    public Boolean UserCanRemove { get; set; }
     
 }
 

@@ -84,7 +84,7 @@
 
     <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
     <%: Scripts.Render("~/bundles/jqueryAddIns") %>
-    <script src="../../Scripts/Zamba.js?v=261"></script>
+    <script src="../../Scripts/Zamba.js?v=258"></script>
     <script src="../../Scripts/FormBrowser/Zamba.FormBrowser.js?v=261"></script>
     <script src="../../Scripts/Zamba.associated.js?v=261"></script>
     <%--<script src="../../Scripts/Push Notification/OneSignalSDK.js"></script>--%>

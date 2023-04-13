@@ -67,3 +67,38 @@ md-autocomplete-wrap {
         line-height: 30px !important;
         height: 30px !important;
     }
+
+.estiloform {
+    margin: -4px 0 4px 0;
+    background-color: white !important;
+    height: 75%
+}
+
+
+.ListEmails {
+
+    width: 96%;
+    min-height: 70px;
+    max-height: 200px;
+    overflow-y: scroll;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 3px;
+    position: absolute;
+    z-index: 10;
+    display: none;
+}
+
+.ItemListed {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-left: 10px;
+    border-bottom-width: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+    .ItemListed:hover {
+        background-color: var(--ZBlue);
+    }

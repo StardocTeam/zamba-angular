@@ -14,8 +14,10 @@ using System.Web.Http.Cors;
 using Zamba;
 using Zamba.Core;
 using Zamba.Core.WF.WF;
+using Zamba.Data;
 using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Class;
+using static System.Net.Mime.MediaTypeNames;
 using static ZambaWeb.RestApi.Controllers.Class.EmailData;
 
 namespace ZambaWeb.RestApi.Controllers.Web
@@ -74,7 +76,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         if (String.IsNullOrEmpty(messageBodyLinkButton))
                         {
                             //string LinkPublico = AllObjects.FuncionesComunes.get_ObtenerLinkPublicoWeb(task.Name);
-                            string LinkPublico = MessagesBusiness.MakeHtmlLink(0, 0, item.DocId, item.DocTypeid,task.Name);
+                            string LinkPublico = MessagesBusiness.MakeHtmlLink(0, 0, item.DocId, item.DocTypeid, task.Name);
                             if (!body.Contains("<br>Se te ha enviado el siguiente link al documento: <br><br>"))
                             {
                                 messageBodyLinkButton = "<br>Se te ha enviado el siguiente link al documento: <br><br>" + LinkPublico;
@@ -104,34 +106,64 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[SendEmail]: emailData.SendDocument: " + emailData.SendDocument);                
 
-                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "[SendEmail]: Lista Idinfo: "+ emailData.Idinfo.Count.ToString());
-                    foreach (IdInfo item in emailData.Idinfo)
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "[SendEmail]: Lista Idinfo: " + emailData.Idinfo.Count.ToString());
+                foreach (IdInfo item in emailData.Idinfo)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item.DocId.ToString() + " - " + item.DocTypeid.ToString());
+                    mail.SourceDocId = item.DocId;
+                    mail.SourceDocTypeId = item.DocTypeid;
+
+                    if (emailData.AddLink != true)
+                        mail.AttachFileNames = GetTaskDocument_ForEmail(emailData);
+                }
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Revicion de archivos adjuntados:");
+                if (emailData.Base64StringArray != null)
+                {
+                    foreach (Dictionary<string, string> item in emailData.Base64StringArray)
                     {
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item.DocId.ToString() + " - " +item.DocTypeid.ToString());
-                        mail.SourceDocId = item.DocId;
-                        mail.SourceDocTypeId = item.DocTypeid;
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item["Base64"].ToString() + " - " + item["FileName"].ToString());
 
-                        if (emailData.AddLink != true)                        
-                            mail.AttachFileNames = GetTaskDocument_ForEmail(emailData);                        
+                        var imageBytes = Convert.FromBase64String(item["Base64"]);
+                        var stream = new MemoryStream(imageBytes);
+                        var attachment = new System.Net.Mail.Attachment(stream, item["FileName"]);
+
+                        mail.Attachments.Add(attachment);
                     }
-
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Revicion de archivos adjuntados:");
-                    if (emailData.Base64StringArray != null) {
-                        foreach (Dictionary<string, string> item in emailData.Base64StringArray)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "[SendEmail]: Iteracion: " + item["Base64"].ToString() + " - " + item["FileName"].ToString());
-
-                            var imageBytes = Convert.FromBase64String(item["Base64"]);
-                            var stream = new MemoryStream(imageBytes);
-                            var attachment = new System.Net.Mail.Attachment(stream, item["FileName"]);
-
-                            mail.Attachments.Add(attachment);
-                        }
-                    }
+                }
 
                 mail.LinkToZamba = false;
-                sMail.SendMail(mail ,emailData.MailPathVariable);
+                sMail.SendMail(mail, emailData.MailPathVariable);
                 RDO = true;
+                if (emailData.isDomail == "true" && VariablesInterReglas.ContainsKey("rutaDocumento"))
+                {
+                    string exportPath = string.Empty;
+                    for (int i = 0; i < emailData.Idinfo.Count; i++)
+                    {
+                        Results_Business rb = new Results_Business();
+                        SZOptBusiness ZO = new SZOptBusiness();
+
+                        exportPath = Email_Factory.CreateExportFolder(Convert.ToInt32(emailData.Idinfo[i].DocId));
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Ruta exportacion: " + exportPath);
+
+                        string MailTo = emailData.MailTo.ToString();
+                        string cc = emailData.CC.ToString();
+                        long DocID = emailData.Idinfo[i].DocId;
+
+                        var from = ZO.GetValue("WebView_FromSMTP");
+                        string MailPathVariable = "MailPathVariable";
+                        Email_Factory.SaveMsgFromDomail(ref MailTo, ref cc, emailData.Subject, emailData.MessageBody, ref DocID, MailPathVariable, from, ref exportPath);
+
+
+                        var GetMailPathVariable = VariablesInterReglas.get_Item(MailPathVariable);
+
+
+                        var result =  rb.GetResult(Convert.ToInt64(emailData.Idinfo[i].DocId), emailData.Idinfo[i].DocTypeid, true);
+                        rb.ReplaceDocument(ref result, GetMailPathVariable.ToString(), false, null);
+                    }
+                }
+                  
+
             }
             catch (Exception ex)
             {
@@ -254,23 +286,27 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
                 }
                 mail.LinkToZamba = false;
-                Int64 DocIdSaveHistory = mail.SourceDocId; 
+                Int64 DocIdSaveHistory = mail.SourceDocId;
                 sMail.SendMail(mail, emailData.MailPathVariable);
                 RDO = true;
-
+                List<String> Attachs = new List<string>();
+                foreach(Dictionary<String,String> FileAttach in emailData.Base64StringArray)
+                {
+                    Attachs.Add(FileAttach["FileName"]);
+                }
                 if (emailData.Idinfo.Count > 1)
                 {
                     for (int i = 0; i < emailData.Idinfo.Count; i++)
                     {
                         if (DocIdSaveHistory != emailData.Idinfo[i].DocId)
                         {
-                            MessagesBusiness.SaveHistory(emailData.MailTo, emailData.CC, emailData.CCO, emailData.Subject, emailData.messageBody, null, emailData.Idinfo[i].DocId, emailData.Idinfo[i].DocTypeid, emailData.Userid, String.Empty, "", emailData.MailTo);
+                            MessagesBusiness.SaveHistory(emailData.MailTo, emailData.CC, emailData.CCO, emailData.Subject, emailData.messageBody, Attachs, emailData.Idinfo[i].DocId, emailData.Idinfo[i].DocTypeid, emailData.Userid, String.Empty, "", emailData.MailTo);
                         }
-                        
+
                     }
-                    
+
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -319,7 +355,17 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    if (ZOptB.GetValue("WebView_SendBySMTP") != null && ZOptB.GetValue("WebView_SendBySMTP").ToLower() == "true")
+                    var smtpConfig = new EmailBusiness().GetSMPTConfig();
+                    if (smtpConfig != null)
+                    {
+                        user = smtpConfig.User;
+                        pass = smtpConfig.Pass;
+                        from = smtpConfig.From;
+                        port = smtpConfig.Port;
+                        smtp = smtpConfig.MailServer;
+                        enableSsl = smtpConfig.EnableSSL;
+                    }
+                    else if (ZOptB.GetValue("WebView_SendBySMTP") != null && ZOptB.GetValue("WebView_SendBySMTP").ToLower() == "true")
                     {
                         user = ZOptB.GetValue("WebView_UserSMTP");
                         pass = ZOptB.GetValue("WebView_PassSMTP");
@@ -430,7 +476,17 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    if (ZOptB.GetValue("WebView_SendBySMTP") != null && ZOptB.GetValue("WebView_SendBySMTP").ToLower() == "true")
+                    var smtpConfig = new EmailBusiness().GetSMPTConfig();
+                    if (smtpConfig != null)
+                    {
+                        user = smtpConfig.User;
+                        pass = smtpConfig.Pass;
+                        from = smtpConfig.From;
+                        port = smtpConfig.Port;
+                        smtp = smtpConfig.MailServer;
+                        enableSsl = smtpConfig.EnableSSL;
+                    }
+                    else if (ZOptB.GetValue("WebView_SendBySMTP") != null && ZOptB.GetValue("WebView_SendBySMTP").ToLower() == "true")
                     {
                         user = ZOptB.GetValue("WebView_UserSMTP");
                         pass = ZOptB.GetValue("WebView_PassSMTP");
@@ -510,18 +566,19 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                                 var SenMail = sMail.SendMailbyZip(MailSetup);
                                 RDO = true;
-                                if (SenMail) {
+                                if (SenMail)
+                                {
                                     foreach (IdInfo item in zipdata.Idinfo)
                                     {
                                         MailSetup.SourceDocId = item.DocId;
                                         MailSetup.SourceDocTypeId = item.DocTypeid;
 
                                         sMail.SendMailbyZipHistory(MailSetup);
-                                        
+
                                     }
                                 }
 
-                               
+
                             }
                         }
                         catch (Exception ex)
@@ -832,6 +889,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             catch (Exception ex)
             {
+                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
                 return false;
             }
         }

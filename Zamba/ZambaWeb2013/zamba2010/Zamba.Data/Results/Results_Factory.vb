@@ -2719,30 +2719,15 @@ Public Class Results_Factory
             Dim TableNotes As String = "Doc_Notes"
             Dim StrDelete As String
 
-            Try
-                StrDelete = "DELETE FROM " & TableI & " Where (Doc_ID = " & Result.ID & ")"
+
+            StrDelete = "DELETE FROM " & TableI & " Where (Doc_ID = " & Result.ID & ")"
                 Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-            Try
-                StrDelete = "DELETE FROM " & TableT & " Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-            Try
-                StrDelete = "DELETE FROM " & TableNotes & " Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
-            Try
-                StrDelete = "DELETE FROM ZBARCODE Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
-            Catch ex As Exception
-                ZClass.raiseerror(ex)
-            End Try
+            StrDelete = "DELETE FROM " & TableT & " Where (Doc_ID = " & Result.ID & ")"
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
+            StrDelete = "DELETE FROM " & TableNotes & " Where (Doc_ID = " & Result.ID & ")"
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
+            StrDelete = "DELETE FROM ZBARCODE Where (Doc_ID = " & Result.ID & ")"
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
 
             'Andres 4/9/28 - Si es documento virtual no tiene path , no se borra
             If Result.ISVIRTUAL = False Then
@@ -2998,7 +2983,22 @@ Public Class Results_Factory
         query.Append(docid.ToString)
         Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
     End Sub
-
+    Public Shared Sub RemoveDocument(ByVal docid As Int64, ByVal DocTypeId As Int64)
+        Dim query As New StringBuilder
+        For Each PrefixTable As String In {"T", "B", "I"}
+            Dim TableName As String = "DOC_" + PrefixTable + DocTypeId.ToString
+            If Server.isSQLServer Then
+                query.AppendLine("if OBJECT_ID('" + TableName + "') is not null")
+                query.AppendLine("begin")
+                query.AppendLine("delete from " + TableName + " where doc_id=" + docid.ToString)
+                query.AppendLine("end")
+            Else
+                query.AppendLine("delete from " + TableName + " where doc_id=" + docid.ToString)
+            End If
+        Next
+        query.AppendLine("DELETE FROM WfDocument where Doc_Id = " + docid.ToString + " and doc_type_id=" + DocTypeId.ToString)
+        Server.Con.ExecuteNonQuery(CommandType.Text, query.ToString)
+    End Sub
 #End Region
 
 #Region "DOCFILE"

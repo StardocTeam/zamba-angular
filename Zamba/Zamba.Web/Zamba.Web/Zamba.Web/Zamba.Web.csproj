@@ -152,7 +152,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\ZambaWeb2013\zamba2010\Zamba2014\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\ZambaWeb2013\zamba2010\Zamba2014\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NUglify, Version=1.5.5.0, Culture=neutral, PublicKeyToken=15bc7810aec21b5e, processorArchitecture=MSIL">
       <HintPath>..\..\..\ZambaWeb2013\zamba2010\Zamba2014\packages\NUglify.1.5.5\lib\net40\NUglify.dll</HintPath>
@@ -3506,6 +3506,7 @@
     <Content Include="forms\Boston\InspeccionPreviaSolicitudv4.css" />
     <Content Include="forms\Boston\InspeccionPreviaSolicitudv4.html" />
     <Content Include="forms\Boston\InspeccionPreviaSolicitudv4.js" />
+    <Content Include="forms\Boston\Estudio - Insert.js" />
     <Content Include="forms\Boston\jquery-1.3.2.min.js" />
     <Content Include="forms\Boston\jquery-1.4.2.min.js" />
     <Content Include="forms\Boston\jquery-1.7.2.min.js" />
@@ -3524,6 +3525,7 @@
     <Content Include="forms\Boston\NotificacionDemandaReadOnly.css" />
     <Content Include="forms\Boston\NotificacionDemandaReadOnly.html" />
     <Content Include="forms\Boston\NotificacionDemandaReadOnly.js" />
+    <Content Include="forms\Boston\NotificacionDemandaReadOnlyDropZone.html" />
     <Content Include="forms\Boston\NotificacionDemandaReadOnly_FULL.html" />
     <Content Include="forms\Boston\Content\bootstrap-datetimepicker.css" />
     <Content Include="forms\Boston\Content\bootstrap-datetimepicker.min.css" />
@@ -11088,10 +11090,6 @@
     <ProjectReference Include="..\..\..\ZambaWeb2013\zamba2010\Zamba.Exceptions\Zamba.Exceptions.vbproj">
       <Project>{c6b645ee-2668-404d-b41e-28d5ac6caeb6}</Project>
       <Name>Zamba.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\ZambaWeb2013\zamba2010\Zamba.FileTools\Zamba.FileTools.csproj">
-      <Project>{93c44ba5-4699-4764-85a3-35a6c1138dfb}</Project>
-      <Name>Zamba.FileTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ZambaWeb2013\zamba2010\Zamba.Filters\Zamba.Filters.csproj">
       <Project>{37bcaa25-1780-4cff-ab59-864afaf955f0}</Project>
