@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using mshtml;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -247,7 +249,7 @@ namespace ScriptWebServices
         {
             try
             {
-                 Dictionary<string, bool> result = new Dictionary<string, bool>();
+                Dictionary<string, string> result = new Dictionary<string, string>();
                 var newresults = string.Empty;
                 Results_Business RB = new Results_Business();
                 UserBusiness ub = new UserBusiness();
@@ -255,7 +257,9 @@ namespace ScriptWebServices
                 bool IsValid = Zamba.Membership.MembershipHelper.CurrentUser != null;
                 bool IsseccionValid = RB.getValidateActiveSession(userId, token);
 
-               
+                DataTable sessionInfo = RB.getUserSessionInfoforToken(userId);
+                var validUserToken = sessionInfo.Rows[0]["token"].ToString();
+
                 // para evaluar si el curren esta muerto y el usuario de la url esta vivo hacer relogin
                 if (!IsValid && IsseccionValid && userId == userLocalStorage)
                 {
@@ -264,32 +268,46 @@ namespace ScriptWebServices
                 }
 
 
-                bool isReload = Zamba.Membership.MembershipHelper.CurrentUser == null ||Zamba.Membership.MembershipHelper.CurrentUser.ID != userId;
+                bool isReload = Zamba.Membership.MembershipHelper.CurrentUser == null || Zamba.Membership.MembershipHelper.CurrentUser.ID != userId;
                 bool RebuildUrl = Zamba.Membership.MembershipHelper.CurrentUser != null && Zamba.Membership.MembershipHelper.CurrentUser.ID != userLocalStorage;
 
                 // esta condicion es para cuando se reconstruye la url
-                if (!RebuildUrl) { 
-                
-                     RebuildUrl = IsValid && isReload && !RebuildUrl; 
+                if (validUserToken != null && validUserToken != token)
+                {
+                    RebuildUrl = true;
+                    isReload = true;
+
                 }
-                
+                else
+                {
+
+                    // esta condicion es para cuando se reconstruye la url
+                    if (!RebuildUrl)
+                    {
+
+                        RebuildUrl = IsValid && isReload && !RebuildUrl;
+                    }
+
+                }
+
 
                 //if (IsValid && !RebuildUrl)
                 //{
-                    
+
                 //    IsValid = RB.getValidateActiveSession(userId, token);
 
                 //    if (IsValid)
                 //    {
-                       
+
                 //        ub.ValidateLogIn(userId, ClientType.Web);
                 //    }
 
                 //}
 
-                result.Add("IsValid", IsValid);
-                result.Add("isReload", isReload);
-                result.Add("RebuildUrl", RebuildUrl);
+                result.Add("IsValid", IsValid.ToString());
+                result.Add("isReload", isReload.ToString());
+                result.Add("RebuildUrl", RebuildUrl.ToString());
+                result.Add("NewToken", validUserToken);
                 newresults = JsonConvert.SerializeObject(result);
 
                 return newresults;

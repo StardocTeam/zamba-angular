@@ -36,85 +36,91 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         const UserIdService = parseInt(GetUID());
         /*if (!$("#modalLogin").hasClass("in")) {*/
             if (window.localStorage.getItem('authorizationData') != null && window.localStorage.getItem('authorizationData') != "") {
-                let userToken = JSON.parse(localStorage.getItem('authorizationData'));
+                //let userToken = JSON.parse(localStorage.getItem('authorizationData'));
+                const UrlParameters = window.location.search;
+                const urlParams = new URLSearchParams(UrlParameters);
+                let token = urlParams.get('t');
+                /*let userToken = JSON.parse(localStorage.getItem('authorizationData'));*/
                 let UserIdStorage = parseInt(localStorage.getItem('UserId'));
-                let { token } = userToken;
+               /* let { token } = userToken;*/
 
-                $.ajax({
-                    type: "POST",
-                    url: "../../Services/TaskService.asmx/IsConnectionActive",
-                    data: jQuery.param({ userId: UserIdService, token: token, userLocalStorage: UserIdStorage }),
-                    async: true,
-                    success: function (response) {
-
-
-                        let { IsValid, isReload, RebuildUrl } = JSON.parse(response.children[0].textContent);
-                        console.log("trace servicio IsValid: " + IsValid);
-                        console.log("trace servicio RebuildUrl: " + RebuildUrl);
-                        let UserIdStorage = localStorage.getItem('UserId');
-
-                        if (!IsValid) {
-
-                            console.log("trace servicio boolValue es false se manda al loguin ");
-                            _showModalLoginInSearch(UserIdService, isReload);
-
-                        } else if (RebuildUrl || UserIdStorage != UserIdService) {
-
-                            _removeCurrentUser();
-
-                            var ParameterByUrlOld = location.search.replace("?", "").split("&");
-
-                            let ParameterByUrlNew = ParameterByUrlOld.map(function (element) {
-
-                                if (element.includes("t=")) {
-                                    return element = "t=" + token;
-                                } else if (element.includes("user") || element.includes("User")) {
-
-                                    if (element.includes("user"))
-                                        return element = element.split("=")[0] + "=" + UserIdStorage;
-
-                                    if (element.includes("User"))
-                                        return element = element.split("=")[0] + "=" + UserIdStorage;
-
-                                } else {
-
-                                    if (element != "")
-                                        return element;
-                                }
-                            });
+                if (token != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "../../Services/TaskService.asmx/IsConnectionActive",
+                        data: jQuery.param({ userId: UserIdService, token: token, userLocalStorage: UserIdStorage }),
+                        async: true,
+                        success: function (response) {
 
 
-                            let FinalUrlParameter = "?";
-                            let iteracion = 0;
-                            ParameterByUrlNew.forEach(function (element) {
-                                iteracion++;
-                                if (element != undefined)
-                                    if (iteracion === element.length) {
-                                        FinalUrlParameter += (element)
-                                    } else {
-                                        if (ParameterByUrlNew[iteracion + 1] != undefined);
-                                        FinalUrlParameter += (element + "&");
-                                    }
-                            });
-                            if (FinalUrlParameter != '?&') {
-                                window.location.href = location.href.split("?")[0] + FinalUrlParameter;
-                            }
-                            else {
+                            let { IsValid, isReload, RebuildUrl, NewToken } = JSON.parse(response.children[0].textContent);
+                            console.log("trace servicio IsValid: " + IsValid);
+                            console.log("trace servicio RebuildUrl: " + RebuildUrl);
+                            let UserIdStorage = localStorage.getItem('UserId');
+
+                            if (IsValid == "false") {
+
                                 console.log("trace servicio boolValue es false se manda al loguin ");
                                 _showModalLoginInSearch(UserIdService, isReload);
+
+                            } else if (RebuildUrl == "True" || UserIdStorage != UserIdService.toString()) {
+
+                                _removeCurrentUser();
+
+                                var ParameterByUrlOld = location.search.replace("?", "").split("&");
+
+                                let ParameterByUrlNew = ParameterByUrlOld.map(function (element) {
+
+                                    if (element.includes("t=")) {
+                                        return element = "t=" + NewToken;
+                                    } else if (element.includes("user") || element.includes("User")) {
+
+                                        if (element.includes("user"))
+                                            return element = element.split("=")[0] + "=" + UserIdStorage;
+
+                                        if (element.includes("User"))
+                                            return element = element.split("=")[0] + "=" + UserIdStorage;
+
+                                    } else {
+
+                                        if (element != "")
+                                            return element;
+                                    }
+                                });
+
+
+                                let FinalUrlParameter = "?";
+                                let iteracion = 0;
+                                ParameterByUrlNew.forEach(function (element) {
+                                    iteracion++;
+                                    if (element != undefined)
+                                        if (iteracion === element.length) {
+                                            FinalUrlParameter += (element)
+                                        } else {
+                                            if (ParameterByUrlNew[iteracion + 1] != undefined);
+                                            FinalUrlParameter += (element + "&");
+                                        }
+                                });
+                                if (FinalUrlParameter != '?&') {
+                                    window.location.href = location.href.split("?")[0] + FinalUrlParameter;
+                                }
+                                else {
+                                    console.log("trace servicio boolValue es false se manda al loguin ");
+                                    _showModalLoginInSearch(UserIdService, isReload);
+                                }
+                            } else if (IsValid) {
+                                if ($("#modalLogin").hasClass("in")) {
+                                    $("#modalLogin").modal('hide');
+                                }
                             }
-                        } else if (IsValid) {
-                            if ($("#modalLogin").hasClass("in")) {
-                                $("#modalLogin").modal('hide');
-                            }
-                        } 
-                    },
-                    error: function (request, status, error) {
-                        console.log(error);
-                        window.location.href = thisDomain;
-                        //_showModalLoginInSearch(UserIdService, true);
-                    }
-                });
+                        },
+                        error: function (request, status, error) {
+                            console.log(error);
+                            window.location.href = thisDomain;
+                            //_showModalLoginInSearch(UserIdService, true);
+                        }
+                    });
+                }
 
 
             } else {
@@ -222,7 +228,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
 
     function _showModalLoginInSearch(UserId, isReload) {
-
+        var UserId = UserId == undefined || UserId == NaN ? parseInt(GetUID()) : UserId;
         var linkSrc = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1] + "/views/security/login?showModal=true&reloadLogin=" + isReload + "&userid=" + UserId;
         document.getElementById('iframeModalLogin').src = linkSrc;
         $('#modalLogin').modal('show');
