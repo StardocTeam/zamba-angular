@@ -15,6 +15,7 @@ Public Interface IResult
     ReadOnly Property IsExcel() As Boolean
     ReadOnly Property IsWord() As Boolean
     ReadOnly Property IsTif() As Boolean
+    ReadOnly Property IsVideo As Boolean
     ReadOnly Property IsPowerpoint() As Boolean
 
     ReadOnly Property IsXPS As Boolean

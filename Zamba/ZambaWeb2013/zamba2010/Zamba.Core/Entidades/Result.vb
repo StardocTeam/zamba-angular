@@ -50,6 +50,7 @@ Imports Zamba.Core
     Private _htmlfile As String
     Private _isShared As Boolean
     Private _isMsg As Boolean
+    Private _isVideo As Boolean
 
     Public UserID As Int32
     'Public Shadows OriginalName As String
@@ -124,6 +125,25 @@ Imports Zamba.Core
 
         End Get
 
+    End Property
+    Public ReadOnly Property IsVideo() As Boolean Implements IResult.IsVideo
+        Get
+            Try
+                If Me.ISVIRTUAL Then
+                    Return False
+                End If
+                Dim Fi As New FileInfo(FullPath)
+                If String.Compare(Fi.Extension.ToUpper, ".MP4") = 0 OrElse
+                String.Compare(Fi.Extension.ToUpper, ".MP4") = 0 Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Catch ex As Exception
+                raiseerror(ex)
+                Return False
+            End Try
+        End Get
     End Property
     Public Property isShared() As Boolean Implements IResult.IsShared
         Get

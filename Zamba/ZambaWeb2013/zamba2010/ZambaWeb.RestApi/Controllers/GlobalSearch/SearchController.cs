@@ -2421,6 +2421,12 @@ namespace ZambaWeb.RestApi.Controllers
                     if (DD.ContentType == "audio/mpeg" || DD.ContentType == "video/mpeg")
                     {
                         DD.data = System.Convert.FromBase64String(data);
+
+                    } 
+                    else if (DD.ContentType == "video/mp4")
+                    {
+                        DD.data = System.Convert.FromBase64String(data);
+                        DD.url = res.FullPath;
                     }
                     else
                     {
@@ -3207,6 +3213,17 @@ namespace ZambaWeb.RestApi.Controllers
                                 }
                                 else { filename = res.FullPath; convertToPDf = false; }
                             }
+                        }
+                        if ((res.IsVideo)) {
+
+                            if (!File.Exists(res.FullPath) && _file.Length > 0)
+                            {
+                                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Copiando Archivo");
+                                File.WriteAllBytes(res.FullPath, _file);
+                            }
+
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
+                            filename = res.FullPath; convertToPDf = false;
                         }
                     }
                 }
@@ -7858,6 +7875,8 @@ new HttpError(StringHelper.InvalidParameter)));
         public byte[] thumbImage { get; set; }
 
         public string iframeID { get; set; }
+
+        public string url { get; set; }
     }
     class DownloadDataResponse
     {

@@ -242,8 +242,13 @@
                         } catch (e) {
                             console.error(e);
                         }
-
-                        switchToDocumentViewer("ErrorPreview");
+                        if (JsonResult.fileName.endsWith(".mp4") == true) {
+                            var a = JsonResult.url;// "data:application/pdf;base64," + JsonResult.data;
+                            $("#IframeVideoSrc").attr("src", a);
+                            switchToDocumentViewer("video");
+                        } else {
+                            switchToDocumentViewer("Error");
+                        }
                     }
                 }
                 else {
@@ -275,9 +280,12 @@
                     //    timer: 2000
                     //});
                 }
-               
 
+                
                 switchToDocumentViewer("Error");
+                
+
+                
             }
         } catch (e) {
             console.error(e + "Lanzado por: $scope.LoadDocument(" + RDO + ")");
@@ -558,6 +566,13 @@
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
                 $("#ErrorPreview").css("display", "block");
+                break
+            case "video":
+                $("#MSG").css("display", "none");
+                $("#PDF").css("display", "none");
+                $("#PDFForIE").css("display", "none");
+                $("#ErrorPreview").css("display", "none");
+                $("#IframeVideoSrc").css("display", "block");
                 break
 
             default:
