@@ -2,6 +2,7 @@ Imports Zamba.Core.WF.WF
 Imports Zamba.Core
 Imports Zamba.Data
 Imports System.IO
+Imports Zamba.Services
 
 ''' <summary>
 ''' Genera las tareas a partir de un dataset
@@ -590,8 +591,21 @@ Public Class PlayDOGenerateTaskResult
 
                 ' Si el archivo no existe en la ruta lanzo exception
                 If Not File.Exists(Me._filepath) Then
-                    ZTrace.WriteLineIf(ZTrace.IsError, "No existe el archivo en la ruta: " & Me._filepath)
-                    Throw New Exception("No se pudo realizar la acción solicitada por no encontrarse el archivo requerido ")
+
+                    Dim SResult As New SResult()
+                    Dim Zopt As New SZOptBusiness()
+                    Dim IsBlob As Boolean = False
+                    Dim _file = GetFilesBytesFromDB(results(0), Zopt, SResult, results.Item(0).AsignedById, IsBlob)
+
+                    If _file Is Nothing Then
+                        ZTrace.WriteLineIf(ZTrace.IsError, "No existe el archivo en la ruta: " & Me._filepath)
+                        Throw New Exception("No se pudo realizar la acción solicitada por no encontrarse el archivo requerido ")
+                    Else
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Copiando Archivo")
+                        File.WriteAllBytes(Me._filepath, _file)
+
+                    End If
+
                 End If
 
             End If
@@ -694,6 +708,27 @@ Public Class PlayDOGenerateTaskResult
         End Try
     End Function
 
+    Private Function GetFilesBytesFromDB(ByVal res As IResult, ByVal Zopt As SZOptBusiness, ByVal sResult As SResult, ByVal userID As Long, ByRef IsBlob As Boolean) As Byte()
+        Dim _file As Byte()
+        If (res.Disk_Group_Id > 0 And (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) = Convert.ToInt32(VolumeType.DataBase) Or (Not String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) And Boolean.Parse(Zopt.GetValue("ForceBlob"))))) Then
+            sResult.LoadFileFromDB(res)
+        End If
+
+        'Verifica si el result contiene el documento guardado
+        If (res.EncodedFile IsNot Nothing) Then
+            _file = res.EncodedFile
+        Else
+            Dim sUseWebService As String = Zopt.GetValue("UseWebService")
+            'Verifica si debe utilizar el webservice para obtener el documento
+
+            If (Not String.IsNullOrEmpty(sUseWebService) And Boolean.Parse(sUseWebService)) Then
+                _file = sResult.GetWebDocFileWS(res.DocTypeId, res.ID, userID)
+            Else
+                _file = sResult.GetFileFromResultForWeb(res, IsBlob)
+            End If
+        End If
+        Return _file
+    End Function
     ''' <summary>
     ''' 
     ''' </summary>
