@@ -215,38 +215,40 @@
                         $("#iframeID").attr("src", a);
                         switchToDocumentViewer("PDF");
                     } else {
-                        var Controller = angular.element(document.getElementById("DocumentViewerFromSearch")).scope();
-
-                        console.log("Archivo encontrado, pero no es posible mostrarlo.");
-
-                        try {
-
-                            if ($scope.currentModeSearch == undefined || ( $scope.currentModeSearch == 'results' && ZambaUserService.VisualizerMode == 'preview')) {
-                                swal({
-                                    text: 'No es posible mostrar el archivo. Desea descargarlo?',
-                                    icon: "warning",
-                                    buttons: true,
-                                    dangerMode: true,
-                                })
-                                    .then((Download) => {
-                                        if (Download) {
-                                            try {
-                                                Controller.DownloadFile($scope.userid, $scope.doctypeid, $scope.docid);
-                                            } catch (e) {
-                                                DownloadFile();
-                                            }
-                                        }
-                                        $scope.CleanVars();
-                                    });
-                            }
-                        } catch (e) {
-                            console.error(e);
-                        }
+                        
                         if (JsonResult.fileName.endsWith(".mp4") == true) {
-                            var a = JsonResult.url;// "data:application/pdf;base64," + JsonResult.data;
-                            $("#IframeVideoSrc").attr("src", a);
+                            var a = JsonResult.data;// "data:application/pdf;base64," + JsonResult.data;
+                            $("#IframeVideoSrc").attr("type", "video/mp4"); 
+                            $("#IframeVideoSrc").attr("src", "data:video/mp4;base64,"+a);
                             switchToDocumentViewer("video");
                         } else {
+                            var Controller = angular.element(document.getElementById("DocumentViewerFromSearch")).scope();
+
+                            console.log("Archivo encontrado, pero no es posible mostrarlo.");
+
+                            try {
+
+                                if ($scope.currentModeSearch == undefined || ($scope.currentModeSearch == 'results' && ZambaUserService.VisualizerMode == 'preview')) {
+                                    swal({
+                                        text: 'No es posible mostrar el archivo. Desea descargarlo?',
+                                        icon: "warning",
+                                        buttons: true,
+                                        dangerMode: true,
+                                    })
+                                        .then((Download) => {
+                                            if (Download) {
+                                                try {
+                                                    Controller.DownloadFile($scope.userid, $scope.doctypeid, $scope.docid);
+                                                } catch (e) {
+                                                    DownloadFile();
+                                                }
+                                            }
+                                            $scope.CleanVars();
+                                        });
+                                }
+                            } catch (e) {
+                                console.error(e);
+                            }
                             switchToDocumentViewer("Error");
                         }
                     }
@@ -537,6 +539,7 @@
                 $("#MSG").css("display", "block");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
+                $("#IframeVideoSrc").css("display", "none");
                 $("#Error404").css("display", "none");
                 break
 
@@ -544,6 +547,7 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "block");
                 $("#PDFForIE").css("display", "none");
+                $("#IframeVideoSrc").css("display", "none");
                 $("#Error404").css("display", "none");
                 break
 
@@ -551,6 +555,7 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "block");
+                $("#IframeVideoSrc").css("display", "none");
                 $("#Error404").css("display", "none");
                 break
 
@@ -558,6 +563,7 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
+                $("#IframeVideoSrc").css("display", "none");
                 $("#Error404").css("display", "block");
                 break
 
@@ -565,6 +571,7 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
+                $("#IframeVideoSrc").css("display", "none");
                 $("#ErrorPreview").css("display", "block");
                 break
             case "video":

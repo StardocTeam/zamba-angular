@@ -134,7 +134,8 @@ Imports Zamba.Core
                 End If
                 Dim Fi As New FileInfo(FullPath)
                 If String.Compare(Fi.Extension.ToUpper, ".MP4") = 0 OrElse
-                String.Compare(Fi.Extension.ToUpper, ".MP4") = 0 Then
+                   String.Compare(Fi.Extension.ToUpper, ".WEBM") = 0 OrElse
+                   String.Compare(Fi.Extension.ToUpper, ".OGG") Then
                     Return True
                 Else
                     Return False
