@@ -63,7 +63,9 @@ Public Class RestApiHelper
                 VarInterReglas = Nothing
             End If
             If String.IsNullOrEmpty(JsonMessage) = False Then
-                JsonMessage = JsonConvert.SerializeObject(JsonMessage, Formatting.Indented)
+                Dim JsonObject As Object
+                JsonObject = JsonConvert.DeserializeObject(JsonMessage)
+                JsonMessage = JsonConvert.SerializeObject(JsonObject, Formatting.Indented)
             End If
 
         End If

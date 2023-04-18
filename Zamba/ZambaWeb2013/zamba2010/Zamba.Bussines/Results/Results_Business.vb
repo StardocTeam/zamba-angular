@@ -5521,7 +5521,24 @@ Public Class Results_Business
     End Function
 
 
+    ''' <summary>
+    '''  Get date for token --  Zss table.
+    ''' </summary>
+    ''' <param name="UserId"></param>
+    ''' <remarks></remarks>
+    ''' <history>
+    ''' [Felipe 29/03/2022]    Created
+    ''' </history>dd
+    Public Function getUserSessionInfoforToken(ByVal UserId As Int64) As DataTable
 
+
+
+        Dim RF As New Results_Factory()
+        Dim sessionInfo As DataTable = RF.getUserSessionInfo(UserId)
+
+        Return sessionInfo
+
+    End Function
 
 
 

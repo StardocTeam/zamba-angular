@@ -965,7 +965,7 @@ function OpenTaskFromKendoGrid(ScopeResultsCtrl, e) {
     var ScopeResultsCtrl = angular.element($("#ResultsCtrl")).scope();
     if (document.getElementById("chkThumbGrid").checked == false) {
         if (ScopeResultsCtrl.PreviewMode == "noPreview") {
-            ScopeResultsCtrl.Opentask(rowIndex);
+            ScopeResultsCtrl.Opentask(rowIndex,true);
         } else {
             ScopeResultsCtrl.OpenTaskInPreview(rowIndex);
         }

@@ -544,11 +544,20 @@
         var DominioUrl = $("#urlSite").val();
         //var apiUrl = "http://localhost/ZambaWeb.RestApi/api/ExternalSearch/SearchResults";
         var apiUrl = DominioUrl + "/api/ExternalSearch/SearchResults";
-        var data = {
-            ExternUserID: _userId,
-            DoctypesIds: [_DoctypesIds],
-            Indexs: [{ "id": _indexID, "data": _indexData }, { "id": _indexID2, "data": _indexData2 }]
+        if (_indexID2 == "") {
+            var data = {
+                ExternUserID: _userId,
+                DoctypesIds: [_DoctypesIds],
+                Indexs: [{ "id": _indexID, "data": _indexData }]
+            }
+        } else {
+            var data = {
+                ExternUserID: _userId,
+                DoctypesIds: [_DoctypesIds],
+                Indexs: [{ "id": _indexID, "data": _indexData }, { "id": _indexID2, "data": _indexData2 }]
+            }
         }
+        
 
         $("#searchRequest").text(JSON.stringify(data));
 
