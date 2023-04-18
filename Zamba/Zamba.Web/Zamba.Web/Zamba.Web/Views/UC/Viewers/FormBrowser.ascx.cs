@@ -19,6 +19,7 @@ using Zamba.Web.App_Code.Helpers;
 using Zamba.Web.Helpers;
 using Zamba.Web;
 using Newtonsoft.Json;
+using System.Configuration;
 
 public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 {
@@ -83,9 +84,18 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
     {
         get
         {
-            return EnvironmentUtil.curProtocol(Request) + @"://" + Request.ServerVariables["HTTP_HOST"] + Request.ApplicationPath + @"/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+            return EnvironmentUtil.curProtocol(Request) + @"://" + Request.ServerVariables["HTTP_HOST"] + ConfigurationManager.AppSettings["RestApiUrl"] + @"/api/b2b/GetDocFileGETMethod?DocTypeId={0}&DocId={1}&UserID={2}&ConvertToPDF=true";
         }
     }
+
+    public string CallDownloadFile
+    {
+        get
+        {
+            return "DownloadFile({0},{1})";
+        }
+    }
+
     public bool IsShowing
     {
         get;
@@ -1658,7 +1668,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                                                         string tag = item.Value;
                                                         IDtoTag dtoo = SForms.instanceDtoTag(item.Value, tag);
 
-                                                        var newbutton = string.Format("<a  href='" + Path + "' class='btn btn-primary' target='_blank'>Descargar Archivo</a>");
+                                                        var newbutton = string.Format("<a onclick='" + Path + "' class='btn btn-primary' target='_blank'>Descargar Archivo</a>");
 
                                                         IDtoTag dto = SForms.instanceDtoTag(item.Value, newbutton);
                                                         listaTags.Add(dto);

@@ -58,12 +58,9 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
             });
     };
 
-
     $scope.Execute_ZambaRuleAsync = function (ruleId, itemResults, formVars) {
-        debugger;
         return ZambaTaskService.executeRuleForTask(ruleId, itemResults, formVars)
             .then(function (response) {
-                debugger;
 
                 var ret_Response = JSON.parse(response.data).Vars;
                 $scope.EvaluateRuleExecutionResult(ret_Response);
@@ -200,7 +197,12 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
                             IdInfo.Docid = executionResult.Vars["generateddocid"]
                             IdInfo.DocTypeid = executionResult.Vars["nuevatarea.entityid"];
                             attachsIds.push(IdInfo);
-                            sessionStorage.setItem("ResultNewTask-" + GetUID(), JSON.stringify(attachsIds)); Email_Click(executionResult.Params.Subject, executionResult.Params.Body, executionResult.Params.To, executionResult.Params.AttachLink, executionResult.Params.SendDocument, executionResult.Params.NextRuleIds, executionResult.Params.MailPathVariable, executionResult.Params.CC, executionResult.Params.CCO);
+
+
+                            sessionStorage.setItem("ResultNewTask-" + GetUID(), JSON.stringify(attachsIds));
+
+                            Email_Click(executionResult.Params.Subject, executionResult.Params.Body, executionResult.Params.To, executionResult.Params.AttachLink, executionResult.Params.SendDocument, executionResult.Params.NextRuleIds, executionResult.Params.MailPathVariable, executionResult.Params.CC, executionResult.Params.CCO);
+
                         } else {
                             swal("Error al ejecutar la DoMail")
                         }
@@ -610,4 +612,3 @@ function SaveIndexbyId(indexId, indexValue) {
     saveIndexValidated(indexId, entityId, parentResultId, taskId, indexValue);
 
 }
-

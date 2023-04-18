@@ -17,6 +17,10 @@
     using System.Linq;
     using System.Diagnostics;
     using Zamba.FormBrowser.Razor;
+    using Zamba.Tools;
+    using System.Web;
+    using System.Runtime.Remoting.Contexts;
+    using System.Configuration;
 
     public class FormBrowserController
     {
@@ -38,12 +42,16 @@
                 ZOptBusiness zoptb = new ZOptBusiness();
                 String CurrentTheme = zoptb.GetValue("CurrentTheme");
                 zoptb = null;
+
                 if (HttpContext.Current == null)
-                    return Zamba.Membership.MembershipHelper.AppFormPath(CurrentTheme) + "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+                {
+                    ZTrace.WriteLineIf(TraceLevel.Error, "[ERROR]: HttpContext.Current no existe. ");
+                    return Zamba.Membership.MembershipHelper.AppFormPath(CurrentTheme) + "/api/b2b/GetDocFileGETMethod?DocTypeId={0}&DocId={1}&UserID={2}";
+                }
 
                 HttpRequest req = HttpContext.Current.Request;
 
-                return "http://" + req.ServerVariables["HTTP_HOST"] + req.ApplicationPath + "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&UserID={2}";
+                return GetDocFileUrl;
             }
         }
 
@@ -153,7 +161,7 @@
             return new RightsBusiness().GetUserRights(UserId, objectTypes, rightsType, p);
         }
 
-      
+
         #endregion
 
         #region Constructores
@@ -706,7 +714,7 @@
             else
             {
                 WFTaskBusiness WTB = new WFTaskBusiness();
-                task = WTB.GetTaskByDocIdAndDocTypeId(currResult.ID,currResult.DocTypeId);
+                task = WTB.GetTaskByDocIdAndDocTypeId(currResult.ID, currResult.DocTypeId);
                 WTB = null;
             }
 
@@ -716,7 +724,7 @@
                 if (dt.Columns.Contains("Estado"))
                     dr["Estado"] = task.State.Name;
                 if (dt.Columns.Contains("Usuario Asignado"))
-                    dr["Usuario Asignado"] =new  UserGroupBusiness().GetUserorGroupNamebyId(task.AsignedToId, ref IsGroup);
+                    dr["Usuario Asignado"] = new UserGroupBusiness().GetUserorGroupNamebyId(task.AsignedToId, ref IsGroup);
             }
 
             if (dt.Columns.Contains("Original"))
@@ -927,7 +935,8 @@
                 asociatedResults = new List<IResult>();
                 DataTable dt = DocAsociatedBusiness.getAsociatedResultsFromResultAsList(asocDocTypeId, CurrentResult, 1, UserId, false);
 
-                if (dt != null) {
+                if (dt != null)
+                {
                     Results_Business Rb = new Results_Business();
                     DocTypesBusiness DTB = new DocTypesBusiness();
                     Int64 doctypeid = Int64.Parse(dt.Rows[0]["doc_type_id"].ToString());
@@ -936,7 +945,7 @@
                     asociatedResults.Add(r);
                     DTB = null;
                     Rb = null;
-               }
+                }
 
             }
 
@@ -970,6 +979,15 @@
             }
 
             return sb.ToString();
+        }
+
+        public string GetDocFileUrl
+        {
+            get
+            {
+                HttpRequest req = HttpContext.Current.Request;
+                return EnvironmentUtil.curProtocol(req) + @"://" + req.ServerVariables["HTTP_HOST"] + ConfigurationManager.AppSettings["RestApiUrl"] + @"/api/b2b/GetDocFileGETMethod?DocTypeId={0}&DocId={1}&UserID={2}&ConvertToPDF=true";
+            }
         }
 
         #endregion

@@ -312,7 +312,7 @@ function cargaSync(windowsMode, DocumentReadyEvents) {
         "Scripts/kendoui/styles/kendo.mobile.all.min.css",
         "Scripts/kendoui/styles/kendo.rtl.min.css",
         "Scripts/kendoui/styles/kendo.silver.min.css",
-        "Content/partialSearchIndexs.css?v=248",
+        "Content/partialSearchIndexs.css?v=262",
         "content/styles/tabber.css",
         //       "content/styles/js_datepicker.css"
         //'Content/datatables.jqueryui.css',
@@ -404,7 +404,6 @@ function cargaSync(windowsMode, DocumentReadyEvents) {
 };
 
 function DocumentReadyEvents() {
-
 
     if (windowsMode) {
     }
@@ -505,6 +504,7 @@ function DocumentReadyEvents() {
                         //Restauramos el width original
                         $("#DivIndices").animate({ width: previousWidth }, "fast");
                         $("#separator").animate({ width: previousWidth }, "fast");
+
                         //Acomodamos el documento a lo restaurado.
                         var a = $(window).width() - previousWidth - 5;
                         $("#separator").next().animate({ width: a }, "fast");
@@ -512,11 +512,14 @@ function DocumentReadyEvents() {
                     beforeShow: function (input, inst) {
                         //Guardamos el width anterior.  
                         previousWidth = $("#DivIndices").width();
+
                         //Saco el ancho de los labels
                         var labelWidth = $(input).parent().prev().width();
                         var calcultateWidth = $(inst.dpDiv).width() + labelWidth + 20;
+
                         $("#DivIndices").animate({ width: calcultateWidth }, "slow");
                         $("#separator").animate({ width: calcultateWidth }, "slow");
+
                         //Acomodamos el documento, con la diferencia de pantalla.
                         var a = $(window).width() - calcultateWidth - 5;
                         $("#separator").next().animate({ width: a }, "slow");
@@ -527,40 +530,15 @@ function DocumentReadyEvents() {
                 getDateTimeToday();
                 getDateToday();
                 searchForInteligentText();
-                // LoadDropZone();
                 ZFUNCTION();
+
                 var doctypeId = $("[id$=hdnDocTypeId]").val();
                 var docId = $("[id$=hdnDocId]").val();
-                if (docId != undefined && $("#previewDocSearch")[0] != undefined) { // && $("#PDFForIE")[0].style.display == "block") {
-                    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserId=" + GetUID() + "&ConvertToPDf=true"; //+ window.localStorage.queryStringAuthorization; + "&ConvertToPDf=true";
-                    try {
-                        //  $.get("../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + GetUID() + "&ConvertToPDf=true", function (data) {
-                        //console.log("Esta es a data: " + data);
-                        //  var Cadena = data;
-                        //  if (data.indexOf("Archivo no encontrado") != -1) {
-                        $("#previewDocSearch").attr("src", url);
-                        //  } else {
-                        //   if ($("#previewDocSearch")[0] != undefined) $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
-                        //   }
-                        //swal("Load was performed.");
-                        //   });
-                    }
-                    catch (error) {
-                        $("#previewDocSearch").attr("src", url);
-                    }
+
+                if (docId != undefined && $("#previewDocSearch")[0] != undefined) {
+                    var url = getUrlGetDocFile(doctypeId, docId);
                 }
             }, 3000);
-
-        //try {
-        //    var doctypeId = $("[id$=hdnDocTypeId]").val();
-        //    var docId = $("[id$=hdnDocId]").val();
-        //    if (doctypeId != undefined && doctypeId > 0 && docId != undefined && docId > 0)
-        //    ShowDocumentInCommonIframe(GetUID(), doctypeId, docId);
-
-        //} catch (e) {
-        //    console.error(e);
-        //}
-
     });
 
 
@@ -793,7 +771,6 @@ function subscribeItem_datepicker(item) {
                         $("#separator").next().animate({ width: a }, "slow");
                     }
                 });
-
                 LoadHdn();
                 getDateTimeToday();
                 getDateToday();
@@ -891,15 +868,21 @@ function Execute_ZambaRuleId(event) {
     });
 }
 
+function getUrlGetDocFile(doctypeId, docId) {
+    return ZambaWebRestApiURL + "/b2b/GetDocFileGETMethod?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserId=" + GetUID() + "&ConvertToPDF=true";
+}
 
 function LoadIframe() {
     var doctypeId = $("[id$=hdnDocTypeId]").val();
     var docId = $("[id$=hdnDocId]").val();
     if (docId != undefined) {
-        var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + GetUID() + "&ConvertToPDf=true";
+        var url = getUrlGetDocFile(doctypeId, docId);
+
         try {
             if ($("#previewDocSearch")[0].contentWindow != undefined) {
-                if ($("#previewDocSearch")[0] != undefined) $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
+                if ($("#previewDocSearch")[0] != undefined) {
+                    $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
+                }
             }
             else {
                 if ($("#previewDocSearch")[0] != undefined) {
@@ -926,9 +909,11 @@ function RefreshIframeDirective(url) {
 }
 
 function LoadIframeForResult(doctypeId, docId, userId) {
-    var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + userId + "&ConvertToPDf=true";
+    //var url = "../../Services/GetDocFile.ashx?DocTypeId=" + doctypeId + "&DocId=" + docId + "&UserID=" + userId + "&ConvertToPDf=true";
+    var url = getUrlGetDocFile(doctypeId, docId);
     try {
-        if ($("#previewDocSearch")[0] != undefined) $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
+        if ($("#previewDocSearch")[0] != undefined)
+            $("#previewDocSearch")[0].contentWindow.OpenUrl(url, -1);
     }
     catch (error) {
         $("#previewDocSearch").attr("src", url);
@@ -3543,7 +3528,6 @@ function OpenDocTask3(taskID, docID, docTypeId, asDoc, docName, url, userID, wfs
             window.open(Url, '_self');
             //            ShowIFrameHome(Url, 600);
         }
-
         // Nueva ventana
         if (openmode == 3) {
             Url += "&Ed=true";
@@ -5841,6 +5825,7 @@ function hideEmailList(evento) {
     });
 }
 
+
 function GetDOCID() {
     var docid = 0;
     docid = getUrlParameters().docid;
@@ -6125,6 +6110,61 @@ function LocationUrl() {
 
 
 //-----------------------------------------------------------------------------Zamba.Angular---------------------------------
+
+function DownloadFile(DocTypeId, DocId) {
+    const fileURL = GetBlob(DocTypeId, DocId)
+    const fileLink = document.createElement('a');
+    fileLink.href = fileURL;
+    const fileName = resp.headers()['content-disposition'].substring(22).replace('\"', '');
+    fileLink.setAttribute('download', fileName);
+    fileLink.setAttribute('target', '_blank');
+    document.body.appendChild(fileLink);
+    fileLink.click();
+    fileLink.remove();
+
+    return result;
+};
+
+function SetBlobToSrc(DocTypeId, DocId, object) {
+    var url = '../../NGTemplates/PDFViewer/viewer.html?file=';
+    //var fileBlob = GetBlob(DocTypeId, DocId);
+
+    //object.setAttribute('src', url + encodeURIComponent(fileBlob));
+    //object.src = fileBlob;
+    object.contentWindow.OpenUrl(fileBlob, -1);
+}
+
+function GetBlob(DocTypeId, DocId) {
+    var BlobFile;
+    var value = {
+        UserId: GetUID(),
+        Params: {
+            "DocId": DocId,
+            "DocTypeId": DocTypeId,
+            "includeAttachs": false,
+            "MsgPreview": false,
+            "ConvertToPDf": true
+        }
+    }
+
+
+    $.ajax({
+        type: "POST",
+        url: ZambaWebRestApiURL + '/b2b/GetDocFile',
+        data: JSON.stringify(value),
+        responseType: "blob",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (resp) {
+            var data = resp;
+            BlobFile = window.URL.createObjectURL(new Blob([data]));
+        },
+        error: function (error) {
+        }
+    });
+
+    return BlobFile;
+};
 
 function PrintBarcode(path, CopiesCount, Width, Height) {
 
@@ -8381,6 +8421,3 @@ function closeModalIFs() {
 function TriggerOnChange(value) {
     $("#" + value + "").trigger("change");
 }
-
-
-

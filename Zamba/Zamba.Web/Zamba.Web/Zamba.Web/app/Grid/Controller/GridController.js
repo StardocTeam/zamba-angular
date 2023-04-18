@@ -398,7 +398,7 @@
         $scope.onDoubleClick(e);
     }
 
-    $scope.onClick = function (e) {
+    $scope.onClick = function (e) {        
         //Varible Definition
         var gridElement = $("#" + $scope.gridIndex);
         var grid = gridElement.data("kendoGrid");
@@ -857,8 +857,7 @@
     }
 
     function onChange(arg) {
-        $scope.associatedResults;
-
+        
         $scope.associatedResults
         var selected = $.map(this.select(), function (item) {
             //$scope.checkedIds = [];
@@ -866,7 +865,7 @@
                 $scope.checkedIds.push(arg.sender._data[i].RN);
             }
 
-            $scope.GetTaskDocument($scope.checkedIds);
+           $scope.GetTaskDocument($scope.checkedIds);
 
             var IdInfo = {};
 
@@ -876,7 +875,7 @@
                     IdInfo.DocTypeid = parseInt($scope.associatedResults[i].DOC_TYPE_ID);
                     $scope.attachsIds.push(IdInfo);
 
-                }
+                } 
             }
           
             return item.className;
@@ -1341,11 +1340,15 @@
 
     $scope.executeCurrentRule = function (ruleName) {
         var resultIds = [];
-        var resultIds = [];
         if ($scope.checkedIds != null && $scope.checkedIds.length > 0) {
             var ruleIds = getRuleIdFromdictionaryByName(ruleName);
-            var resultIds = JSON.stringify($scope.attachsIds); if ($scope.Zvars != undefined && $scope.Zvar == null) {
-                var resultRule = ruleExecutionService.executeRuleWithZvars(ruleIds, resultIds, $scope.Zvars); $scope.EvaluateRuleExecutionResult(JSON.parse(resultRule))
+            var resultIds = JSON.stringify($scope.attachsIds);
+
+            if ($scope.Zvars != undefined && $scope.Zvar == null) {
+                var resultRule = ruleExecutionService.executeRuleWithZvars(ruleIds, resultIds, $scope.Zvars); 
+
+                $scope.EvaluateRuleExecutionResult(JSON.parse(resultRule))
+
             } else {
                 ruleExecutionService.executeRule(ruleIds, resultIds);
             }
@@ -1728,7 +1731,7 @@ function getBCHistoryearch() {
     }
 }
 
-function checkValue(value, arr, from) {
+function checkValue(value, arr, from) {    
     for (var i = 0; i < arr.length; i++) {
         var name = arr[i];
 
@@ -1757,7 +1760,7 @@ app.directive('zambaAssociated', function ($sce) {
         transclude: true,
         link: function ($scope, element, attributes) {
 
-            // esta zvar no se usa para nada, esta en reload de la pagina analizar de quitar
+            // esta zvar no se usa para nada, esta en reload de la pagina analizar de quitar
             $scope.zvar = attributes.zvar;
 
             if (attributes.onlyimportants != undefined && attributes.onlyimportants != null && attributes.onlyimportants != '' && attributes.onlyimportants == 'true')
@@ -1839,7 +1842,7 @@ app.directive('zambaAssociated', function ($sce) {
             }
 
         },
-        templateUrl: $sce.getTrustedResourceUrl('../../app/Grid/Directives/GridDirective.html?v=248')
+        templateUrl: $sce.getTrustedResourceUrl('../../app/Grid/Directives/GridDirective.html?v=262')
     }
 });
 
