@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Autor:Stardoc by GMR-->
+    <!--Fecha Creacion:27/03/2018-->
+    <!--Modificado por: GMR-->
+    <!--Fecha de Modificacion: 12/08/2019-->
+    <!--Cambio: Se modifico el Layout del formulario y se agfregó al pie el nombre del archivo-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 22/08/2019><Cambio: Se Modifico la relacion jerarquica de Tipo GHasto - Tipo Pago-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 25/09/2019><Cambio: Se Modifico la relacion jerarquica de Tipo Gasto - Tipo Pago-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 16/10/2019><Cambio: Se Modifico la Matriz y el tg 600 es NP-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 06/11/2019><Cambio: Se Modifico la Matriz 300 - 308-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 28/11/2019><Cambio: Se Agregaron los Conceptos 136, 227 , 510-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 20/11/2020><Cambio: Se Agregaro el boton y la solapa de Facturas asociadas -->
+
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        /* latin */
+        @font-face {
+            font-family: 'Libre Barcode 39';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Libre Barcode 39 Regular'), local('LibreBarcode39-Regular'), url(https://fonts.gstatic.com/s/librebarcode39/v8/-nFnOHM08vwC6h8Li1eQnP_AHzI2G_Bx0g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'IDAutomationHC39M';
+            src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+        }
+
+        .codebar39 {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 48px;
+        }
+    </style>
+</head>
+
+<body>
+    <form name="frmMain" action="Ing_Pago.html">
+        <div class="container-fluid">
+
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+
+            <ul class=" nav nav-tabs">
+                <li class=" active"><a href="#INGRESO" data-toggle="tab">NUEVO PAGO</a></li>
+                <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
+                <li><a href="#ComprobantesAsociados" data-toggle="tab">Facturas Asociadas</a></li>
+            </ul>
+
+            <div class="tab-content">
+
+
+
+
+                <div class="tab-pane active" id="INGRESO">
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--CUIT-->
+                                <span class="input-group-addon">CUIT:</span>
+                                <input id="zamba_index_2" name="zamba_index_2" size="1"
+                                    class="form-control autoSave solonums" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" name="zamba_rule_11530521"
+                                        id="zamba_rule_11530521" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Codigo de Proveedor-->
+                                <span class="input-group-addon">Código del Proveedor:</span>
+                                <input id="zamba_index_15" name="zamba_index_15" size="1"
+                                    class="form-control solonums required" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" name="zamba_rule_11530542"
+                                        id="zamba_rule_11530542" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-md-3">
+                            <div class="input-group">
+                                Orden Nro de Compra
+                                <span class="input-group-addon">Orden de Compra Nro:</span>
+                                <input id="zamba_index_50" name="zamba_index_50" size="1" class="form-control input-sm" />
+                            </div>
+                        </div>-->
+                        <div class="col-md-3"></div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--ID trámite-->
+                                <span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm "
+                                    disabled />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <!--Nombre y Apellido-->
+                                <span class="input-group-addon">Nombre y Apellido, Razón Social o Destino:</span>
+                                <input id="zamba_index_105" name="zamba_index_105" size="1"
+                                    class="form-control input-sm" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Recepcion-->
+                                <span class="input-group-addon">Recepción:</span>
+                                <input id="zamba_index_4" name="zamba_index_4"
+                                    class="form-control input-sm dateTimeToday" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Fecha de Comprobante-->
+                                <span class="input-group-addon">Fecha Comprobante:</span>
+                                <input class="form-control input-sm dataType datepicker" data-date-open-on-focus="true"
+                                    id="zamba_index_73" name="zamba_index_73" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Fecha de Vencimiento-->
+                                <span class="input-group-addon">Fecha Vencimiento:</span>
+                                <input class="form-control input-sm dataType datepicker" data-date-open-on-focus="true"
+                                    id="zamba_index_11525202" name="zamba_index_11525202" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Metodo de Pago-->
+                                <span class="input-group-addon">Método de Pago:</span>
+                                <select id="zamba_index_1020169" name="zamba_index_1020169"
+                                    class="form-control input-sm"></select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--delegación-->
+                                <span class="input-group-addon">Delegación:</span>
+                                <select class="form-control input-sm" id="zamba_index_82" name="zamba_index_82"
+                                    size="1"></select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+
+
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <!--Tipo de Gasto-->
+                                <span class="input-group-addon">Tipo de Gasto:</span>
+                                <select id="zamba_index_110" name="zamba_index_110" class="form-control"> </select>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <!--Concepto-->
+                                <span class="input-group-addon">Concepto</span>
+                                <select id="zamba_index_2725" name="zamba_index_2725" size="1"
+                                    class="form-control"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <!--SectorGrupoZamba-->
+                                <span class="input-group-addon">Sector:</span>
+                                <select id="zamba_index_126" name="zamba_index_126" size="1"
+                                    class="form-control input-sm"></select>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <!--Solicitante=Destinatario--> <span class="input-group-addon">Solicitante</span>
+                                <select id="zamba_index_53" name="zamba_index_53" size="1"
+                                    class="form-control input-sm"></select>
+                            </div>
+                        </div>
+
+                        <!--Mi Pyme-->
+                        <div class="col-xs-1 col-sm-offset-1 ">
+                            <div class="form-check">
+                                <input onclick="CheckMiPyme()" type="checkbox" class="form-check-input" id="zamba_index_11525201"
+                                    name="zamba_index_11525201" style="height: 25px; width: 20px; " />
+                                <span><b>MiPyme</b></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Moneda:</span>
+                                <!-- Tipo moneda-->
+                                <select class="btn btn-default form-control  " id="zamba_index_92"
+                                    name="zamba_index_92"></select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4" id="DivImporteOtraMoneda1">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe:</span>
+                                <input id="zamba_index_11535222" name="zamba_index_11535222" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    onkeypress="val_Importe(this, event);" maxlength="15" />
+
+                                <span id="importeError"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2" id="DivImporteOtraMoneda2">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tasa Cambio:</span>
+                                <input id="zamba_index_11535223" name="zamba_index_11535223" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    onkeypress="val_Importe(this, event);" maxlength="6" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Pesos:</span>
+
+                                <input id="zamba_index_109" name="zamba_index_109" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    onkeypress="val_Importe(this, event);" maxlength="15" />
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-1"></div>
+                        <!--Cargar Facturas Asociadas -->
+                        <div class="col-xs-2">
+                            <input name="zamba_rule_11546280" id="zamba_rule_11546280" onclick="SetRuleId(this);"
+                                class="btn btn-primary" type="submit" value="Cargar Facturas Asociadas">
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-12 col-sm-6">
+                        <div class="row">
+                            <div class=" col-xs-12">
+                                <span class="input-group-addon">Descripción:</span>
+                                <textarea id="zamba_index_1220185" name="zamba_index_1220185" rows="5"
+                                    class="form-control input-sm"></textarea>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <!--Observaciones-->
+
+                    <div id="tblObervaciones" class="attributes_table">
+                        <div class="form-group row">
+                            <div class="col-md-6 col-sm-6">
+                                <div>
+                                    <div ng-controller="ObservacionController">
+                                        <zamba-observaciones index-id="84" entity-id="112"></zamba-observaciones>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5" style="width:45%;top:10px;">
+                                <!--DropZone-->
+                                <div class="">
+                                    <span style=" font-style: italic;">Agregue aquí el archivo del Pago que esta
+                                        ingresando</span>
+                                </div>
+                                <div id="appblankID" ng-controller="appController">
+                                    <zamba-drop id="0" IndexIds="0"> </zamba-drop>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--div class="row"><div class="col-xs-12">  </div></div>
+                    <div class="row">  </div-->
+                    <!--Botones FORM-->
+                    <div class="form-group row">
+                        <div class="col-md-6"></div>
+                        <div class="col-xs-2 ">
+                            <input name="zamba_rule_1223275" id="zamba_rule_1223275"
+                                onclick="return zamba_save_onclick_ingresoPago(this);" class="btn btn-success"
+                                type="submit" value="Solicitar Aprobación" />
+                        </div>
+                        <div class="col-xs-2 ">
+                            <input name="zamba_save" id="zamba_save" class="btn btn-primary" type="submit"
+                                value="Guardar Borrador" />
+                        </div>
+                        <div class="col-xs-2">
+                            <input name="zamba_rule_11549777" id="zamba_rule_11549777" onclick="SetRuleId(this);"
+                                class="btn btn-warning" type="submit" value="Cancelar" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                            <div class="row" style="height:100%">
+                                <iframe id="previewDocSearch" class="IframeClass" style="margin-top:30px"
+                                    src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="ComprobantesAsociados">
+                    <div class="col-md-12 col-xs-12">
+                        <div>
+                            <div id="ComprobantesAsociadas" ng-controller="ZambaAssociatedController">
+                                <zamba-associated entities="26" default-enable-mode="grid" table-height="400"
+                                    grid-title="Comprobantes Asociados"></zamba-associated>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-md-offset-3">
+                            <div class="input-group">
+                                <!--Nombre y Apellido-->
+                                <span class="input-group-addon"><b>ID_Tramite Factura a Asociar:</b></span>
+                                <input id="zamba_index_11535235" name="zamba_index_11535235" size="1"
+                                    class="form-control input-sm" disabled />
+                            </div>
+                        </div>
+                        <!--<div class="col-xs-2"style="position: relative; left: -30px;">
+                            <input name="zamba_rule_11545810" id="zamba_rule_11545810" onclick="SetRuleId(this);"
+                                class="btn btn-primary" type="submit" value="Asociar" >
+                        </div>-->
+
+
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="Expediente">
+                    <div class="row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="113" default-enable-mode="grid" table-height="400"
+                                grid-title="Expediente">
+                            </zamba-associated>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <span style=" font-style: italic;">Agregue aquí los archivos anexos</span>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-xs-12" style="  width: 97%;">
+                                    <!--DropZone-->
+                                    <!--IMPORTANTE!!!! Si se cambia el id del drozone cambiar el id en el script de abajo-->
+                                    <div id="appblankID2" ng-controller="appController">
+                                        <zamba-drop id="113" IndexIds="189"> </zamba-drop>
+                                    </div>
+                                    <script>
+                                        setTimeout(
+                                            function () {
+                                                $("#dZFUpload113").removeAttr("style");
+                                            }, 3000);
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="row">
+                <center>
+                    <div class="col-md-12">
+                        <span style="color:whitesmoke">Ing_Pago.html</span>
+                    </div>
+                </center>
+            </div>
+            <!-- Nuevo -->
+
+            <script src="FacturasyPagos.js?v=200"></script>
+
+            <script type="text/javascript" language="JavaScript">
+
+                $(document).ready(function () {
+                    $("#IDtramite").val("(" + $("#zamba_index_86").val() + ")");
+                });
+
+            </script>
+
+            <script type="text/javascript" language="JavaScript">
+                //Establece Puntos millares y coma a los importes traidos del origen.
+                setInputSeparator('zamba_index_109');
+
+                //Renderizacion de valor numerico a importe.
+                $("#zamba_index_109").on({
+                    "focusout": render_Importe,
+                });
+
+                $(document).ready(function () {
+                    //Agregando puntero a evento "focusout".
+                    $("#zamba_index_72").on({
+                        "focusout": AddZerosLeft,
+                    });
+                    $("#zamba_index_10").on({
+                        "focusout": AddZerosLeft,
+                    });
+
+                    InabilitarCampos();
+                    // validarfacturaexiste();
+                });
+
+                $(function () {
+                    //   validarfacturaexiste();
+
+                });
+
+
+                function InabilitarCampos() {
+
+                    if ($("#zamba_index_1020143").val() == 'NO') {
+                        // $('#SeccionFactura').hide();
+                        $('#zamba_index_107').attr('disabled', "");
+                        $('#zamba_index_106').attr('disabled', "");
+                        $('#zamba_index_72').attr('disabled', "");
+                        $('#zamba_index_10').attr('disabled', "");
+                        $('#zamba_index_74').attr('disabled', "");
+                        $('#zamba_index_50').attr('disabled', "");
+                    }
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        // $('#SeccionFactura').show();
+                        $('#zamba_index_107').removeAttr('disabled');
+                        $('#zamba_index_106').removeAttr('disabled');
+                        $('#zamba_index_72').removeAttr('disabled');
+                        $('#zamba_index_10').removeAttr('disabled');
+                        $('#zamba_index_74').removeAttr('disabled');
+                        $('#zamba_index_50').removeAttr('disabled');
+                    }
+                }
+
+                function ValidationExtFctura() {
+
+                    if ($("#zamba_index_110").val() == 8 || $("#zamba_index_110").val() == 4 || $("#zamba_index_110").val() == 19 || $("#zamba_index_110").val() == 16) {
+                        return $("#zamba_index_1020143").val() == 'SI' ? true : false;
+                    }
+                }
+
+                function ValidateTipoComprobante() {
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        if ($('#zamba_index_107').val() == "") {
+                            return false;
+                        }
+
+                    }
+                }
+
+                function ValidateTipoLetra() {
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        if ($('#zamba_index_106').val() == "") {
+                            return false;
+                        }
+
+                    }
+                }
+
+                function ValidatePuntoVenta() {
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        if ($('#zamba_index_72').val() == "") {
+                            return false;
+                        }
+
+                    }
+                }
+                function ValidateNroComprobante() {
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        if ($('#zamba_index_10').val() == "") {
+                            return false;
+                        }
+
+                    }
+                }
+                function ValidateFechaCAI() {
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        if ($('#zamba_index_74').val() == "") {
+                            return false;
+                        }
+
+                    }
+                }
+                function ValidateOrdenComrpra() {
+                    if ($("#zamba_index_1020143").val() == 'SI') {
+                        if ($('#zamba_index_50').val() == "") {
+                            return false;
+                        }
+
+                    }
+                }
+
+
+            </script>
+
+            <script>
+
+                $(document).ready(function () {
+
+                    RemoveNonFacItems();
+                });
+
+                // remover tg que no son facturas
+
+                function RemoveNonFacItems() {
+                    console.log('Removing Items NON Fact');
+
+                    $('select[name="zamba_index_110"]').find('option[value=100]').remove();
+                    $('select[name="zamba_index_110"]').find('option[value=200]').remove();
+
+                };
+
+            </script>
+
+        </div>
+    </form>
+</body>
+
+</html>

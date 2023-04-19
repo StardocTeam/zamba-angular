@@ -22,13 +22,16 @@
 <!--Fecha de Modificacion: 28/11/2019><Cambio: Se Agregaron los Conceptos 136, 227 , 510-->
 <!--Modificado por: EEB -->
 <!--Fecha de Modificacion: 01/07/2022><Cambio: Traer Tasa de camio de OF-->
+<!--Modificado por: EEB -->
+<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto -->
 
 
 
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content=" width = [pixeles | ancho-dispositivo ], height = [pixeles | alto-dispositivo], initial-scale = float, minimum-scale = float, maximum-scale = float, user-scalable = [yes | no]">
+    <meta name="viewport"
+        content=" width = [pixeles | ancho-dispositivo ], height = [pixeles | alto-dispositivo], initial-scale = float, minimum-scale = float, maximum-scale = float, user-scalable = [yes | no]">
 
 
 </head>
@@ -44,7 +47,7 @@
             <ul class=" nav nav-tabs">
                 <li class="active"><a href="#FACTURA" data-toggle="tab">INGRESO FACTURA</a></li>
                 <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
-                
+
 
 
             </ul>
@@ -147,20 +150,25 @@
                                     class="form-control input-sm dataType datepicker" autocomplete="off" />
                             </div>
                         </div>
-                        
-                        
+                        <div class="col-xs-3" style="display: none;" EnableGroups="94">
+                            <input name="zamba_rule_11550452" id="zamba_rule_11550452" onclick="SetRuleId(this);"
+                                class="btn btn-primary" type="submit" value="Consultar OC">
+                        </div>
+
+
+
                     </div>
 
 
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <!--delegación-->
-                                <span class="input-group-addon">Delegación:</span>
-                                <select type="button" class="form-control input-sm" id="zamba_index_82"
-                                    name="zamba_index_82" size="1"></select>
-                            </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--delegación-->
+                            <span class="input-group-addon">Delegación:</span>
+                            <select type="button" class="form-control input-sm" id="zamba_index_82"
+                                name="zamba_index_82" size="1"></select>
                         </div>
-                    
+                    </div>
+
 
                     <div class="form-group row">
                         <div class="col-xs-12 col-sm-2">
@@ -175,7 +183,7 @@
 
                         <div class="col-xs-12 col-sm-3" id="DivImporteOtraMoneda1">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe:</span>
+                                <span class="input-group-addon">Importe Neto:</span>
                                 <input id="zamba_index_11535222" name="zamba_index_11535222" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
                                     maxlength="15" />
@@ -193,7 +201,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Pesos:</span>
+                                <span class="input-group-addon">Importe Neto Pesos:</span>
 
                                 <input id="zamba_index_109" name="zamba_index_109" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -213,9 +221,21 @@
 
 
 
+										<!-- Importe Bruto   -->	
+                    
 
-                    </div>
+	                    <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Ingrese Importe Bruto:</span>
 
+                                <input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" />
+                            </div>
+                        </div>
+
+					</div>
+					
                     <div class="form-group row">
 
                         <div class="col-md-4">
@@ -242,7 +262,7 @@
                                     </span>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                         <div class="col-md-5">
                             <div class="input-group">
                                 <!--Concepto-->
@@ -265,7 +285,7 @@
                                 <!--Sector=GrupoZamba-->
                                 <span class="input-group-addon">Sector:</span>
                                 <select id="zamba_index_126" name="zamba_index_126" size="1"
-                                    class="form-control input-sm" disabled></select>
+                                    class="form-control input-sm"></select>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -314,15 +334,14 @@
                     <!--Botones FORM-->
                     <div class="form-group row">
 
-
-                        <div class="col-xs-2 col-md-offset-5">
-                            <input name="zamba_rule_11532841" id="zamba_rule_11532841"
-                                onclick="ValidarTasadecambio(this)" class="btn btn-primary" type="button" value="Enviar"
-                                >
+                        <div class="col-xs-2">
+                            <button name="zamba_rule_11532841" id="zamba_rule_11532841" onclick="SetRuleId(this);"
+							onclick="ValidarTasadecambio(this)" class="btn btn-primary"
+                                class="btn btn-warning" type="submit" value="Enviar">Enviar</button>
                         </div>
                         <div class="col-xs-2">
-                            <input name="zamba_rule_11549777" id="zamba_rule_11549777" onclick="SetRuleId(this);"
-                                class="btn btn-warning" type="submit" value="Cancelar">
+                            <button name="zamba_rule_11549777" id="zamba_rule_11549777" onclick="SetRuleId(this);"
+                                class="btn btn-warning" type="submit" value="Cancelar">Cancelar</button>
                         </div>
                         <div class="col-xs-3">
                             <input name="zamba_rule_11531653" id="zamba_rule_11531653" onclick="SetRuleId(this);"
@@ -345,7 +364,7 @@
                         </div>
                     </div>
                 </div>
-            
+
 
                 <div class="tab-pane" id="Expediente">
                     <div class="form-group row"></div>
@@ -381,7 +400,7 @@
                     </div>
                 </div>
             </div>
-      
+
 
             <div class="row">
                 <center>
@@ -401,7 +420,7 @@
 
         <script src="../../app/DoShowTablePro/DoShowTableController.js?v=175"></script>
         <script src="../../app/DoShowTablePro/DoShowTableServices.js?v=175"></script>
-        <script src="FacturasyPagos.js?v=188"></script>
+        <script src="FacturasyPagos.js?v=200"></script>
 
         <script>
             $(document).ready(function () {

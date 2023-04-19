@@ -124,11 +124,24 @@
                                                         </div>
                                                         <div class="col-xs-12 col-md-6">
 
-                                                            <div class="row">
-                                                                <div class="col-xs-12" style="    width: 92%;
-    margin-top: 35px;">
-                                                                    <!--DropZone-->
-                                                                    <zamba-drop id="0">  </zamba-drop>
+                                                            <div class="form-group row">
+                                                                <div class="col-md-12">
+                                                                    <div class="row">
+                                                                        <div class="col-xs-12" style="    width: 97%;">
+                                                                            <!--DropZone-->
+                                                                            <!--IMPORTANTE!!!! Si se cambia el id del drozone cambiar el id en el script de abajo-->
+                                                                            <div id="appblankID2" ng-controller="appController">
+                                                                                <zamba-drop id="11535060" IndexIds="0"> </zamba-drop>
+                                                                            </div>
+                                                                            <script>
+                                                                                setTimeout(
+                                                                                    function () {
+                                                                                        $("#dZFUpload113").removeAttr("style");
+                                                                                    }, 3000);
+                                        
+                                                                                /**/</script>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -153,7 +166,7 @@
                                                                         </div>
                                                                         <div class="col-md-4" style="position:relative">
                                                                             <!--Botones FORM-->
-                                                                            <input name="zamba_rule_104" id="zamba_rule_104" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Imprimir">
+                                                                            <button name="zamba_rule_11550859" id="zamba_rule_11550859" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Imprimir">Este boton ejecuta el scipt osea el mensaje que aparece en la pantalla</button>
                                                                             <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
                                                                         </div>
                                                                         <div class="col-md-4"></div>

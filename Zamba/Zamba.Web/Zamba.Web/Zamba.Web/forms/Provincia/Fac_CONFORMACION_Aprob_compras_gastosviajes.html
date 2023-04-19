@@ -20,6 +20,8 @@
 <!--Fecha de Modificacion: 06/11/2019><Cambio: Se Modifico la Matriz 300 - 308-->
 <!--Modificado por: EEB -->
 <!--Fecha de Modificacion: 28/11/2019><Cambio: Se Agregaron los Conceptos 136, 227 , 510-->
+<!--Modificado por: EEB -->
+<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto -->
 
 
 
@@ -227,7 +229,7 @@
 
                         <div class="col-xs-12 col-sm-4" id="DivImporteOtraMoneda1">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe:</span>
+                                <span class="input-group-addon">Importe Neto:</span>
                                 <input id="zamba_index_11535222" name="zamba_index_11535222" min="0" step="any"
                                        data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
                                        onkeypress="val_Importe(this, event);" maxlength="15" disabled />
@@ -245,7 +247,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Pesos:</span>
+                                <span class="input-group-addon">Importe Neto Pesos:</span>
 
                                 <input id="zamba_index_109" name="zamba_index_109" min="0" step="any"
                                        data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -253,6 +255,21 @@
 
                             </div>
                         </div>
+						
+						<div class="col-xs-12 col-sm-3"> </div>
+						
+						<div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Bruto:</span>
+
+                                <input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    onkeypress="val_Importe(this, event);" maxlength="15" disabled />
+
+                            </div>
+                        </div>
+						
+						
                     </div>
 
                     <div class="form-group row">
@@ -450,7 +467,7 @@
         </center>
 
 
-        <script src="FacturasyPagos.js?v=248"></script>
+        <script src="FacturasyPagos.js?v=200"></script>
 
         <script>
             $(document).ready(function () {
@@ -458,7 +475,7 @@
 			//Establece Puntos millares y coma a los importes traidos del origen.
                     setInputSeparator('zamba_index_109');
                     setInputSeparator('zamba_index_11535222');
-
+					setInputSeparator('zamba_index_11535296');
                 // InabilitarCampos();
                 //validarfacturaexiste();
 

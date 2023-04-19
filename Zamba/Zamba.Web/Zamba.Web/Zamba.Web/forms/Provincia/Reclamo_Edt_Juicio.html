@@ -5,7 +5,7 @@
     <title></title>
   <!-- Referencias Genericas -->
 	<!-- CSS -->
-	<link href="../../Content/partialSearchIndexs.css?v=248" rel="stylesheet" />
+	<link href="../../Content/partialSearchIndexs.css" rel="stylesheet" />
 	<link href="../../Scripts/KendoUI/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="../../Scripts/KendoUI/styles/kendo.default.min.css" rel="stylesheet" />
     <link href="../../Scripts/KendoUI/styles/kendo.default.mobile.min.css" rel="stylesheet" />
@@ -37,8 +37,8 @@
     <link href="../../app/Grid/CSS/GridThumb.css" rel="stylesheet" />
 	<!-- JS -->   	
     <script src="../../app/Grid/JS/ui-bootstrap-tpls-1.2.4.js"></script>
-    <script src="../../app/Grid/Controller/GridController.js?v=248"></script>
-    <script src="../../app/ruleExecition/RuleExecutionService.js?v=248"></script>
+    <script src="../../app/Grid/Controller/GridController.js"></script>
+    <script src="../../app/ruleExecition/RuleExecutionService.js"></script>
     <script src="../../app/Grid/Service/GridService.js"></script>
 
 
@@ -815,11 +815,10 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="Importantes">
-                        <div class="form-group row">
-                            <div ng-controller="ZambaAssociatedController">
-                                <zamba-associated default-enable-mode="grid" table-height="400" grid-title="IMPORTANTE" onlyImportants="true">
-                                </zamba-associated>
-                            </div>
+                        <p></p>
+                        <h5>Resumen</h5>
+                        <div class="tablesorter" id="zamba_associated_documents_importants">
+
                         </div>
                     </div>
                     <div class="row">
@@ -849,7 +848,7 @@
                                 //}
                 </script>
 
-                <script src="../../scripts/Zamba.js?v=258" type="text/javascript" language="JavaScript"></script>
+                <script src="../../scripts/Zamba.js?v=179" type="text/javascript" language="JavaScript"></script>
                 <script src="../../scripts/tabber.js" type="text/javascript" language="JavaScript"></script>
 
                 <script type="text/javascript" language="JavaScript">

@@ -9,6 +9,7 @@
     });
 
     CheckImporteMoneda();
+    CheckMiPyme();
 
     $("#zamba_index_92").on({
         "change": CheckImporteMoneda,
@@ -17,8 +18,10 @@
     $("#zamba_index_11535223").on({
         "focusout": CheckImporteMoneda,
     });
-    $("#zamba_index_11535222").on({
-        "focusout": CheckImporteMoneda,
+
+    $("#zamba_index_11535222").on("focusout", function () {
+        CheckImporteMoneda();
+        validateImportePesos();
     });
 });
 
@@ -51,15 +54,16 @@ function CheckImporteMoneda() {
         $("#zamba_index_109").attr('readonly', 'readonly');
         $("#zamba_index_109").attr('readonly', 'readonly');
 
-        if (tipoCambio != undefined && tipoCambio != null && tipoCambio != '') {
+        if (moneda != undefined && moneda != null && moneda != '') {
             if (importeOtraMoneda != undefined && importeOtraMoneda != null && importeOtraMoneda != '') {
-                importePesos = parseFloat(importeOtraMoneda.replace('.', '').replace(',', '.'), 2) * parseFloat(tipoCambio.replace(',', '.'), 2);
-                $("#zamba_index_109").val(new Intl.NumberFormat("es-AR", { style: "decimal", minimumFractionDigits: 2 }).format(importePesos));
-            }
-            else {
-                $("#zamba_index_109").val("0");
-                $("#importeError").attr("inneHtml", "Importe en otra moneda obligatorio");
-            }
+                
+				 if (tipoCambio == undefined || tipoCambio == null || tipoCambio == '') {
+			
+				
+					var scope_taskController = angular.element($("#taskController")).scope();
+					scope_taskController.zRule(11550412, [{ 'zamba_index_11535222': 'importe' }, { 'zamba_index_92': 'moneda' }], [{ 'zamba_index_109': 'importepesos' }, { 'zamba_index_11535223': 'tasa' }]);
+				}
+			}
         }
         else {
             if (importeOtraMoneda != undefined && importeOtraMoneda != null && importeOtraMoneda != '') {
@@ -86,7 +90,30 @@ function CheckImporteMoneda() {
 
 };
 
+function CheckMiPyme() {
+    if ($('#zamba_index_11525201').prop('checked')) {
+        $('#MiPymeArea').css('display','block');
+        
 
+    } else {
+        $('#MiPymeArea').css('display','none');
+        
+    }
+};
+
+function validateImportePesos() {
+
+    var moneda = $("#zamba_index_92").val();
+    var importeOtraMoneda = $("#zamba_index_11535222").val();
+
+    if (moneda != undefined && moneda != null && moneda != '') {
+        if (importeOtraMoneda == '') {
+            $("#zamba_index_109").val("0");
+            $("#importeError").attr("inneHtml", "Importe en otra moneda obligatorio");
+            swal('Datos requeridos', 'Importe es un campo obligatorio', 'warning');
+        }
+    }
+} ;
 
 
 function RemoveNonFacItems() {
@@ -134,9 +161,9 @@ function zamba_save_onclick_ingresoPago(sender) {
     } else if (document.getElementById("zamba_index_110").value == "") {
         swal("", "Por favor, ingrese un Tipo de Gasto.", "error");
         valido = false;
-        //} else if (document.getElementById("zamba_index_2725").value == "") {
-        //    swal("", "Por favor, ingrese un Concepto.", "error");
-        //    valido = false;
+    } else if (document.getElementById("zamba_index_2725").value == "0") {
+        swal("", "Por favor, ingrese un Concepto.", "error");
+        valido = false;
     } else if (document.getElementById("zamba_index_82").value == "") {
         swal("", "Por favor, ingrese una delegación.", "error");
         valido = false;
@@ -206,27 +233,27 @@ function ValidarTasadecambioPago() {
 
         if ($("#zamba_index_11535222").val() == "") {
             validoPago = false;
-            swal("error", "Tenes que completar Importe", "error");
+            swal("error", "Por favor, ingrese Importe", "error");
             return validoPago;
         } else if ($("#zamba_index_11535223").val() != "") {
             validoPago = true;
 
         } else {
             validoPago = false;
-            swal("error", "Tenes que completar  Tipo de Cambio", "error");
+            swal("error", "Por favor, ingrese Tipo de Cambio", "error");
             return validoPago;
         }
 
 
         if (validoPago == true && $("#zamba_index_11535223").val() == "") {
             validoPago = false;
-            swal("error", "Tenes que completar  Tasa de Cambio", "error");
+            swal("error", "Por favor, ingrese Tasa de Cambio", "error");
             return validoPago;
         } else if ($("#zamba_index_11535222").val() != "") {
             validoPago = true;
         } else {
             validoPago = false;
-            swal("error", "Tenes que completar Importe", "error");
+            swal("error", "Por favor, ingrese Importe", "error");
             return validoPago;
         }
 

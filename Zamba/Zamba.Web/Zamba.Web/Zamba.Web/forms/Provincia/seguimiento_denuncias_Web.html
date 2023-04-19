@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        /* latin */
+        @font-face {
+            font-family: 'Libre Barcode 39';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Libre Barcode 39 Regular'), local('LibreBarcode39-Regular'), url(https://fonts.gstatic.com/s/librebarcode39/v8/-nFnOHM08vwC6h8Li1eQnP_AHzI2G_Bx0g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        @font-face {
+            font-family: 'IDAutomationHC39M';
+            src: local('IDAutomationHC39M'), url(fonts/IDAutomationHC39M.woff);
+        }
+
+        .codebar39 {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 48px;
+        }
+    </style>
+</head>
+
+<body>
+    <form name="frmMain" action="Seguimiento_denuncias.html">
+        <div class="container-fluid">
+
+            <input id="hdnRuleId" type="hidden" />
+
+            <div class="tab-content">
+
+
+                <div class="form-group row"></div>
+                <div class="form-group row"></div>
+
+                <!--------------------------------------------------TITULO DEL FORMULARIO------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-12 col-sm-offset-5">
+                        <b>SEGUMIENTO DENUNCIA</b>
+                    </div>
+                </div>
+                <!-------------------------------------------------PRIMERA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Nro de Siniestro-->
+                            <span class="input-group-addon">Nro de Siniestro:</span>
+                            <input id="zamba_Index_22" name="zamba_Index_22" size="1"
+                                class="form-control autoSave solonums" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--SubEstado-->
+                            <span class="input-group-addon">SubEstado:</span>
+                            <input id="zamba_Index_3004" name="zamba_Index_3004" size="1"
+                                class="form-control solonums" />
+                        </div>
+                    </div>
+                </div>
+
+                <!--------------------------------------------------SEGUNDA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Nombre y Apellido-->
+                            <span class="input-group-addon">Sección</span>
+                            <input id="zamba_Index_46" name="zamba_Index_46" size="1" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Tipo de siniestro-->
+                            <span class="input-group-addon">Tipo de Siniestro:</span>
+                            <input id="zamba_Index_3006" name="zamba_Index_3006" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------TERCERA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Texto Persona-->
+                            <span class="input-group-addon">Texto Persona</span>
+                            <input id="zamba_Index_3018" name="zamba_Index_3018" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------CUARTA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Gestor de Siniestro-->
+                            <span class="input-group-addon">Gestor de Siniestro</span>
+                            <input id="zamba_Index_3055" name="zamba_Index_3055" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------QUINTA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Cliente-->
+                            <span class="input-group-addon">Cliente</span>
+                            <input id="zamba_Index_16" name="zamba_Index_16" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------SEXTA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Nombre del Contacto:-->
+                            <span class="input-group-addon">Nombre del Contacto:</span>
+                            <input id="zamba_Index_2051" name="zamba_Index_2051" size="1"
+                                class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail del Contacto:-->
+                            <span class="input-group-addon">Mail del Contacto:</span>
+                            <input id="zamba_Index_2050" name="zamba_Index_2050" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------SEPTIMA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-6 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Aseguradora-->
+                            <span class="input-group-addon">Aseguradora</span>
+                            <input id="zamba_Index_1340" name="zamba_Index_1340" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------OCTAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Nombre del Contacto:-->
+                            <span class="input-group-addon">Nombre del Contacto:</span>
+                            <input id="zamba_Index_3012" name="zamba_Index_3012" size="1"
+                                class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail del Contacto:-->
+                            <span class="input-group-addon">Mail del Contacto:</span>
+                            <input id="zamba_Index_3013" name="zamba_Index_3013" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------NOVENA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Ejecutivo-->
+                            <span class="input-group-addon">Ejecutivo</span>
+                            <SELECT id="zamba_index_2681" name="zamba_index_2681" size="1"
+                                class="form-control input-sm"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail Ejecutivo:-->
+                            <span class="input-group-addon">Mail Ejecutivo:</span>
+                            <input id="zamba_Index_503100" name="zamba_Index_503100" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------DECIMA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-2">
+                        <div class="input-group">
+                            <!--Ejecutivo-->
+                            <span class="input-group-addon">Fecha del siniestro:</span>
+                            <SELECT id="zamba_index_2681" name="zamba_index_2681" size="1"
+                                class="form-control input-sm"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail Ejecutivo:-->
+                            <span class="input-group-addon">Fecha Prescripción:</span>
+                            <input id="zamba_Index_503100" name="zamba_Index_503100" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail Ejecutivo:-->
+                            <span class="input-group-addon">Fecha de denuncia:</span>
+                            <input id="zamba_Index_503100" name="zamba_Index_503100" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------ONCEAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-2">
+                        <div class="input-group">
+                            <!--Ejecutivo-->
+                            <span class="input-group-addon">Fecha Alarma CIA:</span>
+                            <SELECT id="zamba_Index_3002" name="zamba_Index_3002" size="1"
+                                class="form-control input-sm"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail Ejecutivo:-->
+                            <span class="input-group-addon">Fecha Reclamo CIA:</span>
+                            <input id="zamba_Index_2048" name="zamba_Index_2048" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Mail Ejecutivo:-->
+                            <span class="input-group-addon">Fecha Alarma Cobranzas:</span>
+                            <input id="zamba_Index_503102" name="zamba_Index_503102" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------DOCEAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-offset-2">
+                        <div class="input-group">
+                            <!--Fecha Alarma Cliente:-->
+                            <span class="input-group-addon">Fecha Alarma Cliente:</span>
+                            <input id="zamba_Index_3007" name="zamba_Index_3007" size="1"
+                                class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-offset-3">
+                        <div class="input-group">
+                            <!--Fecha Reclamo Cliente:-->
+                            <span class="input-group-addon">Fecha Reclamo Cliente: </span>
+                            <input id="zamba_Index_2049" name="zamba_Index_2049" class="form-control input-sm" />
+                        </div>
+                    </div>
+                </div>
+
+                <!--------------------------------------------------TRECEAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <span class="input-group-addon">
+                                Datos Faltantes
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9 col-sm-offset-2">
+                            <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_Index_3005"
+                                name="zamba_Index_3005"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------CATORCEAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <span class="input-group-addon">Observaciones:</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9 col-sm-offset-2">
+                            <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_Index_48"
+                                name="zamba_Index_48"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------QUINCEAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <span class="input-group-addon">Datos Adicionales:</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9 col-sm-offset-2">
+                            <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_Index_3011"
+                                name="zamba_Index_3011"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------------DIECISEISAVA FILA DE ATRIBUTOS------------------------------------------------------------------------->
+                <div class="form-group row">
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <span class="input-group-addon" style="color: rgb(9, 13, 221);">
+                                <H4><B>Historial</B></H4>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9 col-sm-offset-2">
+                            <textarea class="form-control input-sm" cols="1" rows="5" id="zamba_Index_3017"
+                                name="zamba_Index_3017"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!--------------------------------------------------BOTONES------------------------------------------------------------------------->
+                <div class="form-group row">
+                    <div class="col-md-1 col-sm-offset-5">
+                        <input name="zamba_save" id="zamba_save" class="btn btn-primary" type="submit"
+                            value="Guardar" />
+                    </div>
+                    <div class="col-md-3">
+                        <input name="zamba_cancel" id="zamba_cancel" class="btn btn-warning" type="submit"
+                            value="Cancelar" />
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <center>
+                    <div class="col-md-12">
+                        <span style="color:whitesmoke">seguimiento denuncias.html</span>
+                    </div>
+                </center>
+            </div>
+
+        </div>
+    </form>
+</body>
+
+</html>

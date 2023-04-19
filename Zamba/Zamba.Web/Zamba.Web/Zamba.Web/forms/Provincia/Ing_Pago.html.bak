@@ -79,7 +79,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Codigo de Proveedor-->
-                                <span class="input-group-addon">Codigo del Proveedor:</span>
+                                <span class="input-group-addon">Código del Proveedor:</span>
                                 <input id="zamba_index_15" name="zamba_index_15" size="1" class="form-control solonums required" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="submit" name="zamba_rule_11530542" id="zamba_rule_11530542" onclick="SetRuleId(this);">
@@ -145,7 +145,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Metodo de Pago-->
-                                <span class="input-group-addon">Metodo de Pago:</span>
+                                <span class="input-group-addon">Método de Pago:</span>
                                 <select id="zamba_index_1020169" name="zamba_index_1020169" class="form-control input-sm"></select>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--delegación-->
-                                <span class="input-group-addon">delegación:</span>
+                                <span class="input-group-addon">Delegación:</span>
                                 <select class="form-control input-sm" id="zamba_index_82" name="zamba_index_82" size="1"></select>
                             </div>
                         </div>
@@ -270,7 +270,7 @@
                     <div class="col-md-12 col-sm-6">
                         <div class="row">
                             <div class=" col-xs-12">
-                                <span class="input-group-addon">Descripcion:</span>
+                                <span class="input-group-addon">Descripción:</span>
                                 <textarea id="zamba_index_1220185" name="zamba_index_1220185" rows="5" class="form-control input-sm"></textarea>
                             </div>
                         </div>
@@ -309,7 +309,7 @@
                     <div class="form-group row">
                         <div class="col-md-6"></div>
                         <div class="col-xs-2 ">
-                            <input name="zamba_rule_1223275" id="zamba_rule_1223275" onclick="return zamba_save_onclick(this);" class="btn btn-success" type="submit" value="Solicitar Aprobacion" />
+                            <input name="zamba_rule_1223275" id="zamba_rule_1223275" onclick="return zamba_save_onclick_ingresoPago(this);" class="btn btn-success" type="submit" value="Solicitar Aprobación" />
                         </div>
                         <div class="col-xs-2 ">
                             <input name="zamba_save" id="zamba_save" class="btn btn-primary" type="submit" value="Guardar Borrador" />
@@ -417,7 +417,7 @@
             </div>
             <!-- Nuevo -->
 
-            <script src="FacturasyPagos.js?v=172"></script>
+            <script src="FacturasyPagos.js?v=200"></script>
 
             <script type="text/javascript" language="JavaScript">
 
@@ -454,63 +454,7 @@
 
                 });
 
-                //function validarfacturaexiste() {
-                //    if ($('#zamba_index_1020143').val() == 'NO') {
-                //        $('#zamba_index_105').removeAttr('disabled');
-                //        $('#zamba_index_110').removeAttr('disabled');
-                //        $('#zamba_index_82').removeAttr('disabled');
-                //        $('#zamba_index_126').removeAttr('disabled');
-                //        $('#zamba_index_53').removeAttr('disabled');
-                //        $('#zamba_index_92').removeAttr('disabled');
-                //        $('#zamba_index_1020132').removeAttr('disabled');
-                //        $('#zamba_index_86').removeAttr('disabled');
-                //        $('#zamba_index_73').removeAttr('disabled');
-                //        $('#zamba_index_4').removeAttr('disabled');
-                //        $('#zamba_index_2681').removeAttr('disabled');
-                //        $('#zamba_index_2').removeAttr('disabled');
-                //        $('#zamba_index_107').removeAttr('disabled');
-                //        $('#zamba_index_106').removeAttr('disabled');
-                //        $('#zamba_index_72').removeAttr('disabled');
-                //        $('#zamba_index_10').removeAttr('disabled');
-                //        $('#zamba_index_109').removeAttr('disabled');
-                //        $('#zamba_index_74').removeAttr('disabled');
-                //        $('#zamba_index_50').removeAttr('disabled');
-                //        $('#zamba_index_2').removeAttr("readonly");
-                //        $('#zamba_index_105').removeAttr("readonly");
-                //        $('#zamba_index_86').removeAttr("readonly");
-                //        $('#zamba_index_72').removeAttr("readonly");
-                //        $('#zamba_index_10').removeAttr("readonly");
-                //        $('#zamba_index_109').removeAttr("readonly");
-                //        $('#zamba_index_50').removeAttr("readonly");
-                //        $('#zamba_index_82').removeAttr("readonly");
-                //        $('#zamba_index_126').removeAttr("readonly");
-                //        $('#zamba_index_53').removeAttr("readonly");
-                //        $('#zamba_index_1020132').removeAttr("readonly");
-
-                //    } else if ($('#zamba_index_1020143').val() == 'SI') {
-                //        $('#zamba_index_105').attr('disabled', 'disabled');
-                //        $('#zamba_index_110').attr('disabled', 'disabled');
-                //        $('#zamba_index_82').attr('disabled', 'disabled');
-                //        $('#zamba_index_126').attr('disabled', 'disabled');
-                //        $('#zamba_index_53').attr('disabled', 'disabled');
-                //        $('#zamba_index_92').attr('disabled', 'disabled');
-                //        $('#zamba_index_1020132').attr('disabled', 'disabled');
-                //        $('#zamba_index_86').attr('disabled', 'disabled');
-                //        $('#zamba_index_73').attr('disabled', 'disabled');
-                //        $('#zamba_index_4').attr('disabled', 'disabled');
-                //        $('#zamba_index_2681').attr('disabled', 'disabled');
-                //        $('#zamba_index_2').attr('disabled', 'disabled');
-                //        $('#zamba_index_107').attr('disabled', 'disabled');
-                //        $('#zamba_index_106').attr('disabled', 'disabled');
-                //        $('#zamba_index_72').attr('disabled', 'disabled');
-                //        $('#zamba_index_10').attr('disabled', 'disabled');
-                //        $('#zamba_index_109').attr('disabled', 'disabled');
-                //        $('#zamba_index_74').attr('disabled', 'disabled');
-                //        $('#zamba_index_50').attr('disabled', 'disabled');
-                //        $('#zamba_rule_168').attr('disabled', 'disabled');
-                //    }
-                //}
-
+               
                 function InabilitarCampos() {
 
                     if ($("#zamba_index_1020143").val() == 'NO') {
@@ -591,82 +535,7 @@
                     }
                 }
 
-                function zamba_save_onclick(sender) {
-                    var valido = true;
-                    if (document.getElementById("zamba_index_105").value == "") {
-                        swal("", "Por favor, ingrese un Nombre y Apellido o Razón Social.", "error");
-                        try {
-                            $("#zamba_index_105").focus();
-                            $("#zamba_index_105").css("bordercolor", "red");
-                        } catch (e) {
-
-                        }
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_110").value == "") {
-                        swal("", "Por favor, ingrese un Tipo de Gasto.", "error");
-                        valido = false;
-                        //} else if (document.getElementById("zamba_index_2725").value == "") {
-                        //    swal("", "Por favor, ingrese un Concepto.", "error");
-                        //    valido = false;
-                    } else if (document.getElementById("zamba_index_82").value == "") {
-                        swal("", "Por favor, ingrese una delegación.", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_126").value == "") {
-                        swal("", "Por favor, ingrese el Sector.", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_53", "error").value == "") {
-                        swal("", "Por favor, ingrese el  Solicitante", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_92").value == "") {
-                        swal("", "Por favor, ingrese Tipo de Moneda", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_109").value == "") {
-                        swal("", "Por favor, ingrese Monto", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_1020132").value == "") {
-                        swal("", "Por favor, ingrese el  ID PAGO", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_86").value == "") {
-                        swal("", "Por favor, ingrese el  ID trámite", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_73").value == "") {
-                        swal("", "Por favor, ingrese Fecha Comprobante", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_4").value == "") {
-                        swal("", "Por favor, ingrese el  Recepcion", "error");
-                        valido = false;
-                    } else if (document.getElementById("zamba_index_1020169").value == "") {
-                        swal("", "Por favor, ingrese Metodos de Pago", "error");
-                        valido = false;
-                        //    valido = false;
-                    } else if (ValidationExtFctura() == false) {
-                        swal("", "El campo ingrese factura debe ser SI", "error");
-                        valido = false;
-                    } else if (ValidateTipoComprobante() == false) {
-                        swal("", "Por favor, ingrese tipo de Comprobante", "error");
-                        valido = false;
-                    } else if (ValidateTipoLetra() == false) {
-                        swal("", "Por favor, ingrese tipo de Letra", "error");
-                        valido = false;
-                    } else if (ValidatePuntoVenta() == false) {
-                        swal("", "Por favor, ingrese el punto de venta", "error");
-                        valido = false;
-                    } else if (ValidateNroComprobante() == false) {
-                        swal("", "Por favor, ingrese Nro Comprobante", "error");
-                        valido = false;
-                    } else if (ValidateFechaCAI() == false) {
-                        swal("", "Por favor, ingrese Fecha CAI", "error");
-                        valido = false;
-                    } else if (ValidateOrdenComrpra() == false) {
-                        swal("", "Por favor, ingrese Orden de Compra", "error");
-                        valido = false;
-                    } else {
-                        SetRuleId(sender);
-                    }
-                    return valido;
-                }
-
-
+                
             </script>
 
             <script>

@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion:-->
+<!--Modificado por:-->
+<!--Fecha de Modificacion:-->
+<head>
+
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+</head>
+
+<body>
+    <form name="frmMain" action="Ing_Notificacion.html">
+        <div class="container-fluid">
+
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+            <center>
+                <h5>Consulta Designación de Beneficiarios Vida y AP </h5>
+            </center>
+
+            <div class="PanelPrincipal">
+                <div class="form-group row">
+                   <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Ramo-->
+                            <span class="input-group-addon">Ramo</span>
+                            <select id="zamba_index_11535248" name="zamba_index_11535248" class="form-control input-sm" disabled > </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Poliza-->
+                            <span class="input-group-addon">Póliza</span>
+                            <input id="zamba_index_14" name="zamba_index_14" size="1" class="form-control input-sm" autocomplete="off" onkeyup="ValidarPolizaCompleto()" disabled />
+                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Expediente-->
+                            <span class="input-group-addon input-sm">Contratante</span>
+                            <input id="zamba_index_11535247" name="zamba_index_11535247" size="1" class="form-control input-sm" type="text" disabled />
+                            <span class="input-group-btn">
+                                <!--<button class="btn btn-default btn-sm" type="submit" name="zamba_rule_1013927" id="zamba_rule_1013927" onclick="SetRuleId(this);">
+                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                </button>-->
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--ID Notificacion-->
+                            <span class="input-group-addon" style="color:blue">ID Trámite</span>
+                            <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="form-group row">
+                    <div class="col-md-3">
+
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <!--Tipo de Documento-->
+                                <select class="btn btn-default btn-sm" id="zamba_index_108" name="zamba_index_108" disabled> </select>
+                            </div>
+                            <!--Nro de Documento-->
+                            <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control input-sm"disabled />
+                           </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <!--Actor-->
+                            <span class="input-group-addon">Nombre y Apellido Asegurado</span>
+                            <input id="zamba_index_1020002" name="zamba_index_1020002" size="1" class="form-control  input-sm" autocomplete="off" onkeyup="ValidarActorCompleto()" disabled />
+                            <span class="input-group-btn">
+                                <!--<button class="btn btn-default  btn-sm" type="submit" name="zamba_rule_1013142" id="zamba_rule_1013142" onclick="SetRuleId(this);">
+                                    <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                </button>-->
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <!--Tipo de Documentacion-->
+                            <span class="input-group-addon">Tipo de Documentación (*)</span>
+                            <input id="zamba_index_29" name="zamba_index_29" class="form-control input-sm" disabled />
+                        </div>
+                    </div>
+                
+				
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <!--Tipo de Documentacion-->
+                            <span class="input-group-addon">Nro Caja</span>
+                            <input id="zamba_index_121" name="zamba_index_121" class="form-control input-sm" disabled />
+                        </div>
+                    </div>
+					<div class="col-md-3">
+                        <div class="input-group">
+                            <!--Fecha de INgreso-->
+                            <span class="input-group-addon">Fecha de Ingreso:</span>
+                                <input id="zamba_index_1020066" name="zamba_index_1020066" size="1"
+                                       class="form-control input-sm dataType datepicker" autocomplete="off" disabled />
+                        </div>
+                    </div>
+					</div>
+
+
+
+                <hr />
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <!--Area texto Observacion-->
+                        <!--<div >-->
+                        <div id="appobs" ng-controller="ObservacionController">
+                            <zamba-observaciones index-id="84" entity-id="11535042"></zamba-observaciones>
+                        </div>
+
+                        <!--</div>-->
+                    </div>
+                    
+                </div>
+
+
+                
+				</div>
+                </div>		
+                <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="11535043" default-enable-mode="grid" table-height="400" grid-title="Designación">
+                            </zamba-associated>
+                        </div>
+                    </div>
+                <div class="form-group row" style="position:relative;bottom:-20px;">
+                    <div class="row">
+                        <center>
+                            <div class="col-md-2" style="position:relative;left:20px;">
+                                <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <span style="color:whitesmoke">Cons_Doc_Designacion_Web.html</span>
+                            </div>
+                            <div class="col-md-5" style="position:relative;left:-20px;">
+                                <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                                <div class="form-group row">
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+
+
+                <!--IMPORTANTE  cambiar version al modificar formulario
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="colorVersion"> V. 1.1.1 </span>
+                    </div>
+                </div>-->
+            </div>
+
+
+            
+
+
+        </div>
+    </form>
+
+
+
+</body>
+</html>

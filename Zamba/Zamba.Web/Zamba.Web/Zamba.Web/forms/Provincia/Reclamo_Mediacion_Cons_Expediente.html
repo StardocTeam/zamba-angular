@@ -1,0 +1,376 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Tipo de Modificacion: Se quitaron las solapas Pagos y Embargo ademⳠExpediente se llevo al principio-->
+<!--Modificado por:GMR-->
+<!--Fecha de Modificacion:03/09/2018-->
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+</head>
+
+<body>
+    <form name="frmMain" action="ReclamoImpactado.html">
+        <div class="container-fluid">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation"
+                style="margin-top:71px; height: 35px; z-index: 1">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="navbar-form navbar-left" role="search" style="margin-top: 0; z-index: 1">
+                        <div class="form-group row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-1">
+                                <!-- Trigger the modal with a button -->
+                                <button type="button" class=" btn-info  btn btn-circle-sm pull-right"
+                                    onclick="OpenHelp(location.origin.trim() + '/ZambaWeb.Fs/Instructivos/Consulta Mediacion_Juicio.pdf', 'Mediación / Juicio');">
+                                    <i class="fa fa-question"></i>
+                                </button>
+
+                            </div>
+                            <!--<div class="input-group-btn"><input class="btn  btn-info btn-sm" id="zamba_rule_11528" name="zamba_rule_11528" type="submit" value="Resumen" onclick="SetRuleId(this);" /></div>
+                <div class="input-group-btn"><input class="btn  btn-info btn-sm" id="zamba_rule_13377" name="zamba_rule_13377" type="submit" value="Web Poder Judicial" onclick="SetRuleId(this);"  /></div>
+                <div class="input-group-btn"><input class="btn  btn-info btn-sm" id="zamba_rule_18120" name="zamba_rule_18120" type="submit" value="Denuncia" onclick="SetRuleId(this);" /></div>
+                <div class="input-group-btn"><input class="btn  btn-info btn-sm" id="zamba_rule_1001078" name="zamba_rule_1001078" type="submit" value="Web Sanchez Negrete" onclick="SetRuleId(this);" /></div>-->
+                        </div>
+
+                    </div>
+
+
+                </div><!-- /.navbar-collapse -->
+            </nav>
+
+            <ul class=" nav nav-tabs navbar-fixed-top" style="margin-top:121px; z-index: 1">
+                <li class=" active"><a href="#Reclamo" data-toggle="tab">Mediaci&oacute;n/Juicio</a></li>
+                <li><a href="#Documentacion" data-toggle="tab">Expediente</a></li>
+            </ul>
+
+            <div class="tab-content" style="margin-top:70px">
+                <div class="tab-pane fade in active" id="Reclamo">
+
+                    <div class="form-group row">
+                        <div class="col-md-5"></div>
+
+
+
+                        <div class="col-xs-1 ">
+                            <div class="form-check" enableGroups="12943" style="display: none;">
+                                <input type="checkbox" class="form-check-input" id="zamba_index_11535242"
+                                    name="zamba_index_11535242" style="height: 20px; width: 20px;" />
+                                <span><b>Visible para Auditor </b></span>
+                            </div>
+                        </div>
+
+                        <div class=" col-md-2">
+                            <div class="input-group">
+                                <!-- ID RECLAMO -->
+                                <span class="input-group-addon">ID Reclamo</span>
+                                <input id="zamba_index_2677" name="zamba_index_2677" class="form-control input-sm"
+                                    disabled style="font-weight:600;" />
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div id="tblReclamo" class="attributes_table">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Ramo-->
+                                    <span class="input-group-addon">Ramo </span>
+                                    <input id="zamba_index_19" name="zamba_index_19" class="form-control input-sm"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <!-- Siniestro-->
+                                    <span class="input-group-addon" style="padding:6px">Cia</span>
+                                    <input id="zamba_index_10191" name="zamba_index_10191" size="1" class="form-control"
+                                        style="padding: 7px; font-weight:600;" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <!--Poliza-->
+                                    <span class="input-group-addon">P&oacute;liza </span>
+                                    <input id="zamba_index_1020022" name="zamba_index_1020022" size="1"
+                                        class="form-control" disabled style="font-weight:600;" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding:0px;">Cert.</span>
+                                    <input id="zamba_index_10165" name="zamba_index_10165" size="1" class="form-control"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <!-- Siniestro-->
+                                    <span class="input-group-addon">Siniestro </span>
+                                    <input id="zamba_index_17" name="zamba_index_17" size="1" class="form-control"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding:1px;">Sstro.</span>
+                                    <input id="zamba_index_2694" name="zamba_index_2694" size="1" class="form-control"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding:1px;">J o M</span>
+                                    <input id="zamba_index_2681" name="zamba_index_2681" size="1" class="form-control"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <!-- RAJ = Nro de Juicio/Mediación-->
+                                    <span class="input-group-addon">RAJ </span>
+                                    <input id="zamba_index_2695" name="zamba_index_2695" size="1" class="form-control"
+                                        type="text" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Actor-->
+                                    <span class="input-group-addon">Actor </span>
+                                    <input id="zamba_index_59" name="zamba_index_59" size="1" class="form-control"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Demandado-->
+                                    <span class="input-group-addon">Demandado </span>
+                                    <input id="zamba_index_60" name="zamba_index_60" size="1" class="form-control"
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Jurisdicción--->
+                                    <span class="input-group-addon">Jurisdicci&oacute;n</span>
+                                    <input id="zamba_index_2685" name="zamba_index_2685" class="form-control" disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Abogado Interno--->
+                                    <span class="input-group-addon">Resp. Interno:</span>
+                                    <input id="zamba_index_1001011" name="zamba_index_1001011" class="form-control "
+                                        disabled style="font-weight:600;" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Estudio a Cargo-->
+                                    <span class="input-group-addon">Est. a Cargo:</span>
+                                    <input id="zamba_index_2732" name="zamba_index_2732" class="form-control " disabled
+                                        style="font-weight:600;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="Documentacion">
+
+                    <div class="form-group row" style="position:relative;right:-40px;">
+                        <div class="col-md-11"></div>
+                        <div class="col-md-1">
+                            <!-- Trigger the modal with a button -->
+                            <button type="button" class=" btn-info  btn btn-circle-sm pull-right"
+                                style="position: relative;top: 10px; left:-40px;"
+                                onclick="OpenHelp(location.origin.trim() + '/ZambaWeb.Fs/Instructivos/expediente.pdf', 'Expediente');">
+                                <i class="fa fa-question"></i>
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="15" default-enable-mode="grid" table-height="400"
+                                grid-title="Documentacion del Siniestro" openmode="open">
+                            </zamba-associated>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="2523" default-enable-mode="grid" table-height="400"
+                                grid-title="Documentacion de la mediacion Previa" openmode="open">
+                            </zamba-associated>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="2524" default-enable-mode="grid" table-height="400"
+                                grid-title="Documentacion del Juicio" openmode="open">
+                            </zamba-associated>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div id="expedienteTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="2525" default-enable-mode="grid" table-height="400"
+                                grid-title="Expediente" </zamba-associated>
+                        </div>
+                        <!--table-Width="20%"-->
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="12" default-enable-mode="grid" table-height="400"
+                                grid-title="Digitalizacion Historica del Juicio" openmode="open"></zamba-associated>
+                        </div>
+                        <!--table-Width="20%"-->
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div ng-controller="Modal as pc" class="modal-demo">
+                            <zamba-Doshowtable report-id="11535112" rule-id=""
+                                value-for-rule-query="rajmediacionprevia=zamba_index_10167" results-id="">
+                            </zamba-Doshowtable>
+                        </div>
+                        <!--table-Width="20%"-->
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                            <zamba-associated entities="17" default-enable-mode="grid" table-height="400"
+                                grid-title="Documentacion de Poliza" openmode="open"></zamba-associated>
+                        </div>
+                        <!--table-Width="20%"-->
+                    </div>
+
+
+                    <!--<div class="form-group row">
+            <div id="filenetTable" ng-controller="ZambaAssociatedController">
+                <zamba-associated entities="2525,2524,12,17" default-enable-mode="grid" table-height="400" grid-title="Varias Grillas">
+                </zamba-associated>
+            </div>
+        </div>-->
+
+                </div>
+
+                <div class="tab-pane" id="Importantes">
+
+                    <div class="form-group row" style="position:relative;right:-40px;">
+                        <div class="col-md-11"></div>
+                        <div class="col-md-1">
+                            <!-- Trigger the modal with a button -->
+                            <button type="button" class=" btn-info  btn btn-circle-sm pull-right"
+                                style="position: relative;top: 10px; left:-40px;"
+                                onclick="OpenHelp(location.origin.trim() + '/ZambaWeb.Fs/Instructivos/seccion-mantenimiento.png', 'En mantenimiento');">
+                                <i class="fa fa-question"></i>
+                            </button>
+                            <!-- Modal -->
+
+                        </div>
+                    </div>
+
+
+                    <h5>Resumen</h5>
+
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="row">
+                    <center>
+                        <div class="col-md-2" style="position:relative;left:20px;">
+                            <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <span style="color:whitesmoke">Reclamo_Mediacion_Cons_Expediente.html</span>
+                        </div>
+                        <div class="col-md-5" style="position:relative;left:-20px;">
+                            <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
+                            <div class="form-group row">
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+
+            <!--<script src="../../app/app-views/controllers/ForumCtrl.js"></script>
+            <script src="../../app/app-views/services/forumService.js"></script>-->
+
+
+            <script src="../../app/DoTablePro/DoShowTableController.js?v=179"></script>
+            <script src="../../app/DoTablePro/DoShowTableServices.js?v=179"></script>
+            <script src="../../app/SignFiles/Controller/SignController.js?v=179"></script>
+            <script src="../../app/SignFiles/Service/SignService.js?v=179"></script>
+            <script src="../../Scripts/GridAandDoshowtable/CommonFunctions.js?v=179"></script>
+
+            <script type="text/javascript" language="JavaScript">
+
+
+
+
+                $(document).ready(function () {
+                    HabilitarAsociar();
+                });
+
+
+                function HabilitarAsociar() {
+                    if (window != null && window.opener != null && window.opener.opener != null && window.opener.opener.document.getElementById("zamba_index_2677") != undefined && (window.opener.opener.document.getElementById("zamba_index_2677").val == undefined || window.opener.opener.document.getElementById("zamba_index_2677").val == ''))
+                        $("#zamba_rule_1015041").show();
+                    else
+                        $("#zamba_rule_1015041").hide();
+                }
+
+
+
+            </script>
+
+
+        </div>
+
+
+
+    </form>
+
+
+</body>
+
+</html>

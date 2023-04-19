@@ -1,0 +1,26 @@
+$(document).ready(function () {
+
+    ValidarTipoDocCartaDocumento();
+
+    $("#zamba_index_25").on({
+        "change": ValidarTipoDocCartaDocumento,
+
+    });
+});
+
+
+function ValidarTipoDocCartaDocumento() {
+
+    if ($("#zamba_index_25").val() != "3") {
+        $('#zamba_index_7').attr('disabled', 'disabled');
+        $("#zamba_rule_11548807").hide();
+
+    } else {
+        $('#zamba_index_7').removeAttr("disabled");
+        $("#zamba_rule_11548807").show();
+        $('#zamba_index_1020170').removeAttr("disabled");
+
+    }
+
+
+}

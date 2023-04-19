@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,7 +19,8 @@
         <div class="container-fluid">
             <center>
                 <div class="header background-blue">
-                    <h5 style="margin-bottom: -30px">INGRESO SOLICITUD DE COMPRA DE BIENES Y/O CONTRATACIÓN DE SERVICIOS</h5>
+                    <h5 style="margin-bottom: -30px">INGRESO SOLICITUD DE COMPRA DE BIENES Y/O CONTRATACIÓN DE SERVICIOS
+                    </h5>
                 </div>
             </center>
             <ul class=" nav nav-tabs">
@@ -36,47 +38,55 @@
                     <div class="form-group row">
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Nro de Solicitud-->                             <span class="input-group-addon">Nro de Solicitud:</span>
-                                <input id="zamba_index_1020146" name="zamba_index_1020146" size="1" class="form-control" disabled />
+                                <!--Nro de Solicitud--> <span class="input-group-addon">Nro de Solicitud:</span>
+                                <input id="zamba_index_1020146" name="zamba_index_1020146" size="1" class="form-control"
+                                    disabled />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Tipo de Solicitud-->                               <span class="input-group-addon">Tipo de Solicitud:</span>
-                                <select id="zamba_index_166" name="zamba_index_166" class="form-control input-sm" onchange="ValidarTipoSolicitud()"> </select>
+                                <!--Tipo de Solicitud--> <span class="input-group-addon">Tipo de Solicitud:</span>
+                                <select id="zamba_index_166" name="zamba_index_166" class="form-control input-sm"
+                                    onchange="ValidarTipoSolicitud()"> </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Periodicidad-->                                  <span class="input-group-addon">Periodicidad:</span>
-                                <select id="zamba_index_232" name="zamba_index_232" size="1" class="form-control input-sm"></select>
+                                <!--Periodicidad--> <span class="input-group-addon">Periodicidad:</span>
+                                <select id="zamba_index_232" name="zamba_index_232" size="1"
+                                    class="form-control input-sm"></select>
 
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--ID trámite-->                                       <span class="input-group-addon" style="color:blue">ID trámite:</span>
-                                <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm " disabled />
+                                <!--ID trámite--> <span class="input-group-addon" style="color:blue">ID trámite:</span>
+                                <input id="zamba_index_86" name="zamba_index_86" class="form-control input-sm "
+                                    disabled />
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <!--Lugar de Entrega-->									<span class="input-group-addon">Lugar de Entrega:</span>
-                                <select id="zamba_index_167" name="zamba_index_167" size="1" class="form-control input-sm"></select>
+                                <!--Lugar de Entrega--> <span class="input-group-addon">Lugar de Entrega:</span>
+                                <select id="zamba_index_167" name="zamba_index_167" size="1"
+                                    class="form-control input-sm"></select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Fecha de Pedido-->                               	<span class="input-group-addon">Fecha de Pedido:</span>
-                                <input id="zamba_index_161" name="zamba_index_161" class="form-control input-sm dateTimeToday" disabled />
+                                <!--Fecha de Pedido--> <span class="input-group-addon">Fecha de Pedido:</span>
+                                <input id="zamba_index_161" name="zamba_index_161"
+                                    class="form-control input-sm dateTimeToday" disabled />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Fecha de Entrega-->                          		<span class="input-group-addon">Fecha de Necesidad:</span>
-                                <input id="zamba_index_165" name="zamba_index_165" size="1" class="form-control input-sm  dataType datepicker" data-date-open-on-focus="true" autocomplete="off" />
+                                <!--Fecha de Entrega--> <span class="input-group-addon">Fecha de Necesidad:</span>
+                                <input id="zamba_index_165" name="zamba_index_165" size="1"
+                                    class="form-control input-sm  dataType datepicker" data-date-open-on-focus="true"
+                                    autocomplete="off" />
                             </div>
                         </div>
                     </div>
@@ -85,25 +95,58 @@
                             <div class="input-group">
                                 <!--Descripcion de la Solicitud-->
                                 <span class="input-group-addon">Descripción de la Solicitud:</span>
-                                <textarea id="zamba_index_51" name="zamba_index_51" rows="5" onkeypress="return check(event)" class="form-control input-sm"></textarea>
+                                <textarea id="zamba_index_51" name="zamba_index_51" rows="5"
+                                    onkeypress="return check(event)" class="form-control input-sm"></textarea>
 
                             </div>
+
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Estado de la Solicitud-->
                                 <span class="input-group-addon" style="padding:5px;">Estado de la Solicitud:</span>
-                                <input class="form-control input-sm" id="zamba_index_155" name="zamba_index_155" disabled />
+                                <input class="form-control input-sm" id="zamba_index_155" name="zamba_index_155"
+                                    disabled />
                             </div>
                             <div class="input-group" style="margin-top:15px">
                                 <!--delegación-->
                                 <span class="input-group-addon">Delegación:</span>
-                                <select id="zamba_index_82" name="zamba_index_82" size="1" class="form-control input-sm"></select>
+                                <select id="zamba_index_82" name="zamba_index_82" size="1"
+                                    class="form-control input-sm"></select>
                             </div>
                         </div>
                     </div>
-
-
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <!--Codigo de Proveedor-->
+                                <span class="input-group-addon">Busqueda de Proveedor:</span>
+                                <input id="zamba_index_104" name="zamba_index_104" size="1" class="form-control" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit" name="zamba_rule_11549281"
+                                        id="zamba_rule_11549281" onclick="SetRuleId(this);">
+                                        <img alt="" src="images/Lupa.png" height="15" width="15" />
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <!--Codigo de Proveedor-->
+                                <span class="input-group-addon">Nro de Proveedor:</span>
+                                <input id="zamba_index_15" name="zamba_index_15" size="1"
+                                    class="form-control solonums required" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <!--Codigo de Proveedor-->
+                                <span class="input-group-addon">Nombre de Proveedor:</span>
+                                <input id="zamba_index_105" name="zamba_index_105" size="1"
+                                    class="form-control solonums required" disabled />
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-12">
 
@@ -125,12 +168,13 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9">
-                            <!--Jusitific.-->                                  	<span class="input-group-addon">Justificación:</span>
+                            <!--Jusitific.--> <span class="input-group-addon">Justificación:</span>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Sector=GrupoZamba-->								<span class="input-group-addon">Sector:</span>
-                                <input id="zamba_index_126" name="zamba_index_126" disabled="disabled" size="1" class="form-control input-sm" />
+                                <!--Sector=GrupoZamba--> <span class="input-group-addon">Sector:</span>
+                                <input id="zamba_index_126" name="zamba_index_126" disabled="disabled" size="1"
+                                    class="form-control input-sm" />
                             </div>
                         </div>
                     </div>
@@ -138,25 +182,29 @@
                     <div class="form-group row">
                         <div class="col-md-9">
                             <!--Area texto Justificacion-->
-                            <textarea cols="1" class="form-control" rows="2" id="zamba_index_164" name="zamba_index_164" style="resize:none;position:relative;bottom:20px"></textarea>
+                            <textarea cols="1" class="form-control" rows="2" id="zamba_index_164" name="zamba_index_164"
+                                style="resize:none;position:relative;bottom:20px"></textarea>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Solicitante-->									 	<span class="input-group-addon">Solicitó:</span>
-                                <input id="zamba_index_53" name="zamba_index_53" size="1" class="form-control input-sm" disabled="disabled" />
+                                <!--Solicitante--> <span class="input-group-addon">Solicitó:</span>
+                                <input id="zamba_index_53" name="zamba_index_53" size="1" class="form-control input-sm"
+                                    disabled="disabled" />
                             </div>
                         </div>
 
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9">
-                            <!--Consecuencia.-->                                  	<span class="input-group-addon">Consecuencia de no contratar / adquirir:</span>
+                            <!--Consecuencia.--> <span class="input-group-addon">Consecuencia de no contratar /
+                                adquirir:</span>
                         </div>
 
                         <div class="col-md-3">
                             <div class="input-group">
-                                <!--Id Zamba-->									 	<span class="input-group-addon">ID Zamba:</span>
-                                <input id="zamba_index_16" name="zamba_index_16" size="1" class="form-control input-sm" disabled />
+                                <!--Id Zamba--> <span class="input-group-addon">ID Zamba:</span>
+                                <input id="zamba_index_16" name="zamba_index_16" size="1" class="form-control input-sm"
+                                    disabled />
                             </div>
                         </div>
                     </div>
@@ -164,7 +212,8 @@
 
                         <div class="col-md-9">
                             <!--Area texto Consecuencia-->
-                            <textarea cols="1" class="form-control" rows="2" id="zamba_index_1020133" name="zamba_index_1020133" style="resize:none;position:relative;bottom:20px"></textarea>
+                            <textarea cols="1" class="form-control" rows="2" id="zamba_index_1020133"
+                                name="zamba_index_1020133" style="resize:none;position:relative;bottom:20px"></textarea>
                         </div>
 
 
@@ -191,7 +240,7 @@
                                 <div class="col-xs-12 col-md-11" style="margin-top:35px">
                                     <!--DropZone-->
                                     <div id="appblankID" ng-controller="appController">
-                                        <zamba-drop id="11" IndexIds="48">  </zamba-drop>
+                                        <zamba-drop id="11" IndexIds="48"> </zamba-drop>
                                     </div>
                                 </div>
                             </div>
@@ -203,9 +252,11 @@
                     <center>
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-8 ">
-                                <input name="zamba_save" id="zamba_save" onclick="return zamba_save_draw_onclick(this);" class="btn btn-primary" type="submit" value="Guardar">
-                                <input name="zamba_rule_2102" id="zamba_rule_2102" onclick="return Submit(this);" class="btn btn-success" type="button" value="Solicitar">
-                                <input name="zamba_rule_1122772" id="zamba_rule_1122772" onclick="return ExecutetaskRuleWithConfirmMessage('Queres cancelar la solicitud', 1122772, CloseCurrentTask);" class="btn btn-warning" type="submit" value="Cancelar">
+                                <input name="zamba_save" id="zamba_save" onclick="return zamba_save_draw_onclick(this);"
+                                    class="btn btn-primary" type="submit" value="Guardar">
+                                <input name="zamba_rule_2102" id="zamba_rule_2102" onclick="return Submit(this);"
+                                    class="btn btn-success" type="button" value="Solicitar">
+                                    <input name="zamba_rule_11550962" id="zamba_rule_11550962" class="btn btn-danger" type="submit" value="Cancelar">
                             </div>
                         </div>
                     </center>
@@ -217,7 +268,8 @@
 
                     <div class="form-group row">
                         <div id="filenetTable" ng-controller="ZambaAssociatedController">
-                            <zamba-associated entities="11" default-enable-mode="grid" table-height="400" grid-title="Expediente">
+                            <zamba-associated entities="11" default-enable-mode="grid" table-height="400"
+                                grid-title="Expediente">
                             </zamba-associated>
                         </div>
                     </div>
@@ -233,13 +285,15 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <!--Area texto Evaluacion-->
-                            <textarea cols="1" class="form-control" rows="2" id="zamba_index_185" name="zamba_index_185" style="position:relative;bottom:20px"></textarea>
+                            <textarea cols="1" class="form-control" rows="2" id="zamba_index_185" name="zamba_index_185"
+                                style="position:relative;bottom:20px"></textarea>
                         </div>
 
                     </div>
                     <center>
                         <div style="margin-top: 35px;">
-                            <input name="zamba_rule_2379" id="zamba_rule_2379" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Calificar">
+                            <input name="zamba_rule_2379" id="zamba_rule_2379" onclick="SetRuleId(this);"
+                                class="btn btn-primary" type="submit" value="Calificar">
 
                         </div>
                     </center>
@@ -252,7 +306,7 @@
                     <div class="form-group row"></div>
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <!--Evaluacion tec.-->                                  	<span class="input-group-addon">Evaluacion Tecnica:</span>
+                            <!--Evaluacion tec.--> <span class="input-group-addon">Evaluacion Tecnica:</span>
                         </div>
 
                     </div>
@@ -263,13 +317,15 @@
                 <div class="tab-pane" id="Pagos">
                     <div class="form-group row">
                         <div id="filenetTable" ng-controller="ZambaAssociatedController">
-                            <zamba-associated entities="26" default-enable-mode="grid" table-height="400" grid-title="Facturas">
+                            <zamba-associated entities="26" default-enable-mode="grid" table-height="400"
+                                grid-title="Facturas">
                             </zamba-associated>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div id="filenetTable" ng-controller="ZambaAssociatedController">
-                            <zamba-associated entities="112" default-enable-mode="grid" table-height="400" grid-title="Pagos">
+                            <zamba-associated entities="112" default-enable-mode="grid" table-height="400"
+                                grid-title="Pagos">
                             </zamba-associated>
                         </div>
                     </div>
@@ -297,8 +353,8 @@
         </div>
 
         <!--Referencias Grilla de Solicitud y Compras-->
-        <script src="../../Grid/SolCompCont2/SolCompContController2.js?v=248"></script>
-        <script src="../../Grid/SolCompCont2/SolCompContService2.js?v=248"></script>
+        <script src="../../Grid/SolCompCont2/SolCompContController2.js?v=179"></script>
+        <script src="../../Grid/SolCompCont2/SolCompContService2.js?v=179"></script>
 
         <script type="text/javascript">
             var flag = true;
@@ -459,6 +515,7 @@
 
     </form>
 </body>
+
 </html>
 
 
