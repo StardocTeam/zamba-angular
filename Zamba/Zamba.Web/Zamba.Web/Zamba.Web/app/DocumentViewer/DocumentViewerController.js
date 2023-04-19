@@ -215,13 +215,45 @@
                         $("#iframeID").attr("src", a);
                         switchToDocumentViewer("PDF");
                     } else {
-                        
+                        // formatos video
                         if (JsonResult.fileName.endsWith(".mp4") == true) {
-                            var a = JsonResult.data;// "data:application/pdf;base64," + JsonResult.data;
+                            var a = JsonResult.data;
                             $("#IframeVideoSrc").attr("type", "video/mp4"); 
                             $("#IframeVideoSrc").attr("src", "data:video/mp4;base64,"+a);
                             switchToDocumentViewer("video");
-                        } else {
+                        } else if (JsonResult.fileName.endsWith(".webm") == true) {
+                            var a = JsonResult.data;
+                            $("#IframeVideoSrc").attr("type", "video/webm");
+                            $("#IframeVideoSrc").attr("src", "data:video/webm;base64," + a);
+                            switchToDocumentViewer("video");
+                        }
+                        else if (JsonResult.fileName.endsWith(".ogv") == true) {
+                            var a = JsonResult.data;
+                            $("#IframeVideoSrc").attr("type", "video/ogg");
+                            $("#IframeVideoSrc").attr("src", "data:video/ogg;base64," + a);
+                            switchToDocumentViewer("video");
+                        }
+                            // formatos audio
+                        else if (JsonResult.fileName.endsWith(".mp3") == true) {
+                            var a = JsonResult.data;
+                            $("#IframeAudioSrc").attr("type", "audio/mp3");
+                            $("#IframeAudioSrc").attr("src", "data:audio/mp3;base64," + a);
+                            switchToDocumentViewer("audio");
+                        }
+                        else if (JsonResult.fileName.endsWith(".ogg") == true) {
+                            var a = JsonResult.data;
+                            $("#IframeAudioSrc").attr("type", "audio/ogg");
+                            $("#IframeAudioSrc").attr("src", "data:audio/ogg;base64," + a);
+                            switchToDocumentViewer("audio");
+                        }
+                        else if (JsonResult.fileName.endsWith(".wav") == true) {
+                            var a = JsonResult.data;
+                            $("#IframeAudioSrc").attr("type", "audio/wav");
+                            $("#IframeAudioSrc").attr("src", "data:audio/wav;base64," + a);
+                            switchToDocumentViewer("audio");
+                        }
+
+                        else {
                             var Controller = angular.element(document.getElementById("DocumentViewerFromSearch")).scope();
 
                             console.log("Archivo encontrado, pero no es posible mostrarlo.");
@@ -539,7 +571,8 @@
                 $("#MSG").css("display", "block");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
-                $("#IframeVideoSrc").css("display", "none");
+                $("#IframeVideo").css("display", "none");
+                $("#IframeAudio").css("display", "none");
                 $("#Error404").css("display", "none");
                 break
 
@@ -547,7 +580,8 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "block");
                 $("#PDFForIE").css("display", "none");
-                $("#IframeVideoSrc").css("display", "none");
+                $("#IframeVideo").css("display", "none");
+                $("#IframeAudio").css("display", "none");
                 $("#Error404").css("display", "none");
                 break
 
@@ -555,7 +589,8 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "block");
-                $("#IframeVideoSrc").css("display", "none");
+                $("#IframeVideo").css("display", "none");
+                $("#IframeAudio").css("display", "none");
                 $("#Error404").css("display", "none");
                 break
 
@@ -563,7 +598,8 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
-                $("#IframeVideoSrc").css("display", "none");
+                $("#IframeVideo").css("display", "none");
+                $("#IframeAudio").css("display", "none");
                 $("#Error404").css("display", "block");
                 break
 
@@ -571,7 +607,8 @@
                 $("#MSG").css("display", "none");
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
-                $("#IframeVideoSrc").css("display", "none");
+                $("#IframeVideo").css("display", "none");
+                $("#IframeAudio").css("display", "none");
                 $("#ErrorPreview").css("display", "block");
                 break
             case "video":
@@ -579,9 +616,18 @@
                 $("#PDF").css("display", "none");
                 $("#PDFForIE").css("display", "none");
                 $("#ErrorPreview").css("display", "none");
-                $("#IframeVideoSrc").css("display", "block");
+                $("#IframeAudio").css("display", "none");
+                $("#IframeVideo").css("display", "flex");
                 break
-
+            case "audio":
+                $("#MSG").css("display", "none");
+                $("#PDF").css("display", "none");
+                $("#PDFForIE").css("display", "none");
+                $("#ErrorPreview").css("display", "none");
+                $("#IframeVideoSrc").css("display", "none");
+                $("#IframeAudio").css("display", "flex");
+                break
+                
             default:
         }
     }

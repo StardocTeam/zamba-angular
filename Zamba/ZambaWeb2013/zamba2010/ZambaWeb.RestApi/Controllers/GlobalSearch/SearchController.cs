@@ -2423,7 +2423,12 @@ namespace ZambaWeb.RestApi.Controllers
                         DD.data = System.Convert.FromBase64String(data);
 
                     } 
-                    else if (DD.ContentType == "video/mp4")
+                    else if (DD.ContentType == "video/mp4" || DD.ContentType == "video/webm" || DD.ContentType == "video/ogv")
+                    {
+                        DD.data = System.Convert.FromBase64String(data);
+                        DD.url = res.FullPath;
+                    }
+                    else if (DD.ContentType == "video/mp3" || DD.ContentType == "video/wav" || DD.ContentType == "video/ogg")
                     {
                         DD.data = System.Convert.FromBase64String(data);
                         DD.url = res.FullPath;
@@ -3215,6 +3220,18 @@ namespace ZambaWeb.RestApi.Controllers
                             }
                         }
                         if ((res.IsVideo)) {
+
+                            if (!File.Exists(res.FullPath) && _file.Length > 0)
+                            {
+                                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Copiando Archivo");
+                                File.WriteAllBytes(res.FullPath, _file);
+                            }
+
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo");
+                            filename = res.FullPath; convertToPDf = false;
+                        }
+                        if ((res.IsAudio))
+                        {
 
                             if (!File.Exists(res.FullPath) && _file.Length > 0)
                             {
