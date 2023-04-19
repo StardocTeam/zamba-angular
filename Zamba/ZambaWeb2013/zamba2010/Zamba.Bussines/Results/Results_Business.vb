@@ -1493,7 +1493,7 @@ Public Class Results_Business
 
                     Try
                         'Asigna el tamaño del result
-                        If Not newResult.ISVIRTUAL Then
+                        If Not newResult.ISVIRTUAL And newResult.EncodedFile IsNot Nothing Then
                             newResult.FileLength = Math.Ceiling(newResult.EncodedFile.Length / 1024)
                         End If
                     Catch ex As Exception
@@ -1734,7 +1734,7 @@ Public Class Results_Business
 
     Public Sub MapMail(newResult As INewResult)
         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Validando MSG...")
-        If newResult.FileName.ToLower().EndsWith(".msg") Then
+        If newResult.FileName.ToLower().EndsWith(".msg") And File.Exists(newResult.FullPath) Then
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Mapeando archivo MSG...")
             Dim message As MailMessage = MailMessage.Load(newResult.FullPath)
 
