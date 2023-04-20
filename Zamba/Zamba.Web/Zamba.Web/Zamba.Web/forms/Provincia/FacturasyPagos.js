@@ -26,9 +26,11 @@
     });
 
     document.querySelector("#zamba_index_11535222").addEventListener("focusout", e => {
-        debugger;
+        
         render_Importe(e);
         CheckImporteMoneda();
+        setMultipleSeparatorForm();
+ 
     });
 
 
@@ -48,6 +50,17 @@
     });
 
 });
+
+function setMultipleSeparatorForm(){
+    try {
+        setTimeout(function () {
+            setInputSeparator('zamba_index_109');
+            setInputSeparator('zamba_index_11535222'); 
+        }, 700);
+    } catch (e) {
+
+    }
+}
 
 function noPunto(event) {
 
@@ -146,7 +159,7 @@ function CheckImporteMoneda() {
         $("#zamba_index_109").removeAttr("readonly");
         $("#zamba_index_109").removeAttr("readonly");
     }
-
+    setMultipleSeparatorForm();
 };
 
 function CheckMiPyme() {
