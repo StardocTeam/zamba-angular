@@ -476,7 +476,7 @@
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
                                 <span class="input-group-addon">Propuesta Actual</span>
-                                <input id="zamba_index_10310" name="zamba_index_10310" class="form-control input-sm" disabled/>
+                                <input id="zamba_index_10310" name="zamba_index_10310" class="form-control input-sm ZDecimal" disabled editgroups="1020373"/>
                             </div>
                         </div>
                         <div class="col-sm-2 col-sm-offset-1">
@@ -488,13 +488,19 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                         <!--Boton de Actualizar-->
+                         <button type="submit" id="zamba_rule_11548293" name="zamba_rule_11548293" class="btn btn-primary" style="display: none" EnableGroups="1020373">Guardar Propuesta Actual</button>
+                        </div>
+                    </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
-                                <span class="input-group-addon">Propuesta Anterio</span>
-                                <input id="zamba_index_10311" name="zamba_index_10311" class="form-control input-sm" disabled/>
+                                <span class="input-group-addon">Propuesta Anterior</span>
+                                <input id="zamba_index_10311" name="zamba_index_10311" class="form-control input-sm ZDecimal" disabled/>
                             </div>
                         </div>
                     </div>
@@ -507,16 +513,26 @@
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
                                 <span class="input-group-addon">Reserva</span>
-                                <input id="zamba_index_2780" name="zamba_index_2780" class="form-control input-sm" disabled/>
+                                <input id="zamba_index_2780" name="zamba_index_2780" class="form-control input-sm ZDecimal" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="zamba_index_11535258"
+                                    name="zamba_index_11535258" style="height: 25px; width: 20px; " />
+                                <span>
+                                    <h4 style="display: inline; vertical-align: super; padding-left: 5px;"><b>Sobre Reservado</b></h4>
+                                </span>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="form-group row">
                         <div class="col-md-3">
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
                                 <span class="input-group-addon">Pagos Realizados</span>
-                                <input id="zamba_index_10313" name="zamba_index_10313" class="form-control input-sm" disabled/>
+                                <input id="zamba_index_10313" name="zamba_index_10313" class="form-control input-sm ZDecimal" disabled/>
                             </div>
                         </div>
                     </div>
@@ -525,7 +541,7 @@
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
                                 <span class="input-group-addon">Costo del Siniestro</span>
-                                <input id="zamba_index_10312" name="zamba_index_10312" class="form-control input-sm" disabled/>
+                                <input id="zamba_index_10312" name="zamba_index_10312" class="form-control input-sm ZDecimal" disabled/>
                             </div>
                         </div>
                     </div>
@@ -538,14 +554,14 @@
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
                                 <span class="input-group-addon">Tipo de Reaseguro</span>
-                                <input id="zamba_index_1020084" name="zamba_index_1020084"class="form-control input-sm" disabled/>
+                                <input id="zamba_index_1020084" name="zamba_index_1020084"class="form-control input-sm ZDecimal" disabled/>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-group">
                                 <!--Tipo de Reaseguro-->
                                 <span class="input-group-addon">Neto a Cargo de la Cía</span>
-                                <input id="zamba_index_10315" name="zamba_index_10315" class="form-control input-sm" disabled/>
+                                <input id="zamba_index_10315" name="zamba_index_10315" class="form-control input-sm ZDecimal" disabled/>
                              </div>
                             <h6><b> Neto a Cargo de la Cia es un valor estimado </b></h6>
                         </div>

@@ -8,8 +8,14 @@
         "focusout": render_Importe,
     });
 
+	$("#zamba_index_11535296").on({
+        "focusout": render_Importe,
+    });
+
+	
     CheckImporteMoneda();
     CheckMiPyme();
+    ValidarEndidad();
 
     $("#zamba_index_92").on({
         "change": CheckImporteMoneda,
@@ -20,6 +26,7 @@
     });
 
     document.querySelector("#zamba_index_11535222").addEventListener("focusout", e => {
+        debugger;
         render_Importe(e);
         CheckImporteMoneda();
     });
@@ -258,6 +265,9 @@ function zamba_save_onclick_ingresoPago(sender) {
     } else if (document.getElementById("zamba_index_109").value == "") {
         swal("", "Por favor, ingrese Importe", "error");
         valido = false;
+	} else if (document.getElementById("zamba_index_11535296").value == "") {
+        swal("", "Por favor, ingrese Importe Bruto", "error");
+        valido = false;
     } else if (document.getElementById("zamba_index_86").value == "") {
         swal("", "Por favor, ingrese el  ID trámite", "error");
         valido = false;
@@ -371,4 +381,15 @@ function ValidarTasadecambioPago() {
 
     return validoPago;
 
+}
+
+function ValidarEndidad() {
+    if ($('#zamba_index_1220191').val() == '26') {
+        $('#AreaObservacionFactura').show();
+        $('#AreaObservacionPago').hide();
+        
+    } else {
+        $('#AreaObservacionFactura').hide();
+        $('#AreaObservacionPago').show();
+    }
 }

@@ -703,9 +703,9 @@
                     } else if (ValidarTipoDocumentoJuicioMediacion() == false) {
                         alert("No coincide el tipo de Documento con la seleccion de Juicio/Mediación");
                         valido = false;
-                    } else if ($('#zamba_index_1525190').val() == "") {
-                        alert("El valor del campo Dias Hábiles es obligatorio.");
-                        valido = false;
+                    //} else if ($('#zamba_index_1525190').val() == "" && $('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AM' || $('#zamba_index_1161').val() == 'AN' || $('#zamba_index_1161').val() == 'AJ' || $('#zamba_index_1161').val() == 'AK' || $('#zamba_index_1161').val() == 'AL') {
+                        //alert("El valor del campo Dias Hábiles es obligatorio.");
+                        //valido = false;
                     } else {
                         SetRuleId(sender);
                     }

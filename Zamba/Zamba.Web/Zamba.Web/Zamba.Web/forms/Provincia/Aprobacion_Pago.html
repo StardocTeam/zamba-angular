@@ -5,6 +5,9 @@
 <!--Modificado por:  -->
 <!--Fecha de Modificacion: -->
 <!--Cambio: -->
+<!--Modificado por: EEB -->
+<!--Fecha de Modificacion: 11/03/2022><Cambio: tratamiento de Facturas Pendiente de Analisis, Boton y Mensaje, lo reactive 12/08/22-->
+
 <head>
     <title></title>
 
@@ -212,7 +215,15 @@
                                                     </div>
                                                 </div>
 
-
+												<div class="form-group row" >
+													
+													<div class="col-xs-12 col-sm-4" >
+														<div class="input-group">
+															<span class="input-group-addon"></span>
+															<input id="zamba_index_11535289" name="zamba_index_11535289" size="1" class="form-control" style="color:red !important" disabled />
+														</div>
+													</div>
+												</div>
                                                 <div class="form-group row">
                                                     <div class="col-xs-12 col-md-6 ">
                                                         <div class="row">
@@ -256,6 +267,8 @@
                                                             <div class="col-md-4" style="position:relative;">
                                                                 <input name="zamba_rule_170" id="zamba_rule_170" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Aprobar">
                                                                 <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Rechazar">
+																
+																<input name="zamba_rule_11550067" id="zamba_rule_11550067" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Marcar Factura Pend de Analisis" style="display: none">
                                                             </div>
                                                             <div class="col-md-4"></div>
                                                         </div>

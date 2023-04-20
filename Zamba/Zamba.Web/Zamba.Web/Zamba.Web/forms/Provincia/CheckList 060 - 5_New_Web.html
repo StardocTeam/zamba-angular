@@ -1,0 +1,537 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="CheckList Vida Optativo Fallecimiento.css" type="text/css" />
+    <style type="text/css">
+        input {
+            font-size: x-small;
+        }
+
+        p.description {
+            font-size: x-small;
+        }
+
+        .style1 {
+            width: 276px;
+        }
+    </style>
+    <script>
+
+        function ZFUNCTION() {
+            var otros = document.getElementById("zamba_Index_3011").value;
+            if (otros == "") {
+                document.getElementById("tr_otros").style.display = "none";
+            }
+            else {
+
+                document.getElementById("tr_otros").style.display = "";
+                document.getElementById("zaraza").innerText = "Otros: " + otros;
+            }
+            if (document.getElementById("zamba_Index_3005").value == "") {
+                var checks = document.getElementById("frmMain").Dato;
+                for (i = 0; i < checks.length; i++) {
+                    checks[i].checked = true;
+                }
+            }
+            else {
+                ObtengoFaltantes();
+            }
+        }
+
+
+        function CopiaFaltantes() {
+            var form = document.getElementById("frmMain");
+            var text = document.getElementById("zamba_Index_3005");
+            var str = "";
+            var checks = form.Dato;
+
+            if (checks.length > 0) {
+                for (i = 0; i < checks.length; i++) {
+                    if (checks[i].checked == false) {
+                        str = str + checks[i].value + " - ";
+                    }
+                }
+            }
+            else {
+                var check = document.getElementById("Dato")
+
+                if (check.checked == false)
+                    str = check.value;
+            }
+            text.value = str;
+        }
+
+
+        function CopiaFaltantesAdicionales() {
+            document.getElementById("zamba_Index_3011").value = "";
+
+        }
+
+
+        function ObtengoFaltantes() {
+            var form = document.getElementById("frmMain");
+            var text = document.getElementById("zamba_Index_3005").value;
+            var str = "";
+            var checks = form.Dato;
+
+
+            if (text == "") {
+                for (i = 0; i < checks.length; i++)
+                    checks[i].checked = true;
+
+                CopiaFaltantes();
+            }
+            else {
+                for (i = 0; i < checks.length; i++) {
+                    if (text.indexOf(checks[i].value, 0) < 0) {
+                        checks[i].checked = true;
+                    }
+                }
+            }
+
+        }
+
+        function ObtengoDocumentacionExistente() {
+            var form = document.getElementById("frmMain");
+            var text = document.getElementById("zamba_Index_3019");
+            var str = "";
+            var checks = form.Dato;
+
+            if (checks.length > 0) {
+                for (i = 0; i < checks.length; i++) {
+                    if (checks[i].checked == true) {
+                        str = str + checks[i].value + " - ";
+                    }
+                }
+            }
+            else {
+                var check = document.getElementById("Dato")
+
+                if (check.checked == false)
+                    str = check.value;
+            }
+            text.value = str;
+        }
+    
+    </script>
+
+    <meta content="MSHTML 6.00.2900.3640" name="GENERATOR">
+</head>
+
+<body onload="ObtengoFaltantes()">
+    <form id="frmMain" name="frmMain" method="post">
+
+        <BODY onload="ObtengoFaltantes()">
+            <div class="container-fluid">
+                <form id="frmMain" name="frmMain" method="post">
+
+                    <div class="form-group row">
+                    </div>
+                    <div class="form-group row">
+                    </div>
+                    <div class="form-group row">
+                    </div>
+                    <!--------------------------------------------------PRIMER, SEGUNDO Y TERCER TIULO DEL FORMULARIO------------------------------------------------------------------------>
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="form-group row">
+                                <!--Seguro de vida Optativo.-->
+                                <p>
+                                <div style="font-size:20px;" class="p-3 mb-2 bg-primary text-white"> Seguro de vida
+                                    Optativo.</div>
+                                </p>
+
+                                <!--REQUISITOS A CUMPLIMENTAR EN CASO DE PRODUCIRSE UN SINIESTRO-->
+                                <b>
+                                    <div style="font-size:20px;"> REQUISITOS A CUMPLIMENTAR EN CASO DE PRODUCIRSE UN
+                                        SINIESTRO. </div>
+                                </b>
+
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <!--05 – FALLECIMIENTO POR ACCIDENTE-->
+                                            <h3><b></b>05 – FALLECIMIENTO POR ACCIDENTE<b></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--------------------------------------------------PRIMERA FILA DE ATRIBUTOS CHECKLIS------------------------------------------------------------------------>
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Formulario de denuncia de fallecimiento de la aseguradora que deberá completar y firmar el empleador.-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Formulario de denuncia de fallecimiento de la aseguradora que deberá completar y firmar el empleador.">&nbsp;&nbsp;&nbsp;
+                                <label style="font-size:15px;" class="form-check-label" for="defaultCheck1"
+                                    class="input-group-addon"></label>
+                                <b style="font-size:15px;">Formulario de denuncia de fallecimiento de la aseguradora que
+                                    deberá completar y firmar el empleador.</b> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Informe del médico: formulario de la aseguradora que deberá completar el médico asistente del fallecido. -->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Informe del médico: formulario de la aseguradora que deberá completar el médico asistente del fallecido. ">&nbsp;&nbsp;&nbsp;
+                                <label style="font-size:15px;" class="form-check-label" for="defaultCheck1"
+                                    class="input-group-addon"></label>
+                                <b style="font-size:15px;">Informe del médico: formulario de la aseguradora que deberá
+                                    completar el médico asistente del fallecido.</b> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Copia legalizada en original del certificado de defunción.-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Copia legalizada en original del certificado de defunción.">&nbsp;&nbsp;&nbsp;
+                                <label style="font-size:15px;" class="form-check-label" for="defaultCheck1"
+                                    class="input-group-addon"></label>
+                                <b style="font-size:15px;">Copia legalizada en original del certificado de defunción.
+                                </b> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Copia de los tres últimos recibos de sueldo sellados y firmados en original
+                                    por el empleador, incluyendo la liquidación final.-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Copia de los tres últimos recibos de sueldo sellados y firmados en original por el empleador, incluyendo la liquidación final.">&nbsp;&nbsp;&nbsp;
+                                <label style="font-size:15px;" class="form-check-label" for="defaultCheck1"
+                                    class="input-group-addon"></label>
+                                <b style="font-size:15px;">Copia de los tres últimos recibos de sueldo sellados y
+                                    firmados en original por el empleador, incluyendo la liquidación final.</b> </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <div class="form-group row">
+
+                    </div>
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Copia del DNI del fallecido.-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Copia del DNI del fallecido.">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;">Copia Copia del DNI del fallecido. </b>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Copia del original de la designación de Beneficiarios firmada por el asegurado y el Empleador (Tomador), o en su defecto, copia autenticada del testimonio 
+                                de la declaratoria de herederos.-->
+                                <div class="input-group"></div>
+                                
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Copia del original de la designación de Beneficiarios firmada por el asegurado y el Empleador (Tomador), o en su defecto, copia autenticada del testimonio de la declaratoria de herederos.">&nbsp;&nbsp;&nbsp;
+                                <b style="font-size:15px;" >Copia del original de la designación de Beneficiarios  firmada
+                                     por el asegurado y el Empleador (Tomador), <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; o en su defecto, copia autenticada 
+                                    del testimonio de la declaratoria de herederos.</b>
+                                    
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--  Copia completa de Causa Penal con resultado de autopsia, incluyendo pericia toxicología y análisis dosaje de alcohol.-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="  Copia completa de Causa Penal con resultado de autopsia, incluyendo pericia toxicología y análisis dosaje de alcohol.">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;"> Copia completa de Causa Penal con resultado de autopsia,
+                                    incluyendo pericia toxicología y análisis dosaje de alcohol.</b>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Formulario de lavado de dinero debidamente completado por cada beneficiario (UIF).-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Formulario de lavado de dinero debidamente completado por cada beneficiario (UIF).">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;">Formulario de lavado de dinero debidamente completado por
+                                    cada beneficiario (UIF).</b>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Formulario de persona políticamente expuesta debidamente completado por cada beneficiario (PEP).-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Formulario de persona políticamente expuesta debidamente completado por cada beneficiario (PEP).">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;">Formulario de persona políticamente expuesta debidamente
+                                    completado por cada beneficiario (PEP).</b>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Solicitud de pago de beneficios por transferencia bancaria: se deberá adjuntar certificación de CBU emitida por el banco.-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Solicitud de pago de beneficios por transferencia bancaria: se deberá adjuntar certificación de CBU emitida por el banco.">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;">Solicitud de pago de beneficios por transferencia bancaria:
+                                    se deberá adjuntar certificación de CBU emitida por el banco.</b>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Copia de Sumario o Denuncia policial:-->
+                                <div class="input-group"></div>
+                                <input id="Dato" name="Dato" type="checkbox" onclick="CopiaFaltantes()"
+                                    value="Copia de Sumario o Denuncia policial:">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;">Copia de Sumario o Denuncia policial:</b>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <div class="input-group">
+                                <!--Otros:-->
+                                <div class="input-group"></div>
+                                <input id="DatoOTROS" name="DatoOTROS" type="CHECKBOX"
+                                    onclick="CopiaFaltantesAdicionales()" value="">&nbsp;&nbsp;&nbsp;
+                                <label class="form-check-label" for="defaultCheck1" class="input-group-addon"></label>
+                                <b style="font-size:15px;">Otros:</b>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+                    <!--------------------------------------------------TERCERA FILA DE ATRIBUTOS CUADROS------------------------------------------------------------------------->
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-md-8 col-sm-offset-2">
+                            <!--Datos Faltantes Datos Faltantes detectados por Marsh:-->
+                            <b style="font-size:20px;">Datos Faltantes Datos Faltantes detectados por Marsh:</b>
+                            <div class="form-group row">
+                                <textarea class="form-control input-sm" type="text" rows="5" name="zamba_Index_3005"
+                                    id="zamba_Index_3005"></textarea>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+
+            <div class="form-group row"></div>
+
+
+
+            <div class="form-group row">
+                <div class="col-md-8 col-sm-offset-2">
+                    <!--Observaciones:-->
+                    <b style="font-size:20px;">Observaciones:</b>
+                    <div class="form-group row">
+                        <textarea class="form-control input-sm" type="text" rows="5" name="zamba_Index_48"
+                            id="zamba_Index_48"></textarea>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="form-group row"></div>
+
+            <div class="form-group row">
+                <div class="col-md-8 col-sm-offset-2">
+                    <!--Datos Adicionales Faltantes pedidos por la CIA:-->
+                    <b style="font-size:20px;">Datos Adicionales Faltantes pedidos por la CIA:</b>
+                    <div class="form-group row">
+                        <textarea class="form-control input-sm" type="text" rows="5" name="zamba_Index_3011"
+                            id="zamba_Index_3011"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row"></div>
+
+            <div class="form-group row">
+                <div class="col-md-8 col-sm-offset-2">
+                    <!--Documentación existente:-->
+                    <b style="font-size:20px;">Documentación existente:</b>
+                    <div class="form-group row">
+                        <textarea class="form-control input-sm" type="text" rows="5" name="zamba_Index_3019"
+                            id="zamba_Index_3019"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row"></div>
+
+            <div class="form-group row">
+                <div class="col-md-8 col-sm-offset-2">
+                    <!--Copia de Sumario o de denuncia policial-->
+                    <b style="font-size:20px;">Copia de Sumario o de denuncia policial</b>
+                    <div class="form-group row">
+                        <textarea class="form-control input-sm" type="text" rows="5" name="zamba_Index_3019"
+                            id="zamba_Index_3019"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+            </div>
+                <!--------------------------------------------------BOTONES GUARDAR Y CERRAR------------------------------------------------------------------------->
+
+                <div>
+                    <tbody>
+                        <div class="col-md-3 col-sm-offset-4">
+                            <div class="form-check">
+                                <div class="form-group row">
+                                    <!--Boton Guardar-->
+
+                                    <input class="btn  btn-primary" id="zamba_save" style="font-weight: bold;"
+                                        value="Guardar" name="zamba_save" type="submit"
+                                        onclick="ObtengoDocumentacionExistente()">
+                                </div>
+                            </div>
+                        </div>
+                    </tbody>
+
+
+
+
+                    <div>
+                        <tbody>
+                            <div class="col-md-1">
+                                <div class="form-check">
+                                    <div class="form-group row">
+                                        <!--Boton Cancelar-->
+                                        <input class="btn  btn-primary" id="zamba_cancel" style="font-weight: bold;"
+                                            value="Cancelar" name="zamba_cancel" type="submit">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </tbody>
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                </div>
+                <div class="form-group row">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-sm-offset-4">
+                        <div class=" col-md-8">
+                        <span style="color:whitesmoke">05 – FALLECIMIENTO POR ACCIDENTE
+                            CheckList 060 - 5_New_Web</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <center>
+                    <div>
+                        <img alt="" src="images/zamba_BPM_color.jpg" height="50" width="140" style="float: right" />
+                    </div>
+                </center>
+            </div>
+            </div>
+    </form>
+</body>
+
+</html>

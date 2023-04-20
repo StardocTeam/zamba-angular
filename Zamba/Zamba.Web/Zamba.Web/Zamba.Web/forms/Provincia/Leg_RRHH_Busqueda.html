@@ -5,83 +5,95 @@
 <!--Modificado por: GMR -->
 <!--Fecha de Modificacion: 21/03/2018-->
 <!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar -->
+
 <head>
     <title></title>
 
-	</head>
+</head>
 
 <body>
     <form name="frmMain" action="Ing_RRHH_ING.html">
         <input id="hdnRuleId" type="hidden" />
         <input id="hdnAsocId" type="hidden" />
         <input id="hdnCount" type="hidden" />
-        <div >
+        <div>
             <div ng-controller="appController">
                 <div class="container-fluid">
 
                     <CENTER>
+                        <div class="form-group row"></div>
                         <h5 class="titlecenterDiv">INGRESA NRO DE LEGAJO, DNI O APELLIDO Y NOMBRE PARA BUSCAR</h5>
+                        <div class="form-group row"></div>
                     </CENTER>
 
                     <center>
 
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+
                         <div class="form-group row">
                             <div class="col-md-4 col-xs-12 col-md-offset-4">
                                 <div class="input-group">
-                                    <!--Remitente-->                                     		<span class="input-group-addon">Nro de Legajo:</span>
+                                    <!--Remitente--> <span class="input-group-addon">Nro de Legajo:</span>
                                     <input id="zamba_index_235" name="zamba_index_235" class="form-control" />
-                                    <span style="position:absolute;padding: 6px 12px; " class="btn btn-default btnClearLegajo" onclick="ClearInputByZambaIndex(235);" type="submit"><i class="fa fa-trash-o"></i></span>
+                                    <span style="position:absolute;padding: 6px 12px; "
+                                        class="btn btn-default btnClearLegajo" onclick="ClearInputByZambaIndex(235);"
+                                        type="submit"><i class="fa fa-trash-o"></i></span>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group row"></div>
+
                         <div class="form-group row">
                             <div class="col-md-4 col-xs-12 col-md-offset-4">
 
                                 <div class="input-group">
-                                    <!--Sector-->                                        		<span class="input-group-addon">Nro DNI:</span>
+                                    <!--Sector--> <span class="input-group-addon">Nro DNI:</span>
                                     <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control">
-                                    <span style="position:absolute;padding: 6px 12px; " class="btn btn-default btnClearDni" onclick="ClearInputByZambaIndex(11);" type="submit"><i class="fa fa-trash-o"></i></span>
+                                    <span style="position:absolute;padding: 6px 12px; "
+                                        class="btn btn-default btnClearDni" onclick="ClearInputByZambaIndex(11);"
+                                        type="submit"><i class="fa fa-trash-o"></i></span>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group row"></div>
+
                         <div class="form-group row">
                             <div class="col-md-4 col-xs-12 col-md-offset-4">
 
                                 <div class="input-group">
-                                    <!--Destinatario-->                                  		<span class="input-group-addon">Apellido y/o Nombre:</span>
+                                    <!--Destinatario--> <span class="input-group-addon">Apellido y/o Nombre:</span>
                                     <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control">
-                                    <span style="position:absolute;padding: 6px 12px; " class="btn btn-default btnClearNombre" onclick="ClearInputByZambaIndex(238);" type="submit"><i class="fa fa-trash-o"></i></span>
+                                    <span style="position:absolute;padding: 6px 12px; "
+                                        class="btn btn-default btnClearNombre" onclick="ClearInputByZambaIndex(238);"
+                                        type="submit"><i class="fa fa-trash-o"></i></span>
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row"></div>
 
 
                         <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
 
                         <div style="margin-left: 20px; margin-bottom:20px">
-                            <div style="display: flex; margin-bottom:10px;"><span style="color:#286090">*</span><span style="margin-left:5px; color:#7A7A7A;">La búsqueda por el Nro de legajo o Nro de DNI es por el valor exacto</span></div>
-                            <div style="display: flex; margin-bottom:10px;"><span style="color:#286090">**</span><span style="margin-left:5px; color:#7A7A7A;">La búsqueda en el campo Apellido y Nombre es por un texto parcial</span></div>
+                            <div style="display: flex; margin-bottom:10px;"><span style="color:#286090">*</span><span
+                                    style="margin-left:5px; color:#7A7A7A;">La búsqueda por el Nro de legajo o Nro de
+                                    DNI es por el valor exacto</span></div>
+                            <div style="display: flex; margin-bottom:10px;"><span style="color:#286090">**</span><span
+                                    style="margin-left:5px; color:#7A7A7A;">La búsqueda en el campo Apellido y Nombre es
+                                    por un texto parcial</span></div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 col-md-offset-4 col-xs-6">
                                 <!--Botones FORM-->
-                                <input name="zamba_rule_1300074" id="zamba_rule_1300074" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Buscar">
-                                <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Cancelar">
+                                <input name="zamba_rule_1300074" id="zamba_rule_1300074" onclick="SetRuleId(this);"
+                                    class="btn btn-primary" type="submit" value="Buscar">
+                                <input name="zamba_rule_120" id="zamba_rule_120" onclick="SetRuleId(this);"
+                                    class="btn btn-primary" type="submit" value="Cancelar">
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <center>
-                                <div class="col-md-2" style="position:relative;left:20px;">
-                                    <img alt="" src="images/PSlogoLarge.png" height="45" width="135" style="float: left" />
-                                </div>
-                                <div class="col-md-10">
-                                    <img alt="" src="images/zamba_BPM_color.jpg" height="45" width="135" style="float: right" />
-                                    <div class="form-group row">
-                                    </div>
-                                </div>
-                            </center>
                         </div>
                         <script>
                             function ClearInputByZambaIndex(id) {
@@ -106,6 +118,5 @@
         </div>
     </form>
 </body>
+
 </html>
-
-

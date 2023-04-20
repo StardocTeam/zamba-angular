@@ -73,11 +73,39 @@ function SumarCamposCapital() {
         
     }
     catch (e) {
-        console.error(e);
+        console.log(e);
     }
 
 };
 
+function SumarReserva() {
+    try {
+
+        var PropuestaActual = 0;
+        var PagosRealizados = 0;
+        var TotalSobreReservado = 0;
+        
+        ///suma Total Capital
+        if ($("#zamba_index_10310").val() != '' && parseFloat($("#zamba_index_10310").val().replace('', '0')) > 0)
+        PropuestaActual = parseFloat($("#zamba_index_10310").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+        if ($("#zamba_index_10313").val() != '' && parseFloat($("#zamba_index_10313").val().replace('', '0')) > 0)
+        PagosRealizados = parseFloat($("#zamba_index_10313").val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+        TotalSobreReservado = Redondear(PropuestaActual + PagosRealizados);
+
+        //$("#zamba_index_2719").val(total.toFixed(2).replaceAll('.', ','));
+        //parseFloat($("#zamba_index_2719").val(total.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".")).replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+
+         $("#zamba_index_10312").val(TotalSobreReservado.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
+
+        
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+};
 
 function SumarCamposRecupero() {
     try {
@@ -121,7 +149,7 @@ function SumarCamposRecupero() {
 
     }
     catch (e) {
-        console.error(e);
+        console.log(e);
     }
 };
 
@@ -150,7 +178,7 @@ function SumarCostoSiniestro() {
 
     }
     catch (e) {
-        console.error(e);
+        console.log(e);
     }
 };
 
@@ -179,9 +207,11 @@ function SumarCostas() {
 
     }
     catch (e) {
-        console.error(e);
+        console.log(e);
     }
 };
+
+
 
 
 function SumarMontoDemanda() {
@@ -213,9 +243,10 @@ function SumarMontoDemanda() {
 
     }
     catch (e) {
-        console.error(e);
+        console.log(e);
     }
 };
+
 
 
 $(document).ready(function () {
@@ -239,6 +270,7 @@ $(document).ready(function () {
         SumarMontoDemanda();
     }
     $('#zamba_index_1001014').on('change', ValidarCamposEnTipoDocumentacion);
+    $('#zamba_index_11535258').on('change', SumarReserva);
 
     $('#zamba_index_2860').on('change', SumarCamposCapital);
     $('#zamba_index_2865').on('change', SumarCamposCapital);
@@ -267,6 +299,22 @@ $(document).ready(function () {
 
 function ValidarCamposEnTipoDocumentacion() {
     if ($('#zamba_index_1001014').prop('checked') == false) {
+        $('#ResumenArea').show();
+        $('#AreaRecupero').hide();
+        SumarCamposCapital();
+
+    } else {
+        $('#ResumenArea').hide();
+        $('#AreaRecupero').show();
+        SumarCamposRecupero();
+    }
+
+
+
+};
+
+function ValidarSobreReserva() {
+    if ($('#zamba_index_11535258').prop('checked') == false) {
         $('#ResumenArea').show();
         $('#AreaRecupero').hide();
         SumarCamposCapital();

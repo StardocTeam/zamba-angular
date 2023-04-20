@@ -19,14 +19,14 @@
         <div class="container-fluid">
             <center>
                 <div class="header background-blue">
-                    <h5>CONSULTA DE COMPRA DE BIENES Y/O CONTRATACIÓN DE SERVICIOS</h5>
+                    <h5>CONSULTA DE COMPRA DE BIENES Y/O CONTRATACION DE SERVICIOS</h5>
                 </div>
             </center>
             <ul class=" nav nav-tabs">
                 <li class=" active"><a href="#Solicitud" data-toggle="tab">Solicitud</a></li>
                 <li><a href="#Expediente" data-toggle="tab">Expediente</a></li>
                 <li><a href="#Aprobaciones" data-toggle="tab">Aprobaciones</a></li>
-                <li><a href="#Cotizacion" data-toggle="tab">Pedidos de Cotización</a></li>
+                <li><a href="#Cotizacion" data-toggle="tab">Pedidos de Cotizacion</a></li>
                 <li><a href="#Evaluaciones" data-toggle="tab">Evaluaciones</a></li>
                 <li><a href="#OrdenesCompra" data-toggle="tab">Ordenes de Compra</a></li>
                 <li><a href="#Remitos" data-toggle="tab">Remitos</a></li>
@@ -212,7 +212,7 @@
                         <div class="col-md-4"></div>
 
 						<div class="col-md-1">
-							<input name="zamba_rule_11530255" id="zamba_rule_11530255" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Responder Solicitud de Información"  style="display: none" >
+							<input name="zamba_rule_11530255" id="zamba_rule_11530255" onclick="SetRuleId(this);" class="btn btn-primary" type="submit" value="Responder Solicitud de Informacion"  style="display: none" >
 						</div>
 					
 						<div class="col-md-1">
@@ -256,14 +256,46 @@
                             <zamba-timeline entity-id="107" timeline-type="Aprobaciones" parent-entity-id="18"></zamba-timeline>
                         </div>
                     </div>
-                    
+
+                    <div class="form-group row"></div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="input-group-addon">Siguiente Nivel de Aprobacion</div>
+                        </div>
+                    </div>
+                    <div class="form-group row"></div>
+                    <div class="form-group row"></div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <!--Zamba Grupo Aprobador-->                             <span class="input-group-addon">Zamba Grupo Aprobador:</span>
+                                <input id="zamba_index_10253" name="zamba_index_10253" size="1" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group">
+                                <!--Nro. Secuencia Aprobador-->                            <span class="input-group-addon">N° Secuencia:</span>
+                                <input id="zamba_index_153" name="zamba_index_153" class="form-control input-sm" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <!--Accion-->                                 <span class="input-group-addon">Accion:</span>
+                                <input id="zamba_index_1020136" name="zamba_index_1020136" size="1" class="form-control input-sm" disabled />
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="tab-pane" id="Cotización">
+                <div class="tab-pane" id="Cotizacion">
                     <div class="form-group row"></div>
 
                     <div class="form-group row">
                         <div id="filenetTable" ng-controller="ZambaAssociatedController">
-                            <zamba-associated entities="100" default-enable-mode="grid" table-height="400" grid-title="Pedidos de Cotización">
+                            <zamba-associated entities="100" default-enable-mode="grid" table-height="400" grid-title="Pedidos de Cotizacion">
                             </zamba-associated>
                         </div>
                     </div>
@@ -348,8 +380,8 @@
       
 
     <!--Referencias Grilla de Solicitud y Compras-->
-    <script src="../../Grid/SolCompCont2/SolCompContController2.js?v=179"></script>
-    <script src="../../Grid/SolCompCont2/SolCompContService2.js?v=179"></script>
+    <script src="../../Grid/SolCompCont2/SolCompContController2.js?v=165"></script>
+    <script src="../../Grid/SolCompCont2/SolCompContService2.js?v=165"></script>
       
 		</form>
 
