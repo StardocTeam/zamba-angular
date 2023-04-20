@@ -1889,8 +1889,14 @@ namespace ZambaWeb.RestApi.Controllers
                                     , res.Disk_Group_Id
                                     , WT.InitialState, 0, ""
                                     );
+
+                                    Results.Add(NewTaskResult);
                                 }
-                                Results.Add(NewTaskResult);
+                                else {
+                                    Results.Add(TaskByDocId);
+                                }
+                               
+
                             }
                             else
                             {
@@ -1913,57 +1919,6 @@ namespace ZambaWeb.RestApi.Controllers
                                                                              //ExecutionTask.StartRule = ruleId;                         Results.Add(ExecutionTask);
                     }
 
-                    if (listResultIds.Count > 0)
-                    {
-                        for (int i = 0; i < listResultIds.Count; i++)
-                        {
-                            if (int.Parse(listResultIds[i].Docid) > 0)
-                            {
-                                var TaskByDocId = sTasks.GetTaskByDocId(Int64.Parse(listResultIds[i].Docid));
-                                if (TaskByDocId == null)
-                                {
-                                    WFStep WT = new WFStep();
-                                    IResult res = new Results_Business().GetResult(Int64.Parse(listResultIds[i].Docid), Int64.Parse(listResultIds[i].DocTypeid), true);
-                                    oldFullPath = res.FullPath;
-                                    NewTaskResult = new TaskResult(ref WT
-                                    , 0
-                                    , Int64.Parse(listResultIds[i].Docid)
-                                    , (Zamba.Core.DocType)res.DocType
-                                    , res.Name
-                                    , res.IconId
-                                    , 0
-                                    , TaskStates.Asignada
-                                    , res.Indexs
-                                    , res.DISK_VOL_PATH
-                                    , "0"
-                                    , res.OffSet.ToString()
-                                    , res.Doc_File
-                                    , res.Disk_Group_Id
-                                    , WT.InitialState, 0, ""
-                                    );
-                                }
-                                Results.Add(NewTaskResult);
-                            }
-                            else
-                            {
-                                ITaskResult ExecutionTask = new TaskResult();
-                                ExecutionTask.AsignedToId = user.ID;
-                                ExecutionTask.UserId = (int)user.ID;
-                                ExecutionTask.TaskId = 0;
-                                ExecutionTask.Name = "Ejecucion de regla IMAP"; //
-                                                                                //ExecutionTask.StartRule = ruleId;                                 Results.Add(ExecutionTask);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        ITaskResult ExecutionTask = new TaskResult();
-                        ExecutionTask.AsignedToId = user.ID;
-                        ExecutionTask.UserId = (int)user.ID;
-                        ExecutionTask.TaskId = 0;
-                        ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
-                                                                             //ExecutionTask.StartRule = ruleId;                         Results.Add(ExecutionTask);
-                    }
 
                     if (ZvarParams.Length > 0)
                     {

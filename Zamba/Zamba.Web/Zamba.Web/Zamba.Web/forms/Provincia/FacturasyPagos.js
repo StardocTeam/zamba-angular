@@ -26,6 +26,7 @@
     });
 
     document.querySelector("#zamba_index_11535222").addEventListener("focusout", e => {
+        debugger;
         render_Importe(e);
         CheckImporteMoneda();
     });

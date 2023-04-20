@@ -93,7 +93,12 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
         } catch (e) {
             console.log("validar que existan los id que se estan pasando en el form:" + e.message)
         }
-        let resultIds = getElementFromQueryString("docid");
+        
+
+        var resultIds = [{
+            Docid: getElementFromQueryString("docid"),
+            DocTypeid: getElementFromQueryString("doctype")
+        }]
 
         // se realiza validacion ya que si un eleento esta null no dispara la zambarule
         let objectValue = ResultValues.find(item => item.value == "");
@@ -101,7 +106,7 @@ app.controller('TaskController', function ($scope, $filter, $http, ZambaTaskServ
         if (objectValue == undefined) {
 
             // se optiene los valores 
-            $scope.Execute_zRule(ruleId, resultIds, JSON.stringify(ResultValues)).then(response => {
+            $scope.Execute_zRule(ruleId, JSON.stringify(resultIds), JSON.stringify(ResultValues)).then(response => {
 
 
                 var ret_Response = JSON.parse(response.data).Vars;
