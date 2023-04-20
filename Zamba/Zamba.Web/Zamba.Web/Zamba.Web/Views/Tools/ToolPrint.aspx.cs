@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.IO;
 using Zamba.Core;
 using Zamba.Membership;
+using System.Configuration;
 
 public partial class Views_Tools_ToolPrint : System.Web.UI.Page
 {
@@ -21,7 +22,8 @@ public partial class Views_Tools_ToolPrint : System.Web.UI.Page
             Int64.TryParse(Request.QueryString["doctypeid"], out _doctypeId);
             Int64.TryParse(Request.QueryString["docid"], out _docId);
 
-            _url = string.Format(MembershipHelper.Protocol + "{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&UserID={4}", Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, _doctypeId, _docId, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+            //_url = string.Format(MembershipHelper.Protocol + "{0}{1}/Services/GetDocFile.ashx?DocTypeId={2}&DocId={3}&UserID={4}", Request.ServerVariables["HTTP_HOST"], Request.ApplicationPath, _doctypeId, _docId, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+            _url = getUrlGetDocFile(_doctypeId.ToString(), _docId.ToString());
 
             if (!string.IsNullOrEmpty(_url))
             {
@@ -42,4 +44,10 @@ public partial class Views_Tools_ToolPrint : System.Web.UI.Page
             catch { }
         }
     }
+
+    public string getUrlGetDocFile(string doctypeId, string docId)
+    {
+        return string.Format(MembershipHelper.Protocol + "{0}{1}/api/b2b/GetDocFileGETMethod?DocTypeId={2}&DocId={3}&UserID={4}&ConvertToPDF=true", Request.ServerVariables["HTTP_HOST"], ConfigurationManager.AppSettings["RestApiUrl"], doctypeId, docId, Zamba.Membership.MembershipHelper.CurrentUser.ID);
+    }
+
 }

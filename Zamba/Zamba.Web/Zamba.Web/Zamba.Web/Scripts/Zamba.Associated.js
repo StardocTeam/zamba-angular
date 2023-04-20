@@ -7,11 +7,9 @@
 
             if (NextRulesIds != undefined && NextRulesIds != null && NextRulesIds != '') {
                 var scope = angular.element($("#taskController")).scope();
-                debugger;
 
                 return scope.Execute_ZambaRuleAsync(NextRulesIds, [{ Docid: GetDOCID(), DocTypeid: GetDocTypeId() }]).then((res) => {
                     NextRulesIds = null;
-                    debugger;
 
                     if (parentWindow.isSearchHtml())
                         parentWindow.RefreshResultsGridFromChildWindow();
@@ -22,7 +20,6 @@
                     resolve();
                 });
             } else {
-                debugger;
 
                 if (parentWindow.isSearchHtml())
                     parentWindow.RefreshResultsGridFromChildWindow();
@@ -34,7 +31,6 @@
             }
         }
         catch (e) {
-            debugger;
 
             console.error(e);
             reject(e);
@@ -80,7 +76,7 @@ function OpenTaskOnBrowser() {
 }
 
 function GetDataKendoGrid(index) {
-    Data = $(document.querySelector("#zamba_grid_index_all")).data().kendoGrid._data[index]; 
+    Data = $(document.querySelector("#zamba_grid_index_all")).data().kendoGrid._data[index];
     return Data;
 }
 

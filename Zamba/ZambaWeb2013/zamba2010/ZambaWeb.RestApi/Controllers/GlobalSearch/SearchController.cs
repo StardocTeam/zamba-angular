@@ -1346,8 +1346,9 @@ namespace ZambaWeb.RestApi.Controllers
                                     }
                                 }
 
-                                if ((index.Data != null && index.Data != string.Empty) || (index.dataDescription != null && index.dataDescription != string.Empty)) {
-                                     search.AddIndex(index);
+                                if ((index.Data != null && index.Data != string.Empty) || (index.dataDescription != null && index.dataDescription != string.Empty))
+                                {
+                                    search.AddIndex(index);
                                 }
                             }
                         }
@@ -1470,12 +1471,12 @@ namespace ZambaWeb.RestApi.Controllers
 
                     }
 
-                    foreach (StepDTO dr in sr.Steps) 
+                    foreach (StepDTO dr in sr.Steps)
                     {
                         if (dr.Name.Length >= 27)
                         {
                             dr.Name = dr.Name.Substring(0, 27);
-                            dr.Name += "..."; 
+                            dr.Name += "...";
                         }
 
                     }
@@ -1729,15 +1730,15 @@ namespace ZambaWeb.RestApi.Controllers
                     foreach (EntityDto entityDto in sr.entities)
                     {
                         entityDto.name = entityDto.name;
-                        
+
                         ObjectTypes ObjectId = ObjectTypes.DocTypes;
                         RightsType RightType = RightsType.Delete;
 
-                        entityDto.UserCanRemove = new RightsBusiness().GetUserRights(User.ID, ObjectId, RightType, entityDto.id );
+                        entityDto.UserCanRemove = new RightsBusiness().GetUserRights(User.ID, ObjectId, RightType, entityDto.id);
 
 
                     }
-                        
+
                     //entityDto.name = QuitarAcentosAColumna(entityDto.name);
 
                     foreach (DataColumn dataColumn in sr.data.Columns)
@@ -1923,7 +1924,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// </summary>
         /// <param name="DocTypeID">ID de la Entidad</param>
         /// <param name="userID">ID del usuario actual</param>
-        private void ApplyEntityFilters(long DocTypeID, long userID,List<object> indexList)
+        private void ApplyEntityFilters(long DocTypeID, long userID, List<object> indexList)
         {
             try
             {
@@ -2086,14 +2087,14 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 DataTable DT_Results = new Results_Business().loadLastSearchResults(GenericRequest.UserId);
 
-                foreach(DataRow r in DT_Results.Rows)
+                foreach (DataRow r in DT_Results.Rows)
                 {
                     LastSearchs LS = new LastSearchs();
                     byte[] ByteSearchObject = (byte[])r["SearchObject"];
                     LS.ObjectSearch = Encoding.Default.GetString(ByteSearchObject);
                     LS.Name = r["Name"].ToString();
                     LS.SearchDate = (DateTime)r["SearchDate"];
-                    CResults.Add(LS);                                        
+                    CResults.Add(LS);
                 }
 
                 return Ok(CResults);
@@ -2527,9 +2528,9 @@ namespace ZambaWeb.RestApi.Controllers
                 try
                 {
 
-                            Int64 doctypeId = Convert.ToInt64(paramRequest.Params["doctypeId"].ToString());
-                            Int64 docId = Convert.ToInt64(paramRequest.Params["docid"].ToString());
-                            Int64 indexId = Convert.ToInt64(paramRequest.Params["indexId"].ToString());
+                    Int64 doctypeId = Convert.ToInt64(paramRequest.Params["doctypeId"].ToString());
+                    Int64 docId = Convert.ToInt64(paramRequest.Params["docid"].ToString());
+                    Int64 indexId = Convert.ToInt64(paramRequest.Params["indexId"].ToString());
 
 
                     STasks STasks = new STasks();
@@ -3614,6 +3615,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/GetFileUrl")]
         [HttpPost]
+        [Obsolete]
         public string GetFileUrl(ResultDto resultDto)
         {
             try

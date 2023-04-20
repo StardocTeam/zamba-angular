@@ -48,6 +48,7 @@
       <HintPath>..\..\..\Assemblys\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -89,6 +90,10 @@
     <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
       <Project>{3137F21C-2B96-4E94-B436-C8CAC0F60C5D}</Project>
       <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{d349ab2a-b052-4307-b979-d397d10760a1}</Project>
+      <Name>Zamba.Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
       <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>

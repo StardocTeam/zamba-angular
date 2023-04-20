@@ -29,14 +29,14 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
                 }
             };
         }
+
         return $http.post(serviceBase + '/tasks/ExecuteTaskRule', JSON.stringify(genericRequest));
     };
 
-
+    //ver de poner async en IE
     function executeRuleForTask(ruleId, itemResults, formVars) {
         let response = null;
         let genericRequest;
-        debugger;
 
         if (formVars == undefined) {
             genericRequest = {
@@ -58,7 +58,6 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
                 }
             };
         }
-        debugger;
 
         return $http.post(serviceBase + '/tasks/ExecuteRuleForTask', JSON.stringify(genericRequest));
     };
@@ -156,6 +155,7 @@ app.factory('ZambaTaskService', ['$http', '$q', function ($http, $q) {
 
     zambaTaskFactory.executeTaskRule = executeTaskRule;
     zambaTaskFactory.executeRuleForTask = executeRuleForTask;
+    
     zambaTaskFactory.executeAction_onItems = _executeAction_onItems;
     zambaTaskFactory.getResultsGridActions = _getResultsGridActions;
     zambaTaskFactory.LoadUserAction_ForMyTaskGrid = _LoadUserAction_ForMyTaskGrid;

@@ -41,7 +41,7 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
         return result;
     };
 
-    var _getDocumentService = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, callBack, viewer,IsHistoryMail=false,pathFile="") {
+    var _getDocumentService = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, callBack, viewer, IsHistoryMail = false, pathFile = "") {
         var result = false;
         var value = {
             Params: {
@@ -53,8 +53,8 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
                 "viewer": viewer,
                 "IsHistoryMail": IsHistoryMail,
                 "PathFile": pathFile
-            }   
-        }       
+            }
+        }
         $.ajax({
             type: "POST",
             url: serviceBase + "/search/GetDocument",
@@ -74,7 +74,7 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
                 //},2000
                 //);
 
-                
+
                 //console.log(ex.responseJSON.Message);
                 eval(callBack(null));
             },
@@ -83,6 +83,67 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
 
         return result;
     };
+
+    var _getDocumentServiceAsyncWeb = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, callBack, viewer, IsHistoryMail = false, pathFile = "") {
+        var result = false;
+        var value = {
+            Params: {
+                "userId": UserId,
+                "doctypeId": DocTypeId,
+                "docid": DocId,
+                "converttopdf": convertToPDF,
+                "includeAttachs": true,
+                "viewer": viewer,
+                "IsHistoryMail": IsHistoryMail,
+                "PathFile": pathFile
+            }
+        }
+        $http.post(ZambaWebRestApiURL + '/search/GetDocument', JSON.stringify(value), { headers: { 'Authorization': tokenSearchId } }).then(function (resp) {
+            var data = resp.data;
+            eval(callBack(data));
+        }, function (err) {
+            eval(callBack(null));
+        });
+        return result;
+    };
+
+
+    var _TestGetDownload = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, callBack, viewer, IsHistoryMail = false, pathFile = "") {
+        var result = false;
+        var value = {
+            UserId: 151,
+            Params: {
+                "DocId": DocId,
+                "DocTypeId": DocTypeId,
+                "includeAttachs": false,
+                "MsgPreview": false,
+                "ConvertToPDf": false
+            }
+        }
+        $http.post(
+            ZambaWebRestApiURL + '/b2b/GetDocFile',
+            JSON.stringify(value),
+            {
+                responseType: 'blob'
+            }
+        ).then(function (resp) {
+            var data = resp.data;
+
+            const fileURL = window.URL.createObjectURL(new Blob([data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            const fileName = resp.headers()['content-disposition'].substring(22).replace('\"', '');
+            fileLink.setAttribute('download', fileName);
+            fileLink.setAttribute('target', '_blank');
+            document.body.appendChild(fileLink);
+            fileLink.click();
+            fileLink.remove();
+
+        }, function (err) {
+        });
+        return result;
+    };
+
 
     var _getDocumentServiceAsync = function (UserId, DocTypeId, DocId, tokenSearchId, convertToPDF, viewer, iframeID) {
 
@@ -106,7 +167,7 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
         const ipAPI = '//api.ipify.org?format=json'
 
 
-        $http.post(ZambaWebRestApiURL + '/search/GetDocument', JSON.stringify(value), { headers: { 'Authorization': tokenSearchId }}).then(function (resp) {
+        $http.post(ZambaWebRestApiURL + '/search/GetDocument', JSON.stringify(value), { headers: { 'Authorization': tokenSearchId } }).then(function (resp) {
             var data = resp.data;
             deferred.resolve(data);
         }, function (err) {
@@ -117,7 +178,7 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
         return deferred.promise;
 
 
-       
+
         //$.ajax({
         //    type: "POST",
         //    url: serviceBase + "/search/GetDocument",
@@ -142,6 +203,8 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
     ObjFactory.getDocFileService = _getDocFileService;
     ObjFactory.getDocumentService = _getDocumentService;
     ObjFactory.getDocumentServiceAsync = _getDocumentServiceAsync;
+    ObjFactory.getDocumentServiceAsyncWeb = _getDocumentServiceAsyncWeb;
+    ObjFactory.TEST = _TestGetDownload;
 
     return ObjFactory;
 }]);
