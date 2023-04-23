@@ -8,7 +8,6 @@ namespace ZambaWeb.RestApi.Models
 {
     public partial class insert
     {
-      
         public file file { get; set; }
         public long DocTypeId { get; set; }
         //public string name{ get; set; }
@@ -19,8 +18,15 @@ namespace ZambaWeb.RestApi.Models
 
         public string OriginalFileName{ get; set; }
 
+        public List<Associated> associated { get; set; }
     }
 
+    public partial class Associated
+    {
+        public long DocTypeId { get; set; }
+        //public string name{ get; set; }
+        public List<Indexs> indexs { get; set; }
+    }
 
     public partial class insertResult
     {
@@ -29,6 +35,7 @@ namespace ZambaWeb.RestApi.Models
         public long ReturnId { get; set; }
         public string ReturnValue { get; set; }
         public string error { get; set; }
+        public List<insertResult> AssociatedResults { get; set; }
     }
 
     public class file 

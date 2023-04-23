@@ -340,7 +340,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                                 IIndex ReturnNewIndex = res.get_GetIndexById(insert.ReturnId);
 
-                                      if (ReturnNewIndex == null)
+                                if (ReturnNewIndex == null)
                                     throw new Exception($"El atributo de retorno es indexistenteen la entidad seleccionada. ({insert.ReturnId})");
 
                                 IR = new insertResult
@@ -355,7 +355,7 @@ namespace ZambaWeb.RestApi.Controllers
                             {
                                 List<char> DigitisIds = newresult.ID.ToString().ToList();
                                 string NewID = string.Empty;
-                                for (int i = 0;  i < DigitisIds.Count - 1; i++)
+                                for (int i = 0; i < DigitisIds.Count - 1; i++)
                                 {
                                     if (i % 2 == 0)
                                     {
@@ -376,6 +376,13 @@ namespace ZambaWeb.RestApi.Controllers
                                     msg = "OK"
                                 };
                             }
+
+                            //------------------------------------------AssociatesResults-----------------------------------------
+
+                            List<insertResult> AssociatedIRs = InsertAssociatedResults(newresult, insert, user);
+                            IR.AssociatedResults = AssociatedIRs;
+                            //--------------------------------------------------------------------------------------------------------------------
+
                             return JsonConvert.SerializeObject(IR, Formatting.Indented,
                             new JsonSerializerSettings
                             {
@@ -451,15 +458,178 @@ namespace ZambaWeb.RestApi.Controllers
 
                 ex.Data.Add("File", insert.file.data);
 
-                return JsonConvert.SerializeObject(ex, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError,
+         new HttpError(ex.ToString()))).ToString();
+
             }
 
         }
 
+
+        private List<insertResult> InsertAssociatedResults(IResult parentResult, insert insertRequest, IUser User)
+        {
+            List<insertResult> IRs = new List<insertResult>();
+            Results_Business rb = new Results_Business();
+            SUsers us = new SUsers();
+
+            if (insertRequest.associated != null)
+            {
+                foreach (Associated associated in insertRequest.associated)
+                {
+                    Int64 newId = 0;
+
+                    try
+                    {
+                        if (associated != null)
+                        {
+                            newId = Zamba.Data.CoreData.GetNewID(IdTypes.DOCID);
+
+                            try
+                            {
+                                List<IIndex> indexs = new List<IIndex>();
+                                SResult sResult = new SResult();
+                                InsertResult result = InsertResult.NoInsertado;
+                                INewResult newresult = new SResult().GetNewNewResult(associated.DocTypeId);
+
+                                StringBuilder IndexDataLog = new StringBuilder();
+                                foreach (var InsertIndex in associated.indexs)
+                                {
+                                    Boolean IndexValidate = false;
+                                    String ErrorMsg = "";
+                                    foreach (var NewResultIndex in newresult.Indexs)
+                                    {
+
+                                        if (NewResultIndex.ID == InsertIndex.id)
+                                        {
+                                            NewResultIndex.Data = InsertIndex.value;
+                                            NewResultIndex.DataTemp = InsertIndex.value;
+                                            indexs.Add(NewResultIndex);
+                                            IndexDataLog.Append(NewResultIndex.Name);
+                                            IndexDataLog.Append(": ");
+                                            IndexDataLog.Append(InsertIndex.value);
+                                            IndexDataLog.Append(", ");
+                                            IndexValidate = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!IndexValidate)
+                                        throw new Exception($"El atributo no existe en la Entidad seleccionada. ({InsertIndex.id} : {InsertIndex.value})");
+                                }
+
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, IndexDataLog.ToString());
+
+                                newresult.OffSet = parentResult.OffSet;
+                                newresult.Disk_Group_Id = parentResult.Disk_Group_Id;
+                                newresult.DISK_VOL_PATH = parentResult.DISK_VOL_PATH;
+                                //                               newresult.Volume = parentResult.Volume;
+                                newresult.Doc_File = parentResult.File;
+                                result = sResult.Insert(ref newresult, false, false, false, false, true, false, false, true, false, User.ID, newId, true);
+
+                                if (result == InsertResult.Insertado)
+                                {
+                                    try
+                                    {
+                                        if (insertRequest.OriginalFileName != null && !string.IsNullOrEmpty(insertRequest.OriginalFileName))
+                                        {
+                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update doc_t{associated.DocTypeId} set doc_file = {parentResult.Doc_File}, offset = {parentResult.OffSet}, vol_id = {parentResult.Disk_Group_Id} Original_FileName = '{insertRequest.OriginalFileName}' where doc_id = {newresult.ID}");
+                                        }
+                                        else
+                                        {
+                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update doc_t{associated.DocTypeId} set doc_file = {newresult.Doc_File}, offset = {parentResult.OffSet}, vol_id = {parentResult.Disk_Group_Id} where doc_id = {newresult.ID}");
+                                        }
+
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ZClass.raiseerror(ex);
+                                    }
+
+                                    insertResult IR = null;
+
+                                    List<char> DigitisIds = newresult.ID.ToString().ToList();
+                                    string NewID = string.Empty;
+                                    for (int i = 0; i < DigitisIds.Count - 1; i++)
+                                    {
+                                        if (i % 2 == 0)
+                                        {
+                                            NewID += DigitisIds[i] + new Random().Next(9).ToString();
+                                        }
+                                        else
+                                        {
+                                            NewID += DigitisIds[i];
+
+                                        }
+                                    }
+                                    Int64 internalId = Int64.Parse(NewID);
+                                    IR = new insertResult
+                                    {
+                                        Id = internalId,
+                                        ReturnId = insertRequest.ReturnId,
+                                        msg = "OK"
+                                    };
+
+                                    if (insertRequest.ReturnId > 0)
+                                    {
+                                        IResult res = rb.GetResult(newresult.ID, newresult.DocTypeId, true);
+                                        IIndex ReturnNewIndex = res.get_GetIndexById(insertRequest.ReturnId);
+
+                                        if (ReturnNewIndex == null || ReturnNewIndex.Data == string.Empty)
+                                        {
+                                            throw new Exception($"El atributo de retorno no existe en la entidad seleccionada. ({insertRequest.ReturnId})");
+                                        }
+                                        else
+                                        {
+                                            IR.ReturnValue = ReturnNewIndex.Data;
+                                        }
+                                    }
+
+                                    IRs.Add(IR);
+                                }
+                                else
+                                {
+                                    Exception ex = new Exception(result.ToString());
+                                    ZClass.raiseerror(ex);
+                                    throw new Exception(ex.ToString());
+                                }
+                            }
+
+                            catch (Exception ex)
+                            {
+                                ZClass.raiseerror(ex);
+                                throw new Exception(ex.ToString());
+
+                            }
+                        }
+                        else
+                            throw new Exception(StringHelper.BadInsertParameter);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Dictionary<object, object> datosInsert = new Dictionary<object, object>();
+
+                        ZClass.raiseerror(ex);
+                        ex.Data.Add("DocTypeId", associated.DocTypeId);
+                        ex.Data.Add("UserId", insertRequest.Userid);
+                        ex.Data.Add("Id", string.Empty);
+                        ex.Data.Add("Value", string.Empty);
+
+                        foreach (var item in associated.indexs)
+                        {
+                            ex.Data["Id"] += string.Format("{0}; ", item.id.ToString());
+                            ex.Data["Value"] += string.Format("{0}; ", item.value.ToString());
+                        }
+
+                        ex.Data.Add("File", insertRequest.file.data);
+
+                        throw ex;
+                    }
+                }
+            }
+
+            return IRs;
+
+        }
 
         private void CopyFileBKP(ref string pathTemp, insert insert, Int64 newDocID)
         {
