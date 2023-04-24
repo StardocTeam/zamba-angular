@@ -25,20 +25,21 @@
                              class=" img-circle ng-show"
                              style="width: 37px;height: 33px;margin-top: 1px;margin-left:-5px; border-radius: 17px;" />
                     </div>
-                    <span style=" line-height: inherit;" class="badge bg-danger">
-                        {{ListFacturas.length}}
-                    </span>
-
-
                 </a>
 
 
 
                 <ul class="navbar-nav" style=" flex-direction: row">
                     <li class="nav-item">
-
-                        <a ng-click="AprobarTodos()" ng-if="ListFacturas.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
-                            Aprobar todo
+                        <a ng-click="AprobarTodos()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                            <span style=" line-height: inherit;" class="badge bg-danger">
+                                {{totalInvoicesPendingCount}}
+                            </span> Aprobar todo
+                        </a>
+                        <a ng-click="AprobarTodos()" ng-if="selectedInvoices.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                            <span style=" line-height: inherit;" class="badge bg-danger">
+                                {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
+                            </span> Aprobar seleccionadas
                         </a>
                     </li>
                 </ul>
@@ -77,7 +78,7 @@
         <center>
             <button class="btn btn-outline-info" ng-if="ListFacturas.length == 0" style="margin-top: 15px;"> No tienes tareas pendientes </button>
         </center>
-        <div ng-repeat="lista in ListFacturas" style="margin-top: 80px;">
+        <div ng-repeat="lista in ListFacturas" style="margin-top: 80px;" ng-class="{selectedInvoice:lista.checked }">
             <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{lista.ID + '-' + lista.ID1}}"
                  ng-show="true">
                 <div id="{{lista.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -173,7 +174,16 @@
                                                     </button>
                                                 </a>
                                             </div>
+                                            <div class="col-3">
+                                                <a  ng-click="sentToMultiSelect(lista)">
+                                                    <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
+                                                        <i ng-if="lista.checked" class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                        <i ng-if="!lista.checked"class="fa fa-square-o" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                            </div>
                                         </div>
+                                        <button type="button" class="btn btn-lg"  ng-click="sendToseeLaterList(lista)">Revisar despues</button>
                                     </div>
                                 </div>
 
@@ -190,6 +200,10 @@
         </div>
 
         <style>
+            .selectedInvoice {
+                background-color: #f8f8f8;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            }
             .bg-light {
                 background-color: #0a58ca !important;
             }
@@ -226,6 +240,7 @@
                 margin-top: 13px;
                 border-bottom: solid 1px hsl(0deg 17% 72%);
                 padding-bottom: 5px;
+            }
         </style>
 
     </div>
