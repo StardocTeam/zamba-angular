@@ -49,6 +49,10 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.showPreviewSummary = null;
     $scope.SummaryList = [];
 
+    $scope.selectedInvoices = [];
+    $scope.seeLaterList = [];
+    $scope.totalInvoicesPendingCount = 0;
+
     //Reglas:
     //Regla Aprobar Todos(pagos / facturas11546636) variable IDAprobar
     //Regla Aprobar Todos(pagos / facturas11547097) variable IDUsuario
@@ -75,7 +79,13 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         //alert(d);
         if (d != null && d != "") {
 
-            $scope.ListFacturas = JSON.parse(d);
+            let invoicesList = JSON.parse(d);
+            invoicesList.forEach(function (invoice) {
+                invoice.checked = false;
+            });
+
+            $scope.ListFacturas = invoicesList;
+            $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
 
             setTimeout(function () {
                 $scope.iframeControls = [];
@@ -103,6 +113,41 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             $scope.SummaryList = JSON.parse(data);
         }
     };
+
+    //TODO: hay que validar de quitar y agregar a la lista dependiendo del estado de checked
+    $scope.sentToMultiSelect = function (item) {
+        item.checked = !item.checked;
+        var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+
+        if (filteredItem != undefined) {
+            if (item.checked) 
+                $scope.selectedInvoices.push(filteredItem);
+             else
+                $scope.removeInvoiceFromPendingList($scope.selectedInvoices, item.ID, item.ID1)
+        }
+    }
+
+    $scope.sendToseeLaterList = function (item) {
+        try {
+            var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+            if (filteredItem != undefined) {
+                $scope.seeLaterList.push(filteredItem)
+                $scope.removeInvoiceFromPendingList($scope.ListFacturas, item.ID, item.ID1)
+            }
+
+
+        } catch (e) {
+            console.error(e);
+        }
+        
+    }
+
+    $scope.removeInvoiceFromPendingList = function (list,ID,ID1) {
+        var itemIndex = list.findIndex(function (item) {
+            return item.ID === ID && item.ID1 === ID1;
+        });
+        list.splice(itemIndex, 1);
+    }
 
     $scope.FormsVariables = '[]'
 
