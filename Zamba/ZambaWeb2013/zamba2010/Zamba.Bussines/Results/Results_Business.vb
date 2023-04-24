@@ -1450,7 +1450,7 @@ Public Class Results_Business
             newResult.Name = GetResultName(newResult)
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Nombre: " & newResult.Name)
 
-            If isVirtual = False Or isReplica OrElse (Not String.IsNullOrEmpty(forceBlob) AndAlso Boolean.Parse(forceBlob)) Then 'Intento cargar un volumen para el documento, si no se puede se genera una excepcion
+            If isVirtual = False OrElse isReplica OrElse (Not String.IsNullOrEmpty(forceBlob) AndAlso Boolean.Parse(forceBlob)) Then 'Intento cargar un volumen para el documento, si no se puede se genera una excepcion
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "cargando volumen")
                 LoadVolume(newResult)
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "se cargo el volumen")
@@ -1531,7 +1531,7 @@ Public Class Results_Business
 
             End If
 
-            If isVirtual And isReplica = False Then
+            If isVirtual AndAlso isReplica = False Then
                 newResult.Disk_Group_Id = 0
             Else
                 newResult.Disk_Group_Id = newResult.Volume.ID
