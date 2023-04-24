@@ -1,9 +1,9 @@
 ﻿<div class=''>
 
     <div class='wrapper'>
-        <nav class="navbar  navbar-expand   navbar-light bg-light">
-            <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white;margin-left: 15px;margin-right: -10px;margin-top: -3px;" role="button" tabindex="0"></i>
-            <a ng-click="setUrlParameters()" class="nav-link" href="#" style="color: white;">
+        <nav class="navbar  navbar-expand   navbar-light bg-light" style="background: linear-gradient(135deg, #7cf1e9 0%,#00a3db 100%) !important;">
+            <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white; margin-left: 15px; margin-right: -10px; margin-top: 2px; width: 40px" role="button" tabindex="0"></i>
+            <a ng-click="setUrlParameters()" id="backID" class="nav-link" href="#" style="color: white; margin-left: -15px">
 
                 Atras
             </a>
@@ -16,14 +16,14 @@
                             <li class="LielementStyle" data-toggle="modal" data-target="#keyChange" ng-click="CierreMenu()">Cambio de Clave</li>
                         </div>
                     </div>
-                    <div style="display: inline-block;" ng-click="Openopcionmenu()">
+                    <div style="display: inline-block;" id="MobileAvatar" ng-click="Openopcionmenu()">
                         <img ng-cloak ng-if="thumphoto != null "
                              ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
                              style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
                         <img ng-cloak ng-if="thumphoto == null "
                              src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
                              class=" img-circle ng-show"
-                             style="width: 37px;height: 33px;margin-top: 1px;margin-left:-5px; border-radius: 17px;" />
+                             style="width: 37px;height: 33px;margin-top: 1px;margin-left:-15px; border-radius: 17px; margin-left:-15px" />
                     </div>
                 </a>
 
@@ -60,13 +60,13 @@
                 </ul>
 
                 <!--<form class="d-flex">
-            <button class="btn btn-light" ng-click="btnRefresh()">
-                <i class="fa fa-refresh" aria-hidden="true" style="color: black;"></i>
-            </button>
-            <button class="btn btn-danger" ng-click="SignOut()" style="margin-left: 11px;">
-                <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
-            </button>
-        </form>-->
+                    <button class="btn btn-light" ng-click="btnRefresh()">
+                        <i class="fa fa-refresh" aria-hidden="true" style="color: black;"></i>
+                    </button>
+                    <button class="btn btn-danger" ng-click="SignOut()" style="margin-left: 11px;">
+                        <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
+                    </button>
+                </form>-->
 
 
             </div>
@@ -175,15 +175,15 @@
                                                 </a>
                                             </div>
                                             <div class="col-3">
-                                                <a  ng-click="sentToMultiSelect(lista)">
+                                                <a ng-click="sentToMultiSelect(lista)">
                                                     <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
                                                         <i ng-if="lista.checked" class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                        <i ng-if="!lista.checked"class="fa fa-square-o" aria-hidden="true"></i>
+                                                        <i ng-if="!lista.checked" class="fa fa-square-o" aria-hidden="true"></i>
                                                     </button>
                                                 </a>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-lg"  ng-click="sendToseeLaterList(lista)">Revisar despues</button>
+                                        <button type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
                                     </div>
                                 </div>
 
@@ -204,6 +204,7 @@
                 background-color: #f8f8f8;
                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             }
+
             .bg-light {
                 background-color: #0a58ca !important;
             }
@@ -233,13 +234,20 @@
                 margin-top: 45px;
                 margin-left: -12px;
                 border-radius: 7px;
-                color:white;
+                color: white;
             }
+
             .LielementStyle {
                 color: white;
                 margin-top: 13px;
                 border-bottom: solid 1px hsl(0deg 17% 72%);
                 padding-bottom: 5px;
+            }
+
+            @media only screen and (min-width : 320px) and (max-width : 960px) {
+                #backID {
+                    display: none;
+                }
             }
         </style>
 
@@ -270,43 +278,43 @@
 
     <div class="modal fade" id="keyChange" tabindex="-1" role="dialog" aria-labelledby="keyChange" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            
-                <div class="modal-body">
 
-                    <div class="modal-content">
-                        <form ng-submit="ChangePassword(inputs)">
+            <div class="modal-body">
 
-                            <div class="modal-header">
-                                <h4 class="modal-title">Cambiar contraseña</h4>
+                <div class="modal-content">
+                    <form ng-submit="ChangePassword(inputs)">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cambiar contraseña</h4>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Contraseña Actual</label>
+                                <input class="form-control" ng-model="inputs.CurrentPassword" type="password" />
+                            </div>
+                            <div class="form-group">
+                                <label>Nueva contraseña</label>
+                                <input class="form-control" ng-model="inputs.NewPassword" type="password" />
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Nueva contraseña</label>
+                                <input class="form-control" ng-model="inputs.NewPassword2" type="password" />
                             </div>
 
-                            <div class="modal-body">
+                        </div>
 
-                                <div class="form-group">
-                                    <label>Contraseña Actual</label>
-                                    <input class="form-control" ng-model="inputs.CurrentPassword" type="password" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Nueva contraseña</label>
-                                    <input class="form-control" ng-model="inputs.NewPassword" type="password" />
-                                </div>
-                                <div class="form-group">
-                                    <label>Confirmar Nueva contraseña</label>
-                                    <input class="form-control" ng-model="inputs.NewPassword2" type="password" />
-                                </div>
+                        <div class="modal-footer" style=" padding: 7px">
+                            <input class="btn btn btn-default" type="submit" value="Guardar">
+                            <button type="button" class="btn btn-default modal-cancel-button" data-dismiss="modal">Cancelar</button>
+                        </div>
 
-                            </div>
-
-                            <div class="modal-footer" style=" padding: 7px">
-                                <input class="btn btn btn-default" type="submit" value="Guardar">
-                                <button type="button" class="btn btn-default modal-cancel-button" data-dismiss="modal">Cancelar</button>
-                            </div>
-
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
