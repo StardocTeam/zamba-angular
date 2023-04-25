@@ -312,15 +312,15 @@
     <!-- TABS -->
     <div class="footer-tabs-container">
         <div class="tab-container">
-            <div class="tab-button">
+            <div id="Pending-btn" class="tab-button" ng-click="tabButtonOnClick('Pending')">
                 <div class="tab-text">Pendientes</div>
             </div>
-            <div class="tab-button">
+            <div id="SeeLater-btn" class="tab-button" ng-click="tabButtonOnClick('SeeLater')">
                 <div class="tab-text">Ver Despues</div>
             </div>
         </div>
         <div class="tab-container">
-            <div id="tab-indicator" class="selected-tab-indicator indicator-right"></div>
+            <div id="tab-indicator" class="selected-tab-indicator " ng-class="{'indicator-right': !showPendingTab,'indicator-left': showPendingTab }"></div>
         </div>
     </div>
 </div>

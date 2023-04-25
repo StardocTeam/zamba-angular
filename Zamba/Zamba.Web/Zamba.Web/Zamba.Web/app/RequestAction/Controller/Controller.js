@@ -53,6 +53,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.seeLaterList = [];
     $scope.totalInvoicesPendingCount = 0;
 
+    $scope.showPendingTab = true;
     //Reglas:
     //Regla Aprobar Todos(pagos / facturas11546636) variable IDAprobar
     //Regla Aprobar Todos(pagos / facturas11547097) variable IDUsuario
@@ -1058,6 +1059,36 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             navigator.userAgent.toString().indexOf('Edge/') > 0)
     }
 
+    $scope.animateTabRippleEffect = function () {
+        const tabButton = document.querySelectorAll('.tab-button');
+
+
+        tabButton.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                let ripple = document.createElement('span');
+
+                const buttonRect = btn.getBoundingClientRect();
+                const buttonCenterX = buttonRect.left + (buttonRect.width / 2);
+                const buttonCenterY = buttonRect.top + (buttonRect.height / 2);
+
+                ripple.style.left = buttonCenterX + 'px';
+                ripple.style.top = buttonCenterY + 'px';
+                ripple.style.position = 'absolute';
+                btn.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 500)
+            })
+        });
+    }
+    $scope.animateTabRippleEffect();
+
+    $scope.tabButtonOnClick = function (buttonName) {
+        $scope.showPendingTab = buttonName == "Pending";
+        console.log(buttonName + " was clicked");
+    }
+
     String.prototype.replaceAll = function (search, replacement) {
         return this.split(search).join(replacement);
     };
@@ -1075,6 +1106,7 @@ app.directive('zambaRequest', function ($sce) {
         link: function ($scope, element, attributes) {
 
             $scope.LoadResults();
+            $scope.animateTabRippleEffect();
             setTimeout(function () {
                 $scope.showPDF();
             }, 20000);
