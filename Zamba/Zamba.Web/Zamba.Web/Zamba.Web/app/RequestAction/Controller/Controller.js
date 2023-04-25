@@ -84,7 +84,14 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 invoice.checked = false;
             });
 
-            $scope.ListFacturas = invoicesList;
+            let pendingInvoiceList = [];
+            //comprueba que la factura NO este en el listado de Ver Despues
+            if ($scope.seeLaterList.length > 0)
+                pendingInvoiceList = invoicesList.filter(item1 => !$scope.seeLaterList.some(item2 => item2[0].ID1 === item1.ID1));
+            else
+                pendingInvoiceList = invoicesList;
+
+            $scope.ListFacturas = pendingInvoiceList;
             $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
 
             setTimeout(function () {
@@ -131,8 +138,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         try {
             var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
             if (filteredItem != undefined) {
-                $scope.seeLaterList.push(filteredItem)
-                $scope.removeInvoiceFromPendingList($scope.ListFacturas, item.ID, item.ID1)
+                $scope.seeLaterList.push(filteredItem);
+                $scope.removeInvoiceFromPendingList($scope.ListFacturas, item.ID, item.ID1);
+                $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
             }
 
 
@@ -166,6 +174,50 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 hideLoading();
             });
     }
+
+    $scope.ApproveOnlySelectedInvoices = function () {
+        try {
+            showLoading();
+            $scope.selectedInvoicesAux = [...$scope.selectedInvoices] ;
+            $scope.selectedInvoicesAux.forEach(function (item, i) {
+               
+
+                var resultIds = [{
+                    Docid: item[0].ID1,
+                    DocTypeid: item[0].EID
+                }]
+                RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
+                    .then(function (result) {
+                        result = JsonValidator(result);
+
+                        ResponseNotificationForSelectedInvoices(result, item[0].ID, item[0].ID1);
+                        if (($scope.selectedInvoices.length - 1) == i) {
+                            hideLoading();
+                            Swal.fire({
+                                icon: 'success',
+                                title: "Operacion exitosa",
+                                timer: 4000,
+                                showConfirmButton: false,
+                                text: ""
+                            })
+                            $scope.LoadResults();
+                            $scope.selectedInvoices = [];
+                        }
+                    });
+            });
+
+            
+        } catch (e) {
+            hideLoading();
+            Swal.fire({
+                icon: 'error',
+                title: "ERROR ",
+                timer: 4000,
+                text: "Ha ocurrido un error,vuelva a intentarlo mas tarde."
+            })
+        }
+    }
+
 
     $scope.AprobarResumenGerencial = function (docId, idElemento) {
         Swal.fire({
@@ -358,6 +410,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 hideLoading();
             });
     }
+    
 
     $scope.MenuAncla = function () {
         if ($("#MenuOpcionesAncla")[0].style.display == "none") {
@@ -440,6 +493,11 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         }
     }
 
+    function ResponseNotificationForSelectedInvoices(result, idElemento, docId) {
+        $("#" + idElemento + "-" + docId).addClass("animate__animated animate__backOutLeft");
+        setTimeout(function () { $("#" + idElemento + "-" + docId).css("display", "none"); }, 500);
+
+    }
 
 
     function ResponseNotification(result, idElemento, docId) {

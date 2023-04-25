@@ -36,7 +36,7 @@
                                 {{totalInvoicesPendingCount}}
                             </span> Aprobar todo
                         </a>
-                        <a ng-click="AprobarTodos()" ng-if="selectedInvoices.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
                             <span style=" line-height: inherit;" class="badge bg-danger">
                                 {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
                             </span> Aprobar seleccionadas
