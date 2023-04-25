@@ -50,8 +50,10 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.SummaryList = [];
 
     $scope.selectedInvoices = [];
+    $scope.selectedInvoicesLate = [];
     $scope.seeLaterList = [];
     $scope.totalInvoicesPendingCount = 0;
+    $scope.totalInvoicesLateCount = 0;
 
     $scope.showPendingTab = true;
     //Reglas:
@@ -88,28 +90,32 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             let pendingInvoiceList = [];
             //comprueba que la factura NO este en el listado de Ver Despues
             if ($scope.seeLaterList.length > 0)
-                pendingInvoiceList = invoicesList.filter(item1 => !$scope.seeLaterList.some(item2 => item2[0].ID1 === item1.ID1));
+                pendingInvoiceList = invoicesList.filter(item1 => !$scope.seeLaterList.some(item2 => item2.ID1 === item1.ID1));
             else
                 pendingInvoiceList = invoicesList;
 
             $scope.ListFacturas = pendingInvoiceList;
             $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
 
-            setTimeout(function () {
-                $scope.iframeControls = [];
-                $scope.ListFacturas.forEach(function (element) {
-
-                    console.log(element.ID);
-                    //$scope.iframeID = element.ID;
-                    $scope.GetFacturaArchive(element.EID, element.ID1, element.ID);
-
-                    $("a[id=" + element.ID + "]").attr("href", ZambaUrl + "/views/WF/TaskViewer?DocType=" + element.EID + "&docid=" + element.ID1 + "&taskid=" + element.TID + "&mode=s&s=13&user=" + $scope.userid + "#Zamba/");
-
-                });
-
-            }, 2000);
+            $scope.refreshIframe($scope.ListFacturas);
         }
     };
+
+    $scope.refreshIframe = function (list) {
+        setTimeout(function () {
+            $scope.iframeControls = [];
+            list.forEach(function (element) {
+
+                console.log(element.ID);
+                //$scope.iframeID = element.ID;
+                $scope.GetFacturaArchive(element.EID, element.ID1, element.ID);
+
+                $("a[id=" + element.ID + "]").attr("href", ZambaUrl + "/views/WF/TaskViewer?DocType=" + element.EID + "&docid=" + element.ID1 + "&taskid=" + element.TID + "&mode=s&s=13&user=" + $scope.userid + "#Zamba/");
+
+            });
+
+        }, 1000);
+    }
 
 
     $scope.LoadResultsForManagerialSummary = function () {
@@ -125,23 +131,40 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     //TODO: hay que validar de quitar y agregar a la lista dependiendo del estado de checked
     $scope.sentToMultiSelect = function (item) {
         item.checked = !item.checked;
-        var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+        
 
-        if (filteredItem != undefined) {
-            if (item.checked) 
-                $scope.selectedInvoices.push(filteredItem);
-             else
-                $scope.removeInvoiceFromPendingList($scope.selectedInvoices, item.ID, item.ID1)
-        }
+      
+            if (item.checked) {
+                if ($scope.showPendingTab) {
+                    let filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+                    if (filteredItem.length > 0)
+                        $scope.selectedInvoices.push(filteredItem[0]);
+                } else {
+                    let filteredItem = $scope.seeLaterList.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+                    if (filteredItem.length > 0)
+                        $scope.selectedInvoicesLate.push(filteredItem[0]);
+
+                }
+               
+            } else {
+                if ($scope.showPendingTab) {
+                    $scope.removeInvoiceFromPendingList($scope.selectedInvoices, item.ID, item.ID1)
+                } else {
+                    $scope.removeInvoiceFromPendingList($scope.selectedInvoicesLate, item.ID, item.ID1)
+                }
+               
+            }          
+        
     }
 
     $scope.sendToseeLaterList = function (item) {
         try {
             var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
             if (filteredItem != undefined) {
-                $scope.seeLaterList.push(filteredItem);
+                $scope.seeLaterList.push(filteredItem[0]);
                 $scope.removeInvoiceFromPendingList($scope.ListFacturas, item.ID, item.ID1);
                 $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
+                $scope.totalInvoicesLateCount = $scope.seeLaterList.length;
             }
 
 
@@ -179,20 +202,24 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.ApproveOnlySelectedInvoices = function () {
         try {
             showLoading();
-            $scope.selectedInvoicesAux = [...$scope.selectedInvoices] ;
+            if ($scope.showPendingTab)
+                $scope.selectedInvoicesAux = [...$scope.selectedInvoices];
+            else
+                $scope.selectedInvoicesAux = [...$scope.selectedInvoicesLate];
+
             $scope.selectedInvoicesAux.forEach(function (item, i) {
                
 
                 var resultIds = [{
-                    Docid: item[0].ID1,
-                    DocTypeid: item[0].EID
+                    Docid: item.ID1,
+                    DocTypeid: item.EID
                 }]
                 RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
                     .then(function (result) {
                         result = JsonValidator(result);
 
-                        ResponseNotificationForSelectedInvoices(result, item[0].ID, item[0].ID1);
-                        if (($scope.selectedInvoices.length - 1) == i) {
+                        ResponseNotificationForSelectedInvoices(result, item.ID, item.ID1);
+                        if (($scope.selectedInvoicesAux.length - 1) == i) {
                             hideLoading();
                             Swal.fire({
                                 icon: 'success',
@@ -202,7 +229,10 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                                 text: ""
                             })
                             $scope.LoadResults();
-                            $scope.selectedInvoices = [];
+                            if ($scope.showPendingTab)
+                                $scope.selectedInvoices = [];
+                            else
+                                $scope.selectedInvoicesLate = [];
                         }
                     });
             });
@@ -1087,6 +1117,17 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.tabButtonOnClick = function (buttonName) {
         $scope.showPendingTab = buttonName == "Pending";
         console.log(buttonName + " was clicked");
+
+        if ($scope.showPendingTab) {
+            console.log("Objeto Lista Pendientes:");
+            $scope.refreshIframe($scope.ListFacturas);
+        } else {
+            console.log("Objeto Lista Ver Despues:");
+            $scope.refreshIframe($scope.seeLaterList);
+        }
+
+        
+            
     }
 
     String.prototype.replaceAll = function (search, replacement) {
