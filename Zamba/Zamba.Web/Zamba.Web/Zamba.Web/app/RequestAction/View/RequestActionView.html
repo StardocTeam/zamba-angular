@@ -1,252 +1,201 @@
 ﻿<div>
     <div class='list-container-invoices'>
 
-        <nav class="navbar  navbar-expand   navbar-light bg-light" style="background: linear-gradient(135deg, #7cf1e9 0%,#00a3db 100%) !important;">
-            <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white; margin-left: 15px; margin-right: -10px; margin-top: 2px; width: 40px" role="button" tabindex="0"></i>
-            <a ng-click="setUrlParameters()" id="backID" class="nav-link" href="#" style="color: white; margin-left: -15px">
+            <nav class="navbar  navbar-expand   navbar-light bg-light" style="background: linear-gradient(135deg, #7cf1e9 0%,#00a3db 100%) !important;">
+                <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white; margin-left: 15px; margin-right: -10px; margin-top: 2px; width: 40px" role="button" tabindex="0"></i>
+                <a ng-click="setUrlParameters()" id="backID" class="nav-link" href="#" style="color: white; margin-left: -15px">
 
-                Atras
-            </a>
-
-            <div class="container-fluid">
-
-                <a class="navbar-brand" href="#" style="color: white;  font-size: 16px;">
-                    <div>
-                        <div id="MenuOpciones" class="my-fixed-item" style="display:none">
-                            <li class="LielementStyle" data-toggle="modal" data-target="#keyChange" ng-click="CierreMenu()">Cambio de Clave</li>
-                        </div>
-                    </div>
-                    <div style="display: inline-block;" id="MobileAvatar" ng-click="Openopcionmenu()">
-                        <img ng-cloak ng-if="thumphoto != null "
-                             ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
-                             style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
-                        <img ng-cloak ng-if="thumphoto == null "
-                             src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
-                             class=" img-circle ng-show"
-                             style="width: 37px;height: 33px;margin-top: 1px;margin-left:-15px; border-radius: 17px; margin-left:-15px" />
-                    </div>
+                    Atras
                 </a>
 
+                <div class="container-fluid">
 
-
-                <ul class="navbar-nav" style=" flex-direction: row">
-                    <li class="nav-item">
-                        <a ng-click="AprobarTodos()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
-                            <span style=" line-height: inherit;" class="badge bg-danger">
-                                {{totalInvoicesPendingCount}}
-                            </span> Aprobar todo
-                        </a>
-                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
-                            <span style=" line-height: inherit;" class="badge bg-danger">
-                                {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
-                            </span> Aprobar seleccionadas
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav pull-right" style=" flex-direction: row">
-                    <li class="nav-item">
-                        <a ng-click="btnRefresh()" class="nav-link" href="#">
-                            <i class="fa fa-refresh" aria-hidden="true" style="color: white;"></i>
-
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a ng-click="SignOut()" class="nav-link" href="#">
-                            <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
-
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </nav>
+                    <a class="navbar-brand" href="#" style="color: white;  font-size: 16px;">
+                        <div>
+                            <div id="MenuOpciones" class="my-fixed-item" style="display:none">
+                                <li class="LielementStyle" data-toggle="modal" data-target="#keyChange" ng-click="CierreMenu()">Cambio de Clave</li>
+                            </div>
+                        </div>
+                        <div style="display: inline-block;" id="MobileAvatar" ng-click="Openopcionmenu()">
+                            <img ng-cloak ng-if="thumphoto != null "
+                                 ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
+                            <img ng-cloak ng-if="thumphoto == null "
+                                 src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
+                                 class=" img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-top: 1px;margin-left:-15px; border-radius: 17px; margin-left:-15px" />
+                        </div>
+                    </a>
 
 
 
+                    <ul class="navbar-nav" style=" flex-direction: row">
+                        <li class="nav-item">
+                            <a ng-click="AprobarTodos()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                                <span style=" line-height: inherit;" class="badge bg-danger">
+                                    {{totalInvoicesPendingCount}}
+                                </span> Aprobar todo
+                            </a>
+                            <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                                <span style=" line-height: inherit;" class="badge bg-danger">
+                                    {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
+                                </span> Aprobar seleccionadas
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav pull-right" style=" flex-direction: row">
+                        <li class="nav-item">
+                            <a ng-click="btnRefresh()" class="nav-link" href="#">
+                                <i class="fa fa-refresh" aria-hidden="true" style="color: white;"></i>
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a ng-click="SignOut()" class="nav-link" href="#">
+                                <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
 
 
-        <div class="accordion " style="margin-top: 55px;">
-            <center>
-                <button class="btn btn-outline-info" ng-if="ListFacturas.length == 0" style="margin-top: 15px;"> No tienes tareas pendientes </button>
-            </center>
-            <div ng-repeat="lista in ListFacturas" style="margin-top: 80px;" ng-class="{selectedInvoice:lista.checked }">
-                <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{lista.ID + '-' + lista.ID1}}"
-                     ng-show="true">
-                    <div id="{{lista.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                         data-bs-parent="#accordionExample">
-                        <div class="">
 
+
+
+            <div class="accordion " style="margin-top: 55px;" ng-show="showPendingTab" class="pending-panel">
+                <center>
+                    <button class="btn btn-outline-info" ng-if="ListFacturas.length == 0" style="margin-top: 15px;"> No tienes tareas pendientes </button>
+                </center>
+                <div ng-repeat="lista in ListFacturas" style="margin-top: 80px;" ng-class="{selectedInvoice:lista.checked }">
+                    <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{lista.ID + '-' + lista.ID1}}"
+                         ng-show="true">
+                        <div id="{{lista.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample">
                             <div class="">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <iframe id="{{lista.ID}}" style="width: 100%; height: 100%;"></iframe>
-                                        <img id="{{lista.ID}}" style="width: 100%; height: 100%;display:none">
-                                    </div>
-                                    <div class="col-md-6">
 
-                                        <div class="container-fluid">
-
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <h5> {{lista.PROVEEDOR}} </h5>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="form-group col-3">
-                                                    <label class=" control-label ColorText"
-                                                           style="font-size: 10px;">Moneda</label>
-                                                    <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.MONEDA}}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-6">
-                                                    <label class=" control-label ColorText"
-                                                           style="font-size: 10px;">Importe</label>
-                                                    <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.IMPORTE}}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-3">
-                                                    <label class=" control-label ColorText"
-                                                           style="color: #6c757d;font-size: 10px;float: right;">{{lista.ID}}</label>
-
-                                                </div>
-
-
-
-
-                                                <div class="form-group col-12">
-                                                    <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Tipo</label>
-                                                    <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.TIPO_GASTO}}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-12">
-                                                    <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Concepto</label>
-                                                    <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.CONCEPTO}}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-12">
-                                                    <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Area</label>
-                                                    <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.AREA}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)"
-                                                            class="btn  btn-lg"
-                                                            style="color: limegreen; font-size: 36px ">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-3">
-
-                                                    <button type="button" ng-click="Rechazar(lista.ID1,lista.ID)"
-                                                            class="btn  btn-lg" style="color: orangered; font-size: 36px;">
-                                                        <i class="fa fa-close" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-3">
-                                                    <a id="{{lista.ID}}" target="_blank" rel="opener" style="text-decoration:none">
-                                                        <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
-                                                            <i class="fa fa-info" aria-hidden="true"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                                <div class="col-3">
-                                                    <a ng-click="sentToMultiSelect(lista)">
-                                                        <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
-                                                            <i ng-if="lista.checked" class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            <i ng-if="!lista.checked" class="fa fa-square-o" aria-hidden="true"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <button type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
+                                <div class="">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <iframe id="{{lista.ID}}" style="width: 100%; height: 100%;"></iframe>
+                                            <img id="{{lista.ID}}" style="width: 100%; height: 100%;display:none">
                                         </div>
+                                        <div class="col-md-6">
+
+                                            <div class="container-fluid">
+
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <h5> {{lista.PROVEEDOR}} </h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group col-3">
+                                                        <label class=" control-label ColorText"
+                                                               style="font-size: 10px;">Moneda</label>
+                                                        <div class="col-lg-10">
+                                                            <p class="form-control-static">{{lista.MONEDA}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-6">
+                                                        <label class=" control-label ColorText"
+                                                               style="font-size: 10px;">Importe</label>
+                                                        <div class="col-lg-10">
+                                                            <p class="form-control-static">{{lista.IMPORTE}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-3">
+                                                        <label class=" control-label ColorText"
+                                                               style="color: #6c757d;font-size: 10px;float: right;">{{lista.ID}}</label>
+
+                                                    </div>
+
+
+
+
+                                                    <div class="form-group col-12">
+                                                        <label class="control-label ColorText"
+                                                               style="font-size: 10px;">Tipo</label>
+                                                        <div class="col-lg-10">
+                                                            <p class="form-control-static">{{lista.TIPO_GASTO}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-12">
+                                                        <label class="control-label ColorText"
+                                                               style="font-size: 10px;">Concepto</label>
+                                                        <div class="col-lg-10">
+                                                            <p class="form-control-static">{{lista.CONCEPTO}}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-12">
+                                                        <label class="control-label ColorText"
+                                                               style="font-size: 10px;">Area</label>
+                                                        <div class="col-lg-10">
+                                                            <p class="form-control-static">{{lista.AREA}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)"
+                                                                class="btn  btn-lg"
+                                                                style="color: limegreen; font-size: 36px ">
+                                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-3">
+
+                                                        <button type="button" ng-click="Rechazar(lista.ID1,lista.ID)"
+                                                                class="btn  btn-lg" style="color: orangered; font-size: 36px;">
+                                                            <i class="fa fa-close" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <a id="{{lista.ID}}" target="_blank" rel="opener" style="text-decoration:none">
+                                                            <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
+                                                                <i class="fa fa-info" aria-hidden="true"></i>
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <a ng-click="sentToMultiSelect(lista)">
+                                                            <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
+                                                                <i ng-if="lista.checked" class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                                <i ng-if="!lista.checked" class="fa fa-square-o" aria-hidden="true"></i>
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
+                                            </div>
+                                        </div>
+
                                     </div>
+
 
                                 </div>
 
 
                             </div>
-
-
                         </div>
                     </div>
+
                 </div>
 
+                <style>
+
+                </style>
+
             </div>
-
-            <style>
-                .selectedInvoice {
-                    background-color: #f8f8f8;
-                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                }
-
-                .bg-light {
-                    background-color: #0a58ca !important;
-                }
-
-                #accordionExample {
-                    width: 90%;
-                    margin-top: 4%;
-                    margin-left: 5%;
-                    margin-right: 5%;
-                }
-
-                .SombraBtn {
-                    box-shadow: 6px 6px 20px -1px rgba(13, 110, 253, .25), -6px -6px 20px -1px #6c757d;
-                }
-
-                .ColorText {
-                    color: #0d5ef1;
-                }
-
-                .my-fixed-item {
-                    position: fixed;
-                    min-height: 27%;
-                    width: 195px;
-                    text-align: center;
-                    word-wrap: break-word;
-                    background-color: #0a58ca;
-                    margin-top: 45px;
-                    margin-left: -12px;
-                    border-radius: 7px;
-                    color: white;
-                }
-
-                .LielementStyle {
-                    color: white;
-                    margin-top: 13px;
-                    border-bottom: solid 1px hsl(0deg 17% 72%);
-                    padding-bottom: 5px;
-                }
-
-                @media only screen and (min-width : 320px) and (max-width : 960px) {
-                    #backID {
-                        display: none;
-                    }
-                }
-            </style>
-
-        </div>
-
-        <!--<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalMensajes" data-bs-whatever="@fat">_TEST MODAL</button>-->
-
         <div class="modal fade" id="modalMensajes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
