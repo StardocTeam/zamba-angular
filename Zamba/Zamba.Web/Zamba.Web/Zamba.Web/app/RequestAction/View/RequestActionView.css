@@ -1,0 +1,87 @@
+﻿.tab-container {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #337ab7;
+}
+.tab-container-margin-top {
+    margin-top:60px;
+}
+.tab-button {
+    display: flex;
+    justify-content: center;
+    /*border: 1px solid red;*/
+    width: 50%;
+    height: 34px;
+    text-align: center;
+    align-self: center;
+    color: #ffffff;
+    font-size: 15px;
+    overflow: hidden !important;
+}
+
+
+.tab-text {
+    text-align: center;
+    align-self: center;
+}
+
+#tab-indicator {
+    transition: transform 0.5s ease-in-out;
+}
+
+.selected-tab {
+    background-color: #6298c7;
+}
+
+.indicator-left {
+    transform: translate(-50%);
+}
+
+.indicator-right {
+    transform: translate(50%);
+}
+
+
+.selected-tab-indicator {
+    width: 50%;
+    height: 6px;
+    background-color: rgb(151, 217, 255);
+}
+
+.tab-button span {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ripple .5s linear;
+}
+
+@keyframes ripple {
+
+    0% {
+        width: 0;
+        height: 0;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        width: 50%;
+        height: 50%;
+    }
+}
+
+.list-container-invoices {
+    height: 94vh;
+    overflow: auto;
+}
+
+.footer-tabs-container {
+    margin-top: 1vh;
+}
