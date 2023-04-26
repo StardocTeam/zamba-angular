@@ -1198,7 +1198,43 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             })
         });
     }
-    $scope.animateTabRippleEffect();
+
+    $scope.addSwipeEventListener = function () {
+        try {
+            var elem = document.getElementById('z-main-panel');
+            var start;
+
+            elem.addEventListener('touchstart', function (event) {
+                start = event.changedTouches[0].clientX;
+            }, false);
+
+            elem.addEventListener('touchmove', function (event) {
+                event.preventDefault(); // Para que no se desplace la pantalla
+            }, false);
+
+            // Detectar el final del toque
+            elem.addEventListener('touchend', function (event) {
+                var end = event.changedTouches[0].clientX;
+                var distance = end - start;
+
+                //izquierda
+                if (distance < 0) {
+                    $scope.showPendingTab = false;
+                    console.log("Izquierda");
+                    $scope.tabButtonOnClick("Pending");
+                }
+                //derecha
+                if (distance > 0) {
+                    $scope.showPendingTab = true;
+                    console.log("Derecha");
+                    $scope.tabButtonOnClick("SeeLater");
+                }
+            }, false);
+        } catch (e) {
+            console.error("Error al ejecutar 'addSwipeEventListener'");
+        }
+
+    }
 
     $scope.tabButtonOnClick = function (buttonName) {
         $scope.showPendingTab = buttonName == "Pending";
@@ -1211,9 +1247,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             console.log("Objeto Lista Ver Despues:");
             $scope.refreshIframe($scope.seeLaterList);
         }
-
-        
-            
+        $scope.$apply();
     }
 
     String.prototype.replaceAll = function (search, replacement) {
@@ -1233,6 +1267,7 @@ app.directive('zambaRequest', function ($sce) {
         link: function ($scope, element, attributes) {
 
             $scope.LoadResults();
+            $scope.addSwipeEventListener();
             $scope.animateTabRippleEffect();
             setTimeout(function () {
                 $scope.showPDF();
