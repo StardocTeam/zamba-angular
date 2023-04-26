@@ -31,12 +31,12 @@
 
                 <ul class="navbar-nav" style=" flex-direction: row">
                     <li class="nav-item">
-                        <a ng-click="AprobarTodos()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
                             <span style=" line-height: inherit;" class="badge bg-danger">
                                 {{totalInvoicesPendingCount}}
                             </span> Aprobar todo
                         </a>
-                        <a ng-click="AprobarTodos()" ng-if="seeLaterList.length > 0 && selectedInvoicesLate.length == 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="seeLaterList.length > 0 && selectedInvoicesLate.length == 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
                             <span style=" line-height: inherit;" class="badge bg-danger">
                                 {{totalInvoicesLateCount}}
                             </span> Aprobar todo
@@ -191,7 +191,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
+                                            <button ng-show="!lista.checked" type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
                                         </div>
                                     </div>
 

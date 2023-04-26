@@ -1,4 +1,5 @@
 'use strict';
+
 var app = angular.module('app', ['ngAnimate', 'ngStorage', 'ngMaterial']);
 
 app.run(['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
@@ -236,8 +237,6 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                         }
                     });
             });
-
-            
         } catch (e) {
             hideLoading();
             Swal.fire({
@@ -248,6 +247,55 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             })
         }
     }
+
+    $scope.ApproveOnlySelectedInvoicesAll = function () {
+        try {
+            showLoading();
+            if ($scope.showPendingTab)
+                $scope.selectedInvoicesAux = [...$scope.ListFacturas];
+            else
+                $scope.selectedInvoicesAux = [...$scope.seeLaterList];
+
+            $scope.selectedInvoicesAux.forEach(function (item, i) {
+
+
+                var resultIds = [{
+                    Docid: item.ID1,
+                    DocTypeid: item.EID
+                }]
+                RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
+                    .then(function (result) {
+                        result = JsonValidator(result);
+
+                        ResponseNotificationForSelectedInvoices(result, item.ID, item.ID1);
+                        if (($scope.selectedInvoicesAux.length - 1) == i) {
+                            hideLoading();
+                            Swal.fire({
+                                icon: 'success',
+                                title: "Operacion exitosa",
+                                timer: 4000,
+                                showConfirmButton: false,
+                                text: ""
+                            })
+                            $scope.LoadResults();
+                            if ($scope.showPendingTab)
+                                $scope.ListFacturas = [];
+                            else
+                                $scope.seeLaterList = [];
+                        }
+                    });
+            });
+        } catch (e) {
+            hideLoading();
+            Swal.fire({
+                icon: 'error',
+                title: "ERROR ",
+                timer: 4000,
+                text: "Ha ocurrido un error,vuelva a intentarlo mas tarde."
+            })
+        }
+    }
+
 
 
     $scope.AprobarResumenGerencial = function (docId, idElemento) {
@@ -798,7 +846,12 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
         $scope.setUrlParameters(urlParams);
 
-        var username = RequestServices.getUsername($scope.userid);
+        var valores = window.location.search;
+        var urlParamsNew = new URLSearchParams(valores);
+        var userid = urlParamsNew.get('u');
+
+
+        var username = RequestServices.getUsername(userid);
         if (username != undefined && username != "") {
             $scope.username = username;
             $("#Pass").focus();
@@ -806,6 +859,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
         var storageToken = $scope.$storage.token;
         var storageUserName = $scope.$storage.username;
+        var storageUserId = $scope.$storage.userid;
 
         if (username == storageUserName && storageToken != null) {
             //mismo usuario
@@ -813,6 +867,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             $scope.alreadyAuth = true;
             $scope.Token = storageToken;
             $scope.loginFailText = '';
+            $scope.userid = storageUserId;
         }
         else {
             $scope.$storage.thumphoto = null;
@@ -842,6 +897,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
                 $scope.$storage.token = loginResult.token;
                 $scope.$storage.username = username;
+                $scope.$storage.userid = $scope.userid;
 
             }
             else {
@@ -863,7 +919,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     };
 
     $scope.ThumbsPathHome = function () {
-        var userid = $scope.userid;
+        var valores = window.location.search;
+        var urlParams = new URLSearchParams(valores);
+        var userid = urlParams.get('u');
 
         try {
             if ($scope.$storage.thumphoto != null)
@@ -892,11 +950,39 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
     $scope.setUrlParameters = function (urlParams) {
         $scope.accionid = null;
-        }
+    }
+
+    $scope.getReportCounts = function () {
+
+        let repotsId = [11535116, 11535117, 11535126];
+        $scope.resumenGerencial;
+        $scope.facturasYpagos;
+        $scope.facturasPendientes;
+
+
+        repotsId.forEach((element) => {
+            var d = RequestServices.getResults($scope.userid, element);
+            let invoicesList = JSON.parse(d);
+            if (element == 11535126)
+                $scope.resumenGerencial = invoicesList.length;
+            if (element == 11535116)
+                $scope.facturasYpagos = invoicesList.length;
+            if (element == 11535117)
+                $scope.facturasPendientes = invoicesList.length;
+        })
+
+    }
        
     
 
     $scope.setUrlRyRt = function (r, rt) {
+
+
+        $scope.selectedInvoices = [];
+        $scope.selectedInvoicesLate = [];
+        $scope.ListFacturas = [];
+        $scope.seeLaterList = [];
+
         if (r != undefined)
             $scope.accionid = r;
         if (rt != undefined)
@@ -1196,6 +1282,7 @@ app.directive('zambaDefault', function ($sce) {
         transclude: true,
         link: function ($scope, element, attributes) {
             $scope.LoadResultsForManagerialSummary();
+            $scope.getReportCounts();
         },
         templateUrl: $sce.getTrustedResourceUrl('zambaDefault.html'),
 
