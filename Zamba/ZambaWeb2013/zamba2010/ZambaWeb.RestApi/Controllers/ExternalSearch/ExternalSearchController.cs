@@ -529,6 +529,7 @@ namespace ZambaWeb.RestApi.Controllers
                     }
                     catch (Exception ex)
                     {
+                        ZClass.raiseerror(ex);
                         return Ok(System.Convert.FromBase64String(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false)));
                         throw ex;
                     }
@@ -663,7 +664,8 @@ namespace ZambaWeb.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el recurso")));
+                ZClass.raiseerror(ex);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el recurso" + ex.ToString())));
             }
         }
 
@@ -697,6 +699,9 @@ namespace ZambaWeb.RestApi.Controllers
 
 
             byte[] _file = null;
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, res.FullPath);
+            
             if (res != null && res.FullPath != null && res.FullPath.Contains("."))
             {
                 bool IsBlob = false;
@@ -706,6 +711,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (convertToPDf && File.Exists(newPDFFile) && res.IsMsg == false && res.IsOffice2 == false)
                 {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "convertToPDf" + convertToPDf);
                     _file = FileEncode.Encode(newPDFFile);
                     filename = newPDFFile;
                 }
@@ -735,6 +741,7 @@ namespace ZambaWeb.RestApi.Controllers
                     //Verifica que el volumen sea de tipo blob o que se encuentre forzada la opción de volumenes del mismo tipo
                     if (res.Disk_Group_Id > 0 && (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase || (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
                     {
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "ForceBlob" + Zopt.GetValue("ForceBlob"));
                         sResult.LoadFileFromDB(ref res);
                     }
                     //Verifica si el result contiene el documento guardado
@@ -902,7 +909,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (_file == null || _file.Length <= 0)
                 {
-                    throw new Exception("No se pudo obtener el recurso");
+                    throw new Exception("No se pudo obtener el recurso (404)");
                 }
 
                 Zopt = null;
@@ -910,7 +917,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 return System.Convert.ToBase64String(_file);
             }
-            throw new Exception("No se pudo obtener el recurso");
+            throw new Exception("No se pudo obtener el recurso 404");
         }
 
         [AcceptVerbs("GET", "POST")]

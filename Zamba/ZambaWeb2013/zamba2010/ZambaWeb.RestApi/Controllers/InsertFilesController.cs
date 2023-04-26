@@ -531,11 +531,11 @@ namespace ZambaWeb.RestApi.Controllers
                                     {
                                         if (insertRequest.OriginalFileName != null && !string.IsNullOrEmpty(insertRequest.OriginalFileName))
                                         {
-                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update doc_t{associated.DocTypeId} set doc_file = '{parentResult.Doc_File}', offset = {parentResult.OffSet}, vol_id = {parentResult.Disk_Group_Id} Original_FileName = '{insertRequest.OriginalFileName}' where doc_id = {newresult.ID}");
+                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update doc_t{associated.DocTypeId} set disk_group_id = -1, doc_file = '{parentResult.FullPath}', offset = {parentResult.OffSet}, vol_id = -1, Original_FileName = '{insertRequest.OriginalFileName}' where doc_id = {newresult.ID}");
                                         }
                                         else
                                         {
-                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update doc_t{associated.DocTypeId} set doc_file = '{newresult.Doc_File}', offset = {parentResult.OffSet}, vol_id = {parentResult.Disk_Group_Id} where doc_id = {newresult.ID}");
+                                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update doc_t{associated.DocTypeId} set disk_group_id = -1, doc_file = '{parentResult.FullPath}', offset = {parentResult.OffSet}, vol_id = -1 where doc_id = {newresult.ID}");
                                         }
 
                                     }

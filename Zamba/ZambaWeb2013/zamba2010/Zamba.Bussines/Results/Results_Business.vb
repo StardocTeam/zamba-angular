@@ -1714,17 +1714,15 @@ Public Class Results_Business
             Return NewResultStatus
 
         Catch ex As Exception
+            ZCore.raiseerror(ex)
             If throwEx = False Then
                 If ex.Message.Contains("es obligatorio") Then
                     Return InsertResult.ErrorIndicesIncompletos
                 ElseIf ex.Message.Contains("no permite valores fuera de la lista") Then
                     Return InsertResult.ErrorIndicesInvalidos
-                Else
-                    ZCore.raiseerror(ex)
                 End If
                 Return InsertResult.NoInsertado
             Else
-                ZCore.raiseerror(ex)
                 Throw
             End If
         Finally

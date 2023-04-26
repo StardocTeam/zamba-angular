@@ -176,6 +176,7 @@ namespace Zamba.Services
                (VolumesBusiness.GetVolumeType(result.Disk_Group_Id) == (int)VolumeType.DataBase ||
                (!String.IsNullOrEmpty(zoptb.GetValue("ForceBlob")) && bool.Parse(zoptb.GetValue("ForceBlob")))))
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "LoadFileFromDB");
                 Results_Business.LoadFileFromDB(ref result);
                 IsBlob = true;
                 //si es un archivo viejo no esta codificado
@@ -188,6 +189,7 @@ namespace Zamba.Services
             }
             else
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "result.RealFullPath" + result.RealFullPath());
                 if (File.Exists(result.RealFullPath()))
                 {
                     //es un volumen en disco, se lo serializa en el momento
