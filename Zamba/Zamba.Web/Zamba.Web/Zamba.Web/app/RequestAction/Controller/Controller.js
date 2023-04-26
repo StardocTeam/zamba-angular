@@ -1,4 +1,5 @@
 'use strict';
+
 var app = angular.module('app', ['ngAnimate', 'ngStorage', 'ngMaterial']);
 
 app.run(['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
@@ -50,9 +51,12 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.SummaryList = [];
 
     $scope.selectedInvoices = [];
+    $scope.selectedInvoicesLate = [];
     $scope.seeLaterList = [];
     $scope.totalInvoicesPendingCount = 0;
+    $scope.totalInvoicesLateCount = 0;
 
+    $scope.showPendingTab = true;
     //Reglas:
     //Regla Aprobar Todos(pagos / facturas11546636) variable IDAprobar
     //Regla Aprobar Todos(pagos / facturas11547097) variable IDUsuario
@@ -87,28 +91,32 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             let pendingInvoiceList = [];
             //comprueba que la factura NO este en el listado de Ver Despues
             if ($scope.seeLaterList.length > 0)
-                pendingInvoiceList = invoicesList.filter(item1 => !$scope.seeLaterList.some(item2 => item2[0].ID1 === item1.ID1));
+                pendingInvoiceList = invoicesList.filter(item1 => !$scope.seeLaterList.some(item2 => item2.ID1 === item1.ID1));
             else
                 pendingInvoiceList = invoicesList;
 
             $scope.ListFacturas = pendingInvoiceList;
             $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
 
-            setTimeout(function () {
-                $scope.iframeControls = [];
-                $scope.ListFacturas.forEach(function (element) {
-
-                    console.log(element.ID);
-                    //$scope.iframeID = element.ID;
-                    $scope.GetFacturaArchive(element.EID, element.ID1, element.ID);
-
-                    $("a[id=" + element.ID + "]").attr("href", ZambaUrl + "/views/WF/TaskViewer?DocType=" + element.EID + "&docid=" + element.ID1 + "&taskid=" + element.TID + "&mode=s&s=13&user=" + $scope.userid + "#Zamba/");
-
-                });
-
-            }, 2000);
+            $scope.refreshIframe($scope.ListFacturas);
         }
     };
+
+    $scope.refreshIframe = function (list) {
+        setTimeout(function () {
+            $scope.iframeControls = [];
+            list.forEach(function (element) {
+
+                console.log(element.ID);
+                //$scope.iframeID = element.ID;
+                $scope.GetFacturaArchive(element.EID, element.ID1, element.ID);
+
+                $("a[id=" + element.ID + "]").attr("href", ZambaUrl + "/views/WF/TaskViewer?DocType=" + element.EID + "&docid=" + element.ID1 + "&taskid=" + element.TID + "&mode=s&s=13&user=" + $scope.userid + "#Zamba/");
+
+            });
+
+        }, 1000);
+    }
 
 
     $scope.LoadResultsForManagerialSummary = function () {
@@ -124,23 +132,40 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     //TODO: hay que validar de quitar y agregar a la lista dependiendo del estado de checked
     $scope.sentToMultiSelect = function (item) {
         item.checked = !item.checked;
-        var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+        
 
-        if (filteredItem != undefined) {
-            if (item.checked) 
-                $scope.selectedInvoices.push(filteredItem);
-             else
-                $scope.removeInvoiceFromPendingList($scope.selectedInvoices, item.ID, item.ID1)
-        }
+      
+            if (item.checked) {
+                if ($scope.showPendingTab) {
+                    let filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+                    if (filteredItem.length > 0)
+                        $scope.selectedInvoices.push(filteredItem[0]);
+                } else {
+                    let filteredItem = $scope.seeLaterList.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
+                    if (filteredItem.length > 0)
+                        $scope.selectedInvoicesLate.push(filteredItem[0]);
+
+                }
+               
+            } else {
+                if ($scope.showPendingTab) {
+                    $scope.removeInvoiceFromPendingList($scope.selectedInvoices, item.ID, item.ID1)
+                } else {
+                    $scope.removeInvoiceFromPendingList($scope.selectedInvoicesLate, item.ID, item.ID1)
+                }
+               
+            }          
+        
     }
 
     $scope.sendToseeLaterList = function (item) {
         try {
             var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
             if (filteredItem != undefined) {
-                $scope.seeLaterList.push(filteredItem);
+                $scope.seeLaterList.push(filteredItem[0]);
                 $scope.removeInvoiceFromPendingList($scope.ListFacturas, item.ID, item.ID1);
                 $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
+                $scope.totalInvoicesLateCount = $scope.seeLaterList.length;
             }
 
 
@@ -178,20 +203,24 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.ApproveOnlySelectedInvoices = function () {
         try {
             showLoading();
-            $scope.selectedInvoicesAux = [...$scope.selectedInvoices] ;
+            if ($scope.showPendingTab)
+                $scope.selectedInvoicesAux = [...$scope.selectedInvoices];
+            else
+                $scope.selectedInvoicesAux = [...$scope.selectedInvoicesLate];
+
             $scope.selectedInvoicesAux.forEach(function (item, i) {
                
 
                 var resultIds = [{
-                    Docid: item[0].ID1,
-                    DocTypeid: item[0].EID
+                    Docid: item.ID1,
+                    DocTypeid: item.EID
                 }]
                 RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
                     .then(function (result) {
                         result = JsonValidator(result);
 
-                        ResponseNotificationForSelectedInvoices(result, item[0].ID, item[0].ID1);
-                        if (($scope.selectedInvoices.length - 1) == i) {
+                        ResponseNotificationForSelectedInvoices(result, item.ID, item.ID1);
+                        if (($scope.selectedInvoicesAux.length - 1) == i) {
                             hideLoading();
                             Swal.fire({
                                 icon: 'success',
@@ -201,12 +230,13 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                                 text: ""
                             })
                             $scope.LoadResults();
-                            $scope.selectedInvoices = [];
+                            if ($scope.showPendingTab)
+                                $scope.selectedInvoices = [];
+                            else
+                                $scope.selectedInvoicesLate = [];
                         }
                     });
             });
-
-            
         } catch (e) {
             hideLoading();
             Swal.fire({
@@ -217,6 +247,55 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             })
         }
     }
+
+    $scope.ApproveOnlySelectedInvoicesAll = function () {
+        try {
+            showLoading();
+            if ($scope.showPendingTab)
+                $scope.selectedInvoicesAux = [...$scope.ListFacturas];
+            else
+                $scope.selectedInvoicesAux = [...$scope.seeLaterList];
+
+            $scope.selectedInvoicesAux.forEach(function (item, i) {
+
+
+                var resultIds = [{
+                    Docid: item.ID1,
+                    DocTypeid: item.EID
+                }]
+                RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
+                    .then(function (result) {
+                        result = JsonValidator(result);
+
+                        ResponseNotificationForSelectedInvoices(result, item.ID, item.ID1);
+                        if (($scope.selectedInvoicesAux.length - 1) == i) {
+                            hideLoading();
+                            Swal.fire({
+                                icon: 'success',
+                                title: "Operacion exitosa",
+                                timer: 4000,
+                                showConfirmButton: false,
+                                text: ""
+                            })
+                            $scope.LoadResults();
+                            if ($scope.showPendingTab)
+                                $scope.ListFacturas = [];
+                            else
+                                $scope.seeLaterList = [];
+                        }
+                    });
+            });
+        } catch (e) {
+            hideLoading();
+            Swal.fire({
+                icon: 'error',
+                title: "ERROR ",
+                timer: 4000,
+                text: "Ha ocurrido un error,vuelva a intentarlo mas tarde."
+            })
+        }
+    }
+
 
 
     $scope.AprobarResumenGerencial = function (docId, idElemento) {
@@ -325,7 +404,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.DevolverResumenGerencialAnterior = function (docId, e) {
         var d = RequestServices.getResults(docId, $scope.Devolver_RG_Anterior);
 
-        if (d != null && d != "") {
+        if (d != null && d != "" && d != "[]") {
             $scope.setSelectedPreviewSummary(d, e);
             $scope.showPreviewSummary = null;
         } else {
@@ -767,7 +846,12 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
         $scope.setUrlParameters(urlParams);
 
-        var username = RequestServices.getUsername($scope.userid);
+        var valores = window.location.search;
+        var urlParamsNew = new URLSearchParams(valores);
+        var userid = urlParamsNew.get('u');
+
+
+        var username = RequestServices.getUsername(userid);
         if (username != undefined && username != "") {
             $scope.username = username;
             $("#Pass").focus();
@@ -775,6 +859,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
         var storageToken = $scope.$storage.token;
         var storageUserName = $scope.$storage.username;
+        var storageUserId = $scope.$storage.userid;
 
         if (username == storageUserName && storageToken != null) {
             //mismo usuario
@@ -782,6 +867,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             $scope.alreadyAuth = true;
             $scope.Token = storageToken;
             $scope.loginFailText = '';
+            $scope.userid = storageUserId;
         }
         else {
             $scope.$storage.thumphoto = null;
@@ -811,6 +897,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
                 $scope.$storage.token = loginResult.token;
                 $scope.$storage.username = username;
+                $scope.$storage.userid = $scope.userid;
 
             }
             else {
@@ -832,7 +919,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     };
 
     $scope.ThumbsPathHome = function () {
-        var userid = $scope.userid;
+        var valores = window.location.search;
+        var urlParams = new URLSearchParams(valores);
+        var userid = urlParams.get('u');
 
         try {
             if ($scope.$storage.thumphoto != null)
@@ -861,11 +950,39 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
     $scope.setUrlParameters = function (urlParams) {
         $scope.accionid = null;
-        }
+    }
+
+    $scope.getReportCounts = function () {
+
+        let repotsId = [11535116, 11535117, 11535126];
+        $scope.resumenGerencial;
+        $scope.facturasYpagos;
+        $scope.facturasPendientes;
+
+
+        repotsId.forEach((element) => {
+            var d = RequestServices.getResults($scope.userid, element);
+            let invoicesList = JSON.parse(d);
+            if (element == 11535126)
+                $scope.resumenGerencial = invoicesList.length;
+            if (element == 11535116)
+                $scope.facturasYpagos = invoicesList.length;
+            if (element == 11535117)
+                $scope.facturasPendientes = invoicesList.length;
+        })
+
+    }
        
     
 
     $scope.setUrlRyRt = function (r, rt) {
+
+
+        $scope.selectedInvoices = [];
+        $scope.selectedInvoicesLate = [];
+        $scope.ListFacturas = [];
+        $scope.seeLaterList = [];
+
         if (r != undefined)
             $scope.accionid = r;
         if (rt != undefined)
@@ -1058,6 +1175,47 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             navigator.userAgent.toString().indexOf('Edge/') > 0)
     }
 
+    $scope.animateTabRippleEffect = function () {
+        const tabButton = document.querySelectorAll('.tab-button');
+
+
+        tabButton.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                let ripple = document.createElement('span');
+
+                const buttonRect = btn.getBoundingClientRect();
+                const buttonCenterX = buttonRect.left + (buttonRect.width / 2);
+                const buttonCenterY = buttonRect.top + (buttonRect.height / 2);
+
+                ripple.style.left = buttonCenterX + 'px';
+                ripple.style.top = buttonCenterY + 'px';
+                ripple.style.position = 'absolute';
+                btn.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 500)
+            })
+        });
+    }
+    $scope.animateTabRippleEffect();
+
+    $scope.tabButtonOnClick = function (buttonName) {
+        $scope.showPendingTab = buttonName == "Pending";
+        console.log(buttonName + " was clicked");
+
+        if ($scope.showPendingTab) {
+            console.log("Objeto Lista Pendientes:");
+            $scope.refreshIframe($scope.ListFacturas);
+        } else {
+            console.log("Objeto Lista Ver Despues:");
+            $scope.refreshIframe($scope.seeLaterList);
+        }
+
+        
+            
+    }
+
     String.prototype.replaceAll = function (search, replacement) {
         return this.split(search).join(replacement);
     };
@@ -1075,6 +1233,7 @@ app.directive('zambaRequest', function ($sce) {
         link: function ($scope, element, attributes) {
 
             $scope.LoadResults();
+            $scope.animateTabRippleEffect();
             setTimeout(function () {
                 $scope.showPDF();
             }, 20000);
@@ -1123,6 +1282,7 @@ app.directive('zambaDefault', function ($sce) {
         transclude: true,
         link: function ($scope, element, attributes) {
             $scope.LoadResultsForManagerialSummary();
+            $scope.getReportCounts();
         },
         templateUrl: $sce.getTrustedResourceUrl('zambaDefault.html'),
 
