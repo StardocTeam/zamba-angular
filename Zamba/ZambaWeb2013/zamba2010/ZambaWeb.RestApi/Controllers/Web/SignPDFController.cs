@@ -117,6 +117,408 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         }
 
+        [AcceptVerbs("POST")]
+        [AllowAnonymous]
+        [Route("RecepcionDespachoByGuia")]
+        public IHttpActionResult RecepcionDespachoByGuia(genericRequest genericRequest)
+        {
+            Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nroGuia"].ToString());
+            long user_id = Convert.ToInt64(genericRequest.UserId.ToString());
+            var user = GetUser(user_id);
+            if (user == null)
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                    new HttpError(StringHelper.InvalidUser)));
+
+            try
+            {
+                string error = string.Empty;
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
+                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque,  d.doc_id, w.task_id,isnull(e.I139565,'') DespachanteEmail,isnull(f.I139565,'') ImpoExpoEmail,isnull(e.i161669,0) DespachanteNotificacion,isnull(f.i161669,0) ImpoExpoNotificacion  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 left  join doc_i139073 F on d.i149651 = f.i26296  and f.i139600 = d.i139600 inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION')  and w.step_id in (139106, 139107, 139108,139105) and d.i139614=" + nro_guia.ToString());
+
+                List<string> TraceDespachante = new List<string>();
+
+                Int64 conteodespachante = 0;
+                Dictionary<string, int> conteoImpo = new Dictionary<string, int>();
+                Dictionary<string, List<string>> logImpo = new Dictionary<string, List<string>>();
+                string currentdatetime = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+
+                WFTaskBusiness WFTB = new WFTaskBusiness();
+                TasksController TC = new TasksController();
+
+
+                string DespachanteEmail = "";
+                bool DespachanteNotificacion = false;
+
+                Dictionary<string, bool> ImpoExpoNotificacion = new Dictionary<string, bool>();
+                Dictionary<string, string> ImpoExpoEmail = new Dictionary<string, string>();
+
+                if (dsall.Tables[0].Rows.Count == 0)
+                {
+                    RecepcionResponse ERR = new RecepcionResponse();
+                    ERR.codError = 9999;
+                    ERR.descError = "No hay despachos para procesar";
+                    var js = JsonConvert.SerializeObject(ERR);
+                    return Ok(js);
+                }
+
+                foreach (DataRow r in dsall.Tables[0].Rows)
+                {
+                    string cuitDespachante = r["cuitDespachante"].ToString();
+                    string cuitImpo = r["cuitImpoExpo"].ToString();
+
+                    SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
+                    solicitudFirmaDigital.userId = user_id;
+                    solicitudFirmaDigital.sigea = r["Sigea"].ToString(); ;
+                    solicitudFirmaDigital.nroDespacho = r["NroDespacho"].ToString(); ;
+                    solicitudFirmaDigital.codigo = r["codigoDespacho"].ToString(); ;
+                    solicitudFirmaDigital.nroGuia = nro_guia.ToString();
+                    Int64 docid = Int64.Parse(r["doc_id"].ToString());
+                    DespachanteEmail = r["DespachanteEmail"].ToString();
+                    if (!DBNull.Value.Equals(r["DespachanteNotificacion"]) && (r["DespachanteNotificacion"].ToString() == "1" || r["DespachanteNotificacion"].ToString() == "-1"))
+                        DespachanteNotificacion = true;
+
+
+                    conteodespachante++;
+                    if (conteoImpo.ContainsKey(cuitImpo))
+                    {
+                        conteoImpo[cuitImpo]++;
+                    }
+                    else
+                    {
+                        conteoImpo.Add(cuitImpo, 1);
+                        logImpo.Add(cuitImpo, new List<string>());
+                        ImpoExpoEmail.Add(cuitImpo, r["ImpoExpoEmail"].ToString());
+                        if (!DBNull.Value.Equals(r["ImpoExpoNotificacion"]) && (r["ImpoExpoNotificacion"].ToString() == "1" || r["ImpoExpoNotificacion"].ToString() == "-1"))
+                        {
+                            ImpoExpoNotificacion.Add(cuitImpo, true);
+                        }
+                        else
+                        {
+                            ImpoExpoNotificacion.Add(cuitImpo, false);
+                        }
+                        AddonlineLog(TraceDespachante, logImpo[cuitImpo], System.Environment.NewLine);
+                        AddonlineLog(TraceDespachante, logImpo[cuitImpo], $"Se ha recepcionado e informado a AFIP la recepcion de los siguientes despachos Despachante: {cuitDespachante} ImpoExpo: {cuitImpo}");
+                        AddonlineLog(TraceDespachante, logImpo[cuitImpo], System.Environment.NewLine);
+
+                    }
+
+
+                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital,false);
+                    if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
+                    {
+                        AddonlineLog(TraceDespachante, logImpo[cuitImpo], ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteodespachante.ToString() + ": Despacho: " + solicitudFirmaDigital.nroDespacho + " Codigo: " + solicitudFirmaDigital.codigo + " : Recepcionado");
+                        var js = JsonConvert.SerializeObject(RR);
+                        Int64 ruleId = 165720;
+                        List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
+                        Results.Add(WFTB.GetTaskByDocId(docid, user_id));
+                        GenericExecutionResponse genericExecutionResult = TC.ExecuteRule(ruleId, Results, true);
+                    }
+                    else
+                    {
+                        AddonlineLog(TraceDespachante, logImpo[cuitImpo], ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteodespachante.ToString() + ": Despacho: " + solicitudFirmaDigital.nroDespacho + " Codigo: " + solicitudFirmaDigital.codigo + " : ERROR");
+                        ZClass.raiseerror(new Exception(RR.descError));
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
+                        var js = JsonConvert.SerializeObject(RR);
+                        return Ok(js);
+                    }
+                }
+
+                Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update wfdocument set step_id = 160120, do_state_id = 160213 where doc_id in (select doc_id from doc_i139081 where i139614 = {nro_guia}) and doc_type_id = 139081");
+
+                try
+                {
+                    foreach (string cuitImpoExpo in logImpo.Keys)
+                    {
+                        if (ImpoExpoNotificacion[cuitImpoExpo] && ImpoExpoEmail[cuitImpoExpo] != "")
+                        {
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a ImpoExpo: " + ImpoExpoEmail);
+
+                            ISendMailConfig mail = new SendMailConfig();
+
+                            mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            mail.MailType = MailTypes.NetMail;
+                            mail.SaveHistory = false;
+
+                            mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + ImpoExpoEmail[cuitImpoExpo]).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+
+                            mail.Subject = "Zamba - Recepcion GUIA: " + nro_guia.ToString() + " Despachos: " + conteoImpo[cuitImpoExpo].ToString() + " - " + currentdatetime;
+                            mail.Body = string.Join(System.Environment.NewLine, logImpo[cuitImpoExpo]);
+                            mail.IsBodyHtml = true;
+                            mail.LinkToZamba = false;
+
+                            MessagesBusiness.SendQuickMail(mail);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ZClass.raiseerror(ex);
+                }
+
+                try
+                {
+                    if (DespachanteNotificacion && DespachanteEmail != "")
+                    {
+                        if (DespachanteNotificacion) ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a Despachante: " + DespachanteEmail);
+
+                        ISendMailConfig mail = new SendMailConfig();
+                        mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                        mail.MailType = MailTypes.NetMail;
+                        mail.SaveHistory = false;
+                        mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + DespachanteEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+                        mail.Subject = "Zamba - Recepcion GUIA: " + nro_guia.ToString() + " Despachos: " + conteodespachante.ToString() + " - " + currentdatetime;
+                        mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                        mail.IsBodyHtml = true;
+                        mail.LinkToZamba = false;
+
+                        MessagesBusiness.SendQuickMail(mail);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ZClass.raiseerror(ex);
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Zamba.Core.ZClass.raiseerror(e);
+                return Ok(e);
+            }
+
+        }
+
+
+        [AcceptVerbs("POST")]
+        [AllowAnonymous]
+        [Route("SignPDFByGuia")]
+        public IHttpActionResult SignPDFByGuia(genericRequest genericRequest)
+        {
+            Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nroGuia"].ToString());
+            long user_id = Convert.ToInt64(genericRequest.UserId.ToString());
+            var user = GetUser(user_id);
+            if (user == null)
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                    new HttpError(StringHelper.InvalidUser)));
+
+
+            try
+            {
+                string error = string.Empty;
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Firma: ");
+                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned, u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id, d.i139614 Guia, I139578 Sigea, i139628 RCodigo, i139630 RDesc, i139620 DCodigo, i26513 dDesc, d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579, d.i149651 cuitImpoExpo, F.i139562 ImpoExpo, '' CodigoServicio, d.i139608 cantidadPaginas, i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque, d.doc_id, w.task_id, isnull(e.I139565, '') DespachanteEmail, isnull(f.I139565, '') ImpoExpoEmail, isnull(e.i161669, 0) DespachanteNotificacion, isnull(f.i161669, 0) ImpoExpoNotificacion  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600   left join doc_i139073 F on d.i149651 = f.i26296  and f.i139600 = d.i139600 inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not (i139551 is null and i139588 = 'IMPORTACION')  and w.step_id in (139108) and d.i139614 = " + nro_guia.ToString());
+
+
+                if (dsall.Tables[0].Rows.Count == 0)
+                {
+                    DigitalizacionResponse ERR = new DigitalizacionResponse();
+                    ERR.codError = 9999;
+                    ERR.descError = "No hay despachos para procesar";
+                    var js = JsonConvert.SerializeObject(ERR);
+                    return Ok(js);
+                }
+
+                List<string> TraceDespachante = new List<string>();
+
+                Int64 conteodespachante = 0;
+                Dictionary<string, int> conteoImpo = new Dictionary<string, int>();
+                Dictionary<string, List<string>> logImpo = new Dictionary<string, List<string>>();
+                string currentdatetime = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+
+                WFTaskBusiness WFTB = new WFTaskBusiness();
+                TasksController TC = new TasksController();
+
+
+                string DespachanteEmail = "";
+                bool DespachanteNotificacion = false;
+
+                Dictionary<string, bool> ImpoExpoNotificacion = new Dictionary<string, bool>();
+                Dictionary<string, string> ImpoExpoEmail = new Dictionary<string, string>();
+
+
+                foreach (DataRow r in dsall.Tables[0].Rows)
+                {
+                    string cuitDespachante = r["cuitDespachante"].ToString();
+                    string cuitImpo = r["cuitImpoExpo"].ToString();
+
+                    SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
+
+                    solicitudFirmaDigital.userId = user_id;
+                    var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
+
+                    solicitudFirmaDigital.sigea = r["Sigea"].ToString();
+                    solicitudFirmaDigital.nroDespacho = r["NroDespacho"].ToString(); ;
+                    solicitudFirmaDigital.codigo = r["codigoDespacho"].ToString(); ;
+                    solicitudFirmaDigital.nroGuia = nro_guia.ToString();
+                    solicitudFirmaDigital.cuitDeclarante = cuitDespachante;
+                    Int64 docid = Int64.Parse(r["doc_id"].ToString());
+                    DespachanteEmail = r["DespachanteEmail"].ToString();
+                    if (!DBNull.Value.Equals(r["DespachanteNotificacion"]) && (r["DespachanteNotificacion"].ToString() == "1" || r["DespachanteNotificacion"].ToString() == "-1"))
+                        DespachanteNotificacion = true;
+
+                    try
+                    {
+
+                        conteodespachante++;
+                        if (conteoImpo.ContainsKey(cuitImpo))
+                        {
+                            conteoImpo[cuitImpo]++;
+                        }
+                        else
+                        {
+                            conteoImpo.Add(cuitImpo, 1);
+                            logImpo.Add(cuitImpo, new List<string>());
+                            ImpoExpoEmail.Add(cuitImpo, r["ImpoExpoEmail"].ToString());
+                            if (!DBNull.Value.Equals(r["ImpoExpoNotificacion"]) && (r["ImpoExpoNotificacion"].ToString() == "1" || r["ImpoExpoNotificacion"].ToString() == "-1"))
+                            {
+                                ImpoExpoNotificacion.Add(cuitImpo, true);
+                            }
+                            else
+                            {
+                                ImpoExpoNotificacion.Add(cuitImpo, false);
+                            }
+
+                            AddonlineLog(TraceDespachante, logImpo[cuitImpo], System.Environment.NewLine);
+                            AddonlineLog(TraceDespachante, logImpo[cuitImpo], $"Se ha firmado e informado a AFIP la digitalizacion de los siguientes despachos:  {cuitDespachante} ImpoExpo: {cuitImpo}");
+
+                            AddonlineLog(TraceDespachante, logImpo[cuitImpo], System.Environment.NewLine);
+                        }
+
+                        SignPDFResponse SR = _firmarPDF(solicitudFirmaDigital);
+
+                        if (SR.result == SignPDFResponse.results.signed || SR.result == SignPDFResponse.results.alreadySigned)
+                        {
+
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Firma: ");
+
+                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital, false);
+                            if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
+                            {
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
+                                DigitalizacionResponse DR = _digitalizacionDespacho(solicitudFirmaDigital);
+                                SR.DigitalizacionResponse = DR;
+                                SR.RecepcionResponse = RR;
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se Finaliza proceso de Digitalizacion: ");
+                                if (DR.result == DigitalizacionResponse.results.Ok)
+                                {
+                                    AddonlineLog(TraceDespachante, logImpo[cuitImpo], ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteodespachante.ToString() + ": Despacho: " + solicitudFirmaDigital.nroDespacho + " Codigo: " + solicitudFirmaDigital.codigo + " : Firmado");
+
+                                    var js = JsonConvert.SerializeObject(SR);
+                                    Int64 ruleId = 165752;
+                                    List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
+                                    Results.Add(WFTB.GetTaskByDocId(docid, user_id));
+                                    GenericExecutionResponse genericExecutionResult = TC.ExecuteRule(ruleId, Results, true);
+
+                                }
+                                else
+                                {
+                                    AddonlineLog(TraceDespachante, logImpo[cuitImpo], ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteodespachante.ToString() + ": Despacho: " + solicitudFirmaDigital.nroDespacho + " Codigo: " + solicitudFirmaDigital.codigo + " : ERROR");
+                                    ZClass.raiseerror(new Exception(DR.descError));
+                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Digitalizacion: " + DR.descError);
+                                    var js = JsonConvert.SerializeObject(DR);
+                                    return Ok(js);
+                                }
+                            }
+                            else
+                            {
+                                ZClass.raiseerror(new Exception(RR.descError));
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
+                                var js = JsonConvert.SerializeObject(RR);
+                                return Ok(js);
+
+                            }
+                        }
+                        else
+                        {
+                            ZClass.raiseerror(new Exception(SR.error));
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Firma: " + SR.error);
+                            var js = JsonConvert.SerializeObject(SR);
+                            return Ok(js);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                        return Ok(ex);
+                    }
+                }
+
+
+                Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, $"update wfdocument set step_id = 160123, do_state_id = 160216 where doc_id in (select doc_id from doc_i139081 where i139614 = {nro_guia}) and doc_type_id = 139081");
+
+
+                try
+                {
+                    foreach (string cuitImpoExpo in logImpo.Keys)
+                    {
+                        if (ImpoExpoNotificacion[cuitImpoExpo] && ImpoExpoEmail[cuitImpoExpo] != "")
+                        {
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a ImpoExpo: " + ImpoExpoEmail);
+
+                            ISendMailConfig mail = new SendMailConfig();
+
+                            mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            mail.MailType = MailTypes.NetMail;
+                            mail.SaveHistory = false;
+
+                            mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + ImpoExpoEmail[cuitImpoExpo]).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+
+                            mail.Subject = "Zamba - Firma y aviso GUIA: " + nro_guia.ToString() + " Despachos: " + conteoImpo[cuitImpoExpo].ToString() + " - " + currentdatetime;
+                            mail.Body = string.Join(System.Environment.NewLine, logImpo[cuitImpoExpo]);
+                            mail.IsBodyHtml = true;
+                            mail.LinkToZamba = false;
+
+                            MessagesBusiness.SendQuickMail(mail);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ZClass.raiseerror(ex);
+                }
+
+                try
+                {
+                    if (DespachanteNotificacion && DespachanteEmail != "")
+                    {
+                        ISendMailConfig mail = new SendMailConfig();
+
+                        mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                        mail.MailType = MailTypes.NetMail;
+                        mail.SaveHistory = false;
+
+                        mail.MailTo = "soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + DespachanteEmail;
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+                        mail.Subject = "Zamba - Firma y aviso GUIA: " + nro_guia.ToString() + " Despachos: " + conteodespachante.ToString() + " - " + currentdatetime;
+                        mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                        mail.IsBodyHtml = true;
+                        mail.LinkToZamba = false;
+
+                        MessagesBusiness.SendQuickMail(mail);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ZClass.raiseerror(ex);
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Zamba.Core.ZClass.raiseerror(e);
+                return Ok(e);
+            }
+
+        }
         private static string _signSinglePDF(genericRequest paramRequest)
         {
             var serialNumber = ZOptBusiness.GetValueOrDefault("SignSerialNumber", "2455f7ea0000000420d6");
@@ -257,7 +659,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         {
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
 
-                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
+                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital,false);
                             if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
@@ -312,7 +714,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             try
             {
 
-                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select d.i139548 Despacho, w.user_asigned,u.Name, ws.name Etapa, w.step_id,d.i139614 Guia, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108)");
+                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select d.i139548 Despacho, w.user_asigned,u.Name, ws.name Etapa, w.step_id,d.i139614 Guia, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 left  join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108)");
 
                 foreach (DataRow r in dsall.Tables[0].Rows)
                 {
@@ -334,7 +736,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
 
-                        RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
+                        RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital, false);
                         if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
                         {
                         }
@@ -372,6 +774,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
                         new HttpError(StringHelper.InvalidUser)));
                 string error = string.Empty;
+                List<string> TraceDespachante = new List<string>();
+
 
                 SignPDFResponse SR = _firmarPDF(solicitudFirmaDigital);
 
@@ -379,7 +783,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 {
                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
 
-                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
+                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital, false);
                     if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
                     {
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
@@ -390,6 +794,103 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         if (DR.result == DigitalizacionResponse.results.Ok)
                         {
                             var js = JsonConvert.SerializeObject(SR);
+
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Digitalizacion, firma y aviso de despacho en AFIP OK");
+                            AddonlineLog(TraceDespachante, System.Environment.NewLine);
+                            AddonlineLog(TraceDespachante, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " Firma y Aviso de despacho en AFIP OK");
+
+                            try
+                            {
+                                var NroDespacho = solicitudFirmaDigital.nroDespacho;
+                                var Codigo = solicitudFirmaDigital.codigo;
+
+                                var queryIsSigned = string.Empty;
+                                if (Codigo == "004" || Codigo == "002" || Codigo == "003")
+                                {
+                                    queryIsSigned = string.Format(@"select d.i139600 cuitDespachante, d.i139645 Despachante, d.i149651 cuitImpoExpo, F.i139562 ImpoExpo, isnull(e.I139565, '') DespachanteEmail, isnull(f.I139565, '') ImpoExpoEmail, isnull(e.i161669, 0) DespachanteNotificacion, isnull(f.i161669, 0) ImpoExpoNotificacion  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600  left join doc_i139073 F on d.i149651 = f.i26296  and f.i139600 = d.i139600 where d.i139548 = '{0}' and d.i139603 = '{1}'  and d.i139578 = '{2}'", NroDespacho, Codigo, solicitudFirmaDigital.sigea);
+                                }
+                                else
+                                {
+                                    queryIsSigned = string.Format(@"select d.i139600 cuitDespachante, d.i139645 Despachante, d.i149651 cuitImpoExpo, F.i139562 ImpoExpo, isnull(e.I139565, '') DespachanteEmail, isnull(f.I139565, '') ImpoExpoEmail, isnull(e.i161669, 0) DespachanteNotificacion, isnull(f.i161669, 0) ImpoExpoNotificacion  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600  left join doc_i139073 F on d.i149651 = f.i26296  and f.i139600 = d.i139600 where d.i139548 = '{0}' and d.i139603 = '{1}'", NroDespacho, Codigo);
+                                }
+                                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, queryIsSigned);
+
+                                string DespachanteEmail = "";
+                                string ImpoExpoEmail = "";
+                                bool DespachanteNotificacion = false;
+                                bool ImpoExpoNotificacion = false;
+
+                                DespachanteEmail = dsall.Tables[0].Rows[0]["DespachanteEmail"].ToString();
+                                ImpoExpoEmail = dsall.Tables[0].Rows[0]["ImpoExpoEmail"].ToString();
+                                if (!DBNull.Value.Equals(dsall.Tables[0].Rows[0]["DespachanteNotificacion"]) && (dsall.Tables[0].Rows[0]["DespachanteNotificacion"].ToString() == "1" || dsall.Tables[0].Rows[0]["DespachanteNotificacion"].ToString() == "-1"))
+                                    DespachanteNotificacion = true;
+                                if (!DBNull.Value.Equals(dsall.Tables[0].Rows[0]["ImpoExpoNotificacion"]) && (dsall.Tables[0].Rows[0]["ImpoExpoNotificacion"].ToString() == "1" || dsall.Tables[0].Rows[0]["ImpoExpoNotificacion"].ToString() == "-1"))
+                                    ImpoExpoNotificacion = true;
+                                string currentdatetime = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+
+
+
+                                try
+                                {
+                                    if (ImpoExpoNotificacion && ImpoExpoEmail != "")
+                                    {
+                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a ImpoExpo: " + ImpoExpoEmail);
+
+                                        ISendMailConfig mail = new SendMailConfig();
+
+                                        mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                        mail.MailType = MailTypes.NetMail;
+                                        mail.SaveHistory = false;
+
+                                        mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + ImpoExpoEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+
+                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+
+                                        mail.Subject = "Zamba - Firma y aviso Despacho: " + NroDespacho.ToString() + " codigo: " + Codigo.ToString() + " - " + currentdatetime;
+                                        mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                                        mail.IsBodyHtml = true;
+                                        mail.LinkToZamba = false;
+
+                                        MessagesBusiness.SendQuickMail(mail);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ZClass.raiseerror(ex);
+                                }
+
+                                try
+                                {
+                                    if (DespachanteNotificacion && DespachanteEmail != "")
+                                    {
+                                        if (DespachanteNotificacion) ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a Despachante: " + DespachanteEmail);
+
+                                        ISendMailConfig mail = new SendMailConfig();
+                                        mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                        mail.MailType = MailTypes.NetMail;
+                                        mail.SaveHistory = false;
+                                        mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + DespachanteEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+                                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+                                        mail.Subject = "Zamba - Firma y aviso Despacho: " + NroDespacho.ToString() + " codigo: " + Codigo.ToString() + " - " + currentdatetime;
+                                        mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                                        mail.IsBodyHtml = true;
+                                        mail.LinkToZamba = false;
+
+                                        MessagesBusiness.SendQuickMail(mail);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    ZClass.raiseerror(ex);
+                                }
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                ZClass.raiseerror(ex);
+                            }
+
                             return Ok(js);
                         }
                         else
@@ -786,7 +1287,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
 
-                RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
+                RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital, true);
                 if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
                 {
                     var js = JsonConvert.SerializeObject(RR);
@@ -810,7 +1311,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         }
 
-        private static RecepcionResponse _recepcionDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
+        private RecepcionResponse _recepcionDespacho(SolicitudFirmaDigital solicitudFirmaDigital,bool sendNotifications)
         {
             //0- Obtener Parametros del Servicio
 
@@ -834,11 +1335,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
             var querydespacho = string.Empty;
             if (solicitudFirmaDigital.codigo == "004" || solicitudFirmaDigital.codigo == "002" || solicitudFirmaDigital.codigo == "003")
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE , i139608 cantidadfojas from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
+                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i.i139600 cuitDeclarante,i.i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,i.crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE , i139608 cantidadfojas,isnull(e.I139565,'') DespachanteEmail,isnull(f.I139565,'') ImpoExpoEmail,isnull(e.i161669,0) DespachanteNotificacion,isnull(f.i161669,0) ImpoExpoNotificacion  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id inner join doc_i139074 E on i.i139600 = e.i139600 left  join doc_i139073 F on i.i149651 = f.i26296  and f.i139600 = i.i139600 where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.sigea);
             }
             else
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE, i139608 cantidadfojas  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i.i139600 cuitDeclarante,i.i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,i.crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE, i139608 cantidadfojas ,isnull(e.I139565,'') DespachanteEmail,isnull(f.I139565,'') ImpoExpoEmail,isnull(e.i161669,0) DespachanteNotificacion,isnull(f.i161669,0) ImpoExpoNotificacion  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id  inner join doc_i139074 E on i.i139600 = e.i139600 left join doc_i139073 F on i.i149651 = f.i26296  and f.i139600 = i.i139600  where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
             }
             DataSet dsDespacho = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, querydespacho);
 
@@ -853,15 +1354,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 solicitudFirmaDigital.cuitDeclarante = r["cuitDeclarante"].ToString();
                 solicitudFirmaDigital.cuitPSAD = PSADCUIT;
                 solicitudFirmaDigital.codigo = r["codigo"].ToString();
-
                 solicitudFirmaDigital.cuitIE = r["cuitIE"].ToString();
-
                 solicitudFirmaDigital.cuitATA = (r["cuitATA"] != null) ? r["cuitATA"].ToString() : string.Empty;
-
-
-
                 solicitudFirmaDigital.ticket = (r["ticket"] != null) ? r["ticket"].ToString() : string.Empty;
-
                 solicitudFirmaDigital.sigea = (r["sigea"] != null) ? r["sigea"].ToString() : string.Empty;
                 solicitudFirmaDigital.nroReferencia = string.Empty;
                 solicitudFirmaDigital.nroGuia = r["nroGuia"].ToString();
@@ -871,15 +1366,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 catch (Exception)
                 {
-
                     solicitudFirmaDigital.cantidadFojas = 0;
                 }
 
-
-
                 if (r["IE"].ToString() == "EXPORTACION")
                 {
-
                     if ((r["vtoEmbarque"] is DBNull || r["vtoEmbarque"] is null || r["vtoEmbarque"].ToString() == string.Empty))
                     {
                         //  throw new Exception("La Fecha de Vto Embarque es nula");
@@ -900,7 +1391,6 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     {
                         solicitudFirmaDigital.fechaDespacho = (DateTime)(r["fechaDespacho"]);
                     }
-
                 }
 
                 if (r["fechaGeneracion"] == null || r["fechaGeneracion"] is System.DBNull)
@@ -955,6 +1445,24 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //  newresultsreciboAvisoRecepAcept = newresultsreciboAvisoRecepAcept.Replace("$", "");
                 //  XmlDocument docreciboAvisoRecepAcept = (XmlDocument)JsonConvert.DeserializeXmlNode(newresultsreciboAvisoRecepAcept);
 
+                List<string> TraceDespachante = new List<string>();
+                string currentdatetime = DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+                string DespachanteEmail = "";
+                bool DespachanteNotificacion = false;
+                bool ImpoExpoNotificacion = false;
+                string ImpoExpoEmail = "";
+                DespachanteEmail = r["DespachanteEmail"].ToString();
+                ImpoExpoEmail = r["ImpoExpoEmail"].ToString();
+
+                if (!DBNull.Value.Equals(r["DespachanteNotificacion"]) && (r["DespachanteNotificacion"].ToString() == "1" || r["DespachanteNotificacion"].ToString() == "-1"))
+                    DespachanteNotificacion = true;
+
+                if (!DBNull.Value.Equals(r["ImpoExpoNotificacion"]) && (r["ImpoExpoNotificacion"].ToString() == "1" || r["ImpoExpoNotificacion"].ToString() == "-1"))
+                    ImpoExpoNotificacion = true;
+
+                AddonlineLog(TraceDespachante, System.Environment.NewLine);
+                AddonlineLog(TraceDespachante, $"Se ha recepcionado e informado a AFIP la recepcion de los siguientes despachos");
+                AddonlineLog(TraceDespachante, System.Environment.NewLine);
 
 
                 if (reciboAvisoRecepAcept.codError == 0)
@@ -977,6 +1485,63 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     RR.solicitudFirmaDigital = solicitudFirmaDigital;
                     RR.codError = reciboAvisoRecepAcept.codError;
                     RR.descError = reciboAvisoRecepAcept.descError;
+
+                    AddonlineLog(TraceDespachante, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " Despacho: " + solicitudFirmaDigital.nroDespacho + " Codigo: " + solicitudFirmaDigital.codigo + " : Recepcionado");
+
+                    try
+                    {
+                        if (sendNotifications && ImpoExpoNotificacion && ImpoExpoEmail != "")
+                        {
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a ImpoExpo: " + ImpoExpoEmail);
+
+                            ISendMailConfig mail = new SendMailConfig();
+
+                            mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            mail.MailType = MailTypes.NetMail;
+                            mail.SaveHistory = false;
+
+                            mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + ImpoExpoEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+
+                            mail.Subject = "Zamba - Recepcion despacho: " + solicitudFirmaDigital.nroDespacho.ToString() + " codigo: " + solicitudFirmaDigital.codigo + " - " + currentdatetime;
+                            mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                            mail.IsBodyHtml = true;
+                            mail.LinkToZamba = false;
+
+                            MessagesBusiness.SendQuickMail(mail);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                    }
+
+                    try
+                    {
+                        if (sendNotifications && DespachanteNotificacion && DespachanteEmail != "")
+                        {
+                            if (DespachanteNotificacion) ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a Despachante: " + DespachanteEmail);
+
+                            ISendMailConfig mail = new SendMailConfig();
+                            mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            mail.MailType = MailTypes.NetMail;
+                            mail.SaveHistory = false;
+                            mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + DespachanteEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+                            mail.Subject = "Zamba - Recepcion despacho: " + solicitudFirmaDigital.nroDespacho.ToString() + " codigo: " + solicitudFirmaDigital.codigo + " - " + currentdatetime;
+                            mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                            mail.IsBodyHtml = true;
+                            mail.LinkToZamba = false;
+
+                            MessagesBusiness.SendQuickMail(mail);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                    }
+
                 }
                 else if (reciboAvisoRecepAcept.codError == 102 && reciboAvisoRecepAcept.descError.Contains("Estado Actual") && reciboAvisoRecepAcept.descError.Contains("PSAD"))
                 {
@@ -998,6 +1563,61 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     RR.solicitudFirmaDigital = solicitudFirmaDigital;
                     RR.codError = 0;
                     RR.descError = "OK. Procesado";
+
+                    try
+                    {
+                        if (sendNotifications && ImpoExpoNotificacion && ImpoExpoEmail != "")
+                        {
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a ImpoExpo: " + ImpoExpoEmail);
+
+                            ISendMailConfig mail = new SendMailConfig();
+
+                            mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            mail.MailType = MailTypes.NetMail;
+                            mail.SaveHistory = false;
+
+                            mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + ImpoExpoEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+
+                            mail.Subject = "Zamba - Recepcion Despacho: " + solicitudFirmaDigital.nroDespacho + " codigo: " + solicitudFirmaDigital.codigo.ToString() + " - " + currentdatetime;
+                            mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                            mail.IsBodyHtml = true;
+                            mail.LinkToZamba = false;
+
+                            MessagesBusiness.SendQuickMail(mail);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                    }
+
+                    try
+                    {
+                        if (sendNotifications && DespachanteNotificacion && DespachanteEmail != "")
+                        {
+                            if (DespachanteNotificacion) ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a Despachante: " + DespachanteEmail);
+
+                            ISendMailConfig mail = new SendMailConfig();
+                            mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            mail.MailType = MailTypes.NetMail;
+                            mail.SaveHistory = false;
+                            mail.MailTo = ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + DespachanteEmail).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+                            mail.Subject = "Zamba - Recepcion Despacho: " + solicitudFirmaDigital.nroDespacho + " codigo: " + solicitudFirmaDigital.codigo.ToString() + " - " + currentdatetime;
+                            mail.Body = string.Join(System.Environment.NewLine, TraceDespachante);
+                            mail.IsBodyHtml = true;
+                            mail.LinkToZamba = false;
+
+                            MessagesBusiness.SendQuickMail(mail);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                    }
+
                 }
                 else
                 {
