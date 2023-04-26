@@ -146,31 +146,47 @@
 
                                             <div class="row">
                                                 <div class="col-3">
+                                                    
                                                     <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)"
                                                             class="btn  btn-lg"
-                                                            style="color: limegreen; font-size: 36px ">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                            style="color: #2b9c2b; font-size: 36px ">
+
+                                                       
+                                                        <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                            check_circle
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
 
                                                     <button type="button" ng-click="Rechazar(lista.ID1,lista.ID)"
-                                                            class="btn  btn-lg" style="color: orangered; font-size: 36px;">
-                                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                                            class="btn  btn-lg" style="color: #b33000; font-size: 36px;">
+                                                        <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                            cancel
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
                                                     <a id="{{lista.ID}}" target="_blank" rel="opener" style="text-decoration:none">
-                                                        <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
-                                                            <i class="fa fa-info" aria-hidden="true"></i>
+                                                        <button type="button" class="btn  btn-lg" style="color: #265b8f; font-size: 36px;">
+                                                            <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                                info
+                                                            </span>
                                                         </button>
+
                                                     </a>
                                                 </div>
                                                 <div class="col-3">
                                                     <a ng-click="sentToMultiSelect(lista)">
-                                                        <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
-                                                            <i ng-if="lista.checked" class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            <i ng-if="!lista.checked" class="fa fa-square-o" aria-hidden="true"></i>
+                                                        <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
+                                                            <span class="material-symbols-outlined" ng-if="lista.checked" style="font-size: 36px;">
+                                                                radio_button_unchecked
+                                                            </span>
+                                                            <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
+                                                            <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
+                                                            <span class="material-symbols-outlined" ng-if="!lista.checked" style="font-size: 36px;">
+                                                                radio_button_checked
+                                                            </span>
                                                         </button>
                                                     </a>
                                                 </div>
@@ -241,6 +257,9 @@
                         display: none;
                     }
                 }
+
+
+               
             </style>
 
         </div>
