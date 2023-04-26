@@ -404,7 +404,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
     $scope.DevolverResumenGerencialAnterior = function (docId, e) {
         var d = RequestServices.getResults(docId, $scope.Devolver_RG_Anterior);
 
-        if (d != null && d != "") {
+        if (d != null && d != "" && d != "[]") {
             $scope.setSelectedPreviewSummary(d, e);
             $scope.showPreviewSummary = null;
         } else {
