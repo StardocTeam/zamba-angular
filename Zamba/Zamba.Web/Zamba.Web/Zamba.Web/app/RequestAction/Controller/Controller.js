@@ -1011,7 +1011,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
     $scope.setUrlRyRt = function (r, rt) {
 
-
+        $scope.showPendingTab = true;
         $scope.selectedInvoices = [];
         $scope.selectedInvoicesLate = [];
         $scope.ListFacturas = [];
