@@ -41,14 +41,14 @@
                                 {{totalInvoicesLateCount}}
                             </span> Aprobar todo
                         </a>
-                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
                             <div ng-if="showPendingTab">
                                 <span style=" line-height: inherit;" class="badge bg-danger">
                                     {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
                                 </span> Aprobar seleccionadas
                             </div>
                         </a>
-                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoicesLate.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoicesLate.length > 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
 
                             <div ng-if="!showPendingTab">
                                 <span style=" line-height: inherit;" class="badge bg-danger">
