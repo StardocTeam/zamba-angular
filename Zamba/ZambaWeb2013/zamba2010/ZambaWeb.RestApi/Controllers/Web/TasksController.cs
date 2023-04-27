@@ -2489,7 +2489,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="ruleId">ID de la regla que se quiere ejecutar</param>
         /// <param name="results">Tareas a ejecutar</param>
         /// <remarks></remarks>
-        private GenericExecutionResponse ExecuteRule(Int64 ruleId, List<Zamba.Core.ITaskResult> results, Boolean IsAsync)
+        public GenericExecutionResponse ExecuteRule(Int64 ruleId, List<Zamba.Core.ITaskResult> results, Boolean IsAsync)
         {
             Hashtable Params = new Hashtable();
             Zamba.Core.RuleExecutionResult ExecutionResult = new Zamba.Core.RuleExecutionResult();

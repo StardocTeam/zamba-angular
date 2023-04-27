@@ -17,6 +17,7 @@ using System.Security.Cryptography.X509Certificates;
 using Zamba.Framework;
 using InvocacionServWConsDepFiel;
 using InvocacionServWDigDepFiel.wConsDepFiel;
+using Zamba.Core.WF.WF;
 
 namespace ZambaWeb.RestApi.Controllers.Web
 {
@@ -1088,190 +1089,190 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
 
-        [AcceptVerbs("POST")]
-        [AllowAnonymous]
-        [Route("RecepcionDespachoByGuia")]
-        public IHttpActionResult RecepcionDespachoByGuia(genericRequest genericRequest)
-        {
-            Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nro_guia"].ToString());
-            long user_id = Convert.ToInt64(genericRequest.Params["user_id"].ToString());
-            Int64 doc_id = Convert.ToInt64(genericRequest.Params["doc_id"].ToString());
-            var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
-            try
-            {
-                string error = string.Empty;
+        //[AcceptVerbs("POST")]
+        //[AllowAnonymous]
+        //[Route("RecepcionDespachoByGuia")]
+        //public IHttpActionResult RecepcionDespachoByGuia(genericRequest genericRequest)
+        //{
+        //    Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nro_guia"].ToString());
+        //    long user_id = Convert.ToInt64(genericRequest.Params["user_id"].ToString());
+        //    Int64 doc_id = Convert.ToInt64(genericRequest.Params["doc_id"].ToString());
+        //    var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
+        //    try
+        //    {
+        //        string error = string.Empty;
 
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
-                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108) and d.i139614=" + nro_guia.ToString());
+        //        ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
+        //        DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108) and d.i139614=" + nro_guia.ToString());
 
-                foreach (DataRow r in dsall.Tables[0].Rows)
-                {
-                    SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
-                    solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
-                    solicitudFirmaDigital.userId = user_id;
-                    String nroDespacho = r["NroDespacho"].ToString();
-                    String  Sigea = r["Sigea"].ToString();
-                    String codDespacho = r["codigoDespacho"].ToString();
-                    solicitudFirmaDigital.sigea = Sigea;
-                    solicitudFirmaDigital.nroDespacho = nroDespacho;
-                    solicitudFirmaDigital.codigo = codDespacho;
-                    solicitudFirmaDigital.nroGuia = nro_guia.ToString();
+        //        foreach (DataRow r in dsall.Tables[0].Rows)
+        //        {
+        //            SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
+        //            solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
+        //            solicitudFirmaDigital.userId = user_id;
+        //            String nroDespacho = r["NroDespacho"].ToString();
+        //            String  Sigea = r["Sigea"].ToString();
+        //            String codDespacho = r["codigoDespacho"].ToString();
+        //            solicitudFirmaDigital.sigea = Sigea;
+        //            solicitudFirmaDigital.nroDespacho = nroDespacho;
+        //            solicitudFirmaDigital.codigo = codDespacho;
+        //            solicitudFirmaDigital.nroGuia = nro_guia.ToString();
                     
 
-                    // faltan datos
-                    /*
-                    userid
-                    DocTypeId=139072
-                    doc_id
-                    url: solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
-                    nroDespacho (query)
-                    sigea (query)
-                    codigo (query)
+        //            // faltan datos
+        //            /*
+        //            userid
+        //            DocTypeId=139072
+        //            doc_id
+        //            url: solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
+        //            nroDespacho (query)
+        //            sigea (query)
+        //            codigo (query)
 
-                    139614	Nro Guia                                                                                            
-                    139578	Nro Sigea                                                                                           
-                    139603	Codigo                                                                                              
-                    139548	Nro Despacho                                                                                        
-
-
-                     */
-                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
-                    if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
-                    {
-                        var js = JsonConvert.SerializeObject(RR);
-                    }
-                    else
-                    {
-                        ZClass.raiseerror(new Exception(RR.descError));
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
-                        var js = JsonConvert.SerializeObject(RR);
-                        return Ok(js);
-                    }
-                }
-                return Ok();
+        //            139614	Nro Guia                                                                                            
+        //            139578	Nro Sigea                                                                                           
+        //            139603	Codigo                                                                                              
+        //            139548	Nro Despacho                                                                                        
 
 
+        //             */
+        //            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital,true);
+        //            if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
+        //            {
+        //                var js = JsonConvert.SerializeObject(RR);
+        //            }
+        //            else
+        //            {
+        //                ZClass.raiseerror(new Exception(RR.descError));
+        //                ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
+        //                var js = JsonConvert.SerializeObject(RR);
+        //                return Ok(js);
+        //            }
+        //        }
+        //        return Ok();
 
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
-
-        }
 
 
-        [AcceptVerbs("POST")]
-        [AllowAnonymous]
-        [Route("SignPDFByGuia")]
-        public IHttpActionResult SignPDFByGuia(genericRequest genericRequest)
-        {
-            Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nro_guia"].ToString());
-            long user_id = Convert.ToInt64(genericRequest.Params["user_id"].ToString());
-            Int64 doc_id = Convert.ToInt64(genericRequest.Params["doc_id"].ToString());
-            try
-            {
-                string error = string.Empty;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Zamba.Core.ZClass.raiseerror(e);
+        //        return Ok(e);
+        //    }
 
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
-                DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108) and d.i139614=" + nro_guia.ToString());
+        //}
 
-                foreach (DataRow r in dsall.Tables[0].Rows)
-                {
-                    // faltan datos
-                    /*
-                    userid (parametro)
-                    DocTypeId=139072
-                    doc_id (parametro)
-                    url: solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
-                    nroDespacho (query)
-                    sigea (query)
-                    codigo (query)*/
 
-                    SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
+        //[AcceptVerbs("POST")]
+        //[AllowAnonymous]
+        //[Route("SignPDFByGuia")]
+        //public IHttpActionResult SignPDFByGuia(genericRequest genericRequest)
+        //{
+        //    Int64 nro_guia = Convert.ToInt64(genericRequest.Params["nro_guia"].ToString());
+        //    long user_id = Convert.ToInt64(genericRequest.Params["user_id"].ToString());
+        //    Int64 doc_id = Convert.ToInt64(genericRequest.Params["doc_id"].ToString());
+        //    try
+        //    {
+        //        string error = string.Empty;
 
-                    solicitudFirmaDigital.userId = user_id;
-                    var cuitDespachante = r["cuitDespachante"].ToString();
-                    var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
-                    solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
+        //        ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
+        //        DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, "select  d.i139548 NroDespacho, w.user_asigned,u.Name, ws.name Etapa, i139603 codigoDespacho, w.step_id,d.i139614 Guia, I139578 Sigea, i139628 RCodigo,i139630 RDesc,i139620 DCodigo,i26513 dDesc,d.i139600 cuitDespachante, d.i139645 Despachante, e.i139579,  d.i149651 cuitImpoExpo,  F.i139562 ImpoExpo,  '' CodigoServicio, d.i139608 cantidadPaginas , i139588 TipoIE, i139551 FechaOficializacion, i149662 FechaVtoEmbarque  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600 	inner join doc_i139073 F on d.i149651 = f.i26296  inner join wfdocument w on w.doc_id = d.doc_id inner join wfstep ws on ws.step_id = w.step_id inner join ZUSER_OR_GROUP u on u.id = w.User_Asigned where d.i139600 is not null and not(i139551 is null  and i139588 = 'IMPORTACION') and not(w.step_id = 139109 and i139628 = 0 and i139620 = 0) and w.step_id in (139106, 139107, 139108) and d.i139614=" + nro_guia.ToString());
+
+        //        foreach (DataRow r in dsall.Tables[0].Rows)
+        //        {
+        //            // faltan datos
+        //            /*
+        //            userid (parametro)
+        //            DocTypeId=139072
+        //            doc_id (parametro)
+        //            url: solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", r["doc_id"].ToString());
+        //            nroDespacho (query)
+        //            sigea (query)
+        //            codigo (query)*/
+
+        //            SolicitudFirmaDigital solicitudFirmaDigital = new SolicitudFirmaDigital();
+
+        //            solicitudFirmaDigital.userId = user_id;
+        //            var cuitDespachante = r["cuitDespachante"].ToString();
+        //            var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
+        //            solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
                     
-                    String nroDespacho = r["NroDespacho"].ToString();
-                    String Sigea = r["Sigea"].ToString();
-                    String codDespacho = r["codigoDespacho"].ToString();
-                    solicitudFirmaDigital.sigea = Sigea;
-                    solicitudFirmaDigital.nroDespacho = nroDespacho;
-                    solicitudFirmaDigital.codigo = codDespacho;
-                    solicitudFirmaDigital.nroGuia = nro_guia.ToString();
-                    solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
-                    solicitudFirmaDigital.cuitDeclarante = cuitDespachante;
-                    // faltan datos
-                    try
-                    {
-                        var user = GetUser(solicitudFirmaDigital.userId);
-                        if (user == null)
-                            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                                new HttpError(StringHelper.InvalidUser)));
+        //            String nroDespacho = r["NroDespacho"].ToString();
+        //            String Sigea = r["Sigea"].ToString();
+        //            String codDespacho = r["codigoDespacho"].ToString();
+        //            solicitudFirmaDigital.sigea = Sigea;
+        //            solicitudFirmaDigital.nroDespacho = nroDespacho;
+        //            solicitudFirmaDigital.codigo = codDespacho;
+        //            solicitudFirmaDigital.nroGuia = nro_guia.ToString();
+        //            solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
+        //            solicitudFirmaDigital.cuitDeclarante = cuitDespachante;
+        //            // faltan datos
+        //            try
+        //            {
+        //                var user = GetUser(solicitudFirmaDigital.userId);
+        //                if (user == null)
+        //                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+        //                        new HttpError(StringHelper.InvalidUser)));
 
-                        SignPDFResponse SR = _firmarPDF(solicitudFirmaDigital);
+        //                SignPDFResponse SR = _firmarPDF(solicitudFirmaDigital);
 
-                        if (SR.result == SignPDFResponse.results.signed || SR.result == SignPDFResponse.results.alreadySigned)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
+        //                if (SR.result == SignPDFResponse.results.signed || SR.result == SignPDFResponse.results.alreadySigned)
+        //                {
+        //                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
 
-                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital);
-                            if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
-                            {
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
-                                DigitalizacionResponse DR = _digitalizacionDespacho(solicitudFirmaDigital);
-                                SR.DigitalizacionResponse = DR;
-                                SR.RecepcionResponse = RR;
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se Finaliza proceso de Digitalizacion: ");
-                                if (DR.result == DigitalizacionResponse.results.Ok)
-                                {
-                                    var js = JsonConvert.SerializeObject(SR);
-                                }
-                                else
-                                {
-                                    ZClass.raiseerror(new Exception(DR.descError));
-                                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Digitalizacion: " + DR.descError);
-                                    var js = JsonConvert.SerializeObject(DR);
-                                    return Ok(js);
-                                }
-                            }
-                            else
-                            {
-                                ZClass.raiseerror(new Exception(RR.descError));
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
-                                var js = JsonConvert.SerializeObject(RR);
-                                return Ok(js);
+        //                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital,false);
+        //                    if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
+        //                    {
+        //                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
+        //                        DigitalizacionResponse DR = _digitalizacionDespacho(solicitudFirmaDigital);
+        //                        SR.DigitalizacionResponse = DR;
+        //                        SR.RecepcionResponse = RR;
+        //                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Se Finaliza proceso de Digitalizacion: ");
+        //                        if (DR.result == DigitalizacionResponse.results.Ok)
+        //                        {
+        //                            var js = JsonConvert.SerializeObject(SR);
+        //                        }
+        //                        else
+        //                        {
+        //                            ZClass.raiseerror(new Exception(DR.descError));
+        //                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Digitalizacion: " + DR.descError);
+        //                            var js = JsonConvert.SerializeObject(DR);
+        //                            return Ok(js);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        ZClass.raiseerror(new Exception(RR.descError));
+        //                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Recepcion: " + RR.descError);
+        //                        var js = JsonConvert.SerializeObject(RR);
+        //                        return Ok(js);
 
-                            }
-                        }
-                        else
-                        {
-                            ZClass.raiseerror(new Exception(SR.error));
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Firma: " + SR.error);
-                            var js = JsonConvert.SerializeObject(SR);
-                            return Ok(js);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    ZClass.raiseerror(new Exception(SR.error));
+        //                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en proceso de Firma: " + SR.error);
+        //                    var js = JsonConvert.SerializeObject(SR);
+        //                    return Ok(js);
 
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ZClass.raiseerror(ex);
-                        return Ok(ex);
-                    }
-                }
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                Zamba.Core.ZClass.raiseerror(e);
-                return Ok(e);
-            }
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ZClass.raiseerror(ex);
+        //                return Ok(ex);
+        //            }
+        //        }
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Zamba.Core.ZClass.raiseerror(e);
+        //        return Ok(e);
+        //    }
 
-        }
+        //}
 
 
 
@@ -2676,17 +2677,27 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
         }
 
-        private void AddonlineLog(List<string> lista, string title)
+        private void AddonlineLog(List<string> DespachanteList, List<string> ImpoExpoList, string title)
         {
             try
             {
-                lista.Add(title);
-                if (OnlineLog.Count > 5000) OnlineLog.Clear();
-                OnlineLog.Add(new onlineLog(OnlineLog.Count + 1, title, string.Empty, DateTime.Now));
+                DespachanteList.Add(title);
+                ImpoExpoList.Add(title);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ZClass.raiseerror(ex);
+                throw;
+            }
+        }
+        private void AddonlineLog(List<string> DespachanteList, string title)
+        {
+            try
+            {
+                DespachanteList.Add(title);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
