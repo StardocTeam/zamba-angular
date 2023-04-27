@@ -393,20 +393,8 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             Exception ex = new Exception(result.ToString());
                             ZClass.raiseerror(ex);
-                            insertResult IR = new insertResult
-                            {
-                                Id = 0,
-                                ReturnId = 0,
-                                ReturnValue = "",
-                                msg = "ERROR",
-                                error = result.ToString()
-                            };
-
-                            return JsonConvert.SerializeObject(IR, Formatting.Indented,
-                            new JsonSerializerSettings
-                            {
-                                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                            });
+                            return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError,
+        new HttpError(ex.ToString()))).ToString();
 
                         }
                     }
@@ -414,20 +402,8 @@ namespace ZambaWeb.RestApi.Controllers
                     catch (Exception ex)
                     {
                         ZClass.raiseerror(ex);
-                        insertResult IR = new insertResult
-                        {
-                            Id = 0,
-                            ReturnId = 0,
-                            ReturnValue = "",
-                            msg = "ERROR",
-                            error = ex.ToString()
-                        };
-
-                        return JsonConvert.SerializeObject(IR, Formatting.Indented,
-                        new JsonSerializerSettings
-                        {
-                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                        });
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError,
+        new HttpError(ex.ToString()))).ToString();
                     }
                     finally
                     {
@@ -442,9 +418,9 @@ namespace ZambaWeb.RestApi.Controllers
             }
             catch (Exception ex)
             {
+
                 Dictionary<object, object> datosInsert = new Dictionary<object, object>();
 
-                ZClass.raiseerror(ex);
                 ex.Data.Add("DocTypeId", insert.DocTypeId);
                 ex.Data.Add("UserId", insert.Userid);
                 ex.Data.Add("Id", string.Empty);
@@ -457,6 +433,8 @@ namespace ZambaWeb.RestApi.Controllers
                 }
 
                 ex.Data.Add("File", insert.file.data);
+
+                ZClass.raiseerror(ex);
 
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError,
          new HttpError(ex.ToString()))).ToString();
