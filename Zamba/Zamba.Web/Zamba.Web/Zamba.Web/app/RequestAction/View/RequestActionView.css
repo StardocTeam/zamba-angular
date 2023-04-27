@@ -13,7 +13,7 @@
     justify-content: center;
     /*border: 1px solid red;*/
     width: 50%;
-    height: 34px;
+    height: 37px;
     text-align: center;
     align-self: center;
     color: #ffffff;
@@ -21,6 +21,9 @@
     overflow: hidden !important;
 }
 
+.tab-button-selected {
+    background-color: #589fdc;
+}
 
 .tab-text {
     text-align: center;
@@ -136,4 +139,10 @@
     #backID {
         display: none;
     }
+}
+.z-nav {
+    background-color: #337ab7 !important;
+}
+.invoiceList {
+    margin-bottom:10px;
 }
