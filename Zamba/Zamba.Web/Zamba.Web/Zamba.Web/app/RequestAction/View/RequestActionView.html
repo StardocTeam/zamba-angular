@@ -87,7 +87,7 @@
                 <button class="btn btn-outline-info" ng-if="ListFacturas.length == 0" style="margin-top: 15px;"> No tienes tareas pendientes </button>
             </center>
             <div ng-repeat="lista in ListFacturas" style="margin-top: 80px;" ng-class="{selectedInvoice:lista.checked }">
-                <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{lista.ID + '-' + lista.ID1}}"
+                <div class="accordion-item animate-hide animation-target" id="{{lista.ID + '-' + lista.ID1}}"
                      ng-show="true">
                     <div id="{{lista.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                          data-bs-parent="#accordionExample">
@@ -95,11 +95,11 @@
 
                             <div class="">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
                                         <iframe id="{{lista.ID}}" style="width: 100%; height: 100%;"></iframe>
                                         <img id="{{lista.ID}}" style="width: 100%; height: 100%;display:none">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
 
                                         <div class="container-fluid" style="margin-top: 10px;">
 
@@ -207,7 +207,9 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <button ng-show="!lista.checked" type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
+                                            <div class="col-md-6" style="text-align: center">
+                                                <button ng-show="!lista.checked" type="button" class="btn btn-primary" ng-click="sendToseeLaterList(lista)" style="width: 100%">Revisar despues</button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -230,7 +232,7 @@
                 <button class="btn btn-outline-info" ng-if="seeLaterList.length == 0" style="margin-top: 15px;"> No tienes tareas para ver despues </button>
             </center>
             <div ng-repeat="invoice in seeLaterList" style="margin-top: 80px;" ng-class="{selectedInvoice:invoice.checked }">
-                <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{invoice.ID + '-' + invoice.ID1}}"
+                <div class="accordion-item animate-hide animation-target" id="{{invoice.ID + '-' + invoice.ID1}}"
                      ng-show="true">
                     <div id="{{invoice.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                          data-bs-parent="#accordionExample">
@@ -238,7 +240,7 @@
 
                             <div class="">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left: 0px !important; padding-right: 0px !important">
                                         <iframe id="{{invoice.ID}}" style="width: 100%; height: 100%;"></iframe>
                                         <img id="{{invoice.ID}}" style="width: 100%; height: 100%;display:none">
                                     </div>
