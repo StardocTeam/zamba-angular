@@ -24,6 +24,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
     $scope.$storage = $localStorage;
 
+    $scope.currentView = '';
     $scope.Titulo = "Procesando";
     $scope.Texto = "La operacion se esta llevando a cabo, por favor espere...";
     $scope.ComentarioResumen = "";
@@ -88,7 +89,12 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 invoice.checked = false;
             });
 
+           
             let pendingInvoiceList = [];
+            if (localStorage.getItem($scope.currentView +'-'+ $scope.userid) != null) {
+                var cacheList = JSON.parse(localStorage.getItem($scope.currentView + '-' + $scope.userid));
+                $scope.seeLaterList = cacheList;
+            }
             //comprueba que la factura NO este en el listado de Ver Despues
             if ($scope.seeLaterList.length > 0)
                 pendingInvoiceList = invoicesList.filter(item1 => !$scope.seeLaterList.some(item2 => item2.ID1 === item1.ID1));
@@ -97,8 +103,10 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
             $scope.ListFacturas = pendingInvoiceList;
             $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
+            $scope.totalInvoicesLateCount = $scope.seeLaterList.length;
 
             $scope.refreshIframe($scope.ListFacturas);
+            $scope.refreshIframe($scope.seeLaterList);
         }
     };
 
@@ -164,6 +172,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             if (filteredItem != undefined) {
                 $scope.seeLaterList.push(filteredItem[0]);
                 $scope.removeInvoiceFromPendingList($scope.ListFacturas, item.ID, item.ID1);
+
+                localStorage.setItem($scope.currentView + '-' + $scope.userid, JSON.stringify($scope.seeLaterList));
+                console.log($scope.currentView + '-' + $scope.userid);
                 $scope.totalInvoicesPendingCount = $scope.ListFacturas.length;
                 $scope.totalInvoicesLateCount = $scope.seeLaterList.length;
             }
@@ -217,6 +228,16 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 }]
                 RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
                     .then(function (result) {
+
+                        if (!$scope.showPendingTab) {
+                            if (localStorage.getItem($scope.currentView + '-' + $scope.userid) != null) {
+
+                                var cacheList = JSON.parse(localStorage.getItem($scope.currentView + '-' + $scope.userid));
+
+                                $scope.removeInvoiceFromPendingList(cacheList, item.ID, item.ID1);
+                                localStorage.setItem($scope.currentView + '-' + $scope.userid, JSON.stringify(cacheList));
+                            }
+                        }
                         result = JsonValidator(result);
 
                         ResponseNotificationForSelectedInvoices(result, item.ID, item.ID1);
@@ -265,9 +286,22 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 }]
                 RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
                     .then(function (result) {
+
+                        if (!$scope.showPendingTab) {
+                            if (localStorage.getItem($scope.currentView + '-' + $scope.userid) != null) {
+
+                                var cacheList = JSON.parse(localStorage.getItem($scope.currentView + '-' + $scope.userid));
+
+                                $scope.removeInvoiceFromPendingList(cacheList, item.ID, item.ID1);
+                                localStorage.setItem($scope.currentView + '-' + $scope.userid, JSON.stringify(cacheList));
+                            }
+                        }
+
                         result = JsonValidator(result);
 
                         ResponseNotificationForSelectedInvoices(result, item.ID, item.ID1);
+
+
                         if (($scope.selectedInvoicesAux.length - 1) == i) {
                             hideLoading();
                             Swal.fire({
@@ -994,6 +1028,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             $scope.AprobarTodosId = 11547097;
             $scope.RechazarId = 11546880;
             $scope.AprobarTodosForMailId = 11546636;
+            $scope.currentView = "Pendientes";
         }
         else if ($scope.actiontypeid == "1") {
             $scope.reportId = 11535117;
@@ -1001,6 +1036,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             $scope.AprobarTodosId = 11547091;
             $scope.RechazarId = 11546880;
             $scope.AprobarTodosForMailId = 11546640;
+            $scope.currentView = "Conformacion"
         }
         else if ($scope.actiontypeid == "2") {
             $scope.reportId = 11535126;
@@ -1008,7 +1044,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             $scope.Aprobar_ResumenGerencialId = 11547820;
             $scope.Devolver_ResumenGerencialId = 11547815;
             $scope.Devolver_RG_Anterior = 11535147;
+            $scope.currentView = "ResumenGerencial";
         }
+        console.log($scope.currentView);
     }
 
     $scope.btnRefresh = function () {

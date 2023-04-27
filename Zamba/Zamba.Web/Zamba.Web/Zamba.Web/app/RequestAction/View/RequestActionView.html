@@ -1,7 +1,7 @@
 ﻿<div id="z-main-panel">
     <div class='list-container-invoices'>
 
-        <nav class="navbar  navbar-expand   navbar-light bg-light" style="background: linear-gradient(135deg, #7cf1e9 0%,#00a3db 100%) !important;">
+        <nav class="navbar  navbar-expand   navbar-light bg-light z-nav" >
             <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white; margin-left: 15px; margin-right: -10px; margin-top: 2px; width: 40px" role="button" tabindex="0"></i>
             <a ng-click="setUrlParameters()" id="backID" class="nav-link" href="#" style="color: white; margin-left: -15px">
 
@@ -82,11 +82,11 @@
 
 
         <!-- Panel Pending-->
-        <div class="accordion pending-panel" style="margin-top: 55px;" ng-show="showPendingTab">
+        <div class="accordion pending-panel" style="margin-top: 63px;" ng-show="showPendingTab">
             <center>
                 <button class="btn btn-outline-info" ng-if="ListFacturas.length == 0" style="margin-top: 15px;"> No tienes tareas pendientes </button>
             </center>
-            <div ng-repeat="lista in ListFacturas" style="margin-top: 80px;" ng-class="{selectedInvoice:lista.checked }">
+            <div ng-repeat="lista in ListFacturas" class="invoiceList" ng-class="{selectedInvoice:lista.checked }">
                 <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{lista.ID + '-' + lista.ID1}}"
                      ng-show="true">
                     <div id="{{lista.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -225,11 +225,11 @@
         </div>
         <!-- END Panel Pending-->
         <!-- Panel SeeLater-->
-        <div class="accordion pending-panel" style="margin-top: 55px;" ng-show="!showPendingTab">
+        <div class="accordion pending-panel" style="margin-top: 63px;" ng-show="!showPendingTab">
             <center>
                 <button class="btn btn-outline-info" ng-if="seeLaterList.length == 0" style="margin-top: 15px;"> No tienes tareas para ver despues </button>
             </center>
-            <div ng-repeat="invoice in seeLaterList" style="margin-top: 80px;" ng-class="{selectedInvoice:invoice.checked }">
+            <div ng-repeat="invoice in seeLaterList"  class="invoiceList" ng-class="{selectedInvoice:invoice.checked }">
                 <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{invoice.ID + '-' + invoice.ID1}}"
                      ng-show="true">
                     <div id="{{invoice.ID}}" class="accordion-collapse collapse show" aria-labelledby="headingOne"
@@ -403,10 +403,11 @@
     <!-- TABS -->
     <div class="footer-tabs-container">
         <div class="tab-container">
-            <div id="Pending-btn" class="tab-button" ng-click="tabButtonOnClick('Pending')">
+            
+            <div id="Pending-btn" class="tab-button" ng-click="tabButtonOnClick('Pending')" ng-class="{'tab-button-selected': showPendingTab}">
                 <div class="tab-text">Pendientes</div>
             </div>
-            <div id="SeeLater-btn" class="tab-button" ng-click="tabButtonOnClick('SeeLater')">
+            <div id="SeeLater-btn" class="tab-button" ng-click="tabButtonOnClick('SeeLater')" ng-class="{'tab-button-selected': !showPendingTab}">
                 <div class="tab-text">Ver Despues</div>
             </div>
         </div>
