@@ -80,8 +80,8 @@
 <div ng-if="!alreadyAuth">
     <div class="limiter" id="logiPanel">
 
-        <div class="container-login100">
-            <div class="wrap-login100">
+        <div class="container-login100" style="background-color: white">
+            <div class="wrap-login100" style="padding: 60px 15px 115px 15px !important; height:100% !important">
                 <form class="login100-form validate-form">
                     <div style=" padding: 1px;display: inline;  margin-right: 15px; ">
                         <img ng-cloak ng-if="thumphoto != null  "
@@ -97,7 +97,9 @@
     </span>-->
 
                     <div class="wrap-input100 validate-input animate__animated animate__backInUp"
-                         data-validate="Valid email is: a@b.c">
+                         data-validate="Valid email is: a@b.c" style="
+    margin-top: 48px;
+">
                         <span class="txt1">
                             Usuario
                         </span>
@@ -122,7 +124,9 @@
                     </div>
 
                     <div class="container-login100-form-btn animate__animated animate__backInUp">
-                        <div class="wrap-login100-form-btn">
+                        <div class="wrap-login100-form-btn" style="
+    margin-top: 20px; 
+">
                             <div class="login100-form-bgbtn"></div>
                             <button class="login100-form-btn" ng-click="Login()">
                                 Ingresar
@@ -132,7 +136,7 @@
 
                     <div class="text-center stardoc-text animate__animated animate__backInUp">
                         <span class="txt1">
-                            <img src="../../../Content/Images/logozamba.jpg" alt="Zamba Logo" style="width: 130px; margin-right: 2px" />
+                            <img src="../../../Content/Images/logozamba.jpg" alt="Zamba Logo" style="width: 130px; margin-right: 2px; margin-top: 90px;" />
                         </span>
 
                         <!-- <a class="txt2" href="#">
