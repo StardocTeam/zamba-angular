@@ -95,11 +95,11 @@
 
                             <div class="">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
                                         <iframe id="{{lista.ID}}" style="width: 100%; height: 100%;"></iframe>
                                         <img id="{{lista.ID}}" style="width: 100%; height: 100%;display:none">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
 
                                         <div class="container-fluid" style="margin-top: 10px;">
 
@@ -207,7 +207,9 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <button ng-show="!lista.checked" type="button" class="btn btn-lg" ng-click="sendToseeLaterList(lista)">Revisar despues</button>
+                                            <div class="col-md-6" style="text-align: center">
+                                                <button ng-show="!lista.checked" type="button" class="btn btn-primary" ng-click="sendToseeLaterList(lista)" style="width: 100%">Revisar despues</button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -238,7 +240,7 @@
 
                             <div class="">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left: 0px !important; padding-right: 0px !important">
                                         <iframe id="{{invoice.ID}}" style="width: 100%; height: 100%;"></iframe>
                                         <img id="{{invoice.ID}}" style="width: 100%; height: 100%;display:none">
                                     </div>
