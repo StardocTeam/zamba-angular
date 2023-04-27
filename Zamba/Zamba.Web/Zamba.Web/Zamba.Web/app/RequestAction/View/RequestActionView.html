@@ -155,7 +155,7 @@
                                                     <label class="control-label ColorText"
                                                            style="font-size: 12px;">Area</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.AREA}}</p>
+                                                        <p class="form-control-static" style="font-size:16px">{{lista.AREA}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -244,7 +244,7 @@
                                         <iframe id="{{invoice.ID}}" style="width: 100%; height: 100%;"></iframe>
                                         <img id="{{invoice.ID}}" style="width: 100%; height: 100%;display:none">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style=" padding-left: 0px !important; padding-right: 0px !important">
 
                                         <div class="container-fluid" style="
     margin-top: 10px;
@@ -261,14 +261,14 @@
                                                     <label class=" control-label ColorText"
                                                            style="font-size: 12px;">Moneda</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{invoice.MONEDA}}</p>
+                                                        <p class="form-control-static" style="font-size:16px">{{invoice.MONEDA}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-6">
                                                     <label class=" control-label ColorText"
                                                            style="font-size: 12px;">Importe</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{invoice.IMPORTE}}</p>
+                                                        <p class="form-control-static" style="font-size:16px">{{invoice.IMPORTE}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-3">
@@ -279,7 +279,7 @@
                                                     <label class="control-label ColorText"
                                                            style="font-size: 12px;">Tipo</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{invoice.TIPO_GASTO}}</p>
+                                                        <p class="form-control-static" style="font-size:16px">{{invoice.TIPO_GASTO}}</p>
                                                     </div>
                                                 </div>
 
@@ -303,29 +303,42 @@
                                                 <div class="col-3">
                                                     <button type="button" ng-click="Aprobar(invoice.ID1,invoice.ID)"
                                                             class="btn  btn-lg"
-                                                            style="color: limegreen; font-size: 36px ">
-                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                            style="color: #2b9c2b; font-size: 36px ">
+                                                        <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                            check_circle
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
 
                                                     <button type="button" ng-click="Rechazar(invoice.ID1,invoice.ID)"
-                                                            class="btn  btn-lg" style="color: orangered; font-size: 36px;">
-                                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                                            class="btn  btn-lg" style="color: #b33000; font-size: 36px;">
+                                                        <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                            cancel
+                                                        </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
                                                     <a id="{{invoice.ID}}" target="_blank" rel="opener" style="text-decoration:none">
-                                                        <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
-                                                            <i class="fa fa-info" aria-hidden="true"></i>
+                                                        <button type="button" class="btn  btn-lg" style="color: #265b8f; font-size: 36px;">
+                                                            <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                                info
+                                                            </span>
                                                         </button>
                                                     </a>
                                                 </div>
                                                 <div class="col-3">
                                                     <a ng-click="sentToMultiSelect(invoice)">
-                                                        <button type="button" class="btn  btn-lg" style="color: dodgerblue; font-size: 36px;">
-                                                            <i ng-if="invoice.checked" class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            <i ng-if="!invoice.checked" class="fa fa-square-o" aria-hidden="true"></i>
+                                                        <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
+                                                         
+                                                            <span class="material-symbols-outlined" ng-if="invoice.checked" style="font-size: 36px;">
+                                                                radio_button_checked
+                                                            </span>
+                                                            <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
+                                                            <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
+                                                            <span class="material-symbols-outlined" ng-if="!invoice.checked" style="font-size: 36px;">
+                                                                radio_button_unchecked
+                                                            </span>
                                                         </button>
                                                     </a>
                                                 </div>
