@@ -49,7 +49,7 @@
                             </div>
                         </a>
                         <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoicesLate.length > 0" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
-                            
+
                             <div ng-if="!showPendingTab">
                                 <span style=" line-height: inherit;" class="badge bg-danger">
                                     {{selectedInvoicesLate.length + '/' + totalInvoicesLateCount}}
@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="col-md-6">
 
-                                        <div class="container-fluid">
+                                        <div class="container-fluid" style="margin-top: 10px;">
 
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -112,23 +112,23 @@
                                             <div class="row">
                                                 <div class="form-group col-3">
                                                     <label class=" control-label ColorText"
-                                                           style="font-size: 10px;">Moneda</label>
+                                                           style="font-size: 12px;">Moneda</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.MONEDA}}</p>
+                                                        <p class="form-control-static" style="font-size: 16px">{{lista.MONEDA}}</p>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-6">
                                                     <label class=" control-label ColorText"
-                                                           style="font-size: 10px;">Importe</label>
+                                                           style="font-size: 12px;">Importe</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.IMPORTE}}</p>
+                                                        <p class="form-control-static" style="font-size: 16px">{{lista.IMPORTE}}</p>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-3">
                                                     <label class=" control-label ColorText"
-                                                           style="color: #6c757d;font-size: 10px;float: right;">{{lista.ID}}</label>
+                                                           style="color: #6c757d;font-size: 12px;float: right;">{{lista.ID}}</label>
 
                                                 </div>
 
@@ -137,23 +137,23 @@
 
                                                 <div class="form-group col-12">
                                                     <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Tipo</label>
+                                                           style="font-size: 12px;">Tipo</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.TIPO_GASTO}}</p>
+                                                        <p class="form-control-static" style="font-size:16px">{{lista.TIPO_GASTO}}</p>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-12">
                                                     <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Concepto</label>
+                                                           style="font-size: 12px;">Concepto</label>
                                                     <div class="col-lg-10">
-                                                        <p class="form-control-static">{{lista.CONCEPTO}}</p>
+                                                        <p class="form-control-static" style="font-size:16px">{{lista.CONCEPTO}}</p>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group col-12">
                                                     <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Area</label>
+                                                           style="font-size: 12px;">Area</label>
                                                     <div class="col-lg-10">
                                                         <p class="form-control-static">{{lista.AREA}}</p>
                                                     </div>
@@ -162,12 +162,12 @@
 
                                             <div class="row">
                                                 <div class="col-3">
-                                                    
+
                                                     <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)"
                                                             class="btn  btn-lg"
                                                             style="color: #2b9c2b; font-size: 36px ">
 
-                                                       
+
                                                         <span class="material-symbols-outlined" style="font-size: 36px;">
                                                             check_circle
                                                         </span>
@@ -196,12 +196,12 @@
                                                     <a ng-click="sentToMultiSelect(lista)">
                                                         <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
                                                             <span class="material-symbols-outlined" ng-if="lista.checked" style="font-size: 36px;">
-                                                                radio_button_unchecked
+                                                                radio_button_checked
                                                             </span>
                                                             <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
                                                             <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
                                                             <span class="material-symbols-outlined" ng-if="!lista.checked" style="font-size: 36px;">
-                                                                radio_button_checked
+                                                                radio_button_unchecked
                                                             </span>
                                                         </button>
                                                     </a>
@@ -244,7 +244,9 @@
                                     </div>
                                     <div class="col-md-6">
 
-                                        <div class="container-fluid">
+                                        <div class="container-fluid" style="
+    margin-top: 10px;
+">
 
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -255,25 +257,25 @@
                                             <div class="row">
                                                 <div class="form-group col-3">
                                                     <label class=" control-label ColorText"
-                                                           style="font-size: 10px;">Moneda</label>
+                                                           style="font-size: 12px;">Moneda</label>
                                                     <div class="col-lg-10">
                                                         <p class="form-control-static">{{invoice.MONEDA}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-6">
                                                     <label class=" control-label ColorText"
-                                                           style="font-size: 10px;">Importe</label>
+                                                           style="font-size: 12px;">Importe</label>
                                                     <div class="col-lg-10">
                                                         <p class="form-control-static">{{invoice.IMPORTE}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-3">
                                                     <label class=" control-label ColorText"
-                                                           style="color: #6c757d;font-size: 10px;float: right;">{{invoice.ID}}</label>
+                                                           style="color: #6c757d;font-size: 12px;float: right;">{{invoice.ID}}</label>
                                                 </div>
                                                 <div class="form-group col-12">
                                                     <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Tipo</label>
+                                                           style="font-size: 12px;">Tipo</label>
                                                     <div class="col-lg-10">
                                                         <p class="form-control-static">{{invoice.TIPO_GASTO}}</p>
                                                     </div>
@@ -281,14 +283,14 @@
 
                                                 <div class="form-group col-12">
                                                     <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Concepto</label>
+                                                           style="font-size: 12px;">Concepto</label>
                                                     <div class="col-lg-10">
                                                         <p class="form-control-static">{{invoice.CONCEPTO}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-12">
                                                     <label class="control-label ColorText"
-                                                           style="font-size: 10px;">Area</label>
+                                                           style="font-size: 12px;">Area</label>
                                                     <div class="col-lg-10">
                                                         <p class="form-control-static">{{invoice.AREA}}</p>
                                                     </div>
