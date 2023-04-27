@@ -1257,15 +1257,22 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
                 //izquierda
                 if (distance < 0) {
-                    $scope.showPendingTab = false;
-                    console.log("Izquierda");
-                    $scope.tabButtonOnClick("Pending");
+                    console.log("distancia recorrida del dedo:" + distance);
+                     //NC:cambiando este valor se puede ajustar la sensibilidad
+                    if (distance < -80) {
+                        $scope.showPendingTab = false;
+                        $scope.tabButtonOnClick("SeeLater");
+                    }
                 }
                 //derecha
                 if (distance > 0) {
-                    $scope.showPendingTab = true;
-                    console.log("Derecha");
-                    $scope.tabButtonOnClick("SeeLater");
+                    //NC:cambiando este valor se puede ajustar la sensibilidad
+                    if (distance > -80) {
+                        console.log("distancia recorrida del dedo:" + distance);
+                        $scope.showPendingTab = true;
+                        $scope.tabButtonOnClick("Pending");
+                    }
+
                 }
             }, false);
         } catch (e) {
@@ -1285,7 +1292,12 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             console.log("Objeto Lista Ver Despues:");
             $scope.refreshIframe($scope.seeLaterList);
         }
-        $scope.$apply();
+        try {
+            $scope.$apply();
+        } catch (e) {
+
+        }
+        
     }
 
     String.prototype.replaceAll = function (search, replacement) {
