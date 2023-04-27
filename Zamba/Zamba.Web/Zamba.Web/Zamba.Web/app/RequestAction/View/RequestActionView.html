@@ -31,27 +31,27 @@
 
                 <ul class="navbar-nav" style=" flex-direction: row">
                     <li class="nav-item">
-                        <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
-                            <span style=" line-height: inherit;" class="badge bg-danger">
+                        <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; ">
+                            <span style=" line-height: inherit;" class="badge bg-danger ">
                                 {{totalInvoicesPendingCount}}
                             </span> Aprobar todo
                         </a>
-                        <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="seeLaterList.length > 0 && selectedInvoicesLate.length == 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
-                            <span style=" line-height: inherit;" class="badge bg-danger">
+                        <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="seeLaterList.length > 0 && selectedInvoicesLate.length == 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; ">
+                            <span style=" line-height: inherit;" class="badge bg-danger ">
                                 {{totalInvoicesLateCount}}
                             </span> Aprobar todo
                         </a>
-                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; ">
                             <div ng-if="showPendingTab">
-                                <span style=" line-height: inherit;" class="badge bg-danger">
+                                <span style=" line-height: inherit;" class="badge bg-danger ">
                                     {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
                                 </span> Aprobar seleccionadas
                             </div>
                         </a>
-                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoicesLate.length > 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; width: 200px">
+                        <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoicesLate.length > 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white;">
 
                             <div ng-if="!showPendingTab">
-                                <span style=" line-height: inherit;" class="badge bg-danger">
+                                <span style=" line-height: inherit;" class="badge bg-danger ">
                                     {{selectedInvoicesLate.length + '/' + totalInvoicesLateCount}}
                                 </span> Aprobar seleccionadas
                             </div>
@@ -163,29 +163,29 @@
                                             <div class="row">
                                                 <div class="col-3">
 
-                                                    <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)"
+                                                    <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)" ng-cloak
                                                             class="btn  btn-lg"
                                                             style="color: #2b9c2b; font-size: 36px ">
 
 
-                                                        <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                        <span class="material-symbols-outlined" style="font-size: 36px;" >
                                                             check_circle
                                                         </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
 
-                                                    <button type="button" ng-click="Rechazar(lista.ID1,lista.ID)"
+                                                    <button type="button" ng-click="Rechazar(lista.ID1,lista.ID)" ng-cloak
                                                             class="btn  btn-lg" style="color: #b33000; font-size: 36px;">
-                                                        <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                        <span class="material-symbols-outlined" style="font-size: 36px;" >
                                                             cancel
                                                         </span>
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
-                                                    <a id="{{lista.ID}}" target="_blank" rel="opener" style="text-decoration:none">
+                                                    <a id="{{lista.ID}}" target="_blank" rel="opener" style="text-decoration:none" ng-cloak>
                                                         <button type="button" class="btn  btn-lg" style="color: #265b8f; font-size: 36px;">
-                                                            <span class="material-symbols-outlined" style="font-size: 36px;">
+                                                            <span class="material-symbols-outlined" style="font-size: 36px;" >
                                                                 info
                                                             </span>
                                                         </button>
@@ -193,14 +193,14 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-3">
-                                                    <a ng-click="sentToMultiSelect(lista)">
+                                                    <a ng-click="sentToMultiSelect(lista)" ng-cloak>
                                                         <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
-                                                            <span class="material-symbols-outlined" ng-if="lista.checked" style="font-size: 36px;">
+                                                            <span class="material-symbols-outlined" ng-if="lista.checked" style="font-size: 36px;" >
                                                                 radio_button_checked
                                                             </span>
                                                             <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
                                                             <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
-                                                            <span class="material-symbols-outlined" ng-if="!lista.checked" style="font-size: 36px;">
+                                                            <span class="material-symbols-outlined" ng-if="!lista.checked" style="font-size: 36px;" >
                                                                 radio_button_unchecked
                                                             </span>
                                                         </button>
