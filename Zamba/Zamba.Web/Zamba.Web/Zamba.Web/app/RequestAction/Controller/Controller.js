@@ -1267,7 +1267,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 //derecha
                 if (distance > 0) {
                     //NC:cambiando este valor se puede ajustar la sensibilidad
-                    if (distance > -80) {
+                    if (distance > 80) {
                         console.log("distancia recorrida del dedo:" + distance);
                         $scope.showPendingTab = true;
                         $scope.tabButtonOnClick("Pending");

@@ -61,9 +61,13 @@
     pointer-events: none;
     animation: ripple .5s linear;
 }
+.z-btn-toolbar {
+    width: auto !important;
+    padding: 10px 16px !important;
+    color: white !important;
+}
 
 @keyframes ripple {
-
     0% {
         width: 0;
         height: 0;
