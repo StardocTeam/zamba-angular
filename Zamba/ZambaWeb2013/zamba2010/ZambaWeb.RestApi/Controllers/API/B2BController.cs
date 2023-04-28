@@ -118,6 +118,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                 AccountController AC = new AccountController();
                 AC.LoginById(paramRequest.UserId);
                 byte[] _file = null;
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada al metodo api/b2b/GetResultFileByDocId");
 
                 try
                 {
@@ -134,7 +135,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                     {
                         DocumentData DD = new DocumentData();
 
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Doc Data");
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Creando DocuentData");
                         string newPDFFile = string.Empty;
 
                         string userId = MembershipHelper.CurrentUser.ID.ToString();
@@ -180,8 +181,8 @@ namespace ZambaWeb.RestApi.Controllers.API
                         {
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "ToJson Archivo");
                             var jsonDD = JsonConvert.SerializeObject(DD);
-                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "return Json");
-                            return Ok(jsonDD);
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "return Json ");
+                            return Ok(DD);
                         }
                         catch (Exception ex)
                         {
@@ -190,14 +191,14 @@ namespace ZambaWeb.RestApi.Controllers.API
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "ToJson Archivo With EX");
                             var jsonDD = JsonConvert.SerializeObject(DD);
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "return Json with EX");
-                            return Ok(jsonDD);
+                            return Ok(DD);
                         }
 
                     }
                     catch (Exception ex)
                     {
                         //return Ok(System.Convert.FromBase64String(GetDocumentData(paramRequest.UserId.ToString(), docTypeId.ToString(), docId.ToString(), ref convertToPDf, res)));
-
+                        ZClass.raiseerror(ex);
                         throw ex;
                     }
 
@@ -314,7 +315,7 @@ namespace ZambaWeb.RestApi.Controllers.API
             SResult sResult = new SResult();
 
             long DocTypeId, DocId, userID;
-
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada a GetDocumentData en b2bController");
             if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(doctypeId) && !string.IsNullOrEmpty(docId))
             {
                 DocTypeId = long.Parse(doctypeId);
@@ -739,7 +740,7 @@ namespace ZambaWeb.RestApi.Controllers.API
             SResult sResult = new SResult();
 
             long DocTypeId, DocId, userID;
-
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada a GetBytesFromDocument en b2bController");
             if (!string.IsNullOrEmpty(userId) && !string.IsNullOrEmpty(doctypeId) && !string.IsNullOrEmpty(docId))
             {
                 DocTypeId = long.Parse(doctypeId);
@@ -1156,7 +1157,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                 string docTypeId = "";
                 bool convertToPDf = false;
                 long userId = 0;
-
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada al metodo api/b2b/GetDocFilePOSTMethod");
                 docid = paramRequest.Params["DocId"].ToString();
                 docTypeId = paramRequest.Params["DocTypeId"].ToString();
                 convertToPDf = Boolean.Parse(paramRequest.Params["ConvertToPDf"]);
@@ -1193,7 +1194,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                     responseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(res.MimeType);
                     responseMessage.Content.Headers.ContentDisposition.FileName = res.Name + "." + res.Doc_File.Split('.').Last();
                 }
-
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada al metodo api/b2b/GetDocFilePOSTMethod");
                 return responseMessage;
             }
             catch (Exception ex)
@@ -1214,6 +1215,7 @@ namespace ZambaWeb.RestApi.Controllers.API
         {
             try
             {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada al metodo api/b2b/GetDocFileGETMethod");
                 string docid = "";
                 string docTypeId = "";
                 bool convertToPDf = false;
@@ -1256,7 +1258,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                     responseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(res.MimeType);
                     responseMessage.Content.Headers.ContentDisposition.FileName = res.Name + "." + res.Doc_File.Split('.').Last();
                 }
-
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "fin de llamada al metodo api/b2b/GetDocFileGETMethod");
                 return responseMessage;
             }
             catch (Exception ex)
@@ -1267,6 +1269,7 @@ namespace ZambaWeb.RestApi.Controllers.API
         }
         private static byte[] GetFilesBytesFromDB(IResult res, SZOptBusiness Zopt, SResult sResult, long userID, ref bool IsBlob)
         {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "llamada al metodo GetFilesBytesFromDB en b2bController");
             byte[] _file;
             if (res.Disk_Group_Id > 0 && (VolumesBusiness.GetVolumeType(res.Disk_Group_Id) == (int)VolumeType.DataBase || (!String.IsNullOrEmpty(Zopt.GetValue("ForceBlob")) && bool.Parse(Zopt.GetValue("ForceBlob")))))
             {

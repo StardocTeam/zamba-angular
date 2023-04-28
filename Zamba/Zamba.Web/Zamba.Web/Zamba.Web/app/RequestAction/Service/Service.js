@@ -146,7 +146,7 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
         });
     }
 
-    var _executeTaskRule = function (userId, ruleId, docId, formVariables, callBack) {
+    var _executeTaskRule = function (userId, ruleId, resultIds, formVariables, callBack) {
 
         var deferred = $q.defer();
 
@@ -157,7 +157,7 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
                 userId: parseInt(userId),
                 Params: {
                     ruleId: parseInt(ruleId),
-                    resultIds: parseInt(docId),
+                    resultIds: parseInt(resultIds),
                     FormVariables: formVariables
                 }
             };
@@ -166,7 +166,7 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
                 userId: parseInt(userId),
                 Params: {
                     ruleId: parseInt(ruleId),
-                    resultIds: parseInt(docId)
+                    resultIds: resultIds
                 }
             };
         }

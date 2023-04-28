@@ -366,6 +366,10 @@
     <Folder Include="images\Thumbnails\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ZambaFramework\Zamba.FWEL\Zamba.FWEL\Zamba.FWEL.csproj">
+      <Project>{4db15aa8-b270-40d4-bf54-e653935381f1}</Project>
+      <Name>Zamba.FWEL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
       <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
       <Name>Zamba.FWInterfaces</Name>
@@ -462,7 +466,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

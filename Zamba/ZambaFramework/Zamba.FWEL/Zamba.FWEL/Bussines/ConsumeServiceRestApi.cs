@@ -22,7 +22,7 @@ namespace Zamba.Core
             webRequest.Accept = "application/json";
             webRequest.ContentType = "application/json";
             webRequest.Method = Method;
-            if (Method == "POST")
+            if (Method.ToUpper() == "POST")
             {
                 ASCIIEncoding encoding = new ASCIIEncoding();
                 byte[] bytes = encoding.GetBytes(JsonMessage);
@@ -48,17 +48,15 @@ namespace Zamba.Core
                 JsonMessage = JsonConvert.SerializeObject(Obj);
 
             string RestApi = System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"];
-            string Domain = HttpContext.Current.Request.Url.Scheme + "://"+ HttpContext.Current.Request.Url.Authority;
+            string Domain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
 
             //TODO: revisar si en la url figura api
-            string Url =  Domain + "/" + RestApi + "/api/" + Controller + "/" + ServiceName;
-
+            string Url = Domain + "/" + RestApi + "/api/" + Controller + "/" + ServiceName;
             string response = CallServiceRestApi(Url, Method, JsonMessage);
-
             return response;
         }
 
-        public DocumentData GetDocumentData(long userId, string doctypeId, string docId, bool convertToPDf, bool MsgPreview, bool includeAttachs)
+        public DocumentData GetDocumentData(long userId, string doctypeId, string docId, bool convertToPDf, bool MsgPreview, bool includeAttachs, string newPDFFile)
         {
             Dictionary<string, string> Params = new Dictionary<string, string>();
             Params.Add("DocId", docId);
@@ -74,7 +72,7 @@ namespace Zamba.Core
             };
 
             //TODO: revisar si en la url figura api        
-            string JsonResponse = CallServiceZambaRestApi("b2b", "GetResultFileByDocId", "POST", GRequest);
+            string JsonResponse = CallServiceZambaRestApi("b2b", "GetResultFileByDocId", "post", GRequest);
             DocumentData response = JsonConvert.DeserializeObject<DocumentData>(JsonResponse);
 
             return response;
@@ -102,6 +100,5 @@ namespace Zamba.Core
         public bool isMsg { get; set; }
         public List<string> to { get; set; }
         public List<object> attachs { get; set; }
-
     }
 }

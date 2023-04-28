@@ -1,9 +1,9 @@
 ﻿<div class=''>
     <div class='wrapper'>
-        <nav class="navbar  navbar-expand   navbar-light bg-light">
-            <div ng-if="selectedSummary == null">
-                <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white;margin-left: 15px;margin-right: -10px;margin-top: 8px;" role="button" tabindex="0"></i>
-                <a ng-click="setUrlParameters()" class="nav-link" href="#" style="color: white;margin-left: 20px;margin-top: -30px;">
+        <nav class="navbar  navbar-expand   navbar-light bg-light z-nav" >
+            <div ng-if="selectedSummary == null"  >
+                <i class="fa fa-arrow-left" ng-click="setUrlParameters()" aria-hidden="true" style="color: white;margin-left: 15px;margin-right: -10px;margin-top: 8px; width: 40px" role="button" tabindex="0"></i>
+                <a ng-click="setUrlParameters()" class="nav-link" id="backID" href="#" style="color: white;margin-left: 20px;margin-top: -32px;">
                     Atras
                 </a>
             </div>
@@ -24,7 +24,7 @@
                             <img ng-cloak ng-if="thumphoto == null "
                                  src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
                                  class=" img-circle ng-show"
-                                 style="width: 37px;height: 33px;margin-top: 0px;margin-left:-5px; border-radius: 17px;" />
+                                 style="width: 37px;height: 33px;margin-top: 0px;margin-left:-15px; border-radius: 17px;" />
                         </div>
 
 
@@ -598,7 +598,6 @@
         .bg-light {
             /*background-color: #0a58ca !important;*/
             /* background: linear-gradient(135deg, #13f1fc 0%,#0470dc 100%); */
-            background: linear-gradient(135deg, #00adff 0%,#012ca5 100%);
             margin-bottom: 25px;
         }
 
@@ -701,5 +700,12 @@ Full screen Modal
         .devolverStyleButton:hover {
             background-color: #e5e5e5;
         }
+
+        @media only screen and (min-width : 320px) and (max-width : 960px) {
+            #backID {
+                display: none;
+            }
+        }
+        
     </style>
 </div>
