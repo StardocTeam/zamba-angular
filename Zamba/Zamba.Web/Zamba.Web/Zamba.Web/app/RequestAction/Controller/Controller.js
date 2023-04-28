@@ -200,10 +200,24 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         window.close();
     }
 
-    $scope.Aprobar = function (docId, idElemento) {
+    $scope.Aprobar = function (docId, idElemento, DocTypeid) {
         showLoading();
+        var resultIds = [{
+            Docid: docId,
+            DocTypeid: DocTypeid
+        }]
         RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, docId, null)
+        //RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
             .then(function (result) {
+                if (!$scope.showPendingTab) {
+                    if (localStorage.getItem($scope.currentView + '-' + $scope.userid) != null) {
+
+                        var cacheList = JSON.parse(localStorage.getItem($scope.currentView + '-' + $scope.userid));
+
+                        $scope.removeInvoiceFromPendingList(cacheList, idElemento, docId);
+                        localStorage.setItem($scope.currentView + '-' + $scope.userid, JSON.stringify(cacheList));
+                    }
+                }
                 result = JsonValidator(result);
                 ResponseNotification(result, idElemento, docId);
                 $scope.LoadResults();
@@ -226,7 +240,8 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                     Docid: item.ID1,
                     DocTypeid: item.EID
                 }]
-                RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
+               RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, item.ID1, null)
+                //RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
                     .then(function (result) {
 
                         if (!$scope.showPendingTab) {
@@ -284,7 +299,8 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                     Docid: item.ID1,
                     DocTypeid: item.EID
                 }]
-                RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
+                //RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, JSON.stringify(resultIds), null)
+                RequestServices.executeTaskRule($scope.userid, $scope.AprobarId, item.ID1, null)
                     .then(function (result) {
 
                         if (!$scope.showPendingTab) {
@@ -541,7 +557,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         alert(asd);
     };
 
-    $scope.Rechazar = function (docId, idElemento) {
+    $scope.Rechazar = function (docId, idElemento, DocTypeid) {
 
         var a = false
         Swal.fire({
@@ -552,11 +568,24 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         }).then(function (result) {
             showLoading();
             if (result.value) {
+                var resultIds = [{
+                    Docid: docId,
+                    DocTypeid: DocTypeid
+                }]
                 $scope.FormsVariables = '[{"name":"motivo", "value":"' + result.value + '"}]'
+                //RequestServices.executeTaskRule($scope.userid, $scope.RechazarId, JSON.stringify(resultIds), $scope.FormsVariables).then(function (result) {
                 RequestServices.executeTaskRule($scope.userid, $scope.RechazarId, docId, $scope.FormsVariables).then(function (result) {
                     result = JsonValidator(result);
                     ResponseNotification(result, idElemento, docId);
+                    if (!$scope.showPendingTab) {
+                        if (localStorage.getItem($scope.currentView + '-' + $scope.userid) != null) {
 
+                            var cacheList = JSON.parse(localStorage.getItem($scope.currentView + '-' + $scope.userid));
+
+                            $scope.removeInvoiceFromPendingList(cacheList, idElemento, docId);
+                            localStorage.setItem($scope.currentView + '-' + $scope.userid, JSON.stringify(cacheList));
+                        }
+                    }
 
                     $scope.LoadResults();
                     hideLoading();

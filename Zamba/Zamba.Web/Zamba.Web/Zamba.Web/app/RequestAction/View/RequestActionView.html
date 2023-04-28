@@ -163,7 +163,7 @@
                                             <div class="row">
                                                 <div class="col-3">
 
-                                                    <button type="button" ng-click="Aprobar(lista.ID1,lista.ID)" ng-cloak
+                                                    <button type="button" ng-click="Aprobar(lista.ID1,lista.ID,lista.EID)" ng-cloak
                                                             class="btn  btn-lg"
                                                             style="color: #2b9c2b; font-size: 36px ">
 
@@ -175,7 +175,7 @@
                                                 </div>
                                                 <div class="col-3">
 
-                                                    <button type="button" ng-click="Rechazar(lista.ID1,lista.ID)" ng-cloak
+                                                    <button type="button" ng-click="Rechazar(lista.ID1,lista.ID,lista.EID)" ng-cloak
                                                             class="btn  btn-lg" style="color: #b33000; font-size: 36px;">
                                                         <span class="material-symbols-outlined" style="font-size: 36px;" >
                                                             cancel
@@ -194,7 +194,7 @@
                                                 </div>
                                                 <div class="col-3">
                                                     <a ng-click="sentToMultiSelect(lista)" ng-cloak>
-                                                        <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
+                                                        <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;" ng-cloak>
                                                             <span class="material-symbols-outlined" ng-if="lista.checked" style="font-size: 36px;" >
                                                                 radio_button_checked
                                                             </span>
