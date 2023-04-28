@@ -48,10 +48,10 @@ namespace Zamba.Core
                 JsonMessage = JsonConvert.SerializeObject(Obj);
 
             string RestApi = System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"];
-            string Domain = HttpContext.Current.Request.Url.Host;
+            string Domain = HttpContext.Current.Request.Url.Scheme + "://"+ HttpContext.Current.Request.Url.Authority;
 
             //TODO: revisar si en la url figura api
-            string Url = Domain + "/" + RestApi + "/api/" + Controller + "/" + ServiceName;
+            string Url =  Domain + "/" + RestApi + "/api/" + Controller + "/" + ServiceName;
 
             string response = CallServiceRestApi(Url, Method, JsonMessage);
 
@@ -74,7 +74,7 @@ namespace Zamba.Core
             };
 
             //TODO: revisar si en la url figura api        
-            string JsonResponse = CallServiceZambaRestApi("b2b", "GetResultFileByDocId", "post", GRequest);
+            string JsonResponse = CallServiceZambaRestApi("b2b", "GetResultFileByDocId", "POST", GRequest);
             DocumentData response = JsonConvert.DeserializeObject<DocumentData>(JsonResponse);
 
             return response;

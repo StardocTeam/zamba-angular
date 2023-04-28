@@ -298,23 +298,51 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [Route("NotificarAClientePorFirmaYAviso")]
         public IHttpActionResult NotificarAClientePorFirmaYAviso()
         {
+        /*    
+        preguntas:
+            userid: ¿cual uso?
+
+
+        */
             string URLEndPoint = "https://dominio/api"; // Averiguar cual es
-            long UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+            //long UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+            long UserId = 22242;
+           
             string doc_type_id = "139072";
             System.Text.StringBuilder SQLGetLegajosFirmados = new System.Text.StringBuilder();
-            SQLGetLegajosFirmados.AppendLine("SELECT ...");
-
-            // Hago la query y traigo los docs (falta hacer)
-
+            //SQLGetLegajosFirmados.AppendLine("SELECT ");
+            SQLGetLegajosFirmados.AppendLine("SELECT TOP 1");
+            SQLGetLegajosFirmados.AppendLine("  despacho.Doc_ID");
+            SQLGetLegajosFirmados.AppendLine("  ,despacho.i139548 'nroLegajo'");
+            SQLGetLegajosFirmados.AppendLine("  ,despacho.i139600 'cuitDeclarante'");
+            SQLGetLegajosFirmados.AppendLine("  ,zopt.Value  'cuitPSAD'");
+            SQLGetLegajosFirmados.AppendLine("  ,despacho.i26296 'cuitIE'");
+            SQLGetLegajosFirmados.AppendLine("  ,despacho.i139578 'sigea'");
+            SQLGetLegajosFirmados.AppendLine("  ,despacho.I139603 'codigo'");
+            SQLGetLegajosFirmados.AppendLine("	,despacho.i139614 'nroGuia'");
+            SQLGetLegajosFirmados.AppendLine("	,despacho.i139577 'FechaDeRecepcion'");
+            SQLGetLegajosFirmados.AppendLine("	,despacho.i139615 'FechaFirmayAviso'");
+            SQLGetLegajosFirmados.AppendLine("	,despacho.i139608 'cantFojas'");
+            SQLGetLegajosFirmados.AppendLine("FROM ");
+            SQLGetLegajosFirmados.AppendLine("	doc_i139072 despacho");
+            SQLGetLegajosFirmados.AppendLine("  inner join WFDocument wfd on despacho.DOC_ID = wfd.Doc_ID ");
+            SQLGetLegajosFirmados.AppendLine("  inner join doc_i139074 despachante on despacho.i139600 = despachante.i139600");
+            SQLGetLegajosFirmados.AppendLine("  left join zopt on zopt.Item = 'PSADCUIT'");
+            SQLGetLegajosFirmados.AppendLine("WHERE ");
+            SQLGetLegajosFirmados.AppendLine("	wfd.step_Id = 139109");
+            //SQLGetLegajosFirmados.AppendLine("	and despacho.i161670 is null");
+            //SQLGetLegajosFirmados.AppendLine("	and	despachante.i161674 = 1");
+            SQLGetLegajosFirmados.AppendLine("ORDER BY ");
+            SQLGetLegajosFirmados.AppendLine("	despacho.DOC_ID desc");
             DataSet Docs = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, SQLGetLegajosFirmados.ToString());
+
             foreach (DataRow RowDespacho in Docs.Tables[0].Rows)
             {
-
                 Zamba.Core.ConsumeServiceRestApi consumeServiceRestApi = new ConsumeServiceRestApi();
 
                 // Obtengo el documento
 
-                string docId = RowDespacho["DocId"].ToString();
+                string docId = RowDespacho["Doc_Id"].ToString();
                 Zamba.Core.DocumentData dd;
                 string JsonMessage = "";
                 dd = consumeServiceRestApi.GetDocumentData(UserId, doc_type_id, docId, true, false, false);
@@ -341,15 +369,16 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 {
                     JsonMessage = JsonConvert.SerializeObject(jsonApiLegajosFirmados);
                     consumeServiceRestApi.CallServiceRestApi(URLEndPoint, "POST", JsonMessage);
-                    string SQLUpdatePostOK = "UPDATE ... WHERE ...";
+                    string SQLUpdatePostOK = "UPDATE doc_i139072 set i161670=getdate() WHERE doc_id=" + docId;
                     Zamba.Servers.Server.get_Con().ExecuteNonQuery(SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
                 }
                 catch (Exception ex)
                 {
+
                     // Envio por mail que hubo error
-                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonApiLegajosFirmados.nroLegajo );
                 }
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(300);
             }
             return Ok();
         }
