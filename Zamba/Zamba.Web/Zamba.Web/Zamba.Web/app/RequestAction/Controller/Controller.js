@@ -545,9 +545,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
         var a = false
         Swal.fire({
-            title: 'Motivo del rechazo ? ',
+            title: 'Motivo del rechazo',
             input: 'textarea',
-            cancelButtonText: 'cerrar',
+            cancelButtonText: 'Cerrar',
             showCancelButton: true
         }).then(function (result) {
             showLoading();
