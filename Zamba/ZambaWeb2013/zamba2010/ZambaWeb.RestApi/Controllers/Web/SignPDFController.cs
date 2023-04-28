@@ -205,7 +205,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
 
 
-                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital,false);
+                    RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital, false);
                     if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
                     {
                         AddonlineLog(TraceDespachante, logImpo[cuitImpo], ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteodespachante.ToString() + ": Despacho: " + solicitudFirmaDigital.nroDespacho + " Codigo: " + solicitudFirmaDigital.codigo + " : Recepcionado");
@@ -293,6 +293,83 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         }
 
+        [AcceptVerbs("POST", "GET")]
+        [AllowAnonymous]
+        [Route("NotificarAClientePorFirmaYAviso")]
+        public IHttpActionResult NotificarAClientePorFirmaYAviso()
+        {
+            string URLEndPoint = "https://dominio/api"; // Averiguar cual es
+            long UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+            string doc_type_id = "139072";
+            System.Text.StringBuilder SQLGetLegajosFirmados = new System.Text.StringBuilder();
+            SQLGetLegajosFirmados.AppendLine("SELECT ...");
+
+            // Hago la query y traigo los docs (falta hacer)
+
+            DataSet Docs = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, SQLGetLegajosFirmados.ToString());
+            foreach (DataRow RowDespacho in Docs.Tables[0].Rows)
+            {
+
+                Zamba.Core.ConsumeServiceRestApi consumeServiceRestApi = new ConsumeServiceRestApi();
+
+                // Obtengo el documento
+
+                string docId = RowDespacho["DocId"].ToString();
+                Zamba.Core.DocumentData dd;
+                string JsonMessage = "";
+                dd = consumeServiceRestApi.GetDocumentData(UserId, doc_type_id, docId, true, false, false);
+                string fileBase64String = Convert.ToBase64String(dd.data, 0, dd.data.Length);
+
+                // Creo el mensaje a postear
+
+                JsonApiLegajosFirmados jsonApiLegajosFirmados = new JsonApiLegajosFirmados();
+
+                jsonApiLegajosFirmados.file = fileBase64String;
+                jsonApiLegajosFirmados.cantFojas = RowDespacho["cantFojas"].ToString();
+                jsonApiLegajosFirmados.codigo = RowDespacho["codigo"].ToString();
+                jsonApiLegajosFirmados.cuitDeclarante = RowDespacho["cuitDeclarante"].ToString();
+                jsonApiLegajosFirmados.cuitIE = RowDespacho["cuitIE"].ToString();
+                jsonApiLegajosFirmados.cuitPSAD = RowDespacho["cuitPSAD"].ToString();
+                jsonApiLegajosFirmados.FechaDeRecepcion = Convert.ToDateTime(RowDespacho["FechaDeRecepcion"]);
+                jsonApiLegajosFirmados.FechaFirmayAviso = Convert.ToDateTime(RowDespacho["FechaFirmayAviso"]);
+                jsonApiLegajosFirmados.nroGuia = RowDespacho["nroGuia"].ToString();
+                jsonApiLegajosFirmados.nroLegajo = RowDespacho["nroLegajo"].ToString();
+                jsonApiLegajosFirmados.sigea = RowDespacho["sigea"].ToString();                
+
+                // Hago el posteo
+                try
+                {
+                    JsonMessage = JsonConvert.SerializeObject(jsonApiLegajosFirmados);
+                    consumeServiceRestApi.CallServiceRestApi(URLEndPoint, "POST", JsonMessage);
+                    string SQLUpdatePostOK = "UPDATE ... WHERE ...";
+                    Zamba.Servers.Server.get_Con().ExecuteNonQuery(SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
+                }
+                catch (Exception ex)
+                {
+                    // Envio por mail que hubo error
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                }
+                System.Threading.Thread.Sleep(500);
+            }
+            return Ok();
+        }
+
+
+
+        public class JsonApiLegajosFirmados
+        {
+            public string nroLegajo { get; set; }
+            public string cuitDeclarante { get; set; }
+            public string cuitPSAD { get; set; }
+            public string cuitIE { get; set; }
+            public string sigea { get; set; }
+            public string codigo { get; set; }
+            public string nroGuia { get; set; }
+            public DateTime FechaDeRecepcion { get; set; }
+            public DateTime FechaFirmayAviso { get; set; }
+            public string file { get; set; }
+            public string cantFojas { get; set; }
+        }
 
         [AcceptVerbs("POST")]
         [AllowAnonymous]
@@ -660,7 +737,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         {
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Recepcion: ");
 
-                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital,false);
+                            RecepcionResponse RR = _recepcionDespacho(solicitudFirmaDigital, false);
                             if (RR.result == RecepcionResponse.results.Ok || RR.result == RecepcionResponse.results.alreadyAcepted)
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de Digitalizacion: ");
@@ -1117,7 +1194,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         //            solicitudFirmaDigital.nroDespacho = nroDespacho;
         //            solicitudFirmaDigital.codigo = codDespacho;
         //            solicitudFirmaDigital.nroGuia = nro_guia.ToString();
-                    
+
 
         //            // faltan datos
         //            /*
@@ -1196,7 +1273,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         //            var cuitDespachante = r["cuitDespachante"].ToString();
         //            var rooturl = ZOptBusiness.GetValueOrDefault("ThisDomain", "https://gd.modoc.com.ar/Zamba.Web");
         //            solicitudFirmaDigital.url = rooturl + string.Format("/Services/GetDocFile.ashx?DocTypeId=139072&DocId={0}&m=sc", doc_id.ToString());
-                    
+
         //            String nroDespacho = r["NroDespacho"].ToString();
         //            String Sigea = r["Sigea"].ToString();
         //            String codDespacho = r["codigoDespacho"].ToString();
@@ -1312,7 +1389,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         }
 
-        private RecepcionResponse _recepcionDespacho(SolicitudFirmaDigital solicitudFirmaDigital,bool sendNotifications)
+        private RecepcionResponse _recepcionDespacho(SolicitudFirmaDigital solicitudFirmaDigital, bool sendNotifications)
         {
             //0- Obtener Parametros del Servicio
 
