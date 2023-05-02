@@ -1275,9 +1275,9 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 start = event.changedTouches[0].clientX;
             }, false);
 
-            elem.addEventListener('touchmove', function (event) {
-                event.preventDefault(); // Para que no se desplace la pantalla
-            }, false);
+            //elem.addEventListener('touchmove', function (event) {
+            //    event.preventDefault(); // Para que no se desplace la pantalla
+            //}, false);
 
             // Detectar el final del toque
             elem.addEventListener('touchend', function (event) {
@@ -1286,7 +1286,6 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
                 //izquierda
                 if (distance < 0) {
-                    console.log("distancia recorrida del dedo:" + distance);
                      //NC:cambiando este valor se puede ajustar la sensibilidad
                     if (distance < -80) {
                         $scope.showPendingTab = false;
@@ -1297,7 +1296,6 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
                 if (distance > 0) {
                     //NC:cambiando este valor se puede ajustar la sensibilidad
                     if (distance > 80) {
-                        console.log("distancia recorrida del dedo:" + distance);
                         $scope.showPendingTab = true;
                         $scope.tabButtonOnClick("Pending");
                     }

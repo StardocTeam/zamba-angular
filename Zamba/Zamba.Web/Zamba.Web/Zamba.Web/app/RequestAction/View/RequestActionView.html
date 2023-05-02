@@ -197,7 +197,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6" style="text-align: center; margin-top: 8px">
-                                                <button ng-show="!lista.checked" type="button" class="btn btn-primary" ng-click="sendToseeLaterList(lista)" style="width: 100%">Revisar despues</button>
+                                                <button ng-show="!lista.checked" type="button" class="btn btn-primary" ng-click="sendToseeLaterList(lista)" style="width: 100%">Guardar para despues</button>
                                             </div>
                                         </div>
                                     </div>
@@ -218,7 +218,7 @@
         <!-- Panel SeeLater-->
         <div class="accordion pending-panel" style="margin-top: 63px;" ng-show="!showPendingTab">
             <center>
-                <button class="btn btn-outline-info" ng-if="seeLaterList.length == 0" style="margin-top: 15px;"> No tienes tareas para ver despues </button>
+                <button class="btn btn-outline-info" ng-if="seeLaterList.length == 0" style="margin-top: 15px;"> No tienes tareas guardadas </button>
             </center>
             <div ng-repeat="invoice in seeLaterList"  class="invoiceList" ng-class="{selectedInvoice:invoice.checked }">
                 <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{invoice.ID + '-' + invoice.ID1}}"
@@ -402,7 +402,7 @@
                 <div class="tab-text">Pendientes</div>
             </div>
             <div id="SeeLater-btn" class="tab-button" ng-click="tabButtonOnClick('SeeLater')" ng-class="{'tab-button-selected': !showPendingTab}">
-                <div class="tab-text">Ver Despues</div>
+                <div class="tab-text">Guardados</div>
             </div>
         </div>
         <div class="tab-container">
