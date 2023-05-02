@@ -19,13 +19,18 @@
                                  src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
                                  class=" img-circle ng-show"
                                  style="width: 37px;height: 33px;margin-top: 1px;margin-left:-5px; border-radius: 17px;" />
-                            <img src="../Utilities/images/home.png" style= "height: 22px; margin-left: 4px; "alt="Alternate Text" />
+                            <img src="../Utilities/images/home.png" style="height: 22px; margin-top: -4px; margin-left: 6px;" alt="Alternate Text" />
+
                         </div>
 
 
 
                     </a>
+                    <div style="display: inline-block;margin-top: 8px;margin-left: -15px;">
+                        <span style="color: white">Inicio</span>
+                    </div>
                 </div>
+
                 <ul class="navbar-nav" style=" flex-direction: row">
                     <li class="nav-item">
                         <div ng-if="selectedSummary != null">
@@ -78,51 +83,51 @@
         </nav>
     </div>
 
-   
 
-    
-        
 
-        
-         
-            
+
+
+
+
+
+
 
     <div id="{{summary.ID}}" class="card-body" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-      <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 header-margin text-center">
-                <span style="line-height: inherit; margin-top: 99px; margin-left: 25px; position: absolute; font-size: 14px !important;" class="badge bg-danger ng-binding">
-                    {{resumenGerencial}}
-                </span>
-                <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(2, 2)" style="margin-top: 110px;">
-                    <img src="../Utilities/images/ResumenGerencial.png" alt="Alternate Text" style="width: 75px; margin-right: auto; margin-left: auto;" />
-                    <h6 style="color: #001d66;">IR A RESUMEN GERENCIAL </h6>
-                </div>
-                <span style="line-height: inherit; margin-top: 20px; margin-left: 25px; position: absolute; font-size: 14px !important;" class="badge bg-danger ng-binding">
-                    {{facturasYpagos}}
-                </span>
-                <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(0, 0)" style="margin-top: 25px;">
-                    <img src="../Utilities/images/PendienteDeAprobacion.png" alt="Alternate Text" style="width: 75px; margin-right: auto; margin-left: auto;" />
-                    <h6 style="color: #001d66;">APROBAR FACTURAS Y PAGOS</h6>
-                </div>
-                <span style="line-height: inherit; margin-top: 30px; margin-left: 14px; position: absolute; font-size: 14px !important;" class="badge bg-danger ng-binding">
-                    {{facturasPendientes}}
-                </span>
-                <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(0, 1)" style="margin-top: 35px;">
-                    <img src="../Utilities/images/PedienteDeConformacion.png" alt="Alternate Text" style="width: 70px; margin-right: auto; margin-left: auto;" />
-                    <h6 style="color: #001d66;">CONFORMAR FACTURAS</h6>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 header-margin text-center">
+                    <span style="line-height: inherit; margin-top: 99px; margin-left: 25px; position: absolute; font-size: 14px !important;" class="badge bg-danger ng-binding">
+                        {{resumenGerencial}}
+                    </span>
+                    <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(2, 2)" style="margin-top: 110px;">
+                        <img src="../Utilities/images/ResumenGerencial.png" alt="Alternate Text" style="width: 75px; margin-right: auto; margin-left: auto;" />
+                        <h6 style="color: #001d66;">RESUMEN GERENCIAL </h6>
+                    </div>
+                    <span style="line-height: inherit; margin-top: 20px; margin-left: 25px; position: absolute; font-size: 14px !important;" class="badge bg-danger ng-binding">
+                        {{facturasYpagos}}
+                    </span>
+                    <div class="d-grid gap-2 col-6 mx-auto button" ng-click="setUrlRyRt(0, 0)" style="margin-top: 25px;">
+                        <img src="../Utilities/images/PendienteDeAprobacion.png" alt="Alternate Text" style="width: 75px; margin-right: auto; margin-left: auto;" />
+                        <h6 style="color: #001d66;">APROBAR FACTURAS Y PAGOS</h6>
+                    </div>
+                    <span style="line-height: inherit; margin-top: 30px; margin-left: 14px; position: absolute; font-size: 14px !important;" class="badge bg-danger ng-binding">
+                        {{facturasPendientes}}
+                    </span>
+                    <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(0, 1)" style="margin-top: 35px;">
+                        <img src="../Utilities/images/PedienteDeConformacion.png" alt="Alternate Text" style="width: 70px; margin-right: auto; margin-left: auto;" />
+                        <h6 style="color: #001d66;">CONFORMAR FACTURAS</h6>
+                    </div>
                 </div>
             </div>
-       </div>
-     </div>
-            
-            
-        
-   
+        </div>
 
-   
 
-    <style>
+
+
+
+
+
+        <style>
 
                 .badge {
                     font-size: 17px !important;
@@ -156,8 +161,8 @@
                 }
 
                 /*
-        Full screen Modal
-        */
+            Full screen Modal
+            */
                 .fullscreen-modal .modal-dialog {
                     margin: 0;
                     margin-right: auto;
@@ -235,5 +240,5 @@
                     border-bottom: solid 1px hsl(0deg 17% 72%);
                     padding-bottom: 5px;
                 }
-    </style>
-</div>
+        </style>
+    </div>
