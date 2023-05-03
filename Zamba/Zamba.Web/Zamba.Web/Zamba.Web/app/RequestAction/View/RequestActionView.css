@@ -85,13 +85,13 @@
 }
 
 .list-container-invoices {
-    height: 94vh;
+    height: 89vh;
     overflow-y: auto;
     overflow-x:hidden;
 }
 
 .footer-tabs-container {
-    margin-top: 1vh;
+    /*margin-top: 1vh;*/
 }
 
 
@@ -149,4 +149,9 @@
 }
 .invoiceList {
     margin-bottom:10px;
+}
+#z-main-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
 }
