@@ -1308,6 +1308,30 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
 
     }
 
+
+    $scope.getBackItemToPendingList = function (invoice) {
+        try {
+            //devuelve a la lista original
+            $scope.ListFacturas.push(invoice);
+
+            var itemIndex = $scope.seeLaterList.findIndex(function (item) {
+                return item.ID === invoice.ID && item.ID1 === invoice.ID1;
+            });
+            //remove de la lista de Ver Despues
+            $scope.seeLaterList.splice(itemIndex, 1);
+
+
+            //actualiza valor del local storage
+            if (localStorage.getItem($scope.currentView + '-' + $scope.userid) != null) {
+                localStorage.setItem($scope.currentView + '-' + $scope.userid, JSON.stringify($scope.seeLaterList));
+            }
+
+        } catch (e) {
+
+        }
+
+    }
+
     $scope.tabButtonOnClick = function (buttonName) {
         $scope.showPendingTab = buttonName == "Pending";
         console.log(buttonName + " was clicked");

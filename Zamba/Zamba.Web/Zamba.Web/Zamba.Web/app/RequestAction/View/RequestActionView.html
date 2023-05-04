@@ -33,18 +33,18 @@
                     <li class="nav-item">
                         <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="ListFacturas.length > 0 && selectedInvoices.length == 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; ">
                             <span style=" line-height: inherit;" class="badge bg-danger ">
-                                {{totalInvoicesPendingCount}}
+                                {{ListFacturas.length}}
                             </span> Aprobar todo
                         </a>
                         <a ng-click="ApproveOnlySelectedInvoicesAll()" ng-if="seeLaterList.length > 0 && selectedInvoicesLate.length == 0 && !showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; ">
                             <span style=" line-height: inherit;" class="badge bg-danger ">
-                                {{totalInvoicesLateCount}}
+                                {{seeLaterList.length}}
                             </span> Aprobar todo
                         </a>
                         <a ng-click="ApproveOnlySelectedInvoices()" ng-if="selectedInvoices.length > 0 && showPendingTab" class="btn btn-success nav-link active" href="#" style="color: white; ">
                             <div ng-if="showPendingTab">
                                 <span style=" line-height: inherit;" class="badge bg-danger ">
-                                    {{selectedInvoices.length + '/' + totalInvoicesPendingCount}}
+                                    {{selectedInvoices.length + '/' + ListFacturas.length}}
                                 </span> Aprobar seleccionadas
                             </div>
                         </a>
@@ -52,7 +52,7 @@
 
                             <div ng-if="!showPendingTab">
                                 <span style=" line-height: inherit;" class="badge bg-danger ">
-                                    {{selectedInvoicesLate.length + '/' + totalInvoicesLateCount}}
+                                    {{selectedInvoicesLate.length + '/' + seeLaterList.length}}
                                 </span> Aprobar seleccionadas
                             </div>
 
@@ -197,7 +197,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6" style="text-align: right; margin-top: 8px">
-                                                <button ng-show="!lista.checked" type="button" class="btn"  ng-click="sendToseeLaterList(lista)" style="width: 56%; font-weight: bold; color: #1c4a72; background-color: #dfdfdf3d; margin-bottom: 10px; ">Guardar para Después >></button>
+                                                <button ng-show="!lista.checked" type="button" class="btn"  ng-click="sendToseeLaterList(lista)" style="width: 56%; font-weight: bold; color: #1c4a72; background-color: #dfdfdf3d; margin-bottom: 10px; ">Guardar para Después</button>
                                             </div>
                                         </div>
                                     </div>
@@ -294,7 +294,7 @@
                                                             class="btn  btn-lg"
                                                             style="color: #2b9c2b; font-size: 36px ">
                                                         <img src="../Utilities/images/1.png" alt="Alternate Text">
-                                                        
+
                                                     </button>
                                                 </div>
                                                 <div class="col-3">
@@ -317,10 +317,13 @@
                                                             <img src="../Utilities/images/7.png" ng-if="invoice.checked" alt="Alternate Text">
                                                             <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
                                                             <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
-                                                            <img src="../Utilities/images/6.png" ng-if="!invoice.checked"  alt="Alternate Text">
+                                                            <img src="../Utilities/images/6.png" ng-if="!invoice.checked" alt="Alternate Text">
                                                         </button>
                                                     </a>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6" style="text-align: right; margin-top: 8px">
+                                                <button ng-show="!invoice.checked" type="button" class="btn" ng-click="getBackItemToPendingList(invoice)" style="width: 56%; font-weight: bold; color: #1c4a72; background-color: #dfdfdf3d; margin-bottom: 10px; ">Devolver a Pendientes</button>
                                             </div>
                                         </div>
                                     </div>
