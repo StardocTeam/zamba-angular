@@ -334,6 +334,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             //SQLGetLegajosFirmados.AppendLine("	and	despachante.i161674 = 1");
             SQLGetLegajosFirmados.AppendLine("ORDER BY ");
             SQLGetLegajosFirmados.AppendLine("	despacho.DOC_ID desc");
+
             DataSet Docs = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, SQLGetLegajosFirmados.ToString());
 
             foreach (DataRow RowDespacho in Docs.Tables[0].Rows)
@@ -345,7 +346,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 string docId = RowDespacho["Doc_Id"].ToString();
                 Zamba.Core.DocumentData dd;
                 string JsonMessage = "";
-                dd = consumeServiceRestApi.GetDocumentData(UserId, doc_type_id, docId, true, false, false);
+                dd = consumeServiceRestApi.GetDocumentData(UserId, doc_type_id, docId, true, false, false,"");
                 string fileBase64String = Convert.ToBase64String(dd.data, 0, dd.data.Length);
 
                 // Creo el mensaje a postear
