@@ -38,7 +38,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
                         Int64 entityId = Int64.Parse(paramRequest.Params["entityId"]);
                         Int64 parentResultId = Int64.Parse(paramRequest.Params["parentResultId"]);
                         string InputObservacion = paramRequest.Params["InputObservacion"];
-                        Int64 TipoId = Int64.Parse(paramRequest.Params["TipoId"]);
+                        //Int64 TipoId = Int64.Parse(paramRequest.Params["TipoId"]);
                         Int64 AtributeId = Int64.Parse(paramRequest.Params["AtributeId"]);
                         if (InputObservacion != "")
                         {
@@ -81,7 +81,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
                 {
                     Int64 entityId = Int64.Parse(paramRequest.Params["entityId"]);
                     Int64 parentResultId = Int64.Parse(paramRequest.Params["parentResultId"]);
-                    Int64 TipoId = Int64.Parse(paramRequest.Params["TipoId"]);
+                    //Int64 TipoId = Int64.Parse(paramRequest.Params["TipoId"]);
 
                     Int64 AtributeId = Int64.Parse(paramRequest.Params["AtributeId"]);
 
