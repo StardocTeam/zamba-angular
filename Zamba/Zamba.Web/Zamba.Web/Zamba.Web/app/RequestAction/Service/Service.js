@@ -157,7 +157,7 @@ app.service('RequestServices', ['$http', '$q', function ($http, $q) {
                 userId: parseInt(userId),
                 Params: {
                     ruleId: parseInt(ruleId),
-                    resultIds: parseInt(resultIds),
+                    resultIds: parseInt(docId),
                     FormVariables: formVariables
                 }
             };

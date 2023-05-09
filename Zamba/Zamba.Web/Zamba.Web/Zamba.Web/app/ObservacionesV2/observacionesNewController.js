@@ -4,9 +4,9 @@ var bool = false;
 app.controller('ObservacionNewController', function ($scope, $filter, $http, observacionesNewServices) {
     
 
-    $scope.LoadResults = function (entityId, parentResultId, TipoId, AtributeId) {
+    $scope.LoadResults = function (entityId, parentResultId, AtributeId) {
         
-        var d = observacionesNewServices.getResults(entityId, parentResultId, TipoId, AtributeId);
+        var d = observacionesNewServices.getResults(entityId, parentResultId, AtributeId);
         //alert(d);
         if (d == "") {
            // console.log("No se pudo consultar la observacion");
@@ -23,18 +23,18 @@ app.controller('ObservacionNewController', function ($scope, $filter, $http, obs
     $scope.Migracion = function () {
         observacionesNewServices.migracion($scope.AtributeId, $scope.entityId);
         //Elimintar este load, es solo para prueba de migracion
-        $scope.LoadResults($scope.entityId, $scope.parentResultId, $scope.TipoId, $scope.AtributeId);
+        $scope.LoadResults($scope.entityId, $scope.parentResultId, $scope.AtributeId);
     }
 
     $scope.ActualizarNew = function() {
-        $scope.LoadResults($scope.entityId, $scope.parentResultId, $scope.TipoId, $scope.AtributeId);
+        $scope.LoadResults($scope.entityId, $scope.parentResultId, $scope.AtributeId);
     }
 
-    $scope.InsertResults = function (entityId, parentResultId, InputObservacion, TipoId, AtributeId, bool) {
+    $scope.InsertResults = function (entityId, parentResultId, InputObservacion, AtributeId, bool) {
 
         try {
             if (InputObservacion != "") {
-                observacionesNewServices.InsertResult(entityId, parentResultId, InputObservacion, TipoId, AtributeId, bool);
+                observacionesNewServices.InsertResult(entityId, parentResultId, InputObservacion, AtributeId, bool);
                 $scope.ActualizarNew();
                 $("#BtnObservacion").val("");
             }
@@ -52,7 +52,7 @@ app.controller('ObservacionNewController', function ($scope, $filter, $http, obs
             if ($scope.TextareaObservacion == null) {
                 $scope.TextareaObservacion = "";
             }
-            $scope.InsertResults($scope.entityId, $scope.parentResultId, $scope.InputObservacion, $scope.TipoId, $scope.AtributeId, bool);
+            $scope.InsertResults($scope.entityId, $scope.parentResultId, $scope.InputObservacion, $scope.AtributeId, bool);
             
 
         } else {
@@ -73,8 +73,7 @@ app.directive('zambaObservacionesV2', function ($sce) {
             $scope.entityId = attributes.entityId === "" ? GetDocTypeId() : attributes.entityId;
             $scope.indexId = attributes.indexId;
             $scope.nombreId = attributes.nombreId;
-            $scope.TipoId = attributes.tipoId;
-            $scope.AtributeId = attributes.atributoId;
+            $scope.AtributeId = attributes.atributeId;
             var url = window.location.href;
             var segments = url.split("&");
             segments.forEach(function (valor) {
@@ -84,7 +83,7 @@ app.directive('zambaObservacionesV2', function ($sce) {
             //alert($scope.parentResultId);
             bool = false;
             //alert($scope.TextareaObservacion);
-            $scope.LoadResults($scope.entityId, $scope.parentResultId, $scope.TipoId, $scope.AtributeId);
+            $scope.LoadResults($scope.entityId, $scope.parentResultId,$scope.AtributeId);
         },
         templateUrl: $sce.getTrustedResourceUrl('../../app/ObservacionesV2/observaciones.html'),
 

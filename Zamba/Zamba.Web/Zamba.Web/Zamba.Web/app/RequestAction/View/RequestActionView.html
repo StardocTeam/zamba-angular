@@ -188,16 +188,16 @@
                                                 <div class="col-3">
                                                     <a ng-click="sentToMultiSelect(lista)" ng-cloak>
                                                         <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
-                                                            <img src="../Utilities/images/5.png" ng-if="lista.checked" alt="Alternate Text">
+                                                            <img src="../Utilities/images/7.png" ng-if="lista.checked" alt="Alternate Text">
                                                             <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
                                                             <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
-                                                            <img src="../Utilities/images/4.png" ng-if="!lista.checked" alt="Alternate Text">
+                                                            <img src="../Utilities/images/6.png" ng-if="!lista.checked" alt="Alternate Text">
                                                         </button>
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6" style="text-align: center; margin-top: 8px">
-                                                <button ng-show="!lista.checked" type="button" class="btn btn-primary" ng-click="sendToseeLaterList(lista)" style="width: 100%">Revisar despues</button>
+                                            <div class="col-md-6" style="text-align: right; margin-top: 8px">
+                                                <button ng-show="!lista.checked" type="button" class="btn"  ng-click="sendToseeLaterList(lista)" style="width: 56%; font-weight: bold; color: #1c4a72; background-color: #dfdfdf3d; margin-bottom: 10px; ">Guardar para Después >></button>
                                             </div>
                                         </div>
                                     </div>
@@ -218,7 +218,7 @@
         <!-- Panel SeeLater-->
         <div class="accordion pending-panel" style="margin-top: 63px;" ng-show="!showPendingTab">
             <center>
-                <button class="btn btn-outline-info" ng-if="seeLaterList.length == 0" style="margin-top: 15px;"> No tienes tareas para ver despues </button>
+                <button class="btn btn-outline-info" ng-if="seeLaterList.length == 0" style="margin-top: 15px;"> No tienes tareas guardadas </button>
             </center>
             <div ng-repeat="invoice in seeLaterList"  class="invoiceList" ng-class="{selectedInvoice:invoice.checked }">
                 <div class="accordion-item animate-hide animation-target" style="margin: 1%;" id="{{invoice.ID + '-' + invoice.ID1}}"
@@ -314,10 +314,10 @@
                                                 <div class="col-3">
                                                     <a ng-click="sentToMultiSelect(invoice)">
                                                         <button type="button" class="btn  btn-lg" style="color: #561c59; font-size: 36px;">
-                                                            <img src="../Utilities/images/5.png" ng-if="invoice.checked" alt="Alternate Text">
+                                                            <img src="../Utilities/images/7.png" ng-if="invoice.checked" alt="Alternate Text">
                                                             <!--<i  class="fa fa-check-square-o" aria-hidden="true"></i>-->
                                                             <!--<i class="fa fa-square-o" aria-hidden="true"></i>-->
-                                                            <img src="../Utilities/images/4.png" ng-if="!invoice.checked"  alt="Alternate Text">
+                                                            <img src="../Utilities/images/6.png" ng-if="!invoice.checked"  alt="Alternate Text">
                                                         </button>
                                                     </a>
                                                 </div>
@@ -402,7 +402,7 @@
                 <div class="tab-text">Pendientes</div>
             </div>
             <div id="SeeLater-btn" class="tab-button" ng-click="tabButtonOnClick('SeeLater')" ng-class="{'tab-button-selected': !showPendingTab}">
-                <div class="tab-text">Ver Despues</div>
+                <div class="tab-text">Guardados</div>
             </div>
         </div>
         <div class="tab-container">
