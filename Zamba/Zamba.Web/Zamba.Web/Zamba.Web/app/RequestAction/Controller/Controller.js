@@ -87,6 +87,7 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
             let invoicesList = JSON.parse(d);
             invoicesList.forEach(function (invoice) {
                 invoice.checked = false;
+                invoice.expanded = false;
             });
 
            
@@ -166,6 +167,24 @@ app.controller('RequestController', function ($scope, $filter, $http, RequestSer
         
     }
 
+    $scope.expandOnClick = function (item) {
+        try {
+            console.log("ElementID:" + item.ID);
+            item.expanded = !item.expanded;
+            var iframeClassSelector = "." + item.ID + "iframe";
+            var iframe = $("iframe" + iframeClassSelector);
+            if (item.expanded) {
+                iframe.height("65vh");
+            } else {
+                iframe.height("100%");
+            }
+            
+
+
+        } catch (e) {
+            console.error(e);
+        }
+    }
     $scope.sendToseeLaterList = function (item) {
         try {
             var filteredItem = $scope.ListFacturas.filter(element => { return element.ID === item.ID && element.ID1 === item.ID1 });
