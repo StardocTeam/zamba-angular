@@ -5,7 +5,7 @@ app.factory('observacionesNewServices', ['$http', '$q', function ($http, $q) {
 
     var observacionesServicesFactory = {};
 
-    var _getResults = function (entityId, parentResultId, TipoId, AtributeId) {
+    var _getResults = function (entityId, parentResultId, AtributeId) {
         var response = null;
         var genericRequest = {
             UserId: parseInt(GetUID()),
@@ -13,7 +13,7 @@ app.factory('observacionesNewServices', ['$http', '$q', function ($http, $q) {
             {
                 "entityId": entityId,
                 "parentResultId": parentResultId,
-                "TipoId": TipoId,
+               /* "TipoId": TipoId,*/
                 "AtributeId": AtributeId
             }
 
@@ -34,7 +34,7 @@ app.factory('observacionesNewServices', ['$http', '$q', function ($http, $q) {
         return response;
     };
 
-    var _InsertResult = function (entityId, parentResultId, InputObservacion, TipoId,AtributeId, bool) {
+    var _InsertResult = function (entityId, parentResultId, InputObservacion,AtributeId, bool) {
         var response = null;
         var genericRequest = {
             UserId: parseInt(GetUID()),
@@ -43,7 +43,7 @@ app.factory('observacionesNewServices', ['$http', '$q', function ($http, $q) {
                 "entityId": entityId,
                 "parentResultId": parentResultId,
                 "InputObservacion": InputObservacion,
-                "TipoId": TipoId,
+               /* "TipoId": TipoId,*/
                 "AtributeId": AtributeId,
                 "bool": bool
             }

@@ -16,6 +16,8 @@ using System.IO;
 using Zamba.FileTools;
 using Zamba.FileTools.eMail;
 using System.Data;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace Zamba.SpireTools
 {
@@ -25,7 +27,7 @@ namespace Zamba.SpireTools
         {
             try
             {
-                Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+                UserPreferences UP = new UserPreferences();
 
                 #region Codigo Original
                 //Create an IMAP client
@@ -123,21 +125,21 @@ namespace Zamba.SpireTools
         }
 
         //private String GetMails_WithRules(ImapClient imapClient, Dictionary<string, string> Params)
-        private List<ImapMessageDTO> GetMails_WithRules(DTOObjectImap Params)
+        private List<ImapMessage> GetMailsFiltered(DTOObjectImap Params)
         {
             try
             {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecucion de metodo de filtrado.");
 
                 imapClient.Select(Params.Carpeta);
-                List<ImapMessageDTO> List_ImapMessageDTO = new List<ImapMessageDTO>();
+                List<ImapMessage> List_ImapMessageDTO = new List<ImapMessage>();
 
                 if (Convert.ToInt32(Params.Filtrado.ToString()) == 0)
                 {
                     foreach (ImapMessage item in imapClient.GetAllMessageHeaders())
                     {
                         if (Val_ParamsToGetMails(Params, item))
-                            List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(item.UniqueId)));
+                            List_ImapMessageDTO.Add(item);
                     }
                 }
                 else if (Convert.ToInt32(Params.Filtrado.ToString()) != 0)
@@ -149,7 +151,7 @@ namespace Zamba.SpireTools
                         IMAP_Colection = FilterFolderSelected(Params.Filtro_campo, Params.Filtro_valor);
                     }
                     catch (Exception)
-                    {                        
+                    {
                     }
 
                     if (IMAP_Colection != null)
@@ -157,9 +159,9 @@ namespace Zamba.SpireTools
                         foreach (ImapMessage item in IMAP_Colection)
                         {
                             if (Val_ParamsToGetMails(Params, item))
-                                List_ImapMessageDTO.Add(new ImapMessageDTO(item, ExtraerAdjuntos(item.UniqueId)));
+                                List_ImapMessageDTO.Add(item);
                         }
-                    }                    
+                    }
                 }
                 else
                 {
@@ -225,7 +227,6 @@ namespace Zamba.SpireTools
                     {
                         return true;
                     }
-
                 }
                 else
                 {
@@ -298,7 +299,7 @@ namespace Zamba.SpireTools
 
         private bool RecentMailValidation(long Ticks)
         {
-            Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+            UserPreferences UP = new UserPreferences();
 
             if (Ticks > long.Parse(UP.getValue("LastDateObtained", UPSections.Mail, "0")))
             {
@@ -427,12 +428,12 @@ namespace Zamba.SpireTools
             }
         }
 
-        private List<ImapMessageDTO> GetEmailsFromServer(DTOObjectImap Dic_paramRequest)
+        private List<ImapMessage> GetEmailsFromServer(DTOObjectImap Dic_paramRequest)
         {
             try
             {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo correos de '" + Dic_paramRequest.Carpeta + "'...");
-                List<ImapMessageDTO> ListaDeEmails = GetMails_WithRules(Dic_paramRequest);
+                List<ImapMessage> ListaDeEmails = GetMailsFiltered(Dic_paramRequest);
 
                 if (Convert.ToInt32(Dic_paramRequest.Filtro_noleidos.ToString()) == 1)
                 {
@@ -462,134 +463,694 @@ namespace Zamba.SpireTools
             {
                 if (imapProcess.Is_Active != 0)
                 {
-
-
-                    string originalUserName = imapProcess.Nombre_usuario;
-
-                    if (imapProcess.GenericInbox != 0)
+                    try
                     {
+                        string originalUserName = imapProcess.Nombre_usuario;
 
-                        //ZOptBusiness zopt = new ZOptBusiness();
-                        string CasillaGenericaImap = ZOptBusiness.GetValue("CasillaGenericaImap");
-                        imapProcess.Nombre_usuario = CasillaGenericaImap + "\\" + imapProcess.Nombre_usuario + "\\" + imapProcess.Correo_electronico;
-
-                    }
-                    //Instanciar el ImapClient
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Iniciada ejecucion de proceso con ID:" + imapProcess.Id_proceso + " Nombre del proceso:" + imapProcess.Nombre_proceso);
-                    ConnectToExchange(imapProcess);
-
-                    //IsProcessEnabledAndValid
-                    Zamba.SpireTools.SpireT.eMail em = new SpireT.eMail();
-
-                    //GetEmails               
-                    List<ImapMessageDTO> ListaDeEmails = GetEmailsFromServer(imapProcess).OrderByDescending(i => i.SequenceNumber).ToList();
-
-                    imapProcess.Nombre_usuario = originalUserName;
-
-                    foreach (ImapMessageDTO eMail in ListaDeEmails)
-                    {
-                        try
+                        if (imapProcess.GenericInbox != 0)
                         {
+                            string CasillaGenericaImap = ZOptBusiness.GetValue("CasillaGenericaImap");
+                            imapProcess.Nombre_usuario = CasillaGenericaImap + "\\" + imapProcess.Nombre_usuario + "\\" + imapProcess.Correo_electronico;
+                        }
 
-                            eMail.Body = imapClient.GetFullMessage(eMail.UniqueId).BodyHtml;
+                        //Instanciar el ImapClient
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Iniciada ejecucion de proceso con ID:" + imapProcess.Id_proceso + " Nombre del proceso:" + imapProcess.Nombre_proceso);
+                        ConnectToExchange(imapProcess);
 
-                            string TempMsgPath = Zamba.Membership.MembershipHelper.AppTempDir(@"\IMAPTemp\Imap").FullName + DateTime.Now.Ticks.ToString() + ".msg";
-                            SaveMsgFile(imapProcess, eMail, TempMsgPath);
+                        //GetEmails               
+                        List<ImapMessage> ListaDeEmails = GetEmailsFromServer(imapProcess).OrderByDescending(i => i.SequenceNumber).ToList();
 
-                            InsertResult eMailInsertResult = InsertResult.NoInsertado;
-                            INewResult eMailNewResult = InsertEMail(imapProcess, eMail, ref eMailInsertResult, RB, TempMsgPath);
+                        imapProcess.Nombre_usuario = originalUserName;
 
-                            if (eMailInsertResult == InsertResult.Insertado)
+                        foreach (ImapMessage eMail in ListaDeEmails)
+                        {
+                            try
                             {
-                                if (imapProcess.Exportar_adjunto_por_separado == 1)
+
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Procesando correo: UniqueId: " + eMail.UniqueId + " - SequenceNumber:" + eMail.SequenceNumber);
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Asunto del correo en iteracion: " + eMail.Subject);
+
+                                string SubjectName = GetNewSubjectName(eMail);
+                                string TempMsgPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".msg");
+
+                                //Se obtiene mail completo.
+                                MailMessage FullMessage = imapClient.GetFullMessage(eMail.UniqueId);
+
+                                setSrcFromBody(eMail, FullMessage);
+
+                                //Se guarda el archivo msg en el sistema.
+                                SaveMsgFile(imapProcess, FullMessage, TempMsgPath);
+
+                                //Se inserta la tarea en el sistema.
+                                InsertResult eMailInsertResult = InsertResult.NoInsertado;
+                                INewResult eMailNewResult = InsertEMail(imapProcess, FullMessage, eMail.UniqueId, ref eMailInsertResult, RB, TempMsgPath);
+
+                                //Se mueve el correo dentro de la casilla.
+                                if (eMailInsertResult == InsertResult.Insertado)
                                 {
-                                    foreach (var attach in eMail.Attachments)
+                                    if (imapProcess.Exportar_adjunto_por_separado == 1)
                                     {
-                                        InsertResult attachInsertResult = InsertResult.NoInsertado;
-                                        INewResult attachNewResult = InsertEMail(imapProcess, eMail, ref attachInsertResult, RB, TempMsgPath);
+                                        foreach (var attach in FullMessage.Attachments)
+                                        {
+                                            InsertResult attachInsertResult = InsertResult.NoInsertado;
+                                            INewResult attachNewResult = InsertEMail(imapProcess, FullMessage, eMail.UniqueId, ref attachInsertResult, RB, TempMsgPath);
+                                        }
                                     }
+
+                                    MoveEmail(eMail.SequenceNumber, imapProcess.CarpetaDest);
                                 }
 
-
-
-                                MoveEmail(eMail.SequenceNumber, imapProcess.CarpetaDest);
-
-
-
+                                FullMessage.Attachments.Clear();
                             }
-
-                            eMail.Attachments.Clear();
-
+                            catch (Exception ex)
+                            {
+                                ZClass.raiseerror(ex);
+                                ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo con uniqueID: " + eMail.UniqueId);
+                                ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            //ZClass.raiseerror(ex);
-                            ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo con uniqueID: " + eMail.UniqueId);
-                            ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
-                            continue;
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                        ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo con uniqueID: " + imapProcess.Id_proceso);
+                        ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
                     }
                 }
             }
         }
 
-        private void SaveMsgFile(DTOObjectImap imapProcess, ImapMessageDTO eMail, string TemporaryPath)
+        private static string GetNewSubjectName(ImapMessage eMail)
         {
-            List<string> Path_List = GetAndSaveMailFiles(imapProcess, eMail);
+            var SubjectName = eMail.Subject != "" ? eMail.Subject.ToString() : "SIN ASUNTO";
 
-            saveEmailWithKit(eMail.From, eMail.Cc, "", eMail.To,
-                eMail.Subject, eMail.Body, DateTime.Parse(eMail.Date),
-                eMail.Attachments,
-                TemporaryPath, Path_List);
+            int MaxNameLimit = 248;
+
+            //Se delimita el largo del asunto para que sea valido como nombre de archivo.
+            SubjectName = SubjectName.Length > MaxNameLimit ? SubjectName.Substring(0, MaxNameLimit) : SubjectName;
+
+            string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            foreach (char c in invalid)
+            {
+                SubjectName = SubjectName.Replace(c.ToString(), "");
+            }
+
+            SubjectName = FixNameLength(SubjectName, MaxNameLimit);
+            return SubjectName;
         }
 
-        private List<string> GetAndSaveMailFiles(DTOObjectImap imapProcess, ImapMessageDTO eMail)
+        private static string FixNameLength(string SubjectName, int MaxNameLimit)
+        {
+            int lengthtotal = (Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp").Length + SubjectName.Length;
+
+            if (lengthtotal > MaxNameLimit)
+            {
+                SubjectName = SubjectName.Substring(0, SubjectName.Length - (lengthtotal - MaxNameLimit));
+            }
+
+
+            return SubjectName;
+        }
+
+        /// <summary>
+        /// Cambia el src que contiene un CID por una base64 dentro del body del correo.
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <param name="FullMessage"></param>
+        private void setSrcFromBody(ImapMessage eMail, MailMessage FullMessage)
+        {
+            try
+            {
+
+                string[] ImageTags = System.Text.RegularExpressions.Regex.Split(FullMessage.BodyHtml, "<img", RegexOptions.IgnoreCase);
+
+                string FirstSrcValue = "";
+                string FirstCidValue = "";
+
+                if (ImageTags.Length > 1)
+                {
+                    //Busco el SRC de la primera imagen, este indice sera el modificado en "ReplaceCidForSrc()"
+                    int FirstPosSrc = GetStringPositionFromBody(ImageTags[1], "src=");
+
+                    int FirstPosAlt = GetStringPositionFromBody(ImageTags[1], "alt=");
+
+                    //Obtengo el valor del primer atributo SRC, en el, estara la palabra "cid:"
+                    FirstSrcValue = ImageTags[1].Substring(FirstPosSrc + 5, ImageTags[1].Substring(FirstPosSrc + 5).IndexOf("\""));
+
+                    //Obtengo el nombre de la imagen embebida no importa como esta formado su valor CID.
+                    //FirstCidValue = FirstSrcValue.Split('@').First();
+
+
+                    //List<int> CidsIndices = GetListStringPositionFromBody(FullMessage.BodyHtml, "cid:");
+                    //List<int> CidsIndices = GetListStringPositionFromBody(FullMessage.BodyHtml, "src=");
+
+                    if (FirstSrcValue.Contains('@'))
+                    {
+                        List<int> SrcIndices = GetPositionsSrcFromBody(FullMessage.BodyHtml, "src=");
+
+                        List<string> EmbeddedFileNames = GetFileNamesFromBody(FullMessage, ImageTags);
+
+                        EmbeddedFileNames.Reverse();
+                        SrcIndices.Reverse();
+
+                        if (EmbeddedFileNames.Count != 0)
+                        {
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[setSrcFromBody]: Se reemplazaron los CIDS por Base64.");
+                            FullMessage.BodyHtml = ReplaceCidForSrc(eMail, FullMessage, SrcIndices, EmbeddedFileNames);
+                        }
+
+                    }
+                    else
+                    {
+                        List<int> CidsIndices = GetListStringPositionFromBody(FullMessage.BodyHtml, "cid:");
+
+                        List<string> EmbeddedImageIndexes = GetEmbeddedImageIndexes(eMail, CidsIndices, ImageTags);
+
+                        EmbeddedImageIndexes.Reverse();
+                        CidsIndices.Reverse();
+
+                        if (EmbeddedImageIndexes.Count != 0)
+                        {
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[setSrcFromBody]: Se reemplazaron los CIDS por Base64.");
+                            FullMessage.BodyHtml = ReplaceCidForSrc(eMail, FullMessage, CidsIndices, EmbeddedImageIndexes);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo con uniqueID: " + eMail.UniqueId);
+                ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Crea una lista de indices que se utilizaran para obtener imagenes del Cliente IMAP, siempre y cuando el formato de los CIDS sea algo parecido a: cid:HG347FHED
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <param name="CidsIndices"></param>
+        /// <param name="ImageTags"></param>
+        /// <returns>Lista de indices en formato string.</returns>
+        private List<string> GetEmbeddedImageIndexes(ImapMessage eMail, List<int> CidsIndices, string[] ImageTags)
+        {
+            List<string> ReorderedFileList = new List<string>();
+            foreach (string ImgItem in ImageTags)
+            {
+                //TODO: TESTEAR ESTE METODO NUEVO
+                int Cid = GetStringPositionFromBody(ImgItem, "cid:");
+                int Alt = GetStringPositionFromBody(ImgItem, "alt=");
+
+                //Valido que el elemento IMG tenga 
+                if (Cid != 0 && Alt != 0)
+                {
+                    string AltValue = ImgItem.Substring(Alt + 5, ImgItem.Substring(Alt + 5).IndexOf("\""));
+
+                    Attachment Image;
+                    //Se Buscan las imagenes por incice
+                    for (int i = 0; i < CidsIndices.Count; i++)
+                    {
+                        if (!ReorderedFileList.Contains((i + 2).ToString()))
+                        {
+                            try
+                            {
+                                Image = imapClient.GetAttachment(eMail.SequenceNumber, (i + 2).ToString());
+                            }
+                            catch (Exception)
+                            {
+                                Image = null;
+                            }
+
+                            if (Image != null && Image.ContentType.Name == AltValue)
+                            {
+                                ReorderedFileList.Add((i + 2).ToString());
+                                break;
+                            }
+                        }
+                    }
+
+                    //Ahora se buscan las imagenes por nombre
+                    //Reducir numero de veces iterado? int i = ReorderedFileList.Count?? (Performance)
+                    for (int i = 0; i < CidsIndices.Count; i++)
+                    {
+                        Image = imapClient.GetAttachment(eMail.SequenceNumber, AltValue);
+
+                        if (Image.ContentType.Name == AltValue)
+                        {
+                            ReorderedFileList.Add(AltValue);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return ReorderedFileList;
+        }
+
+        /// <summary>
+        /// Obtiene los nombres de las diferentes imagenes embebidas dentro del body de un corre, siempre y cuando el formato de los CIDS sea algo parecido a: cid:image001.png@01D93496.D22948C0
+        /// </summary>
+        /// <param name="FullMessage"></param>
+        /// <param name="ImageTags"></param>
+        /// <returns></returns>
+        private static List<string> GetFileNamesFromBody(MailMessage FullMessage, string[] ImageTags)
+        {
+            List<string> ListEmbeddedImages = new List<string>();
+
+            foreach (string ImgItem in ImageTags)
+            {
+                //int PosCid = GetStringPositionFromBody(ImgItem, "cid:");
+                int PosSrc = GetStringPositionFromBody(ImgItem, "src=");
+                int PosAlt = GetStringPositionFromBody(ImgItem, "alt=");
+
+                //Todo: completar validacion
+                if (PosSrc != 0)
+                {
+                    //Valida cuantos '@' hay en el nombre del archivo.  
+                    string[] FileNameSplited = ImgItem.Substring(PosSrc + 5 + 4, ImgItem.Substring(PosSrc + 5 + 4).IndexOf("\"")).Split('@');
+
+                    //Si el nombre del archivo tiene un '@', tomara el nombre del archivo hasta el ultimo '@' del valor "CID:". 
+                    //Si no hay ningun @, no tomara el nombre iterado.
+                    if (FileNameSplited.Length == 2)
+                    {
+                        ListEmbeddedImages.Add(FileNameSplited[0]);
+                    }
+                    else if (FileNameSplited.Length > 2)
+                    {
+                        string FileName = "";
+
+                        foreach (string itemString in FileNameSplited)
+                        {
+                            if (itemString == FileNameSplited.First())
+                                FileName += itemString;
+                            else if (itemString != FileNameSplited.Last())
+                                FileName += "@" + itemString;
+                        }
+
+                        ListEmbeddedImages.Add(FileName);
+                    }
+                }
+
+
+            }
+
+            return ListEmbeddedImages;
+        }
+
+        /// <summary>
+        /// Reemplaza las coincidencias de indices pasado por parametros por valores base64 correspondientes. ambas listas deben ser igual de largas y coincidir sus indices y valores entre ellas.
+        /// </summary>
+        /// <param name="eMail"></param>
+        /// <param name="FullMessage"></param>
+        /// <param name="CidsIndicesList"></param>
+        /// <param name="ListEmbeddedImages"></param>
+        /// <returns>Devuelve el body del mail actualizado.</returns>
+        private string ReplaceCidForSrc(ImapMessage eMail, MailMessage FullMessage, List<int> CidsIndicesList, List<string> ListEmbeddedImages)
+        {
+            StringBuilder SB = new StringBuilder().Append(FullMessage.BodyHtml);
+            List<Attachment> ListaDeAttachs = new List<Attachment>();
+            MemoryStream ms;
+
+            for (int i = 0; i < CidsIndicesList.Count; i++)
+            {
+                ms = new MemoryStream();
+                imapClient.GetAttachment(eMail.SequenceNumber, ListEmbeddedImages[i]).Data.CopyToAsync(ms);
+                byte[] data = ms.ToArray();
+                string Base64 = Convert.ToBase64String(data);
+
+                SB.Replace(
+                    FullMessage.BodyHtml.Substring(
+                        CidsIndicesList[i],
+                        FullMessage.BodyHtml.Substring(CidsIndicesList[i]).IndexOf("\"")
+                        ),
+                    "data:image/" + ListEmbeddedImages[i].Split('.').Last() + ";base64," + Base64);
+            }
+
+            return SB.ToString();
+        }
+
+        /// <summary>
+        /// Obtiene los nombres de las imagenes embebidas dentro del body del mail
+        /// </summary>
+        /// <param name="FullMessage"></param>
+        /// <param name="AltString"></param>
+        /// <param name="AltIndicesList"></param>
+        /// <returns></returns>
+        private static List<string> GetFileNamesFromBody(MailMessage FullMessage, string AltString, List<int> AltIndicesList)
+        {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo nombres de imagenes embebidas:");
+            List<string> ListEmbeddedImages = new List<string>();
+
+            foreach (int item in AltIndicesList)
+            {
+                string FileName = FullMessage.BodyHtml.Substring(item + AltString.Length, FullMessage.BodyHtml.Substring(item + AltString.Length).IndexOf("\\") - 1);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Archivo encontrado: " + FileName);
+                ListEmbeddedImages.Add(FileName);
+            }
+
+            return ListEmbeddedImages;
+        }
+
+        /// <summary>
+        /// Obtiene la posicion del string especificado por parametro dentro del body de un mail y devuelve una lista de indices
+        /// </summary>
+        /// <param name="FullMessage"></param>
+        /// <param name="str"></param>
+        /// <returns>devuelve una lista de indices</returns>
+        private static int GetStringPositionFromBody(string body, string str)
+        {
+            int index = 0;
+            int indexStr = 0;
+
+            while (indexStr != -1)
+            {
+                for (; ; indexStr += str.Length)
+                {
+                    indexStr = body.IndexOf(str, indexStr);
+
+                    if (indexStr == -1)
+                        break;
+                    else
+                        index = indexStr;
+                }
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// Obtiene la posicion del string especificado por parametro dentro del body de un mail y devuelve una lista de indices
+        /// </summary>
+        /// <param name="FullMessage"></param>
+        /// <param name="str"></param>
+        /// <returns>devuelve una lista de indices</returns>
+        private static List<int> GetPositionsSrcFromBody(string body, string str)
+        {
+            List<int> IndicesList = new List<int>();
+            int index = 0;
+            while (index != -1)
+            {
+                for (; ; index += str.Length)
+                {
+                    index = body.IndexOf(str, index);
+
+                    // + 5 por que luego de "src=" viene un '"'.
+                    string ValueOfStr = body.Substring(index + 5, body.Substring(index + 5).IndexOf("\""));
+
+                    if (index == -1)
+                        break;
+                    else
+                    {
+                        //Se valida que es un cid con '@' nuevamente, Refactorizar?
+                        if (ValueOfStr.Contains('@'))
+                            IndicesList.Add(index + 5);
+                    }
+                }
+            }
+
+            return IndicesList;
+        }
+
+        /// <summary>
+        /// Obtiene la posicion del string especificado por parametro dentro del body de un mail y devuelve una lista de indices
+        /// </summary>
+        /// <param name="FullMessage"></param>
+        /// <param name="str"></param>
+        /// <returns>devuelve una lista de indices</returns>
+        private static List<int> GetListStringPositionFromBody(string body, string CidString)
+        {
+            List<int> CidsIndicesList = new List<int>();
+            int indexCid = 0;
+            while (indexCid != -1)
+            {
+                for (; ; indexCid += CidString.Length)
+                {
+                    indexCid = body.IndexOf(CidString, indexCid);
+
+                    if (indexCid == -1)
+                        break;
+                    else
+                        CidsIndicesList.Add(indexCid);
+                }
+            }
+
+            return CidsIndicesList;
+        }
+
+        private void SaveMsgFile(DTOObjectImap imapProcess, MailMessage eMail, string TemporaryPath)
+        {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: SaveMsgFile: Comienza operacion de guardado temporal (msgKit).");
+            List<string> Path_List = GetAndSaveMailFiles(imapProcess, eMail);
+
+
+            saveEmailWithKit(eMail.From.Address.ToString(), eMail.Cc, "", eMail.To,
+                eMail.Subject, eMail.BodyHtml, eMail.Date,
+                eMail.Attachments,
+                TemporaryPath, Path_List);
+
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: SaveMsgFile: Finalizo operacion de guardado temporal (msgKit).");
+        }
+
+        private List<string> GetAndSaveMailFiles(DTOObjectImap imapProcess, MailMessage eMail)
         {
             List<string> Path_List = new List<string>();
+            List<string> Path_List_OldEml = new List<string>();
+            List<Attachment> Path_AttachmentsFixed = new List<Attachment>();
 
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: GetAndSaveMailFiles: Comienza proceso de iteracion de adjuntos del correo " + eMail.UniqueId.ToString());
             foreach (Attachment item in eMail.Attachments)
             {
-                Attachment At = GetFilesFromMail(imapProcess, eMail, item);
-                string TemporaryPath_attachment;
+                Attachment At = GetFilesFromMail(imapProcess, eMail, item, ref Path_AttachmentsFixed);
 
-                if (item.FileName == "")
+
+                if (At == null)
+                    continue;
+
+                string TemporaryPath_attachment;
+                string BasePath = Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Attachments\\";
+
+                if (item.ContentType.Name.Split('.').Last() == "rfc822")
                 {
-                    TemporaryPath_attachment = Zamba.Membership.MembershipHelper.AppTempDir(@"\IMAPTemp\Imap\Attachments\").FullName + At.FileName;
+                    TemporaryPath_attachment = GetNewFileName(BasePath, At.FileName);
                 }
                 else
                 {
-                    TemporaryPath_attachment = Zamba.Membership.MembershipHelper.AppTempDir(@"\IMAPTemp\Imap\Attachments\").FullName + item.FileName;
+                    if (item.FileName == "")
+                    {
+                        TemporaryPath_attachment = GetNewFileName(BasePath, At.FileName);
+                    }
+                    else
+                    {
+                        TemporaryPath_attachment = GetNewFileName(BasePath, item.FileName);
+                    }
                 }
 
-                SaveMailFiles(At, TemporaryPath_attachment);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: GetAndSaveMailFiles: Ruta de archivo temporal: " + TemporaryPath_attachment);
+
+                if (At.FileName.Split('.').Last() != "eml")
+                {
+                    SaveMailFiles(At, TemporaryPath_attachment);
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comienza el guardado de EML a MSG...");
+                    MailMessage miMailMessage = MailMessage.Load(At.Data, MailMessageFormat.Eml);
+                    MailPreview miMailPreview = new MailPreview(miMailMessage, true);
+
+                    At.FileName = miMailPreview.subject.ToString() + ".msg";
+
+                    string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+                    foreach (char c in invalid)
+                    {
+                        At.FileName = At.FileName.Replace(c.ToString(), "");
+                    }
+
+
+                    //TODO: Quitar bloque IF?
+                    if (File.Exists(BasePath + At.FileName))
+                        At.FileName = FileNameIncrementer(BasePath, At.FileName);
+
+                    TemporaryPath_attachment = BasePath + At.FileName;
+
+                    //Se guarda el archivo en formato MSG
+                    miMailMessage.Save(TemporaryPath_attachment, MailMessageFormat.Msg);
+                    Path_List_OldEml.Add(TemporaryPath_attachment);
+                    Console.WriteLine("Guardado completado!");
+                }
+
                 Path_List.Add(TemporaryPath_attachment);
             }
 
+            //Borramos archivos rfc822.
+            foreach (Attachment item in Path_AttachmentsFixed)
+            {
+                for (int i = 0; i < eMail.Attachments.Count; i++)
+                {
+                    if (item.ContentId == eMail.Attachments[i].ContentId)
+                    {
+                        eMail.Attachments[i].Dispose();
+                    }
+                }
+            }
+
+            //Agrego los archivos MSG a la coleccion de Attachments de eMail para luego ser insertados al sistema (ZambaWeb)
+            foreach (string item in Path_List_OldEml)
+            {
+                Attachment NewMsg = new Attachment(item);
+                NewMsg.FileName = NewMsg.ContentType.Name;
+                eMail.Attachments.Add(NewMsg);
+            }
+
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: GetAndSaveMailFiles: finalizo proceso de iteracion de adjuntos del correo. ");
             return Path_List;
         }
 
-        private Attachment GetFilesFromMail(DTOObjectImap imapProcess, ImapMessageDTO eMail, Attachment item)
+        private string GetNewFileName(string TemporaryPath_attachment, string FileName)
+        {
+            if (Directory.Exists(TemporaryPath_attachment) == false)
+                Directory.CreateDirectory(TemporaryPath_attachment);
+
+            string TempMsgPath = "";
+
+            if (File.Exists(TemporaryPath_attachment + FileName))
+            {
+                var FileNameIncremented = FileNameIncrementer(TemporaryPath_attachment, FileName);
+                TempMsgPath = new DirectoryInfo(TemporaryPath_attachment + FileNameIncremented).FullName;
+            }
+            else
+            {
+                TempMsgPath = new DirectoryInfo(TemporaryPath_attachment + FileName).FullName;
+            }
+
+            return TempMsgPath;
+        }
+
+        private Attachment GetFilesFromMail(DTOObjectImap imapProcess, MailMessage eMail, Attachment item, ref List<Attachment> Path_AttachmentsFixed)
         {
             imapClient.Select(imapProcess.Carpeta);
 
             //Si el adjunto fue creado como elemento de outlook
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: GetFilesFromMail: ");
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: FileName: " + item.FileName.ToString() != string.Empty ? item.FileName.ToString() : "<SIN NOMBRE>");
+            Attachment At;
+
             if (item.FileName == "")
             {
-                Attachment At = new Attachment(item.Data);
+                At = new Attachment(item.Data);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: ContentId: " + item.ContentId.ToString());
                 At.ContentId = item.ContentId;
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: ContentType.MediaType: " + item.ContentType.MediaType.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: ContentType.Name: " + item.ContentType.Name.ToString());
                 At.ContentType = item.ContentType;
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: DispositionType: " + item.DispositionType.ToString());
                 At.DispositionType = item.DispositionType;
-                At.FileName = item.ContentId + ".msg";
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: FileName: " + item.ContentId.ToString());
+                //At.FileName = item.ContentId + ".msg";
+                At.FileName = item.ContentType.Name.ToString();
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: Size: " + item.Size.ToString());
                 At.Size = item.Size;
-                return At;
+
+                FixAttachedImageFormat(At);
+
+                if (!(At.FileName.Split('.').Count() > 1))
+                {
+                    At = null;
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: Se desestimo este adjunto debido a que no contiene formato");
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: Item: Se desestimo este adjunto para evitar fallas en el sistema, es posible que se trate de una imagen dentro de la firma que no fue interpretada por el cliente IMAp adecuadamente.");
+                }
             }
             else
             {
-                Attachment At = imapClient.GetAttachment(eMail.SequenceNumber, item.FileName);
-                return At;
+                At = new Attachment(item.Data);
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: Item: SequenceNumber: " + eMail.SequenceNumber.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: Item: FileName: " + item.FileName.ToString());
+                //At = imapClient.GetAttachment(eMail.SequenceNumber, item.FileName);
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: ContentId: " + At.ContentId.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: ContentType.MediaType: " + item.ContentType.MediaType.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: ContentType.Name: " + At.ContentType.Name.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: DispositionType: " + At.DispositionType.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: FileName: " + At.ContentId.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: Size: " + At.Size.ToString());
+                At = item;
+
+                FixAttachedImageFormat(At);
+
+                if (!(At.FileName.Split('.').Count() > 1))
+                {
+                    At = null;
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: Se desestimo este adjunto debido a que no contiene formato");
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "[IMAP]: Item: Se desestimo este adjunto para evitar fallas en el sistema, es posible que se trate de una imagen dentro de la firma que no fue interpretada por el cliente IMAp adecuadamente.");
+                }
+
             }
 
+            if (item.ContentType.Name.Split('.').Last() == "rfc822")
+            {
+                Zamba.FileTools.MailPreview Msg = new Zamba.FileTools.SpireTools().ConvertEmlToMsg(item.Data);
+
+                At.ContentId = item.ContentId;
+                At.FileName = Msg.subject.ToString() != "" ? Msg.subject.ToString() + ".eml" : "SIN ASUNTO" + ".eml";
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: Caracteres ilegales quitados.");
+                string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+                foreach (char c in invalid)
+                {
+                    At.FileName = At.FileName.Replace(c.ToString(), "");
+                }
+
+                At.ContentType.Name = At.FileName;
+                At.ContentType.MediaType = "message/rfc822";
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: nombre de archivo final: " + At.FileName);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "[IMAP]: Item: MediaType: " + At.ContentType.MediaType);
+                Path_AttachmentsFixed.Add(At);
+            }
+
+            return At;
+
         }
+
+        private static void FixAttachedImageFormat(Attachment At)
+        {
+            switch (At.ContentType.MediaType)
+            {
+                case "image/jpeg":
+                    At.FileName += !(At.FileName.Split('.').Last() == "jpeg") ? ".jpeg" : "";
+                    break;
+
+                case "image/png":
+                    At.FileName += !(At.FileName.Split('.').Last() == "png") ? ".png" : "";
+                    break;
+
+                default:
+                    At.FileName = At.ContentType.Name;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Devuelve el nombre del archivo pasado por parametro con un incrementador de archivo duplicado.
+        /// </summary>
+        /// <param name="BasePath"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public string FileNameIncrementer(string BasePath, string FileName)
+        {
+            var LastIndexOfPoint = FileName.LastIndexOf('.');
+
+            for (int i = 1; true; i++)
+            {
+                if (!(File.Exists(BasePath + FileName.Insert(LastIndexOfPoint, "(" + i.ToString() + ")"))))
+                    return FileName.Insert(LastIndexOfPoint, "(" + i.ToString() + ")");
+            }
+        }
+
 
         private static void SaveMailFiles(Attachment At, string TemporaryPath_attachment)
         {
@@ -608,7 +1169,7 @@ namespace Zamba.SpireTools
             ms.Dispose();
         }
 
-        public string saveEmailWithKit(string From, string eMailcc, string eMailcco, string eMailTo, string Subject,
+        public string saveEmailWithKit(string From, MailAddressCollection eMailcc, string eMailcco, MailAddressCollection eMailTo, string Subject,
             string Body, DateTime sendOn, AttachmentCollection Attachments, string TemporaryPath,
             List<string> Path_List)
         {
@@ -620,8 +1181,16 @@ namespace Zamba.SpireTools
                 false,
                 false))
                 {
-                    email.Recipients.AddTo(eMailTo);
-                    email.Recipients.AddCc(eMailcc);
+                    foreach (MailAddress item in eMailTo)
+                    {
+                        email.Recipients.AddTo(item.Address);
+                    }
+
+                    foreach (MailAddress item in eMailcc)
+                    {
+                        email.Recipients.AddCc(item.Address);
+                    }
+
                     email.Recipients.AddBcc(eMailcco);
                     email.Subject = Subject;
                     email.BodyText = Body;
@@ -632,7 +1201,6 @@ namespace Zamba.SpireTools
                     foreach (string item in Path_List)
                     {
                         email.Attachments.Add(item);
-                        //File.Delete(item);                        
                     }
 
                     email.Save(TemporaryPath);
@@ -647,41 +1215,7 @@ namespace Zamba.SpireTools
             }
         }
 
-        private string WriteAtachment(attach item)
-        {
-            string TemporaryPath_attachment = Zamba.Membership.MembershipHelper.AppTempDir(@"\IMAPTemp\Imap\Attachments\").FullName + item.FileName.Split('.')[0] + "_" + DateTime.Now.Ticks.ToString() + "." + item.FileName.Split('.')[1];
-
-            //Metodo 1: Rompe la 613
-            //var fs = new FileStream(TemporaryPath_attachment, FileMode.Open);
-            //var attachment = new System.Net.Mail.Attachment(item.Data, "iconZamba_637671432072161457.png", item.ContentType.MediaType);
-
-            //Metodo 2: El archivo guardado no se puede leer abrir
-            //var fileStream = new MemoryStream(attachment.ContentBytes);
-            // convert string to stream
-            //byte[] buffer = Encoding.ASCII.GetBytes(memString);
-            //MemoryStream ms = new MemoryStream(buffer);
-            ////write to file
-            //FileStream file = new FileStream(TemporaryPath_attachment, FileMode.Create, FileAccess.Write);
-            //ms.WriteTo(file);
-            //file.Close();
-            //ms.Close();
-
-            //Metodo 3: Rompe la 633
-            //byte[] bufferrrrr = new byte[8 * 1024];
-            //int len;
-
-            //using (Stream FileLoco = File.Create(TemporaryPath_attachment))
-            //{
-            //    while ((len = item.Data.Read(bufferrrrr, 0, bufferrrrr.Length)) > 0)
-            //    {
-            //        FileLoco.Write(bufferrrrr, 0, len);
-            //    }
-            //}
-
-            return TemporaryPath_attachment;
-        }
-
-        private static INewResult InsertEMail(DTOObjectImap imapProcess, ImapMessageDTO eMail, ref InsertResult insertResult, IResults_Business RB, string TempMsgPath)
+        private static INewResult InsertEMail(DTOObjectImap imapProcess, MailMessage eMail, string UniqueId, ref InsertResult insertResult, IResults_Business RB, string TempMsgPath)
         {
             try
             {
@@ -690,61 +1224,46 @@ namespace Zamba.SpireTools
                 newResult = RB.GetNewNewResult(imapProcess.Entidad);
 
                 if (imapProcess.Codigo_mail != 0)
-                    newResult.get_GetIndexById(imapProcess.Codigo_mail).DataTemp = eMail.UniqueId;
-
-                newResult.get_GetIndexById(imapProcess.Enviado_por).DataTemp = string.IsNullOrEmpty(eMail.From) ? eMail.From : eMail.Sender;
-                newResult.get_GetIndexById(imapProcess.Para).DataTemp = eMail.To;
-
-                if (imapProcess.Cc != 0)
-                    newResult.get_GetIndexById(imapProcess.Cc).DataTemp = eMail.Cc;
-
-                newResult.get_GetIndexById(imapProcess.Fecha).DataTemp = eMail.Date;
-                newResult.get_GetIndexById(imapProcess.Asunto).DataTemp = eMail.Subject;
-
-                //Guardar en temporal el archivo BodyText como HTML
-                string TemporaryPath = Zamba.Membership.MembershipHelper.AppTempDir(@"\IMAPTemp\Imap").FullName + DateTime.Now.Ticks.ToString() + ".msg";
-
-                MailAddress addressFrom = new MailAddress(eMail.From.ToString());
-                //System.Net.Mail.MailAddress addressFrom = new System.Net.Mail.MailAddress();
-                if (eMail.Cc != "")
                 {
-                    MailAddress addressTo = new MailAddress(eMail.Cc);
+                    Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
+
+                    string ExportCode = UserPreferencesFactory.getValueDB("IdAutoIncrementExporta", UPSections.ExportaPreferences, 0);
+                    newResult.get_GetIndexById(imapProcess.Codigo_mail).DataTemp = ExportCode;
+                    UserPreferencesFactory.setValueDB("IdAutoIncrementExporta", (int.Parse(ExportCode) + 1).ToString(), UPSections.ExportaPreferences, 0);
                 }
 
-                ////IsProcessEnabledAndValid
-                //Zamba.SpireTools.SpireT.eMail em = new SpireT.eMail();
+                newResult.get_GetIndexById(imapProcess.Enviado_por).DataTemp = eMail.From.Address.ToString();
 
+                string StringTo = "";
 
-                //List<attach> attachsList = new List<attach>();
+                foreach (MailAddress item in eMail.To)
+                {
+                    StringTo += item.Address;
 
-                //foreach (Attachment item in eMail.Attachments)
-                //{
-                //    attach dto = new attach();
+                    if (eMail.To.Last() != item)
+                        StringTo += "; ";
+                }
 
-                //    dto.Data = item.Data;
-                //    dto.ContentId = item.ContentId;
+                newResult.get_GetIndexById(imapProcess.Para).DataTemp = StringTo;
 
-                //    dto.ContentType = new Core.ContentType();
+                if (imapProcess.Cc != 0)
+                {
+                    string StringCc = "";
+                    foreach (MailAddress item in eMail.Cc)
+                    {
+                        StringCc += item.Address;
 
-                //    dto.ContentType.Boundary = item.ContentType.Boundary;
-                //    dto.ContentType.CharSet = item.ContentType.CharSet;
-                //    dto.ContentType.MediaType = item.ContentType.MediaType;
-                //    dto.ContentType.Name = item.ContentType.Name;
+                        if (eMail.Cc.Last() != item)
+                            StringCc += "; ";
+                    }
 
+                    newResult.get_GetIndexById(imapProcess.Cc).DataTemp = StringCc;
+                }
 
-                //    dto.DispositionType = item.DispositionType;
-                //    dto.FileName = item.FileName;
-                //    dto.Size = item.Size;
+                newResult.get_GetIndexById(imapProcess.Fecha).DataTemp = eMail.Date.ToString();
+                newResult.get_GetIndexById(imapProcess.Asunto).DataTemp = eMail.Subject;
 
-
-                //    attachsList.Add(dto);
-                //}
-
-
-                //em.saveEmail(eMail.From, eMail.To.ToString(), eMail.Subject.ToString(), eMail.Body.ToString(), attachsList, TempMsgPath);
-
-                //byte[] BytesMsg = File.ReadAllBytes(TempMsgPath);
-                //newResult.EncodedFile = BytesMsg;
+                MailAddress addressFrom = new MailAddress(eMail.From.ToString());
 
                 newResult.File = TempMsgPath;
                 insertResult = RB.Insert(ref newResult, false, false, false, false, false, false, false);
@@ -842,7 +1361,7 @@ namespace Zamba.SpireTools
 
         #endregion
 
-        public ImapMessageDTO(ImapMessage Obj, AttachmentCollection Attachs)
+        public ImapMessageDTO(ImapMessage Obj)
         {
             this.Cc = string.Concat(Obj.Cc.Select(n => n.Address + "; ")
                     .AsEnumerable())
@@ -869,10 +1388,11 @@ namespace Zamba.SpireTools
                     .TrimEnd(';');
 
             this.UniqueId = Obj.UniqueId;
-
-            this.Attachments = Attachs;
         }
 
-
+        public ImapMessageDTO(ImapMessage Obj, AttachmentCollection Attachs) : this(Obj)
+        {
+            this.Attachments = Attachs;
+        }
     }
 }

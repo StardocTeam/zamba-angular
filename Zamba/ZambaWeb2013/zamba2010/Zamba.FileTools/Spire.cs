@@ -1683,6 +1683,23 @@ namespace Zamba.FileTools
             ISpireTools Rule = (ISpireTools)Activator.CreateInstance(t);
             return Rule.GetExcelAsDataSet(file);
         }
+
+        public MailPreview ConvertEmlToMsg(Stream file)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comienza la conversion de EML a MSG iniciada...");
+                MailMessage miMailMessage = MailMessage.Load(file, MailMessageFormat.Eml);
+                MailPreview miMailPreview = new MailPreview(miMailMessage, true);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Conversion de EML a MSG exitosa...");
+
+                return miMailPreview;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
     /// <summary>
