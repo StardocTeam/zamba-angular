@@ -295,23 +295,15 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         [AcceptVerbs("POST", "GET")]
         [AllowAnonymous]
-        [Route("NotificarAClientePorFirmaYAviso")]
-        public IHttpActionResult NotificarAClientePorFirmaYAviso()
+        [Route("NotificarAClienteFirmaYAvisoPorAPI")]
+        public IHttpActionResult NotificarAClienteFirmaYAvisoPorAPI()
         {
-        /*    
-        preguntas:
-            userid: ¿cual uso?
-
-
-        */
-            string URLEndPoint = "https://dominio/api"; // Averiguar cual es
-            //long UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-            long UserId = 22242;
-           
+            long UserId = Convert.ToInt64(ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIUserID", "22242"));
+            string URLEndPoint = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIEndPoint", "http://www.estudio-caliri.com/api/import_data");
             string doc_type_id = "139072";
             System.Text.StringBuilder SQLGetLegajosFirmados = new System.Text.StringBuilder();
-            //SQLGetLegajosFirmados.AppendLine("SELECT ");
-            SQLGetLegajosFirmados.AppendLine("SELECT TOP 1");
+            SQLGetLegajosFirmados.AppendLine("SELECT ");
+            // SQLGetLegajosFirmados.AppendLine("SELECT TOP 1");
             SQLGetLegajosFirmados.AppendLine("  despacho.Doc_ID");
             SQLGetLegajosFirmados.AppendLine("  ,despacho.i139548 'nroLegajo'");
             SQLGetLegajosFirmados.AppendLine("  ,despacho.i139600 'cuitDeclarante'");
@@ -329,9 +321,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
             SQLGetLegajosFirmados.AppendLine("  inner join doc_i139074 despachante on despacho.i139600 = despachante.i139600");
             SQLGetLegajosFirmados.AppendLine("  left join zopt on zopt.Item = 'PSADCUIT'");
             SQLGetLegajosFirmados.AppendLine("WHERE ");
-            SQLGetLegajosFirmados.AppendLine("	wfd.step_Id = 139109");
-            //SQLGetLegajosFirmados.AppendLine("	and despacho.i161670 is null");
-            //SQLGetLegajosFirmados.AppendLine("	and	despachante.i161674 = 1");
+            SQLGetLegajosFirmados.AppendLine("	wfd.step_Id = 139109  "); // que este en etapa 'finalizado'
+            SQLGetLegajosFirmados.AppendLine("	and despacho.i161670 is null"); // que no tenga fecha de notificacion al cliente
+            SQLGetLegajosFirmados.AppendLine("	and	despachante.i161674 = 1"); //  que el usuario este chequeado para notificar al servicio
             SQLGetLegajosFirmados.AppendLine("ORDER BY ");
             SQLGetLegajosFirmados.AppendLine("	despacho.DOC_ID desc");
 
@@ -346,38 +338,80 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 string docId = RowDespacho["Doc_Id"].ToString();
                 Zamba.Core.DocumentData dd;
                 string JsonMessage = "";
-                dd = consumeServiceRestApi.GetDocumentData(UserId, doc_type_id, docId, true, false, false,"");
-                string fileBase64String = Convert.ToBase64String(dd.data, 0, dd.data.Length);
-
-                // Creo el mensaje a postear
-
                 JsonApiLegajosFirmados jsonApiLegajosFirmados = new JsonApiLegajosFirmados();
-
-                jsonApiLegajosFirmados.file = fileBase64String;
-                jsonApiLegajosFirmados.cantFojas = RowDespacho["cantFojas"].ToString();
-                jsonApiLegajosFirmados.codigo = RowDespacho["codigo"].ToString();
-                jsonApiLegajosFirmados.cuitDeclarante = RowDespacho["cuitDeclarante"].ToString();
-                jsonApiLegajosFirmados.cuitIE = RowDespacho["cuitIE"].ToString();
-                jsonApiLegajosFirmados.cuitPSAD = RowDespacho["cuitPSAD"].ToString();
-                jsonApiLegajosFirmados.FechaDeRecepcion = Convert.ToDateTime(RowDespacho["FechaDeRecepcion"]);
-                jsonApiLegajosFirmados.FechaFirmayAviso = Convert.ToDateTime(RowDespacho["FechaFirmayAviso"]);
-                jsonApiLegajosFirmados.nroGuia = RowDespacho["nroGuia"].ToString();
-                jsonApiLegajosFirmados.nroLegajo = RowDespacho["nroLegajo"].ToString();
-                jsonApiLegajosFirmados.sigea = RowDespacho["sigea"].ToString();                
-
-                // Hago el posteo
                 try
                 {
+                    dd = consumeServiceRestApi.GetDocumentData(UserId, doc_type_id, docId, false, false, false, "");
+                    string fileBase64String = Convert.ToBase64String(dd.data, 0, dd.data.Length);
+                    // Creo el mensaje a postear
+
+                    jsonApiLegajosFirmados.file = fileBase64String;
+
+                    jsonApiLegajosFirmados.cantFojas = RowDespacho["cantFojas"].ToString();
+                    jsonApiLegajosFirmados.codigo = RowDespacho["codigo"].ToString();
+                    jsonApiLegajosFirmados.cuitDeclarante = RowDespacho["cuitDeclarante"].ToString();
+                    jsonApiLegajosFirmados.cuitIE = RowDespacho["cuitIE"].ToString();
+                    jsonApiLegajosFirmados.cuitPSAD = RowDespacho["cuitPSAD"].ToString();
+                    jsonApiLegajosFirmados.FechaDeRecepcion = Convert.ToDateTime(RowDespacho["FechaDeRecepcion"]);
+                    jsonApiLegajosFirmados.FechaFirmayAviso = Convert.ToDateTime(RowDespacho["FechaFirmayAviso"]);
+                    jsonApiLegajosFirmados.nroGuia = RowDespacho["nroGuia"].ToString();
+                    jsonApiLegajosFirmados.nroLegajo = RowDespacho["nroLegajo"].ToString();
+                    jsonApiLegajosFirmados.sigea = RowDespacho["sigea"].ToString();
+                    string FileName = jsonApiLegajosFirmados.nroLegajo
+                        + "-" + jsonApiLegajosFirmados.codigo
+                        + "-" + jsonApiLegajosFirmados.sigea + "-"
+                        + dd.fileName.Split('.').Last();
+                    jsonApiLegajosFirmados.fileName = FileName;
+
                     JsonMessage = JsonConvert.SerializeObject(jsonApiLegajosFirmados);
-                    consumeServiceRestApi.CallServiceRestApi(URLEndPoint, "POST", JsonMessage);
-                    string SQLUpdatePostOK = "UPDATE doc_i139072 set i161670=getdate() WHERE doc_id=" + docId;
-                    Zamba.Servers.Server.get_Con().ExecuteNonQuery(SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
+                    string response = consumeServiceRestApi.CallServiceRestApi(URLEndPoint, "POST", JsonMessage);
+                    string SQLUpdatePostOK = "UPDATE doc_i139072 set i161670=getdate(),i161671='" + response + "' WHERE doc_id=" + docId;
+                    Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
                 }
                 catch (Exception ex)
                 {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonApiLegajosFirmados.nroLegajo);
+
+
+                    string SQLUpdatePostOK = "UPDATE doc_i139072 set i161670=null,i161671='" + ex.Message + "' WHERE doc_id=" + docId;
+                    Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
 
                     // Envio por mail que hubo error
-                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonApiLegajosFirmados.nroLegajo );
+
+
+                    
+                    string Subject = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPISubject", "Intento de notificacion fallido por API");
+                    string MailTo = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIMailTo", "");
+                    string MailCC = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIMailCC", "");
+                    string Body = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIBody", "");
+
+                    Body = Body.Replace("$codigo", jsonApiLegajosFirmados.codigo);
+                    Body = Body.Replace("$cuitDeclarante", jsonApiLegajosFirmados.cuitDeclarante);
+                    Body = Body.Replace("$cuitIE", jsonApiLegajosFirmados.cuitIE);
+                    Body = Body.Replace("$cuitPSAD", jsonApiLegajosFirmados.cuitPSAD);
+                    Body = Body.Replace("$FechaDeRecepcion", jsonApiLegajosFirmados.FechaDeRecepcion.ToString());
+                    Body = Body.Replace("$FechaFirmayAviso", jsonApiLegajosFirmados.FechaFirmayAviso.ToString());
+                    Body = Body.Replace("$nroGuia", jsonApiLegajosFirmados.nroGuia);
+                    Body = Body.Replace("$nroLegajo", jsonApiLegajosFirmados.nroLegajo);
+                    Body = Body.Replace("$sigea", jsonApiLegajosFirmados.sigea);                    
+                    Body = Body.Replace("$Message", ex.Message);
+
+                    //''string Body = ex.Message;
+//                    string Body = "El despacho nro " + jsonApiLegajosFirmados.nroLegajo.ToString() + " correspondiente a la guia nro. " + jsonApiLegajosFirmados.nroGuia.ToString();
+
+                    ISendMailConfig mail = new SendMailConfig();
+                    mail.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                    mail.MailType = MailTypes.NetMail;
+                    mail.SaveHistory = false;
+                    mail.MailTo = MailTo; // ("soportemodoc@stardoc.com.ar;" + ZOptBusiness.GetValueOrDefault("ServiceReportEmails", "soporte@stardoc.com.ar") + ";" + ImpoExpoEmail[cuitImpoExpo]).Replace(",", ";").Replace(" ", "").Replace(";;", ";");
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Envio de Email a: " + mail.MailTo);
+                    mail.Subject = Subject;
+                    mail.Body = Body;
+                    mail.IsBodyHtml = true;
+                    mail.LinkToZamba = false;
+
+                    MessagesBusiness.SendQuickMail(mail);
+
                 }
                 System.Threading.Thread.Sleep(300);
             }
@@ -398,6 +432,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             public DateTime FechaDeRecepcion { get; set; }
             public DateTime FechaFirmayAviso { get; set; }
             public string file { get; set; }
+            public string fileName { get; set; }
             public string cantFojas { get; set; }
         }
 
