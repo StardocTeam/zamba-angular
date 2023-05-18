@@ -472,7 +472,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 var query = string.Empty;
 
-                if (codigo == "004")
+                if (codigo == "004" || codigo == "002" || codigo == "003")
                 {
                     query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo,  i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", NroDespacho, codigo, sigea);
                 }
@@ -3120,7 +3120,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                                 AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
 
                                                 string updateLegajo = string.Empty;
-                                                if (codigo == "004" || codigo == "003")
+                                                if (codigo == "004" || codigo == "002" || codigo == "003")
                                                 {
                                                     updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
                                                 }
@@ -3502,7 +3502,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
 
                                             string updateLegajo = string.Empty;
-                                            if (codigo == "004")
+                                            if (codigo == "004" || codigo == "002" || codigo == "003")
                                             {
                                                 updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
                                             }
@@ -3879,7 +3879,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             AddonlineLog(TraceAFIP, ZTrace.CompleteSpaces(DateTime.Now.ToString("HH:mm:ss:") + DateTime.Now.Millisecond.ToString(), 12) + " " + conteo.ToString() + ": Despacho: " + l.NroLegajo + " Codigo: " + l.Codigo + " : Ya existe, se actualiza");
 
                                             string updateLegajo = string.Empty;
-                                            if (codigo == "004")
+                                            if (codigo == "004" || codigo == "002" || codigo == "003")
                                             {
                                                 updateLegajo = string.Format(@"update doc_i139072 set I26405 =  CONVERT(datetime,'{0}',120), i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' and i139578 = '{8}'", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq, l.Sigea);
                                             }
