@@ -7,6 +7,7 @@
         try {
             $scope.HasPermissionToDownloadFile = DocToolbarService.GetUserRights(10, 6);
             $scope.HasPermissionToSendMail = DocToolbarService.GetUserRights(164, 6);
+            $scope.HasPermissionToPrint = DocToolbarService.GetUserRights(9, 6);; // DocToolbarService.GetUserRights(164, 6);
         } catch (e) {
             console.error(e);
         }
