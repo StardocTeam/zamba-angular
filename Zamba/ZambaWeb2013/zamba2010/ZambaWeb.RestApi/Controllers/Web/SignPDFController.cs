@@ -368,14 +368,17 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                     foreach (DataRow rf in dsFiles.Tables[0].Rows)
                     {
+                        jsonApiLegajosFirmados.familia = rf["familia"].ToString();
                         NotificarFamilia(MapIndex, URLAPI, RowDespacho, docId, jsonApiLegajosFirmados, rf["familia"].ToString());
                     }
+                    string SQLUpdatePostOK = string.Format(@"UPDATE {0} set {1}=getdate(),{2}='200:Ok' WHERE doc_id=" + docId, MapIndex["despacho"], MapIndex["Fecha Notificación por API"], MapIndex["Codigo Error Notificación"]);
+                    Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
                 }
                 catch (Exception ex)
                 {
                     ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonApiLegajosFirmados.nroLegajo);
 
-                    string SQLUpdatePostOK = string.Format(@"UPDATE {0} set {1}=null,{2}='" + ex.Message + "' WHERE doc_id=" + docId, MapIndex["despacho"], MapIndex["Fecha Notificación por API"], MapIndex["Codigo Error Notificación"]); ;
+                    string SQLUpdatePostOK = string.Format(@"UPDATE {0} set {1}=null,{2}='Familia: " + jsonApiLegajosFirmados.familia  + "\nMensaje:" + ex.Message + "' WHERE doc_id=" + docId, MapIndex["despacho"], MapIndex["Fecha Notificación por API"], MapIndex["Codigo Error Notificación"]); ;
                     Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
 
                     // Envio por mail que hubo error
@@ -440,6 +443,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
             jsonApiLegajosFirmados.FechaDeRecepcion = Convert.ToDateTime(RowDespacho["FechaDeRecepcion"]);
             jsonApiLegajosFirmados.FechaFirmayAviso = Convert.ToDateTime(RowDespacho["FechaFirmayAviso"]);
             jsonApiLegajosFirmados.nroGuia = RowDespacho["nroGuia"].ToString();
+            jsonApiLegajosFirmados.familia = familia;
+
 
 
             byte[] dd = GenerarPDFDeFamilia(jsonApiLegajosFirmados.nroLegajo, jsonApiLegajosFirmados.codigo, jsonApiLegajosFirmados.sigea, familia);
@@ -457,8 +462,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             JsonMessage = JsonConvert.SerializeObject(jsonApiLegajosFirmados);
             string response = consumeServiceRestApi.CallServiceRestApi(URLAPI, "POST", JsonMessage);
-            string SQLUpdatePostOK = string.Format(@"UPDATE {0} set {1}=getdate(),{2}='" + response + "' WHERE doc_id=" + docId, MapIndex["despacho"], MapIndex["Fecha Notificación por API"], MapIndex["Codigo Error Notificación"]);
-            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, SQLUpdatePostOK); //Actualizo las tablas y pongo la fecha
+           
         }
 
         private byte[] GenerarPDFDeFamilia(string NroDespacho, string codigo, string sigea, string familia)
@@ -544,6 +548,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             public string file { get; set; }
             public string fileName { get; set; }
             public string cantFojas { get; set; }
+            public string familia { get; set; }
         }
 
         [AcceptVerbs("POST")]
