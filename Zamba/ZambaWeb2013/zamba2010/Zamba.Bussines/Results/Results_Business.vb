@@ -5445,8 +5445,16 @@ Public Class Results_Business
         Return RF.getDataFromHerarchicalParentData(parentTagValue)
     End Function
 
+    Public Function getInsertAdInfoInZamba(TagValue As String, UserId As Int64, PropertId As Int64, eId As Int64) As Boolean
+        Dim RF As New Results_Factory()
+        RF.getInsertAdInfoInZamba(TagValue, UserId, PropertId, eId)
+        Return True
+    End Function
 
-
+    Public Function getZudt() As DataTable
+        Dim RF As New Results_Factory()
+        Return RF.getZudt()
+    End Function
 
     Public Function getDataFromHerarchicalParent(parentTagValue As Int64, indexs As List(Of String), tableId As String, isView As Boolean) As DataTable Implements IResults_Business.getDataFromHerarchicalParent
         Dim RF As New Results_Factory()

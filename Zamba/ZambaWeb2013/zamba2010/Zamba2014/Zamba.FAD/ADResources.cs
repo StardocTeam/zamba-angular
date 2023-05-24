@@ -6,6 +6,7 @@ using System.Collections;
 using System.Text;
 using Zamba.Servers;
 using System.Data;
+using System.Web.Security;
 
 namespace Zamba.FAD
 {
@@ -80,7 +81,7 @@ namespace Zamba.FAD
         {
 
             var url = ADResources.GetValue("ActiveDirectoryUrl");
-            ZTrace.WriteLineIf(ZTrace.IsInfo,"busco roles del usuario " + username + " en el server" + url);
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "busco roles del usuario " + username + " en el server" + url);
 
             DirectoryEntry root = new DirectoryEntry(url, null, null, AuthenticationTypes.None);
             try
@@ -147,8 +148,9 @@ namespace Zamba.FAD
                     DirectorySearcher adsSearcherGroups = new DirectorySearcher(root);
                     adsSearcherGroups.Filter = @"(&(objectClass=user)(sAMAccountName=" + username + "))";
 
-                    var result = adsSearcherGroups.FindAll();
+                    AdInfoAdInZamba(username, adsSearcherGroups);
 
+                    var result = adsSearcherGroups.FindAll();
                     foreach (SearchResult props in result)
                     {
 
@@ -190,6 +192,37 @@ namespace Zamba.FAD
             }
         }
 
+        public void AdInfoAdInZamba(string username, DirectorySearcher adsSearcherGroups)
+        {
+
+            
+            string propertyAdd = string.Empty;
+            string PropertyName = string.Empty;
+
+            Results_Business RB = new Results_Business();
+            UserBusiness UB = new UserBusiness();
+
+            DataTable zudtResults = RB.getZudt();
+
+            if (zudtResults.Rows.Count > 0)
+            {
+                var user = UB.GetUserByname(username, false);
+                foreach (var p in adsSearcherGroups?.SearchRoot.Properties.Values)
+                {
+                    foreach (DataRow row in zudtResults.Rows)
+                    {
+                        if (((PropertyValueCollection)p).PropertyName == row["DATATYPE"].ToString())
+                        {
+                            propertyAdd = ((PropertyValueCollection)p).Value.ToString();
+                            var eId = CoreBusiness.GetNewID(IdTypes.DateTypeId);
+                            RB.getInsertAdInfoInZamba(propertyAdd, user.ID, Convert.ToInt64(row["DATATYPEID"]), eId);
+
+                        }
+                    }
+                }
+            }
+        }
+
 
         public void GetAllUsersFromAD()
         {
@@ -200,7 +233,7 @@ namespace Zamba.FAD
 
         }
 
-            public List<string> GetUsersFromGroup(string groupName)
+        public List<string> GetUsersFromGroup(string groupName)
         {
             ZOptBusiness zoptb = new ZOptBusiness();
             var url = zoptb.GetValue("ActiveDirectoryUrl");

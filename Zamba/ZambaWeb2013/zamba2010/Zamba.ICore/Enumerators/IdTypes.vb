@@ -94,4 +94,5 @@
     RuleBreakpoint = 112
     Observaciones = 113
     FilterWeb = 115
+    DateTypeId = 107
 End Enum
