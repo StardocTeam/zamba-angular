@@ -311,8 +311,8 @@
                 </button>
             </li>
 
-            <li class="nav-item ">
-                <button id="btnPrint" style="display: none;" title="Imprimir" type="button" runat="server" class="ToolbarButtons btn btn-primary btn-xs" onclick="Imprimir_Click()">
+            <li class="nav-item" ng-if="HasPermissionToPrint">
+                <button id="btnPrint"  title="Imprimir" type="button" runat="server" class="ToolbarButtons btn btn-primary btn-xs" onclick="Imprimir_Click()">
                     <span class="glyphicon glyphicon-print ToolbarText"></span>
                 </button>
             </li>
