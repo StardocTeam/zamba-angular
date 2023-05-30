@@ -390,8 +390,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 $(".btn-thumb").removeClass("md-btn-green");
                 $(".btn-grid").removeClass("md-btn-green");
                 $(".btn-preview").addClass("md-btn-green");
-                if ($scope.Search.SearchResults.length > 0 && $scope.Search.LastPage == 0) {
-                    var currentresult = $scope.Search.SearchResults[0];
+                if ($scope.Search.SearchResultsObject.data.length > 0 && $scope.Search.LastPage == 0) {
+                    var currentresult = $scope.Search.SearchResultsObject.data[0];
                     $scope.previewItem(currentresult, -1);
                 }
                 ResizeResultsArea();
@@ -787,7 +787,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.Search.usedFilters = [];
         $scope.Search.filter = [];
 
-        $scope.Search.SearchResults = null;
         $scope.Search.SearchResultsObject = null;
         $scope.Search.GroupsIds = [];
 
@@ -820,7 +819,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.Search.usedFilters = [];
         $scope.Search.filter = [];
 
-        $scope.Search.SearchResults = null;
         $scope.Search.SearchResultsObject = null;
         $scope.Search.GroupsIds = [];
 
@@ -2298,7 +2296,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     //#region Toolbar Dowload
 
     $scope.DownloadFile = function (obj) {
-        var task = $scope.Search.SearchResults[obj];
+        var task = $scope.Search.SearchResultsObject.data[obj];
         var docId = task.DOC_ID;
         var docTypeId = task.DOC_TYPE_ID;
 
@@ -2764,9 +2762,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
                 $scope.LastResponse = response;
 
-                var data = $scope.LastResponse.data;
-                data = data.replace(/&_/g, "");
-                var SearchResultsObject = JSON.parse(data);
+                var SearchResultsObject = JSON.parse(response.data.replace(/&_/g, ""));
 
                 // Si no trajo resultados
                 if (SearchResultsObject == undefined || SearchResultsObject == null || SearchResultsObject.data == undefined || SearchResultsObject.data.length == 0) {
@@ -2781,7 +2777,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                         hideLoading();
                     }
                     else {
-                        $scope.Search.SearchResults = [];
                         $scope.Search.SearchResultsObject = null;
                         $scope.Search.LastPage = 0;
                         CleanKGrid();
@@ -2798,10 +2793,10 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
                 //Asignacion de resultados al objeto Search.----------------------------------------------------------------------------/////
 
-                if ($scope.Search.LastPage === 0 || $scope.Search.SearchResults == undefined || $scope.Search.SearchResultsObject == null || $scope.Refreshing) {
+                if ($scope.Search.LastPage === 0 || $scope.Search.SearchResultsObject.data == undefined || $scope.Search.SearchResultsObject == null || $scope.Refreshing) {
 
-                    $scope.Search.SearchResults = SearchResultsObject.data;
                     $scope.Search.SearchResultsObject = SearchResultsObject;
+                    $scope.Search.SearchResultsObject.data = SearchResultsObject.data;
 
                 }
                 else {
@@ -2888,12 +2883,12 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                     console.error(e);
                 }
 
-                var currentresult = $scope.Search.SearchResults[0];
+                var currentresult = $scope.Search.SearchResultsObject.data[0];
 
 
                 //Open First Result in Search ONLY if is just one result.
                 try {
-                    if ((reloadResults == undefined || reloadResults == false) && $scope.Search.SearchResults.length == 1 && $scope.OpenTaskOnOneResult == true && $scope.Search.OpenTaskOnOneResult == true) {
+                    if ((reloadResults == undefined || reloadResults == false) && $scope.Search.SearchResultsObject.data.length == 1 && $scope.OpenTaskOnOneResult == true && $scope.Search.OpenTaskOnOneResult == true) {
                         $scope.OpenTaskResult(currentresult);
                     }
                 } catch (e) {
@@ -2960,7 +2955,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 GSLoading.Hide();
                 $scope.message = data.data;
                 $scope.Search.SearchResultsObject = null;
-                $scope.Search.SearchResults = [];
                 $scope.Search.LastPage = 0;
                 $scope.FillFilters(null);
                 CleanKGrid();
@@ -3035,7 +3029,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
             GoToUpGlobalSearch();
 
-            var currentresult = $scope.Search.SearchResults[0];
+            var currentresult = $scope.Search.SearchResultsObject.data[0];
             var VirtualEntitiesArray = String($scope.Search.SearchResultsObject.VirtualEntities).split(',');
 
             if (($scope.Search.AsignedTasks && $scope.Search.LastPage == 0) || VirtualEntitiesArray.includes(String(currentresult.DOC_TYPE_ID))) {
@@ -3096,7 +3090,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             $rootScope.$emit('hideLoading');
             GSLoading.Hide();
             $scope.Search.SearchResultsObject = null;
-            $scope.Search.SearchResults = [];
             $scope.Search.LastPage = 0;
             $scope.FillFilters(null);
             CleanKGrid();
@@ -3229,10 +3222,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             return $scope.getResultsFromService(reloadResults, currentSearch).then(function (response) {
 
                 $scope.LastResponse = response;
-
-                var data = $scope.LastResponse.data;
-                data = data.replace(/&_/g, "");
-                var SearchResultsObject = JSON.parse(data);
+                var SearchResultsObject = JSON.parse(response.data.replace(/&_/g, ""));
 
                 // Si no trajo resultados
                 if (SearchResultsObject == undefined || SearchResultsObject == null || SearchResultsObject.data == undefined || SearchResultsObject.data.length == 0) {
@@ -3539,7 +3529,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         }
         else {
             $scope.page = 0;
-            $scope.Search.SearchResults = [];
+            $scope.Search.SearchResultsObject.data = [];
             $scope.isLastPage = false;
         }
         if ($scope.isLastPage) return;
@@ -3578,13 +3568,13 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 $scope.ProcessSearch(d.data);
 
                 if (d.data.total > 0)
-                    $scope.Search.SearchResults.total = d.data.total;
+                    $scope.Search.SearchResultsObject.data.total = d.data.total;
                 hideLoading();
 
             }).then(function onSuccess(data, response) {
                 // Handle success
                 toastr.clear(busqueda);
-                var currentresult = $scope.Search.SearchResults[0];
+                var currentresult = $scope.Search.SearchResultsObject.data[0];
                 var VirtualEntities = ZambaUserService.getSystemPreferences('VirtualEntities');
                 var VirtualEntitiesArray = String(VirtualEntities).split(',');
                 if (($scope.Search.AsignedTasks && $scope.Search.LastPage == 0) || VirtualEntitiesArray.includes(currentresult.DOC_TYPE_ID)) {
@@ -3614,7 +3604,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             }).catch(function (data, status, headers, config) {
                 GSLoading.Hide();
                 $scope.message = data.data;
-                $scope.Search.SearchResults = null;
+                $scope.Search.SearchResultsObject.data = null;
                 var r = data.data == undefined ? data.message : data.data.ExceptionMessage;
                 console.log(data.message);
                 if (r != null) {
@@ -3899,7 +3889,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.thumbsCheckedCount = thumbsCollection.length;
 
         if (thumbsCollection.length == 0) {
-            var result = $scope.Search.SearchResults[arg];
+            var result = $scope.Search.SearchResultsObject.data[arg];
             var userid = GetUID();
 
             var stepid = result.STEP_ID;
@@ -4156,7 +4146,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $scope.thumbsCheckedCount = thumbsCollection.length;
 
         if (thumbsCollection.length == 0) {
-            var result = $scope.Search.SearchResults[arg];
+            var result = $scope.Search.SearchResultsObject.data[arg];
             var userid = GetUID();
 
             var stepid = result.STEP_ID;
@@ -4651,7 +4641,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                         $scope.PreviewMode = "noPreview";
                         $scope.LayoutPreview = "row";
                     } else {
-                        if ($scope.Search.SearchResults.length > 0 && $scope.Search.LastPage == 0)
+                        if ($scope.Search.SearchResultsObject.data.length > 0 && $scope.Search.LastPage == 0)
                             if (document.querySelector(".k-state-selected") == null) {
                                 $scope.OpenTaskInPreview(0);
                             } else {
@@ -4675,7 +4665,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                         $scope.PreviewMode = "noPreview";
                         $scope.LayoutPreview = "row";
                     } else {
-                        if ($scope.Search.SearchResults.length > 0 && $scope.Search.LastPage == 0)
+                        if ($scope.Search.SearchResultsObject.data.length > 0 && $scope.Search.LastPage == 0)
                             if (document.querySelector(".k-state-selected") == null) {
                                 $scope.OpenTaskInPreview(0);
                             } else {
@@ -4801,7 +4791,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     attachsIds = [];
     $scope.GetTaskDocument = function (arg) {
         for (i = 0; i < arg.length; i++) {
-            var result = $scope.Search.SearchResults[arg[i]];
+            var result = $scope.Search.SearchResultsObject.data[arg[i]];
             if (result != undefined) {
                 if (checkValue(result.DOC_ID, attachsIds, "attach") != true) {
                     var IdInfo = {};
@@ -4816,7 +4806,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
 
     $scope.RemoveAttach = function (arg) {
-        var IdToRemove = $scope.Search.SearchResults[arg];
+        var IdToRemove = $scope.Search.SearchResultsObject.data[arg];
 
         if (IdToRemove != undefined) {
             for (i = 0; i < attachsIds.length; i++) {
@@ -5467,16 +5457,16 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
             // Si es la primer pagina
             if ($scope.page === 0) {
-                $scope.Search.SearchResults = data;
+                $scope.Search.SearchResultsObject.data = data;
             }
             else {
                 //Bug Zamba cuando busca paginado y no hay mas registros trae el ultimo                                            
                 var ld = data[data.length - 1];
-                var l = $scope.Search.SearchResults === undefined ? null : $scope.Search.SearchResults.length;
-                if ($scope.Search.SearchResults != null && l &&
-                    ld.DOC_ID === $scope.Search.SearchResults[l - 1].DOC_ID &&
-                    ld.DOC_TYPE_ID === $scope.Search.SearchResults[l - 1].DOC_TYPE_ID &&
-                    ld.Task_Id === $scope.Search.SearchResults[l - 1].Task_Id) {
+                var l = $scope.Search.SearchResultsObject.data === undefined ? null : $scope.Search.SearchResultsObject.data.length;
+                if ($scope.Search.SearchResultsObject.data != null && l &&
+                    ld.DOC_ID === $scope.Search.SearchResultsObject.data[l - 1].DOC_ID &&
+                    ld.DOC_TYPE_ID === $scope.Search.SearchResultsObject.data[l - 1].DOC_TYPE_ID &&
+                    ld.Task_Id === $scope.Search.SearchResultsObject.data[l - 1].Task_Id) {
                     NoData();
                     return;
                 }
@@ -5487,18 +5477,18 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                     $scope.isLastPage = true;
                     toastr.info("No se encontraron resultados", "Zamba");
                 }
-                if ($scope.Search.SearchResults == undefined) {
-                    $scope.Search.SearchResults = data;
+                if ($scope.Search.SearchResultsObject.data == undefined) {
+                    $scope.Search.SearchResultsObject.data = data;
                 }
                 else {
                     for (var i = 0; i < data.length; i++) {
-                        $scope.Search.SearchResults.push(data[i]);
+                        $scope.Search.SearchResultsObject.data.push(data[i]);
                     }
                 }
             }
 
 
-            if ($scope.Search.SearchResults == null || !$scope.Search.SearchResults.length) {
+            if ($scope.Search.SearchResultsObject.data == null || !$scope.Search.SearchResultsObject.data.length) {
                 noResultsMsg();
                 return;
             }
@@ -5516,7 +5506,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
             }
         }
         else {
-            $scope.Search.SearchResults = null;
+            $scope.Search.SearchResultsObject.data = null;
             hideLoading();
             noResultsMsg();
         }
@@ -5654,9 +5644,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     }
 
     $scope.GetNextUrl = function (index) {
-        if ($scope.Search == undefined || $scope.Search.SearchResults == undefined) return;
+        if ($scope.Search == undefined || $scope.Search.SearchResultsObject.data == undefined) return;
         index++;
-        var currentresult = $scope.Search.SearchResults[index];
+        var currentresult = $scope.Search.SearchResultsObject.data[index];
         if (currentresult != undefined)
             $scope.previewItem(currentresult, index)
     };
@@ -5678,7 +5668,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     $scope.ShowResult = function (result, index, e) {
         // var currentresult = result; 
-        var currentresult = typeof (result) == "number" ? $scope.Search.SearchResults[result] : result;
+        var currentresult = typeof (result) == "number" ? $scope.Search.SearchResultsObject.data[result] : result;
         $scope.Result = currentresult;
         $scope.Result.UserId = GetUID();
         var taskId = $scope.Result.Task_Id;
@@ -5720,7 +5710,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         event.preventDefault();
         //A veces viene result como int(indice)
         if (typeof (result) == "number")
-            result = $scope.Search.SearchResults[result];
+            result = $scope.Search.SearchResultsObject.data[result];
 
         var currentresult = result;
         $scope.Result = currentresult;
@@ -5958,7 +5948,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.removeSearchParam = function (index) {
         if (index === undefined)
             return;
-        $scope.Search.SearchResults = null;
+        $scope.Search.SearchResultsObject.data = null;
         $scope.page = 0;
         $scope.isPagging = false;
         $("#resultsGridSearchBox").css("height", "50px");
@@ -6043,7 +6033,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     };
 
     $scope.removeAll = function () {
-        if ($scope.Search !== undefined) $scope.Search.SearchResults = null;
+        if ($scope.Search !== undefined) $scope.Search.SearchResultsObject.data = null;
         $("#resultsGridSearchBox").css("height", "50px");
         //$("#SearchControls").show();
         //$("#tabresults").hide();
@@ -6256,7 +6246,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
 
     $scope.ShowResult = function (result) {
-        var currentresult = (typeof (result) == "number") ? $scope.Search.SearchResults[result] : result;
+        var currentresult = (typeof (result) == "number") ? $scope.Search.SearchResultsObject.data[result] : result;
         $scope.Result = currentresult;
         $scope.Result.UserId = GetUID();
         var taskId = $scope.Result.TASK_ID;
@@ -6295,7 +6285,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.ShowIndexs = function (index) {
         event.preventDefault();
         event.stopPropagation();
-        var currentresult = $scope.Search.SearchResults[index];
+        var currentresult = $scope.Search.SearchResultsObject.data[index];
         $scope.Result = currentresult;
         $scope.Result.UserId = GetUID();
 
