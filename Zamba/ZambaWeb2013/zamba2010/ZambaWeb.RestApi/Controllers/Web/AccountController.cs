@@ -28,6 +28,7 @@ using System.Web.Script.Serialization;
 using Zamba.Framework;
 using ZambaWeb.RestApi.Controllers.Class;
 using Zamba.Membership;
+using Zamba.FAD;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -995,6 +996,48 @@ namespace ZambaWeb.RestApi.Controllers
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
                 }
 
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+
+        }
+
+        [AcceptVerbs("GET")]
+        [Route("MigrateInfoUserAdInZamba/{userId}")]
+        public IHttpActionResult MigrateInfoUserAdInZamba(long userId)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "inicio proceso de migracion usuario:" + userId);
+                var user = GetUser(userId);
+                if (user == null)
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidUser)));
+
+                ADResources adlogin = new ADResources();
+                WFBusiness WFB = new WFBusiness();
+                var urs = WFB.GetAllUsers();
+                var UserName = string.Empty;
+                foreach (DictionaryEntry item in urs)
+                {
+                    try
+                    {
+                        Zamba.Core.User InfoUser = (User)item.Value;
+                        UserName = InfoUser.Name;
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "usuario a insertar info de ad en zamba:" + UserName);
+                        if (!UserName.Contains("Ninguno"))
+                            adlogin.GetUserProperties(UserName);
+                    }
+                    catch (Exception)
+                    {
+                        ZTrace.WriteLineIf(ZTrace.IsError, "fallo la inserccion para el usuario" + UserName);
+                        throw;
+                    }
+                   
+                }
+                return Ok();
             }
             catch (Exception ex)
             {

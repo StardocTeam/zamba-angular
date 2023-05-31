@@ -4808,6 +4808,53 @@ Public Class Results_Factory
         End If
     End Function
 
+    Public Function getInsertAdInfoInZamba(TagValue As String, UserId As Int64, PropertyId As Int64, eId As Int64) As Boolean
+        Dim strQuery As New System.Text.StringBuilder
+        Dim sqlBuilder As New System.Text.StringBuilder
+        Try
+            strQuery.Append("select * from zud where userid = " + UserId.ToString() + " and datatypeid = " + PropertyId.ToString() + " ")
+
+            Dim dt As DataSet = Con.ExecuteDataset(CommandType.Text, strQuery.ToString())
+            If dt.Tables(0).Rows.Count > 0 Then
+                sqlBuilder.Append("UPDATE zud ")
+                sqlBuilder.Append("SET VALUE= '" + TagValue + "' ")
+                sqlBuilder.Append("WHERE ")
+                sqlBuilder.Append("USERID = " + UserId.ToString() + " AND DATATYPEID = " + PropertyId.ToString() + "")
+            Else
+
+                sqlBuilder.Append("INSERT INTO zud ")
+                sqlBuilder.Append("(ID,VALUE,USERID,DATATYPEID) ")
+                sqlBuilder.Append("VALUES ")
+                sqlBuilder.Append("(" + eId.ToString() + ",'" + TagValue + "'," + UserId.ToString() + "," + PropertyId.ToString() + ")")
+
+            End If
+
+            Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
+
+            Return True
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+            Return False
+        End Try
+
+    End Function
+
+
+    Public Function getZudt() As DataTable
+        Dim strQuery As StringBuilder = New StringBuilder()
+        Try
+            strQuery.Append("select * from zudt")
+            Dim dt As DataSet = Con.ExecuteDataset(CommandType.Text, strQuery.ToString())
+            If dt IsNot Nothing Then
+                Return dt.Tables(0)
+            Else
+                Return New DataTable()
+            End If
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Function
+
     Public Function getHeralchicalTagData(parentTagValue As Int64, indexs As List(Of String), tableId As String, isView As Boolean) As DataTable
         Dim strQuery As StringBuilder = New StringBuilder()
         Dim selectStatement As String
