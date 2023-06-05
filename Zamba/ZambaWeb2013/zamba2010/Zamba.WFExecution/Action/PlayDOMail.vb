@@ -975,6 +975,7 @@ Public Class PlayDOMail
                                     mail.Attachments.Add(New Net.Mail.Attachment(MessagesBusiness.GetNewFile(CurrentResult.FullPath, CurrentResult.Name)))
                                 End If
                             Next
+
                             If Me._myRule.AttachFile Then
                                 Dim filename As String
                                 Dim AttachFilePath As String = Me._myRule.AttachFilePath
