@@ -463,11 +463,15 @@ function DocumentReadyEvents() {
             //})
         });
 
-        $("input").focusout(function () {
-            if ($(this).val() == '') {
-                $(this).css("border-color", "#FF0000");
-
+        $("select").change(function () {
+            if ($(this).val() != '' && $(this).hasClass('isRequired')) {
+                $(this).attr("style", "border-color: inherit");
             }
+        });
+
+
+        $("input").focusout(function () {
+           
             if ($(this).hasClass('datepicker')) {
                 $(this).css("border-color", "#CFD5FF");
             }
@@ -8159,6 +8163,43 @@ function zamba_save_onclick(sender, id) {
     return valido;
 }
 
+function validateRequiredInputs() {
+    try {
+        var isValid = true;
+        $(".isRequired").map(function () {
+            if (!$(this).prop('disabled')) {
+                if ($(this).val() == "" || $(this).val() == null) {
+                    isValid = false
+                    $(this).attr("style", "border-color: #FF0000 !important");
+                }
+            }
+        });
+        if (!isValid)
+            toastr.warning("por favor, complete los campos obligatorios.");
+        return isValid;
+    } catch (e) {
+        console.error("error al validar los campos requeridos");
+        return true;
+    }
+}
+function addScriptValidateAndSave(script) {
+    try {
+        var validateAndSaveObj = document.createElement("script");
+        validateAndSaveObj.type = "text/javascript";
+        
+        var dinamicScript = "function validateAndSave(){";
+        dinamicScript += "var isValidForm = validateRequiredInputs();";
+        dinamicScript += "if(!isValidForm) return false;";
+        dinamicScript += script + "}";
+
+        validateAndSaveObj.text = dinamicScript;
+
+        document.getElementsByTagName("head")[0].appendChild(validateAndSaveObj);
+
+    } catch (e) {
+        console.error(e);
+    }
+}
 
 function RefreshCurrentPage() {
     window.location.reload();

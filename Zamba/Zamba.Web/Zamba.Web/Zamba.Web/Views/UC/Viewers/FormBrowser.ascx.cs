@@ -224,7 +224,17 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
                     }
                     navToolbar.Visible = false;
                 }
-
+                //add event Listener onclick
+                StringBuilder ScriptOnClickSB = new StringBuilder();
+                ScriptOnClickSB.AppendLine("$(document).ready(");
+                ScriptOnClickSB.AppendLine("function(){");
+                ScriptOnClickSB.AppendLine("var onclickScript = document.getElementById('zamba_save').onclick;");
+                ScriptOnClickSB.AppendLine("var formOnClickScript = onclickScript.toString().split('\\n')[1]");
+                ScriptOnClickSB.AppendLine("addScriptValidateAndSave(formOnClickScript)");
+                ScriptOnClickSB.AppendLine("document.getElementById('zamba_save').removeAttribute('onclick')");
+                ScriptOnClickSB.AppendLine("document.getElementById('zamba_save').setAttribute('onclick','return validateAndSave()')");
+                ScriptOnClickSB.AppendLine("});");
+                Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "OnClickTest", ScriptOnClickSB.ToString(), true);
                 //Actualiza el timemout
                 SRights rights = new SRights();
                 Int32 type = 0;
