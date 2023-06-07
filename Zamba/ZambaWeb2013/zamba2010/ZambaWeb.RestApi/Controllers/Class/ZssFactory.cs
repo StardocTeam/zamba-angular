@@ -134,7 +134,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                var select = $"SELECT Count(1) FROM ZSS  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "   WHERE USERID={Userid} and TOKEN ='{token}'";
+                var select = $"SELECT Count(1) FROM ZSS  " + (Zamba.Servers.Server.isSQLServer ? " WITH(NOLOCK) " : "") + "   WHERE USERID=" + Userid.ToString() + " and TOKEN ='" + token.ToString() + "'";
                 object count = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, select);
                 if (count != null && int.Parse(count.ToString()) > 0)
                 {
