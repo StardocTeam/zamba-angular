@@ -14,9 +14,8 @@ Imports Zamba.Membership
 Imports Spire.Email
 Imports Zamba.FileTools
 Imports System.Dynamic
+Imports System.Net
 Imports System.Collections.ObjectModel
-
-
 Public Class PlayDOMail
 
     Private UB As New UserBusiness
@@ -688,6 +687,28 @@ Public Class PlayDOMail
         Return strReconocido
 
     End Function
+    ''' <summary>
+    ''' Obtiene un array de byte de un archivo en base a una URL empleando el metodo GET
+    ''' </summary>
+    ''' <param name="url">url del archivo</param>
+    ''' <returns>Archivo en array de bytes</returns>
+    Function GetFileFromURL(url As String) As Byte()
+        Dim WebRequest As HttpWebRequest
+        WebRequest = CType(WebRequest.Create(New Uri(url)), HttpWebRequest)
+        WebRequest.Timeout = 7000000
+        Dim response As String
+        WebRequest.Method = "GET"
+        Dim HttpResponse As WebResponse
+        Dim ObjStream As Stream
+        HttpResponse = WebRequest.GetResponse()
+        ObjStream = HttpResponse.GetResponseStream()
+        Dim byteArray As Byte()
+        Using memoryStream As New MemoryStream()
+            ObjStream.CopyTo(memoryStream)
+            byteArray = memoryStream.ToArray()
+        End Using
+        Return byteArray
+    End Function
 
     Function PlayWeb(ByVal results As List(Of ITaskResult), ByVal Params As Hashtable) As List(Of ITaskResult)
         Dim mailServer As String
@@ -836,6 +857,61 @@ Public Class PlayDOMail
                     parameters = Nothing
 
                     isSendDocument(Me.resultAux)
+                    Try
+                        If Me._myRule.AttachFile And Not Me._myRule.Automatic Then
+                            Dim mail As New SendMailConfig
+                            Dim filename As String
+                            Dim AttachFilePath As String = Me._myRule.AttachFilePath
+                            AttachFilePath = WFRuleParent.ReconocerVariablesValuesSoloTexto(AttachFilePath)
+                            If results.Count > 0 Then
+                                AttachFilePath = TextoInteligente.ReconocerCodigo(AttachFilePath, results(0))
+                            End If
+                            'AttachFilePath = "http://imageapd/Zamba.Web/shared/ReportePagosDeDelegaciones02062023170343.xlsx"
+                            Dim Zoptb As New ZOptBusiness
+                            filename = AttachFilePath.Split("/").Last
+                            Dim sUseWebService As Boolean = Zoptb.GetValue("UseWSSendMail")
+                            Dim useWebService As Boolean
+                            Dim filePath As New List(Of String)
+                            filePath.Add(AttachFilePath)
+                            If String.IsNullOrEmpty(sUseWebService) Then
+                                useWebService = False
+                            Else
+                                useWebService = Boolean.Parse(sUseWebService)
+                            End If
+                            Dim FileBytes As Byte()
+                            FileBytes = GetFileFromURL(AttachFilePath)
+                            mail.Attachments.Add(New Net.Mail.Attachment(MessagesBusiness.GetNewFile(FileBytes, filename)))
+                            With mail
+                                .MailType = MailTypes.NetMail
+                                .SMTPServer = mailServer
+                                .From = smptMail
+                                .Port = mailPort
+                                .UserName = mailUser
+                                .Password = mailPass
+                                .MailTo = Params("To")
+                                .Cc = Params("CC")
+                                .Cco = Params("CCO")
+                                .Subject = Params("Subject").ToString().Replace(Environment.NewLine, " ").Replace(vbLf, " ")
+                                .Body = Params("Body")
+                                .IsBodyHtml = True
+                                .AttachFileNames = filePath
+                                .UserId = Membership.MembershipHelper.CurrentUser.ID
+                                .ImagesToEmbedPaths = Params("Link")
+                                .OriginalDocument = originalDocument
+                                .OriginalDocumentFileName = originalDocumentFileName
+                                .EnableSsl = enableSsl
+                                .UseWebService = useWebService
+                                .SourceDocId = r.ID
+                                .SourceDocTypeId = r.DocTypeId
+                                .LinkToZamba = _myRule.AttachLink
+                                .SaveHistory = MessagesBusiness.IsEmailHistoryEnabled()
+                            End With
+                            MessagesBusiness.SendMail(mail)
+                        End If
+                    Catch ex As Exception
+
+                    End Try
+
 
 
                     If (Me._myRule.Automatic) Then
@@ -899,6 +975,20 @@ Public Class PlayDOMail
                                     mail.Attachments.Add(New Net.Mail.Attachment(MessagesBusiness.GetNewFile(CurrentResult.FullPath, CurrentResult.Name)))
                                 End If
                             Next
+
+                            If Me._myRule.AttachFile Then
+                                Dim filename As String
+                                Dim AttachFilePath As String = Me._myRule.AttachFilePath
+                                AttachFilePath = WFRuleParent.ReconocerVariablesValuesSoloTexto(AttachFilePath)
+                                If results.Count > 0 Then
+                                    AttachFilePath = TextoInteligente.ReconocerCodigo(AttachFilePath, results(0))
+                                End If
+                                'AttachFilePath = "http://imageapd/Zamba.Web/shared/ReportePagosDeDelegaciones02062023170343.xlsx"
+                                filename = AttachFilePath.Split("/").Last
+                                Dim FileBytes As Byte()
+                                FileBytes = GetFileFromURL(AttachFilePath)
+                                mail.Attachments.Add(New Net.Mail.Attachment(MessagesBusiness.GetNewFile(FileBytes, filename)))
+                            End If
 
                             sUseWebService = Zoptb.GetValue("UseWSSendMail")
 
@@ -1076,3 +1166,18 @@ Public Class MailActions
 
 
 End Class
+Module Module1
+    Sub Main()
+        ' Crear un StreamReader desde un archivo
+        Dim filePath As String = "ruta/al/archivo.txt"
+        Using reader As New StreamReader(filePath)
+            ' Leer todo el contenido del archivo como una cadena
+            Dim fileContent As String = reader.ReadToEnd()
+            ' Convertir la cadena en un arreglo de bytes
+            Dim byteArray As Byte() = System.Text.Encoding.UTF8.GetBytes(fileContent)
+            ' Hacer algo con el arreglo de bytes...
+            ' Por ejemplo, imprimir la longitud
+            Console.WriteLine("Longitud del arreglo de bytes: " & byteArray.Length)
+        End Using
+    End Sub
+End Module

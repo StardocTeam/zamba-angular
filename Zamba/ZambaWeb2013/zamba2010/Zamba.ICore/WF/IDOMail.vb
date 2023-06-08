@@ -54,4 +54,7 @@ Public Interface IDOMail
 
     'Estas tres opciones se utilizan para configurar la opción de responder
     Property Answer() As Boolean
+
+    Property AttachFile() As Boolean
+    Property AttachFilePath() As String
 End Interface
