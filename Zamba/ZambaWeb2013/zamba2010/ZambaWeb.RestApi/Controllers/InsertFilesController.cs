@@ -134,6 +134,7 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 pathTemp.ToList();
                 newId = Zamba.Data.CoreData.GetNewID(IdTypes.DOCID);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, $"new ID: {newId}");
                 CopyFileBKP(ref pathTemp, insert, newId);
             }
             catch (Exception ex)
@@ -141,19 +142,70 @@ namespace ZambaWeb.RestApi.Controllers
                 Dictionary<object, object> datosInsert = new Dictionary<object, object>();
 
                 ZClass.raiseerror(ex);
-                ex.Data.Add("DocTypeId", insert.DocTypeId);
-                ex.Data.Add("UserId", insert.Userid);
-                ex.Data.Add("Id", string.Empty);
-                ex.Data.Add("Value", string.Empty);
+
+                try
+                {
+                    ex.Data.Add("DocTypeId", insert.DocTypeId);
+
+                }
+                catch (Exception e)
+                {
+                    ZClass.raiseerror(e);
+                }
+
+                try
+                {
+                    ex.Data.Add("UserId", insert.Userid);
+
+                }
+                catch (Exception e)
+                {
+                    ZClass.raiseerror(e);
+                }
+
+                try
+                {
+                    ex.Data.Add("Id", string.Empty);
+
+                }
+                catch (Exception e)
+                {
+                    ZClass.raiseerror(e);
+                }
+
+                try
+                {
+                    ex.Data.Add("Value", string.Empty);
+
+                }
+                catch (Exception e)
+                {
+                    ZClass.raiseerror(e);
+                }
 
                 foreach (var item in insert.indexs)
                 {
-                    ex.Data["Id"] += string.Format("{0}; ", item.id.ToString());
-                    ex.Data["Value"] += string.Format("{0}; ", item.value.ToString());
+                    try
+                    {
+                        ex.Data["Id"] += string.Format("{0}; ", item.id.ToString());
+                        ex.Data["Value"] += string.Format("{0}; ", item.value.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        ZClass.raiseerror(e);
+                    }
                 }
 
-                ex.Data.Add("File", insert.file.data);
-                ZClass.raiseerror(ex);
+                try
+                {
+                    ex.Data.Add("File", insert.file.data);
+                }
+                catch (Exception e)
+                {
+                    ZClass.raiseerror(e);
+                }
+
+                ZClass.raiseerror(new Exception("Error al insertar un archivo desde UploadFile. Err. 7009", ex));
 
                 return JsonConvert.SerializeObject(ex, Formatting.Indented,
                 new JsonSerializerSettings
@@ -637,8 +689,8 @@ namespace ZambaWeb.RestApi.Controllers
             }
             else
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Archivo no existente.");
-                throw new Exception("Archivo no existente.");
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Archivo inexistente.");
+                throw new Exception("Archivo inexistente.");
 
             }
 
