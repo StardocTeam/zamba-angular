@@ -343,7 +343,7 @@ Namespace Search
 
             strQuery.Append($" order by {externalOrdenBy}")
 
-            ZTrace.WriteLineIf("SQL: " & )
+
             If Server.isOracle Then
                 strQuery.Replace("[", Chr(34))
                 strQuery.Replace("]", Chr(34))
