@@ -19,6 +19,7 @@ using InvocacionServWConsDepFiel;
 using InvocacionServWDigDepFiel.wConsDepFiel;
 using Zamba.Core.WF.WF;
 using Zamba.FileTools;
+using Zamba.Membership;
 
 namespace ZambaWeb.RestApi.Controllers.Web
 {
@@ -299,7 +300,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [Route("NotificarAClienteFirmaYAvisoPorAPI")]
         public IHttpActionResult NotificarAClienteFirmaYAvisoPorAPI()
         {
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info , "Se inicia el proceso de notificacion al cliente por api de firma y aviso para aquellos que se encuentren pendientes");
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se inicia el proceso de notificacion al cliente por api de firma y aviso para aquellos que se encuentren pendientes");
             long UserId = Convert.ToInt64(ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIUserID", "22242"));
             string ZOPTMapIndex = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIMapIndex", "{}");
             Dictionary<string, string> MapIndex = JsonConvert.DeserializeObject<Dictionary<string, string>>(ZOPTMapIndex);
@@ -362,17 +363,48 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         query = string.Format(@"select distinct i139590 familia from doc_i139089 i where i139548 = '{0}' and i139603 = '{1}'", nroLegajo, codigo);
                     }
                     DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
+                    // Creo el mensaje a postear
+                    
 
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "se preparan los datos para enviar al api externo.");
+                    string Usuario = RowDespacho["Usuario"].ToString();
+                    string Clave = RowDespacho["Clave"].ToString();
+                    URLAPI = RowDespacho["URL API"].ToString();
+                    jsonApiLegajosFirmados.nroLegajo = RowDespacho["nroLegajo"].ToString();
+                    jsonApiLegajosFirmados.codigo = RowDespacho["codigo"].ToString();
+                    jsonApiLegajosFirmados.sigea = RowDespacho["sigea"].ToString();
+                    jsonApiLegajosFirmados.cantFojas = RowDespacho["cantFojas"].ToString();
+                    jsonApiLegajosFirmados.cuitDeclarante = RowDespacho["cuitDeclarante"].ToString();
+                    jsonApiLegajosFirmados.cuitIE = RowDespacho["cuitIE"].ToString();
+                    jsonApiLegajosFirmados.cuitPSAD = RowDespacho["cuitPSAD"].ToString();
+                    jsonApiLegajosFirmados.FechaDeRecepcion = Convert.ToDateTime(RowDespacho["FechaDeRecepcion"]);
+                    jsonApiLegajosFirmados.FechaFirmayAviso = Convert.ToDateTime(RowDespacho["FechaFirmayAviso"]);
+                    jsonApiLegajosFirmados.nroGuia = RowDespacho["nroGuia"].ToString();
+                    
                     if (dsFiles is null || dsFiles.Tables.Count == 0 || dsFiles.Tables[0].Rows.Count == 0)
                     {
                         throw new Exception("No se han digitalizado o monitoreado las imagenes de este legajo aun. Para continuar debe realizar la digitalizacion");
                     }
-
+                    if (!ValidarFamiliasExistenciaArchivos(nroLegajo, codigo, sigea, dsFiles.Tables[0]))
+                    {
+                        throw new Exception("Faltan archivos en el legajo para 1 o mas familias");
+                    }
+                    List<string> docIdsRollback = new List<string>();
                     foreach (DataRow rf in dsFiles.Tables[0].Rows)
                     {
                         jsonApiLegajosFirmados.familia = rf["familia"].ToString();
                         ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se notifica para la familia " + jsonApiLegajosFirmados.familia);
-                        NotificarFamilia(MapIndex, URLAPI, RowDespacho, docId, jsonApiLegajosFirmados, rf["familia"].ToString());
+                        try
+                        {
+                            NotificarFamilia(MapIndex, URLAPI, docId, jsonApiLegajosFirmados, ref docIdsRollback);
+                        }
+                        catch (Exception ex2)
+                        {
+                            string RollBackFamilia = string.Format(@"UPDATE {0} set {1}=null WHERE doc_id in (" + String.Join(",", docIdsRollback.ToArray()) + ")", MapIndex["despacho"], MapIndex["Fecha Notificación por API"]);
+                            Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, RollBackFamilia); //Actualizo las tablas y pongo la fecha en nulo
+                            throw ex2;
+                        }
+
                     }
                     ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "se actualiza en la base de zamba la fecha de notificación" + jsonApiLegajosFirmados.familia);
                     string SQLUpdatePostOK = string.Format(@"UPDATE {0} set {1}=getdate(),{2}='200:Ok' WHERE doc_id=" + docId, MapIndex["despacho"], MapIndex["Fecha Notificación por API"], MapIndex["Codigo Error Notificación"]);
@@ -396,17 +428,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         string MailCC = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIMailCC", "");
                         string Body = ZOptBusiness.GetValueOrDefault("NotificacionFirmaYAvisoPorAPIBody", "");
 
-                        Body = Body.Replace("$codigo", jsonApiLegajosFirmados.codigo);
-                        Body = Body.Replace("$cuitDeclarante", jsonApiLegajosFirmados.cuitDeclarante);
-                        Body = Body.Replace("$cuitIE", jsonApiLegajosFirmados.cuitIE);
-                        Body = Body.Replace("$cuitPSAD", jsonApiLegajosFirmados.cuitPSAD);
-                        Body = Body.Replace("$FechaDeRecepcion", jsonApiLegajosFirmados.FechaDeRecepcion.ToString());
-                        Body = Body.Replace("$FechaFirmayAviso", jsonApiLegajosFirmados.FechaFirmayAviso.ToString());
-                        Body = Body.Replace("$nroGuia", jsonApiLegajosFirmados.nroGuia);
-                        Body = Body.Replace("$nroLegajo", jsonApiLegajosFirmados.nroLegajo);
-                        Body = Body.Replace("$sigea", jsonApiLegajosFirmados.sigea);
-                        Body = Body.Replace("$Message", ex.Message);
-
+                        Body = ReemplazarVariablesTextoMail(jsonApiLegajosFirmados, Body, ex);
+                        Subject = ReemplazarVariablesTextoMail(jsonApiLegajosFirmados, Subject, ex);
+                        
                         //''string Body = ex.Message;
                         //                    string Body = "El despacho nro " + jsonApiLegajosFirmados.nroLegajo.ToString() + " correspondiente a la guia nro. " + jsonApiLegajosFirmados.nroGuia.ToString();
 
@@ -421,10 +445,12 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         mail.Body = Body;
                         mail.IsBodyHtml = true;
                         mail.LinkToZamba = false;
-
+                        IUser newuser = new User();
+                        newuser.ID = 22242;
+                        MembershipHelper.SetCurrentUser(newuser);
                         MessagesBusiness.SendQuickMail(mail);
                     }
-                    catch (Exception ex2 )
+                    catch (Exception ex2)
                     {
                         ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonApiLegajosFirmados.nroLegajo);
                         ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex2.Message + "--> nro legajo:" + jsonApiLegajosFirmados.nroLegajo);
@@ -434,33 +460,56 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             return Ok();
         }
+        private String ReemplazarVariablesTextoMail(JsonApiLegajosFirmados jsonApiLegajosFirmados,String Text, Exception ex)
+        {
+            String TextReplaced = Text;
+            TextReplaced = TextReplaced.Replace("$codigo", jsonApiLegajosFirmados.codigo);
+            TextReplaced = TextReplaced.Replace("$cuitDeclarante", jsonApiLegajosFirmados.cuitDeclarante);
+            TextReplaced = TextReplaced.Replace("$cuitIE", jsonApiLegajosFirmados.cuitIE);
+            TextReplaced = TextReplaced.Replace("$cuitPSAD", jsonApiLegajosFirmados.cuitPSAD);
+            TextReplaced = TextReplaced.Replace("$FechaDeRecepcion", jsonApiLegajosFirmados.FechaDeRecepcion.ToString());
+            TextReplaced = TextReplaced.Replace("$FechaFirmayAviso", jsonApiLegajosFirmados.FechaFirmayAviso.ToString());
+            TextReplaced = TextReplaced.Replace("$nroGuia", jsonApiLegajosFirmados.nroGuia);
+            TextReplaced = TextReplaced.Replace("$nroLegajo", jsonApiLegajosFirmados.nroLegajo);
+            TextReplaced = TextReplaced.Replace("$sigea", jsonApiLegajosFirmados.sigea);
+            TextReplaced = TextReplaced.Replace("$Message", ex.Message);
+            return TextReplaced;
+        }
+        private Boolean ValidarFamiliasExistenciaArchivos(string nroLegajo, string codigo, string sigea, DataTable familias)
+        {            
+            foreach (DataRow Familia in familias.Rows)
+            {
+                var query = string.Empty;
+                if (codigo == "004" || codigo == "002" || codigo == "003")
+                {
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo,  i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", nroLegajo, codigo, sigea);
+                }
+                else
+                {
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' ", nroLegajo, codigo);
+                }
+                query = query + string.Format(" and  i139590 = {0} ", Familia["familia"].ToString());
 
-        private void NotificarFamilia(Dictionary<string, string> MapIndex, string URLAPI, DataRow RowDespacho, Int64 docId, JsonApiLegajosFirmados jsonApiLegajosFirmados, string familia)
+                query = query + string.Format("order by i139609");
+
+                DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
+                foreach(DataRow rowFile in dsFiles.Tables[0].Rows)
+                {
+                    if (!File.Exists(rowFile["Archivo"].ToString()))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        private void NotificarFamilia(Dictionary<string, string> MapIndex, string URLAPI, Int64 docId, JsonApiLegajosFirmados jsonApiLegajosFirmados, ref List<String> docIdsRollback)
         {
             Zamba.Core.ConsumeServiceRestApi consumeServiceRestApi = new ConsumeServiceRestApi();
-            // Creo el mensaje a postear
-            string JsonMessage = "";
-
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "se preparan los datos para enviar al api externo.");
-            string Usuario = RowDespacho["Usuario"].ToString();
-            string Clave = RowDespacho["Clave"].ToString();
-            URLAPI = RowDespacho["URL API"].ToString();
-            jsonApiLegajosFirmados.nroLegajo = RowDespacho["nroLegajo"].ToString();
-            jsonApiLegajosFirmados.codigo = RowDespacho["codigo"].ToString();
-            jsonApiLegajosFirmados.sigea = RowDespacho["sigea"].ToString();
-            jsonApiLegajosFirmados.cantFojas = RowDespacho["cantFojas"].ToString();
-            jsonApiLegajosFirmados.cuitDeclarante = RowDespacho["cuitDeclarante"].ToString();
-            jsonApiLegajosFirmados.cuitIE = RowDespacho["cuitIE"].ToString();
-            jsonApiLegajosFirmados.cuitPSAD = RowDespacho["cuitPSAD"].ToString();
-            jsonApiLegajosFirmados.FechaDeRecepcion = Convert.ToDateTime(RowDespacho["FechaDeRecepcion"]);
-            jsonApiLegajosFirmados.FechaFirmayAviso = Convert.ToDateTime(RowDespacho["FechaFirmayAviso"]);
-            jsonApiLegajosFirmados.nroGuia = RowDespacho["nroGuia"].ToString();
-            jsonApiLegajosFirmados.familia = familia;
-
 
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "se genera el PDF.");
 
-            byte[] dd = GenerarPDFDeFamilia(jsonApiLegajosFirmados.nroLegajo, jsonApiLegajosFirmados.codigo, jsonApiLegajosFirmados.sigea, familia);
+            byte[] dd = GenerarPDFDeFamilia(jsonApiLegajosFirmados.nroLegajo, jsonApiLegajosFirmados.codigo, jsonApiLegajosFirmados.sigea, jsonApiLegajosFirmados.familia, ref docIdsRollback);
             //                    dd = consumeServiceRestApi.GetDocumentData(UserId, MapIndex["despacho"].ToString().Replace("doc_i",""), docId, false, false, false, "");
 
             string fileBase64String = Convert.ToBase64String(dd, 0, dd.Length);
@@ -469,17 +518,17 @@ namespace ZambaWeb.RestApi.Controllers.Web
             string FileName = jsonApiLegajosFirmados.nroLegajo
                 + "-" + jsonApiLegajosFirmados.codigo
                 + "-" + jsonApiLegajosFirmados.sigea
-                + "-" + familia + "_" + DateTime.Now.ToString("yyyyMMddHHmmss")
+                + "-" + jsonApiLegajosFirmados.familia + "_" + DateTime.Now.ToString("yyyyMMddHHmmss")
                 + ".pdf";
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se nombra al pdf como " + FileName);
             jsonApiLegajosFirmados.fileName = FileName;
-
+            string JsonMessage = "";
             JsonMessage = JsonConvert.SerializeObject(jsonApiLegajosFirmados);
             string response = consumeServiceRestApi.CallServiceRestApi(URLAPI, "POST", JsonMessage);
 
         }
 
-        private byte[] GenerarPDFDeFamilia(string NroDespacho, string codigo, string sigea, string familia)
+        private byte[] GenerarPDFDeFamilia(string NroDespacho, string codigo, string sigea, string familia, ref List<String> docIdsRollback)
         {
             try
             {
@@ -510,6 +559,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 foreach (DataRow r in dsFiles.Tables[0].Rows)
                 {
+                    docIdsRollback.Add(r["doc_id"].ToString());
                     Files.Add(r["Archivo"].ToString());
                     ZTrace.WriteLineIf(ZTrace.IsError, "Se agrega archivo: " + r["Archivo"].ToString());
                 }

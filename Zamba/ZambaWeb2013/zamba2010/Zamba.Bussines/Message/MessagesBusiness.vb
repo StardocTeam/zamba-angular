@@ -653,11 +653,14 @@ Public Class MessagesBusiness
             returnVal = mf.SendMailNet(conf)
             mf = Nothing
         End If
-        If conf.AttachFileNames.Count = 0 Then
-            For Each FileAttach As Attachment In conf.Attachments
-                conf.AttachFileNames.Add(FileAttach.Name)
-            Next
+        If Not IsNothing(conf.AttachFileNames) Then
+            If conf.AttachFileNames.Count = 0 Then
+                For Each FileAttach As Attachment In conf.Attachments
+                    conf.AttachFileNames.Add(FileAttach.Name)
+                Next
+            End If
         End If
+
 
         If returnVal Then
             Try
