@@ -1166,18 +1166,3 @@ Public Class MailActions
 
 
 End Class
-Module Module1
-    Sub Main()
-        ' Crear un StreamReader desde un archivo
-        Dim filePath As String = "ruta/al/archivo.txt"
-        Using reader As New StreamReader(filePath)
-            ' Leer todo el contenido del archivo como una cadena
-            Dim fileContent As String = reader.ReadToEnd()
-            ' Convertir la cadena en un arreglo de bytes
-            Dim byteArray As Byte() = System.Text.Encoding.UTF8.GetBytes(fileContent)
-            ' Hacer algo con el arreglo de bytes...
-            ' Por ejemplo, imprimir la longitud
-            Console.WriteLine("Longitud del arreglo de bytes: " & byteArray.Length)
-        End Using
-    End Sub
-End Module
