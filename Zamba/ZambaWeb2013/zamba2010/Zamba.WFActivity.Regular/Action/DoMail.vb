@@ -51,7 +51,8 @@ Public Class DOMail
     Private _columnName As String
     Private _columnRoute As String
     Private _isValid As Boolean
-
+    Private _attachFile As Boolean
+    Private _attachFilePath As String
     'funcionalidad ejecucion segunda regla
     Private _executeAdditionalRuleId As Int64
     Private _btnAdditionalRuleName As String
@@ -428,32 +429,54 @@ Public Class DOMail
         End Set
     End Property
 
+    Public Property AttachFile As Boolean Implements IDOMail.AttachFile
+        Get
+            Return _attachFile
+        End Get
+        Set(value As Boolean)
+            _attachFile = value
+        End Set
+    End Property
+    Public Property AttachFilePath As String Implements IDOMail.AttachFilePath
+        Get
+            Return _attachFilePath
+        End Get
+        Set(value As String)
+            _attachFilePath = value
+        End Set
+    End Property
+
+
+
     ''' <summary>
     ''' Constructor de la regla DoMail
     ''' </summary>
     ''' <remarks></remarks>
     ''' <history>
     ''' </history>
-    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepId As Int64, _
-                   ByVal Para As String, ByVal CC As String, ByVal CCO As String, ByVal Asunto As String, _
-                   ByVal Senddocument As Boolean, ByVal Body As String, ByVal pAttachAssociatedDocument As Boolean, _
-                   ByVal imagNames As String, ByVal pathImag As String, ByVal groupMailTo As Boolean, _
-                   ByVal attachLink As Boolean, ByVal DTType As IMailConfigDocAsoc.DTTypes, _
-                   ByVal Selection As IMailConfigDocAsoc.Selections, ByVal DocTypes As String, ByVal Index As Int32, _
-                   ByVal Oper As Comparadores, ByVal IndexValue As String, ByVal Automatic As Boolean, _
-                   ByVal usesmtpconfig As Boolean, ByVal smtpserver As String, ByVal smtpport As String, _
-                   ByVal smtpuser As String, ByVal smtppass As String, ByVal smtpmail As String, _
-                   ByVal keepAssociatedDocName As Boolean, ByVal EmbedImages As Boolean, ByVal savemailpath As Boolean, _
-                   ByVal mailpath As String, ByVal disablehistory As Boolean, ByVal filterDocID As String, _
-                   ByVal RuleID As Int64, ByVal BtnName As String, ByVal VarAttachs As String, ByVal ColumnName As String, _
-                   ByVal ColumnRoute As String, ByVal ExecuteAdditionalRuleID As Int64, ByVal BtnAdditionalRuleName As String, _
-                   ByVal ViewOriginalDocument As Boolean, ByVal ViewAssociateDocument As Boolean, ByVal AdditionalRuleColumnName As String, _
-                   ByVal AdditionalRuleColumnRoute As String, _
-                   ByVal attachTableVar As String, _
-                   ByVal attachTableColDocTypeId As String, _
-                   ByVal attachTableColDocId As String, _
-                   ByVal attachTableColDocName As String, _
-                   ByVal smtpEnableSsl As Boolean)
+    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepId As Int64,
+                   ByVal Para As String, ByVal CC As String, ByVal CCO As String, ByVal Asunto As String,
+                   ByVal Senddocument As Boolean, ByVal Body As String, ByVal pAttachAssociatedDocument As Boolean,
+                   ByVal imagNames As String, ByVal pathImag As String, ByVal groupMailTo As Boolean,
+                   ByVal attachLink As Boolean, ByVal DTType As IMailConfigDocAsoc.DTTypes,
+                   ByVal Selection As IMailConfigDocAsoc.Selections, ByVal DocTypes As String, ByVal Index As Int32,
+                   ByVal Oper As Comparadores, ByVal IndexValue As String, ByVal Automatic As Boolean,
+                   ByVal usesmtpconfig As Boolean, ByVal smtpserver As String, ByVal smtpport As String,
+                   ByVal smtpuser As String, ByVal smtppass As String, ByVal smtpmail As String,
+                   ByVal keepAssociatedDocName As Boolean, ByVal EmbedImages As Boolean, ByVal savemailpath As Boolean,
+                   ByVal mailpath As String, ByVal disablehistory As Boolean, ByVal filterDocID As String,
+                   ByVal RuleID As Int64, ByVal BtnName As String, ByVal VarAttachs As String, ByVal ColumnName As String,
+                   ByVal ColumnRoute As String, ByVal ExecuteAdditionalRuleID As Int64, ByVal BtnAdditionalRuleName As String,
+                   ByVal ViewOriginalDocument As Boolean, ByVal ViewAssociateDocument As Boolean, ByVal AdditionalRuleColumnName As String,
+                   ByVal AdditionalRuleColumnRoute As String,
+                   ByVal attachTableVar As String,
+                   ByVal attachTableColDocTypeId As String,
+                   ByVal attachTableColDocId As String,
+                   ByVal attachTableColDocName As String,
+                   ByVal smtpEnableSsl As Boolean,
+                   ByVal Answer As Boolean,
+                   ByVal AttachFile As Boolean,
+                   ByVal _attachFilePath As String)
 
         MyBase.New(Id, Name, wfstepId)
         Me._Para = Para
@@ -503,6 +526,8 @@ Public Class DOMail
         Me.AttachTableColDocId = attachTableColDocId
         Me.AttachTableColDocName = attachTableColDocName
         Me.playRule = New Zamba.WFExecution.PlayDOMail(Me)
+        Me.AttachFile = AttachFile
+        Me.AttachFilePath = AttachFilePath
     End Sub
 
     '[Ezequiel] 09/06/2009 - Se elimino el Try-Catch
