@@ -51,6 +51,7 @@ Public Class DOMail
     Private _columnName As String
     Private _columnRoute As String
     Private _isValid As Boolean
+    Private _answer As Boolean
     Private _attachFile As Boolean
     Private _attachFilePath As String
     'funcionalidad ejecucion segunda regla
@@ -428,7 +429,14 @@ Public Class DOMail
             _SmtpEnableSsl = value
         End Set
     End Property
-
+    Public Property Answer As Boolean Implements IDOMail.Answer
+        Get
+            Return _answer
+        End Get
+        Set(value As Boolean)
+            _answer = value
+        End Set
+    End Property
     Public Property AttachFile As Boolean Implements IDOMail.AttachFile
         Get
             Return _attachFile
@@ -526,6 +534,7 @@ Public Class DOMail
         Me.AttachTableColDocId = attachTableColDocId
         Me.AttachTableColDocName = attachTableColDocName
         Me.playRule = New Zamba.WFExecution.PlayDOMail(Me)
+        Me.Answer = Answer
         Me.AttachFile = AttachFile
         Me.AttachFilePath = AttachFilePath
     End Sub

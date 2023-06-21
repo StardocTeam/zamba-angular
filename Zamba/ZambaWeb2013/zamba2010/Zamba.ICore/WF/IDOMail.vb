@@ -52,6 +52,7 @@ Public Interface IDOMail
     Property AttachTableColDocId() As String
     Property AttachTableColDocName() As String
 
+    Property Answer As Boolean
     Property AttachFile() As Boolean
     Property AttachFilePath() As String
 End Interface
