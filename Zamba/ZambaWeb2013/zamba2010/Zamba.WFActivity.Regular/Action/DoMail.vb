@@ -52,6 +52,8 @@ Public Class DOMail
     Private _columnRoute As String
     Private _isValid As Boolean
     Private _Answer As Boolean
+    Private _attachFile As Boolean
+    Private _attachFilePath As String
 
     'funcionalidad ejecucion segunda regla
     Private _executeAdditionalRuleId As Int64
@@ -438,7 +440,22 @@ Public Class DOMail
             _SmtpEnableSsl = value
         End Set
     End Property
-
+    Public Property AttachFile As Boolean Implements IDOMail.AttachFile
+        Get
+            Return _attachFile
+        End Get
+        Set(value As Boolean)
+            _attachFile = value
+        End Set
+    End Property
+    Public Property AttachFilePath As String Implements IDOMail.AttachFilePath
+        Get
+            Return _attachFilePath
+        End Get
+        Set(value As String)
+            _attachFilePath = value
+        End Set
+    End Property
     ''' <summary>
     ''' Constructor de la regla DoMail
     ''' </summary>
@@ -464,7 +481,7 @@ Public Class DOMail
                    ByVal attachTableColDocTypeId As String,
                    ByVal attachTableColDocId As String,
                    ByVal attachTableColDocName As String,
-                   ByVal smtpEnableSsl As Boolean, ByVal Answer As Boolean)
+                   ByVal smtpEnableSsl As Boolean, ByVal Answer As Boolean, AttachFile As Boolean, AttachFilePath As String)
 
         MyBase.New(Id, Name, wfstepId)
         Me._Para = Para
@@ -515,6 +532,8 @@ Public Class DOMail
         Me.Answer = Answer
         Me.AttachTableColDocName = attachTableColDocName
         Me.playRule = New Zamba.WFExecution.PlayDOMail(Me)
+        Me.AttachFile = AttachFile
+        Me.AttachFilePath = AttachFilePath
     End Sub
 
     '[Ezequiel] 09/06/2009 - Se elimino el Try-Catch

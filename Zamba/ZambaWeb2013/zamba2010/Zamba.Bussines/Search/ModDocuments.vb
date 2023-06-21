@@ -343,6 +343,7 @@ Namespace Search
 
             strQuery.Append($" order by {externalOrdenBy}")
 
+
             If Server.isOracle Then
                 strQuery.Replace("[", Chr(34))
                 strQuery.Replace("]", Chr(34))

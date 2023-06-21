@@ -456,12 +456,12 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 token = Request.Headers.GetValues("Authorization").First();
                 if (string.IsNullOrEmpty(token))
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token Nulo")));
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token Nulo. Err. 7004")));
             }
             catch (Exception e)
             {
                 ZClass.raiseerror(e);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el token")));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el token Err. 7005")));
             }
 
             byte[] _file = null;
@@ -501,14 +501,14 @@ namespace ZambaWeb.RestApi.Controllers
                         }
                         catch (Exception ex)
                         {
-                            ZClass.raiseerror(ex);
+                            ZClass.raiseerror(new Exception("Error validando usuario. Err. 7006", ex));
                         }
 
                     }
                     else
                     {
-                        ZClass.raiseerror(new Exception("No se recibieron todos los parametros"));
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se recibieron todos los parametros")));
+                        ZClass.raiseerror(new Exception($"No se recibieron todos los parametros. userID {userID} DocTypeId {DocTypeId} DocId {DocId} Err. 7007"));
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se recibieron todos los parametros. Err. 7007")));
                     }
 
 
@@ -520,48 +520,17 @@ namespace ZambaWeb.RestApi.Controllers
                     SResult sResult = new SResult();
                     Result res = (Result)sResult.GetResult(DocId, DocTypeId, false);
 
-                    //string documentdata = GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res);
                     try
                     {
-                        //JsonConvert.DeserializeObject(documentdata);
                         return Ok(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false));
-                        //return Ok(documentdata);
                     }
                     catch (Exception ex)
                     {
-                        ZClass.raiseerror(ex);
+                        ZClass.raiseerror(new Exception("Error al obtener el archivo. Se reintenta decode. Err. 7008",ex));
                         return Ok(System.Convert.FromBase64String(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false)));
                         throw ex;
                     }
 
-                    //DocumentData DD = new DocumentData();
-
-                    //string data = GetDocumentData(_userId, _doctypeId, _docId, ref convertToPDf, res);
-                    //DD.fileName = res.Doc_File;
-
-                    //DD.ContentType = convertToPDf ? "application/pdf" : res.MimeType;
-
-                    //try
-                    //{
-                    //    DD.dataObject = JsonConvert.DeserializeObject(data);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    DD.data = System.Convert.FromBase64String(data);
-                    //}
-
-                    //try
-                    //{
-                    //    var jsonDD = JsonConvert.SerializeObject(DD);
-                    //    return Ok(jsonDD);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    //return Ok(System.Convert.FromBase64String(DD));
-                    //    //throw ex;
-                    //    var jsonDD = JsonConvert.SerializeObject(DD);
-                    //    return Ok(jsonDD);
-                    //}
                 }
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
             }
@@ -588,14 +557,15 @@ namespace ZambaWeb.RestApi.Controllers
                 long _userId = long.Parse(_documentId.Split('-')[2]);
                 string _DateTime = _documentId.Split('-')[3];
 
-                if (_userId != userID) throw new Exception("No se reconoce ID del documento. Err 7001");
+                if (_userId != userID) throw new Exception($"No se reconoce ID del documento. Err 7001: {documentId}");
+
                 DateTime _IdDateTime = new DateTime(int.Parse(_DateTime.Split(char.Parse("|"))[0]), int.Parse(_DateTime.Split(char.Parse("|"))[1]), int.Parse(_DateTime.Split(char.Parse("|"))[2]), int.Parse(_DateTime.Split(char.Parse("|"))[3]), int.Parse(
                 _DateTime.Split(char.Parse("|"))[4]), int.Parse(_DateTime.Split(char.Parse("|"))[5]), int.Parse(_DateTime.Split(char.Parse("|"))[6]));
-                if ((DateTime.Today - _IdDateTime).TotalHours > 24) throw new Exception("No se reconoce ID del documento. Err 7002");
+                if ((DateTime.Today - _IdDateTime).TotalHours > 24) throw new Exception($"No se reconoce ID del documento: {documentId}. Err 7002");
             }
             catch (Exception ex)
             {
-                throw new Exception("No se reconoce ID del documento. Err 7000", ex);
+                throw new Exception($"No se reconoce ID del documento. Err 7000: {documentId}", ex);
             }
 
         }

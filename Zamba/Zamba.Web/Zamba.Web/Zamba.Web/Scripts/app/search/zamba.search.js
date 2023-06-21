@@ -5632,7 +5632,9 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
                 var docIframe = document.getElementById("previewDocIframe");
                 var doc = docIframe.contentWindow.document;
                 var btnImprimir = doc.getElementById("print")
-                btnImprimir.style.display = 'none';
+                if (btnImprimir != null) {
+                    btnImprimir.style.display = 'none';
+                }
             }, 300);
 
 

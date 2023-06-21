@@ -203,17 +203,20 @@ namespace Zamba.FAD
             UserBusiness UB = new UserBusiness();
 
             DataTable zudtResults = RB.getZudt();
+            var result = adsSearcherGroups.FindAll();
+
+           
 
             if (zudtResults.Rows.Count > 0)
             {
                 var user = UB.GetUserByname(username, false);
-                foreach (var p in adsSearcherGroups?.SearchRoot.Properties.Values)
+                foreach (SearchResult props in result)
                 {
                     foreach (DataRow row in zudtResults.Rows)
                     {
-                        if (((PropertyValueCollection)p).PropertyName == row["DATATYPE"].ToString())
+                        if (props.GetDirectoryEntry().Properties.Contains(row["DATATYPE"].ToString()))
                         {
-                            propertyAdd = ((PropertyValueCollection)p).Value.ToString();
+                            propertyAdd = props.GetDirectoryEntry().Properties[row["DATATYPE"].ToString()].Value.ToString();
                             var eId = CoreBusiness.GetNewID(IdTypes.DateTypeId);
                             RB.getInsertAdInfoInZamba(propertyAdd, user.ID, Convert.ToInt64(row["DATATYPEID"]), eId);
 

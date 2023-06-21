@@ -44,6 +44,9 @@ Public Class ZException
                 ElseIf (Ex.Message.Contains("The directive 'control' is unknown")) Then
                 ElseIf (Ex.Message.Contains("A network-related") OrElse Ex.Message.Contains("A transport-level error has occurred when receiving results from the server")) Then
                     WriteFile(Ex, "DB Connection Error")
+                ElseIf (Ex.Message.Contains("Err 7002")) Then
+                    WriteFile(Ex, "IdExpirado")
+                    RaiseEvent LogToDB(Ex)
                 Else
                     WriteFile(Ex)
                     RaiseEvent LogToDB(Ex)
@@ -86,9 +89,9 @@ Public Class ZException
 
                 Try
                     If SubFolder.Length > 0 Then
-                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions\" & SubFolder)
+                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd") & "\" & SubFolder)
                     Else
-                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions")
+                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions" & DateTime.Now.ToString("yyyy-MM-dd"))
                     End If
 
                     If dir.Exists = False Then
