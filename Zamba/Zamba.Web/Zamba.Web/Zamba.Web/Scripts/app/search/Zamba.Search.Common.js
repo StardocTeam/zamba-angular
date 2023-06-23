@@ -1,6 +1,6 @@
 ﻿function ProcessResults(search) {
 
-    var results = search.SearchResults;
+    var results = search.SearchResultsObject.data;
 
     var resultsIds = [];
     for (var i = 0; i <= results.length - 1; i++) {
