@@ -19,6 +19,8 @@ using Zamba.Membership;
 using System.Web;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Web.Services.Description;
+using System.Text.RegularExpressions;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -259,6 +261,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, Request.Headers.GetValues("Authorization").First());
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Concat(searchDto.entities.ToString()));
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Concat(searchDto.Indexs.ToString()));
+
             }
             catch (Exception e)
             {
@@ -393,6 +396,22 @@ namespace ZambaWeb.RestApi.Controllers
                     foreach (DataRow row in results.Rows)
                         row["id"] = EncriptString(string.Concat(row["doc_id"].ToString(), "-", row["doc_type_id"].ToString(), "-", _userId, "-", DateTime.Today.ToString("yyyy|MM|dd|HH|mm|ss|sss")));
 
+                    // nuevo archivo
+                    results.Columns.Add("url", typeof(string)).SetOrdinal(0);
+
+
+                    ////Genero el id del doc
+                    if (searchDto.url)
+                    {
+                        String dominio = ZOptBusiness.GetValueOrDefault("ThisDomain", "http://imageapd/zamba.web");
+                        foreach (DataRow row in results.Rows)
+                        {
+                            string documentUrl = dominio + "Services/GetDocFile.ashx?DocTypeId=" + row["doc_type_id"] + " &DocId = " + row["doc_id"] + " &UserID = " + _userId + " &ConvertToPDf = true";
+                            string newDocumentUrl = Regex.Replace(documentUrl, @"\s", "");
+                            row["url"] = newDocumentUrl;
+                        }
+                    }
+
                     List<string> columnsToRemove = new List<string>();
                     //Columnas que no deben verse
                     foreach (DataColumn column in results.Columns)
@@ -404,7 +423,8 @@ namespace ZambaWeb.RestApi.Controllers
                           column.ColumnName = ExternalAttributesToKeep[column.ColumnName.ToLower()];
                         }
                         else
-                            columnsToRemove.Add(column.ColumnName);
+                            if(column.ColumnName != "url")
+                                columnsToRemove.Add(column.ColumnName);
                     }
 
                     //Remuevo las columnas

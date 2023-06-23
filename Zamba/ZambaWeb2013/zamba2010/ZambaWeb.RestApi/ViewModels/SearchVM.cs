@@ -117,7 +117,9 @@ public class SearchDto
     public List<kendoFilter> originalFilenameFilters { get; set; } = new List<kendoFilter>();
 
     public List<kendoFilter> stateFilters { get; set; } = new List<kendoFilter>();
-    
+
+    public Boolean url { get; set; }
+
 
 }
 
