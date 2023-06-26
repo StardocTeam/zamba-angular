@@ -1915,8 +1915,10 @@ namespace ZambaWeb.RestApi.Controllers
                         ExecutionTask.AsignedToId = user.ID;
                         ExecutionTask.UserId = (int)user.ID;
                         ExecutionTask.TaskId = 0;
-                        ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
-                                                                             //ExecutionTask.StartRule = ruleId;                         Results.Add(ExecutionTask);
+                        ExecutionTask.Name = "Ejecucion de regla sin tarea"; 
+                        //
+                        //ExecutionTask.StartRule = ruleId;
+                        Results.Add(ExecutionTask);
                     }
 
 
