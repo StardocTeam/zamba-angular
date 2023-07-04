@@ -1763,14 +1763,14 @@ Public Class WFTasksFactory
 
     Public Sub LogTask(ByVal taskID As Int64, ByVal taskName As String, ByVal docTypeId As Int32, ByVal docTypeName As String, ByVal folderId As Int32, ByVal stepId As Int64, ByVal stepname As String, ByVal stateName As String, ByVal workflowId As Int64, ByVal wfname As String, ByVal CurrentUserName As String, ByVal Action As String)
         If Server.isOracle Then
-            If IsDBNull(stepname) AndAlso stepname Is Nothing Then
-                stepname = String.Empty
+            If (IsDBNull(stepname) AndAlso stepname Is Nothing) Or String.IsNullOrEmpty(stepname) Then
+                stepname = "-"
             End If
-            If IsDBNull(wfname) AndAlso wfname Is Nothing Then
-                wfname = String.Empty
+            If (IsDBNull(wfname) AndAlso wfname Is Nothing) Or String.IsNullOrEmpty(wfname) Then
+                wfname = "-"
             End If
-            If IsDBNull(stateName) AndAlso stateName Is Nothing Then
-                stateName = String.Empty
+            If (IsDBNull(stateName) AndAlso stateName Is Nothing) Or String.IsNullOrEmpty(stateName) Then
+                stateName = "-"
             End If
             Server.Con.ExecuteNonQuery(CommandType.Text, "INSERT INTO WFStepHst(Doc_Id, Doc_Name, DocTypeId, Doc_Type_Name, FOLDER_Id, StepId, Step_Name, State, UserName, Accion,  Fecha, WorkflowId, WorkflowName) VALUES (" &
                                   taskID & ",'" & taskName & "'," & docTypeId & ",'" & docTypeName & "',0," & stepId & ",'" & stepname & "','" & stateName & "','" & RightFactory.CurrentUser.Name & "','" & Action & "',sysdate," & workflowId & ",'" & wfname & "')")
