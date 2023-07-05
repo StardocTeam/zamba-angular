@@ -1905,7 +1905,8 @@ namespace ZambaWeb.RestApi.Controllers
                                 ExecutionTask.UserId = (int)user.ID;
                                 ExecutionTask.TaskId = 0;
                                 ExecutionTask.Name = "Ejecucion de regla IMAP"; //
-                                                                                //ExecutionTask.StartRule = ruleId;                                 Results.Add(ExecutionTask);
+                                //ExecutionTask.StartRule = ruleId;       
+                                Results.Add(ExecutionTask);
                             }
                         }
                     }
@@ -1916,7 +1917,8 @@ namespace ZambaWeb.RestApi.Controllers
                         ExecutionTask.UserId = (int)user.ID;
                         ExecutionTask.TaskId = 0;
                         ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
-                                                                             //ExecutionTask.StartRule = ruleId;                         Results.Add(ExecutionTask);
+                                                                           // ExecutionTask.StartRule = ruleId;              
+                        Results.Add(ExecutionTask);
                     }
 
 
