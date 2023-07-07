@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Login" EnableEventValidation="false" CodeBehind="Login.aspx.cs" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Login" EnableEventValidation="false" CodeBehind="Login.aspx.cs" ValidateRequest ="true" %>
 
 <%@ Import Namespace="System.Web.Optimization" %>
 

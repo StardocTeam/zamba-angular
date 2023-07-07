@@ -356,6 +356,11 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
                     filterType = "manual";
                 else if (filterType == "Search")
                     filterType = "search";
+                else
+
+                if(filterType != "manual" && filterType != "search")
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("el filter type no es correcto: ")));
+
                 var filterComponents = new FiltersComponent();
                 filterComponents.SetDisabledAllFiltersByUser(userID, filterType);
                 return Ok();
