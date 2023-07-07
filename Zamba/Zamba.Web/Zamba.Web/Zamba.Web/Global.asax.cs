@@ -59,12 +59,16 @@ namespace Zamba.Web
 
 
             //HttpContext.Current.Response.BinaryWrite(misbytes);
-            
+
 
 
         }
         protected void Application_EndRequest()
         {
+            if (Response.StatusCode == 404 || Response.StatusCode == 403)
+            {
+                Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
+            }
             //String myhtml = "<html><body>hola mundo</body><html>";
             //byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
             //HttpContext.Current.Response.BinaryWrite(misbytes);
@@ -96,7 +100,7 @@ namespace Zamba.Web
 
         }
 
-      
+
 
 
         protected void Application_BeginRequest(object sender, EventArgs e)
@@ -199,6 +203,11 @@ namespace Zamba.Web
             //}
             //if (!ValidateOktaAuthenticacionHTML(Request))
             //    throw new HttpException(401, "Unauthorized");
+
+
+            string PhysicalPath = Request.PhysicalPath.ToLower();
+            
+
             string[] SubscriptionResourcesSensitive = GetResourcesSenitive();
             string[] SubscriptionResourcesAuthentication = GetListAuthorizationResources();
             Boolean AutenticationIsValid = true;
