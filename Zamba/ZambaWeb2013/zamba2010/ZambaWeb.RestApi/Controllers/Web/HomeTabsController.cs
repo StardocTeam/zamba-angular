@@ -29,6 +29,7 @@ using System.IO;
 using Zamba.Membership;
 using System.Security.Cryptography.X509Certificates;
 using static ZambaWeb.RestApi.Controllers.SearchController;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -213,6 +214,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("GetGenericSummary")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetGenericSummary(NewsPostDto newsDto)
         {
             try
@@ -271,6 +273,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("GetNewsSummary")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetNewsSummary(NewsPostDto newsDto)
         {
             try

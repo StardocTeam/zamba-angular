@@ -31,6 +31,8 @@ using Zamba.Core.Cache;
 using ZambaWeb.RestApi.Controllers.Common;
 using System.Text;
 using Zamba.Filters;
+using ZambaWeb.RestApi.AuthorizationRequest;
+
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -545,6 +547,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/GetEntitiesTree")]
         [HttpGet, HttpPost]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetEntitiesTree(genericRequest paramRequest)
         {
             IUser user = null;
@@ -806,6 +809,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Indexs")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public string Indexs(List<Int64> SelectedEntitiesIds)
         {
             try
@@ -5444,6 +5448,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetTaskFilterConfig")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetTaskFilterConfig(genericRequest paramRequest)
         {
 
@@ -7821,6 +7826,7 @@ new HttpError(StringHelper.InvalidParameter)));
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetThumbsPathHome")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetThumbsPathHome(genericRequest paramRequest)
         {
             try
