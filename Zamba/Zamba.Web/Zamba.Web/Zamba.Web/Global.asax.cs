@@ -129,6 +129,14 @@ namespace Zamba.Web
 
         }
 
+        protected void Application_EndRequest() {
+
+            if (Response.StatusCode == 404 || Response.StatusCode == 403)
+            {
+                Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
+            }
+        }
+
         void Session_End(object sender, EventArgs e)
         {
             // Code that runs when a session ends. 

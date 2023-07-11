@@ -29,6 +29,7 @@ using Zamba.Framework;
 using ZambaWeb.RestApi.Controllers.Class;
 using Zamba.Membership;
 using Zamba.FAD;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -726,6 +727,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getUserPreferences")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult getUserPreferences(genericRequest paramRequest)
         {
             try
@@ -744,8 +746,9 @@ namespace ZambaWeb.RestApi.Controllers
                         var result = userConfig.getEspecificUserValue(PreferenceName, UPSections.UserPreferences, "", paramRequest.UserId);
                         return Ok(result);
                     }
+                    return Ok();
                 }
-                return Ok();
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
             }
             catch (Exception ex)
             {
@@ -893,12 +896,13 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try
             {
                 if (paramRequest == null)
-                    return null;
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
 
                 IUser user = GetUser(paramRequest.UserId);
                 if (user == null)
@@ -967,12 +971,13 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("NewGetUserRight")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult NewGetUserRight(genericRequest paramRequest)
         {
             try
             {
                 if (paramRequest == null)
-                    return null;
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
 
                 IUser user = GetUser(paramRequest.UserId);
                 if (user == null)

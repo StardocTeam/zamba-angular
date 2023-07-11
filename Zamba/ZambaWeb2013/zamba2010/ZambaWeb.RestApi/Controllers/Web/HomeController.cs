@@ -12,6 +12,11 @@ using System.Web.Http.Cors;
 using Zamba.Core;
 using Zamba.Servers;
 using Zamba.Framework;
+using System.Text;
+using System.Web.Http.Controllers;
+using System.Threading.Tasks;
+using System.Text.Json;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -91,41 +96,47 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet, HttpPost]
         [Route("GetHomeTabs")]
+        [RestAPIAuthorize(isGenericRequest = true )]
         public IHttpActionResult GetHomeTabs(genericRequest paramRequest)
         {
             try
             {
                 IUser user = null;
+                var tabs = new List<string>();
                 if (paramRequest != null)
                 {
-                     user = GetUser(paramRequest.UserId);
+                    user = GetUser(paramRequest.UserId);
                     if (user == null)
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                            new HttpError(StringHelper.InvalidUser)));
-
-                    //                    var user = GetUser(null);
-                }
-               
-
-                var tabs = new List<string>();
-
-                var tabsValue = new Zamba.Core.ZOptBusiness().GetValueOrDefaultNonShared("HomeWebTabs", string.Empty);
-
-
-                if (string.IsNullOrEmpty(tabsValue))
-                {
-                    tabs.Add("Acciones");
-                }
-                else
-                {
-                    tabsValue = tabsValue.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Trim();
-                    foreach (var tab in tabsValue.Split(','))
                     {
-                        tabs.Add(tab.Trim());
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                                new HttpError(StringHelper.InvalidUser)));
                     }
+
+
+
+                    var tabsValue = new Zamba.Core.ZOptBusiness().GetValueOrDefaultNonShared("HomeWebTabs", string.Empty);
+
+
+                    if (string.IsNullOrEmpty(tabsValue))
+                    {
+                        tabs.Add("Acciones");
+                    }
+                    else
+                    {
+                        tabsValue = tabsValue.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Trim();
+                        foreach (var tab in tabsValue.Split(','))
+                        {
+                            tabs.Add(tab.Trim());
+                        }
+                    }
+
+                    return Ok(tabs);
+                }
+                else {
+                    return InternalServerError(new Exception("Error al obtener el listado de novedades"));
                 }
 
-                return Ok(tabs);
+                
             }
             catch (Exception e)
             {
@@ -135,4 +146,6 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
     }
+
+   
 }
