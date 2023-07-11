@@ -14,6 +14,7 @@ using System.Data;
 using System.Reflection;
 using Zamba.FileTools;
 using System.IO;
+using EmailRetrievalAPI.Controllers;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -204,7 +205,109 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("ImapInsertEmailsInZamba")]
+        public IHttpActionResult ImapInsertEmailsInZamba(genericRequest paramRequest)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
 
+                //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
+                IUser user = null;
+                if (paramRequest != null)
+                {
+                    user = GetUser(paramRequest.UserId);
+                    if (user == null)
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                            new HttpError(StringHelper.InvalidUser)));
+
+                    ZImapClient e = new ZImapClient();
+
+                    //GetProcessInfo
+                    EmailBusiness EB = new EmailBusiness();
+                    List<IDTOObjectImap> imapProcessList = new List<IDTOObjectImap>();
+
+                    foreach (DataRow row in EB.getAllImapProcesses().Rows)
+                    {
+                        DTOObjectImap item = new DTOObjectImap(row);
+                        imapProcessList.Add(item);
+                    }
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ejecutara " + imapProcessList.Count + " proceso/s.");
+
+                    e.InsertEmailsInZamba(imapProcessList, (Object)new Results_Business());
+
+                    return Ok();
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsWarning, "No hay parametros en la solicitud.");
+                }
+
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+                throw new Exception(ex.ToString());
+            }
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("TestImapInsertEmailsInZamba")]
+        public IHttpActionResult TestImapInsertEmailsInZamba(genericRequest paramRequest)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
+
+                //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
+                IUser user = null;
+                if (paramRequest != null)
+                {
+                    user = GetUser(paramRequest.UserId);
+                    if (user == null)
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                            new HttpError(StringHelper.InvalidUser)));
+
+                    ZImapClient e = new ZImapClient();
+
+                    //GetProcessInfo
+                    List<IDTOObjectImap> imapProcessList = new List<IDTOObjectImap>();
+
+                        DTOObjectImap item = new DTOObjectImap();
+                    item.Direccion_servidor = paramRequest.Params["server"];
+                    item.Puerto = int.Parse(paramRequest.Params["port"]);
+                    item.Id_usuario = int.Parse(paramRequest.Params["user"]);
+                    item.Password = paramRequest.Params["password"];
+                    item.Carpeta = paramRequest.Params["exporFolder"];
+                    item.CarpetaDest = paramRequest.Params["exportedFolder"];
+
+                    imapProcessList.Add(item);
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ejecutara " + imapProcessList.Count + " proceso/s.");
+
+                    e.InsertEmailsInZamba(imapProcessList, (Object)new Results_Business());
+
+                    return Ok();
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsWarning, "No hay parametros en la solicitud.");
+                }
+
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+                throw new Exception(ex.ToString());
+            }
+        }
 
 
 

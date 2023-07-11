@@ -352,6 +352,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="test\zimap.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -547,6 +548,10 @@
     <ProjectReference Include="..\Zamba.WorkFlow.SQLExecution\Zamba.WorkFlow.Execution.Business\Zamba.WorkFlow.Business.csproj">
       <Project>{9a8c8793-c6ae-4b87-ab76-6bc6fcbc9e2e}</Project>
       <Name>Zamba.WorkFlow.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZImapClient\Zamba.ZImapClient.csproj">
+      <Project>{d8bb8f14-1d5f-4df1-9f0c-948c3f25ab8e}</Project>
+      <Name>Zamba.ZImapClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
       <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>

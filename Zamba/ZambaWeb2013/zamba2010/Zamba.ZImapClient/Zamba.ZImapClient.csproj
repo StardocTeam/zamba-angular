@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D8BB8F14-1D5F-4DF1-9F0C-948C3F25AB8E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zamba.ZImapClient</RootNamespace>
+    <AssemblyName>Zamba.ZImapClient</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.2.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=4.1.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\Zamba2014\packages\MailKit.4.1.0\lib\net48\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=4.1.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\Zamba2014\packages\MimeKit.4.1.0\lib\net48\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Formats.Asn1, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.7.0.0\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZImapClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Zamba.Web\Zamba.FUS\Zamba.FUS.csproj">
+      <Project>{912b1315-8014-4f5c-957a-d1dedfd75c6a}</Project>
+      <Name>Zamba.FUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
+      <Project>{98dcc71c-e25b-414f-95ff-e5b98b5d529d}</Project>
+      <Name>Zamba.FWBC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
+      <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>
+      <Name>Zamba.FWInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Bussines\Zamba.Bussines.vbproj">
+      <Project>{952c9b3b-3d9e-4ae2-a823-6b8e1f4f4756}</Project>
+      <Name>Zamba.Bussines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Core\Zamba.Core.vbproj">
+      <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
+      <Name>Zamba.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{e92f8175-9484-4454-a8f0-9c2ab63714f5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
+      <Project>{c6b645ee-2668-404d-b41e-28d5ac6caeb6}</Project>
+      <Name>Zamba.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ICore\Zamba.ICore.vbproj">
+      <Project>{e16279a2-165d-4d96-ad32-009874164c05}</Project>
+      <Name>Zamba.ICore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.Membership\Zamba.Membership.csproj">
+      <Project>{3137f21c-2b96-4e94-b436-c8cac0f60c5d}</Project>
+      <Name>Zamba.Membership</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zamba.ZTrace\Zamba.ZTrace.vbproj">
+      <Project>{ed286d37-c5bb-4a5a-b726-54fe8e963b50}</Project>
+      <Name>Zamba.ZTrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
