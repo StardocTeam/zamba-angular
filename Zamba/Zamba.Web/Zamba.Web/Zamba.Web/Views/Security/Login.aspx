@@ -7,20 +7,25 @@
 <head runat="server">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta property="AntiForgeryToken" value="#AntiForgeryToken" />
+
     <title title="Zamba Web"></title>
     <link id="lnkWebIcon" rel="shortcut icon" runat="server" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="../../Content/styles/normalize.css" />
     <link rel="stylesheet" type="text/css" href="../../Content/font-awesome.min.css" />
     <link href="../../Content/partialSearchIndexs.css" rel="stylesheet" type="text/css" />
+
     <asp:PlaceHolder runat="server">
         <%: Styles.Render("~/bundles/Styles/jquery")%>
         <%: Styles.Render("~/bundles/Styles/bootstrap")%>
-        <%: Scripts.Render("~/bundles/jqueryCore") %>
-        
+        <%: Scripts.Render("~/bundles/jqueryCore") %>        
     </asp:PlaceHolder>
 </head>
 
 <body id="loginBody" runat="server">
+    <script src="Login.js"></script>
+
     <div class="hidden-xs" id="particles-js"></div>
     <form id="form2" runat="server" role="form" defaultbutton="btnLogin">
         <asp:HiddenField ID="hdnUserId" runat="server" />
@@ -117,7 +122,7 @@
             <div class="row hidden-xs">
                 <div class="FooterLogIn">
                     <div class="divSlogan" style="display: none">
-                         <p  id="version" style="display: none"> V.- 1.0</p>
+                        <p id="version" style="display: none">V.- 1.0</p>
                     </div>
                     &nbsp;
                 </div>
@@ -134,176 +139,11 @@
             </div>
 
         </div>
-        </form>
-    </body>
-    </html>
+    </form>    
 
+</body>
+</html>
 
-
-
-        <%: Scripts.Render( "~/bundles/particles") %>
-        <%: Scripts.Render( "~/bundles/modernizr") %>
-        <%: Scripts.Render("~/bundles/bootstrap") %>
-
-
-        <script type="text/javascript">
-
-
-      
-  
-    function GetURLHelper() {
-        return '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("URLHelper","http://www.zamba.com.ar/zambaHelp/viewer/") %>';
-    };
-
-
-
-    function getRestApiUrl() {
-        return '<%=ConfigurationManager.AppSettings["RestApiUrl"] %>';
-    };
-
-    function getThisDomain() {
-        return '<%=ConfigurationManager.AppSettings["ThisDomain"] %>';
-    };
-
-
-    var domainName = getThisDomain();
-    var urlLocation = location.origin.trim();
-    document.getElementById("hdnthisdomian").setAttribute("value", domainName);
-    document.getElementById("hdnLocation").setAttribute("value", urlLocation);
-    var dominio = document.getElementById("hdnthisdomian").value;
-
-
-try     {
-         
-  $(".particles-js-canvas-el").css("position", "fixed");
- } catch (e) {
-
-    var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl");// + "/api";
-    var URLLoginByGUID = ZambaWebRestApiURL + '/api/Account/LoginByGuid';
-
-    $(document).ready(function () {
-        CheckIfAuthenticated();
-    });
-
-    function CheckIfAuthenticated() {
-        if (localStorage != undefined)
-            if (localStorage.authorizationData != undefined) {
-                var data = JSON.parse(localStorage.authorizationData);
-                var userid = data.UserId;
-                var token = data.token;
-                $.ajax({
-                    url: ZambaWebRestApiURL + '/api/Account/CheckToken?UserId=' + userid + '&Token=' + token,
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    async: false,
-                    success: function (response) {
-                        if (response == true) {
-                            var url = getUrlParameters().returnurl;
-                            if (url == undefined)
-                                url = "/" + location.pathname.split('/')[1] + "/globalsearch/search/search.html?"
-                            if (url.substring(0, 1) == "/")
-                                url = location.origin.trim() + url;
-                            var splitUrl = url.split('?');
-                            if (splitUrl.length == 2) {
-                                var queryString = "";
-                                var params = splitUrl[1].split('&');
-                                // Debo recuperar el querystring sin informacion de userid y token
-                                if (params[0] != "") {
-                                    params.forEach(function (param) {
-                                        var key = param.split('=')[0];
-                                        var value = param.split('=')[1];
-                                        if (key != 'userid' && key != "token") {
-                                            queryString += key + "=" + value + "&";
-                                        }
-                                    }
-                                    );
-                                }
-                                queryString += "userid=" + userid + "&token=" + token.substring(0,180);
-                                url = splitUrl[0] + "?" + queryString
-                                location.href = url;
-                            }}
-                    },
-                    error: function (error) {
-                        ret = error
-                    }
-                });
-            }
-    }
-
-    function LoginByGuid(userid, guid, redirectUrl) {
-        var Params = {
-            userid: userid,
-            guid: guid
-        };
-        var ret;
-        $.ajax({
-            url: URLLoginByGUID + "?userid=" + userid + "&guid=" + guid,
-            type: "POST",
-            //data: Params,
-            contentType: "application/json; charset=utf-8",
-            async: false,
-            success: function (response) {
-                if (JSON.parse(response).token == undefined || JSON.parse(response).token == null)
-                    ret = error;
-                else {
-                    var tokenInfo = JSON.parse(response)
-                    if (localStorage) {
-                        localStorage.setItem('authorizationData', JSON.stringify({
-                            token: tokenInfo.token,
-                            userName: tokenInfo.userName,
-                            refreshToken: tokenInfo.refreshToken,
-                            useRefreshTokens: tokenInfo.useRefreshTokens,
-                            generateDate: new Date(),
-                            UserId: tokenInfo.userid
-                        }));
-                    }
-                }                
-                window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token.substring(0, 180);
-            },
-            error: function (error) {
-                ret = error
-            }
-        });
-        return ret;
-    }
-    function getUrlParameters() {
-        var pairs = window.location.search.substring(1).split(/[&?]/);
-        var res = {}, i, pair;
-        for (i = 0; i < pairs.length; i++) {
-            pair = pairs[i].toLowerCase().split('=');
-            if (pair[1])
-                res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-        }
-        return res;
-    }
-    function getValueFromWebConfig(key) {
-
-
-        var url = "Services/ViewsService.asmx/getValueFromWebConfig?key=" + key;
-        if (location.pathname.toLowerCase().split("/").indexOf('login.aspx') > 1) {
-            url = "../../Services/ViewsService.asmx/getValueFromWebConfig?key=" + key;
-        }
-
-        $.ajax({
-            "async": false,
-            "crossDomain": true,
-            "url": url,
-            "method": "GET",
-            "headers": {
-                "cache-control": "no-cache"
-            },
-            "success": function (response) {
-                if (response.childNodes[0].innerHTML == undefined) {
-                    pathName = response.childNodes[0].textContent;
-                } else {
-                    pathName = response.childNodes[0].innerHTML;
-                }
-
-            },
-            "error": function (data, status, headers, config) {
-                console.log(data);
-            }
-        });
-        return pathName;
-    }
-</script>
+<%: Scripts.Render( "~/bundles/particles") %>
+<%: Scripts.Render( "~/bundles/modernizr") %>
+<%: Scripts.Render("~/bundles/bootstrap") %>

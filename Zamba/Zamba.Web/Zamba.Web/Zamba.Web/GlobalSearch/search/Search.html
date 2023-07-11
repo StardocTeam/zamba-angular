@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11; IE=EDGE,chrome=1;IE=9;IE-8;IE-7;IE=EDGE,chrome=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    <meta property="AntiForgeryToken" value="#AntiForgeryToken"/>
+
     <title title="Zamba Web">Zamba BPM</title>
     <link id="lnkWebIcon" rel="shortcut icon" runat="server" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="../../Content/styles/normalize.css" />
@@ -87,7 +90,7 @@
         var URLServer = thisDomain + "/ZambaChat/";
 
 
-        function getValueFromWebConfig(key) {
+        function getValueFromWebConfig(key) {            
             var pathName = null;
             $.ajax({
                 "async": false,
@@ -95,7 +98,8 @@
                 "url": "../../Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
                 "method": "GET",
                 "headers": {
-                    "cache-control": "no-cache"
+                    "cache-control": "no-cache",
+                    "anti-forgery-token": getAntiForgeryToken()
                 },
                 "success": function (response) {
                     if (response.childNodes[0].innerHTML == undefined) {

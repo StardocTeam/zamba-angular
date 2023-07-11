@@ -15,6 +15,7 @@ using System.Net;
 using Microsoft.AspNet.FriendlyUrls.Resolvers;
 using System.Text;
 using BundleTransformer.Core.Resources;
+using Spire.Pdf.Exporting.XPS.Schema;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -42,6 +43,8 @@ namespace Zamba.Web
             {
                 Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
             }
+
+
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
             HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
             HttpContext.Current.Response.Headers.Remove("Server");
@@ -51,6 +54,46 @@ namespace Zamba.Web
             HttpContext.Current.Response.Headers.Add("X-Content-Type-Options", "nosniff");
             //HttpContext.Current.Response.Headers.Remove("X-Frame-Options");
             //HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
+            //Response.Headers.Add("AntiForgeryToken", "abc123cba321");
+
+            if (Request.Url.Segments.Last().ToLower() == "search.html")
+            {
+                string Root = HttpRuntime.AppDomainAppPath + @"GlobalSearch\search\Search.html";
+                string BodyHtml = "";
+
+                using (StreamReader sr = new StreamReader(Root))
+                {
+                    string APP_TOKEN = Application["AntiForgeryToken"].ToString();
+
+                    BodyHtml = sr.ReadToEnd();
+                    BodyHtml = BodyHtml.Replace("#AntiForgeryToken", APP_TOKEN);
+
+                    byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.BinaryWrite(BodyBytes);
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.End();
+
+                }
+            }
+
+            if (Request.Url.Segments.Last() == "getValueFromWebConfig")
+            {
+                if (Request.Headers.AllKeys.Contains("anti-forgery-token"))
+                {
+                    var token = Request.Headers.Get("anti-forgery-token").ToString();
+
+                    if (token != "123456")
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                }
+            }
+
             //String myhtml = "<html><body>hola mundo</body><html>";
             //byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
             //HttpContext.Current.Response.Clear();
@@ -82,6 +125,7 @@ namespace Zamba.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             MvcHandler.DisableMvcResponseHeader = true;
+            Application["AntiForgeryToken"] = "123456";
             ZCore ZC = new ZCore();
 
             if (Servers.Server.ConInitialized == false)
@@ -206,7 +250,7 @@ namespace Zamba.Web
 
 
             string PhysicalPath = Request.PhysicalPath.ToLower();
-            
+
 
             string[] SubscriptionResourcesSensitive = GetResourcesSenitive();
             string[] SubscriptionResourcesAuthentication = GetListAuthorizationResources();

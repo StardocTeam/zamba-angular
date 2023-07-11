@@ -16,8 +16,11 @@ var URLServer;
 var urlGlobalSearch;
 var URLServer;
 
-function getValueFromWebConfig(key) {
+function getAntiForgeryToken() {
+    return document.head.querySelector("meta[property='AntiForgeryToken']").getAttribute("value");
+}
 
+function getValueFromWebConfig(key) {
     var pathName = null;
 
     if (localStorage) {
@@ -36,7 +39,8 @@ function getValueFromWebConfig(key) {
         "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
         "method": "GET",
         "headers": {
-            "cache-control": "no-cache"
+            "cache-control": "no-cache",
+            "anti-forgery-token": getAntiForgeryToken()
         },
         "success": function (response) {
             if (response.childNodes[0].innerHTML == undefined) {
