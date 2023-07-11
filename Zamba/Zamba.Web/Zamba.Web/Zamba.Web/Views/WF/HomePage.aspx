@@ -9,7 +9,9 @@
 
 <head runat="server">
 
-     <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
+    <meta property="AntiForgeryToken" value="#AntiForgeryToken" />
+
+    <link href="../../Content/Styles/normalize.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../Content/Site.css" />
     <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
 
@@ -70,16 +72,15 @@
 
     <form id="form" runat="server">
 
-        
-   <style>
-       .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable {
-            position: absolute !important;
-            top: 23px !important;
-            z-index: 6666 !important;
-            background-color: white !important;
-        
-        }
-   </style>
+
+        <style>
+            .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable {
+                position: absolute !important;
+                top: 23px !important;
+                z-index: 6666 !important;
+                background-color: white !important;
+            }
+        </style>
 
         <asp:HiddenField ID="hdnUserId" runat="server" />
         <asp:HiddenField ID="hdnPushNotification_player_id" runat="server" />
@@ -91,7 +92,7 @@
         <asp:HiddenField runat="server" ID="HiddenDocID" />
         <asp:HiddenField runat="server" ID="HiddenCurrentFormID" />
 
-        <asp:LinkButton runat="server" ID="hdnsender" OnClick="hdnsender_Click" Text="TEST" style="display:none" />
+        <asp:LinkButton runat="server" ID="hdnsender" OnClick="hdnsender_Click" Text="TEST" Style="display: none" />
 
         <asp:ScriptManager ID="ScriptManager1" runat="server">
         </asp:ScriptManager>
@@ -139,7 +140,7 @@
             </div>
         </div>
 
-        
+
         <script type="text/javascript">
             function getValueFromWebConfig(key) {
                 var pathName = null;
@@ -149,7 +150,8 @@
                     "url": "../../Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
                     "method": "GET",
                     "headers": {
-                        "cache-control": "no-cache"
+                        "cache-control": "no-cache",
+                        "anti-forgery-token": getAntiForgeryToken()
                     },
                     "success": function (response) {
                         if (response.childNodes[0].innerHTML == undefined) {
@@ -165,23 +167,23 @@
                 });
                 return pathName;
             }
-            
+
 
 
         </script>
 
-         <script type="text/javascript">
+        <script type="text/javascript">
 
-        var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
-        var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
-        var zambaApplication = "Zamba";
-        var URLServer = thisDomain + "/ZambaChat/";
-        var urlGlobalSearch = thisDomain + "/Views/Search/";
-        var URLServer = thisDomain + "/ZambaChat/";
-        var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
-        var zCollServer = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
+            var thisDomain = location.origin.trim() + getValueFromWebConfig("ThisDomain");
+            var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
+            var zambaApplication = "Zamba";
+            var URLServer = thisDomain + "/ZambaChat/";
+            var urlGlobalSearch = thisDomain + "/Views/Search/";
+            var URLServer = thisDomain + "/ZambaChat/";
+            var ZCollLnk ='<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("ZCollLnk","https://localhost/zamba.web/zamba.collaboration/") %>';
+            var zCollServer = '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("zCollServer","http://localhost/zamba.web/zambacollaborationserver/") %>';
 
-         </script>
+        </script>
 
 
     </form>

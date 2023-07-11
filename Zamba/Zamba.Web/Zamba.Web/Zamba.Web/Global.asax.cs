@@ -90,7 +90,7 @@ namespace Zamba.Web
                 }
                 else
                 {
-                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;                    
                 }
             }
 
