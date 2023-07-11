@@ -42,7 +42,14 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             // Deserializar la cadena JSON en un objeto C#
             try
             {
-                var jsonObject = JsonConvert.DeserializeObject<genericRequest>(jsonString);
+                //var jsonObjectAnalize = JsonConvert.DeserializeObject<object>(jsonString);
+                //foreach (var item in properties.RootElement.EnumerateObject())
+                //{
+                //    if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
+                //        return false;
+                //}
+
+                //var jsonObject = JsonConvert.DeserializeObject<genericRequest>(jsonString);
 
                 foreach (var item in properties.RootElement.EnumerateObject())
                 {

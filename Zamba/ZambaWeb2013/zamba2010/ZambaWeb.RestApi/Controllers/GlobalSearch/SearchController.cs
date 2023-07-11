@@ -2084,6 +2084,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [Route("api/search/GetLastSearchs")]
         [HttpGet, HttpPost]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetLastSearchs(genericRequest GenericRequest)
         {
             List<LastSearchs> CResults = new List<LastSearchs>();
