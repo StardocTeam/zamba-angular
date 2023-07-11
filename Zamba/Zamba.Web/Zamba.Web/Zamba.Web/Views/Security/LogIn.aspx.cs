@@ -505,14 +505,16 @@ public partial class Login : System.Web.UI.Page
 
             SRights sRights = new SRights();
             Zamba.Core.IUser user = sRights.ValidateLogIn(txtUserName.Value, txtPassword.Value, ClientType.Web);
+           
             sRights = null;
             if (user != null)
             {
-
+                clearExpiredAttempsByUsername(user.Name);
                 DoLogin(false);
             }
             else
             {
+                logAuthAttemps(txtUserName.Value);
                 return;
             }
             //}
@@ -521,8 +523,13 @@ public partial class Login : System.Web.UI.Page
         {
             if (ex.Message.Contains("incorrecto") || ex.Message.Contains("incorrecta"))
             {
+                logAuthAttemps(txtUserName.Value);
                 ShowErrorMessage("Usuario o Clave incorrectas");
                 Toastr("Usuario o Clave incorrectas.", "error", "loginValidationError");
+            } else if (ex.Message.Contains("bloqueado")) {
+                ZClass.raiseerror(ex);
+                ShowErrorMessage("El usuario esta bloqueado, por favor contacte a su administrador de sistema.");
+                Toastr("El usuario esta bloqueado, por favor contacte a su administrador de sistema.", "error", "loginError");
             }
             else
             {
@@ -536,6 +543,105 @@ public partial class Login : System.Web.UI.Page
     #endregion
 
     #region Methods
+
+    private void logAuthAttemps(string username) {
+        if (ConfigurationManager.AppSettings.Get("LockAccountAfterMultipleAttemps") == null)
+            return;
+
+        int rangeMinutes = Int32.Parse(ConfigurationManager.AppSettings.Get("LockAccountAfterMultipleAttempsRangeMinutes"));
+        int maxAttemps = Int32.Parse(ConfigurationManager.AppSettings.Get("LockAccountAfterMultipleAttemps"));
+
+        if (maxAttemps > 0)
+        {
+
+            IUser CurrentUser = new UserBusiness().GetUserByname(username, false);
+
+            if (CurrentUser == null)
+                return;
+            if (CurrentUser.State == UserState.Bloqueado)
+                return;
+
+            string jsonAuthAttemps = "";
+            Dictionary<string, List<DateTime>> authAttemps = new Dictionary<string, List<DateTime>>();
+            if (HttpContext.Current.Application["AuthAttemps"] != null)
+            {
+               
+                jsonAuthAttemps = HttpContext.Current.Application["AuthAttemps"].ToString();
+                authAttemps = JsonConvert.DeserializeObject<Dictionary<string, List<DateTime>>>(jsonAuthAttemps);
+
+                authAttemps = clearExpiredAttemps(rangeMinutes , authAttemps);
+            }
+            KeyValuePair<string,List<DateTime>> item = authAttemps.Where(a => a.Key == username).FirstOrDefault();
+            List<DateTime> attemptDates = new List<DateTime>();
+            if (item.Key == null)
+            {
+                attemptDates.Add(DateTime.Now);
+                authAttemps.Add(username, attemptDates);
+            }
+            else {
+                attemptDates = item.Value;
+
+                attemptDates.Add(DateTime.Now);
+
+                KeyValuePair<string, List<DateTime>> newKeyValuePair = new KeyValuePair<string, List<DateTime>>(username, attemptDates);
+
+                authAttemps.Remove(username);
+                authAttemps.Add(username,attemptDates);
+
+            }
+            
+            if (maxAttemps == authAttemps[username].Count()) {
+                authAttemps.Remove(username);
+                new UserBusiness().LockUserByName(username);
+            }
+
+            HttpContext.Current.Application["AuthAttemps"] = JsonConvert.SerializeObject(authAttemps);
+        }
+
+    }
+
+    private Dictionary<string, List<DateTime>> clearExpiredAttemps(int rangeMinutes, Dictionary<string, List<DateTime>> authAttemps) {
+        Dictionary<string, List<DateTime>> auxAuthAttemps = new Dictionary<string, List<DateTime>>();
+        try
+        {
+            foreach (KeyValuePair<string, List<DateTime>> item in authAttemps)
+            {
+                List<DateTime> auxAttemps = item.Value;
+                auxAttemps = auxAttemps.Where(a => a.AddMinutes(rangeMinutes) > DateTime.Now).ToList();
+
+                if (auxAttemps.Count > 0)
+                    auxAuthAttemps.Add(item.Key, auxAttemps);
+
+            }
+            return auxAuthAttemps;
+        }
+        catch (Exception)
+        {
+            return authAttemps;
+        }
+    }
+
+    private void clearExpiredAttempsByUsername(string username)
+    {
+        try
+        {
+            Dictionary<string, List<DateTime>> authAttemps = new Dictionary<string, List<DateTime>>();
+
+            if (HttpContext.Current.Application["AuthAttemps"] != null)
+            {
+                string jsonAuthAttemps = HttpContext.Current.Application["AuthAttemps"].ToString();
+                authAttemps = JsonConvert.DeserializeObject<Dictionary<string, List<DateTime>>>(jsonAuthAttemps);
+                if (authAttemps.ContainsKey(username)) {
+                    authAttemps.Remove(username);
+                    HttpContext.Current.Application["AuthAttemps"] = JsonConvert.SerializeObject(authAttemps);
+                }
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+
     private static String ClientName()
     {
         SZOptBusiness zOptBusines = new SZOptBusiness();

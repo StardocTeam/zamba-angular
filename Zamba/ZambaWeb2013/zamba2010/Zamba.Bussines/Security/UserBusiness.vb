@@ -1452,5 +1452,9 @@ Public Class UserBusiness
         Return photoPath
     End Function
 
+    Public Sub LockUserByName(username As String)
+        UserFactory.LockUserByName(username)
+    End Sub
+
 
 End Class

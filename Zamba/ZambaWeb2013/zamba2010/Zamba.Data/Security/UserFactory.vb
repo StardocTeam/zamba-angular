@@ -2009,10 +2009,31 @@ Public Class UserFactory
             End Try
         End Function
 
-
-
     End Class
 
+    Public Shared Function LockUserByName(ByVal _username As String) As Boolean
+        Dim sqlBuilder As New System.Text.StringBuilder()
+
+        Try
+            sqlBuilder.Append("UPDATE usrtable SET state = 1")
+            If Server.isOracle Then
+                sqlBuilder.Append(" WHERE name = '")
+                sqlBuilder.Append(_username.ToString())
+            Else
+                sqlBuilder.Append(" WHERE lower(name) = '")
+                sqlBuilder.Append(_username.ToString().ToLower())
+            End If
+            sqlBuilder.Append("';")
+
+            Server.Con.ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString())
+            Return True
+
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+            Return False
+        End Try
+
+    End Function
     Public Shared Sub ClearHashTables()
         If Not IsNothing(_UserGroupsIdsByUseridList) Then
             _UserGroupsIdsByUseridList.Clear()
