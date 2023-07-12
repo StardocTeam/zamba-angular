@@ -56,34 +56,31 @@ namespace Zamba.Web
             //HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
             //Response.Headers.Add("AntiForgeryToken", "abc123cba321");
 
-            if (Request.Url.Segments.Last().ToLower() == "search.html")
+            if (GetListResourcesForAntiForgerytoken().Contains(Request.Url.Segments.Last().ToLower()))
             {
-                string Root = HttpRuntime.AppDomainAppPath + @"GlobalSearch\search\Search.html";
+                string Root = Request.PhysicalPath;
                 string BodyHtml = "";
 
                 using (StreamReader sr = new StreamReader(Root))
                 {
-                    string APP_TOKEN = Application["AntiForgeryToken"].ToString();
-
                     BodyHtml = sr.ReadToEnd();
-                    BodyHtml = BodyHtml.Replace("#AntiForgeryToken", APP_TOKEN);
+                    BodyHtml = BodyHtml.Replace("#AntiForgeryToken", getRandomAntiForgeryToken());
 
                     byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
                     HttpContext.Current.Response.ClearContent();
                     HttpContext.Current.Response.BinaryWrite(BodyBytes);
                     HttpContext.Current.Response.Flush();
                     HttpContext.Current.Response.End();
-
                 }
             }
 
             if (Request.Url.Segments.Last() == "getValueFromWebConfig")
             {
                 if (Request.Headers.AllKeys.Contains("anti-forgery-token"))
-                {
-                    var token = Request.Headers.Get("anti-forgery-token").ToString();
+                {                    
+                    string token = Request.Headers.Get("anti-forgery-token").ToString();
 
-                    if (token != "123456")
+                    if (!ValidateAntiForgeryToken(token))
                     {
                         Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     }
@@ -124,8 +121,9 @@ namespace Zamba.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            MvcHandler.DisableMvcResponseHeader = true;
-            Application["AntiForgeryToken"] = "123456";
+            MvcHandler.DisableMvcResponseHeader = true;            
+            Application["AntiForgeryTokens"] = generateAntiForgeryTokens();
+
             ZCore ZC = new ZCore();
 
             if (Servers.Server.ConInitialized == false)
@@ -208,35 +206,61 @@ namespace Zamba.Web
             RecursosSensibles.Add("gulpfile.js");
             return RecursosSensibles.ToArray();
         }
-
         private string[] GetListAuthorizationResources()
         {
             //Agregue aquellos recursos que desea autorizar donde la autenticacion
-            List<String> RecursosYMetodosWeb = new List<string>();
-            RecursosYMetodosWeb.Add("taskviewer");
-            RecursosYMetodosWeb.Add("docviewer");
-            RecursosYMetodosWeb.Add("taskviewer.aspx");
-            RecursosYMetodosWeb.Add("docviewer.aspx");
-            RecursosYMetodosWeb.Add("search.html");
-            RecursosYMetodosWeb.Add("GetDocFile.ashx");
-            RecursosYMetodosWeb.Add("TaskService.asmx/getUsedFilters");
-            RecursosYMetodosWeb.Add("TaskService.asmx/CloseAllAsignedTask");
-            RecursosYMetodosWeb.Add("TaskService.asmx/GetUserFeeds");
-            RecursosYMetodosWeb.Add("TaskService.asmx/SetNewRuleExecution");
-            RecursosYMetodosWeb.Add("TaskService.asmx/filterdata");
-            RecursosYMetodosWeb.Add("TaskService.asmx/ClearAllCache");
-            RecursosYMetodosWeb.Add("TaskService.asmx/ClearUserCache");
-            RecursosYMetodosWeb.Add("TaskService.asmx/ClearRightsCache");
-            RecursosYMetodosWeb.Add("TaskService.asmx/ClearUserCache");
-            RecursosYMetodosWeb.Add("TaskService.asmx/getUsedFilters");
-            RecursosYMetodosWeb.Add("TaskService.asmx/KeepSessionAlive");
-            RecursosYMetodosWeb.Add("TaskService.asmx/filterdata");
-            RecursosYMetodosWeb.Add("TaskService.asmx/ClearRulesCache");
-            RecursosYMetodosWeb.Add("TaskService.asmx/ClearStructureCache");
-            RecursosYMetodosWeb.Add("TaskService.asmx/CheckTimeOut");
-            RecursosYMetodosWeb.Add("TaskService.asmx/deleteFilter");
-            return RecursosYMetodosWeb.Select(n => n.ToLower()).ToArray();
+            List<String> WebResourcesAndMethods = new List<string>();
+            WebResourcesAndMethods.Add("taskviewer");
+            WebResourcesAndMethods.Add("docviewer");
+            WebResourcesAndMethods.Add("taskviewer.aspx");
+            WebResourcesAndMethods.Add("docviewer.aspx");
+            WebResourcesAndMethods.Add("search.html");
+            WebResourcesAndMethods.Add("GetDocFile.ashx");
+            WebResourcesAndMethods.Add("TaskService.asmx/getUsedFilters");
+            WebResourcesAndMethods.Add("TaskService.asmx/CloseAllAsignedTask");
+            WebResourcesAndMethods.Add("TaskService.asmx/GetUserFeeds");
+            WebResourcesAndMethods.Add("TaskService.asmx/SetNewRuleExecution");
+            WebResourcesAndMethods.Add("TaskService.asmx/filterdata");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearAllCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearUserCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearRightsCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/KeepSessionAlive");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearRulesCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearStructureCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/CheckTimeOut");
+            WebResourcesAndMethods.Add("TaskService.asmx/deleteFilter");
+            return WebResourcesAndMethods.Select(n => n.ToLower()).ToArray();
         }
+
+        private string[] GetListResourcesForAntiForgerytoken()
+        {
+            //Agregue aquellos recursos que desea autorizar donde la autenticacion
+            List<String> WebResourcesAndMethods = new List<string>();
+            WebResourcesAndMethods.Add("taskviewer");
+            WebResourcesAndMethods.Add("docviewer");
+            WebResourcesAndMethods.Add("taskviewer.aspx");
+            WebResourcesAndMethods.Add("docviewer.aspx");
+            WebResourcesAndMethods.Add("search.html");
+            WebResourcesAndMethods.Add("GetDocFile.ashx");
+            WebResourcesAndMethods.Add("OktaAuthentication.html");
+            WebResourcesAndMethods.Add("Login.aspx");
+            WebResourcesAndMethods.Add("HomePage.aspx");
+            WebResourcesAndMethods.Add("TaskService.asmx/getUsedFilters");
+            WebResourcesAndMethods.Add("TaskService.asmx/CloseAllAsignedTask");
+            WebResourcesAndMethods.Add("TaskService.asmx/GetUserFeeds");
+            WebResourcesAndMethods.Add("TaskService.asmx/SetNewRuleExecution");
+            WebResourcesAndMethods.Add("TaskService.asmx/filterdata");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearAllCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearUserCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearRightsCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/KeepSessionAlive");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearRulesCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/ClearStructureCache");
+            WebResourcesAndMethods.Add("TaskService.asmx/CheckTimeOut");
+            WebResourcesAndMethods.Add("TaskService.asmx/deleteFilter");
+            return WebResourcesAndMethods.Select(n => n.ToLower()).ToArray();
+        }
+
         private Boolean RequestAuthorization(HttpRequest Request)
         {
             //return true;
@@ -351,6 +375,32 @@ namespace Zamba.Web
             return AutenticationIsValid;
         }
 
+        private string generateAntiForgeryTokens()
+        {
+            string tokens = "";
+            for (int i = 0; i <= 200; i++)
+            {
+                Guid newGuid = Guid.NewGuid();
+                tokens += newGuid.ToString() + ";";
+            }
+            return tokens.TrimEnd(';');
+        }
+
+        private string getRandomAntiForgeryToken()
+        {
+            string token = "";
+            var random = new Random();
+            var indexRandom = random.Next(0, 200);
+            string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
+            token = arrTokens[indexRandom];
+            return token;
+        }
+
+        private Boolean ValidateAntiForgeryToken(string token)
+        {
+            string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
+            return arrTokens.Contains(token);
+        }
 
         public Boolean ValidateOktaState(String state, String Domain)
         //public Boolean ValidateOktaState(String state, string Domain)
