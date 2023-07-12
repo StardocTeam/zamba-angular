@@ -5279,6 +5279,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getPermisosInsert")]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult getPermisosInsert(genericRequest paramRequest)
         {
 
@@ -5461,8 +5462,17 @@ namespace ZambaWeb.RestApi.Controllers
                     var UsuarioID = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                     paramRequest.Params = new Dictionary<string, string>();
                     paramRequest.Params.Add("UserId", UsuarioID.ToString());
-
-                    var user = GetUser(Int64.Parse(paramRequest.Params["UserId"].ToString()));
+                    IUser user;
+                    try
+                    {
+                         user = GetUser(Int64.Parse(paramRequest.Params["UserId"].ToString()));
+                    }
+                    catch (Exception)
+                    {
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
+                        throw;
+                    }
+                    
 
                 }
                 else
