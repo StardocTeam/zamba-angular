@@ -60,6 +60,10 @@ namespace Zamba.Web
             {
                 string Root = Request.PhysicalPath;
                 string BodyHtml = "";
+                if (!File.Exists(Root))
+                    if (File.Exists(Root + ".aspx"))
+                        Root = Root + ".aspx";
+
 
                 using (StreamReader sr = new StreamReader(Root))
                 {
@@ -245,6 +249,7 @@ namespace Zamba.Web
             WebResourcesAndMethods.Add("OktaAuthentication.html");
             WebResourcesAndMethods.Add("Login.aspx");
             WebResourcesAndMethods.Add("HomePage.aspx");
+            WebResourcesAndMethods.Add("HomePage");
             WebResourcesAndMethods.Add("TaskService.asmx/getUsedFilters");
             WebResourcesAndMethods.Add("TaskService.asmx/CloseAllAsignedTask");
             WebResourcesAndMethods.Add("TaskService.asmx/GetUserFeeds");
