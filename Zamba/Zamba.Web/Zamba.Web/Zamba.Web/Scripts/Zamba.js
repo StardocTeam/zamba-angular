@@ -36,11 +36,10 @@ function getValueFromWebConfig(key) {
     $.ajax({
         "async": false,
         "crossDomain": true,
-        "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
+        "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key + "&AntiForgeryToken=" + getAntiForgeryToken(),
         "method": "GET",
         "headers": {
-            "cache-control": "no-cache",
-            "anti-forgery-token": getAntiForgeryToken()
+            "cache-control": "no-cache"
         },
         "success": function (response) {
             if (response.childNodes[0].innerHTML == undefined) {

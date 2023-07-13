@@ -9,6 +9,7 @@ using Zamba.Membership;
 using Zamba;
 using System.Text;
 using System.Web.Security;
+using System.Web.Helpers;
 
 public partial class DocViewer : Page
 {
@@ -23,6 +24,11 @@ public partial class DocViewer : Page
 
     UserPreferences UP = new UserPreferences();
     RightsBusiness RiB = new RightsBusiness();
+
+    protected void Page_Init(object sender, EventArgs e)
+    {
+        AntiForgery.GetHtml();
+    }
 
     protected void Page_PreInit(object sender, EventArgs e)
     {

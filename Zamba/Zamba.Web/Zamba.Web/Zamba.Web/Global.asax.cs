@@ -80,18 +80,18 @@ namespace Zamba.Web
 
             if (Request.Url.Segments.Last() == "getValueFromWebConfig")
             {
-                if (Request.Headers.AllKeys.Contains("anti-forgery-token"))
+                if (Request.Params["AntiForgeryToken"] != null)
                 {                    
-                    string token = Request.Headers.Get("anti-forgery-token").ToString();
+                    string token = Request.Params["AntiForgeryToken"].ToString();
 
                     if (!ValidateAntiForgeryToken(token))
                     {
-                        Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     }
                 }
                 else
                 {
-                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;                    
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;                    
                 }
             }
 
