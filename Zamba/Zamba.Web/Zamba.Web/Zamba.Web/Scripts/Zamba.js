@@ -17,7 +17,7 @@ var urlGlobalSearch;
 var URLServer;
 
 function getAntiForgeryToken() {
-    return document.head.querySelector("meta[property='AntiForgeryToken']").getAttribute("value");
+    return document.body.querySelector("input[name='__RequestVerificationToken']").getAttribute("value");
 }
 
 function getValueFromWebConfig(key) {
@@ -36,7 +36,7 @@ function getValueFromWebConfig(key) {
     $.ajax({
         "async": false,
         "crossDomain": true,
-        "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key + "&AntiForgeryToken=" + getAntiForgeryToken(),
+        "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key + "&__RequestVerificationToken=" + getAntiForgeryToken(),
         "method": "GET",
         "headers": {
             "cache-control": "no-cache"
@@ -5085,11 +5085,12 @@ function RedirectOpenerToLogin() {
 
     }
 }
+
 function RedirectToLogin() {
     window.onbeforeunload = function () {
         showedDialog = true;
     };
-    var destinationURL = "../Security/Login.aspx";
+    var destinationURL = "../Views/Security/Login.aspx";
     document.location = destinationURL;
 }
 

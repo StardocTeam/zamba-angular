@@ -80,9 +80,9 @@ namespace Zamba.Web
 
             if (Request.Url.Segments.Last() == "getValueFromWebConfig")
             {
-                if (Request.Params["AntiForgeryToken"] != null)
+                if (Request.Params["__RequestVerificationToken"] != null)
                 {                    
-                    string token = Request.Params["AntiForgeryToken"].ToString();
+                    string token = Request.Params["__RequestVerificationToken"].ToString();
 
                     if (!ValidateAntiForgeryToken(token))
                     {
@@ -250,6 +250,8 @@ namespace Zamba.Web
             WebResourcesAndMethods.Add("Login.aspx");
             WebResourcesAndMethods.Add("HomePage.aspx");
             WebResourcesAndMethods.Add("HomePage");
+            WebResourcesAndMethods.Add("404.aspx");
+            WebResourcesAndMethods.Add("404");
             WebResourcesAndMethods.Add("TaskService.asmx/getUsedFilters");
             WebResourcesAndMethods.Add("TaskService.asmx/CloseAllAsignedTask");
             WebResourcesAndMethods.Add("TaskService.asmx/GetUserFeeds");

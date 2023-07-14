@@ -7,65 +7,51 @@
 <html>
 <head runat="server">
 
-    <%--  <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWeb.css" />
-    <link rel="Stylesheet" type="text/css" href="Content/Styles/ZambaUIWebTables.css" />
-    --%>
-
- <%--   <%: Scripts.Render("~/bundles/jqueryCore") %>
-    <%: Scripts.Render("~/bundles/jqueryAddIns") %>
-    <%: Scripts.Render("~/bundles/jqueryval") %>
-    <%: Scripts.Render("~/bundles/bootstrap") %>
-    <%: Scripts.Render("~/bundles/ZScripts") %>--%>
-
-    <%--<script src="../../scripts/jq_datepicker.js" type="text/javascript"></script>
-    <script src="../../scripts/Zamba.js" type="text/javascript"></script>
-    <script src="../../scripts/Zamba.Validations.js" type="text/javascript"></script>--%>
+    <meta http-equiv="set-cookie" content="CookieName=CookieValue;SameSite=Strict">
 
     <script type="text/javascript">
         function pageLoad() {
         }
 
-        //$(document).ready(function () {
-        //    if (parent != this)
-        //        parent.RedirectToErrorPage(document.location);
-        //});
     </script>
 
     <title>Zamba Software</title>
 
 </head>
 <body>
-    
-    <img  style="margin-left:45%; width:200px; height:200px;" src="../../Content/Images/error400y500.png" />
 
-    <h4 style="margin-left:49.5%;">Error 404 </h4>
+    <img style="margin-left: 45%; width: 200px; height: 200px;" src="../../Content/Images/error400y500.png" />
+
+    <h4 style="margin-left: 49.5%;">Error 404 </h4>
 
     <form id="form1" runat="server">
 
-        <div align="center" style="margin-left:5%;">
+        <input type="hidden" name="__RequestVerificationToken" value="#AntiForgeryToken" />
+
+        <div align="center" style="margin-left: 5%;">
             <div align="center">
                 <div class="cabecera-wrapper">
                     <div class="cabecera-login">
                     </div>
                 </div>
 
-             
-             
-                  <br />
-               
-                <table style="width: 100%; text-decoration-color:aqua;">
+
+
+                <br />
+
+                <table style="width: 100%; text-decoration-color: aqua;">
 
                     <tr>
                         <td align="center">
                             <div id="MasterHeader">
                                 <div style="color: #000000">
 
-                                        <h4>Se produjo un error al tratar de cargar su solicitud.         </h4>
+                                    <h4>Se produjo un error al tratar de cargar su solicitud.         </h4>
                                     <h4>Causas probables.         </h4>
                                     <h4>La pagina solicitada no existe.         </h4>
                                     <h4>Transcurrio un largo periodo desde su ultima iteración con el sistema.         </h4>
                                     <h4>Por favor pruebe solucionarlo actualizando la página actual.         </h4>
-                                    <hr style="margin-top:5%;" />
+                                    <hr style="margin-top: 5%;" />
                                     <a id="btnHome" href="../../globalsearch/search/search.html">Volver a la pagina principal.</a>
                                 </div>
                             </div>
