@@ -475,12 +475,20 @@ namespace EmailRetrievalAPI.Controllers
         {
             try
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Entrando a nuevo 'connectToExchange'.");
+
                 #region Parametros de Conexion
                 string Host = Params.Direccion_servidor;
                 int Puerto = Convert.ToInt32(Params.Puerto);
                 string NomUsuario = Params.Nombre_usuario;
                 string Contraseña = Params.Password;
                 SecureSocketOptions secureSocketOptions = (SecureSocketOptions)Enum.Parse(typeof(SecureSocketOptions), Params.Protocolo);
+
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: " + Host);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Puerto: " + Puerto.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "NomUsuario: " + NomUsuario);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Contraseña: " + Contraseña);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Contraseña: " + Params.Protocolo);
                 #endregion
 
                 // Configure the certificate validation callback to trust the certificate

@@ -664,8 +664,19 @@ namespace ZambaWeb.RestApi.Controllers
                 Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
                 System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
 
-                ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
-                e.ConnectToExchange(paramRequest.Params);
+                //ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
+                //e.ConnectToExchange(paramRequest.Params);
+
+                DTOObjectImap DtoObj = new DTOObjectImap();
+                DtoObj.Nombre_usuario = paramRequest.Params["UserName"];
+                DtoObj.Password = paramRequest.Params["UserPass"];
+                DtoObj.Direccion_servidor = paramRequest.Params["Host"];
+                DtoObj.Puerto = long.Parse(paramRequest.Params["Port"].ToString());
+                DtoObj.Protocolo = paramRequest.Params["ProtCon"].ToString();
+
+                ZImapClient Zclient = new ZImapClient();
+
+                Zclient.ConnectToExchange(DtoObj);
 
 
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comprobacion de conexion al Exchange exitosa.");
