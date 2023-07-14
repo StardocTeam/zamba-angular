@@ -503,6 +503,8 @@ public partial class Login : System.Web.UI.Page
             if (!IsFormFieldsRigth())
                 return;
 
+            if (!validateCredencialsInputChars())
+                throw new Exception("Caracteres invalidos");
             SRights sRights = new SRights();
             Zamba.Core.IUser user = sRights.ValidateLogIn(txtUserName.Value, txtPassword.Value, ClientType.Web);
            
@@ -526,10 +528,17 @@ public partial class Login : System.Web.UI.Page
                 logAuthAttemps(txtUserName.Value);
                 ShowErrorMessage("Usuario o Clave incorrectas");
                 Toastr("Usuario o Clave incorrectas.", "error", "loginValidationError");
-            } else if (ex.Message.Contains("bloqueado")) {
+            }
+            else if (ex.Message.Contains("bloqueado"))
+            {
                 ZClass.raiseerror(ex);
                 ShowErrorMessage("El usuario esta bloqueado, por favor contacte a su administrador de sistema.");
                 Toastr("El usuario esta bloqueado, por favor contacte a su administrador de sistema.", "error", "loginError");
+            }
+            else if (ex.Message.Contains("invalido")) {
+                ZClass.raiseerror(ex);
+                ShowErrorMessage("Se han ingresado caracteres invalidos.");
+                Toastr("Se han ingresado caracteres invalidos.", "error", "loginErrorInvalidChars");
             }
             else
             {
@@ -543,7 +552,17 @@ public partial class Login : System.Web.UI.Page
     #endregion
 
     #region Methods
+    private Boolean validateCredencialsInputChars() {
+        List<char> invalidChars = new List<char>();
+        char[] charList = { '<', '>', ';', '\'', '\"', '\\' };
+        invalidChars.AddRange(charList);
 
+        if (txtUserName.Value.ToCharArray().Any(c => invalidChars.Contains(c)))
+            return false;
+        if (txtPassword.Value.ToCharArray().Any(c => invalidChars.Contains(c)))
+            return false;
+        return true;
+    }
     private void logAuthAttemps(string username) {
         if (ConfigurationManager.AppSettings.Get("LockAccountAfterMultipleAttemps") == null)
             return;

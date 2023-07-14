@@ -34,12 +34,19 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
                     filterType = "manual";
                 else if (filterType == "Search")
                     filterType = "search";
-                var filterComponents = new FiltersComponent();
-                List<IFilterElem> filterList = filterComponents.GetFiltersWebByView(DocTypeID, userID, filterType);
-                //filterList = CompleteFilterDataDescription(filterList);
-                filterList = CompleteFilterAutosustitutionCode(filterList);
-                string response = JsonConvert.SerializeObject(filterList);
-                return Ok(response);
+
+                if (filterType == "search" || filterType == "manual")
+                {
+                    var filterComponents = new FiltersComponent();
+                    List<IFilterElem> filterList = filterComponents.GetFiltersWebByView(DocTypeID, userID, filterType);
+                    //filterList = CompleteFilterDataDescription(filterList);
+                    filterList = CompleteFilterAutosustitutionCode(filterList);
+                    string response = JsonConvert.SerializeObject(filterList);
+                    return Ok(response);
+                }
+                else
+                    throw new Exception("El valor de tipo de filtro tiene un valor invalido");
+
             }
             catch (Exception ex)
             {

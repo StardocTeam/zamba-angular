@@ -2039,35 +2039,42 @@ namespace ZambaWeb.RestApi.Controllers
             CacheResults CResults = new CacheResults();
             try
             {
-                DataTable DT_Results = new SResult().loadDoSearchResults(
-                    Int64.Parse(GenericRequest.UserId.ToString()),
-                    GenericRequest.Params["Mode"].ToString());
+                string mode = GenericRequest.Params["Mode"].ToString();
 
-                if (DT_Results.Rows.Count != 0)
+                if (validateInvalidChars(mode))
                 {
-                    String FileContent = DT_Results.Rows[0]["SearchObject"].ToString();
-                    byte[] ByteSearchObject;
-                    if (DT_Results.Rows[0]["SearchObject"].GetType().Name == "Byte[]")
+                    DataTable DT_Results = new SResult().loadDoSearchResults(Int64.Parse(GenericRequest.UserId.ToString()), mode);
+
+                    if (DT_Results.Rows.Count != 0)
                     {
-                        ByteSearchObject = (byte[])DT_Results.Rows[0]["SearchObject"];
+                        String FileContent = DT_Results.Rows[0]["SearchObject"].ToString();
+                        byte[] ByteSearchObject;
+                        if (DT_Results.Rows[0]["SearchObject"].GetType().Name == "Byte[]")
+                        {
+                            ByteSearchObject = (byte[])DT_Results.Rows[0]["SearchObject"];
+                        }
+                        else
+                            ByteSearchObject = Enumerable.Range(0, FileContent.Length)
+                                                  .Where(x => x % 2 == 0)
+                                                  .Select(x => Convert.ToByte(FileContent.Substring(x, 2), 16))
+                                                  .ToArray();
+                        CResults.ObjectSearch = Encoding.Default.GetString(ByteSearchObject);
+                        CResults.CurrentMode = DT_Results.Rows[0]["Mode"].ToString();
+
+                        CResults.ExpirationDate = (DateTime)DT_Results.Rows[0]["ExpirationDate"];
+                        CResults.HasResults = DT_Results.Rows.Count == 1;
                     }
                     else
-                        ByteSearchObject = Enumerable.Range(0, FileContent.Length)
-                                              .Where(x => x % 2 == 0)
-                                              .Select(x => Convert.ToByte(FileContent.Substring(x, 2), 16))
-                                              .ToArray();
-                    CResults.ObjectSearch = Encoding.Default.GetString(ByteSearchObject);
-                    CResults.CurrentMode = DT_Results.Rows[0]["Mode"].ToString();
+                    {
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent, new HttpError("No se pudo obtener el recurso")));
+                    }
 
-                    CResults.ExpirationDate = (DateTime)DT_Results.Rows[0]["ExpirationDate"];
-                    CResults.HasResults = DT_Results.Rows.Count == 1;
+                    return Ok(CResults);
                 }
-                else
-                {
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NoContent, new HttpError("No se pudo obtener el recurso")));
+                else {
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("El parametro Mode contiene caracteres invalidos")));
                 }
 
-                return Ok(CResults);
             }
             catch (Exception ex)
             {
@@ -7875,6 +7882,17 @@ new HttpError(StringHelper.InvalidParameter)));
                 ZClass.raiseerror(ex);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
+        }
+
+        private Boolean validateInvalidChars(string value)
+        {
+            List<char> invalidChars = new List<char>();
+            char[] charList = { '<', '>', ';', '\'', '\"', '\\' };
+            invalidChars.AddRange(charList);
+
+            if (value.ToCharArray().Any(c => invalidChars.Contains(c)))
+                return false;
+            return true;
         }
     }
 
