@@ -985,9 +985,19 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (paramRequest.Params != null && paramRequest.Params.ContainsKey("RightType") && paramRequest.Params.ContainsKey("ObjectId"))
                 {
-                    ObjectTypes ObjectId = (ObjectTypes)int.Parse(paramRequest.Params["ObjectId"]);
-                    RightsType RightType = (RightsType)int.Parse(paramRequest.Params["RightType"]);
+                    ObjectTypes ObjectId;
+                    RightsType RightType;
+                    try
+                    {
+                         ObjectId = (ObjectTypes)int.Parse(paramRequest.Params["ObjectId"]);
+                         RightType = (RightsType)int.Parse(paramRequest.Params["RightType"]);
 
+                    }
+                    catch (Exception)
+                    {
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
+                    }
+                    
                     bool hasRight = new RightsBusiness().GetUserRights(user.ID, ObjectId, RightType, -1);
 
                     var result = JsonConvert.SerializeObject(hasRight, Formatting.Indented, new JsonSerializerSettings
