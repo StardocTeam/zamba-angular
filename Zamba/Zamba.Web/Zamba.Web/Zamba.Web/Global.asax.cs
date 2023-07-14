@@ -12,6 +12,7 @@ using Zamba.Core;
 using System.IO;
 using Zamba.Membership;
 using System.Net;
+using System.Web.Http.Results;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -64,6 +65,32 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            if (Request.Params["userId"] != null)
+            {
+                try
+                {
+                    Int32.Parse(Request.Params["userId"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+            if (Request.Params["userLocalStorage"] != null)
+            {
+                try
+                {
+                    Int32.Parse(Request.Params["userLocalStorage"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
             if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
             {
