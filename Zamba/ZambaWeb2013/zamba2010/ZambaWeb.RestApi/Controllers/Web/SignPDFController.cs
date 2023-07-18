@@ -2191,6 +2191,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 ListadoResponse RR = _PndListaEndoResponseAll(solicitudFirmaDigital);
 
+                ZTrace.ResetListeners();
                 var js = JsonConvert.SerializeObject(RR);
                 return Ok(js);
 
@@ -2224,6 +2225,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de ConsultaDespacho: ");
 
                 ListadoResponse RR = _PndListaEndoResponseAll(solicitudFirmaDigital);
+                ZTrace.ResetListeners();
 
                 var js = JsonConvert.SerializeObject(RR);
                 return Ok(js);
@@ -2331,6 +2333,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se inicia proceso de ConsultaDespacho: ");
 
                 ListadoResponse RR = _PndListaEndoResponseAll(solicitudFirmaDigital);
+                ZTrace.ResetListeners();
 
                 var js = JsonConvert.SerializeObject(RR);
                 return Ok(js);

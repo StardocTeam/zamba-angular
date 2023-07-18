@@ -144,11 +144,11 @@ Public NotInheritable Class ZTrace
 
             SyncLock (_hsSingletonZCoreInstances)
                 If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
-                    Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions" & "\Trace")
+                    Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions" & "\Trace" & DateTime.Now.ToString("yyyy-MM-dd"))
                     If dir.Exists = False Then
                         dir.Create()
                     End If
-                    Dim Listener As New TextWriterTraceListener(Membership.MembershipHelper.AppTempPath & "\Exceptions" & "\Trace\Trace " & zModule & " - " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".html", zModule)
+                    Dim Listener As New TextWriterTraceListener(dir.FullName & "\Trace " & zModule & " - " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".html", zModule)
                     Listener.Attributes.Add("AutoFlush", "true")
 
                     Dim sw As StreamWriter = Listener.Writer
