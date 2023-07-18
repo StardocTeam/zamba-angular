@@ -144,7 +144,7 @@ Public NotInheritable Class ZTrace
 
             SyncLock (_hsSingletonZCoreInstances)
                 If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
-                    Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions" & "\Trace" & DateTime.Now.ToString("yyyy-MM-dd"))
+                    Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Trace\" & DateTime.Now.ToString("yyyy-MM-dd"))
                     If dir.Exists = False Then
                         dir.Create()
                     End If

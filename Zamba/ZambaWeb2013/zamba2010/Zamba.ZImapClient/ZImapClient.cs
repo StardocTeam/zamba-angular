@@ -12,6 +12,7 @@ using System.Net.Mail;
 using Zamba.Core;
 using Zamba.FileTools;
 using Zamba;
+using System.Security;
 
 namespace EmailRetrievalAPI.Controllers
 {
@@ -22,10 +23,11 @@ namespace EmailRetrievalAPI.Controllers
             public string ImapServer = "nasa1mail.mmc.com";
             public int ImapPort = 143;
             public SecureSocketOptions secureSocketOptions = SecureSocketOptions.Auto;
-            public string ImapUsername = "mgd\\eseleme\\pedidoscaucion@marsh.com";
+            public string ImapUsername = "eseleme\\pedidoscaucion@marsh.com";
             public string ImapPassword = "Julio2023";
             public string FolderName = "INBOX";
             public string ExportFolderPath = "exported";
+            public string ImapDomain = "MGD";
 
         }
 
@@ -55,7 +57,8 @@ namespace EmailRetrievalAPI.Controllers
                     client.Connect(config.ImapServer, config.ImapPort, config.secureSocketOptions);
 
                     log.Add("Authenticate");
-                    client.Authenticate(config.ImapUsername, config.ImapPassword);
+                    ICredentials cred = new NetworkCredential(config.ImapUsername,config.ImapPassword, config.ImapDomain);
+                    client.Authenticate(cred);
 
                     log.Add("GetFolder");
                     var folder = client.GetFolder(config.FolderName);

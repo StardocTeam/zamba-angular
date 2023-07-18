@@ -88,6 +88,10 @@
                         <div class=" col-md-4">
 
                             <div class="form-group">
+                                <span>Dominio: *</span>
+                                <input id="domain" placeholder="Ingrese su dominio" class="form-control" />
+                            </div>
+                            <div class="form-group">
                                 <span>Usuario: *</span>
                                 <input id="user" placeholder="Ingrese su Usuario" class="form-control" />
                             </div>
@@ -168,12 +172,13 @@
 
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        $("#user").val("martyncho@hotmail.com")
-        $("#password").val("Lamborghini2375*")
-        $("#server").val("outlook.office365.com")
-        $("#port").val("983")
-        $("#exportedFolder").val("exported")
-        $("#exportFolder").val("export")
+        $("#domain").val("MGD")
+        $("#user").val("eseleme@marsh.com")
+        $("#password").val("Julio2023*")
+        $("#server").val("nasa1mail.mmc.com")
+        $("#port").val("143")
+        $("#exportedFolder").val("INBOX/B")
+        $("#exportFolder").val("INBOX/F")
         $("#secureSocketOptions").val("SslOnConnect")
     });
 
@@ -202,6 +207,7 @@
         var data = {
             user: _userName,
             password: _userClave,
+            domain: $("#domain").val(),
             port: $("#port").val(),
             server: $("#server").val(),
             exportFolder: $("#exportFolder").val(),

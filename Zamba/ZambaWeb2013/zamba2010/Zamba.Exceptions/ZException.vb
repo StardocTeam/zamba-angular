@@ -89,9 +89,9 @@ Public Class ZException
 
                 Try
                     If SubFolder.Length > 0 Then
-                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd") & "\" & SubFolder)
+                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\" & SubFolder & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd"))
                     Else
-                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions" & DateTime.Now.ToString("yyyy-MM-dd"))
+                        dir = New IO.DirectoryInfo(MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd"))
                     End If
 
                     If dir.Exists = False Then
