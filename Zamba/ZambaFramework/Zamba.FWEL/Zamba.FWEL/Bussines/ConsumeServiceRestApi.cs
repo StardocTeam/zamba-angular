@@ -14,6 +14,7 @@ namespace Zamba.Core
     {
         public string CallServiceRestApi(string url, string Method, string JsonMessage)
         {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se inicia la llamada al servicio api del despachante");
             HttpWebRequest webRequest;
             webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
             webRequest.Timeout = 700000;
@@ -32,6 +33,7 @@ namespace Zamba.Core
             }
             WebResponse HttpResponse;
             Stream ObjStream;
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se obtiene la respuesta del cliente");
             HttpResponse = webRequest.GetResponse();
             ObjStream = HttpResponse.GetResponseStream();
             StreamReader ObjStreamReader = new StreamReader(ObjStream);
