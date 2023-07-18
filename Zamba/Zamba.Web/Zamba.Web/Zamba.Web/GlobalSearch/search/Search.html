@@ -267,7 +267,7 @@
         </nav>
 
     </div>-->
-
+    
     <div id="appIdController" data-ng-controller="appController" ng-cloak>
 
         <nav id="MasterHeader" class="navbar navbar-toggleable-sm navbar-fixed-top navbar-Main ">
@@ -303,7 +303,7 @@
                     </button>
 
                     <!--ESTE CODIGO ES PARA HABILITAR EL BOTON INSERTAR PARA MARSH
-                DESCOMENTAR ESTE CODIGO Y COMENTAR EL DE ABAJO-->
+    DESCOMENTAR ESTE CODIGO Y COMENTAR EL DE ABAJO-->
 
                     <button id="BtnHomeInsert" class="btn btn-navbar disableBtnInsert" style="background-color: transparent" onclick="searchModeGSFn(this, 'insert');">
                         <a ng-href="" style="color:white;" class="disable" title="Insertar" role="button" id="liInsert">
@@ -312,10 +312,10 @@
                     </button>
 
                     <!-- <button ng-show="ShowInsertBtn" class="btn btn-navbar" style="background-color: transparent">
-                    <a ng-href="" style="color:white;" class="disable" title="Insertar" role="button" id="liInsert">
-                        <span class=" fa fa-plus"> Insertar </span>
-                    </a>
-                </button>-->
+        <a ng-href="" style="color:white;" class="disable" title="Insertar" role="button" id="liInsert">
+            <span class=" fa fa-plus"> Insertar </span>
+        </a>
+    </button>-->
 
 
                     <button class="hidden-xs btn btn-navbar" style="background-color: transparent">
@@ -335,6 +335,10 @@
                     </button>
 
 
+
+                    
+
+                    <input type="hidden" name="__RequestVerificationToken" value="#AntiForgeryToken" />
 
                     <button id="liTasks" style="display: none; background-color: transparent" class="btn btn-navbar">
                         <a id="anchorTabTasks" href="#tabtasks" class="disable" style="color:white; opacity:0.8;">Tareas</a>
@@ -421,7 +425,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                   
+
                     </div>
                     <img src="../../Content/Images/logozamba.jpg" class="img-fluid center-block" alt="Responsive image" style="width: 50%;">
 
@@ -550,10 +554,10 @@
                                                     </a>
                                                 </li>
                                                 <!--<li>
-                                                <a href="#tab_default_2" data-toggle="tab">
-                                                    Grilla
-                                                </a>
-                                            </li>-->
+                                                    <a href="#tab_default_2" data-toggle="tab">
+                                                        Grilla
+                                                    </a>
+                                                </li>-->
                                             </ul>
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="tab_default_1">
@@ -732,8 +736,8 @@
                         </nav>
                         <div class="searchtreeview" id="treeview" style="height: 100%; padding: 0 0 0 0;"></div>
                         <!--<div id="toogleTree" onclick="toogleTree(this);">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                </div>-->
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </div>-->
                     </div>
 
 
@@ -858,8 +862,8 @@
         $(document).ready(function () {
             // GetTree();
 
-            
-           
+
+
 
             $("#SearchUsersPanel").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
@@ -995,13 +999,13 @@
 
         var FechaVersion = getValueFromWebConfig("FechaVersion");
 
-        if (FechaVersion != undefined && FechaVersion != null ) {
+        if (FechaVersion != undefined && FechaVersion != null) {
             $("#FechaIdVersion")[0].innerText = "Fecha del compilado: " + FechaVersion;
         }
 
-        //window.addEventListener("load", function () {
-        //        PermisosInsert();
-        //    })
+            //window.addEventListener("load", function () {
+            //        PermisosInsert();
+            //    })
 
     </script>
 

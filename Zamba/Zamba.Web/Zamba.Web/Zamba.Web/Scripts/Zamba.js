@@ -36,7 +36,8 @@ function getValueFromWebConfig(key) {
     $.ajax({
         "async": false,
         "crossDomain": true,
-        "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key + "&__RequestVerificationToken=" + getAntiForgeryToken(),
+        //"url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key + "&__RequestVerificationToken=" + getAntiForgeryToken(),
+        "url": baseUrl + "/Services/ViewsService.asmx/getValueFromWebConfig?key=" + key,
         "method": "GET",
         "headers": {
             "cache-control": "no-cache"

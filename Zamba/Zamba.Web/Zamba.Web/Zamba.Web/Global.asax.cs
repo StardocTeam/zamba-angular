@@ -37,12 +37,24 @@ namespace Zamba.Web
         {
             // System.Web.HttpContext.Current.SetSessionStateBehavior(System.Web.SessionState.SessionStateBehavior.Required);
         }
+
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
             if (Request.Url.Scheme == "https")
             {
                 Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
+            }                
+            if(Request.Url.Segments.Last().ToString() =="404" || 
+                Request.Url.Segments.Last().ToString() == "404.aspx" ||
+                Request.Url.Segments.Last().ToString() == "getValueFromWebConfig"
+
+
+                )
+            {
+                Response.Cookies.Clear();
             }
+                    
+                
 
 
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
@@ -80,19 +92,19 @@ namespace Zamba.Web
 
             if (Request.Url.Segments.Last() == "getValueFromWebConfig")
             {
-                if (Request.Params["__RequestVerificationToken"] != null)
-                {                    
-                    string token = Request.Params["__RequestVerificationToken"].ToString();
+                //if (Request.Params["__RequestVerificationToken"] != null)
+                //{                    
+                //    string token = Request.Params["__RequestVerificationToken"].ToString();
 
-                    if (!ValidateAntiForgeryToken(token))
-                    {
-                        Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    }
-                }
-                else
-                {
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;                    
-                }
+                //    if (!ValidateAntiForgeryToken(token))
+                //    {
+                //        Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                //    }
+                //}
+                //else
+                //{
+                //    Response.StatusCode = (int)HttpStatusCode.BadRequest;                    
+                //}
             }
 
             //String myhtml = "<html><body>hola mundo</body><html>";
@@ -151,6 +163,8 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+ 
+            
             if (Request.Params.Count > 0)
             {
                 if (Request.Params.AllKeys[0] == "zamba:\\\\DT")
