@@ -140,6 +140,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUserInfoForName")]
+        [RestAPIAuthorize]
         [AllowAnonymous]
         public string GetUserInfoForName(string UserName)
         {
@@ -184,6 +185,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUserData")]
+        [RestAPIAuthorize]
         public string GetUserData(int userId)
         {
             var user = GetUser(userId);
@@ -299,6 +301,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Suggestions")]
+        [RestAPIAuthorize]
         //[OverrideAuthorization]
         public IEnumerable<Dictionary<string, object>> GetSuggestions(string text = "")
         {
@@ -550,6 +553,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/Entities")]
+        [RestAPIAuthorize]
         //[OverrideAuthorization]
         [System.Web.Http.HttpGet]
         //    [Authorize]
@@ -583,7 +587,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Indexs")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(isGenericRequest =true)]
         [HttpPost, HttpGet]
         public string Indexs(List<Int64> SelectedEntitiesIds)
         {
@@ -768,6 +772,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         [Route("api/search/DoSearch")]
+        [RestAPIAuthorize]
         [HttpPost]
         [HttpGet]
 
@@ -1270,6 +1275,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetStepsCount")]
+        [RestAPIAuthorize]
         [AllowAnonymous]
         public string GetStepsCount(string userId)
         {
@@ -1365,6 +1371,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/ExportToExcel_beta")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize]
         public HttpResponseMessage ExportToExcel_beta(SearchDto searchDto)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
@@ -1420,6 +1427,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns>Devuelve un ActionResult</returns>
         [AcceptVerbs("GET", "POST")]
         [Route("api/search/GetDocument")]
+        [RestAPIAuthorize]
         public IHttpActionResult GetDocument(genericRequest request)
         {
             try
@@ -1557,6 +1565,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns>Devuelve un ActionResult</returns>
         [AcceptVerbs("GET", "POST")]
         [Route("api/search/getPermitsForIndexPanel")]
+        [RestAPIAuthorize]
         public IHttpActionResult GetPermitsForIndexPanel(genericRequest request)
         {
             try
@@ -1588,6 +1597,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns>Devuelve un ActionResult</returns>
         [AcceptVerbs("GET", "POST")]
         [Route("api/search/GetThumb")]
+        [RestAPIAuthorize]
         public IHttpActionResult GetThumb(genericRequest request)
         {
             try
@@ -1688,6 +1698,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns>Devuelve un ActionResult</returns>
         [AcceptVerbs("GET", "POST")]
         [Route("api/search/GetDocFile")]
+        [RestAPIAuthorize]
         public IHttpActionResult GetDocFile(genericRequest request)
         {
             try
@@ -2409,6 +2420,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         //[OverrideAuthorization]
         [Route("api/search/GetFileUrl")]
+        [RestAPIAuthorize]
         [HttpPost]
         public string GetFileUrl(ResultDto resultDto)
         {
@@ -2429,6 +2441,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetIndexData")]
+        [RestAPIAuthorize]
         //[OverrideAuthorization]
         [HttpPost]
         public string GetIndexData(ResultDto resultDto)
@@ -2461,6 +2474,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         [Route("api/search/GetIndexDataSelect")]
+        [RestAPIAuthorize]
         [HttpPost]
         public IHttpActionResult GetIndexDataSelect(genericRequest paramRequest)
         {
@@ -2541,6 +2555,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         [Route("api/search/GetFile")]
+        [RestAPIAuthorize]
         //[OverrideAuthorization]
         [HttpPost]
         public byte[] GetFile(ResultDto resultDto)
@@ -2573,7 +2588,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/SetLastNodes")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(isGenericRequest = true)]
         [HttpPost]
         public IHttpActionResult SetLastNodes(genericRequest lastNodeObj)
 
@@ -4031,6 +4046,8 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getPermisosInsert")]
+        [RestAPIAuthorize]
+
         public IHttpActionResult getPermisosInsert(genericRequest paramRequest)
         {
 
@@ -4203,7 +4220,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetTaskFilterConfig")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(genericRequest=true)]
         public IHttpActionResult GetTaskFilterConfig(genericRequest paramRequest)
         {
 
@@ -5461,6 +5478,9 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("api/search/GetAllEntities")]
+        [RestAPIAuthorize]
+
+
         public IHttpActionResult GetAllEntities(genericRequest paramRequest)
         {
 
@@ -5527,6 +5547,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultIndexs")]
+        [RestAPIAuthorize]
         //[OverrideAuthorization]
         public List<Int64> GetResultIndexs(genericRequest paramRequest)
         {
@@ -5749,6 +5770,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("api/search/GetZvarTableResult")]
+        [RestAPIAuthorize]
         public IHttpActionResult GetZvarTableResult(genericRequest paramRequest)
         {
             try
@@ -6521,7 +6543,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetThumbsPathHome")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetThumbsPathHome(genericRequest paramRequest)
         {
             try

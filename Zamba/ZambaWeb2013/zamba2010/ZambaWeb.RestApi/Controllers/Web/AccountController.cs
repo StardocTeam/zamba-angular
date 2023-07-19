@@ -36,7 +36,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Account")]
-    [RestAPIAuthorize]
+    //[RestAPIAuthorize]
     public class AccountController : ApiController
     {
         #region Contructor&ClassHelper
@@ -1039,7 +1039,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [RestAPIAuthorize(isGenericRequest=true)]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try
@@ -1099,7 +1099,7 @@ namespace ZambaWeb.RestApi.Controllers
 
     public class RestAPIAuthorizeAttribute : AuthorizeAttribute
     {
-        public bool isGenericRequest { get; set; }
+        public Boolean isGenericRequest { get; set; }
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
