@@ -7,8 +7,6 @@
 <html>
 <head runat="server">
 
-    <meta http-equiv="set-cookie" content="CookieName=CookieValue;SameSite=Strict">
-
     <script type="text/javascript">
         function pageLoad() {
         }
@@ -25,8 +23,6 @@
     <h4 style="margin-left: 49.5%;">Error 404 </h4>
 
     <form id="form1" runat="server">
-
-        <input type="hidden" name="__RequestVerificationToken" value="#AntiForgeryToken" />
 
         <div align="center" style="margin-left: 5%;">
             <div align="center">

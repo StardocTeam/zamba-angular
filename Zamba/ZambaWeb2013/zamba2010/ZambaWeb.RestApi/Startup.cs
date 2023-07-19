@@ -67,8 +67,45 @@ namespace ZambaWeb.RestApi
                 HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "1728000");
                 HttpContext.Current.Response.End();
             }
+
+            if (!ValidateUrl())
+            {
+                HttpContext.Current.Response.StatusCode = 401;
+                return;
+            }
         }
 
+        private Boolean ValidateUrl()
+        {
+            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
+            if (scheme == null)
+            {
+                scheme = "http";
+            }
+            if (HttpContext.Current.Request.UrlReferrer != null)
+            {
+                if (HttpContext.Current.Request.UrlReferrer.Host != HttpContext.Current.Request.Url.Host)
+                    return false;
+            }
+            scheme = scheme.ToLower();
+            var RequestScheme = HttpContext.Current.Request.Url.Scheme.ToLower();
+            if (HttpContext.Current.Request.Url.Scheme.ToLower() != scheme)
+            {
+                return false;
+            }
+            if (HttpContext.Current.Request.UrlReferrer != null)
+            {
+                if (HttpContext.Current.Request.UrlReferrer.Scheme.ToLower() != scheme)
+                {
+                    return false;
+                }
+            }
+            if (!(HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString() || HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host))
+            {
+                return false;
+            }
+            return true;
+        }
 
         public void ConfigureOAuth(IAppBuilder app)
         {

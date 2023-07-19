@@ -16,9 +16,9 @@ var URLServer;
 var urlGlobalSearch;
 var URLServer;
 
-function getAntiForgeryToken() {
-    return document.body.querySelector("input[name='__RequestVerificationToken']").getAttribute("value");
-}
+//function getAntiForgeryToken() {
+//    return document.body.querySelector("input[name='__RequestVerificationToken']").getAttribute("value");
+//}
 
 function getValueFromWebConfig(key) {
     var pathName = null;

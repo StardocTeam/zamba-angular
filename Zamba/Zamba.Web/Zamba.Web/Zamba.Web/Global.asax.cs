@@ -51,6 +51,7 @@ namespace Zamba.Web
 
                 )
             {
+                //Limpia las coockies para resolver la vulnerabilidad 'AntiForgeryToken' (CSRF) de cookies inseguras
                 Response.Cookies.Clear();
             }
                     
@@ -68,44 +69,44 @@ namespace Zamba.Web
             //HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
             //Response.Headers.Add("AntiForgeryToken", "abc123cba321");
 
-            if (GetListResourcesForAntiForgerytoken().Contains(Request.Url.Segments.Last().ToLower()))
-            {
-                string Root = Request.PhysicalPath;
-                string BodyHtml = "";
-                if (!File.Exists(Root))
-                    if (File.Exists(Root + ".aspx"))
-                        Root = Root + ".aspx";
+            //if (GetListResourcesForAntiForgerytoken().Contains(Request.Url.Segments.Last().ToLower()))
+            //{
+            //    string Root = Request.PhysicalPath;
+            //    string BodyHtml = "";
+            //    if (!File.Exists(Root))
+            //        if (File.Exists(Root + ".aspx"))
+            //            Root = Root + ".aspx";
 
 
-                using (StreamReader sr = new StreamReader(Root))
-                {
-                    BodyHtml = sr.ReadToEnd();
-                    BodyHtml = BodyHtml.Replace("#AntiForgeryToken", getRandomAntiForgeryToken());
+            //    using (StreamReader sr = new StreamReader(Root))
+            //    {
+            //        BodyHtml = sr.ReadToEnd();
+            //        BodyHtml = BodyHtml.Replace("#AntiForgeryToken", getRandomAntiForgeryToken());
 
-                    byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
-                    HttpContext.Current.Response.ClearContent();
-                    HttpContext.Current.Response.BinaryWrite(BodyBytes);
-                    HttpContext.Current.Response.Flush();
-                    HttpContext.Current.Response.End();
-                }
-            }
+            //        byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
+            //        HttpContext.Current.Response.ClearContent();
+            //        HttpContext.Current.Response.BinaryWrite(BodyBytes);
+            //        HttpContext.Current.Response.Flush();
+            //        HttpContext.Current.Response.End();
+            //    }
+            //}
 
-            if (Request.Url.Segments.Last() == "getValueFromWebConfig")
-            {
-                //if (Request.Params["__RequestVerificationToken"] != null)
-                //{                    
-                //    string token = Request.Params["__RequestVerificationToken"].ToString();
+            //if (Request.Url.Segments.Last() == "getValueFromWebConfig")
+            //{
+            //    //if (Request.Params["__RequestVerificationToken"] != null)
+            //    //{                    
+            //    //    string token = Request.Params["__RequestVerificationToken"].ToString();
 
-                //    if (!ValidateAntiForgeryToken(token))
-                //    {
-                //        Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                //    }
-                //}
-                //else
-                //{
-                //    Response.StatusCode = (int)HttpStatusCode.BadRequest;                    
-                //}
-            }
+            //    //    if (!ValidateAntiForgeryToken(token))
+            //    //    {
+            //    //        Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            //    //    }
+            //    //}
+            //    //else
+            //    //{
+            //    //    Response.StatusCode = (int)HttpStatusCode.BadRequest;                    
+            //    //}
+            //}
 
             //String myhtml = "<html><body>hola mundo</body><html>";
             //byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);

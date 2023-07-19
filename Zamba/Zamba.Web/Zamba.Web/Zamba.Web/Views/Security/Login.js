@@ -10,9 +10,9 @@ $(document).ready(function () {
     CheckIfAuthenticated();
 });
 
-function getAntiForgeryToken() {
-    return document.head.querySelector("meta[property='AntiForgeryToken']").getAttribute("value");
-}
+//function getAntiForgeryToken() {
+//    return document.head.querySelector("meta[property='AntiForgeryToken']").getAttribute("value");
+//}
 
 function GetURLHelper() {
     return '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("URLHelper","http://www.zamba.com.ar/zambaHelp/viewer/") %>';
@@ -137,8 +137,7 @@ function getValueFromWebConfig(key) {
         "url": url,
         "method": "GET",
         "headers": {
-            "cache-control": "no-cache",
-            "anti-forgery-token": getAntiForgeryToken()
+            "cache-control": "no-cache"
         },
         "success": function (response) {
             if (response.childNodes[0].innerHTML == undefined) {

@@ -30,6 +30,7 @@ using System.Web.Script.Serialization;
 using Zamba.Framework;
 using ZambaWeb.RestApi.Controllers.Class;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -1038,7 +1039,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try
@@ -1098,14 +1099,62 @@ namespace ZambaWeb.RestApi.Controllers
 
     public class RestAPIAuthorizeAttribute : AuthorizeAttribute
     {
+        public bool isGenericRequest { get; set; }
+
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (!Authorize(actionContext))
             {
                 HandleUnauthorizedRequest(actionContext);
             }
+
+            if (isGenericRequest)
+            {
+                if (!ValidateGenericRequest(actionContext.Request))
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }
+
+            }
             return;
         }
+
+        /// <summary>
+        /// Valida las propiedades de la clase GenericRequest si son las esperadas en la solicitud.
+        /// Resuelve la vulnerabilidad:
+        /// 
+        /// (ALTA) Api de asignacion masiva
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private bool ValidateGenericRequest(HttpRequestMessage request)
+        {
+
+            // Obtener el contenido de la respuesta HTTP
+            HttpContent httpContent = request.Content;
+
+            // Leer el contenido como una cadena JSON
+            string jsonString = httpContent.ReadAsStringAsync().Result;
+
+            // Navegar por el documento JSON utilizando JToken
+            JToken token = JToken.Parse(jsonString);
+
+            try
+            {
+                foreach (JProperty item in token.Root)
+                {
+                    if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
+                        return false;
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             base.HandleUnauthorizedRequest(actionContext);

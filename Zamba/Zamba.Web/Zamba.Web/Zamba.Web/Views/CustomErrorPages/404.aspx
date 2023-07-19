@@ -6,7 +6,6 @@
 
 <html>
 <head runat="server">
-    <%--<meta http-equiv="set-cookie" content="CookieName=CookieValue;SameSite=Strict">--%>
         <script>
             function redirect() {
                 var queryString = localStorage.queryStringAuthorization;
