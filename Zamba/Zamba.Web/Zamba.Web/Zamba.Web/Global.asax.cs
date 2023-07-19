@@ -51,7 +51,7 @@ namespace Zamba.Web
 
                 )
             {
-                //Limpia las coockies para resolver la vulnerabilidad 'AntiForgeryToken' (CSRF) de cookies inseguras
+                //Limpia las coockies para resolver la vulnerabilidad 'AntiForgeryToken (CSRF)' de cookies inseguras
                 Response.Cookies.Clear();
             }
                     
