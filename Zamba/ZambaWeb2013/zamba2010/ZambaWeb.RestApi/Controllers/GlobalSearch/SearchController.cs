@@ -4220,7 +4220,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetTaskFilterConfig")]
-        [RestAPIAuthorize(genericRequest=true)]
+        [RestAPIAuthorize(isGenericRequest =true)]
         public IHttpActionResult GetTaskFilterConfig(genericRequest paramRequest)
         {
 

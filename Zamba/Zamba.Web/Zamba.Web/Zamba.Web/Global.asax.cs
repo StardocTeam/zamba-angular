@@ -126,9 +126,17 @@ namespace Zamba.Web
             {
                 Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
             }
-            //String myhtml = "<html><body>hola mundo</body><html>";
-            //byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
-            //HttpContext.Current.Response.BinaryWrite(misbytes);
+            if (Response.StatusCode == 500)
+            {
+                String myhtml = "\"Message\": \"An error has occurred.";
+                byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
+                HttpContext.Current.Response.Cookies.Clear();
+                HttpContext.Current.Response.ClearContent();
+                HttpContext.Current.Response.BinaryWrite(misbytes);
+                HttpContext.Current.Response.Flush();
+                HttpContext.Current.Response.End();
+            }
+                
         }
         void Application_Start(object sender, EventArgs e)
         {
