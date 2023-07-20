@@ -31,8 +31,6 @@ using Microsoft.Ajax.Utilities;
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    [RestAPIAuthorize]
-
 
     public class SearchController : ApiController
     {
@@ -587,7 +585,6 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Indexs")]
-        [RestAPIAuthorize(isGenericRequest =true)]
         [HttpPost, HttpGet]
         public string Indexs(List<Int64> SelectedEntitiesIds)
         {

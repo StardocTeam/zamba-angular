@@ -343,7 +343,7 @@ namespace ZambaWeb.RestApi.Controllers
         public IHttpActionResult validateOktaStateValue(String state)
         {
             List<StateOkta> expirados = ListStatesOkta.Where(n => n.expiration < DateTime.Now).ToList();
-            foreach(StateOkta stateOkta in expirados)
+            foreach (StateOkta stateOkta in expirados)
             {
                 ListStatesOkta.Remove(stateOkta);
             }
@@ -359,7 +359,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AllowAnonymous]
         [Route("generateOKTAStateValue")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize]
         public IHttpActionResult generateOKTAStateValue()
         {
             StateOkta itemState = new StateOkta();
@@ -1039,7 +1039,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
-        [RestAPIAuthorize(isGenericRequest=true)]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try
@@ -1103,6 +1103,11 @@ namespace ZambaWeb.RestApi.Controllers
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            if (!ValidateOrigin(actionContext))
+            {
+                HandleUnauthorizedRequest(actionContext);
+            }
+
             if (!Authorize(actionContext))
             {
                 HandleUnauthorizedRequest(actionContext);
@@ -1141,7 +1146,7 @@ namespace ZambaWeb.RestApi.Controllers
 
             try
             {
-                foreach (JProperty item in token.Root)
+                foreach (JProperty item in token)
                 {
                     if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
                         return false;
@@ -1149,7 +1154,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -1191,6 +1196,14 @@ namespace ZambaWeb.RestApi.Controllers
                 return UsuarioAutorizado = false;
             }
             return UsuarioAutorizado;
+        }
+
+        private Boolean ValidateOrigin(HttpActionContext actionContext)
+        {
+            HttpRequestMessage request = actionContext.Request;
+
+            return (request.Headers.GetValues("Origin").First() == request.RequestUri.Scheme + "://" + request.RequestUri.Authority);
+
         }
     }
 }
