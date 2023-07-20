@@ -261,6 +261,36 @@ Public Class MessagesBusiness
         End Try
     End Function
 
+    ''' <summary>
+    ''' Graba un archivo en la carpeta temporal de archivos office y te devuelve el nombre del archivo nuevo
+    ''' </summary>
+    ''' <param name="Bytes">Cadena de bytes del archivo a grabar</param>
+    ''' <param name="fileName">Nombre original del archivo a crear</param>
+    ''' <returns>La ruta completa del archivo creado</returns>
+    Public Shared Function GetNewFile(Bytes As Byte(), fileName As String) As String
+        Const officeTemp As String = "\OfficeTemp\"
+        If Not IO.Directory.Exists(Zamba.Membership.MembershipHelper.AppTempDir(String.Empty).FullName & officeTemp) Then
+            IO.Directory.CreateDirectory(Zamba.Membership.MembershipHelper.AppTempDir(String.Empty).FullName & officeTemp)
+        End If
+        Dim newFileName As String
+        Dim newFileExtension As String
+        newFileExtension = IO.Path.GetExtension(fileName)
+        newFileName = Membership.MembershipHelper.AppTempDir(String.Empty).FullName & officeTemp & fileName.Replace("/", " ").Replace("\", " ").Replace(":", " ")
+        Dim i As Int16 = 0
+        Do While IO.File.Exists(newFileName)
+            If i = 0 Then
+                newFileName = newFileName.Substring(0, newFileName.LastIndexOf(".")) & "(" & i.ToString() & ")" & newFileExtension
+            Else
+                newFileName = newFileName.Substring(0, newFileName.LastIndexOf("(")) & "(" & i.ToString() & ")" & newFileExtension
+            End If
+            i += 1
+        Loop
+        newFileName = newFileName.Replace("\\", "\")
+        File.WriteAllBytes(newFileName, Bytes)
+        Return newFileName
+    End Function
+
+
     Public Shared Function CheckMessages() As Integer
         Try
             Dim messages As Integer = MessagesFactory.countNewMessages(Zamba.Membership.MembershipHelper.CurrentUser.ID)
