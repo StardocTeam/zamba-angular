@@ -15,6 +15,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
     public class RestAPIAuthorizeAttribute : AuthorizeAttribute
     {
         public bool isGenericRequest { get; set; }
+        public bool isNewsPostDto { get; set; }
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (isGenericRequest)
@@ -25,7 +26,53 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                 }
 
             }
+            if (isNewsPostDto)
+            {
+                if (!ValidateNewsPostDto(actionContext.Request))
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }
+
+            }
             return;
+        }
+        private bool ValidateNewsPostDto(HttpRequestMessage request)
+        {
+
+            // Obtener el contenido de la respuesta HTTP
+            HttpContent httpContent = request.Content;
+
+            // Leer el contenido como una cadena JSON
+            string jsonString = httpContent.ReadAsStringAsync().Result;
+
+            var properties = System.Text.Json.JsonDocument.Parse(jsonString);
+
+
+            // Deserializar la cadena JSON en un objeto C#
+            try
+            {
+                foreach (var item in properties.RootElement.EnumerateObject())
+                {
+                    if (item.Name.ToLower() != "gridtype" && item.Name.ToLower() != "userid" && item.Name.ToLower() != "searchtype")
+                        return false;
+
+                    if (item.Name.ToLower() == "userid") {
+                        try
+                        {
+                            Int32.Parse(item.Value.ToString());
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         private bool ValidateGenericRequest(HttpRequestMessage request)
         {

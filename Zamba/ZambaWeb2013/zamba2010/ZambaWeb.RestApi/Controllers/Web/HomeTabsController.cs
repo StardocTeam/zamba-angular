@@ -214,6 +214,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("GetGenericSummary")]
+        [RestAPIAuthorize(isNewsPostDto = true)]
         public IHttpActionResult GetGenericSummary(NewsPostDto newsDto)
         {
             try
@@ -272,7 +273,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("GetNewsSummary")]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [RestAPIAuthorize(isNewsPostDto = true)]
         public IHttpActionResult GetNewsSummary(NewsPostDto newsDto)
         {
             try
