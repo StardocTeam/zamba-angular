@@ -98,7 +98,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
         #endregion
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [System.Web.Http.AcceptVerbs("GET")]
         public IHttpActionResult Get()
         {

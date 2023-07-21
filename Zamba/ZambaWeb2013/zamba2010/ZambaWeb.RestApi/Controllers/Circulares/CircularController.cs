@@ -53,7 +53,7 @@ namespace ZambaWeb.RestApi.Controllers
   
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/Circular/Base64FromCircular")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string Base64FromCircular(CircularImage circularimage)
         {
             try
@@ -78,7 +78,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/Circular/Base64")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string Base64(string str)
         {
             try

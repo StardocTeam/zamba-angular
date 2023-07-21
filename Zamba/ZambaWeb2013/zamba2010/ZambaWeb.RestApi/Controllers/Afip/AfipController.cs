@@ -65,7 +65,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/afip/RequestDocument")]
         [HttpPost, HttpGet]
         [ActionName("RequestDocument")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public HttpResponseMessage RequestDocument() //[FromBody] Update request
         {
 

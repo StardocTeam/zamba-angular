@@ -530,7 +530,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("LoadTree")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult LoadTree()
         {
             try
@@ -563,7 +563,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("LoadTasks")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
 
         public IHttpActionResult LoadTasks(LoadTasksParamVM param)
         {
@@ -595,7 +595,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [AcceptVerbs("GET", "POST")]
         [Route("GetTask")]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
 
         public IHttpActionResult GetTask(int taskId)
         {
@@ -635,7 +635,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [AcceptVerbs("GET", "POST")]
         [Route("GetResult")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetResult(long docId, long docTypeId)
         {
             if (docId == 0 || docTypeId == 0) return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se ingreso docId-docTypeId")));
@@ -758,7 +758,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("GetNewsResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public List<ListNews> GetNewsResults(genericRequest paramRequest)
         {
             UserBusiness UB = new UserBusiness();
@@ -811,7 +811,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetUsers")]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         public List<BaseImageFileResult> GetUsers(long stepId)
         {
 
@@ -831,7 +831,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetGroups")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public List<BaseImageFileResult> GetGroups(long stepId)
         {
             try
@@ -880,7 +880,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("DeriveTask")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
 
         public IHttpActionResult DeriveTask(long taskId, long userIDToAsign, long currentUserID, bool isUser, string url, string comments)
         {
@@ -949,7 +949,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("DeriveTasks")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
 
         public IHttpActionResult DeriveTasks(string docIds, long userIDToAsign, long currentUserID, bool isUser, string url, string comments)
         {
@@ -985,7 +985,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("EndTask")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void EndTask(bool isTakeTask, long taskId, long userId)
         {
             long userID = GetUser(userId).ID;
@@ -1055,7 +1055,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetUsersRights")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public bool GetUsersRights(long stepId, RightsType right, long userid)
         {
             //long userID = Zamba.Membership.MembershipHelper.CurrentUser.ID;
@@ -1078,7 +1078,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("StartTask")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public ITaskResult StartTask(long taskId, long userid)
         {
             long userID = GetUser(userid).ID;
@@ -1163,7 +1163,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("LoadUserAction")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         private void LoadUserAction()
         {
             try
@@ -1273,7 +1273,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetStatesOfTheButtonsRule")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void GetStatesOfTheButtonsRule()
         {
             try
@@ -1335,7 +1335,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("EnablePropietaryControls")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void EnablePropietaryControls()
         {
 
@@ -1527,7 +1527,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("GetGroupsByUserIds")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public List<long> GetGroupsByUserIds(long usrID)
         {
             try
@@ -1549,7 +1549,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("OnLoadPage")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public ITaskResult OnLoadPage(long taskId, long userid)
         {
             //Para validar el usuario, y setearlo para el Web Api en caso de ser necesario.
@@ -1569,7 +1569,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getStepNameById")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string getStepNameById(Int64 stepid)
         {
             SSteps SSteps = new SSteps();
@@ -1580,7 +1580,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetUserorGroupNamebyId")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetUserorGroupNamebyId(Int64 asginedToId)
         {
             SUsers SUsers = new SUsers();
@@ -1592,7 +1592,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetAsociatedIndexsDropzon")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetAsociatedIndexsDropzon(Int64 indexId, Int64 entityId)
         {
 
@@ -1631,7 +1631,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GeneratePdfCoverPage")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GeneratePdfCoverPage(string TempPath, short CopiesCount, float width, float height)
         {
             string _Pdfile = string.Empty;
@@ -1656,7 +1656,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetResultDocumentContent")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetResultDocumentContent(long docid, long doctypeid)
         {
             string docContent = string.Empty;
@@ -1690,7 +1690,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("SaveResultDocContent")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void SaveResultDocContent(HtmlContent obj)
         {
             try
@@ -1715,7 +1715,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GeneratePdf")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public List<string> GeneratePdf(genericRequest paramRequest)
         {
             try
@@ -1751,7 +1751,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("MarkAsFavorite")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult MarkAsFavorite(genericRequest paramRequest)
         {
 
@@ -1788,7 +1788,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetRuleNames")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetRuleNames(genericRequest paramRequest)
         {
             List<string> ruleIds = new List<string>();
@@ -1826,7 +1826,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ExecuteTaskRule")]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult ExecuteTaskRule(genericRequest paramRequest)
         {
             cleanRuleVariables_ByConvention();
@@ -1966,7 +1966,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("Execute_ZambaTaskRule")]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult Execute_ZambaTaskRule(genericRequest paramRequest)
         {
             try
@@ -2027,7 +2027,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetEnabledRuleId")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetEnabledRuleId(genericRequest paramRequest)
         {
             List<string> ruleIds = new List<string>();
@@ -3012,7 +3012,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getValuesToHerarchicalTag")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getValuesToHerarchicalTag(Int64 UserId, Int64 parentTagValue)
         {
             var user = GetUser(UserId);
@@ -3051,7 +3051,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getHerarchicalTagValues")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getHerarchicalTagValues(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -3109,7 +3109,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getAttributeDescription")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAttributeDescription(genericRequest paramRequest)
         {
             try
@@ -3159,7 +3159,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getAttributeDescriptionMotivoDemanda")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAttributeDescriptionMotivoDemanda(genericRequest paramRequest)
         {
             try
@@ -3219,7 +3219,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getAttributeListMotivoDemanda")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAttributeListMotivoDemanda(genericRequest paramRequest)
         {
             try
@@ -3283,7 +3283,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getHerarchicalEstudiosByJurisdiccion")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getEstudiosByJurisdiccion(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -3357,7 +3357,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AllowAnonymous]
         [Route("GetResultsGridButtons")]
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public List<IDynamicButton> GetResultsGridButtons(genericRequest paramRequest)
         {
             List<IDynamicButton> List_ActionsForResultsGrid = new List<IDynamicButton>();

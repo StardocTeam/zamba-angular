@@ -21,7 +21,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAddComentariosObservaciones")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAddComentariosObservaciones(genericRequest paramRequest)
         {
 
@@ -69,7 +69,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getResultsComentariosObservaciones")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getResultsComentariosObservaciones(genericRequest paramRequest)
         {
 
@@ -127,7 +127,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getMigracionObservaciones")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getMigracionObservaciones(genericRequest paramRequest)
         {
             UserBusiness UserBusiness = new UserBusiness();

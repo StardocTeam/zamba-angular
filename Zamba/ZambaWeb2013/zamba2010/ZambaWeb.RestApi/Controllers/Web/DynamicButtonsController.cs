@@ -102,7 +102,7 @@ namespace ZambaWeb.RestApi.Controllers
         #endregion
 
         [System.Web.Http.AcceptVerbs("GET")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult Get(ButtonPlace place)
         {
 

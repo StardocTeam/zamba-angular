@@ -106,7 +106,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("GetRecentTasks")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetRecentTasks()
         {
             Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();

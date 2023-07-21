@@ -11,7 +11,7 @@ namespace ZambaWeb.RestApi.Controllers
     public class AfipPucLevel3Controller : ApiController
     {
         // GET: api/AfipPucLevel3/5
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string Get(string cuit)
         {
             GetPUCLevel3 Puc3 = new GetPUCLevel3();

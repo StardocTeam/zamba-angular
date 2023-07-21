@@ -45,7 +45,7 @@ namespace ZambaWeb.RestApi.Controllers.Class
         [Route("api/UcmServices/UCM")]
         [AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult UCM()
         {
             try

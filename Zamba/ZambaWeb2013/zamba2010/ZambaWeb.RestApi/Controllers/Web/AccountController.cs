@@ -61,7 +61,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AllowAnonymous]
 
         [Route("Login")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult Login(LoginVM l)
         {
             if (l.UserName == null || l.UserName == string.Empty)
@@ -339,7 +339,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AllowAnonymous]
         [Route("validateOktaStateValue")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult validateOktaStateValue(String state)
         {
             List<StateOkta> expirados = ListStatesOkta.Where(n => n.expiration < DateTime.Now).ToList();
@@ -375,7 +375,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AllowAnonymous]
         [Route("LoginOKTA")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
 
         public IHttpActionResult LoginOKTA(String access_token, String id_token, String code)
         {
@@ -554,7 +554,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetOktaInformation")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetOktaInformation()
         {
             OktaPublicInformation oktaInformation = new OktaPublicInformation();
@@ -588,7 +588,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("LoginByGuid")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult LoginByGuid(long userid, String guid)
         {
             guid = guid.Replace("'", "").Replace("\"", "");
@@ -658,7 +658,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET")]
         // [AllowAnonymous]
         [Route("User")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetUser()
         {
             try
@@ -677,7 +677,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("Password")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string ChangePassword(UserChangePassword user)
         {
             string errormessage;
@@ -730,7 +730,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("removeZssUser")]
         public void removeZssUser(int Userid)
         {
@@ -741,7 +741,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("RemoveConnection")]
         public void RemoveConnectionFromWeb(int ConnId)
         {
@@ -761,7 +761,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("CheckToken")]
         public bool CheckToken(int UserId, string Token)
         {
@@ -782,7 +782,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("SetView")]
         public void SetView(long UserId, string View)
         {
@@ -803,7 +803,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("UpdateView")]
         public void UpdateSetView(long UserId, string View)
         {
@@ -824,7 +824,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("GetView")]
         public string GetView(long UserId)
         {
@@ -845,7 +845,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("GetConfig")]
         public string GetConfig(long UserId, string ConfigName)
         {
@@ -866,7 +866,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("getUserPreferences")]
         public IHttpActionResult getUserPreferences(genericRequest paramRequest)
         {
@@ -898,7 +898,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("getSystemPreferences")]
         public IHttpActionResult getSystemPreferences(genericRequest paramRequest)
         {
@@ -992,7 +992,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET")]
         [Route("IsPasswordExpired/{userId}")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult IsPasswordExpired(long userId)
         {
             try
@@ -1015,7 +1015,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET")]
         [Route("ClearUserCache/{userId}")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult ClearUserCache(long userId)
         {
             try
@@ -1095,115 +1095,5 @@ namespace ZambaWeb.RestApi.Controllers
         public string uid;
         public string username;
 
-    }
-
-    public class RestAPIAuthorizeAttribute : AuthorizeAttribute
-    {
-        public Boolean isGenericRequest { get; set; }
-
-        public override void OnAuthorization(HttpActionContext actionContext)
-        {
-            if (!ValidateOrigin(actionContext))
-            {
-                HandleUnauthorizedRequest(actionContext);
-            }
-
-            if (!Authorize(actionContext))
-            {
-                HandleUnauthorizedRequest(actionContext);
-            }
-
-            if (isGenericRequest)
-            {
-                if (!ValidateGenericRequest(actionContext.Request))
-                {
-                    HandleUnauthorizedRequest(actionContext);
-                }
-
-            }
-            return;
-        }
-
-        /// <summary>
-        /// Valida las propiedades de la clase GenericRequest si son las esperadas en la solicitud.
-        /// Resuelve la vulnerabilidad:
-        /// 
-        /// (ALTA) Api de asignacion masiva
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private bool ValidateGenericRequest(HttpRequestMessage request)
-        {
-
-            // Obtener el contenido de la respuesta HTTP
-            HttpContent httpContent = request.Content;
-
-            // Leer el contenido como una cadena JSON
-            string jsonString = httpContent.ReadAsStringAsync().Result;
-
-            // Navegar por el documento JSON utilizando JToken
-            JToken token = JToken.Parse(jsonString);
-
-            try
-            {
-                foreach (JProperty item in token)
-                {
-                    if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
-                        return false;
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
-        {
-            base.HandleUnauthorizedRequest(actionContext);
-        }
-        private bool Authorize(HttpActionContext actionContext)
-        {
-            Boolean UsuarioAutorizado = false;
-            try
-            {
-                HttpRequestMessage request = actionContext.Request;
-                if (request.Headers.Authorization.Scheme == "Bearer")
-                {
-                    string Url = request.RequestUri.AbsoluteUri;
-                    string Authorization = request.Headers.Authorization.Parameter;
-                    List<String> SplitAuthorization =
-                        ASCIIEncoding.ASCII.GetString(
-                        Convert.FromBase64String(Authorization))
-                        .Split(':')
-                        .ToList<String>();
-                    int user_id = Convert.ToInt32(SplitAuthorization.First());
-                    IUser user;
-                    UserBusiness userBusiness = new UserBusiness();
-                    user = userBusiness.GetUserById(user_id);
-                    userBusiness.ValidateLogIn(user.ID, ClientType.WebApi);
-                    string token = SplitAuthorization.Last();
-                    Zamba.Core.ZssFactory zssFactory = new Zamba.Core.ZssFactory();
-                    UsuarioAutorizado = zssFactory.CheckTokenInDatabase(user_id, token, false);
-                    if (!UsuarioAutorizado)
-                        ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Usuario intento usar un recurso sin autorizacion." + System.Environment.NewLine + "url:" + Url + System.Environment.NewLine + "user:" + user_id.ToString() + System.Environment.NewLine + "token:" + token);
-                }
-            }
-            catch (Exception e)
-            {
-                return UsuarioAutorizado = false;
-            }
-            return UsuarioAutorizado;
-        }
-
-        private Boolean ValidateOrigin(HttpActionContext actionContext)
-        {
-            HttpRequestMessage request = actionContext.Request;
-
-            return (request.Headers.GetValues("Origin").First() == request.RequestUri.Scheme + "://" + request.RequestUri.Authority);
-
-        }
     }
 }

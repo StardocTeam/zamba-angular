@@ -98,7 +98,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("GetTree")]
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpGet]
         public IHttpActionResult GetTree()
         {
@@ -339,7 +339,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         /// [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("GetIndexs")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpGet]     
         public IHttpActionResult GetIndexs(string indexs = "")
         {
@@ -371,7 +371,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("GetResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         public IHttpActionResult GetResults(SearchDto searchDto)
         {

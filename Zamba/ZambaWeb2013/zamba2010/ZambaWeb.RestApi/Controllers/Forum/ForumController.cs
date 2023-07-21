@@ -58,7 +58,7 @@ namespace ZambaWeb.RestApi.Controllers.Forum
             public List<Object> Filters { get; set; }
 
         }
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/Forum/Forum")]
         [HttpPost]
         [HttpGet]

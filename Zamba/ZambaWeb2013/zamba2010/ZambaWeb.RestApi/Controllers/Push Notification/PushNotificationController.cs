@@ -49,7 +49,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/PushNotification/GetPlayerID")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult SetPlayerId(int user_id, string player_id)
         {
             try
@@ -67,7 +67,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [Route("api/PushNotification/Sendmessage")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost, HttpGet]
         private void Sendmessage(String Titulo, String Contenido, List<string> players_id, string imageUrl)
         {

@@ -26,7 +26,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/NewgetAssociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult NewgetAssociatedResults(genericRequest paramRequest)
         {
 
@@ -233,7 +233,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/NewgetAssociatedlist")]
 
         public IHttpActionResult NewgetAssociatedlist(genericRequest paramRequest)
@@ -295,7 +295,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/InsertResultGrid")]
         public IHttpActionResult InsertResultGrid(genericRequest paramRequest)
         {
@@ -375,7 +375,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/setTaskIndexsSaveTable")]
         public IHttpActionResult setTaskIndexsSaveTable(genericRequest paramRequest)
         {
@@ -448,7 +448,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/DeleteAsociatedResult")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void DeleteAsociatedResult(genericRequest paramRequest)
         {
             SResult sResult = new SResult();
@@ -473,7 +473,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.EditGrid
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/InsertResultGridOneResult")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult InsertResultGridOneResult(genericRequest paramRequest)
         {
 

@@ -21,7 +21,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("CheckStructure")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public CacheResponseModel<int> CheckStructure(int userId)
         {
             CacheResponseModel<int> response = new CacheResponseModel<int>();
@@ -59,7 +59,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [AllowAnonymous]
         [Route("ClearAllCache")]
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public bool ClearAllCache()
         {
             CacheFactory ch = new CacheFactory();
@@ -80,7 +80,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ClearRulesCache")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public bool ClearRulesCache()
         {
             CacheFactory ch = new CacheFactory();
@@ -101,7 +101,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ClearRightsCache")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public bool ClearRightsCache(Int64 userId)
         {
             CacheFactory ch = new CacheFactory();
@@ -121,7 +121,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ClearStructureCache")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public bool ClearStructureCache()
         {
             CacheFactory ch = new CacheFactory();

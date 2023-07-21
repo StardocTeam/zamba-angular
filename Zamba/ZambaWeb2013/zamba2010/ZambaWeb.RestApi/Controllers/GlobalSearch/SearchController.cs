@@ -113,7 +113,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUserName")]
         [AllowAnonymous]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetUserName(int userId)
         {
             Zamba.Core.UserBusiness UB;
@@ -221,7 +221,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Test")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         //[Authorize]
         public string Test()
         {
@@ -247,7 +247,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/BasicTest")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string BasicTest()
         {
             try
@@ -273,7 +273,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/TestParam")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string TestParam(string val)
         {
             try
@@ -300,7 +300,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Suggestions")]
         [RestAPIAuthorize]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         public IEnumerable<Dictionary<string, object>> GetSuggestions(string text = "")
         {
             SearchSuggestions ss;
@@ -333,7 +333,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         // [System.Web.Http.HttpGet]
         [Route("api/search/SuggestionsByIndex")]       //no hubo forma de pasar desde AJAX lista de entidades
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IEnumerable<Dictionary<string, object>> SuggestionsByIndex(int index, string entities, string word)
         {
             SearchSuggestions ss;
@@ -364,7 +364,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/SuggestionsList")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IEnumerable<Dictionary<string, object>> SuggestionsList(string index, string entities, string word)
         {
             SearchSuggestions ss;
@@ -398,7 +398,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/SuggestionsAdvEnt")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IEnumerable<Dictionary<string, object>> SuggestionsAdvEnt(int entity, string entWord, string index, string word, string filter, string filterword)
         {
             SearchSuggestions ss;
@@ -439,7 +439,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/SuggestionsAdvInd")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IEnumerable<Dictionary<string, object>> SuggestionsAdvInd(int index, string indWord, string entities, string filter, string filterword)
         {
             SearchSuggestions ss;
@@ -474,7 +474,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/Results")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult FilterResults(Filter parameters)
         {
             if (parameters != null)
@@ -552,7 +552,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/Entities")]
         [RestAPIAuthorize]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         [System.Web.Http.HttpGet]
         //    [Authorize]
         public IHttpActionResult GetEntities(int? userId)//Int64 userId
@@ -628,7 +628,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/Index")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost, HttpGet]
         public string Index(long IndexId)
         {
@@ -662,7 +662,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// </param>
         /// <returns></returns>
         [Route("api/search/ListOptions")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         public string ListOptions(searchList searchlist)
         {
@@ -1320,7 +1320,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="searchDto">SearchDto</param>
         [Route("api/search/ExportToExcel")]
         [HttpPost, HttpGet]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult ExportToExcel(SearchDto searchDto)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
@@ -2112,7 +2112,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/DoSearch")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         [HttpGet]
         public string FillWF(long userId)
@@ -2177,7 +2177,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/FillIndex")]
         [HttpPost]
         public string FillIndex(string IndexId)
@@ -2228,7 +2228,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/GetIndexWords")]
         public List<Word> GetIndexWords(Int64 userId, int entity, int index)
         {
@@ -2249,7 +2249,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getResultsDoShowTable")]
@@ -2286,7 +2286,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getInsertDoShowTable")]
@@ -2388,7 +2388,7 @@ namespace ZambaWeb.RestApi.Controllers
             return;
         }
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/Tree")]
         public IHttpActionResult GetTree(int currentuserid)
         {
@@ -2415,7 +2415,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         const string _URLFORMAT = "/Services/GetDocFile.ashx?DocTypeId={0}&DocId={1}&userid={2},token={3}";
 
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/GetFileUrl")]
         [RestAPIAuthorize]
         [HttpPost]
@@ -2439,7 +2439,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/GetIndexData")]
         [RestAPIAuthorize]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         public string GetIndexData(ResultDto resultDto)
         {
@@ -2505,7 +2505,7 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
             }
         }
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("api/search/GetIndexDataSelectDinamic")]
         [HttpPost]
         public IHttpActionResult GetIndexDataSelectDinamic(genericRequest paramRequest)
@@ -2553,7 +2553,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/GetFile")]
         [RestAPIAuthorize]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         public byte[] GetFile(ResultDto resultDto)
         {
@@ -2622,7 +2622,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetLastNodes")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         public string GetLastNodes(string LastNodes, int currentuserid)
         {
@@ -2645,7 +2645,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetMyUnreadTasksCount")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpGet]
         public long GetMyUnreadTasksCount(long currentUserId)
         {
@@ -2663,7 +2663,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/GetGroupsByUserIds")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpGet]
         public List<long> GetGroupsByUserIds(long usrID)
         {
@@ -2683,7 +2683,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [HttpPost]
         [Route("api/Search/NotifyDocumentRead")]
 
@@ -2717,7 +2717,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getNewId")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getNewId(genericRequest paramRequest)
         {
 
@@ -2753,7 +2753,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAddComentarios")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getResultsComentarios(genericRequest paramRequest)
         {
 
@@ -2834,7 +2834,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByAllReport")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetResultsByAllReport(genericRequest paramRequest)
         {
 
@@ -2870,7 +2870,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
 
         [Route("api/search/GetResultsByReportId")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetResultsByReportId(genericRequest paramRequest)
         {
 
@@ -2942,7 +2942,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByReportIdDoShowTable")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetResultsByReportIdDoShowTable(genericRequest paramRequest)
         {
             cleanRuleVariables_ByConvention();
@@ -3018,7 +3018,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByReportIdDoShowTablePro")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetResultsByReportIdDoShowTablePro(genericRequest paramRequest)
         {
             cleanRuleVariables_ByConvention();
@@ -3188,7 +3188,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetResultsByReportIdDash")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetResultsByReportIdDash(genericRequest paramRequest)
         {
 
@@ -3277,7 +3277,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetExportExcel")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public string GetExportExcel(genericRequest paramRequest)
         {
 
@@ -3348,7 +3348,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetNewInsertDoShowTable")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetNewInsertDoShowTable(genericRequest paramRequest)
         {
 
@@ -3474,7 +3474,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/getTimeLineNews")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getTimeLineNews(genericRequest paramRequest)
         {
 
@@ -3566,7 +3566,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getTimeLineAprobaciones")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAsociatedResultsTimeLine(genericRequest paramRequest)
         {
 
@@ -3735,7 +3735,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultsByReportIdTimeLine")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetResultsByReportIdTimeLine(genericRequest paramRequest)
         {
 
@@ -3989,7 +3989,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAsociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAsociatedResults(genericRequest paramRequest)
         {
 
@@ -4093,7 +4093,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/setTaskIndex")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult setTaskIndex(genericRequest paramRequest)
         {
 
@@ -4144,7 +4144,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/setTaskIndexs")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult setTaskIndexs(genericRequest paramRequest)
         {
 
@@ -4281,7 +4281,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetBaremosAsociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetBaremosAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -4362,7 +4362,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetRequestAsociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetRequestAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -4434,7 +4434,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetRequestAsociatedResults2")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetRequestAsociatedResults2(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -4508,7 +4508,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetDispatcherAsociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetDispatcherAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -4582,7 +4582,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetRemitoAsociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetRemitoAsociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -4656,7 +4656,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/ModifyAssociatedResult")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void ModifyAssociatedResult(genericRequest paramRequest)
         {
             SResult sResult = new SResult();
@@ -4837,7 +4837,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/ModifyAssociatedResult2")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void ModifyAssociatedResult2(genericRequest paramRequest)
         {
             SResult sResult = new SResult();
@@ -5023,7 +5023,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/InsertAssociatedResult")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public InsertResult InsertAssociatedResult(genericRequest paramRequest)
         {
 
@@ -5184,7 +5184,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/InsertAssociatedResult2")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public InsertResult InsertAssociatedResult2(genericRequest paramRequest)
         {
 
@@ -5459,7 +5459,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("api/search/GetUserRightToSearchWeb")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public bool GetUserRightToSearchWeb(long userid)
         {
             if (userid > 0)
@@ -5545,7 +5545,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultIndexs")]
         [RestAPIAuthorize]
-        //[OverrideAuthorization]
+        //[RestAPIAuthorize(OverrideAuthorization = true)]
         public List<Int64> GetResultIndexs(genericRequest paramRequest)
         {
             IResult result = GetResultFromParamRequest(paramRequest);
@@ -5626,7 +5626,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetCalendarReport")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetCalendarReport(genericRequest paramRequest)
         {
 
@@ -5723,7 +5723,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetGraphResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetGraphResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5801,7 +5801,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAssociatedResults")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult getAssociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -5969,7 +5969,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUsersOrGroupsById")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetUsersOrGroupsById(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -6040,7 +6040,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultsByUserConfigModule")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetResultsByUserConfigModule(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -6288,7 +6288,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetInsertByUserConfigModule")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetInsertByUserConfigModule(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -6373,7 +6373,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetUserOrGroupAvatarById")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetUserOrGroupAvatarById(genericRequest paramRequest)
         {
             try
@@ -6406,7 +6406,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetUsersOrGroupsAvatarsByIds")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetUsersOrGroupsAvatarsByIds(genericRequest paramRequest)
         {
             try
@@ -6515,7 +6515,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("api/search/GetThumbsPath")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetThumbsPath()
         {
             try

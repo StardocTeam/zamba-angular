@@ -49,7 +49,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("Insert")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         ///Adaptacion de views/insert.aspx.cs/InsertDoc
         public IHttpActionResult InsertDoc(InsertParamVM param)
         {
@@ -140,7 +140,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [System.Web.Http.AcceptVerbs("POST")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         [Route("GetUserRightToInsert")]
         ///Adaptacion de views/insert.aspx.cs/InsertDoc
         public bool GetUserRightToInsert(long userid)

@@ -92,7 +92,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("GetTemplates")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetTemplates()
         {
             var user = GetUser(null);
@@ -107,7 +107,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet]
         [Route("DownloadTemplate")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public HttpResponseMessage DownloadTemplate(string path)
         {
             var user = GetUser(null);

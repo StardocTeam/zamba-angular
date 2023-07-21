@@ -28,7 +28,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/InvitedUser/Create")]
-        [OverrideAuthorization]
+        [RestAPIAuthorize(OverrideAuthorization = true)]
         public void Create(InvitedUser user )
         {
             try
