@@ -65,6 +65,41 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+           // var request = ((System.Web.HttpApplication)sender).Request.Params;
+
+            var request = HttpContext.Current.Request;
+
+            if (HttpContext.Current.Request.HttpMethod == "GET" && Request.Url.Segments.Length == 2) {
+            //    Server.Transfer("views/security/Login.aspx");
+                Response.Redirect(request.Url.LocalPath + "views/security/Login.aspx");
+            }
+                //string param1 = request.QueryString["userId"];
+
+                if (request.Form["userId"] != null)
+            {
+                try
+                {
+                    Int32.Parse(request.Form["userId"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+            if (request.Form["userLocalStorage"] != null)
+            {
+                try
+                {
+                    Int32.Parse(request.Form["userLocalStorage"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
             if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
             {

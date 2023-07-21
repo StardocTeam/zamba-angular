@@ -84,7 +84,7 @@ public partial class Login : System.Web.UI.Page
     {
         try
         {
-            if (!Page.IsPostBack)
+            if (!Page.IsPostBack && Request.HttpMethod != "POST")
             {
                 FormsAuthentication.SignOut();
                 bool.TryParse(WebConfigurationManager.AppSettings["AllowLoginZambaUser"], out _allowZambaLogin);
