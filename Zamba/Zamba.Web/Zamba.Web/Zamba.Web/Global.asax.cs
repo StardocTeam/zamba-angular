@@ -101,6 +101,10 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            if(Request.AppRelativeCurrentExecutionFilePath == "~/")
+            {
+                Response.Redirect(Request.Url.AbsoluteUri + "Views/Security/Login.aspx");
+            }
             if (Request.Params.Count > 0)
             {
                 if (Request.Params.AllKeys[0] == "zamba:\\\\DT")
