@@ -21,7 +21,7 @@ Public Class DTOObjectImap
     Public Property Password As String Implements IDTOObjectImap.Password
     Public Property Direccion_servidor As String Implements IDTOObjectImap.Direccion_servidor
 
-    Public Property Puerto As Long Implements IDTOObjectImap.Puerto
+    Public Property Puerto As Integer Implements IDTOObjectImap.Puerto
 
     Public Property Protocolo As String Implements IDTOObjectImap.Protocolo
     Public Property Filtrado As Long Implements IDTOObjectImap.Filtrado

@@ -106,10 +106,10 @@ Public NotInheritable Class ZTrace
     ''' </history>
     Public Shared Sub SetLevel(ByVal level As Int32, ByVal zModuleName As String)
         'Crea el listener
-        If level <> 0 Then
-            'AddListener(zModuleName)
-            Zamba.AppBlock.ZException.ModuleName = zModuleName
-        End If
+        'If level <> 0 Then
+        'AddListener(zModuleName)
+        Zamba.AppBlock.ZException.ModuleName = zModuleName
+        'End If
         'Asigna el nivel de trace
         zTraceSw.Level = DirectCast(level, TraceLevel)
     End Sub
@@ -144,7 +144,7 @@ Public NotInheritable Class ZTrace
 
             SyncLock (_hsSingletonZCoreInstances)
                 If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
-                    Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Trace\" & DateTime.Now.ToString("yyyy-MM-dd"))
+                    Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\" & DateTime.Now.ToString("yyyy-MM-dd") & "\Trace\")
                     If dir.Exists = False Then
                         dir.Create()
                     End If
@@ -263,12 +263,12 @@ Public NotInheritable Class ZTrace
                 'Si la fecha es diferente resetea los listeners cerrando los 
                 'viejos logs y creando nuevos para continuar la escritura en ellos
                 traceDate = Date.Now.Day
-                ResetListeners()
+                'ResetListeners()
             End If
             Return level
         Else
             'Como no se debe loguear devuelve false
-            Return TraceLevel.Off
+            Return TraceLevel.Info
         End If
     End Function
 

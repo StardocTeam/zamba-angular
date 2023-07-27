@@ -8,7 +8,7 @@ Public Class SQLTrace
 
     Private Shared hsSQLTraces As New Hashtable
     Private Shared fileName, rName, fecha As String
-    Private Shared exceptions As String = ZTrace.GetTempDir("\Performance").FullName
+    Private Shared exceptions As String = Membership.MembershipHelper.AppTempPath & "\" & DateTime.Now.ToString("yyyy-MM-dd")
 
 
     Public Sub Write(ByVal text As String)
@@ -18,7 +18,7 @@ Public Class SQLTrace
             'Verifica si existe el trace en el hash
             If Not hsSQLTraces.ContainsKey("SQL" & key) Then
 
-                Dim path As String = exceptions & "\Trace\" & DateTime.Now.ToString("yyyy-MM-dd")
+                Dim path As String = exceptions & "\Performance\Trace"
 
                 If (Not IO.Directory.Exists(path)) Then
                     IO.Directory.CreateDirectory(path)

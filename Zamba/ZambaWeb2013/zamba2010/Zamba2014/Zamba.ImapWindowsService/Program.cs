@@ -15,13 +15,6 @@ namespace Zamba.ImapWindowsService
         /// </summary>
         static void Main()
         {
-            string fileName = @"H:\Temp\servicio imap.txt";
-
-            using (StreamWriter writer = new StreamWriter(fileName, append: true))
-            {
-                writer.WriteLine("Main");
-                writer.Close();
-            }
             ServiceBase[] ServicesToRun;
 
             ServicesToRun = new ServiceBase[]

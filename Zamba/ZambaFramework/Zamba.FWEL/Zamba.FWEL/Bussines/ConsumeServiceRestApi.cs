@@ -20,7 +20,7 @@ namespace Zamba.Core
             webRequest.Timeout = 700000;
 
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Llamada a rest api:" + "\n" + url + "\n" + Method + "\n" + JsonMessage);
-            webRequest.Accept = "application/json";
+            webRequest.Accept = "*/*";
             webRequest.ContentType = "application/json";
             webRequest.Method = Method;
             if (Method.ToUpper() == "POST")

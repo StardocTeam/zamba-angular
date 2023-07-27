@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
-      <HintPath>..\packages\BouncyCastle.Cryptography.2.2.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
-    </Reference>
     <Reference Include="MailKit, Version=4.1.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\Zamba2014\packages\MailKit.4.1.0\lib\net48\MailKit.dll</HintPath>
     </Reference>
@@ -59,7 +56,7 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>..\Zamba2014\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -91,6 +88,10 @@
     <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWBC\Zamba.FWBC\Zamba.FWBC.csproj">
       <Project>{98dcc71c-e25b-414f-95ff-e5b98b5d529d}</Project>
       <Name>Zamba.FWBC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWEL\Zamba.FWEL\Zamba.FWEL.csproj">
+      <Project>{4db15aa8-b270-40d4-bf54-e653935381f1}</Project>
+      <Name>Zamba.FWEL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\ZambaFramework\Zamba.FWIL\Zamba.FWInterfaces.vbproj">
       <Project>{21ac012d-4199-4a5a-92c7-3d3efc64fa45}</Project>

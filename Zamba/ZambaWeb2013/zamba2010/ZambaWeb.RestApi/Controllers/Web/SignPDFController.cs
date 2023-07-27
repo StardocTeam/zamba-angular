@@ -566,9 +566,11 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         }
                         catch (Exception ex2)
                         {
+                            ZClass.raiseerror(ex2);
+
                             string RollBackFamilia = string.Format(@"UPDATE {0} set {1}=null WHERE doc_id in (" + String.Join(",", docIdsRollback.ToArray()) + ")", MapZambaIndex["despacho"], MapZambaIndex["Fecha Notificación por FTP"]);
                             Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, RollBackFamilia); //Actualizo las tablas y pongo la fecha en nulo
-                            throw ex2;
+                            throw;
                         }
 
                     }
@@ -580,6 +582,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 {
                     try
                     {
+                        ZClass.raiseerror(ex);
                         ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonLegajosFirmados.nroLegajo);
 
                         string SQLUpdatePostOK = string.Format(@"UPDATE {0} set {1}=null,{2}='Familia: " + jsonLegajosFirmados.familia + "\nMensaje:" + ex.Message + "' WHERE doc_id=" + docId, MapZambaIndex["despacho"], MapZambaIndex["Fecha Notificación por FTP"], MapZambaIndex["Codigo Error Notificación"]); ;
@@ -618,6 +621,8 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
                     catch (Exception ex2)
                     {
+                        ZClass.raiseerror(ex);
+
                         ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message + "--> nro legajo:" + jsonLegajosFirmados.nroLegajo);
                         ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex2.Message + "--> nro legajo:" + jsonLegajosFirmados.nroLegajo);
                     }
@@ -700,39 +705,17 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "se genera el PDF.");
 
-            byte[] dd = GenerarPDFDeFamilia(jsonLegajosFirmados.nroLegajo, jsonLegajosFirmados.codigo, jsonLegajosFirmados.sigea, jsonLegajosFirmados.familia, ref docIdsRollback);
-            //                    dd = consumeServiceRestApi.GetDocumentData(UserId, MapIndex["despacho"].ToString().Replace("doc_i",""), docId, false, false, false, "");
+            string newpdffilename = GenerarPDFDeFamiliaFTP(jsonLegajosFirmados.nroLegajo, jsonLegajosFirmados.codigo, jsonLegajosFirmados.sigea, jsonLegajosFirmados.familia, ref docIdsRollback);
 
 
+            string FileName = $"0{jsonLegajosFirmados.familia}-{jsonLegajosFirmados.nroLegajo}-{jsonLegajosFirmados.codigo}-{jsonLegajosFirmados.sigea.Replace("/","-")}.pdf";
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se nombra al pdf como " + URLFTP + "\\" + FileName);
 
-//            Familia(2 digitos) - Nro Despacho - Codigo - Sigea.pdf
-//El Sigea, es un valor que segun el codigo esta presente o no.
-//Ejemplo sin Sigea:
-//            01 - 23053EC01000523C - 000 -.pdf
-//Ejemplo con Sigea:
-//            01 - 23053EC01000523C - 004 - 12638 - 391 - 2023 - 0.pdf
-//En caso de reemplazo del despacho, se volvera a notificar, el mismo archivo, el cual sera reemplazado.
-//En caso de no estar disponible la carpeta destino, se enviara un mail avisando y se reintentara en cada ciclo de ejecucion.
+            File.Move(newpdffilename, URLFTP + "\\" + FileName);
 
-
-            string FileName = $"{jsonLegajosFirmados.familia}-{jsonLegajosFirmados.nroLegajo}-{jsonLegajosFirmados.codigo}-{jsonLegajosFirmados.sigea}";
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se nombra al pdf como " + FileName);
-
-            StreamWriter SW = new StreamWriter(URLFTP + FileName);
-            SW.Write(dd);
-
-//            string fileBase64String = Convert.ToBase64String(dd, 0, dd.Length);
-           // jsonLegajosFirmados.file = fileBase64String;
-
-            //string FileName = jsonLegajosFirmados.nroLegajo
-            //    + "-" + jsonLegajosFirmados.codigo
-            //    + "-" + jsonLegajosFirmados.sigea
-            //    + "-" + jsonLegajosFirmados.familia + "_" + DateTime.Now.ToString("yyyyMMddHHmmss")
-            //    + ".pdf";
             jsonLegajosFirmados.fileName = FileName;
-            string JsonMessage = "";
-            JsonMessage = JsonConvert.SerializeObject(jsonLegajosFirmados);
-            //string response = consumeServiceRestApi.CallServiceRestApi(URLAPI, "POST", JsonMessage);
+            //string JsonMessage = "";
+            //JsonMessage = JsonConvert.SerializeObject(jsonLegajosFirmados);
 
         }
         private byte[] GenerarPDFDeFamilia(string NroDespacho, string codigo, string sigea, string familia, ref List<String> docIdsRollback)
@@ -790,6 +773,56 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
         }
 
+        private string GenerarPDFDeFamiliaFTP(string NroDespacho, string codigo, string sigea, string familia, ref List<String> docIdsRollback)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsError, "NroDespacho: " + NroDespacho);
+                ZTrace.WriteLineIf(ZTrace.IsError, "codigo: " + codigo);
+                ZTrace.WriteLineIf(ZTrace.IsError, "sigea: " + sigea);
+                ZTrace.WriteLineIf(ZTrace.IsError, "familia: " + familia);
+
+                var query = string.Empty;
+
+                if (codigo == "004" || codigo == "002" || codigo == "003")
+                {
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo,  i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", NroDespacho, codigo, sigea);
+                }
+                else
+                {
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' ", NroDespacho, codigo);
+                }
+
+                query = query + string.Format(" and  i139590 = {0} ", familia);
+                query = query + string.Format("order by i139609");
+
+                DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
+
+                string NewPDF = Zamba.Membership.MembershipHelper.AppTempPath + "\\temp\\" + NroDespacho + "-" + codigo + "-" + sigea + "-" + familia + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
+
+                List<string> Files = new List<string>();
+
+                foreach (DataRow r in dsFiles.Tables[0].Rows)
+                {
+                    docIdsRollback.Add(r["doc_id"].ToString());
+                    Files.Add(r["Archivo"].ToString());
+                    ZTrace.WriteLineIf(ZTrace.IsError, "Se agrega archivo: " + r["Archivo"].ToString());
+                }
+
+                ZTrace.WriteLineIf(ZTrace.IsError, "Se encontraron archivos cantidad: " + dsFiles.Tables[0].Rows.Count);
+
+                GeneraPDFFromAnotherPDFs(Files, NewPDF);
+
+                ZTrace.WriteLineIf(ZTrace.IsError, "Se genero el PDF: " + NewPDF);
+                return NewPDF;
+
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                throw new Exception("No existen imagenes para el ticket");
+            }
+        }
         public List<string> GeneraPDFFromAnotherPDFs(List<string> TempList, string PathToSave)
         {
             try

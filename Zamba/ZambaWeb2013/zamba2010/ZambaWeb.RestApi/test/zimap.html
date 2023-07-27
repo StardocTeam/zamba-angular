@@ -105,7 +105,8 @@
                                 <input id="port" placeholder="Ingrese IP o SessionInfo" class="form-control" />
                             </div>
                             <br />
-                            <span>datos opcionales para cuando es un usuario nuevo.</span>
+                          
+
                             <div class="form-group">
                                 <span>Server:</span>
                                 <input id="server" placeholder="Ingrese Nombre o Razon Social" class="form-control" />
@@ -173,12 +174,20 @@
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
         $("#domain").val("MGD")
-        $("#user").val("eseleme@marsh.com")
+        $("#user").val("eseleme")
         $("#password").val("Julio2023*")
         $("#server").val("nasa1mail.mmc.com")
         $("#port").val("143")
         $("#exportedFolder").val("INBOX/B")
         $("#exportFolder").val("INBOX/F")
+        $("#secureSocketOptions").val("SslOnConnect")
+
+        $("#user").val("martyncho@hotmail.com")
+        $("#password").val("Countach2606*")
+        $("#server").val("outlook.office365.com")
+        $("#port").val("983")
+        $("#exportedFolder").val("exported")
+        $("#exportFolder").val("export")
         $("#secureSocketOptions").val("SslOnConnect")
     });
 
@@ -216,7 +225,8 @@
         }
 
         var genericRequest = {
-            UserId: 3,
+            UserId: 160419,
+            //UserId: 160419,
             Params: data,
         };
 

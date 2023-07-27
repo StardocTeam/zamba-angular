@@ -1,10 +1,6 @@
 ﻿using MimeKit;
-using MailKit.Net.Imap;
 using System.IO;
 using System;
-using MailKit.Search;
-using MailKit;
-using MailKit.Security;
 using System.Net;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,115 +9,130 @@ using Zamba.Core;
 using Zamba.FileTools;
 using Zamba;
 using System.Security;
+using MailKit.Security;
+using MailKit;
 
 namespace EmailRetrievalAPI.Controllers
 {
     public class ZImapClient //: ISpireEmailTools
     {
-        public class ImapConfig
+        //public class ImapConfig
+        //{
+        //    public string ImapServer = "nasa1mail.mmc.com";
+        //    public long ImapPort = 143;
+        //    public string secureSocketOptions = "Auto";
+        //    public string ImapUsername = "eseleme\\pedidoscaucion@marsh.com";
+        //    public string ImapPassword = "Julio2023";
+        //    public string FolderName = "INBOX";
+        //    public string ExportFolderPath = "exported";
+
+        //}
+
+        public class ImapConfig// : IImapConfig
         {
-            public string ImapServer = "nasa1mail.mmc.com";
-            public int ImapPort = 143;
-            public SecureSocketOptions secureSocketOptions = SecureSocketOptions.Auto;
-            public string ImapUsername = "eseleme\\pedidoscaucion@marsh.com";
-            public string ImapPassword = "Julio2023";
-            public string FolderName = "INBOX";
-            public string ExportFolderPath = "exported";
-            public string ImapDomain = "MGD";
+            public string ImapServer { get; set; }
+            public int ImapPort { get; set; }
+            public string secureSocketOptions { get; set; }
+            public string ImapUsername { get; set; }
+            public string ImapPassword { get; set; }
+            public string FolderName { get; set; }
+            public string ExportFolderPath { get; set; }
+
 
         }
 
-        public class ZMessage {
-            public MimeMessage message;
-            public UniqueId uniqueId;
-            public HeaderList headerList;
-        }
 
-        public string RetrieveEmails(ImapConfig config)
-        {
+        //public class ZMessage {
+        //    public MimeMessage message;
+        //    public UniqueId uniqueId;
+        //    public HeaderList headerList;
+        //}
 
-            List<string> log = new List<string>();
+        //public string RetrieveEmails(ImapConfig config)
+        //{
 
-            try
-            {
+        //    List<string> log = new List<string>();
 
-                // Configure the certificate validation callback to trust the certificate
-                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+        //    try
+        //    {
 
-                using (var client = new ImapClient())
-                {
-                    // Ignore certificate validation for the IMAP connection
-                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+        //        // Configure the certificate validation callback to trust the certificate
+        //        ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
 
-                    log.Add("Connect");
-                    client.Connect(config.ImapServer, config.ImapPort, config.secureSocketOptions);
+        //        using (var client = new ImapClient())
+        //        {
+        //            // Ignore certificate validation for the IMAP connection
+        //            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                    log.Add("Authenticate");
-                    ICredentials cred = new NetworkCredential(config.ImapUsername,config.ImapPassword, config.ImapDomain);
-                    client.Authenticate(cred);
+        //            log.Add("Connect");
+        //            client.Connect(config.ImapServer, config.ImapPort, config.secureSocketOptions);
 
-                    log.Add("GetFolder");
-                    var folder = client.GetFolder(config.FolderName);
-                    folder.Open(FolderAccess.ReadWrite);
+        //            log.Add("Authenticate");
+        //            ICredentials cred = new NetworkCredential(config.ImapUsername,config.ImapPassword, config.ImapDomain);
+        //            client.Authenticate(cred);
 
-                    var uids = folder.Search(SearchQuery.Not(SearchQuery.Deleted));
+        //            log.Add("GetFolder");
+        //            var folder = client.GetFolder(config.FolderName);
+        //            folder.Open(FolderAccess.ReadWrite);
 
-                    if (!Directory.Exists(config.ExportFolderPath))
-                        Directory.CreateDirectory(config.ExportFolderPath);
+        //            var uids = folder.Search(SearchQuery.Not(SearchQuery.Deleted));
 
-                    foreach (var uid in uids)
-                    {
-                        try
-                        {
+        //            if (!Directory.Exists(config.ExportFolderPath))
+        //                Directory.CreateDirectory(config.ExportFolderPath);
 
-                            var message = folder.GetMessage(uid);
+        //            foreach (var uid in uids)
+        //            {
+        //                try
+        //                {
 
-                            // Check if the email has been previously retrieved
-                            var isPreviouslyRetrieved = IsPreviouslyRetrieved(uid.ToString());
-                            if (isPreviouslyRetrieved)
-                                continue;
+        //                    var message = folder.GetMessage(uid);
 
-                            // Create a local email file with .msg extension
-                            var filePath = Path.Combine(config.ExportFolderPath, $"{uid}.eml");
-                            using (var stream = System.IO.File.Create(filePath))
-                            {
-                                message.WriteTo(FormatOptions.Default, stream);
-                            }
+        //                    // Check if the email has been previously retrieved
+        //                    var isPreviouslyRetrieved = IsPreviouslyRetrieved(uid.ToString());
+        //                    if (isPreviouslyRetrieved)
+        //                        continue;
 
-                            IMailFolder newfolder = folder;
-                            try
-                            {
-                                newfolder = folder.GetSubfolder("Exported");
+        //                    // Create a local email file with .msg extension
+        //                    var filePath = Path.Combine(config.ExportFolderPath, $"{uid}.eml");
+        //                    using (var stream = System.IO.File.Create(filePath))
+        //                    {
+        //                        message.WriteTo(FormatOptions.Default, stream);
+        //                    }
 
-                            }
-                            catch (FolderNotFoundException)
-                            {
-                                folder.Create("Exported", true);
-                                newfolder = folder.GetSubfolder("Exported");
-                            }
+        //                    IMailFolder newfolder = folder;
+        //                    try
+        //                    {
+        //                        newfolder = folder.GetSubfolder("Exported");
 
-                            // Move the email to the exported folder
-                            folder.MoveTo(uid, newfolder);
+        //                    }
+        //                    catch (FolderNotFoundException)
+        //                    {
+        //                        folder.Create("Exported", true);
+        //                        newfolder = folder.GetSubfolder("Exported");
+        //                    }
 
-                            log.Add($"Mail OK: {uid} - {message.Subject}");
-                        }
-                        catch (Exception ex)
-                        {
-                            log.Add($"Mail ERROR : {uid} - {ex.ToString()}");
-                        }
-                    }
+        //                    // Move the email to the exported folder
+        //                    folder.MoveTo(uid, newfolder);
 
-                    client.Disconnect(true);
-                }
+        //                    log.Add($"Mail OK: {uid} - {message.Subject}");
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    log.Add($"Mail ERROR : {uid} - {ex.ToString()}");
+        //                }
+        //            }
 
-            }
-            catch (Exception ex)
-            {
-                log.Add($"ERROR : {ex.ToString()}");
-            }
+        //            client.Disconnect(true);
+        //        }
 
-            return string.Join(System.Environment.NewLine, log);
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Add($"ERROR : {ex.ToString()}");
+        //    }
+
+        //    return string.Join(System.Environment.NewLine, log);
+        //}
 
         private bool IsPreviouslyRetrieved(string uid)
         {
@@ -234,74 +245,74 @@ namespace EmailRetrievalAPI.Controllers
         //}
 
         //private String GetMails_WithRules(ImapClient imapClient, Dictionary<string, string> Params)
-        private List<ZMessage> GetMailsFiltered(DTOObjectImap Params)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecucion de metodo de filtrado.");
+        //        private List<ZMessage> GetMailsFiltered(DTOObjectImap Params)
+        //        {
+        //            try
+        //            {
+        //                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecucion de metodo de filtrado.");
 
-                var folder = imapClient.GetFolder(Params.Carpeta);
-                folder.Open(FolderAccess.ReadWrite);
+        //                var folder = imapClient.GetFolder(Params.Carpeta);
+        //                folder.Open(FolderAccess.ReadWrite);
 
-                List<ZMessage> List_ImapMessageDTO = new List<ZMessage>();
+        //                List<ZMessage> List_ImapMessageDTO = new List<ZMessage>();
 
-                if (Convert.ToInt32(Params.Filtrado.ToString()) == 0)
-                {
-                    var uids = folder.Search(SearchQuery.Not(SearchQuery.Deleted));  // Params.Filtrado.ToString()
+        //                if (Convert.ToInt32(Params.Filtrado.ToString()) == 0)
+        //                {
+        //                    var uids = folder.Search(SearchQuery.Not(SearchQuery.Deleted));  // Params.Filtrado.ToString()
 
-                    foreach (UniqueId uid in uids)
-                    {
-                        //HeaderList header = folder.GetHeaders(uid);
-                      MimeMessage message =  folder.GetMessage(uid);
-                        ZMessage zmessage = new ZMessage();
-                        zmessage.message = message;
-                        zmessage.uniqueId = uid;
+        //                    foreach (UniqueId uid in uids)
+        //                    {
+        //                        //HeaderList header = folder.GetHeaders(uid);
+        //                      MimeMessage message =  folder.GetMessage(uid);
+        //                        ZMessage zmessage = new ZMessage();
+        //                        zmessage.message = message;
+        //                        zmessage.uniqueId = uid;
 
-                        if (Val_ParamsToGetMails(Params, zmessage))
-                            List_ImapMessageDTO.Add(zmessage);
-                    }
-                }
-                else if (Convert.ToInt32(Params.Filtrado.ToString()) != 0)
-                {
-                    IList<UniqueId> IMAP_Colection = null;
+        //                        if (Val_ParamsToGetMails(Params, zmessage))
+        //                            List_ImapMessageDTO.Add(zmessage);
+        //                    }
+        //                }
+        //                else if (Convert.ToInt32(Params.Filtrado.ToString()) != 0)
+        //                {
+        //                    IList<UniqueId> IMAP_Colection = null;
 
-                    try
-                    {
-                        IMAP_Colection = FilterFolderSelected(folder, Params.Filtro_campo, Params.Filtro_valor);
-                    }
-                    catch (Exception)
-                    {
-                    }
+        //                    try
+        //                    {
+        //                        IMAP_Colection = FilterFolderSelected(folder, Params.Filtro_campo, Params.Filtro_valor);
+        //                    }
+        //                    catch (Exception)
+        //                    {
+        //                    }
 
-                    if (IMAP_Colection != null)
-                    {
-                        foreach (UniqueId uid in IMAP_Colection)
-                        {
-//                            HeaderList header = folder.GetHeaders(uid);
-                            MimeMessage message = folder.GetMessage(uid);
-                            ZMessage zmessage = new ZMessage();
-                            zmessage.message = message;
-                            zmessage.uniqueId = uid;
-                            if (Val_ParamsToGetMails(Params, zmessage))
-                                List_ImapMessageDTO.Add(zmessage);
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception("Ocurrio un error en los parametros de filtrado.");
-                }
+        //                    if (IMAP_Colection != null)
+        //                    {
+        //                        foreach (UniqueId uid in IMAP_Colection)
+        //                        {
+        ////                            HeaderList header = folder.GetHeaders(uid);
+        //                            MimeMessage message = folder.GetMessage(uid);
+        //                            ZMessage zmessage = new ZMessage();
+        //                            zmessage.message = message;
+        //                            zmessage.uniqueId = uid;
+        //                            if (Val_ParamsToGetMails(Params, zmessage))
+        //                                List_ImapMessageDTO.Add(zmessage);
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    throw new Exception("Ocurrio un error en los parametros de filtrado.");
+        //                }
 
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se han filtrado " + List_ImapMessageDTO.Count + " correo/s.");
+        //                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se han filtrado " + List_ImapMessageDTO.Count + " correo/s.");
 
-                return List_ImapMessageDTO;
-            }
-            catch (Exception ex)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                throw ex;
-            }
-        }
+        //                return List_ImapMessageDTO;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+        //                throw ex;
+        //            }
+        //        }
 
         //private bool Val_ParamsToGetMails(Dictionary<string, string> Params, ZMessage item)
         //{
@@ -471,48 +482,48 @@ namespace EmailRetrievalAPI.Controllers
         //    }
         //}
 
-        ImapClient imapClient = null;
+        //ImapClient imapClient = null;
         IMailFolder folder = null;
 
-        public void ConnectToExchange(IDTOObjectImap Params)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Entrando a nuevo 'connectToExchange'.");
+        //public void ConnectToExchange(IDTOObjectImap Params)
+        //{
+        //    try
+        //    {
+        //        ZTrace.WriteLineIf(ZTrace.IsInfo, "Entrando a nuevo 'connectToExchange'.");
 
-                #region Parametros de Conexion
-                string Host = Params.Direccion_servidor;
-                int Puerto = Convert.ToInt32(Params.Puerto);
-                string NomUsuario = Params.Nombre_usuario;
-                string Contraseña = Params.Password;
-                SecureSocketOptions secureSocketOptions = (SecureSocketOptions)Enum.Parse(typeof(SecureSocketOptions), Params.Protocolo);
+        //        #region Parametros de Conexion
+        //        string Host = Params.Direccion_servidor;
+        //        int Puerto = Convert.ToInt32(Params.Puerto);
+        //        string NomUsuario = Params.Nombre_usuario;
+        //        string Contraseña = Params.Password;
+        //        SecureSocketOptions secureSocketOptions = (SecureSocketOptions)Enum.Parse(typeof(SecureSocketOptions), Params.Protocolo);
 
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: " + Host);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Puerto: " + Puerto.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "NomUsuario: " + NomUsuario);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Contraseña: " + Contraseña);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Contraseña: " + Params.Protocolo);
-                #endregion
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: " + Host);
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Puerto: " + Puerto.ToString());
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "NomUsuario: " + NomUsuario);
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Contraseña: " + Contraseña);
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Contraseña: " + Params.Protocolo);
+        //        #endregion
 
-                // Configure the certificate validation callback to trust the certificate
-                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
+        //        // Configure the certificate validation callback to trust the certificate
+        //        ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
 
-                imapClient = new ImapClient();
-                // Ignore certificate validation for the IMAP connection
-                imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+        //        imapClient = new ImapClient();
+        //        // Ignore certificate validation for the IMAP connection
+        //        imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                imapClient.Connect(Host, Puerto, secureSocketOptions);
+        //        imapClient.Connect(Host, Puerto, secureSocketOptions);
 
-                imapClient.Authenticate(NomUsuario, Contraseña);
+        //        imapClient.Authenticate(NomUsuario, Contraseña);
 
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Conexion al Exchange exitosa.");
-            }
-            catch (Exception ex)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.ToString());
-                throw ex;
-            }
-        }
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Conexion al Exchange exitosa.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.ToString());
+        //        throw ex;
+        //    }
+        //}
 
         /// <summary>
         /// Determina si el rango entre Fecha y Hora del servidor y la Fecha del correo recibido en la casilla son validos.
@@ -526,12 +537,12 @@ namespace EmailRetrievalAPI.Controllers
         //    return ((int)(FechaACtual - FechaDelCorreo).Days) < Dias ? true : false;
         //}
 
-        private IList<UniqueId> FilterFolderSelected(IMailFolder folder,string Campo, string Valor)
-        {
-            //return imapClient.Search("'" + Campo + "' " + "Contains" + " '" + Valor + "'");
-            return folder.Search(SearchQuery.Not(SearchQuery.Deleted));
+        //private IList<UniqueId> FilterFolderSelected(IMailFolder folder,string Campo, string Valor)
+        //{
+        //    //return imapClient.Search("'" + Campo + "' " + "Contains" + " '" + Valor + "'");
+        //    return folder.Search(SearchQuery.Not(SearchQuery.Deleted));
 
-        }
+        //}
 
         //private AttachmentCollection ExtraerAdjuntos(IMailFolder folder,UniqueId UniqueId)
         //{
@@ -573,39 +584,203 @@ namespace EmailRetrievalAPI.Controllers
         //    }
         //}
 
-        private List<ZMessage> GetEmailsFromServer(DTOObjectImap Dic_paramRequest)
+        //private List<ZMessage> GetEmailsFromServer(DTOObjectImap Dic_paramRequest)
+        //{
+        //    try
+        //    {
+        //        ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo correos de '" + Dic_paramRequest.Carpeta + "'...");
+        //        List<ZMessage> ListaDeEmails = GetMailsFiltered(Dic_paramRequest);
+
+        //        if (Convert.ToInt32(Dic_paramRequest.Filtro_noleidos.ToString()) == 1)
+        //        {
+        //            if (ListaDeEmails.Count > 0)
+        //                UserPreferences.setValue("LastDateObtained", DateTime.Now.Ticks.ToString(), Zamba.UPSections.Mail);
+        //        }
+
+        //        ZTrace.WriteLineIf(ZTrace.IsInfo, "Correos obtenidos del servidor.");
+        //        return ListaDeEmails;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ZClass.raiseerror(ex);
+        //        ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest.Carpeta + "'.");
+        //        throw ex;
+        //    }
+        //}
+
+
+        private List<ZMessage> RequestEmailsFromServer(DTOObjectImap Dic_paramRequest)
         {
             try
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo correos de '" + Dic_paramRequest.Carpeta + "'...");
-                List<ZMessage> ListaDeEmails = GetMailsFiltered(Dic_paramRequest);
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo correos de '" + Dic_paramRequest.Carpeta + "'...");
+                //List<ZMessage> ListaDeEmails = GetMailsFiltered(Dic_paramRequest);
 
-                if (Convert.ToInt32(Dic_paramRequest.Filtro_noleidos.ToString()) == 1)
-                {
-                    if (ListaDeEmails.Count > 0)
-                        UserPreferences.setValue("LastDateObtained", DateTime.Now.Ticks.ToString(), Zamba.UPSections.Mail);
-                }
+                //if (Convert.ToInt32(Dic_paramRequest.Filtro_noleidos.ToString()) == 1)
+                //{
+                //    if (ListaDeEmails.Count > 0)
+                //        UserPreferences.setValue("LastDateObtained", DateTime.Now.Ticks.ToString(), Zamba.UPSections.Mail);
+                //}
+                ConsumeServiceRestApi RestClient = new ConsumeServiceRestApi();
+                string ZImapClientWebAppURL = ZOptBusiness.GetValueOrDefault("ZImapClientWebAppURL", "https://localhost:44365/api/Imap/");
 
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Correos obtenidos del servidor.");
-                return ListaDeEmails;
+                ImapConfig config = new ImapConfig();
+                config.secureSocketOptions = Dic_paramRequest.Protocolo;
+                config.ExportFolderPath = Dic_paramRequest.CarpetaDest;
+                config.ImapPort = Dic_paramRequest.Puerto;
+                //TODO: ML Ver el tema del dominio
+                //config.ImapDomain = Dic_paramRequest.Domain;
+                config.ImapPassword = Dic_paramRequest.Password;
+                config.FolderName = Dic_paramRequest.Carpeta;
+                config.ImapServer = Dic_paramRequest.Direccion_servidor;
+                config.ImapUsername = Dic_paramRequest.Nombre_usuario;
+
+                ZTrace.WriteLineIf(ZTrace.IsError, "ZImapClientWebAppURL: " + ZImapClientWebAppURL);
+
+                var response = RestClient.CallServiceRestApi(ZImapClientWebAppURL, "POST", Newtonsoft.Json.JsonConvert.SerializeObject(config, Newtonsoft.Json.Formatting.Indented));
+                List<ZMessage> messages = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ZMessage>>(response);
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Cantidad de correos obtenidos del servidor: " + messages.Count);
+                return messages;
+                //                return ListaDeEmails;
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest.Carpeta + "'.");
-                throw ex;
+                throw;
             }
         }
 
+        public class ZMessage
+        {
+            public UniqueId uniqueId;
+            public string Subject;
+            public string From;
+            public string To;
+            public string Cc;
+            public DateTimeOffset Date;
+            public string Body;
+            public List<ZMessageAttach> Attachs = new List<ZMessageAttach>();
+            public string File;
+            public string MessageId;
+        }
 
+        public class ZMessageAttach
+        {
+            public string File;
+            public string Name;
+        }
 
-        public void InsertEmailsInZamba(List<IDTOObjectImap> imapProcessList, Object rb)
+        //public void InsertEmailsInZamba(List<IDTOObjectImap> imapProcessList, Object rb)
+        //{
+        //    //Agregar trace log
+        //    IResults_Business RB = (IResults_Business)rb;
+
+        //    foreach (DTOObjectImap imapProcess in imapProcessList)
+        //    {
+        //        ZTrace.WriteLineIf(ZTrace.IsInfo, $"Proceso {imapProcess.Nombre_proceso} esta activo: {imapProcess.Is_Active.ToString()}");
+
+        //        if (imapProcess.Is_Active != 0)
+        //        {
+        //            try
+        //            {
+        //                string originalUserName = imapProcess.Nombre_usuario;
+
+        //                if (imapProcess.GenericInbox != 0)
+        //                {
+        //                    string CasillaGenericaImap = ZOptBusiness.GetValue("CasillaGenericaImap");
+        //                    imapProcess.Nombre_usuario = CasillaGenericaImap + "\\" + imapProcess.Nombre_usuario + "\\" + imapProcess.Correo_electronico;
+        //                }
+
+        //                //Instanciar el ImapClient
+        //                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Iniciada ejecucion de proceso con ID:" + imapProcess.Id_proceso + " Nombre del proceso:" + imapProcess.Nombre_proceso);
+        //                ConnectToExchange(imapProcess);
+
+        //                //GetEmails               
+        //                List<ZMessage> ListaDeEmails = GetEmailsFromServer(imapProcess); //.OrderByDescending(i => i.SequenceNumber).ToList();
+
+        //                imapProcess.Nombre_usuario = originalUserName;
+
+        //                foreach (ZMessage eMail in ListaDeEmails)
+        //                {
+        //                    try
+        //                    {
+
+        //                        if (imapProcess.CarpetaDest != null)
+        //                        {
+
+        //                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Procesando correo: UniqueId: " + eMail.uniqueId + " - SequenceNumber:" + eMail.message.MessageId);
+
+        //                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Asunto del correo en iteracion: " + eMail.message.Subject);
+
+        //                            string SubjectName = GetNewSubjectName(eMail);
+        //                            string TempMsgPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".eml");
+
+        //                            //Se obtiene mail completo.
+        //                            // MailMessage FullMessage = imapClient.GetMessage(eMail.UniqueId);
+
+        //                            //realizando remapeado de imagenes embebidas
+        //                            //setSrcFromBody(eMail, eMail);
+
+        //                            //Se guarda el archivo msg en el sistema.
+        //                            //SaveMsgFile(imapProcess, eMail, TempMsgPath);
+        //                            // Create a local email file with .msg extension
+        //                            using (var stream = System.IO.File.Create(TempMsgPath))
+        //                            {
+        //                                eMail.message.WriteTo(FormatOptions.Default, stream);
+        //                            }
+
+        //                            //Se inserta la tarea en el sistema.
+        //                            InsertResult eMailInsertResult = InsertResult.NoInsertado;
+        //                            INewResult eMailNewResult = InsertEMail(imapProcess, eMail, ref eMailInsertResult, RB, TempMsgPath);
+
+        //                            //Se mueve el correo dentro de la casilla.
+        //                            if (eMailInsertResult == InsertResult.Insertado)
+        //                            {
+        //                                if (imapProcess.Exportar_adjunto_por_separado == 1)
+        //                                {
+        //                                    foreach (var attach in eMail.message.Attachments)
+        //                                    {
+        //                                        InsertResult attachInsertResult = InsertResult.NoInsertado;
+        //                                        INewResult attachNewResult = InsertEMail(imapProcess, eMail, ref attachInsertResult, RB, TempMsgPath);
+        //                                    }
+        //                                }
+
+        //                                MoveEmail(folder,eMail.uniqueId, imapProcess.CarpetaDest);
+        //                            }
+
+        //                           // eMail.message.Attachments.Clear();
+        //                        }
+        //                    }
+        //                    catch (Exception ex)
+        //                    {
+        //                        ZClass.raiseerror(ex);
+        //                        ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo: UniqueID: " + eMail.uniqueId + " - SequenceNumber:" + eMail.message.MessageId);
+        //                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Asunto del correo iterado: " + eMail.message.Subject);
+        //                        ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
+        //                    }
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                ZClass.raiseerror(ex);
+        //                ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error en el proceso con ID: " + imapProcess.Id_proceso);
+        //                ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
+        //            }
+        //        }
+        //    }
+        //}
+
+        public void RequestEmailsAndInsertInZamba(List<IDTOObjectImap> imapProcessList, Object rb)
         {
             //Agregar trace log
             IResults_Business RB = (IResults_Business)rb;
 
             foreach (DTOObjectImap imapProcess in imapProcessList)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, $"Proceso {imapProcess.Nombre_proceso} esta activo: {imapProcess.Is_Active.ToString()}");
+
                 if (imapProcess.Is_Active != 0)
                 {
                     try
@@ -620,10 +795,9 @@ namespace EmailRetrievalAPI.Controllers
 
                         //Instanciar el ImapClient
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Iniciada ejecucion de proceso con ID:" + imapProcess.Id_proceso + " Nombre del proceso:" + imapProcess.Nombre_proceso);
-                        ConnectToExchange(imapProcess);
 
                         //GetEmails               
-                        List<ZMessage> ListaDeEmails = GetEmailsFromServer(imapProcess); //.OrderByDescending(i => i.SequenceNumber).ToList();
+                        List<ZMessage> ListaDeEmails = RequestEmailsFromServer(imapProcess); //.OrderByDescending(i => i.SequenceNumber).ToList();
 
                         imapProcess.Nombre_usuario = originalUserName;
 
@@ -631,30 +805,18 @@ namespace EmailRetrievalAPI.Controllers
                         {
                             try
                             {
-
                                 if (imapProcess.CarpetaDest != null)
                                 {
 
-                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Procesando correo: UniqueId: " + eMail.uniqueId + " - SequenceNumber:" + eMail.message.MessageId);
+                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Procesando correo: UniqueId: " + eMail.uniqueId + " - SequenceNumber:" + eMail.MessageId);
 
-                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Asunto del correo en iteracion: " + eMail.message.Subject);
+                                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Asunto del correo en iteracion: " + eMail.Subject);
 
                                     string SubjectName = GetNewSubjectName(eMail);
                                     string TempMsgPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".eml");
 
-                                    //Se obtiene mail completo.
-                                    // MailMessage FullMessage = imapClient.GetMessage(eMail.UniqueId);
-
-                                    //realizando remapeado de imagenes embebidas
-                                    //setSrcFromBody(eMail, eMail);
-
-                                    //Se guarda el archivo msg en el sistema.
-                                    //SaveMsgFile(imapProcess, eMail, TempMsgPath);
                                     // Create a local email file with .msg extension
-                                    using (var stream = System.IO.File.Create(TempMsgPath))
-                                    {
-                                        eMail.message.WriteTo(FormatOptions.Default, stream);
-                                    }
+                                    File.WriteAllBytes(TempMsgPath, System.Convert.FromBase64String(eMail.File));
 
                                     //Se inserta la tarea en el sistema.
                                     InsertResult eMailInsertResult = InsertResult.NoInsertado;
@@ -665,24 +827,24 @@ namespace EmailRetrievalAPI.Controllers
                                     {
                                         if (imapProcess.Exportar_adjunto_por_separado == 1)
                                         {
-                                            foreach (var attach in eMail.message.Attachments)
+                                            foreach (var attach in eMail.Attachs)
                                             {
                                                 InsertResult attachInsertResult = InsertResult.NoInsertado;
                                                 INewResult attachNewResult = InsertEMail(imapProcess, eMail, ref attachInsertResult, RB, TempMsgPath);
                                             }
                                         }
 
-                                        MoveEmail(folder,eMail.uniqueId, imapProcess.CarpetaDest);
+                                        MoveEmail(folder, eMail.uniqueId, imapProcess.CarpetaDest);
                                     }
 
-                                   // eMail.message.Attachments.Clear();
+                                    // eMail.message.Attachments.Clear();
                                 }
                             }
                             catch (Exception ex)
                             {
                                 ZClass.raiseerror(ex);
-                                ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo: UniqueID: " + eMail.uniqueId + " - SequenceNumber:" + eMail.message.MessageId);
-                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Asunto del correo iterado: " + eMail.message.Subject);
+                                ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error al procesar el correo: UniqueID: " + eMail.uniqueId + " - SequenceNumber:" + eMail.MessageId);
+                                ZTrace.WriteLineIf(ZTrace.IsInfo, "Asunto del correo iterado: " + eMail.Subject);
                                 ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
                             }
                         }
@@ -699,7 +861,7 @@ namespace EmailRetrievalAPI.Controllers
 
         private static string GetNewSubjectName(ZMessage eMail)
         {
-            var SubjectName = eMail.message.Subject != "" ? eMail.message.Subject.ToString() : "SIN ASUNTO";
+            var SubjectName = eMail.Subject != "" ? eMail.Subject.ToString() : "SIN ASUNTO";
 
             int MaxNameLimit = 248;
 
@@ -1438,38 +1600,19 @@ namespace EmailRetrievalAPI.Controllers
                     UserPreferencesFactory.setValueDB("IdAutoIncrementExporta", (int.Parse(ExportCode) + 1).ToString(), UPSections.ExportaPreferences, 0);
                 }
 
-                newResult.get_GetIndexById(imapProcess.Enviado_por).DataTemp = string.Join(";",eMail.message.From);
+                newResult.get_GetIndexById(imapProcess.Enviado_por).DataTemp = string.Join(";", eMail.From);
 
-                string StringTo = "";
-
-                foreach (InternetAddress item in eMail.message.To)
-                {
-                    StringTo += item.Name;
-
-                    if (eMail.message.To.Last() != item)
-                        StringTo += "; ";
-                }
-
-                newResult.get_GetIndexById(imapProcess.Para).DataTemp = StringTo;
+                newResult.get_GetIndexById(imapProcess.Para).DataTemp = eMail.To;
 
                 if (imapProcess.Cc != 0)
                 {
-                    string StringCc = "";
-                    foreach (InternetAddress item in eMail.message.Cc)
-                    {
-                        StringCc += item.Name;
-
-                        if (eMail.message.Cc.Last() != item)
-                            StringCc += "; ";
-                    }
-
-                    newResult.get_GetIndexById(imapProcess.Cc).DataTemp = StringCc;
+                    newResult.get_GetIndexById(imapProcess.Cc).DataTemp = eMail.Cc;
                 }
 
-                newResult.get_GetIndexById(imapProcess.Fecha).DataTemp = eMail.message.Date.ToString();
-                newResult.get_GetIndexById(imapProcess.Asunto).DataTemp = eMail.message.Subject;
+                newResult.get_GetIndexById(imapProcess.Fecha).DataTemp = eMail.Date.ToString();
+                newResult.get_GetIndexById(imapProcess.Asunto).DataTemp = eMail.Subject;
 
-                MailAddress addressFrom = new MailAddress(eMail.message.From.ToString());
+                MailAddress addressFrom = new MailAddress(eMail.From.ToString());
 
                 newResult.File = TempMsgPath;
                 insertResult = RB.Insert(ref newResult, false, false, false, false, false, false, false);
@@ -1483,7 +1626,7 @@ namespace EmailRetrievalAPI.Controllers
             }
         }
 
-        public void MoveEmail(IMailFolder folder,UniqueId MessageId, string folderName)
+        public void MoveEmail(IMailFolder folder, UniqueId MessageId, string folderName)
         {
             try
             {
