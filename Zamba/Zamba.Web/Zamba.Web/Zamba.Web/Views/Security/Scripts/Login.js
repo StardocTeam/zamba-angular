@@ -73,7 +73,7 @@ function CheckIfAuthenticated() {
 }
 
 function LoginByGuid(userid, guid, redirectUrl) {
-    debugger;
+    
     var Params = {
         userid: userid,
         guid: guid

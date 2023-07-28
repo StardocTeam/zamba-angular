@@ -21,7 +21,7 @@ $(document).ready(function (n) {
         IniciarOKTA();
 });
 function IniciarOKTA() {
-    debugger;
+    
     //$("#mensajeLegal").text(mensajeLegal);
     $("#ingresar").hide();
     ObtenerConfiguracionOKTA();
@@ -31,7 +31,7 @@ function IniciarOKTA() {
 }
 
 function Logout() {
-    debugger;
+    
     var authClient = new OktaAuth({
         url: oktaInformation.baseUrl,
         clientId: oktaInformation.clientId,
@@ -62,7 +62,7 @@ function ObtenerConfiguracionOKTA() {
             ret = _error;
         }
     });
-    debugger;
+    
     
 }
 function MostrarEstado(texto) {
@@ -201,6 +201,10 @@ function GetIsMultipleSesion() {
         "method": "GET",        
         "success": function (response) {
             IsMultipleSesion = response;
+            if (IsMultipleSesion) {
+                $("#ZambaAuthentication").show();
+                $("#ZambaAuthentication").removeClass("hide");
+            }
         }
         ,
         "error": function (data, status, headers, config) {
