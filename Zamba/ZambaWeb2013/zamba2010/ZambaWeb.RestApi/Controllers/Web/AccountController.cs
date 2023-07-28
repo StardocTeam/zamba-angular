@@ -1,5 +1,6 @@
 ﻿using System.Web.Http.Controllers;
 using System.Text;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -335,6 +336,30 @@ namespace ZambaWeb.RestApi.Controllers
             public DateTime expiration;
         }
         public static List<StateOkta> ListStatesOkta = new List<StateOkta>();
+
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetIsMultipleSesion")]
+        [OverrideAuthorization]
+        public IHttpActionResult GetIsMultipleSesion()
+        {
+            bool AuhtenticationMultiple = false;
+            try
+            {
+                string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
+                if (!String.IsNullOrEmpty(strAuhtenticationMultiple))
+                    AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
+            }
+            catch (Exception)
+            {
+                
+            }
+            return Ok(AuhtenticationMultiple);
+        }
+
+
 
         [AllowAnonymous]
         [Route("validateOktaStateValue")]

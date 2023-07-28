@@ -2,11 +2,17 @@
 
 var logout = getUrlParameters().logout == "true";
 var ZambaWebRestApiURL;
+var IsMultipleSesion
 var serviceBaseAccount;
 var oktaInformation;
 var mensajeLegal = "    Este sistema es para ser utilizado solamente por usuarios autorizados. Toda la información contenida en los sistemas es propiedad de la Empresa y pueden ser supervisados, cifrados, leídos, copiados o capturados y dados a conocer de alguna manera, solamente por personas autorizadas.             El uso del sistema por cualquier persona, constituye de su parte un expreso consentimiento al monitoreo, intervención, grabación, lectura, copia o captura y revelación de tal intervención.            El usuario debe saber que en la utilización del sistema no tendrá privacidad frente a los derechos de la empresa responsable del sistema.            El uso indebido o no autorizado de este sistema genera  responsabilidad para el infractor, quién por ello estará sujeto al resultado de las acciones civiles y penales que la Empresa considere pertinente realizar en defensa de sus derechos y resguardo de la privacidad del sistema.            Si Usted no presta conformidad con las reglas precedentes y no está de acuerdo con ellas, desconéctese ahora.";
 
 $(document).ready(function (n) {
+    $("#ZambaAuthentication").hide();
+    GetIsMultipleSesion();
+    if (IsMultipleSesion) {
+        $("#ZambaAuthentication").show();
+    }    
     if (location.search == "" || logout) {
         $("#ingresar").show();
         return;
@@ -15,15 +21,17 @@ $(document).ready(function (n) {
         IniciarOKTA();
 });
 function IniciarOKTA() {
-
+    debugger;
     //$("#mensajeLegal").text(mensajeLegal);
     $("#ingresar").hide();
     ObtenerConfiguracionOKTA();
     Autenticar();
+    
 
 }
 
 function Logout() {
+    debugger;
     var authClient = new OktaAuth({
         url: oktaInformation.baseUrl,
         clientId: oktaInformation.clientId,
@@ -54,6 +62,8 @@ function ObtenerConfiguracionOKTA() {
             ret = _error;
         }
     });
+    debugger;
+    
 }
 function MostrarEstado(texto) {
     $("#estado").text(texto);
@@ -179,6 +189,24 @@ function ValidarToken(access_token, id_token, code) {
             $("#ingresar").show();
         }
     });
+}
+function GetIsMultipleSesion() {
+    ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
+    serviceBaseAccount = ZambaWebRestApiURL + "/Account/";
+    
+    $.ajax({
+        "async": false,
+        "crossDomain": true,
+        "url": serviceBaseAccount + "GetIsMultipleSesion",
+        "method": "GET",        
+        "success": function (response) {
+            IsMultipleSesion = response;
+        }
+        ,
+        "error": function (data, status, headers, config) {
+            
+        }
+    })
 }
 function GenerarOktaStateValue() {
 

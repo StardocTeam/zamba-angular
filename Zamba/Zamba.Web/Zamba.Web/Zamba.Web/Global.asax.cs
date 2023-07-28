@@ -101,9 +101,9 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            if(Request.AppRelativeCurrentExecutionFilePath == "~/")
+            if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
-                Response.Redirect(Request.Url.AbsoluteUri + "Views/Security/Login.aspx");
+                Response.Redirect(Request.Url.AbsolutePath +  "Views/Security/Login.aspx");
             }
             if (Request.Params.Count > 0)
             {
