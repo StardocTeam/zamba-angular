@@ -1418,7 +1418,7 @@ Public Class Results_Business
             '[sebastian 29/01/09] Se verifica si tiene el permiso de completar con el id mas alto el indice
             'y luego se lo agrega.
             'obtengo los permismos de los indices
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo Permisos")
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo Permisos para entidad: " & newResult.DocType.ID)
             'Dim IRI As Hashtable = UB.GetIndexsRights(newResult.DocType.ID, Zamba.Membership.MembershipHelper.CurrentUser.ID, True, True)
             'Si el indice es autoincremental le cargo el valor si no lo tiene
             Dim dsIndexsToIncrement As DataSet = DTB.GetIndexsProperties(newResult.DocType.ID)
@@ -1731,9 +1731,10 @@ Public Class Results_Business
     End Function
 
     Public Sub MapMail(newResult As INewResult)
-        ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Validando MSG...")
-        If newResult.FileName.ToLower().EndsWith(".msg") AndAlso File.Exists(newResult.FullPath) Then
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Mapeando archivo MSG...")
+        ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Validando MSG..." + newResult.FileName)
+        If (newResult.FileName.ToLower().EndsWith(".msg") OrElse newResult.FileName.ToLower().EndsWith(".eml")) AndAlso File.Exists(newResult.FullPath) Then
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Mapeando archivo MSG..." + newResult.FullPath)
+
             Dim message As MailMessage = MailMessage.Load(newResult.FullPath)
 
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Obteniendo atributos...")
@@ -1788,7 +1789,7 @@ Public Class Results_Business
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Id del atributo '" + item.Name + "': " + item.ID.ToString())
                         Dim IndexCode As String = ZOptBusiness.GetValueOrDefault("msgIndexCode", item.ID)
                         Dim Code As IIndex = newResult.GetIndexById(IndexCode)
-                        Code.DataTemp = IIf(Code IsNot Nothing, message.Id.Substring(0, message.Id.IndexOf("@")), "")
+                        Code.DataTemp = IIf(Code IsNot Nothing, message.Id, "")
 
                     Case "usuario correo"
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando 'UserMail'...")

@@ -1,52 +1,53 @@
-﻿using EmailRetrievalAPI.Controllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Policy;
-using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 using Zamba.Core;
+using System.Timers;
+using EmailRetrievalAPI.Controllers;
 using Zamba.FileTools;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using System.Windows.Forms.Automation;
 
-namespace Zamba.ImapWindowsService
+namespace Zamba.ZIMapDesktopTestApp
 {
-    public partial class IMAP : ServiceBase
+    public partial class Form1 : Form
     {
-        public IMAP()
+        public Form1()
         {
             InitializeComponent();
+
+
             if (Zamba.Servers.Server.ConInitialized == false)
             {
                 Zamba.Core.ZCore ZC = new Zamba.Core.ZCore();
                 ZC.InitializeSystem("Zamba.ImapWindowsService");
             }
         }
-        private Timer _timer;
+        private System.Timers.Timer _timer;
         private long userId;
 
-        protected override void OnStart(string[] args)
+        private void button1_Click(object sender, EventArgs e)
         {
-            ZTrace.WriteLineIf(ZTrace.IsInfo,"Servicio de windows IMAP iniciado");
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Servicio de windows IMAP iniciado");
 
             try
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo,"Ejecutando servicio IMAP...");
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando servicio IMAP...");
                 userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
                 IUser user = GetUser(userId);
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Membership.MembershipHelper.CurrentUser.ID " + Membership.MembershipHelper.CurrentUser.ID);
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo,"Ocurrio un error " + ex.Message);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ocurrio un error " + ex.Message);
             }
 
             ConfigurarTimer();
@@ -70,12 +71,13 @@ namespace Zamba.ImapWindowsService
 
         private void ConfigurarTimer()
         {
-            _timer = new Timer();
+            _timer = new System.Timers.Timer();
             _timer.AutoReset = true;
             _timer.Interval = 60000;
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(TimerTick);
         }
+
         private bool Processing;
         private void TimerTick(object source, ElapsedEventArgs e)
         {
@@ -91,19 +93,14 @@ namespace Zamba.ImapWindowsService
 
             //ConsumeServiceRestApi RestClient = new ConsumeServiceRestApi();
             //var data = "{ \"ImapServer\": \"nasa1mail.mmc.com\", \"ImapPort\": 143, \"secureSocketOptions\": \"Auto\", \"ImapUsername\": \"MGD\\\\eseleme\\\\pedidoscaucion@marsh.com\", \"ImapPassword\": \"Octubre2023\", \"FolderName\": \"INBOX/F\", \"ExportFolderPath\": \"INBOX/A\" }";
-            //RestClient.CallServiceRestApi("https://localhost:44365/swagger/api/imap/get","POST",data);
+            //RestClient.CallServiceRestApi("https://localhost:44365/api/imap/getimapemails", "POST", data);
         }
-      
+
         private void EjecutarServicioIMAP()
         {
             try
             {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
-                userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
-                IUser user = GetUser(userId);
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Membership.MembershipHelper.CurrentUser.ID " + Membership.MembershipHelper.CurrentUser.ID);
-
                 //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
 
                 ZImapClient e = new ZImapClient();
@@ -129,7 +126,7 @@ namespace Zamba.ImapWindowsService
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw;
+                MessageBox.Show(ex.ToString());
             }
 
         }
@@ -210,9 +207,9 @@ namespace Zamba.ImapWindowsService
             return ResponseContent;
         }
 
-        protected override void OnStop()
-        {
-            ZTrace.WriteLineIf(ZTrace.IsInfo,"Servicio de windows IMAP finalizado");
-        }
+
+
+
+
     }
 }

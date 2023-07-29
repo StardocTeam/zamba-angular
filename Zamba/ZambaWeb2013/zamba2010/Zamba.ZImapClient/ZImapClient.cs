@@ -1614,6 +1614,7 @@ namespace EmailRetrievalAPI.Controllers
 
                 MailAddress addressFrom = new MailAddress(eMail.From.ToString());
 
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "TempMsgPath: " + TempMsgPath);
                 newResult.File = TempMsgPath;
                 insertResult = RB.Insert(ref newResult, false, false, false, false, false, false, false);
                 File.Delete(TempMsgPath);

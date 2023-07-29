@@ -35,7 +35,7 @@ Public NotInheritable Class CoreData
         Try
 
             If Server.isOracle Then
-                Dim parValues() As Object = {DirectCast(IdType, Int32), 5}
+                Dim parValues() As Object = {DirectCast(IdType, Int32)}
                 DSTEMP = con.ExecuteDataset("zsp_objects_100.GetAndSetLastId", parValues)
                 Id = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString)
             Else

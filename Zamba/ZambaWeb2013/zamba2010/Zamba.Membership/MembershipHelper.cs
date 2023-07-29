@@ -106,6 +106,7 @@ namespace Zamba.Membership
         //    tableIni.Add(key, value);
         //}
 
+        private static IUser _currentUser = null;
         public static IUser CurrentUser
         {
             get
@@ -115,7 +116,7 @@ namespace Zamba.Membership
                     return (IUser)HttpContext.Current.Session["User"];
                 }
                 else
-                    return null;
+                    return _currentUser;
             }
         }
 
@@ -123,7 +124,10 @@ namespace Zamba.Membership
         {
             if (HttpContext.Current != null && HttpContext.Current.Session != null)
                 HttpContext.Current.Session["User"] = user;
+            else
+                _currentUser = user;
         }
+
 
         public static String StartUpPath
         {
