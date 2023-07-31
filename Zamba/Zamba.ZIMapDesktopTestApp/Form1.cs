@@ -81,9 +81,9 @@ namespace Zamba.ZIMapDesktopTestApp
         private bool Processing;
         private void TimerTick(object source, ElapsedEventArgs e)
         {
-            Processing = true;
-            try
+            if (!Processing)
             {
+                Processing = true;
                 EjecutarServicioIMAP();
             }
             finally
