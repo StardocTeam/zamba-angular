@@ -1033,7 +1033,6 @@ namespace ZambaWeb.RestApi.Controllers
                     catch (Exception)
                     {
                         ZTrace.WriteLineIf(ZTrace.IsError, "fallo la inserccion para el usuario" + UserName);
-                        throw;
                     }
                    
                 }
