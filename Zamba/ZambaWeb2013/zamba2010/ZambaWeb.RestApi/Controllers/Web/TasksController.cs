@@ -30,12 +30,13 @@ using Zamba.Membership;
 using System.Security.Cryptography.X509Certificates;
 using static ZambaWeb.RestApi.Controllers.SearchController;
 using System.Web.Optimization;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Tasks")]
-    //[Authorize]
+    [RequestResponseController]
     public class TasksController : ApiController
     {
 
@@ -1016,6 +1017,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("UserHasRight")]
+
         public bool UserHasRight(long userid, ObjectTypes objectType, RightsType right, long aditionalParam)
         {
             long userID = GetUser(userid).ID;
@@ -3785,6 +3787,8 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetResultsGridButtons")]
+        [RestAPIAuthorize(isGenericRequest = true)]
+        [RequestResponseController]
         public List<IDynamicButton> GetResultsGridButtons(genericRequest paramRequest)
         {
             List<IDynamicButton> List_ActionsForResultsGrid = new List<IDynamicButton>();

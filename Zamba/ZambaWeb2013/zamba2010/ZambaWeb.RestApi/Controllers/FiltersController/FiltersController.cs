@@ -12,16 +12,19 @@ using Zamba;
 using Zamba.Core;
 using Zamba.Filters;
 using Zamba.Framework;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers.FiltersController
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RequestResponseController]
     public class FiltersController : ApiController
     {
 
         [Route("api/FiltersServices/GetFiltersByView")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetFiltersByView(genericRequest request)
         {
 
@@ -89,6 +92,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/RemoveFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult RemoveFilter(genericRequest request)
         {
             try
@@ -117,6 +121,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/RemoveFilterById")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult RemoveFilterById(genericRequest request)
         {
             try
@@ -141,6 +146,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/RemoveZambaColumnsFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult RemoveZambaColumnsFilter(genericRequest request)
         {
             try
@@ -166,6 +172,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/RemoveAllZambaColumnsFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult RemoveAllZambaColumnsFilter(genericRequest request)
         {
             try
@@ -192,6 +199,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/SetEnabledFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult SetEnabledFilter(genericRequest request)
         {
             try
@@ -220,6 +228,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/SetEnabledFilterById")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult SetEnabledFilterById(genericRequest request)
         {
             try
@@ -242,6 +251,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/AddFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult AddFilter(genericRequest request)
         {
             try
@@ -280,6 +290,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/DeleteUserAssignedFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult DeleteUserAssignedFilter(genericRequest request)
         {
             try
@@ -305,6 +316,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/DeleteStepFilter")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult DeleteStepFilter(genericRequest request)
         {
             try
@@ -331,6 +343,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/UpdateFilterValue")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult UpdateFilterValue(genericRequest request)
         {
             try
@@ -353,6 +366,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/SetDisabledAllFiltersByUser")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult SetDisabledAllFiltersByUser(genericRequest request)
         {
             try
@@ -382,6 +396,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/SetDisabledAllFiltersByUserViewDoctype")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult SetDisabledAllFiltersByUserViewDoctype(genericRequest request)
         {
             try
@@ -408,6 +423,7 @@ namespace ZambaWeb.RestApi.Controllers.FiltersController
         [Route("api/FiltersServices/SetEnabledAllFiltersByUserViewDoctype")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult SetEnabledAllFiltersByUserViewDoctype(genericRequest request)
         {
             try

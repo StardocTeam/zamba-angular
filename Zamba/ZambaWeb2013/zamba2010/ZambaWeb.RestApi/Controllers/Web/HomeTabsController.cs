@@ -35,6 +35,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/HomeTabs")]
+    [RequestResponseController]
     //[Authorize]
     public class HomeTabsController : ApiController
     {
@@ -214,7 +215,6 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("GetGenericSummary")]
-        [RestAPIAuthorize(isNewsPostDto = true)]
         public IHttpActionResult GetGenericSummary(NewsPostDto newsDto)
         {
             try
@@ -273,7 +273,6 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("GetNewsSummary")]
-        [RestAPIAuthorize(isNewsPostDto = true)]
         public IHttpActionResult GetNewsSummary(NewsPostDto newsDto)
         {
             try

@@ -16,6 +16,7 @@ using Zamba.Core;
 using Zamba.Core.WF.WF;
 using Zamba.Data;
 using Zamba.Services;
+using ZambaWeb.RestApi.AuthorizationRequest;
 using ZambaWeb.RestApi.Controllers.Class;
 using static System.Net.Mime.MediaTypeNames;
 using static ZambaWeb.RestApi.Controllers.Class.EmailData;
@@ -24,6 +25,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("Email")]
+    [RequestResponseController]
     public class EmailController : ApiController
     {
 
@@ -855,6 +857,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getIFAnyTaskHasFile")]
+        [RestAPIAuthorize(isEmailData = true)]
         public bool getIFAnyTaskHasFile(EmailData zipData)
         {
             try

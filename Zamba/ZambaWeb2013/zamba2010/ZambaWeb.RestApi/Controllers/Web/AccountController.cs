@@ -35,6 +35,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Account")]
+    [RequestResponseController]
     public class AccountController : ApiController
     {
         #region Contructor&ClassHelper
@@ -727,7 +728,6 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getUserPreferences")]
-        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult getUserPreferences(genericRequest paramRequest)
         {
             try

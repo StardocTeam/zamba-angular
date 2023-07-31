@@ -13,6 +13,7 @@ using System.IO;
 using Zamba.Membership;
 using System.Net;
 using System.Web.Http.Results;
+using System.Text;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -75,8 +76,8 @@ namespace Zamba.Web
             }
                 //string param1 = request.QueryString["userId"];
 
-                if (request.Form["userId"] != null)
-            {
+             if (request.Form["userId"] != null)
+             {
                 try
                 {
                     Int32.Parse(request.Form["userId"]);
@@ -170,6 +171,16 @@ namespace Zamba.Web
             if (Response.StatusCode == 404 || Response.StatusCode == 403)
             {
                 Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
+            }
+            if (Response.StatusCode == 500)
+            {
+                String myhtml = "\"Message\": \"An error has occurred.";
+                byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
+                HttpContext.Current.Response.Cookies.Clear();
+                HttpContext.Current.Response.ClearContent();
+                HttpContext.Current.Response.BinaryWrite(misbytes);
+                HttpContext.Current.Response.Flush();
+                HttpContext.Current.Response.End();
             }
         }
 

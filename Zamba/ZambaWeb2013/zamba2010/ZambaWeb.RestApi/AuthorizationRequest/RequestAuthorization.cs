@@ -9,13 +9,21 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using Zamba.Framework;
+using System.Web.Http.Filters;
+using ZambaWeb.RestApi.Controllers.Class;
+using System.Reflection;
 
 namespace ZambaWeb.RestApi.AuthorizationRequest
 {
+
     public class RestAPIAuthorizeAttribute : AuthorizeAttribute
     {
         public bool isGenericRequest { get; set; }
         public bool isNewsPostDto { get; set; }
+        public bool isEmailData { get; set; }
+        public bool isSearchDto { get; set; }
+
+
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (isGenericRequest)
@@ -33,6 +41,20 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                     HandleUnauthorizedRequest(actionContext);
                 }
 
+            }
+            if (isEmailData)
+            {
+                if (!ValidateMailData(actionContext.Request))
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }
+
+            }
+            if (isSearchDto) {
+                if (!ValidateSearchDto(actionContext.Request))
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }
             }
             return;
         }
@@ -112,6 +134,79 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                 return false;
             }
         }
+
+        private bool ValidateMailData(HttpRequestMessage request)
+        {
+            List<string> emailDataProperties = new List<string>();
+            Type emailDataType = typeof(EmailData);
+            PropertyInfo[] properties = emailDataType.GetProperties();
+
+            foreach (PropertyInfo property in properties) {
+                emailDataProperties.Add(property.Name.ToLower());
+            }
+                
+            // Obtener el contenido de la respuesta HTTP
+            HttpContent httpContent = request.Content;
+
+            // Leer el contenido como una cadena JSON
+            string jsonString = httpContent.ReadAsStringAsync().Result;
+
+            var jsonDocument = System.Text.Json.JsonDocument.Parse(jsonString);
+
+            try
+            {
+
+                foreach (var property in jsonDocument.RootElement.EnumerateObject())
+                {
+                    if (!emailDataProperties.Contains(property.Name.ToLower()))
+                        return false;
+                }
+
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private bool ValidateSearchDto(HttpRequestMessage request)
+        {
+            List<string> emailDataProperties = new List<string>();
+            Type emailDataType = typeof(SearchDto);
+            PropertyInfo[] properties = emailDataType.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                emailDataProperties.Add(property.Name.ToLower());
+            }
+
+            // Obtener el contenido de la respuesta HTTP
+            HttpContent httpContent = request.Content;
+
+            // Leer el contenido como una cadena JSON
+            string jsonString = httpContent.ReadAsStringAsync().Result;
+
+            var jsonDocument = System.Text.Json.JsonDocument.Parse(jsonString);
+
+            try
+            {
+
+                foreach (var property in jsonDocument.RootElement.EnumerateObject())
+                {
+                    if (!emailDataProperties.Contains(property.Name.ToLower()))
+                        return false;
+                }
+
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             base.HandleUnauthorizedRequest(actionContext);
@@ -153,5 +248,30 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         //    }
         //    return UsuarioAutorizado;
         //}
+    }
+    public class RequestResponseControllerAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(HttpActionContext actionContext)
+        {
+            // Lógica a ejecutar antes de que la acción del controlador se ejecute
+            // Puedes acceder al contexto de la acción (actionContext) para obtener información sobre la solicitud actual, etc.
+        }
+        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        {
+            if (actionExecutedContext.Response == null) { 
+                actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+            if (actionExecutedContext.Response.StatusCode == HttpStatusCode.InternalServerError) {
+                HttpResponseMessage response = actionExecutedContext.Response;
+
+                response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+
+                response.Content = new StringContent("");
+
+                actionExecutedContext.Response = response;
+
+                base.OnActionExecuted(actionExecutedContext);
+            }
+        }
     }
 }

@@ -37,6 +37,7 @@ using ZambaWeb.RestApi.AuthorizationRequest;
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RequestResponseController]
     public class SearchController : ApiController
     {
         public SearchController()
@@ -1027,6 +1028,8 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/search/DoSearch")]
         [HttpPost]
         [HttpGet]
+        [RequestResponseController]
+        [RestAPIAuthorize(isSearchDto = true)]
         public string DoSearch(SearchDto searchDto)
         {
             DocTypesBusiness UB = new DocTypesBusiness();
@@ -1966,6 +1969,8 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [Route("api/search/SaveSearch")]
         [HttpGet, HttpPost]
+        [RestAPIAuthorize(isGenericRequest = true)]
+        [RequestResponseController]
         public IHttpActionResult SaveSearch(genericRequest GenericRequest)
         {
             DateTime expirationDate = DateTime.Now;
@@ -2236,6 +2241,8 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="searchDto">SearchDto</param>
         [Route("api/search/ExportToExcel")]
         [HttpPost, HttpGet]
+        [RequestResponseController]
+        [RestAPIAuthorize(isSearchDto = true)]
         public IHttpActionResult ExportToExcel(SearchDto searchDto)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
