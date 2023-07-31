@@ -34,11 +34,11 @@ namespace Zamba.ImapWindowsService
 
         protected override void OnStart(string[] args)
         {
-            ZTrace.WriteLineIf(ZTrace.IsInfo,"Servicio de windows IMAP iniciado");
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Servicio de windows IMAP iniciado");
 
             try
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo,"Ejecutando servicio IMAP...");
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando servicio IMAP...");
                 userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
                 IUser user = GetUser(userId);
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
@@ -46,7 +46,7 @@ namespace Zamba.ImapWindowsService
             }
             catch (Exception ex)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo,"Ocurrio un error " + ex.Message);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ocurrio un error " + ex.Message);
             }
 
             ConfigurarTimer();
@@ -79,10 +79,13 @@ namespace Zamba.ImapWindowsService
         private bool Processing;
         private void TimerTick(object source, ElapsedEventArgs e)
         {
-            if (!Processing)
+            try
             {
-                Processing = true;
-                EjecutarServicioIMAP();
+                if (!Processing)
+                {
+                    Processing = true;
+                    EjecutarServicioIMAP();
+                }
             }
             finally
             {
@@ -93,7 +96,7 @@ namespace Zamba.ImapWindowsService
             //var data = "{ \"ImapServer\": \"nasa1mail.mmc.com\", \"ImapPort\": 143, \"secureSocketOptions\": \"Auto\", \"ImapUsername\": \"MGD\\\\eseleme\\\\pedidoscaucion@marsh.com\", \"ImapPassword\": \"Octubre2023\", \"FolderName\": \"INBOX/F\", \"ExportFolderPath\": \"INBOX/A\" }";
             //RestClient.CallServiceRestApi("https://localhost:44365/swagger/api/imap/get","POST",data);
         }
-      
+
         private void EjecutarServicioIMAP()
         {
             try
@@ -212,7 +215,7 @@ namespace Zamba.ImapWindowsService
 
         protected override void OnStop()
         {
-            ZTrace.WriteLineIf(ZTrace.IsInfo,"Servicio de windows IMAP finalizado");
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Servicio de windows IMAP finalizado");
         }
     }
 }
