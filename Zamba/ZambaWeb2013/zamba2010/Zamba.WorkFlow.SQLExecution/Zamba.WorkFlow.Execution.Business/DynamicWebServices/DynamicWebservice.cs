@@ -201,10 +201,7 @@ namespace Zamba.WorkFlow.Business
                     service = results.CompiledAssembly.GetType(sdName);
                 }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+           
             finally
             {
                 if (uri != null)

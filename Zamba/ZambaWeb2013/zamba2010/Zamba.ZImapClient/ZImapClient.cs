@@ -194,7 +194,7 @@ namespace EmailRetrievalAPI.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        throw ex;
+        //        throw ;
         //    }
         //}
 
@@ -240,7 +240,7 @@ namespace EmailRetrievalAPI.Controllers
         //    catch (Exception ex)
         //    {
         //        ZTrace.WriteLineIf(ZTrace.IsError, "- Parametros: " + Params.ToString());
-        //        throw ex;
+        //        throw ;
         //    }
         //}
 
@@ -310,7 +310,7 @@ namespace EmailRetrievalAPI.Controllers
         //            catch (Exception ex)
         //            {
         //                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-        //                throw ex;
+        //                throw ;
         //            }
         //        }
 
@@ -478,7 +478,7 @@ namespace EmailRetrievalAPI.Controllers
         //    catch (Exception ex)
         //    {
         //        ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.Message.ToString());
-        //        throw ex;
+        //        throw ;
         //    }
         //}
 
@@ -521,7 +521,7 @@ namespace EmailRetrievalAPI.Controllers
         //    catch (Exception ex)
         //    {
         //        ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.ToString());
-        //        throw ex;
+        //        throw ;
         //    }
         //}
 
@@ -580,7 +580,7 @@ namespace EmailRetrievalAPI.Controllers
         //    {
         //        ZClass.raiseerror(ex);
         //        ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest["Folder"] + "'.");
-        //        throw ex;
+        //        throw ;
         //    }
         //}
 
@@ -604,7 +604,7 @@ namespace EmailRetrievalAPI.Controllers
         //    {
         //        ZClass.raiseerror(ex);
         //        ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest.Carpeta + "'.");
-        //        throw ex;
+        //        throw ;
         //    }
         //}
 
@@ -1662,7 +1662,7 @@ namespace EmailRetrievalAPI.Controllers
                 }
                 else
                 {
-                    throw ex;
+                    throw ;
                 }
             }
         }

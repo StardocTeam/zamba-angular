@@ -619,7 +619,7 @@ Public Class TextoInteligente
             End If
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)
-            Throw ex
+            Throw
         End Try
 
         If IsNothing(InitialObject) Then
@@ -732,7 +732,7 @@ Public Class TextoInteligente
             Next
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)
-            Throw ex
+            Throw
         End Try
         Return FinalValue
     End Function
@@ -801,7 +801,7 @@ Public Class TextoInteligente
             End If
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)
-            Throw ex
+            Throw
         End Try
 
         If IsNothing(InitialObject) Then
@@ -879,7 +879,7 @@ Public Class TextoInteligente
             Next
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)
-            Throw ex
+            Throw
         End Try
         Return FinalValue
     End Function

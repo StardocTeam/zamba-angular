@@ -70,8 +70,8 @@ Public Class CreateTablesFactory
 
 
     Public Shared Sub CreateFriendlyView(ByVal DocType As DocType)
-        Try
-            Dim Indexs As New DataSet
+
+        Dim Indexs As New DataSet
             Indexs = Zamba.Data.Indexs_Factory.GetIndexSchema(DocType.ID)
 
             Dim Str As String
@@ -108,8 +108,6 @@ Public Class CreateTablesFactory
 
             'TODO ERROR: REFERENCIAR DE Business A SERVER NO SE PUEDE< DEBE SER A TRAVEZ DE DATA
             Server.Con.ExecuteNonQuery(CommandType.Text, strbuilder.ToString)
-        Catch ex As Exception
-            Throw ex
-        End Try
+
     End Sub
 End Class

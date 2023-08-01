@@ -382,8 +382,7 @@ Public Class BarcodeFactory
             End If
             'End If
             Return sql.ToString
-        Catch ex As Exception
-            Throw ex
+
         Finally
             sql.Remove(0, sql.Length)
             sql = Nothing
@@ -510,8 +509,7 @@ Public Class BarcodeFactory
 
             Return (sql.ToString())
 
-        Catch ex As Exception
-            Throw ex
+
         Finally
             sql.Remove(0, sql.Length)
             sql = Nothing

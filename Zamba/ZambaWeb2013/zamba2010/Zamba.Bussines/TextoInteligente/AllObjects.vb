@@ -813,7 +813,7 @@ Public Class CommonFunctions
                 Return Palabra.IndexOf(PalabraBuscada, Integer.Parse(BuscarDesde), StringComparison.CurrentCultureIgnoreCase)
             Catch ex As Exception
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al Buscar Posicion: " & ex.ToString)
-                Throw ex
+                Throw
             End Try
         End Get
     End Property
@@ -1293,10 +1293,10 @@ Public Class CommonFunctions
                 End If
             Catch ex As IOException
                 ZClass.raiseerror(ex)
-                Throw ex
+                Throw
             Catch ex As Exception
                 ZClass.raiseerror(ex)
-                Throw ex
+                Throw
             End Try
         End Get
     End Property
@@ -1643,7 +1643,7 @@ Public Class CommonFunctions
                 End If
             Catch ex As Exception
                 ZClass.raiseerror(ex)
-                Throw ex
+                Throw
             End Try
         End Get
     End Property

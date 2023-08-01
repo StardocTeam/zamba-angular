@@ -14,7 +14,7 @@ Public Class DocumentLabelsBusiness
                 If result IsNot Nothing Then
                     Throw New Exception("Ha ocurrido un error al modificar la marca de importancia del documento " & result.Name, ex)
                 Else
-                    Throw ex
+                    Throw
                 End If
             End Try
         End If
@@ -23,11 +23,9 @@ Public Class DocumentLabelsBusiness
 
     'VALIDAR ELIMINACION YA QUE NADIE LO INVOCA
     Public Sub UpdateImportantLabels(ByVal docTypeId As Int64, ByVal docId As Int64, ByVal important As Boolean)
-        Try
-            DocumentLabelsData.UpdateImportantLabels(docTypeId, docId, important, 0)
-        Catch ex As Exception
-            Throw ex
-        End Try
+
+        DocumentLabelsData.UpdateImportantLabels(docTypeId, docId, important, 0)
+
     End Sub
 
     Public Sub UpdateFavoriteLabel(ByVal result As IResult)
@@ -38,7 +36,7 @@ Public Class DocumentLabelsBusiness
                 If result IsNot Nothing Then
                     Throw New Exception("Ha ocurrido un error al modificar la marca de favorito del documento " & result.Name, ex)
                 Else
-                    Throw ex
+                    Throw
                 End If
             End Try
         End If

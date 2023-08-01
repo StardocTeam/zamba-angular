@@ -80,11 +80,7 @@ namespace InvocacionServWDigDepFiel
                 objDict.Put(PdfName.CONTENTS, new PdfString(bytOut).SetHexWriting(true));
                 objSA.Close(objDict);
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+           
             finally
             {
                 objReader.Close();

@@ -107,7 +107,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
 
             return null;

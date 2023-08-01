@@ -106,7 +106,7 @@ TryAgain:
                 FirstTime = False
                 GoTo TryAgain
             End If
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Function Close() As Boolean Implements IConnection.Close
@@ -177,7 +177,7 @@ TryAgain:
             End If
             Return str
         Catch ex As Exception
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -421,7 +421,7 @@ TryAgain:
                 FirstTime = False
                 GoTo TryAgain
             End If
-            Throw ex
+            Throw
         End Try
     End Sub 'PrepareCommand
 
@@ -467,7 +467,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(spName, ParametersNames, parameterstypes, parameterValues)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -516,7 +516,7 @@ TryAgain:
                 CN = Server.ConnectionIsBroken(ex).CN
                 Return ExecuteNonQuery(commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -562,7 +562,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -594,7 +594,7 @@ TryAgain:
             Catch ex As Threading.ThreadAbortException
             Catch ex As Exception
                 Me.Close()
-                Throw ex
+                Throw
             End Try
             Return ExecuteNonQuery(CommandType.StoredProcedure, spName, commandParameters)
         Else
@@ -637,7 +637,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(transaction, commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -755,7 +755,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(spName, ParametersNames, parameterstypes, parametersValues)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             log = Nothing
@@ -816,7 +816,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -904,7 +904,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(transaction, commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -980,7 +980,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(spName, ParametersNames, parameterstypes, parametersValues)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             log = Nothing
@@ -1168,7 +1168,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteScalar(commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -1234,7 +1234,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteScalar(transaction, commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             Me.State = IConnection.ConnectionStates.Ready
@@ -1304,7 +1304,7 @@ TryAgain:
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteScalar(spName, ParametersNames, parameterstypes, parametersValues)
             Else
-                Throw ex
+                Throw
             End If
         Finally
             log = Nothing
@@ -1403,7 +1403,7 @@ Public Class OraManagedCreateTables
             CreateView(DocTypeId)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
 
     End Sub
@@ -1566,7 +1566,7 @@ Public Class OraManagedCreateTables
             Server.Con.ExecuteNonQuery(CommandType.Text, StrUpdate)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     ''' <summary>
@@ -1663,12 +1663,12 @@ Public Class OraManagedCreateTables
                 c.CN.Close()
             Catch ex As Exception
                 t.Rollback()
-                Dim exn As New Exception("No se pudo realizar la transacción AddIndexColumn, error: " & ex.Message)
+                Dim exn As New Exception("No se pudo realizar la transacción AddIndexColumn, error: " & ex.Message, ex)
                 Throw exn
             End Try
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
 
@@ -1704,7 +1704,7 @@ Public Class OraManagedCreateTables
             'End Try
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub AddIndexList(ByVal IndexId As Int64, ByVal IndexLen As Integer) Implements CreateTables.AddIndexList
@@ -1724,7 +1724,7 @@ Public Class OraManagedCreateTables
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
             ' Report any errors and abort.
-            Throw ex
+            Throw
         End Try
 
     End Sub
@@ -1749,7 +1749,7 @@ Public Class OraManagedCreateTables
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
             ' Report any errors and abort.
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub DelIndexList(ByVal IndexId As Int64) Implements CreateTables.DelIndexList
@@ -1758,7 +1758,7 @@ Public Class OraManagedCreateTables
             Server.Con.ExecuteNonQuery(CommandType.Text, str)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub DelIndexItems(ByVal IndexId As Int64, ByVal IndexList As ArrayList) Implements CreateTables.DelIndexItems
@@ -1773,7 +1773,7 @@ Public Class OraManagedCreateTables
             Next
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub DeleteTable(ByVal Table As String) Implements CreateTables.DeleteTable
@@ -1783,14 +1783,14 @@ Public Class OraManagedCreateTables
                 Server.Con.ExecuteNonQuery(CommandType.Text, strDelete)
             Catch ex As Exception
                 If Not ex.ToString.Contains("no existe") AndAlso Not ex.ToString.Contains("not exist") Then
-                    Throw ex
+                    Throw
                 End If
             End Try
         Catch ex As Exception
             'Se pone el if ya que en oracle POR AHORA no existe la doc_b
             If Table.ToLower().StartsWith("doc_b") = False Then
                 Zamba.AppBlock.ZException.Log(ex)
-                Throw ex
+                Throw
             End If
         End Try
     End Sub
@@ -1903,7 +1903,7 @@ Public Class OraManagedCreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub InsertIntoSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String) Implements CreateTables.InsertIntoSustitucion
@@ -1934,7 +1934,7 @@ Public Class OraManagedCreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub DeleteFromSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String) Implements CreateTables.DeleteFromSustitucion
@@ -1948,7 +1948,7 @@ Public Class OraManagedCreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
 

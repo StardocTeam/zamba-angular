@@ -611,7 +611,7 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
             Zamba.AppBlock.ZException.Log(ex);
             string script = "$(document).ready(function() { swal( '','" + ex.Message + "','info' ); });";
             Page.ClientScript.RegisterStartupScript(this.GetType(), "ZException", script, true);
-            throw ex;
+            throw;
         }
     }
 

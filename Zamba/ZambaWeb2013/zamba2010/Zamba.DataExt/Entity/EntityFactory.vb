@@ -17,24 +17,22 @@ Public Class EntityFactory
 
         Try
             If Server.IsOracle Then
-                parNames = New String() {"righttype", "io_cursor"}
-                parTypes = New Object() {13, 5}
                 parValues = New Object() {CInt(RightType), 2}
 
                 'dstemp = Server.Con.ExecuteDataset("zsp_doctypes_300.GetDocTypesByUserRights",  parValues)
                 dstemp = Server.Con.ExecuteDataset("zsp_doctypes_300_GetDocTypesByRights", parValues)
 
                 For i = 0 To dstemp.Tables(0).Rows.Count - 1
-                    Dim DocType As New DocType(Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOC_TYPE_ID")), _
-                    dstemp.Tables(0).Rows(i).Item("DOC_TYPE_NAME").ToString(), _
-                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("FILE_FORMAT_ID")), _
-                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DISK_GROUP_ID")), _
-                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("THUMBNAILS")), _
-                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("ICON_ID")), _
-                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("OBJECT_TYPE_ID")), _
-                    dstemp.Tables(0).Rows(i).Item("AUTONAME").ToString(), _
-                    dstemp.Tables(0).Rows(i).Item("AUTONAME").ToString(), _
-                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOCCOUNT")), 0, _
+                    Dim DocType As New DocType(Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOC_TYPE_ID")),
+                    dstemp.Tables(0).Rows(i).Item("DOC_TYPE_NAME").ToString(),
+                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("FILE_FORMAT_ID")),
+                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DISK_GROUP_ID")),
+                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("THUMBNAILS")),
+                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("ICON_ID")),
+                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("OBJECT_TYPE_ID")),
+                    dstemp.Tables(0).Rows(i).Item("AUTONAME").ToString(),
+                    dstemp.Tables(0).Rows(i).Item("AUTONAME").ToString(),
+                    Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOCCOUNT")), 0,
                     Convert.ToInt32(dstemp.Tables(0).Rows(i).Item("DOCUMENTALID")))
                     DocTypes.Add(DocType)
                 Next

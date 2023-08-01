@@ -47,7 +47,7 @@ Public Class PlayDoChangeExpireDate
                     UB.SaveAction(r.ID, Zamba.ObjectTypes.WFTask, Zamba.Core.RightsType.ExecuteRule, myRule.Name)
                 Catch ex As Exception
                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al guardar la acción de usuario, no obstante, la regla fué ejecutada correctamente " & r.Name & " (Id " & r.TaskId & ")")
-                    Throw ex
+                    Throw
                 End Try
 
             Next

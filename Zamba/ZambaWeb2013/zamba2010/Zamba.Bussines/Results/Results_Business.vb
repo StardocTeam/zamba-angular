@@ -1599,12 +1599,12 @@ Public Class Results_Business
                             Else
                                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en No Reemplazo " & ex.ToString())
                                 ZCore.raiseerror(ex)
-                                Throw ex
+                                Throw
                             End If
                         End If
                     Else
                         ZCore.raiseerror(ex)
-                        Throw ex
+                        Throw
                     End If
                 End Try
 
@@ -1681,7 +1681,7 @@ Public Class Results_Business
                         Return InsertResult.NoInsertado
                     End If
                 Else
-                    Throw ex
+                    Throw
                 End If
             Finally
                 If Not IsNothing(Transact) Then
@@ -1943,7 +1943,7 @@ Public Class Results_Business
                                 Catch exe As Exception
                                     MessageBox.Show("Ocurrió un error al reemplazar el documento", "Zamba", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     NewResultStatus = InsertResult.ErrorReemplazar
-                                    Throw exe
+                                    Throw
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yesAll
                                 Try
@@ -1954,7 +1954,7 @@ Public Class Results_Business
                                     'TODO : MsgBox en Business?
                                     MessageBox.Show("Ocurrió un error al reemplazar el documento", "ZAMBA", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     NewResultStatus = InsertResult.RemplazadoTodos
-                                    Throw exe
+                                    Throw
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.no
                                 Try
@@ -1978,13 +1978,13 @@ Public Class Results_Business
 
                         Catch exc As Exception
                             NewResultStatus = InsertResult.NoInsertado
-                            Throw ex
+                            Throw
                         End Try
                     End If
                 End If
             Else
                 NewResultStatus = InsertResult.NoInsertado
-                Throw ex
+                Throw
             End If
         End Try
 
@@ -2201,7 +2201,7 @@ Public Class Results_Business
                                 Catch exe As Exception
                                     MessageBox.Show("Ocurrió un error al reemplazar el documento", "Zamba", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     insertresult = insertresult.ErrorReemplazar
-                                    Throw exe
+                                    Throw
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yesAll
                                 Try
@@ -2211,7 +2211,7 @@ Public Class Results_Business
                                 Catch exe As Exception
                                     MessageBox.Show("Ocurrió un error al reemplazar el documento", "ZAMBA", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                     insertresult = insertresult.RemplazadoTodos
-                                    Throw exe
+                                    Throw
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.no
                                 Try
@@ -2234,13 +2234,13 @@ Public Class Results_Business
                             Insert(Result, move, ReindexFlag, Reemplazar, showQuestions, IsVirtual)
                         Catch exc As Exception
                             insertresult = insertresult.NoInsertado
-                            Throw ex
+                            Throw
                         End Try
                     End If
                 End If
             Else
                 insertresult = insertresult.NoInsertado
-                Throw ex
+                Throw
             End If
         Finally
 

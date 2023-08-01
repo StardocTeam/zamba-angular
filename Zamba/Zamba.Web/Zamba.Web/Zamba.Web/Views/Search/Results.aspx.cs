@@ -491,7 +491,7 @@ public partial class Search_Results : System.Web.UI.Page
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw;
             }
         }
 

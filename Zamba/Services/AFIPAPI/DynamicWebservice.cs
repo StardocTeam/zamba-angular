@@ -168,7 +168,7 @@ namespace Zamba.WorkFlow.Business
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {

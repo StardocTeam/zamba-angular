@@ -256,7 +256,7 @@ Public Class Server
             RaiseEvent Connected()
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Private Shared Function MakeConnectionString(ByVal ServerType As DBTYPES, ByVal DBServer As String, ByVal DB As String, ByVal User As String, ByVal Password As String) As String
@@ -358,7 +358,7 @@ Public Class Server
             Return ConnectionString
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Function
 
@@ -508,7 +508,7 @@ Public Class Server
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         Finally
             AppConfig.dispose()
             AppConfig = Nothing

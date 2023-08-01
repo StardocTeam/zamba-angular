@@ -198,7 +198,7 @@ class LoginTicket
         catch (Exception ex)
         {
             Console.Write(ex.ToString());
-            throw ex;
+            throw;
         }
     }
 

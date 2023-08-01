@@ -25,7 +25,7 @@ Public Class PlayDOAsk
                 VarInterReglas = Nothing
             Catch ex As Exception
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener el mensaje.")
-                Throw ex
+                Throw
             End Try
 
             Me.valorPorDefecto = String.Empty
@@ -35,7 +35,7 @@ Public Class PlayDOAsk
                 VariablesInterReglas = Nothing
             Catch ex As Exception
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener el mensaje.")
-                Throw ex
+                Throw
             End Try
 
             If results.Count > 0 Then
@@ -141,7 +141,7 @@ Public Class PlayDOAsk
                 VarInterReglas = Nothing
             Catch ex As Exception
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener el mensaje.")
-                Throw ex
+                Throw
             End Try
 
             Me.valorPorDefecto = String.Empty
@@ -151,7 +151,7 @@ Public Class PlayDOAsk
                 VarInterReglas = Nothing
             Catch ex As Exception
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener el mensaje.")
-                Throw ex
+                Throw
             End Try
 
             If results.Count > 0 Then

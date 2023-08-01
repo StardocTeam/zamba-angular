@@ -30,7 +30,7 @@ Public Class PlayDOAutoMail
             MessagesBusiness.CheckHistoryExportPath()
         Catch ex As Exception
             raiseerror(ex)
-            Throw ex
+            Throw
         End Try
 
         Try
@@ -47,7 +47,7 @@ Public Class PlayDOAutoMail
                         Me.Automail = GetAutomailById(Me._myRule.Automail.ID)
                     Catch ex As Exception
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener configuración de AutoMail. Documento: " & tResult.Name & ", ID de tarea: " & tResult.TaskId)
-                        Throw ex
+                        Throw
                     End Try
 
                     Me.mailto = String.Empty
@@ -57,7 +57,7 @@ Public Class PlayDOAutoMail
                         mailto = VarInterReglas.ReconocerVariablesValuesSoloTexto(Automail.MailTo)
                     Catch ex As Exception
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener direcciones de mail para el Envío. Documento: " & tResult.Name & ", ID de tarea: " & tResult.TaskId)
-                        Throw ex
+                        Throw
                     End Try
 
                     If automails.Contains(mailto) = False Then
@@ -95,7 +95,7 @@ Public Class PlayDOAutoMail
                         MessagesBusiness.SaveHistory(automail.MailTo, automail.CC, automail.CCO, automail.Subject, automail.Body, _
                                                      automail.AttachmentsPaths, automail.TaskId, automail.DocTypeID, results(0).UserId, String.Empty)
                     Catch ex As Exception
-                        Throw ex
+                        Throw
                     End Try
                 Next
             Else
@@ -137,7 +137,7 @@ Public Class PlayDOAutoMail
                         MessagesBusiness.SendQuickMail(mail)
                         MessagesBusiness.SaveHistory(Automail.MailTo, Automail.CC, Automail.CCO, Automail.Subject, Automail.Body, Automail.AttachmentsPaths, taskResult.ID, taskResult.DocTypeId, taskResult.UserId, String.Empty)
                     Catch ex As Exception
-                        Throw ex
+                        Throw
                     Finally
                         mail.Dispose()
                         mail = Nothing

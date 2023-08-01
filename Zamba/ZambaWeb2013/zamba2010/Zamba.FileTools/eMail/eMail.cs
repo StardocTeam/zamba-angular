@@ -24,8 +24,7 @@ namespace Zamba.SpireTools.SpireT
     {
         public string ReadInBox()
         {
-            try
-            {
+            
                 Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
 
                 #region Codigo Original
@@ -70,11 +69,7 @@ namespace Zamba.SpireTools.SpireT
                 var js = JsonConvert.SerializeObject(message);
                 return js;
                 #endregion
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+           
         }
 
 
@@ -119,7 +114,7 @@ namespace Zamba.SpireTools.SpireT
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(ZTrace.IsError, "- Parametros: " + Params.ToString());
-                throw ex;
+                throw ;
             }
         }
 
@@ -161,7 +156,7 @@ namespace Zamba.SpireTools.SpireT
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                throw ex;
+                throw;
             }
         }
 
@@ -326,7 +321,7 @@ namespace Zamba.SpireTools.SpireT
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.Message.ToString());
-                throw ex;
+                throw ;
             }
         }
 
@@ -354,7 +349,7 @@ namespace Zamba.SpireTools.SpireT
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(ZTrace.IsError, "Fallo la conexion al Exchange:" + ex.Message.ToString());
-                throw ex;
+                throw ;
             }
         }
 
@@ -503,7 +498,7 @@ namespace Zamba.SpireTools.SpireT
             {
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest["Folder"] + "'.");
-                throw ex;
+                throw ;
             }
         }
 
@@ -527,7 +522,7 @@ namespace Zamba.SpireTools.SpireT
             {
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(ZTrace.IsError, "Hubo un error al intentar obtener los correos de la carpeta '" + Dic_paramRequest.Carpeta + "'.");
-                throw ex;
+                throw ;
             }
         }
 
@@ -668,19 +663,14 @@ namespace Zamba.SpireTools.SpireT
 
         public void MoveEmail(int sequenceNo, string folderName)
         {
-            try
-            {
+            
                 var a = imapClient.BeginCopy(sequenceNo, folderName, MoveCB);
                 imapClient.EndCopy(a);
 
                 var b = imapClient.BeginMarkAsDeleted(sequenceNo, DeleteCB);
                 imapClient.EndMarkAsDeleted(b);
                 imapClient.DeleteMarkedMessages();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+           
         }
 
         private void MoveCB(IAsyncResult ar)

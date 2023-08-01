@@ -107,7 +107,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
 
-                throw ex;
+                throw ;
             }
 
         }
@@ -652,7 +652,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                         ex.Data.Add("File", insertRequest.file.data);
 
-                        throw ex;
+                        throw ;
                     }
                 }
             }

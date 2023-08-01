@@ -382,7 +382,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -738,7 +738,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -837,7 +837,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 

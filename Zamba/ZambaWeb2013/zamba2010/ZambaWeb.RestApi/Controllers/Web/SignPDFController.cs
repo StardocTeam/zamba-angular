@@ -402,7 +402,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         {
                             string RollBackFamilia = string.Format(@"UPDATE {0} set {1}=null WHERE doc_id in (" + String.Join(",", docIdsRollback.ToArray()) + ")", MapIndex["despacho"], MapIndex["Fecha Notificación por API"]);
                             Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, RollBackFamilia); //Actualizo las tablas y pongo la fecha en nulo
-                            throw ex2;
+                            throw;
                         }
 
                     }

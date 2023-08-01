@@ -58,7 +58,7 @@ Public Class PlayDoAutoName
                             VarInterReglas = Nothing
                         Catch ex As Exception
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "Error al obtener variables")
-                            Throw ex
+                            Throw
                         End Try
 
                         If results.Count > 0 Then

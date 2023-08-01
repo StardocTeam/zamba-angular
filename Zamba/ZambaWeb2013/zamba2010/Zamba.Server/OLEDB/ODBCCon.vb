@@ -281,7 +281,7 @@ Public Class ODBCCon
             'Debug.WriteLine(cmd.CommandText)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(spName & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             log = Nothing
             If Me.CloseFlag Then
@@ -323,7 +323,7 @@ Public Class ODBCCon
             Return retval
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             If Me.CloseFlag Then
                 If cmd IsNot Nothing Then
