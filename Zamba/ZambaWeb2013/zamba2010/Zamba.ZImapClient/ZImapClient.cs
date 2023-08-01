@@ -834,7 +834,7 @@ namespace EmailRetrievalAPI.Controllers
                                             }
                                         }
 
-                                        MoveEmail(folder, eMail.uniqueId, imapProcess.CarpetaDest);
+                                        //MoveEmail(folder, eMail.uniqueId, imapProcess.CarpetaDest);
                                     }
 
                                     // eMail.message.Attachments.Clear();

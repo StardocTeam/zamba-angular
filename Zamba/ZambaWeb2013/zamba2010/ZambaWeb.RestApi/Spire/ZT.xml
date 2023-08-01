@@ -1,0 +1,199 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+ZT
+</name>
+</assembly>
+<members>
+<member name="T:Zamba.Core.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Zamba.Core.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Zamba.Core.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Zamba.Core.SQLTrace">
+ <summary>
+ Clase que se encarga de escribir los trace de ejecución de los SQL.
+ </summary>
+ <remarks>   Se creo particularmente para generar un trace por SQL 
+             detallando la ejecución y el recorrido en el workflow del mismo
+ </remarks>
+</member>
+<member name="M:Zamba.Core.SQLTrace.CloseTraces">
+ <summary>
+ Cierra todos los Trace abiertos y libera todos los recursos.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:Zamba.Core.ZTrace">
+ -----------------------------------------------------------------------------
+ Project	 : Zamba.Core
+ Class	 : Core.ZTrace
+ -----------------------------------------------------------------------------
+ <summary>
+ Clase que contiene objetos y métodos estáticos para manipular la clase 
+ Trace y poder filtrar los distintos tipos de errores y mensajes.
+ </summary>
+ <history>
+ 	[Tomas]	03/06/2009	Created
+ </history>
+ -----------------------------------------------------------------------------
+</member>
+<member name="P:Zamba.Core.ZTrace.IsOff">
+ <summary>
+ Verifica si el log se encuentra apagado
+ Equivale al nivel 0
+ </summary>
+</member>
+<member name="P:Zamba.Core.ZTrace.IsError">
+ <summary>
+ Verifica si el log debe escribir errores
+ Equivale al nivel 1
+ </summary>
+</member>
+<member name="P:Zamba.Core.ZTrace.IsWarning">
+ <summary>
+ Verifica si el log debe escribir warnings
+ Equivale al nivel 2
+ </summary>
+</member>
+<member name="P:Zamba.Core.ZTrace.IsVerbose">
+ <summary>
+ Verifica si el log debe escribir verbose
+ Equivale al nivel 4
+ </summary>
+</member>
+<member name="M:Zamba.Core.ZTrace.SetLevel(System.Int32)">
+ <summary>
+ Create a new listener and assign the tracing level.
+ </summary>
+ <param name="level">Trace level</param>
+ <param name="zModuleName">Módule name</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.SetLevel(System.Int32,System.String)">
+ <summary>
+ Create a new listener and assign the tracing level.
+ </summary>
+ <param name="level">Trace level</param>
+ <param name="zModuleName">Módule name</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.SetLevel(System.Diagnostics.TraceLevel,System.String)">
+ <summary>
+ Create a new listener and assign the tracing level.
+ </summary>
+ <param name="level">Trace level</param>
+ <param name="zModuleName">Módule name</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.AddListener(System.String)">
+ <summary>
+ Create a new listener and in the log name it adds the module name.
+ </summary>
+ <param name="zModule">Module name</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.RemoveListener(System.String)">
+ <summary>
+ Delete an existing listener.
+ </summary>
+ <param name="zModuleName">Module name</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.RemoveListener(System.Int32)">
+ <summary>
+ Delete an existing listener.
+ </summary>
+ <param name="zModuleIndex">Module index</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.ValidateTrace(System.Diagnostics.TraceLevel)">
+ <summary>
+ Validates the current trace. It checks if the current trace level is the one which is asked.
+ If the current date is different than the traceDate it close the current listener and creates
+ a new one with the same name but different date.
+ </summary>
+ <param name="level">Trace level to validate</param>
+ <history>
+     [Tomas] - 04/06/2009 - Created 
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.StopListeners">
+ <summary>
+ Detiene los listeners creados y los devuelve en una lista para reiniciarlos luego
+ </summary>
+ <returns>Lista de listeners detenidos para reiniciarlos luego</returns>
+ <remarks>Se puede utilizar en conjunto con StartListeners</remarks>
+</member>
+<member name="M:Zamba.Core.ZTrace.StartListeners(System.Collections.Generic.List{System.String})">
+ <summary>
+ Inicia una lista de listeners
+ </summary>
+ <param name="listeners">Listeners a iniciar</param>
+ <remarks>Se puede utilizar en conjunto con StopListeners</remarks>
+</member>
+<member name="M:Zamba.Core.ZTrace.GetTempDir(System.String)">
+ <summary>
+ Gets directory to save data
+ </summary>
+ <param name="dire"></param>
+ <remarks></remarks>
+ <history>
+     [Ezequiel] 15/05/09 Created.
+     [Tomas] - 04/06/2009 - Se copia este método del proyecto Zamba.Cliente
+ </history>
+</member>
+<member name="M:Zamba.Core.ZTrace.GetCallStack">
+ <summary>
+ Devuelve el callstack
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:Zamba.Core.ZTrace.WriteLine(System.String)">
+ <summary>
+ Escribe trace
+ </summary>
+ <param name="line"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Zamba.Core.ZTrace.WriteLineIf(System.Diagnostics.TraceLevel,System.String)">
+ <summary>
+ Escribe trace si se cumple la condicion
+ </summary>
+ <param name="line"></param>
+ <remarks></remarks>
+</member>
+<member name="M:Zamba.Core.ZTrace.GetInstance">
+ <summary>
+ Obtiene la instancia actual de ZCore
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+</members>
+</doc>
