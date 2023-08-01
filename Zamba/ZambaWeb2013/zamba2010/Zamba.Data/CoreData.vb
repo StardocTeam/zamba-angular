@@ -45,9 +45,9 @@ Public NotInheritable Class CoreData
             ZTrace.WriteLineIf(ZTrace.IsVerbose, String.Format("Nuevo Id {0} para IDType: {1}", Id, IdType.ToString()))
             Return Id
 
-        Catch ex As IndexOutOfRangeException
+        Catch ex As Exception
             'Zamba.Core.ZClass.raiseerror(ex)
-            ZTrace.WriteLineIf(ZTrace.IsError, "Error al obtener Id por Store, se intenta por consulta: " & ex.Message)
+            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "Error al obtener Id por Store, se intenta por consulta: " & ex.Message)
             Try
 
 TryAgain:
