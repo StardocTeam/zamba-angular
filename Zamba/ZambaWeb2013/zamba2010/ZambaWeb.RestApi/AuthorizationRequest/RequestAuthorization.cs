@@ -227,13 +227,13 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
         private bool ValidateSearchDto(HttpRequestMessage request)
         {
-            List<string> emailDataProperties = new List<string>();
-            Type emailDataType = typeof(SearchDto);
-            PropertyInfo[] properties = emailDataType.GetProperties();
+            List<string> searchDTODataProperties = new List<string>();
+            Type searchDTODataType = typeof(SearchDto);
+            PropertyInfo[] properties = searchDTODataType.GetProperties();
 
             foreach (PropertyInfo property in properties)
             {
-                emailDataProperties.Add(property.Name.ToLower());
+                searchDTODataProperties.Add(property.Name.ToLower());
             }
 
             // Obtener el contenido de la respuesta HTTP
@@ -249,7 +249,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
                 foreach (var property in jsonDocument.RootElement.EnumerateObject())
                 {
-                    if (!emailDataProperties.Contains(property.Name.ToLower()))
+                    if (!searchDTODataProperties.Contains(property.Name.ToLower()))
                         return false;
                 }
 
