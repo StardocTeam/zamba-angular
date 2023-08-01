@@ -81,17 +81,17 @@ namespace Zamba.ZIMapDesktopTestApp
         private bool Processing;
         private void TimerTick(object source, ElapsedEventArgs e)
         {
-            try
+            if (!Processing)
             {
-                if (!Processing)
+                try
                 {
                     Processing = true;
                     EjecutarServicioIMAP();
                 }
-            }
-            finally
-            {
-                Processing = false;
+                finally
+                {
+                    Processing = false;
+                }
             }
 
             //ConsumeServiceRestApi RestClient = new ConsumeServiceRestApi();
