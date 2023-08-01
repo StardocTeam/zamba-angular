@@ -120,14 +120,6 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             // Deserializar la cadena JSON en un objeto C#
             try
             {
-                //var jsonObjectAnalize = JsonConvert.DeserializeObject<object>(jsonString);
-                //foreach (var item in properties.RootElement.EnumerateObject())
-                //{
-                //    if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
-                //        return false;
-                //}
-
-                //var jsonObject = JsonConvert.DeserializeObject<genericRequest>(jsonString);
 
                 foreach (var item in properties.RootElement.EnumerateObject())
                 {
@@ -182,13 +174,6 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         private bool ValidateSelectedEntitiesIds(HttpRequestMessage request)
         {
-            //List<string> emailDataProperties = new List<string>();
-            //Type emailDataType = typeof(EmailData);
-            //PropertyInfo[] properties = emailDataType.GetProperties();
-
-            //foreach (PropertyInfo property in properties) {
-            //    emailDataProperties.Add(property.Name.ToLower());
-            //}
                 
             // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
@@ -249,11 +234,20 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
                 foreach (var property in jsonDocument.RootElement.EnumerateObject())
                 {
-                    if (!searchDTODataProperties.Contains(property.Name.ToLower()))
-                        return false;
+                    if (!searchDTODataProperties.Contains(property.Name.ToLower())) {
+                        //Se ponen aca las property para evitar ponerlas en el SearchDto
+                        if (property.Name != "GroupsIds" && property.Name != "SearchResults" &&
+                            property.Name != "lastFiltersByView" && property.Name != "lastSearchEntitiesNodes" &&
+                            property.Name != "CreatedTodayCount" && property.Name != "stateID" &&
+                            property.Name != "OpenTaskOnOneResult" && property.Name != "HasResults" &&
+                            property.Name != "SearchResultsObject" && property.Name != "UsedZambafilters" &&
+                            property.Name != "currentMode" && property.Name != "ExpirationDate") {
+                            return false;
+                        }
+                           
+                    }
+                       
                 }
-
-
                 return true;
             }
             catch (Exception)
