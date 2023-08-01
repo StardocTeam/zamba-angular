@@ -102,7 +102,7 @@ public class SearchDto
 
     public string ExternUserID { get; set; }
 
-    public List<string> Lista_ColumnasFiltradas{ get; set; } = new List<string>();
+    public List<string> Lista_ColumnasFiltradas { get; set; } = new List<string>();
 
     public bool FiltersResetables { get; set; }
 
@@ -121,7 +121,23 @@ public class SearchDto
     public Boolean url { get; set; }
 
 
+
+    public List<string> GroupsIds { get; set; } = new List<string>();
+    public List<string> SearchResults { get; set; } = new List<string>();
+    public List<string> lastFiltersByView { get; set; } = new List<string>();
+    public List<string> lastSearchEntitiesNodes { get; set; } = new List<string>();
+    public Int64 CreatedTodayCount { get; set; } 
+    public Int64 stateID { get; set; }
+    public Boolean OpenTaskOnOneResult { get; set; }
+    public Boolean HasResults { get; set; }
+    public Int64 SearchResultsObject { get; set; }
+    public string UsedZambafilters { get; set; }
+    public Boolean currentMode { get; set; }
+    public string ExpirationDate { get; set; }
+
+    
 }
+
 
 public class UsedFilter
 {

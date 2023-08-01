@@ -810,7 +810,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Indexs")]
         [HttpPost, HttpGet]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [RestAPIAuthorize(SelectedEntitiesIds = true)]
         public string Indexs(List<Int64> SelectedEntitiesIds)
         {
             try

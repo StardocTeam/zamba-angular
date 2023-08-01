@@ -22,6 +22,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         public bool isNewsPostDto { get; set; }
         public bool isEmailData { get; set; }
         public bool isSearchDto { get; set; }
+        public bool SelectedEntitiesIds { get; set; }
 
 
         public override void OnAuthorization(HttpActionContext actionContext)
@@ -55,6 +56,14 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
+            }
+            if (SelectedEntitiesIds)
+            {
+                if (!ValidateSelectedEntitiesIds(actionContext.Request))
+                {
+                    HandleUnauthorizedRequest(actionContext);
+                }
+
             }
             return;
         }
@@ -141,10 +150,11 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             Type emailDataType = typeof(EmailData);
             PropertyInfo[] properties = emailDataType.GetProperties();
 
-            foreach (PropertyInfo property in properties) {
+            foreach (PropertyInfo property in properties)
+            {
                 emailDataProperties.Add(property.Name.ToLower());
             }
-                
+
             // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
 
@@ -169,6 +179,50 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             {
                 return false;
             }
+        }
+        private bool ValidateSelectedEntitiesIds(HttpRequestMessage request)
+        {
+            //List<string> emailDataProperties = new List<string>();
+            //Type emailDataType = typeof(EmailData);
+            //PropertyInfo[] properties = emailDataType.GetProperties();
+
+            //foreach (PropertyInfo property in properties) {
+            //    emailDataProperties.Add(property.Name.ToLower());
+            //}
+                
+            // Obtener el contenido de la respuesta HTTP
+            HttpContent httpContent = request.Content;
+
+            // Leer el contenido como una cadena JSON
+            string jsonString = httpContent.ReadAsStringAsync().Result;
+
+            try
+            {
+
+                List<Int64> parsedList = ParseStringToListInt64(jsonString);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static List<Int64> ParseStringToListInt64(string inputString)
+        {
+            List<Int64> resultList = new List<Int64>();
+
+            // Remove square brackets from the input string
+            inputString = inputString.Replace("[", "").Replace("]", "");
+
+            // Try parsing the input string into Int64 and add to the result list
+            if (Int64.TryParse(inputString, out Int64 parsedNumber))
+            {
+                resultList.Add(parsedNumber);
+            }
+
+            return resultList;
         }
 
         private bool ValidateSearchDto(HttpRequestMessage request)
