@@ -2259,7 +2259,7 @@ namespace ZambaWeb.RestApi.Controllers
                 if (dataGridResults.data.Rows.Count != 0)
                 {
                     searchDto.Lista_ColumnasFiltradas.ForEach(n => dataGridResults.data.Columns.Remove(n));
-                    //El siguiente codigo ejecuta un metodo de Spire que en realidad no pertenece al DLL, fue agregado manualmente.
+                    El siguiente codigo ejecuta un metodo de Spire que en realidad no pertenece al DLL, fue agregado manualmente.
                     if (new SpireTools().ExportToXLSx(dataGridResults.data, MembershipHelper.AppTempDir("\\temp") + "\\" + Formatocompleto_NombreArchivo))
                     {
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicio la exportacion a Excel...");

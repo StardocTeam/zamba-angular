@@ -127,13 +127,26 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                         return false;
                 }
 
+                RootObject obj = JsonConvert.DeserializeObject<RootObject>(jsonString);
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
+        }
+
+        public class Params
+        {
+            public long doctypeId { get; set; }
+            public string filterType { get; set; }
+        }
+
+        public class RootObject
+        {
+            public int UserId { get; set; }
+            public Params Params { get; set; }
         }
 
         private bool ValidateMailData(HttpRequestMessage request)

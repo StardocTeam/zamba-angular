@@ -1020,9 +1020,10 @@ namespace ZambaWeb.RestApi.Controllers
 
         public bool UserHasRight(long userid, ObjectTypes objectType, RightsType right, long aditionalParam)
         {
-            long userID = GetUser(userid).ID;
+            long userID = userid;
             try
             {
+                userID = GetUser(userid).ID;
                 ZTrace.WriteLineIf(ZTrace.IsInfo, string.Format("Obteniendo permisos del usuario {0} , objectType {1}, right {2}, aditionalParam {3}", userID, objectType, right, aditionalParam));
 
                 return RB.GetUserRights(userID, objectType, right, aditionalParam);
