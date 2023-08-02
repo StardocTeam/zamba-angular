@@ -132,9 +132,17 @@
       <Project>{a706e6f9-436f-4761-ab28-30f99f1ef098}</Project>
       <Name>Zamba.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Data\Zamba.Data.vbproj">
+      <Project>{e92f8175-9484-4454-a8f0-9c2ab63714f5}</Project>
+      <Name>Zamba.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Zamba.Exceptions\Zamba.Exceptions.vbproj">
       <Project>{c6b645ee-2668-404d-b41e-28d5ac6caeb6}</Project>
       <Name>Zamba.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.FileTools\Zamba.FileTools.csproj">
+      <Project>{93c44ba5-4699-4764-85a3-35a6c1138dfb}</Project>
+      <Name>Zamba.FileTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Zamba.ICore\Zamba.ICore.vbproj">
       <Project>{e16279a2-165d-4d96-ad32-009874164c05}</Project>
@@ -147,6 +155,26 @@
     <ProjectReference Include="..\..\Zamba.Server\Zamba.Server.vbproj">
       <Project>{fc85cbef-6baf-4796-a6c2-9eaef956479e}</Project>
       <Name>Zamba.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.SpireTools\Zamba.SpireTools.csproj">
+      <Project>{da976344-9b47-46c5-8005-5d551f2beb76}</Project>
+      <Name>Zamba.SpireTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.Tools\Zamba.Tools.vbproj">
+      <Project>{d349ab2a-b052-4307-b979-d397d10760a1}</Project>
+      <Name>Zamba.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.WFActivity.Regular\Zamba.WFActivity.Regular.vbproj">
+      <Project>{e1ce5f3a-1fc3-4fab-adf6-384b1bf40bda}</Project>
+      <Name>Zamba.WFActivity.Regular</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.WFExecution\Zamba.WFExecution.vbproj">
+      <Project>{848729d5-9661-4d42-ab10-02f00e48adc1}</Project>
+      <Name>Zamba.WFExecution</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Zamba.WorkFlow.SQLExecution\Zamba.WorkFlow.Execution.Business\Zamba.WorkFlow.Business.csproj">
+      <Project>{9a8c8793-c6ae-4b87-ab76-6bc6fcbc9e2e}</Project>
+      <Name>Zamba.WorkFlow.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Zamba.ZImapClient\Zamba.ZImapClient.csproj">
       <Project>{d8bb8f14-1d5f-4df1-9f0c-948c3f25ab8e}</Project>
