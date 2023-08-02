@@ -197,6 +197,10 @@ public partial class Login : System.Web.UI.Page
         if(!String.IsNullOrEmpty(strAuhtenticationMultiple))
             AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
         btnLoginWithOkta.Visible = AuhtenticationMultiple;
+        if (AuhtenticationMultiple)
+        {
+            btnLogin.Visible = true;
+        }
     }
     //public void btnLoginOKTA_Click(object sender, EventArgs e)
     //{
