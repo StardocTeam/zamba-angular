@@ -30,6 +30,7 @@ using System.Web.Script.Serialization;
 using Zamba.Framework;
 using ZambaWeb.RestApi.Controllers.Class;
 using System.IO;
+using System.Web.Http.Filters;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -64,7 +65,16 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 HandleUnauthorizedRequest(actionContext);
             }
+
             return;
+        }
+
+        private Boolean ContainsCSPNotUnsafeInline(string url)
+        {
+            string ListCSPs = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPListNotUnsafeInline"].ToString();
+            var ArrayListCSPs = ListCSPs.Split(';');
+
+            return ArrayListCSPs.Contains(url);
         }
 
         /// <summary>
@@ -162,6 +172,30 @@ namespace ZambaWeb.RestApi.Controllers
                 return false;
             }
 
+        }
+    }
+
+    public class CSPActionFilter : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(HttpActionContext actionContext)
+        {
+            //// Lógica que se ejecutará antes de que el método de acción comience su ejecución
+            //string controllerName = actionContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+            //string actionName = actionContext.ActionDescriptor.ActionName;
+            //DateTime startTime = DateTime.Now;
+            //string message = $"Request para {controllerName}.{actionName} iniciado a las {startTime}";
+            //Console.WriteLine(message);
+        }
+        public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+        {
+            string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+            actionExecutedContext.Response.Headers.Add("Content-Security-Policy", HeaderCSP);
+            //// Lógica que se ejecutará después de que el método de acción haya terminado su ejecución
+            //string controllerName = actionExecutedContext.ActionContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+            //string actionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName;
+            //DateTime endTime = DateTime.Now;
+            //string message = $"Request para {controllerName}.{actionName} finalizado a las {endTime}";
+            //Console.WriteLine(message);
         }
     }
 }

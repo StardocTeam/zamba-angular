@@ -554,6 +554,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetOktaInformation")]
+        [CSPActionFilter]
         [RestAPIAuthorize(OverrideAuthorization = true)]
         public IHttpActionResult GetOktaInformation()
         {

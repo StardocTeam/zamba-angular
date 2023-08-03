@@ -43,8 +43,8 @@ namespace Zamba.Web
             if (Request.Url.Scheme == "https")
             {
                 Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
-            }                
-            if(Request.Url.Segments.Last().ToString() =="404" || 
+            }
+            if (Request.Url.Segments.Last().ToString() == "404" ||
                 Request.Url.Segments.Last().ToString() == "404.aspx" ||
                 Request.Url.Segments.Last().ToString() == "getValueFromWebConfig"
 
@@ -54,8 +54,8 @@ namespace Zamba.Web
                 //Limpia las coockies para resolver la vulnerabilidad 'AntiForgeryToken (CSRF)' de cookies inseguras
                 Response.Cookies.Clear();
             }
-                    
-                
+
+
 
 
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
@@ -136,7 +136,7 @@ namespace Zamba.Web
                 HttpContext.Current.Response.Flush();
                 HttpContext.Current.Response.End();
             }
-                
+
         }
         void Application_Start(object sender, EventArgs e)
         {
@@ -146,7 +146,7 @@ namespace Zamba.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            MvcHandler.DisableMvcResponseHeader = true;            
+            MvcHandler.DisableMvcResponseHeader = true;
             Application["AntiForgeryTokens"] = generateAntiForgeryTokens();
 
             ZCore ZC = new ZCore();
@@ -172,8 +172,8 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
- 
-            
+
+
             if (Request.Params.Count > 0)
             {
                 if (Request.Params.AllKeys[0] == "zamba:\\\\DT")
@@ -220,7 +220,23 @@ namespace Zamba.Web
                 HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "1728000");
                 HttpContext.Current.Response.End();
             }
+
+            //if (ContainsCSPNotUnsafeInline(Request.Url.Segments.Last()))
+            //{
+            //   string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+            //   HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+            //}
+
         }
+
+        private Boolean ContainsCSPNotUnsafeInline(string url)
+        {
+            string ListCSPs = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPListNotUnsafeInline"].ToString();
+            var ArrayListCSPs = ListCSPs.Split(';');
+            
+            return ArrayListCSPs.Contains(url);
+        }
+
         private string[] GetResourcesSenitive()
         {
             List<String> RecursosSensibles = new List<string>();
