@@ -113,7 +113,7 @@ TryAgain:
                         Id = 1
                     Else
                         Dim affectedrows As Integer = con.ExecuteNonQuery(CommandType.Text, "UPDATE OBJLASTID SET OBJECTID = OBJECTID + 1 WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType) & " and OBJECTID = " & Id)
-                        If affectedrows = 0 Then
+                        If affectedrows = 1 Then
                             Id = Id + 1
                         Else
                             GoTo TryAgain
@@ -162,7 +162,7 @@ TryAgain2:
                     Id = 1
                 Else
                     Dim affectedrows As Integer = con.ExecuteNonQuery(CommandType.Text, "UPDATE OBJLASTID SET OBJECTID = OBJECTID + 1 WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType) & " and OBJECTID = " & Id)
-                    If affectedrows = 0 Then
+                    If affectedrows = 1 Then
                         Id = Id + 1
                     Else
                         GoTo TryAgain2
