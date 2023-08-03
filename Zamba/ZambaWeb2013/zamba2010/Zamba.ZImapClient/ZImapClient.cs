@@ -779,10 +779,12 @@ namespace EmailRetrievalAPI.Controllers
 
             foreach (DTOObjectImap imapProcess in imapProcessList)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, $"Proceso {imapProcess.Nombre_proceso} esta activo: {imapProcess.Is_Active.ToString()}");
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "-------------------------------------------------------------------------------------"); ZTrace.WriteLineIf(ZTrace.IsInfo, $"Proceso {imapProcess.Nombre_proceso} esta activo: {imapProcess.Is_Active.ToString()}");
 
                 if (imapProcess.Is_Active != 0)
                 {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"Proceso {imapProcess.Nombre_proceso} esta activo");
+
                     try
                     {
                         string originalUserName = imapProcess.Nombre_usuario;
@@ -794,7 +796,7 @@ namespace EmailRetrievalAPI.Controllers
                         }
 
                         //Instanciar el ImapClient
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Iniciada ejecucion de proceso con ID:" + imapProcess.Id_proceso + " Nombre del proceso:" + imapProcess.Nombre_proceso);
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Ejecucion proceso ID:" + imapProcess.Id_proceso + "  Nombre: " + imapProcess.Nombre_proceso);
 
                         //GetEmails               
                         List<ZMessage> ListaDeEmails = RequestEmailsFromServer(imapProcess); //.OrderByDescending(i => i.SequenceNumber).ToList();
@@ -813,29 +815,35 @@ namespace EmailRetrievalAPI.Controllers
                                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "Asunto del correo en iteracion: " + eMail.Subject);
 
                                     string SubjectName = GetNewSubjectName(eMail);
-                                    string TempMsgPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".eml");
+                                    string TempEMLPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".msg");
 
                                     // Create a local email file with .msg extension
-                                    File.WriteAllBytes(TempMsgPath, System.Convert.FromBase64String(eMail.File));
+                                    File.WriteAllBytes(TempEMLPath, System.Convert.FromBase64String(eMail.File));
 
                                     //Se inserta la tarea en el sistema.
                                     InsertResult eMailInsertResult = InsertResult.NoInsertado;
-                                    INewResult eMailNewResult = InsertEMail(imapProcess, eMail, ref eMailInsertResult, RB, TempMsgPath);
+                                    INewResult eMailNewResult = InsertEMail(imapProcess, eMail, ref eMailInsertResult, RB, TempEMLPath);
 
                                     //Se mueve el correo dentro de la casilla.
                                     if (eMailInsertResult == InsertResult.Insertado)
                                     {
+
                                         if (imapProcess.Exportar_adjunto_por_separado == 1)
                                         {
                                             foreach (var attach in eMail.Attachs)
                                             {
                                                 InsertResult attachInsertResult = InsertResult.NoInsertado;
-                                                INewResult attachNewResult = InsertEMail(imapProcess, eMail, ref attachInsertResult, RB, TempMsgPath);
+                                                string TempAttachPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", attach.Name);
+
+                                                // Create a local email file with .msg extension
+                                                File.WriteAllBytes(TempAttachPath, System.Convert.FromBase64String(attach.File));
+                                                INewResult attachNewResult = InsertEMail(imapProcess, eMail, ref attachInsertResult, RB, TempAttachPath);
                                             }
                                         }
-
                                         //MoveEmail(folder, eMail.uniqueId, imapProcess.CarpetaDest);
                                     }
+
+
 
                                     // eMail.message.Attachments.Clear();
                                 }
@@ -856,6 +864,9 @@ namespace EmailRetrievalAPI.Controllers
                         ZTrace.WriteLineIf(ZTrace.IsError, "Exception: " + ex.ToString());
                     }
                 }
+                else
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"Proceso {imapProcess.Nombre_proceso} NO esta activado");
+
             }
         }
 
@@ -1586,7 +1597,7 @@ namespace EmailRetrievalAPI.Controllers
         {
             try
             {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicia el proceso de insercion del correo al sistema.");
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Inicia el proceso de insercion del correo.");
 
                 INewResult newResult;
                 newResult = RB.GetNewNewResult(imapProcess.Entidad);
@@ -1598,6 +1609,23 @@ namespace EmailRetrievalAPI.Controllers
                     string ExportCode = UserPreferencesFactory.getValueDB("IdAutoIncrementExporta", UPSections.ExportaPreferences, 0);
                     newResult.get_GetIndexById(imapProcess.Codigo_mail).DataTemp = ExportCode;
                     UserPreferencesFactory.setValueDB("IdAutoIncrementExporta", (int.Parse(ExportCode) + 1).ToString(), UPSections.ExportaPreferences, 0);
+
+                    try
+                    {
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Codigo Incremental." + ExportCode);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                try
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Codigo MessageId: " + eMail.MessageId);
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Codigo uniqueId: " + eMail.uniqueId);
+                }
+                catch (Exception)
+                {
                 }
 
                 newResult.get_GetIndexById(imapProcess.Enviado_por).DataTemp = string.Join(";", eMail.From);
@@ -1662,10 +1690,12 @@ namespace EmailRetrievalAPI.Controllers
                 }
                 else
                 {
-                    throw ;
+                    throw;
                 }
             }
         }
+
+     
 
         //private void MoveCB(IAsyncResult ar)
         //{

@@ -34,12 +34,13 @@ namespace Zamba.Core
             }
             WebResponse HttpResponse;
             Stream ObjStream;
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se obtiene la respuesta del cliente");
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Se obtiene la respuesta");
             HttpResponse = webRequest.GetResponse();
             ObjStream = HttpResponse.GetResponseStream();
             StreamReader ObjStreamReader = new StreamReader(ObjStream);
             string ContenidoRespuesta = ObjStreamReader.ReadToEnd();
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Respuesta rest api:" + ContenidoRespuesta);
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Respuesta rest api longitud: " + ContenidoRespuesta.Length);
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Respuesta rest api: " + ContenidoRespuesta);
             return ContenidoRespuesta;
         }
 
