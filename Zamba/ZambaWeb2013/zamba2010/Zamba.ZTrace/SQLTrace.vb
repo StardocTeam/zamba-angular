@@ -8,7 +8,7 @@ Public Class SQLTrace
 
     Private Shared hsSQLTraces As New Hashtable
     Private Shared fileName, rName, fecha As String
-    Private Shared exceptions As String = Membership.MembershipHelper.AppTempPath & "\" & DateTime.Now.ToString("yyyy-MM-dd")
+    Private Shared exceptions As String = Membership.MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd")
 
 
     Public Sub Write(ByVal text As String)
