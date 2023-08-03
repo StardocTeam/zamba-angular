@@ -270,6 +270,11 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
+            if (actionContext.Response == null)
+            {
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            actionContext.Response.Content = new StringContent("");
             base.HandleUnauthorizedRequest(actionContext);
         }
         private bool AuthorizeRequest(HttpRequestMessage request)

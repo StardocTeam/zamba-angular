@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web;
@@ -9,6 +10,10 @@ using System.Web.Http.Cors;
 using System.Web.Http.WebHost;
 using System.Web.Routing;
 using System.Web.SessionState;
+
+using System.Threading;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace ZambaWeb.RestApi
 {
@@ -29,6 +34,8 @@ namespace ZambaWeb.RestApi
                 httpControllerRouteHandler.SetValue(null,
                     new Lazy<HttpControllerRouteHandler>(() => new SessionHttpControllerRouteHandler(), true));
             }
+
+            config.MessageHandlers.Add(new NotFoundHandler());
 
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
@@ -58,6 +65,23 @@ namespace ZambaWeb.RestApi
         protected override IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
             return new SessionControllerHandler(requestContext.RouteData);
+        }
+    }
+    public class NotFoundHandler : DelegatingHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            var response = await base.SendAsync(request, cancellationToken);
+            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.InternalServerError || response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                response = request.CreateResponse(HttpStatusCode.NotFound,
+                    new { Error = "" },
+                    "application/json");
+                response.Content = new StringContent("");
+            }
+            return response;
         }
     }
 }
