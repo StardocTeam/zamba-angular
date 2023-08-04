@@ -163,19 +163,17 @@ namespace Zamba.MailKit
                             var filePath = Path.Combine(config.ExportFolderPath, $"{uid}.eml");
                             message.WriteTo(FormatOptions.Default, filePath);
 
-                            //var msgFilePath = Path.Combine(config.ExportFolderPath, $"{uid}.msg");
+                            //MemoryStream messageFileStream = new MemoryStream();
+                            //message.WriteTo(FormatOptions.Default, messageFileStream);
+                            //messageFileStream.Flush();
 
-                            //MsgKit.Converter.ConvertEmlToMsg(filePath, msgFilePath);
+                            ConvertEmlToMsg(filePath, filePath.Replace(".eml",".msg"));
 
-
-                            MemoryStream messageFileStream = new MemoryStream();
-                            message.WriteTo(FormatOptions.Default, messageFileStream);
-                            messageFileStream.Flush();
-
-                            MemoryStream msgFileStream = new MemoryStream();
-                            ConvertEmlToMsg(messageFileStream, msgFileStream);
-                            messageFileStream.Close();
-
+                            FileStream msgFileStream = File.Open(filePath.Replace(".eml", ".msg"), FileMode.Open);
+                            var msgmemoryStream = new MemoryStream();
+                            msgFileStream.CopyTo(msgmemoryStream);
+                            msgFileStream.Close();
+                            
                             IMailFolder newfolder = folder;
                             try
                             {
@@ -195,7 +193,8 @@ namespace Zamba.MailKit
 
                             ZMessage currentMessage = new ZMessage();
                             currentMessage.uniqueId = uid;
-                            currentMessage.File = System.Convert.ToBase64String(msgFileStream.ToArray());
+                            currentMessage.File = System.Convert.ToBase64String(msgmemoryStream.ToArray());
+                            msgmemoryStream.Close();
                             currentMessage.Subject = message.Subject;
                             currentMessage.From = string.Join(char.Parse(";"), message.From.Mailboxes.Select(x => x.Address).ToArray());
                             currentMessage.To = string.Join(char.Parse(";"), message.To.Mailboxes.Select(x => x.Address).ToArray());
