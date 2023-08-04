@@ -171,10 +171,10 @@ namespace Zamba.MailKit
                             MemoryStream messageFileStream = new MemoryStream();
                             message.WriteTo(FormatOptions.Default, messageFileStream);
                             messageFileStream.Flush();
-                            messageFileStream.Close();
 
                             MemoryStream msgFileStream = new MemoryStream();
                             ConvertEmlToMsg(messageFileStream, msgFileStream);
+                            messageFileStream.Close();
 
                             IMailFolder newfolder = folder;
                             try
@@ -195,7 +195,7 @@ namespace Zamba.MailKit
 
                             ZMessage currentMessage = new ZMessage();
                             currentMessage.uniqueId = uid;
-                            currentMessage.File = System.Convert.ToBase64String(messageFileStream.ToArray());
+                            currentMessage.File = System.Convert.ToBase64String(msgFileStream.ToArray());
                             currentMessage.Subject = message.Subject;
                             currentMessage.From = string.Join(char.Parse(";"), message.From.Mailboxes.Select(x => x.Address).ToArray());
                             currentMessage.To = string.Join(char.Parse(";"), message.To.Mailboxes.Select(x => x.Address).ToArray());
