@@ -21,6 +21,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ModuloConfiguracion
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ModuloConfiguracion : ApiController
     {
 

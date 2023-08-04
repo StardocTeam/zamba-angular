@@ -13,6 +13,7 @@ namespace ZambaWeb.RestApi.Controllers.Forum
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ForumController : ApiController
     {
         public ForumController()
@@ -58,7 +59,7 @@ namespace ZambaWeb.RestApi.Controllers.Forum
             public List<Object> Filters { get; set; }
 
         }
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("api/Forum/Forum")]
         [HttpPost]
         [HttpGet]

@@ -23,6 +23,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
     [RoutePrefix("api/SignPDF")]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class SignPDFController : ApiController
     {
 
@@ -101,7 +102,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("SignSinglePDF")]
         public IHttpActionResult SignSinglePDF(genericRequest paramRequest)
         {
@@ -219,7 +220,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [AcceptVerbs("GET")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SignPDFAll")]
         public IHttpActionResult SignPDFAll()
@@ -300,7 +301,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("GET")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("ReceptAll")]
         public IHttpActionResult ReceptAll()
@@ -357,7 +358,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SignPDF")]
         public IHttpActionResult SignPDF(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -419,7 +420,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("FirmarPDF")]
         public IHttpActionResult FirmarPDF(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -578,7 +579,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("RecepcionDespacho")]
         public IHttpActionResult RecepcionDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -823,7 +824,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("DigitalizacionDespacho")]
         public IHttpActionResult DigitalizacionDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -1249,7 +1250,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [AcceptVerbs("POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("ConsultaDespacho")]
         public IHttpActionResult ConsultaDespacho(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -1309,7 +1310,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("GetLegajosAll")]
         public IHttpActionResult GetLegajosAll(SolicitudFirmaDigital solicitudFirmaDigital)
@@ -1342,7 +1343,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("GetLegajosAllService")]
         public IHttpActionResult GetLegajosAllService(Int64 userId)

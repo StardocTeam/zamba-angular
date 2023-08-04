@@ -15,13 +15,14 @@ namespace ZambaWeb.RestApi.Controllers.Web
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Cache")]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class CacheController : ApiController
     {
        
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("CheckStructure")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public CacheResponseModel<int> CheckStructure(int userId)
         {
             CacheResponseModel<int> response = new CacheResponseModel<int>();
@@ -59,7 +60,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [AllowAnonymous]
         [Route("ClearAllCache")]
 
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public bool ClearAllCache()
         {
             CacheFactory ch = new CacheFactory();
@@ -80,7 +81,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ClearRulesCache")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public bool ClearRulesCache()
         {
             CacheFactory ch = new CacheFactory();
@@ -101,7 +102,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ClearRightsCache")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public bool ClearRightsCache(Int64 userId)
         {
             CacheFactory ch = new CacheFactory();
@@ -121,7 +122,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("ClearStructureCache")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public bool ClearStructureCache()
         {
             CacheFactory ch = new CacheFactory();

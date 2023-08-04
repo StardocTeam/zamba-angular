@@ -25,6 +25,7 @@ using ZambaWeb.RestApi.Models;
 namespace ZambaWeb.RestApi.Controllers
 {
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class InsertFilesController : ApiController
     {
 
@@ -82,7 +83,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         //[Authorize]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/GetIndexsFromDocType")]
         public List<IIndexList> GetIndexsFromDocType(int DocTypeId)
@@ -115,7 +116,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/GetDocTypes")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public System.Collections.ArrayList GetDocTypes()
         {
             DocTypesBusiness DTB = new DocTypesBusiness();
@@ -128,7 +129,7 @@ namespace ZambaWeb.RestApi.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/UploadFile")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public string UploadFile([FromBody]insert insert)
         {
             Int64 newId = 0;
@@ -247,7 +248,7 @@ namespace ZambaWeb.RestApi.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/InsertFiles/UploadFileWithIndexReturn")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public string UploadFileWithIndexReturn([FromBody]insert insert)
         {
             string pathTemp = string.Empty;

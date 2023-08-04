@@ -22,6 +22,7 @@ namespace ZambaWeb.RestApi.Controllers
     [RoutePrefix("api/SearchWeb")]
     //[Authorize]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class SearchWebController : ApiController
     {
         #region Constructor&ClassHelpers
@@ -98,7 +99,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("GetTree")]
 
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [HttpGet]
         public IHttpActionResult GetTree()
         {
@@ -339,7 +340,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         /// [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("GetIndexs")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [HttpGet]     
         public IHttpActionResult GetIndexs(string indexs = "")
         {
@@ -371,7 +372,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("GetResults")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [HttpPost]
         public IHttpActionResult GetResults(SearchDto searchDto)
         {

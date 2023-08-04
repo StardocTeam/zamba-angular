@@ -16,12 +16,13 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ObservacionesController : ApiController
     {
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAddComentariosObservaciones")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult getAddComentariosObservaciones(genericRequest paramRequest)
         {
 
@@ -69,7 +70,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getResultsComentariosObservaciones")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult getResultsComentariosObservaciones(genericRequest paramRequest)
         {
 
@@ -127,7 +128,7 @@ namespace ZambaWeb.RestApi.Controllers.Task.ObservacionesV2
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getMigracionObservaciones")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult getMigracionObservaciones(genericRequest paramRequest)
         {
             UserBusiness UserBusiness = new UserBusiness();

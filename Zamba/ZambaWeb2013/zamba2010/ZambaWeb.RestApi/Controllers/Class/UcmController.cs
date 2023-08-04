@@ -40,12 +40,13 @@ namespace ZambaWeb.RestApi.Controllers.Class
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class UcmController : ApiController
     {
         [Route("api/UcmServices/UCM")]
         [AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult UCM()
         {
             try

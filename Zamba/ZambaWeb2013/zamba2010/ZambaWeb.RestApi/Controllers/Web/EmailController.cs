@@ -28,7 +28,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         /// <param name="emailData">Datos del correo</param>
         /// <returns>Verdadero si fue enviado el correo, caso contrario, falso,</returns>
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SendEmail")]
         public bool SendEmail(EmailData emailData)
@@ -270,7 +270,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
 
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SendZipByMail")]
         public bool SendZipByMail(EmailData zipdata, List<string> attachs, string AppTempPath)
@@ -439,7 +439,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("GetTaskDocument")]
         public List<string> GetTaskDocument(EmailData Data)
@@ -509,7 +509,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         }
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("SendZipMail")]
         public bool SendZipMail(EmailData zipData)
@@ -544,7 +544,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("getListOfLinks")]
         public List<string> getListOfLinks(List<EmailObject> emailobject)
@@ -607,7 +607,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [AllowAnonymous]
         [Route("getIFAnyTaskHasFile")]
         public bool getIFAnyTaskHasFile(EmailData zipData)

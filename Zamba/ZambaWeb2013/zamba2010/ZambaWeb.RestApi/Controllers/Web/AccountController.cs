@@ -36,7 +36,8 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Account")]
-    //[RestAPIAuthorize]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class AccountController : ApiController
     {
         #region Contructor&ClassHelper
@@ -61,7 +62,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AllowAnonymous]
 
         [Route("Login")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult Login(LoginVM l)
         {
             if (l.UserName == null || l.UserName == string.Empty)
@@ -339,7 +340,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AllowAnonymous]
         [Route("validateOktaStateValue")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult validateOktaStateValue(String state)
         {
             List<StateOkta> expirados = ListStatesOkta.Where(n => n.expiration < DateTime.Now).ToList();
@@ -359,7 +360,6 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AllowAnonymous]
         [Route("generateOKTAStateValue")]
-        [RestAPIAuthorize]
         public IHttpActionResult generateOKTAStateValue()
         {
             StateOkta itemState = new StateOkta();
@@ -375,7 +375,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AllowAnonymous]
         [Route("LoginOKTA")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
 
         public IHttpActionResult LoginOKTA(String access_token, String id_token, String code)
         {
@@ -553,9 +553,8 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [Route("GetOktaInformation")]
-        [CSPActionFilter]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [Route("GetOktaInformation")]        
+        [OverrideAuthorization]
         public IHttpActionResult GetOktaInformation()
         {
             OktaPublicInformation oktaInformation = new OktaPublicInformation();
@@ -589,7 +588,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("LoginByGuid")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult LoginByGuid(long userid, String guid)
         {
             guid = guid.Replace("'", "").Replace("\"", "");
@@ -659,7 +658,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET")]
         // [AllowAnonymous]
         [Route("User")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult GetUser()
         {
             try
@@ -678,7 +677,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("Password")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public string ChangePassword(UserChangePassword user)
         {
             string errormessage;
@@ -731,7 +730,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("removeZssUser")]
         public void removeZssUser(int Userid)
         {
@@ -742,7 +741,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("RemoveConnection")]
         public void RemoveConnectionFromWeb(int ConnId)
         {
@@ -762,7 +761,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("CheckToken")]
         public bool CheckToken(int UserId, string Token)
         {
@@ -783,7 +782,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("SetView")]
         public void SetView(long UserId, string View)
         {
@@ -804,7 +803,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("UpdateView")]
         public void UpdateSetView(long UserId, string View)
         {
@@ -825,7 +824,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("GetView")]
         public string GetView(long UserId)
         {
@@ -846,7 +845,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("GetConfig")]
         public string GetConfig(long UserId, string ConfigName)
         {
@@ -867,7 +866,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("getUserPreferences")]
         public IHttpActionResult getUserPreferences(genericRequest paramRequest)
         {
@@ -899,7 +898,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [Route("getSystemPreferences")]
         public IHttpActionResult getSystemPreferences(genericRequest paramRequest)
         {
@@ -993,7 +992,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET")]
         [Route("IsPasswordExpired/{userId}")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult IsPasswordExpired(long userId)
         {
             try
@@ -1016,7 +1015,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET")]
         [Route("ClearUserCache/{userId}")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult ClearUserCache(long userId)
         {
             try
@@ -1040,7 +1039,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [globalControlRequestFilter(isGenericRequest = true)]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try

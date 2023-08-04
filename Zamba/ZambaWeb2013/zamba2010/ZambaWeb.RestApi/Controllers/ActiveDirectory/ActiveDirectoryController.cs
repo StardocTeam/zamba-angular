@@ -14,6 +14,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
 
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ActiveDirectoryController : ApiController
     {
         public ActiveDirectoryController()
@@ -76,7 +77,7 @@ namespace ZambaWeb.RestApi.Controllers
         
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/ActiveDirectory/GetUsers")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public string GetUsers()
         {
            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Ingreso a GetUsers");
@@ -118,7 +119,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AllowAnonymous]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/ActiveDirectory/GetAllGroup")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public List<string> GetAllGroup(string username)
         {
             ADResources ad = new ADResources();

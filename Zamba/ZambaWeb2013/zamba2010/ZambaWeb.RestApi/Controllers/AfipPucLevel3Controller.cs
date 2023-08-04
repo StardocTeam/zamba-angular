@@ -8,10 +8,11 @@ using System.Web.Http;
 namespace ZambaWeb.RestApi.Controllers
 {
     [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class AfipPucLevel3Controller : ApiController
     {
         // GET: api/AfipPucLevel3/5
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public string Get(string cuit)
         {
             GetPUCLevel3 Puc3 = new GetPUCLevel3();

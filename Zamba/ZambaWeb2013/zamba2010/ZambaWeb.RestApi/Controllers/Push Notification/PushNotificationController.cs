@@ -41,7 +41,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RestAPIAuthorize]
-    //[Authorize]
+    [globalControlRequestFilter]
     public class PushNotificationController : ApiController
     {
         Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
@@ -49,7 +49,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/PushNotification/GetPlayerID")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         public IHttpActionResult SetPlayerId(int user_id, string player_id)
         {
             try
@@ -67,7 +67,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
         [Route("api/PushNotification/Sendmessage")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [RestAPIAuthorize(OverrideAuthorization = true)]
+        [OverrideAuthorization]
         [HttpPost, HttpGet]
         private void Sendmessage(String Titulo, String Contenido, List<string> players_id, string imageUrl)
         {
