@@ -175,7 +175,7 @@ namespace Zamba.Web
         {
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
-                Response.Redirect(Request.Url.AbsolutePath +  "Views/Security/Login.aspx");
+                Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
             }
             if (Request.Params.Count > 0)
             {
@@ -227,7 +227,30 @@ namespace Zamba.Web
             if (ContainsCSPNotUnsafeInline(Request.Url.Segments.Last()))
             {
                 string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
-                HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+                string NonceNum = getRandomNonce();
+
+                HeaderCSP.Replace("#nonce", NonceNum);
+
+                string Root = Request.PhysicalPath;
+                string BodyHtml = "";
+                if (!File.Exists(Root))
+                    if (File.Exists(Root + ".aspx"))
+                        Root = Root + ".aspx";
+
+
+                using (StreamReader sr = new StreamReader(Root))
+                {
+                    BodyHtml = sr.ReadToEnd();
+                    BodyHtml = BodyHtml.Replace("#nonce", NonceNum);
+
+                    byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
+                    HttpContext.Current.Response.ClearContent();
+                    HttpContext.Current.Response.BinaryWrite(BodyBytes);
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+                    HttpContext.Current.Response.End();
+                }
+
             }
 
         }
@@ -236,7 +259,7 @@ namespace Zamba.Web
         {
             string ListCSPs = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPListNotUnsafeInline"].ToString();
             var ArrayListCSPs = ListCSPs.Split(';');
-            
+
             return ArrayListCSPs.Contains(url);
         }
 
@@ -353,7 +376,7 @@ namespace Zamba.Web
                 {
 
                     bool OktaAuthentication;
-                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);                    
+                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
                     bool AuhtenticationMultiple = false;
                     try
                     {
@@ -361,8 +384,8 @@ namespace Zamba.Web
                         if (!String.IsNullOrEmpty(strAuhtenticationMultiple))
                             AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
                     }
-                    catch (Exception){}
-                    
+                    catch (Exception) { }
+
                     if (OktaAuthentication && !AuhtenticationMultiple)
                     {
                         if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
@@ -427,7 +450,7 @@ namespace Zamba.Web
             catch (Exception e)
             {
                 //Request.AppRelativeCurrentExecutionFilePath + " (" + e.Message + ")";
-                    AutenticationIsValid = false;
+                AutenticationIsValid = false;
             }
 
             return AutenticationIsValid;
@@ -452,6 +475,14 @@ namespace Zamba.Web
             string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
             token = arrTokens[indexRandom];
             return token;
+        }
+
+
+        private string getRandomNonce()
+        {
+            Guid newGuid = Guid.NewGuid();
+
+            return newGuid.ToString();
         }
 
         private Boolean ValidateAntiForgeryToken(string token)
