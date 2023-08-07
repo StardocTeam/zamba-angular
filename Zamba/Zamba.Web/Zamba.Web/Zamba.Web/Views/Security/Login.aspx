@@ -100,6 +100,7 @@
                     <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile pull-right btn btn-primary boton-iniciar-sesion2" OnClick="btnLoginZamba_Click" ID="btnLogin">
                             Ingresar <span class="glyphicon glyphicon-log-in"></span>
                     </asp:LinkButton>
+                    <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html">Ingresar con Okta Authentication</a>
                 </div>
 
             </div>
