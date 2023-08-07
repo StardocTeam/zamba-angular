@@ -246,8 +246,8 @@ namespace Zamba.Web
                     byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
                     HttpContext.Current.Response.ClearContent();
                     HttpContext.Current.Response.BinaryWrite(BodyBytes);
-                    HttpContext.Current.Response.Flush();
                     HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+                    HttpContext.Current.Response.Flush();
                     HttpContext.Current.Response.End();
                 }
 
