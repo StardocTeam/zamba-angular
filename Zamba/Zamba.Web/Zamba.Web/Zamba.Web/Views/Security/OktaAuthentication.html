@@ -11,28 +11,25 @@
     <link id="lnkWebIcon" rel="shortcut icon" type="image/x-icon" />
     <script src="../../Scripts/jquery-3.1.1.min.js"></script>
     <script src="../../Scripts/Zamba.js"></script>
-    <script>
-        var returnUrl = getUrlParameters().returnurl;
-        if (!(returnUrl == "" || returnUrl == null)) {
-            localStorage.setItem("returnUrl", returnUrl);
-        }
-        $("#lnkWebIcon")[0].href = "../../App_Themes/Marsh/Images/WebIcon.jpg";
-    </script>
+
     <script src="Scripts/okta-auth-js.min.js" type="text/javascript"></script>
+
+	<script src="OktaAuthentication.js"></script>
+	<link href="OktaAuthentication.css" rel="stylesheet" />
 
 </head>
 <body>
     <link rel="stylesheet" href="../../Content/bootstrap-theme.min.css">
 
-    <div class="container" style="margin-top:10%;margin-bottom:20px">
+    <div class="ClaseGenerica_1 container">
         <div class="row">
             <div class="col-md-3"></div>
 
             <div class="col-md-3" id="logoStardoc">
-                <img src="Resources/logo_zamba.png" style="width: 83%;margin-top: 10px;" />
+                <img src="Resources/logo_zamba.png" class="ClaseGenerica_2" />
             </div>
             <div class="col-md-3" id="logoOkta">
-                <img src="Resources/logo_okta.png" style="width: 83%;" />
+                <img src="Resources/logo_okta.png" class="ClaseGenerica_3" />
             </div>
             <div class="col-md-3"></div>
         </div>
@@ -41,13 +38,13 @@
         <div class="row">
             <div class="panel panel-primary">
                 <div id="estado" class="panel-heading text-center">Autenticación Zamba/Okta </div>
-                <div style="text-align:center;font-weight:800;margin-top:15px">
+                <div class="ClaseGenerica_4">
                     NOTICIA LEGAL
                 </div>
                 <div class="panel-body">
-                    <p id="mensajeLegal" style="font-size:medium">Este sistema es para ser utilizado solamente por usuarios autorizados. Toda la información contenida en los sistemas es propiedad de la Empresa y pueden ser supervisados, cifrados, leídos, copiados o capturados y dados a conocer de alguna manera, solamente por personas autorizadas.             El uso del sistema por cualquier persona, constituye de su parte un expreso consentimiento al monitoreo, intervención, grabación, lectura, copia o captura y revelación de tal intervención.            El usuario debe saber que en la utilización del sistema no tendrá privacidad frente a los derechos de la empresa responsable del sistema.            El uso indebido o no autorizado de este sistema genera  responsabilidad para el infractor, quién por ello estará sujeto al resultado de las acciones civiles y penales que la Empresa considere pertinente realizar en defensa de sus derechos y resguardo de la privacidad del sistema.            Si Usted no presta conformidad con las reglas precedentes y no está de acuerdo con ellas, desconéctese ahora.</p>
-                    <div style="text-align:center">
-                        <button id="ingresar" style="display:none" type="button" onclick="IniciarOKTA();" class="btn btn-success">Ingresar a zamba</button>
+                    <p id="mensajeLegal" class="mensajeLegal_5">Este sistema es para ser utilizado solamente por usuarios autorizados. Toda la información contenida en los sistemas es propiedad de la Empresa y pueden ser supervisados, cifrados, leídos, copiados o capturados y dados a conocer de alguna manera, solamente por personas autorizadas.             El uso del sistema por cualquier persona, constituye de su parte un expreso consentimiento al monitoreo, intervención, grabación, lectura, copia o captura y revelación de tal intervención.            El usuario debe saber que en la utilización del sistema no tendrá privacidad frente a los derechos de la empresa responsable del sistema.            El uso indebido o no autorizado de este sistema genera  responsabilidad para el infractor, quién por ello estará sujeto al resultado de las acciones civiles y penales que la Empresa considere pertinente realizar en defensa de sus derechos y resguardo de la privacidad del sistema.            Si Usted no presta conformidad con las reglas precedentes y no está de acuerdo con ellas, desconéctese ahora.</p>
+                    <div class="ClaseGenerica_6">
+                        <button id="ingresar" type="button"  class="ingresar_7 btn btn-success">Ingresar a zamba</button>
                         <br />
                         <a id="ZambaAuthentication" class="hide" href="Login.aspx">Autenticar con usuario de zamba</a>
                     </div>
@@ -56,17 +53,6 @@
             </div>
         </div>
     </div>
-
-
-    <style>
-        body {
-            background-image: url('Resources/Fondo-Okta-Zamba.png');
-            background-size: cover;
-        }
-        .hide{
-            display:none;
-        }
-    </style>
     
     <script src="Scripts/OKTA.js?v=1"></script>
 </body>

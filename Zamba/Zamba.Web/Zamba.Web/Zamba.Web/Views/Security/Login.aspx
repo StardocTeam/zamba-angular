@@ -140,11 +140,9 @@
             </div>
 
         </div>
-    </form>    
-
+        <%: Scripts.Render( "~/bundles/particles") %>
+        <%: Scripts.Render( "~/bundles/modernizr") %>
+        <%: Scripts.Render("~/bundles/bootstrap") %>
+    </form>
 </body>
 </html>
-
-<%: Scripts.Render( "~/bundles/particles") %>
-<%: Scripts.Render( "~/bundles/modernizr") %>
-<%: Scripts.Render("~/bundles/bootstrap") %>

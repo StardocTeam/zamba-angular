@@ -1370,7 +1370,9 @@ function validateFormateDateKeyPress(e, data) {
     var foo = '';
     foo = data.value.replace(/[^0-9]/g, '');
     if (foo.length >= 7) {
-        setTimeout(validateInputFormatDateOnKeyPress, 100, data.id);
+        setTimeout(function (id) {
+            validateInputFormatDateOnKeyPress(id)
+        }, 100, data.id);
     }
 }
 
@@ -1934,7 +1936,7 @@ function DoGeneralValidation(objBtn, evt) {
     if ($("#aspnetForm").length && !$("#aspnetForm").valid()) {
         evt.stopPropagation();
         evt.preventDefault();
-        setTimeout("parent.hideLoading();", 1000);
+        setTimeout(function () { parent.hideLoading(); }, 1000);
 
         var msgDialog = $("#divValidationFail");
 
@@ -1960,7 +1962,7 @@ function DoRuleValidation(objBtn, evt) {
     });
 
     if (!isValid) {
-        setTimeout("parent.hideLoading();", 1000);
+        setTimeout(function () { parent.hideLoading(); }, 1000);
         var msgDialog = $("#divValidationFail");
         if (msgDialog) {
             $(msgDialog).dialog({ autoOpen: false, modal: true, position: 'center', closeOnEscape: false, draggable: false, resizable: false, open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); } });
@@ -2037,7 +2039,7 @@ function SetValidationsAction(SubmitButtonId) {
             $("#" + SubmitButtonId).click(function (evt) {
                 if (!$("#aspnetForm").valid()) {
                     evt.preventDefault();
-                    setTimeout("parent.hideLoading();", 1000);
+                    setTimeout(function () { parent.hideLoading(); }, 1000);
                 }
             });
         }
@@ -2957,7 +2959,7 @@ function CreateTable(obj, codecolumn) {
     $("#openModalSearch").modal();
     $("#openModalSearch").draggable();
 
-    setTimeout("parent.hideLoading();", 500);
+    setTimeout(function () { parent.hideLoading(); }, 500);
 }
 function Cancel() {
     $("#openModalSearch").modal('hide');
@@ -3625,7 +3627,7 @@ function SetLoadingAnimationObserver() {
                 hideLoading();
             }
             else {
-                setTimeout("SetLoadingAnimationObserver();", 1000);
+                setTimeout(function () { SetLoadingAnimationObserver(); }, 1000);
             }
         }
         else {
@@ -3682,7 +3684,7 @@ function StartPendingObjectsObserver() {
             else {
                 if ((pendingObjects[iterator].readyState != "interactive " && pendingObjects[iterator].readyState != "complete") && pendingObjects[iterator].id != 'ctl00_WFExecForEntryRulesFrame') {
                     ShowLoadingAnimation();
-                    setTimeout("StartPendingObjectsObserver()", 1000);
+                    setTimeout(function () { StartPendingObjectsObserver() }, 1000);
                     return;
                 }
                 else {
@@ -4078,7 +4080,7 @@ function keepSessionAlive() {
         dataType: "json"
     });
     if (document.config != null)
-            setTimeout("keepSessionAlive()", 5 * 60000 - 30000); //sessionTimeOut is minutes
+        setTimeout(function () { keepSessionAlive() }, 5 * 60000 - 30000); //sessionTimeOut is minutes
 
     } catch (e) {
 
@@ -7254,7 +7256,11 @@ $(document).ready(function () {
    Se eliminara cuando se cree la grilla con angular
    la misma se coloca en el zamba.js ya que en los formularios rompe la grilla
 */
-window.setTimeout("BtnGrillaClick()", 3000);
+
+window.setTimeout(function () {
+    BtnGrillaClick()
+}, 3000);
+
 function BtnGrillaClick() {
     $(".rowTzamba_associated_documents_101 > td").off("click");
 }
