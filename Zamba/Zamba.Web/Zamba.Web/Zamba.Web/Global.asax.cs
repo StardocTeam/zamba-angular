@@ -221,11 +221,11 @@ namespace Zamba.Web
                 HttpContext.Current.Response.End();
             }
 
-            //if (ContainsCSPNotUnsafeInline(Request.Url.Segments.Last()))
-            //{
-            //   string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
-            //   HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
-            //}
+            if (ContainsCSPNotUnsafeInline(Request.Url.Segments.Last()))
+            {
+                string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+                HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+            }
 
         }
 

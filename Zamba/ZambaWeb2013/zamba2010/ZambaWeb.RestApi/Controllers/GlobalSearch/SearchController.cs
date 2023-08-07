@@ -2743,6 +2743,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.HttpGet]
         [Route("api/search/getAddComentarios")]
         [OverrideAuthorization]
+        [globalControlRequestFilter(isGenericRequest = true)]
         public IHttpActionResult getResultsComentarios(genericRequest paramRequest)
         {
 
