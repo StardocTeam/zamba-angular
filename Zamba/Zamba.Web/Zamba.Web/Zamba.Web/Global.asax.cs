@@ -16,6 +16,7 @@ using Microsoft.AspNet.FriendlyUrls.Resolvers;
 using System.Text;
 using BundleTransformer.Core.Resources;
 using Spire.Pdf.Exporting.XPS.Schema;
+using System.Configuration;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -172,8 +173,10 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-
-
+            if (Request.AppRelativeCurrentExecutionFilePath == "~/")
+            {
+                Response.Redirect(Request.Url.AbsolutePath +  "Views/Security/Login.aspx");
+            }
             if (Request.Params.Count > 0)
             {
                 if (Request.Params.AllKeys[0] == "zamba:\\\\DT")
@@ -350,8 +353,17 @@ namespace Zamba.Web
                 {
 
                     bool OktaAuthentication;
-                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
-                    if (OktaAuthentication)
+                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);                    
+                    bool AuhtenticationMultiple = false;
+                    try
+                    {
+                        string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
+                        if (!String.IsNullOrEmpty(strAuhtenticationMultiple))
+                            AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
+                    }
+                    catch (Exception){}
+                    
+                    if (OktaAuthentication && !AuhtenticationMultiple)
                     {
                         if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
                         {

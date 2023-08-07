@@ -92,7 +92,7 @@ public partial class Login : System.Web.UI.Page
         zss.OktaIdToken = "";
         ZssFactory zssFactory = new ZssFactory();
         zssFactory.SetZssValues(zss);
-        var js = "$(document).ready(function () {LoginByGuid('" + zss.UserId.ToString() + "','" + zss.Token + "'," + UrlRedirect + "');});";
+        var js = "$(document).ready(function() {LoginByGuid('" + zss.UserId.ToString() + "','" + zss.Token + "'," + UrlRedirect + "');});";
         ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "LoginByGuid_" + zss.Token.Split('-').First() , js, true);
 
     }
@@ -192,34 +192,20 @@ public partial class Login : System.Web.UI.Page
                 throw;
             }
         }
-
-    }
-    public async void btnLoginOKTA_Click(object sender, EventArgs e)
-    {
-        try
+        bool AuhtenticationMultiple= false;
+        string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
+        if(!String.IsNullOrEmpty(strAuhtenticationMultiple))
+            AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
+        btnLoginWithOkta.Visible = AuhtenticationMultiple;
+        if (AuhtenticationMultiple)
         {
-            if (!IsFormFieldsRigth())
-                return;
-            SRights sRights = new SRights();
-            String OktaToken = WebConfigurationManager.AppSettings["OKTAToken"]; ;
-            String OktaDomainURL = WebConfigurationManager.AppSettings["OKTADomainURL"];
-            var user = await sRights.ValidateLoginOKTA(txtUserName.Value, txtPassword.Value, ClientType.Web, OktaDomainURL, OktaToken);
-            sRights = null;
-            if (user != null)
-            {
-                DoLogin(false);
-            }
-            else
-            {
-                ShowErrorMessage("No es posible autenticar con OKTA");
-            }
-        }
-        catch (Exception ex)
-        {
-            ShowErrorMessage(ex.Message);
-            ZTrace.WriteLineIf(ZTrace.IsInfo, ex.Message);
+            btnLogin.Visible = true;
         }
     }
+    //public void btnLoginOKTA_Click(object sender, EventArgs e)
+    //{
+    //    Response.Redirect("~/Views/Security/Login.aspx");
+    //}
 
     public void btnLoginWindows_Click(object sender, EventArgs e)
     {
@@ -802,11 +788,13 @@ public partial class Login : System.Web.UI.Page
                             // string DomainName = hdnthisdomian.Value;
                             string DomainName = GetWebConfigElement("ThisDomain");
                             FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
-                              localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
-                           " localStorage.removeItem('authorizationData'); localStorage.setItem('authorizationData', '" + token + "');" +
-                              " " +
-                              " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; window.location.href =  rurl;", true);
+
+                           // ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
+                           //   localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
+                           //" localStorage.removeItem('authorizationData'); localStorage.setItem('authorizationData', '" + token + "');" +
+                           //   " " +
+                           //   " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; window.location.href =  rurl;", true);
+
                             //                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @"$(document).ready(function() { var rurl = 'location.origin.trim()+ '" + dominianname + "/../../globalsearch/search/search.html?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; $(location).attr('href', rurl);});", true);
                             //Response.Redirect(Page.ClientQueryString.Replace("ReturnUrl=","") + "?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID);
                         }
@@ -870,12 +858,13 @@ public partial class Login : System.Web.UI.Page
                             // string DomainName = hdnthisdomian.Value;
                             string DomainName = GetWebConfigElement("ThisDomain");
                             FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
+                            /*
                             ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
                               localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
                             " localStorage.removeItem('authorizationData'); localStorage.setItem('authorizationData', '" + token + "');" +
                                " " +
                                " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "'; window.location.href =  rurl;", true);
-
+                            */
 
 
 

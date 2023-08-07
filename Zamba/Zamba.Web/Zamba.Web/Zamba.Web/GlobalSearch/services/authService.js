@@ -68,6 +68,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     var _logOut = function () {
         try {
+            debugger;
             _removeConnectionFromWeb();
             _removeZzsToken();
             localStorage.removeItem('authorizationData');
