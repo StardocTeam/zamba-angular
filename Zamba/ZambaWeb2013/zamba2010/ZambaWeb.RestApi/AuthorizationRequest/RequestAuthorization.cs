@@ -188,18 +188,12 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         private bool ValidateSelectedEntitiesIds(HttpRequestMessage request)
         {
                 
-            // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
-
-            // Leer el contenido como una cadena JSON
             string jsonString = httpContent.ReadAsStringAsync().Result;
 
             try
             {
-
-                List<Int64> parsedList = ParseStringToListInt64(jsonString);
-
-                return true;
+                return validateInt64Values(jsonString);
             }
             catch (Exception)
             {
@@ -207,20 +201,26 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             }
         }
 
-        public static List<Int64> ParseStringToListInt64(string inputString)
+        public static bool validateInt64Values(string inputString)
         {
-            List<Int64> resultList = new List<Int64>();
-
-            // Remove square brackets from the input string
-            inputString = inputString.Replace("[", "").Replace("]", "");
-
-            // Try parsing the input string into Int64 and add to the result list
-            if (Int64.TryParse(inputString, out Int64 parsedNumber))
+            try
             {
-                resultList.Add(parsedNumber);
-            }
+                List<long> int64List = JsonConvert.DeserializeObject<List<long>>(inputString);
 
-            return resultList;
+                foreach (long number in int64List)
+                {
+                    if (number.GetType() != typeof(long))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (JsonException)
+            {
+                return false; 
+            }
         }
 
         private bool ValidateSearchDto(HttpRequestMessage request)
