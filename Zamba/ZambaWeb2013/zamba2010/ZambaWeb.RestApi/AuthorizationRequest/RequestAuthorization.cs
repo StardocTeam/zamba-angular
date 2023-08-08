@@ -12,6 +12,7 @@ using Zamba.Framework;
 using System.Web.Http.Filters;
 using ZambaWeb.RestApi.Controllers.Class;
 using System.Reflection;
+using System.Web;
 
 namespace ZambaWeb.RestApi.AuthorizationRequest
 {
@@ -27,6 +28,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+
             if (isGenericRequest)
             {
                 if (!ValidateGenericRequest(actionContext.Request))
@@ -314,13 +316,69 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         //    }
         //    return UsuarioAutorizado;
         //}
+
+       
     }
+
+
     public class RequestResponseControllerAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            if (!ValidateUrl())
+            {
+                actionContext.Response = new HttpResponseMessage();
+                actionContext.Response.Content = new StringContent("");
+                actionContext.Response.StatusCode = HttpStatusCode.BadRequest;
+                return;
+            }
             // Lógica a ejecutar antes de que la acción del controlador se ejecute
             // Puedes acceder al contexto de la acción (actionContext) para obtener información sobre la solicitud actual, etc.
+        }
+
+        private Boolean ValidateUrl()
+        {
+            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
+            if (scheme == null)
+            {
+                scheme = "http";
+            }
+            if (HttpContext.Current.Request.UrlReferrer != null)
+            {
+                if (HttpContext.Current.Request.UrlReferrer.Host != HttpContext.Current.Request.Url.Host)
+                    return false;
+            }
+            scheme = scheme.ToLower();
+            var RequestScheme = HttpContext.Current.Request.Url.Scheme.ToLower();
+            if (HttpContext.Current.Request.Url.Scheme.ToLower() != scheme)
+            {
+                return false;
+            }
+            if (HttpContext.Current.Request.UrlReferrer != null)
+            {
+                if (HttpContext.Current.Request.UrlReferrer.Scheme.ToLower() != scheme)
+                {
+                    return false;
+                }
+            }
+            if (!(HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString() || HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host))
+            {
+                return false;
+            }
+
+            string strOrigin = "";
+            if (HttpContext.Current.Request.Headers["Origin"] != null)
+                strOrigin = HttpContext.Current.Request.Headers.GetValues("Origin").FirstOrDefault();
+            if (string.IsNullOrEmpty(strOrigin))
+                return true;
+            else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
+                return true;
+            else
+            {
+                return false;
+            }
+
+
         }
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {

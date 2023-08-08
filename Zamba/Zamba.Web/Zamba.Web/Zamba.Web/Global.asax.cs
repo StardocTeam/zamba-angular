@@ -14,6 +14,8 @@ using Zamba.Membership;
 using System.Net;
 using System.Web.Http.Results;
 using System.Text;
+using System.Configuration;
+using System.Net.Http;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -61,15 +63,76 @@ namespace Zamba.Web
 
         }
 
+        protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
+        {
+            HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
+            HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
+            HttpContext.Current.Response.Headers.Remove("Server");
+            HttpContext.Current.Response.Headers.Remove("X-Powered-By");
+            HttpContext.Current.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+            HttpContext.Current.Response.Headers.Add("Access-Control-Allow-Origin", HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority);
+            //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
+            //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        }
 
+        private Boolean ValidateUrl()
+        {
+            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
+            if (scheme == null)
+            {
+                scheme = "http";
+            }
+            if (Request.UrlReferrer != null)
+            {
+                if (Request.UrlReferrer.Host != Request.Url.Host)
+                    return false;
+            }
+            scheme = scheme.ToLower();
+            var RequestScheme = Request.Url.Scheme.ToLower();
+            if (Request.Url.Scheme.ToLower() != scheme)
+            {
+                return false;
+            }
+            if (Request.UrlReferrer != null)
+            {
+                if (Request.UrlReferrer.Scheme.ToLower() != scheme)
+                {
+                    return false;
+                }
+            }
+            if (!(Request.Headers["Host"] == Request.Url.Host + ":" + Request.Url.Port.ToString() || Request.Headers["Host"] == Request.Url.Host))
+            {
+                return false;
+            }
+
+            string strOrigin = "";
+            if (HttpContext.Current.Request.Headers["Origin"] != null)
+                strOrigin = HttpContext.Current.Request.Headers.GetValues("Origin").FirstOrDefault();
+            if (string.IsNullOrEmpty(strOrigin))
+                return true;
+            else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
+                return true;
+            else
+            {
+                return false;
+            }
+            
+
+        }
 
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-           // var request = ((System.Web.HttpApplication)sender).Request.Params;
-
+            
+            // var request = ((System.Web.HttpApplication)sender).Request.Params;
+            if (!ValidateUrl())
+            {
+                Response.StatusCode = 401;
+                return;
+            }
             var request = HttpContext.Current.Request;
-
+            
+    
             if (HttpContext.Current.Request.HttpMethod == "GET" && Request.Url.Segments.Length == 2) {
             //    Server.Transfer("views/security/Login.aspx");
                 Response.Redirect(request.Url.LocalPath + "views/security/Login.aspx");
