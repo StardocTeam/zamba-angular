@@ -8291,7 +8291,7 @@ function showMailSwal(ID) {
 
         });
     }
-    else if (msgMail.OriginalDocumentFileName.toLocaleLowerCase().endsWith(".msg")) {
+    else if (msgMail.OriginalDocumentFileName.toLocaleLowerCase().endsWith(".msg") || msgMail.OriginalDocumentFileName.toLocaleLowerCase().endsWith(".eml")) {
         //modalViewerMail
         var scope_documentViewer = angular.element($("#modalViewerMail")).scope();
         var result = scope_documentViewer.ShowDocument_FromItem(msgMail.UserId, msgMail.SourceDocTypeId, msgMail.SourceDocId, msgMail.OriginalDocumentFileName);

@@ -118,6 +118,8 @@ Public Class Results_Business
                     Return 2
                 Case ".MSG"
                     Return 6
+                Case ".EML"
+                    Return 6
                 Case ".XLS"
                     Return 3
                 Case ".XLSX"
