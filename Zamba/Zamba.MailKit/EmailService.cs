@@ -159,17 +159,14 @@ namespace Zamba.MailKit
                             if (isPreviouslyRetrieved)
                                 continue;
 
-                            // Create a local email file with .msg extension
+                            // Create a local email file with .eml extension
                             var filePath = Path.Combine(config.ExportFolderPath, $"{uid}.eml");
                             message.WriteTo(FormatOptions.Default, filePath);
+                           
+//                            ConvertEmlToMsg(filePath, filePath.Replace(".eml",".msg"));
+//                            FileStream msgFileStream = File.Open(filePath.Replace(".eml", ".msg"), FileMode.Open);
 
-                            //MemoryStream messageFileStream = new MemoryStream();
-                            //message.WriteTo(FormatOptions.Default, messageFileStream);
-                            //messageFileStream.Flush();
-
-                            ConvertEmlToMsg(filePath, filePath.Replace(".eml",".msg"));
-
-                            FileStream msgFileStream = File.Open(filePath.Replace(".eml", ".msg"), FileMode.Open);
+                            FileStream msgFileStream = File.Open(filePath, FileMode.Open);
                             var msgmemoryStream = new MemoryStream();
                             msgFileStream.CopyTo(msgmemoryStream);
                             msgFileStream.Close();
@@ -266,355 +263,355 @@ namespace Zamba.MailKit
 
 
 
-        public static void ConvertEmlToMsg(Stream emlFile, Stream msgFile)
-        {
-            var eml = MimeMessage.Load(emlFile);
-            var sender = new Sender(string.Empty, string.Empty);
+        //public static void ConvertEmlToMsg(Stream emlFile, Stream msgFile)
+        //{
+        //    var eml = MimeMessage.Load(emlFile);
+        //    var sender = new Sender(string.Empty, string.Empty);
 
-            if (eml.From.Count > 0)
-            {
-                var mailAddress = (MailboxAddress)eml.From[0];
-                sender = new Sender(mailAddress.Address, mailAddress.Name);
-            }
+        //    if (eml.From.Count > 0)
+        //    {
+        //        var mailAddress = (MailboxAddress)eml.From[0];
+        //        sender = new Sender(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            var representing = new Representing(string.Empty, string.Empty);
-            if (eml.ResentSender != null)
-                representing = new Representing(eml.ResentSender.Address, eml.ResentSender.Name);
+        //    var representing = new Representing(string.Empty, string.Empty);
+        //    if (eml.ResentSender != null)
+        //        representing = new Representing(eml.ResentSender.Address, eml.ResentSender.Name);
 
-            var msg = new Email(sender, representing, eml.Subject)
-            {
-                SentOn = eml.Date.UtcDateTime,
-                InternetMessageId = eml.MessageId
-            };
+        //    var msg = new Email(sender, representing, eml.Subject)
+        //    {
+        //        SentOn = eml.Date.UtcDateTime,
+        //        InternetMessageId = eml.MessageId
+        //    };
 
-            using (var memoryStream = new MemoryStream())
-            {
-                eml.Headers.WriteTo(memoryStream);
-                msg.TransportMessageHeadersText = Encoding.ASCII.GetString(memoryStream.ToArray());
-            }
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        eml.Headers.WriteTo(memoryStream);
+        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(memoryStream.ToArray());
+        //    }
 
-            switch (eml.Priority)
-            {
-                case MessagePriority.NonUrgent:
-                    msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NONURGENT;
-                    break;
-                case MessagePriority.Normal:
-                    msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NORMAL;
-                    break;
-                case MessagePriority.Urgent:
-                    msg.Priority = MsgKit.Enums.MessagePriority.PRIO_URGENT;
-                    break;
-            }
+        //    switch (eml.Priority)
+        //    {
+        //        case MessagePriority.NonUrgent:
+        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NONURGENT;
+        //            break;
+        //        case MessagePriority.Normal:
+        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NORMAL;
+        //            break;
+        //        case MessagePriority.Urgent:
+        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_URGENT;
+        //            break;
+        //    }
 
-            switch (eml.Importance)
-            {
-                case MessageImportance.Low:
-                    msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_LOW;
-                    break;
-                case MessageImportance.Normal:
-                    msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_NORMAL;
-                    break;
-                case MessageImportance.High:
-                    msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_HIGH;
-                    break;
-            }
+        //    switch (eml.Importance)
+        //    {
+        //        case MessageImportance.Low:
+        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_LOW;
+        //            break;
+        //        case MessageImportance.Normal:
+        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_NORMAL;
+        //            break;
+        //        case MessageImportance.High:
+        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_HIGH;
+        //            break;
+        //    }
 
-            foreach (var to in eml.To)
-            {
-                var mailAddress = (MailboxAddress)to;
-                msg.Recipients.AddTo(mailAddress.Address, mailAddress.Name);
-            }
+        //    foreach (var to in eml.To)
+        //    {
+        //        var mailAddress = (MailboxAddress)to;
+        //        msg.Recipients.AddTo(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            foreach (var cc in eml.Cc)
-            {
-                var mailAddress = (MailboxAddress)cc;
-                msg.Recipients.AddCc(mailAddress.Address, mailAddress.Name);
-            }
+        //    foreach (var cc in eml.Cc)
+        //    {
+        //        var mailAddress = (MailboxAddress)cc;
+        //        msg.Recipients.AddCc(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            foreach (var bcc in eml.Bcc)
-            {
-                var mailAddress = (MailboxAddress)bcc;
-                msg.Recipients.AddBcc(mailAddress.Address, mailAddress.Name);
-            }
+        //    foreach (var bcc in eml.Bcc)
+        //    {
+        //        var mailAddress = (MailboxAddress)bcc;
+        //        msg.Recipients.AddBcc(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            using (var headerStream = new MemoryStream())
-            {
-                eml.Headers.WriteTo(headerStream);
-                headerStream.Position = 0;
-                msg.TransportMessageHeadersText = Encoding.ASCII.GetString(headerStream.ToArray());
-            }
+        //    using (var headerStream = new MemoryStream())
+        //    {
+        //        eml.Headers.WriteTo(headerStream);
+        //        headerStream.Position = 0;
+        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(headerStream.ToArray());
+        //    }
 
-            var namelessCount = 0;
-            var index = 1;
+        //    var namelessCount = 0;
+        //    var index = 1;
 
-            // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
-            // As such, any included messages are just attachments here.
-            foreach (var bodyPart in eml.BodyParts)
-            {
-                var handled = false;
+        //    // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
+        //    // As such, any included messages are just attachments here.
+        //    foreach (var bodyPart in eml.BodyParts)
+        //    {
+        //        var handled = false;
 
-                // The first text/plain part (that's not an attachment) is the body part.
-                if (!bodyPart.IsAttachment && bodyPart is TextPart text)
-                {
-                    // Sets the first matching inline content type for body parts.
+        //        // The first text/plain part (that's not an attachment) is the body part.
+        //        if (!bodyPart.IsAttachment && bodyPart is TextPart text)
+        //        {
+        //            // Sets the first matching inline content type for body parts.
 
-                    if (msg.BodyText == null && text.IsPlain)
-                    {
-                        msg.BodyText = text.Text;
-                        handled = true;
-                    }
+        //            if (msg.BodyText == null && text.IsPlain)
+        //            {
+        //                msg.BodyText = text.Text;
+        //                handled = true;
+        //            }
 
-                    if (msg.BodyHtml == null && text.IsHtml)
-                    {
-                        msg.BodyHtml = text.Text;
-                        handled = true;
-                    }
+        //            if (msg.BodyHtml == null && text.IsHtml)
+        //            {
+        //                msg.BodyHtml = text.Text;
+        //                handled = true;
+        //            }
 
-                    if (msg.BodyRtf == null && text.IsRichText)
-                    {
-                        msg.BodyRtf = text.Text;
-                        handled = true;
-                    }
-                }
+        //            if (msg.BodyRtf == null && text.IsRichText)
+        //            {
+        //                msg.BodyRtf = text.Text;
+        //                handled = true;
+        //            }
+        //        }
 
-                // If the part hasn't previously been handled by "body" part handling
-                if (!handled)
-                {
-                    var attachmentStream = new MemoryStream();
-                    var fileName = bodyPart.ContentType.Name;
-                    var extension = string.Empty;
+        //        // If the part hasn't previously been handled by "body" part handling
+        //        if (!handled)
+        //        {
+        //            var attachmentStream = new MemoryStream();
+        //            var fileName = bodyPart.ContentType.Name;
+        //            var extension = string.Empty;
 
-                    if (bodyPart is MessagePart messagePart)
-                    {
-                        messagePart.Message.WriteTo(attachmentStream);
-                        if (messagePart.Message != null)
-                            fileName = messagePart.Message.Subject;
+        //            if (bodyPart is MessagePart messagePart)
+        //            {
+        //                messagePart.Message.WriteTo(attachmentStream);
+        //                if (messagePart.Message != null)
+        //                    fileName = messagePart.Message.Subject;
 
-                        extension = ".eml";
-                    }
-                    else if (bodyPart is MessageDispositionNotification)
-                    {
-                        var part = (MessageDispositionNotification)bodyPart;
-                        fileName = part.FileName;
-                    }
-                    else if (bodyPart is MessageDeliveryStatus)
-                    {
-                        var part = (MessageDeliveryStatus)bodyPart;
-                        fileName = "details";
-                        extension = ".txt";
-                        part.WriteTo(FormatOptions.Default, attachmentStream, true);
-                    }
-                    else
-                    {
-                        var part = (MimePart)bodyPart;
-                        part.Content.DecodeTo(attachmentStream);
-                        fileName = part.FileName;
-                    }
+        //                extension = ".eml";
+        //            }
+        //            else if (bodyPart is MessageDispositionNotification)
+        //            {
+        //                var part = (MessageDispositionNotification)bodyPart;
+        //                fileName = part.FileName;
+        //            }
+        //            else if (bodyPart is MessageDeliveryStatus)
+        //            {
+        //                var part = (MessageDeliveryStatus)bodyPart;
+        //                fileName = "details";
+        //                extension = ".txt";
+        //                part.WriteTo(FormatOptions.Default, attachmentStream, true);
+        //            }
+        //            else
+        //            {
+        //                var part = (MimePart)bodyPart;
+        //                part.Content.DecodeTo(attachmentStream);
+        //                fileName = part.FileName;
+        //            }
 
-                    fileName = string.IsNullOrWhiteSpace(fileName)
-                        ? $"part_{++namelessCount:00}"
-                        : fileName;
+        //            fileName = string.IsNullOrWhiteSpace(fileName)
+        //                ? $"part_{++namelessCount:00}"
+        //                : fileName;
 
-                    if (!string.IsNullOrEmpty(extension))
-                        fileName += extension;
+        //            if (!string.IsNullOrEmpty(extension))
+        //                fileName += extension;
 
-                    var inline = bodyPart.ContentDisposition != null &&
-                        bodyPart.ContentDisposition.Disposition.Equals("inline",
-                            StringComparison.InvariantCultureIgnoreCase);
+        //            var inline = bodyPart.ContentDisposition != null &&
+        //                bodyPart.ContentDisposition.Disposition.Equals("inline",
+        //                    StringComparison.InvariantCultureIgnoreCase);
 
-                    attachmentStream.Position = 0;
+        //            attachmentStream.Position = 0;
 
-                    try
-                    {
-                        msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
-                    }
-                    catch (MKAttachmentExists)
-                    {
-                        var tempFileName = Path.GetFileNameWithoutExtension(fileName);
-                        var tempExtension = Path.GetExtension(fileName);
-                        msg.Attachments.Add(attachmentStream, $"{tempFileName}({index}){tempExtension}", -1, inline, bodyPart.ContentId);
-                        index += 1;
-                    }
-                }
-            }
+        //            try
+        //            {
+        //                msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
+        //            }
+        //            catch (MKAttachmentExists)
+        //            {
+        //                var tempFileName = Path.GetFileNameWithoutExtension(fileName);
+        //                var tempExtension = Path.GetExtension(fileName);
+        //                msg.Attachments.Add(attachmentStream, $"{tempFileName}({index}){tempExtension}", -1, inline, bodyPart.ContentId);
+        //                index += 1;
+        //            }
+        //        }
+        //    }
 
-            msg.Save(msgFile);
-        }
+        //    msg.Save(msgFile);
+        //}
 
-        public static void ConvertEmlToMsg(string emlFile, string msgFile)
-        {
-            var eml = MimeMessage.Load(emlFile);
-            var sender = new Sender(string.Empty, string.Empty);
+        //public static void ConvertEmlToMsg(string emlFile, string msgFile)
+        //{
+        //    var eml = MimeMessage.Load(emlFile);
+        //    var sender = new Sender(string.Empty, string.Empty);
 
-            if (eml.From.Count > 0)
-            {
-                var mailAddress = (MailboxAddress)eml.From[0];
-                sender = new Sender(mailAddress.Address, mailAddress.Name);
-            }
+        //    if (eml.From.Count > 0)
+        //    {
+        //        var mailAddress = (MailboxAddress)eml.From[0];
+        //        sender = new Sender(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            var representing = new Representing(string.Empty, string.Empty);
-            if (eml.ResentSender != null)
-                representing = new Representing(eml.ResentSender.Address, eml.ResentSender.Name);
+        //    var representing = new Representing(string.Empty, string.Empty);
+        //    if (eml.ResentSender != null)
+        //        representing = new Representing(eml.ResentSender.Address, eml.ResentSender.Name);
 
-            var msg = new Email(sender, representing, eml.Subject)
-            {
-                SentOn = eml.Date.UtcDateTime,
-                InternetMessageId = eml.MessageId
-            };
+        //    var msg = new Email(sender, representing, eml.Subject)
+        //    {
+        //        SentOn = eml.Date.UtcDateTime,
+        //        InternetMessageId = eml.MessageId
+        //    };
 
-            using (var memoryStream = new MemoryStream())
-            {
-                eml.Headers.WriteTo(memoryStream);
-                msg.TransportMessageHeadersText = Encoding.ASCII.GetString(memoryStream.ToArray());
-            }
+        //    using (var memoryStream = new MemoryStream())
+        //    {
+        //        eml.Headers.WriteTo(memoryStream);
+        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(memoryStream.ToArray());
+        //    }
 
-            switch (eml.Priority)
-            {
-                case MessagePriority.NonUrgent:
-                    msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NONURGENT;
-                    break;
-                case MessagePriority.Normal:
-                    msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NORMAL;
-                    break;
-                case MessagePriority.Urgent:
-                    msg.Priority = MsgKit.Enums.MessagePriority.PRIO_URGENT;
-                    break;
-            }
+        //    switch (eml.Priority)
+        //    {
+        //        case MessagePriority.NonUrgent:
+        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NONURGENT;
+        //            break;
+        //        case MessagePriority.Normal:
+        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NORMAL;
+        //            break;
+        //        case MessagePriority.Urgent:
+        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_URGENT;
+        //            break;
+        //    }
 
-            switch (eml.Importance)
-            {
-                case MessageImportance.Low:
-                    msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_LOW;
-                    break;
-                case MessageImportance.Normal:
-                    msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_NORMAL;
-                    break;
-                case MessageImportance.High:
-                    msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_HIGH;
-                    break;
-            }
+        //    switch (eml.Importance)
+        //    {
+        //        case MessageImportance.Low:
+        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_LOW;
+        //            break;
+        //        case MessageImportance.Normal:
+        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_NORMAL;
+        //            break;
+        //        case MessageImportance.High:
+        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_HIGH;
+        //            break;
+        //    }
 
-            foreach (var to in eml.To)
-            {
-                var mailAddress = (MailboxAddress)to;
-                msg.Recipients.AddTo(mailAddress.Address, mailAddress.Name);
-            }
+        //    foreach (var to in eml.To)
+        //    {
+        //        var mailAddress = (MailboxAddress)to;
+        //        msg.Recipients.AddTo(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            foreach (var cc in eml.Cc)
-            {
-                var mailAddress = (MailboxAddress)cc;
-                msg.Recipients.AddCc(mailAddress.Address, mailAddress.Name);
-            }
+        //    foreach (var cc in eml.Cc)
+        //    {
+        //        var mailAddress = (MailboxAddress)cc;
+        //        msg.Recipients.AddCc(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            foreach (var bcc in eml.Bcc)
-            {
-                var mailAddress = (MailboxAddress)bcc;
-                msg.Recipients.AddBcc(mailAddress.Address, mailAddress.Name);
-            }
+        //    foreach (var bcc in eml.Bcc)
+        //    {
+        //        var mailAddress = (MailboxAddress)bcc;
+        //        msg.Recipients.AddBcc(mailAddress.Address, mailAddress.Name);
+        //    }
 
-            using (var headerStream = new MemoryStream())
-            {
-                eml.Headers.WriteTo(headerStream);
-                headerStream.Position = 0;
-                msg.TransportMessageHeadersText = Encoding.ASCII.GetString(headerStream.ToArray());
-            }
+        //    using (var headerStream = new MemoryStream())
+        //    {
+        //        eml.Headers.WriteTo(headerStream);
+        //        headerStream.Position = 0;
+        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(headerStream.ToArray());
+        //    }
 
-            var namelessCount = 0;
-            var index = 1;
+        //    var namelessCount = 0;
+        //    var index = 1;
 
-            // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
-            // As such, any included messages are just attachments here.
-            foreach (var bodyPart in eml.BodyParts)
-            {
-                var handled = false;
+        //    // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
+        //    // As such, any included messages are just attachments here.
+        //    foreach (var bodyPart in eml.BodyParts)
+        //    {
+        //        var handled = false;
 
-                // The first text/plain part (that's not an attachment) is the body part.
-                if (!bodyPart.IsAttachment && bodyPart is TextPart text)
-                {
-                    // Sets the first matching inline content type for body parts.
+        //        // The first text/plain part (that's not an attachment) is the body part.
+        //        if (!bodyPart.IsAttachment && bodyPart is TextPart text)
+        //        {
+        //            // Sets the first matching inline content type for body parts.
 
-                    if (msg.BodyText == null && text.IsPlain)
-                    {
-                        msg.BodyText = text.Text;
-                        handled = true;
-                    }
+        //            if (msg.BodyText == null && text.IsPlain)
+        //            {
+        //                msg.BodyText = text.Text;
+        //                handled = true;
+        //            }
 
-                    if (msg.BodyHtml == null && text.IsHtml)
-                    {
-                        msg.BodyHtml = text.Text;
-                        handled = true;
-                    }
+        //            if (msg.BodyHtml == null && text.IsHtml)
+        //            {
+        //                msg.BodyHtml = text.Text;
+        //                handled = true;
+        //            }
 
-                    if (msg.BodyRtf == null && text.IsRichText)
-                    {
-                        msg.BodyRtf = text.Text;
-                        handled = true;
-                    }
-                }
+        //            if (msg.BodyRtf == null && text.IsRichText)
+        //            {
+        //                msg.BodyRtf = text.Text;
+        //                handled = true;
+        //            }
+        //        }
 
-                // If the part hasn't previously been handled by "body" part handling
-                if (!handled)
-                {
-                    var attachmentStream = new MemoryStream();
-                    var fileName = bodyPart.ContentType.Name;
-                    var extension = string.Empty;
+        //        // If the part hasn't previously been handled by "body" part handling
+        //        if (!handled)
+        //        {
+        //            var attachmentStream = new MemoryStream();
+        //            var fileName = bodyPart.ContentType.Name;
+        //            var extension = string.Empty;
 
-                    if (bodyPart is MessagePart messagePart)
-                    {
-                        messagePart.Message.WriteTo(attachmentStream);
-                        if (messagePart.Message != null)
-                            fileName = messagePart.Message.Subject;
+        //            if (bodyPart is MessagePart messagePart)
+        //            {
+        //                messagePart.Message.WriteTo(attachmentStream);
+        //                if (messagePart.Message != null)
+        //                    fileName = messagePart.Message.Subject;
 
-                        extension = ".eml";
-                    }
-                    else if (bodyPart is MessageDispositionNotification)
-                    {
-                        var part = (MessageDispositionNotification)bodyPart;
-                        fileName = part.FileName;
-                    }
-                    else if (bodyPart is MessageDeliveryStatus)
-                    {
-                        var part = (MessageDeliveryStatus)bodyPart;
-                        fileName = "details";
-                        extension = ".txt";
-                        part.WriteTo(FormatOptions.Default, attachmentStream, true);
-                    }
-                    else
-                    {
-                        var part = (MimePart)bodyPart;
-                        part.Content.DecodeTo(attachmentStream);
-                        fileName = part.FileName;
-                    }
+        //                extension = ".eml";
+        //            }
+        //            else if (bodyPart is MessageDispositionNotification)
+        //            {
+        //                var part = (MessageDispositionNotification)bodyPart;
+        //                fileName = part.FileName;
+        //            }
+        //            else if (bodyPart is MessageDeliveryStatus)
+        //            {
+        //                var part = (MessageDeliveryStatus)bodyPart;
+        //                fileName = "details";
+        //                extension = ".txt";
+        //                part.WriteTo(FormatOptions.Default, attachmentStream, true);
+        //            }
+        //            else
+        //            {
+        //                var part = (MimePart)bodyPart;
+        //                part.Content.DecodeTo(attachmentStream);
+        //                fileName = part.FileName;
+        //            }
 
-                    fileName = string.IsNullOrWhiteSpace(fileName)
-                        ? $"part_{++namelessCount:00}"
-                        : fileName;
+        //            fileName = string.IsNullOrWhiteSpace(fileName)
+        //                ? $"part_{++namelessCount:00}"
+        //                : fileName;
 
-                    if (!string.IsNullOrEmpty(extension))
-                        fileName += extension;
+        //            if (!string.IsNullOrEmpty(extension))
+        //                fileName += extension;
 
-                    var inline = bodyPart.ContentDisposition != null &&
-                        bodyPart.ContentDisposition.Disposition.Equals("inline",
-                            StringComparison.InvariantCultureIgnoreCase);
+        //            var inline = bodyPart.ContentDisposition != null &&
+        //                bodyPart.ContentDisposition.Disposition.Equals("inline",
+        //                    StringComparison.InvariantCultureIgnoreCase);
 
-                    attachmentStream.Position = 0;
+        //            attachmentStream.Position = 0;
 
-                    try
-                    {
-                        msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
-                    }
-                    catch (MKAttachmentExists)
-                    {
-                        var tempFileName = Path.GetFileNameWithoutExtension(fileName);
-                        var tempExtension = Path.GetExtension(fileName);
-                        msg.Attachments.Add(attachmentStream, $"{tempFileName}({index}){tempExtension}", -1, inline, bodyPart.ContentId);
-                        index += 1;
-                    }
-                }
-            }
+        //            try
+        //            {
+        //                msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
+        //            }
+        //            catch (MKAttachmentExists)
+        //            {
+        //                var tempFileName = Path.GetFileNameWithoutExtension(fileName);
+        //                var tempExtension = Path.GetExtension(fileName);
+        //                msg.Attachments.Add(attachmentStream, $"{tempFileName}({index}){tempExtension}", -1, inline, bodyPart.ContentId);
+        //                index += 1;
+        //            }
+        //        }
+        //    }
 
-            msg.Save(msgFile);
-        }
+        //    msg.Save(msgFile);
+        //}
 
     }
 }

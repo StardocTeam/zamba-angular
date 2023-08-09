@@ -815,7 +815,7 @@ namespace EmailRetrievalAPI.Controllers
                                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "Asunto del correo en iteracion: " + eMail.Subject);
 
                                     string SubjectName = GetNewSubjectName(eMail);
-                                    string TempEMLPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".msg");
+                                    string TempEMLPath = GetNewFileName(Zamba.Membership.MembershipHelper.AppTempPath + "\\Imap\\Temp\\", SubjectName + ".eml");
 
                                     // Create a local email file with .msg extension
                                     File.WriteAllBytes(TempEMLPath, System.Convert.FromBase64String(eMail.File));
