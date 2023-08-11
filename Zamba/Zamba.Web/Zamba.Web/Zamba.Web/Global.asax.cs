@@ -175,7 +175,7 @@ namespace Zamba.Web
         {
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
-                Response.Redirect(Request.Url.AbsolutePath +  "Views/Security/Login.aspx");
+                Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
             }
             if (Request.Params.Count > 0)
             {
@@ -236,7 +236,7 @@ namespace Zamba.Web
         {
             string ListCSPs = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPListNotUnsafeInline"].ToString();
             var ArrayListCSPs = ListCSPs.Split(';');
-            
+
             return ArrayListCSPs.Contains(url);
         }
 
@@ -353,36 +353,50 @@ namespace Zamba.Web
                 {
 
                     bool OktaAuthentication;
-                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);                    
+                    bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
                     bool AuhtenticationMultiple = false;
+                    bool Init;
                     try
                     {
                         string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
                         if (!String.IsNullOrEmpty(strAuhtenticationMultiple))
                             AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
                     }
-                    catch (Exception){}
-                    
-                    if (OktaAuthentication && !AuhtenticationMultiple)
-                    {
-                        if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
-                        {
-                            string QueryStringUrl = Request.QueryString["ReturnUrl"].Split('?').First();
-                            string QueryStringParams = Request.QueryString["ReturnUrl"].Split('?').Last();
-                            QueryStringParams = String.Join("&", QueryStringParams.Split('&').Where(n => n.Split('=').First() != "token" && n.Split('=').First() != "userid").AsEnumerable());
-                            QueryStringParams = (QueryStringUrl + "?" + QueryStringParams)
-                                .Replace("/", "%2F")
-                                .Replace(":", "%3A")
-                                .Replace("?", "%3F")
-                                .Replace("=", "%3D")
-                                .Replace("&", "%26");
+                    catch (Exception) { }
 
-                            Response.Redirect("~/Views/Security/OktaAuthentication.html?ReturnUrl=" + QueryStringParams);
+                    if (Request.QueryString["init"] != null)
+                    {
+                        bool.TryParse(Request.QueryString["init"].ToString(), out Init);
+                    }
+
+                        if (OktaAuthentication && AuhtenticationMultiple)
+                    {
+                        if (Request.QueryString["init"]!=null){
+
+                            if (Request.QueryString["init"].ToString() != "false")
+                            {
+                                if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                                {
+                                    string QueryStringUrl = Request.QueryString["ReturnUrl"].Split('?').First();
+                                    string QueryStringParams = Request.QueryString["ReturnUrl"].Split('?').Last();
+                                    QueryStringParams = String.Join("&", QueryStringParams.Split('&').Where(n => n.Split('=').First() != "token" && n.Split('=').First() != "userid").AsEnumerable());
+                                    QueryStringParams = (QueryStringUrl + "?" + QueryStringParams)
+                                        .Replace("/", "%2F")
+                                        .Replace(":", "%3A")
+                                        .Replace("?", "%3F")
+                                        .Replace("=", "%3D")
+                                        .Replace("&", "%26");
+
+                                    Response.Redirect("~/Views/Security/OktaAuthentication.html?ReturnUrl=" + QueryStringParams);
+                                }
+                                else
+                                {
+                                    Response.Redirect("~/Views/Security/OktaAuthentication.html");
+                                }
+                            }
+                            //Response.Redirect("~/Views/Security/OktaAuthentication.html");
                         }
-                        else
-                        {
-                            Response.Redirect("~/Views/Security/OktaAuthentication.html");
-                        }
+                        //Response.Redirect("~/Views/Security/OktaAuthentication.html");
                     }
                     // Response.Redirect("~/Views/Security/Okta2.html");
 
@@ -427,7 +441,7 @@ namespace Zamba.Web
             catch (Exception e)
             {
                 //Request.AppRelativeCurrentExecutionFilePath + " (" + e.Message + ")";
-                    AutenticationIsValid = false;
+                AutenticationIsValid = false;
             }
 
             return AutenticationIsValid;
