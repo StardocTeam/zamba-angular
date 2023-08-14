@@ -19,13 +19,32 @@
     <asp:PlaceHolder runat="server">
         <%: Styles.Render("~/bundles/Styles/jquery")%>
         <%: Styles.Render("~/bundles/Styles/bootstrap")%>
-        <%: Scripts.Render("~/bundles/jqueryCore") %>        
+        <%: Scripts.Render("~/bundles/jqueryCore") %>
+        <%: Scripts.Render( "~/bundles/particles") %>
+        <%: Scripts.Render( "~/bundles/modernizr") %>
+        <%: Scripts.Render("~/bundles/bootstrap") %>
     </asp:PlaceHolder>
+    
+    
 </head>
 
 <body id="loginBody" runat="server">
-    <script src="Login.js"></script>
+    
+    <script>
+        function GetURLHelper() {
+            return '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("URLHelper","http://www.zamba.com.ar/zambaHelp/viewer/") %>';
+        };
 
+        function getRestApiUrl() {
+            return '<%=ConfigurationManager.AppSettings["RestApiUrl"] %>';
+};
+
+function getThisDomain() {
+            return '<%=ConfigurationManager.AppSettings["ThisDomain"] %>';
+        };
+    </script>
+
+<script src="Login.js"></script>
     <div class="hidden-xs" id="particles-js"></div>
     <form id="form2" runat="server" role="form" defaultbutton="btnLogin">
         <asp:HiddenField ID="hdnUserId" runat="server" />
@@ -100,7 +119,7 @@
                     <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile pull-right btn btn-primary boton-iniciar-sesion2" OnClick="btnLoginZamba_Click" ID="btnLogin">
                             Ingresar <span class="glyphicon glyphicon-log-in"></span>
                     </asp:LinkButton>
-                    <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html">Ingresar con Okta Authentication</a>
+                    <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?init=false">Ingresar con Okta Authentication</a>
                 </div>
 
             </div>
@@ -140,9 +159,8 @@
             </div>
 
         </div>
-        <%: Scripts.Render( "~/bundles/particles") %>
-        <%: Scripts.Render( "~/bundles/modernizr") %>
-        <%: Scripts.Render("~/bundles/bootstrap") %>
     </form>
+
 </body>
 </html>
+

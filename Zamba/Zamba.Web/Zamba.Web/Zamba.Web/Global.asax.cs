@@ -378,6 +378,12 @@ namespace Zamba.Web
                     bool OktaAuthentication;
                     bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
                     bool AuhtenticationMultiple = false;
+                    bool Init = true;
+                    if (Request.QueryString["init"] != null)
+                    {
+                        bool.TryParse(Request.QueryString["init"].ToString(), out Init);
+                    }
+
                     try
                     {
                         string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
@@ -386,8 +392,14 @@ namespace Zamba.Web
                     }
                     catch (Exception) { }
 
-                    if (OktaAuthentication && !AuhtenticationMultiple)
+                    if (Request.QueryString["init"] != null)
                     {
+                        bool.TryParse(Request.QueryString["init"].ToString(), out Init);
+                    }
+
+                    if (OktaAuthentication && AuhtenticationMultiple)
+                    {
+
                         if (!String.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
                         {
                             string QueryStringUrl = Request.QueryString["ReturnUrl"].Split('?').First();
@@ -403,10 +415,14 @@ namespace Zamba.Web
                             Response.Redirect("~/Views/Security/OktaAuthentication.html?ReturnUrl=" + QueryStringParams);
                         }
                         else
-                        {
-                            Response.Redirect("~/Views/Security/OktaAuthentication.html");
+                            if (Init)
+                                Response.Redirect("~/Views/Security/OktaAuthentication.html");
                         }
                     }
+                    //Response.Redirect("~/Views/Security/OktaAuthentication.html");
+
+                    //Response.Redirect("~/Views/Security/OktaAuthentication.html");
+
                     // Response.Redirect("~/Views/Security/Okta2.html");
 
 

@@ -1,30 +1,28 @@
-﻿var domainName = getThisDomain();
+﻿var domainName 
 var urlLocation = location.origin.trim();
-document.getElementById("hdnthisdomian").setAttribute("value", domainName);
-document.getElementById("hdnLocation").setAttribute("value", urlLocation);
-var dominio = document.getElementById("hdnthisdomian").value;
-var ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl");// + "/api";
-var URLLoginByGUID = ZambaWebRestApiURL + '/api/Account/LoginByGuid';
+
+var dominio;
+var ZambaWebRestApiURL;
+var URLLoginByGUID;
 
 $(document).ready(function () {
     CheckIfAuthenticated();
+
+    domainName = getThisDomain();
+    urlLocation = location.origin.trim();
+    document.getElementById("hdnthisdomian").setAttribute("value", domainName);
+    document.getElementById("hdnLocation").setAttribute("value", urlLocation);
+    dominio = document.getElementById("hdnthisdomian").value;
+    ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl");// + "/api";
+    URLLoginByGUID = ZambaWebRestApiURL + '/api/Account/LoginByGuid';
+
 });
 
 //function getAntiForgeryToken() {
 //    return document.head.querySelector("meta[property='AntiForgeryToken']").getAttribute("value");
 //}
 
-function GetURLHelper() {
-    return '<%=Zamba.Core.ZOptBusiness.GetValueOrDefault("URLHelper","http://www.zamba.com.ar/zambaHelp/viewer/") %>';
-};
 
-function getRestApiUrl() {
-    return '<%=ConfigurationManager.AppSettings["RestApiUrl"] %>';
-};
-
-function getThisDomain() {
-    return '<%=ConfigurationManager.AppSettings["ThisDomain"] %>';
-};
 
 try {
     $(".particles-js-canvas-el").css("position", "fixed");
@@ -127,7 +125,7 @@ function getUrlParameters() {
 function getValueFromWebConfig(key) {
 
     var url = "Services/ViewsService.asmx/getValueFromWebConfig?key=" + key;
-    if (location.pathname.toLowerCase().split("/").indexOf('login.aspx') > 1) {
+    if (location.pathname.toLowerCase().split("/").indexOf('login') > 1) {
         url = "../../Services/ViewsService.asmx/getValueFromWebConfig?key=" + key;
     }
 
