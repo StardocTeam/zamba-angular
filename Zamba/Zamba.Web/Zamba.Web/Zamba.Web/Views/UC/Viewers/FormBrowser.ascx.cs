@@ -1644,7 +1644,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
                                                 foreach (System.IO.FileInfo fItem in fileList)
                                                 {
-                                                    if (fItem.Name.Contains(System.IO.Path.GetFileNameWithoutExtension(_result.FullPath)) && !fItem.Name.Trim().ToLower().EndsWith(".msg"))
+                                                    if (fItem.Name.Contains(System.IO.Path.GetFileNameWithoutExtension(_result.FullPath)) && (!fItem.Name.Trim().ToLower().EndsWith(".msg") || !fItem.Name.Trim().ToLower().EndsWith(".eml")))
                                                     {
                                                         fList.Add(fItem);
                                                     }
@@ -1778,7 +1778,7 @@ public partial class Views_UC_Viewers_FormBrowser : System.Web.UI.UserControl
 
                                                                 foreach (System.IO.FileInfo fItem in fileList)
                                                                 {
-                                                                    if (fItem.Name.Contains(System.IO.Path.GetFileNameWithoutExtension(myResult.FullPath)) && !fItem.Name.Trim().ToLower().EndsWith(".msg"))
+                                                                    if (fItem.Name.Contains(System.IO.Path.GetFileNameWithoutExtension(myResult.FullPath)) && (!fItem.Name.Trim().ToLower().EndsWith(".msg") || !fItem.Name.Trim().ToLower().EndsWith(".eml")))
                                                                     {
                                                                         fList.Add(fItem);
                                                                     }

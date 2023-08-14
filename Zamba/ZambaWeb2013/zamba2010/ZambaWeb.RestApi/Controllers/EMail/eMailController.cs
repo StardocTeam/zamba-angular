@@ -413,10 +413,11 @@ namespace ZambaWeb.RestApi.Controllers
             DateTime MailDateTime = mail.MailDateTime;
             String ResponseHTML = "";
             String TempPath = System.Configuration.ConfigurationManager.AppSettings["ZambaSofwareAppDataPath"] + "\\Temp";
-            if (mail.OriginalDocumentFileName.EndsWith(".msg")){
+            if (mail.OriginalDocumentFileName.EndsWith(".msg") || mail.OriginalDocumentFileName.EndsWith(".eml"))
+            {
                 if (!Directory.Exists(TempPath))
                     Directory.CreateDirectory(TempPath);
-                mail.OriginalDocumentFileName = "Z_MAIL_HISTORY_" + paramRequest.UserId + "_" + id.ToString() + ".msg";
+                mail.OriginalDocumentFileName = "Z_MAIL_HISTORY_" + paramRequest.UserId + "_" + id.ToString() + (mail.OriginalDocumentFileName.EndsWith(".msg") ? ".msg" : ".eml");
                 Stream writingStream = new FileStream(TempPath + "\\" + mail.OriginalDocumentFileName, System.IO.FileMode.Create);
                 writingStream.Write(mail.OriginalDocument, 0, mail.OriginalDocument.Length);
                 writingStream.Close();
