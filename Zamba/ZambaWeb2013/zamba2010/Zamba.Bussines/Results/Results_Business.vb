@@ -1784,12 +1784,12 @@ Public Class Results_Business
                         Dim [Date] As IIndex = newResult.GetIndexById(IndexDate)
                         [Date].DataTemp = IIf([Date] IsNot Nothing, message.Date, "")
 
-                    Case "code", "codigo"
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando 'Code'...")
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Id del atributo '" + item.Name + "': " + item.ID.ToString())
-                        Dim IndexCode As String = ZOptBusiness.GetValueOrDefault("msgIndexCode", item.ID)
-                        Dim Code As IIndex = newResult.GetIndexById(IndexCode)
-                        Code.DataTemp = IIf(Code IsNot Nothing, message.Id, "")
+                    'Case "code", "codigo"
+                    '    ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando 'Code'...")
+                    '    ZTrace.WriteLineIf(ZTrace.IsInfo, "Id del atributo '" + item.Name + "': " + item.ID.ToString())
+                    '    Dim IndexCode As String = ZOptBusiness.GetValueOrDefault("msgIndexCode", item.ID)
+                    '    Dim Code As IIndex = newResult.GetIndexById(IndexCode)
+                    '    Code.DataTemp = IIf(Code IsNot Nothing, message.Id, "")
 
                     Case "usuario correo"
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando 'UserMail'...")
