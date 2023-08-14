@@ -162,7 +162,7 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
             $scope.CurrentUsuario = a[2];
             $scope.CurrentPuesto = a[3];
             $scope.CurrentTelefono = a[4];
-           
+
             if (localStorage) {
                 localStorage.setItem('UD|' + idusuario, a);
             }
@@ -178,23 +178,17 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
         //    $scope.IsInitializingThumbs = false;
 
 
-            if (localStorage) {
-                var userPhoto = localStorage.getItem('userPhoto-' + userid);
-                if (userPhoto != undefined && userPhoto != null) {
-                    try {
-                        var response = userPhoto;
-                        $scope.thumphoto = userPhoto;
-                       
-                        return response;
+        if (localStorage) {
+            var userPhoto = localStorage.getItem('userPhoto-' + userid);
+            if (userPhoto != undefined && userPhoto != null) {
+                try {
+                    var response = userPhoto;
+                    $scope.thumphoto = userPhoto;
 
-                    } catch (e) {
-                        console.log(e);
-                        var response = $scope.LoadUserPhotoFromDB(userid);
-                        $scope.thumphoto = response;
-                        return response;
-                    }
-                }
-                else {
+                    return response;
+
+                } catch (e) {
+                    console.log(e);
                     var response = $scope.LoadUserPhotoFromDB(userid);
                     $scope.thumphoto = response;
                     return response;
@@ -204,7 +198,13 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
                 var response = $scope.LoadUserPhotoFromDB(userid);
                 $scope.thumphoto = response;
                 return response;
-            }            
+            }
+        }
+        else {
+            var response = $scope.LoadUserPhotoFromDB(userid);
+            $scope.thumphoto = response;
+            return response;
+        }
         //}
 
     };
@@ -322,14 +322,14 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
 
 
         }
-        return $scope.IsAdminUserView; 
+        return $scope.IsAdminUserView;
     }
 
     $scope.GetCurrentUserName();
 
     $scope.Logout = function () {
         var isOkta = false;
-        var token_id_okta = localStorage.getItem('OKTA');
+        var token_id_okta = JSON.parse(localStorage.getItem('authorizationData')).oktaAccessToken;
         if (token_id_okta != undefined && token_id_okta != null && token_id_okta != "") {
             var isOkta = true;
         }
@@ -342,7 +342,8 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
         }
         else {
             var destinationURL = "../../views/Security/Login.aspx";//?ReturnUrl=" + window.location;
-        }        
+        }
+        localStorage.removeItem('OKTA');
         document.location = destinationURL;
     }
 
