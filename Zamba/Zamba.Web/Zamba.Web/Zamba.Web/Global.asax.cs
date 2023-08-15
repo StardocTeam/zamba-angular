@@ -415,17 +415,11 @@ namespace Zamba.Web
                             Response.Redirect("~/Views/Security/OktaAuthentication.html?ReturnUrl=" + QueryStringParams);
                         }
                         else
+                        { 
                             if (Init)
                                 Response.Redirect("~/Views/Security/OktaAuthentication.html");
                         }
                     }
-                    //Response.Redirect("~/Views/Security/OktaAuthentication.html");
-
-                    //Response.Redirect("~/Views/Security/OktaAuthentication.html");
-
-                    // Response.Redirect("~/Views/Security/Okta2.html");
-
-
                 }
                 if (SubscriptionResourcesAuthentication.Contains(PossibleResource) || SubscriptionResourcesAuthentication.Contains(PossibleWebMethod))
                 {
