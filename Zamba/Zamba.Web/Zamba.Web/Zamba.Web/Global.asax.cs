@@ -231,6 +231,11 @@ namespace Zamba.Web
 
         protected void Application_EndRequest() {
 
+            HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
+            HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
+            HttpContext.Current.Response.Headers.Remove("Server");
+            HttpContext.Current.Response.Headers.Remove("X-Powered-By");
+
             if (Response.StatusCode == 404 || Response.StatusCode == 403)
             {
                 Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");

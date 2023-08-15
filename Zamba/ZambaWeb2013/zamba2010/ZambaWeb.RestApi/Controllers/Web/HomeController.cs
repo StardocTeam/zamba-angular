@@ -22,6 +22,7 @@ namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Home")]
+    [RequestResponseController]
     public class HomeController : ApiController
     {
         public HomeController()

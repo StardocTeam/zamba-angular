@@ -9,11 +9,13 @@ using System.Web.Http.Cors;
 using Zamba.Core;
 using ZambaWeb.RestApi.Controllers.Class;
 using ZambaWeb.RestApi.Models.ResponseModel;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers.Web
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Cache")]
+    [RequestResponseController]
     public class CacheController : ApiController
     {
        
