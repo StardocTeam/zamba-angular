@@ -390,11 +390,6 @@ namespace Zamba.Web
                     }
                     catch (Exception) { }
 
-                    if (Request.QueryString["init"] != null)
-                    {
-                        bool.TryParse(Request.QueryString["init"].ToString(), out Init);
-                    }
-
                     if (OktaAuthentication && AuhtenticationMultiple)
                     {
 
