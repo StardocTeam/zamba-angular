@@ -269,11 +269,11 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(spName, ParametersNames, parameterstypes, parametersValues)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(spName & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             log = Nothing
             Me.State = IConnection.ConnectionStates.Ready
@@ -323,11 +323,11 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -386,11 +386,11 @@ Public Class SQLCon7
                 Return retval
 
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -430,11 +430,11 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(spName, parameterValues)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(spName & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -481,11 +481,11 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteNonQuery(transaction, commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -566,7 +566,7 @@ Public Class SQLCon7
             Return Me.ExecuteDataset(commandType, commandText, commandParameters)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -611,11 +611,11 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(spName, parameterValues)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(spName & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -664,11 +664,11 @@ Public Class SQLCon7
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteDataset(transaction, commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
 
@@ -754,7 +754,7 @@ ByVal ParametersNames() As Object, ByVal parameterstypes As Object, ByVal parame
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteReader(transaction, commandType, commandText, commandParameters, connectionOwnership)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
@@ -771,7 +771,7 @@ ByVal ParametersNames() As Object, ByVal parameterstypes As Object, ByVal parame
 
                 Me.Close()
             End If
-            Throw ex
+            Throw
         End Try
     End Function 'ExecuteReader
     Public Overloads Function ExecuteReader(ByVal commandType As CommandType, ByVal commandText As String) As IDataReader Implements IConnection.ExecuteReader
@@ -864,11 +864,11 @@ ByVal ParametersNames() As Object, ByVal parameterstypes As Object, ByVal parame
             If ex.Number = 11 Or ex.Number = 3113 Or ex.Number = 12571 Or ex.Number = 53 Or ex.Number = 4060 Or ex.Number = 18456 Then
                 Me.CN = Server.ConnectionIsBroken(ex).CN
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -919,11 +919,11 @@ ByVal ParametersNames() As Object, ByVal parameterstypes As Object, ByVal parame
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteScalar(commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -967,11 +967,11 @@ ByVal ParametersNames() As Object, ByVal parameterstypes As Object, ByVal parame
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteScalar(spName, parameterValues)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(spName & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -1023,11 +1023,11 @@ ByVal ParametersNames() As Object, ByVal parameterstypes As Object, ByVal parame
                 Me.CN = Server.ConnectionIsBroken(ex).CN
                 Return Me.ExecuteScalar(transaction, commandType, commandText, commandParameters)
             Else
-                Throw ex
+                Throw
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(New Exception(commandText & ":" & ex.ToString))
-            Throw ex
+            Throw
         Finally
             Me.State = IConnection.ConnectionStates.Ready
             If Me.CloseFlag Then
@@ -1140,7 +1140,7 @@ Public Class SQL7CreateTables
             CreateView(DocTypeId)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
 
     End Sub
@@ -1358,7 +1358,7 @@ Public Class SQL7CreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub InsertIntoSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String) Implements CreateTables.InsertIntoSustitucion
@@ -1380,7 +1380,7 @@ Public Class SQL7CreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub DeleteFromSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String) Implements CreateTables.DeleteFromSustitucion
@@ -1395,7 +1395,7 @@ Public Class SQL7CreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
 
     End Sub
@@ -1478,7 +1478,7 @@ Public Class SQL7CreateTables
 
         Catch ex As Exception
             t.Rollback()
-            Dim exn As New Exception("No se pudo realizar la transacción AddIndexColumn, error: " & ex.Message)
+            Dim exn As New Exception("No se pudo realizar la transacción AddIndexColumn, error: " & ex.Message, ex)
             Throw exn
         End Try
     End Sub
@@ -1587,7 +1587,7 @@ Public Class SQL7CreateTables
             Server.Con.ExecuteNonQuery(CommandType.Text, strDelete)
         Catch ex As Exception
             If Not ex.ToString.Contains("no existe") AndAlso Not ex.ToString.Contains("not exist") Then
-                Throw ex
+                Throw
             End If
         End Try
     End Sub

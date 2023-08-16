@@ -5602,7 +5602,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         var url = "../../Services/GetDocFile.ashx?DocTypeId=" + currentresult.DOC_TYPE_ID + "&DocId=" + currentresult.DOC_ID + "&UserID=" + GetUID() + "&ConvertToPDf=true";
 
         if (currentresult.Original != null) {
-            if ((currentresult.Original.toString().indexOf(".msg") != -1) || currentresult.ICON_ID == 6) {
+            if ((currentresult.Original.toString().indexOf(".msg") != -1 || currentresult.Original.toString().indexOf(".eml") != -1) || currentresult.ICON_ID == 6) {
                 $("#previewDocSearchPanel").hide();
                 $("#DocumentViewerFromSearch").show();
                 var scope = angular.element($("#DocumentViewerFromSearch")).scope();

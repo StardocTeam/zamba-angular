@@ -89,7 +89,7 @@ Public Class Transaction
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Rollback aplicado con éxito")
         Catch ex As Exception
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Error al hacer rollback de las modificaciones")
-            Throw ex
+            Throw
         End Try
     End Sub
 
@@ -105,7 +105,7 @@ Public Class Transaction
 
         Catch ex As Exception
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Error al intentar aplicar los cambios")
-            Throw ex
+            Throw
         End Try
     End Sub
 
@@ -114,9 +114,9 @@ Public Class Transaction
     ''' </summary>
     ''' <history>Tomas created 27/08/2009</history>
     Public Sub Dispose() Implements ITransaction.Dispose
-        Try
-            'Dispose de la transacción
-            If Not IsNothing(_transaction) Then
+
+        'Dispose de la transacción
+        If Not IsNothing(_transaction) Then
                 _transaction.Dispose()
                 _transaction = Nothing
             End If
@@ -127,9 +127,7 @@ Public Class Transaction
                 _con.dispose()
                 _con = Nothing
             End If
-        Catch ex As Exception
-            Throw ex
-        End Try
+
     End Sub
 #End Region
 

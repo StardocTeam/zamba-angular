@@ -87,12 +87,14 @@ Public Class RestApiHelper
         WebRequest.ContentType = "application/json"
         WebRequest.Method = Method
         If Method = "POST" Then
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "se arma el post")
             Dim encoding As New ASCIIEncoding()
             Dim bytes() As Byte = encoding.GetBytes(JsonMessage)
             Dim NewStream As Stream = WebRequest.GetRequestStream()
             NewStream.Write(bytes, 0, bytes.Length)
             NewStream.Close()
         End If
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "se arma el post o get")
         Dim HttpResponse As WebResponse
         Dim ObjStream As Stream
         HttpResponse = WebRequest.GetResponse()

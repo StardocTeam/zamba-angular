@@ -172,7 +172,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
 
-                throw ex;
+                throw ;
             }
             finally
             {
@@ -315,7 +315,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
 
-                throw ex;
+                throw ;
             }
             finally
             {
@@ -437,7 +437,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
 
-                throw ex;
+                throw ;
             }
         }
 
@@ -587,7 +587,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                         {
                             ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                             Console.WriteLine(ex.ToString());
-                            throw ex;
+                            throw ;
                         }
                     }
                 }
@@ -629,8 +629,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             List<string> AllPaths = new List<string>();
             WFTaskBusiness WTB = new WFTaskBusiness();
             SResult SResult = new SResult();
-            try
-            {
+          
                 for (int i = 0; i < Data.Idinfo.Count(); i++)
                 {
 
@@ -651,12 +650,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 return AllPaths;
 
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+           
 
         }
 
@@ -668,8 +662,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             List<string> AllPaths = new List<string>();
             WFTaskBusiness WTB = new WFTaskBusiness();
             SResult SResult = new SResult();
-            try
-            {
+           
                 for (int i = 0; i < Data.Idinfo.Count(); i++)
                 {
                     var localResult = SResult.GetResult(Data.Idinfo[i].DocId, Data.Idinfo[i].DocTypeid, false);
@@ -683,11 +676,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
                 }
                 return AllPaths;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            
         }
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -840,11 +829,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     AllPaths.Add(path);
                 }
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+           
             finally
             {
                 NB = null;

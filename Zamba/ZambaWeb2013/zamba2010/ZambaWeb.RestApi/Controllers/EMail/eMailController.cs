@@ -14,6 +14,7 @@ using System.Data;
 using System.Reflection;
 using Zamba.FileTools;
 using System.IO;
+using EmailRetrievalAPI.Controllers;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -204,7 +205,118 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("ImapInsertEmailsInZamba")]
+        public IHttpActionResult ImapInsertEmailsInZamba(genericRequest paramRequest)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
 
+                //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
+                IUser user = null;
+                if (paramRequest != null)
+                {
+                    user = GetUser(paramRequest.UserId);
+                    if (user == null)
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                            new HttpError(StringHelper.InvalidUser)));
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
+
+
+                    ZImapClient e = new ZImapClient();
+
+                    //GetProcessInfo
+                    EmailBusiness EB = new EmailBusiness();
+                    List<IDTOObjectImap> imapProcessList = new List<IDTOObjectImap>();
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo Procesos");
+                    var processTable = EB.getAllImapProcesses();
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Cantidad de Procesos " + processTable.Rows.Count);
+
+                    foreach (DataRow row in processTable.Rows)
+                    {
+                        DTOObjectImap item = new DTOObjectImap(row);
+                        imapProcessList.Add(item);
+                    }
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ejecutaran " + imapProcessList.Count + " proceso/s.");
+
+                    e.RequestEmailsAndInsertInZamba(imapProcessList, (Object)new Results_Business());
+
+                    return Ok();
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsWarning, "No hay parametros en la solicitud.");
+                }
+
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+                throw new Exception(ex.ToString());
+            }
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("TestImapInsertEmailsInZamba")]
+        public IHttpActionResult TestImapInsertEmailsInZamba(genericRequest paramRequest)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
+
+                //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
+                IUser user = null;
+                if (paramRequest != null)
+                {
+                    user = GetUser(paramRequest.UserId);
+                    if (user == null)
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                            new HttpError(StringHelper.InvalidUser)));
+
+                    ZImapClient e = new ZImapClient();
+
+                    //GetProcessInfo
+                    List<IDTOObjectImap> imapProcessList = new List<IDTOObjectImap>();
+
+                        DTOObjectImap item = new DTOObjectImap();
+                    item.Direccion_servidor = paramRequest.Params["server"];
+                    item.Puerto = int.Parse(paramRequest.Params["port"]);
+                    item.Nombre_usuario = paramRequest.Params["user"];
+                    item.Password = paramRequest.Params["password"];
+                    //item.Domain = paramRequest.Params["domain"];
+                    item.Carpeta = paramRequest.Params["exporFolder"];
+                    item.CarpetaDest = paramRequest.Params["exportedFolder"];
+
+                    imapProcessList.Add(item);
+
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ejecutara " + imapProcessList.Count + " proceso/s.");
+
+                    e.RequestEmailsAndInsertInZamba(imapProcessList, (Object)new Results_Business());
+
+                    return Ok();
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsWarning, "No hay parametros en la solicitud.");
+                }
+
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+                throw new Exception(ex.ToString());
+            }
+        }
 
 
 
@@ -301,10 +413,11 @@ namespace ZambaWeb.RestApi.Controllers
             DateTime MailDateTime = mail.MailDateTime;
             String ResponseHTML = "";
             String TempPath = System.Configuration.ConfigurationManager.AppSettings["ZambaSofwareAppDataPath"] + "\\Temp";
-            if (mail.OriginalDocumentFileName.EndsWith(".msg")){
+            if (mail.OriginalDocumentFileName.EndsWith(".msg") || mail.OriginalDocumentFileName.EndsWith(".eml"))
+            {
                 if (!Directory.Exists(TempPath))
                     Directory.CreateDirectory(TempPath);
-                mail.OriginalDocumentFileName = "Z_MAIL_HISTORY_" + paramRequest.UserId + "_" + id.ToString() + ".msg";
+                mail.OriginalDocumentFileName = "Z_MAIL_HISTORY_" + paramRequest.UserId + "_" + id.ToString() + (mail.OriginalDocumentFileName.EndsWith(".msg") ? ".msg" : ".eml");
                 Stream writingStream = new FileStream(TempPath + "\\" + mail.OriginalDocumentFileName, System.IO.FileMode.Create);
                 writingStream.Write(mail.OriginalDocument, 0, mail.OriginalDocument.Length);
                 writingStream.Close();
@@ -428,7 +541,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                         // SM: Panel 2
                         Direccion_servidor = paramRequest.Params["IP_ADDRESS"],
-                        Puerto = Convert.ToInt64(paramRequest.Params["FIELD_PORT"]),
+                        Puerto = Convert.ToInt32(paramRequest.Params["FIELD_PORT"]),
                         Protocolo = paramRequest.Params["FIELD_PROTOCOL"],
                         Filtrado = Convert.ToInt64(paramRequest.Params["HAS_FILTERS"]),
 
@@ -540,40 +653,51 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
-        [Route("GetConection")]
-        public IHttpActionResult GetConection(genericRequest paramRequest)
-        {
-            try
-            {
-                if (paramRequest.Params["GenericInbox"].ToString() == "true")
-                {
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[System.Web.Http.HttpGet]
+        //[Route("GetConection")]
+        //public IHttpActionResult GetConection(genericRequest paramRequest)
+        //{
+        //    try
+        //    {
+        //        if (paramRequest.Params["GenericInbox"].ToString() == "true")
+        //        {
 
-                    Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
-                    string CasillaGenericaImap = zopt.GetValue("CasillaGenericaImap");
+        //            Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
+        //            string CasillaGenericaImap = zopt.GetValue("CasillaGenericaImap");
 
-                    var newUser = CasillaGenericaImap + "\\" + paramRequest.Params["UserName"] + "\\" + paramRequest.Params["EMAIL"];
-                    paramRequest.Params["UserName"] = newUser;
+        //            var newUser = CasillaGenericaImap + "\\" + paramRequest.Params["UserName"] + "\\" + paramRequest.Params["EMAIL"];
+        //            paramRequest.Params["UserName"] = newUser;
 
-                }
+        //        }
 
-                Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
-                System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
+        //        Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
+        //        System.Type t = tt.GetType("Zamba.SpireTools.EMail", true, true);
 
-                ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
-                e.ConnectToExchange(paramRequest.Params);
+        //        //ISpireEmailTools e = (ISpireEmailTools)Activator.CreateInstance(t);
+        //        //e.ConnectToExchange(paramRequest.Params);
+
+        //        DTOObjectImap DtoObj = new DTOObjectImap();
+        //        DtoObj.Nombre_usuario = paramRequest.Params["UserName"];
+        //        DtoObj.Password = paramRequest.Params["UserPass"];
+        //        DtoObj.Direccion_servidor = paramRequest.Params["Host"];
+        //        DtoObj.Puerto = long.Parse(paramRequest.Params["Port"].ToString());
+        //        DtoObj.Protocolo = paramRequest.Params["ProtCon"].ToString();
+
+        //        ZImapClient Zclient = new ZImapClient();
+
+        //        Zclient.ConnectToExchange(DtoObj);
 
 
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comprobacion de conexion al Exchange exitosa.");
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, new HttpError("Conexion exitosa!.")));
-            }
-            catch (Exception ex)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]: Fallo la conexion al Exchange:" + ex.ToString());
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.Message.ToString())));
-            }
-        }
+        //        ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comprobacion de conexion al Exchange exitosa.");
+        //        return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, new HttpError("Conexion exitosa!.")));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]: Fallo la conexion al Exchange:" + ex.ToString());
+        //        return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError(ex.Message.ToString())));
+        //    }
+        //}
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]

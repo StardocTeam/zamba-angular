@@ -23,11 +23,8 @@ Public NotInheritable Class MessagesFactory
     Public Shared Function getMessages(ByVal UserId As Int32) As dsMessages
         Dim ds As New DataSet
         Dim dsMsg As New dsMessages
-        If Server.IsOracle Then
-            Dim parnames As String() = {"my_id", "io_cursor"}
+        If Server.isOracle Then
             Dim parvalues As String() = {UserId, 2}
-            Dim partypes As String() = {13, 5}
-            'ds = Server.Con.ExecuteDataset("get_my_messages_pkg.getmymessages", parValues)
             ds = Server.Con.ExecuteDataset("zsp_messages_100.GetMyMessages", parvalues)
         Else
             Dim parvalues As String() = {UserId}

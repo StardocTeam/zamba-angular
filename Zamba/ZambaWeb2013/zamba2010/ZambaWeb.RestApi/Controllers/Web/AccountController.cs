@@ -483,7 +483,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -538,7 +538,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -557,7 +557,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -577,7 +577,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -593,7 +593,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -612,7 +612,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -628,7 +628,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -644,7 +644,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -662,7 +662,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -679,7 +679,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -699,7 +699,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -721,7 +721,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -754,7 +754,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -785,7 +785,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
         public Zamba.Core.IUser GetUser(long? userId)
@@ -1049,7 +1049,6 @@ namespace ZambaWeb.RestApi.Controllers
                     catch (Exception)
                     {
                         ZTrace.WriteLineIf(ZTrace.IsError, "fallo la inserccion para el usuario" + UserName);
-                        throw;
                     }
                    
                 }

@@ -382,7 +382,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -459,11 +459,12 @@ namespace ZambaWeb.RestApi.Controllers
 
                 //if (token.Length == 0)
                 //{
-                //    var ticket = @"<?xml version='1.0'?><req version=""3.0""><id unique_id=""342423"" src=""30567867689"" dst=""30714439304"" gen_time=""1551719747"" exp_time=""1552151747""/><operation type=""[folder - req]"" response=""online""><folder id=""19001EC01009063X"" codigo=""000"" sigea="""" nro_ticket="""" hash=""HASH - INFO""><info-afip envio=""TRANSACCION_AFIP"" tipo=""Original"" situacion=""NoRatificado"" vigente=""S""/> <doctypes> <doctype id=""001"" /> <doctype id=""002"" /> </doctypes> </folder>  </operation> </req> ";
+                //var ticket = @"<?xml version='1.0'?><req version=""3.0""><id unique_id=""342423"" src=""27165159069"" dst=""30501632364"" gen_time=""1551719747"" exp_time=""1552151747""/><operation type=""[folder - req]"" response=""online""><folder id=""22093EC01000388Y"" codigo=""003"" sigea=""17919-171-2022/0"" nro_ticket="""" hash=""HASH - INFO""><info-afip envio=""TRANSACCION_AFIP"" tipo=""Original"" situacion=""NoRatificado"" vigente=""S""/> <doctypes>  </doctypes> </folder>  </operation> </req> ";
 
+                //<doctype id=""001"" /> <doctype id=""002"" />
                 //    //Ver si hace falta o el ticket viene en base64 YA.
 
-                //    using (var m = new MemoryStream())
+                //using (var m = new MemoryStream())
                 //    {
                 //        token = Convert.ToBase64String(new UTF8Encoding().GetBytes(ticket));
                 //        ZTrace.WriteLineIf(ZTrace.IsInfo, string.Format("ticketBase64: {0}", token));
@@ -480,8 +481,11 @@ namespace ZambaWeb.RestApi.Controllers
                 req info = new req();
                 info.operation = new operation();
                 info.operation.folder = new folder();
+
                 //TEST HARDCODED
-                
+                info.operation.folder.id = "22093EC01000388Y";
+                info.operation.folder.codigo =  "003";
+                info.operation.folder.sigea = "17919-171-2022/0";
 
                 if (contentArray != null && contentArray.Length > 0)
                 {
@@ -734,7 +738,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -833,7 +837,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -947,7 +951,7 @@ namespace ZambaWeb.RestApi.Controllers
                 List<doctype> doctypes = info.operation.folder.doctypes;
                 var query = string.Empty;
 
-                if (codigo == "004")
+                if (codigo == "004" || codigo == "002" || codigo == "003")
                 {
                      query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo,  i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", NroDespacho, codigo,sigea);
                 }
@@ -1022,7 +1026,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 var query = string.Empty;
 
-                if (codigo == "004")
+                if (codigo == "004" || codigo == "002" || codigo == "003")
                 {
                     query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo,  i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' and i139578 = '{2}'", NroDespacho, codigo, sigea);
                 }

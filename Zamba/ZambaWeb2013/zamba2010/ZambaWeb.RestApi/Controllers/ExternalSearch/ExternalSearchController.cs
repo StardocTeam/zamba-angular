@@ -548,7 +548,7 @@ namespace ZambaWeb.RestApi.Controllers
                     {
                         ZClass.raiseerror(new Exception("Error al obtener el archivo. Se reintenta decode. Err. 7008",ex));
                         return Ok(System.Convert.FromBase64String(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false)));
-                        throw ex;
+                        throw ;
                     }
 
                 }
@@ -645,7 +645,7 @@ namespace ZambaWeb.RestApi.Controllers
                     catch (Exception ex)
                     {
                         //return Ok(System.Convert.FromBase64String(DD));
-                        //throw ex;
+                        //throw ;
                         var jsonDD = JsonConvert.SerializeObject(DD);
                         return Ok(jsonDD);
                     }

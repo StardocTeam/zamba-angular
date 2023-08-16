@@ -44,7 +44,7 @@ Public Class DoConsumeRestApi
 
 
 
-    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepid As Int64, ByVal Url As String, ByVal ResultVar As String, ByVal JsonMessage As Integer, ByVal Method As String)
+    Public Sub New(ByVal Id As Int64, ByVal Name As String, ByVal wfstepid As Int64, ByVal Url As String, ByVal ResultVar As String, ByVal JsonMessage As String, ByVal Method As String)
         MyBase.New(Id, Name, wfstepid)
 
 

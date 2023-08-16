@@ -73,7 +73,7 @@ public interface IDTOObjectImap
         Int64 Id_usuario { get; set; }
         string Password { get; set; }
         string Direccion_servidor { get; set; }
-        Int64 Puerto { get; set; }
+        int Puerto { get; set; }
         string Protocolo { get; set; }
         Int64 Filtrado { get; set; }
         string Filtro_campo { get; set; }

@@ -28,6 +28,75 @@ Public NotInheritable Class CoreData
     ''' 	[Hernan]	29/05/2006	Created
     ''' </history>
     ''' -----------------------------------------------------------------------------
+    '    Public Shared Function GetNewID(ByVal IdType As Zamba.Core.IdTypes) As Int64
+    '        Dim Id As Int64
+    '        Dim DSTEMP As New DataSet
+    '        Dim con As IConnection = Server.Con()
+    '        Try
+
+    '            If Server.isOracle Then
+    '                Dim parValues() As Object = {DirectCast(IdType, Int32), 2}
+    '                DSTEMP = con.ExecuteDataset("zsp_objects_100.GetAndSetLastId", parValues)
+    '                Id = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString)
+    '            Else
+    '                Dim parameters() As Object = {(IdType)}
+    '                Id = Int64.Parse(con.ExecuteScalar("zsp_objects_100_GetAndSetLastId", parameters).ToString)
+    '            End If
+    '            ZTrace.WriteLineIf(ZTrace.IsVerbose, String.Format("Nuevo Id {0} para IDType: {1}", Id, IdType.ToString()))
+    '            Return Id
+
+    '        Catch ex As Exception
+    '            'Zamba.Core.ZClass.raiseerror(ex)
+    '            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "Error al obtener Id por Store, se intenta por consulta: " & ex.Message)
+    '            Try
+
+    'TryAgain:
+    '                Dim result As Object = con.ExecuteScalar(CommandType.Text, "SELECT OBJECTID FROM OBJLASTID WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType))
+    '                If result Is Nothing OrElse IsDBNull(result) OrElse Int64.TryParse(result, Id) = False Then
+    '                    con.ExecuteNonQuery(CommandType.Text, "Insert into Objlastid(Object_type_id,objectid) values (" & Int64.Parse(IdType) & ", 1) ")
+    '                    Id = 1
+    '                Else
+    '                    Dim affectedrows As Integer = con.ExecuteNonQuery(CommandType.Text, "UPDATE OBJLASTID SET OBJECTID = OBJECTID + 1 WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType) & " and OBJECTID = " & Id)
+    '                    If affectedrows = 1 Then
+    '                        Id = Id + 1
+    '                    Else
+    '                        GoTo TryAgain
+    '                    End If
+    '                End If
+
+
+    '                Dim MaxId As Int64
+    '                Select Case IdType
+    '                    Case IdTypes.RulePreference
+    '                        MaxId = Int64.Parse(con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")).ToString())
+    '                End Select
+
+    '                If Id < MaxId Then
+    '                    con.ExecuteNonQuery(CommandType.Text, String.Format("UPDATE OBJLASTID SET OBJECTID = {0} WHERE OBJECT_TYPE_ID = " & IdType, MaxId))
+    '                    Id = MaxId
+    '                End If
+
+    '                Return Id
+
+    '            Catch ex2 As Exception
+    '                Zamba.Core.ZClass.raiseerror(ex)
+    '                Try
+    '                    con.ExecuteNonQuery(CommandType.Text, "insert into objlastid(OBJECT_TYPE_ID,OBJECTID) values(" & (IdType) & ",2)")
+    '                Catch exe As Exception
+    '                    Zamba.Core.ZClass.raiseerror(exe)
+    '                    Return 1
+    '                End Try
+    '                Return 1
+    '            End Try
+
+    '        Finally
+    '            con.Close()
+    '            con.dispose()
+    '            con = Nothing
+    '        End Try
+    '    End Function
+
+
     Public Shared Function GetNewID(ByVal IdType As Zamba.Core.IdTypes) As Int64
         Dim Id As Int64
         Dim DSTEMP As New DataSet
@@ -35,9 +104,46 @@ Public NotInheritable Class CoreData
         Try
 
             If Server.isOracle Then
-                Dim parValues() As Object = {DirectCast(IdType, Int32), 5}
-                DSTEMP = con.ExecuteDataset("zsp_objects_100.GetAndSetLastId", parValues)
-                Id = Int64.Parse(DSTEMP.Tables(0).Rows(0).Item(0).ToString)
+                Try
+
+TryAgain:
+                    Dim result As Object = con.ExecuteScalar(CommandType.Text, "SELECT OBJECTID FROM OBJLASTID WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType))
+                    If result Is Nothing OrElse IsDBNull(result) OrElse Int64.TryParse(result, Id) = False Then
+                        con.ExecuteNonQuery(CommandType.Text, "Insert into Objlastid(Object_type_id,objectid) values (" & Int64.Parse(IdType) & ", 1) ")
+                        Id = 1
+                    Else
+                        Dim affectedrows As Integer = con.ExecuteNonQuery(CommandType.Text, "UPDATE OBJLASTID SET OBJECTID = OBJECTID + 1 WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType) & " and OBJECTID = " & Id)
+                        If affectedrows = 1 Then
+                            Id = Id + 1
+                        Else
+                            GoTo TryAgain
+                        End If
+                    End If
+
+
+                    Dim MaxId As Int64
+                    Select Case IdType
+                        Case IdTypes.RulePreference
+                            MaxId = Int64.Parse(con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE").ToString())
+                    End Select
+
+                    If Id < MaxId Then
+                        con.ExecuteNonQuery(CommandType.Text, String.Format("UPDATE OBJLASTID SET OBJECTID = {0} WHERE OBJECT_TYPE_ID = " & IdType, MaxId))
+                        Id = MaxId
+                    End If
+
+                    Return Id
+
+                Catch ex2 As Exception
+                    Zamba.Core.ZClass.raiseerror(ex2)
+                    Try
+                        con.ExecuteNonQuery(CommandType.Text, "insert into objlastid(OBJECT_TYPE_ID,OBJECTID) values(" & (IdType) & ",2)")
+                    Catch exe As Exception
+                        Zamba.Core.ZClass.raiseerror(exe)
+                        Return 1
+                    End Try
+                    Return 1
+                End Try
             Else
                 Dim parameters() As Object = {(IdType)}
                 Id = Int64.Parse(con.ExecuteScalar("zsp_objects_100_GetAndSetLastId", parameters).ToString)
@@ -46,11 +152,10 @@ Public NotInheritable Class CoreData
             Return Id
 
         Catch ex As IndexOutOfRangeException
-            'Zamba.Core.ZClass.raiseerror(ex)
             ZTrace.WriteLineIf(ZTrace.IsError, "Error al obtener Id por Store, se intenta por consulta: " & ex.Message)
             Try
 
-TryAgain:
+TryAgain2:
                 Dim result As Object = con.ExecuteScalar(CommandType.Text, "SELECT OBJECTID FROM OBJLASTID WHERE OBJECT_TYPE_ID = " & Int64.Parse(IdType))
                 If result Is Nothing OrElse IsDBNull(result) OrElse Int64.TryParse(result, Id) = False Then
                     con.ExecuteNonQuery(CommandType.Text, "Insert into Objlastid(Object_type_id,objectid) values (" & Int64.Parse(IdType) & ", 1) ")
@@ -60,15 +165,14 @@ TryAgain:
                     If affectedrows = 1 Then
                         Id = Id + 1
                     Else
-                        GoTo TryAgain
+                        GoTo TryAgain2
                     End If
                 End If
-
 
                 Dim MaxId As Int64
                 Select Case IdType
                     Case IdTypes.RulePreference
-                        MaxId = Int64.Parse(con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "")).ToString())
+                        MaxId = Int64.Parse(con.ExecuteScalar(CommandType.Text, "SELECT MAX(ID) + 1 FROM ZRULEOPTBASE").ToString())
                 End Select
 
                 If Id < MaxId Then
@@ -95,6 +199,7 @@ TryAgain:
             con = Nothing
         End Try
     End Function
+
     ''' -----------------------------------------------------------------------------
     ''' <summary>
     ''' Devuelve un nuevo ID

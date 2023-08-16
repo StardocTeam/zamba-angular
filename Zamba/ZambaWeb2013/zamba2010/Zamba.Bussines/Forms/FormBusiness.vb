@@ -1321,7 +1321,7 @@ Public Class FormBusiness
                     File.SetAttributes(copyPath, FileAttributes.Normal)
                     File.Copy(sourcePath, copyPath, True)
                 Else
-                    Throw ex
+                    Throw
                 End If
             Catch ex2 As Exception
                 Dim ex3 As New Exception("Error al copiar el formulario: " & sourcePath & " en la ruta: " & copyPath, ex2)

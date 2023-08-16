@@ -606,8 +606,7 @@ namespace Zamba.SpireTools
         /// <returns></returns>
         public object ConvertMSGToHTML(String msgPath, String PDFPath, bool includeAttachs)
         {
-            try
-            {
+            
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
                 MailMessage miMailMessage = MailMessage.Load(msgPath);
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
@@ -615,11 +614,7 @@ namespace Zamba.SpireTools
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
                 object obj_toJson = miMailPreview;
                 return obj_toJson;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            
         }
 
 
@@ -1003,7 +998,7 @@ namespace Zamba.SpireTools
                     }
                     ZException.Log(new Exception("Error al obtener el documento : " + wordPath + " " + ex.ToString()));
 
-                    throw ex;
+                    throw ;
 
                 }
                 finally
@@ -1167,8 +1162,7 @@ namespace Zamba.SpireTools
 
         public string GenerateBarcodeImage(string templatePath, long barcodeId)
         {
-            try
-            {
+          
                 //Spire.License.LicenseProvider.SetLicenseKey("f8EtGD4252xT64cBAPDOf9M+Cd1SPbPLWcuUZaCfbE28yxH9vjXouk1R6RxmIIDOkYjefGNH+GvHblXKlf5s/8w/tus4H/n1f3D50w7lUl92XvbW6Cv5XnXgdsv2yr8+JZ4KaekZi5DH5ZfVicftemM/MqGSFl3GmzdpFHGhMOrD0OLteC+bUKiYKDtGx5953q4f/fzDE5JhUK6W9TQfkrdIjKgyliBzvLRQwae6PpVyu2iIXSr8Iezdyf1r7DKycQdg6zxxS7BR8UojG3JLDI4y/Iw7nmTSjAz5u12LhJ0Rwn+6AjvEDAS/Dqj2tAWpirGCGQqGFTl/LrPSGJ7kUkMcRGwDB14OJ8ezMJb6qwgcE8RsvakynQEMunzMMpPK/86UDo1XUCF9okhqGzF1sGRr7+j3vYWGra1gGm3hPupPDVvSq/XBoZz/0jVsGctYQ955woQStIawztZ4LSamLupgzT486h/rxAvdB0REvBwdtI/vX3bI3Q+h4HgoR4Uutm00XI3AGeM4N9ExBOkMlSqkg/jA4OS50Xi5zhUZVuS7MTSoZDwNIe4DCtFAJKQRFZQJvC4SgR6TJuynYD1o8XM6ApeI/hVjcMPFCQnMfLW5EHvY/lH+YqWKmBx1uMhjZMhgRrW3gZ6Mnvjn9+6RuDWgIHTlWAJZBAWZVk9L3Y1aRQ773T1MXlMMwaGu0QTI7tWSrOTQrd8YPVgfHnMk3oWKluz1sSSb+Bo0Lvd9upGsmJCJXf/uHP5ahNMnBCIwrJCxoUmDBUpmFzvK9Bg1g4o/nWNQgunpjEgTj2XoFP4Dukk5Gk7USnCpvSLpFqGngKF4aBq1vatZThH/00nHIdfVLsdxH0mX+Vm1obTc49JdpmzRZ/reYQcCXiPku6u6ErsdZyk8m6SBHePTP7G9tBUKYFyubN0JAnQboUYHm8CbbjU9zY6qCqLinvhhVES9JY1spb3pD4TLJ1tZt/WmNWHJO9IlEEts/NTUZKFUMYBXJSamUuv6adb3HB1NnX6FKdwnvcWEnXS2GBxqYnmJx6Lp9gu+62gRP8nYA4PY8QgJtdvsUwkzdUg5Ag5UsSs3am2U6WvbQ0DbJuMT7DSoK8Hbv1RDY8GiFqkgZMjG2ltiCUJKIW4cDEaPuRUz3yJaqkTQdHLNP/7sOEmrK3nUpChgYGxy4Ob1tQ59XIZmwdwEjmT/Sqw8DXERhTWMA4FUm6SsJThHnpLjHNxq6RL48H0HH1H4N7OYwLTao6Vq0BeKCHCQEQa7AkUhD/9zrQc9wcHF331Uwa+73lDN+xxPwG3viNU+kY637SLuWS7DecTAm5Xxent0tF6oLxvaztpufkMs3nNclN7DMiIE/jEe5IP4KZwAN/yK182z4kae3LEVJ4AUTnGaft2uxatxPYEIYijdEQhBFACjgut3RqdWsdBjb7K7N9e282pjCqcsfY9grQPiLovuvwj5XAxM8XYHMzbtWP5DUEdQSOlmzOWxGw==");
 
                 Spire.Barcode.BarcodeSettings.ApplyKey("G769Y-1ZXJP-ZVDB4-D851K-4WNPB");
@@ -1225,11 +1219,7 @@ namespace Zamba.SpireTools
                 //}
 
                 return GetBase64StringFromImage(barcodeImage, ImageFormat.Png);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            
         }
 
         public string GetBase64StringFromImage(Image img, ImageFormat imgFormat)
@@ -1395,19 +1385,14 @@ namespace Zamba.SpireTools
 
         public MailPreview ConvertEmlToMsg(Stream file)
         {
-            try
-            {
+           
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comienza la conversion de EML a MSG iniciada...");
                 MailMessage miMailMessage = MailMessage.Load(file, MailMessageFormat.Eml);
                 MailPreview miMailPreview = new MailPreview(miMailMessage, true);
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Conversion de EML a MSG exitosa...");
 
                 return miMailPreview;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+           
         }
     }
 

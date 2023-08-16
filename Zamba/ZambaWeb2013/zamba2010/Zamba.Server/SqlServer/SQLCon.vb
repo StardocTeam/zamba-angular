@@ -995,7 +995,7 @@ Public Class SQLCreateTables
             CreateView(DocTypeId)
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
 
     End Sub
@@ -1244,7 +1244,7 @@ Public Class SQLCreateTables
 
             Catch ex As Exception
                 t.Rollback()
-                Dim exn As New Exception("No se pudo realizar la transacción AddIndexColumn, error: " & ex.Message)
+                Dim exn As New Exception("No se pudo realizar la transacción AddIndexColumn, error: " & ex.Message, ex)
                 Throw exn
             End Try
 
@@ -1336,7 +1336,7 @@ Public Class SQLCreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub InsertIntoSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String) Implements CreateTables.InsertIntoSustitucion
@@ -1357,7 +1357,7 @@ Public Class SQLCreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub DeleteFromSustitucion(ByVal Tabla As String, ByVal Codigo As Int32, ByVal Descripcion As String) Implements CreateTables.DeleteFromSustitucion
@@ -1372,7 +1372,7 @@ Public Class SQLCreateTables
             End If
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
-            Throw ex
+            Throw
         End Try
     End Sub
     Public Shadows Sub InsertIndexList(ByVal IndexId As Int64, ByVal IndexList As ArrayList) Implements CreateTables.InsertIndexList
@@ -1420,7 +1420,7 @@ Public Class SQLCreateTables
             Server.Con.ExecuteNonQuery(CommandType.Text, strDelete)
         Catch ex As Exception
             If Not ex.ToString.Contains("no existe") AndAlso Not ex.ToString.Contains("not exist") Then
-                Throw ex
+                Throw
             End If
         End Try
     End Sub

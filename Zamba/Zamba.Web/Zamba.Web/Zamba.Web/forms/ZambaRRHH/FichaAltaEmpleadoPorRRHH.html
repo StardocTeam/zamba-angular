@@ -1,0 +1,403 @@
+<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion: 07.2023-->
+<!--Ultima Edicion: -->
+<!--Modificado por: -->
+
+
+<head>
+    <title></title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+
+    <style>
+        .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:focus,
+        .nav-tabs > li.active > a:hover {
+            color: #eaeaea !important;
+            cursor: default !important;
+            background-color: #0bb4c4 !important;
+            border: 1px solid #8dc9ed !important;
+            border-bottom-color: transparent !important;
+        }
+
+
+        td,
+        th {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        div thead th {
+            color: White;
+            font-size: x-small;
+            font-family: arial;
+            background-color: #507CD1;
+        }
+
+      
+
+        .containerGrid {
+            width: auto;
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+    </style>
+
+</head>
+
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="FichaAltaEmpleadoporRRHH.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+           
+            <div class="tab-content">
+                <div class="tab-pane active" id="Reclamo">
+
+                    <div id="tblReclamo" >
+						<div class="form-group row"> </div>
+						<div class="form-group row"> </div>
+						<div class="form-group row"> </div>
+						<div class="form-group row"> 						
+							<div class="col-md-1"></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="position:relative;top:-20px">
+								<span class="input-group-addon" style=""> Datos de RRHH sobre el Empleado:</span>
+							</div>
+						</div>
+                        
+						<div class="form-group row">
+							<div class="col-lg-1"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Nombre y Razón Social:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_172" name="zamba_index_172" />
+                                </div>
+                            </div>
+							<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">CUIT:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_109" name="zamba_index_109" />
+                                </div>
+                            </div>							
+                        </div>
+						
+						<div class="form-group row">
+							<div class="col-md-1"></div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Apellido:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_102" name="zamba_index_102" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Nombre:</span>
+                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_101" name="zamba_index_101" />
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">CUIL/CUIT:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_108" name="zamba_index_108" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+							<div class="col-md-1"></div>
+							<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Condición laboral:</span>
+                                    <Select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_150" name="zamba_index_150"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Contrato laboral:</span>
+                                    <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_151" name="zamba_index_151" size="1"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Nro de legajo:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_110" name="zamba_index_110" />
+                                </div>
+                            </div>
+                        </div>
+						
+						<div class="form-group row">
+							<div class="col-md-1"></div>
+							<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Fecha de Ingreso:</span>
+                                    <Select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_112" name="zamba_index_150"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Fecha de Egreso:</span>
+                                    <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_113" name="zamba_index_151" size="1"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Antiguedad:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_192" name="zamba_index_110" />
+                                </div>
+                            </div>
+                        </div>
+						
+                        <div class="form-group row">
+							<div class="col-md-1"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Area o Sector:</span>
+                                    <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_152" name="zamba_index_152" size="1"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Cargo:</span>
+                                    <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_153" name="zamba_index_153"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+							<div class="col-md-1"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Función que cumple:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_154" size="1" name="zamba_index_154" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Fecha de nombramiento:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_155" name="zamba_index_155" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+							<div class="col-md-1"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Responsable directo:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_157" name="zamba_index_157" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Salario actual:</span>
+                                    <input class="form-control input-sm solonums ZDecimal" style=" color: #090A0A; font-weight: bold" id="zamba_index_156" name="zamba_index_156" />                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Poseé firma digital:</span>
+                                    <input type="checkbox" class="form-check-input" id="zamba_index_189" name="zamba_index_189" />
+								</div>
+                            </div>                            
+                        </div>
+
+                        <div class="form-group row">
+							<div class="col-md-1"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Obra social o prepaga:</span>
+                                    <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_134" name="zamba_index_134"></select>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">ART:</span>
+                                    <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_135" name="zamba_index_135" ></select>
+                                </div>
+                            </div>                            
+                        </div>
+						
+						<div class="form-group row"> </div>
+						<div class="form-group row"> </div>
+						<div class="form-group row"> </div>
+						<div class="form-group row"> 
+							<div class="col-md-1"></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="position:relative;top:-20px">
+								<span class="input-group-addon" style=""> Datos y Ubicación Laboral del Empleado:</span>
+							</div>
+						</div>
+						
+                        <div class="form-group row">
+							<div class="col-md-1"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Calle:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_114" name="zamba_index_114" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Nro:</span>
+                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_115" name="zamba_index_115" />
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Piso:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_116" name="zamba_index_116" />
+                                </div>
+                            </div>
+							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="">Oficina:</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_184" name="zamba_index_184" />
+                                </div>
+                            </div>							
+                        </div>                        
+                    </div>
+
+                    <div class="form-group row">
+						<div class="col-md-1"></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Pais:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_125" name="zamba_index_125"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Provincia:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_119" name="zamba_index_119"></select>
+                            </div>
+                        </div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Departamento provincial:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_120" name="zamba_index_120"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+						<div class="col-md-1"></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Municipio:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_121" name="zamba_index_121"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Localidad:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_122" name="zamba_index_122"></select>
+                            </div>
+                        </div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Barrio:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_123" name="zamba_index_123"></select>
+                            </div>
+                        </div>						
+                    </div>
+
+                    <div class="form-group row">
+						<div class="col-md-1"></div>
+						<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Cod. postal:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_124" name="zamba_index_124" class="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Cod. país:</span>
+                                <Select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_125" name="zamba_index_125"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Cod. área:</span>
+                                <select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_126" name="zamba_index_126"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Teléfonos:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_127" name="zamba_index_127" />
+							</div>
+                        </div>						
+                    </div>
+
+                    <div class="form-group row">
+						<div class="col-md-1"></div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Celulares:</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_128" name="zamba_index_128" />
+							</div>
+                        </div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">Skype::</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_129" name="zamba_index_129" class="" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="">email::</span>
+                                <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_129" name="zamba_index_129" class="" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row"></div>
+                    <div class="form-group row" style="margin-bottom: 40px;">
+						<center>
+							<div class="col-md-1"></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" style="position:relative;top:-20px">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<span class="input-group-addon" style=""> Observaciones:</span>
+										<!--Area texto Observacion-->
+										<div id="appObservaciones" ng-controller="ObservacionController">
+											<zamba-observaciones index-id="136" entity-id="136"></zamba-observaciones>
+										</div>
+									</div>
+								</div>
+							</div>
+						</center>
+                    </div>
+					<center>
+                        <div class="form-group row">
+                            <div class="form-group">
+                                <input class="btn  btn-primary btn-md" id="zamba_save" name="zamba_save" type="submit"
+                                       value="Guardar" onclick="" />
+                            </div>
+                        </div>
+                    </center>
+                </div>
+
+                <div class="form-group row"> </div>
+                <div class="form-group row"> </div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+            </div>
+            <center>                
+                <div class="col-md-12">
+                    <span style="color:White">FichaAltaEmpleadoporRRHH.html</span>
+                </div>                
+            </center>
+        </form>
+    </div>
+
+</body>
+
+</html>

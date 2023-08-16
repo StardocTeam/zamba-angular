@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailRetrievalAPI.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,11 +7,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Zamba.Core;
+using Zamba.FileTools;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace Zamba.ImapWindowsService
 {
@@ -19,13 +23,51 @@ namespace Zamba.ImapWindowsService
         public IMAP()
         {
             InitializeComponent();
+            if (Zamba.Servers.Server.ConInitialized == false)
+            {
+                Zamba.Core.ZCore ZC = new Zamba.Core.ZCore();
+                ZC.InitializeSystem("Zamba.ImapWindowsService");
+            }
         }
         private Timer _timer;
+        private long userId;
+
         protected override void OnStart(string[] args)
         {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Servicio de windows IMAP iniciado");
+
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando servicio IMAP...");
+                userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
+                IUser user = GetUser(userId);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Membership.MembershipHelper.CurrentUser.ID " + Membership.MembershipHelper.CurrentUser.ID);
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ocurrio un error " + ex.Message);
+            }
+
             ConfigurarTimer();
-            Trace("Servicio de windows IMAP iniciado");
         }
+
+        public Zamba.Core.IUser GetUser(long? userId)
+        {
+            try
+            {
+                UserBusiness UBR = new UserBusiness();
+                var user = UBR.ValidateLogIn(userId.Value, ClientType.WebApi);
+                UBR = null;
+                return user;
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                return null;
+            }
+        }
+
         private void ConfigurarTimer()
         {
             _timer = new Timer();
@@ -34,33 +76,65 @@ namespace Zamba.ImapWindowsService
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(TimerTick);
         }
+        private bool Processing;
         private void TimerTick(object source, ElapsedEventArgs e)
         {
-            EjecutarServicioIMAP();
-        }
-        private void Trace(string mensaje)
-        {
+            try
+            {
+                if (!Processing)
+                {
+                    Processing = true;
+                    EjecutarServicioIMAP();
+                }
+            }
+            finally
+            {
+                Processing = false;
+            }
 
+            //ConsumeServiceRestApi RestClient = new ConsumeServiceRestApi();
+            //var data = "{ \"ImapServer\": \"nasa1mail.mmc.com\", \"ImapPort\": 143, \"secureSocketOptions\": \"Auto\", \"ImapUsername\": \"MGD\\\\eseleme\\\\pedidoscaucion@marsh.com\", \"ImapPassword\": \"Octubre2023\", \"FolderName\": \"INBOX/F\", \"ExportFolderPath\": \"INBOX/A\" }";
+            //RestClient.CallServiceRestApi("https://localhost:44365/swagger/api/imap/get","POST",data);
         }
+
         private void EjecutarServicioIMAP()
         {
             try
             {
-                Trace("Ejecutando servicio IMAP...");
-                parametrosRestAPI parametrosRestAPI = new parametrosRestAPI();
-                parametrosRestAPI.URLRestAPI = ZOptBusiness.GetValueOrDefault("WebRestApiURL", "Http://Localhost/ZambaWeb.RestApi/api") + "/eInbox/InsertEmailsInZamba";
-                // ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984")
-                parametrosRestAPI.BodyContent = "";
-                parametrosRestAPI.UserId = int.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
-                parametrosRestAPI.BearerToken = "";
-                parametrosRestAPI.Headers.Add("", "");
-                parametrosRestAPI.Method = "GET";
-                string Response = CallRestAPI(parametrosRestAPI);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ha iniciado el proceso de insercion de correos.");
+                userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
+                IUser user = GetUser(userId);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Membership.MembershipHelper.CurrentUser.ID " + Membership.MembershipHelper.CurrentUser.ID);
+
+                //EL USUARIO LOGEADO EN LA APP DE ADMIN O EN EL SERVICIO SE DEBE ENVIAR
+
+                ZImapClient e = new ZImapClient();
+
+                //GetProcessInfo
+                EmailBusiness EB = new EmailBusiness();
+                List<IDTOObjectImap> imapProcessList = new List<IDTOObjectImap>();
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Obteniendo Procesos");
+                var processTable = EB.getAllImapProcesses();
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Cantidad de Procesos " + processTable.Rows.Count);
+
+                foreach (DataRow row in processTable.Rows)
+                {
+                    DTOObjectImap item = new DTOObjectImap(row);
+                    imapProcessList.Add(item);
+                }
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se ejecutaran " + imapProcessList.Count + " proceso/s.");
+
+                e.RequestEmailsAndInsertInZamba(imapProcessList, (Object)new Results_Business());
+
             }
             catch (Exception ex)
             {
-                Trace("Ocurrio un error " + ex.Message);
+                ZClass.raiseerror(ex);
+                throw;
             }
+
         }
 
 
@@ -83,7 +157,7 @@ namespace Zamba.ImapWindowsService
 
             public string URLRestAPI;
             public string BodyContent;
-            public string Method="POST";
+            public string Method = "POST";
             public Dictionary<string, string> Headers = new Dictionary<string, string>();
             public string BearerToken = "";
             public string Username;
@@ -111,13 +185,13 @@ namespace Zamba.ImapWindowsService
         {
             HttpWebRequest Browser;
             WebResponse ResponseWeb;
-            string ResponseContent="";
+            string ResponseContent = "";
             Browser = (HttpWebRequest)WebRequest.Create(new Uri(RestAPIParameters.URLRestAPI));
             Browser.KeepAlive = true;
             foreach (KeyValuePair<string, string> Atributo in RestAPIParameters.Headers)
                 Browser.Headers.Add(Atributo.Key, Atributo.Value);
             if (RestAPIParameters.BasicAuthorization != "")
-                Browser.Headers.Add("Authorization", "Basic " +  RestAPIParameters.BasicAuthorization);
+                Browser.Headers.Add("Authorization", "Basic " + RestAPIParameters.BasicAuthorization);
             if (RestAPIParameters.BearerToken != "")
                 Browser.Headers.Add("Authorization", "Bearer " + RestAPIParameters.BearerToken);
             Browser.Accept = "application/json";
@@ -141,7 +215,7 @@ namespace Zamba.ImapWindowsService
 
         protected override void OnStop()
         {
-            Trace("Servicio de windows IMAP finalizado");
-        }        
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Servicio de windows IMAP finalizado");
+        }
     }
 }

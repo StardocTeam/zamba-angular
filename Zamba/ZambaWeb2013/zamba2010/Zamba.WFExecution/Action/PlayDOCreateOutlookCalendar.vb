@@ -144,7 +144,7 @@ Public Class PlayDOCreateOutlookCalendar
 
     '    Catch ex As Exception
     '        Zamba.Core.ZClass.raiseerror(ex)
-    '        Throw ex
+    '        Throw 
     '    Finally
     '        VarInterReglas = Nothing
     '    End Try

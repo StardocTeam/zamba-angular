@@ -608,15 +608,8 @@ namespace ScriptWebServices
         [WebMethod(true)]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = true)]
         public void CleanSessionVariable(string varName)
-        {
-            try
-            {
-                Session[varName] = null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        {            
+                Session[varName] = null;            
         }
     }
 }

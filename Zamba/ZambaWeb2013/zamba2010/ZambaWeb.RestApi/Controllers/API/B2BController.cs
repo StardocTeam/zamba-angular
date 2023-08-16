@@ -187,7 +187,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                         catch (Exception ex)
                         {
                             //return Ok(System.Convert.FromBase64String(DD));
-                            //throw ex;
+                            //throw ;
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "ToJson Archivo With EX");
                             var jsonDD = JsonConvert.SerializeObject(DD);
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "return Json with EX");
@@ -199,7 +199,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                     {
                         //return Ok(System.Convert.FromBase64String(GetDocumentData(paramRequest.UserId.ToString(), docTypeId.ToString(), docId.ToString(), ref convertToPDf, res)));
                         ZClass.raiseerror(ex);
-                        throw ex;
+                        throw ;
                     }
 
 
@@ -271,7 +271,7 @@ namespace ZambaWeb.RestApi.Controllers.API
                         {
                             //return Ok(System.Convert.FromBase64String(GetDocumentData(paramRequest.UserId.ToString(), entityId.ToString(), docid.ToString(), ref convertToPDf, res)));
                             return Ok();
-                            throw ex;
+                            throw ;
                         }
 
 
@@ -1200,7 +1200,7 @@ namespace ZambaWeb.RestApi.Controllers.API
             catch (Exception ex)
             {
                 Zamba.Core.ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -1264,7 +1264,7 @@ namespace ZambaWeb.RestApi.Controllers.API
             catch (Exception ex)
             {
                 Zamba.Core.ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
         private static byte[] GetFilesBytesFromDB(IResult res, SZOptBusiness Zopt, SResult sResult, long userID, ref bool IsBlob)

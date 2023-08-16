@@ -507,8 +507,8 @@ Public Class ZForoBusiness
     ''' </summary>
     Public Sub InsertAttach(ByVal idMensaje As Int32, ByRef file As Byte(), ByVal maxLength As Int64, ByVal fileName As String)
         If Not IsNothing(file) AndAlso file.Length > 0 AndAlso idMensaje > 0 Then
-            Try
-                Dim Zoptb As New ZOptBusiness
+
+            Dim Zoptb As New ZOptBusiness
 
                 If Not IsNothing(Zoptb.GetValue("ServAdjuntosRuta")) Then
                     FF.InsertAttach(idMensaje, file, maxLength, fileName, IO.Path.Combine(IO.Path.Combine(Zoptb.GetValue("ServAdjuntosRuta"), idMensaje.ToString()), fileName))
@@ -516,22 +516,18 @@ Public Class ZForoBusiness
                     Throw New Exception("No esta configurada la ruta de los adjuntos (ServAdjuntosRuta)")
                 End If
                 Zoptb = Nothing
-            Catch ex As Exception
-                Throw ex
-            End Try
+
         End If
     End Sub
 
     Public Sub InsertAttachInAExistRecord(ByVal idMensaje As Int32, ByRef file As Byte(), ByVal maxLength As Int64, ByVal fileName As String)
         If Not IsNothing(file) AndAlso file.Length > 0 AndAlso idMensaje > 0 Then
-            Try
-                Dim Zoptb As New ZOptBusiness
+
+            Dim Zoptb As New ZOptBusiness
 
                 FF.InsertAttachInAExistRecord(idMensaje, file, maxLength, fileName, IO.Path.Combine(IO.Path.Combine(Zoptb.GetValue("ServAdjuntosRuta"), idMensaje.ToString()), fileName))
                 Zoptb = Nothing
-            Catch ex As Exception
-                Throw ex
-            End Try
+
         End If
     End Sub
 

@@ -419,8 +419,7 @@ Public NotInheritable Class Email_Factory
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "No hay ID de documento para el logueo de historial de Mail")
                 End If
             End If
-        Catch ex As Exception
-            Throw ex
+
         Finally
 
             If Not IsNothing(exportPath) Then exportPath = Nothing
@@ -579,7 +578,7 @@ Public NotInheritable Class Email_Factory
         Catch ex As Exception
 
             ExportPath = String.Empty
-            Throw ex
+            Throw
 
         End Try
 
@@ -644,10 +643,8 @@ Public NotInheritable Class Email_Factory
 
             If Server.isOracle Then
 
-                Dim parnames As String() = {"mc_doc_id", "io_cursor"}
-                Dim parvalues As String() = {DocId, 2}
-                Dim partypes As String() = {13, 5}
 
+                Dim parvalues As String() = {DocId, 2}
                 ds = Server.Con.ExecuteDataset("ZSP_ZMAIL_HISTORY_100.CantExportaciones", parvalues)
 
             Else

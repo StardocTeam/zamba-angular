@@ -1545,7 +1545,7 @@ namespace ZambaWeb.RestApi.Controllers
                             }
                             catch (Exception)
                             {
-                                //throw ex;
+                                //throw ;
                             }
                             string newColName = c.ColumnName.Replace(" ", "_").Replace("-", "_").Replace("%", "_").Replace("/", "_").Replace("._", "_").Replace("*", "_").Replace(".", "_").Replace("?", "_").Replace("¿", "_").Replace("+", "_").Replace("/", "_").Replace("&", "_").Replace("-", "_").Replace("\\", "_").Replace("%", "_").Replace(")", "_").Replace("(", "_").Replace("#", "_").Replace("+", "_").Replace("°", "_").Replace("__", "_");
                             sr.MappingColumnToDisplay
@@ -1922,7 +1922,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw ;
             }
         }
 
@@ -2230,7 +2230,7 @@ namespace ZambaWeb.RestApi.Controllers
         //    catch (Exception ex)
         //    {
         //        ZClass.raiseerror(ex);
-        //        throw ex;
+        //        throw ;
         //    }
 
         //}
@@ -2485,7 +2485,7 @@ namespace ZambaWeb.RestApi.Controllers
                 catch (Exception ex)
                 {
                     //return Ok(System.Convert.FromBase64String(DD));
-                    //throw ex;
+                    //throw ;
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "ToJson Archivo With EX");
                     var jsonDD = JsonConvert.SerializeObject(DD);
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "return Json with EX");
@@ -2699,7 +2699,7 @@ namespace ZambaWeb.RestApi.Controllers
                 catch (Exception ex)
                 {
                     //return Ok(System.Convert.FromBase64String(DD));
-                    //throw ex;
+                    //throw ;
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "ToJson Archivo With EX");
                     var jsonDD = JsonConvert.SerializeObject(DD);
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "return Json with EX");
@@ -6071,14 +6071,9 @@ namespace ZambaWeb.RestApi.Controllers
 
             if (paramRequest != null)
             {
-                try
-                {
+               
                     sResult.SaveModifiedIndexs(GetResultFromParamRequest(paramRequest), specificIndexs, indexs);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+               
             }
             else
             {
@@ -6255,14 +6250,9 @@ namespace ZambaWeb.RestApi.Controllers
 
             if (paramRequest != null)
             {
-                try
-                {
+               
                     sResult.SaveModifiedIndexs(GetResultFromParamRequest(paramRequest), specificIndexs, indexs);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+               
             }
             else
             {
@@ -6415,15 +6405,10 @@ namespace ZambaWeb.RestApi.Controllers
                     indexs.Add(SetIndexData(reclaimantName, 2706, emptyIndexs));
                 }
 
-                try
-                {
+               
                     insertResult = sResult.InsertBaremo(newresult, string.Empty, DocTypeId, indexs, paramRequest.UserId);
                     return insertResult;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+               
             }
             else
             {
@@ -6577,15 +6562,10 @@ namespace ZambaWeb.RestApi.Controllers
                     indexs.Add(SetIndexData(reclaimantName, 2706, emptyIndexs));
                 }
 
-                try
-                {
+               
                     insertResult = sResult.InsertBaremo(newresult, string.Empty, DocTypeId, indexs, paramRequest.UserId);
                     return insertResult;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                
             }
             else
             {
