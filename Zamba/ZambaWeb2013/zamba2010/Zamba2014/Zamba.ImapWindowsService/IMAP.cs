@@ -23,11 +23,6 @@ namespace Zamba.ImapWindowsService
         public IMAP()
         {
             InitializeComponent();
-            if (Zamba.Servers.Server.ConInitialized == false)
-            {
-                Zamba.Core.ZCore ZC = new Zamba.Core.ZCore();
-                ZC.InitializeSystem("Zamba.ImapWindowsService");
-            }
         }
         private Timer _timer;
         private long userId;
@@ -36,18 +31,6 @@ namespace Zamba.ImapWindowsService
         {
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Servicio de windows IMAP iniciado");
 
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando servicio IMAP...");
-                userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
-                IUser user = GetUser(userId);
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Membership.MembershipHelper.CurrentUser.ID " + Membership.MembershipHelper.CurrentUser.ID);
-            }
-            catch (Exception ex)
-            {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Ocurrio un error " + ex.Message);
-            }
 
             ConfigurarTimer();
         }
@@ -72,7 +55,7 @@ namespace Zamba.ImapWindowsService
         {
             _timer = new Timer();
             _timer.AutoReset = true;
-            _timer.Interval = 60000;
+            _timer.Interval = 40000;
             _timer.Enabled = true;
             _timer.Elapsed += new ElapsedEventHandler(TimerTick);
         }
@@ -84,6 +67,27 @@ namespace Zamba.ImapWindowsService
                 if (!Processing)
                 {
                     Processing = true;
+
+                    try
+                    {
+                        if (Zamba.Servers.Server.ConInitialized == false)
+                        {
+                            Zamba.Core.ZCore ZC = new Zamba.Core.ZCore();
+                            ZC.InitializeSystem("Zamba.ImapWindowsService", true);
+
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Ejecutando servicio IMAP...");
+                        userId = long.Parse(ZOptBusiness.GetValueOrDefault("ImapServiceUserId", "14984"));
+                        IUser user = GetUser(userId);
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "User " + user.Name);
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Membership.MembershipHelper.CurrentUser.ID " + Membership.MembershipHelper.CurrentUser.ID);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Ocurrio un error " + ex.Message);
+                    }
+
+
                     EjecutarServicioIMAP();
                 }
             }
