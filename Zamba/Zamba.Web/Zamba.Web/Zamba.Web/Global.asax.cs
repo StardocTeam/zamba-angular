@@ -45,18 +45,16 @@ namespace Zamba.Web
             {
                 Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
             }
+
             if (Request.Url.Segments.Last().ToString() == "404" ||
                 Request.Url.Segments.Last().ToString() == "404.aspx" ||
-                Request.Url.Segments.Last().ToString() == "getValueFromWebConfig"
-
-
-                )
+                Request.Url.Segments.Last().ToString() == "getValueFromWebConfig")
             {
-                //Limpia las coockies para resolver la vulnerabilidad 'AntiForgeryToken (CSRF)' de cookies inseguras
+                string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+                //HttpContext.Current.Response.Headers.Add("Content-Security-Policy", HeaderCSP);
+
                 Response.Cookies.Clear();
             }
-
-
 
 
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
@@ -246,7 +244,7 @@ namespace Zamba.Web
                     byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
                     HttpContext.Current.Response.ClearContent();
                     HttpContext.Current.Response.BinaryWrite(BodyBytes);
-                    HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+                    //HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
                     HttpContext.Current.Response.Flush();
                     HttpContext.Current.Response.End();
                 }
@@ -415,7 +413,7 @@ namespace Zamba.Web
                             Response.Redirect("~/Views/Security/OktaAuthentication.html?ReturnUrl=" + QueryStringParams);
                         }
                         else
-                        { 
+                        {
                             if (Init)
                                 Response.Redirect("~/Views/Security/OktaAuthentication.html");
                         }
