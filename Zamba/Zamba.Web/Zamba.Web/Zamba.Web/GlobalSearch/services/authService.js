@@ -36,7 +36,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _login = function (loginData) {
 
         var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
-
+_logOut
         if (loginData.useRefreshTokens) {
             data = data + "&client_id=" + ngAuthSettings.clientId;
         }
