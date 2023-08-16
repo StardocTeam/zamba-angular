@@ -10,9 +10,6 @@ var mensajeLegal = "    Este sistema es para ser utilizado solamente por usuario
 $(document).ready(function (n) {
     $("#ZambaAuthentication").hide();
     GetIsMultipleSesion();
-    if (IsMultipleSesion) {
-        $("#ZambaAuthentication").show();
-    }    
     if (location.search == "" || logout) {
         $("#ingresar").show();
         return;
@@ -203,9 +200,10 @@ function GetIsMultipleSesion() {
         "success": function (response) {
             IsMultipleSesion = response;
             if (IsMultipleSesion) {
-                $("#ZambaAuthentication").show();
-                $("#ZambaAuthentication").removeClass("hide");
+                $("#ZambaAuthentication").css('display','flex');                
             }
+            else
+                $("#ZambaAuthentication").css('display', 'none');
         }
         ,
         "error": function (data, status, headers, config) {
