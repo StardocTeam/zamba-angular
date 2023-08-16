@@ -1111,7 +1111,7 @@ Public Class ZCore
 #Region "System"
     Private errorRB As ErrorReportBusiness
 
-    Public Sub InitializeSystem(ByVal moduleName As String)
+    Public Sub InitializeSystem(ByVal moduleName As String, Optional isService As Boolean = False)
 
         Dim UP As New UserPreferences
         Dim ERB As New ErrorReportBusiness
@@ -1119,7 +1119,7 @@ Public Class ZCore
         Dim TB As New ToolsBusiness
         Dim DBB As New DBBusiness
 
-        DBB.InitializeDB()
+        DBB.InitializeDB(isService)
         StartTrace(moduleName)
         ZOPTB.LoadAllOptions()
         UP.LoadAllMachineConfigValues()

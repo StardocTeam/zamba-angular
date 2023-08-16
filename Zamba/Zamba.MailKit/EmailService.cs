@@ -145,12 +145,16 @@ namespace Zamba.MailKit
                     if (!Directory.Exists(config.ExportFolderPath))
                         Directory.CreateDirectory(config.ExportFolderPath);
 
-
+                    Int64 messageCount = 0;
 
                     foreach (var uid in uids)
                     {
                         try
                         {
+                            messageCount++;
+                            if (messageCount > 10) {
+                                break;
+                            }
 
                             var message = folder.GetMessage(uid);
 
@@ -162,15 +166,17 @@ namespace Zamba.MailKit
                             // Create a local email file with .eml extension
                             var filePath = Path.Combine(config.ExportFolderPath, $"{uid}.eml");
                             message.WriteTo(FormatOptions.Default, filePath);
-                           
-//                            ConvertEmlToMsg(filePath, filePath.Replace(".eml",".msg"));
-//                            FileStream msgFileStream = File.Open(filePath.Replace(".eml", ".msg"), FileMode.Open);
+
+                            //                            ConvertEmlToMsg(filePath, filePath.Replace(".eml",".msg"));
+                            //                            FileStream msgFileStream = File.Open(filePath.Replace(".eml", ".msg"), FileMode.Open);
 
                             FileStream msgFileStream = File.Open(filePath, FileMode.Open);
                             var msgmemoryStream = new MemoryStream();
                             msgFileStream.CopyTo(msgmemoryStream);
                             msgFileStream.Close();
-                            
+
+                            File.Delete(filePath);
+
                             IMailFolder newfolder = folder;
                             try
                             {
