@@ -778,6 +778,7 @@ Public Class Server
         Try
             File = New IO.FileInfo(Membership.MembershipHelper.AppConfigPath & "\app.ini")
         Catch
+            File = New FileInfo(".\app.ini")
         End Try
         If IsNothing(File) OrElse Not File.Exists Then
             Try
@@ -800,6 +801,11 @@ Public Class Server
         If IsNothing(File) OrElse Not File.Exists Then
             Try
                 File = New FileInfo(Environment.CurrentDirectory & "\app.ini")
+            Catch
+                File = New FileInfo(".\app.ini")
+            End Try
+            Try
+                File = New FileInfo(AppDomain.CurrentDomain.BaseDirectory & "app.ini")
             Catch
                 File = New FileInfo(".\app.ini")
             End Try

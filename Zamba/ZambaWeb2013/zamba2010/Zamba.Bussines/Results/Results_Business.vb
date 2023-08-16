@@ -1780,8 +1780,7 @@ Public Class Results_Business
                         Subject.DataTemp = IIf(Subject IsNot Nothing, message.Subject, "")
 
                     Case "date", "fecha", "fechaenviado", "fecha recibido"
-                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando 'Date'...")
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Id del atributo '" + item.Name + "': " + item.ID.ToString())
+                        ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando atributo '" + item.Name + "': " + item.ID.ToString() + " valor: " + message.Date)
                         Dim IndexDate As String = ZOptBusiness.GetValueOrDefault("msgIndexDate", item.ID)
                         Dim [Date] As IIndex = newResult.GetIndexById(IndexDate)
                         [Date].DataTemp = IIf([Date] IsNot Nothing, message.Date, "")
