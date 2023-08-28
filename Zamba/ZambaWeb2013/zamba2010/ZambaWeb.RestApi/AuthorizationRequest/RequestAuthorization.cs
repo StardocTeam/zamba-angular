@@ -398,4 +398,14 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             }
         }
     }
+
+    public class Validator {
+        public static Boolean FindInvalidChars(string value)
+        {
+            List<char> invalidChars = new List<char>();
+            char[] charList = { '<', '>', ';', '\'', '\"', '\\' ,'+'};
+            invalidChars.AddRange(charList);
+            return value.ToCharArray().Any(c => invalidChars.Contains(c));
+        }
+    }
 }

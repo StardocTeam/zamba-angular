@@ -551,8 +551,15 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 ZssFactory zss = new ZssFactory();
-                var IsValid = zss.ChekTokenInDatabase(UserId, Token);
-                return (IsValid);
+                if (!Validator.FindInvalidChars(Token))
+                {
+                    var IsValid = zss.ChekTokenInDatabase(UserId, Token);
+                    return (IsValid);
+                }
+                else {
+                    return false;
+                }
+               
             }
             catch (Exception ex)
             {
