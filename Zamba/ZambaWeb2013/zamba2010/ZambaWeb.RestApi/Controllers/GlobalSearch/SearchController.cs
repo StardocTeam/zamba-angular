@@ -2019,6 +2019,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [Route("api/search/RemoveSearch")]
         [HttpGet, HttpPost]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult RemoveSearch(genericRequest GenericRequest)
         {
             try
@@ -2039,6 +2040,7 @@ namespace ZambaWeb.RestApi.Controllers
         /// <returns></returns>
         [Route("api/search/GetLastSearch")]
         [HttpGet, HttpPost]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult GetLastSearch(genericRequest GenericRequest)
         {
             CacheResults CResults = new CacheResults();
