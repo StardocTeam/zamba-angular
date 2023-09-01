@@ -12392,18 +12392,16 @@ function $HttpProvider() {
    * @example
    *
    * ```js
-   * // App served from `https://example.com/`.
+
    * angular.
    *   module('xsrfTrustedOriginsExample', []).
    *   config(['$httpProvider', function($httpProvider) {
-   *     $httpProvider.xsrfTrustedOrigins.push('https://api.example.com');
    *   }]).
    *   run(['$http', function($http) {
    *     // The XSRF token will be sent.
-   *     $http.get('https://api.example.com/preferences').then(...);
    *
    *     // The XSRF token will NOT be sent.
-   *     $http.get('https://stats.example.com/activity').then(...);
+
    *   }]);
    * ```
    */
