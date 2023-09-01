@@ -5565,16 +5565,16 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.currentPreviewIndex = -2;
     $scope.previewItem = function (result, index, event) {
         $scope.currentPreviewIndex = index;
-
+        debugger;
         //Workaround JQuery desde Search.html no cambia valor NGSelectedRow en vista si desde NG
         var $items = $("#resultsGridSearchBoxPreview>.previewListItems");
         var $active = $items.children(".resultsGridActive").index();
         $items.children().removeClass("resultsGridActive");
         if (event != undefined) {
-            var item = this.Search.SearchResults[event == undefined ? index - 1 : index];
+            var item = this.Search.SearchResultsObject.data[event == undefined ? index - 1 : index];
 
-            if (this.Search.SearchResults != undefined) {
-                this.Search.SearchResults = this.Search.SearchResults.map(function (itemResult) {
+            if (this.Search.SearchResultsObject.data != undefined) {
+                this.Search.SearchResultsObject.data = this.Search.SearchResultsObject.data.map(function (itemResult) {
                     itemResult.NGSelectedRow = false;
                     return itemResult;
                 });
