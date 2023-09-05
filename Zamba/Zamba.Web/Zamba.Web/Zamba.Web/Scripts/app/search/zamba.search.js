@@ -6927,6 +6927,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     //#region FILTERS
 
     $scope.clearAllFiltersInPanel = function () {
+        var executeSearch = false;
 
         if (angular.element($("#taskController")).scope() != undefined) {
             angular.element($("#taskController")).scope().actionRules = null;
@@ -6939,11 +6940,11 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         }
         $scope.Search.LastPage = 0;
 
-        $scope.$broadcast('removeAllDefaultZambaColumnFilter', false);
+        $scope.$broadcast('removeAllDefaultZambaColumnFilter', executeSearch);
 
         //Este debe ser el ultimo, ya que tiene el evento dosearch
         var scope_filterController = angular.element($("#filterController")).scope();
-        scope_filterController.ClearFiltersAndSearch(true);
+        scope_filterController.ClearFiltersAndSearch(true, executeSearch);
     }
 
 
@@ -7540,7 +7541,7 @@ app.controller('appFilterController', function ($scope, $http, $rootScope, Field
         });
     }
 
-    $scope.ClearFiltersAndSearch = function (clearAll) {
+    $scope.ClearFiltersAndSearch = function (clearAll, executeSearch) {
         if (clearAll) {
             $scope.Search.UserAssignedId = -1;
             let executeDoSearch = false;
@@ -7553,7 +7554,9 @@ app.controller('appFilterController', function ($scope, $http, $rootScope, Field
         $scope.Filter.dataDescription = '';
         $scope.Filter.Data = '';
         $scope.saveLastFiltersState();
-        $scope.DoSearch();
+
+        if (executeSearch == undefined)
+            $scope.DoSearch();        
     };
 
     $scope.$on('ClearFilters', function (event, data) {
