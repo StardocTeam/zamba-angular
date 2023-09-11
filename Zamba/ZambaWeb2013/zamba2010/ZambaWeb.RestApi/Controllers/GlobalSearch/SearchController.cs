@@ -3798,6 +3798,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [Route("api/search/SetLastNodes")]
         [HttpPost]
+        [RestAPIAuthorize(isGenericRequest = true)]
         public IHttpActionResult SetLastNodes(genericRequest lastNodeObj)
 
         {
