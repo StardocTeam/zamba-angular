@@ -786,7 +786,7 @@
                                             <span class="glyphicon glyphicon-circle-arrow-left white"></span><span class="white" style="padding-left: 5px;">ultimos resultados</span>
                                         </md-button>
 
-                                        <md-button type="button" value="Historial" ID="btnGoHomeForHistory" ng-click="GoHomeForHistory(this, 'Home'); ">Historial</md-button>
+                                        <md-button type="button" value="Historial" ID="btnGoHomeForHistory" ng-click="GoBackToSearchResults();" ng-disabled="SearchState === undefined || SearchState === null ||SearchState.SearchResults === undefined || SearchState.SearchResults === null || SearchState.SearchResults.length === 0 ">Historial</md-button>
 
 
                                         <button id="BtnClearIndex" type="button" class="btn-circleMaterialInBoostrap" onclick="CleanAllInputs()"><i class="fa fa-trash" aria-hidden="true"></i></button>
