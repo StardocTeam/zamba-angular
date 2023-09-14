@@ -16,6 +16,8 @@ using System.Web.Http.Results;
 using System.Text;
 using System.Configuration;
 using System.Net.Http;
+using Microsoft.Owin;
+using System.Web.Configuration;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -130,7 +132,13 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            
+
+            //string ApplicationPath = HttpContext.Current.Request.ApplicationPath; // El identificador de usuario que deseas almacenar
+            //var cookie = new HttpCookie("Cookie", ApplicationPath);
+            //cookie.SameSite = SameSiteMode.None; // Opciones: None, Lax, Strict
+            //cookie.Secure = true; // Asegúrate de que Secure esté configurado si utilizas HTTPS
+            //Response.Cookies.Add(cookie);
+
             // var request = ((System.Web.HttpApplication)sender).Request.Params;
             if (!ValidateUrl())
             {

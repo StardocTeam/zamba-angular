@@ -1322,25 +1322,6 @@ function Collapse(collapse) {
     }
 }
 
-function ShowTaskChat(doctypeid) {
-    Collapse(false);
-    var doctypeid = sessionStorage.getItem('taskid');
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskChat.aspx?ResultID=<%=DocId %>&Taskid="' + doctypeid + '"').val(doctypeid);
-
-}
-
-function ShowForum() {
-    Collapse(false);
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskForum.aspx?ResultID=<%=DocId %>&DocTypeId=<%=DocTypeId%>&currentUserID=<%=CurrentUserID%>');
-}
-
-//function ShowAsociated() {
-//    Collapse(false);
-//    $("#tabContent").attr('src', '../WF/TaskDetails/TaskAsociated.aspx?ResultID=<%=DocId %>&DocTypeId=<%=DocTypeId%>');
-//    $("#page-content-wrapper").hide();
-//    GrillaEstilos();
-//}
-
 function GrillaEstilos() {
     timerAplicarGrillaEstilos = window.setInterval(function () {
         if ($(".header-center > th").length > 0) {
@@ -1349,16 +1330,6 @@ function GrillaEstilos() {
             clearInterval(timerAplicarGrillaEstilos);
         }
     }, 2000);
-}
-function ShowDocHistory() {
-    Collapse(false);
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskHistory.aspx?ResultID=<%=DocId %>');
-}
-
-function ShowMailHistory() {
-    Collapse(false);
-    $("#tabContent").attr('src', '../WF/TaskDetails/TaskMailhistory.aspx?ResultID=<%=DocId %>');
-    $("#page-content-wrapper").hide();
 }
 
 function cleanBorder(btn) {
