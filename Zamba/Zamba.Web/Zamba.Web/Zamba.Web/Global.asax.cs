@@ -73,6 +73,13 @@ namespace Zamba.Web
             HttpContext.Current.Response.Headers.Add("Access-Control-Allow-Origin", HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority);
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            var errorMessage = HttpContext.Current.Items["ErrorMessage"] != null ? HttpContext.Current.Items["ErrorMessage"].ToString() : String.Empty;
+            if (errorMessage.Contains("Redirect"))
+            {
+                HttpContext.Current.Response.StatusCode = 404;
+                HttpContext.Current.Response.StatusDescription = "Not Found";
+                HttpContext.Current.Response.End();
+            }
         }
 
         private Boolean ValidateUrl()
@@ -203,17 +210,25 @@ namespace Zamba.Web
             try
             {
                 Exception ex = Server.GetLastError();
-                Server.ClearError();
-                String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
+               
+                if (ex != null) {
+                    Server.ClearError();
+                    String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
 
-                HttpContext.Current.Response.Clear();
-                //                ((System.CodeDom.Compiler.CompilerError)(new System.Linq.SystemCore_EnumerableDebugView(((System.Web.HttpCompileException)((System.Web.HttpApplication)sender).LastError).ResultsWithoutDemand.Errors).Items[0])).errorText
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
+                    Zamba.AppBlock.ZException.Log(ex);
 
-                Zamba.AppBlock.ZException.Log(ex);
-                HttpContext.Current.Response.Redirect( BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
+                    HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
+                    HttpContext.Current.Response.StatusCode = 404;
+                    HttpContext.Current.Response.StatusDescription = "Not Found";
+
+                }
+                HttpContext.Current.Response.End();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Zamba.AppBlock.ZException.Log(ex);
             }
         }
 
@@ -236,9 +251,16 @@ namespace Zamba.Web
             HttpContext.Current.Response.Headers.Remove("Server");
             HttpContext.Current.Response.Headers.Remove("X-Powered-By");
 
+
+
             if (Response.StatusCode == 404 || Response.StatusCode == 403)
             {
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Response.StatusCode = 404;
+                HttpContext.Current.Response.StatusDescription = "Not Found";
                 Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
+                HttpContext.Current.Response.End();
+
             }
             if (Response.StatusCode == 500)
             {
