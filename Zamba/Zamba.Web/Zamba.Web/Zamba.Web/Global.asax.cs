@@ -56,14 +56,21 @@ namespace Zamba.Web
                 Response.Cookies.Clear();
             }
 
+            var errorMessage = HttpContext.Current.Items["ErrorMessage"] != null ? HttpContext.Current.Items["ErrorMessage"].ToString() : String.Empty;
+            if (errorMessage.Contains("Redirect"))
+            {
+                HttpContext.Current.Response.StatusCode = 404;
+                HttpContext.Current.Response.StatusDescription = "Not Found";
+                HttpContext.Current.Response.End();
+            }
 
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
             HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
             HttpContext.Current.Response.Headers.Remove("Server");
-            //HttpContext.Current.Request.Headers.Add("Content-Security-Policy", "default-src 'self';");
-            //HttpContext.Current.Response.Headers.Add("X-XSS-Protection", "1");
             HttpContext.Current.Response.Headers.Remove("X-Powered-By");
             HttpContext.Current.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+            //HttpContext.Current.Request.Headers.Add("Content-Security-Policy", "default-src 'self';");
+            //HttpContext.Current.Response.Headers.Add("X-XSS-Protection", "1");
             //HttpContext.Current.Response.Headers.Remove("X-Frame-Options");
             //HttpContext.Current.Response.AddHeader("X-Frame-Options", "SAMEORIGIN");
             //Response.Headers.Add("AntiForgeryToken", "abc123cba321");
@@ -171,6 +178,61 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            var request = HttpContext.Current.Request;
+
+            if (request.Form["IndexId"] != null)
+            {
+                try
+                {
+                    Int32.Parse(request.Form["IndexId"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+            if (request.Form["ParentIndexId"] != null)
+            {
+                try
+                {
+                    Int32.Parse(request.Form["ParentIndexId"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+            if (request.Form["userId"] != null)
+            {
+                try
+                {
+                    Int32.Parse(request.Form["userId"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
+
+            if (request.Form["userid"] != null)
+            {
+                try
+                {
+                    Int32.Parse(request.Form["userid"]);
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                    HttpContext.Current.Response.End();
+                }
+            }
+
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
                 Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
@@ -184,6 +246,13 @@ namespace Zamba.Web
                     Response.Redirect(URL);
                 }
             }
+
+            if (Request.Url.Segments.Last().EndsWith("/"))
+            {
+                Response.StatusCode = 404;
+                Response.End();
+            }
+
             if (HttpContext.Current.Request.IsSecureConnection.Equals(false) && HttpContext.Current.Request.IsLocal.Equals(false))
             {
                 //Response.Redirect("https://" + Request.ServerVariables["HTTP_HOST"] + HttpContext.Current.Request.RawUrl);
@@ -204,13 +273,9 @@ namespace Zamba.Web
                 app.Context.Response.Headers.Remove("Server");
             }
 
-
             Response.AppendHeader("Cache-Control", "no-cache,no-store,must-revalidate");
             Response.AppendHeader("Pragma", "no-cache");
             Response.AppendHeader("Expires", "0");
-
-
-
 
             if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
             {
@@ -222,33 +287,68 @@ namespace Zamba.Web
                 HttpContext.Current.Response.End();
             }
 
-            if (ContainsCSPNotUnsafeInline(Request.Url.Segments.Last()))
+            Boolean ConCsp = false;
+
+            if (ConCsp)
             {
-                string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
-                string NonceNum = getRandomNonce();
-
-                HeaderCSP.Replace("#nonce", NonceNum);
-
-                string Root = Request.PhysicalPath;
-                string BodyHtml = "";
-                if (!File.Exists(Root))
-                    if (File.Exists(Root + ".aspx"))
-                        Root = Root + ".aspx";
-
-
-                using (StreamReader sr = new StreamReader(Root))
+                if (ContainsCSPNotUnsafeInline(Request.Url.Segments.Last()))
                 {
-                    BodyHtml = sr.ReadToEnd();
-                    BodyHtml = BodyHtml.Replace("#nonce", NonceNum);
+                    string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+                    string NonceNum = getRandomNonce();
 
-                    byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
+                    HeaderCSP.Replace("#nonce", NonceNum);
+
+                    string Root = Request.PhysicalPath;
+                    string BodyHtml = "";
+                    if (!File.Exists(Root))
+                        if (File.Exists(Root + ".aspx"))
+                            Root = Root + ".aspx";
+
+
+                    using (StreamReader sr = new StreamReader(Root))
+                    {
+                        BodyHtml = sr.ReadToEnd();
+                        BodyHtml = BodyHtml.Replace("#nonce", NonceNum);
+
+                        byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtml);
+                        HttpContext.Current.Response.ClearContent();
+                        HttpContext.Current.Response.BinaryWrite(BodyBytes);
+                        //HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+
+                }
+            }
+
+
+            if (Request.Url.Segments.Last() == "OktaAuthentication.html")
+            {
+                string RootAuth = Request.PhysicalPath;
+                string BodyHtmlAuth = "";
+                string status = "";
+
+                if (String.IsNullOrEmpty(Request.Params["code"]) || String.IsNullOrEmpty(Request.Params["state"]))
+                {
+                    status = "Welcome";
+                }
+                else
+                {
+                    status = "Checking";
+                }
+
+                using (StreamReader sr = new StreamReader(RootAuth))
+                {
+                    BodyHtmlAuth = sr.ReadToEnd();
+                    BodyHtmlAuth = BodyHtmlAuth.Replace("#status", status);
+
+                    byte[] BodyBytes = Encoding.ASCII.GetBytes(BodyHtmlAuth);
                     HttpContext.Current.Response.ClearContent();
                     HttpContext.Current.Response.BinaryWrite(BodyBytes);
                     //HttpContext.Current.Response.AddHeader("Content-Security-Policy", HeaderCSP);
                     HttpContext.Current.Response.Flush();
                     HttpContext.Current.Response.End();
                 }
-
             }
 
         }
@@ -588,15 +688,14 @@ namespace Zamba.Web
 
         void Application_Error(object sender, EventArgs e)
         {
-            //Response.StatusCode = 401;
-            //return;
             try
             {
                 Exception ex = Server.GetLastError();
                 Server.ClearError();
                 HttpContext.Current.Response.Clear();
-                //                ((System.CodeDom.Compiler.CompilerError)(new System.Linq.SystemCore_EnumerableDebugView(((System.Web.HttpCompileException)((System.Web.HttpApplication)sender).LastError).ResultsWithoutDemand.Errors).Items[0])).errorText
+                HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
 
+                //((System.CodeDom.Compiler.CompilerError)(new System.Linq.SystemCore_EnumerableDebugView(((System.Web.HttpCompileException)((System.Web.HttpApplication)sender).LastError).ResultsWithoutDemand.Errors).Items[0])).errorText
                 //HttpContext.Current.Response.Redirect(".//views/CustomErrorPages/Error.html?e=" + ex.Message);
             }
             catch (Exception)
