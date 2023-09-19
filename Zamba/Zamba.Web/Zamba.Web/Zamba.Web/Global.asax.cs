@@ -43,7 +43,10 @@ namespace Zamba.Web
         {
             HttpContext context = HttpContext.Current;
             // Verifica si la solicitud proviene de 'appscanheaderinjection.com'
-            if (context.Request.Url.Host != context.Request.UrlReferrer.Host)
+            //if (context.Request.Url.Host != context.Request.UrlReferrer.Host)
+            //var AppHost = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host + HttpContext.Current.Request.ApplicationPath;
+            
+            if (context.Request.Url.Host != System.Web.Configuration.WebConfigurationManager.AppSettings["HostDomain"].ToString())
             {
                 throw new HttpException(401, "Unauthorized");
             }
