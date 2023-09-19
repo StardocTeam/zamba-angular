@@ -41,6 +41,13 @@ namespace Zamba.Web
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
+            HttpContext context = HttpContext.Current;
+            // Verifica si la solicitud proviene de 'appscanheaderinjection.com'
+            if (context.Request.Url.Host != context.Request.UrlReferrer.Host)
+            {
+                throw new HttpException(401, "Unauthorized");
+            }
+
             if (Request.Url.Scheme == "https")
             {
                 Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
