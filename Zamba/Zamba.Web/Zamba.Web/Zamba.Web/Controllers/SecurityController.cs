@@ -16,7 +16,7 @@ namespace ZambaWeb.Api.Controllers
     
     public class SecuritySQL
     {
-        public static Boolean ValidateRequestSQLInjection(string value, HttpResponse response)
+        public static void ValidateRequestSQLInjection(string value, HttpResponse response)
         {
             List<char> invalidChars = new List<char>();
             char[] charList = { '<', '>', ';', '\'', '\"', '\\', '+' };
