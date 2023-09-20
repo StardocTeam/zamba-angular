@@ -4,8 +4,6 @@ using MailKit.Search;
 using MailKit;
 using MailKit.Security;
 using System.Net;
-using System.Buffers.Text;
-using MimeKit.Encodings;
 using MsgKit.Exceptions;
 using MsgKit;
 using System.Text;

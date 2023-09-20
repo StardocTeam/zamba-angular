@@ -148,7 +148,7 @@ Public NotInheritable Class Email_Factory
 
     Public Shared Function getHistory(ByVal DocId As Long) As DataSet
         Dim ds As DataSet = Nothing
-        Dim strSelect As String = "SELECT Fecha, USR.NAME Usuario, MSG_TO Para, MSG_CC CC, MSG_BCC BCC, MSG_SUBJECT Asunto, H.ID,H.Attachs [Archivos adjuntos] FROM ZMAIL_HISTORY H INNER JOIN USRTABLE USR ON H.USR_ZMB = USR.ID WHERE DOC_ID = " & DocId & " ORDER BY FECHA DESC"
+        Dim strSelect As String = "SELECT Fecha, USR.NAME Usuario, MSG_TO Para, MSG_CC CC, MSG_BCC BCC, MSG_SUBJECT Asunto, H.ID FROM ZMAIL_HISTORY H INNER JOIN USRTABLE USR ON H.USR_ZMB = USR.ID WHERE DOC_ID = " & DocId & " ORDER BY FECHA DESC"
         If Server.isOracle Then
             strSelect = "SELECT Fecha, USR.NAME Usuario, MSG_TO Para, MSG_CC CC, MSG_BCC BCC, MSG_SUBJECT Asunto, H.ID FROM ZMAIL_HISTORY H INNER JOIN USRTABLE USR ON H.USR_ZMB = USR.ID WHERE DOC_ID = " & DocId & " ORDER BY FECHA DESC"
         End If
