@@ -153,6 +153,7 @@ namespace Zamba.Web
                 HttpContext.Current.Response.End();
             }
 
+            //HttpContext.Current.Response.Cookies.Clear();
         }
         void Application_Start(object sender, EventArgs e)
         {
@@ -190,11 +191,11 @@ namespace Zamba.Web
         {
             var request = HttpContext.Current.Request;
 
-            if (request.Form["IndexId"] != null)
+            if (Request.QueryString.Get("IndexId") != null)
             {
                 try
                 {
-                    Int32.Parse(request.Form["IndexId"]);
+                    Int32.Parse(Request.QueryString.Get("IndexId"));
                 }
                 catch (Exception)
                 {
@@ -203,11 +204,11 @@ namespace Zamba.Web
                 }
             }
 
-            if (request.Form["ParentIndexId"] != null)
+            if (Request.QueryString.Get("ParentIndexId") != null)
             {
                 try
                 {
-                    Int32.Parse(request.Form["ParentIndexId"]);
+                    Int32.Parse(Request.QueryString.Get("ParentIndexId"));
                 }
                 catch (Exception)
                 {
@@ -216,11 +217,11 @@ namespace Zamba.Web
                 }
             }
 
-            if (request.Form["userId"] != null)
+            if (Request.QueryString.Get("userId") != null)
             {
                 try
                 {
-                    Int32.Parse(request.Form["userId"]);
+                    Int32.Parse(Request.QueryString.Get("userId"));
                 }
                 catch (Exception)
                 {
@@ -229,12 +230,11 @@ namespace Zamba.Web
                 }
             }
 
-
-            if (request.Form["userid"] != null)
+            if (Request.QueryString.Get("userid") != null)
             {
                 try
                 {
-                    Int32.Parse(request.Form["userid"]);
+                    Int32.Parse(Request.QueryString.Get("userid"));
                 }
                 catch (Exception)
                 {
@@ -242,7 +242,7 @@ namespace Zamba.Web
                     HttpContext.Current.Response.End();
                 }
             }
-
+            
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
                 Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
