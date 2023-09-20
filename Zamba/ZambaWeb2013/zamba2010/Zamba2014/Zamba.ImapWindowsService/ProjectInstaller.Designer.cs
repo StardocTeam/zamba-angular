@@ -40,16 +40,12 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Zamba IMAP Windows Service";
-            this.serviceInstaller1.DisplayName = "Zamba IMAP Windows Service";
-            this.serviceInstaller1.ServiceName = "Zamba IMAP Windows Service";
+            
             this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 
-            this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.serviceProcessInstaller1,
-            this.serviceInstaller1});
+            
 
         }
 
