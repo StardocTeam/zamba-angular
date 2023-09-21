@@ -17,6 +17,7 @@ using System.Text;
 using BundleTransformer.Core.Resources;
 using Spire.Pdf.Exporting.XPS.Schema;
 using System.Configuration;
+using static System.Net.WebRequestMethods;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -49,13 +50,20 @@ namespace Zamba.Web
 
             if (context.Request.Url.Host == "appscanheaderinjection.com")
             {
-                throw new HttpException(401, "Unauthorized");
+                HttpContext.Current.Response.StatusCode = 404;
+                HttpContext.Current.Response.StatusDescription = "Not Found";
+                HttpContext.Current.Response.End();
             }
 
-            if (Request.Url.Scheme == "https")
+            if (Request.IsSecureConnection)
             {
-                Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
+                Response.AddHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
             }
+
+            //if (Request.Url.Scheme == "https")
+            //{
+            //    Response.Headers.Add("Strict-Transport-Security", "max-age-31536000");
+            //}
 
             if (Request.Url.Segments.Last().ToString() == "404" ||
                 Request.Url.Segments.Last().ToString() == "404.aspx" ||
@@ -190,6 +198,14 @@ namespace Zamba.Web
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            //// Verificar si la solicitud se realiza a través de HTTPS
+            //if (!Request.IsSecureConnection)
+            //{
+            //    // Si no es una conexión segura, redirigir a HTTPS
+            //    string url = "https://" + Request.Url.Authority + Request.RawUrl;
+            //    Response.RedirectPermanent(url);
+            //}
+
             var request = HttpContext.Current.Request;
 
             if (Request.QueryString.Get("IndexId") != null)
@@ -243,7 +259,7 @@ namespace Zamba.Web
                     HttpContext.Current.Response.End();
                 }
             }
-            
+
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
                 Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
@@ -311,8 +327,8 @@ namespace Zamba.Web
 
                     string Root = Request.PhysicalPath;
                     string BodyHtml = "";
-                    if (!File.Exists(Root))
-                        if (File.Exists(Root + ".aspx"))
+                    if (!System.IO.File.Exists(Root))
+                        if (System.IO.File.Exists(Root + ".aspx"))
                             Root = Root + ".aspx";
 
 
