@@ -42,6 +42,36 @@ namespace Zamba.Web
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
+            List<HttpCookie> AllCookies = new List<HttpCookie>();
+            if (Response != null && Response.Headers != null)
+            {
+                foreach (string cookieName in Response.Cookies.AllKeys)
+                {
+                    HttpCookie cookie = HttpContext.Current.Response.Cookies[cookieName];
+                    AllCookies.Add(cookie);
+                }
+                Response.Headers.Remove("Set-Cookie");
+               // HttpContext.Current.Response.Cookies.Clear();
+
+                foreach (HttpCookie cookie in AllCookies)
+                {
+
+                    if (cookie != null)
+                    {
+                        string cookieName = cookie.Name;
+                        string cookieValue = cookie.Value;
+                        string cookiePath = cookie.Path;
+                        string sameSiteValue = "Strict";
+                        HttpContext.Current.Response.AddHeader("Set-Cookie", $"{cookie.Name}={cookie.Value}; Secure; SameSite={sameSiteValue}; path={cookiePath}");
+                        //cookie.Name + "=" + cookie.Value + "; Secure; SameSite=Lax");
+                    }
+                }
+            }
+
+
+
+
+
             HttpContext context = HttpContext.Current;
             // Verifica si la solicitud proviene de 'appscanheaderinjection.com'
             //if (context.Request.Url.Host != context.Request.UrlReferrer.Host)
