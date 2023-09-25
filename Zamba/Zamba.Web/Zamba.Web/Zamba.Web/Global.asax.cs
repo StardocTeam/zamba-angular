@@ -236,6 +236,22 @@ namespace Zamba.Web
             //    Response.RedirectPermanent(url);
             //}
 
+
+            if (Request.Url.Segments.Any(n => n.ToLower() == "ckeditor/"))
+            {
+                if(Request.Params["t"] is string tValue)
+                {
+                    if (tValue != "M6K9")
+                    {
+                        Response.StatusCode = 400;
+                        Response.End();
+                    }
+                }
+            }
+
+
+
+
             var request = HttpContext.Current.Request;
 
             if (Request.QueryString.Get("IndexId") != null)
