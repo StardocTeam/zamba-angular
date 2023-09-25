@@ -384,6 +384,8 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
+        [OverrideAuthorization]
         [Route("generateOKTAStateValue")]
         public IHttpActionResult generateOKTAStateValue()
         {

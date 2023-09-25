@@ -76,9 +76,8 @@ namespace Zamba.Web
             // Verifica si la solicitud proviene de 'appscanheaderinjection.com'
             //if (context.Request.Url.Host != context.Request.UrlReferrer.Host)
             //var AppHost = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host + HttpContext.Current.Request.ApplicationPath;
-            //if (context.Request.Url.Host != System.Web.Configuration.WebConfigurationManager.AppSettings["HostDomain"].ToString())
-
-            if (context.Request.Url.Host == "appscanheaderinjection.com")
+            if (context.Request.Url.Host != System.Web.Configuration.WebConfigurationManager.AppSettings["HostDomain"].ToString())
+            //if (context.Request.Url.Host == "appscanheaderinjection.com")
             {
                 HttpContext.Current.Response.StatusCode = 404;
                 HttpContext.Current.Response.StatusDescription = "Not Found";
@@ -239,9 +238,9 @@ namespace Zamba.Web
 
             if (Request.Url.Segments.Any(n => n.ToLower() == "ckeditor/"))
             {
-                if(Request.Params["t"] is string tValue)
+                if (Request.QueryString.Get("t")!=null)
                 {
-                    if (tValue != "M6K9")
+                    if (Request.QueryString.Get("t") != "M6K9")
                     {
                         Response.StatusCode = 400;
                         Response.End();
@@ -512,8 +511,11 @@ namespace Zamba.Web
             //    if (Request.UrlReferrer.Host != Request.Url.Host)
             //        throw new HttpException(401, "Unauthorized");
             //}
-            //if (!ValidateOktaAuthenticacionHTML(Request))
-            //    throw new HttpException(401, "Unauthorized");
+            if (!ValidateOktaAuthenticacionHTML(Request))
+            {
+                Response.StatusCode = 400;
+                Response.End();
+            }               
 
 
             string PhysicalPath = Request.PhysicalPath.ToLower();

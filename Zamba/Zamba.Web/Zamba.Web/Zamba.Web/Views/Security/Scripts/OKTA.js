@@ -217,7 +217,7 @@ function GenerarOktaStateValue() {
     $.ajax({
         "async": false,
         "crossDomain": true,
-        "url": serviceBaseAccount + "/generateOKTAStateValue",
+        "url": serviceBaseAccount + "generateOKTAStateValue",
         "method": "POST",
         "headers": {
             "cache-control": "no-cache"
