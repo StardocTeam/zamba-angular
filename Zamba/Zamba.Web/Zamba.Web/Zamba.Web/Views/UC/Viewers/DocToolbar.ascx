@@ -692,7 +692,8 @@
         if (MailValidation == false) {
             toastr.error("Error: Corrija las advertencias.");
         } else {
-            $(".loadersmall").css("display", "block");
+            $(".loadersmall").css("display", "inline-block");
+            $(".loadersmall").css("position", "static");
             $("#btnMailZipSubmit").hide();
             $("#btnMailZipMailClose").hide();
 
