@@ -311,7 +311,17 @@ namespace Zamba.Web
 
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
-                Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
+                Boolean OktaAuthentication;
+                bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
+                if (OktaAuthentication)
+                {
+                    Response.Redirect(Request.Url.AbsolutePath + "Views/Security/OktaAuthentication.html");
+                }
+                else
+                {
+                    Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
+                }
+                
             }
             if (Request.Params.Count > 0)
             {

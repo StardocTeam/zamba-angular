@@ -187,8 +187,7 @@ function ValidarToken(access_token, id_token, code) {
 }
 function GetIsMultipleSesion() {
     ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
-    serviceBaseAccount = ZambaWebRestApiURL + "/Account/";
-    
+    serviceBaseAccount = ZambaWebRestApiURL + "/Account/";    
     $.ajax({
         "async": false,
         "crossDomain": true,
