@@ -37,16 +37,16 @@ using System.Web.Http.Routing;
 
 namespace ZambaWeb.RestApi.Controllers
 {
-    public class RestAPIAuthorizeAttribute : AuthorizeAttribute    {
-        
+    public class RestAPIAuthorizeAttribute : AuthorizeAttribute
+    {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             if (!Authorize(actionContext))
             {
                 HandleUnauthorizedRequest(actionContext);
-            }            
+            }
         }
-        
+
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             if (actionContext.Response == null)
@@ -56,6 +56,7 @@ namespace ZambaWeb.RestApi.Controllers
             actionContext.Response.Content = new StringContent("");
             base.HandleUnauthorizedRequest(actionContext);
         }
+
         private bool Authorize(HttpActionContext actionContext)
         {
             Boolean UsuarioAutorizado = false;
@@ -64,7 +65,7 @@ namespace ZambaWeb.RestApi.Controllers
                 HttpRequestMessage request = actionContext.Request;
 
                 if (request.Headers.Authorization == null)
-                    return false;                
+                    return false;
 
                 if (request.Headers.Authorization.Scheme == "Bearer")
                 {
@@ -93,32 +94,62 @@ namespace ZambaWeb.RestApi.Controllers
             }
             return UsuarioAutorizado;
         }
-        
     }
 
-    public class globalControlRequestFilter: ActionFilterAttribute
+    public class globalControlRequestFilter : ActionFilterAttribute
     {
-        public Boolean isGenericRequest { get; set; } = false;
         public override void OnActionExecuting(HttpActionContext actionContext)
+        //public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
-            
+
             if (!ValidateRequest(actionContext))
             {
                 actionContext.Response = new HttpResponseMessage();
                 actionContext.Response.Content = new StringContent("");
                 actionContext.Response.StatusCode = HttpStatusCode.BadRequest;
-            }            
+            }
         }
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+
             AddHeaderCSP(ref actionExecutedContext);
+            HttpResponseMessage r = actionExecutedContext.Response;
+            r.Headers.Remove("Server");
+            actionExecutedContext.Response = r;
+            base.OnActionExecuted(actionExecutedContext);
         }
 
         public void AddHeaderCSP(ref HttpActionExecutedContext actionExecutedContext)
         {
             string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            //stringBuilder.Append("default-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            stringBuilder.Append("default-src 'self';");
+            //stringBuilder.Append("base-uri 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("frame-src blob: data:  'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;  ");
+            //stringBuilder.Append("frame-ancestors 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("script-src 'self';");
+            //stringBuilder.Append("style-src 'self';");
+            stringBuilder.Append("img-src 'self' blob: data: http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("connect-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;   ");
+            //stringBuilder.Append("font-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("object-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+
+            //stringBuilder.Append("default-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("base-uri 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("frame-src blob: data:  'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;  ");
+            //stringBuilder.Append("frame-ancestors 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("script-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("style-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi; ");
+            //stringBuilder.Append("img-src 'self' blob: data: http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+            //stringBuilder.Append("connect-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;   ");
+            //stringBuilder.Append("font-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi; ");
+            //stringBuilder.Append("object-src 'self' http://localhost:44301/Zamba.Web http://localhost:44301/ZambaWeb.RestApi;");
+
             actionExecutedContext.Response.Headers.Add("Content-Security-Policy", HeaderCSP);
+            //actionExecutedContext.Response.Headers.Add("Content-Security-Policy", stringBuilder.ToString());
         }
 
         public Boolean ValidateRequest(HttpActionContext actionContext)
@@ -126,16 +157,9 @@ namespace ZambaWeb.RestApi.Controllers
             Boolean isValid = true;
             if (!ValidateOrigin(actionContext))
                 isValid = false;
-            if (isGenericRequest)
-            {
-                if (!ValidateGenericRequest(actionContext.Request))
-                {
-                    isValid = false;
-                }
-            }
+
             return isValid;
         }
-
 
         private Boolean ValidateOrigin(HttpActionContext actionContext)
         {
@@ -155,18 +179,46 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
+    }
+
+    public class isGenericRequestAttribute : AuthorizeAttribute
+    {
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if (!Authorize(actionContext))
+            {
+                HandleUnauthorizedRequest(actionContext);
+            }
+        }
+
+        protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
+        {
+            if (actionContext.Response == null)
+            {
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+            actionContext.Response.Content = new StringContent("");
+            base.HandleUnauthorizedRequest(actionContext);
+        }
+
+        private bool Authorize(HttpActionContext actionContext)
+        {
+            return ValidateGenericRequest(actionContext.Request);
+        }
 
 
         private bool ValidateGenericRequest(HttpRequestMessage request)
         {
-
             // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
 
             // Leer el contenido como una cadena JSON
             string jsonString = httpContent.ReadAsStringAsync().Result;
+
+
             if (jsonString == "")
                 return false;
+
             // Navegar por el documento JSON utilizando JToken
             JToken token = JToken.Parse(jsonString);
 
@@ -186,12 +238,4 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
     }
-
-
-
-
-
-
-
-
 }

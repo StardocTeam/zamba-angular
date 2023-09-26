@@ -214,13 +214,12 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
 
         var response = null;
         var genericRequest = {
-            UserId: parseInt(userid),
-
+            UserId: parseInt(userid)
         };
 
         $.ajax({
             type: "POST",
-            url: ZambaWebRestApiURL + "/Search/GetThumbsPathHome",
+            url: ZambaWebRestApiURL + "/search/GetThumbsPathHome",
             data: JSON.stringify(genericRequest),
 
             contentType: "application/json; charset=utf-8",
@@ -231,6 +230,10 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
                     $scope.thumphoto = response;
                     localStorage.setItem('userPhoto-' + userid, response);
 
+                },
+            error:
+                function (error) {
+                    response = error
                 }
         });
         return response;
