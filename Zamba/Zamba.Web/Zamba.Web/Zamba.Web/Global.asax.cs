@@ -43,6 +43,10 @@ namespace Zamba.Web
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
             List<HttpCookie> AllCookies = new List<HttpCookie>();
+            if (AllCookies.Count == 0)
+            {                
+                AllCookies.Add(new HttpCookie("default") {Value = "true", HttpOnly = true, Secure = true });
+            }
             if (Response != null && Response.Headers != null)
             {
                 foreach (string cookieName in Response.Cookies.AllKeys)
@@ -62,7 +66,7 @@ namespace Zamba.Web
                         string cookieValue = cookie.Value;
                         string cookiePath = cookie.Path;
                         string sameSiteValue = "Strict";
-                        HttpContext.Current.Response.AddHeader("Set-Cookie", $"{cookie.Name}={cookie.Value}; Secure; SameSite={sameSiteValue}; path={cookiePath}");
+                        HttpContext.Current.Response.AddHeader("Set-Cookie", $"{cookie.Name}={cookie.Value}; Secure; HttpOnly; SameSite={sameSiteValue}; path={cookiePath}");
                         //cookie.Name + "=" + cookie.Value + "; Secure; SameSite=Lax");
                     }
                 }
