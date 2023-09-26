@@ -2574,7 +2574,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/SetLastNodes")]
-        [globalControlRequestFilter(isGenericRequest = true)]
+        [isGenericRequest]
         [HttpPost]
         public IHttpActionResult SetLastNodes(genericRequest lastNodeObj)
 
@@ -2743,7 +2743,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.HttpGet]
         [Route("api/search/getAddComentarios")]
         [OverrideAuthorization]
-        [globalControlRequestFilter(isGenericRequest = true)]
+        [isGenericRequest]
         public IHttpActionResult getResultsComentarios(genericRequest paramRequest)
         {
 
@@ -4207,7 +4207,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetTaskFilterConfig")]
-        [globalControlRequestFilter(isGenericRequest = true)]
+        [isGenericRequest]
         public IHttpActionResult GetTaskFilterConfig(genericRequest paramRequest)
         {
 
@@ -5790,7 +5790,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAssociatedResults")]
-        [OverrideAuthorization]
+        [isGenericRequest]
         public IHttpActionResult getAssociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)
@@ -6529,7 +6529,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("api/search/GetThumbsPathHome")]
-        [globalControlRequestFilter(isGenericRequest = true)]
+        [isGenericRequest]
         public IHttpActionResult GetThumbsPathHome(genericRequest paramRequest)
         {
             try

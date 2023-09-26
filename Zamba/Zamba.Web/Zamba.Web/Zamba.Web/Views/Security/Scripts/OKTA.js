@@ -67,7 +67,6 @@ function MostrarEstado(texto) {
 }
 function Autenticar() {
     var returnUrl = getUrlParameters().returnurl;
-    debugger;
 
     var authClient = new OktaAuth({
         url: oktaInformation.baseUrl,
@@ -137,7 +136,6 @@ function LoginWeb(userid, token) {
 function ValidarToken(access_token, id_token, code) {
     MostrarEstado("Autenticando...")
     var returnUrl = localStorage.returnUrl;
-    debugger;
     var UrlRedirect;
     $.ajax({
         url: serviceBaseAccount + "LoginOkta?&access_token=" + access_token + "&id_token=" + id_token + "&code=" + code,
@@ -145,7 +143,6 @@ function ValidarToken(access_token, id_token, code) {
         contentType: "application/json; charset=utf-8",
         async: false,
         success: function success(response) {
-            debugger;
             var zssToken = JSON.parse(response).tokenInfo.token;
             if (zssToken == undefined || zssToken == null) Autenticar(); else {
                 var tokenInfo = JSON.parse(response);

@@ -1066,7 +1066,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
-        [globalControlRequestFilter(isGenericRequest = true)]
+        [isGenericRequest]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try
