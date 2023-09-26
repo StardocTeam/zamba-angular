@@ -1552,7 +1552,7 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
             document.getElementById("BtnSendEmail").removeAttribute("disabled", "disabled");
             document.getElementById("OpenAllSelected").removeAttribute("disabled", "disabled");
             document.getElementById("BtnSendZip").removeAttribute("disabled", "disabled");
-            document.getElementById("BtnDerivar").removeAttribute("disabled", "disabled");
+            //document.getElementById("BtnDerivar").removeAttribute("disabled", "disabled");
             document.getElementById("panel_ruleActions").removeAttribute("disabled", "disabled");
 
             $("#Actions").css('display', 'inline');
@@ -1567,7 +1567,7 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
             document.getElementById("BtnSendEmail").removeAttribute("disabled");
             document.getElementById("OpenAllSelected").removeAttribute("disabled");
             document.getElementById("BtnSendZip").removeAttribute("disabled");
-            document.getElementById("BtnDerivar").removeAttribute("disabled");
+            //document.getElementById("BtnDerivar").removeAttribute("disabled");
             document.getElementById("panel_ruleActions").removeAttribute("disabled");
 
             $("#Actions").css('display', 'inline');
@@ -1576,7 +1576,7 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
             document.getElementById("BtnSendEmail").setAttribute("disabled", "disabled");
             document.getElementById("OpenAllSelected").setAttribute("disabled", "disabled");
             document.getElementById("BtnSendZip").setAttribute("disabled", "disabled");
-            document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
+            //document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
             document.getElementById("panel_ruleActions").setAttribute("disabled", "disabled");
 
             $("#Actions").css('display', 'none');
@@ -2676,7 +2676,7 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
             zip.CCO = obj.cco;
             zip.Subject = obj.subject || "Te han enviado archivo/s.";
             zip.ZipName = obj.zipName || "Archivo";
-            zip.ZipInfo = obj.zipInfo || "";
+            zip.ZipInfo = obj.zipPasswd || "";
             //zip.MessageBody = obj.MessageBody || "<br >";
             zip.MessageBody = document.getElementById("cke_2_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML || "<br >";
 

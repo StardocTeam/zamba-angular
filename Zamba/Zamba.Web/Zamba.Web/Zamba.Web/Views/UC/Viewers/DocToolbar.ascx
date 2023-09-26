@@ -614,6 +614,7 @@
 
     function removeAttrFromFor() {
         $('#ModalMail').find("input[name = 'for']").removeAttr('required');
+        $('#file_upload').val("");
     }
 
     var LocalNextRuleIds;

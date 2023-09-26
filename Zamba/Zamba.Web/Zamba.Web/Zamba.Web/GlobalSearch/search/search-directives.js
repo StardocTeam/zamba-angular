@@ -1489,7 +1489,7 @@ function DisableActions() {
         document.getElementById("BtnSendEmail").setAttribute("disabled", "disabled");
         document.getElementById("OpenAllSelected").setAttribute("disabled", "disabled");
         document.getElementById("BtnSendZip").setAttribute("disabled", "disabled");
-        document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
+        //document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
         document.getElementById("panel_ruleActions").setAttribute("disabled", "disabled");
 
         $("#Actions").css('display', 'none');

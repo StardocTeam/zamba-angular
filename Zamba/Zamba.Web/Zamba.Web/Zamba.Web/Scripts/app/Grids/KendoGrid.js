@@ -683,7 +683,7 @@ function showBtns_ForResultsGrid() {
             document.getElementById("BtnSendEmail").removeAttribute("disabled");
             document.getElementById("OpenAllSelected").removeAttribute("disabled");
             document.getElementById("BtnSendZip").removeAttribute("disabled");
-            document.getElementById("BtnDerivar").removeAttribute("disabled");
+            //document.getElementById("BtnDerivar").removeAttribute("disabled");
             document.getElementById("panel_ruleActions").removeAttribute("disabled");
 
             $("#Actions").css('display', 'inline');
@@ -692,7 +692,7 @@ function showBtns_ForResultsGrid() {
             document.getElementById("BtnSendEmail").setAttribute("disabled", "disabled");
             document.getElementById("OpenAllSelected").setAttribute("disabled", "disabled");
             document.getElementById("BtnSendZip").setAttribute("disabled", "disabled");
-            document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
+            //document.getElementById("BtnDerivar").setAttribute("disabled", "disabled");
             document.getElementById("panel_ruleActions").setAttribute("disabled", "disabled");
 
             $("#Actions").css('display', 'none');
