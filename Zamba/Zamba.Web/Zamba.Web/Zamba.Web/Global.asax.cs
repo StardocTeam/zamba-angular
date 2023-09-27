@@ -253,7 +253,7 @@ namespace Zamba.Web
             {
                 if (Request.QueryString.Get("t") != null)
                 {
-                    if (Request.QueryString.Get("t") != "M6K9")
+                    if (Request.QueryString.Get("t") != "M6K9" && Request.QueryString.Get("t") != "445cf24ebd")
                     {
                         Response.StatusCode = 400;
                         Response.End();

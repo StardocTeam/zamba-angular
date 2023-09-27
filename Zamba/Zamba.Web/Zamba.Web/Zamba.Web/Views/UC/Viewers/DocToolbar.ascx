@@ -614,6 +614,7 @@
 
     function removeAttrFromFor() {
         $('#ModalMail').find("input[name = 'for']").removeAttr('required');
+        $('#file_upload').val("");
     }
 
     var LocalNextRuleIds;
@@ -691,7 +692,8 @@
         if (MailValidation == false) {
             toastr.error("Error: Corrija las advertencias.");
         } else {
-            $(".loadersmall").css("display", "block");
+            $(".loadersmall").css("display", "inline-block");
+            $(".loadersmall").css("position", "static");
             $("#btnMailZipSubmit").hide();
             $("#btnMailZipMailClose").hide();
 
