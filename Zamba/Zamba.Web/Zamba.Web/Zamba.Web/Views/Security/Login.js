@@ -6,16 +6,14 @@ var ZambaWebRestApiURL;
 var URLLoginByGUID;
 
 $(document).ready(function () {
+    ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl");// + "/api";
     CheckIfAuthenticated();
-
     domainName = getThisDomain();
     urlLocation = location.origin.trim();
     document.getElementById("hdnthisdomian").setAttribute("value", domainName);
     document.getElementById("hdnLocation").setAttribute("value", urlLocation);
     dominio = document.getElementById("hdnthisdomian").value;
-    ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl");// + "/api";
     URLLoginByGUID = ZambaWebRestApiURL + '/api/Account/LoginByGuid';
-
 });
 
 //function getAntiForgeryToken() {
@@ -29,6 +27,7 @@ try {
 } catch (e) { }
 
 function CheckIfAuthenticated() {
+    
     if (localStorage != undefined)
         if (localStorage.authorizationData != undefined) {
             var data = JSON.parse(localStorage.authorizationData);

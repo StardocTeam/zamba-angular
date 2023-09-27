@@ -48,9 +48,20 @@ public partial class Login : System.Web.UI.Page
 
     public void GenerateGUID()
     {
+        String UrlRedirect="";
         Guid guid = Guid.NewGuid();
         //'Request.QueryString[""]
-        String UrlRedirect = Page.ClientQueryString;
+        String[] Params = Page.ClientQueryString.Split('&');
+        foreach(String Param in Params)
+        {
+            String Key = Param.Split('=').First();
+            if(Key== "ReturnUrl")
+            {
+                UrlRedirect = String.Join("=",
+                    Param.Split('=')
+                    .Where((n, index) => index > 0));                    ;
+            }
+        }     
 
         if (UrlRedirect == "")
             UrlRedirect = "location.origin.trim() + '" + GetWebConfigElement("ThisDomain") + "/globalsearch/search/search.html?";

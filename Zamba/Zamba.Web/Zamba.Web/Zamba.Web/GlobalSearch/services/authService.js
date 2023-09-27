@@ -345,7 +345,7 @@ _logOut
                     location.href = "/Zamba.Web?ReturnUrl=" + newQueryString;
                     
                 }
-
+                
                 $.ajax({
                     type: "POST",
                     url: serviceBase + 'api/account/CheckToken?UserId=' + userid + '&Token=' + token,

@@ -25,6 +25,7 @@ $(document).ready(function () {
 });
 
 function CheckIfAuthenticated() {
+    
     if (localStorage != undefined)
         if (localStorage.authorizationData != undefined) {
             if (localStorage.authorizationData == "")

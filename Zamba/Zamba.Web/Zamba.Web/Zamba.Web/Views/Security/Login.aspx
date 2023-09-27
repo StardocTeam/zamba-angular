@@ -119,7 +119,7 @@ function getThisDomain() {
                     <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile pull-right btn btn-primary boton-iniciar-sesion2" OnClick="btnLoginZamba_Click" ID="btnLogin">
                             Ingresar <span class="glyphicon glyphicon-log-in"></span>
                     </asp:LinkButton>
-                    <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?init=false">Ingresar con Okta Authentication</a>
+                    <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?view=loginOkta">Ingresar con Okta Authentication</a>
                 </div>
 
             </div>
