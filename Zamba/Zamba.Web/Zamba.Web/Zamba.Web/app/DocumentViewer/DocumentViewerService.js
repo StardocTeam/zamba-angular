@@ -49,7 +49,7 @@ app.factory('DocumentViewerServices', ['$http', '$q', function ($http, $q) {
                 "doctypeId": DocTypeId,
                 "docid": DocId,
                 "converttopdf": convertToPDF,
-                "includeAttachs": false,
+                "includeAttachs": true,
                 "viewer": viewer
             }   
         }       

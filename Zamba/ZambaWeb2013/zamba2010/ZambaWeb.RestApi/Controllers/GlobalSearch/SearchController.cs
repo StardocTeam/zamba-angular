@@ -1873,8 +1873,21 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo MSG");
-
-                            var a = JsonConvert.SerializeObject(ST.ConvertMSGToHTML(res.FullPath, newPDFFile, includeAttachs), Formatting.Indented,
+                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview )ST.ConvertMSGToHTML(res.FullPath, newPDFFile, includeAttachs);
+                            o.body =  o.body
+                                .Replace("Ã±", "ñ")
+                                .Replace("Ã¡", "á")
+                                .Replace("Ã©", "é")                                
+                                .Replace("Ã³", "ó")
+                                .Replace("Ãº", "ú")
+                                .Replace("â€œ","\"")
+                                .Replace("â€", "\"")
+                                .Replace("Ã‘","Ñ")
+                                .Replace("Â°","º")
+                                .Replace("Ã", "í")
+                                 
+                                ;
+                            var a = JsonConvert.SerializeObject(o, Formatting.Indented,
                               new JsonSerializerSettings
                               {
                                   PreserveReferencesHandling = PreserveReferencesHandling.Objects
