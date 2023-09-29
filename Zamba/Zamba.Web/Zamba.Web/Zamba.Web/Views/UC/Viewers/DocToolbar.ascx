@@ -358,7 +358,13 @@
     const fileInput = document.querySelector('#file_upload');
     var CollectionFiles = [];
 
+    var btnMailZipSubmit = document.querySelector('#btnMailZipSubmit');
+    var btnMailZipMailClose = document.querySelector('#btnMailZipMailClose');
+
     fileInput.addEventListener('change', (e) => {
+        btnMailZipSubmit.disabled = true;
+        btnMailZipMailClose.disabled = true;
+
         let files = e.target.files;
         let reader = new FileReader();
         let file;
@@ -368,7 +374,12 @@
                 var reader = new FileReader();
                 reader.onload = (file) => {
                     CollectionFiles.push({ "FileName": files[i].name, "Base64": reader.result.replace('data:', '').replace(/^.+,/, '').toString() });
-                }
+                
+                    if (i+1 == files.length) {
+                        btnMailZipSubmit.disabled = false;
+                        btnMailZipMailClose.disabled = false;
+                    }
+}
                 reader.readAsDataURL(file)
             })(files[i]);
         }
@@ -615,6 +626,7 @@
     function removeAttrFromFor() {
         $('#ModalMail').find("input[name = 'for']").removeAttr('required');
         $('#file_upload').val("");
+        CollectionFiles = [];
     }
 
     var LocalNextRuleIds;
