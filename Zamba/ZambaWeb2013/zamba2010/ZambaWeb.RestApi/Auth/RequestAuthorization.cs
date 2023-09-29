@@ -107,6 +107,7 @@ namespace ZambaWeb.RestApi.Controllers
                 actionContext.Response = new HttpResponseMessage();
                 actionContext.Response.Content = new StringContent("");
                 actionContext.Response.StatusCode = HttpStatusCode.BadRequest;
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request enOnActionExecuting");
             }
         }
 
@@ -168,7 +169,8 @@ namespace ZambaWeb.RestApi.Controllers
 
             if (request.Headers.Contains("Origin"))
                 strOrigin = request.Headers.GetValues("Origin").FirstOrDefault();
-
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, strOrigin);
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, request.RequestUri.Scheme + "://" + request.RequestUri.Authority);
             if (string.IsNullOrEmpty(strOrigin))
                 return true;
             else if (strOrigin == request.RequestUri.Scheme + "://" + request.RequestUri.Authority)
