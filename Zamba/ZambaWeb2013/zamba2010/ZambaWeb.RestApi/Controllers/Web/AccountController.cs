@@ -368,12 +368,15 @@ namespace ZambaWeb.RestApi.Controllers
         [OverrideAuthorization]
         public IHttpActionResult validateOktaStateValue(String state)
         {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info,"valor de lista states okta" +  JsonConvert.SerializeObject(ListStatesOkta));
             List<StateOkta> expirados = ListStatesOkta.Where(n => n.expiration < DateTime.Now).ToList();
             foreach (StateOkta stateOkta in expirados)
             {
                 ListStatesOkta.Remove(stateOkta);
             }
+
             StateOkta item = ListStatesOkta.Where(n => n.state == state).FirstOrDefault();
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "valor del item del state correspondiente" + JsonConvert.SerializeObject(item));
             if (item == null)
                 return Ok(false);
             ListStatesOkta.Remove(item);

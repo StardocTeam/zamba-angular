@@ -255,8 +255,7 @@ namespace Zamba.Web
                 {
                     if (Request.QueryString.Get("t") != "M6K9" && Request.QueryString.Get("t") != "445cf24ebd")
                     {
-                        Response.StatusCode = 400;
-                        Response.End();
+                        ResponseError(400, "ckeditor");
                     }
                 }
             }
@@ -274,8 +273,7 @@ namespace Zamba.Web
                 }
                 catch (Exception)
                 {
-                    Response.StatusCode = 400;
-                    HttpContext.Current.Response.End();
+                    ResponseError(400, "IndexId no es un número");
                 }
             }
 
@@ -287,8 +285,7 @@ namespace Zamba.Web
                 }
                 catch (Exception)
                 {
-                    Response.StatusCode = 400;
-                    HttpContext.Current.Response.End();
+                    ResponseError(400, "ParentIndexId no es un número");
                 }
             }
 
@@ -300,8 +297,7 @@ namespace Zamba.Web
                 }
                 catch (Exception)
                 {
-                    Response.StatusCode = 400;
-                    HttpContext.Current.Response.End();
+                    ResponseError(400, "userId no es un número");
                 }
             }
 
@@ -313,8 +309,7 @@ namespace Zamba.Web
                 }
                 catch (Exception)
                 {
-                    Response.StatusCode = 400;
-                    HttpContext.Current.Response.End();
+                    ResponseError(400, "userid no es un número");
                 }
             }
 
@@ -525,7 +520,12 @@ namespace Zamba.Web
             WebResourcesAndMethods.Add("TaskService.asmx/deleteFilter");
             return WebResourcesAndMethods.Select(n => n.ToLower()).ToArray();
         }
-
+        private void ResponseError(int StatusCode, String Message)
+        {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en global.asax, se rechazo el request con error nro" + StatusCode.ToString() + ". Descripcion: " + Message);
+            Response.StatusCode = StatusCode;
+            Response.End();
+        }
         private Boolean RequestAuthorization(HttpRequest Request)
         {
             //return true;
@@ -536,8 +536,7 @@ namespace Zamba.Web
             //}
             if (!ValidateOktaAuthenticacionHTML(Request))
             {
-                Response.StatusCode = 400;
-                Response.End();
+                ResponseError(400, "ValidateOktaAuthenticacionHTML");
             }
 
 
@@ -610,7 +609,7 @@ namespace Zamba.Web
                             else if (Request.QueryString["view"].ToString() == "loginOkta")
                             {
                                 Response.Redirect("~/Views/Security/OktaAuthentication.html");
-                                
+
                             }
                         }
                         else
@@ -663,190 +662,196 @@ namespace Zamba.Web
             return AutenticationIsValid;
         }
 
-private string generateAntiForgeryTokens()
-{
-    string tokens = "";
-    for (int i = 0; i <= 200; i++)
-    {
-        Guid newGuid = Guid.NewGuid();
-        tokens += newGuid.ToString() + ";";
-    }
-    return tokens.TrimEnd(';');
-}
-
-private string getRandomAntiForgeryToken()
-{
-    string token = "";
-    var random = new Random();
-    var indexRandom = random.Next(0, 200);
-    string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
-    token = arrTokens[indexRandom];
-    return token;
-}
-
-
-private string getRandomNonce()
-{
-    Guid newGuid = Guid.NewGuid();
-
-    return newGuid.ToString();
-}
-
-private Boolean ValidateAntiForgeryToken(string token)
-{
-    string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
-    return arrTokens.Contains(token);
-}
-
-public Boolean ValidateOktaState(String state, String Domain)
-//public Boolean ValidateOktaState(String state, string Domain)
-{
-    //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-    try
-    {
-        WebClient client = new WebClient();
-
-        string url = Domain + System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"] + "/api";
-        var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
-        var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
-        http.Method = "POST";
-        http.Accept = "*/*";
-        http.ContentType = "application/x-www-form-urlencoded";
-        CookieContainer cookieContainer = new CookieContainer();
-        http.Referer = baseAddress;
-        var postData = "";
-        var data = Encoding.ASCII.GetBytes(postData);
-        http.ContentLength = data.Length;
-        using (var stream = http.GetRequestStream())
+        private string generateAntiForgeryTokens()
         {
-            stream.Write(data, 0, data.Length);
-            stream.Close();
-        }
-        using (var s = http.GetResponse().GetResponseStream())
-        {
-            using (var sr = new StreamReader(s))
+            string tokens = "";
+            for (int i = 0; i <= 200; i++)
             {
-                var json = sr.ReadToEnd();
-                ZTrace.WriteLineIf(ZTrace.IsInfo, json);
-                if (json == "true")
-                    return true;
-                else
-                    return false;
+                Guid newGuid = Guid.NewGuid();
+                tokens += newGuid.ToString() + ";";
+            }
+            return tokens.TrimEnd(';');
+        }
+
+        private string getRandomAntiForgeryToken()
+        {
+            string token = "";
+            var random = new Random();
+            var indexRandom = random.Next(0, 200);
+            string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
+            token = arrTokens[indexRandom];
+            return token;
+        }
+
+
+        private string getRandomNonce()
+        {
+            Guid newGuid = Guid.NewGuid();
+
+            return newGuid.ToString();
+        }
+
+        private Boolean ValidateAntiForgeryToken(string token)
+        {
+            string[] arrTokens = Application["AntiForgeryTokens"].ToString().Split(';').ToArray();
+            return arrTokens.Contains(token);
+        }
+
+        public Boolean ValidateOktaState(String state, String Domain)
+        //public Boolean ValidateOktaState(String state, string Domain)
+        {
+            //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            try
+            {
+                WebClient client = new WebClient();                
+                string url = Domain + System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"] + "/api";                
+                var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, url);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, baseAddress);
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+                http.Method = "POST";
+                http.Accept = "*/*";
+                http.ContentType = "application/x-www-form-urlencoded";
+                CookieContainer cookieContainer = new CookieContainer();
+                http.Referer = baseAddress;
+                var postData = "";
+                var data = Encoding.ASCII.GetBytes(postData);
+                http.ContentLength = data.Length;
+                using (var stream = http.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                    stream.Close();
+                }
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "GetResponseStream");
+                using (var s = http.GetResponse().GetResponseStream())
+                {
+                    using (var sr = new StreamReader(s))
+                    {
+                        var json = sr.ReadToEnd();
+                        ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, json);
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, json);
+                        if (json == "true")
+                            return true;
+                        else {
+                            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en global.asax, fallo el metodo validateOktaStateValue, trajo false");
+                            return false;                            
+                        }
+                            
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en global.asax, fallo el metodo ValidateOktaState" + ex.Message);
+                return false;
+            }
+
+
+        }
+        private Boolean ValidateOktaAuthenticacionHTML(HttpRequest Request)
+        {
+
+            var url = Request.AppRelativeCurrentExecutionFilePath.ToString().Split('/').ToList().Last();
+            if (url == "OktaAuthentication.html")
+            {
+                string code = Request.QueryString["code"];
+                string state = Request.QueryString["state"];
+                string retururl = Request.QueryString["returnurl"];
+                string logout = Request.QueryString["logout"];
+                if (Request.QueryString.Count == 0)
+                {
+                    return true; // sin parametros
+                }
+                if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count != 1)
+                {
+                    return false; //logout y otros parametros
+                }
+                if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count == 1)
+                {
+                    if (logout == "true")
+                        return true;
+                    else
+                        return false;
+                    // solo logout
+                }
+                if (!String.IsNullOrEmpty(code) && String.IsNullOrEmpty(state) && Request.QueryString.Count != 2)
+                {
+                    return false; // code + state + otros parametros
+                };
+                return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
+
+            }
+            // valido state
+            return true;
+        }
+
+
+        //System.Timers.Timer checkActions;
+        //public  string ZambaVersion = "2.9.3.0";
+
+        void Application_End(object sender, EventArgs e)
+        {
+            //  Code that runs on application shutdown
+            // CheckInactiveSessions();
+        }
+
+        void Application_Error(object sender, EventArgs e)
+        {
+            try
+            {
+                Exception ex = Server.GetLastError();
+                Server.ClearError();
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
+
+                //((System.CodeDom.Compiler.CompilerError)(new System.Linq.SystemCore_EnumerableDebugView(((System.Web.HttpCompileException)((System.Web.HttpApplication)sender).LastError).ResultsWithoutDemand.Errors).Items[0])).errorText
+                //HttpContext.Current.Response.Redirect(".//views/CustomErrorPages/Error.html?e=" + ex.Message);
+            }
+            catch (Exception)
+            {
             }
         }
-    }
-    catch (Exception)
-    {
 
-        return false;
-    }
-
-
-}
-private Boolean ValidateOktaAuthenticacionHTML(HttpRequest Request)
-{
-
-    var url = Request.AppRelativeCurrentExecutionFilePath.ToString().Split('/').ToList().Last();
-    if (url == "OktaAuthentication.html")
-    {
-        string code = Request.QueryString["code"];
-        string state = Request.QueryString["state"];
-        string retururl = Request.QueryString["returnurl"];
-        string logout = Request.QueryString["logout"];
-        if (Request.QueryString.Count == 0)
+        void Session_Start(object sender, EventArgs e)
         {
-            return true; // sin parametros
-        }
-        if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count != 1)
-        {
-            return false; //logout y otros parametros
-        }
-        if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count == 1)
-        {
-            if (logout == "true")
-                return true;
-            else
-                return false;
-            // solo logout
-        }
-        if (!String.IsNullOrEmpty(code) && String.IsNullOrEmpty(state) && Request.QueryString.Count != 2)
-        {
-            return false; // code + state + otros parametros
-        };
-        return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
+            // Code that runs when a new session is started 
 
-    }
-    // valido state
-    return true;
-}
-
-
-//System.Timers.Timer checkActions;
-//public  string ZambaVersion = "2.9.3.0";
-
-void Application_End(object sender, EventArgs e)
-{
-    //  Code that runs on application shutdown
-    // CheckInactiveSessions();
-}
-
-void Application_Error(object sender, EventArgs e)
-{
-    try
-    {
-        Exception ex = Server.GetLastError();
-        Server.ClearError();
-        HttpContext.Current.Response.Clear();
-        HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
-
-        //((System.CodeDom.Compiler.CompilerError)(new System.Linq.SystemCore_EnumerableDebugView(((System.Web.HttpCompileException)((System.Web.HttpApplication)sender).LastError).ResultsWithoutDemand.Errors).Items[0])).errorText
-        //HttpContext.Current.Response.Redirect(".//views/CustomErrorPages/Error.html?e=" + ex.Message);
-    }
-    catch (Exception)
-    {
-    }
-}
-
-void Session_Start(object sender, EventArgs e)
-{
-    // Code that runs when a new session is started 
-
-    //if (EnablePreload && Session != null && Zamba.Membership.MembershipHelper.CurrentUser  != null)
-    //{
-    //   EnablePreload = false;
-    //       PreLoadObjects(((Int64)Zamba.Membership.MembershipHelper.CurrentUser.ID));
-    // }
-
-}
-
-void Session_End(object sender, EventArgs e)
-{
-    // Code that runs when a session ends. 
-    // Note: The Session_End event is raised only when the sessionstate mode
-    // is set to InProc in the Web.config file. If session mode is set to StateServer 
-    // or SQLServer, the event is not raised.
-    //CheckInactiveSessions();
-    //  ActionsBusiness.CleanExceptions();
-}
-
-private void CheckInactiveSessionsHandler(Object source, System.Timers.ElapsedEventArgs e)
-{
-    try
-    {
-        if (Zamba.Servers.Server.ConInitialized == true)
-        {
+            //if (EnablePreload && Session != null && Zamba.Membership.MembershipHelper.CurrentUser  != null)
+            //{
+            //   EnablePreload = false;
+            //       PreLoadObjects(((Int64)Zamba.Membership.MembershipHelper.CurrentUser.ID));
+            // }
 
         }
 
+        void Session_End(object sender, EventArgs e)
+        {
+            // Code that runs when a session ends. 
+            // Note: The Session_End event is raised only when the sessionstate mode
+            // is set to InProc in the Web.config file. If session mode is set to StateServer 
+            // or SQLServer, the event is not raised.
+            //CheckInactiveSessions();
+            //  ActionsBusiness.CleanExceptions();
+        }
 
-        //  CheckInactiveSessions();
+        private void CheckInactiveSessionsHandler(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                if (Zamba.Servers.Server.ConInitialized == true)
+                {
 
-    }
-    catch (Exception ex)
-    {
-        ZClass.raiseerror(ex);
-    }
-}
+                }
+
+
+                //  CheckInactiveSessions();
+
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+            }
+        }
 
 
 
