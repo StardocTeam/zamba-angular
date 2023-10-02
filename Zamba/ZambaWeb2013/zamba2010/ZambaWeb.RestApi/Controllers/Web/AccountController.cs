@@ -734,7 +734,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [isGenericRequest]
         [Route("getUserPreferences")]
         public IHttpActionResult getUserPreferences(genericRequest paramRequest)
         {
@@ -904,7 +904,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [isGenericRequest]
         public IHttpActionResult GetUserRights(genericRequest paramRequest)
         {
             try
@@ -979,7 +979,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [HttpGet]
         [Route("NewGetUserRight")]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [isGenericRequest]
         public IHttpActionResult NewGetUserRight(genericRequest paramRequest)
         {
             try

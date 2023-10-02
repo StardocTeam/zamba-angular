@@ -35,15 +35,19 @@ using System.Web.Security;
 using System.Net.Http.Headers;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json.Linq;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers.Class
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class UcmController : ApiController
     {
         [Route("api/UcmServices/UCM")]
         [AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult UCM()
         {
             try

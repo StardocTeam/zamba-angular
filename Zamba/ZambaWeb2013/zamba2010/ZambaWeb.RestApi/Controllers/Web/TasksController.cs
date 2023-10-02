@@ -3788,7 +3788,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetResultsGridButtons")]
-        [RestAPIAuthorize(isGenericRequest = true)]
+        [isGenericRequest]
         [RequestResponseController]
         public List<IDynamicButton> GetResultsGridButtons(genericRequest paramRequest)
         {

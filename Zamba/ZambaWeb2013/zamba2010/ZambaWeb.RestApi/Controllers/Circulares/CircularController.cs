@@ -8,9 +8,12 @@ using System.Net.Http;
 using System.Web.Http;
 using Zamba.Core;
 using ZambaWeb.RestApi.Models;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class CircularController : ApiController
     {
          public CircularController()
@@ -52,6 +55,7 @@ namespace ZambaWeb.RestApi.Controllers
   
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/Circular/Base64FromCircular")]
+        [OverrideAuthorization]
         public string Base64FromCircular(CircularImage circularimage)
         {
             try
@@ -76,6 +80,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/Circular/Base64")]
+        [OverrideAuthorization]
         public string Base64(string str)
         {
             try

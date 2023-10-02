@@ -35,12 +35,15 @@ using System.Web.Security;
 using System.Net.Http.Headers;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json.Linq;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
 
     //[Authorize]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class AfipController : ApiController
     {
         public AfipController()
@@ -64,6 +67,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/afip/RequestDocument")]
         [HttpPost, HttpGet]
         [ActionName("RequestDocument")]
+        [OverrideAuthorization]
         public HttpResponseMessage RequestDocument() //[FromBody] Update request
         {
 

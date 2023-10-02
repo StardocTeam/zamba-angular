@@ -8,10 +8,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Zamba.Core;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers.Forum
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ForumController : ApiController
     {
         public ForumController()
@@ -61,6 +64,7 @@ namespace ZambaWeb.RestApi.Controllers.Forum
         [Route("api/Forum/Forum")]
         [HttpPost]
         [HttpGet]
+        [OverrideAuthorization]
         public string Forum(ForumSearchDto forumSearch)
         {
             ZForoBusiness FB = new ZForoBusiness();

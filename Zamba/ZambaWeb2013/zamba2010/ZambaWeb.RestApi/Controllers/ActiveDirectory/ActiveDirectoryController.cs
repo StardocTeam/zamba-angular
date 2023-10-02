@@ -9,11 +9,12 @@ using System.Net;
 using System.Net.Http;
 using Zamba.Core;
 using Zamba.FAD;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
-
-
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ActiveDirectoryController : ApiController
     {
         public ActiveDirectoryController()
@@ -75,6 +76,7 @@ namespace ZambaWeb.RestApi.Controllers
         //[Authorize]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/ActiveDirectory/GetUsers")]
+        [OverrideAuthorization]
         public string GetUsers()
         {
            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Ingreso a GetUsers");
@@ -116,6 +118,7 @@ namespace ZambaWeb.RestApi.Controllers
         [AllowAnonymous]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/ActiveDirectory/GetAllGroup")]
+        [OverrideAuthorization]
         public List<string> GetAllGroup(string username)
         {
             ADResources ad = new ADResources();

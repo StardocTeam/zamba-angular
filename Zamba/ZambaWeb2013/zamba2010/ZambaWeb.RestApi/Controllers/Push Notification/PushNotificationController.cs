@@ -36,12 +36,15 @@ using System.Net.Http.Headers;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json.Linq;
 using System.Web.Script.Serialization;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
 
     //[Authorize]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class PushNotificationController : ApiController
     {
         Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
@@ -49,6 +52,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/PushNotification/GetPlayerID")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         public IHttpActionResult SetPlayerId(int user_id, string player_id)
         {
             try
@@ -67,6 +71,7 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/PushNotification/Sendmessage")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost, HttpGet]
+        [OverrideAuthorization]
         private void Sendmessage(String Titulo, String Contenido, List<string> players_id, string imageUrl)
         {
             var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;

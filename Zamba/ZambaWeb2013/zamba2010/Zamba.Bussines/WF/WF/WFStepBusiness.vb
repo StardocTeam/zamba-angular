@@ -845,14 +845,14 @@ Public Class WFStepBusiness
     ''' </summary>
     ''' <param name="user">Usuario del que se quieren ver etapas.</param>
     ''' <returns>Tabla con ID y Nombre de las etapas.</returns>
-    'Public Function GetWFsAndStepsAndCountByUser(userId As Long) As DataTable
+    Public Function GetWFsAndStepsAndCountByUser(userId As Long) As DataTable
 
-    '    Dim stepsTable As DataTable
-    '    stepsTable = WFStepsFactory.GetWFAndStepIdsAndNamesAndTaskCount(userId)
+        Dim stepsTable As DataTable
+        stepsTable = WFStepsFactory.GetWFAndStepIdsAndNamesAndTaskCount(userId)
 
-    '    Return stepsTable
+        Return stepsTable
 
-    'End Function
+    End Function
 
     ''' <summary>
     ''' Método que sirve para obtener las etapas según un id de workflow

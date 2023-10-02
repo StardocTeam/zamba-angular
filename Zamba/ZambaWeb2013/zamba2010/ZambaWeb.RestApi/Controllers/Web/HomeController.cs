@@ -97,7 +97,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpGet, HttpPost]
         [Route("GetHomeTabs")]
-        [RestAPIAuthorize(isGenericRequest = true )]
+        [isGenericRequest]
         public IHttpActionResult GetHomeTabs(genericRequest paramRequest)
         {
             try
