@@ -30,12 +30,15 @@ using ZambaWeb.RestApi.Controllers.Class;
 using Zamba.Membership;
 using Zamba.FAD;
 using ZambaWeb.RestApi.AuthorizationRequest;
+using System.Configuration;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Account")]
     [RequestResponseController]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class AccountController : ApiController
     {
         #region Contructor&ClassHelper
@@ -59,6 +62,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("Login")]
+        [OverrideAuthorization]
         public IHttpActionResult Login(LoginVM l)
         {
             if (l.UserName == null || l.UserName == string.Empty)

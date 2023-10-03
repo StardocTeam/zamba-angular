@@ -20,10 +20,13 @@ using ZambaWeb.RestApi.ViewModels;
 using System.Net.Http;
 using System.Net;
 using Zamba.Framework;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [RoutePrefix("api/Feeds")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class FeedsController : ApiController
     {
         #region Constructor&ClassHelpers
@@ -99,6 +102,7 @@ namespace ZambaWeb.RestApi.Controllers
         #endregion
 
         [System.Web.Http.AcceptVerbs("GET")]
+        [OverrideAuthorization]
         public IHttpActionResult Get()
         {
             RightsBusiness RiB = new RightsBusiness();

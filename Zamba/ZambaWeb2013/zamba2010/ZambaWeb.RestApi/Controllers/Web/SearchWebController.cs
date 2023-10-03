@@ -15,11 +15,14 @@ using Zamba.Core.Searchs;
 using Nelibur.ObjectMapper;
 using Zamba.Framework;
 using Zamba.Core.Cache;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/SearchWeb")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     //[Authorize]
     public class SearchWebController : ApiController
     {
@@ -124,7 +127,9 @@ namespace ZambaWeb.RestApi.Controllers
         /// <param name="indexs"></param>
         /// <returns></returns>
         /// [System.Web.Http.AcceptVerbs("GET", "POST")]
+        /// 
         [Route("GetIndexs")]
+        [OverrideAuthorization]
         [HttpGet]
         public IHttpActionResult GetIndexs(string indexs = "")
         {

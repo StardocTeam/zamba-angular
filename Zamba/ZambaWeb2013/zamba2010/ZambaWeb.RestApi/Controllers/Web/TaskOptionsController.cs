@@ -30,11 +30,14 @@ using Zamba.Membership;
 using System.Security.Cryptography.X509Certificates;
 using static ZambaWeb.RestApi.Controllers.SearchController;
 using ZambaWeb.RestApi.Controllers;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace Zamba.Web.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/TaskOptions")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class TaskOptionsController : ApiController
     {
         // GET: TaskOptions

@@ -16,10 +16,13 @@ using Zamba.Framework;
 using Zamba.Services;
 using Zamba.Membership;
 using System.Web.Script.Serialization;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers.Task.ModuloConfiguracion
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class ModuloConfiguracion : ApiController
     {
 

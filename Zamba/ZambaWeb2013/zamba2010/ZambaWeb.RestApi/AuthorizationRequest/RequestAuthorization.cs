@@ -263,7 +263,9 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                             property.Name != "CreatedTodayCount" && property.Name != "stateID" &&
                             property.Name != "OpenTaskOnOneResult" && property.Name != "HasResults" &&
                             property.Name != "SearchResultsObject" && property.Name != "UsedZambafilters" &&
-                            property.Name != "currentMode" && property.Name != "ExpirationDate")
+                            property.Name != "currentMode" && property.Name != "ExpirationDate" && 
+                            property.Name != "lastNodeSelected" && property.Name != "filter"
+                            )
                         {
                             return false;
                         }

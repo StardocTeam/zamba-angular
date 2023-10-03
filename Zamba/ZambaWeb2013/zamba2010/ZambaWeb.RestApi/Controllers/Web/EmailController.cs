@@ -37,6 +37,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("SendEmail")]
+        [OverrideAuthorization]
         public bool SendEmail(EmailData emailData)
         {
             string body = emailData.MessageBody;
@@ -444,6 +445,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("SendZipByMail")]
+        [OverrideAuthorization]
         public bool SendZipByMail(EmailData zipdata, List<string> attachs, string AppTempPath)
         {
             ZipFile zip = new ZipFile();
@@ -624,6 +626,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetTaskDocument")]
+        [OverrideAuthorization]
         public List<string> GetTaskDocument(EmailData Data)
         {
             List<string> AllPaths = new List<string>();
@@ -682,6 +685,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("SendZipMail")]
+        [OverrideAuthorization]
         public bool SendZipMail(EmailData zipData)
         {
             List<string> AllPaths = new List<string>();
@@ -785,6 +789,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("getListOfLinks")]
+        [OverrideAuthorization]
         public List<string> getListOfLinks(List<EmailObject> emailobject)
         {
             ITaskResult TaskResult;
@@ -843,6 +848,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
         [AllowAnonymous]
         [Route("getIFAnyTaskHasFile")]
         [RestAPIAuthorize(isEmailData = true)]
+        [OverrideAuthorization]
         public bool getIFAnyTaskHasFile(EmailData zipData)
         {
             try

@@ -349,6 +349,73 @@ Namespace DocTypes.DocAsociated
                 Return (Nothing)
             End If
         End Function
+
+        Private Shared Function getSearchAsociatedResultsAsList(ByVal result As IResult, ByVal IndexsAsociated As Generic.List(Of Asociados), ByVal docTypeAsociated As Core.DocType, ByVal PageSize As Int32, ByVal UserId As Int64) As DataTable ' As List(Of IResult)
+            Dim indexs As New Generic.List(Of IIndex)
+            Dim ASB As New AutoSubstitutionBusiness
+            Dim allIndexsAsocComplete As Boolean = True
+            For Each associate As Asociados In IndexsAsociated
+                For Each i As Index In result.Indexs
+                    If i.ID = associate.Index1.ID Then
+                        If i.Data <> String.Empty Then
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, $"Buscando en Entidad Asociada Atributo  {i.Name} con Valor {i.Data}")
+                            associate.Index2.Data = i.Data
+                            If i.DropDown = IndexAdditionalType.AutoSustitución OrElse i.DropDown = IndexAdditionalType.AutoSustituciónJerarquico Then
+                                If String.IsNullOrEmpty(i.dataDescription) AndAlso String.IsNullOrEmpty(i.Data) = False Then
+                                    associate.Index2.dataDescription = ASB.getDescription(i.Data, i.ID)
+                                Else
+                                    associate.Index2.dataDescription = i.dataDescription
+                                End If
+                            End If
+                            associate.Index2.DataTemp = i.Data
+                            indexs.Add(associate.Index2)
+                            Exit For
+                        Else
+                            'allIndexsAsocComplete = False
+                            associate.Index2.Data = ""
+                            associate.Index2.DataTemp = ""
+                            associate.Index2.Operator = "es nulo"
+                            indexs.Add(associate.Index2)
+                            Exit For
+                        End If
+                    End If
+                Next
+            Next
+            ASB = Nothing
+            Dim IndexsAsociatedaux As New Generic.List(Of Asociados)
+            For Each associate As Asociados In IndexsAsociated
+                IndexsAsociatedaux.Add(associate)
+            Next
+            'IndexsAsociated = IndexsAsociatedaux
+            If (indexs.Count > 0 AndAlso allIndexsAsocComplete) Then
+                Dim DocTypesAsociates As New List(Of IDocType)
+                DocTypesAsociates.Add(docTypeAsociated)
+                Dim search As New Searchs.Search(indexs, String.Empty, True, DocTypesAsociates, False, String.Empty, UserId)
+                search.SearchType = SearchTypes.AsociatedSearch
+                Dim MD As New Zamba.Core.Search.ModDocuments
+                Dim TotalCount As Int64 = 0
+                Dim dt As DataTable = MD.DoSearch(search, UserId, 0, PageSize, True, False, False, TotalCount, False)
+                MD = Nothing
+                'Dim results As New List(Of IResult)
+                'If IsNothing(dt) = False Then
+                '    Dim Rb As New Results_Business
+                '    Dim DTB As New DocTypesBusiness
+                '    For Each row As DataRow In dt.Rows
+                '        Dim doctypeid As Int64 = CInt(row("doc_type_id"))
+                '        'Por ahora se implementa que vaya a la base a buscar el doc_type, hasta que se implemente la opcion de clonado
+                '        Dim r As Result = New Result(CInt(row("doc_id")), DTB.GetDocType(DocTypeId), row("Name").ToString(), 0)
+                '        Rb.CompleteDocument(r, row)
+                '        results.Add(r)
+                '    Next
+                '    DTB = Nothing
+                '    Rb = Nothing
+                'End If
+                'Return results
+                Return dt
+            Else
+                Return New DataTable ' List(Of IResult)
+            End If
+        End Function
 #End Region
 
 #Region "Metodos Publicos"
@@ -708,6 +775,49 @@ Namespace DocTypes.DocAsociated
                 RS.AddRange(Results.Values)
                 Return (RS)
             End If
+        End Function
+
+        Public Shared Function getAsociatedResultsFromResultAsList(ByVal AssociatedDocTypeId As Int64, ByVal Result As IResult, ByVal PageSize As Int32, ByVal UserId As Int64) As DataTable ' List(Of IResult)
+            Dim DocTypesAsociated As Generic.List(Of Int64)
+            Dim IndexsAsociated As Generic.List(Of Asociados)
+            Try
+                If (IsNothing(Result) = False) Then
+                    Dim Results As New Hashtable
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, $"Obteniendo Asociados de la Entidad {Result.DocType.ID}")
+                    ' Se obtienen los tipos de documento asociados
+                    DocTypesAsociated = getDocTypesAsociated(Result.DocType.ID)
+                    If (DocTypesAsociated IsNot Nothing) Then
+                        Dim DTB As New DocTypesBusiness
+                        ' Por cada entidad asociado
+                        For Each DT2 As Int64 In DocTypesAsociated
+                            Try
+                                ZTrace.WriteLineIf(ZTrace.IsVerbose, $"Buscando en Entidad asociada {AssociatedDocTypeId}")
+                                If DT2 = AssociatedDocTypeId Then
+                                    Dim tempresults As New List(Of IResult)
+                                    ' Se obtienen los atributos asociados
+                                    IndexsAsociated = getAsociations(Result.DocType.ID, DT2)
+                                    If Not (IsNothing(IndexsAsociated)) Then
+                                        Dim DocType2 As IDocType = DTB.GetDocType(DT2)
+                                        ' Se obtienen los documentos asociados a la búsqueda
+                                        Return getSearchAsociatedResultsAsList(Result, IndexsAsociated, DocType2, PageSize, UserId)
+                                    End If
+                                End If
+                            Catch ex As Exception
+                                ZClass.raiseerror(ex)
+                            End Try
+                        Next
+                        DTB = Nothing
+                    End If
+                End If
+                Return New DataTable ' List(Of IResult)
+            Finally
+                If Not IsNothing(DocTypesAsociated) Then
+                    DocTypesAsociated = Nothing
+                End If
+                If Not IsNothing(IndexsAsociated) Then
+                    IndexsAsociated = Nothing
+                End If
+            End Try
         End Function
 
 

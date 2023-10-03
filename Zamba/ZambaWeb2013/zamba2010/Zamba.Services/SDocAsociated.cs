@@ -46,5 +46,9 @@ namespace Zamba.Services
             return DocAsociatedBusiness.getAsociatedResultsFromResultAsList(DocTypeId, res, 200, UserId, onlyImportants);
         }
 
+        public DataTable getAsociatedResultsFromResultAsList(Int64 DocTypeId, IResult res, Int64 UserId)
+        {
+            return DocAsociatedBusiness.getAsociatedResultsFromResultAsList(DocTypeId, res, 200, UserId);
+        }
     }
 }

@@ -10,9 +10,12 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Script.Services;
 using ZambaWeb.RestApi.Models;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class InvitedUserController : ApiController
     {
 
@@ -27,6 +30,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/InvitedUser/Create")]
+        [OverrideAuthorization]
         public void Create(InvitedUser user )
         {
             try

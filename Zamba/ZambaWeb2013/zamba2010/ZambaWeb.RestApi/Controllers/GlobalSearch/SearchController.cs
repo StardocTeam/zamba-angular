@@ -2208,48 +2208,48 @@ namespace ZambaWeb.RestApi.Controllers
             public bool? Hidden { get; set; }
         }
 
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [Route("api/search/GetStepsCount")]
-        [AllowAnonymous]
-        public string GetStepsCount(string userId)
-        {
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[Route("api/search/GetStepsCount")]
+        //[AllowAnonymous]
+        //public string GetStepsCount(string userId)
+        //{
 
-            try
-            {
-                List<StepDTO> steps = new List<StepDTO>();
-                WFStepBusiness wFStepBusiness = new WFStepBusiness();
-                DataTable stepsTable = wFStepBusiness.GetWFsAndStepsAndCountByUser(Int64.Parse(userId));
+        //    try
+        //    {
+        //        List<StepDTO> steps = new List<StepDTO>();
+        //        WFStepBusiness wFStepBusiness = new WFStepBusiness();
+        //        DataTable stepsTable = wFStepBusiness.GetWFsAndStepsAndCountByUser(Int64.Parse(userId));
 
-                stepsTable.DefaultView.Sort = "wfname ASC";
-                stepsTable = stepsTable.DefaultView.ToTable();
+        //        stepsTable.DefaultView.Sort = "wfname ASC";
+        //        stepsTable = stepsTable.DefaultView.ToTable();
 
-                foreach (DataRow row in stepsTable.Rows)
-                {
-                    steps.Add(new StepDTO
-                    {
-                        ID = long.Parse(row["wfstepid"].ToString()),
-                        Name = row["wfstepName"].ToString(),
-                        Count = int.Parse(row["cantidad"].ToString()),
-                        WFID = long.Parse(row["wfid"].ToString()),
-                        WFName = row["wfname"].ToString()
-                    });
-                }
+        //        foreach (DataRow row in stepsTable.Rows)
+        //        {
+        //            steps.Add(new StepDTO
+        //            {
+        //                ID = long.Parse(row["wfstepid"].ToString()),
+        //                Name = row["wfstepName"].ToString(),
+        //                Count = int.Parse(row["cantidad"].ToString()),
+        //                WFID = long.Parse(row["wfid"].ToString()),
+        //                WFName = row["wfname"].ToString()
+        //            });
+        //        }
 
-                var newresults = JsonConvert.SerializeObject(steps, Formatting.Indented, new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
+        //        var newresults = JsonConvert.SerializeObject(steps, Formatting.Indented, new JsonSerializerSettings
+        //        {
+        //            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+        //        });
 
-                return newresults;
+        //        return newresults;
 
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw;
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ZClass.raiseerror(ex);
+        //        throw;
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// Exporta a un archivo Excel el resultado actual de la Grilla de resultados.

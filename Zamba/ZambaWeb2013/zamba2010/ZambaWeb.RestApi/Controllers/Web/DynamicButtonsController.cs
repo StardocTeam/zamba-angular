@@ -22,10 +22,13 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Net;
 using Zamba.Framework;
+using ZambaWeb.RestApi.AuthorizationRequest;
 
 namespace ZambaWeb.RestApi.Controllers
 {
     [RoutePrefix("api/DynamicButtons")]
+    [RestAPIAuthorize]
+    [globalControlRequestFilter]
     public class DynamicButtonsController : ApiController
     {
         #region Constructor&ClassHelpers
@@ -101,6 +104,7 @@ namespace ZambaWeb.RestApi.Controllers
         #endregion
 
         [System.Web.Http.AcceptVerbs("GET")]
+        [OverrideAuthorization]
         public IHttpActionResult Get(ButtonPlace place)
         {
 
