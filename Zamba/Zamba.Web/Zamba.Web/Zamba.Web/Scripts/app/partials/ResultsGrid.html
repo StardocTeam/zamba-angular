@@ -548,7 +548,7 @@
                                 {{ShowExpirationDate != '' ? ('al ' + ShowExpirationDate) : ''}}
                             </span>
 
-                            <span ng-if="Search.SearchResults == undefined || Search.SearchResults.length == 0" class="hidden-xs  hidden-sm">
+                            <span ng-if="Search.SearchResultsObject.data == undefined || Search.SearchResultsObject.data.length == 0" class="hidden-xs  hidden-sm">
                                 No hay resultados.
                             </span>
                             <md-button name="dis" id="btnLoadMoreResultsGrid" class="md-btn md-raised  md-btn-green" style="text-align: center; margin-right: -2px !important;" ng-click="LoadMoreResults()" ng-show="Search.SearchResultsObject.total >= 100">
@@ -1197,7 +1197,7 @@
 <!--Grilla tipo lista-->
 <div on-scroll="scrollHdlr($direct,$event)" id="resultsGridSearchBox" style="display:none">
 
-    <div class="resultsGrid" ng-repeat="result in Search.SearchResults  track by $index" ng-class-odd="'alt'">
+    <div class="resultsGrid" ng-repeat="result in Search.SearchResultsObject.data  track by $index" ng-class-odd="'alt'">
         <div class="row" style="margin-left:0; font-size:12px;">
             <div class="col-xs-7 col-sm-2 photo">
                 <img ng-if="result.THUMB!=null" class="document-photo" style="right:0" ng-src="data:image/jpeg;base64,{{result.THUMB}}" />
@@ -1276,7 +1276,7 @@
     <div class="row">
         <div class="col-6">
             <div id="Kgrid">
-                <div class="resultsGrid img-thumbnail " ng-repeat="result in Search.SearchResults  track by $index" style=" max-width:150px; display:inline-block; margin:0.5%; position: relative; font-size: 12px;">
+                <div class="resultsGrid img-thumbnail " ng-repeat="result in Search.SearchResultsObject.data  track by $index" style=" max-width:150px; display:inline-block; margin:0.5%; position: relative; font-size: 12px;">
 
                     <!--<span ng-show="result.USER_ASIGNED == Search.UserId && result.LEIDO == 0" title="No Leido" class="fa fa-exclamation notReadIcon"></span>-->
                     <span ng-show="result.ShowUnread!='false' &&  result.ShowUnread!=false" title="No Leido" class="fa fa-eye-slash unreadEyeIcon"></span>
@@ -1394,7 +1394,7 @@
         </div>
     </div>
     <div on-scroll="scrollHdlr($direct,$event)" class="col-md-2 previewListItems hidden-xs" style="height:100%">
-        <div class="resultsGrid" ng-repeat="result in Search.SearchResults  track by $index" ng-class="{'resultsGridActive': result.NGSelectedRow}" style="display:inline-block; padding-bottom:0; margin-bottom: 10px; position:relative;">
+        <div class="resultsGrid" ng-repeat="result in Search.SearchResultsObject.data track by $index" ng-class="{'resultsGridActive': result.NGSelectedRow}" style="display:inline-block; padding-bottom:0; margin-bottom: 10px; position:relative;">
 
             <!--<span ng-show="result.USER_ASIGNED == Search.UserId && result.LEIDO == 0" title="No Leido" class="fa fa-exclamation notReadIconPreview"></span>-->
             <span ng-show="result.ShowUnread!='false' &&  result.ShowUnread!=false" title="No Leido" class="fa fa-eye-slash unreadEyePreviewIcon"></span>
@@ -1557,8 +1557,15 @@
 <script>
     const fileInput = document.querySelector('#file_upload');
     var CollectionFiles = [];
+    
+    var btnMailZipSubmit = document.querySelector('#btnMailZipSubmit');
+    var btnMailZipMailClose = document.querySelector('#btnMailZipMailClose');
 
     fileInput.addEventListener('change', (e) => {
+
+        btnMailZipSubmit.disabled = true;
+        btnMailZipMailClose.disabled = true;
+
         CollectionFiles = []
 
         let files = e.target.files;
@@ -1570,6 +1577,11 @@
                 var reader = new FileReader();
                 reader.onload = (file) => {
                     CollectionFiles.push({ "FileName": files[i].name, "Base64": reader.result.replace('data:', '').replace(/^.+,/, '').toString() });
+
+                    if (i + 1 == files.length) {
+                        btnMailZipSubmit.disabled = false;
+                        btnMailZipMailClose.disabled = false;
+                    }
                 }
                 reader.readAsDataURL(file)
             })(files[i]);

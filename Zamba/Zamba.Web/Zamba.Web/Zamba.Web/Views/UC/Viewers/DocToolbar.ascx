@@ -525,7 +525,13 @@
     const fileInput = document.querySelector('#file_upload');
     var CollectionFiles = [];
 
+    var btnMailZipSubmit = document.querySelector('#btnMailZipSubmit');
+    var btnMailZipMailClose = document.querySelector('#btnMailZipMailClose');
+
     fileInput.addEventListener('change', (e) => {
+        btnMailZipSubmit.disabled = true;
+        btnMailZipMailClose.disabled = true;
+
         CollectionFiles = [];
 
         let files = e.target.files;
@@ -537,6 +543,11 @@
                 var reader = new FileReader();
                 reader.onload = (file) => {
                     CollectionFiles.push({ "FileName": files[i].name, "Base64": reader.result.replace('data:', '').replace(/^.+,/, '').toString() });
+
+                    if (i + 1 == files.length) {
+                        btnMailZipSubmit.disabled = false;
+                        btnMailZipMailClose.disabled = false;
+                    }
                 }
                 reader.readAsDataURL(file)
             })(files[i]);
@@ -714,7 +725,6 @@
     }
 
     function ShowAsociated() {
-        debugger;
         $("#page-content-wrapper").hide();
         Collapse(false);
         $("#tabContent").hide();
@@ -727,14 +737,32 @@
                 var firstGrid = gridElement[0].children[2]?.children[0];
                 $(firstGrid.children[1].firstChild).attr('class', 'k-state-selected');
                 clearInterval(refreshGridElement);
-                //se utiliza para agregar media-query por JS
-                var mql = window.matchMedia("screen and (min-width: 1600px)");
-                MediaQueryAsoc(mql);
-                mql.addListener(MediaQueryAsoc);
+                
 
-                var mql2 = window.matchMedia("screen and (min-width: 1800px)");
-                MediaQueryAsoc2(mql2);
-                mql2.addListener(MediaQueryAsoc2);
+                var zamba_grid_index_all = document.querySelector("div[id~='zamba_grid_index_all']"); 
+
+                var Allrows = zamba_grid_index_all.querySelectorAll("table tr[role~='row']");
+                var row = zamba_grid_index_all.querySelectorAll("table tr[role~='row'] td[role~='gridcell']")[1];
+
+                if ((row.offsetHeight * Allrows.length) < parseInt(zamba_grid_index_all.style.height)) {
+                    $("#previewDocIframe").removeClass('IFrameAsocHeight');
+                    $("#zamba_grid_index_all").removeClass('IFrameAsocHeight');
+                    $("#previewDocIframe").removeClass('IFrameAsocHeight2');
+                    $("#zamba_grid_index_all").removeClass('IFrameAsocHeight2');
+
+                    zamba_grid_index_all.style.height = "auto";
+                } else {
+                    //se utiliza para agregar media-query por JS
+                    var mql = window.matchMedia("screen and (min-width: 1600px)");
+                    MediaQueryAsoc(mql);
+                    mql.addListener(MediaQueryAsoc);
+
+                    var mql2 = window.matchMedia("screen and (min-width: 1800px)");
+                    MediaQueryAsoc2(mql2);
+                    mql2.addListener(MediaQueryAsoc2);
+                }
+
+               
             }
 
         }, 1000);

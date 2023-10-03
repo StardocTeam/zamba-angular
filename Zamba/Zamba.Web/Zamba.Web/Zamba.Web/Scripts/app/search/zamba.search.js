@@ -5565,16 +5565,16 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.currentPreviewIndex = -2;
     $scope.previewItem = function (result, index, event) {
         $scope.currentPreviewIndex = index;
-
+        debugger;
         //Workaround JQuery desde Search.html no cambia valor NGSelectedRow en vista si desde NG
         var $items = $("#resultsGridSearchBoxPreview>.previewListItems");
         var $active = $items.children(".resultsGridActive").index();
         $items.children().removeClass("resultsGridActive");
         if (event != undefined) {
-            var item = this.Search.SearchResults[event == undefined ? index - 1 : index];
+            var item = this.Search.SearchResultsObject.data[event == undefined ? index - 1 : index];
 
-            if (this.Search.SearchResults != undefined) {
-                this.Search.SearchResults = this.Search.SearchResults.map(function (itemResult) {
+            if (this.Search.SearchResultsObject.data != undefined) {
+                this.Search.SearchResultsObject.data = this.Search.SearchResultsObject.data.map(function (itemResult) {
                     itemResult.NGSelectedRow = false;
                     return itemResult;
                 });
@@ -6927,6 +6927,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     //#region FILTERS
 
     $scope.clearAllFiltersInPanel = function () {
+        var executeSearch = false;
 
         if (angular.element($("#taskController")).scope() != undefined) {
             angular.element($("#taskController")).scope().actionRules = null;
@@ -6939,11 +6940,11 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         }
         $scope.Search.LastPage = 0;
 
-        $scope.$broadcast('removeAllDefaultZambaColumnFilter', false);
+        $scope.$broadcast('removeAllDefaultZambaColumnFilter', executeSearch);
 
         //Este debe ser el ultimo, ya que tiene el evento dosearch
         var scope_filterController = angular.element($("#filterController")).scope();
-        scope_filterController.ClearFiltersAndSearch(true);
+        scope_filterController.ClearFiltersAndSearch(true, executeSearch);
     }
 
 
@@ -7540,7 +7541,7 @@ app.controller('appFilterController', function ($scope, $http, $rootScope, Field
         });
     }
 
-    $scope.ClearFiltersAndSearch = function (clearAll) {
+    $scope.ClearFiltersAndSearch = function (clearAll, executeSearch) {
         if (clearAll) {
             $scope.Search.UserAssignedId = -1;
             let executeDoSearch = false;
@@ -7553,7 +7554,9 @@ app.controller('appFilterController', function ($scope, $http, $rootScope, Field
         $scope.Filter.dataDescription = '';
         $scope.Filter.Data = '';
         $scope.saveLastFiltersState();
-        $scope.DoSearch();
+
+        if (executeSearch == undefined)
+            $scope.DoSearch();        
     };
 
     $scope.$on('ClearFilters', function (event, data) {

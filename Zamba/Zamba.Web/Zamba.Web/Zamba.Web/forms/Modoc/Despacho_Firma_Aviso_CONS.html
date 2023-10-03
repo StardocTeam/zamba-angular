@@ -153,8 +153,8 @@
                                             <div class="form-group row">
                                                 <div class="col-md-3">
                                                     <div class="input-group">
-                                                        <!--Nro Interno-->                                  		
-														<span class="input-group-addon">Nro Interno:</span>
+                                                        <!--Nro Interno-->
+                                                        <span class="input-group-addon">Nro Interno:</span>
                                                         <input id="zamba_index_160660" name="zamba_index_160660" size="1" class="form-control input-sm" readonly />
                                                     </div>
                                                 </div>
@@ -217,10 +217,10 @@
                                                         <button name="zamba_rule_165898" id="zamba_rule_165898" onclick="SetRuleId(this);" class="btn-sm btn-danger">Eliminar Despacho</button>
                                                     </div>
 
-                                                     <div class="col-md-2" ng-controller="ZambaSignFileController">
-														<button type="button" ng-click="doGetLegajo()" class="btn-sm btn-primary">Consultar Legajo en AFIP</button>
+                                                    <div class="col-md-2" ng-controller="ZambaSignFileController">
+                                                        <button type="button" ng-click="doGetLegajo()" class="btn-sm btn-primary">Consultar Legajo en AFIP</button>
 
-                                            </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -231,11 +231,13 @@
                                         </div>
                                         <div class="tab-pane" id="Despacho">
                                             <div class="form-group row">
-                                                <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+
+                                                <div class="col-md-12" id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
                                                     <div class="row" style="height:100%">
-                                                        <iframe id="previewDocSearch" class="IframeClass" style="margin-top:30px" src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
+                                                        <zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
                                                     </div>
                                                 </div>
+
                                             </div>
                                             <div class="form-group row"></div>
 
@@ -556,6 +558,8 @@
 
         <script src="../../app/SignFiles/Controller/SignController.js?v=169"></script>
         <script src="../../app/SignFiles/Service/SignService.js?v=169"></script>
+        <!--<script src="../../app/DocumentViewer/DocumentViewerController.js?v=248"></script>
+        <script src="../../app/DocumentViewer/DocumentViewerService.js?v=248"></script>-->
 
         <script src="scripts/Andreani.js"></script>
         <script type="text/javascript">

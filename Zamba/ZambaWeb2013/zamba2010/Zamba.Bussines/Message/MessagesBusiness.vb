@@ -667,7 +667,7 @@ Public Class MessagesBusiness
             conf.Body += MakeHtmlLink(0, 0, conf.SourceDocId, conf.SourceDocTypeId, conf.TaskName)
         End If
 
-        conf.Body = FormatHTMLBody(conf.Body)
+        conf.Body = FormatHTMLBody(IIf(conf.Body Is Nothing, "", conf.Body))
 
         Dim returnVal As Boolean = False
         If conf.UseWebService Then

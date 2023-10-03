@@ -237,10 +237,17 @@
                                     <div class="form-group row"></div>
 
                                     <div class="form-group row" style="height:100%">
-                                        <div class="col-md-11 iframeClassPDF" id="iframeStyle">
+                                        <!--<div class="col-md-11 iframeClassPDF" id="iframeStyle">
                                             <iframe id="zamba_innerdoctype_original" class="IframeClass MargenIframe" style="margin-top:10px; width:1100px; height:1000px" src="" />
+                                        </div>-->
+
+                                        <div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+                                            <zamba-document-viewer class="iframeClassPDF" style="margin-top:10px; width:1100px; height:1000px"” id="DocumentViewerIFrame"></zamba-document-viewer>
                                         </div>
+
                                     </div>
+
+
                                     <div class="form-group row"></div>
                                     <div class="form-group row"></div>
                                     <div class="form-group row"></div>

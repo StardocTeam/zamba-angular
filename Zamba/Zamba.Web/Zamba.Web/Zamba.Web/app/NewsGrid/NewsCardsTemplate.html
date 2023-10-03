@@ -83,6 +83,7 @@
     .activeNews {
         color: rgb(255,138,101) !important;
     }
+
     .news-title {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -114,7 +115,9 @@
         border: none !important;
         box-shadow: none !important;
         padding: 0px 2px 2px !important;
-        margin-top: -5px !important;
+        /*margin-top: -5px !important;*/
+        margin-top: 5px !important;
+        outline: none;
     }
 
     md-list-item._md-button-wrap > div.md-button:first-child {
@@ -122,7 +125,7 @@
         padding-right: 8px !important;
     }
 
-    
+
 
     input:focus::placeholder {
         color: transparent;
@@ -133,9 +136,11 @@
         margin-left: -7px !important;
         margin-right: -7px !important;
     }
+
     .h3Style {
         margin-top: 10px;
     }
+
     .searchTrashClass {
         position: relative;
         font-size: 20px !important;
@@ -160,28 +165,53 @@
         font-size: 20px;
         margin-top: 1px;
     }
-    
+
+    .formPaddingLeft {
+        padding-left: 13px;
+    }
+
+    .titlePaddingBottom {
+        padding-bottom: 5px;
+    }
+
+    .cardHeaderPaddingBottom {
+        padding-bottom: 0px !important;
+    }
+
+    .autoRenewPaddingLeft {
+        padding-left: 0px !important;
+    }
 </style>
 
 
-<md-card-header ng-cloak>
+<md-card-header ng-cloak class="cardHeaderPaddingBottom">
     <md-card-header-text>
         <div class="row">
-            <span class="col-xs-4" style="font-size:14px">{{title}} <span style="font-size:12px">({{DataCount}})</span></span>
+            <div class="md-title d-flex align-items-center highlight-toolbar ps-3 pe-2 py-1 border-0 border-top border-bottom">
+                <span class="col-xs-12 md-title" style="font-size:14px"><b>{{title}} <span style="font-size:12px">({{DataCount}})</span></b></span>
+            </div>
 
-            <div class="col-xs-5 searchAlignClass">
-                <form autocomplete="off" method="post" action="">
-                    
-                    <input type="search" class="form-control input-xs searchCardInput" autocomplete="false" placeholder="Buscar...                         " ng-model="searchNewsCardText" />
+            <div class="md-subhead d-flex align-items-center highlight-toolbar ps-3 pe-2 py-1 border-0 border-top border-bottom">
+                <form class="formPaddingLeft" autocomplete="off" method="post" action="">
+
+                    <input type="search" autocomplete="false" class="col-xs-8 input-xs searchCardInput" placeholder="Buscar...                         " ng-model="searchNewsCardText" />
+
+                    <div class="col-xs-2">
+                        <span class="material-icons searchTrashClass z-cardstemplate-icons" type="reset" aria-hidden="true" role="button" title="Borrar búsqueda" ng-click="clearSearch()">
+                            delete
+                        </span>
+                    </div>
+
+                    <div class="col-xs-2 autoRenewPaddingLeft">
+                        <span class="material-icons z-cardstemplate-icons reloadClass" title="Actualizar" ng-click="Reload(null)">
+                            autorenew
+                        </span>
+                    </div>
+
                 </form>
             </div>
-            <div class="col-xs-3 searchTrashAlignClass">
-                <span class="fa fa-trash-o searchTrashClass z-cardstemplate-icons" type="reset" title="Borrar búsqueda" aria-hidden="true" role="button" ng-click="clearSearch()"></span>
-                <span class="material-icons z-cardstemplate-icons reloadClass" title="Actualizar" ng-click="Reload(null)">
-                    autorenew
-                </span>
-            </div>
         </div>
+
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
 
@@ -200,7 +230,6 @@
             </div>
         </div>
 
-
     </md-card-header-text>
 </md-card-header>
 <md-card-content>
@@ -209,22 +238,22 @@
 
         <h6 style=" text-align: center; margin-top: 50px;" ng-if="DataCount == 0"><b>No tenemos registros por ahora.</b> <br />  <br />Aca encontraras las novedades de tus procesos.</h6>
 
-      
 
-            <md-list flex>
 
-                <md-list-item class="md-2-line" ng-repeat="news in NewsData | filter:searchNewsCardText" ng-dblclick="OpenTask(news)" title="{{news.Name}}">
+        <md-list flex>
 
-                    <div class="md-list-item-text" layout="column" ng-class="{ 'unread': news.IsRead == false }">
-                        <h3 class="unread-title news-title h3Style" ng-class="{ 'unread-title': news.IsRead == false }">{{news.Name}}</h3>
-                        <p>
-                            <span class="glyphicon glyphicon-calendar" style="margin-left:5px; margin-right: 3px" ng-if="news.Time"></span>{{news.Time}}
+            <md-list-item class="md-2-line" ng-repeat="news in NewsData | filter:searchNewsCardText" ng-dblclick="OpenTask(news)" title="{{news.Name}}">
 
-                        </p>
-                    </div>
-                    <md-divider md-inset ng-if="!$last"></md-divider>
-                </md-list-item>
-            </md-list>
+                <div class="md-list-item-text" layout="column" ng-class="{ 'unread': news.IsRead == false }">
+                    <h3 class="unread-title news-title h3Style" ng-class="{ 'unread-title': news.IsRead == false }">{{news.Name}}</h3>
+                    <p>
+                        <span class="glyphicon glyphicon-calendar" style="margin-left:5px; margin-right: 3px" ng-if="news.Time"></span>{{news.Time}}
+
+                    </p>
+                </div>
+                <md-divider md-inset ng-if="!$last"></md-divider>
+            </md-list-item>
+        </md-list>
     </md-content>
 </md-card-content>
 
