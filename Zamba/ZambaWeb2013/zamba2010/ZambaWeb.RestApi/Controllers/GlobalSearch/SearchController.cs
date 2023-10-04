@@ -837,7 +837,8 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (SelectedEntitiesIds != null)
                 {
-                    if (SelectedEntitiesIds.Count > 0) {
+                    if (SelectedEntitiesIds.Count > 0)
+                    {
                         IndexsBusiness IB = new IndexsBusiness();
                         Indexs = IB.GetIndexsSchema(user.ID, SelectedEntitiesIds);
                         IB = null;
@@ -1936,7 +1937,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ;
+                throw;
             }
         }
 
@@ -2459,7 +2460,7 @@ namespace ZambaWeb.RestApi.Controllers
                     {
                         DD.data = System.Convert.FromBase64String(data);
 
-                    } 
+                    }
                     else if (DD.ContentType == "video/mp4" || DD.ContentType == "video/webm" || DD.ContentType == "video/ogv")
                     {
                         DD.data = System.Convert.FromBase64String(data);
@@ -3269,7 +3270,8 @@ namespace ZambaWeb.RestApi.Controllers
                                 else { filename = res.FullPath; convertToPDf = false; }
                             }
                         }
-                        if ((res.IsVideo)) {
+                        if ((res.IsVideo))
+                        {
 
                             if (!File.Exists(res.FullPath) && _file.Length > 0)
                             {
@@ -6135,9 +6137,9 @@ namespace ZambaWeb.RestApi.Controllers
 
             if (paramRequest != null)
             {
-               
-                    sResult.SaveModifiedIndexs(GetResultFromParamRequest(paramRequest), specificIndexs, indexs);
-               
+
+                sResult.SaveModifiedIndexs(GetResultFromParamRequest(paramRequest), specificIndexs, indexs);
+
             }
             else
             {
@@ -6315,9 +6317,9 @@ namespace ZambaWeb.RestApi.Controllers
 
             if (paramRequest != null)
             {
-               
-                    sResult.SaveModifiedIndexs(GetResultFromParamRequest(paramRequest), specificIndexs, indexs);
-               
+
+                sResult.SaveModifiedIndexs(GetResultFromParamRequest(paramRequest), specificIndexs, indexs);
+
             }
             else
             {
@@ -6471,10 +6473,10 @@ namespace ZambaWeb.RestApi.Controllers
                     indexs.Add(SetIndexData(reclaimantName, 2706, emptyIndexs));
                 }
 
-               
-                    insertResult = sResult.InsertBaremo(newresult, string.Empty, DocTypeId, indexs, paramRequest.UserId);
-                    return insertResult;
-               
+
+                insertResult = sResult.InsertBaremo(newresult, string.Empty, DocTypeId, indexs, paramRequest.UserId);
+                return insertResult;
+
             }
             else
             {
@@ -6629,10 +6631,10 @@ namespace ZambaWeb.RestApi.Controllers
                     indexs.Add(SetIndexData(reclaimantName, 2706, emptyIndexs));
                 }
 
-               
-                    insertResult = sResult.InsertBaremo(newresult, string.Empty, DocTypeId, indexs, paramRequest.UserId);
-                    return insertResult;
-                
+
+                insertResult = sResult.InsertBaremo(newresult, string.Empty, DocTypeId, indexs, paramRequest.UserId);
+                return insertResult;
+
             }
             else
             {
