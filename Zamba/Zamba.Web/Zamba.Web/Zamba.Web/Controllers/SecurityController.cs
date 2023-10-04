@@ -13,6 +13,21 @@ using Zamba.Membership;
 /// 
 namespace ZambaWeb.Api.Controllers
 {
+    public class SecuritySQL
+    {
+        public static void ValidateRequestSQLInjection(string value, HttpResponse response)
+        {
+            List<char> invalidChars = new List<char>();
+            char[] charList = { '<', '>', ';', '\'', '\"', '\\', '+' };
+            invalidChars.AddRange(charList);
+            Boolean resp = value.ToCharArray().Any(c => invalidChars.Contains(c));
+            if (!resp)
+            {
+                response.StatusCode = 400;
+                response.End();
+            }
+        }
+    }
     public class Security: Controller
     {
         public string ChangePassword(string newPass)

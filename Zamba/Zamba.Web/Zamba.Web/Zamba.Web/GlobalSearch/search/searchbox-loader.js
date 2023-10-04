@@ -247,6 +247,10 @@ app.controller('appController', ['$http', '$scope', '$rootScope', 'authService',
                     $scope.thumphoto = response;
                     window.localStorage.setItem('userPhoto-' + userid, response);
 
+                },
+            error:
+                function (error) {
+                    response = error;
                 }
         });
         return response;

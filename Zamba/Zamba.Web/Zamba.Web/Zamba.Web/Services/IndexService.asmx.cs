@@ -3,6 +3,7 @@ using System.Web.Services;
 using Zamba.Core;
 using Zamba.Services;
 using System.Web.Script.Services;
+using ZambaWeb.Api.Controllers;
 using System.Data;
 using System.Text;
 using Zamba;
@@ -95,6 +96,7 @@ namespace ScriptWebServices
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string GetHierarchyOptionsWidthID(long IndexId, long ParentIndexId, string ParentValue, int UserId, string SenderID)
         {
+            SecuritySQL.ValidateRequestSQLInjection(ParentValue, Context.Response);
             GetUser(UserId);
             SIndex indexServices = new SIndex();
             IndexsBusiness IB = new IndexsBusiness();
