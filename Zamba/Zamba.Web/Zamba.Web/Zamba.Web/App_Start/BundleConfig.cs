@@ -247,7 +247,7 @@ namespace Zamba.Web
                 "~/GlobalSearch/services/authInterceptorService.js?v=247",
                 "~/GlobalSearch/search/search-directives.js?v=247",
                 "~/Scripts/app/_common/forms/directives/input/smartDatepicker.js",
-                "~/Scripts/app/search/zamba.search.js?v=257",
+                "~/Scripts/app/search/zamba.search.js?v=263",
                 "~/GlobalSearch/scripts/zambasearch.js?v=247"
             ));
             #endregion

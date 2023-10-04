@@ -139,7 +139,7 @@
 <script src="../../../Scripts/sweetalert2/sweetalert2.all.js"></script>
 <script src="../../../Scripts/sweetalert2/sweetalert2.js"></script>
 <script src="../../../Scripts/sweetalert2/sweetalert2.all.min.js"></script>
-<script src="../../../Scripts/Zamba.js?v=258"></script>
+<script src="../../../Scripts/zamba.js?v=263"></script>
 <script src="../../../app/DocumentViewer/DocumentViewerController.js"></script>
 <script src="../../../app/DocumentViewer/DocumentViewerService.js"></script>
 <asp:HiddenField ID="hdnAction" runat="server" />
