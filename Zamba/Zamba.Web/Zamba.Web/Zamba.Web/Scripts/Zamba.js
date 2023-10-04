@@ -7650,7 +7650,7 @@ $(document).ready(function () {
    Se eliminara cuando se cree la grilla con angular
    la misma se coloca en el zamba.js ya que en los formularios rompe la grilla
 */
-window.setTimeout(functoin(){ BtnGrillaClick();}, 3000);
+window.setTimeout(function(){ BtnGrillaClick();}, 3000);
 function BtnGrillaClick() {
     $(".rowTzamba_associated_documents_101 > td").off("click");
 }
