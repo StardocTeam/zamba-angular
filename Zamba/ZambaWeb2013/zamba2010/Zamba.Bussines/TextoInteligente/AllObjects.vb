@@ -2130,7 +2130,7 @@ Public Class CommonFunctions
                 WFB.RemoveTask(task, True, Membership.MembershipHelper.CurrentUser.ID, Boolean.Parse(deleteFile))
             Else
                 Dim Result As IResult = RB.GetResult(Long.Parse(docId), Long.Parse(docTypeId), False)
-                RB.Delete(Result, Boolean.Parse(deleteFile), False)
+                RB.Delete(Result)
             End If
 
         End Get

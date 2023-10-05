@@ -1969,7 +1969,7 @@ Namespace WF.WF
                 If (deleteDocument) Then
 
                     Dim RF As New Results_Factory
-                    RF.Delete(taskId, docTypeId, fullpath, deleteDocument)
+                    RF.Delete(taskId, docTypeId, fullpath)
                     RF = Nothing
                 End If
 
@@ -2035,7 +2035,7 @@ Namespace WF.WF
 
             Try
                 If deleteDocument Then
-                    RF.Delete(result, DeleteFile)
+                    RF.Delete(result)
                 End If
 
                 LogTask(result, "Se quito la tarea")
