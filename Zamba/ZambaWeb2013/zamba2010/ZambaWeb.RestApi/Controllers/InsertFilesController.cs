@@ -32,7 +32,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             ZCore ZC = new ZCore();
             if (Zamba.Servers.Server.ConInitialized == false)
-                ZC.InitializeSystem("Zamba.WebRS");
+                ZC.InitializeSystem("Zamba.API");
 
             ZC.VerifyFileServer();
         }
@@ -107,7 +107,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
 
-                throw ;
+                throw;
             }
 
         }
@@ -283,7 +283,7 @@ namespace ZambaWeb.RestApi.Controllers
                 }
                 finally
                 {
-                    File.Delete(pathTemp);
+                    System.IO.File.Move(pathTemp, pathTemp + "_INSERTED");
                 }
             }
             else
@@ -300,6 +300,29 @@ namespace ZambaWeb.RestApi.Controllers
         {
             string pathTemp = string.Empty;
             Int64 newId = 0;
+
+            //1- NEWRESULT
+            //2- DOCID
+            //3- VALIDAR ATRIBUTOS MINIMO HAYA UNO, OBLIGATORIOS
+            //4- AUTOCOMPLETAR DATOS
+            //5- VALOR DEFECTO
+            //6- RETURNID (INDICE DE RETORNO)
+            //7- COPIAR ARCHIVO AL VOLUMEN
+
+            //-----------------------------------------------------------------------
+            //8- INSERTAR DOCT Referecia al Archivo
+            //9- INSERTAR DOCI Indices
+            //10- EJECUTAR WF ENTRADA
+            //11- GUARDAR REGISTROS INDEXACION
+            //12- GUARDAR HISTORIAL
+            //-----------------------------------------------------------------------
+
+            //13- RETORNAR OK(RETURNVALUE) Valor del Indice Pedidod en RETURNID
+
+            //14- ASSOCIADOS?
+
+            //------------------------
+            // RETORNAR ERROR
 
 
             try
@@ -369,65 +392,37 @@ namespace ZambaWeb.RestApi.Controllers
 
                             Results_Business rb = new Results_Business();
 
-                            IIndex ReturnIndex = newresult.get_GetIndexById(insert.ReturnId);
-                            insertResult IR = null;
-                            if (ReturnIndex == null || ReturnIndex.Data == string.Empty)
+                            IResult insertedResult = rb.GetResult(newresult.ID, newresult.DocTypeId, true);
+
+                            List<char> DigitisIds = insertedResult.ID.ToString().ToList();
+                            string NewID = string.Empty;
+                            for (int i = 0; i < DigitisIds.Count - 1; i++)
                             {
-                                IResult res = rb.GetResult(newId, newresult.DocTypeId, true);
-                                List<char> DigitisIds = newresult.ID.ToString().ToList();
-                                string NewID = string.Empty;
-                                for (int i = 0; i < DigitisIds.Count - 1; i++)
+                                if (i % 2 == 0)
                                 {
-                                    if (i % 2 == 0)
-                                    {
-                                        NewID += DigitisIds[i] + new Random().Next(9).ToString();
-                                    }
-                                    else
-                                    {
-                                        NewID += DigitisIds[i];
-
-                                    }
+                                    NewID += DigitisIds[i] + new Random().Next(9).ToString();
                                 }
-                                Int64 internalId = Int64.Parse(NewID);
-
-                                IIndex ReturnNewIndex = res.get_GetIndexById(insert.ReturnId);
-
-                                if (ReturnNewIndex == null)
-                                    throw new Exception($"El atributo de retorno es indexistenteen la entidad seleccionada. ({insert.ReturnId})");
-
-                                IR = new insertResult
+                                else
                                 {
-                                    Id = internalId,
-                                    ReturnId = insert.ReturnId,
-                                    ReturnValue = ReturnNewIndex.Data,
-                                    msg = "OK"
-                                };
+                                    NewID += DigitisIds[i];
+
+                                }
                             }
-                            else
+                            Int64 internalId = Int64.Parse(NewID);
+
+                            IIndex ReturnNewIndex = insertedResult.get_GetIndexById(insert.ReturnId);
+
+                            if (ReturnNewIndex == null)
+                                throw new Exception($"El atributo de retorno es indexistenteen la entidad seleccionada. ({insert.ReturnId})");
+
+                            insertResult IR = new insertResult
                             {
-                                List<char> DigitisIds = newresult.ID.ToString().ToList();
-                                string NewID = string.Empty;
-                                for (int i = 0; i < DigitisIds.Count - 1; i++)
-                                {
-                                    if (i % 2 == 0)
-                                    {
-                                        NewID += DigitisIds[i] + new Random().Next(9).ToString();
-                                    }
-                                    else
-                                    {
-                                        NewID += DigitisIds[i];
+                                Id = internalId,
+                                ReturnId = insert.ReturnId,
+                                ReturnValue = ReturnNewIndex.Data,
+                                msg = "OK"
+                            };
 
-                                    }
-                                }
-                                Int64 internalId = Int64.Parse(NewID);
-                                IR = new insertResult
-                                {
-                                    Id = internalId,
-                                    ReturnId = insert.ReturnId,
-                                    ReturnValue = ReturnIndex.Data,
-                                    msg = "OK"
-                                };
-                            }
 
                             //------------------------------------------AssociatesResults-----------------------------------------
 
@@ -459,7 +454,7 @@ namespace ZambaWeb.RestApi.Controllers
                     }
                     finally
                     {
-                        File.Delete(pathTemp);
+                        System.IO.File.Move(pathTemp, pathTemp + "_INSERTED");
                     }
                 }
                 else
@@ -489,7 +484,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
 
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError,
-         new HttpError(ex.ToString()))).ToString();
+                new HttpError(ex.ToString()))).ToString();
 
             }
 
@@ -652,7 +647,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                         ex.Data.Add("File", insertRequest.file.data);
 
-                        throw ;
+                        throw;
                     }
                 }
             }
@@ -680,7 +675,7 @@ namespace ZambaWeb.RestApi.Controllers
                 var data = Convert.FromBase64String(s[1].Replace(" ", "+"));
                 File.WriteAllBytes(pathTemp, data);
 
-                var pathBKP = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "BKP InsertFile");
+                var pathBKP = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "BKP InsertFile", DateTime.Now.ToString("yyyy-MM-dd"));
                 if (!Directory.Exists(pathBKP))
                 {
                     Directory.CreateDirectory(pathBKP);

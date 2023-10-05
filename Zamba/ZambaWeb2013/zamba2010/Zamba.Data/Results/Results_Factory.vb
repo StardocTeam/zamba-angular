@@ -1418,12 +1418,11 @@ Public Class Results_Factory
                 tableQuery = CreateUpdateQuery(newRes, TableName)
             End If
 
-            If Not String.IsNullOrEmpty(tableQuery) Then
-                t.Con.ExecuteNonQuery(t.Transaction, CommandType.Text, tableQuery)
-            End If
+            t.Con.ExecuteNonQuery(t.Transaction, CommandType.Text, tableQuery)
+
         Catch ex As Exception
             If String.Compare(ex.Message.ToString.Substring(0, 9), "ORA-00001") = 0 OrElse ex.Message.IndexOf("clave duplicada") > 0 Then
-                Throw New Exception("Clave unica violada")
+                Throw New Exception("Clave unica violada", ex)
             End If
             ZClass.raiseerror(ex)
             Throw
@@ -2711,7 +2710,7 @@ Public Class Results_Factory
     Public Shared FilesForDelete As New ArrayList
 
     <Obsolete("Metodo discontinuado", False)>
-    Public Sub Delete(ByVal Result As IResult, Optional ByVal delfile As Boolean = True)
+    Public Sub Delete(ByVal Result As IResult)
 
         Try
             Dim TableT As String = MakeTable(Result.DocType.ID, TableType.Document)
@@ -2721,7 +2720,7 @@ Public Class Results_Factory
 
 
             StrDelete = "DELETE FROM " & TableI & " Where (Doc_ID = " & Result.ID & ")"
-                Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
+            Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
             StrDelete = "DELETE FROM " & TableT & " Where (Doc_ID = " & Result.ID & ")"
             Server.Con.ExecuteNonQuery(CommandType.Text, StrDelete)
             StrDelete = "DELETE FROM " & TableNotes & " Where (Doc_ID = " & Result.ID & ")"
@@ -2759,7 +2758,8 @@ Public Class Results_Factory
 
                         Try
                             Try
-                                If delfile = True Then file.Delete()
+                                file.MoveTo(file.FullName & "_DELETED")
+                                'file.Delete()
                             Catch ex As Exception
                                 Results_Factory.FilesForDelete.Add(file)
                             End Try
@@ -2806,7 +2806,7 @@ Public Class Results_Factory
         End Try
     End Sub
 
-    Public Sub Delete(ByVal taskId As Int64, ByVal DocTypeId As Int64, ByVal fullPath As String, Optional ByVal deleteFile As Boolean = True)
+    Public Sub Delete(ByVal taskId As Int64, ByVal DocTypeId As Int64, ByVal fullPath As String)
 
         Dim TableT As String = MakeTable(DocTypeId, TableType.Document)
         Dim TableI As String = MakeTable(DocTypeId, TableType.Indexs)
@@ -2860,8 +2860,8 @@ Public Class Results_Factory
         QueryBuilder = Nothing
 
 
-        If deleteFile AndAlso IO.File.Exists(fullPath) Then
-            IO.File.Delete(fullPath)
+        If IO.File.Exists(fullPath) Then
+            IO.File.Move(fullPath, fullPath & "_DELETED")
         End If
 
         If Server.isOracle Then
@@ -2885,7 +2885,7 @@ Public Class Results_Factory
 
     End Sub
     <Obsolete("Metodo discontinuado", False)>
-    Public Sub Delete(ByRef Result As NewResult, Optional ByVal delfile As Boolean = True)
+    Public Sub Delete(ByRef Result As NewResult)
         Try
             Dim TableT As String = MakeTable(Result.DocType.ID, TableType.Document)
             Dim TableI As String = MakeTable(Result.DocType.ID, TableType.Indexs)
@@ -2922,16 +2922,16 @@ Public Class Results_Factory
             End If
 
             Try
-                If delfile = True Then file.Delete()
+                file.MoveTo(file.FullName & "_DELETED")
             Catch ex As Exception
                 Results_Factory.FilesForDelete.Add(file)
             End Try
         Catch ex As Exception
-            Throw New Exception("Ocurrio un error al intentar eliminar el documento" & " " & ex.ToString)
+                Throw New Exception("Ocurrio un error al intentar eliminar el documento" & " " & ex.ToString)
         End Try
     End Sub
     <Obsolete("Metodo discontinuado", False)>
-    Public Sub Delete(ByRef Result As NewResult, ByVal delfile As Boolean, ByRef t As Transaction)
+    Public Sub Delete(ByRef Result As NewResult, ByRef t As Transaction)
         Try
             Dim TableT As String = MakeTable(Result.DocType.ID, TableType.Document)
             Dim TableI As String = MakeTable(Result.DocType.ID, TableType.Indexs)
@@ -2968,12 +2968,12 @@ Public Class Results_Factory
             End If
 
             Try
-                If delfile = True Then file.Delete()
+                file.MoveTo(file.FullName & "_DELETED")
             Catch ex As Exception
                 Results_Factory.FilesForDelete.Add(file)
             End Try
         Catch ex As Exception
-            Throw New Exception("Ocurrio un error al intentar eliminar el documento" & " " & ex.ToString)
+                Throw New Exception("Ocurrio un error al intentar eliminar el documento" & " " & ex.ToString)
         End Try
     End Sub
 
