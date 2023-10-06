@@ -75,6 +75,7 @@ namespace Zamba.Web
             HttpContext.Current.Response.Headers.Add("Access-Control-Allow-Origin", HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority);
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
             //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
             var errorMessage = HttpContext.Current.Items["ErrorMessage"] != null ? HttpContext.Current.Items["ErrorMessage"].ToString() : String.Empty;
             if (errorMessage.Contains("Redirect"))
             {
@@ -86,49 +87,80 @@ namespace Zamba.Web
 
         private Boolean ValidateUrl()
         {
-            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comienza validacion de URL...");
+
+
+            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];            
+
             if (scheme == null)
             {
                 scheme = "http";
             }
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'scheme': " + scheme.ToString());
+
             if (Request.UrlReferrer != null)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Validando propiedad 'Request.UrlReferrer.Host': " + Request.UrlReferrer.Host.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Url.Host': " + Request.Url.Host.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "if (Request.UrlReferrer.Host != Request.Url.Host)");
+
                 if (Request.UrlReferrer.Host != Request.Url.Host)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                     return false;
+                }
             }
+
             scheme = scheme.ToLower();
             var RequestScheme = Request.Url.Scheme.ToLower();
             if (Request.Url.Scheme.ToLower() != scheme)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'RequestScheme': " + RequestScheme.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                 return false;
             }
+
             if (Request.UrlReferrer != null)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.UrlReferrer.Scheme': " + Request.UrlReferrer.Scheme.ToString());
                 if (Request.UrlReferrer.Scheme.ToLower() != scheme)
                 {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                     return false;
                 }
             }
+
+
             if (!(Request.Headers["Host"] == Request.Url.Host + ":" + Request.Url.Port.ToString() || Request.Headers["Host"] == Request.Url.Host))
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Headers[\"Host\"]': " + Request.Headers["Host"].ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "'Request.Url.Host + \":\" + Request.Url.Port.ToString()': " + Request.Url.Host + ":" + Request.Url.Port.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                 return false;
             }
 
             string strOrigin = "";
+
             if (HttpContext.Current.Request.Headers["Origin"] != null)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'HttpContext.Current.Request.Headers[\"Origin\"]': " + HttpContext.Current.Request.Headers["Origin"].ToString());
                 strOrigin = HttpContext.Current.Request.Headers.GetValues("Origin").FirstOrDefault();
-            if (string.IsNullOrEmpty(strOrigin))
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'strOrigin': " + strOrigin.ToString());
+            }
+
+            if (string.IsNullOrEmpty(strOrigin)) {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
                 return true;
+            }
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
+            {
                 return true;
+            }
             else
             {
                 return false;
             }
-            
-
         }
-
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
@@ -146,16 +178,17 @@ namespace Zamba.Web
                 return;
             }
             var request = HttpContext.Current.Request;
-            
-    
-            if (HttpContext.Current.Request.HttpMethod == "GET" && Request.Url.Segments.Length == 2) {
-            //    Server.Transfer("views/security/Login.aspx");
+
+
+            if (HttpContext.Current.Request.HttpMethod == "GET" && Request.Url.Segments.Length == 2)
+            {
+                //    Server.Transfer("views/security/Login.aspx");
                 Response.Redirect(request.Url.LocalPath + "views/security/Login.aspx");
             }
-                //string param1 = request.QueryString["userId"];
+            //string param1 = request.QueryString["userId"];
 
-             if (request.Form["userId"] != null)
-             {
+            if (request.Form["userId"] != null)
+            {
                 try
                 {
                     Int32.Parse(request.Form["userId"]);
@@ -218,8 +251,9 @@ namespace Zamba.Web
             try
             {
                 Exception ex = Server.GetLastError();
-               
-                if (ex != null) {
+
+                if (ex != null)
+                {
                     Server.ClearError();
                     String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
 
@@ -252,7 +286,8 @@ namespace Zamba.Web
 
         }
 
-        protected void Application_EndRequest() {
+        protected void Application_EndRequest()
+        {
 
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
             HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
