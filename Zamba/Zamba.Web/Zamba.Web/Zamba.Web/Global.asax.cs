@@ -79,6 +79,7 @@ namespace Zamba.Web
             var errorMessage = HttpContext.Current.Items["ErrorMessage"] != null ? HttpContext.Current.Items["ErrorMessage"].ToString() : String.Empty;
             if (errorMessage.Contains("Redirect"))
             {
+                ZTrace.WriteLineIf(ZTrace.IsError, "Propiedad 'errorMessage': " + errorMessage.ToString());
                 HttpContext.Current.Response.StatusCode = 404;
                 HttpContext.Current.Response.StatusDescription = "Not Found";
                 HttpContext.Current.Response.End();
