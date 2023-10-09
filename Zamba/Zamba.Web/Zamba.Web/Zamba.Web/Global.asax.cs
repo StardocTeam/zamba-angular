@@ -153,6 +153,7 @@ namespace Zamba.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
                 return true;
             }
+
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
             {
                 return true;
@@ -252,6 +253,11 @@ namespace Zamba.Web
             try
             {
                 Exception ex = Server.GetLastError();
+                var ExMEssage = ex.Message == null ? "" : ex.Message.ToString();
+                ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + ExMEssage);
+
+                var InnerException = ex.InnerException.Message == null ? "" : ex.InnerException.Message.ToString(); 
+                ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + InnerException);
 
                 if (ex != null)
                 {
@@ -261,7 +267,7 @@ namespace Zamba.Web
                     HttpContext.Current.Response.Clear();
                     HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
                     Zamba.AppBlock.ZException.Log(ex);
-
+                    
                     HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
                     HttpContext.Current.Response.StatusCode = 404;
                     HttpContext.Current.Response.StatusDescription = "Not Found";
