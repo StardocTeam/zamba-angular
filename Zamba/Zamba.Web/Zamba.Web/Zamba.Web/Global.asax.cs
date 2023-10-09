@@ -18,6 +18,7 @@ using BundleTransformer.Core.Resources;
 using Spire.Pdf.Exporting.XPS.Schema;
 using System.Configuration;
 using static System.Net.WebRequestMethods;
+using System.Web.Http.Controllers;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -708,10 +709,12 @@ namespace Zamba.Web
                 var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, url);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, baseAddress);
+
                 var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
                 http.Method = "POST";
                 http.Accept = "*/*";
                 http.ContentType = "application/x-www-form-urlencoded";
+
                 CookieContainer cookieContainer = new CookieContainer();
                 http.Referer = baseAddress;
                 var postData = "";
