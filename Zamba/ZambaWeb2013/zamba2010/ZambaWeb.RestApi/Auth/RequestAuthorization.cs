@@ -173,6 +173,8 @@ namespace ZambaWeb.RestApi.Controllers
             if (!ValidateOrigin(actionContext))
                 isValid = false;
 
+            isValid = true;
+
             return isValid;
         }
 
