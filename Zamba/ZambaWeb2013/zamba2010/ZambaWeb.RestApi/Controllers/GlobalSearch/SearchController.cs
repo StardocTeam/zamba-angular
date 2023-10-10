@@ -5803,7 +5803,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getAssociatedResults")]
-        [isGenericRequest]
+        [OverrideAuthorization]
         public IHttpActionResult getAssociatedResults(genericRequest paramRequest)
         {
             if (paramRequest != null)

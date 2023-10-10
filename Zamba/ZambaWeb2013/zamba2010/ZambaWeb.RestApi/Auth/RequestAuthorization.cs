@@ -101,6 +101,19 @@ namespace ZambaWeb.RestApi.Controllers
         public override void OnActionExecuting(HttpActionContext actionContext)
         //public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "OnActionExecuting:");
+
+            if (string.IsNullOrEmpty(actionContext.Request.Headers.Host))            
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.Host);            
+            else            
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: NO HAY HOST");
+
+
+            if (actionContext.Request.Headers.Contains("Origin"))            
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.GetValues("Origin").ToString());            
+            else            
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Origin: NO EXISTE en los HEADERS");    
+            
 
             if (!ValidateRequest(actionContext))
             {
@@ -113,8 +126,9 @@ namespace ZambaWeb.RestApi.Controllers
 
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "OnActionExecuted:");
 
-            AddHeaderCSP(ref actionExecutedContext);
+            //AddHeaderCSP(ref actionExecutedContext);
             HttpResponseMessage r = actionExecutedContext.Response;
             r.Headers.Remove("Server");
             actionExecutedContext.Response = r;
@@ -158,6 +172,8 @@ namespace ZambaWeb.RestApi.Controllers
             Boolean isValid = true;
             if (!ValidateOrigin(actionContext))
                 isValid = false;
+
+            isValid = true;
 
             return isValid;
         }
