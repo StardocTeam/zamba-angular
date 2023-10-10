@@ -102,9 +102,11 @@ namespace Zamba.Web
                 Request.Url.Segments.Last().ToString() == "404.aspx" ||
                 Request.Url.Segments.Last().ToString() == "getValueFromWebConfig")
             {
-                string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
-                //HttpContext.Current.Response.Headers.Add("Content-Security-Policy", HeaderCSP);
-
+                if (System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"] != null)
+                {
+                    string HeaderCSP = System.Web.Configuration.WebConfigurationManager.AppSettings["CSPNotUnsafeInline"].ToString();
+                    //HttpContext.Current.Response.Headers.Add("Content-Security-Policy", HeaderCSP);
+                }
                 Response.Cookies.Clear();
             }
 

@@ -574,13 +574,6 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-
-
-
-
-
-
-
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [AllowAnonymous]
         [Route("GetOktaInformation")]        
