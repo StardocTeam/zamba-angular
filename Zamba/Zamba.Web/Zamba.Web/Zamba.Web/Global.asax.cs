@@ -91,7 +91,7 @@ namespace Zamba.Web
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comienza validacion de URL...");
 
 
-            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];            
+            var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
 
             if (scheme == null)
             {
@@ -149,7 +149,8 @@ namespace Zamba.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'strOrigin': " + strOrigin.ToString());
             }
 
-            if (string.IsNullOrEmpty(strOrigin)) {
+            if (string.IsNullOrEmpty(strOrigin))
+            {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
                 return true;
             }
@@ -254,10 +255,10 @@ namespace Zamba.Web
             {
                 Exception ex = Server.GetLastError();
 
-                var ExMEssage = ""; 
+                var ExMEssage = "";
                 var InnerException = "";
 
-                if (ex != null) 
+                if (ex != null)
                 {
                     ExMEssage = ex.Message == null ? "" : ex.Message.ToString();
                     ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + ExMEssage);
@@ -265,21 +266,22 @@ namespace Zamba.Web
                     InnerException = ex.InnerException.Message == null ? "" : ex.InnerException.Message.ToString();
                     ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + InnerException);
 
-                    Server.ClearError();
                     String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
 
-                    HttpContext.Current.Response.Clear();
-                    HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
                     Zamba.AppBlock.ZException.Log(ex);
 
                     HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
-                    HttpContext.Current.Response.StatusCode = 404;
-                    HttpContext.Current.Response.StatusDescription = "Not Found";
                 }
                 else
                 {
                     ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: 'Server.GetLastError()': devuelve nulo, por lo tanto no hay objeto Exception que revisar.");
                 }
+
+                Server.ClearError();
+                HttpContext.Current.Response.Clear();
+                HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
+                HttpContext.Current.Response.StatusCode = 404;
+                HttpContext.Current.Response.StatusDescription = "Not Found";
 
                 HttpContext.Current.Response.End();
             }

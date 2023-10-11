@@ -360,10 +360,12 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             }
             scheme = scheme.ToLower();
             var RequestScheme = HttpContext.Current.Request.Url.Scheme.ToLower();
+
             if (HttpContext.Current.Request.Url.Scheme.ToLower() != scheme)
             {
                 return false;
             }
+
             if (HttpContext.Current.Request.UrlReferrer != null)
             {
                 if (HttpContext.Current.Request.UrlReferrer.Scheme.ToLower() != scheme)
@@ -371,6 +373,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                     return false;
                 }
             }
+
             if (!(HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString() || HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host))
             {
                 return false;
@@ -379,6 +382,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             string strOrigin = "";
             if (HttpContext.Current.Request.Headers["Origin"] != null)
                 strOrigin = HttpContext.Current.Request.Headers.GetValues("Origin").FirstOrDefault();
+
             if (string.IsNullOrEmpty(strOrigin))
                 return true;
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
@@ -427,12 +431,38 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         public override void OnActionExecuting(HttpActionContext actionContext)
         //public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
+            if (!string.IsNullOrEmpty(actionContext.Request.RequestUri.AbsoluteUri))
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.RequestUri.AbsoluteUri.ToString());
+
+            foreach (KeyValuePair<String, IEnumerable<String>> item in actionContext.Request.Headers)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, item.Key);
+                foreach (String value in item.Value)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, value);
+                }
+            }
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "OnActionExecuting:");
+
+            if (!string.IsNullOrEmpty(actionContext.Request.Headers.Host))
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.Host);
+            else
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: NO HAY HOST");
+
+
+            if (actionContext.Request.Headers.Contains("Origin"))
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.GetValues("Origin").ToString());
+            else
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Origin: NO EXISTE en los HEADERS");
+
             if (!ValidateRequest(actionContext))
             {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request en OnActionExecuting");
+
                 actionContext.Response = new HttpResponseMessage();
                 actionContext.Response.Content = new StringContent("");
                 actionContext.Response.StatusCode = HttpStatusCode.BadRequest;
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request enOnActionExecuting");
             }
         }
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)

@@ -86,6 +86,8 @@ namespace ZambaWeb.RestApi
                 response.StatusCode == HttpStatusCode.Unauthorized ||
                 response.StatusCode == HttpStatusCode.BadRequest)
             {
+
+                ZTrace.WriteLineIf(ZTrace.IsError, "error en WebApiConfig, se rechazo el request con error nro" + response.StatusCode.ToString() + ".");
                 ZTrace.WriteLineIf(ZTrace.IsError, "Datelles de la respuesta: ");
                 System.Net.Http.ObjectContent<System.Web.Http.HttpError> ResponseContent = (System.Net.Http.ObjectContent<System.Web.Http.HttpError>)response.Content;
                 HttpError httpError = (HttpError)ResponseContent.Value;
