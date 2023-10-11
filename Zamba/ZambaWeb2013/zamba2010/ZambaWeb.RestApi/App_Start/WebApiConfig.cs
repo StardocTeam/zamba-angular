@@ -15,6 +15,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http;
 
+using Zamba.Core;
+using System.Reflection;
+
 namespace ZambaWeb.RestApi
 {
     public static class WebApiConfig
@@ -74,13 +77,30 @@ namespace ZambaWeb.RestApi
             CancellationToken cancellationToken)
         {
             var response = await base.SendAsync(request, cancellationToken);
-            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.InternalServerError || response.StatusCode == HttpStatusCode.Unauthorized)
+
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "* Respuesta capturada en 'SendAsync' (WebApiconfig):");
+            ZTrace.WriteLineIf(ZTrace.IsInfo, response.ToString());
+
+            if (response.StatusCode == HttpStatusCode.NotFound ||
+                response.StatusCode == HttpStatusCode.InternalServerError ||
+                response.StatusCode == HttpStatusCode.Unauthorized ||
+                response.StatusCode == HttpStatusCode.BadRequest)
             {
+                ZTrace.WriteLineIf(ZTrace.IsError, "Datelles de la respuesta: ");
+                System.Net.Http.ObjectContent<System.Web.Http.HttpError> ResponseContent = (System.Net.Http.ObjectContent<System.Web.Http.HttpError>)response.Content;
+                HttpError httpError = (HttpError)ResponseContent.Value;
+
+                foreach (KeyValuePair<string, object> item in httpError)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsError, item.Key + ": " + item.Value);
+                }
+
                 response = request.CreateResponse(HttpStatusCode.NotFound,
                     new { Error = "" },
                     "application/json");
                 response.Content = new StringContent("");
             }
+
             return response;
         }
     }

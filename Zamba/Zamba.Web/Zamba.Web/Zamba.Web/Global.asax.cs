@@ -253,26 +253,34 @@ namespace Zamba.Web
             try
             {
                 Exception ex = Server.GetLastError();
-                var ExMEssage = ex.Message == null ? "" : ex.Message.ToString();
-                ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + ExMEssage);
 
-                var InnerException = ex.InnerException.Message == null ? "" : ex.InnerException.Message.ToString(); 
-                ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + InnerException);
+                var ExMEssage = ""; 
+                var InnerException = "";
 
-                if (ex != null)
+                if (ex != null) 
                 {
+                    ExMEssage = ex.Message == null ? "" : ex.Message.ToString();
+                    ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + ExMEssage);
+
+                    InnerException = ex.InnerException.Message == null ? "" : ex.InnerException.Message.ToString();
+                    ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + InnerException);
+
                     Server.ClearError();
                     String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
 
                     HttpContext.Current.Response.Clear();
                     HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
                     Zamba.AppBlock.ZException.Log(ex);
-                    
+
                     HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
                     HttpContext.Current.Response.StatusCode = 404;
                     HttpContext.Current.Response.StatusDescription = "Not Found";
-
                 }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: 'Server.GetLastError()': devuelve nulo, por lo tanto no hay objeto Exception que revisar.");
+                }
+
                 HttpContext.Current.Response.End();
             }
             catch (Exception ex)
