@@ -88,7 +88,7 @@ namespace Zamba.Web
 
         private Boolean ValidateUrl()
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Comienza validacion de URL...");
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "ZambaWeb - GlobalAsax.cs: Comienza validacion de URL...");
 
 
             var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
@@ -114,6 +114,7 @@ namespace Zamba.Web
 
             scheme = scheme.ToLower();
             var RequestScheme = Request.Url.Scheme.ToLower();
+
             if (Request.Url.Scheme.ToLower() != scheme)
             {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'RequestScheme': " + RequestScheme.ToString());
@@ -124,6 +125,7 @@ namespace Zamba.Web
             if (Request.UrlReferrer != null)
             {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.UrlReferrer.Scheme': " + Request.UrlReferrer.Scheme.ToString());
+
                 if (Request.UrlReferrer.Scheme.ToLower() != scheme)
                 {
                     ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
@@ -154,7 +156,6 @@ namespace Zamba.Web
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
                 return true;
             }
-
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
             {
                 return true;

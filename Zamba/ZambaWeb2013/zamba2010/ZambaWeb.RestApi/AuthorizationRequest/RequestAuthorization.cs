@@ -19,6 +19,7 @@ using System.Web.Http.Routing;
 using Zamba.Core;
 using Newtonsoft.Json.Linq;
 using ZambaWeb.RestApi.Controllers;
+using System.Text.Json;
 
 namespace ZambaWeb.RestApi.AuthorizationRequest
 {
@@ -67,47 +68,53 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             return UsuarioAutorizado;
         }
         public override void OnAuthorization(HttpActionContext actionContext)
-        {
+        {            
             if (isNewsPostDto)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "RestAPIAuthorize - OnAuthorization: Validando 'isNewsPostDto'...");
                 if (!ValidateNewsPostDto(actionContext.Request))
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
-
             }
+
             if (isEmailData)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "RestAPIAuthorize - OnAuthorization: Validando 'isEmailData'...");
                 if (!ValidateMailData(actionContext.Request))
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
-
             }
+
             if (isSearchDto)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "RestAPIAuthorize - OnAuthorization: Validando 'isSearchDto'...");
                 if (!ValidateSearchDto(actionContext.Request))
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
             }
+
             if (SelectedEntitiesIds)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "RestAPIAuthorize - OnAuthorization: Validando 'SelectedEntitiesIds'...");
                 if (!ValidateSelectedEntitiesIds(actionContext.Request))
                 {
                     HandleUnauthorizedRequest(actionContext);
                 }
-
             }
+
             //ESTO ES DE OKTA
             //if (!Authorize(actionContext))
             //{
             //    HandleUnauthorizedRequest(actionContext);
             //}
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "RestAPIAuthorize - OnAuthorization: Ejecucion finalizada.");
         }
         private bool ValidateNewsPostDto(HttpRequestMessage request)
         {
-
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[RestAPIAuthorize]: Ejecutando ValidateNewsPostDto...");
             // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
 
@@ -115,7 +122,6 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             string jsonString = httpContent.ReadAsStringAsync().Result;
 
             var properties = System.Text.Json.JsonDocument.Parse(jsonString);
-
 
             // Deserializar la cadena JSON en un objeto C#
             try
@@ -159,6 +165,8 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
         private bool ValidateMailData(HttpRequestMessage request)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[RestAPIAuthorize]: Ejecutando ValidateMailData...");
+
             List<string> emailDataProperties = new List<string>();
             Type emailDataType = typeof(EmailData);
             PropertyInfo[] properties = emailDataType.GetProperties();
@@ -195,6 +203,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         private bool ValidateSelectedEntitiesIds(HttpRequestMessage request)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[RestAPIAuthorize]: Ejecutando 'ValidateSelectedEntitiesIds'...");
 
             HttpContent httpContent = request.Content;
             string jsonString = httpContent.ReadAsStringAsync().Result;
@@ -213,19 +222,22 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         {
             try
             {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "[RestAPIAuthorize]: Ejecutando 'validateInt64Values'...");
                 List<long> int64List = JsonConvert.DeserializeObject<List<long>>(inputString);
 
                 foreach (long number in int64List)
                 {
                     if (number.GetType() != typeof(long))
                     {
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Retornando 'false'");
                         return false;
                     }
                 }
 
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Retornando 'true'");
                 return true;
             }
-            catch (JsonException)
+            catch (Exception)
             {
                 return false;
             }
@@ -233,6 +245,8 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
         private bool ValidateSearchDto(HttpRequestMessage request)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[RestAPIAuthorize]: Ejecutando ValidateSearchDto...");
+
             List<string> searchDTODataProperties = new List<string>();
             Type searchDTODataType = typeof(SearchDto);
             PropertyInfo[] properties = searchDTODataType.GetProperties();
@@ -252,7 +266,6 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
             try
             {
-
                 foreach (var property in jsonDocument.RootElement.EnumerateObject())
                 {
                     if (!searchDTODataProperties.Contains(property.Name.ToLower()))
@@ -267,12 +280,15 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                             property.Name != "lastNodeSelected" && property.Name != "filter"
                             )
                         {
+                            ZTrace.WriteLineIf(ZTrace.IsInfo, "La validacion de propiedades del SearchDTO: retornando 'false'.");
                             return false;
                         }
 
                     }
 
                 }
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "La validacion de propiedades del SearchDTO: retornando 'true'.");
                 return true;
             }
             catch (Exception)
@@ -286,6 +302,16 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
+
+            if (actionContext.Response != null)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "RestAPIAuthorize - HandleUnauthorizedRequest: " + actionContext.Response.ToString());
+            }
+            else
+            {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "RestAPIAuthorize - HandleUnauthorizedRequest: NO HAY RESPUESTA");
+            }
+
             actionContext.Response.Content = new StringContent("");
             base.HandleUnauthorizedRequest(actionContext);
         }
@@ -337,6 +363,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         {
             if (!ValidateUrl())
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Codigo de error: 400 Bad Request");
                 actionContext.Response = new HttpResponseMessage();
                 actionContext.Response.Content = new StringContent("");
                 actionContext.Response.StatusCode = HttpStatusCode.BadRequest;
@@ -348,52 +375,81 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
         private Boolean ValidateUrl()
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "RequestResponseController: Validando URL...");
+
             var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
             if (scheme == null)
             {
                 scheme = "http";
             }
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'scheme': " + scheme.ToString());
+
             if (HttpContext.Current.Request.UrlReferrer != null)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Validando propiedad 'Request.UrlReferrer.Host': " + HttpContext.Current.Request.UrlReferrer.Host.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Url.Host': " + HttpContext.Current.Request.Url.Host.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "if (Request.UrlReferrer.Host != Request.Url.Host)");
+
                 if (HttpContext.Current.Request.UrlReferrer.Host != HttpContext.Current.Request.Url.Host)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                     return false;
+                }
             }
+
             scheme = scheme.ToLower();
             var RequestScheme = HttpContext.Current.Request.Url.Scheme.ToLower();
 
             if (HttpContext.Current.Request.Url.Scheme.ToLower() != scheme)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'RequestScheme': " + RequestScheme.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                 return false;
             }
 
             if (HttpContext.Current.Request.UrlReferrer != null)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.UrlReferrer.Scheme': " + HttpContext.Current.Request.UrlReferrer.Scheme.ToString());
+
                 if (HttpContext.Current.Request.UrlReferrer.Scheme.ToLower() != scheme)
                 {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                     return false;
                 }
             }
 
             if (!(HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString() || HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host))
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Headers[\"Host\"]': " + HttpContext.Current.Request.Headers["Host"].ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "'Request.Url.Host + \":\" + Request.Url.Port.ToString()': " + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                 return false;
             }
 
             string strOrigin = "";
+
             if (HttpContext.Current.Request.Headers["Origin"] != null)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'HttpContext.Current.Request.Headers[\"Origin\"]': " + HttpContext.Current.Request.Headers["Origin"].ToString());
                 strOrigin = HttpContext.Current.Request.Headers.GetValues("Origin").FirstOrDefault();
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'strOrigin': " + strOrigin.ToString());
+            }
 
             if (string.IsNullOrEmpty(strOrigin))
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
                 return true;
+            }
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
+            {
                 return true;
+            }
             else
             {
                 return false;
             }
-
-
         }
+
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             if (actionExecutedContext.Response == null)
@@ -431,6 +487,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         public override void OnActionExecuting(HttpActionContext actionContext)
         //public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuting'");
             if (!string.IsNullOrEmpty(actionContext.Request.RequestUri.AbsoluteUri))
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.RequestUri.AbsoluteUri.ToString());
 
@@ -467,6 +524,8 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuted'");
+
             AddHeaderCSP(ref actionExecutedContext);
             HttpResponseMessage r = actionExecutedContext.Response;
             r.Headers.Remove("Server");
@@ -506,13 +565,17 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         public Boolean ValidateRequest(HttpActionContext actionContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'ValidateRequest'");
             Boolean isValid = true;
             if (!ValidateOrigin(actionContext))
                 isValid = false;
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando " + (isValid ? "true" : "false"));
             return isValid;
         }
         private Boolean ValidateOrigin(HttpActionContext actionContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'ValidateOrigin'");
             HttpRequestMessage request = actionContext.Request;
             string strOrigin = "";
             if (request.Headers.Contains("Origin"))
@@ -520,11 +583,18 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, strOrigin);
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, request.RequestUri.Scheme + "://" + request.RequestUri.Authority);
             if (string.IsNullOrEmpty(strOrigin))
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando true");
                 return true;
+            }
             else if (strOrigin == request.RequestUri.Scheme + "://" + request.RequestUri.Authority)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando true");
                 return true;
+            }
             else
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando false");
                 return false;
             }
         }
@@ -534,6 +604,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'OnAuthorization'...");
             if (!Authorize(actionContext))
             {
                 HandleUnauthorizedRequest(actionContext);
@@ -541,6 +612,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'HandleUnauthorizedRequest'...");
             if (actionContext.Response == null)
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
@@ -550,10 +622,12 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         private bool Authorize(HttpActionContext actionContext)
         {
+
             return ValidateGenericRequest(actionContext.Request);
         }
         private bool ValidateGenericRequest(HttpRequestMessage request)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'ValidateGenericRequest'...");
             // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
             // Leer el contenido como una cadena JSON
@@ -567,7 +641,10 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                 foreach (JProperty item in token)
                 {
                     if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
+                    {
+
                         return false;
+                    }
                 }
                 return true;
             }
