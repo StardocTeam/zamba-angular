@@ -317,6 +317,8 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         private bool AuthorizeRequest(HttpRequestMessage request)
         {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[RestApiAuthorize]: Ejecutando 'AuthorizeRequest'...");
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
             return true;
         }
         //private bool Authorize(HttpActionContext actionContext)
@@ -438,14 +440,17 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             if (string.IsNullOrEmpty(strOrigin))
             {
                 ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
                 return true;
             }
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
                 return true;
             }
             else
             {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
                 return false;
             }
         }
@@ -633,7 +638,11 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
             // Leer el contenido como una cadena JSON
             string jsonString = httpContent.ReadAsStringAsync().Result;
             if (jsonString == "")
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
                 return false;
+            }
+
             // Navegar por el documento JSON utilizando JToken
             JToken token = JToken.Parse(jsonString);
             try
@@ -642,10 +651,12 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                 {
                     if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
                     {
-
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
                         return false;
                     }
                 }
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
                 return true;
             }
             catch (Exception ex)
