@@ -20,7 +20,9 @@
     <!--Modificado por: EEB -->
     <!--Fecha de Modificacion: 20/11/2020><Cambio: Se Agregaro el boton y la solapa de Facturas asociadas -->
 	<!--Modificado por: EEB -->
-	<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto -->
+	<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto o sin Impuestos -->
+	<!--Modificado por: EEB -->
+	<!--Fecha de Modificacion: 27/06/2023><Se agregaron los Atributos de REASEGUROS -->
 	
 
     <title></title>
@@ -200,6 +202,64 @@
                         </div>
 
                     </div>
+					
+					                    <div class="form-group row concept-dependant">
+
+                        <!--REASEGUROS-->
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe IVA:</span>
+
+                                <input id="zamba_index_11535299" name="zamba_index_11535299" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Ingresos Brutos:</span>
+
+                                <input id="zamba_index_11535300" name="zamba_index_11535300" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" />
+                            </div>
+                        </div>
+						<div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Otros Impuestos:</span>
+
+                                <input id="zamba_index_11535301" name="zamba_index_11535301" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" />
+                            </div>
+                        </div>
+
+						<div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Numero de Cuota:</span>
+
+                                <input id="zamba_index_11535302" name="zamba_index_11535302" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" />
+                            </div>
+                        </div>
+
+						<div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Cantidad de Cuotas:</span>
+
+                                <input id="zamba_index_11535303" name="zamba_index_11535303" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" />
+                            </div>
+                        </div>
+
+						
+                    </div>
+
+					
                     <div class="form-group row">
                         <div class="col-sm-5">
                             <div class="input-group">
@@ -244,7 +304,7 @@
 
                         <div class="col-xs-12 col-sm-4" id="DivImporteOtraMoneda1">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Neto:</span>
+                                <span class="input-group-addon">Importe sin Impuestos:</span>
                                 <input id="zamba_index_11535222" name="zamba_index_11535222" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
                                     maxlength="15" />
@@ -262,7 +322,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Neto Pesos:</span>
+                                <span class="input-group-addon">Importe Pesos sin Impuestos:</span>
 
                                 <input id="zamba_index_109" name="zamba_index_109" min="0" step="any"
                                        data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -272,14 +332,14 @@
                         </div>
 
                     </div>
-										<!-- Importe Bruto   -->	
+										<!-- Importe Neto   -->	
 										<div class="col-xs-12 col-sm-3"> </div> 
 										
                     
 					<div class="form-group row">
 	                    <div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Ingrese Importe Bruto:</span>
+                                <span class="input-group-addon">Ingrese Importe Total:</span>
 
                                 <input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -459,12 +519,14 @@
             </div>
             <!-- Nuevo -->
 
-            <script src="FacturasyPagos.js?v=201"></script>
+            <script src="FacturasyPagos.js?v=213"></script>
 
             <script type="text/javascript" language="JavaScript">
 
                 $(document).ready(function () {
                     $("#IDtramite").val("(" + $("#zamba_index_86").val() + ")");
+					
+					showConceptDependant(document.querySelector("#zamba_index_2725").value);				
                 });
 
             </script>
@@ -485,7 +547,7 @@
                     "focusout": render_Importe,
                 });
 				
-								
+				
 				
                 $(document).ready(function () {
                     //Agregando puntero a evento "focusout".
@@ -496,6 +558,22 @@
                         "focusout": AddZerosLeft,
                     });
 
+                    const selectElement = document.getElementById("zamba_index_110")
+                    selectElement.addEventListener("change", (event) => {
+                        if (document.getElementById("zamba_index_110").value == "300") {
+                            /*$('select[name="zamba_index_110"]').find('option[value=300]').remove();*/
+                            setTimeout(() => {
+                                const inputConcepto = document.getElementById("zamba_index_2725")
+                                for (let element = 0; element < inputConcepto.options.length; element++) {
+                                    if (inputConcepto[element].innerText == "PREPAGAS")
+                                        inputConcepto.options.remove(element)
+                                }
+                                    
+                            }, "2200");
+                        }
+                    });
+
+
                     InabilitarCampos();
                     // validarfacturaexiste();
                 });
@@ -504,8 +582,6 @@
                     //   validarfacturaexiste();
 
                 });
-
-
                 function InabilitarCampos() {
 
                     if ($("#zamba_index_1020143").val() == 'NO') {
@@ -586,7 +662,19 @@
                     }
                 }
 
+				function setInputSeparator(id) {
+					if ($("#" + id).val() == 'NaN' || $("#" + id).val() == '') {
+						$("#" + id).val('');
+					}
+					else if ($("#" + id).val() != '' || $("#" + id).val() != undefined || $("#" + id).val() != 'NaN') {
 
+						var indexValue = parseFloat($("#" + id).val().replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+						$("#" + id).val(String(parseFloat(indexValue).toFixed(2)).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
+					}
+				}
+
+				
+				
             </script>
 
             <script>
@@ -607,6 +695,11 @@
                 };
 
             </script>
+			  <style>
+					.concept-dependant {
+						display: none;
+					}
+				</style>
 
         </div>
     </form>
