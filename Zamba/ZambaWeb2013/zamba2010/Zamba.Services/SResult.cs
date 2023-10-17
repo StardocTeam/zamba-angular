@@ -152,7 +152,7 @@ namespace Zamba.Services
 
         public void delete(IResult Result)
         {
-            Results_Business.Delete(ref Result, false);
+            Results_Business.Delete(ref Result);
         }
 
         public void SaveModifiedIndexs(IResult Result, List<Int64> modifiedIndexs, List<IIndex> indexs)

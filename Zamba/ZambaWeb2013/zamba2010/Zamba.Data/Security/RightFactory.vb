@@ -850,7 +850,7 @@ Public Class RightFactory
         If Server.isOracle Then
             FilterId = CoreData.GetNewID(IdTypes.FilterWeb)
             Dim consulta As String = "INSERT INTO ZFILTERS (id, attribute, ""VALUE"", enabled, datatype, comparator, filtertype, doctypeid, userid, description, indexdropdown ) values ("
-            consulta &= FilterId.ToString() & ",'" & FilterAttribute & "','" & FilterValue & "',1,'" & FilterDataType.ToString & "','" & FilterComparator & "','" & FilterType & "'," & DocTypeId.ToString() & "," & UserId.ToString() & ",'" & FilterDbName & "'," & IndexDropDown.ToString & "')"
+            consulta &= FilterId.ToString() & ",'" & FilterAttribute & "','" & FilterValue & "',1,'" & FilterDataType.ToString & "','" & FilterComparator & "','" & FilterType & "'," & DocTypeId.ToString() & "," & UserId.ToString() & ",'" & FilterDbName & "','" & IndexDropDown.ToString & "')"
             Server.Con.ExecuteNonQuery(CommandType.Text, consulta)
         Else
             Dim ParValues() As Object = {FilterAttribute,

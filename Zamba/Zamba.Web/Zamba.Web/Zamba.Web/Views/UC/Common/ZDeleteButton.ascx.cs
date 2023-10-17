@@ -127,7 +127,7 @@ public partial class Views_UC_Common_ZDeleteButton : System.Web.UI.UserControl
                 Int64 parentid = RB.GetParentVersionId(r.DocType.ID, r.ID);
 
                 //Se elimina el documento
-                RB.Delete(ref r, true, true);
+                RB.Delete(ref r);
                 ok = true;
 
                 if (r.ParentVerId > 0 && RB.CountChildsVersions(r.DocType.ID, r.ParentVerId) == 0)
