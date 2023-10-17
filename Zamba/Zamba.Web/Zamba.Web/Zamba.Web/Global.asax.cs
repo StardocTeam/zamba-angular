@@ -709,24 +709,42 @@ namespace Zamba.Web
                 WebClient client = new WebClient();                
                 string url = Domain + System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"] + "/api";                
                 var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, url);
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, baseAddress);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "URL: " + url);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "baseAddress: " + baseAddress);
 
                 var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
                 http.Method = "POST";
                 http.Accept = "*/*";
                 http.ContentType = "application/x-www-form-urlencoded";
 
-                CookieContainer cookieContainer = new CookieContainer();
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Cabeceras agregadas");
+
+                //CookieContainer cookieContainer = new CookieContainer();
                 http.Referer = baseAddress;
                 var postData = "";
                 var data = Encoding.ASCII.GetBytes(postData);
+
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Pase por data...");
+
                 http.ContentLength = data.Length;
-                using (var stream = http.GetRequestStream())
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Pase por length...");
+
+                try
                 {
-                    stream.Write(data, 0, data.Length);
-                    stream.Close();
+                    using (var stream = http.GetRequestStream())
+                    {
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Pasando por por Write...");
+                        stream.Write(data, 0, data.Length);
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Pasando por close()");
+                        stream.Close();
+                    }
                 }
+                catch (Exception ex)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error en GetRequestStream(); " + ex.Message.ToString());
+                    throw ex;
+                }
+
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "GetResponseStream");
                 using (var s = http.GetResponse().GetResponseStream())
                 {
