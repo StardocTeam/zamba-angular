@@ -703,7 +703,10 @@ namespace Zamba.Web
         public Boolean ValidateOktaState(String state, String Domain)
         //public Boolean ValidateOktaState(String state, string Domain)
         {
-            //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            if (Domain.StartsWith("https"))
+            {
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            }
             try
             {
                 WebClient client = new WebClient();
