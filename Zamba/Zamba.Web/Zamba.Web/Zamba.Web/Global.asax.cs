@@ -705,6 +705,7 @@ namespace Zamba.Web
         {
             if (Domain.StartsWith("https"))
             {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "pase por https");
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             }
             try
