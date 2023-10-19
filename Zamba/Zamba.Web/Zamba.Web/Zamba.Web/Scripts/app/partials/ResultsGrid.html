@@ -29,10 +29,10 @@
                             </md-icon>
                         </button>
                         <!--<md-button type="button" id="btnOpenTreeview" class="md-fab md-fab-white ActualizarResultados mdhover ToolbarKendoGridBtn" title="Procesos" ng-clock ng-if="currentMode == 'MyProcess'" ng-click="ToggleWFSideBar()" style="margin-right: 0px; ">
-        <span class="material-icons md-span revertIcon" id="iconBtnOpenTreeview">
-            menu_open
-        </span>
-    </md-button>-->
+                            <span class="material-icons md-span revertIcon" id="iconBtnOpenTreeview">
+                                menu_open
+                            </span>
+                        </md-button>-->
 
                         <div ng-show="currentMode == 'MyTasks'" style="display: inline; " id="AsignedTasksId">
                             <span class="button-checkbox" ng-show="ShowchkMyTasks == true">
@@ -195,7 +195,7 @@
                                             <div class="col-sm-12 col-md-12 margin-top-container-filter" ng-show="selectedFilterButton == 'Steps'">
                                                 <div class="filterControlContainer">
 
-                                                    <div ng-if="currentMode != 'MyProcess'" id="step-control" >
+                                                    <div ng-if="currentMode != 'MyProcess'" id="step-control">
                                                         <span id="ui-multiselect">
                                                             <input type="text" name="steplbl" id="steplblfilter" value="Etapa" class="form-control" readonly />
                                                             <ui-select ng-model="Search.StepId" style="display:inline;" on-select="StepFilterSelected($item, $model)" theme="bootstrap">
@@ -492,7 +492,7 @@
 
 
 
-                                        <div class="modal-footer" >
+                                        <div class="modal-footer">
                                             <button id="btnCloseModal" type="button" class="btn btn-primary closeModal" data-dismiss="modal">
                                                 Cerrar
                                             </button>
@@ -511,10 +511,10 @@
                     </md-button>
 
                     <!--<md-button type="button" class="buttonColor buttonMargin" ng-show="VisualizerMode == 'grid' && PreviewMode != 'previewV'" ng-click="TogglePreview('previewV');" title="Previsualizacion Vertical" id="BtnPreviewV">
-        <span class="material-icons md-span">
-            border_vertical
-        </span>
-    </md-button>-->
+                        <span class="material-icons md-span">
+                            border_vertical
+                        </span>
+                    </md-button>-->
 
                     <md-button type="button" class="buttonColor buttonTopAlign" ng-show="VisualizerMode == 'grid' && PreviewMode != 'previewH'" ng-click="TogglePreview('previewH');" title="Previsualizacion Horizontal" id="BtnPreviewH">
                         <span class="material-icons md-span">
@@ -579,8 +579,8 @@
                             </md-button>
                             <!--Lista-->
                             <!--<a ng-href="" id="visualizerModeGS" onclick="visualizerModeGSFn(this,'list');" title="Cambiar a modo Lista" role="button" data-toggle="button" aria-pressed="false" class="" style="color:white">
-                <span class="remove-all-icon fa fa-th-list"> </span>
-            </a>-->
+                                <span class="remove-all-icon fa fa-th-list"> </span>
+                            </a>-->
                             <!--Grilla-->
                             <md-button id="" class="buttonColor buttonMargin">
                                 <a ng-href="" id="" ng-click="visualizerModeGSFn(this,'grid');" title="Cambiar a modo Grilla" role="button" data-toggle="button" aria-pressed="false" style="color: var(--ZBlue); margin-top: 6px;">
@@ -591,14 +591,14 @@
                             </md-button>
                             <!-- Trigger the modal with a button -->
                             <!--<md-button type="button" class="md-fab md-fab-white" title="Manual de usuario" onclick="OpenHelp('../../forms/marsh/manuales/Manual_de_Usuario_Zamba_Web.pdf', 'Mis Tareas');">
-                <span class="material-icons md-span">
-                    help_outline
-                </span>
-            </md-button>-->
+                                <span class="material-icons md-span">
+                                    help_outline
+                                </span>
+                            </md-button>-->
                         </div>
                         <!--<div class="row">
 
-        </div>-->
+                        </div>-->
 
 
                     </div>
@@ -745,7 +745,7 @@
 
                         <div id="hidePanel" style="height: 245px; width: 768px; position: absolute; display:none" onclick="hideEmailList(event)"></div>
                         <div class="form-group modalControl">
-                        <!--<textarea id="editor" name="messageBody" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" rows="10" cols="80"></textarea>-->
+                            <!--<textarea id="editor" name="messageBody" style="width: 100%; height: 100px; resize: none; border: 1px solid #ccc !important; border-radius: 3px;" rows="10" cols="80"></textarea>-->
                             <textarea id="cuerpoMensaje" ng-model="inputs.MessageBody" name="cuerpoMensaje" style="width:100%; height:100px; resize none; border: 1px solid #ccc !important; border-radius: 3px;" rows="10" cols="80"></textarea>
                         </div>
 
@@ -787,14 +787,13 @@
                         <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                             <label class="col-sm-1 control-label">Para</label>
                             <div class="col-sm-11">
-                            <input class="form-control input-sm zipinput" name="destinatario" placeholder="Para" ng-model="zipInputs.for" id="destinatario" />
 
                                 <zamba-auto-complete attribute="Para_ZIP" name="formMailZipMailTo" id="formMailZipMailTo"></zamba-auto-complete>
                                 <!--<input class="form-control input-sm EmailInput" name="for" placeholder="Para" ng-model="inputs.for" id="destinatario" />-->
 
                             </div>
                         </div>
-                    </div>
+
 
                         <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                             <label class="col-sm-1 control-label">CC</label>
@@ -810,7 +809,7 @@
                             <label class="col-sm-1 control-label">CCO</label>
                             <div class="col-sm-11">
 
-                                <zamba-auto-complete attribute="Cco_ZIP" name="formMailZipCco" id="formMailZipCco"></zamba-auto-complete>
+                                <zamba-auto-complete attribute=" Cco_ZIP" name="formMailZipCco" id="formMailZipCco"></zamba-auto-complete>
                                 <!-- <input class="form-control input-sm EmailInput" name="cco" placeholder="CCO" ng-model="inputs.cco" id="cco" /> -->
 
                             </div>
@@ -858,338 +857,339 @@
                             <div class="modal-footer col-sm-12" align="right" style="border-top: none; padding-bottom: 5px;">
                                 <span class="loadersmall" style="display: none"></span>
                                 <input id="btnZipMailSubmit" class="btn btn btn-default" type="submit" value="Enviar" style="background-color: rgb(66, 189, 62); color: white;">
-                                <button id="btnZipMailClose" type="button" class="btn btn-default cancelMailZipButton" data-dismiss="modal" style="background-color: var(--ZBlue); color: white" >Cerrar</button>
+                                <button id="btnZipMailClose" type="button" class="btn btn-default cancelMailZipButton" data-dismiss="modal" style="background-color: var(--ZBlue); color: white">Cerrar</button>
                             </div>
                         </div>
                     </div>
-
-
-                    <style>
-                        @media (max-width: 1200px) {
-                            .btnflexstyle {
-                                float: right;
-                                align-items: flex-start;
-                                display: flex;
-                                justify-content: flex-end;
-                                /* justify-items: stretch; */
-                                margin-top: -5em;
-                            }
-                        }
-
-                        .otherFiltersTop {
-                            margin-top: 0px !important;
-                        }
-
-                        .btnflexpading {
-                            padding-top: 4px;
-                        }
-
-                        #btnAddIndexFilter {
-                            height: 33px !important;
-                        }
-
-                        .deleteFilterClass {
-                            margin: 0px 11px 0px 0px !important;
-                            padding: 0px !important;
-                            display: inline-block;
-                            width: 20px !important;
-                            min-width: 20px !important;
-                        }
-
-                        .filterPanelContainer {
-                            scrollbar-width: auto !important;
-                            scrollbar-color: #10518e #ffffff !important;
-                            margin-bottom: 0px !important;
-                            padding: 1px !important
-                        }
-
-                            /* Chrome, Edge, and Safari */
-                            .filterPanelContainer ::-webkit-scrollbar {
-                                width: 13px !important;
-                            }
-
-                            .filterPanelContainer ::-webkit-scrollbar-track {
-                                background: #ffffff !important;
-                                -webkit-box-shadow: inset 0 0 6px #fafafa
-                            }
-
-                            .filterPanelContainer ::-webkit-scrollbar-thumb {
-                                background-color: #337ab7 !important;
-                                border-radius: 10px !important;
-                                border: 6px solid #ffffff !important;
-                                width: 6px !important;
-                            }
-
-                        .margin-input {
-                            display: inline-block !important;
-                            margin-left: 3px !important;
-                            margin-right: 0px;
-                        }
-
-                        .revertIcon {
-                            transform: scaleX(-1);
-                            -moz-transform: scaleX(-1);
-                            -webkit-transform: scaleX(-1);
-                            -ms-transform: scaleX(-1);
-                        }
-
-                        .loader {
-                            border: 9px solid #f3f3f3;
-                            border-radius: 50%;
-                            border-top: 9px solid #3498db;
-                            width: 90px;
-                            height: 90px;
-                            animation: spin 2s linear infinite;
-                            margin-left: 40%;
-                        }
-
-                        .liButtons {
-                            margin: 0;
-                            padding: 0;
-                            margin-top: 5px;
-                            height: 25px;
-                        }
-
-                        .liButtons2 {
-                            margin: 0 !important;
-                            padding: 0 !important;
-                            margin-top: 15px !important;
-                            margin-left: 12px !important;
-                            /*height: 30px;*/
-                        }
-
-                        .navbar-text {
-                            margin: 0px 5px 0px 5px;
-                        }
-
-                        .boldFont {
-                            font-weight: bold;
-                        }
-
-                        .checkOptions {
-                            margin-left: 5px;
-                            padding-left: 5px;
-                        }
-
-                        #mnuOptions {
-                            width: 240px;
-                        }
-
-                        .navbar-task li button {
-                            margin-right: 2px;
-                        }
-
-                        .taskMessage {
-                            color: red;
-                            margin-left: 20px;
-                            font-size: 14px;
-                        }
-
-                        .GruposUsuarios:hover {
-                            z-index: 2 !important;
-                            color: #fff !important;
-                            background-color: #337ab7 !important;
-                            border-color: #337ab7 !important;
-                        }
-
-                        .TamaDiv {
-                            /*width: 572px !important;*/
-                            height: 310px;
-                            float: inherit !important;
-                        }
-
-                        .ScrollDiv {
-                            overflow: auto;
-                            height: 206px !important;
-                        }
-
-                        .selectedUser {
-                            color: #fff !important;
-                            background-color: #337ab7 !important;
-                            border-color: #337ab7 !important;
-                        }
-
-                        .Marginbutton {
-                            /*margin-top: 12px;*/
-                        }
-
-
-                        .Marginbtn {
-                            margin-top: 2px;
-                        }
-
-                        .MarginDiv {
-                            /*margin-bottom: 5px;*/
-                        }
-
-                        .stylebtn {
-                            /*margin-top: 12px;*/
-                        }
-
-                        .MrgBtn {
-                            margin-left: 5px;
-                            margin-right: 5px;
-                        }
-
-                        .StyCalendar {
-                            width: 91px;
-                        }
-
-                        .MarginIco {
-                            margin-left: 9px;
-                        }
-
-                        .colorT {
-                            color: #777 !important;
-                        }
-
-                        .recorte {
-                            max-width: 150px;
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                        }
-
-                        .ColorIconModal:hover {
-                            background: red;
-                            padding: 6px;
-                        }
-
-                        .fa.fa-eye {
-                            font-size: x-large;
-                            cursor: pointer;
-                            vertical-align: middle;
-                        }
-
-                        .ToolbarKendoGridBtn {
-                            display: none !important;
-                        }
-
-                        /* Chrome, Edge, and Safari */
-                        *::-webkit-scrollbar {
-                            width: 10px;
-                            height: 10px;
-                        }
-
-                        *::-webkit-scrollbar-track {
-                            background: #ffffff;
-                        }
-
-                        *::-webkit-scrollbar-thumb {
-                            background-color: #337ab7;
-                            border-radius: 5px;
-                            border: 0px solid #ffffff;
-                        }
-
-                        /*DropZone*/
-
-                        .upload-container {
-                        }
-
-
-                            .upload-container input {
-                                border: 1px solid #92b0b3;
-                                background: #f1f1f1;
-                                outline: 2px dashed #92b0b3;
-                                outline-offset: -10px;
-                                padding: 100px 0px 100px 250px;
-                                text-align: center !important;
-                                width: 500px;
-                            }
-
-                                .upload-container input:hover {
-                                    background: #ddd;
-                                }
-
-                            .upload-container:before {
-                                position: absolute;
-                                bottom: 50px;
-                                left: 245px;
-                                color: #3f8188;
-                                font-weight: 900;
-                            }
-
-                        .upload-btn {
-                            margin-left: 300px;
-                            padding: 7px 20px;
-                        }
-
-                        #file_upload {
-                            width: 96%;
-                            padding: 50px 25%;
-                            margin-left: 15px;
-                            border-color: rgb(207, 213, 255);
-                        }
-
-                        .modalControl {
-                            margin-bottom: 5px !important;
-                        }
-
-                        .addLinkMarginBottom {
-                            margin-bottom: 0px !important;
-                        }
-
-                        .dropZoneMarginTop {
-                            margin-top: 5px !important;
-                            margin-bottom: 0px !important;
-                        }
-                        /*DropZone*/
-
-                        /* control AutoComplete */
-                        .autocomplete {
-                            position: relative;
-                            display: inline-block;
-                        }
-
-                        input[type=text] {
-                            background-color: #f1f1f1;
-                            width: 100%;
-                        }
-
-                        input[type=submit] {
-                            background-color: DodgerBlue;
-                            color: #fff;
-                            cursor: pointer;
-                        }
-
-                        .autocomplete-items {
-                            position: absolute;
-                            border: 1px solid #d4d4d4;
-                            border-bottom: none;
-                            border-top: none;
-                            z-index: 99;
-                            /*position the autocomplete items to be the same width as the container:*/
-                            top: 100%;
-                            left: 0;
-                            right: 0;
-                        }
-
-                            .autocomplete-items div {
-                                padding: 10px;
-                                cursor: pointer;
-                                background-color: #fff;
-                                border-bottom: 1px solid #d4d4d4;
-                            }
-
-                                /*when hovering an item:*/
-                                .autocomplete-items div:hover {
-                                    background-color: #e9e9e9;
-                                }
-
-                        /*when navigating through the items using the arrow keys:*/
-                        .autocomplete-active {
-                            background-color: DodgerBlue !important;
-                            color: #ffffff;
-                        }
-                        /* control AutoComplete */
-
-                    </style>
-
-                </form>
             </div>
 
+
+            <style>
+                @media (max-width: 1200px) {
+                    .btnflexstyle {
+                        float: right;
+                        align-items: flex-start;
+                        display: flex;
+                        justify-content: flex-end;
+                        /* justify-items: stretch; */
+                        margin-top: -5em;
+                    }
+                }
+
+                .otherFiltersTop {
+                    margin-top: 0px !important;
+                }
+
+                .btnflexpading {
+                    padding-top: 4px;
+                }
+
+                #btnAddIndexFilter {
+                    height: 33px !important;
+                }
+
+                .deleteFilterClass {
+                    margin: 0px 11px 0px 0px !important;
+                    padding: 0px !important;
+                    display: inline-block;
+                    width: 20px !important;
+                    min-width: 20px !important;
+                }
+
+                .filterPanelContainer {
+                    scrollbar-width: auto !important;
+                    scrollbar-color: #10518e #ffffff !important;
+                    margin-bottom: 0px !important;
+                    padding: 1px !important
+                }
+
+                    /* Chrome, Edge, and Safari */
+                    .filterPanelContainer ::-webkit-scrollbar {
+                        width: 13px !important;
+                    }
+
+                    .filterPanelContainer ::-webkit-scrollbar-track {
+                        background: #ffffff !important;
+                        -webkit-box-shadow: inset 0 0 6px #fafafa
+                    }
+
+                    .filterPanelContainer ::-webkit-scrollbar-thumb {
+                        background-color: #337ab7 !important;
+                        border-radius: 10px !important;
+                        border: 6px solid #ffffff !important;
+                        width: 6px !important;
+                    }
+
+                .margin-input {
+                    display: inline-block !important;
+                    margin-left: 3px !important;
+                    margin-right: 0px;
+                }
+
+                .revertIcon {
+                    transform: scaleX(-1);
+                    -moz-transform: scaleX(-1);
+                    -webkit-transform: scaleX(-1);
+                    -ms-transform: scaleX(-1);
+                }
+
+                .loader {
+                    border: 9px solid #f3f3f3;
+                    border-radius: 50%;
+                    border-top: 9px solid #3498db;
+                    width: 90px;
+                    height: 90px;
+                    animation: spin 2s linear infinite;
+                    margin-left: 40%;
+                }
+
+                .liButtons {
+                    margin: 0;
+                    padding: 0;
+                    margin-top: 5px;
+                    height: 25px;
+                }
+
+                .liButtons2 {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    margin-top: 15px !important;
+                    margin-left: 12px !important;
+                    /*height: 30px;*/
+                }
+
+                .navbar-text {
+                    margin: 0px 5px 0px 5px;
+                }
+
+                .boldFont {
+                    font-weight: bold;
+                }
+
+                .checkOptions {
+                    margin-left: 5px;
+                    padding-left: 5px;
+                }
+
+                #mnuOptions {
+                    width: 240px;
+                }
+
+                .navbar-task li button {
+                    margin-right: 2px;
+                }
+
+                .taskMessage {
+                    color: red;
+                    margin-left: 20px;
+                    font-size: 14px;
+                }
+
+                .GruposUsuarios:hover {
+                    z-index: 2 !important;
+                    color: #fff !important;
+                    background-color: #337ab7 !important;
+                    border-color: #337ab7 !important;
+                }
+
+                .TamaDiv {
+                    /*width: 572px !important;*/
+                    height: 310px;
+                    float: inherit !important;
+                }
+
+                .ScrollDiv {
+                    overflow: auto;
+                    height: 206px !important;
+                }
+
+                .selectedUser {
+                    color: #fff !important;
+                    background-color: #337ab7 !important;
+                    border-color: #337ab7 !important;
+                }
+
+                .Marginbutton {
+                    /*margin-top: 12px;*/
+                }
+
+
+                .Marginbtn {
+                    margin-top: 2px;
+                }
+
+                .MarginDiv {
+                    /*margin-bottom: 5px;*/
+                }
+
+                .stylebtn {
+                    /*margin-top: 12px;*/
+                }
+
+                .MrgBtn {
+                    margin-left: 5px;
+                    margin-right: 5px;
+                }
+
+                .StyCalendar {
+                    width: 91px;
+                }
+
+                .MarginIco {
+                    margin-left: 9px;
+                }
+
+                .colorT {
+                    color: #777 !important;
+                }
+
+                .recorte {
+                    max-width: 150px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                .ColorIconModal:hover {
+                    background: red;
+                    padding: 6px;
+                }
+
+                .fa.fa-eye {
+                    font-size: x-large;
+                    cursor: pointer;
+                    vertical-align: middle;
+                }
+
+                .ToolbarKendoGridBtn {
+                    display: none !important;
+                }
+
+                /* Chrome, Edge, and Safari */
+                *::-webkit-scrollbar {
+                    width: 10px;
+                    height: 10px;
+                }
+
+                *::-webkit-scrollbar-track {
+                    background: #ffffff;
+                }
+
+                *::-webkit-scrollbar-thumb {
+                    background-color: #337ab7;
+                    border-radius: 5px;
+                    border: 0px solid #ffffff;
+                }
+
+                /*DropZone*/
+
+                .upload-container {
+                }
+
+
+                    .upload-container input {
+                        border: 1px solid #92b0b3;
+                        background: #f1f1f1;
+                        outline: 2px dashed #92b0b3;
+                        outline-offset: -10px;
+                        padding: 100px 0px 100px 250px;
+                        text-align: center !important;
+                        width: 500px;
+                    }
+
+                        .upload-container input:hover {
+                            background: #ddd;
+                        }
+
+                    .upload-container:before {
+                        position: absolute;
+                        bottom: 50px;
+                        left: 245px;
+                        color: #3f8188;
+                        font-weight: 900;
+                    }
+
+                .upload-btn {
+                    margin-left: 300px;
+                    padding: 7px 20px;
+                }
+
+                #file_upload {
+                    width: 96%;
+                    padding: 50px 25%;
+                    margin-left: 15px;
+                    border-color: rgb(207, 213, 255);
+                }
+
+                .modalControl {
+                    margin-bottom: 5px !important;
+                }
+
+                .addLinkMarginBottom {
+                    margin-bottom: 0px !important;
+                }
+
+                .dropZoneMarginTop {
+                    margin-top: 5px !important;
+                    margin-bottom: 0px !important;
+                }
+                /*DropZone*/
+
+                /* control AutoComplete */
+                .autocomplete {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                input[type=text] {
+                    background-color: #f1f1f1;
+                    width: 100%;
+                }
+
+                input[type=submit] {
+                    background-color: DodgerBlue;
+                    color: #fff;
+                    cursor: pointer;
+                }
+
+                .autocomplete-items {
+                    position: absolute;
+                    border: 1px solid #d4d4d4;
+                    border-bottom: none;
+                    border-top: none;
+                    z-index: 99;
+                    /*position the autocomplete items to be the same width as the container:*/
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                }
+
+                    .autocomplete-items div {
+                        padding: 10px;
+                        cursor: pointer;
+                        background-color: #fff;
+                        border-bottom: 1px solid #d4d4d4;
+                    }
+
+                        /*when hovering an item:*/
+                        .autocomplete-items div:hover {
+                            background-color: #e9e9e9;
+                        }
+
+                /*when navigating through the items using the arrow keys:*/
+                .autocomplete-active {
+                    background-color: DodgerBlue !important;
+                    color: #ffffff;
+                }
+                /* control AutoComplete */
+
+            </style>
+
+            </form>
         </div>
+
     </div>
+</div>
 
 </div>
 
@@ -1557,7 +1557,7 @@
 <script>
     const fileInput = document.querySelector('#file_upload');
     var CollectionFiles = [];
-    
+
     var btnMailZipSubmit = document.querySelector('#btnMailZipSubmit');
     var btnMailZipMailClose = document.querySelector('#btnMailZipMailClose');
 
@@ -1594,7 +1594,7 @@
 
         if (document.getElementById('cuerpoMensajeZip') != null)
             CKEDITOR.replace('cuerpoMensajeZip');
-        
+
         $("#SearchUsers").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $(".Users a").filter(function () {
