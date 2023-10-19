@@ -1167,7 +1167,7 @@ Public Class Results_Business
                 End If
 
                 If File.Exists(DocumentPath) Then
-                    File.Delete(DocumentPath)
+                    File.Move(DocumentPath, DocumentPath & "_DELETED")
                 End If
 
                 _fileStream = New FileStream(DocumentPath, FileMode.CreateNew)
@@ -1228,7 +1228,8 @@ Public Class Results_Business
             End Using
 
             If File.Exists(DocumentPath) Then
-                File.Delete(DocumentPath)
+                File.Move(DocumentPath, DocumentPath & "_DELETED")
+
             End If
 
             TemporaryPath = Nothing
@@ -1250,7 +1251,8 @@ Public Class Results_Business
             End If
 
             If Not String.IsNullOrEmpty(DocumentPath) AndAlso File.Exists(DocumentPath) Then
-                File.Delete(DocumentPath)
+                File.Move(DocumentPath, DocumentPath & "_DELETED")
+
             End If
 
             DTB = Nothing
@@ -1564,7 +1566,7 @@ Public Class Results_Business
                         If reemplazarFlag Then
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "Reemplazo detectado")
 
-                            Delete(newResult, True, Transact)
+                            Delete(newResult, Transact)
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "Documento Borrado")
 
                             Dim isShared As Boolean = RB.GetUserRights(Userid, Zamba.ObjectTypes.DocTypes, Zamba.Core.RightsType.Share, newResult.DocTypeId)
@@ -1584,18 +1586,18 @@ Public Class Results_Business
                                 'TODO : MsgBox en Business?
                                 Select Case ReplaceMsgBox.Show("Los datos ingresados no son únicos. ¿Desea reemplazar el documento existente?", "Insertar Documento")
                                     Case ReplaceMsgBox.ReplaceMsgBoxResult.yes
-                                        Delete(newResult, False, Transact)
+                                        Delete(newResult, Transact)
                                         ReplaceDocument(newResult, newResult.File, False, Transact)
                                         NewResultStatus = InsertResult.Remplazado
                                     Case ReplaceMsgBox.ReplaceMsgBoxResult.yesAll
-                                        Delete(newResult, False, Transact)
+                                        Delete(newResult, Transact)
                                         ReplaceDocument(newResult, newResult.File, False, Transact)
                                         NewResultStatus = InsertResult.RemplazadoTodos
                                     Case ReplaceMsgBox.ReplaceMsgBoxResult.no
-                                        Delete(newResult, True, Transact)
+                                        Delete(newResult, Transact)
                                         NewResultStatus = InsertResult.NoRemplazado
                                     Case ReplaceMsgBox.ReplaceMsgBoxResult.noAll
-                                        Delete(newResult, True, Transact)
+                                        Delete(newResult, Transact)
                                         NewResultStatus = InsertResult.NoRemplazadoTodos
                                 End Select
                             Else
@@ -1915,7 +1917,7 @@ Public Class Results_Business
                     Try
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Reemplazo detectado")
 
-                        Delete(newResult, True)
+                        Delete(newResult)
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Documento Borrado")
 
                         If CheckRequiredIndexs(newResult) Then
@@ -1938,7 +1940,7 @@ Public Class Results_Business
                         Select Case ReplaceMsgBox.Show("Los datos ingresados no son únicos. ¿Desea reemplazar el documento existente?", "Insertar Documento")
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yes
                                 Try
-                                    Delete(newResult, False)
+                                    Delete(newResult)
                                     ReplaceDocument(newResult, newResult.File, False, Nothing)
                                     NewResultStatus = InsertResult.Remplazado
                                 Catch exe As Exception
@@ -1948,7 +1950,7 @@ Public Class Results_Business
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yesAll
                                 Try
-                                    Delete(newResult, False)
+                                    Delete(newResult)
                                     ReplaceDocument(newResult, newResult.File, False, Nothing)
                                     NewResultStatus = InsertResult.RemplazadoTodos
                                 Catch exe As Exception
@@ -1959,14 +1961,14 @@ Public Class Results_Business
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.no
                                 Try
-                                    Delete(newResult, True)
+                                    Delete(newResult)
                                     NewResultStatus = InsertResult.NoRemplazado
                                 Catch exc As Exception
                                     NewResultStatus = InsertResult.ErrorReemplazar
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.noAll
                                 Try
-                                    Delete(newResult, True)
+                                    Delete(newResult)
                                     NewResultStatus = InsertResult.NoRemplazadoTodos
                                 Catch exc As Exception
                                     NewResultStatus = InsertResult.ErrorReemplazar
@@ -1991,7 +1993,7 @@ Public Class Results_Business
 
         If move AndAlso NewResultStatus <> InsertResult.NoInsertado Then
             Try
-                File.Delete(newResult.File)
+                File.Move(newResult.File, newResult.File & "_DELETED")
             Catch ex As Exception
                 ZClass.raiseerror(ex)
             End Try
@@ -2181,7 +2183,7 @@ Public Class Results_Business
                 If Reemplazar = True Then
                     Try
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Reemplazo detectado")
-                        Delete(Result, False)
+                        Delete(Result)
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Documento Borrado")
                         ReplaceDocument(Result, Result.File, False, Nothing)
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Documento Reemplazado")
@@ -2196,7 +2198,7 @@ Public Class Results_Business
                         Select Case ReplaceMsgBox.Show("Los datos ingresados no son únicos. ¿Desea reemplazar el documento existente?", "Insertar Documento")
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yes
                                 Try
-                                    Delete(Result, False)
+                                    Delete(Result)
                                     ReplaceDocument(Result, Result.File, False, Nothing)
                                     insertresult = insertresult.Remplazado
                                 Catch exe As Exception
@@ -2206,7 +2208,7 @@ Public Class Results_Business
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.yesAll
                                 Try
-                                    Delete(Result, False)
+                                    Delete(Result)
                                     ReplaceDocument(Result, Result.File, False, Nothing)
                                     insertresult = insertresult.RemplazadoTodos
                                 Catch exe As Exception
@@ -2216,14 +2218,14 @@ Public Class Results_Business
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.no
                                 Try
-                                    Delete(Result, True)
+                                    Delete(Result)
                                     insertresult = insertresult.NoRemplazado
                                 Catch exc As Exception
                                     insertresult = insertresult.ErrorReemplazar
                                 End Try
                             Case ReplaceMsgBox.ReplaceMsgBoxResult.noAll
                                 Try
-                                    Delete(Result, True)
+                                    Delete(Result)
                                     insertresult = insertresult.NoRemplazadoTodos
                                 Catch exc As Exception
                                     insertresult = insertresult.ErrorReemplazar
@@ -2249,7 +2251,8 @@ Public Class Results_Business
 
         If move = True AndAlso insertresult <> insertresult.NoInsertado Then
             Try
-                File.Delete(Result.File)
+                File.Move(Result.File, Result.File & "_DELETED")
+
             Catch ex As Exception
                 ZClass.raiseerror(ex)
             End Try
@@ -3337,32 +3340,28 @@ Public Class Results_Business
     ''' 	[Marcelo]	22/05/2008	Modified
     '''</history>
     ''' <remarks></remarks>
-    Public Sub Delete(ByRef Result As IResult, Optional ByVal delfile As Boolean = True, Optional ByVal saveAction As Boolean = True) Implements IResults_Business.Delete
+    Public Sub Delete(ByRef Result As IResult) Implements IResults_Business.Delete
         Dim RF As New Results_Factory
         If Result.Indexs.Count = 0 Then
             Result.Indexs = ZCore.GetInstance().FilterIndex(Result.DocType.ID)
         End If
-        RF.Delete(Result, delfile)
+        RF.Delete(Result)
 
         'added this call to delete the doc from zsearchValues_DT for Duke (sebastian 19-03-2009)
         DeleteSearchIndexData(Result.ID)
-        If (saveAction = True) Then
-            'Guardo la accion en la columna U_Time de UCM y en User_Hst para el manejo de sesion y el historial de acciones
-            UB.SaveAction(Result.ID, ObjectTypes.Documents, RightsType.Delete, "Se elimino el documento: " & Result.Name)
-        End If
+        'Guardo la accion en la columna U_Time de UCM y en User_Hst para el manejo de sesion y el historial de acciones
+        UB.SaveAction(Result.ID, ObjectTypes.Documents, RightsType.Delete, "Se elimino el documento: " & Result.Name)
     End Sub
 
-    Public Sub Delete(ByRef Result As INewResult, Optional ByVal delfile As Boolean = True) Implements IResults_Business.Delete
+    Public Sub Delete(ByRef Result As INewResult) Implements IResults_Business.Delete
         Dim RF As New Results_Factory
-        RF.Delete(Result, delfile)
+        RF.Delete(Result)
 
     End Sub
 
-    Public Sub Delete(ByRef Result As INewResult, ByVal delfile As Boolean, ByRef t As ITransaction) Implements IResults_Business.Delete
+    Public Sub Delete(ByRef Result As INewResult, ByRef t As ITransaction) Implements IResults_Business.Delete
         Dim RF As New Results_Factory
-        RF.Delete(Result, delfile, t)
-
-
+        RF.Delete(Result, t)
     End Sub
     Public Sub RemoveDocument(ByVal docid As Int64, docTypeId As Int64)
         Dim DocTypeName As String = FuncionesZamba.GetDocTypeNameById(docTypeId)

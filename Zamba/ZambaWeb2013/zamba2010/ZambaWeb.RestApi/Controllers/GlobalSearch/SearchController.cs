@@ -1790,7 +1790,17 @@ namespace ZambaWeb.RestApi.Controllers
         {
             List<long> StepEntities = new List<long>();
             WFStepBusiness WFSB = new WFStepBusiness();
-            StepEntities = WFSB.GetDocTypesByWfStepAsDT(stepId).AsEnumerable().Select(dr => (long)dr.Field<decimal>("doc_type_id")).ToList();
+            var stepsAsDataSet = WFSB.GetDocTypesByWfStepAsDT(stepId);
+            foreach (DataRow currentRow in stepsAsDataSet.Rows)
+            {
+                if (currentRow["doc_type_id"] != null)
+                {
+                    if (!string.IsNullOrEmpty(currentRow["doc_type_id"].ToString()))
+                    {
+                        StepEntities.Add(Int64.Parse(currentRow["doc_type_id"].ToString()));
+                    }
+                }
+            }
             WFSB = null;
             return StepEntities;
         }

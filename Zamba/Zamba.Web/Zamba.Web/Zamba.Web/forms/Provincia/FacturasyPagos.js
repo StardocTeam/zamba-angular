@@ -8,11 +8,23 @@
         "focusout": render_Importe,
     });
 
-	$("#zamba_index_11535296").on({
+    $("#zamba_index_11535299").on({
         "focusout": render_Importe,
     });
 
-	
+    $("#zamba_index_11535300").on({
+        "focusout": render_Importe,
+    });
+
+    $("#zamba_index_11535301").on({
+        "focusout": render_Importe,
+    });
+
+    $("#zamba_index_11535296").on({
+        "focusout": render_Importe,
+    });
+
+
     CheckImporteMoneda();
     CheckMiPyme();
     ValidarEndidad();
@@ -33,6 +45,9 @@
  
     });
 
+    document.querySelector("#zamba_index_2725").addEventListener("change", function () {
+        showConceptDependant(this.value);
+    });
 
     //se deshabilita el campo OrdenDeCompra
 	if ($('#zamba_index_50').val() != undefined){
@@ -51,11 +66,40 @@
 
 });
 
-function setMultipleSeparatorForm(){
+function showConceptDependant(conceptValue) {
+    let codesToValidate = [208, 232, 254, 270, 507, 511];
+
+    let rv = codesToValidate.some(function (value) {
+        return value == conceptValue;
+    });
+    if (rv)
+        $(".concept-dependant").show();
+    else
+        $(".concept-dependant").hide();
+};
+
+//Para los form RO el control es un input en lugar de un select
+function showConceptDependantRO(conceptValueText) {
+    let conceptValue = conceptValueText.split("-")[0].trim();
+    let codesToValidate = [208, 232, 254, 270, 507, 511];
+
+    let rv = codesToValidate.some(function (value) {
+        return value == conceptValue;
+    });
+    if (rv)
+        $(".concept-dependant").show();
+    else
+        $(".concept-dependant").hide();
+};
+
+function setMultipleSeparatorForm() {
     try {
         setTimeout(function () {
             setInputSeparator('zamba_index_109');
-            setInputSeparator('zamba_index_11535222'); 
+            setInputSeparator('zamba_index_11535222');
+            setInputSeparator('zamba_index_11535299');
+            setInputSeparator('zamba_index_11535300');
+            setInputSeparator('zamba_index_11535301');
         }, 700);
     } catch (e) {
 
@@ -202,13 +246,13 @@ function RemoveNonFacItems() {
 function ValidateRequieredFields(sender) {
     var concepto = $("#zamba_index_2725").val();
     var gasto = $("#zamba_index_110").val();
-    var oc = $("#zamba_index_50").val();
+    //var oc = $("#zamba_index_50").val();
 
     if (concepto != undefined && concepto != '' && gasto != undefined && gasto != '') {
-        if (gasto == 100 && (oc == undefined || oc == '')) {
-            swal('Datos requeridos', 'Tenes que completar el Nro de Orden de Compra', 'warning');
-            return false;
-        }
+        //if (gasto == 100 && (oc == undefined || oc == '')) {
+            //swal('Datos requeridos', 'Tenes que completar el Nro de Orden de Compra', 'warning');
+            //return false;
+        //}
 
     }
     else {
@@ -279,7 +323,7 @@ function zamba_save_onclick_ingresoPago(sender) {
         swal("", "Por favor, ingrese Importe", "error");
         valido = false;
 	} else if (document.getElementById("zamba_index_11535296").value == "") {
-        swal("", "Por favor, ingrese Importe Bruto", "error");
+        swal("", "Por favor, ingrese Importe Total", "error");
         valido = false;
     } else if (document.getElementById("zamba_index_86").value == "") {
         swal("", "Por favor, ingrese el  ID trámite", "error");

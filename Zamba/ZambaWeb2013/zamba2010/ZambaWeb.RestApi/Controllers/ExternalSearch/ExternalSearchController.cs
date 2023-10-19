@@ -920,12 +920,12 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Datos recibidos:");
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, request.Params["externuserid"].ToString());
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, Request.Headers.GetValues("Authorization").First() != null ? Request.Headers.GetValues("Authorization").First() : string.Empty);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, request.Params["id"] != null ? request.Params["id"].ToString() : string.Empty);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, request.Params["id"] != null ? request.Params["id"].ToString() : string.Empty);
             }
             catch (Exception e)
             {
                 ZClass.raiseerror(e);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Fallo al escribir trace para datos recibidos");
+                ZTrace.WriteLineIf(ZTrace.IsError, "Error al dar de baja el resultado");
             }
 
             string token;
