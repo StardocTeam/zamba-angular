@@ -187,7 +187,7 @@ namespace Zamba.Web
             if (HttpContext.Current.Request.HttpMethod == "GET" && Request.Url.Segments.Length == 2)
             {
                 //    Server.Transfer("views/security/Login.aspx");
-                Response.Redirect(request.Url.LocalPath + "views/security/Login.aspx");
+                Response.Redirect(request.Url.LocalPath.TrimEnd('/') + "/views/security/Login.aspx");
             }
             //string param1 = request.QueryString["userId"];
 

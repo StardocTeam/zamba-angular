@@ -787,14 +787,12 @@
                         <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                             <label class="col-sm-1 control-label">Para</label>
                             <div class="col-sm-11">
-                            <input class="form-control input-sm zipinput" name="destinatario" placeholder="Para" ng-model="zipInputs.for" id="destinatario" />
 
                                 <zamba-auto-complete attribute="Para_ZIP" name="formMailZipMailTo" id="formMailZipMailTo"></zamba-auto-complete>
                                 <!--<input class="form-control input-sm EmailInput" name="for" placeholder="Para" ng-model="inputs.for" id="destinatario" />-->
 
                             </div>
                         </div>
-                    </div>
 
                         <div class="form-group modalControl row" ng-controller="AutoCompleteController">
                             <label class="col-sm-1 control-label">CC</label>
@@ -858,9 +856,10 @@
                             <div class="modal-footer col-sm-12" align="right" style="border-top: none; padding-bottom: 5px;">
                                 <span class="loadersmall" style="display: none"></span>
                                 <input id="btnZipMailSubmit" class="btn btn btn-default" type="submit" value="Enviar" style="background-color: rgb(66, 189, 62); color: white;">
-                                <button id="btnZipMailClose" type="button" class="btn btn-default cancelMailZipButton" data-dismiss="modal" style="background-color: var(--ZBlue); color: white" >Cerrar</button>
+                                <button id="btnZipMailClose" type="button" class="btn btn-default cancelMailZipButton" data-dismiss="modal" style="background-color: var(--ZBlue); color: white">Cerrar</button>
                             </div>
                         </div>
+                    </div>
                     </div>
 
 
