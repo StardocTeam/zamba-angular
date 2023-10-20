@@ -241,6 +241,8 @@ namespace Zamba.Web
             //    string url = "https://" + Request.Url.Authority + Request.RawUrl;
             //    Response.RedirectPermanent(url);
             //}
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Iniciando Application_BeginRequest...");
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Url: " + Request.Url);
 
             if (!String.IsNullOrEmpty(Request.QueryString["view"]))
             {
@@ -316,6 +318,7 @@ namespace Zamba.Web
                 }
             }
 
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Request.AppRelativeCurrentExecutionFilePath: " + Request.AppRelativeCurrentExecutionFilePath);
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
                 Boolean OktaAuthentication;
@@ -444,6 +447,7 @@ namespace Zamba.Web
                 }
             }
 
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Saliendo de Application_BeginRequest...");
         }
 
         private Boolean ContainsCSPNotUnsafeInline(string url)
