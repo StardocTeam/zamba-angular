@@ -840,13 +840,17 @@
                     var newwindow = window.open(destinationURL, '_blank', 'width=620,height=580,left=' + (screen.width - 600) / 2 + ',top=' + (screen.height - 580) / 2 + ',directories=no,status=no,menubar=no,toolbar=no,location=no,resizable=no,toolbar=no');
                 }
                 catch (e) {
-                    //alert(e.description);
+                    console.error(e);
                 }
             }
             else {
-                $("#<%=btnPrint.ClientID %>").hide();
-                $("#docToolbarUl").append("<li id='legend' style='display:none;'>La Impresión del documento se realiza externamente (en caso de no visualizarse la barra de impresion, guarde el documento o utilice click secundario->Imprimir)”</li>");
-                $("#legend").show("3000");
+                try {
+                    window.print();
+                } catch (e) {
+                    $("#<%=btnPrint.ClientID %>").hide();
+                    $("#docToolbarUl").append("<li id='legend' style='display:none;'>La Impresión del documento se realiza externamente (en caso de no visualizarse la barra de impresion, guarde el documento o utilice click secundario->Imprimir)”</li>");
+                    $("#legend").show("3000");
+                }
             }
         }
     }
