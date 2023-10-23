@@ -4838,7 +4838,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     var ValMessage;
     $scope.SendEmail = function (obj) {
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         var MailValidation = true;
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
