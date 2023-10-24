@@ -241,8 +241,6 @@ namespace Zamba.Web
             //    string url = "https://" + Request.Url.Authority + Request.RawUrl;
             //    Response.RedirectPermanent(url);
             //}
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Iniciando Application_BeginRequest...");
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Url: " + Request.Url);
 
             if (!String.IsNullOrEmpty(Request.QueryString["view"]))
             {
@@ -318,7 +316,6 @@ namespace Zamba.Web
                 }
             }
 
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Request.AppRelativeCurrentExecutionFilePath: " + Request.AppRelativeCurrentExecutionFilePath);
             if (Request.AppRelativeCurrentExecutionFilePath == "~/")
             {
                 Boolean OktaAuthentication;
@@ -446,8 +443,6 @@ namespace Zamba.Web
                     HttpContext.Current.Response.End();
                 }
             }
-
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Saliendo de Application_BeginRequest...");
         }
 
         private Boolean ContainsCSPNotUnsafeInline(string url)
@@ -709,7 +704,6 @@ namespace Zamba.Web
         {
             if (Domain.StartsWith("https"))
             {
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "pase por https");
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             }
             try
@@ -717,33 +711,24 @@ namespace Zamba.Web
                 WebClient client = new WebClient();
                 string url = Domain + System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"] + "/api";
                 var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "URL: " + url);
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "baseAddress: " + baseAddress);
 
                 var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
                 http.Method = "POST";
                 http.Accept = "*/*";
                 http.ContentType = "application/x-www-form-urlencoded";
 
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Cabeceras agregadas");
-
                 //CookieContainer cookieContainer = new CookieContainer();
                 http.Referer = baseAddress;
                 var postData = "";
                 var data = Encoding.ASCII.GetBytes(postData);
 
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Pase por data...");
-
                 http.ContentLength = data.Length;
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Pase por length...");
 
                 try
                 {
                     using (var stream = http.GetRequestStream())
                     {
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Pasando por por Write...");
                         stream.Write(data, 0, data.Length);
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Pasando por close()");
                         stream.Close();
                     }
                 }
@@ -753,24 +738,17 @@ namespace Zamba.Web
                     throw ex;
                 }
 
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "GetResponseStream");
                 try
                 {
                     using (var s = http.GetResponse().GetResponseStream())
                     {
-                        ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "using 1");
                         using (var sr = new StreamReader(s))
                         {
-                            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "using 2");
                             var json = sr.ReadToEnd();
-                            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "valor json");
-                            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, json);
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, json);
                             if (json == "true")
                                 return true;
                             else
                             {
-                                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en global.asax, fallo el metodo validateOktaStateValue, trajo false");
                                 return false;
                             }
 

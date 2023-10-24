@@ -115,11 +115,9 @@ public partial class Login : System.Web.UI.Page
     {
         try
         {
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_PreInit: Estoy en el Login");
 
             ZCore ZC = new ZCore();
 
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Server.Coninitialized: " + (Zamba.Servers.Server.ConInitialized == true ? "true" : "false"));
             if (Zamba.Servers.Server.ConInitialized == false)
                 ZC.InitializeSystem("Zamba.Web");
 
@@ -139,7 +137,6 @@ public partial class Login : System.Web.UI.Page
                 zoptb = null;
             }
 
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_PreInit: Saliendo de Login");
         }
         catch (Exception ex)
         {
