@@ -74,8 +74,13 @@ namespace ZambaWeb.RestApi
             CancellationToken cancellationToken)
         {
             var response = await base.SendAsync(request, cancellationToken);
-            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.InternalServerError || response.StatusCode == HttpStatusCode.Unauthorized)
+            if (response.StatusCode == HttpStatusCode.NotFound 
+                || response.StatusCode == HttpStatusCode.InternalServerError 
+                || response.StatusCode == HttpStatusCode.Unauthorized
+                || response.StatusCode == HttpStatusCode.BadRequest 
+                )
             {
+                Zamba.Core.ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en WebApiConfig, se rechazo el request con error nro " + response.StatusCode.ToString() + ". Descripcion: ");
                 response = request.CreateResponse(HttpStatusCode.NotFound,
                     new { Error = "" },
                     "application/json");

@@ -32,6 +32,7 @@ public partial class DocViewer : Page
 
     protected void Page_PreInit(object sender, EventArgs e)
     {
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_PreInit: Usuario actual: " + (MembershipHelper.CurrentUser.Name != null ? MembershipHelper.CurrentUser.Name : "sin usuario.") + " - Coneccion: " + (Response.IsClientConnected == true ? "True" : "False"));
         if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)/*|| (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined"))*/ /*&& MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))*/
         {
             FormsAuthentication.RedirectToLoginPage();

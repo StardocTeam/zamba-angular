@@ -101,9 +101,21 @@ namespace ZambaWeb.RestApi.Controllers
         public override void OnActionExecuting(HttpActionContext actionContext)
         //public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
+            if(!string.IsNullOrEmpty(actionContext.Request.RequestUri.AbsoluteUri))            
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.RequestUri.AbsoluteUri.ToString());
+
+            foreach(KeyValuePair<String,IEnumerable<String>> item in actionContext.Request.Headers)
+            {
+                ZTrace.WriteLineIf(ZTrace.IsInfo, item.Key);
+                foreach(String value in item.Value)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, value);
+                }
+            }
+
             ZTrace.WriteLineIf(ZTrace.IsInfo, "OnActionExecuting:");
 
-            if (string.IsNullOrEmpty(actionContext.Request.Headers.Host))            
+            if (!string.IsNullOrEmpty(actionContext.Request.Headers.Host))            
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.Host);            
             else            
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: NO HAY HOST");
@@ -117,10 +129,10 @@ namespace ZambaWeb.RestApi.Controllers
 
             if (!ValidateRequest(actionContext))
             {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request en OnActionExecuting");
                 actionContext.Response = new HttpResponseMessage();
                 actionContext.Response.Content = new StringContent("");
                 actionContext.Response.StatusCode = HttpStatusCode.BadRequest;
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request enOnActionExecuting");
             }
         }
 

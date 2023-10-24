@@ -115,9 +115,14 @@ public partial class Login : System.Web.UI.Page
     {
         try
         {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_PreInit: Estoy en el Login");
+
             ZCore ZC = new ZCore();
+
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Server.Coninitialized: " + (Zamba.Servers.Server.ConInitialized == true ? "true" : "false"));
             if (Zamba.Servers.Server.ConInitialized == false)
                 ZC.InitializeSystem("Zamba.Web");
+
 
             ZC.VerifyFileServer(); //Verifica el servidor de archivos, si no esta disponible o configurado lanza exception.
 
@@ -133,6 +138,8 @@ public partial class Login : System.Web.UI.Page
                 Session["CurrentTheme"] = Page.Theme;
                 zoptb = null;
             }
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_PreInit: Saliendo de Login");
         }
         catch (Exception ex)
         {
@@ -150,6 +157,8 @@ public partial class Login : System.Web.UI.Page
     {
         try
         {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_Load: entre al load de login");
+
             if (!Page.IsPostBack)
             {
                 FormsAuthentication.SignOut();
@@ -190,9 +199,13 @@ public partial class Login : System.Web.UI.Page
                     //btnLoginOKTA.Visible = false;
                 }
             }
+
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Page_Load: saliendo al load de login");
         }
         catch (Exception ex)
         {
+            ZTrace.WriteLineIf(ZTrace.IsError, "Page_Load: Ocurrio un error: " + ex.Message);
+
             if (ex.Message.Contains("ORACLE not available"))
             {
                 Server.Transfer("../CustomErrorPages/databasenotavaliable.html");
