@@ -783,8 +783,10 @@ namespace Zamba.Web
                 {
                     return false; // code + state + otros parametros
                 };
-                return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
 
+                if (!String.IsNullOrEmpty(code)) {
+                    return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
+                }
             }
             // valido state
             return true;
