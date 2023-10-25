@@ -812,7 +812,7 @@ namespace Zamba.Web
                 };
 
                 if (!String.IsNullOrEmpty(code)) {
-                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - ejecuta ValidateOktaState porque CODE esta vacio o nulo");
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - ejecuta ValidateOktaState porque CODE tiene un valor");
                     return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
                 }
             }

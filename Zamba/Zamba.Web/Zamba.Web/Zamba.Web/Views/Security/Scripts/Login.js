@@ -102,7 +102,8 @@ function LoginByGuid(userid, guid, redirectUrl) {
                     }));
                 }
             }
-            window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token.substring(0, 180);
+            /*window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token.substring(0, 180);*/
+            window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token;
         },
         error: function (error) {
             ret = error
