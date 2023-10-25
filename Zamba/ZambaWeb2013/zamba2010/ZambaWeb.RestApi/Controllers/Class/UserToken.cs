@@ -37,7 +37,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             var userName = user.Name;
             Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-            var tokenExpiration = TimeSpan.FromMinutes(Int16.Parse(UP.getValue("TokenExpireMinutes", Zamba.UPSections.WFService, 30, user.ID)));
+            var tokenExpiration = TimeSpan.FromMinutes(Int16.Parse(UP.getValue("TokenExpireMinutes", Zamba.UPSections.WFService, 1440, user.ID)));
             UP = null;
 
             ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);

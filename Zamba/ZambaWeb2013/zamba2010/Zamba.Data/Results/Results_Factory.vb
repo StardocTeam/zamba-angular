@@ -4807,5 +4807,31 @@ Public Class Results_Factory
         Server.Con.ExecuteNonQuery(CommandType.Text, deleteSentence)
     End Sub
 
-
+    ''' -----------------------------------------------------------------------------
+    ''' <summary>
+    '''     Get date for token --  Zss table.
+    ''' </summary>
+    ''' <param name="UserId">User Id</param>
+    ''' <remarks>
+    ''' </remarks>
+    ''' <history>
+    ''' 	[Felipe]     31/01/2022    Created
+    ''' </history>
+    ''' -----------------------------------------------------------------------------
+    Public Function getUserSessionInfo(ByVal UserId As Int64) As DataTable
+        Try
+            Dim DSIndexDataLst As New DateTime
+            DSIndexDataLst = DateTime.Now().AddDays(1)
+            Dim ObjSlect As String = "SELECT * FROM ZSS  " & If(Zamba.Servers.Server.isSQLServer, " WITH(NOLOCK) ", "") & " WHERE USERID = " + UserId.ToString()
+            Dim ds = Server.Con.ExecuteDataset(CommandType.Text, ObjSlect)
+            Dim dt As DataTable
+            If ds IsNot Nothing And ds.Tables.Count > 0 And ds.Tables(0).Rows.Count > 0 Then
+                dt = ds.Tables(0)
+            End If
+            Return dt
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+            Throw
+        End Try
+    End Function
 End Class
