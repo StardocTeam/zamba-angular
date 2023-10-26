@@ -5000,7 +5000,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     //Muestra un mensaje de error y deja el modal abierto para reparametrizar.
     function ModalView_Error(error) {
         console.log(error);
-        NotifyError(error)
+        NotifyError(error);
 
         $(".loadersmall").css("display", "none");
         $("#btnMailZipMailClose").show();
@@ -5264,18 +5264,17 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     //Valida y notifica la existencia de un error.
     function NotifyError(error) {
+        debugger;
         if (error.data != undefined && error.data != "") {
-            if (error.data.InnerException != undefined) {
+            if (error.data.Message != undefined) {
+                swal("", error.status + " " + error.statusText , "error");
+            } else if (error.data.InnerException != undefined && error.data.InnerException != undefined) {
                 swal("", error.data.ExceptionMessage + ": " + error.data.InnerException.ExceptionMessage, "error");
-            } else {
-                swal("", error.data.ExceptionMessage, "error");
             }
         }
         else if (error.responseJSON != undefined) {
-            if (error.responseJSON.InnerException != undefined) {
+            if (error.responseJSON.InnerException != undefined && error.responseJSON.ExceptionMessage != undefined) {
                 swal("", error.responseJSON.ExceptionMessage + ": " + error.responseJSON.InnerException.ExceptionMessage, "error");
-            } else {
-                swal("", error.responseJSON.ExceptionMessage, "error");
             }
         }
         else {
