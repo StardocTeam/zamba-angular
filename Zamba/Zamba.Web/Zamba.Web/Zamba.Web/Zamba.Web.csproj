@@ -33,7 +33,8 @@
     <SccProvider>SAK</SccProvider>
     <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
     <TargetFrameworkProfile />
-    <Use64BitIISExpress>false</Use64BitIISExpress>
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -11256,7 +11257,7 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:44301/Zamba.Web</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:44301/Zamba.Web</IISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44301/Zamba.Web</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
