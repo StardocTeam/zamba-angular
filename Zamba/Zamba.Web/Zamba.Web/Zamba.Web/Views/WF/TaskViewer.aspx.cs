@@ -56,11 +56,67 @@ public partial class TaskViewer : System.Web.UI.Page, ITaskViewer
     }
     protected void Page_PreInit(object sender, EventArgs e)
     {
-        if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected )/*|| (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined"))*/ /*&& MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))*/
+        Int64 UrlUserId = 0;
+        string userToken = string.Empty;
+
+
+        if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)
         {
-            FormsAuthentication.RedirectToLoginPage();
-            return;
+            try
+            {
+                // se optiene el user de la url
+                if (!string.IsNullOrEmpty(Request.QueryString["user"]))
+                {
+                    UrlUserId = Convert.ToInt64(Request.QueryString["user"]);
+                }
+                if (!string.IsNullOrEmpty(Request.QueryString["userid"]))
+                {
+                    UrlUserId = Convert.ToInt64(Request.QueryString["userid"]);
+                }
+                if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
+                {
+                    UrlUserId = Convert.ToInt64(Request.QueryString["userId"]);
+                }
+                if (!string.IsNullOrEmpty(Request.QueryString["t"]))
+                {
+                    userToken = Request.QueryString["t"].ToString().Trim();
+                }
+                if (!string.IsNullOrEmpty(Request.QueryString["token"]))
+                {
+                    userToken = Request.QueryString["token"].ToString().Trim();
+                }
+
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "UrlUserId : " + UrlUserId);
+                Results_Business RB = new Results_Business();
+
+                bool isActiveSession = RB.getValidateActiveSession(UrlUserId, userToken);
+
+                if (isActiveSession)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.1 - isActiveSession  es true, reestablezo la session ");
+                    UserBusiness ub = new UserBusiness();
+                    ub.ValidateLogIn(UrlUserId, ClientType.Web);
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.1.1 -  valido el usuario creado" + MembershipHelper.CurrentUser.ID);
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Paso 2.2 - isActiveSession  es false, se dispara modal ");
+                    Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
+                }
+            }
+            catch (global::System.Exception ex)
+            {
+                FormsAuthentication.RedirectToLoginPage();
+                return;
+            }
         }
+
+        //if (MembershipHelper.CurrentUser == null || !Response.IsClientConnected)/*|| (MembershipHelper.CurrentUser != null && Request.QueryString.HasKeys() && Request.QueryString["userid"] != null && Request.QueryString["userid"] != "undefined"))*/ /*&& MembershipHelper.CurrentUser.ID != long.Parse(Request.QueryString["userid"])))*/
+        //{
+        //    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Page_PreInit - Ejecutando: FormsAuthentication.RedirectToLoginPage");
+        //    FormsAuthentication.RedirectToLoginPage();
+        //    return;
+        //}
 
         ZCore ZC = new ZCore();
         Page.Theme = ZC.InitWebPage();

@@ -241,7 +241,6 @@ namespace Zamba.Web
             //    string url = "https://" + Request.Url.Authority + Request.RawUrl;
             //    Response.RedirectPermanent(url);
             //}
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Application_BeginRequest - con url en :" + Request.Url.AbsoluteUri);
             if (!String.IsNullOrEmpty(Request.QueryString["view"]))
             {
                 if (Request.QueryString["view"].ToString() == "loginOkta")
