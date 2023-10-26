@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HomePage.aspx.cs" Inherits="Zamba.Web.Views.UC.Home.HomePage" Async="true" EnableEventValidation="true" ValidateRequest="true"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HomePage.aspx.cs" Inherits="Zamba.Web.Views.UC.Home.HomePage" Async="true" EnableEventValidation="false"  ValidateRequest="true" %>
+<%--<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HomePage.aspx.cs" Inherits="Zamba.Web.Views.UC.Home.HomePage" Async="true" EnableEventValidation="true" ValidateRequest="true"%>--%>
 
 <!DOCTYPE html>
 
