@@ -5000,7 +5000,7 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     //Muestra un mensaje de error y deja el modal abierto para reparametrizar.
     function ModalView_Error(error) {
         console.log(error);
-        NotifyError(error)
+        NotifyError(error);
 
         $(".loadersmall").css("display", "none");
         $("#btnMailZipMailClose").show();
@@ -5226,28 +5226,24 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     //Oculta el modal para enviar archivos zips como un correo asi como tambien resetea las tareas seleccionadas.
     function ModalSendZipView(data) {
         $scope.sendIsLoading = false;
+
         $("#btnZipMailSubmit").show();
         $("#btnZipMailClose").show();
-        $("#btnZipMailClose").removeAttr("disabled");
-        $("#btnZipMailSubmit").removeAttr("disabled");
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
+
+        $(".zipinput").val("");
+        $(".loadersmall").css("display", "none");
+
         $("#btn btn-default cancelMailZipButton").prop('disabled', false);
+
         if (data.data == false) {
             swal("", "Error al enviar email", "error");
-
-            $("#btnZipMailSubmit").show();
-            $("#btnZipMailClose").show();
-            $("#btnZipMailClose").removeAttr("disabled");
-            $("#btnZipMailSubmit").removeAttr("disabled");
-            $(".zipinput").val("");
-            $(".loadersmall").css("display", "none");
         } else {
             swal("", "Email enviado con exito", "success");
             document.getElementById("cke_2_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = "";
             $scope.zipInputs = null;
-            $(".loadersmall").css("display", "none");
-            $("#btnMailZipSubmit").show();
-            $("#btnZipMailClose").show();
-            $(".zipinput").val("");
+
             $("#ModalSendMailZip").modal('toggle');
         }
     }
@@ -5258,8 +5254,8 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
         $(".loadersmall").css("display", "none");
         $("#btnZipMailSubmit").show();
         $("#btnZipMailClose").show();
-        $("#btnZipMailClose").removeAttr("disabled");
-        $("#btnZipMailSubmit").removeAttr("disabled");
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
 
         NotifyError(error);
 
@@ -5268,18 +5264,17 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     //Valida y notifica la existencia de un error.
     function NotifyError(error) {
-        if (error.data != undefined) {
-            if (error.data.InnerException != undefined) {
+        debugger;
+        if (error.data != undefined && error.data != "") {
+            if (error.data.Message != undefined) {
+                swal("", error.status + " " + error.statusText , "error");
+            } else if (error.data.InnerException != undefined && error.data.InnerException != undefined) {
                 swal("", error.data.ExceptionMessage + ": " + error.data.InnerException.ExceptionMessage, "error");
-            } else {
-                swal("", error.data.ExceptionMessage, "error");
             }
         }
         else if (error.responseJSON != undefined) {
-            if (error.responseJSON.InnerException != undefined) {
+            if (error.responseJSON.InnerException != undefined && error.responseJSON.ExceptionMessage != undefined) {
                 swal("", error.responseJSON.ExceptionMessage + ": " + error.responseJSON.InnerException.ExceptionMessage, "error");
-            } else {
-                swal("", error.responseJSON.ExceptionMessage, "error");
             }
         }
         else {
@@ -5291,11 +5286,11 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     function ModalSendZipView_NoFile() {
         $scope.sendIsLoading = false;
         $(".loadersmall").css("display", "none");
+
         $("#btnMailZipSubmit").show();
         $("#btnZipMailClose").show();
-        $("#btnMailZipSubmit").show();
-        $("#btnZipMailClose").removeAttr("disabled");
-        $("#btnZipMailSubmit").removeAttr("disabled");
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
 
         swal("", "Ninguna de las tareas posee un archivo asociado.", "warning");
     }
