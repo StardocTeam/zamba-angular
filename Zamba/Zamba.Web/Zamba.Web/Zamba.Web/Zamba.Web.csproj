@@ -1291,7 +1291,10 @@
     <Content Include="App_Themes\Stardoc\Images\ui-icons_d8e7f3_256x240.png" />
     <Content Include="App_Themes\Stardoc\Images\ui-icons_f9bd01_256x240.png" />
     <Content Include="App_Themes\Stardoc\Images\WebIcon.ico" />
-    <Content Include="App_Themes\Stardoc\Images\WebIcon.jpg" />
+    <Content Include="App_Themes\Stardoc\Images\WebIcon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Themes\Stardoc\Images\webiconTEST.jpg" />
     <Content Include="App_Themes\Stardoc\Images\WhiteChromeDocHeader.jpg" />
     <Content Include="App_Themes\Stardoc\Images\WhiteChromeHeader.jpg" />
     <Content Include="App_Themes\Stardoc\Login.css" />
