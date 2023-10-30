@@ -5,7 +5,7 @@
 <link href="../../views/uc/task/TaskHeader.css?v=248" rel="stylesheet" />
 
 
-<nav id="THNavBar" class="navbar navbar-toggleable-xs bg-faded navbar-light navbar-fixed-top" role="navigation" style="z-index: 9999; background-color: #337ab7;">
+<nav id="THNavBar" class="navbar navbar-toggleable-xs bg-faded navbar-light navbar-fixed-top" role="navigation" style="z-index: 9999; background-color: #337ab7 !important;">
 
 
     <div class="navbar-header" style="margin-left: 1%;">
@@ -72,7 +72,7 @@
         </ul>
     </div>
 
-    <div class="collapse navbar-collapse navbar-ex1-collapse" id="bs-TH-navbar-collapse-3">
+    <div class="collapse navbar-collapse navbar-ex1-collapse" id="bs-TH-navbar-collapse-3" style="background-color: #337ab7;">
 
 
         <ul class="nav navbar-nav navbar-left navbar-task row" style="margin-left: 10px; list-style: none">
