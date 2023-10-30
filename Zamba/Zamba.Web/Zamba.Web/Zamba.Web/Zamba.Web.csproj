@@ -33,7 +33,8 @@
     <SccProvider>SAK</SccProvider>
     <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
     <TargetFrameworkProfile />
-    <Use64BitIISExpress>false</Use64BitIISExpress>
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1293,7 +1294,6 @@
     <Content Include="App_Themes\Stardoc\Images\WebIcon.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Themes\Stardoc\Images\webiconTEST.jpg" />
     <Content Include="App_Themes\Stardoc\Images\WhiteChromeDocHeader.jpg" />
     <Content Include="App_Themes\Stardoc\Images\WhiteChromeHeader.jpg" />
     <Content Include="App_Themes\Stardoc\Login.css" />
@@ -11257,7 +11257,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>80</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44301/Zamba.Web</IISUrl>
+          <IISUrl>http://localhost:44301/Zamba.Web</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:44301/Zamba.Web</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

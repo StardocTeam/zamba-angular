@@ -5044,30 +5044,38 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.sendIsLoading = false;
 
     $scope.DocInfo = function () {
+        try {
+            let checkedIds = countTaskIdSelected();
+            if (checkedIds.length > 1) {
+                swal("", "Seleccione solo una tarea", "info");
+            } else {
 
-        let checkedIds = countTaskIdSelected();
-        if (checkedIds.length > 1) {
-            swal("", "Seleccione solo una tarea", "info");
-        } else {
+                $('#informationModal').modal({ show: true });
 
-            $('#informationModal').modal({ show: true });
+                $scope.ViewInfo = $scope.Search;
 
-            $scope.ViewInfo = $scope.Search;
+                let ViewInfoResult = "";
 
-            let ViewInfoResult = $scope.ViewInfo.SearchResults.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
+                if ($scope.ViewInfo.SearchResults != undefined) {
+                    ViewInfoResult = $scope.ViewInfo.SearchResults.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
+                }
+                else {
+                    ViewInfoResult = $scope.ViewInfo.SearchResultsObject.data.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
+                }
 
-            if (ViewInfoResult != "" && ViewInfoResult != null && ViewInfoResult != undefined) {
+                if (ViewInfoResult != "" && ViewInfoResult != null && ViewInfoResult != undefined) {
 
-                $scope.DocInfoDocId = ViewInfoResult[0]?.DOC_ID != null ? ViewInfoResult[0].DOC_ID : "";
-                $scope.DocInfoDocTypeID = ViewInfoResult[0]?.DOC_TYPE_ID != null ? ViewInfoResult[0].DOC_TYPE_ID : "";
-                $scope.DocInfoEntidad = ViewInfoResult[0]?.ENTIDAD != null ? ViewInfoResult[0].ENTIDAD : "";
-                $scope.DocInfoTarea = ViewInfoResult[0]?.Tarea != null ? ViewInfoResult[0].Tarea : "";
-                $scope.DocInfoCreado = ViewInfoResult[0]?.CREADO != null ? moment(ViewInfoResult[0].CREADO).format("DD/MM/YYYY") : "";
+                    $scope.DocInfoDocId = ViewInfoResult[0]?.DOC_ID != null ? ViewInfoResult[0].DOC_ID : "";
+                    $scope.DocInfoDocTypeID = ViewInfoResult[0]?.DOC_TYPE_ID != null ? ViewInfoResult[0].DOC_TYPE_ID : "";
+                    $scope.DocInfoEntidad = ViewInfoResult[0]?.ENTIDAD != null ? ViewInfoResult[0].ENTIDAD : "";
+                    $scope.DocInfoTarea = ViewInfoResult[0]?.Tarea != null ? ViewInfoResult[0].Tarea : "";
+                    $scope.DocInfoCreado = ViewInfoResult[0]?.CREADO != null ? moment(ViewInfoResult[0].CREADO).format("DD/MM/YYYY") : "";
+                }
+
             }
-
+        } catch (e) {
+            console.log(e);
         }
-
-
     }
     $scope.removeDocuments = function () {
         swal({
