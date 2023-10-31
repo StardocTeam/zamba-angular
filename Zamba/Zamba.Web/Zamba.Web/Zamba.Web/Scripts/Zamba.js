@@ -475,8 +475,9 @@ function DocumentReadyEvents() {
 
         $("input").focusout(function () {
             if ($(this).val() == '') {
-                $(this).css("border-color", "#FF0000");
-
+                if (!$(this).hasClass("EmailInput")) {
+                    $(this).css("border-color", "#FF0000");
+                }
             }
             if ($(this).hasClass('datepicker')) {
                 $(this).css("border-color", "#CFD5FF");
