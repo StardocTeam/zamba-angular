@@ -114,7 +114,7 @@ Imports Zamba.Core
             End If
             Dim Fi As New FileInfo(FullPath)
 
-            If String.Compare(Fi.Extension.ToUpper, ".MSG") = 0 Then
+            If String.Compare(Fi.Extension.ToUpper, ".MSG") = 0 OrElse String.Compare(Fi.Extension.ToUpper, ".EML") = 0 Then
                 _isMsg = True
             Else
                 _isMsg = False
