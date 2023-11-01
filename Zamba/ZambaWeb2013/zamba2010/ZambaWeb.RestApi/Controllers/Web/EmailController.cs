@@ -336,6 +336,9 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             if (attachs.Count > 0)
             {
+                if (zipdata.zipname == "Archivo") {
+                   zipdata.zipname += DateTime.Now.ToString("ddMMyyyyhhmmss");
+                }
                 zip.Comment = zipdata.ZipName;
 
                 if (zipdata.ZipInfo.Trim() != "" )
