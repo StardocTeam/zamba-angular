@@ -1868,12 +1868,11 @@ namespace ZambaWeb.RestApi.Controllers
                     if (res.IsMsg)
                     {
                         filename = res.FullPath;
-
                         if (MsgPreview)
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo MSG");
-                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview )ST.ConvertMSGToHTML(res.FullPath, newPDFFile, includeAttachs);
+                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview )ST.ConvertMSGToJSON(res.FullPath, newPDFFile, includeAttachs);
                             o.body =  o.body
                                 .Replace("Ã±", "ñ")
                                 .Replace("Ã¡", "á")

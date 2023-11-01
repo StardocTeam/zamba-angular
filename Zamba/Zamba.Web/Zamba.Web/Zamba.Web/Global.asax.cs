@@ -241,7 +241,6 @@ namespace Zamba.Web
             //    string url = "https://" + Request.Url.Authority + Request.RawUrl;
             //    Response.RedirectPermanent(url);
             //}
-
             if (!String.IsNullOrEmpty(Request.QueryString["view"]))
             {
                 if (Request.QueryString["view"].ToString() == "loginOkta")
@@ -774,34 +773,45 @@ namespace Zamba.Web
         {
 
             var url = Request.AppRelativeCurrentExecutionFilePath.ToString().Split('/').ToList().Last();
+
+            //ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - valor de la url:" + url);
             if (url == "OktaAuthentication.html")
             {
                 string code = Request.QueryString["code"];
                 string state = Request.QueryString["state"];
                 string retururl = Request.QueryString["returnurl"];
                 string logout = Request.QueryString["logout"];
+
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - valor de la code:" + code);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - valor de la returnurl:" + retururl);
                 if (Request.QueryString.Count == 0)
                 {
                     return true; // sin parametros
                 }
                 if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count != 1)
                 {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - caso FALSE 1");
                     return false; //logout y otros parametros
                 }
                 if (!String.IsNullOrEmpty(logout) && Request.QueryString.Count == 1)
                 {
                     if (logout == "true")
                         return true;
-                    else
+                    else {
+                        ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - caso FALSE 2");
                         return false;
+                    }
+                        
                     // solo logout
                 }
                 if (!String.IsNullOrEmpty(code) && String.IsNullOrEmpty(state) && Request.QueryString.Count != 2)
                 {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - caso FALSE 3");
                     return false; // code + state + otros parametros
                 };
 
                 if (!String.IsNullOrEmpty(code)) {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - ejecuta ValidateOktaState porque CODE tiene un valor");
                     return ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/");
                 }
             }

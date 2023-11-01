@@ -18,7 +18,7 @@ namespace Zamba.Framework
         {
             get
             {
-                return Token.Substring(0, 180);
+                return Token;
             }
         }
 

@@ -60,7 +60,7 @@ function CheckIfAuthenticated() {
                                 }
                                 );
                             }
-                            queryString += "userid=" + userid + "&token=" + token.substring(0, 180);
+                            queryString += "userid=" + userid + "&token=" + token;
                             url = splitUrl[0] + "?" + queryString
                             location.href = url;
                         }
@@ -102,7 +102,8 @@ function LoginByGuid(userid, guid, redirectUrl) {
                     }));
                 }
             }
-            window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token.substring(0, 180);
+            /*window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token.substring(0, 180);*/
+            window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token;
         },
         error: function (error) {
             ret = error

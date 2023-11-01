@@ -4150,6 +4150,30 @@ Public Class Results_Business
 
         IB = Nothing
     End Sub
+
+    ''' <summary>
+    '''  Get date for token --  Zss table.
+    ''' </summary>
+    ''' <param name="UserId"></param>
+    ''' <remarks></remarks>
+    ''' <history>
+    ''' [Felipe 29/03/2022]    Created
+    ''' </history>dd
+    Public Function getValidateActiveSession(ByVal UserId As Int64, ByVal userToken As String) As Boolean
+        Dim isValidSession As Boolean = True
+        Dim RF As New Results_Factory()
+        Dim sessionInfo As DataTable = RF.getUserSessionInfo(UserId)
+        If sessionInfo Is Nothing Then
+            isValidSession = False
+        Else
+            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession - DateTime.Now :  " + DateTime.Now)
+            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession : TokenExpireDate " + sessionInfo.Rows(0)("TokenExpireDate"))
+            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession : Token " + sessionInfo.Rows(0)("Token"))
+            'ZTrace.WriteLineIf(ZTrace.IsVerbose, "getValidateActiveSession : userToken " + userToken)
+            isValidSession = DateTime.Now <= sessionInfo.Rows(0)("TokenExpireDate") And sessionInfo.Rows(0)("Token").ToString() = userToken
+        End If
+        Return isValidSession
+    End Function
     Public Sub Fill(ByRef instance As ITaskResult) Implements IResults_Business.Fill
         If IsNothing(instance.State) Then
 

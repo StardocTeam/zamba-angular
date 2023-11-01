@@ -148,7 +148,7 @@ _logOut
             token = getUrlParameter("token");
         }
 
-        querystring = "userid=" + userId + "&token=" + token.substring(0,180);
+        querystring = "userid=" + userId + "&token=" + token;
         return querystring;
     }
 
@@ -329,10 +329,12 @@ _logOut
             var infotoken = JSON.parse(localStorage.authorizationData)
             var userid = infotoken.UserId
             var token = infotoken.token
-            var tokenQueryString = getUrlParameter("token").substring(0, 180);
+            //var tokenQueryString = getUrlParameter("token").substring(0, 180);
+            var tokenQueryString = getUrlParameter("token");
             var headerAuthorization = _getHeaderAuthorization();
             if (token != undefined && tokenQueryString != "") {
-                if (tokenQueryString != token.substring(0, 180)) {
+                /*if (tokenQueryString != token.substring(0, 180)) {*/
+                if (tokenQueryString != token) {
                     var splitQueryString = location.search.replace("?","").split("&");
                     var newQueryString = "?";
                     splitQueryString.forEach(function (param) {

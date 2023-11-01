@@ -2711,20 +2711,15 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
         $("#btnZipMailClose").show();
         $("#btnZipMailSubmit").prop('disabled', false);
         $("#btnZipMailClose").prop('disabled', false);
+        $(".zipinput").val("");
+        $(".loadersmall").css("display", "none");
+        $("#btn btn-default cancelMailZipButton").prop('disabled', false);
         if (data.data == false) {
-            toastr.error("Error al enviar email");
-            $("#btnZipMailSubmit").show();
-            $("#btnZipMailClose").show();
-            $(".zipinput").val("");
-            $(".loadersmall").css("display", "none");
+            swal("", "Error al enviar email", "error");
         } else {
-            toastr.success("Email enviado con exito");
+            swal("", "Email enviado con exito", "success");
             document.getElementById("cke_2_contents").children[0].contentDocument.children[0].childNodes[1].innerHTML = "";
             $scope.zipInputs = null;
-            $(".loadersmall").css("display", "none");
-            $("#btnMailZipSubmit").show();
-            $("#btnZipMailClose").show();
-            $(".zipinput").val("");
             $("#ModalSendMailZip").modal('toggle');
         }
     }
@@ -2733,17 +2728,17 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
     function ModalSendZipView_Error(error) {
         $scope.sendIsLoading = false;
         $(".loadersmall").css("display", "none");
-        $("#btnMailZipSubmit").show();
+        $("#btnZipMailSubmit").show();
         $("#btnZipMailClose").show();
-
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
         NotifyError(error);
-
         $("#btnMailZipSubmit").show();
     }
 
     //Valida y notifica la existencia de un error.
     function NotifyError(error) {
-        if (error.data != undefined) {
+        if (error.data != undefined && error.data != '') {
             if (error.data.InnerException != undefined) {
                 toastr.error(error.data.ExceptionMessage + ": " + error.data.InnerException.ExceptionMessage);
             } else {
@@ -2766,9 +2761,10 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
     function ModalSendZipView_NoFile() {
         $scope.sendIsLoading = false;
         $(".loadersmall").css("display", "none");
-        $("#btnMailZipSubmit").show();
         $("#btnZipMailClose").show();
         $("#btnMailZipSubmit").show();
+        $("#btnZipMailSubmit").prop('disabled', false);
+        $("#btnZipMailClose").prop('disabled', false);
         toastr.warning("Ninguna de las tareas posee un archivo asociado.");
     }
 

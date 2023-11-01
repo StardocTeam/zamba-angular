@@ -172,11 +172,12 @@ function ValidarToken(access_token, id_token, code) {
             MostrarEstado("Ingresando a Zamba...");
 
             if (returnUrl == "null" || returnUrl == "" || returnUrl == null) {
-
-                window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token.substring(0, 180);
+                /*window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token.substring(0, 180);*/
+                window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token;
             } else {
                 localStorage.removeItem("returnUrl");
-                window.location.href = location.origin.trim() + returnUrl + "&userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token.substring(0, 180);
+                /*window.location.href = location.origin.trim() + returnUrl + "&userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token.substring(0, 180);*/
+                window.location.href = location.origin.trim() + returnUrl + "&userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token;
             }
         },
         error: function error(_error2) {
