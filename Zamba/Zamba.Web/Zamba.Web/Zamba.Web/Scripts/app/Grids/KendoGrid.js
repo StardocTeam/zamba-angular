@@ -1224,9 +1224,17 @@ function pushearALista() {
             checkedIds.push(row_Index);
             DocIdschecked.push(row_DOC_ID);
             DocTypesIdschecked.push(row_DOC_TYPE_ID);
-
             selectedRecords_gridResults.push(row_STEP_ID);
 
+            let chekedObject = {
+                rowIndex: row_Index,
+                DocTypeid: row_DOC_TYPE_ID,
+                Docid: row_DOC_ID,
+                stepId: row_STEP_ID
+            }
+
+            checkListIdFormDowloadZip.push(chekedObject);
+            
             angular.element($("#ResultsCtrl")).scope().GetTaskDocument(checkedIds);
         });
     } else {
@@ -1247,9 +1255,15 @@ function pushearALista() {
             remove_array_element(DocTypesIdschecked, row_DOC_TYPE_ID);
             remove_array_element(selectedRecords_gridResults, row_STEP_ID);
 
+            checkListIdFormDowloadZip = [];
+
             angular.element($("#ResultsCtrl")).scope().RemoveAttach(row_Index);
+            
         });
     }
+
+    angular.element($("#ResultsCtrl")).scope().ShowButtonRemove(DocTypesIdschecked);
+
     enableBtnRules_ForResultsGrid();
     ShowActions(grid._data);
     angular.element($("#taskController")).scope().$apply();
