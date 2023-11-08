@@ -100,6 +100,7 @@ public partial class UserPreferences
         }
     }
 
+
     ///Devuelve el valor de un item por el nombre
     public static string getValueForMachine(string name, UPSections Section, object DefaultValue, bool UseCache = true)
     {

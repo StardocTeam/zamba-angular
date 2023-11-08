@@ -113,5 +113,11 @@ namespace Zamba.Framework
 
 
     };
+    public class EditDto
+    {
+        public List<Object> Indexs { get; set; } = new List<object>();
+        public string ExternUserID { get; set; }
+        public string Id { get; set; }
+    }
 
 }

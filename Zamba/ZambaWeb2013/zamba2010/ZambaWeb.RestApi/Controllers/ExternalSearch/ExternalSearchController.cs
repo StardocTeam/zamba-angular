@@ -1145,6 +1145,146 @@ namespace ZambaWeb.RestApi.Controllers
                 return null;
             }
         }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("EditDoc")]
+        public IHttpActionResult EditDoc(EditDto editDto)
+        {
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "ExternalSearchController metodo SearchResults");
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Datos recibidos:");
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, editDto.ExternUserID.ToString());
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, Request.Headers.GetValues("Authorization").First());
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Concat(editDto.Indexs.ToString()));
+            }
+            catch (Exception e)
+            {
+                ZClass.raiseerror(e);
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Fallo al escribir trace para datos recibidos");
+            }
+            string token;
+            try
+            {
+                if (Request.Headers.Authorization == null || string.IsNullOrEmpty(Request.Headers.Authorization.ToString()))
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token Nulo")));
+                token = Request.Headers.Authorization.ToString();
+            }
+            catch (Exception e)
+            {
+                ZClass.raiseerror(e);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Unauthorized, new HttpError("No se pudo obtener el token")));
+            }
+            if (editDto.Indexs == null || editDto.Indexs.Count <= 0)
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Coleccion de indices vacia")));
+            string _userId = DecryptString(editDto.ExternUserID.ToString());
+            if (String.IsNullOrEmpty(_userId))
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se pudo obtener el usuario")));
+            long userID = long.Parse(_userId);
+            if (!validateToken(userID, token))
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
+            try
+            {
+                string _documentId = editDto.Id.ToString();
+                long DocTypeId = 0;
+                long DocId = 0;
+                DecryptDocId(_documentId, userID, out DocId, out DocTypeId);
+                if (userID > 0 && DocTypeId > 0 && DocId > 0)
+                {
+                    try
+                    {
+                        if (MembershipHelper.CurrentUser == null)
+                        {
+                            UserBusiness UB = new UserBusiness();
+                            UB.ValidateLogIn(userID, ClientType.Web);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                    }
+                }
+                else
+                {
+                    ZClass.raiseerror(new Exception("No se recibieron todos los parametros"));
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("No se recibieron todos los parametros")));
+                }
+                SResult sResult = new SResult();
+                IResult res = sResult.GetResult(DocId, DocTypeId, true);
+                IndexsBusiness IB = new IndexsBusiness();
+                List<IIndex> Indexs = new List<IIndex>();
+                IIndex index;
+                foreach (object searchDtoIndex in editDto.Indexs)
+                {
+                    index = JsonConvert.DeserializeObject<Zamba.Core.Index>(searchDtoIndex.ToString());
+                    index = IB.GetIndexById(index.ID, index.Data);
+                    if (index == null)
+                    {
+                        throw new Exception("El atributo especificado no existe");
+                    }
+                    index.Operator = "=";
+                    Indexs.Add(index);
+                }
+                if (res != null)
+                {
+                    if (res.Platter_Id == userID || Boolean.Parse(ZOptBusiness.GetValueOrDefault("ExternalSearchAllowEditNotCreator", "false")) == true)
+                    {
+                        Results_Business RB = new Results_Business();
+                        List<Int64> onlyIndexsIds = new List<long>();
+                        foreach (IIndex I in Indexs)
+                        {
+                            IIndex In = res.get_GetIndexById(I.ID);
+                            if (In == null)
+                            {
+                                throw new Exception("El atributo especificado no existe");
+                            }
+                            In.DataTemp = I.Data;
+                            if (I.Data != string.Empty)
+                            {
+                                onlyIndexsIds.Add(I.ID);
+                            }
+                        }
+                        RB.SaveModifiedIndexData(ref res, true, false, onlyIndexsIds, null);
+                        UserBusiness UB = new UserBusiness();
+                        UB.SaveAction(res.ID, Zamba.ObjectTypes.Documents, Zamba.Core.RightsType.ReIndex, res.Name, 0);
+                        sResult = null;
+                        return Ok("Document Updated");
+                    }
+                    else
+                    {
+                        ZClass.raiseerror(new Exception("El usuario no es el creador del documento"));
+                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("El usuario no es el creador del documento")));
+                    }
+                }
+                ZClass.raiseerror(new Exception("No se pudo obtener el recurso"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo obtener el recurso")));
+            }
+        }
+
+        private void DecryptDocId(string documentId, long userID, out long docId, out long doctypeId)
+        {
+            try
+            {
+                string _documentId = DecryptString(documentId);
+                docId = long.Parse(_documentId.Split('-')[0]);
+                doctypeId = long.Parse(_documentId.Split('-')[1]);
+                long _userId = long.Parse(_documentId.Split('-')[2]);
+                string _DateTime = _documentId.Split('-')[3];
+                if (_userId != userID) throw new Exception($"No se reconoce ID del documento. Err 7001: {documentId}");
+                DateTime _IdDateTime = new DateTime(int.Parse(_DateTime.Split(char.Parse("|"))[0]), int.Parse(_DateTime.Split(char.Parse("|"))[1]), int.Parse(_DateTime.Split(char.Parse("|"))[2]), int.Parse(_DateTime.Split(char.Parse("|"))[3]), int.Parse(
+                _DateTime.Split(char.Parse("|"))[4]), int.Parse(_DateTime.Split(char.Parse("|"))[5]), int.Parse(_DateTime.Split(char.Parse("|"))[6]));
+                if ((DateTime.Today - _IdDateTime).TotalHours > 24) throw new Exception($"No se reconoce ID del documento: {documentId}. Err 7002");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"No se reconoce ID del documento. Err 7000: {documentId}", ex);
+            }
+        }
         #endregion
 
         #region "Helper Classes"
