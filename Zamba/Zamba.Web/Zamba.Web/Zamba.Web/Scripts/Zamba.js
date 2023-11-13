@@ -5614,7 +5614,7 @@ function getUrlParameters() {
     for (i = 0; i < pairs.length; i++) {
         pair = pairs[i].split('=');
         if (pair[1])
-            res[decodeURIComponent(pair[0]).toLowerCase()] = decodeURIComponent(pair[1]);
+            res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
     }
     return res;
 }

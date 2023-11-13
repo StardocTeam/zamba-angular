@@ -116,7 +116,7 @@ function getUrlParameters() {
     var pairs = window.location.search.substring(1).split(/[&?]/);
     var res = {}, i, pair;
     for (i = 0; i < pairs.length; i++) {
-        pair = pairs[i].toLowerCase().split('=');
+        pair = pairs[i].split('=');
         if (pair[1])
             res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
     }
