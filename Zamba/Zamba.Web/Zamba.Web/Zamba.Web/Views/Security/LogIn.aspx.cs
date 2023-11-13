@@ -859,9 +859,10 @@ public partial class Login : System.Web.UI.Page
 
                             FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
 
-                            String url =   NewQueryString + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID;
-
-                            if (url.StartsWith("&")) url = url.Substring(1, url.Length - 1);
+                            //String url =   NewQueryString + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                            if (NewQueryString.StartsWith("&")) NewQueryString = NewQueryString.Substring(1, NewQueryString.Length - 1);
+                            
+                            String url = DomainName + "/globalsearch/search/search.html?" + NewQueryString;
 
                             ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
                              localStorage.removeItem('ConnId'); localStorage.setItem('ConnId', '" + connectionid + "');  localStorage.removeItem('UserId'); localStorage.setItem('UserId', '" + userid + "'); " +
