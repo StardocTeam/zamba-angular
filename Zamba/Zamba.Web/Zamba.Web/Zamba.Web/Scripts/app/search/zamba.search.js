@@ -5056,11 +5056,11 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
                 let ViewInfoResult = "";
 
-                if ($scope.ViewInfo.SearchResults != undefined) {
-                    ViewInfoResult = $scope.ViewInfo.SearchResults.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
+                if ($scope.ViewInfo.SearchResultsObject != undefined) {
+                    ViewInfoResult = $scope.ViewInfo.SearchResultsObject.data.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
                 }
                 else {
-                    ViewInfoResult = $scope.ViewInfo.SearchResultsObject.data.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
+                    ViewInfoResult = $scope.ViewInfo.SearchResults.filter(x => { return x.DOC_ID == checkedIds[0]['Docid'] });
                 }
 
                 if (ViewInfoResult != "" && ViewInfoResult != null && ViewInfoResult != undefined) {
