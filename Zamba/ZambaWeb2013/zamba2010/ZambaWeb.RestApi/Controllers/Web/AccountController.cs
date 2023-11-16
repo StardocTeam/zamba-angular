@@ -31,6 +31,8 @@ using Zamba.Membership;
 using Zamba.FAD;
 using ZambaWeb.RestApi.AuthorizationRequest;
 using System.Configuration;
+using System.IO;
+using System.Text;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -94,7 +96,7 @@ namespace ZambaWeb.RestApi.Controllers
                     tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
                     connectionId = tokenString.SelectToken(@"connectionId").Value<string>(),
                     userName = user.Name,
-                    UserId = user.ID.ToString()
+                    userid = user.ID
                 };
                 user.ConnectionId = int.Parse(tI.connectionId);
                 UserPreferences UP = new UserPreferences();
@@ -110,32 +112,26 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        private JObject GetTokenString(LoginVM l, IUser user)
+        private JObject GetTokenString(LoginVM l, IUser user, string OktaAccessToken = "", string OktaIdToken = "")
         {
             try
             {
-
                 //Obtengo token si todavia no caduco
                 UserToken uToken = new UserToken();
                 JObject tokenInfo = uToken.GetTokenIfIsValid(user);
                 if (tokenInfo != null)
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Token valio");
                     return (tokenInfo);
                 }
                 else
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Generando Token");
                     tokenInfo = uToken.GenerateToken(user);
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, $"t: {tokenInfo.ToString()}");
                     Zamba.Core.UserPreferences UP = new Zamba.Core.UserPreferences();
-                    l.ComputerNameOrIp = HttpContext.Current.Request.UserHostAddress.Replace("::1","127.0.0.1");
+                    l.ComputerNameOrIp = HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1");
                     Ucm ucm = new Ucm();
                     Int32 timeOut = Int32.Parse(UP.getValue("TimeOut", Zamba.UPSections.UserPreferences, 30, user.ID));
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, string.Format("TimeOut: {0}", timeOut.ToString()));
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format("TimeOut: {0}", timeOut.ToString()));
                     user.ConnectionId = Int32.Parse(ucm.NewConnection(user.ID, user.Name, l.ComputerNameOrIp, timeOut, 0, false).ToString());
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, string.Format("ConnectionId: {0}", user.ConnectionId.ToString()));
-                    
                     Zss zss = new Zss()
                     {
                         UserId = user.ID,
@@ -143,6 +139,8 @@ namespace ZambaWeb.RestApi.Controllers
                         CreateDate = DateTime.Parse(tokenInfo.SelectToken(@"issued").Value<string>()),
                         TokenExpireDate = DateTime.Parse(tokenInfo.SelectToken(@"expiredate").Value<string>()),
                         Token = tokenInfo.SelectToken(@"access_token").Value<string>(),
+                        OktaAccessToken = OktaAccessToken,
+                        OktaIdToken = OktaIdToken
                     };
                     SaveZss(zss);
                     HttpContext.Current.Session["TokenExpires"] = DateTime.Now.AddDays(1).ToString();
@@ -157,6 +155,16 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
                 return null;
             }
+        }
+
+        public string GetWebConfigElement(string element)
+        {
+            string item = System.Configuration.ConfigurationManager.AppSettings[element]; ;
+            if (item == null)
+            {
+                throw new NullReferenceException("La referencia en el archivo Web Config es nula.");
+            }
+            return item;
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -1073,7 +1081,395 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetIsMultipleSesion")]
+        [OverrideAuthorization]
+        public IHttpActionResult GetIsMultipleSesion()
+        {
+            bool AuhtenticationMultiple = false;
+            try
+            {
+                string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
+                if (!String.IsNullOrEmpty(strAuhtenticationMultiple))
+                    AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
+            }
+            catch (Exception)
+            {
+            }
+            return Ok(AuhtenticationMultiple);
+        }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [AllowAnonymous]
+        [Route("GetOktaInformation")]
+        [OverrideAuthorization]
+        public IHttpActionResult GetOktaInformation()
+        {
+            OktaPublicInformation oktaInformation = new OktaPublicInformation();
+            var js = JsonConvert.SerializeObject(oktaInformation);
+            return Ok(js);
+        }
+        public class OktaPrivateInformation : OktaPublicInformation
+        {
+            public string ClientSecret { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaClientSecret"]; } }
+            public string BasicAuthenticacion
+            {
+                get
+                {
+                    return "Basic " + Convert.ToBase64String((this.clientId + ":" + this.ClientSecret)
+                                            .ToCharArray()
+                                            .Select(c => (byte)c)
+                                            .ToArray());
+                }
+            }
+        }
+        public class OktaPublicInformation
+        {
+            public string baseUrl { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaBaseUrl"]; } }
+            public string clientId { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaClientId"]; } }
+            public string redirectURL { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaURLRedirect"]; } }
+        }
+
+        [AllowAnonymous]
+        [Route("LoginOKTA")]
+        [OverrideAuthorization]
+        public IHttpActionResult LoginOKTA(String access_token, String id_token, String code)
+        {
+            try
+            {
+                //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se solicita access_token con code=" + code);
+                if (String.IsNullOrEmpty(access_token))
+                    access_token = GetOktaAccessToken(code).access_token;
+                // GetOktaRefreshToken(access_token);
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se obtuvo access_token =" + access_token);
+                OktaPrivateInformation OktaInformation = new OktaPrivateInformation();
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se usa access_token para buscar userintrospection");
+                OktaUserIntrospection oktaUserIntrospection = GetOktaIntrospectUser(access_token);
+                OktaUserInformation oktaUserInformation = GetOktaUserInfo(access_token);
+                SUsers sUsers = new SUsers();
+                String username = oktaUserIntrospection.username.Split('@').First();
+                //username = "15116";
+                //username = "1248518";
+                //username = "eseleme";
+                String UserNameIntrospectWithU = "U" + username;
+                String MailUserInfo = oktaUserInformation.email;
+                string MailUserInfoSinDominio = MailUserInfo.Split('@').First();
+                var user = sUsers.GetUserByPeopleId(username);
+                if (user == null)
+                {
+                    user = sUsers.GetUserByname(username, false);
+                    if (user == null)
+                    {
+                        user = sUsers.GetUserByname(UserNameIntrospectWithU, false);
+                        if (user == null)
+                        {
+                            user = sUsers.GetUserByMail(MailUserInfo, false);
+                            if (user == null)
+                            {
+                                user = sUsers.GetUserByname(MailUserInfo, false);
+                                if (user == null)
+                                {
+                                    user = sUsers.GetUserByname(MailUserInfoSinDominio, false);
+                                    if (user == null)
+                                    {
+                                        ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "El usuario" + username + " no existe en zamba");
+                                        return Unauthorized();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (user.State == UserState.Bloqueado)
+                {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "El usuario" + username + " esta bloqueado");
+                    return Unauthorized();
+                }
+                var l = new LoginVM
+                {
+                    UserName = user.Name,
+                    Password = user.Password,
+                    ComputerNameOrIp = ""
+                };
+                var tokenString = GetTokenString(l, user, access_token);
+                var UrlRedirect = GetWebConfigElement("ThisDomain") + "/globalsearch/search/search.html?";
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se aprueba la autenticacion");
+                var oktaRedirectLogout = (new OktaPublicInformation()).baseUrl + "/logout?id_token=" + id_token + @"&post_logout_redirect_uri= " + UrlRedirect;
+                oktaRedirectLogout = oktaRedirectLogout
+                    .Replace("/", "%2F")
+                    .Replace(":", "%3A")
+                    .Replace("?", "%3F")
+                    .Replace("&", "%26")
+                    ;
+                var tokenInfo = new TokenInfo
+                {
+                    token = tokenString.SelectToken(@"access_token").Value<string>(),
+                    tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
+                    userName = user.Name,
+                    userid = user.ID,
+                    oktaUrlSignOut = "",
+                    oktaIdToken = id_token,
+                    oktaAccessToken = access_token,
+                    oktaRedirectLogout = oktaRedirectLogout
+                };
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se retorna la informacion para redireccionar");
+                ResponseLoginOkta responseLoginOkta = new ResponseLoginOkta();
+                responseLoginOkta.tokenInfo = tokenInfo;
+                responseLoginOkta.UrlRedirect = UrlRedirect;
+                var js = JsonConvert.SerializeObject(responseLoginOkta);
+                UpdateLastUserAction(user.ID);
+                return Ok(js);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                return null;
+            }
+        }
+
+        private void UpdateLastUserAction(Int64 user)
+        {
+            UserBusiness ub = new UserBusiness();
+            DateTime thisDay = DateTime.Today;
+            ub.setValueLastUser(1, ObjectTypes.Users, RightsType.LogIn, thisDay.ToString("d"), Convert.ToInt32(user));
+            //UserPreferences.setValue("LastUserAction", thisDay.ToString("d"), UPSections.UserPreferences);
+        }
+
+        public OktaResponseGetAccessToken GetOktaAccessToken(String code)
+        {
+            OktaResponseGetAccessToken ret = new OktaResponseGetAccessToken();
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            OktaPrivateInformation OktaInformation = new OktaPrivateInformation();
+            string LoginEncondedBase64 = Convert.ToBase64String((OktaInformation.clientId + ":" + OktaInformation.ClientSecret)
+            .ToCharArray()
+            .Select(c => (byte)c)
+            .ToArray()
+        );
+            string HeaderAuthorization = OktaInformation.BasicAuthenticacion;
+            WebClient client = new WebClient();
+            client.Headers.Add("accept", "application/json");
+            client.Headers.Add("Content-type", "application/x-www-form-urlencoded");
+            client.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+            client.Headers.Add("Accept", "*/*");
+            String redirectUri = OktaInformation.redirectURL;
+            redirectUri = OktaInformation.redirectURL;
+            redirectUri = redirectUri.Replace("/", "%2F")
+                .Replace(":", "%3A")
+                .Replace("?", "%3F")
+                .Replace("&", "%26");
+            var baseAddress = OktaInformation.baseUrl + "/oauth2/v1/token";
+            var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+            http.ContentType = "application/x-www-form-urlencoded";
+            http.UserAgent = "postmanRuntime/7.24.1";
+            http.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+            http.Headers.Add("Cache-Control", "no-cache");
+            http.KeepAlive = true;
+            http.Method = "POST";
+            var postData = "grant_type=authorization_code"
+                            + "&code=" + code
+                            + "&redirect_uri=" + redirectUri
+                            + "&client_id=" + OktaInformation.clientId
+                            + "&client_secret=" + OktaInformation.ClientSecret;
+            var data = Encoding.ASCII.GetBytes(postData);
+            http.ContentLength = data.Length;
+            http.Accept = "*/*";
+            CookieContainer cookieContainer = new CookieContainer();
+            http.CookieContainer = cookieContainer;
+            http.Referer = baseAddress;
+            http.ServicePoint.Expect100Continue = false;
+            using (var stream = http.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+                stream.Close();
+            }
+            String json;
+            var resp = http.GetResponse();
+            using (var s = resp.GetResponseStream())
+            {
+                using (var sr = new StreamReader(s))
+                {
+                    json = sr.ReadToEnd();
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtiene token");
+                    ret = JsonConvert.DeserializeObject<OktaResponseGetAccessToken>(json);
+                }
+            }
+            return ret;
+        }
+        public class ResponseLoginOkta
+        {
+            public TokenInfo tokenInfo;
+            public String UrlRedirect;
+        }
+        private OktaUserInformation GetOktaUserInfo(String access_token)
+        {
+            OktaUserInformation userInformation = new OktaUserInformation();
+            try
+            {
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                OktaPrivateInformation OktaInformation = new OktaPrivateInformation();
+                string HeaderAuthorization = "Bearer " + access_token;
+                WebClient client = new WebClient();
+                client.Headers.Add("Authorization", HeaderAuthorization);
+                var baseAddress = OktaInformation.baseUrl + "/oauth2/v1/userinfo";
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+                http.Headers.Add("authorization", HeaderAuthorization);
+                http.ContentType = "application/json";
+                ZTrace.WriteLineIf(ZTrace.IsInfo, "Se usa access_token para buscar userinfo");
+                using (var s = http.GetResponse().GetResponseStream())
+                {
+                    using (var sr = new StreamReader(s))
+                    {
+                        var json = sr.ReadToEnd();
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "informacion de usuario:" + json);
+                        userInformation = JsonConvert.DeserializeObject<OktaUserInformation>(json);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return userInformation;
+        }
+        public class OktaResponseGetRefreshAccessToken
+        {
+            public String token_type;
+            public Int64 expires_in;
+            public String refresh_token;
+            public String scope;
+            public String id_token;
+        }
+        public class OktaResponseGetAccessToken
+        {
+            public String token_type;
+            public Int64 expires_in;
+            public String access_token;
+            public String scope;
+            public String id_token;
+        }
+        public OktaUserIntrospection GetOktaIntrospectUser(String access_token)
+        {
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            OktaUserIntrospection ret = new OktaUserIntrospection();
+            OktaPrivateInformation OktaInformation = new OktaPrivateInformation();
+            WebClient client = new WebClient();
+            client.Headers.Add("Authorization", OktaInformation.BasicAuthenticacion);
+            var baseAddress = OktaInformation.baseUrl + "/oauth2/v1/introspect";
+            var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+            http.Method = "POST";
+            http.Accept = "*/*";
+            http.ContentType = "application/x-www-form-urlencoded";
+            CookieContainer cookieContainer = new CookieContainer();
+            http.Headers.Add("Authorization", OktaInformation.BasicAuthenticacion);
+            http.CookieContainer = cookieContainer;
+            http.Referer = baseAddress;
+            http.ServicePoint.Expect100Continue = false;
+            var postData = "token=" + access_token;
+            var data = Encoding.ASCII.GetBytes(postData);
+            http.ContentLength = data.Length;
+            using (var stream = http.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+                stream.Close();
+            }
+            using (var s = http.GetResponse().GetResponseStream())
+            {
+                using (var sr = new StreamReader(s))
+                {
+                    var json = sr.ReadToEnd();
+                    ret = JsonConvert.DeserializeObject<OktaUserIntrospection>(json);
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, json);
+                }
+            }
+            return ret;
+        }
+        public OktaResponseGetRefreshAccessToken GetOktaRefreshToken(String access_token)
+        {
+            OktaResponseGetRefreshAccessToken ret = new OktaResponseGetRefreshAccessToken();
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            OktaPrivateInformation OktaInformation = new OktaPrivateInformation();
+            string HeaderAuthorization = OktaInformation.BasicAuthenticacion;
+            WebClient client = new WebClient();
+            client.Headers.Add("accept", "application/json");
+            client.Headers.Add("Content-type", "application/x-www-form-urlencoded");
+            client.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+            client.Headers.Add("Accept", "*/*");
+            String redirectUri = OktaInformation.redirectURL;
+            redirectUri = OktaInformation.redirectURL;
+            redirectUri = redirectUri.Replace("/", "%2F")
+                .Replace(":", "%3A")
+                .Replace("?", "%3F")
+                .Replace("&", "%26");
+            var baseAddress = OktaInformation.baseUrl + "/oauth2/v1/token";
+            var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+            http.ContentType = "application/x-www-form-urlencoded";
+            http.UserAgent = "postmanRuntime/7.24.1";
+            http.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+            http.Headers.Add("Cache-Control", "no-cache");
+            http.KeepAlive = true;
+            http.Method = "POST";
+            var postData = "grant_type=refresh_token"
+                            + "&redirect_uri=" + redirectUri
+                            + "&scope=openid"
+                            + "&refresh_token=" + access_token;
+            var data = Encoding.ASCII.GetBytes(postData);
+            http.ContentLength = data.Length;
+            http.Accept = "*/*";
+            CookieContainer cookieContainer = new CookieContainer();
+            http.CookieContainer = cookieContainer;
+            http.Referer = baseAddress;
+            http.ServicePoint.Expect100Continue = false;
+            using (var stream = http.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+                stream.Close();
+            }
+            String json;
+            var resp = http.GetResponse();
+            using (var s = resp.GetResponseStream())
+            {
+                using (var sr = new StreamReader(s))
+                {
+                    json = sr.ReadToEnd();
+                    ZTrace.WriteLineIf(ZTrace.IsInfo, "refresca el token");
+                    ret = JsonConvert.DeserializeObject<OktaResponseGetRefreshAccessToken>(json);
+                }
+            }
+            return ret;
+        }
+
+        public class StateOkta
+        {
+            public string state;
+            public DateTime expiration;
+        }
+        public static List<StateOkta> ListStatesOkta = new List<StateOkta>();
 
 
+
+    }
+
+    class OktaUserInformation
+    {
+        public String sub;
+        public string email;
+        public Boolean email_verified;
+    }
+    public class OktaUserIntrospection
+    {
+        public Boolean active;
+        public string aud;
+        public string client_id;
+        public Int64 exp;
+        public Int64 iat;
+        public string iss;
+        public string jti;
+        public string scope;
+        public string sub;
+        public string token_type;
+        public string uid;
+        public string username;
     }
 }

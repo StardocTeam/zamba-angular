@@ -71,6 +71,7 @@ namespace Zamba.Services
             return UserGroupBusiness.GetUserorGroupNamebyId((long)userid, ref IsGroup);
         }
 
+
         public List<User> GetUsersArrayList() 
         {
             List<User> lista_usuarios = new List<User>();
@@ -84,9 +85,20 @@ namespace Zamba.Services
             return lista_usuarios;
         }
 
-       
+        public IUser GetUserByPeopleId(String name)
+        {
+            return UserBusiness.GetUserByPeopleId(name);
+        }
 
-      
+        public IUser GetUserByname(String name, Boolean UseCache)
+        {
+            return UserBusiness.GetUserByname(name, UseCache);
+        }
+
+        public IUser GetUserByMail(String mail, Boolean UseCache)
+        {
+            return UserBusiness.GetUserByMail(mail, UseCache);
+        }
 
         public void SaveAction(Int64 objectid,ObjectTypes ObjectTypes, RightsType ActionType,string S_Object_ID)
         {            

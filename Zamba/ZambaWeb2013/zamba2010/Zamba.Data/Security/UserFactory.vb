@@ -438,6 +438,49 @@ Public Class UserFactory
         Return CurrentUser
     End Function
 
+    Public Shared Function GetUserByMail(ByVal UserMail As String) As IUser
+        Dim ds As DataSet = Nothing
+        Try
+            UserMail = Replace(UserMail, "'", "")
+            UserMail = Replace(UserMail, """", "")
+            Dim strselect As String = "Select * from usrtable where lower(correo) = '" & UserMail.ToLower() & "'"
+            ds = Server.Con.ExecuteDataset(CommandType.Text, strselect)
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+        Dim CurrentUser As IUser = Nothing
+        If (IsNothing(ds) OrElse ds.Tables.Count = 0 OrElse ds.Tables(0).Rows.Count = 0) Then
+            CurrentUser = Nothing
+        Else
+            CurrentUser = BuildUser(ds.Tables(0).Rows(0))
+        End If
+        If Not IsNothing(CurrentUser) Then
+            CurrentUser.eMail = Mail.FillUserMailConfigByRef(CurrentUser.ID)
+        End If
+        Return CurrentUser
+    End Function
+
+    Public Shared Function GetUserByPeopeId(ByVal PeopeID As String) As IUser
+        Dim ds As DataSet = Nothing
+        Try
+            PeopeID = Replace(PeopeID, "'", "")
+            PeopeID = Replace(PeopeID, """", "")
+            Dim strselect As String = "select usrtable.* from doc_i204182 INNER JOIN usrtable on doc_i204182.I1354 = usrtable.ID where doc_i204182.i204277='" & PeopeID & "'"
+            ds = Server.Con.ExecuteDataset(CommandType.Text, strselect)
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+        Dim CurrentUser As IUser = Nothing
+        If (IsNothing(ds) OrElse ds.Tables.Count = 0 OrElse ds.Tables(0).Rows.Count = 0) Then
+            CurrentUser = Nothing
+        Else
+            CurrentUser = BuildUser(ds.Tables(0).Rows(0))
+        End If
+        If Not IsNothing(CurrentUser) Then
+            CurrentUser.eMail = Mail.FillUserMailConfigByRef(CurrentUser.ID)
+        End If
+        Return CurrentUser
+    End Function
 
     Public Shared Function GetUserID(ByVal name As String) As Int32
         'TODO Store "SPGetUserID"

@@ -112,6 +112,50 @@ Public Class UserBusiness
 
         Return user
     End Function
+
+    Public Function GetUserByPeopleId(ByVal PeopleId As String) As IUser
+        SyncLock Cache.UsersAndGroups.hsUserTable
+            Dim usr As IUser = UserFactory.GetUserByPeopeId(PeopleId)
+            'Comento esta llamada porque ya se hace en el GetUserByName
+            'UserBusiness.Mail.FillUserMailConfig(usr)
+            If Not IsNothing(usr) Then
+                Dim UserGroupBusiness As New UserGroupBusiness
+                usr.Groups = UserGroupBusiness.getUserGroups(usr.ID)
+                UserGroupBusiness = Nothing
+                SyncLock Cache.UsersAndGroups.hsUsersNames.SyncRoot
+                    If Not Cache.UsersAndGroups.hsUserTable.ContainsKey(usr.ID) Then
+                        Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
+                    End If
+                End SyncLock
+            End If
+            Return usr
+        End SyncLock
+    End Function
+
+    Public Function GetUserByMail(ByVal mail As String, UseCache As Boolean) As IUser
+        SyncLock Cache.UsersAndGroups.hsUserTable
+            If UseCache Then
+                For Each u As IUser In Cache.UsersAndGroups.hsUserTable.Values
+                    If String.Compare(u.eMail.Mail, mail, True) = 0 Then
+                        Return u
+                    End If
+                Next
+            End If
+            Dim usr As IUser = UserFactory.GetUserByMail(mail)
+            If Not IsNothing(usr) Then
+                Dim UserGroupBusiness As New UserGroupBusiness
+                usr.Groups = UserGroupBusiness.getUserGroups(usr.ID)
+                UserGroupBusiness = Nothing
+                SyncLock Cache.UsersAndGroups.hsUsersNames.SyncRoot
+                    If Not Cache.UsersAndGroups.hsUserTable.ContainsKey(usr.ID) Then
+                        Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
+                    End If
+                End SyncLock
+            End If
+            Return usr
+        End SyncLock
+    End Function
+
     ''' <summary>
     ''' Devuelve un usuario por su nombre
     ''' </summary>
@@ -1194,6 +1238,14 @@ Public Class UserBusiness
         End Try
     End Function
 
+    Public Function setValueLastUser(ByVal ObjectId As Int64, ByVal ObjectType As ObjectTypes, ByVal ActionType As RightsType, Optional ByVal S_Object_ID As String = "", Optional ByVal _userid As Int32 = 0) As Boolean
+        Try
+            UserPreferences.setValueLastUser("LastUserAction", S_Object_ID, UPSections.UserPreferences, _userid)
+            Return False
+        Catch ex As Exception
+            ZClass.raiseerror(ex)
+        End Try
+    End Function
 
     Public Function GetAssociateGridColumnsRight(groupOrUserID As Int64, DocTypeID As Int64, DocTypeParentID As Int64, column As String, withCache As Boolean) As Boolean
         Try

@@ -50,7 +50,7 @@ namespace ZambaWeb.RestApi.Controllers
                     tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
                     connectionId = tokenString.SelectToken(@"connectionId").Value<string>(),
                     userName = user.Name,
-                    UserId = user.ID.ToString()
+                    userid = user.ID
                 };
                 user.ConnectionId = int.Parse(tI.connectionId);
                 return UB.ValidateLogIn(user, ClientType.WebApi);

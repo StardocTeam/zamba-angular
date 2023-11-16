@@ -213,6 +213,21 @@ Partial Public Class UserPreferences
         End Try
     End Sub
 
+    Public Shared Sub setValueLastUser(ByVal name As String, ByVal valor As String, ByVal Section As UPSections, ByVal userId As Long)
+        Try
+            UserPreferencesFactory.setValueDB(name, valor, Section, userId)
+            SyncLock Cache.UsersAndGroups.hUserPreferencesByUserIdAndName.SyncRoot
+                If Cache.UsersAndGroups.hUserPreferencesByUserIdAndName.ContainsKey(userId & "-" & name & "-" & Section) Then
+                    Cache.UsersAndGroups.hUserPreferencesByUserIdAndName(userId & "-" & name & "-" & Section) = valor
+                Else
+                    Cache.UsersAndGroups.hUserPreferencesByUserIdAndName.Add(userId & "-" & name & "-" & Section, valor)
+                End If
+            End SyncLock
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+        End Try
+    End Sub
+
     Public Sub setEspecificUserValue(ByVal name As String, ByVal valor As String, ByVal Section As UPSections, UserId As Int64)
         Try
             UserPreferencesFactory.setValueDB(name, valor, Section, UserId)
