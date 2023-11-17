@@ -531,9 +531,9 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         {
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuted'");
 
-            AddHeaderCSP(ref actionExecutedContext);
+            //AddHeaderCSP(ref actionExecutedContext);
             HttpResponseMessage r = actionExecutedContext.Response;
-            r.Headers.Remove("Server");
+            //r.Headers.Remove("Server");
             actionExecutedContext.Response = r;
             base.OnActionExecuted(actionExecutedContext);
         }

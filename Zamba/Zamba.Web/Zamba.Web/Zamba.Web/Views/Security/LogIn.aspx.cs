@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Web.Configuration;
 using System.Web.Security;
 using System.Web.UI.HtmlControls;
@@ -894,7 +895,7 @@ public partial class Login : System.Web.UI.Page
                                     {
                                         ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                                         ti = new TokenInfo();
-                                        ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                         ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                         ti.refreshToken = "";
                                         ti.useRefreshTokens = false;
@@ -904,7 +905,7 @@ public partial class Login : System.Web.UI.Page
                                 else
                                 {
                                     ti = new TokenInfo();
-                                    ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                     ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                     ti.refreshToken = "";
                                     ti.useRefreshTokens = false;
@@ -916,7 +917,7 @@ public partial class Login : System.Web.UI.Page
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                                 ti = new TokenInfo();
-                                ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                 ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                 ti.refreshToken = "";
                                 ti.useRefreshTokens = false;
@@ -1002,7 +1003,7 @@ public partial class Login : System.Web.UI.Page
                                         ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
 
                                         ti = new TokenInfo();
-                                        ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                         ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                         ti.refreshToken = "";
                                         ti.useRefreshTokens = false;
@@ -1013,7 +1014,7 @@ public partial class Login : System.Web.UI.Page
                                 else
                                 {
                                     ti = new TokenInfo();
-                                    ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                     ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                     ti.refreshToken = "";
                                     ti.useRefreshTokens = false;
@@ -1026,7 +1027,7 @@ public partial class Login : System.Web.UI.Page
 
                                 ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                                 ti = new TokenInfo();
-                                ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                 ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                 ti.refreshToken = "";
                                 ti.useRefreshTokens = false;
@@ -1080,7 +1081,7 @@ public partial class Login : System.Web.UI.Page
                                     {
                                         ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                                         ti = new TokenInfo();
-                                        ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                         ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                         ti.refreshToken = "";
                                         ti.useRefreshTokens = false;
@@ -1090,7 +1091,7 @@ public partial class Login : System.Web.UI.Page
                                 else
                                 {
                                     ti = new TokenInfo();
-                                    ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                     ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                     ti.refreshToken = "";
                                     ti.useRefreshTokens = false;
@@ -1102,7 +1103,7 @@ public partial class Login : System.Web.UI.Page
                             {
                                 ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                                 ti = new TokenInfo();
-                                ti.userid = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                 ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                 ti.refreshToken = "";
                                 ti.useRefreshTokens = false;

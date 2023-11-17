@@ -18,17 +18,17 @@ $(document).ready(function (n) {
         IniciarOKTA();
 });
 function IniciarOKTA() {
-    
+
     //$("#mensajeLegal").text(mensajeLegal);
     $("#ingresar").hide();
     ObtenerConfiguracionOKTA();
     Autenticar();
-    
+
 
 }
 
 function Logout() {
-    
+
     var authClient = new OktaAuth({
         url: oktaInformation.baseUrl,
         clientId: oktaInformation.clientId,
@@ -59,8 +59,8 @@ function ObtenerConfiguracionOKTA() {
             ret = _error;
         }
     });
-    
-    
+
+
 }
 function MostrarEstado(texto) {
     $("#estado").text(texto);
@@ -115,7 +115,7 @@ function Autenticar() {
 function LoginWeb(userid, token) {
     var getUrl = window.location;
     var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
-
+    var ret = 0;
     $.ajax({
         "async": false,
         "crossDomain": true,
@@ -125,13 +125,15 @@ function LoginWeb(userid, token) {
             "cache-control": "no-cache"
         },
         "success": function (response) {
-
+            var connId = response.getElementsByTagName("long")[0].innerHTML;
+            ret = connId;
         }
         ,
         "error": function (data, status, headers, config) {
-
+            ret = 0;
         }
     });
+    return ret;
 }
 function ValidarToken(access_token, id_token, code) {
     MostrarEstado("Autenticando...")
@@ -143,7 +145,14 @@ function ValidarToken(access_token, id_token, code) {
         contentType: "application/json; charset=utf-8",
         async: false,
         success: function success(response) {
+
             var zssToken = JSON.parse(response).tokenInfo.token;
+            var tokenInfo = JSON.parse(response).tokenInfo;
+            var connId = LoginWeb(tokenInfo.UserId, tokenInfo.token);
+            if (connId == 0) {
+                MostrarEstado("Máximo de licencias conectadas, contáctese con su soporte técnico para adquirir nuevas licencias....");
+                return;
+            }
             if (zssToken == undefined || zssToken == null) Autenticar(); else {
                 var tokenInfo = JSON.parse(response);
 
@@ -155,29 +164,31 @@ function ValidarToken(access_token, id_token, code) {
                     localStorage.setItem('authorizationData', JSON.stringify({
                         token: tokenInfo.tokenInfo.token,
                         userName: tokenInfo.tokenInfo.userName,
+                        tokenExpire: tokenInfo.tokenInfo.tokenExpire,
                         refreshToken: tokenInfo.tokenInfo.refreshToken,
                         useRefreshTokens: tokenInfo.tokenInfo.useRefreshTokens,
                         generateDate: new Date(),
-                        UserId: tokenInfo.tokenInfo.userid,
+                        UserId: tokenInfo.tokenInfo.UserId,
                         oktaAccessToken: tokenInfo.tokenInfo.oktaAccessToken,
                         oktaIdToken: tokenInfo.tokenInfo.oktaIdToken,
-                        oktaRedirectLogout: tokenInfo.tokenInfo.oktaRedirectLogout
+                        oktaRedirectLogout: tokenInfo.tokenInfo.oktaRedirectLogout,
+                        connectionId: connId
                     }));
 
                     UrlRedirect = tokenInfo.UrlRedirect;
+                    localStorage.setItem('connId', connId);
+                    localStorage.setItem('userId', tokenInfo.tokenInfo.userName);
                 }
             }
 
-            LoginWeb(tokenInfo.tokenInfo.userid, tokenInfo.tokenInfo.token);
+
             MostrarEstado("Ingresando a Zamba...");
 
             if (returnUrl == "null" || returnUrl == "" || returnUrl == null) {
-                /*window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token.substring(0, 180);*/
-                window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token;
+                window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.UserId + "&token=" + tokenInfo.tokenInfo.token;
             } else {
                 localStorage.removeItem("returnUrl");
-                /*window.location.href = location.origin.trim() + returnUrl + "&userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token.substring(0, 180);*/
-                window.location.href = location.origin.trim() + returnUrl + "&userid=" + tokenInfo.tokenInfo.userid + "&token=" + tokenInfo.tokenInfo.token;
+                window.location.href = location.origin.trim() + returnUrl + "&userid=" + tokenInfo.tokenInfo.UserId + "&token=" + tokenInfo.tokenInfo.token;
             }
         },
         error: function error(_error2) {
@@ -188,23 +199,23 @@ function ValidarToken(access_token, id_token, code) {
 }
 function GetIsMultipleSesion() {
     ZambaWebRestApiURL = location.origin.trim() + getValueFromWebConfig("RestApiUrl") + "/api";
-    serviceBaseAccount = ZambaWebRestApiURL + "/Account/";    
+    serviceBaseAccount = ZambaWebRestApiURL + "/Account/";
     $.ajax({
         "async": false,
         "crossDomain": true,
         "url": serviceBaseAccount + "GetIsMultipleSesion",
-        "method": "GET",        
+        "method": "GET",
         "success": function (response) {
             IsMultipleSesion = response;
             if (IsMultipleSesion) {
-                $("#ZambaAuthentication").css('display','flex');                
+                $("#ZambaAuthentication").css('display', 'flex');
             }
             else
                 $("#ZambaAuthentication").css('display', 'none');
         }
         ,
         "error": function (data, status, headers, config) {
-            
+
         }
     })
 }

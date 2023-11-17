@@ -98,12 +98,11 @@ function LoginByGuid(userid, guid, redirectUrl) {
                         refreshToken: tokenInfo.refreshToken,
                         useRefreshTokens: tokenInfo.useRefreshTokens,
                         generateDate: new Date(),
-                        UserId: tokenInfo.userid
+                        UserId: tokenInfo.Userid
                     }));
                 }
             }
-            /*window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token.substring(0, 180);*/
-            window.location.href = redirectUrl + "userid=" + tokenInfo.userid + "&token=" + tokenInfo.token;
+            window.location.href = redirectUrl + "userid=" + tokenInfo.UserId + "&token=" + tokenInfo.token;
         },
         error: function (error) {
             ret = error

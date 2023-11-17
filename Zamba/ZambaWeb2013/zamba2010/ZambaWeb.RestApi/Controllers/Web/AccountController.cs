@@ -96,7 +96,7 @@ namespace ZambaWeb.RestApi.Controllers
                     tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
                     connectionId = tokenString.SelectToken(@"connectionId").Value<string>(),
                     userName = user.Name,
-                    userid = user.ID
+                    UserId = user.ID
                 };
                 user.ConnectionId = int.Parse(tI.connectionId);
                 UserPreferences UP = new UserPreferences();
@@ -1130,6 +1130,23 @@ namespace ZambaWeb.RestApi.Controllers
             public string clientId { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaClientId"]; } }
             public string redirectURL { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaURLRedirect"]; } }
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [OverrideAuthorization]
+        [Route("generateOKTAStateValue")]
+        public IHttpActionResult generateOKTAStateValue()
+        {
+            StateOkta itemState = new StateOkta();
+            Guid guid = Guid.NewGuid();
+            itemState.state = Guid.NewGuid().ToString();
+            itemState.expiration = DateTime.Now.AddMinutes(2);
+            ListStatesOkta.Add(itemState);
+            return Ok(itemState.state);
+        }
+
+
+
+
 
         [AllowAnonymous]
         [Route("LoginOKTA")]
@@ -1208,8 +1225,8 @@ namespace ZambaWeb.RestApi.Controllers
                     token = tokenString.SelectToken(@"access_token").Value<string>(),
                     tokenExpire = tokenString.SelectToken(@"expiredate").Value<string>(),
                     userName = user.Name,
-                    userid = user.ID,
-                    oktaUrlSignOut = "",
+                    UserId = user.ID,
+                    oktaUrlSignOut = "",                    
                     oktaIdToken = id_token,
                     oktaAccessToken = access_token,
                     oktaRedirectLogout = oktaRedirectLogout

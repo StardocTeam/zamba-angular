@@ -13,7 +13,7 @@ namespace Zamba.Core
         public string userName { get; set; }
         public string refreshToken { get; set; } = "";
         public bool useRefreshTokens { get; set; } = false;
-        public Int64 userid { get; set; }
+        public Int64 UserId { get; set; }
 
         public string connectionId { get; set; }
 
