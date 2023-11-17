@@ -18,6 +18,7 @@ using System.Configuration;
 using System.Net.Http;
 using Microsoft.Owin;
 using System.Web.Configuration;
+using Microsoft.AspNet.FriendlyUrls;
 //using Zamba.PreLoad;
 
 namespace Zamba.Web
@@ -183,11 +184,117 @@ namespace Zamba.Web
             }
             var request = HttpContext.Current.Request;
 
+            #region TODO: MultipleSession
+
+            ////Session multiple inicio
+            //Boolean multipleSession = false;
+            //Boolean LoginWithOkta = false;
+            //Boolean initSession = true;
+
+            //string authMethod = "";
+
+            //if (System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"] != null)
+            //{
+            //    multipleSession = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString());
+            //}
+
+            //if (System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"] != null)
+            //{
+            //    LoginWithOkta = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"].ToString());
+            //}
+
+            //if (System.Web.Configuration.WebConfigurationManager.AppSettings["initSession"] != null)
+            //{
+            //    initSession = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["initSession"].ToString());
+            //}
+
+            //if (!String.IsNullOrEmpty(Request.QueryString["AuthMethod"]))
+            //{
+            //    authMethod = Request.QueryString["AuthMethod"].ToString();
+            //}
+
+            //string urlPage = request.Url.Segments.Last().ToLower();
+
+            //if (urlPage == "login.aspx" ||
+            //    urlPage == "login" ||
+            //    urlPage == "oktaauthentication.html" ||
+            //    urlPage == "~/")
+            //{
+            //    string queryString = "initSession=false";
+
+            //    System.Collections.Specialized.NameValueCollection queryParameters = HttpContext.Current.Request.QueryString;
+            //    // Verificamos si hay parámetros en la consulta
+            //    if (queryParameters.HasKeys())
+            //    {
+            //        // Recorremos los parámetros de la consulta
+            //        foreach (string key in queryParameters.AllKeys)
+            //        {
+            //            string value = queryParameters[key];
+
+            //            if (key != "AuthMethod")
+            //            {
+            //                queryString += "&" + key + "=" + value;
+            //            }
+            //        }
+            //    }/*
+            //        multipleSession:    Habilita session multiple entre Okta y Zamba. 
+            //        LoginWithOkta:      Habilita la Vista de Okta.
+            //        initSession:        Es true cuando ingresa a la web.
+            //        authMethod:         Parametro de QueryString Que indica el metodo de autenticacion.
+            //        urlPage:            La web solicitada.       
+            //      */
+
+
+
+            //    //if (!String.IsNullOrEmpty(Request.QueryString["AuthMethod"]))
+            //    //{
+            //    //    string authMethod = Request.QueryString["AuthMethod"].ToString();
+
+            //    //    if (authMethod.ToLower() == "zamba")
+            //    //    {
+            //    //        Response.Redirect("~/Views/Security/Login.aspx?" + queryString);
+            //    //    }
+            //    //    else if (authMethod.ToLower() == "okta")
+            //    //    {
+            //    //        Response.Redirect("~/Views/Security/Okta/OktaAuthentication.html?" + queryString);
+            //    //    }
+            //    //}
+            //    //else
+            //    //{
+            //    //    if (!multipleSession && !initSession)
+            //    //    {
+            //    //        Response.Redirect("~/Views/Security/Login.aspx?" + queryString);
+            //    //    }
+
+            //    //    if (multipleSession && LoginWithOkta)
+            //    //    {
+            //    //        if (true)
+            //    //        {
+
+            //    //        }
+
+
+            //    //        if (urlPage == "login.aspx" ||
+            //    //            urlPage == "login" ||
+            //    //            urlPage == "~/")
+            //    //        {
+            //    //            Response.Redirect("~/Views/Security/Okta/OktaAuthentication.html?" + queryString);
+            //    //        }
+            //    //    }
+            //    //}
+            //}
+
+
+
+            ////Session multiple fin
+
+            #endregion
 
             if (HttpContext.Current.Request.HttpMethod == "GET" && Request.Url.Segments.Length == 2)
             {
                 //    Server.Transfer("views/security/Login.aspx");
                 Response.Redirect(request.Url.LocalPath.TrimEnd('/') + "/views/security/Login.aspx");
+                //Response.Redirect(request.Url.LocalPath.TrimEnd('/') + "/views/security/okta/OktaAuthentication.html");
             }
             //string param1 = request.QueryString["userId"];
 
@@ -226,10 +333,6 @@ namespace Zamba.Web
                 HttpContext.Current.Response.End();
             }
         }
-
-
-        //System.Timers.Timer checkActions;
-        //public  string ZambaVersion = "2.9.3.0";
 
         void Application_End(object sender, EventArgs e)
         {
