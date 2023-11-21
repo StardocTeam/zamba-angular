@@ -90,9 +90,9 @@ public partial class Login : System.Web.UI.Page
                 FormsAuthentication.SignOut();
                 bool.TryParse(WebConfigurationManager.AppSettings["AllowLoginZambaUser"], out _allowZambaLogin);
                 bool.TryParse(WebConfigurationManager.AppSettings["LoadWindowsUser"], out _loadWindowsUser);
-                
+
                 //Habilitar para emular AD
-               // _loadWindowsUser = true;
+                // _loadWindowsUser = true;
                 //END Emulacion AD
 
                 Session["flagIsFirstLoad"] = true;
@@ -158,7 +158,7 @@ public partial class Login : System.Web.UI.Page
                     ZTrace.WriteLineIf(ZTrace.IsInfo, $"WinUserName: {userName}");
                     IUser currentWinUser = UB.GetUserByname(userName, true);
                     var UserProperties = adlogin.GetUserProperties(userName);
-                    
+
                     if (currentWinUser != null)
                     {
 
@@ -508,7 +508,7 @@ public partial class Login : System.Web.UI.Page
                 throw new Exception("Caracteres invalidos");
             SRights sRights = new SRights();
             Zamba.Core.IUser user = sRights.ValidateLogIn(txtUserName.Value, txtPassword.Value, ClientType.Web);
-           
+
             sRights = null;
             if (user != null)
             {
@@ -536,7 +536,8 @@ public partial class Login : System.Web.UI.Page
                 ShowErrorMessage("El usuario esta bloqueado, por favor contacte a su administrador de sistema.");
                 Toastr("El usuario esta bloqueado, por favor contacte a su administrador de sistema.", "error", "loginError");
             }
-            else if (ex.Message.Contains("invalido")) {
+            else if (ex.Message.Contains("invalido"))
+            {
                 ZClass.raiseerror(ex);
                 ShowErrorMessage("Se han ingresado caracteres invalidos.");
                 Toastr("Se han ingresado caracteres invalidos.", "error", "loginErrorInvalidChars");
@@ -553,7 +554,8 @@ public partial class Login : System.Web.UI.Page
     #endregion
 
     #region Methods
-    private Boolean validateCredencialsInputChars() {
+    private Boolean validateCredencialsInputChars()
+    {
         List<char> invalidChars = new List<char>();
         char[] charList = { '<', '>', ';', '\'', '\"', '\\' };
         invalidChars.AddRange(charList);
@@ -564,7 +566,8 @@ public partial class Login : System.Web.UI.Page
             return false;
         return true;
     }
-    private void logAuthAttemps(string username) {
+    private void logAuthAttemps(string username)
+    {
         if (ConfigurationManager.AppSettings.Get("LockAccountAfterMultipleAttemps") == null)
             return;
 
@@ -585,20 +588,21 @@ public partial class Login : System.Web.UI.Page
             Dictionary<string, List<DateTime>> authAttemps = new Dictionary<string, List<DateTime>>();
             if (HttpContext.Current.Application["AuthAttemps"] != null)
             {
-               
+
                 jsonAuthAttemps = HttpContext.Current.Application["AuthAttemps"].ToString();
                 authAttemps = JsonConvert.DeserializeObject<Dictionary<string, List<DateTime>>>(jsonAuthAttemps);
 
-                authAttemps = clearExpiredAttemps(rangeMinutes , authAttemps);
+                authAttemps = clearExpiredAttemps(rangeMinutes, authAttemps);
             }
-            KeyValuePair<string,List<DateTime>> item = authAttemps.Where(a => a.Key == username).FirstOrDefault();
+            KeyValuePair<string, List<DateTime>> item = authAttemps.Where(a => a.Key == username).FirstOrDefault();
             List<DateTime> attemptDates = new List<DateTime>();
             if (item.Key == null)
             {
                 attemptDates.Add(DateTime.Now);
                 authAttemps.Add(username, attemptDates);
             }
-            else {
+            else
+            {
                 attemptDates = item.Value;
 
                 attemptDates.Add(DateTime.Now);
@@ -606,11 +610,12 @@ public partial class Login : System.Web.UI.Page
                 KeyValuePair<string, List<DateTime>> newKeyValuePair = new KeyValuePair<string, List<DateTime>>(username, attemptDates);
 
                 authAttemps.Remove(username);
-                authAttemps.Add(username,attemptDates);
+                authAttemps.Add(username, attemptDates);
 
             }
-            
-            if (maxAttemps == authAttemps[username].Count()) {
+
+            if (maxAttemps == authAttemps[username].Count())
+            {
                 authAttemps.Remove(username);
                 new UserBusiness().LockUserByName(username);
             }
@@ -620,7 +625,8 @@ public partial class Login : System.Web.UI.Page
 
     }
 
-    private Dictionary<string, List<DateTime>> clearExpiredAttemps(int rangeMinutes, Dictionary<string, List<DateTime>> authAttemps) {
+    private Dictionary<string, List<DateTime>> clearExpiredAttemps(int rangeMinutes, Dictionary<string, List<DateTime>> authAttemps)
+    {
         Dictionary<string, List<DateTime>> auxAuthAttemps = new Dictionary<string, List<DateTime>>();
         try
         {
@@ -651,7 +657,8 @@ public partial class Login : System.Web.UI.Page
             {
                 string jsonAuthAttemps = HttpContext.Current.Application["AuthAttemps"].ToString();
                 authAttemps = JsonConvert.DeserializeObject<Dictionary<string, List<DateTime>>>(jsonAuthAttemps);
-                if (authAttemps.ContainsKey(username)) {
+                if (authAttemps.ContainsKey(username))
+                {
                     authAttemps.Remove(username);
                     HttpContext.Current.Application["AuthAttemps"] = JsonConvert.SerializeObject(authAttemps);
                 }
@@ -737,7 +744,7 @@ public partial class Login : System.Web.UI.Page
                             {
                                 ADResources adlogin = new ADResources();
                                 if (bool.Parse(ZOptBusiness.GetValueOrDefault("FileUserPropertyForAd", "True")))
-                                { 
+                                {
                                     try
                                     {
                                         var UserProperties = adlogin.GetUserProperties(Zamba.Membership.MembershipHelper.CurrentUser.Name);
@@ -928,91 +935,124 @@ public partial class Login : System.Web.UI.Page
                             {
 
                                 string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
-                                
+
                                 ScriptToDoLogin += "var loginContainer = $('#loginContainer');if(loginContainer != undefined){loginContainer.hide();};";
                                 string DomainName = GetWebConfigElement("ThisDomain");
                                 FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
 
-                                var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "'); window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "'); ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + "}); "; 
+                                var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "'); window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "'); ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + "}); ";
                                 Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
-                                    
+
                             }
-                            else { 
-                            // string DomainName = hdnthisdomian.Value;
-                            ScriptToDoLogin += "var loginContainer = $('#loginContainer');if(loginContainer != undefined){loginContainer.hide();};";
-                            string DomainName = GetWebConfigElement("ThisDomain");
-                            FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
+                            else
+                            {
+                                // string DomainName = hdnthisdomian.Value;
+                                ScriptToDoLogin += "var loginContainer = $('#loginContainer');if(loginContainer != undefined){loginContainer.hide();};";
+                                string DomainName = GetWebConfigElement("ThisDomain");
+                                FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
+                                ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
                               window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "'); ExecutePostLoginActions();" +
-                           " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
-                              " " +
-                              " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; window.location.href =  rurl;", true);
+                               " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
+                                  " " +
+                                  " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; window.location.href =  rurl;", true);
                                 //                            ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @"$(document).ready(function() { var rurl = 'location.origin.trim()+ '" + dominianname + "/../../globalsearch/search/search.html?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + querystring + "'; $(location).attr('href', rurl);});", true);
                                 //Response.Redirect(Page.ClientQueryString.Replace("ReturnUrl=","") + "?User=" + Zamba.Membership.MembershipHelper.CurrentUser.ID);
                             }
                         }
                         else if (Page.ClientQueryString != "")
                         {
-                            string querystring = System.Web.HttpUtility.UrlDecode(Page.ClientQueryString.Replace("ReturnUrl=", ""));
+                            Boolean newCode = true;
 
-                            String NewQueryString = string.Empty;
-                            try
+                            if (newCode)
                             {
-                                foreach (var item in querystring.Split('&'))
+                                Boolean showModal = false;
+                                string DomainName = GetWebConfigElement("ThisDomain");
+                                string NewQueryString = "";
+                                string ReturnURL = "";
+                                foreach (String itemQueryString in Request.QueryString)
                                 {
-                                    if (!item.ToLower().Contains("user"))
+                                    if (itemQueryString.ToLower() == "showModal")
                                     {
-                                        NewQueryString += '&' + item;
+                                        showModal = Convert.ToBoolean(Request.QueryString["showModal"]) == true;
+                                    }
+                                    else if (itemQueryString.ToLower() == "returnurl")
+                                    {
+                                        ReturnURL = Request.QueryString["ReturnURL"].ToString();
+                                    }
+                                    else if (itemQueryString.ToLower() == "initsesion")
+                                    {
+
+                                    }
+                                }
+                                if (ReturnURL == "")
+                                {
+                                    ReturnURL = DomainName + "/globalsearch/search/search.html";
+                                }
+                                string queryStringFromReturnURL = "";
+                                if (ReturnURL.Split('?').Length > 1)
+                                {
+                                    queryStringFromReturnURL = ReturnURL.Split('?').Last();
+                                }
+                                String[] ExcludedKeys = { "token", "t", "u", "user", "userid", "user_id","" };
+                                foreach (String itemQueryString in queryStringFromReturnURL.Split('&'))
+                                {
+                                    String key = itemQueryString.Split('=').First();
+                                    String Value = itemQueryString.Split('=').Last();
+                                    if (!ExcludedKeys.Contains(key))
+                                    {
+                                        NewQueryString = NewQueryString + "&" + key + "=" + Value;
                                     }
                                 }
 
-                            }
-                            catch (Exception ex)
-                            {
-                                ZClass.raiseerror(ex);
-                            }
-                            if (NewQueryString.ToLower().Contains("user"))
-                            {
-                                string userstring = NewQueryString.Split('&')[0];
-                                NewQueryString.Replace(userstring, "user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID);
-                            }
 
 
-                            //string DomainName = hdnthisdomian.Value;
 
-                            string DomainName = GetWebConfigElement("ThisDomain");
-                            var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
-                            var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
-                            string token = string.Empty;
-                            string tokenstr = string.Empty;
-                            TokenInfo ti = null;
 
-                            try
-                            {
+                                var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
+                                var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
+                                string token = string.Empty;
+                                string tokenstr = string.Empty;
+                                TokenInfo ti = null;
 
-                                token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
-                                if (token.Length > 0)
+                                try
                                 {
-                                    try
-                                    {
-                                        ti = JsonConvert.DeserializeObject<TokenInfo>(token);
-                                        tokenstr = ti.token;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
 
+                                    token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
+                                    if (token.Length > 0)
+                                    {
+                                        try
+                                        {
+                                            ti = JsonConvert.DeserializeObject<TokenInfo>(token);
+                                            tokenstr = ti.token;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+
+                                            ti = new TokenInfo();
+                                            ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                            ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
+                                            ti.refreshToken = "";
+                                            ti.useRefreshTokens = false;
+                                            ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
+
+                                        }
+                                    }
+                                    else
+                                    {
                                         ti = new TokenInfo();
                                         ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                         ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
                                         ti.refreshToken = "";
                                         ti.useRefreshTokens = false;
                                         ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-
                                     }
+
                                 }
-                                else
+                                catch (Exception ex)
                                 {
+
+                                    ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
                                     ti = new TokenInfo();
                                     ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
                                     ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
@@ -1020,42 +1060,261 @@ public partial class Login : System.Web.UI.Page
                                     ti.useRefreshTokens = false;
                                     ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
                                 }
+                                FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
+                                NewQueryString += "&t=" + ti.token + "&user=" + ti.UserId; 
+                                if (NewQueryString.StartsWith("&"))
+                                    NewQueryString = NewQueryString.Substring(1, NewQueryString.Length - 1);
 
-                            }
-                            catch (Exception ex)
-                            {
-
-                                ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
-                                ti = new TokenInfo();
-                                ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
-                                ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
-                                ti.refreshToken = "";
-                                ti.useRefreshTokens = false;
-                                ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
-                            }
-                            FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-
-                            String url = NewQueryString + "&t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID;
-
-                            if (url.StartsWith("&")) url = url.Substring(1, url.Length - 1);
-
-                            if (Convert.ToBoolean(Request.QueryString["showModal"]) == true)
-                            {
-                                string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
-
-                                var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + " }); ";
-                                Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
-
-                            }
-                            else {
-                                ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
+                                if (showModal)
+                                {
+                                    string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
+                                    var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + " }); ";
+                                    Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
+                                }
+                                else
+                                    //{
+                                    //    if (!String.IsNullOrEmpty(returnURL))
+                                    //    {
+                                    ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
                              window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');  ExecutePostLoginActions();" +
-                               " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
-                                  "  " + " var rurl = location.origin.trim()+ '" + url + "'; window.location.href =  rurl;", true);
-                            }
+                                   " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
+                                      "  " + " var rurl = location.origin.trim()+ '" + ReturnURL + "?" + NewQueryString + "'; window.location.href =  rurl;", true);
+                                //}
+                                //       else
+                                //       {
+                                //           ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
+                                //window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');  ExecutePostLoginActions();" +
+                                //          " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
+                                //             "  " + " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?+ " + url + "'; window.location.href =  rurl;", true);
+                                //       }
+                                //}
 
-                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            }
+                            else
+                            {
+                                ///////////////////////////////// // desde aqui //////////////////////////////////////////////////////
+                                string returnURL = "";
+                                Boolean ModalSesion = false;
+                                foreach (var item in Page.ClientQueryString.Split('&'))
+                                {
+                                    if (item.ToLower().StartsWith("returnurl"))
+                                    {
+                                        returnURL = System.Web.HttpUtility.UrlDecode(item.Split('=').Last());
+                                    }
+                                    if (item.ToLower().StartsWith("showModal"))
+                                    {
+                                        ModalSesion = Convert.ToBoolean(Request.QueryString["showModal"]) == true;
+                                    }
+                                }
+                                string querystring = System.Web.HttpUtility.UrlDecode(Page.ClientQueryString.Replace("ReturnUrl=", ""));
+
+                                String NewQueryString = string.Empty;
+                                try
+                                {
+                                    foreach (var item in querystring.Split('&'))
+                                    {
+                                        if (!item.ToLower().Contains("user") && !item.ToLower().Contains("initsession") && !item.ToLower().Contains("logout"))
+                                        {
+                                            NewQueryString += '&' + item;
+                                        }
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    ZClass.raiseerror(ex);
+                                }
+                                if (NewQueryString.ToLower().Contains("user"))
+                                {
+                                    string userstring = NewQueryString.Split('&')[0];
+                                    NewQueryString.Replace(userstring, "user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID);
+                                }
+
+
+                                //string DomainName = hdnthisdomian.Value;
+
+                                string DomainName = GetWebConfigElement("ThisDomain");
+                                var connectionid = Zamba.Membership.MembershipHelper.CurrentUser.ConnectionId.ToString();
+                                var userid = Zamba.Membership.MembershipHelper.CurrentUser.ID.ToString();
+                                string token = string.Empty;
+                                string tokenstr = string.Empty;
+                                TokenInfo ti = null;
+
+                                try
+                                {
+
+                                    token = UserToken.GetBearerToken(Zamba.Membership.MembershipHelper.CurrentUser.Name, Zamba.Membership.MembershipHelper.CurrentUser.Password, HttpContext.Current.Request.UserHostAddress.Replace("::1", "127.0.0.1"), Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + ConfigurationManager.AppSettings.GetValues("RestApiUrl").FirstOrDefault());
+                                    if (token.Length > 0)
+                                    {
+                                        try
+                                        {
+                                            ti = JsonConvert.DeserializeObject<TokenInfo>(token);
+                                            tokenstr = ti.token;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+
+                                            ti = new TokenInfo();
+                                            ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                            ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
+                                            ti.refreshToken = "";
+                                            ti.useRefreshTokens = false;
+                                            ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ti = new TokenInfo();
+                                        ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                        ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
+                                        ti.refreshToken = "";
+                                        ti.useRefreshTokens = false;
+                                        ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+
+                                    ZTrace.WriteLineIf(ZTrace.IsError, ex.ToString());
+                                    ti = new TokenInfo();
+                                    ti.UserId = Zamba.Membership.MembershipHelper.CurrentUser.ID;
+                                    ti.userName = Zamba.Membership.MembershipHelper.CurrentUser.Name;
+                                    ti.refreshToken = "";
+                                    ti.useRefreshTokens = false;
+                                    ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
+                                }
+                                FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
+
+                                String url = NewQueryString + "&t=" + tokenstr + "&user=" + Zamba.Membership.MembershipHelper.CurrentUser.ID;
+
+                                if (url.StartsWith("&"))
+                                    url = url.Substring(1, url.Length - 1);
+
+                                if (ModalSesion)
+                                {
+                                    string isReloadWeb = Convert.ToBoolean(Request.QueryString["reloadLogin"]) == true ? "parent.location.reload();" : "CloseModalLogin();";
+                                    var script = "$(document).ready(function(){window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');ExecutePostLoginActions(); " + " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "'); " + isReloadWeb + " }); ";
+                                    Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
+                                }
+                                else
+                                {
+                                    if (!String.IsNullOrEmpty(returnURL))
+                                    {
+                                        ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
+                             window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');  ExecutePostLoginActions();" +
+                                       " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
+                                          "  " + " var rurl = location.origin.trim()+ '" + url + "'; window.location.href =  rurl;", true);
+                                    }
+                                    else
+                                    {
+                                        ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", @" 
+                             window.localStorage.removeItem('ConnId'); window.localStorage.setItem('ConnId', '" + connectionid + "');  window.localStorage.removeItem('UserId'); window.localStorage.setItem('UserId', '" + userid + "');  ExecutePostLoginActions();" +
+                                       " window.localStorage.removeItem('authorizationData'); window.localStorage.setItem('authorizationData', '" + token + "');" +
+                                          "  " + " var rurl = location.origin.trim()+ '" + DomainName + "/globalsearch/search/search.html?+ " + url + "'; window.location.href =  rurl;", true);
+                                    }
+                                }
+
+
+                            }
                         }
+                        //////////////////////////////////////// hasta aqui //////////////////////////////////////// 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         else
                         {
 
@@ -1122,7 +1381,8 @@ public partial class Login : System.Web.UI.Page
                                 Page.ClientScript.RegisterStartupScript(this.GetType(), "showModalLogin", script, true);
 
                             }
-                            else {
+                            else
+                            {
 
                                 FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
                                 ScriptManager.RegisterClientScriptBlock(Page, typeof(Page), "OpenRequestURL", ScriptToDoLogin + @"    
@@ -1175,7 +1435,7 @@ public partial class Login : System.Web.UI.Page
     {
         lblError.InnerText = error;
         lblError.Visible = true;
-        ScriptManager.RegisterClientScriptBlock(this, GetType(),"hideSpinnerLogin", "window.onload = function(){ hideSpinnerLogin();}",true);
+        ScriptManager.RegisterClientScriptBlock(this, GetType(), "hideSpinnerLogin", "window.onload = function(){ hideSpinnerLogin();}", true);
     }
     private bool DoConsumeLicense(Boolean blnWindowsLogin, string userName, Int64 userId, int connectionId)
     {
@@ -1338,7 +1598,7 @@ public partial class Login : System.Web.UI.Page
         StringBuilder SB = new StringBuilder();
 
         SB.Append("<script type='text/javascript'>");
-        SB.Append("toastr."+ toastrType.ToLower() + "('"+ text + "');");
+        SB.Append("toastr." + toastrType.ToLower() + "('" + text + "');");
         SB.Append("</script>");
 
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), scriptName, SB.ToString(), false);

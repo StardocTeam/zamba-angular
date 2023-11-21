@@ -186,34 +186,81 @@ namespace Zamba.Web
 
             #region TODO: MultipleSession
 
-            ////Session multiple inicio
-            //Boolean multipleSession = false;
-            //Boolean LoginWithOkta = false;
-            //Boolean initSession = true;
+            //Session multiple inicio
+            Boolean multipleSession = false;
+            Boolean LoginWithOkta = false;
+            Boolean initSession = true;
+            Boolean Logout = false;
+            string authMethod = "";
 
-            //string authMethod = "";
+            if (!String.IsNullOrEmpty(Request.QueryString["logout"]))
+            {
+                Logout = Boolean.Parse((Request.QueryString["logout"].ToString()));
+            }
 
-            //if (System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"] != null)
-            //{
-            //    multipleSession = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString());
-            //}
+            if (System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"] != null)
+            {
+                multipleSession = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString());
+            }
 
-            //if (System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"] != null)
-            //{
-            //    LoginWithOkta = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"].ToString());
-            //}
+            if (System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"] != null)
+            {
+                LoginWithOkta = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"].ToString());
+            }
 
-            //if (System.Web.Configuration.WebConfigurationManager.AppSettings["initSession"] != null)
-            //{
-            //    initSession = Boolean.Parse(System.Web.Configuration.WebConfigurationManager.AppSettings["initSession"].ToString());
-            //}
+            if (!String.IsNullOrEmpty(Request.QueryString["initSession"]))
+            {
+                initSession = Boolean.Parse((Request.QueryString["initSession"].ToString()));
+            }
 
-            //if (!String.IsNullOrEmpty(Request.QueryString["AuthMethod"]))
-            //{
-            //    authMethod = Request.QueryString["AuthMethod"].ToString();
-            //}
+            if (!String.IsNullOrEmpty(Request.QueryString["AuthMethod"]))
+            {
+                authMethod = Request.QueryString["AuthMethod"].ToString();
+            }
+            if (Logout)
+            {
+                initSession = false;
+            }
+            string urlPage = request.Url.Segments.Last().ToLower();
 
-            //string urlPage = request.Url.Segments.Last().ToLower();
+            if (urlPage == "login.aspx" ||
+                urlPage == "login" ||
+                urlPage == "oktaauthentication.html" ||
+                urlPage == "~/")
+            {
+                if (initSession)
+                {
+                    if (multipleSession)
+                    {
+                        if (urlPage != "oktaauthentication.html")
+                        {
+                            Response.Redirect("~/Views/Security/Okta/OktaAuthentication.html?initSession=false");
+                        }
+                    }
+                    else
+                    // Solo autentiacion zamba
+                    {
+                        Response.Redirect("~/Views/Security/Login.aspx?initSession=false");
+                    }                
+                }
+                else
+                {
+                    if (multipleSession)
+                    {
+
+                    }
+                    else
+                    {
+                        if(urlPage == "oktaauthentication.html")
+                        {
+                            Response.Redirect("~/Views/Security/Login.aspx?initSession=false");
+                        }
+                    }
+                }
+            }
+
+
+
 
             //if (urlPage == "login.aspx" ||
             //    urlPage == "login" ||
