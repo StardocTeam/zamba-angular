@@ -322,6 +322,7 @@ app.controller('sidebarCtrl', function ($scope, $timeout, $mdSidenav, ZambaTaskS
     }
 
     $scope.Logout = function () {
+        var authMethod = localStorage.getItem("authMethod")
         try {
             $scope.OpenedTasks.forEach(function (e) {
                 e.close();
@@ -335,7 +336,14 @@ app.controller('sidebarCtrl', function ($scope, $timeout, $mdSidenav, ZambaTaskS
             showedDialog = true;
         };
         sessionStorage?.removeItem('lastmainmenuitem|' + GetUID());
-        var destinationURL = "../../views/Security/Login.aspx?ReturnUrl=" + window.location;
+
+        var destinationURL = '';
+        if (authMethod == 'OKTA') {
+            destinationURL = "../../views/Security/Okta/OktaAuthentication.html?logout=true&ReturnUrl=" + encodeURIComponent(window.location.pathname);
+        }
+        else {
+            destinationURL = "../../views/Security/Login.aspx?logout=true&ReturnUrl=" + encodeURIComponent(window.location.pathname);
+        }
         document.location = destinationURL;
     }
 

@@ -1,6 +1,7 @@
 "use strict";
 
 var logout = getUrlParameters().logout == "true";
+var initSession = getUrlParameters().initSession == "true";
 var ZambaWebRestApiURL;
 var IsMultipleSesion
 var serviceBaseAccount;
@@ -10,18 +11,25 @@ var mensajeLegal = "    Este sistema es para ser utilizado solamente por usuario
 $(document).ready(function (n) {
     $("#ZambaAuthentication").hide();
     GetIsMultipleSesion();
-    if (location.search == "" || logout) {
-        $("#ingresar").show();
-        return;
+    if (logout || !initSession) {
+        if (getUrlParameters().code == "" || getUrlParameters().code == undefined) {
+            $("#ingresar").show();
+            return;
+        }
+        else {
+            IniciarOKTA();
+            return;
+        }
+        if (getUrlParameters().code != "") {
+            IniciarOKTA();
+        }
     }
-    else
-        IniciarOKTA();
 });
 function IniciarOKTA() {
 
     //$("#mensajeLegal").text(mensajeLegal);
     $("#ingresar").hide();
-    ObtenerConfiguracionOKTA();
+    ObtenerConfiguracionOKTA();    
     Autenticar();
 
 
@@ -135,7 +143,7 @@ function LoginWeb(userid, token) {
     });
     return ret;
 }
-function ValidarToken(access_token, id_token, code) {
+function ValidarToken(access_token, id_token, code) {    
     MostrarEstado("Autenticando...")
     var returnUrl = localStorage.returnUrl;
     var UrlRedirect;
@@ -160,7 +168,8 @@ function ValidarToken(access_token, id_token, code) {
                     localStorage.setItem('OKTA', JSON.stringify({
                         id_token: id_token
                     }));
-
+                    localStorage.removeItem('authMethod');
+                    localStorage.setItem('authMethod', 'OKTA');
                     localStorage.setItem('authorizationData', JSON.stringify({
                         token: tokenInfo.tokenInfo.token,
                         userName: tokenInfo.tokenInfo.userName,

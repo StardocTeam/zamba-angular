@@ -130,6 +130,15 @@ public partial class Login
     protected global::System.Web.UI.WebControls.LinkButton btnLogin;
 
     /// <summary>
+    /// Control btnLoginWithOkta.
+    /// </summary>
+    /// <remarks>
+    /// Campo generado automáticamente.
+    /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlAnchor btnLoginWithOkta;
+
+    /// <summary>
     /// Control lblError.
     /// </summary>
     /// <remarks>

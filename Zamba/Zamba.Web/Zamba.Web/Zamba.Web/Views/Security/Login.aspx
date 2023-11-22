@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Login" EnableEventValidation="true" CodeBehind="Login.aspx.cs" ValidateRequest ="true"  %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Login" EnableEventValidation="true" CodeBehind="Login.aspx.cs" ValidateRequest="true" %>
 
 <%@ Import Namespace="System.Web.Optimization" %>
 
@@ -42,7 +42,7 @@
 
         }
 
-        
+
 
     </script>
     <div class="limiter">
@@ -95,7 +95,27 @@
                                     Ingresar
                             </asp:LinkButton>
                         </div>
+
+                        <%--<a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?view=loginOkta">Ingresar con Okta Authentication</a>--%>
                     </div>
+                    <%-- Boton iniciar sesion --%>
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?view=loginOkta">Ingresar con Okta Authentication</a>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
 
                     <%-- Etiqueta error login --%>
                     <h5 align="center">
@@ -261,7 +281,7 @@
             $('#btnLogin').css('display', 'none');
             return true;
         }
-        
+
         function isFireFox() {
             return (
                 navigator.appVersion.indexOf('Mozilla/') > 0 ||
@@ -273,16 +293,16 @@
                 navigator.userAgent.toString().indexOf('Edge/') > 0)
         }
 
-        
-            if (thisDomain == null || thisDomain == undefined) {
-                thisDomain = window.location.protocol + "//" + window.location.host  + "/" + window.location.pathname.split('/')[1];
-            }
-            if (window.domainName == undefined) {
-                $("#clientlogo").attr("src", thisDomain + "/content/images/logozamba.jpg");
-            } else {
-                $("#clientlogo").attr("src", window.location.origin + window.domainName + "/App_Themes/<a href='../../Test/MailTo/'>../../Test/MailTo/</a>Provincia/Images/LoginMain.jpg");
-            }
-        function GetPathHelp(){
+
+        if (thisDomain == null || thisDomain == undefined) {
+            thisDomain = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+        }
+        if (window.domainName == undefined) {
+            $("#clientlogo").attr("src", thisDomain + "/content/images/logozamba.jpg");
+        } else {
+            $("#clientlogo").attr("src", window.location.origin + window.domainName + "/App_Themes/<a href='../../Test/MailTo/'>../../Test/MailTo/</a>Provincia/Images/LoginMain.jpg");
+        }
+        function GetPathHelp() {
             var ret = "";
             if (window.domainName == undefined) {
                 ret = thisDomain + "/Views/Security/Help/";

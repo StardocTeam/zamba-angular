@@ -10,8 +10,8 @@
     <script src="../../../Scripts/jquery-3.1.1.min.js"></script>
     <script src="../../../Scripts/Zamba.js"></script>
     <script src="okta-auth-js.min.js" type="text/javascript"></script>
-	<script src="OktaAuthentication.js"></script>
-	<link href="OktaAuthentication.css" rel="stylesheet" />
+    <script src="OktaAuthentication.js"></script>
+    <link href="OktaAuthentication.css" rel="stylesheet" />
 </head>
 <body>
     <link rel="stylesheet" href="../../../Content/bootstrap-theme.min.css">
@@ -38,7 +38,7 @@
                 <div class="panel-body">
                     <p id="mensajeLegal" class="mensajeLegal_5">Este sistema es para ser utilizado solamente por usuarios autorizados. Toda la informaci&oacute;n contenida en los sistemas es propiedad de la Empresa y pueden ser supervisados, cifrados, le&iacute;dos, copiados o capturados y dados a conocer de alguna manera, solamente por personas autorizadas.             El uso del sistema por cualquier persona, constituye de su parte un expreso consentimiento al monitoreo, intervenci&oacute;n, grabaci&oacute;n, lectura, copia o captura y revelaci&oacute;n de tal intervenci&oacute;n.            El usuario debe saber que en la utilizaci&oacute;n del sistema no tendr&aacute; privacidad frente a los derechos de la empresa responsable del sistema.            El uso indebido o no autorizado de este sistema genera  responsabilidad para el infractor, qui&eacute;n por ello estar&aacute; sujeto al resultado de las acciones civiles y penales que la Empresa considere pertinente realizar en defensa de sus derechos y resguardo de la privacidad del sistema.            Si Usted no presta conformidad con las reglas precedentes y no est&aacute; de acuerdo con ellas, descon&eacute;ctese ahora.</p>
                     <div class="ClaseGenerica_6">
-                        <button id="ingresar" type="button"  class="ingresar_7 btn btn-success">Ingresar a zamba</button>
+                        <button id="ingresar" type="button" class="ingresar_7 btn btn-success">Ingresar a zamba</button>
                         <br />
                         <!--<a id="ZambaAuthentication" class="hide" href="Login.aspx">Autenticar con usuario de zamba</a>-->
                     </div>
@@ -47,13 +47,14 @@
         </div>
     </div>
     <div id="ZambaAuthentication" style="display:none;justify-content:flex-end;flex-direction:row;padding-right:210px;padding-top:10%">
-        <button id="" style="color:white; background-color: #337AB7   !important" type="button" onclick="window.location.href='Login.aspx?view=loginZamba'" class="btn">Autenticar con usuario de zamba</button>
+        <button id="" style="color:white; background-color: #337AB7   !important" type="button" onclick="window.location.href='../Login.aspx?initSession=false'" class="btn">Autenticar con usuario de zamba</button>
     </div>
     <style>
         body {
             background-image: url('Fondo-Okta-Zamba.png');
             background-size: cover;
         }
+
         .hide {
             display: none;
         }

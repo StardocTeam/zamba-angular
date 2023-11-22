@@ -202,8 +202,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     var _logOut = function () {
-        try {
-            debugger;
+        try {            
             _removeConnectionFromWeb();
             //_removeZzsToken();
 
