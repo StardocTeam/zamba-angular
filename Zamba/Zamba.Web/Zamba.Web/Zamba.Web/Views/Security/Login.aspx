@@ -84,95 +84,79 @@
                         </div>
                     </div>
 
-
-
-
-                    <%--ingreso--%>
+                    <%--inicio de session--%>
                     <div class="container-login100-form-btn">
                         <div class="wrap-login100-form-btn">
                             <div class="login100-form-bgbtn"></div>
-                            <asp:LinkButton runat="server" class="login100-form-btn" OnClick="btnLoginZamba_Click" ID="btnLogin" OnClientClick="return showSpinnerLogin();">
+                            <asp:LinkButton runat="server" class="login100-form-btn LoginZamba" OnClick="btnLoginZamba_Click" ID="btnLogin" OnClientClick="return showSpinnerLogin();">
                                     Ingresar
                             </asp:LinkButton>
                         </div>
-
-                        <%--<a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?view=loginOkta">Ingresar con Okta Authentication</a>--%>
-                    </div>
-                    <%-- Boton iniciar sesion --%>
-                    <div class="container-login100-form-btn">
-                        <div class="wrap-login100-form-btn">
-                            <div class="login100-form-bgbtn"></div>
-                            <a runat="server" id="btnLoginWithOkta" href="OktaAuthentication.html?view=loginOkta">Ingresar con Okta Authentication</a>
-                        </div>
-
-
                     </div>
 
-
-
-
-
-
-
-
-
-
-                    <%-- Etiqueta error login --%>
-                    <h5 align="center">
-                        <label align="center" id="lblError" runat="Server" style="color: red;"></label>
-                    </h5>
-                    <div id="spinner-box-container">
-                        <img id="z-img-spinner">
-                    </div>
-                    <div class="p-t-30">
-                        <div class="login-font-size-30-mobile" style="font-size: x-small;">Zamba Web Ver. <% =ConfigurationManager.AppSettings["ZambaVersion"].ToString() %></div>
-                        <div class="login-font-size-30-mobile" style="font-size: x-small;">Copyright© <% =DateTime.Now.ToString("yyyy") %> Stardoc Argentina - Todos los derechos reservados.</div>
+                    <%-- Boton ir a inicio de session con OKTA --%>
+                    <div class="container-login100-form-btn" onclick="goToOktaAuthentication()">
+                        <asp:Label runat="server" class="LoginWithOkta" ID="btnLoginWithOkta" >
+                            Ingresar con Okta
+                        </asp:Label>
                     </div>
 
+            <%-- Etiqueta error login --%>
+            <h5 align="center">
+                <label align="center" id="lblError" runat="Server" style="color: red;"></label>
+            </h5>
+            <div id="spinner-box-container">
+                <img id="z-img-spinner">
+            </div>
+            <div class="p-t-30">
+                <div class="login-font-size-30-mobile" style="font-size: x-small;">Zamba Web Ver. <% =ConfigurationManager.AppSettings["ZambaVersion"].ToString() %></div>
+                <div class="login-font-size-30-mobile" style="font-size: x-small;">Copyright© <% =DateTime.Now.ToString("yyyy") %> Stardoc Argentina - Todos los derechos reservados.</div>
+            </div>
 
-                    <div style="display: none">
-                        <%-- Imagen de Encabezado --%>
-                        <div class="row bannerHeader">
-                            <%--   <div class=" hidden-xs  col-md-10  cabecera-login">
+
+            <div style="display: none">
+                <%-- Imagen de Encabezado --%>
+                <div class="row bannerHeader">
+                    <%--   <div class=" hidden-xs  col-md-10  cabecera-login">
                                 </div>--%>
 
-                            <%--<div class="col-xs-offset-0 col-xs-12 col-md-12 col-md-2 cabecera-login2"></div>--%>
-                        </div>
+                    <%--<div class="col-xs-offset-0 col-xs-12 col-md-12 col-md-2 cabecera-login2"></div>--%>
+                </div>
 
 
-                        <%--                            <div class="row">
+                <%--                            <div class="row">
                                 <div id="controlMensaje" class="controlMensaje">
                                     <asp:Label ID="lblMensajeLogin" Font-Bold="false" Visible="true" runat="server" Font-Size="Small" Text="" />
                                 </div>
                             </div>--%>
 
-                        <%--Form login --%>
-                        <div id="">
-                            <div class="row">
-                                <div class=" col-xs-12 col-md-offset-4 col-md-4">
-                                    <%--input y label username--%>
-                                    <%--<div class="form-group">
+                <%--Form login --%>
+                <div id="">
+                    <div class="row">
+                        <div class=" col-xs-12 col-md-offset-4 col-md-4">
+                            <%--input y label username--%>
+                            <%--<div class="form-group">
                                             <label class="login-font-size-50-mobile" for="txtUserName" runat="server">Usuario: </label>
                                             <input type="text" runat="server" class="form-control login-font-size-25-mobile " id="txtUserName" placeholder="Usuario" />
                                             <asp:Label runat="server" Font-Bold="True" ForeColor="Red" Text=" (Requerido)" ID="RequiredFieldValidator1"
                                                 Visible="False" AssociatedControlID="txtUserName"></asp:Label>
                                         </div>--%>
-                                    <%--input y label password--%>
-                                </div>
-                                <div class=" col-xs-12 col-md-offset-4 col-md-4 ">
-                                    <%--<div class="form-group">
+                            <%--input y label password--%>
+                        </div>
+                        <div class=" col-xs-12 col-md-offset-4 col-md-4 ">
+                            <%--<div class="form-group">
                                             <label for="txtPassword" class="login-font-size-50-mobile" runat="server" id="lblPassword">Clave: </label>
                                             <input runat="server" class="form-control login-font-size-25-mobile" id="txtPassword" autocomplete="off" type="password" placeholder="Clave" />
                                             <asp:Label ForeColor="Red" Font-Bold="True" runat="server" Text=" (Requerido)" ID="RequiredFieldValidator2"
                                                 Visible="False" AssociatedControlID="txtPassword"></asp:Label>
                                         </div>--%>
-                                </div>
-                            </div>
                         </div>
+                    </div>
+                </div>
 
 
-                        <%-- Boton iniciar sesion --%>
-                        <%--                 <div class="row">
+                <%-- Boton iniciar sesion --%>
+                <%--                 <div class="row">
                                 <div class=" col-xs-9 col-md-offset-4 col-md-4 nlZambaLogin">
                                     <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile pull-right btn btn-primary boton-iniciar-sesion2" OnClick="btnLoginZamba_Click" ID="btnLogin">
                             Ingresar <span class="glyphicon glyphicon-log-in"></span>
@@ -181,45 +165,45 @@
 
                             </div>--%>
 
-                        <%-- Etiqueta error login --%>
-                        <%--                            <div class="row">
+                <%-- Etiqueta error login --%>
+                <%--                            <div class="row">
                                 <div class="form-group col-md-5 col-md-offset-6 col-xs-10">
                                     <label id="lblError" runat="Server" style="color: red;"></label>
                                 </div>
                             </div>--%>
 
-                        <div class="row">
-                            <asp:Panel ID="pnlWindowsLogin" runat="server">
-                                <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile col-xs-offset-5 btn btn-primary" OnClick="btnLoginWindows_Click" ID="btnLoginWindows">
+                <div class="row">
+                    <asp:Panel ID="pnlWindowsLogin" runat="server">
+                        <asp:LinkButton runat="server" CssClass="login-font-size-30-mobile col-xs-offset-5 btn btn-primary" OnClick="btnLoginWindows_Click" ID="btnLoginWindows">
                             Ingresar <span class="glyphicon glyphicon-log-in"></span>
-                                </asp:LinkButton>
-                            </asp:Panel>
-                        </div>
+                        </asp:LinkButton>
+                    </asp:Panel>
+                </div>
 
-                        <div class="row hidden-xs">
-                            <div class="FooterLogIn">
-                                <div class="divSlogan" style="display: none">
-                                    <p id="version" style="display: none">V.- 1.0</p>
-                                </div>
-                                &nbsp;
-                            </div>
-                            <div>
-                                <%-- <img class="pwbyzamba" src="../../Content/Images/pwbyzamba.png" alt="" />--%>
-                                <div class="hidden-xs ">
-                                    <div class="legal">
-                                        <div class="login-font-size-30-mobile">Zamba Web Ver. <% =ConfigurationManager.AppSettings["ZambaVersion"].ToString() %></div>
-                                        <div class="login-font-size-30-mobile">Copyright© <% =DateTime.Now.ToString("yyyy") %> Stardoc Argentina - Todos los derechos reservados.</div>
-                                    </div>
-                                    <br />
-                                </div>
-                            </div>
+                <div class="row hidden-xs">
+                    <div class="FooterLogIn">
+                        <div class="divSlogan" style="display: none">
+                            <p id="version" style="display: none">V.- 1.0</p>
                         </div>
-
+                        &nbsp;
                     </div>
+                    <div>
+                        <%-- <img class="pwbyzamba" src="../../Content/Images/pwbyzamba.png" alt="" />--%>
+                        <div class="hidden-xs ">
+                            <div class="legal">
+                                <div class="login-font-size-30-mobile">Zamba Web Ver. <% =ConfigurationManager.AppSettings["ZambaVersion"].ToString() %></div>
+                                <div class="login-font-size-30-mobile">Copyright© <% =DateTime.Now.ToString("yyyy") %> Stardoc Argentina - Todos los derechos reservados.</div>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
 
-                </form>
             </div>
+
+            </form>
         </div>
+    </div>
 
     </div>
 
@@ -250,6 +234,17 @@
             text-decoration: none !important;
             text-decoration: underline !important;
         }
+
+        .LoginWithOkta {
+            color: #337ab7 !important;
+            padding-top: 10px;
+        }
+
+            .LoginWithOkta:hover, .LoginWithOkta:hover {
+                text-decoration: none !important;
+                text-decoration: underline !important;
+                cursor: pointer;
+            }
     </style>
 
     <%: Scripts.Render("~/bundles/modernizr") %>
@@ -312,10 +307,9 @@
             return ret;
         }
 
-
-
-
-
+        function goToOktaAuthentication() {
+            location.href = "Okta/OktaAuthentication.html?initSession=false";
+        }
 
         function showManualUnlockedPopupsForFireFox() {
             var mensaje = "Su navegador tiene bloqueadas las ventanas emergentes. <br>Lea el <a class='manual' download='" + GetPathHelp() + "PopupsUnlockedFireFox.pdf' href='" + GetPathHelp() + "PopupsUnlockedFireFox.pdf'>manual de instrucciones</a> para solucionar el problema."

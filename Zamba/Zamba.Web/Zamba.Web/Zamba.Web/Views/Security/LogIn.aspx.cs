@@ -134,24 +134,16 @@ public partial class Login : System.Web.UI.Page
 
         bool AuhtenticationMultiple = false;
         string strAuhtenticationMultiple = ConfigurationManager.AppSettings["AllowMultipleAuthentication"].ToString();
+
         if (!String.IsNullOrEmpty(strAuhtenticationMultiple))
             AuhtenticationMultiple = Boolean.Parse(strAuhtenticationMultiple);
+
         btnLoginWithOkta.Visible = AuhtenticationMultiple;
+
         if (AuhtenticationMultiple)
         {
             btnLogin.Visible = true;
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public void btnLoginWindows_Click(object sender, EventArgs e)
@@ -1013,7 +1005,7 @@ public partial class Login : System.Web.UI.Page
                                 {
                                     queryStringFromReturnURL = ReturnURL.Split('?').Last();
                                 }
-                                String[] ExcludedKeys = { "logout","token", "t", "u", "user", "userid", "user_id","" };
+                                String[] ExcludedKeys = { "logout", "token", "t", "u", "user", "userid", "user_id", "" };
                                 foreach (String itemQueryString in queryStringFromReturnURL.Split('&'))
                                 {
                                     String key = itemQueryString.Split('=').First();
@@ -1081,7 +1073,7 @@ public partial class Login : System.Web.UI.Page
                                     ti.tokenExpire = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy HH:mm:ss");
                                 }
                                 FormsAuthentication.SetAuthCookie(Zamba.Membership.MembershipHelper.CurrentUser.Name, true);
-                                NewQueryString += "&t=" + ti.token + "&user=" + ti.UserId; 
+                                NewQueryString += "&t=" + ti.token + "&user=" + ti.UserId;
                                 if (NewQueryString.StartsWith("&"))
                                     NewQueryString = NewQueryString.Substring(1, NewQueryString.Length - 1);
 
