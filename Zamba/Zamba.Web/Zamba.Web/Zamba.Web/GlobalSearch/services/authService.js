@@ -34,6 +34,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     function connectionUserActive() {
         const UserIdService = parseInt(GetUID());
+        
         /*if (!$("#modalLogin").hasClass("in")) {*/
             if (window.localStorage.getItem('authorizationData') != null && window.localStorage.getItem('authorizationData') != "") {
                 //let userToken = JSON.parse(localStorage.getItem('authorizationData'));

@@ -983,7 +983,7 @@ public partial class Login : System.Web.UI.Page
                                 string ReturnURL = "";
                                 foreach (String itemQueryString in Request.QueryString)
                                 {
-                                    if (itemQueryString.ToLower() == "showModal")
+                                    if (itemQueryString.ToLower() == "showmodal")
                                     {
                                         showModal = Convert.ToBoolean(Request.QueryString["showModal"]) == true;
                                     }

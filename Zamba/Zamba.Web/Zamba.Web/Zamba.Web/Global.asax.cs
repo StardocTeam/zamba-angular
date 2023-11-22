@@ -190,12 +190,17 @@ namespace Zamba.Web
             Boolean multipleSession = false;
             Boolean LoginWithOkta = false;
             Boolean initSession = true;
+            Boolean showModal = true;
             Boolean Logout = false;
             string authMethod = "";
 
             if (!String.IsNullOrEmpty(Request.QueryString["logout"]))
             {
                 Logout = Boolean.Parse((Request.QueryString["logout"].ToString()));
+            }
+            if(!String.IsNullOrEmpty(Request.QueryString["showModal"]))
+            {
+                showModal = Boolean.Parse((Request.QueryString["showModal"].ToString()));
             }
 
             if (System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"] != null)
@@ -217,7 +222,7 @@ namespace Zamba.Web
             {
                 authMethod = Request.QueryString["AuthMethod"].ToString();
             }
-            if (Logout)
+            if (Logout || showModal)
             {
                 initSession = false;
             }
@@ -228,7 +233,11 @@ namespace Zamba.Web
                 urlPage == "oktaauthentication.html" ||
                 urlPage == "~/")
             {
-                if (initSession)
+                if (showModal)
+                {
+                    return;
+                }
+                else if (initSession)
                 {
                     if (multipleSession)
                     {
