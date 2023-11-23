@@ -11,6 +11,9 @@ var mensajeLegal = "    Este sistema es para ser utilizado solamente por usuario
 $(document).ready(function (n) {
     $("#ZambaAuthentication").hide();
     GetIsMultipleSesion();
+    if (getUrlParameters().showModal == "true") {
+        IniciarOKTA();
+    }
     if (logout || !initSession) {
         if (getUrlParameters().code == "" || getUrlParameters().code == undefined) {
             $("#ingresar").show();
