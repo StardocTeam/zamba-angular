@@ -5272,7 +5272,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
 
     //Valida y notifica la existencia de un error.
     function NotifyError(error) {
-        debugger;
         if (error.data != undefined && error.data != "") {
             if (error.data.Message != undefined) {
                 swal("", error.status + " " + error.statusText , "error");
@@ -5567,7 +5566,6 @@ app.controller('maincontroller', function ($scope, $attrs, $http, $compile, Enti
     $scope.currentPreviewIndex = -2;
     $scope.previewItem = function (result, index, event) {
         $scope.currentPreviewIndex = index;
-        debugger;
         //Workaround JQuery desde Search.html no cambia valor NGSelectedRow en vista si desde NG
         var $items = $("#resultsGridSearchBoxPreview>.previewListItems");
         var $active = $items.children(".resultsGridActive").index();
