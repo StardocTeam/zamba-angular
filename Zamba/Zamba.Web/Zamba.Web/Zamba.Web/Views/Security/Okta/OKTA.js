@@ -29,10 +29,18 @@ function IniciarOKTA() {
 
     //$("#mensajeLegal").text(mensajeLegal);
     $("#ingresar").hide();
-    ObtenerConfiguracionOKTA();    
+    ObtenerConfiguracionOKTA();
     Autenticar();
 
 
+}
+function closeModal(reLoadLogin) {
+    if (reLoadLogin) {
+        parent.location.reload();
+    }
+    else {
+        parent.$("#modalLogin").modal("hide");
+    }
 }
 
 function Logout() {
@@ -143,7 +151,7 @@ function LoginWeb(userid, token) {
     });
     return ret;
 }
-function ValidarToken(access_token, id_token, code) {    
+function ValidarToken(access_token, id_token, code) {
     MostrarEstado("Autenticando...")
     var returnUrl = localStorage.returnUrl;
     var UrlRedirect;
@@ -189,11 +197,27 @@ function ValidarToken(access_token, id_token, code) {
                     localStorage.setItem('userId', tokenInfo.tokenInfo.userName);
                 }
             }
-
-
             MostrarEstado("Ingresando a Zamba...");
+            var Modal = false;
+            var reLoadLogin = false;
 
-            if (returnUrl == "null" || returnUrl == "" || returnUrl == null) {
+
+
+            var state = getUrlParameters().state;
+            var splitState = state.split('_');
+            splitState.forEach(function (o) {
+                if (o == "Modal") {
+                    Modal = true;
+                }
+                if (o == "reLoadLogin") {
+                    reLoadLogin = true;
+                }
+            });
+
+            if (reLoadLogin || Modal) {
+                closeModal(reLoadLogin);
+            }
+            else if (returnUrl == "null" || returnUrl == "" || returnUrl == null) {
                 window.location.href = location.origin.trim() + UrlRedirect + "userid=" + tokenInfo.tokenInfo.UserId + "&token=" + tokenInfo.tokenInfo.token;
             } else {
                 localStorage.removeItem("returnUrl");
@@ -229,25 +253,35 @@ function GetIsMultipleSesion() {
     })
 }
 function GenerarOktaStateValue() {
-
+    var modal = false;
+    var reLoadLogin = false;
     var state;
+    if (getUrlParameters().showModal == "true") {
+        modal = true;
+    }
+    if (getUrlParameters().reloading == "true") {
+        reLoadLogin = true;
+    }
+    var genericRequest = {
+        UserId: 0,
+        Params:
+        {
+            "Modal": modal,
+            "reLoadLogin": reLoadLogin
+        }
+    };
     $.ajax({
-        "async": false,
-        "crossDomain": true,
-        "url": serviceBaseAccount + "generateOKTAStateValue",
-        "method": "POST",
-        "headers": {
-            "cache-control": "no-cache"
-        },
-        "success": function (response) {
+        type: "POST",
+        url: serviceBaseAccount + "generateOKTAStateValue",
+        contentType: 'application/json',
+        async: false,
+        data: JSON.stringify(genericRequest),
+        success: function (response) {
             state = response;
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            result = XMLHttpRequest;
         }
-        ,
-        "error": function (data, status, headers, config) {
-            MostrarEstado("Se produjo un error al autenticar (" + error_description.replace("+", " ") + ")");
-            $("#ingresar").show();
-            return "";
-        }
-    })
+    });
     return state;
 }

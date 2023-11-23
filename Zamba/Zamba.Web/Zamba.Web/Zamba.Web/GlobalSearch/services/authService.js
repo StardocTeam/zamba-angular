@@ -231,6 +231,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     function _showModalLoginInSearch(UserId, isReload) {
         var UserId = UserId == undefined || UserId == NaN ? parseInt(GetUID()) : UserId;
         var linkSrc = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1] + "/views/security/login?showModal=true&reloadLogin=" + isReload + "&userid=" + UserId;
+        var authMethod = localStorage.getItem("authMethod");
+        if (authMethod == "OKTA") {
+            linkSrc = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1] + "/views/security/Okta/OktaAuthentication.html?initSession=false&showModal=true&reloadLogin=" + isReload + "&userid=" + UserId;
+        }        
         document.getElementById('iframeModalLogin').src = linkSrc;
         $('#modalLogin').modal('show');
     }
