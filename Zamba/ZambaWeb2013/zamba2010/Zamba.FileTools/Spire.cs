@@ -26,8 +26,6 @@ using System.Threading;
 using Spire.Email;
 using System.Reflection;
 using Spire.Email.IMap;
-using MimeKit;
-using MimeKit.IO;
 
 namespace Zamba.FileTools
 {
@@ -907,119 +905,25 @@ namespace Zamba.FileTools
             }
         }
 
-        public object ConvertMSGToJSON(String msgPath, String PDFPath, bool includeAttachs)
-        {
-            try
-            {
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convirtiendo correo a objeto");
-                MailMessage miMailMessage = MailMessage.Load(msgPath);
-                MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
-                miMailPreview.body = UpdateBodyMessage(msgPath, miMailPreview);
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convercion Completada con exito.");
-                object obj_toJson = miMailPreview;
-                return obj_toJson;
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw;
-            }
-        }
-
-        private static string UpdateBodyMessage(string msgPath, MailPreview miMailPreview)
-        {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Realizando mapeo de imagenes embebidas");
-            List<ObjUUIDsDTO> keyValuePairs = new List<ObjUUIDsDTO>();
-            List<int> UUIDIndices = GetPositionsSrcFromBody(miMailPreview.body, "cid:");
-            string targetUUID = "";
-            var message = MimeEntity.Load(msgPath);
-            foreach (int item in UUIDIndices)
-            {
-                targetUUID = miMailPreview.body.Substring(item + 4, miMailPreview.body.Substring(item + 4).IndexOf("\""));
-                var targetUUIDsplitted = targetUUID.Split('@');
-                //Validacion solo para permitir UUIDs como valor.
-                if (!targetUUIDsplitted.Contains(".com"))
-                {
-                    if (!(targetUUIDsplitted.Length >= 2 || targetUUIDsplitted.First().Contains("~")))
-                    {
-                        var targetPart = FindPartByUUID(message, targetUUID);
-                        if (targetPart != null)
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Valor UUID encontrado con exito");
-                            MemoryBlockStream targetPartStream = (MemoryBlockStream)((MimePart)targetPart).Content.Stream;
-                            string Base64String = Encoding.UTF8.GetString(targetPartStream.ToArray());
-                            keyValuePairs.Add(new ObjUUIDsDTO
-                            {
-                                UUID = targetUUID,
-                                Base64String = Base64String,
-                                FileName = targetPart.ContentDisposition.FileName
-                            });
-                        }
-                        else
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Valor UUID no encontrado");
-                        }
-                    }
-                }
-            }
-            foreach (var item in keyValuePairs)
-            {
-                miMailPreview.body = miMailPreview.body.Replace("cid:" + item.UUID, "data:image/" + item.FileName + ";base64," + item.Base64String);
-            }
-            return miMailPreview.body;
-        }
-
-
-        public class ObjUUIDsDTO
-        {
-            public string UUID { get; set; }
-            public string Base64String { get; set; }
-            public string FileName { get; set; }
-        }
         /// <summary>
-        /// Obtiene la posicion del string especificado por parametro dentro del body de un mail y devuelve una lista de indices
+        /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
         /// </summary>
-        /// <param name="FullMessage"></param>
-        /// <param name="str"></param>
-        /// <returns>devuelve una lista de indices</returns>
-        private static List<int> GetPositionsSrcFromBody(string body, string str)
+        /// <param name="msgPath"></param>
+        /// <param name="PDFPath"></param>
+        /// <returns></returns>
+        public object ConvertMSGToJSON(String msgFile, String PDFPath, bool includeAttachs)
         {
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Buscando ubicacion de elementos 'IMG'...");
-            List<int> IndicesList = new List<int>();
-            int index = 0;
-            while (index != -1)
-            {
-                for (; ; index += str.Length)
-                {
-                    index = body.IndexOf(str, index);
-                    if (index == -1)
-                        break;
-                    else
-                    {
-                        IndicesList.Add(index);
-                    }
-                }
-            }
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Se encontraron " + IndicesList.Count + " ubicaciones efectivas.");
-            return IndicesList;
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
+            MailMessage miMailMessage = MailMessage.Load(msgFile, MailMessageFormat.Msg);
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
+            MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
+
+            object obj_toJson = miMailPreview;
+            return obj_toJson;
+
         }
-        static MimeEntity FindPartByUUID(MimeEntity entity, string uuid)
-        {
-            if (entity is MimePart part)
-            {
-                if (part.ContentId == uuid)
-                    return part;
-            }
-            else if (entity is Multipart multipart)
-            {
-                foreach (var subEntity in multipart)
-                {
-                    var result = FindPartByUUID(subEntity, uuid);
-                    if (result != null)
-                        return result;
-                }
-            }
-            return null;
-        }
+
 
         /// <summary>
         /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
@@ -1027,10 +931,10 @@ namespace Zamba.FileTools
         /// <param name="msgPath"></param>
         /// <param name="PDFPath"></param>
         /// <returns></returns>
-        public object ConvertMSGToJSON(Stream msgFile, String PDFPath, bool includeAttachs)
+        public object ConvertMSGToJSON(Stream msgStream, String PDFPath, bool includeAttachs)
         {
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
-            MailMessage miMailMessage = MailMessage.Load(msgFile, MailMessageFormat.Msg);
+            MailMessage miMailMessage = MailMessage.Load(msgStream, MailMessageFormat.Msg);
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
             MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
