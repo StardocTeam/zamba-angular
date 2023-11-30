@@ -1131,14 +1131,45 @@ namespace ZambaWeb.RestApi.Controllers
             public string redirectURL { get { return System.Web.Configuration.WebConfigurationManager.AppSettings["OktaURLRedirect"]; } }
         }
         [AllowAnonymous]
+        [Route("validateOktaStateValue")]
+        [OverrideAuthorization]
+        public IHttpActionResult validateOktaStateValue(String state)
+        {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "valor de lista states okta" + JsonConvert.SerializeObject(ListStatesOkta));
+            List<StateOkta> expirados = ListStatesOkta.Where(n => n.expiration < DateTime.Now).ToList();
+            foreach (StateOkta stateOkta in expirados)
+            {
+                ListStatesOkta.Remove(stateOkta);
+            }
+            StateOkta item = ListStatesOkta.Where(n => n.state == state).FirstOrDefault();
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "valor del item del state correspondiente" + JsonConvert.SerializeObject(item));
+            if (item == null)
+                return Ok(false);
+            ListStatesOkta.Remove(item);
+            if (item.expiration > DateTime.Now)
+                return Ok(true);
+            else
+                return Ok(false);
+        }
+        [AllowAnonymous]
         [HttpPost]
         [OverrideAuthorization]
         [Route("generateOKTAStateValue")]
-        public IHttpActionResult generateOKTAStateValue()
+        public IHttpActionResult generateOKTAStateValue(genericRequest paramRequest)
         {
+            Boolean Modal = bool.Parse(paramRequest.Params["Modal"]);
+            Boolean reLoadLogin = bool.Parse(paramRequest.Params["reLoadLogin"]);
             StateOkta itemState = new StateOkta();
             Guid guid = Guid.NewGuid();
             itemState.state = Guid.NewGuid().ToString();
+            if(Modal)
+            {
+                itemState.state += "_Modal";
+            }
+            if (reLoadLogin)
+            {
+                itemState.state += "_reLoadLogin";
+            }
             itemState.expiration = DateTime.Now.AddMinutes(2);
             ListStatesOkta.Add(itemState);
             return Ok(itemState.state);

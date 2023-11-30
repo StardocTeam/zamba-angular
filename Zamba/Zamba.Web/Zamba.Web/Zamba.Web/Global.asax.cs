@@ -166,7 +166,68 @@ namespace Zamba.Web
                 return false;
             }
         }
-
+        public Boolean ValidateOktaState(String state, String Domain)
+        //public Boolean ValidateOktaState(String state, string Domain)
+        {
+            if (Domain.StartsWith("https"))
+            {
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            }
+            try
+            {
+                WebClient client = new WebClient();
+                string url = Domain + System.Web.Configuration.WebConfigurationManager.AppSettings["RestApiUrl"] + "/api";
+                var baseAddress = url + "/Account/validateOktaStateValue?state=" + state;
+                var http = (HttpWebRequest)WebRequest.Create(new Uri(baseAddress));
+                http.Method = "POST";
+                http.Accept = "*/*";
+                http.ContentType = "application/x-www-form-urlencoded";
+                //CookieContainer cookieContainer = new CookieContainer();
+                http.Referer = baseAddress;
+                var postData = "";
+                var data = Encoding.ASCII.GetBytes(postData);
+                http.ContentLength = data.Length;
+                try
+                {
+                    using (var stream = http.GetRequestStream())
+                    {
+                        stream.Write(data, 0, data.Length);
+                        stream.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ZTrace.WriteLineIf(ZTrace.IsError, "Ocurrio un error en GetRequestStream(); " + ex.Message.ToString());
+                    throw ex;
+                }
+                try
+                {
+                    using (var s = http.GetResponse().GetResponseStream())
+                    {
+                        using (var sr = new StreamReader(s))
+                        {
+                            var json = sr.ReadToEnd();
+                            if (json == "true")
+                                return true;
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en GetResponseStream, fallo el metodo validateOktaStateValue");
+                    throw ex;
+                }
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "error en global.asax, fallo el metodo ValidateOktaState" + ex.Message);
+                return false;
+            }
+        }
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
 
@@ -190,12 +251,33 @@ namespace Zamba.Web
             Boolean multipleSession = false;
             Boolean LoginWithOkta = false;
             Boolean initSession = true;
+            Boolean showModal = false;
             Boolean Logout = false;
+
+            string code = Request.QueryString["code"];
+            string state = Request.QueryString["state"];
+
+            if (!String.IsNullOrEmpty(code))
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "ValidateOktaAuthenticacionHTML - ejecuta ValidateOktaState porque CODE tiene un valor");
+                if (!ValidateOktaState(state, Request.Url.Scheme + "://" + Request.Url.Authority + "/"))
+                {
+                    Response.StatusCode = 401;
+                    return;
+                }
+            }
+
+
+
             string authMethod = "";
 
             if (!String.IsNullOrEmpty(Request.QueryString["logout"]))
             {
                 Logout = Boolean.Parse((Request.QueryString["logout"].ToString()));
+            }
+            if(!String.IsNullOrEmpty(Request.QueryString["showModal"]))
+            {
+                showModal = Boolean.Parse((Request.QueryString["showModal"].ToString()));
             }
 
             if (System.Web.Configuration.WebConfigurationManager.AppSettings["AllowMultipleAuthentication"] != null)
@@ -217,7 +299,7 @@ namespace Zamba.Web
             {
                 authMethod = Request.QueryString["AuthMethod"].ToString();
             }
-            if (Logout)
+            if (Logout || showModal)
             {
                 initSession = false;
             }
@@ -228,7 +310,11 @@ namespace Zamba.Web
                 urlPage == "oktaauthentication.html" ||
                 urlPage == "~/")
             {
-                if (initSession)
+                if (showModal)
+                {
+                    return;
+                }
+                else if (initSession)
                 {
                     if (multipleSession)
                     {
