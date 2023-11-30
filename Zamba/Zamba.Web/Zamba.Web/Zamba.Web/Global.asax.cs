@@ -251,7 +251,7 @@ namespace Zamba.Web
             Boolean multipleSession = false;
             Boolean LoginWithOkta = false;
             Boolean initSession = true;
-            Boolean showModal = true;
+            Boolean showModal = false;
             Boolean Logout = false;
 
             string code = Request.QueryString["code"];
