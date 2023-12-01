@@ -32,6 +32,28 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand.ToString());
         }
 
+        public DataTable GetDepartment()
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.Departments");
+
+            DataSet DSResult = new DataSet("Deparments");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
+        public DataTable GetRol()
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.Rol");
+
+            DataSet DSResult = new DataSet("Rol");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
         public class DashboarUserDTO {
 
             public int? EnterpriseUserId { get; set; }
