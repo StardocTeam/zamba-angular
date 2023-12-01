@@ -32,6 +32,58 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand.ToString());
         }
 
+        public DataTable GetUserDashboard(string Username, string Email)
+        {
+            DataSet dataSet = new DataSet();
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT (companyname,firstname,lastname,phonenumber,username,email,password,department_id,rol_id,isActive)");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE username = '" + Username + "' and email = '" + Email);
+
+            dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+
+            return dataSet.Tables[0];
+
+        }
+
+        public Validator UsernameOrEmailAlreadyTaken(string Username, string Email) {
+
+            var validator = new Validator(); 
+
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * ");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE username = '" + Username);
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            if (dataSet != null && ((DataSet)dataSet).Tables[0].Rows.Count == 0)
+                validator.usernameIsTaken = true;
+
+
+            dataSet = new DataSet();
+            sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * ");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE email = '" + Email);
+
+            dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            if (dataSet != null && ((DataSet)dataSet).Tables[0].Rows.Count == 0)
+                validator.emailIsTaken = true;
+
+            return validator;
+        }
+
+        public void ActivateUser(string Username, string Email)
+        {
+
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("UPDATE zambabpm_RRHH.DashboardUsers ");
+            sqlCommand.AppendLine("set isActive = 1 ");
+            sqlCommand.AppendLine("WHERE username = '" + Username + "' and email = '" + Email);
+
+            Server.get_Con().ExecuteNonQuery(CommandType.Text, sqlCommand.ToString());
+        }
+
         public class DashboarUserDTO {
 
             public int? EnterpriseUserId { get; set; }
@@ -79,6 +131,13 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 this.isActive = isActive;
             }
 
+        }
+
+        public class Validator {
+
+            public bool usernameIsTaken { get; set; }
+
+            public bool emailIsTaken { get; set; }
         }
 
     }
