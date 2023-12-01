@@ -33,7 +33,14 @@ namespace ZambaWeb.RestApi.Controllers
                 Int32.TryParse(request.Params["department"], out int department);
                 Int32.TryParse(request.Params["rol"], out int rol);
 
-                DashboarUserDTO newUser = new DashboarUserDTO(0, request.Params["companyName"], request.Params["name"], request.Params["lastname"], phoneNumber, request.Params["mail"], request.Params["password"], department, rol, false);
+                DashboarUserDTO newUser = new DashboarUserDTO(0,request.Params["companyName"],
+                    request.Params["name"],
+                    request.Params["lastname"],
+                    phoneNumber,request.Params["username"],
+                    request.Params["mail"],
+                    request.Params["password"],
+                    department,rol,false);
+
                 dashboardDatabase.RegisterUser(newUser);
 
                 return Ok();
