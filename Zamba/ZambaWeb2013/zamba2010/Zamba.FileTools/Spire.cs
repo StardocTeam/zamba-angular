@@ -881,14 +881,13 @@ namespace Zamba.FileTools
             }
         }
 
-
         /// <summary>
         /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
         /// </summary>
         /// <param name="msgPath"></param>
         /// <param name="PDFPath"></param>
         /// <returns></returns>
-        public object ConvertMSGToJSON(String msgPath, String PDFPath, bool includeAttachs)
+        public object ConvertMSGToHTML(String msgPath, String PDFPath, bool includeAttachs)
         {
             try
             {
@@ -897,13 +896,12 @@ namespace Zamba.FileTools
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
                 MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
-
                 object obj_toJson = miMailPreview;
                 return obj_toJson;
             }
-            catch (FileNotFoundException ex)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -913,10 +911,30 @@ namespace Zamba.FileTools
         /// <param name="msgPath"></param>
         /// <param name="PDFPath"></param>
         /// <returns></returns>
-        public object ConvertMSGToJSON(Stream msgFile, String PDFPath, bool includeAttachs)
+        public object ConvertMSGToJSON(String msgFile, String PDFPath, bool includeAttachs)
         {
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
             MailMessage miMailMessage = MailMessage.Load(msgFile, MailMessageFormat.Msg);
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
+            MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
+
+            object obj_toJson = miMailPreview;
+            return obj_toJson;
+
+        }
+
+
+        /// <summary>
+        /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
+        /// </summary>
+        /// <param name="msgPath"></param>
+        /// <param name="PDFPath"></param>
+        /// <returns></returns>
+        public object ConvertMSGToJSON(Stream msgStream, String PDFPath, bool includeAttachs)
+        {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
+            MailMessage miMailMessage = MailMessage.Load(msgStream, MailMessageFormat.Msg);
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
             MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");

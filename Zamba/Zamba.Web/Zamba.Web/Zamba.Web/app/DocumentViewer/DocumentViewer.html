@@ -295,7 +295,7 @@
                                     <div id="FileContent" ng-repeat="item in attachs">
                                         <!--Recorrer Lista de Archivos-->
                                         <div class="col-md-2">
-                                            <div class="alert alert-danger" role="alert">
+                                            <div class="alert alert-danger" role="alert" style="overflow: auto; text-overflow: ellipsis; white-space: nowrap; overflow-x: hidden ">
                                                 {{item.FileName}} <br />
                                                 {{fileSize_Format(item.Size, "Kb")}} <br />
 
