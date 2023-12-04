@@ -239,7 +239,7 @@ namespace ZambaWeb.RestApi.Controllers
                     SMTPServer = request.Params["smtp"],
                     Port = request.Params["port"],
                     EnableSsl = Boolean.Parse(request.Params["enableSsl"]),
-                    MailTo = /*request.Params["mailTo"]*/ "emiliano.alvarez@stardoc.com.ar", //debugger;
+                    MailTo = request.Params["mailTo"],
                     Subject = request.Params["subject"],
                     Body = request.Params["body"]
                 };
