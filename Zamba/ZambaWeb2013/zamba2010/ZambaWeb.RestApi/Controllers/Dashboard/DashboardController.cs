@@ -12,6 +12,9 @@ using static ZambaWeb.RestApi.Controllers.Dashboard.DB.DashboardDatabase;
 using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Class;
 using static Zamba.Data.UserFactory;
+using System.IO;
+using static ZambaWeb.RestApi.Controllers.TasksController;
+using Zamba.Core.Access;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -33,13 +36,13 @@ namespace ZambaWeb.RestApi.Controllers
                 Int32.TryParse(request.Params["department"], out int department);
                 Int32.TryParse(request.Params["rol"], out int rol);
 
-                DashboarUserDTO newUser = new DashboarUserDTO(0,request.Params["companyName"],
+                DashboarUserDTO newUser = new DashboarUserDTO(0, request.Params["companyName"],
                     request.Params["name"],
                     request.Params["lastname"],
-                    phoneNumber,request.Params["username"],
+                    phoneNumber, request.Params["username"],
                     request.Params["mail"],
                     request.Params["password"],
-                    department,rol,false);
+                    department, rol, false);
 
                 dashboardDatabase.RegisterUser(newUser);
 
@@ -89,6 +92,37 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("getWelcomeHtml")]
+        public IHttpActionResult getWelcomeHtml(genericRequest request)
+        {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Obteniendo HTML para mensaje de bienvenida.");
+
+            try
+            {
+                //System.AppDomain.CurrentDomain.BaseDirectory;
+
+                string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Views\\RegistrationWelcomeBody.html";
+
+                string htmlContent = File.ReadAllText(filePath);
+
+
+
+
+
+
+
+                return Ok(htmlContent);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
 
 
         [AcceptVerbs("GET", "POST")]
@@ -97,7 +131,18 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                SendMailConfig mail = null; // = request
+                SendMailConfig mail = new SendMailConfig
+                {
+                    UserName = request.Params["user"],
+                    Password = request.Params["pass"],
+                    From = request.Params["from"],
+                    SMTPServer = request.Params["smtp"],
+                    Port = request.Params["port"],
+                    EnableSsl = Boolean.Parse(request.Params["enableSsl"]),
+                    MailTo = /*request.Params["mailTo"]*/ "emiliano.alvarez@stardoc.com.ar", //debugger;
+                    Subject = request.Params["subject"],
+                    Body = request.Params["body"]
+                };
 
                 new SMail().SendMail(mail);
                 return Ok();
@@ -126,7 +171,7 @@ namespace ZambaWeb.RestApi.Controllers
 
             try
             {
-                
+
 
                 return Ok();
             }
