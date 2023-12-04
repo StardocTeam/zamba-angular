@@ -32,6 +32,35 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand.ToString());
         }
 
+        public LoginResponseData Login(string username,string password)
+        {
+
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DashboardUsers ");
+            sqlCommand.AppendLine("WHERE username = '" + username +"' AND password = '" + password +"';"); 
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            LoginResponseData loginResponseData = new LoginResponseData();
+
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = dataSet.Tables[0].Rows[0];
+
+                loginResponseData.msg = "ok";
+                loginResponseData.user.token = "123456789";
+                loginResponseData.user.name = row["username"].ToString();
+                loginResponseData.user.email = row["email"].ToString();
+                loginResponseData.user.id = Convert.ToInt32(row["Enterpriseuser_id"]);
+                loginResponseData.user.time = 0;
+            }
+            else
+            {
+                loginResponseData.msg = "Invalid username or password";
+            }
+
+            return loginResponseData;
+        }
+
         public DataTable GetUserDashboard(string Username, string Email)
         {
             DataSet dataSet = new DataSet();
@@ -53,10 +82,10 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             StringBuilder sqlCommand = new StringBuilder();
             sqlCommand.AppendLine("SELECT * ");
             sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
-            sqlCommand.AppendLine("WHERE username = '" + Username);
+            sqlCommand.AppendLine("WHERE username = '" + Username + "'");
 
             DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
-            if (dataSet != null && ((DataSet)dataSet).Tables[0].Rows.Count == 0)
+            if (((DataSet)dataSet).Tables[0].Rows.Count != 0)
                 validator.usernameIsTaken = true;
 
 
@@ -64,10 +93,10 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             sqlCommand = new StringBuilder();
             sqlCommand.AppendLine("SELECT * ");
             sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
-            sqlCommand.AppendLine("WHERE email = '" + Email);
+            sqlCommand.AppendLine("WHERE email = '" + Email + "'");
 
             dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
-            if (dataSet != null && ((DataSet)dataSet).Tables[0].Rows.Count == 0)
+            if (((DataSet)dataSet).Tables[0].Rows.Count != 0)
                 validator.emailIsTaken = true;
 
             return validator;
@@ -138,7 +167,30 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             public bool usernameIsTaken { get; set; }
 
             public bool emailIsTaken { get; set; }
+
         }
 
+        public class LoginResponseData {
+            public string msg { get; set; }
+
+            public UserDTOLogin user { get; set; }
+
+            public LoginResponseData()
+            {
+                this.user = new UserDTOLogin();
+                this.msg = String.Empty;
+            }
+        }
+
+        public class UserDTOLogin {
+            public string token { get; set; }
+            public string name { get; set; }
+
+            public string email { get; set; }
+            public int id { get; set; }
+
+            public int time { get; set; }
+
+        }
     }
 }

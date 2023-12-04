@@ -51,16 +51,16 @@ namespace ZambaWeb.RestApi.Controllers
                     request.Params["password"],
                     department,rol,false);
 
-                //Validator validator = dashboardDatabase.UsernameOrEmailAlreadyTaken(newUser.Username, newUser.Email);
+                Validator validator = dashboardDatabase.UsernameOrEmailAlreadyTaken(newUser.Username, newUser.Email);
 
-                //if (validator.emailIsTaken || validator.usernameIsTaken) {
-                //    return BadRequest(validator);
-                //}
-
+                if (validator.emailIsTaken || validator.usernameIsTaken)
+                {
+                    return Ok(JsonConvert.SerializeObject(validator, Formatting.Indented));
+                }
 
                 dashboardDatabase.RegisterUser(newUser);
 
-                return Ok();
+                return Ok(JsonConvert.SerializeObject(validator, Formatting.Indented));
             }
             catch (Exception ex)
             {
@@ -68,6 +68,29 @@ namespace ZambaWeb.RestApi.Controllers
                 return StatusCode(HttpStatusCode.BadRequest);
             }
            
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("Login")]
+        public IHttpActionResult Login(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+
+                string userName = request.Params["userName"];
+                string password = request.Params["password"];
+
+                LoginResponseData userData = dashboardDatabase.Login(userName, password);
+
+                return Ok(JsonConvert.SerializeObject(userData, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
         }
 
         [AcceptVerbs("GET", "POST")]
