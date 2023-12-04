@@ -15,6 +15,7 @@ using Zamba;
 using Zamba.Core;
 using Zamba.Core.WF.WF;
 using Zamba.Data;
+using Zamba.Framework;
 using Zamba.Services;
 using ZambaWeb.RestApi.AuthorizationRequest;
 using ZambaWeb.RestApi.Controllers.Class;
@@ -182,6 +183,43 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
 
             return RDO;
+        }
+
+
+        /// <summary>
+        /// Gestiona el envio de un registro a la applicacion de 'Dashboard', al usuario en cuestion.
+        /// </summary>
+        /// <param name="emailData">Datos del correo</param>
+        /// <returns>Verdadero si fue enviado el correo, caso contrario, falso,</returns>
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [AllowAnonymous]
+        [Route("SendRegisterFromDashBoard")]
+        [OverrideAuthorization]
+        public IHttpActionResult SendRegisterFromDashBoard(genericRequest FormData)
+        {
+                SendMailConfig mail = null;
+
+            try
+            {
+                mail = NewSendMailConfig(new EmailData(), "body");
+                new SMail().SendMail(mail);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
+
+                //return ERROR();
+
+                throw ex;
+            }
+            finally
+            {
+                //if (mail != null)
+                //    mail.Dispose();
+            }            
         }
 
         /// <summary>
