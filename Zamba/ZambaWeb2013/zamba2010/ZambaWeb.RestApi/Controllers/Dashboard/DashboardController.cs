@@ -52,6 +52,9 @@ namespace ZambaWeb.RestApi.Controllers
                 }
 
                 dashboardDatabase.RegisterUser(newUser);
+                string body = getWelcomeHtml(newUser);
+
+                sendRegister(request.Params["mail"], body);
 
                 return Ok(JsonConvert.SerializeObject(validator, Formatting.Indented));
             }
@@ -60,7 +63,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                 return StatusCode(HttpStatusCode.BadRequest);
             }
-           
+
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -116,7 +119,8 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-        private void CreateNewUserForZamba(string username, string password, string names, string lastname,string email) {
+        private void CreateNewUserForZamba(string username, string password, string names, string lastname, string email)
+        {
 
             try
             {
@@ -152,10 +156,10 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Dashboard - Nuevo usuario en Zamba - Error al crear nuevo usuario: " + ex.Message);
                 throw ex;
             }
-           
+
         }
 
-        
+
 
         [AcceptVerbs("GET", "POST")]
         [Route("getDepartment")]
@@ -192,104 +196,69 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        [AcceptVerbs("GET", "POST")]
-        [Route("getWelcomeHtml")]
-        public IHttpActionResult getWelcomeHtml(genericRequest request)
+        public string getWelcomeHtml(DashboarUserDTO newUser)
         {
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Obteniendo HTML para mensaje de bienvenida.");
 
             try
             {
-                //System.AppDomain.CurrentDomain.BaseDirectory;
+                var Scheme = Request.RequestUri.Scheme;
+                var Authority = Request.RequestUri.Authority;
+                string EndPoint = Request.RequestUri.Segments[1] + Request.RequestUri.Segments[2];
+
+                var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
+                    "username=" + newUser.Username + "&" +
+                    "password=" + newUser.Password + "&" +
+                    "name=" + newUser.FirstName + "&" +
+                    "lastname=" + newUser.LastName + "&" +
+                    "email=" + newUser.Email;
 
                 string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Views\\RegistrationWelcomeBody.html";
 
                 string htmlContent = File.ReadAllText(filePath);
-
-
-
-
-
-
-
-                return Ok(htmlContent);
+                htmlContent = htmlContent.Replace("#login", pathEndPoint);
+                return htmlContent;
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+
+                throw ex;
             }
         }
 
 
 
-        [AcceptVerbs("GET", "POST")]
-        [Route("sendRegister")]
-        public IHttpActionResult sendRegister(genericRequest request)
+
+
+        public bool sendRegister(string mailTo, string body)
         {
             try
             {
                 SendMailConfig mail = new SendMailConfig
                 {
-                    UserName = request.Params["user"],
-                    Password = request.Params["pass"],
-                    From = request.Params["from"],
-                    SMTPServer = request.Params["smtp"],
-                    Port = request.Params["port"],
-                    EnableSsl = Boolean.Parse(request.Params["enableSsl"]),
-                    MailTo = request.Params["mailTo"],
-                    Subject = request.Params["subject"],
-                    Body = request.Params["body"]
+                    UserName = SMTPDashboard.user,
+                    Password = SMTPDashboard.password,
+                    From = SMTPDashboard.from,
+                    SMTPServer = SMTPDashboard.smtpServer,
+                    Port = SMTPDashboard.port,
+                    EnableSsl = SMTPDashboard.enableSsl,
+
+                    MailTo = mailTo,
+                    Subject = "Te damos la bienvenida a Zamba RRHH 🥳🥳",
+                    Body = body
                 };
 
                 new SMail().SendMail(mail);
-                return Ok();
+                return true;
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
-            }
-        }
-
-
-        /// <summary>
-        /// Gestiona el envio de un registro a la applicacion de 'Dashboard', al usuario en cuestion.
-        /// </summary>
-        /// <param name="emailData">Datos del correo</param>
-        /// <returns>Verdadero si fue enviado el correo, caso contrario, falso,</returns>
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [AllowAnonymous]
-        [Route("SendRegisterFromDashBoard")]
-        [OverrideAuthorization]
-        public IHttpActionResult SendRegisterFromDashBoard(genericRequest FormData)
-        {
-            SendMailConfig mail = null;
-
-            try
-            {
-
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                ZTrace.WriteLineIf(ZTrace.IsError, "[ERROR]:" + ex.Message);
-
-                //return ERROR();
-
                 throw ex;
             }
-            finally
-            {
-                //if (mail != null)
-                //    mail.Dispose();
-            }
         }
-
     }
 }

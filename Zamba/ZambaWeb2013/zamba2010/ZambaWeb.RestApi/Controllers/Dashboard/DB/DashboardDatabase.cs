@@ -12,6 +12,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
     public class DashboardDatabase
     {
 
+
         public DashboardDatabase()
         {
 
@@ -73,6 +74,21 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
             return dataSet.Tables[0];
 
+        }
+
+
+        public DataTable GetUserDashboard(long userId)
+        {
+            DataSet dataSet = new DataSet();
+            StringBuilder sqlCommand = new StringBuilder();
+
+            sqlCommand.AppendLine("SELECT * ");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE userId = '" + userId + "'");
+
+            dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+
+            return dataSet.Tables[0];
         }
 
         public Validator UsernameOrEmailAlreadyTaken(string Username, string Email) {
