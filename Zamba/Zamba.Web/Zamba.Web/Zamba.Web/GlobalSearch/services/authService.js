@@ -42,7 +42,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                 const urlParams = new URLSearchParams(UrlParameters);
                 let token = urlParams.get('t');
                 /*let userToken = JSON.parse(localStorage.getItem('authorizationData'));*/
-                let UserIdStorage = parseInt(localStorage.getItem('UserId'));
+                let UserIdStorage = parseInt(localStorage.getItem('userId'));
                /* let { token } = userToken;*/
 
                 if (token != null) {
@@ -57,7 +57,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                             let { IsValid, isReload, RebuildUrl, NewToken } = JSON.parse(response.children[0].textContent);
                             console.log("trace servicio IsValid: " + IsValid);
                             console.log("trace servicio RebuildUrl: " + RebuildUrl);
-                            let UserIdStorage = localStorage.getItem('UserId');
+                            let UserIdStorage = localStorage.getItem('userId');
 
                             if (IsValid == "false") {
 
@@ -203,6 +203,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     var _logOut = function () {
+        
         try {            
             _removeConnectionFromWeb();
             //_removeZzsToken();
