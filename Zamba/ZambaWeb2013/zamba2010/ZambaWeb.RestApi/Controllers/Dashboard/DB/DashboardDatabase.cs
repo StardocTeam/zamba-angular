@@ -73,9 +73,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
 
             return dataSet.Tables[0];
-
         }
-
 
         public DataTable GetUserDashboard(long userId)
         {
