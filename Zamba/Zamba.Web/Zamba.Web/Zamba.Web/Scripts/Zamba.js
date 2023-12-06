@@ -5275,7 +5275,7 @@ function RedirectOpenerToLogin() {
 
     }
 }
-function RedirectToLogin() {
+function RedirectToLogin() {    
     window.onbeforeunload = function () {
         showedDialog = true;
     };

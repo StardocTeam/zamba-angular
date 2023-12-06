@@ -90,20 +90,20 @@ namespace ZambaWeb.RestApi
                 ZTrace.WriteLineIf(ZTrace.IsError, "error en WebApiConfig, se rechazo el request con error nro" + response.StatusCode.ToString() + ".");
                 ZTrace.WriteLineIf(ZTrace.IsError, "Datelles de la respuesta: ");
 
-                try
-                {
-                    System.Net.Http.ObjectContent<System.Web.Http.HttpError> ResponseContent = (System.Net.Http.ObjectContent<System.Web.Http.HttpError>)response.Content;
-                    HttpError httpError = (HttpError)ResponseContent.Value;
+                //try
+                //{
+                //    System.Net.Http.ObjectContent<System.Web.Http.HttpError> ResponseContent = (System.Net.Http.ObjectContent<System.Web.Http.HttpError>)response.Content;
+                //    HttpError httpError = (HttpError)ResponseContent.Value;
 
-                    foreach (KeyValuePair<string, object> item in httpError)
-                    {
-                        ZTrace.WriteLineIf(ZTrace.IsError, item.Key + ": " + item.Value);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ZTrace.WriteLineIf(ZTrace.IsError, "Error: "+ ex.Message);
-                }
+                //    foreach (KeyValuePair<string, object> item in httpError)
+                //    {
+                //        ZTrace.WriteLineIf(ZTrace.IsError, item.Key + ": " + item.Value);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    ZTrace.WriteLineIf(ZTrace.IsError, "Error: "+ ex.Message);
+                //}
 
                 response = request.CreateResponse(HttpStatusCode.NotFound,
                     new { Error = "" },

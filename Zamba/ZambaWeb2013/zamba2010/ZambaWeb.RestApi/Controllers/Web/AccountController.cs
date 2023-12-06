@@ -1200,7 +1200,7 @@ namespace ZambaWeb.RestApi.Controllers
                 String username = oktaUserIntrospection.username.Split('@').First();
                 //username = "15116";
                 //username = "1248518";
-                //username = "eseleme";
+                //username = "eseleme";                
                 String UserNameIntrospectWithU = "U" + username;
                 String MailUserInfo = oktaUserInformation.email;
                 string MailUserInfoSinDominio = MailUserInfo.Split('@').First();
@@ -1333,16 +1333,24 @@ namespace ZambaWeb.RestApi.Controllers
                 stream.Close();
             }
             String json;
-            var resp = http.GetResponse();
-            using (var s = resp.GetResponseStream())
+            try
             {
-                using (var sr = new StreamReader(s))
+                var resp = http.GetResponse();
+                using (var s = resp.GetResponseStream())
                 {
-                    json = sr.ReadToEnd();
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtiene token");
-                    ret = JsonConvert.DeserializeObject<OktaResponseGetAccessToken>(json);
+                    using (var sr = new StreamReader(s))
+                    {
+                        json = sr.ReadToEnd();
+                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Obtiene token");
+                        ret = JsonConvert.DeserializeObject<OktaResponseGetAccessToken>(json);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }         
             return ret;
         }
         public class ResponseLoginOkta
