@@ -31,19 +31,18 @@ namespace ZambaWeb.RestApi.Controllers
                 string phoneNumber = request.Params["mobilePrefix"] + request.Params["mobile"];
 
                 Int32.TryParse(request.Params["department"], out int department);
-                Int32.TryParse(request.Params["rol"], out int rol);
 
                 DashboarUserDTO newUser = new DashboarUserDTO(0,request.Params["companyName"],
                     request.Params["name"],
                     request.Params["lastname"],
-                    phoneNumber,request.Params["username"],
+                    phoneNumber,
                     request.Params["mail"],
                     request.Params["password"],
-                    department,rol,false);
+                    department,false);
 
-                Validator validator = dashboardDatabase.UsernameOrEmailAlreadyTaken(newUser.Username, newUser.Email);
+                Validator validator = dashboardDatabase.EmailAlreadyTaken(newUser.Email);
 
-                if (validator.emailIsTaken || validator.usernameIsTaken)
+                if (validator.emailIsTaken)
                 {
                     return Ok(JsonConvert.SerializeObject(validator, Formatting.Indented));
                 }
@@ -68,10 +67,10 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 DashboardDatabase dashboardDatabase = new DashboardDatabase();
 
-                string userName = request.Params["userName"];
+                string email = request.Params["email"];
                 string password = request.Params["password"];
 
-                LoginResponseData userData = dashboardDatabase.Login(userName, password);
+                LoginResponseData userData = dashboardDatabase.Login(email, password);
 
                 return Ok(JsonConvert.SerializeObject(userData, Formatting.Indented));
             }
