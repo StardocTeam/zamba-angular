@@ -381,7 +381,9 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
         $scope.Search.DoctypesIds = DoctypesIds;
         var userId = parseInt(GetUID());
 
+        if ($scope.Search.Indexs != null || $scope.Search.Indexs != undefined) {
 
+       
         // refresca la memoria
         for (i = 0; i < $scope.Search.Indexs.length; i++) {
             var es_nuevo = true;
@@ -422,7 +424,7 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
         }
 
 
-
+        }
 
 
 
