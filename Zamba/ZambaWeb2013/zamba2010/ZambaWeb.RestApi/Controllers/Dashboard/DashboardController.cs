@@ -206,17 +206,24 @@ namespace ZambaWeb.RestApi.Controllers
                 var Authority = Request.RequestUri.Authority;
                 string EndPoint = Request.RequestUri.Segments[1] + Request.RequestUri.Segments[2];
 
-                var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
+                string UrlValidateHtml = WebUrl.Url + "?" +
                     "username=" + newUser.Username + "&" +
                     "password=" + newUser.Password + "&" +
                     "name=" + newUser.FirstName + "&" +
                     "lastname=" + newUser.LastName + "&" +
                     "email=" + newUser.Email;
 
+                //var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
+                //    "username=" + newUser.Username + "&" +
+                //    "password=" + newUser.Password + "&" +
+                //    "name=" + newUser.FirstName + "&" +
+                //    "lastname=" + newUser.LastName + "&" +
+                //    "email=" + newUser.Email;
+
                 string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Views\\RegistrationWelcomeBody.html";
 
                 string htmlContent = File.ReadAllText(filePath);
-                htmlContent = htmlContent.Replace("#login", pathEndPoint);
+                htmlContent = htmlContent.Replace("#login", UrlValidateHtml);
                 return htmlContent;
             }
             catch (Exception ex)
