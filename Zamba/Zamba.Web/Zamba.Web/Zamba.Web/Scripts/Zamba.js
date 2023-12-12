@@ -1309,6 +1309,17 @@ function CleanAllInputs() {
     $(".hiddenClearAll").trigger('click');
 }
 
+function OnKeyEnter(event) {
+
+    if (event.charCode == 13) {
+        var appFilterController = angular.element($("#appFilterController")).scope();
+
+        if (appFilterController != undefined && appFilterController != null) {
+            appFilterController.AddFilter();
+            event.preventDefault();
+        } 
+    }
+}
 
 function InputSelec() {
     $('#search-form :input')

@@ -450,7 +450,6 @@ app.directive('advfilter', [function () {
         restrict: 'A',
         replace: true,
         link: function (scope, element, attrs) {
-
             element.bind('keydown', function (e) {
                 var nEvents = [46, 40, 30, 8];
                 if (nEvents.indexOf(e.which) != -1)
