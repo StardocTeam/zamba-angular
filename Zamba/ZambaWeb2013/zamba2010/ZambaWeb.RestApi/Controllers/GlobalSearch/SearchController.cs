@@ -27,10 +27,15 @@ using Zamba.Membership;
 using System.Web.Script.Serialization;
 using Zamba.FileTools;
 using Microsoft.Ajax.Utilities;
+using Outlook = Microsoft.Office.Interop.Outlook;
+using Zamba.Core.Cache;
+using System.IO.Compression;
+using System.Net.Security;
+using Microsoft.Office.Interop.Outlook;
 
 namespace ZambaWeb.RestApi.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]    
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RestAPIAuthorize]
     [globalControlRequestFilter]
 
@@ -221,7 +226,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Test")]
-        [OverrideAuthorization] 
+        [OverrideAuthorization]
         //[Authorize]
         public string Test()
         {
@@ -247,7 +252,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/BasicTest")]
-        [OverrideAuthorization] 
+        [OverrideAuthorization]
         public string BasicTest()
         {
             try
@@ -299,7 +304,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/Suggestions")]
-               
+
         public IEnumerable<Dictionary<string, object>> GetSuggestions(string text = "")
         {
             SearchSuggestions ss;
@@ -550,7 +555,7 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
         [Route("api/search/Entities")]
-        
+
         //[OverrideAuthorization]
         [System.Web.Http.HttpGet]
         //    [Authorize]
@@ -1797,6 +1802,37 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        private void ConvertMSGtoEML(string msgFilePath, string emlFilePath)
+        {
+            Outlook.Application outlookApp = new Outlook.Application();
+            Outlook.NameSpace outlookNamespace = outlookApp.GetNamespace("MAPI");
+
+            // Cargar el archivo MSG
+            Outlook.MailItem mailItem = outlookApp.Session.OpenSharedItem(msgFilePath) as Outlook.MailItem;
+
+            try
+            {
+
+                // Guardar como EML
+                mailItem.SaveAs(emlFilePath, Outlook.OlSaveAsType.olMSGUnicode);
+            }
+            catch (System.Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                throw ex;
+            }
+            finally
+            {
+                mailItem.Close(OlInspectorClose.olDiscard);
+
+                // Cerrar la aplicación Outlook
+                outlookNamespace.Logoff();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(mailItem);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(outlookNamespace);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(outlookApp);
+            }
+        }
+
         /// <summary>
         /// Obtiene el archivo asociado a la tarea.
         /// </summary>
@@ -1871,20 +1907,28 @@ namespace ZambaWeb.RestApi.Controllers
                         if (MsgPreview)
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
-                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Obteniendo Archivo MSG");
-                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview )ST.ConvertMSGToJSON(res.FullPath, newPDFFile, includeAttachs);
-                            o.body =  o.body
+
+                            string emlPathString = res.FullPath;
+
+                            if (res.FullPath.EndsWith(".msg"))
+                            {
+                                emlPathString = res.FullPath.Replace(".msg", ".eml");
+                                ConvertMSGtoEML(res.FullPath, emlPathString);
+                            }
+
+                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview)ST.ConvertMSGToJSON(emlPathString, newPDFFile, includeAttachs);
+                            o.body = o.body
                                 .Replace("Ã±", "ñ")
                                 .Replace("Ã¡", "á")
-                                .Replace("Ã©", "é")                                
+                                .Replace("Ã©", "é")
                                 .Replace("Ã³", "ó")
                                 .Replace("Ãº", "ú")
-                                .Replace("â€œ","\"")
+                                .Replace("â€œ", "\"")
                                 .Replace("â€", "\"")
-                                .Replace("Ã‘","Ñ")
-                                .Replace("Â°","º")
+                                .Replace("Ã‘", "Ñ")
+                                .Replace("Â°", "º")
                                 .Replace("Ã", "í")
-                                 
+
                                 ;
                             var a = JsonConvert.SerializeObject(o, Formatting.Indented,
                               new JsonSerializerSettings
@@ -1892,6 +1936,9 @@ namespace ZambaWeb.RestApi.Controllers
                                   PreserveReferencesHandling = PreserveReferencesHandling.Objects
                               });
                             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Retornando Archivo");
+
+                            //todo: borrar archivo temporal EML
+
                             return a;
                         }
                     }
@@ -3678,7 +3725,8 @@ namespace ZambaWeb.RestApi.Controllers
                         if (r.Table.Columns.Contains("Fecha de Accion Aprobacion"))
                         {
                             dto.date = r["Fecha de Accion Aprobacion"].ToString();
-                        }else                          if (r.Table.Columns.Contains("Fecha Accion Aprobacion"))
+                        }
+                        else if (r.Table.Columns.Contains("Fecha Accion Aprobacion"))
                         {
                             dto.date = r["Fecha Accion Aprobacion"].ToString();
                         }
@@ -4045,7 +4093,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/getPermisosInsert")]
-        
+
 
         public IHttpActionResult getPermisosInsert(genericRequest paramRequest)
         {
@@ -5477,7 +5525,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("POST")]
         [Route("api/search/GetAllEntities")]
-        
+
 
 
         public IHttpActionResult GetAllEntities(genericRequest paramRequest)
@@ -5546,7 +5594,7 @@ namespace ZambaWeb.RestApi.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("api/search/GetResultIndexs")]
-        
+
         public List<Int64> GetResultIndexs(genericRequest paramRequest)
         {
             IResult result = GetResultFromParamRequest(paramRequest);
@@ -5768,7 +5816,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [HttpPost]
         [Route("api/search/GetZvarTableResult")]
-        
+
         public IHttpActionResult GetZvarTableResult(genericRequest paramRequest)
         {
             try
