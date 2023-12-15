@@ -27,11 +27,9 @@ using Zamba.Membership;
 using System.Web.Script.Serialization;
 using Zamba.FileTools;
 using Microsoft.Ajax.Utilities;
-using Outlook = Microsoft.Office.Interop.Outlook;
 using Zamba.Core.Cache;
 using System.IO.Compression;
 using System.Net.Security;
-using Microsoft.Office.Interop.Outlook;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -1802,37 +1800,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        private void ConvertMSGtoEML(string msgFilePath, string emlFilePath)
-        {
-            Outlook.Application outlookApp = new Outlook.Application();
-            Outlook.NameSpace outlookNamespace = outlookApp.GetNamespace("MAPI");
-
-            // Cargar el archivo MSG
-            Outlook.MailItem mailItem = outlookApp.Session.OpenSharedItem(msgFilePath) as Outlook.MailItem;
-
-            try
-            {
-
-                // Guardar como EML
-                mailItem.SaveAs(emlFilePath, Outlook.OlSaveAsType.olMSGUnicode);
-            }
-            catch (System.Exception ex)
-            {
-                ZClass.raiseerror(ex);
-                throw ex;
-            }
-            finally
-            {
-                mailItem.Close(OlInspectorClose.olDiscard);
-
-                // Cerrar la aplicación Outlook
-                outlookNamespace.Logoff();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(mailItem);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(outlookNamespace);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(outlookApp);
-            }
-        }
-
         /// <summary>
         /// Obtiene el archivo asociado a la tarea.
         /// </summary>
@@ -1908,15 +1875,7 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             Zamba.FileTools.SpireTools ST = new Zamba.FileTools.SpireTools();
 
-                            string emlPathString = res.FullPath;
-
-                            if (res.FullPath.EndsWith(".msg"))
-                            {
-                                emlPathString = res.FullPath.Replace(".msg", ".eml");
-                                ConvertMSGtoEML(res.FullPath, emlPathString);
-                            }
-
-                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview)ST.ConvertMSGToJSON(emlPathString, newPDFFile, includeAttachs);
+                            Zamba.FileTools.MailPreview o = (Zamba.FileTools.MailPreview)ST.ConvertMSGToJSON(res.FullPath, newPDFFile, includeAttachs);
                             o.body = o.body
                                 .Replace("Ã±", "ñ")
                                 .Replace("Ã¡", "á")
@@ -1935,9 +1894,8 @@ namespace ZambaWeb.RestApi.Controllers
                               {
                                   PreserveReferencesHandling = PreserveReferencesHandling.Objects
                               });
-                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Retornando Archivo");
 
-                            //todo: borrar archivo temporal EML
+                            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Retornando Archivo");
 
                             return a;
                         }

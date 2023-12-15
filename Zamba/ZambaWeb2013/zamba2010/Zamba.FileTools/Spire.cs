@@ -28,6 +28,7 @@ using System.Reflection;
 using Spire.Email.IMap;
 using MimeKit;
 using MimeKit.IO;
+using Org.BouncyCastle.Utilities;
 
 namespace Zamba.FileTools
 {
@@ -45,13 +46,13 @@ namespace Zamba.FileTools
         {
             Assembly tt = Assembly.LoadFrom(Zamba.Membership.MembershipHelper.StartUpPath + "\\Spire\\Zamba.SpireTools.dll");
             System.Type t = tt.GetType("Zamba.SpireTools.SpireTools", true, true);
-          
+
             ISpireTools Rule = (ISpireTools)Activator.CreateInstance(t);
             return Rule.GetExcelAsDataSet(file, sheetName);
 
         }
 
-       
+
 
         public Boolean ExportToXLS(DataTable dt, String path)
         {
@@ -568,6 +569,28 @@ namespace Zamba.FileTools
             }
         }
 
+        public string ConvertMsgToEml(string MsgPath)
+        {
+            Aspose.Email.MailMessage asposeObj = Aspose.Email.MailMessage.Load(MsgPath, new Aspose.Email.MsgLoadOptions());
+            var EmlPath = "";
+
+            try
+            {
+                EmlPath = Path.ChangeExtension(MsgPath, ".eml");
+                asposeObj.Save(EmlPath, Aspose.Email.SaveOptions.DefaultEml);
+                return EmlPath;
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                throw ex;
+            }
+            finally
+            {
+                asposeObj.Dispose();
+            }
+        }
+
         public object ConvertMSGToJSON(String msgPath, String PDFPath, bool includeAttachs)
         {
             try
@@ -575,7 +598,9 @@ namespace Zamba.FileTools
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convirtiendo correo a objeto");
                 MailMessage miMailMessage = MailMessage.Load(msgPath);
                 MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
+
                 miMailPreview.body = UpdateBodyMessage(msgPath, miMailPreview);
+
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convercion Completada con exito.");
                 object obj_toJson = miMailPreview;
                 return obj_toJson;
@@ -592,35 +617,45 @@ namespace Zamba.FileTools
             List<ObjUUIDsDTO> keyValuePairs = new List<ObjUUIDsDTO>();
             List<int> UUIDIndices = GetPositionsSrcFromBody(miMailPreview.body, "cid:");
             string targetUUID = "";
-            var message = MimeEntity.Load(msgPath);
+
+            Aspose.Email.MailMessage messagePro = Aspose.Email.MailMessage.Load(msgPath);
+
             foreach (int item in UUIDIndices)
             {
                 targetUUID = miMailPreview.body.Substring(item + 4, miMailPreview.body.Substring(item + 4).IndexOf("\""));
                 var targetUUIDsplitted = targetUUID.Split('@');
+
                 //Validacion solo para permitir UUIDs como valor.
                 if (!targetUUIDsplitted.Contains(".com"))
                 {
-                    if (!(targetUUIDsplitted.Length >= 2 || targetUUIDsplitted.First().Contains("~")))
+                    if (!(targetUUIDsplitted.First().Contains("~")))
                     {
-                        var targetPart = FindPartByUUID(message, targetUUID);
-                        if (targetPart != null)
+                        foreach (var itemLinkedResource in messagePro.LinkedResources)
                         {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Valor UUID encontrado con exito");
-                            MemoryBlockStream targetPartStream = (MemoryBlockStream)((MimePart)targetPart).Content.Stream;
-                            string Base64String = Encoding.UTF8.GetString(targetPartStream.ToArray());
-                            keyValuePairs.Add(new ObjUUIDsDTO
+                            if (targetUUID == itemLinkedResource.ContentId)
                             {
-                                UUID = targetUUID,
-                                Base64String = Base64String,
-                                FileName = targetPart.ContentDisposition.FileName
-                            });
-                        }
-                        else
-                        {
-                            ZTrace.WriteLineIf(ZTrace.IsInfo, "Valor UUID no encontrado");
+                                Stream targetPartStream = itemLinkedResource.ContentStream;
+                                Byte[] bytes;
+
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    targetPartStream.CopyTo(memoryStream);
+                                    bytes = memoryStream.ToArray();
+                                }
+
+                                string Base64String = System.Convert.ToBase64String(bytes);
+
+                                keyValuePairs.Add(new ObjUUIDsDTO
+                                {
+                                    UUID = targetUUID,
+                                    Base64String = Base64String,
+                                    FileName = itemLinkedResource.ContentDisposition.FileName
+                                });
+                            }
                         }
                     }
                 }
+
             }
             foreach (var item in keyValuePairs)
             {
@@ -681,6 +716,7 @@ namespace Zamba.FileTools
             }
             return null;
         }
+
         /// <summary>
         /// Reemplaza texto en un documento de word
         /// </summary>
