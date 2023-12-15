@@ -607,6 +607,8 @@ namespace Zamba.FileTools
             }
             catch (FileNotFoundException ex)
             {
+                ZClass.raiseerror(ex);
+                Zamba.Core.ZTrace.WriteLineIf(Zamba.Core.ZTrace.IsError, ex.Message);
                 throw;
             }
         }
@@ -614,56 +616,74 @@ namespace Zamba.FileTools
         private static string UpdateBodyMessage(string msgPath, MailPreview miMailPreview)
         {
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "Realizando mapeo de imagenes embebidas");
+
             List<ObjUUIDsDTO> keyValuePairs = new List<ObjUUIDsDTO>();
             List<int> UUIDIndices = GetPositionsSrcFromBody(miMailPreview.body, "cid:");
-            string targetUUID = "";
 
             Aspose.Email.MailMessage messagePro = Aspose.Email.MailMessage.Load(msgPath);
 
-            foreach (int item in UUIDIndices)
+            try
             {
-                targetUUID = miMailPreview.body.Substring(item + 4, miMailPreview.body.Substring(item + 4).IndexOf("\""));
-                var targetUUIDsplitted = targetUUID.Split('@');
-
-                //Validacion solo para permitir UUIDs como valor.
-                if (!targetUUIDsplitted.Contains(".com"))
+                foreach (int item in UUIDIndices)
                 {
-                    if (!(targetUUIDsplitted.First().Contains("~")))
+                    string targetUUID = miMailPreview.body.Substring(item + 4, miMailPreview.body.Substring(item + 4).IndexOf("\""));
+                    var targetUUIDsplitted = targetUUID.Split('@');
+
+                    //Validacion solo para permitir UUIDs como valor.
+                    if (!targetUUIDsplitted.Contains(".com"))
                     {
-                        foreach (var itemLinkedResource in messagePro.LinkedResources)
+                        if (!(targetUUIDsplitted.First().Contains("~")))
                         {
-                            if (targetUUID == itemLinkedResource.ContentId)
+                            foreach (var itemLinkedResource in messagePro.LinkedResources)
                             {
-                                Stream targetPartStream = itemLinkedResource.ContentStream;
-                                Byte[] bytes;
-
-                                using (var memoryStream = new MemoryStream())
+                                if (targetUUID == itemLinkedResource.ContentId)
                                 {
-                                    targetPartStream.CopyTo(memoryStream);
-                                    bytes = memoryStream.ToArray();
+                                    keyValuePairs.Add(GetValuePairs(targetUUID, itemLinkedResource));
                                 }
-
-                                string Base64String = System.Convert.ToBase64String(bytes);
-
-                                keyValuePairs.Add(new ObjUUIDsDTO
-                                {
-                                    UUID = targetUUID,
-                                    Base64String = Base64String,
-                                    FileName = itemLinkedResource.ContentDisposition.FileName
-                                });
                             }
                         }
                     }
                 }
 
+                foreach (var item in keyValuePairs)
+                {
+                    miMailPreview.body = miMailPreview.body.Replace("cid:" + item.UUID, "data:image/" + item.FileName + ";base64," + item.Base64String);
+                }
             }
-            foreach (var item in keyValuePairs)
+            catch (Exception ex)
             {
-                miMailPreview.body = miMailPreview.body.Replace("cid:" + item.UUID, "data:image/" + item.FileName + ";base64," + item.Base64String);
+                ZClass.raiseerror(ex);
+                Zamba.Core.ZTrace.WriteLineIf(Zamba.Core.ZTrace.IsError, ex.Message);
+                throw ex;
             }
+            finally
+            {
+                messagePro.Dispose();
+            }
+
             return miMailPreview.body;
         }
 
+        public static ObjUUIDsDTO GetValuePairs(string targetUUID, Aspose.Email.LinkedResource itemLinkedResource)
+        {
+            Stream targetPartStream = itemLinkedResource.ContentStream;
+            Byte[] bytes;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                targetPartStream.CopyTo(memoryStream);
+                bytes = memoryStream.ToArray();
+            }
+
+            string Base64String = System.Convert.ToBase64String(bytes);
+
+            return new ObjUUIDsDTO
+            {
+                UUID = targetUUID,
+                Base64String = Base64String,
+                FileName = itemLinkedResource.ContentDisposition.FileName
+            };
+        }
 
         public class ObjUUIDsDTO
         {
