@@ -42,9 +42,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                 const urlParams = new URLSearchParams(UrlParameters);
                 let token = urlParams.get('t');
                 /*let userToken = JSON.parse(localStorage.getItem('authorizationData'));*/
-                let UserIdStorage = parseInt(localStorage.getItem('userId'));
+                let UserIdStorage = parseInt(localStorage.getItem('UserId'));
                /* let { token } = userToken;*/
-
                 if (token != null) {
                     $.ajax({
                         type: "POST",
@@ -57,7 +56,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                             let { IsValid, isReload, RebuildUrl, NewToken } = JSON.parse(response.children[0].textContent);
                             console.log("trace servicio IsValid: " + IsValid);
                             console.log("trace servicio RebuildUrl: " + RebuildUrl);
-                            let UserIdStorage = localStorage.getItem('userId');
+                            let UserIdStorage = localStorage.getItem('UserId');
 
                             if (IsValid == "false") {
 
