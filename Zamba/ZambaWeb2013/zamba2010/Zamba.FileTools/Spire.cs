@@ -880,6 +880,27 @@ namespace Zamba.FileTools
                 }
             }
         }
+        public string ConvertMsgToEml(string MsgPath)
+        {
+            Aspose.Email.MailMessage asposeObj = Aspose.Email.MailMessage.Load(MsgPath, new Aspose.Email.MsgLoadOptions());
+            var EmlPath = "";
+
+            try
+            {
+                EmlPath = Path.ChangeExtension(MsgPath, ".eml");
+                asposeObj.Save(EmlPath, Aspose.Email.SaveOptions.DefaultEml);
+                return EmlPath;
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                throw ex;
+            }
+            finally
+            {
+                asposeObj.Dispose();
+            }
+        }
 
         /// <summary>
         /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
@@ -911,19 +932,134 @@ namespace Zamba.FileTools
         /// <param name="msgPath"></param>
         /// <param name="PDFPath"></param>
         /// <returns></returns>
-        public object ConvertMSGToJSON(String msgFile, String PDFPath, bool includeAttachs)
+        public object ConvertMSGToJSON(String msgPath, String PDFPath, bool includeAttachs)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
-            MailMessage miMailMessage = MailMessage.Load(msgFile, MailMessageFormat.Msg);
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF OK");
-            MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "MSG a PDF PREVIEW OK");
+            try
+            {
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convirtiendo correo a objeto");
+                MailMessage miMailMessage = MailMessage.Load(msgPath);
+                MailPreview miMailPreview = new MailPreview(miMailMessage, includeAttachs);
 
-            object obj_toJson = miMailPreview;
-            return obj_toJson;
+                miMailPreview.body = UpdateBodyMessage(msgPath, miMailPreview);
 
+                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Convercion Completada con exito.");
+                object obj_toJson = miMailPreview;
+                return obj_toJson;
+            }
+            catch (FileNotFoundException ex)
+            {
+                ZClass.raiseerror(ex);
+                Zamba.Core.ZTrace.WriteLineIf(Zamba.Core.ZTrace.IsError, ex.Message);
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Obtiene la posicion del string especificado por parametro dentro del body de un mail y devuelve una lista de indices
+        /// </summary>
+        /// <param name="FullMessage"></param>
+        /// <param name="str"></param>
+        /// <returns>devuelve una lista de indices</returns>
+        private static List<int> GetPositionsSrcFromBody(string body, string str)
+        {
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Buscando ubicacion de elementos 'IMG'...");
+            List<int> IndicesList = new List<int>();
+            int index = 0;
+            while (index != -1)
+            {
+                for (; ; index += str.Length)
+                {
+                    index = body.IndexOf(str, index);
+                    if (index == -1)
+                        break;
+                    else
+                    {
+                        IndicesList.Add(index);
+                    }
+                }
+            }
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Se encontraron " + IndicesList.Count + " ubicaciones efectivas.");
+            return IndicesList;
+        }
+
+        private static string UpdateBodyMessage(string msgPath, MailPreview miMailPreview)
+        {
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "Realizando mapeo de imagenes embebidas");
+
+            List<ObjUUIDsDTO> keyValuePairs = new List<ObjUUIDsDTO>();
+            List<int> UUIDIndices = GetPositionsSrcFromBody(miMailPreview.body, "cid:");
+
+            Aspose.Email.MailMessage messagePro = Aspose.Email.MailMessage.Load(msgPath);
+
+            try
+            {
+                foreach (int item in UUIDIndices)
+                {
+                    string targetUUID = miMailPreview.body.Substring(item + 4, miMailPreview.body.Substring(item + 4).IndexOf("\""));
+                    var targetUUIDsplitted = targetUUID.Split('@');
+
+                    //Validacion solo para permitir UUIDs como valor.
+                    if (!targetUUIDsplitted.Contains(".com"))
+                    {
+                        if (!(targetUUIDsplitted.First().Contains("~")))
+                        {
+                            foreach (var itemLinkedResource in messagePro.LinkedResources)
+                            {
+                                if (targetUUID == itemLinkedResource.ContentId)
+                                {
+                                    keyValuePairs.Add(GetValuePairs(targetUUID, itemLinkedResource));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var item in keyValuePairs)
+                {
+                    miMailPreview.body = miMailPreview.body.Replace("cid:" + item.UUID, "data:image/" + item.FileName + ";base64," + item.Base64String);
+                }
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                Zamba.Core.ZTrace.WriteLineIf(Zamba.Core.ZTrace.IsError, ex.Message);
+                throw ex;
+            }
+            finally
+            {
+                messagePro.Dispose();
+            }
+
+            return miMailPreview.body;
+        }
+
+        public static ObjUUIDsDTO GetValuePairs(string targetUUID, Aspose.Email.LinkedResource itemLinkedResource)
+        {
+            Stream targetPartStream = itemLinkedResource.ContentStream;
+            Byte[] bytes;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                targetPartStream.CopyTo(memoryStream);
+                bytes = memoryStream.ToArray();
+            }
+
+            string Base64String = System.Convert.ToBase64String(bytes);
+
+            return new ObjUUIDsDTO
+            {
+                UUID = targetUUID,
+                Base64String = Base64String,
+                FileName = itemLinkedResource.ContentDisposition.FileName
+            };
+        }
+
+        public class ObjUUIDsDTO
+        {
+            public string UUID { get; set; }
+            public string Base64String { get; set; }
+            public string FileName { get; set; }
+        }
 
         /// <summary>
         /// Convierte un .msg a un HTML mediante la particion de los datos del archivo .msg
