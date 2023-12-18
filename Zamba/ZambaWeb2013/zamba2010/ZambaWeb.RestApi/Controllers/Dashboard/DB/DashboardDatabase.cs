@@ -12,6 +12,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
     public class DashboardDatabase
     {
 
+
         public DashboardDatabase()
         {
 
@@ -32,12 +33,12 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand.ToString());
         }
 
-        public LoginResponseData Login(string username,string password)
+        public LoginResponseData Login(string email,string password)
         {
 
             StringBuilder sqlCommand = new StringBuilder();
             sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DashboardUsers ");
-            sqlCommand.AppendLine("WHERE username = '" + username +"' AND password = '" + password +"';"); 
+            sqlCommand.AppendLine("WHERE email = '" + email.Trim() +"' AND password = '" + password +"';"); 
 
             DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
             LoginResponseData loginResponseData = new LoginResponseData();
@@ -72,30 +73,33 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
 
             return dataSet.Tables[0];
-
         }
 
-        public Validator UsernameOrEmailAlreadyTaken(string Username, string Email) {
+        public DataTable GetUserDashboard(long userId)
+        {
+            DataSet dataSet = new DataSet();
+            StringBuilder sqlCommand = new StringBuilder();
+
+            sqlCommand.AppendLine("SELECT * ");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE userId = '" + userId + "'");
+
+            dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+
+            return dataSet.Tables[0];
+        }
+
+        public Validator EmailAlreadyTaken(string Email) {
 
             var validator = new Validator(); 
 
             StringBuilder sqlCommand = new StringBuilder();
+
             sqlCommand.AppendLine("SELECT * ");
             sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
-            sqlCommand.AppendLine("WHERE username = '" + Username + "'");
+            sqlCommand.AppendLine("WHERE email = '" + Email.Trim() + "'");
 
             DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
-            if (((DataSet)dataSet).Tables[0].Rows.Count != 0)
-                validator.usernameIsTaken = true;
-
-
-            dataSet = new DataSet();
-            sqlCommand = new StringBuilder();
-            sqlCommand.AppendLine("SELECT * ");
-            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
-            sqlCommand.AppendLine("WHERE email = '" + Email + "'");
-
-            dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
             if (((DataSet)dataSet).Tables[0].Rows.Count != 0)
                 validator.emailIsTaken = true;
 
@@ -188,7 +192,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 isActive = false;
             }
 
-            public DashboarUserDTO(int? enterpriseUserId, string companyName, string firstName, string lastName, string phoneNumber, string username, string email, string password, int? departmentId, int? rolId, bool isActive)
+            public DashboarUserDTO(int? enterpriseUserId, string companyName, string firstName, string lastName, string phoneNumber, string email, string password, int? departmentId, bool isActive)
             :this()
             {
                 EnterpriseUserId = enterpriseUserId;
@@ -196,20 +200,15 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 FirstName = firstName;
                 LastName = lastName;
                 PhoneNumber = phoneNumber;
-                Username = username;
                 Email = email;
                 Password = password;
                 DepartmentId = departmentId;
-                RolId = rolId;
                 this.isActive = isActive;
             }
 
         }
 
         public class Validator {
-
-            public bool usernameIsTaken { get; set; }
-
             public bool emailIsTaken { get; set; }
 
         }

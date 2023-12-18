@@ -2949,6 +2949,7 @@ namespace ZambaWeb.RestApi.Controllers
                                 .Replace("Â°", "º")
                                 .Replace("Ã", "í")
                                 ;
+
                             string a = "";
 
                             try

@@ -42,9 +42,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                 const urlParams = new URLSearchParams(UrlParameters);
                 let token = urlParams.get('t');
                 /*let userToken = JSON.parse(localStorage.getItem('authorizationData'));*/
+                
                 let UserIdStorage = parseInt(localStorage.getItem('UserId'));
                /* let { token } = userToken;*/
-
                 if (token != null) {
                     $.ajax({
                         type: "POST",
@@ -203,6 +203,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     var _logOut = function () {
+        
         try {            
             _removeConnectionFromWeb();
             //_removeZzsToken();
