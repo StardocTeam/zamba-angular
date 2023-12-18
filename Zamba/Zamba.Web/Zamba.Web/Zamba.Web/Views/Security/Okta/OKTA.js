@@ -196,7 +196,8 @@ function ValidarToken(access_token, id_token, code) {
                     }));
                     UrlRedirect = tokenInfo.UrlRedirect;
                     localStorage.setItem('connId', connId);
-                    localStorage.setItem('userId', tokenInfo.tokenInfo.UserId);
+                    localStorage.setItem('UserId', tokenInfo.tokenInfo.UserId);
+                    debugger;
                     localStorage.setItem('userLocalStorage', tokenInfo.tokenInfo.UserId);
 
                 }
