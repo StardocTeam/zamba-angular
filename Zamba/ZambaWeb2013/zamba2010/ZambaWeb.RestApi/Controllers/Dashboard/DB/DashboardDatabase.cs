@@ -124,6 +124,28 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return DSResult.Tables[0];
         }
 
+        public DataTable configUserSidbar(long user)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DashboardUserConfig where valueconfig='viewSidbar' and userid =" + user);
+
+            DataSet DSResult = new DataSet("DashboardUsers");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
+        public DataTable optionsUserSidbar(long user)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.SidebarMenuItem WHERE userid = " + user + " ORDER BY position ASC");
+
+            DataSet DSResult = new DataSet("DashboardUsersOption");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
         public DataTable GetRol()
         {
             StringBuilder sqlCommand = new StringBuilder();

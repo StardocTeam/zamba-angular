@@ -12,6 +12,7 @@ using static ZambaWeb.RestApi.Controllers.Dashboard.DB.DashboardDatabase;
 using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Class;
 using static Zamba.Data.UserFactory;
+using System.Collections.Generic;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -68,7 +69,7 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 DashboardDatabase dashboardDatabase = new DashboardDatabase();
 
-                string userName = request.Params["userName"];
+                string userName = request.Params["email"];
                 string password = request.Params["password"];
 
                 LoginResponseData userData = dashboardDatabase.Login(userName, password);
@@ -117,7 +118,7 @@ namespace ZambaWeb.RestApi.Controllers
 
             try
             {
-                IUser newuser = new User();
+                IUser newuser = new Zamba.Core.User();
                 newuser.Name = username;
                 newuser.Password = password;
                 newuser.Nombres = names;
@@ -210,6 +211,66 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("getinfoSideBar")]
+        public IHttpActionResult getinfoSideBar(genericRequest request)
+        {
+            try
+            {
+                var username = request.UserId;
+                var menuOPtions = new DashboardDatabase().optionsUserSidbar(username);
+
+
+                rootObject data = new rootObject
+                {
+                    app = new app {  name = "stardoc", description = "Stardoc Sa"  },
+                    user = new User { name = "", avatar = "", email = "" },
+                    menu = new menu
+                    {
+                        items = new List<MenuItem>
+                    {
+                    new MenuItem
+                    {
+                        text = "Principal",
+                        i18n = "menu.main",
+                        group = true,
+                        hideInBreadcrumb = true,
+                        children = ListMenuItem(menuOPtions)
+                            }
+                        }
+                    }
+                };
+                 return Ok(JsonConvert.SerializeObject(data, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("configUserSidbar")]
+        public IHttpActionResult configUserSidbar(genericRequest request)
+        {
+            try
+            {
+                var username = request.UserId;
+
+               string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().configUserSidbar(username));
+                return Ok(JsonResult);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+        
+
 
         /// <summary>
         /// Gestiona el envio de un registro a la applicacion de 'Dashboard', al usuario en cuestion.
@@ -245,6 +306,69 @@ namespace ZambaWeb.RestApi.Controllers
                 //    mail.Dispose();
             }
         }
+
+        public List<MenuItem> ListMenuItem(DataTable result)
+        {
+            List<MenuItem> listItem = new List<MenuItem>();
+
+            foreach (DataRow item in result.Rows)
+            {
+                MenuItem menuitem = new MenuItem();
+                menuitem.text = item["name"].ToString();
+                menuitem.icon =  item["icon"].ToString();
+                menuitem.link = item["action"].ToString();
+
+                listItem.Add(menuitem);
+            }
+
+            return listItem;
+
+        }
+
+        //{
+        //    new MenuItem
+        //    {
+        //        text = "Escritorio2",
+        //        icon = "anticon-dashboard",
+        //        link = "/init"
+        //    },
+
+        public class app
+        {
+            public string name { get; set; }
+            public string description { get; set; }
+        }
+
+        public class User
+        {
+            public string name { get; set; }
+            public string avatar { get; set; }
+            public string email { get; set; }
+        }
+
+        public class MenuItem
+        {
+            public string text { get; set; }
+            public string i18n { get; set; }
+            public bool group { get; set; }
+            public bool hideInBreadcrumb { get; set; }
+            public List<MenuItem> children { get; set; }
+            public string icon { get;  set; }
+            public string link { get;  set; }
+        }
+
+        public class menu
+        {
+            public List<MenuItem> items { get; set; }
+        }
+
+        public class rootObject
+        {
+            public app app { get; set; }
+            public User user { get; set; }
+            public menu menu { get; set; }
+        }
+
 
     }
 }
