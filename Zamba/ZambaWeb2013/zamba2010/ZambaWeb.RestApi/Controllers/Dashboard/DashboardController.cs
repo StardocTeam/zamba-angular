@@ -66,6 +66,11 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
+        private void sendRegister(string v, string body)
+        {
+            throw new NotImplementedException();
+        }
+
         [AcceptVerbs("GET", "POST")]
         [Route("Login")]
         public IHttpActionResult Login(genericRequest request)
@@ -318,13 +323,18 @@ namespace ZambaWeb.RestApi.Controllers
                     Port = SMTPDashboard.port,
                     EnableSsl = SMTPDashboard.enableSsl,
 
-                    MailTo = mailTo,
+                    MailTo = FormData.Params["mail"],
                     Subject = "Te damos la bienvenida a Zamba RRHH 🥳🥳",
-                    Body = body
+                    Body = getWelcomeHtml()//  body
                 };
 
                 new SMail().SendMail(mail);
-                return true;
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable,
+               new HttpError(StringHelper.InvalidParameter)));
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -337,6 +347,11 @@ namespace ZambaWeb.RestApi.Controllers
                 //if (mail != null)
                 //    mail.Dispose();
             }
+        }
+
+        private string getWelcomeHtml()
+        {
+            throw new NotImplementedException();
         }
 
         public List<MenuItem> ListMenuItem(DataTable result)
