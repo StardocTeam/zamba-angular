@@ -197,12 +197,10 @@ function ValidarToken(access_token, id_token, code) {
                     UrlRedirect = tokenInfo.UrlRedirect;
                     localStorage.setItem('connId', connId);
                     localStorage.setItem('UserId', tokenInfo.tokenInfo.UserId);
-                    debugger;
                     localStorage.setItem('userLocalStorage', tokenInfo.tokenInfo.UserId);
 
                 }
             }
-            debugger;
             MostrarEstado("Ingresando a Zamba...");
             var Modal = false;
             var reLoadLogin = false;
