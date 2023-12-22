@@ -15,6 +15,8 @@ using static Zamba.Data.UserFactory;
 using System.IO;
 using static ZambaWeb.RestApi.Controllers.TasksController;
 using Zamba.Core.Access;
+using ZambaWeb.RestApi.Controllers.Dashboard;
+using System.Linq;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -53,7 +55,16 @@ namespace ZambaWeb.RestApi.Controllers
                 dashboardDatabase.RegisterUser(newUser);
                 string body = getWelcomeHtml(newUser);
 
-                sendRegister(request.Params["mail"], body);
+                try
+                {
+                    sendRegister(request.Params["mail"], body);
+                }
+                catch (Exception ex)
+                {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "No se pudo enviar el correo de verificacion.");
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                }
+                
 
                 return Ok(JsonConvert.SerializeObject(validator, Formatting.Indented));
             }
@@ -96,17 +107,59 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 DashboardDatabase dashboardDatabase = new DashboardDatabase();
 
-                string username = request.Params["username"];
+                string username = request.Params["email"];
                 string password = request.Params["password"];
                 string names = request.Params["name"];
                 string lastname = request.Params["lastname"];
                 string email = request.Params["email"];
 
-                CreateNewUserForZamba(username, password, names, lastname, email);
+                string[] parameters = new[] { username, password, names, lastname, email };
 
+                bool allParametersHaveValues = parameters.All(param => !string.IsNullOrEmpty(param));
 
-                dashboardDatabase.ActivateUser(username, email);
+                if (allParametersHaveValues)
+                {
+                    if (dashboardDatabase.UserNeedValidation(email))
+                    {
+                        long newUserId = CreateNewUserForZamba(username, password, names, lastname, email, 171);
 
+                        dashboardDatabase.ActivateUser(password, email, newUserId);
+                    }
+                }
+                else {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Algunos parametros no estan completos");
+                    return StatusCode(HttpStatusCode.BadRequest);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("ResendVerificationEmail")]
+        public IHttpActionResult ResendVerificationEmail(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string email = request.Params["mail"];
+                if (!String.IsNullOrEmpty(email)) {
+
+                    var emailExist = dashboardDatabase.EmailAlreadyTaken(email).emailIsTaken;
+                    if (emailExist) {
+                        if (dashboardDatabase.UserNeedValidation(email))
+                        {
+                            DashboarUserDTO user = dashboardDatabase.GetUserDashboard(email.Trim());
+                            string body = getWelcomeHtml(user);
+                            sendRegister(request.Params["mail"], body);
+                        }
+                    }
+                }
                 return Ok();
             }
             catch (Exception ex)
@@ -118,12 +171,16 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-        private void CreateNewUserForZamba(string username, string password, string names, string lastname, string email)
+
+
+        private long CreateNewUserForZamba(string username, string password, string names, string lastname, string email,long groupid)
         {
 
             try
             {
+                long newUserID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
                 IUser newuser = new User();
+                newuser.ID = newUserID;
                 newuser.Name = username;
                 newuser.Password = password;
                 newuser.Nombres = names;
@@ -143,12 +200,15 @@ namespace ZambaWeb.RestApi.Controllers
                     Type = MailTypes.NetMail,
                     Puerto = mailPort
                 };
-                long newUserID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
+                
 
                 UserBusiness UB = new UserBusiness();
-                UB.AddUser(newuser);
+                UB.AddUserFromDashboard(newuser);
                 UB.SetNewUser(ref newuser);
+                UB.AssignGroupFromDashboard(newUserID, 171);
+   
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Dashboard - Nuevo usuario en Zamba - OK");
+                return newUserID;
             }
             catch (Exception ex)
             {
@@ -205,8 +265,9 @@ namespace ZambaWeb.RestApi.Controllers
                 var Authority = Request.RequestUri.Authority;
                 string EndPoint = Request.RequestUri.Segments[1] + Request.RequestUri.Segments[2];
 
-                var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
-                    "username=" + newUser.Username + "&" +
+
+               // var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
+               var validateDashboardRoute = DashboardRoutesHelper.validate  + "?" +
                     "password=" + newUser.Password + "&" +
                     "name=" + newUser.FirstName + "&" +
                     "lastname=" + newUser.LastName + "&" +
@@ -215,7 +276,7 @@ namespace ZambaWeb.RestApi.Controllers
                 string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Views\\RegistrationWelcomeBody.html";
 
                 string htmlContent = File.ReadAllText(filePath);
-                htmlContent = htmlContent.Replace("#login", pathEndPoint);
+                htmlContent = htmlContent.Replace("#login", validateDashboardRoute);
                 return htmlContent;
             }
             catch (Exception ex)
@@ -226,10 +287,6 @@ namespace ZambaWeb.RestApi.Controllers
                 throw ex;
             }
         }
-
-
-
-
 
         public bool sendRegister(string mailTo, string body)
         {
@@ -243,7 +300,7 @@ namespace ZambaWeb.RestApi.Controllers
                     SMTPServer = SMTPDashboard.smtpServer,
                     Port = SMTPDashboard.port,
                     EnableSsl = SMTPDashboard.enableSsl,
-
+                    IsBodyHtml = true,
                     MailTo = mailTo,
                     Subject = "Te damos la bienvenida a Zamba RRHH 🥳🥳",
                     Body = body

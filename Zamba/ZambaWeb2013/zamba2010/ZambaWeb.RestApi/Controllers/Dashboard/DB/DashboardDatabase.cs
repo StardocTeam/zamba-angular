@@ -53,6 +53,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 loginResponseData.user.email = row["email"].ToString();
                 loginResponseData.user.id = Convert.ToInt32(row["Enterpriseuser_id"]);
                 loginResponseData.user.time = 0;
+                loginResponseData.isActive = Convert.ToBoolean(row["isactive"]);
             }
             else
             {
@@ -73,6 +74,27 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
 
             return dataSet.Tables[0];
+        }
+
+        public DashboarUserDTO GetUserDashboard(string Email)
+        {
+            DashboarUserDTO user = new DashboarUserDTO();
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT companyname,firstname,lastname,phonenumber,username,email,password,department_id,rol_id,isActive");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE email = '" + Email + "';");
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = dataSet.Tables[0].Rows[0];
+                user.Password = row["password"].ToString();
+                user.FirstName = row["firstname"].ToString();
+                user.LastName = row["lastname"].ToString();
+                user.Email = row["email"].ToString();
+            }
+            return user;
         }
 
         public DataTable GetUserDashboard(long userId)
@@ -105,14 +127,33 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
             return validator;
         }
-
-        public void ActivateUser(string Username, string Email)
+        public bool UserNeedValidation(string Email)
         {
+            bool rv = true;
 
             StringBuilder sqlCommand = new StringBuilder();
+
+            sqlCommand.AppendLine("SELECT * ");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE email = '" + Email.Trim() + "' and isActive = 1");
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            if (((DataSet)dataSet).Tables[0].Rows.Count != 0)
+                rv = false;
+
+            return rv;
+        }
+
+        public bool UserIsActive(string Email) {
+            return !UserNeedValidation(Email);
+        }
+
+        public void ActivateUser(string Password, string Email, long newUserId)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
             sqlCommand.AppendLine("UPDATE zambabpm_RRHH.DashboardUsers ");
-            sqlCommand.AppendLine("set isActive = 1 ");
-            sqlCommand.AppendLine("WHERE username = '" + Username + "' and email = '" + Email);
+            sqlCommand.AppendLine("set isActive = 1, userid = " + newUserId);
+            sqlCommand.AppendLine(" WHERE password = '" + Password + "' and email = '" + Email + "'");
 
             Server.get_Con().ExecuteNonQuery(CommandType.Text, sqlCommand.ToString());
         }
@@ -188,6 +229,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
         public class Validator {
             public bool emailIsTaken { get; set; }
+            public bool userDoesntExist { get; set; }
 
         }
 
@@ -196,10 +238,13 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
             public UserDTOLogin user { get; set; }
 
+            public bool isActive { get; set; }
+
             public LoginResponseData()
             {
                 this.user = new UserDTOLogin();
                 this.msg = String.Empty;
+                this.isActive = false;
             }
         }
 

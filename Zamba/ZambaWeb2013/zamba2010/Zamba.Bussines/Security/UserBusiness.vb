@@ -25,6 +25,10 @@ Public Class UserBusiness
         UserFactory.AddUser(usr)
         Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
     End Sub
+    Public Sub AddUserFromDashboard(ByVal usr As IUser)
+        UserFactory.AddUserFromDashboard(usr)
+        Cache.UsersAndGroups.hsUserTable.Add(usr.ID, usr)
+    End Sub
 
 #Region "Get"
     Public Function GetUserById(ByVal userId As Int64) As IUser
@@ -413,6 +417,10 @@ Public Class UserBusiness
 
     Public Function AssignGroup(ByVal uid As Int64, ByVal ugid As Int64) As Boolean
         Return UserFactory.AssignGroup(uid, ugid)
+    End Function
+
+    Public Function AssignGroupFromDashboard(ByVal uid As Int64, ByVal ugid As Int64) As Boolean
+        Return UserFactory.AssignGroupFromDashboard(uid, ugid)
     End Function
     Public Sub RemoveUser(ByVal u As IUser, ByVal ug As IUserGroup)
         UserFactory.RemoveUser(u, ug)
