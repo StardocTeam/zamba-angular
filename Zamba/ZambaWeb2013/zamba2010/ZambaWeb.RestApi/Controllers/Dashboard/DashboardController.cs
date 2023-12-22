@@ -16,6 +16,10 @@ using System.IO;
 using static ZambaWeb.RestApi.Controllers.TasksController;
 using Zamba.Core.Access;
 using System.Collections.Generic;
+using System.Collections;
+using Zamba.Core.Cache;
+using static ZambaWeb.RestApi.Controllers.SearchController;
+using Zamba.Core.WF.WF;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -69,6 +73,215 @@ namespace ZambaWeb.RestApi.Controllers
         private void sendRegister(string v, string body)
         {
             throw new NotImplementedException();
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("executeRuleDashboard")]
+        public IHttpActionResult executeRuleDashboard(genericRequest paramRequest)
+        {
+            try
+            {
+                
+                //Int32 RuleId = Convert.ToInt16(paramRequest.Params["password"]);
+               
+                int UserId = Convert.ToInt16(paramRequest.UserId);
+
+                List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
+                List<itemVarsResults> listResultIds = new List<itemVarsResults>();
+
+                UserBusiness ub = new UserBusiness();
+                ub.ValidateLogIn(UserId, ClientType.Web);
+
+                // se crea uan tarea nueva
+                //long stepid = 0;
+                //DocType dt = new DocType(0);
+                //ITaskResult task = new TaskResult(ref stepid, 0, 0, dt, "Home", 0, 0, TaskStates.Asignada, null, null, UserId, UserId.ToString());
+                //Results.Add(task);
+
+
+                string[] ZvarParams = new string[] { };
+                ITaskResult NewTaskResult = null;
+                string oldFullPath = string.Empty;
+
+                if (UserId == null)
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                        new HttpError(StringHelper.InvalidUser)));
+
+                if (paramRequest.Params.ContainsKey("ruleId") && !string.IsNullOrEmpty(paramRequest.Params["ruleId"]))
+                {
+                    Int64 ruleId = 0;
+                    List<string> docIds = new List<string>();
+                    STasks sTasks = new STasks();
+                    //List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
+                    string resultIds;
+                    //List<itemVarsResults> listResultIds = new List<itemVarsResults>();
+                    ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
+                    if (paramRequest.Params.ContainsKey("resultIds") && !string.IsNullOrEmpty(paramRequest.Params["resultIds"]))
+                    {
+                        docIds.AddRange(paramRequest.Params["resultIds"].ToString().Split(char.Parse(",")));
+                        /// Se convierte el valor en un diccionario para poder iterarlo
+                        resultIds = paramRequest.Params["resultIds"];
+                        listResultIds = JsonConvert.DeserializeObject<List<itemVarsResults>>(resultIds);
+                    }
+
+                    string FormVariables = string.Empty;
+
+                    if (paramRequest.Params.ContainsKey("FormVariables") && !string.IsNullOrEmpty(paramRequest.Params["FormVariables"]))
+                    {
+                        FormVariables = paramRequest.Params["FormVariables"];
+
+                    }
+                    if (paramRequest.Params.ContainsKey("zvars") && !string.IsNullOrEmpty(paramRequest.Params["zvars"]))
+                    {
+                        string zvars = paramRequest.Params["zvars"].ToString();
+                        char delimitador = ';';
+                        ZvarParams = zvars.Split(delimitador);
+                    }
+
+                    if (listResultIds.Count > 0)
+                    {
+                        for (int i = 0; i < listResultIds.Count; i++)
+                        {
+                            if (int.Parse(listResultIds[i].Docid) > 0)
+                            {
+                                var TaskByDocId = sTasks.GetTaskByDocId(Int64.Parse(listResultIds[i].Docid));
+                                if (TaskByDocId == null)
+                                {
+                                    WFStep WT = new WFStep();
+                                    IResult res = new Results_Business().GetResult(Int64.Parse(listResultIds[i].Docid), Int64.Parse(listResultIds[i].DocTypeid), true);
+                                    oldFullPath = res.FullPath;
+                                    NewTaskResult = new TaskResult(ref WT
+                                    , 0
+                                    , Int64.Parse(listResultIds[i].Docid)
+                                    , (Zamba.Core.DocType)res.DocType
+                                    , res.Name
+                                    , res.IconId
+                                    , 0
+                                    , TaskStates.Asignada
+                                    , res.Indexs
+                                    , res.DISK_VOL_PATH
+                                    , "0"
+                                    , res.OffSet.ToString()
+                                    , res.Doc_File
+                                    , res.Disk_Group_Id
+                                    , WT.InitialState, 0, ""
+                                    );
+
+                                    Results.Add(NewTaskResult);
+                                }
+                                else
+                                {
+                                    Results.Add(TaskByDocId);
+                                }
+
+
+                            }
+                            else
+                            {
+                                ITaskResult ExecutionTask = new TaskResult();
+                                ExecutionTask.AsignedToId = UserId;
+                                ExecutionTask.UserId = (int)UserId;
+                                ExecutionTask.TaskId = 0;
+                                ExecutionTask.Name = "Ejecucion de regla IMAP"; //
+                                                                                //ExecutionTask.StartRule = ruleId;       
+                                Results.Add(ExecutionTask);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ITaskResult ExecutionTask = new TaskResult();
+                        ExecutionTask.AsignedToId = UserId;
+                        ExecutionTask.UserId = (int)UserId;
+                        ExecutionTask.TaskId = 0;
+                        ExecutionTask.Name = "Ejecucion de regla sin tarea"; //
+                                                                             // ExecutionTask.StartRule = ruleId;              
+                        Results.Add(ExecutionTask);
+                    }
+
+
+                    if (ZvarParams.Length > 0)
+                    {
+                        foreach (var item in ZvarParams)
+                        {
+                            switch (item)
+                            {
+                                case "rutaDocumento":
+                                    if (!VariablesInterReglas.ContainsKey(item))
+                                        VariablesInterReglas.Add(item, oldFullPath);
+                                    else
+                                        VariablesInterReglas.set_Item(item, oldFullPath);
+                                    break;
+                            }
+                        }
+                    }
+
+                    if (FormVariables != string.Empty)
+                    {
+                        Dictionary<string, string> dicFormVariables = new Dictionary<string, string>();
+                        List<itemVars> listFormVariables = JsonConvert.DeserializeObject<List<itemVars>>(FormVariables);
+
+                        if (!string.IsNullOrEmpty(FormVariables))
+                        {
+                            for (int i = 0; i < listFormVariables.Count; i++)
+                            {
+                                dicFormVariables.Add(listFormVariables[i].name, listFormVariables[i].value);
+                            }
+                        }
+
+                        //Se itera el diccionario de los valores
+                        foreach (var itemlist in dicFormVariables)
+                        {
+                            if (!VariablesInterReglas.ContainsKey(itemlist.Key))
+                                VariablesInterReglas.Add(itemlist.Key, itemlist.Value);
+                            else
+                                VariablesInterReglas.set_Item(itemlist.Key, itemlist.Value);
+                        }
+                    }
+
+                    WFTaskBusiness WFTB = new WFTaskBusiness();
+                    GenericExecutionResponse genericExecutionResult = null;
+                    foreach (ITaskResult result in Results)
+                    {
+                        List<ITaskResult> currentResults = new List<ITaskResult>() { result };
+                        TasksController TC = new TasksController();
+                        genericExecutionResult = TC.ExecuteRule(ruleId, currentResults, true);
+
+                    }
+                    WFTB = null;
+
+                    string js = null;
+                    try
+                    {
+                        js = JsonConvert.SerializeObject(genericExecutionResult);
+                        return Ok(js);
+                    }
+                    catch (Exception ex)
+                    {
+                        ZClass.raiseerror(ex);
+                    }
+
+                    return Ok();
+
+                }
+                else
+                {
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
+                }
+            }
+
+            //string rule = "";
+            //if (RuleId > 0)
+            //    rule = ExecuteRuleDasboard(RuleId, results);
+
+            //return Ok();
+        
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -200,6 +413,8 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
         }
+
+
 
         public string getWelcomeHtml(DashboarUserDTO newUser)
         {
