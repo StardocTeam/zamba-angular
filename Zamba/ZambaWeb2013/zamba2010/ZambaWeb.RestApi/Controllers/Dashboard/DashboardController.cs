@@ -180,7 +180,7 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 long newUserID = Zamba.Data.CoreData.GetNewID(IdTypes.USERTABLEID);
-                IUser newuser = new User();
+                IUser newuser = new Zamba.Core.User();
                 newuser.ID = newUserID;
                 newuser.Name = username;
                 newuser.Password = password;
@@ -336,6 +336,17 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 var username = request.UserId;
 
+                string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().configUserSidbar(username));
+                return Ok(JsonResult);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
         public bool sendRegister(string mailTo, string body)
         {
             try
@@ -355,12 +366,7 @@ namespace ZambaWeb.RestApi.Controllers
                 };
 
                 new SMail().SendMail(mail);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable,
-               new HttpError(StringHelper.InvalidParameter)));
-
-
-
-
+                return true;
             }
             catch (Exception ex)
             {
@@ -368,18 +374,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                 throw ex;
             }
-            finally
-            {
-                //if (mail != null)
-                //    mail.Dispose();
-            }
         }
-
-        private string getWelcomeHtml()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<MenuItem> ListMenuItem(DataTable result)
         {
             List<MenuItem> listItem = new List<MenuItem>();
