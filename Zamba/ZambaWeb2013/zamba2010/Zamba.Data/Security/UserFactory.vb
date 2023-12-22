@@ -306,6 +306,57 @@ Public Class UserFactory
         'UserTable.Add(usr.ID, usr)
     End Sub
 
+    Public Shared Sub AddUserFromDashboard(ByVal user As IUser)
+
+        Dim InsertQuery As New StringBuilder()
+
+        InsertQuery.Append(String.Format("INSERT INTO ZUSER_OR_GROUP VALUES ({0}, {1}, '{2}')", user.ID, Int64.Parse(Usertypes.User), user.Name))
+        Server.Con.ExecuteNonQuery(CommandType.Text, InsertQuery.ToString())
+
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "Usuario creado en table generica")
+        InsertQuery = New StringBuilder()
+        InsertQuery.Append("INSERT INTO UsrTable(id, name, correo, nombres, apellido, expirationdate, crdate, lupdate, password ) Values(")
+        InsertQuery.Append(user.ID.ToString())
+        InsertQuery.Append(" , '")
+        InsertQuery.Append(user.Name)
+        InsertQuery.Append("' , '")
+        InsertQuery.Append(user.eMail.Mail)
+        InsertQuery.Append("' , '")
+        InsertQuery.Append(user.Nombres)
+        InsertQuery.Append("' , '")
+        InsertQuery.Append(user.Apellidos)
+        InsertQuery.Append("' , ")
+        InsertQuery.Append(Servers.Server.Con.SysDate)
+        InsertQuery.Append(" , ")
+        InsertQuery.Append(Servers.Server.Con.SysDate)
+        InsertQuery.Append(" , ")
+        InsertQuery.Append(Servers.Server.Con.SysDate)
+        InsertQuery.Append(" , '")
+        InsertQuery.Append(Zamba.Tools.Encryption.EncryptString(user.Password, key, iv))
+        InsertQuery.Append("')")
+
+        Servers.Server.Con.ExecuteNonQuery(CommandType.Text, InsertQuery.ToString())
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "Usuario creado en table de usuarios")
+
+        InsertQuery = New System.Text.StringBuilder()
+        InsertQuery.Append("INSERT INTO UsrNotes(ID,Nombre,CONF_MAILSERVER,CONF_BASEMAIL,CONF_NOMUSERRED,ACTIVO) Values(")
+        InsertQuery.Append(user.ID)
+        InsertQuery.Append(",'")
+        InsertQuery.Append(user.Name)
+        InsertQuery.Append("','")
+        InsertQuery.Append(user.eMail.Servidor)
+        InsertQuery.Append("','")
+        InsertQuery.Append(user.eMail.Base)
+        InsertQuery.Append("','")
+        InsertQuery.Append(user.Name)
+        InsertQuery.Append("',1)")
+
+        Servers.Server.Con.ExecuteNonQuery(CommandType.Text, InsertQuery.ToString())
+        ZTrace.WriteLineIf(ZTrace.IsInfo, "Usuario creado en table de notes")
+
+        'sql = "insert into Usrnotes(ID,Nombre,CONF_MAILSERVER,CONF_BASEMAIL,CONF_NOMUSERRED,ACTIVO)Values(" & user.ID & ",'" & user.Name & "','" & user.eMail.Servidor & "','" & user.eMail.Base & "','" & user.Name & "',1)"
+        'UserTable.Add(usr.ID, usr)
+    End Sub
     Public Shared Function GetUserById(ByVal userId As Int64) As IUser
 
         Dim QueryBuilder As New StringBuilder()
@@ -889,6 +940,24 @@ Public Class UserFactory
             strinsert = Nothing
             ZTrace.WriteLineIf(ZTrace.IsInfo, "Grupo asignado satisfactoriamente")
 
+            Return True
+        Catch ex As Exception
+            Zamba.Core.ZClass.raiseerror(ex)
+            Return False
+        End Try
+
+    End Function
+
+    Public Shared Function AssignGroupFromDashboard(ByVal u As Int64, ByVal ug As Int64) As Boolean
+        Try
+            Dim strinsert As New System.Text.StringBuilder
+            strinsert.Append("Insert into usr_r_group(usrid,groupid) values(")
+            strinsert.Append(u)
+            strinsert.Append(",")
+            strinsert.Append(ug)
+            strinsert.Append(")")
+            Servers.Server.Con.ExecuteNonQuery(CommandType.Text, strinsert.ToString)
+            strinsert = Nothing
             Return True
         Catch ex As Exception
             Zamba.Core.ZClass.raiseerror(ex)
