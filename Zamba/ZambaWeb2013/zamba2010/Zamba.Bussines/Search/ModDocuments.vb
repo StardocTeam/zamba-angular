@@ -1958,7 +1958,7 @@ ReloadCache:
                                     autoSubstitutionIndexes.Add(_Index)
                                 Else
                                     strselect.Append($" as [{_Index.Name}]")
-                                    strPREselect.Append($",[{_Index.Name}]")
+                                    strPREselect.Append($",I.[{_Index.Name}]")
                                 End If
 
                             End If

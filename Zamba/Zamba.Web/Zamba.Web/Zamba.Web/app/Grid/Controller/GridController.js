@@ -1139,6 +1139,7 @@
     $scope.refreshGrid = function () {
         
         $scope.loading = true;
+        
         $scope.LoadResults($scope.parentResultId, $scope.partentEntityId, $scope.entities, $scope.parentTaskId, $scope.zvar, $scope.onlyimportants);
         $scope.removeCaller();
     }

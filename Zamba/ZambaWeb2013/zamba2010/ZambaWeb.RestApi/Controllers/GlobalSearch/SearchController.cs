@@ -190,7 +190,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [Route("api/search/GetUserData")]
-        [OverrideAuthorization]        
+        [OverrideAuthorization]
         public string GetUserData(int userId)
         {
             var user = GetUser(userId);
@@ -2103,7 +2103,8 @@ namespace ZambaWeb.RestApi.Controllers
 
                     return Ok(CResults);
                 }
-                else {
+                else
+                {
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("El parametro Mode contiene caracteres invalidos")));
                 }
 
@@ -2949,6 +2950,7 @@ namespace ZambaWeb.RestApi.Controllers
                                 .Replace("Â°", "º")
                                 .Replace("Ã", "í")
                                 ;
+
                             string a = "";
 
                             try
@@ -5549,14 +5551,14 @@ namespace ZambaWeb.RestApi.Controllers
                     IUser user;
                     try
                     {
-                         user = GetUser(Int64.Parse(paramRequest.Params["UserId"].ToString()));
+                        user = GetUser(Int64.Parse(paramRequest.Params["UserId"].ToString()));
                     }
                     catch (Exception)
                     {
                         return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable, new HttpError(StringHelper.InvalidParameter)));
                         throw;
                     }
-                    
+
 
                 }
                 else
@@ -7333,7 +7335,7 @@ namespace ZambaWeb.RestApi.Controllers
                     else
                     {
                         return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-new HttpError(StringHelper.InvalidParameter)));
+                        new HttpError(StringHelper.InvalidParameter)));
                     }
                 }
                 catch (Exception ex)
