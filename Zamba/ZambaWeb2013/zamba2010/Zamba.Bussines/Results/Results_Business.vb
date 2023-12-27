@@ -1736,7 +1736,7 @@ Public Class Results_Business
 
     Public Sub MapMail(newResult As INewResult)
         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Validando MSG...")
-        If newResult.FileName.ToLower().EndsWith(".msg") Then
+        If newResult.FileName.ToLower().EndsWith(".msg") Or newResult.FileName.ToLower().EndsWith(".eml") Then
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Mapeando archivo MSG...")
             Dim message As MailMessage = MailMessage.Load(newResult.FullPath)
 
