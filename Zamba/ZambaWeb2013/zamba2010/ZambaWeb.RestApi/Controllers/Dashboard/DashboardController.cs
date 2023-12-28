@@ -27,6 +27,7 @@ using Newtonsoft.Json.Linq;
 using static ZambaWeb.RestApi.Controllers.Dashboard.DB.ZambaTokenDatabase;
 using Zamba.Services;
 
+
 namespace ZambaWeb.RestApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -52,7 +53,7 @@ namespace ZambaWeb.RestApi.Controllers
                     phoneNumber,
                     request.Params["mail"],
                     request.Params["password"],
-                    department,false);
+                    department, false);
 
                 Validator validator = dashboardDatabase.EmailAlreadyTaken(newUser.Email);
 
@@ -73,7 +74,7 @@ namespace ZambaWeb.RestApi.Controllers
                     ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "No se pudo enviar el correo de verificacion.");
                     ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                 }
-                
+
 
                 return Ok(JsonConvert.SerializeObject(validator, Formatting.Indented));
             }
@@ -91,9 +92,9 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                
+
                 //Int32 RuleId = Convert.ToInt16(paramRequest.Params["password"]);
-               
+
                 int UserId = Convert.ToInt16(paramRequest.UserId);
 
                 List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
@@ -285,7 +286,7 @@ namespace ZambaWeb.RestApi.Controllers
             //    rule = ExecuteRuleDasboard(RuleId, results);
 
             //return Ok();
-        
+
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
@@ -361,7 +362,8 @@ namespace ZambaWeb.RestApi.Controllers
                         dashboardDatabase.ActivateUser(password, email, newUserId);
                     }
                 }
-                else {
+                else
+                {
                     ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Algunos parametros no estan completos");
                     return StatusCode(HttpStatusCode.BadRequest);
                 }
@@ -383,10 +385,12 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 DashboardDatabase dashboardDatabase = new DashboardDatabase();
                 string email = request.Params["mail"];
-                if (!String.IsNullOrEmpty(email)) {
+                if (!String.IsNullOrEmpty(email))
+                {
 
                     var emailExist = dashboardDatabase.EmailAlreadyTaken(email).emailIsTaken;
-                    if (emailExist) {
+                    if (emailExist)
+                    {
                         if (dashboardDatabase.UserNeedValidation(email))
                         {
                             DashboarUserDTO user = dashboardDatabase.GetUserDashboard(email.Trim());
@@ -408,7 +412,7 @@ namespace ZambaWeb.RestApi.Controllers
 
 
 
-        private long CreateNewUserForZamba(string username, string password, string names, string lastname, string email,long groupid)
+        private long CreateNewUserForZamba(string username, string password, string names, string lastname, string email, long groupid)
         {
 
             try
@@ -435,13 +439,13 @@ namespace ZambaWeb.RestApi.Controllers
                     Type = MailTypes.NetMail,
                     Puerto = mailPort
                 };
-                
+
 
                 UserBusiness UB = new UserBusiness();
                 UB.AddUserFromDashboard(newuser);
                 UB.SetNewUser(ref newuser);
                 UB.AssignGroupFromDashboard(newUserID, 171);
-   
+
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Dashboard - Nuevo usuario en Zamba - OK");
                 return newUserID;
             }
@@ -503,12 +507,12 @@ namespace ZambaWeb.RestApi.Controllers
                 string EndPoint = Request.RequestUri.Segments[1] + Request.RequestUri.Segments[2];
 
 
-               // var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
-               var validateDashboardRoute = DashboardRoutesHelper.validate  + "?" +
-                    "password=" + newUser.Password + "&" +
-                    "name=" + newUser.FirstName + "&" +
-                    "lastname=" + newUser.LastName + "&" +
-                    "email=" + newUser.Email;
+                // var pathEndPoint = Scheme + "://" + Authority + "/"+ EndPoint + "Dashboard/ActivateUser?" +
+                var validateDashboardRoute = DashboardRoutesHelper.validate + "?" +
+                     "password=" + newUser.Password + "&" +
+                     "name=" + newUser.FirstName + "&" +
+                     "lastname=" + newUser.LastName + "&" +
+                     "email=" + newUser.Email;
 
                 string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Views\\RegistrationWelcomeBody.html";
 
@@ -532,29 +536,35 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 var username = request.UserId;
-                var menuOPtions = new DashboardDatabase().optionsUserSidbar(username);
+                DataTable menuOPtions = new DashboardDatabase().optionsUserSidbar(username);
 
+                foreach (DataRow item in menuOPtions.Rows)
+                {
+                    MenuOptionsParameters MPParams = JsonConvert.DeserializeObject<MenuOptionsParameters>(item["parameters"].ToString());
+
+                    item["action"] += "?" + "ruleId=" + MPParams.ruleId + "&" + "typeRule=" + MPParams.typeRule;
+                }
 
                 rootObject data = new rootObject
                 {
-                    app = new app {  name = "stardoc", description = "Stardoc Sa"  },
+                    app = new app { name = "stardoc", description = "Stardoc Sa" },
                     user = new User { name = "", avatar = "", email = "" },
-                    menu = new menu
-                    {
-                        items = new List<MenuItem>
-                    {
-                    new MenuItem
-                    {
-                        text = "Principal",
-                        i18n = "menu.main",
-                        group = true,
-                        hideInBreadcrumb = true,
-                        children = ListMenuItem(menuOPtions)
+                    menu = new menu {
+
+                        items = new List<MenuItem>{
+
+                        new MenuItem{
+                            text = "Principal",
+                            i18n = "menu.main",
+                            group = true,
+                            hideInBreadcrumb = true,
+                            children = ListMenuItem(menuOPtions)
                             }
                         }
                     }
                 };
-                 return Ok(JsonConvert.SerializeObject(data, Formatting.Indented));
+
+                return Ok(JsonConvert.SerializeObject(data, Formatting.Indented));
             }
             catch (Exception ex)
             {
@@ -619,7 +629,7 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 MenuItem menuitem = new MenuItem();
                 menuitem.text = item["name"].ToString();
-                menuitem.icon =  item["icon"].ToString();
+                menuitem.icon = item["icon"].ToString();
                 menuitem.link = item["action"].ToString();
 
                 listItem.Add(menuitem);
@@ -657,8 +667,8 @@ namespace ZambaWeb.RestApi.Controllers
             public bool group { get; set; }
             public bool hideInBreadcrumb { get; set; }
             public List<MenuItem> children { get; set; }
-            public string icon { get;  set; }
-            public string link { get;  set; }
+            public string icon { get; set; }
+            public string link { get; set; }
         }
 
         public class menu
