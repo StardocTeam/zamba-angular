@@ -9,7 +9,6 @@ using System.Net;
 using Zamba.Framework;
 using ZambaWeb.RestApi.Controllers.Dashboard.DB;
 using static ZambaWeb.RestApi.Controllers.Dashboard.DB.DashboardDatabase;
-using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Class;
 using static Zamba.Data.UserFactory;
 using System.IO;
@@ -22,6 +21,11 @@ using System.Collections;
 using Zamba.Core.Cache;
 using static ZambaWeb.RestApi.Controllers.SearchController;
 using Zamba.Core.WF.WF;
+using ZambaWeb.RestApi.ViewModels;
+using System.Web;
+using Newtonsoft.Json.Linq;
+using static ZambaWeb.RestApi.Controllers.Dashboard.DB.ZambaTokenDatabase;
+using Zamba.Services;
 
 namespace ZambaWeb.RestApi.Controllers
 {
@@ -297,11 +301,24 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                UserInfo userInfo = new UserInfo();
+
 
                 string email = request.Params["email"];
                 string password = request.Params["password"];
 
                 LoginResponseData userData = dashboardDatabase.Login(email, password);
+
+                if (userData.msg == "ok") {
+
+                    userInfo = new ZambaTokenDatabase().GetZambaToken(email,password);
+
+                    userData.user.token = userInfo.token;
+                    userData.user.name = email;
+
+                    userData.user.groups = new PermissionsDatabase().getUserPermissions(userData.user.userid);
+                }
+
 
                 return Ok(JsonConvert.SerializeObject(userData, Formatting.Indented));
             }
@@ -312,6 +329,10 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
+
+
+
+
 
         [AcceptVerbs("GET", "POST")]
         [Route("ActivateUser")]

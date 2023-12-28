@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -48,12 +49,14 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 DataRow row = dataSet.Tables[0].Rows[0];
 
                 loginResponseData.msg = "ok";
-                loginResponseData.user.token = "123456789";
+                loginResponseData.user.token = "123456789"; 
                 loginResponseData.user.name = row["username"].ToString();
                 loginResponseData.user.email = row["email"].ToString();
                 loginResponseData.user.id = Convert.ToInt32(row["Enterpriseuser_id"]);
                 loginResponseData.user.time = 0;
                 loginResponseData.isActive = Convert.ToBoolean(row["isactive"]);
+                loginResponseData.user.userid = row["userid"] != DBNull.Value ? Convert.ToInt32(row["userid"]) : 0;
+                
             }
             else
             {
@@ -279,6 +282,9 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
             public int time { get; set; }
 
+            public int userid { get; set; }
+
+            public ArrayList groups { get; set; }
         }
     }
 }
