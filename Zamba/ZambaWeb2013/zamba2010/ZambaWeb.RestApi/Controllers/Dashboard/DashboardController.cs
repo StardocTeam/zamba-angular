@@ -536,7 +536,8 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 var username = request.UserId;
-                DataTable menuOPtions = new DashboardDatabase().optionsUserSidbar(username);
+                var usergroup = request.Params["groups"];
+                DataTable menuOPtions = new DashboardDatabase().optionsUserSidbar(usergroup);
 
                 foreach (DataRow item in menuOPtions.Rows)
                 {
@@ -580,9 +581,9 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                var username = request.UserId;
+                var usergroup = request.Params["groups"];
 
-                string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().configUserSidbar(username));
+                string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().configUserSidbar(usergroup));
                 return Ok(JsonResult);
             }
             catch (Exception ex)

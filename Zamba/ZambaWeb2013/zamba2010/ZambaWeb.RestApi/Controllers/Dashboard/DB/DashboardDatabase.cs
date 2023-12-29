@@ -172,10 +172,10 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return DSResult.Tables[0];
         }
 
-        public DataTable configUserSidbar(long user)
+        public DataTable configUserSidbar(string groupid)
         {
             StringBuilder sqlCommand = new StringBuilder();
-            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DashboardUserConfig where valueconfig='viewSidbar' and userid =" + user);
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DashboardUserConfig where valueconfig = 'viewSidbar' AND group_id IN ("+ groupid +");");
 
             DataSet DSResult = new DataSet("DashboardUsers");
 
@@ -183,10 +183,10 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return DSResult.Tables[0];
         }
 
-        public DataTable optionsUserSidbar(long user)
+        public DataTable optionsUserSidbar(string groupid)
         {
             StringBuilder sqlCommand = new StringBuilder();
-            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.SidebarMenuItem WHERE userid = " + user + " ORDER BY position ASC");
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.SidebarMenuItem WHERE group_id IN (" + groupid + ") ORDER BY position ASC");
 
             DataSet DSResult = new DataSet("DashboardUsersOption");
 

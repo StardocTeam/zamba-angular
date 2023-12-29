@@ -1,0 +1,128 @@
+﻿<!DOCTYPE HTML>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion: 10.2023-->
+<!--Ultima Edicion: -->
+<!--Modificado por: -->
+
+
+<head>
+    <title></title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+</head>
+
+<body style="font-family:'Times New Roman'">
+    <div class="container-fluid">
+        <form name="frmMain" action="DocRRHHInsertar.html">
+            <input id="hdnRuleId" type="hidden" />
+            <input id="hdnAsocId" type="hidden" />
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="DocRRHH">
+
+                    <div id="tblLicencias">
+					
+						<div class="form-group row"></div>
+						<div class="form-group row"> 							
+							<div class="header background-blue">
+                                <h4 Style="text-align:center; bold">Documentación de RRHH sobre el Empleado</h4>
+                            </div>							
+						</div>
+                        									
+						<div class="form-group row">
+							<div class="col-md-7"></div>
+							<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding: 3px">Nro de Legajo</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_110" name="zamba_index_110" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>
+
+						<div class="form-group row">
+							<div class="col-md-1"></div>
+							<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding: 3px">Nombres</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_101" name="zamba_index_101" disabled="disabled"/>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding: 3px">Apellidos</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_102" name="zamba_index_102" disabled="disabled"/>
+                                </div>
+                            </div>                            
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon" style="padding: 3px">CUIL</span>
+                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_108" name="zamba_index_108" disabled="disabled"/>
+                                </div>
+                            </div>
+                        </div>												
+						                    
+						<div class="form-group row"></div>
+						<div class="form-group row"></div>					
+						<div class="form-group row"></div>
+						<div class="form-group row" style="margin-bottom: 40px;">
+							<div class="col-md-1"></div>
+							<div class="col-lg-5 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+								<div class="row">							
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<span class="input-group-addon" style=""> Observaciones</span>
+										
+										<div id="appObservaciones" ng-controller="ObservacionController">
+											<zamba-observaciones index-id="136" entity-id="108"></zamba-observaciones>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+								
+							<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">						
+								<div class="row">							
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<span class="input-group-addon" style=""> Agregue abajo la documentación requerida </span>
+										<div class="form-group row"></div>
+										
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 96%;">								
+											<div ng-controller="appController"> <zamba-drop id="108" indexids="159"> </zamba-drop>
+											</div>
+										</div>										
+									</div>
+								</div>						
+							</div>																			
+						</div>						
+							
+						<center>
+							<div class="form-group row">
+								<input class="btn  btn-primary btn-md" id="zamba_rule_334" name="zamba_rule_334"
+                               type="submit" value="Cerrar" onclick="SetRuleId(this);" />
+							</div>
+						</center>
+						<center>                
+							<div class="col-md-12">
+								<span style="color:White">DocRRHHInsertar.html</span>
+							</div>                
+						</center>
+					</div>
+                </div>					
+            </div>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+			
+			<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
+			<div class="form-group row">
+				<div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+					<div class="row">
+						<zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+					</div>
+				</div>
+			</div>            
+        </form>
+    </div>
+</body>
+</html>

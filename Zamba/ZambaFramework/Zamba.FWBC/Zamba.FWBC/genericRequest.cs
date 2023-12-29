@@ -49,6 +49,14 @@ namespace Zamba.Framework
 
     };
 
+    public class genericRequestDashboard
+    {
+        public long UserId { get; set; }
+        public Dictionary<string, string> Params { get; set; } = new Dictionary<string, string>();
+
+
+    };
+
 
 
     public class genericRequestParam
