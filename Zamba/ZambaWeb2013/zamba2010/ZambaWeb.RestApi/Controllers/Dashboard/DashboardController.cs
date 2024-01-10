@@ -310,9 +310,10 @@ namespace ZambaWeb.RestApi.Controllers
 
                 LoginResponseData userData = dashboardDatabase.Login(email, password);
 
-                if (userData.msg == "ok") {
+                if (userData.msg == "ok")
+                {
 
-                    userInfo = new ZambaTokenDatabase().GetZambaToken(email,password);
+                    userInfo = new ZambaTokenDatabase().GetZambaToken(email, password);
 
                     userData.user.token = userInfo.token;
                     userData.user.name = email;
@@ -550,7 +551,8 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     app = new app { name = "stardoc", description = "Stardoc Sa" },
                     user = new User { name = "", avatar = "", email = "" },
-                    menu = new menu {
+                    menu = new menu
+                    {
 
                         items = new List<MenuItem>{
 
@@ -585,6 +587,51 @@ namespace ZambaWeb.RestApi.Controllers
 
                 string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().configUserSidbar(usergroup));
                 return Ok(JsonResult);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+        static string GetImageContentType(string imagePath)
+        {
+            // Obtener la extensión del archivo desde la ruta de la imagen
+            string extension = Path.GetExtension(imagePath).TrimStart('.');
+
+            return "";
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getCarouselContent")]
+        public IHttpActionResult getCarouselContent(genericRequest request)
+        {
+            try
+            {
+                string xdxd = "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\ultrainstinto.jpeg";
+                List<string> Listcontent = new List<string>();
+
+                DataTable resultsDT = new DashboardDatabase().CarouselContent(request.UserId.ToString());
+                if (resultsDT.Rows.Count > 0)
+                {
+                    foreach (DataRow item in resultsDT.Rows)
+                    {
+                        string path = item["Ruta"].ToString();
+
+                        if (File.Exists(path))
+                        {
+                            byte[] BytesArray = FileEncode.Encode(path);
+                            var Base64String = System.Convert.ToBase64String(BytesArray);
+
+                            string contentType = Path.GetExtension(path).TrimStart('.');
+                            Listcontent.Add("data:image/" + contentType + ";base64," + Base64String);
+                        }
+                    }
+                }
+
+                return Ok(JsonConvert.SerializeObject(Listcontent));
             }
             catch (Exception ex)
             {
