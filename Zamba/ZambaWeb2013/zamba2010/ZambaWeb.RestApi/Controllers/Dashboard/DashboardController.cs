@@ -596,36 +596,32 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-        static string GetImageContentType(string imagePath)
-        {
-            // Obtener la extensión del archivo desde la ruta de la imagen
-            string extension = Path.GetExtension(imagePath).TrimStart('.');
-
-            return "";
-        }
-
         [AcceptVerbs("GET", "POST")]
         [Route("getCarouselContent")]
         public IHttpActionResult getCarouselContent(genericRequest request)
         {
             try
             {
-                string xdxd = "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\ultrainstinto.jpeg";
+                string[] ListaDeImagenesTEST = { "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\14.jpg", "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\15.jpg", "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\12.jpg" };
                 List<string> Listcontent = new List<string>();
 
                 DataTable resultsDT = new DashboardDatabase().CarouselContent(request.UserId.ToString());
+
                 if (resultsDT.Rows.Count > 0)
                 {
-                    foreach (DataRow item in resultsDT.Rows)
+                    Listcontent = GetListBase64Strings(resultsDT);
+                }
+                else
+                {
+                    foreach (string item in ListaDeImagenesTEST)
                     {
-                        string path = item["Ruta"].ToString();
 
-                        if (File.Exists(path))
+                        if (File.Exists(item))
                         {
-                            byte[] BytesArray = FileEncode.Encode(path);
+                            byte[] BytesArray = FileEncode.Encode(item);
                             var Base64String = System.Convert.ToBase64String(BytesArray);
 
-                            string contentType = Path.GetExtension(path).TrimStart('.');
+                            string contentType = System.IO.Path.GetExtension(item).TrimStart('.');
                             Listcontent.Add("data:image/" + contentType + ";base64," + Base64String);
                         }
                     }
@@ -639,6 +635,52 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getCarouselConfig")]
+        public IHttpActionResult getCarouselConfig(genericRequest request)
+        {
+            try
+            {
+                //TODO: Parametros de configuracion del widget 'Carousel'
+
+                //[nzDotPosition]= "dotPosition" //posible options: top, buttom, rigth, left
+                //[nzEnableSwipe] = "true"
+                //[nzAutoPlaySpeed] = "5000"
+                //[nzAutoPlay] = "true"
+                //[nzLoop] = "true"
+
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+        private List<string> GetListBase64Strings(DataTable resultsDT)
+        {
+            List<string> list = new List<string>();
+
+            foreach (DataRow item in resultsDT.Rows)
+            {
+                string path = item["Ruta"].ToString();
+
+                if (File.Exists(path))
+                {
+                    byte[] BytesArray = FileEncode.Encode(path);
+                    var Base64String = System.Convert.ToBase64String(BytesArray);
+
+                    string contentType = System.IO.Path.GetExtension(path).TrimStart('.');
+                    list.Add("data:image/" + contentType + ";base64," + Base64String);
+                }
+            }
+
+            return list;
         }
 
         public bool sendRegister(string mailTo, string body)
