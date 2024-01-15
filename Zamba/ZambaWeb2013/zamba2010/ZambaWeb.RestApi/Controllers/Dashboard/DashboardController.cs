@@ -602,7 +602,6 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                string[] ListaDeImagenesTEST = { "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\14.jpg", "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\15.jpg", "C:\\Users\\Stardoc\\Desktop\\Archivos para Testear\\12.jpg" };
                 List<string> Listcontent = new List<string>();
 
                 DataTable resultsDT = new DashboardDatabase().CarouselContent(request.UserId.ToString());
@@ -613,18 +612,8 @@ namespace ZambaWeb.RestApi.Controllers
                 }
                 else
                 {
-                    foreach (string item in ListaDeImagenesTEST)
-                    {
-
-                        if (File.Exists(item))
-                        {
-                            byte[] BytesArray = FileEncode.Encode(item);
-                            var Base64String = System.Convert.ToBase64String(BytesArray);
-
-                            string contentType = System.IO.Path.GetExtension(item).TrimStart('.');
-                            Listcontent.Add("data:image/" + contentType + ";base64," + Base64String);
-                        }
-                    }
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "No hay contenido de caruosel para el usuario: " + request.UserId.ToString());
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound));
                 }
 
                 return Ok(JsonConvert.SerializeObject(Listcontent));
@@ -644,15 +633,16 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                //TODO: Parametros de configuracion del widget 'Carousel'
+                DataTable resultsDT = new DashboardDatabase().CarouselConfig(request.UserId.ToString());
+                CarouselConfigDTO CConfig = new CarouselConfigDTO();
 
-                //[nzDotPosition]= "dotPosition" //posible options: top, buttom, rigth, left
-                //[nzEnableSwipe] = "true"
-                //[nzAutoPlaySpeed] = "5000"
-                //[nzAutoPlay] = "true"
-                //[nzLoop] = "true"
+                CConfig.DotPosition = resultsDT.Rows[0]["DotPosition"].ToString();
+                CConfig.EnableSwipe = int.Parse(resultsDT.Rows[0]["EnableSwipe"].ToString());
+                CConfig.AutoPlaySpeed = int.Parse(resultsDT.Rows[0]["AutoPlaySpeed"].ToString());
+                CConfig.AutoPlay = int.Parse(resultsDT.Rows[0]["AutoPlay"].ToString());
+                CConfig.Loop = int.Parse(resultsDT.Rows[0]["Loop"].ToString());
 
-                throw new NotImplementedException();
+                return Ok(JsonConvert.SerializeObject(CConfig));
             }
             catch (Exception ex)
             {
@@ -668,16 +658,33 @@ namespace ZambaWeb.RestApi.Controllers
 
             foreach (DataRow item in resultsDT.Rows)
             {
-                string path = item["Ruta"].ToString();
+                string SourceContent = item["SourceContent"].ToString();
+                string ContentPath = item["ContentPath"].ToString();
 
-                if (File.Exists(path))
+                if (SourceContent == "RestApiApp")
                 {
-                    byte[] BytesArray = FileEncode.Encode(path);
-                    var Base64String = System.Convert.ToBase64String(BytesArray);
+                    string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Controllers\\Dashboard\\CarouselContent\\" + ContentPath;
 
-                    string contentType = System.IO.Path.GetExtension(path).TrimStart('.');
-                    list.Add("data:image/" + contentType + ";base64," + Base64String);
+                    if (File.Exists(filePath))
+                    {
+                        byte[] BytesArray = FileEncode.Encode(filePath);
+                        var Base64String = System.Convert.ToBase64String(BytesArray);
+
+                        string contentType = System.IO.Path.GetExtension(filePath).TrimStart('.');
+                        list.Add("data:image/" + contentType + ";base64," + Base64String);
+                    }
                 }
+                else
+                {
+                    if (File.Exists(ContentPath))
+                    {
+                        byte[] BytesArray = FileEncode.Encode(ContentPath);
+                        var Base64String = System.Convert.ToBase64String(BytesArray);
+
+                        string contentType = System.IO.Path.GetExtension(ContentPath).TrimStart('.');
+                        list.Add("data:image/" + contentType + ";base64," + Base64String);
+                    }
+                }                
             }
 
             return list;
@@ -773,6 +780,13 @@ namespace ZambaWeb.RestApi.Controllers
             public menu menu { get; set; }
         }
 
-
+        public class CarouselConfigDTO
+        {
+            public string DotPosition { get; set; }
+            public int EnableSwipe { get; set; }
+            public int AutoPlaySpeed { get; set; }
+            public int AutoPlay { get; set; }
+            public int Loop { get; set; }
+        }
     }
 }

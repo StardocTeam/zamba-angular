@@ -185,16 +185,32 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
 
 
-        public DataTable CarouselContent(string groupid)
+        public DataTable CarouselContent(string UserId)
         {
             StringBuilder sqlCommand = new StringBuilder();
-            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DashboardUserConfig where valueconfig = 'viewSidbar' AND group_id IN (" + groupid + ");");
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.CarouselContent where UserId = " + UserId);
 
-            DataSet DSResult = new DataSet("Carouselcontent");
+            DataSet DSResult = new DataSet("CarouselContent");
 
             DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
             return DSResult.Tables[0];
         }
+
+
+
+
+
+        public DataTable CarouselConfig(string UserId)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.CarouselConfig where UserId = " + UserId);
+
+            DataSet DSResult = new DataSet("CarouselConfig");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
 
         public DataTable optionsUserSidbar(string groupid)
         {
