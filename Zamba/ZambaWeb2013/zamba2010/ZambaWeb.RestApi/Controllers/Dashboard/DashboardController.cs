@@ -310,9 +310,10 @@ namespace ZambaWeb.RestApi.Controllers
 
                 LoginResponseData userData = dashboardDatabase.Login(email, password);
 
-                if (userData.msg == "ok") {
+                if (userData.msg == "ok")
+                {
 
-                    userInfo = new ZambaTokenDatabase().GetZambaToken(email,password);
+                    userInfo = new ZambaTokenDatabase().GetZambaToken(email, password);
 
                     userData.user.token = userInfo.token;
                     userData.user.name = email;
@@ -550,7 +551,8 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     app = new app { name = "stardoc", description = "Stardoc Sa" },
                     user = new User { name = "", avatar = "", email = "" },
-                    menu = new menu {
+                    menu = new menu
+                    {
 
                         items = new List<MenuItem>{
 
@@ -592,6 +594,100 @@ namespace ZambaWeb.RestApi.Controllers
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getCarouselContent")]
+        public IHttpActionResult getCarouselContent(genericRequest request)
+        {
+            try
+            {
+                List<string> Listcontent = new List<string>();
+
+                DataTable resultsDT = new DashboardDatabase().CarouselContent(request.UserId.ToString());
+
+                if (resultsDT.Rows.Count > 0)
+                {
+                    Listcontent = GetListBase64Strings(resultsDT);
+                }
+                else
+                {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "No hay contenido de caruosel para el usuario: " + request.UserId.ToString());
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound));
+                }
+
+                return Ok(JsonConvert.SerializeObject(Listcontent));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getCarouselConfig")]
+        public IHttpActionResult getCarouselConfig(genericRequest request)
+        {
+            try
+            {
+                DataTable resultsDT = new DashboardDatabase().CarouselConfig(request.UserId.ToString());
+                CarouselConfigDTO CConfig = new CarouselConfigDTO();
+
+                CConfig.DotPosition = resultsDT.Rows[0]["DotPosition"].ToString();
+                CConfig.EnableSwipe = int.Parse(resultsDT.Rows[0]["EnableSwipe"].ToString());
+                CConfig.AutoPlaySpeed = int.Parse(resultsDT.Rows[0]["AutoPlaySpeed"].ToString());
+                CConfig.AutoPlay = int.Parse(resultsDT.Rows[0]["AutoPlay"].ToString());
+                CConfig.Loop = int.Parse(resultsDT.Rows[0]["Loop"].ToString());
+
+                return Ok(JsonConvert.SerializeObject(CConfig));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+        private List<string> GetListBase64Strings(DataTable resultsDT)
+        {
+            List<string> list = new List<string>();
+
+            foreach (DataRow item in resultsDT.Rows)
+            {
+                string SourceContent = item["SourceContent"].ToString();
+                string ContentPath = item["ContentPath"].ToString();
+
+                if (SourceContent == "RestApiApp")
+                {
+                    string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Controllers\\Dashboard\\CarouselContent\\" + ContentPath;
+
+                    if (File.Exists(filePath))
+                    {
+                        byte[] BytesArray = FileEncode.Encode(filePath);
+                        var Base64String = System.Convert.ToBase64String(BytesArray);
+
+                        string contentType = System.IO.Path.GetExtension(filePath).TrimStart('.');
+                        list.Add("data:image/" + contentType + ";base64," + Base64String);
+                    }
+                }
+                else
+                {
+                    if (File.Exists(ContentPath))
+                    {
+                        byte[] BytesArray = FileEncode.Encode(ContentPath);
+                        var Base64String = System.Convert.ToBase64String(BytesArray);
+
+                        string contentType = System.IO.Path.GetExtension(ContentPath).TrimStart('.');
+                        list.Add("data:image/" + contentType + ";base64," + Base64String);
+                    }
+                }                
+            }
+
+            return list;
         }
 
         public bool sendRegister(string mailTo, string body)
@@ -684,6 +780,13 @@ namespace ZambaWeb.RestApi.Controllers
             public menu menu { get; set; }
         }
 
-
+        public class CarouselConfigDTO
+        {
+            public string DotPosition { get; set; }
+            public int EnableSwipe { get; set; }
+            public int AutoPlaySpeed { get; set; }
+            public int AutoPlay { get; set; }
+            public int Loop { get; set; }
+        }
     }
 }

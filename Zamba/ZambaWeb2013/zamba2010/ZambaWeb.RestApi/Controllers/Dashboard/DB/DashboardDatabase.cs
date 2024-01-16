@@ -183,6 +183,35 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return DSResult.Tables[0];
         }
 
+
+
+        public DataTable CarouselContent(string UserId)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.CarouselContent where UserId = " + UserId);
+
+            DataSet DSResult = new DataSet("CarouselContent");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
+
+
+
+
+        public DataTable CarouselConfig(string UserId)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.CarouselConfig where UserId = " + UserId);
+
+            DataSet DSResult = new DataSet("CarouselConfig");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
+
         public DataTable optionsUserSidbar(string groupid)
         {
             StringBuilder sqlCommand = new StringBuilder();
