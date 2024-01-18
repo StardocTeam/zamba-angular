@@ -721,6 +721,10 @@ namespace ZambaWeb.RestApi.Controllers
         public List<MenuItem> ListMenuItem(DataTable result)
         {
             List<MenuItem> listItem = new List<MenuItem>();
+            if (result == null) {
+
+                return listItem;
+            }
 
             foreach (DataRow item in result.Rows)
             {
