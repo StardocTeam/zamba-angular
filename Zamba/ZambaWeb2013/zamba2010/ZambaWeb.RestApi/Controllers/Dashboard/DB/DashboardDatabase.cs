@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Zamba.Core;
+using Zamba.Framework;
 using Zamba.Servers;
 
 namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
@@ -229,6 +230,28 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.Rol");
 
             DataSet DSResult = new DataSet("Rol");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
+        internal void setWidgetsContainer(genericRequest request)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("INSERT INTO zambabpm_RRHH.WidgetsContainer " +
+                "([UserId], [Options], [WidgetCoordinates]) " +
+                "VALUES " +
+                "(" + request.UserId.ToString() + ", '" + request.Params["options"].ToString() + "', '" + request.Params["widgetsContainer"].ToString() + "')");
+
+            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+        }
+
+        internal DataTable getWidgetsContainer(string groupid)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.WidgetsContainer WHERE UserId = " + groupid);
+
+            DataSet DSResult = new DataSet("WidgetsContainer");
 
             DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
             return DSResult.Tables[0];

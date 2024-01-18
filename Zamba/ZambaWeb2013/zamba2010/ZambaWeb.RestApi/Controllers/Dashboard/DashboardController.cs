@@ -652,6 +652,47 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("setWidgetsContainer")]
+        public IHttpActionResult setWidgetsContainer(genericRequest request)
+        {
+            try
+            {
+                new DashboardDatabase().setWidgetsContainer(request);
+                return Ok("Insercion Exitosa");
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+
+
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getWidgetsContainer")]
+        public IHttpActionResult getWidgetsContainer(genericRequest request)
+        {
+            try
+            {
+                DataTable resultsDT = new DashboardDatabase().getWidgetsContainer(request.UserId.ToString());
+                return Ok(JsonConvert.SerializeObject(resultsDT));
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+
+
         private List<string> GetListBase64Strings(DataTable resultsDT)
         {
             List<string> list = new List<string>();
