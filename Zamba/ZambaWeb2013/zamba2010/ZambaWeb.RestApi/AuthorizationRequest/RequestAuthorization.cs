@@ -277,7 +277,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                             property.Name != "OpenTaskOnOneResult" && property.Name != "HasResults" &&
                             property.Name != "SearchResultsObject" && property.Name != "UsedZambafilters" &&
                             property.Name != "currentMode" && property.Name != "ExpirationDate" && 
-                            property.Name != "lastNodeSelected" && property.Name != "filter"
+                            property.Name != "lastNodeSelected" && property.Name != "filter" && property.Name != "selectedIndex"
                             )
                         {
                             ZTrace.WriteLineIf(ZTrace.IsInfo, "La validacion de propiedades del SearchDTO: retornando 'false'.");
