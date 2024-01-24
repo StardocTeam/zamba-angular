@@ -1,172 +1,201 @@
 ﻿<!DOCTYPE HTML>
-<html>
+<html lang="es">
 <!--Autor:Stardoc by GMR-->
-<!--Fecha Creacion: 10.2023-->
+<!--Fecha Creacion: 01.2024-->
 <!--Ultima Edicion: -->
 <!--Modificado por: -->
 
-
 <head>
-    <title></title>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario para Solicitud de Licencia</title>
     
+    <style>
+        body {
+            font-family: 'Times New Roman';
+			background-color: black;
+			color: white;
+        }
+
+        .form-container {
+            padding: 20px;
+            border: 5px solid #ddd;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-submit {
+            background-color: #0bb4c4;
+            color: #fff;
+        }
+		
+		.nav-tabs .nav-link {
+            color: white;
+        }
+
+        .tab-content {
+            margin-top: 20px;
+        }
+
+        .tab-pane {
+            margin-bottom: 20px;
+        }
+    </style>
+
 </head>
 
-<body style="font-family:'Times New Roman'">
+<body>
     <div class="container-fluid">
         <form name="frmMain" action="LicenciasInsertar.html">
-            <input id="hdnRuleId" type="hidden" />
-            <input id="hdnAsocId" type="hidden" />
-
+            
             <div class="tab-content">
                 <div class="tab-pane active" id="Licencias">
-
-                    <div id="tblLicencias">
-					
-						<div class="form-group row"></div>
-						<div class="form-group row"> 							
-							<div class="header background-blue">
-                                <h4 Style="text-align:center; bold">SOLICITUD DE LICENCIAS</h4>
-                            </div>							
-						</div>
-                        									
-						<div class="form-group row">
-							<div class="col-md-2"></div>
-                            <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Apellido y Nombre</span>
-                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_138" name="zamba_index_138" />
-                                </div>
-                            </div>                            
-							<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">CUIL</span>
-                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_108" name="zamba_index_108" />
-                                </div>
-                            </div>
-							<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Nro de Legajo</span>
-                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_110" name="zamba_index_110" />
-                                </div>
-                            </div>
-                        </div>						
-						
-						<div class="form-group row">                            
-							<div class="col-md-2"></div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Período de Licencia</span>
-                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_164" name="zamba_index_164" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-							<div class="col-md-2"></div>
-							<div class="col-lg-4 col-md-2 col-sm-6 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Tipo de Licencia</span>
-                                    <select class="form-control input-sm " style=" color: #090A0A; font-weight: bold" id="zamba_index_160" name="zamba_index_160"></select>
-                                </div>
-                            </div>
-							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Días de Licencias</span>
-                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_166" name="zamba_index_166" />
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                               <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Días Restantes</span>
-                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_169" name="zamba_index_169" />
-                                </div>
-                            </div>														
-                        </div>
-						
-						<div class="form-group row"></div>						
-						
-                        <div class="form-group row">											
-							<div class="col-md-2"></div>
-                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Fecha Desde</span>
-                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_162" name="zamba_index_162" />
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Fecha Hasta</span>
-                                    <input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_163" name="zamba_index_163" />                                    
-                                </div>
-                            </div>
-							<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                               <div class="input-group">
-                                    <span class="input-group-addon" style="padding: 3px">Días Solicitados</span>
-                                    <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_168" name="zamba_index_168" />
-                                </div>
-                            </div>                                                        
-                        </div>						
-						                    
-						<div class="form-group row"></div>
-						<div class="form-group row"></div>					
-						<div class="form-group row"></div>
-						<div class="form-group row" style="margin-bottom: 40px;">
-							<div class="col-md-2"></div>
-							<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">
-								<div class="row">							
-									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<span class="input-group-addon" style=""> Observaciones</span>
-										
-										<div id="appObservaciones" ng-controller="ObservacionController">
-											<zamba-observaciones index-id="136" entity-id="111"></zamba-observaciones>
-										</div>
-										
-									</div>
+					<div class="form-container">
+						<!-- Contenido de Licencias -->
+						<div id="tblLicencias">						
+							
+							<div class="form-group row">
+								<div class="form-group row"> </div>
+								<div class="col-md-1"></div>
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" style="position:relative;top:-20px">
+									<span class="input-group-addon" style=""> Solicitud de Licencias</span>
 								</div>
 							</div>
-								
-							<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">						
-								<div class="row">							
-									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<span class="input-group-addon" style=""> Agregue abajo el Certificado de la Licencia </span>
-										<div class="form-group row"></div>
-										
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 96%;">								
-											<div ng-controller="appController"> <zamba-drop id="0" > </zamba-drop>
-											</div>
-										</div>										
-									</div>
-								</div>						
-							</div>																			
-						</div>						
-							
-						<center>                        
+																					
 							<div class="form-group row">
-								<input class="btn  btn-primary btn-md" id="zamba_rule_173" name="zamba_rule_173"
-								type="submit" value="Solicitar" onclick="SetRuleId(this);" />
+								<div class="col-md-2"></div>
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Apellidos</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_102" name="zamba_index_102" />
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Nombres</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_101" name="zamba_index_101" />										
+									</div>
+								</div>								                            
+								<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Nro de Legajo</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_110" name="zamba_index_110" />
+									</div>
+								</div>
+							</div>						
+							
+							<div class="form-group row">                            
+								<div class="col-md-2"></div>
+								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Período de Licencia</span>
+										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_164" name="zamba_index_164" />
+									</div>
+								</div>							
+								<div class="col-lg-4 col-md-2 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Tipo de Licencia</span>
+										<select class="form-control input-sm " style=" color: #090A0A; font-weight: bold" id="zamba_index_160" name="zamba_index_160"></select>
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Días Correspondientes</span>
+										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_166" name="zamba_index_166" />
+									</div>
+								</div>
+																						
 							</div>
-						</center>						
-						<center>                
-							<div class="col-md-12">
-								<span style="color:White">LicenciasInsertar.html</span>
-							</div>                
-						</center>
+							
+							<div class="form-group row"></div>						
+							
+							<div class="form-group row">											
+								<div class="col-md-2"></div>
+								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Fecha Desde</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_162" name="zamba_index_162" />
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Fecha Hasta</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_163" name="zamba_index_163" />                                    
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+								   <div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Días Solicitados</span>
+										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_168" name="zamba_index_168" />
+									</div>
+								</div>
+								<!-- <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12"> -->
+								   <!-- <div class="input-group"> -->
+										<!-- <span class="input-group-addon" style="padding: 3px">Días Restantes</span> -->
+										<!-- <input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_169" name="zamba_index_169" /> -->
+									<!-- </div> -->
+								<!-- </div> -->
+							</div>						
+												
+							<div class="form-group row"></div>
+							<div class="form-group row"></div>					
+							<div class="form-group row"></div>
+							<div class="form-group row" style="margin-bottom: 40px;">
+								<div class="col-md-2"></div>
+								<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+									<div class="row">							
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<span class="input-group-addon" style=""> Observaciones</span>
+											
+											<div id="appObservaciones" ng-controller="ObservacionController">
+												<zamba-observaciones index-id="136" entity-id="111"></zamba-observaciones>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+									
+								<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 style="position:relative;top:-20px">						
+									<div class="row">							
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<span class="input-group-addon" style=""> Agregue abajo el Certificado de la Licencia </span>
+											<div class="form-group row"></div>
+											
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 96%;">								
+												<div ng-controller="appController"> <zamba-drop id="0" > </zamba-drop>
+												</div>
+											</div>										
+										</div>
+									</div>						
+								</div>																			
+							</div>						
+								
+							<center>                        
+								<div class="form-group row">
+									<input class="btn  btn-primary btn-md" id="zamba_rule_173" name="zamba_rule_173"
+									type="submit" value="Solicitar" onclick="SetRuleId(this);" />
+								</div>
+							</center>						
+							<center>                
+								<div class="col-md-12">
+									<span style="color:White">LicenciasInsertar.html</span>
+								</div>                
+							</center>
+						</div>
 					</div>
                 </div>					
             </div>
-<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-			
-			<hr style="border: 0 ; border-top: 1px double Blue; width: 100%;">
-			<div class="form-group row">
-				<div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
-					<div class="row">
-						<zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+<!--iframe------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+						
+			<div class="form-container">
+				<div class="form-group row">
+					<div class="col-md-12 " id="iframeStyle" style="height: auto" ng-controller="DocumentViewerController">
+						<div class="row">
+							<zamba-document-viewer class="iframeClassPDF" id="DocumentViewerIFrame"></zamba-document-viewer>
+						</div>
 					</div>
 				</div>
-			</div>            
+			</div>
         </form>
     </div>
 </body>
