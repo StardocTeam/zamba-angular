@@ -659,7 +659,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                new DashboardDatabase().setWidgetsContainer(request);
+                new DashboardDatabase().InsertOrUpdateWidgetsContainer(request);
                 return Ok("Insercion Exitosa");
             }
             catch (Exception ex)

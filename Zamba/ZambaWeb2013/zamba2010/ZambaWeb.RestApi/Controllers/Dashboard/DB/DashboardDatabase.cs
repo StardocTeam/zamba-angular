@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Xml.Linq;
 using Zamba.Core;
 using Zamba.Framework;
 using Zamba.Servers;
@@ -259,43 +260,95 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
         }
 
-        
-        public void DeleteEvent(string eventid)
-        {
-            string sqlCommand = $"DELETE zambabpm_RRHH.CalendarEvents " +
-                                 $"WHERE calendareventid = {eventid};";
-                
-            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
-        }
-
-
-        public DataSet GetEventsForUser(string userid)
-        {
-            string sqlCommand = $"SELECT eventdata from zambabpm_RRHH.CalendarEvents " +
-                                 $"WHERE userid = {userid};";
-
-            return  Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
-        }
-
-        public DataSet GetEventsForGroups(string groupids)
-        {
-            groupids = groupids.Trim('[', ']', ' ');
-            string sqlCommand = $"SELECT eventdata from zambabpm_RRHH.CalendarEvents " +
-                                 $"WHERE groupid in ({groupids});";
-
-            return Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
-        }
-
-        internal void setWidgetsContainer(genericRequest request)
+        internal void InsertWidgetsContainer_Sql(genericRequest request)
         {
             StringBuilder sqlCommand = new StringBuilder();
             sqlCommand.AppendLine("INSERT INTO zambabpm_RRHH.WidgetsContainer " +
-                "([UserId], [Options], [WidgetCoordinates]) " +
+                "(UserId, Options, WidgetCoordinates) " +
                 "VALUES " +
                 "(" + request.UserId.ToString() + ", '" + request.Params["options"].ToString() + "', '" + request.Params["widgetsContainer"].ToString() + "')");
 
             Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
         }
+
+
+
+        internal string InsertWidgetsContainer_Oracle(genericRequest request)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("INSERT INTO zambabpm_RRHH.WidgetsContainer " +
+                "(UserId, Options, WidgetCoordinates) " +
+                "VALUES " +
+                "(" + request.UserId.ToString() + ", '" + request.Params["options"].ToString() + "', '" + request.Params["widgetsContainer"].ToString() + "')");
+
+            return sqlCommand.ToString();
+
+        }
+
+
+
+
+
+        internal void UpdateWidgetsContainer_Sql(genericRequest request)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("UPDATE zambabpm_RRHH.WidgetsContainer " +
+                "SET UserId = " + request.UserId.ToString() +
+                ", Options = " + request.Params["Options"].ToString() +
+                ", WidgetCoordinates = " + request.Params["WidgetCoordinates"].ToString() +
+                " WHERE UserId = " + request.UserId.ToString());
+
+            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+        }
+
+
+
+        internal string UpdateWidgetsContainer_Oracle(genericRequest request)
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("UPDATE zambabpm_RRHH.WidgetsContainer " +
+                "SET UserId = " + request.UserId.ToString() +
+                ", Options = '" + request.Params["Options"].ToString() +
+                "', WidgetCoordinates = '" + request.Params["WidgetCoordinates"].ToString() +
+                "' WHERE UserId = " + request.UserId.ToString());
+
+            return sqlCommand.ToString();
+
+        }
+
+
+        public object InsertOrUpdateWidgetsContainer(genericRequest request)
+        {
+            object count;
+            if (Server.isSQLServer)
+            {
+                count = Server.get_Con().ExecuteScalar(CommandType.Text, $"SELECT count(1) FROM zambabpm_RRHH.WidgetsContainer where UserId = {request.UserId.ToString()}");
+                if ((long)count == 0)                
+                    InsertWidgetsContainer_Sql(request);                
+                else                
+                    UpdateWidgetsContainer_Sql(request);                
+            }
+            else if (Server.isOracle)
+            {
+                count = Server.get_Con().ExecuteScalar(CommandType.Text, $"SELECT count(1) FROM zambabpm_RRHH.WidgetsContainer where UserId = {request.UserId.ToString()}");
+                StringBuilder sqlBuilder = new StringBuilder();
+
+                sqlBuilder.Append("DECLARE ");
+                sqlBuilder.AppendLine("BEGIN ");
+
+                if ((long)count == 0)
+                    sqlBuilder.Append(InsertWidgetsContainer_Oracle(request));
+                else
+                    sqlBuilder.Append(UpdateWidgetsContainer_Oracle(request));
+
+                sqlBuilder.AppendLine(";");
+                sqlBuilder.AppendLine("END;");
+
+                Server.get_Con().ExecuteNonQuery(CommandType.Text, sqlBuilder.ToString());
+            }
+            return null;
+        }
+
 
         internal DataTable getWidgetsContainer(string groupid)
         {
@@ -306,6 +359,31 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 
             DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
             return DSResult.Tables[0];
+        }
+        public void DeleteEvent(string eventid)
+        {
+            string sqlCommand = $"DELETE zambabpm_RRHH.CalendarEvents " +
+                                 $"WHERE calendareventid = {eventid};";
+
+            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+
+
+        public DataSet GetEventsForUser(string userid)
+        {
+            string sqlCommand = $"SELECT eventdata from zambabpm_RRHH.CalendarEvents " +
+                                 $"WHERE userid = {userid};";
+
+            return Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+
+        public DataSet GetEventsForGroups(string groupids)
+        {
+            groupids = groupids.Trim('[', ']', ' ');
+            string sqlCommand = $"SELECT eventdata from zambabpm_RRHH.CalendarEvents " +
+                                 $"WHERE groupid in ({groupids});";
+
+            return Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
         }
 
         public class CalendarEventDTO {
