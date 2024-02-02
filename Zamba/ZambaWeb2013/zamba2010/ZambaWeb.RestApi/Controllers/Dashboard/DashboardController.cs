@@ -778,7 +778,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
             return listItem;
-
         }
 
         //{
@@ -808,7 +807,7 @@ namespace ZambaWeb.RestApi.Controllers
             public string i18n { get; set; }
             public bool group { get; set; }
             public bool hideInBreadcrumb { get; set; }
-            public List<MenuItem> children { get; set; }
+            public List<MenuItem> children { get; set; } = new List<MenuItem>();
             public string icon { get; set; }
             public string link { get; set; }
         }
