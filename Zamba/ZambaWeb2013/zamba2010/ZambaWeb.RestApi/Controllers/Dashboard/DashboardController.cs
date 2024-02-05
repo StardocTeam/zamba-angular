@@ -878,14 +878,28 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-        //{
-        //    new MenuItem
-        //    {
-        //        text = "Escritorio2",
-        //        icon = "anticon-dashboard",
-        //        link = "/init"
-        //    },
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("getVideoplayerURL")]
+        public IHttpActionResult GetVideoplayerURL(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+
+                long userid = request.UserId;
+                var data = dashboardDatabase.GetVideoplayerURL(userid);
+
+                return Ok(JsonConvert.SerializeObject(data));
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+        
         public class app
         {
             public string name { get; set; }

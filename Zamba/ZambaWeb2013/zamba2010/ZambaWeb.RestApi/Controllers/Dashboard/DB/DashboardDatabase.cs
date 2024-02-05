@@ -386,6 +386,33 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
         }
 
+        public VideoResourceDTO GetVideoplayerURL(long userid)
+        {
+            string sqlCommand = $"SELECT * from zambabpm_RRHH.VideoplayerURLSources " +
+                                 $"WHERE userid = {userid};";
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+            VideoResourceDTO returnValue = new VideoResourceDTO();
+
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = dataSet.Tables[0].Rows[0];
+
+                returnValue.videoplayerResourceID = Convert.ToInt64(row["videoplayersourceid"]);
+                returnValue.userid = Convert.ToInt64(row["userid"]);
+                returnValue.YouTubeVideoID = row["youtubevideoid"].ToString();
+            }
+            return returnValue;
+        }
+
+        public class VideoResourceDTO {
+
+            public long videoplayerResourceID { get; set; }
+
+            public long userid { get; set; }
+
+            public string YouTubeVideoID { get; set; }
+        }
         public class CalendarEventDTO {
 
             public string eventData { get; set; }
