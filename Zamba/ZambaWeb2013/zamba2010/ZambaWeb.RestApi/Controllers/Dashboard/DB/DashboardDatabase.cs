@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -236,6 +238,28 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return DSResult.Tables[0];
         }
 
+        public void InsertNewEvent(string eventData, string groupid, string userid)
+        {
+            string sqlCommand = "SELECT IDENT_CURRENT('[zambabpm_RRHH].[zambabpm_RRHH].[CalendarEvents]') + 1 AS nextid;";
+            var ds = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+
+            JObject eventDataObject = JsonConvert.DeserializeObject<JObject>(eventData);
+            eventDataObject["id"] = ds.Tables[0].Rows[0]["nextid"].ToString();
+            string eventDataJsonWithID = JsonConvert.SerializeObject(eventDataObject);
+            
+            sqlCommand = $"INSERT INTO zambabpm_RRHH.CalendarEvents ([eventdata], [groupid], [userid]) " +
+            $"VALUES ('{eventDataJsonWithID}', {(string.IsNullOrEmpty(groupid) ? "NULL" : groupid)}, {(string.IsNullOrEmpty(userid) ? "NULL" : userid)});";
+            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+        public void UpdateEvent(string eventData, string groupid, string userid,string calendareventid)
+        {
+
+            string sqlCommand = $"UPDATE zambabpm_RRHH.CalendarEvents " +
+            $"SET eventdata = '{eventData}', groupid = {(string.IsNullOrEmpty(groupid) ? "NULL" : groupid)}, userid = {(string.IsNullOrEmpty(userid) ? "NULL" : userid)} " +
+            $" WHERE calendareventid = {calendareventid};";
+            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+
         internal void InsertWidgetsContainer_Sql(genericRequest request)
         {
             StringBuilder sqlCommand = new StringBuilder();
@@ -336,7 +360,63 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
             return DSResult.Tables[0];
         }
+        public void DeleteEvent(string eventid)
+        {
+            string sqlCommand = $"DELETE zambabpm_RRHH.CalendarEvents " +
+                                 $"WHERE calendareventid = {eventid};";
 
+            Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+
+
+        public DataSet GetEventsForUser(string userid)
+        {
+            string sqlCommand = $"SELECT eventdata from zambabpm_RRHH.CalendarEvents " +
+                                 $"WHERE userid = {userid};";
+
+            return Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+
+        public DataSet GetEventsForGroups(string groupids)
+        {
+            groupids = groupids.Trim('[', ']', ' ');
+            string sqlCommand = $"SELECT eventdata from zambabpm_RRHH.CalendarEvents " +
+                                 $"WHERE groupid in ({groupids});";
+
+            return Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+        }
+
+        public VideoResourceDTO GetVideoplayerURL(long userid)
+        {
+            string sqlCommand = $"SELECT * from zambabpm_RRHH.VideoplayerURLSources " +
+                                 $"WHERE userid = {userid};";
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand);
+            VideoResourceDTO returnValue = new VideoResourceDTO();
+
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = dataSet.Tables[0].Rows[0];
+
+                returnValue.videoplayerResourceID = Convert.ToInt64(row["videoplayersourceid"]);
+                returnValue.userid = Convert.ToInt64(row["userid"]);
+                returnValue.YouTubeVideoID = row["youtubevideoid"].ToString();
+            }
+            return returnValue;
+        }
+
+        public class VideoResourceDTO {
+
+            public long videoplayerResourceID { get; set; }
+
+            public long userid { get; set; }
+
+            public string YouTubeVideoID { get; set; }
+        }
+        public class CalendarEventDTO {
+
+            public string eventData { get; set; }
+        }
         public class DashboarUserDTO {
 
             public int? EnterpriseUserId { get; set; }

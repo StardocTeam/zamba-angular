@@ -692,6 +692,103 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("getEvents")]
+        public IHttpActionResult GetEvents(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string userid = request.Params["userid"];
+                string groupids = request.Params["groupids"];
+                DataSet eventsForUser = dashboardDatabase.GetEventsForUser(userid);
+                DataSet eventsForUserGroups = dashboardDatabase.GetEventsForGroups(groupids);
+                eventsForUserGroups.Merge(eventsForUser);
+
+                List<string> eventDataList = new List<string>();
+                foreach (DataRow row in eventsForUserGroups.Tables[0].Rows)
+                {
+                    eventDataList.Add(row["eventdata"].ToString());
+                }
+                string jsonCalendarEvents = "[" + string.Join(",", eventDataList) + "]";
+
+                return Ok(jsonCalendarEvents);
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("insertNewEvent")]
+        public IHttpActionResult InsertNewEvent(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+
+                string groupid = request.Params["groupid"];
+                string eventdata = request.Params["eventdata"];
+                string userid = request.Params["userid"];
+                dashboardDatabase.InsertNewEvent(eventdata,groupid,userid);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("updateEvent")]
+        public IHttpActionResult UpdateEvent(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+
+                string groupid = request.Params["groupid"];
+                string eventdata = request.Params["eventdata"];
+                string userid = request.Params["userid"];
+                string calendareventid = request.Params["calendareventid"];
+                dashboardDatabase.UpdateEvent(eventdata, groupid, userid, calendareventid);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("deleteEvent")]
+        public IHttpActionResult DeleteEvent(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+
+                string eventid = request.Params["calendareventid"];
+                dashboardDatabase.DeleteEvent(eventid);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+
+
+
 
         private List<string> GetListBase64Strings(DataTable resultsDT)
         {
@@ -780,14 +877,28 @@ namespace ZambaWeb.RestApi.Controllers
             return listItem;
         }
 
-        //{
-        //    new MenuItem
-        //    {
-        //        text = "Escritorio2",
-        //        icon = "anticon-dashboard",
-        //        link = "/init"
-        //    },
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("getVideoplayerURL")]
+        public IHttpActionResult GetVideoplayerURL(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+
+                long userid = request.UserId;
+                var data = dashboardDatabase.GetVideoplayerURL(userid);
+
+                return Ok(JsonConvert.SerializeObject(data));
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+        
         public class app
         {
             public string name { get; set; }
