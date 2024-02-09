@@ -7,9 +7,17 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard
 {
     public static class DashboardRoutesHelper
     {
-        public static string validate = "http://localhost:4200/#/passport/validate";
+        public static string ApiServerName { get; set; } = System.Configuration.ConfigurationManager.AppSettings["RRHHApiServerName"];
+        public static string ApiServerPort { get; set; } = System.Configuration.ConfigurationManager.AppSettings["RRHHApiServerPort"];
 
-        public static void getRoutesFromConfig() { 
+        public static string validate
+        {
+            get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
+        }
+
+
+        public static void getRoutesFromConfig()
+        {
             //TODO: get config from anywhere
         }
     }
