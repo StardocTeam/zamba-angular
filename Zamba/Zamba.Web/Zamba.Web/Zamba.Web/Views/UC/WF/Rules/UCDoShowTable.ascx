@@ -15,7 +15,7 @@
 
 
 <script type="text/javascript">
-   
+
     var doubleclickevent = false;
     var EnterEvent = false;
     var pos = 0;
@@ -62,11 +62,11 @@
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
 
-       
+
 
     });
 
- 
+
 
     jQuery.fn.single_double_click = function (single_click_callback, double_click_callback, timeout) {
         return this.each(function () {
@@ -88,8 +88,7 @@
     }
 
 
-    function InitializeTable()
-    {
+    function InitializeTable() {
         var grid = $("#ContentPlaceHolder_UC_WFExecution_ShowDoShowTable_dgValue");
 
         //Por cada GridView que se encuentre modificar el código HTML generado para agregar el THEAD.
@@ -108,7 +107,7 @@
 
         var justShow = $("#<%=hdnJustShow.ClientID %>").val();
         //Si la tabla es de solo consulta se habilita el botón OK
-        if (justShow == 'True') {            
+        if (justShow == 'True') {
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
     }
@@ -128,38 +127,37 @@
         }
     }
 
-    function CheckFuncionality(chkObject)
-    {
+    function CheckFuncionality(chkObject) {
 
         //Al seleccionar un item se habilita el botón OK
+        debugger;
         $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         var isMultipleCheck = $("#<%=hdnMultipleCheck.ClientID %>").val().toLowerCase();
         var selectedChecksIndexes = "";
 
         var anyChecked = false;
-
+        //Obtenemos la tabla del gridView
+        var tblControl = document.getElementById("<%=dgValue.ClientID %>")
+        //Extraemos todos los elementos del tag input.
+        var lstControls = tblControl.getElementsByTagName("input");
         if (isMultipleCheck == "false") {
-            //Obtenemos la tabla del gridView
-            var tblControl = document.getElementById("<%=dgValue.ClientID %>")
-            //Extraemos todos los elementos del tag input.
-            var lstControls = tblControl.getElementsByTagName("input");
+
 
             //Descheckeamos todos los checkbox 
-            for (var i = 0; i < lstControls.length ; i++) {
-                if (lstControls[i].checked)
-                { 
+            for (var i = 0; i < lstControls.length; i++) {
+                if (lstControls[i].checked) {
                     if (lstControls[i].id == chkObject.id) {
                         selectedChecksIndexes = i;
                         pos = i;
                     }
-                        
+
                 }
                 lstControls[i].checked = false;
                 $(lstControls[i]).parent().parent().removeClass("backColor");
 
             }
 
-           //Checkeamos el control clickeado
+            //Checkeamos el control clickeado
             chkObject.checked = true;
             $(chkObject).parent().parent().addClass("backColor")
             anyChecked = true;
@@ -181,12 +179,11 @@
         }
         var justShow = $("#<%=hdnJustShow.ClientID %>").val();
 
-        if (anyChecked || justShow == 'True')
-            {
-                $('#<%=_btnok.ClientID %>').removeAttr("disabled");
-            }
-            else {
-                $('#<%=_btnok.ClientID %>').attr("disabled", "disabled");
+        if (anyChecked || justShow == 'True') {
+            $('#<%=_btnok.ClientID %>').removeAttr("disabled");
+        }
+        else {
+            $('#<%=_btnok.ClientID %>').attr("disabled", "disabled");
         }
 
         getHdnChecks().val(selectedChecksIndexes);
@@ -204,7 +201,7 @@
     $(document).keydown(function (e) {
         var tblControl = document.getElementById("<%=dgValue.ClientID %>")
         var lstControls = tblControl.getElementsByTagName("input");
-        
+
         var keyCode = e.keyCode || e.which;
         var arrow = { left: 37, up: 38, right: 39, down: 40 };
         switch (keyCode) {
@@ -212,14 +209,14 @@
                 break;
             case arrow.up:
 
-                if(pos > 0)
+                if (pos > 0)
                     pos -= 1;
 
                 lstControls[pos].checked = true;
                 $(lstControls[pos]).focus();
                 CheckFuncionality(lstControls[pos])
                 break;
-  
+
             case arrow.down:
                 if (pos < lstControls.length - 1)
                     pos += 1;
@@ -242,8 +239,7 @@
         }
     });
 
-    function FormatTable()
-    {
+    function FormatTable() {
         var div = $("#<%=GridContainer.ClientID %> div:first");
         var table = $("#<%=GridContainer.ClientID %> table:first");
         table.appendTo("#<%=GridContainer.ClientID %>");
@@ -255,67 +251,62 @@
         location.reload();
     }
 
-   
+
 </script>
 
 <style type="text/css">
-    .notFixed 
-    {
+    .notFixed {
         table-layout: auto !important;
         font-size: 11px;
     }
 
-    .mGrid > tbody > tr:hover
-   {
-       background-color: #dae7f5;
-       color:white;
-       cursor:pointer;
-   }
+    .mGrid > tbody > tr:hover {
+        background-color: #dae7f5;
+        color: white;
+        cursor: pointer;
+    }
 
-   .mGrid > tbody > tr
-   {
-      height:40px;
-   }
+    .mGrid > tbody > tr {
+        height: 40px;
+    }
 
-   .backColor 
-   {
+    .backColor {
         background-color: #dae7f5 !important;
     }
 
-   #GridContainer{
-       height: 460px;
+    #GridContainer {
+        height: 460px;
         width: 100%;
         overflow: auto;
         border: 0;
-
-   }
+    }
 </style>
 
 
 <div class="container-fluid">
     <div class="row">
         <asp:HiddenField ID="hdnMultipleCheck" runat="server" />
-        <asp:HiddenField ID="hdnJustShow" runat="server" value="false"/>
+        <asp:HiddenField ID="hdnJustShow" runat="server" Value="false" />
         <div class="col-xs-1 col-md-offset-1" style="text-align: left">
             Buscar
         </div>
-        <div class="col-xs-10" style="text-align: left" >
+        <div class="col-xs-10" style="text-align: left">
             <input type="text" id="search_dgValue" class="form-control" style="width: 90%" />
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div id="GridContainer" runat="server" style="height: 400px; width:95%; overflow:scroll ">
-                <asp:GridView ID="dgValue" runat="server" 
+            <div id="GridContainer" runat="server" style="height: 400px; width: 95%; overflow: scroll">
+                <asp:GridView ID="dgValue" runat="server"
                     AllowSorting="true" GridLines="None"
                     EmptyDataText="No hay registros para visualizar"
                     CssClass="mGrid notFixed"
                     PagerStyle-CssClass="pgr"
-                    AlternatingRowStyle-CssClass="alt" >
+                    AlternatingRowStyle-CssClass="alt">
                     <Columns>
-                       <asp:TemplateField>
+                        <asp:TemplateField>
                             <ItemTemplate>
-                                     <asp:CheckBox ID="chkSelected" OnClick="CheckFuncionality(this)" Enabled="true" runat="server"   />
+                                <asp:CheckBox ID="chkSelected" OnClick="CheckFuncionality(this)" Enabled="true" runat="server" />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
@@ -327,9 +318,9 @@
         <div style="text-align: center; margin-top: 5px;" class="col-xs-12">
             <asp:Button ID="_btnok" Text="Aceptar" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="97px" disabled="disabled" CssClass="btn btn-primary btn-xs" />
             <asp:Button ID="_btnCancel" Text="Cancel" runat="server" Width="102px" UseSubmitBehavior="false" CssClass="btn btn-primary btn-xs"
-                OnClick="_btnCancel_Click" style="display:none"/>
-            <button type="button" class="btn btn-primary btn-xs" style="width:102px" onclick="RealoadDoShowTable()"> Cancelar </button>
-            
+                OnClick="_btnCancel_Click" Style="display: none" />
+            <button type="button" class="btn btn-primary btn-xs" style="width: 102px" onclick="RealoadDoShowTable()">Cancelar </button>
+
         </div>
     </div>
 </div>

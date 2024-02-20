@@ -512,7 +512,6 @@ public partial class Views_UC_WF_Rules_UCDoShowTable : System.Web.UI.UserControl
             var ExecutedIDs = this.ExecutedIDs;
             var Params = this.Params;
             var PendingChildRules = this.PendingChildRules;
-
             ContinueExecution(this.RuleID, ref this._results, ref PendigEvent, ref ExecutionResult,
                 ref ExecutedIDs, ref Params, ref PendingChildRules, ref RefreshRule, (List<long>)Session["TaskIdsToRefresh"], false);
         }

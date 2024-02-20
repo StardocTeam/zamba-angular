@@ -2058,6 +2058,9 @@ app.controller('entitiescontroller', function ($scope, $attrs, $http, $compile, 
                         //Con Cabecera
                         DownloadExcel(dataBase64, FileName);
                     }
+                },
+                error: function (error) {
+                    toastr.error("Error: " + error.message);
                 }
             });
 
