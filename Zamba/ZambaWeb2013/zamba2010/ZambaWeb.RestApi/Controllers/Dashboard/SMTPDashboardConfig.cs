@@ -11,7 +11,7 @@ public static class SMTPDashboard
     //public static Boolean enableSsl{ get; set; } = false;
 
     public static string user { get; set; } = "rrhhadmin@stardoc.com.ar";
-    public static string password { get; set; } = "Stardoczamba2024";
+    public static string password { get; set; } = "Stardoczamba2025";
     public static string from { get; set; } = "rrhhadmin@stardoc.com.ar";
     public static string port { get; set; } = "587";
     public static string smtpServer { get; set; } = "smtp.gmail.com";

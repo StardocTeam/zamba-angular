@@ -15,10 +15,10 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard
             get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
         }
 
-
-        public static void getRoutesFromConfig()
+        public static string reset
         {
-            //TODO: get config from anywhere
+            //get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
+            get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/changepassword"; }
         }
     }
 }

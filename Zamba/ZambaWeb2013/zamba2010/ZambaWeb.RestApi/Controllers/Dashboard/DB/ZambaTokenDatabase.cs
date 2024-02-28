@@ -6,6 +6,7 @@ using System.Web;
 using Zamba.Core;
 using Zamba.Framework;
 using ZambaWeb.RestApi.ViewModels;
+using System.Security.Cryptography;
 
 namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
 {
@@ -114,6 +115,28 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
         {
             var zssFactory = new ZssFactory();
             zssFactory.SetZssValues(zss);
+        }
+
+    }
+    /// <summary>
+    /// Metodo solo para generer un token para el reset de password, no tiene nada que ver con el token del usuario de zamba
+    /// </summary>
+    public class TokenGenerator
+    {
+        public static string GenerateToken(int length)
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var byteToken = new byte[length];
+                rng.GetBytes(byteToken);
+
+                string token = Convert.ToBase64String(byteToken);
+
+                token = token.TrimEnd('=')
+                                .Replace('+', '-') 
+                                .Replace('/', '_');
+                return token;
+            }
         }
     }
 }

@@ -67,7 +67,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 try
                 {
-                    sendRegister(request.Params["mail"], body);
+                    sendRegister(request.Params["mail"], body, "Te damos la bienvenida a Zamba RRHH 🥳🥳");
                 }
                 catch (Exception ex)
                 {
@@ -396,7 +396,7 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             DashboarUserDTO user = dashboardDatabase.GetUserDashboard(email.Trim());
                             string body = getWelcomeHtml(user);
-                            sendRegister(request.Params["mail"], body);
+                            sendRegister(request.Params["mail"], body, "Te damos la bienvenida a Zamba RRHH 🥳🥳");
                         }
                     }
                 }
@@ -410,7 +410,95 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("RequestResetPassword")]
+        public IHttpActionResult RequestResetPassword(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string email = request.Params["mail"];
+                if (!String.IsNullOrEmpty(email))
+                {
+                    email = email.Trim();
+                    var emailExist = dashboardDatabase.EmailAlreadyTaken(email).emailIsTaken;
 
+                    if (emailExist)
+                    {
+                        string token = TokenGenerator.GenerateToken(20);
+                        dashboardDatabase.InsertResetToken(email, token);
+                        string body = getResetPasswordHtml(token);
+                        sendRegister(request.Params["mail"], body, "Solicitud de cambio de contraseña");
+                    }
+                }
+                return Ok();
+                }
+                catch (Exception ex)
+                {
+                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                    return StatusCode(HttpStatusCode.BadRequest);
+                }
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("ResetPassword")]
+        public IHttpActionResult ResetPassword(genericRequest request)
+        {
+            try
+            {
+                string status = string.Empty;
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string tokendata = request.Params["tokendata"];
+                string newpassword = request.Params["newpassword"];
+
+                if (!String.IsNullOrEmpty(tokendata) && !String.IsNullOrEmpty(newpassword))
+                {
+                    tokendata = tokendata.Trim();
+                    newpassword = newpassword.Trim();
+                    status = dashboardDatabase.ChangePassword(tokendata, newpassword);
+                }
+                return Ok(JsonConvert.SerializeObject(status, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+        [AcceptVerbs("GET", "POST")]
+        [Route("ValidateResetToken")]
+        public IHttpActionResult ValidateResetToken(genericRequest request)
+        {
+            try
+            {
+                
+                string status = "NotValid";
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string tokendata = string.Empty;
+                try
+                {
+                    tokendata  = request.Params["tokendata"];
+                }
+                catch (Exception)
+                {
+                }
+                if (!String.IsNullOrEmpty(tokendata))
+                {
+                    tokendata = tokendata.Trim();
+                    status = dashboardDatabase.validateResetTokendata(tokendata);
+                }
+                return Ok(JsonConvert.SerializeObject(status, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+        
 
 
         private long CreateNewUserForZamba(string username, string password, string names, string lastname, string email, long groupid)
@@ -529,6 +617,35 @@ namespace ZambaWeb.RestApi.Controllers
                 throw ex;
             }
         }
+
+        public string getResetPasswordHtml(string token)
+        {
+            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Obteniendo HTML de reset de password.");
+
+            try
+            {
+                var Scheme = Request.RequestUri.Scheme;
+                var Authority = Request.RequestUri.Authority;
+                string EndPoint = Request.RequestUri.Segments[1] + Request.RequestUri.Segments[2];
+
+                var resetPasswordDashboarRoute = DashboardRoutesHelper.reset + "?" +
+                     "token=" + token;
+
+                string filePath = System.AppDomain.CurrentDomain.BaseDirectory + "Views\\ResetPasswordEmailBody.html";
+
+                string htmlContent = File.ReadAllText(filePath);
+                htmlContent = htmlContent.Replace("#reset", resetPasswordDashboarRoute);
+                return htmlContent;
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+
+                throw ex;
+            }
+        }
+
 
         [AcceptVerbs("GET", "POST")]
         [Route("getinfoSideBar")]
@@ -828,7 +945,7 @@ namespace ZambaWeb.RestApi.Controllers
             return list;
         }
 
-        public bool sendRegister(string mailTo, string body)
+        public bool sendRegister(string mailTo, string body,string subject)
         {
             try
             {
@@ -842,7 +959,7 @@ namespace ZambaWeb.RestApi.Controllers
                     EnableSsl = SMTPDashboard.enableSsl,
                     IsBodyHtml = true,
                     MailTo = mailTo,
-                    Subject = "Te damos la bienvenida a Zamba RRHH 🥳🥳",
+                    Subject = subject,
                     Body = body
                 };
 
