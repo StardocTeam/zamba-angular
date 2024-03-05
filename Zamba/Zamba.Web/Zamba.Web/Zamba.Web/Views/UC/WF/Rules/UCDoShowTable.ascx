@@ -52,8 +52,8 @@
                 }
             });
 
-        InitializeTable();
-        $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody tr ');
+        InitializeTable();        
+        $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody .isItem');
 
         FormatTable();
 
@@ -331,12 +331,13 @@
                     AllowSorting="true" GridLines="Both"
                     EmptyDataText="No hay registros para visualizar"
                     CssClass="mGrid notFixed doShowTableGridView"
+                     RowStyle-CssClass ="isItem"
                     PagerStyle-CssClass="pgr"
-                    AlternatingRowStyle-CssClass="alt"
+                    AlternatingRowStyle-CssClass="alt isItem"
                     Style="margin-top: 0px;">
                     <Columns>
                         <asp:TemplateField HeaderText="">
-                            <ItemStyle HorizontalAlign="Center" />
+                            <ItemStyle HorizontalAlign="Center" />                            
 
                             <ItemTemplate>
                                 <asp:CheckBox ID="chkSelected" OnClick="CheckFuncionality(this)" Enabled="true" runat="server" />
