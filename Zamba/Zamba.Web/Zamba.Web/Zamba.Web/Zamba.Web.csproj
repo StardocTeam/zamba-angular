@@ -19,7 +19,7 @@
     <RootNamespace>Zamba.Web</RootNamespace>
     <AssemblyName>Zamba.Web</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort>44301</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -6180,6 +6180,10 @@
     <Content Include="Scripts\ckeditor\README.md" />
     <Content Include="Scripts\ckeditor\SECURITY.md" />
     <Content Include="Scripts\ckeditor\skins\moono-lisa\readme.md" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-2.2.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
@@ -10468,6 +10472,11 @@
       <DependentUpon>WCSendMail.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Services\DropFiles.asmx.cs">
       <DependentUpon>DropFiles.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -11174,7 +11183,6 @@
     <Folder Include="forms\RPI\" />
     <Folder Include="GlobalSearch\grid\" />
     <Folder Include="Log\" />
-    <Folder Include="obj\Debug\AspnetCompileMerge\TempBuildDir\Scripts\" />
     <Folder Include="Scripts\Excluidos\" />
     <Folder Include="Views\Search\ResultTabs\" />
     <Folder Include="Views\TaskOptions\" />
@@ -11293,9 +11301,7 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>80</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44301/Zamba.Web</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:44301/Zamba.Web</IISAppRootUrl>
+          <IISUrl>http://localhost/Zamba.Web</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
