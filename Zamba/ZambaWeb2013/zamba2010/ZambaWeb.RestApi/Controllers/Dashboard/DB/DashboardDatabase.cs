@@ -84,6 +84,16 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 resetToken.id = row["id"] != DBNull.Value ? Convert.ToInt32(row["id"]) : 0;
                 resetToken.email = row["email"].ToString();
 
+                int zambaUserId = GetUserDashboardZambaID(resetToken.email);
+
+                if (zambaUserId != -1) {
+
+                    UserBusiness UB = new UserBusiness();
+                    IUser User = UB.GetUserById(zambaUserId);
+                    User.Password = newpassword;
+                    UB.UpdateUserPassword(User);
+                }
+
                 StringBuilder sqlCommand2 = new StringBuilder();
                 sqlCommand2.AppendLine("UPDATE zambabpm_RRHH.DashboardUsers ");
                 sqlCommand2.AppendLine("set password = '" + newpassword + "'");
@@ -95,7 +105,6 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 sqlCommand3.AppendLine("UPDATE zambabpm_RRHH.resetpasswordtokens ");
                 sqlCommand3.AppendLine("set used = '1'");
                 sqlCommand3.AppendLine(" WHERE id = " + resetToken.id);
-
 
                 Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand3.ToString());
 
@@ -187,6 +196,26 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
                 user.Email = row["email"].ToString();
             }
             return user;
+        }
+
+        public int GetUserDashboardZambaID(string Email)
+        {
+            int userid = -1;
+            DashboarUserDTO user = new DashboarUserDTO();
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT userid");
+            sqlCommand.AppendLine("FROM zambabpm_RRHH.DashboardUsers");
+            sqlCommand.AppendLine("WHERE email = '" + Email + "';");
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = dataSet.Tables[0].Rows[0];
+                if (row["userid"] != DBNull.Value)
+                    userid = Convert.ToInt32(row["userid"]);
+            }
+            return userid;
         }
 
         public DataTable GetUserDashboard(long userId)
