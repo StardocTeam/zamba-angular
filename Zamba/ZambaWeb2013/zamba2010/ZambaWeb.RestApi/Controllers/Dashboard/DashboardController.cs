@@ -358,7 +358,7 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     if (dashboardDatabase.UserNeedValidation(email))
                     {
-                        long newUserId = CreateNewUserForZamba(username, password, names, lastname, email, 171);
+                        long newUserId = CreateNewUserForZamba(username, password, names, lastname, email, 178546);
 
                         dashboardDatabase.ActivateUser(password, email, newUserId);
                     }
@@ -533,7 +533,7 @@ namespace ZambaWeb.RestApi.Controllers
                 UserBusiness UB = new UserBusiness();
                 UB.AddUserFromDashboard(newuser);
                 UB.SetNewUser(ref newuser);
-                UB.AssignGroupFromDashboard(newUserID, 171);
+                UB.AssignGroupFromDashboard(newUserID, groupid);
 
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Dashboard - Nuevo usuario en Zamba - OK");
                 return newUserID;
