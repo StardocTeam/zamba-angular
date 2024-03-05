@@ -35,32 +35,37 @@
         var tblControl = document.getElementById("<%=dgValue.ClientID %>")
         var lstControls = tblControl.getElementsByTagName("input");
 
-        $('.mGrid tr').single_double_click(function (event) {
-            if (event.target.type !== 'checkbox') {
-                $(':checkbox', this).trigger('click');
+        $('.mGrid tr').single_double_click(
+            function (event) {
 
-                $(':checkbox', this).focus();
-            }
+                if (event.target.type !== 'checkbox') {
+                    $(':checkbox', this).trigger('click');
 
-        }, function (event) {
-            if (event.target.type !== 'checkbox') {
-                doubleclickevent = true;
-                $(':checkbox', this).trigger('click');
+                    $(':checkbox', this).focus();
+                }
 
-            }
-        });
+            }, function (event) {
+                if (event.target.type !== 'checkbox') {
+                    doubleclickevent = true;
+                    $(':checkbox', this).trigger('click');
+
+                }
+            });
 
         InitializeTable();
         $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody tr ');
+
         FormatTable();
 
-        $('#openModalIFContentUcRules').dialog({ height: 'auto', width: '72%' });
+        // $('#openModalIFContentUcRules').dialog({ height: 'auto', width: '72%' });
+
         document.getElementById("openModalIFContentUcRules").style.minWidth = "1000px";
         document.getElementById("openModalIFContentUcRules").style.maxWidth = "1350px";
         document.getElementById("openModalIFContentUcRules").style.minHeight = "500px";
         document.getElementById("openModalIFContentUcRules").style.maxHeight = "662px";
         document.getElementById("openModalIFContentUcRules").parentElement.style.minWidth = "1000px";
         document.getElementById("openModalIFContentUcRules").parentElement.style.maxWidth = "1350px";
+
         document.getElementById("openModalIFContentUcRules").parentElement.style.minHeight = "530px";
         document.getElementById("openModalIFContentUcRules").parentElement.style.maxHeight = "687px";
         document.getElementById("openModalIFContentUcRules").parentElement.style.left = "12%";
@@ -80,7 +85,10 @@
         if (justShow == 'True') {
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
-
+        var isMultipleCheck = $("#<%=hdnMultipleCheck.ClientID %>").val().toLowerCase();
+        if (isMultipleCheck == "false") {
+            $($('#<%=_chkSelectAll.ClientID %>').parent()).hide();
+        }
 
     });
 
@@ -131,7 +139,14 @@
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
     }
-
+    function CheckSelectAll(thisObj) {
+        if (thisObj.checked) {
+            CheckAll();
+        }
+        else {
+            UnCheckAll();
+        }
+    }
     function UnCheckAll() {
         //Obtenemos la tabla del gridView
         var tblControl = document.getElementById("<%=dgValue.ClientID %>")
@@ -145,8 +160,26 @@
                 $(lstControls[i]).parent().parent().removeClass("backColor");
             }
         }
+        getHdnChecks().val("");
     }
+    function CheckAll() {
+        var selectedChecksIndexes = "";
+        getHdnChecks().val("");
+        //Obtenemos la tabla del gridView
+        var tblControl = document.getElementById("<%=dgValue.ClientID %>")
+        //Extraemos todos los elementos del tag input.
+        var lstControls = tblControl.getElementsByTagName("input");
 
+        //Descheckeamos todos los checkbox 
+        for (var i = 0; i < lstControls.length; i++) {
+
+            lstControls[i].checked = true;
+            $(lstControls[i]).parent().parent().removeClass("backColor");
+            $(lstControls[i]).parent().parent().addClass("backColor")
+            selectedChecksIndexes += (selectedChecksIndexes !== "" ? "," : "") + i;
+        }
+        getHdnChecks().val(selectedChecksIndexes);
+    }
     function CheckFuncionality(chkObject) {
 
         //Al seleccionar un item se habilita el botón OK
@@ -217,52 +250,16 @@
 
 
 
-    $(document).keydown(function (e) {
-        var tblControl = document.getElementById("<%=dgValue.ClientID %>")
-        var lstControls = tblControl.getElementsByTagName("input");
 
-        var keyCode = e.keyCode || e.which;
-        var arrow = { left: 37, up: 38, right: 39, down: 40 };
-        switch (keyCode) {
-            case arrow.left:
-                break;
-            case arrow.up:
-
-                if (pos > 0)
-                    pos -= 1;
-
-                lstControls[pos].checked = true;
-                $(lstControls[pos]).focus();
-                CheckFuncionality(lstControls[pos])
-                break;
-
-            case arrow.down:
-                if (pos < lstControls.length - 1)
-                    pos += 1;
-
-                lstControls[pos].checked = true;
-                $(lstControls[pos]).focus();
-                CheckFuncionality(lstControls[pos]);
-                break;
-        }
-
-        //when user press enter submit the selected checkbox
-        if (e.which == 13) {
-            $('#ctl00_ContentPlaceHolder_UC_WFExecution_ShowDoShowTable__btnok').trigger('click');
-
-        }
-
-        //When user press ESC emulate cancel button
-        if (e.which == 27) {
-            $('#<%=_btnCancel.ClientID %>').trigger('click');
-        }
-    });
 
     function FormatTable() {
+
         var div = $("#<%=GridContainer.ClientID %> div:first");
         var table = $("#<%=GridContainer.ClientID %> table:first");
         table.appendTo("#<%=GridContainer.ClientID %>");
+
         div.remove();
+
     }
 
 
@@ -289,32 +286,31 @@
         width: 100%;
         overflow: auto;
     }
-/*
+    /*
     .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable {
         width:38% !important;
         min-width:730px;
     }*/
 
     .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable {
-        min-width:730px;
+        min-width: 730px;
     }
+
     #search_dgValue {
         border-color: rgb(162, 162, 162) !important;
     }
 
     .mGrid th {
         height: 35px;
-        text-align:center;
+        text-align: center;
     }
 
-    #modalFormHomeUcRules{
+    #modalFormHomeUcRules {
         min-width: 1000px !important;
         min-height: 500px !important;
         max-width: 1340px !important;
         max-height: 562px !important;
     }
-
-
 </style>
 
 <div class="container-fluid">
@@ -337,11 +333,10 @@
                     CssClass="mGrid notFixed doShowTableGridView"
                     PagerStyle-CssClass="pgr"
                     AlternatingRowStyle-CssClass="alt"
-                    Style="margin-top: 0px;"
-                    >
+                    Style="margin-top: 0px;">
                     <Columns>
                         <asp:TemplateField HeaderText="">
-                            <ItemStyle HorizontalAlign="Center"  />
+                            <ItemStyle HorizontalAlign="Center" />
 
                             <ItemTemplate>
                                 <asp:CheckBox ID="chkSelected" OnClick="CheckFuncionality(this)" Enabled="true" runat="server" />
@@ -352,12 +347,15 @@
             </div>
         </div>
     </div>
+    <asp:CheckBox ID="_chkSelectAll" Text="Seleccionar todos" ForeColor="Black" runat="server" OnClick="CheckSelectAll(this)" AutoPostBack="false" />
+
     <div class="row">
         <div style="text-align: center; margin-top: 20px;" class="col-xs-12">
+
             <asp:Button ID="_btnok" Text="Aceptar" BackColor="#42bd3e" ForeColor="White" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="102px" Height="35px" disabled="disabled" CssClass="btn btn-primary btn-xs" />
             <asp:Button ID="_btnCancel" Text="Cancel" runat="server" Width="102px" UseSubmitBehavior="false" CssClass="btn btn-primary btn-xs"
                 OnClick="_btnCancel_Click" Style="display: none" />
-            <button type="button" class="btn btn-primary btn-xs" style="width: 102px;height: 35px;" onclick="RealoadDoShowTable()">Cancelar </button>
+            <button type="button" class="btn btn-primary btn-xs" style="width: 102px; height: 35px;" onclick="RealoadDoShowTable()">Cancelar </button>
 
         </div>
     </div>

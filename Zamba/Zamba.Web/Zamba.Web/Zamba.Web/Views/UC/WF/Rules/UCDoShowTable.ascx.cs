@@ -568,4 +568,19 @@ public partial class Views_UC_WF_Rules_UCDoShowTable : System.Web.UI.UserControl
         SelectedChecks = (string)Params["selectedChecks" + this.RuleID];
         this.hdnJustShow.Value = JustShow.ToString();
     }
+
+    protected void _chkSelectAll_CheckedChanged(object sender, EventArgs e)
+    {
+
+        for (int i = 0; i < dgValue.Rows.Count; i++)
+        {
+            // Encuentra el CheckBox en la fila actual
+            CheckBox chkSelected = (CheckBox)dgValue.Rows[i].FindControl("chkSelected");
+
+            // Asigna el valor que desees al CheckBox
+            chkSelected.Checked = chkSelected.Checked ; // o false, dependiendo de tu lógica
+        }
+    }
+
+
 }
