@@ -441,6 +441,37 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("GetResetPasswordToken")]
+        public IHttpActionResult GetResetPasswordToken(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string email = request.Params["mail"];
+                string token = String.Empty;
+                if (!String.IsNullOrEmpty(email))
+                {
+                    email = email.Trim();
+                    var emailExist = dashboardDatabase.EmailAlreadyTaken(email).emailIsTaken;
+
+                    if (emailExist)
+                    {
+                        token = TokenGenerator.GenerateToken(20);
+                        dashboardDatabase.InsertResetToken(email, token,365);
+                    }
+                }
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
+
         [AcceptVerbs("GET", "POST")]
         [Route("ResetPassword")]
         public IHttpActionResult ResetPassword(genericRequest request)
