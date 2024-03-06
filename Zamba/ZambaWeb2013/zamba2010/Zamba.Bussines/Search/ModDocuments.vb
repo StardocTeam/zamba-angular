@@ -1994,7 +1994,7 @@ ReloadCache:
 
                         If _Index.DropDown <> IndexAdditionalType.AutoSustitución AndAlso _Index.DropDown <> IndexAdditionalType.AutoSustituciónJerarquico Then
                             strselect.Append($" as [{_Index.Name}]")
-                            strPREselect.Append($", [{_Index.Name}]")
+                            strPREselect.Append($", I.[{_Index.Name}]")
                         End If
 
                     End If
