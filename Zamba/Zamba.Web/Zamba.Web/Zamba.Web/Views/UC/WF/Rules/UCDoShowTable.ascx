@@ -142,9 +142,11 @@
     function CheckSelectAll(thisObj) {
         if (thisObj.checked) {
             CheckAll();
+            $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
         else {
             UnCheckAll();
+            $('#<%=_btnok.ClientID %>').attr("disabled", "disabled");
         }
     }
     function UnCheckAll() {
