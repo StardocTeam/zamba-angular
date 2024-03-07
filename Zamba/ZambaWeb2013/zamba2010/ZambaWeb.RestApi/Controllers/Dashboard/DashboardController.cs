@@ -358,7 +358,7 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     if (dashboardDatabase.UserNeedValidation(email))
                     {
-                        long newUserId = CreateNewUserForZamba(username, password, names, lastname, email, 171);
+                        long newUserId = CreateNewUserForZamba(username, password, names, lastname, email, 178546);
 
                         dashboardDatabase.ActivateUser(password, email, newUserId);
                     }
@@ -438,6 +438,37 @@ namespace ZambaWeb.RestApi.Controllers
                     ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                     return StatusCode(HttpStatusCode.BadRequest);
                 }
+
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("GetResetPasswordToken")]
+        public IHttpActionResult GetResetPasswordToken(genericRequest request)
+        {
+            try
+            {
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string email = request.Params["mail"];
+                string token = String.Empty;
+                if (!String.IsNullOrEmpty(email))
+                {
+                    email = email.Trim();
+                    var emailExist = dashboardDatabase.EmailAlreadyTaken(email).emailIsTaken;
+
+                    if (emailExist)
+                    {
+                        token = TokenGenerator.GenerateToken(20);
+                        dashboardDatabase.InsertResetToken(email, token,365);
+                    }
+                }
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
 
         }
 
@@ -533,7 +564,7 @@ namespace ZambaWeb.RestApi.Controllers
                 UserBusiness UB = new UserBusiness();
                 UB.AddUserFromDashboard(newuser);
                 UB.SetNewUser(ref newuser);
-                UB.AssignGroupFromDashboard(newUserID, 171);
+                UB.AssignGroupFromDashboard(newUserID, groupid);
 
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, "Dashboard - Nuevo usuario en Zamba - OK");
                 return newUserID;
