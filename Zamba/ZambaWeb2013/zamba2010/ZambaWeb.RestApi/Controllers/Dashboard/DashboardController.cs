@@ -615,6 +615,27 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
+        [AcceptVerbs("GET", "POST")]
+        [Route("SetPassword")]
+        public IHttpActionResult SetPassword(genericRequest request)
+        {
+            try
+            {
+                var token = request.Params["token"];
+                var userId = request.Params["userId"];
+
+                string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().ChangePassword(token, userId));
+                return Ok(JsonResult);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+
 
         public string getWelcomeHtml(DashboarUserDTO newUser)
         {

@@ -15,6 +15,11 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard
             get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
         }
 
+        public static string setPassword
+        {
+            get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/setpassword"; }
+        }
+
         public static string reset
         {
             //get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
