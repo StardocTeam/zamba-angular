@@ -240,8 +240,7 @@ namespace Zamba.Membership
         {
             get
             {
-                string path = "/log";
-
+                String path = "/log";
                 if (System.Web.Configuration.WebConfigurationManager.AppSettings["ZambaSofwareAppDataPath"] != null)
                 {
                     try
@@ -250,40 +249,73 @@ namespace Zamba.Membership
 
                         if (String.IsNullOrEmpty(path) == false)
                         {
+                            if (HttpContext.Current != null && HttpContext.Current.Handler != null)
+                            {
+                                if (path.StartsWith("/"))
+                                    path = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + path.Replace("/", "\\");
+                            }
+                            else if (System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath != string.Empty)
+                            {
+                                if (path.StartsWith("/"))
+                                    path = (System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + path.Replace("/", "\\")).Replace("\\\\", "\\");
+                            }
+                            else
+                            {
+                                if (path.StartsWith("/"))
+                                    path = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + path.Replace("/", "\\");
+                                path = path.Replace("\\\\", "\\");
+                            }
                             if (path.EndsWith("\\"))
                                 path = path.Remove(path.Length - 1);
 
                             if (Directory.Exists(path) == false)
                                 Directory.CreateDirectory(path);
 
-                            return path;
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        //  path = string.Empty;
+                        Trace.WriteLine(ex.ToString());
+                        path = string.Empty;
                     }
                 }
+                return path;
 
-                try
-                {
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Zamba Software";
-
-                    if (Directory.Exists(path) == false)
-                        Directory.CreateDirectory(path);
-
-                    return path;
-                }
-                catch
-                {
-
-                    if (HttpContext.Current == null)
-                        return Application.StartupPath;
-
-                    return HttpContext.Current.Request.MapPath(Path.Combine(HttpContext.Current.Request.ApplicationPath, "bin"));
-                }
             }
         }
+
+        //public static String AppTempPath
+        //{
+        //    get
+        //    {
+        //        string path = "/log";
+
+        //        if (System.Web.Configuration.WebConfigurationManager.AppSettings["ZambaSofwareAppDataPath"] != null)
+        //        {
+        //            try
+        //            {
+        //                path = System.Web.Configuration.WebConfigurationManager.AppSettings["ZambaSofwareAppDataPath"];
+
+        //                if (String.IsNullOrEmpty(path) == false)
+        //                {
+        //                    if (path.EndsWith("\\"))
+        //                        path = path.Remove(path.Length - 1);
+
+        //                    if (Directory.Exists(path) == false)
+        //                        Directory.CreateDirectory(path);
+
+        //                    return path;
+        //                }
+        //            }
+        //            catch
+        //            {
+        //                //  path = string.Empty;
+        //            }
+        //        }
+
+        //        return path;
+        //    }
+        //}
 
         /// <summary>
         /// Obtiene la info del directorio temporal
@@ -383,7 +415,7 @@ namespace Zamba.Membership
             {
                 try
                 {
-                    if (HttpContext.Current!= null && HttpContext.Current.Session != null)
+                    if (HttpContext.Current != null && HttpContext.Current.Session != null)
                         return true;
 
                     return false;
@@ -441,7 +473,7 @@ namespace Zamba.Membership
             get
             {
                 if (_taskSelectorWebLink.Length == 0)
-                    _taskSelectorWebLink  = "<br><br>Link Cliente Web: <a href=\"" + AppUrl + "/Views/WF/TaskSelector.ashx?docid={0}&doctype={1}&taskid={2}&wfstepid={3}\">Acceder al documento</a><br>";
+                    _taskSelectorWebLink = "<br><br>Link Cliente Web: <a href=\"" + AppUrl + "/Views/WF/TaskSelector.ashx?docid={0}&doctype={1}&taskid={2}&wfstepid={3}\">Acceder al documento</a><br>";
                 return _taskSelectorWebLink;
             }
         }

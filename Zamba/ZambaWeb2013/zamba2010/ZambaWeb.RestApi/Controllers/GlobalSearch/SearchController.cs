@@ -7851,9 +7851,12 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 UserBusiness usrB = new UserBusiness();
                 string userPhotoPath = usrB.GetUserPhotoPathById(userId);
-                Zamba.FileTools.Base64 base64 = new Zamba.FileTools.Base64();
-                B64Photo = base64.PathToBase64(userPhotoPath);
-                Zamba.Core.Cache.UsersAndGroups.hsUserPhotos.Add(userId, B64Photo);
+                if (string.IsNullOrEmpty(userPhotoPath) == false)
+                {
+                    Zamba.FileTools.Base64 base64 = new Zamba.FileTools.Base64();
+                    B64Photo = base64.PathToBase64(userPhotoPath);
+                    Zamba.Core.Cache.UsersAndGroups.hsUserPhotos.Add(userId, B64Photo);
+                }
             }
             else
                 B64Photo = Zamba.Core.Cache.UsersAndGroups.hsUserPhotos[userId].ToString();
