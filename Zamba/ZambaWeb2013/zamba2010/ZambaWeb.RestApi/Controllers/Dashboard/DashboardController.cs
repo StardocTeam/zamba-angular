@@ -498,6 +498,33 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("ResetPasswordFirstTime")]
+        public IHttpActionResult ResetPasswordFirstTime(genericRequest request)
+        {
+            try
+            {
+                string status = string.Empty;
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
+                string tokendata = request.Params["tokendata"];
+                string newpassword = request.Params["newpassword"];
+
+                if (!String.IsNullOrEmpty(tokendata) && !String.IsNullOrEmpty(newpassword))
+                {
+                    tokendata = tokendata.Trim();
+                    newpassword = newpassword.Trim();
+                    status = dashboardDatabase.ChangePasswordFirstTime(tokendata, newpassword);
+                }
+                return Ok(JsonConvert.SerializeObject(status, Formatting.Indented));
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
+
+        }
         [AcceptVerbs("GET", "POST")]
         [Route("ValidateResetToken")]
         public IHttpActionResult ValidateResetToken(genericRequest request)
