@@ -9,8 +9,9 @@
 
 
 
-public partial class Views_UC_WF_Rules_UCDoShowTable {
-    
+public partial class Views_UC_WF_Rules_UCDoShowTable
+{
+
     /// <summary>
     /// Control hdnMultipleCheck.
     /// </summary>
@@ -19,7 +20,7 @@ public partial class Views_UC_WF_Rules_UCDoShowTable {
     /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnMultipleCheck;
-    
+
     /// <summary>
     /// Control hdnJustShow.
     /// </summary>
@@ -28,7 +29,7 @@ public partial class Views_UC_WF_Rules_UCDoShowTable {
     /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hdnJustShow;
-    
+
     /// <summary>
     /// Control GridContainer.
     /// </summary>
@@ -37,7 +38,7 @@ public partial class Views_UC_WF_Rules_UCDoShowTable {
     /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlGenericControl GridContainer;
-    
+
     /// <summary>
     /// Control dgValue.
     /// </summary>
@@ -46,7 +47,7 @@ public partial class Views_UC_WF_Rules_UCDoShowTable {
     /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     /// </remarks>
     protected global::System.Web.UI.WebControls.GridView dgValue;
-    
+
     /// <summary>
     /// Control _btnok.
     /// </summary>
@@ -55,7 +56,7 @@ public partial class Views_UC_WF_Rules_UCDoShowTable {
     /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button _btnok;
-    
+
     /// <summary>
     /// Control _btnCancel.
     /// </summary>

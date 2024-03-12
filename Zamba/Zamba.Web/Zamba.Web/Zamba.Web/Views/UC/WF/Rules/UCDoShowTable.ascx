@@ -43,7 +43,7 @@
         });
 
         InitializeTable();
-        $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody tr ');
+        $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody tr .isItem');
         FormatTable();
 
         $('#openModalIFContentUcRules').dialog({ height: 'auto', width: '90%' });
@@ -301,8 +301,9 @@
                     AllowSorting="true" GridLines="None"
                     EmptyDataText="No hay registros para visualizar"
                     CssClass="mGrid notFixed"
+                    RowStyle-CssClass ="isItem"
                     PagerStyle-CssClass="pgr"
-                    AlternatingRowStyle-CssClass="alt">
+                    AlternatingRowStyle-CssClass="alt isItem">
                     <Columns>
                         <asp:TemplateField>
                             <ItemTemplate>
