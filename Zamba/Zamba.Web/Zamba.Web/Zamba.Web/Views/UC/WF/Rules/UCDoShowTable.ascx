@@ -43,10 +43,10 @@
         });
 
         InitializeTable();
-        $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody tr .isItem');
+        $('input#search_dgValue').quicksearch('.mGrid.notFixed tbody .isItem');
         FormatTable();
 
-        $('#openModalIFContentUcRules').dialog({ height: 'auto', width: '90%' });
+        //$('#openModalIFContentUcRules').dialog({ height: 'auto', width: '90%' });
 
         $('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable').css('z-index', '2000');
         $('.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable.ui-resizable').css('top', '45px');
@@ -61,7 +61,10 @@
         if (justShow == 'True') {
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
-
+        var isMultipleCheck = $("#<%=hdnMultipleCheck.ClientID %>").val().toLowerCase();
+        if (isMultipleCheck == "false") {
+            $($('#<%=_chkSelectAll.ClientID %>').parent()).hide();
+        }
 
 
     });
@@ -111,7 +114,16 @@
             $('#<%=_btnok.ClientID %>').removeAttr("disabled");
         }
     }
-
+    function CheckSelectAll(thisObj) {
+        if (thisObj.checked) {
+            CheckAll();
+            $('#<%=_btnok.ClientID %>').removeAttr("disabled");
+        }
+        else {
+            UnCheckAll();
+            $('#<%=_btnok.ClientID %>').attr("disabled", "disabled");
+        }
+    }
     function UnCheckAll() {
         //Obtenemos la tabla del gridView
         var tblControl = document.getElementById("<%=dgValue.ClientID %>")
@@ -125,8 +137,27 @@
                 $(lstControls[i]).parent().parent().removeClass("backColor");
             }
         }
-    }
+        getHdnChecks().val("");
 
+    }
+    function CheckAll() {
+        var selectedChecksIndexes = "";
+        getHdnChecks().val("");
+        //Obtenemos la tabla del gridView
+        var tblControl = document.getElementById("<%=dgValue.ClientID %>")
+        //Extraemos todos los elementos del tag input.
+        var lstControls = tblControl.getElementsByTagName("input");
+
+        //Descheckeamos todos los checkbox 
+        for (var i = 0; i < lstControls.length; i++) {
+
+            lstControls[i].checked = true;
+            $(lstControls[i]).parent().parent().removeClass("backColor");
+            $(lstControls[i]).parent().parent().addClass("backColor")
+            selectedChecksIndexes += (selectedChecksIndexes !== "" ? "," : "") + i;
+        }
+        getHdnChecks().val(selectedChecksIndexes);
+    }
     function CheckFuncionality(chkObject) {
 
         //Al seleccionar un item se habilita el botón OK
@@ -198,7 +229,7 @@
 
 
 
-    $(document).keydown(function (e) {
+    <%--$(document).keydown(function (e) {
         var tblControl = document.getElementById("<%=dgValue.ClientID %>")
         var lstControls = tblControl.getElementsByTagName("input");
 
@@ -237,7 +268,7 @@
         if (e.which == 27) {
             $('#<%=_btnCancel.ClientID %>').trigger('click');
         }
-    });
+    });--%>
 
     function FormatTable() {
         var div = $("#<%=GridContainer.ClientID %> div:first");
@@ -315,6 +346,8 @@
             </div>
         </div>
     </div>
+    <asp:CheckBox ID="_chkSelectAll" Text="Seleccionar todos" ForeColor="Black" runat="server" OnClick="CheckSelectAll(this)" AutoPostBack="false" />
+
     <div class="row">
         <div style="text-align: center; margin-top: 5px;" class="col-xs-12">
             <asp:Button ID="_btnok" Text="Aceptar" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="97px" disabled="disabled" CssClass="btn btn-primary btn-xs" />

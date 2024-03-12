@@ -49,6 +49,15 @@ public partial class Views_UC_WF_Rules_UCDoShowTable
     protected global::System.Web.UI.WebControls.GridView dgValue;
 
     /// <summary>
+    /// Control _chkSelectAll.
+    /// </summary>
+    /// <remarks>
+    /// Campo generado automáticamente.
+    /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.CheckBox _chkSelectAll;
+
+    /// <summary>
     /// Control _btnok.
     /// </summary>
     /// <remarks>
