@@ -135,6 +135,58 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return rv;
         }
 
+
+        public string ChangePasswordFirstTime(string tokendata, string newpassword)
+        {
+            string rv = string.Empty;
+            DateTime expirationDate = DateTime.Now;
+            string expirationDateString = expirationDate.ToString("yyyy-MM-dd HH:mm:ss");
+
+            StringBuilder sqlCommand1 = new StringBuilder();
+            sqlCommand1.AppendLine("SELECT * FROM zambabpm_RRHH.resetpasswordtokens ");
+            sqlCommand1.AppendLine("WHERE tokendata = '" + tokendata + "' and expirationdate >= '" + expirationDateString + "' and used = 0;");
+
+            DataSet dataSet = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand1.ToString());
+
+            ResetPasswordToken resetToken = new ResetPasswordToken();
+
+            if (dataSet.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = dataSet.Tables[0].Rows[0];
+
+                resetToken.id = row["id"] != DBNull.Value ? Convert.ToInt32(row["id"]) : 0;
+                resetToken.email = row["email"].ToString();
+
+                int zambaUserId = GetUserDashboardZambaID(resetToken.email);
+
+                if (zambaUserId != -1)
+                {
+
+                    UserBusiness UB = new UserBusiness();
+                    IUser User = UB.GetUserById(zambaUserId);
+                    User.Password = newpassword;
+                    UB.UpdateUserPassword(User);
+                }
+
+                StringBuilder sqlCommand2 = new StringBuilder();
+                sqlCommand2.AppendLine("UPDATE zambabpm_RRHH.DashboardUsers ");
+                sqlCommand2.AppendLine("set password = '" + newpassword + "'");
+                sqlCommand2.AppendLine(", isActive = 1 ");
+                sqlCommand2.AppendLine(" WHERE email = '" + resetToken.email + "'");
+
+                Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand2.ToString());
+
+                StringBuilder sqlCommand3 = new StringBuilder();
+                sqlCommand3.AppendLine("UPDATE zambabpm_RRHH.resetpasswordtokens ");
+                sqlCommand3.AppendLine("set used = '1'");
+                sqlCommand3.AppendLine(" WHERE id = " + resetToken.id);
+
+                Server.get_Con().ExecuteScalar(CommandType.Text, sqlCommand3.ToString());
+
+                rv = "ok";
+            }
+            return rv;
+        }
         public string validateResetTokendata(string tokendata)
         {
             string rv = string.Empty;
