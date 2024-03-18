@@ -327,7 +327,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div id="GridContainer" runat="server" style="height: 400px; width: 95%; overflow: scroll">
+            <div id="GridContainer" runat="server" style="height: 340px; width: 95%; overflow: scroll">
                 <asp:GridView ID="dgValue" runat="server"
                     AllowSorting="true" GridLines="None"
                     EmptyDataText="No hay registros para visualizar"
