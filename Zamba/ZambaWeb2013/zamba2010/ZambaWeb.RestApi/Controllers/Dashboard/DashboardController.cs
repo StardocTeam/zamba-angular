@@ -642,7 +642,6 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-
         public string getWelcomeHtml(DashboarUserDTO newUser)
         {
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Obteniendo HTML para mensaje de bienvenida.");

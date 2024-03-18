@@ -238,6 +238,14 @@ namespace Zamba.Web
             //Response.Cookies.Add(cookie);
 
             // var request = ((System.Web.HttpApplication)sender).Request.Params;
+            if(Request.AppRelativeCurrentExecutionFilePath == "~/Views/Security/OktaAuthentication.html")
+            {
+                string NewUrl = Request.Url.AbsoluteUri.Replace("Views/Security/", "Views/Security/Okta/");
+                Response.Redirect(NewUrl);
+                ;
+                //Server.Transfer ("/Views/Security/Okta/OktaAuthentication.html");
+            }
+            ;
             if (!ValidateUrl())
             {
                 Response.StatusCode = 401;
