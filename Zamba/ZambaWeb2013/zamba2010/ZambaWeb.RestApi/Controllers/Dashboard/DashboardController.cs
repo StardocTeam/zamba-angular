@@ -706,8 +706,8 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         [AcceptVerbs("GET", "POST")]
-        [Route("getinfoSideBar")]
-        public IHttpActionResult getinfoSideBar(genericRequest request)
+        [Route("getSidebarItems")]
+        public IHttpActionResult getSidebarItems(genericRequest request)
         {
             try
             {
