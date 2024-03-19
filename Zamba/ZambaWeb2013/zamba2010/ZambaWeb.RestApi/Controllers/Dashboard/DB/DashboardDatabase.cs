@@ -593,7 +593,6 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return returnValue;
         }
 
-
         public class ResetPasswordToken {
 
             public int id { get; set; }

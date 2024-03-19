@@ -644,7 +644,6 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-
         public string getWelcomeHtml(DashboarUserDTO newUser)
         {
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Obteniendo HTML para mensaje de bienvenida.");
@@ -708,8 +707,8 @@ namespace ZambaWeb.RestApi.Controllers
 
 
         [AcceptVerbs("GET", "POST")]
-        [Route("getinfoSideBar")]
-        public IHttpActionResult getinfoSideBar(genericRequest request)
+        [Route("getSidebarItems")]
+        public IHttpActionResult getSidebarItems(genericRequest request)
         {
             try
             {
