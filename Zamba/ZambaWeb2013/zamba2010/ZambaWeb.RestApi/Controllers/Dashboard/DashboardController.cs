@@ -1163,7 +1163,7 @@ namespace ZambaWeb.RestApi.Controllers
         public class DashBoardTools
         {
             public string GetZambaWebDomain(HttpRequestMessage Request) {
-                return Request.RequestUri.Scheme + "/" + Request.RequestUri.Authority + System.Configuration.ConfigurationManager.AppSettings["ThisDomain"];
+                return Request.RequestUri.Scheme + "://" + Request.RequestUri.Authority + System.Configuration.ConfigurationManager.AppSettings["ThisDomain"];
             }
             public string GetURLTask(TaskDTO Task, HttpRequestMessage request,long userid)
             {
