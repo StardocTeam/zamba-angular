@@ -26,15 +26,17 @@ using System.Web;
 using Newtonsoft.Json.Linq;
 using static ZambaWeb.RestApi.Controllers.Dashboard.DB.ZambaTokenDatabase;
 using Zamba.Services;
+using System.Linq;
 
 
 namespace ZambaWeb.RestApi.Controllers
 {
+    
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Dashboard")]
     public class DashboardController : ApiController
     {
-
+        DashBoardTools Tools = new DashBoardTools();
         [AcceptVerbs("GET", "POST")]
         [Route("Register")]
         public IHttpActionResult Register(genericRequest request)
@@ -432,12 +434,12 @@ namespace ZambaWeb.RestApi.Controllers
                     }
                 }
                 return Ok();
-                }
-                catch (Exception ex)
-                {
-                    ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
-                    return StatusCode(HttpStatusCode.BadRequest);
-                }
+            }
+            catch (Exception ex)
+            {
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return StatusCode(HttpStatusCode.BadRequest);
+            }
 
         }
 
@@ -459,7 +461,7 @@ namespace ZambaWeb.RestApi.Controllers
                     if (emailExist)
                     {
                         token = TokenGenerator.GenerateToken(20);
-                        dashboardDatabase.InsertResetToken(email, token,365);
+                        dashboardDatabase.InsertResetToken(email, token, 365);
                     }
                 }
                 return Ok(token);
@@ -531,13 +533,13 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                
+
                 string status = "NotValid";
                 DashboardDatabase dashboardDatabase = new DashboardDatabase();
                 string tokendata = string.Empty;
                 try
                 {
-                    tokendata  = request.Params["tokendata"];
+                    tokendata = request.Params["tokendata"];
                 }
                 catch (Exception)
                 {
@@ -556,7 +558,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-        
+
 
 
         private long CreateNewUserForZamba(string username, string password, string names, string lastname, string email, long groupid)
@@ -908,7 +910,7 @@ namespace ZambaWeb.RestApi.Controllers
                 string groupid = request.Params["groupid"];
                 string eventdata = request.Params["eventdata"];
                 string userid = request.Params["userid"];
-                dashboardDatabase.InsertNewEvent(eventdata,groupid,userid);
+                dashboardDatabase.InsertNewEvent(eventdata, groupid, userid);
                 return Ok();
             }
             catch (Exception ex)
@@ -962,8 +964,45 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
+        [AcceptVerbs("POST")]
+        [Route("getMyTasks")]
+        public IHttpActionResult GetMyTasks(genericRequest request)
+        {
+            try
+            {
+                List<TaskDTO> newsList = null;
+                List<TaskDTORRHH > newsListRet = null;
+                
+                if (request == null)
+                    return BadRequest("Objeto request nulo");
 
-
+                if (request.UserId <= 0)
+                    return BadRequest("Id de usuario debe ser mayor a cero");
+                newsList = new WFTaskBusiness().GetMyTasks(request.UserId);
+                newsListRet = 
+                    (from n 
+                     in newsList
+                     select new TaskDTORRHH(
+                         n.Asignado,
+                         n.Task_id,
+                         n.doc_id,
+                         n.DOC_TYPE_ID,
+                         n.Fecha,
+                         n.Etapa,
+                         n.Asignado,
+                         n.Ingreso,
+                         n.Vencimiento,
+                         Tools.GetURLTask(n,Request ,request.UserId) 
+                         )
+                    ).ToList();
+                return Ok(newsListRet);
+            }
+            catch (Exception e)
+            {
+                ZClass.raiseerror(e);
+                return InternalServerError(new Exception("Error al obtener mis tareas"));
+            }
+        }
 
         private List<string> GetListBase64Strings(DataTable resultsDT)
         {
@@ -997,13 +1036,13 @@ namespace ZambaWeb.RestApi.Controllers
                         string contentType = System.IO.Path.GetExtension(ContentPath).TrimStart('.');
                         list.Add("data:image/" + contentType + ";base64," + Base64String);
                     }
-                }                
+                }
             }
 
             return list;
         }
 
-        public bool sendRegister(string mailTo, string body,string subject)
+        public bool sendRegister(string mailTo, string body, string subject)
         {
             try
             {
@@ -1034,7 +1073,8 @@ namespace ZambaWeb.RestApi.Controllers
         public List<MenuItem> ListMenuItem(DataTable result)
         {
             List<MenuItem> listItem = new List<MenuItem>();
-            if (result == null) {
+            if (result == null)
+            {
 
                 return listItem;
             }
@@ -1059,8 +1099,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                DashboardDatabase dashboardDatabase = new DashboardDatabase();
-
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();                
                 long userid = request.UserId;
                 var data = dashboardDatabase.GetVideoplayerURL(userid);
 
@@ -1073,7 +1112,20 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-        
+        public class TaskDTORRHH : TaskDTO
+        {
+            public TaskDTORRHH(string Tarea, long Task_id, long doc_id, long DOC_TYPE_ID, DateTime Fecha, string Etapa, string Asignado, DateTime Ingreso, DateTime Vencimiento)
+                : base(Tarea, Task_id, doc_id, DOC_TYPE_ID, Fecha, Etapa, Asignado, Ingreso, Vencimiento)
+            {
+
+            }
+            public TaskDTORRHH(string Tarea, long Task_id, long doc_id, long DOC_TYPE_ID, DateTime Fecha, string Etapa, string Asignado, DateTime Ingreso, DateTime Vencimiento,string url)
+      : base(Tarea, Task_id, doc_id, DOC_TYPE_ID, Fecha, Etapa, Asignado, Ingreso, Vencimiento)
+            {
+                this.url = url;
+            }
+            public string url { get; set; }
+        }
         public class app
         {
             public string name { get; set; }
@@ -1109,7 +1161,34 @@ namespace ZambaWeb.RestApi.Controllers
             public User user { get; set; }
             public menu menu { get; set; }
         }
-
+        public class DashBoardTools
+        {
+            public string GetZambaWebDomain(HttpRequestMessage Request) {
+                return Request.RequestUri.Scheme + "/" + Request.RequestUri.Authority + System.Configuration.ConfigurationManager.AppSettings["ThisDomain"];
+            }
+            public string GetURLTask(TaskDTO Task, HttpRequestMessage request,long userid)
+            {
+                string url = "";
+                if(Task.Task_id > 0)
+                {
+                    url = GetZambaWebDomain(request) + "/views/WF/TaskViewer.aspx?" + 
+                        "DocType=" + Task .DOC_TYPE_ID 
+                        + "&docid=" + Task.doc_id 
+                        + "&taskid=" + Task.Task_id  
+                        + "&mode=s" + "&s=0" 
+                        + "&userId=" + userid.ToString();
+                }
+                else
+                {
+                    url = GetZambaWebDomain(request) + "/views/search/docviewer.aspx?" +
+                        "DocType=" + Task.DOC_TYPE_ID
+                        + "&docid=" + Task.doc_id
+                        + "&mode=s" + "&s=0" 
+                        + "&userId=" + userid.ToString();
+                }
+                return url;
+            }
+        }
         public class CarouselConfigDTO
         {
             public string DotPosition { get; set; }
