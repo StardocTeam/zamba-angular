@@ -17,6 +17,7 @@
     <script>
         var auth = document.getElementById('<%=hdnAuthorizationData.ClientID%>').value;
         localStorage.setItem("authorizationData", auth);
+        localStorage.setItem("authorizationData", JSON.parse(auth).UserId);
     </script>
 </body>
     
