@@ -40,7 +40,7 @@ Public Class ZssFactory
                     .TokenExpireDate = dt.Rows(0).Field(Of DateTime)("TokenExpireDate")
                     .CreateDate = dt.Rows(0).Field(Of DateTime)("CreateDate")
                     .UserId = user.ID
-                    .ConnectionId = user.ConnectionId
+                    .ConnectionId = dt.Rows(0).Field(Of Decimal)("ConnectionId")
                     .OktaAccessToken = dt.Rows(0).Field(Of String)("OktaAccessToken")
                     .OktaIdToken = dt.Rows(0).Field(Of String)("OktaIdToken")
                 End With
