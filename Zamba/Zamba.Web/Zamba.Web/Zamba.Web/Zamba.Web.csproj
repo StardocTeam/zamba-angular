@@ -8038,6 +8038,7 @@
     <Content Include="Views\Security\views\CustomErrorPages\FileDownloaded.html" />
     <Content Include="Views\Security\views\CustomErrorPages\FileNotFound.html" />
     <Content Include="Views\Security\views\CustomErrorPages\FileNotScanned.html" />
+    <Content Include="Views\Security\LoginRRHH.aspx" />
     <Content Include="Views\UC\HomeWidget\Bookmarks.ascx" />
     <Content Include="Views\UC\HomeWidget\Chat.ascx" />
     <Content Include="Views\UC\HomeWidget\NewsZamba.ascx" />
@@ -10719,6 +10720,13 @@
     </Compile>
     <Compile Include="Views\Security\views\CustomErrorPages\Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Security\LoginRRHH.aspx.cs">
+      <DependentUpon>LoginRRHH.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Security\LoginRRHH.aspx.designer.cs">
+      <DependentUpon>LoginRRHH.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\Tools\AdminCleaner.aspx.cs">
       <DependentUpon>AdminCleaner.aspx</DependentUpon>
