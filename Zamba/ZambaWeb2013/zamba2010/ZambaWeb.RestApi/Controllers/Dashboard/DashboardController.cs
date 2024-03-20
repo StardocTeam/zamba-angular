@@ -982,8 +982,7 @@ namespace ZambaWeb.RestApi.Controllers
                 newsListRet = 
                     (from n 
                      in newsList
-                     select new TaskDTORRHH(
-                         n.Asignado,
+                     select new TaskDTORRHH(n.Tarea                           ,
                          n.Task_id,
                          n.doc_id,
                          n.DOC_TYPE_ID,
