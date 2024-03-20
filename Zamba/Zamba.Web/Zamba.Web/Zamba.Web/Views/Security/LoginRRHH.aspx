@@ -20,6 +20,5 @@
         localStorage.setItem("UserId", JSON.parse(auth).UserId);
         window.parent.postMessage('ok', '*');
     </script>
-</body>
-    
+</body>    
 </html>
