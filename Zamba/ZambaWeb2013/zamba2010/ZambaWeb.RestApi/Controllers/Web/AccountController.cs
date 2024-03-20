@@ -425,7 +425,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 String username = oktaUserIntrospection.username.Split('@').First();
                 //username = "15116";
-                username = "1248518";
+                //username = "Ariel";
                 //username = "eseleme";
 
                 String UserNameIntrospectWithU = "U" + username;

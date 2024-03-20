@@ -319,13 +319,16 @@ namespace Zamba.Web
             {
                 Boolean OktaAuthentication;
                 bool.TryParse(System.Web.Configuration.WebConfigurationManager.AppSettings["LoadOktaUser"], out OktaAuthentication);
+
+                string UrlAbsolutePath = ValidateUrlAbsolutePath();
+
                 if (OktaAuthentication)
                 {
-                    Response.Redirect(Request.Url.AbsolutePath + "Views/Security/OktaAuthentication.html");
+                    Response.Redirect(UrlAbsolutePath + "Views/Security/OktaAuthentication.html");
                 }
                 else
                 {
-                    Response.Redirect(Request.Url.AbsolutePath + "Views/Security/Login.aspx");
+                    Response.Redirect(UrlAbsolutePath + "Views/Security/Login.aspx");
                 }
 
             }
@@ -442,6 +445,14 @@ namespace Zamba.Web
                     HttpContext.Current.Response.End();
                 }
             }
+        }
+
+        private string ValidateUrlAbsolutePath()
+        {
+            if (!Request.Url.AbsolutePath.EndsWith("/"))
+                return Request.Url.AbsolutePath + "/";
+            else
+                return Request.Url.AbsolutePath;
         }
 
         private Boolean ContainsCSPNotUnsafeInline(string url)
