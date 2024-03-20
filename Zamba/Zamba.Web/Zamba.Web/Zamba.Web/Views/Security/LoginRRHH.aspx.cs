@@ -16,11 +16,11 @@ namespace Zamba.Web.Views.Security
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Params["user"] == null || Request.Params["token"] == null)
+            if (Request.Params["userid"] == null || Request.Params["token"] == null)
             {
                 return;
             }
-            Int64  userID = Convert.ToInt64(Request.Params["user"].ToString());
+            Int64  userID = Convert.ToInt64(Request.Params["userid"].ToString());
             string token = Request.Params["token"].ToString();
             Results_Business rb = new Results_Business();
             if (!rb.getValidateActiveSession(userID, token))
