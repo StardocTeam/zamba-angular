@@ -66,7 +66,14 @@ function MostrarEstado(texto) {
     $("#estado").text(texto);
 }
 function Autenticar() {
-    var returnUrl = getUrlParameters().returnurl;
+    debugger;
+    var returnUrl = "";
+    if (getUrlParameters().returnurl != undefined) {
+        returnUrl = getUrlParameters().returnurl;
+    }
+    if (getUrlParameters().ReturnUrl != undefined) {
+        returnUrl = getUrlParameters().ReturnUrl;
+    }
 
     var authClient = new OktaAuth({
         url: oktaInformation.baseUrl,
