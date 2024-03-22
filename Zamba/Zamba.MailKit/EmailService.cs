@@ -4,12 +4,6 @@ using MailKit.Search;
 using MailKit;
 using MailKit.Security;
 using System.Net;
-using System.Buffers.Text;
-using MimeKit.Encodings;
-using MsgKit.Exceptions;
-using MsgKit;
-using System.Text;
-using System;
 
 namespace Zamba.MailKit
 {
@@ -100,8 +94,14 @@ namespace Zamba.MailKit
             List<string> log = new List<string>();
             List<ZMessage> messages = new List<ZMessage>();
 
+            DirectoryInfo dir = new DirectoryInfo("Exceptions\\" + DateTime.Now.ToString("yyyy - MM - dd") + "\\");
+            if (!dir.Exists)
+                dir.Create();
+
+            string tracefile = dir.FullName + "\\Trace ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
             try
             {
+
 
                 // Configure the certificate validation callback to trust the certificate
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
@@ -111,21 +111,21 @@ namespace Zamba.MailKit
                     // Ignore certificate validation for the IMAP connection
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                    log.Add("Connect");
+                    log.Add("Connecting...");
                     SecureSocketOptions secureSocketOptions = SecureSocketOptions.Auto;
                     switch (config.secureSocketOptions)
                     {
                         case "Auto":
                             secureSocketOptions = SecureSocketOptions.Auto;
-                            log.Add("Auto");
+                            log.Add("secureSocketOptions: Auto");
                             break;
                         case "SslOnConnect":
                             secureSocketOptions = SecureSocketOptions.SslOnConnect;
-                            log.Add("SslOnConnect");
+                            log.Add("secureSocketOptions: SslOnConnect");
                             break;
                         case "None":
                             secureSocketOptions = SecureSocketOptions.None;
-                            log.Add("None");
+                            log.Add("secureSocketOptions: None");
                             break;
                     }
 
@@ -133,10 +133,11 @@ namespace Zamba.MailKit
                     log.Add("config.ImapPort.Value: " + config.ImapPort.Value);
                     client.Connect(config.ImapServer, config.ImapPort.Value, secureSocketOptions);
 
-                    log.Add("Authenticate" + config.ImapUsername);
+                    log.Add("Authenticate user/mail: " + config.ImapUsername);
+                    log.Add("Authenticate password: " + config.ImapPassword);
                     client.Authenticate(config.ImapUsername, config.ImapPassword);
 
-                    log.Add("GetFolder");
+                    log.Add("GetFolder: " + config.FolderName);
                     var folder = client.GetFolder(config.FolderName);
                     folder.Open(FolderAccess.ReadWrite);
 
@@ -152,7 +153,8 @@ namespace Zamba.MailKit
                         try
                         {
                             messageCount++;
-                            if (messageCount > 10) {
+                            if (messageCount > 10)
+                            {
                                 break;
                             }
 
@@ -219,8 +221,9 @@ namespace Zamba.MailKit
                         }
                         catch (Exception ex)
                         {
+                            string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
                             log.Add($"ZIMAP Mail ERROR : {uid} - {ex.ToString()}");
-                            StreamWriter sw = new StreamWriter("Error.txt");
+                            StreamWriter sw = new StreamWriter(errorfile);
                             sw.WriteLine(string.Join(System.Environment.NewLine, log.ToArray()));
                             sw.Flush();
                             sw.Close();
@@ -239,8 +242,9 @@ namespace Zamba.MailKit
             }
             catch (System.Net.WebException ex)
             {
+                string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
                 log.Add($"ZIMAP WebException: {ex.ToString()}");
-                StreamWriter sw = new StreamWriter("Error.txt");
+                StreamWriter sw = new StreamWriter(errorfile);
                 sw.WriteLine(string.Join(System.Environment.NewLine, log.ToArray()));
                 sw.Flush();
                 sw.Close();
@@ -249,13 +253,24 @@ namespace Zamba.MailKit
             }
             catch (Exception ex)
             {
+
+                string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
                 log.Add($"ZIMAP ERROR : {ex.ToString()}");
-                StreamWriter sw = new StreamWriter("Error.txt");
+                StreamWriter sw = new StreamWriter(errorfile);
                 sw.WriteLine(string.Join(System.Environment.NewLine, log.ToArray()));
                 sw.Flush();
                 sw.Close();
                 sw.Dispose();
                 throw new Exception(string.Join(System.Environment.NewLine, log.ToArray()), ex);
+            }
+            finally
+            {
+                log.Add("----------EXPORT IMAP PROCESS ENDED-------------");
+                StreamWriter sw = new StreamWriter(tracefile);
+                sw.WriteLine(string.Join(System.Environment.NewLine, log.ToArray()));
+                sw.Flush();
+                sw.Close();
+                sw.Dispose();
             }
         }
 
