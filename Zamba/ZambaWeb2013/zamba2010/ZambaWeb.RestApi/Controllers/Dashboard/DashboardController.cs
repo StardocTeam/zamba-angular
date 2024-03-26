@@ -706,18 +706,22 @@ namespace ZambaWeb.RestApi.Controllers
                 {
                     SearchDto searchDTO = new SearchDto();
 
-                    searchDTO.DoctypesIds.Add(110);
+                    searchDTO.DoctypesIds.Add(long.Parse(request.Params["DoctypesId"]));
 
                     searchDTO.ExternUserID = request.UserId.ToString();
                     searchDTO.UserId = request.UserId;
 
                     IIndex userindex = new Index();
-                    userindex.ID = 258;
-                    userindex.Data = request.UserId.ToString();
+                    userindex.ID = long.Parse(request.Params["EntityID"]);
+                    userindex.Data = searchDTO.ExternUserID;
 
                     searchDTO.Indexs.Add(userindex);
 
-                    return Ok(new ExternalSearchController().SearchResultsForDashboard(searchDTO));
+                    DataTable DTResult =  new DataTable();
+                    DTResult = new ExternalSearchController().SearchResultsForDashboard(searchDTO);
+
+
+                    return Ok(DTResult);
                 }
                 else
                 {

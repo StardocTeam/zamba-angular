@@ -453,15 +453,15 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("SearchResultsForDashboard")]
-        public IHttpActionResult SearchResultsForDashboard(SearchDto searchDto)
+        public DataTable SearchResultsForDashboard(SearchDto searchDto)
         {
             try
             {
-                
+
                 //string token = "";
 
                 if (searchDto.Indexs == null || searchDto.Indexs.Count <= 0)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Coleccion de indices vacia")));
+                    throw new Exception("Coleccion de indices vacia");
 
                 long userID = long.Parse(searchDto.ExternUserID);
 
@@ -500,7 +500,7 @@ namespace ZambaWeb.RestApi.Controllers
                     sr.entities = GetEntitiesWithRights(searchDto, DTB, search, ExternalEntities, EntitiesWithRights);
 
                     if (search.Doctypes == null || search.Doctypes.Count == 0)                    
-                        return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Las entidad no esta habilitada para este modulo o el modulo no soporta ese tipo de entidad.")));
+                        throw new Exception("Las entidad no esta habilitada para este modulo o el modulo no soporta ese tipo de entidad.");
 
                     SetIndexs(searchDto, IB, search);
                     Setfilters(searchDto, search);
@@ -517,15 +517,15 @@ namespace ZambaWeb.RestApi.Controllers
                     AddAndRemoveColumns(searchDto, searchDto.ExternUserID, ExternalAttributesToKeep, results);
 
                     sr.data = results;
-                    return Ok(sr.data);
+                    return sr.data;
                 }
 
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
+                throw new Exception("No hay usuario disponible");
             }
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError, new HttpError("No se pudo realizar la busqueda" + ex.ToString())));
+                throw new Exception("Coleccion de indices vacia");
             }
         }
 
