@@ -141,7 +141,7 @@
 
     }
     function CheckAll() {
-        debugger;
+        
         var selectedChecksIndexes = "";
         getHdnChecks().val("");
         //Obtenemos la tabla del gridView
