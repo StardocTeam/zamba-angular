@@ -9,30 +9,21 @@ using System.Net;
 using Zamba.Framework;
 using ZambaWeb.RestApi.Controllers.Dashboard.DB;
 using static ZambaWeb.RestApi.Controllers.Dashboard.DB.DashboardDatabase;
-using ZambaWeb.RestApi.Controllers.Class;
-using static Zamba.Data.UserFactory;
 using System.IO;
 using static ZambaWeb.RestApi.Controllers.TasksController;
-using Zamba.Core.Access;
 using ZambaWeb.RestApi.Controllers.Dashboard;
 using System.Linq;
 using System.Collections.Generic;
-using System.Collections;
-using Zamba.Core.Cache;
 using static ZambaWeb.RestApi.Controllers.SearchController;
 using Zamba.Core.WF.WF;
-using ZambaWeb.RestApi.ViewModels;
-using System.Web;
-using Newtonsoft.Json.Linq;
 using static ZambaWeb.RestApi.Controllers.Dashboard.DB.ZambaTokenDatabase;
 using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Dashboard.Business;
-using System.Linq;
-
+using Zamba;
 
 namespace ZambaWeb.RestApi.Controllers
 {
-    
+
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Dashboard")]
     public class DashboardController : ApiController
@@ -627,6 +618,32 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
+
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getVacation")]
+        public IHttpActionResult getVacation(genericRequest request)
+        {
+            try
+            {
+                string JsonResult = JsonConvert.SerializeObject(new DashboardDatabase().GetVacation());
+
+                return Ok(JsonResult);
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+
+
+
+
+
         [AcceptVerbs("GET", "POST")]
         [Route("getRol")]
         public IHttpActionResult getRol(genericRequest request)
@@ -678,6 +695,44 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("getExternalsearchInfo")]
+        public IHttpActionResult getExternalsearchInfo(genericRequest request)
+        {
+            try
+            {
+                if (request != null)
+                {
+                    SearchDto searchDTO = new SearchDto();
+
+                    searchDTO.DoctypesIds.Add(110);
+
+                    searchDTO.ExternUserID = request.UserId.ToString();
+                    searchDTO.UserId = request.UserId;
+
+                    IIndex userindex = new Index();
+                    userindex.ID = 258;
+                    userindex.Data = request.UserId.ToString();
+
+                    searchDTO.Indexs.Add(userindex);
+
+                    return Ok(new ExternalSearchController().SearchResultsForDashboard(searchDTO));
+                }
+                else
+                {
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+                }
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
+            }
+        }
+
+
         public string getResetPasswordHtml(string token)
         {
             ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Verbose, "Obteniendo HTML de reset de password.");
@@ -705,6 +760,8 @@ namespace ZambaWeb.RestApi.Controllers
                 throw ex;
             }
         }
+
+
 
 
         [AcceptVerbs("GET", "POST")]
