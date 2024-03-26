@@ -141,6 +141,7 @@
 
     }
     function CheckAll() {
+        debugger;
         var selectedChecksIndexes = "";
         getHdnChecks().val("");
         //Obtenemos la tabla del gridView
@@ -150,11 +151,12 @@
 
         //Descheckeamos todos los checkbox 
         for (var i = 0; i < lstControls.length; i++) {
-
-            lstControls[i].checked = true;
-            $(lstControls[i]).parent().parent().removeClass("backColor");
-            $(lstControls[i]).parent().parent().addClass("backColor")
-            selectedChecksIndexes += (selectedChecksIndexes !== "" ? "," : "") + i;
+            if (lstControls[i].parentElement.parentElement.style.display != "none") {
+                lstControls[i].checked = true;
+                $(lstControls[i]).parent().parent().removeClass("backColor");
+                $(lstControls[i]).parent().parent().addClass("backColor")
+                selectedChecksIndexes += (selectedChecksIndexes !== "" ? "," : "") + i;
+            }            
         }
         getHdnChecks().val(selectedChecksIndexes);
     }
