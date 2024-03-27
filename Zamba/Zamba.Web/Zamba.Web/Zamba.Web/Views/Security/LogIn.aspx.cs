@@ -118,6 +118,8 @@ public partial class Login : System.Web.UI.Page
                     pnlWindowsLogin.Visible = false;
                 }
             }
+            this.txtUserName.Value = Zamba.Membership.MembershipHelper.AppTempPath;
+
         }
         catch (Exception ex)
         {

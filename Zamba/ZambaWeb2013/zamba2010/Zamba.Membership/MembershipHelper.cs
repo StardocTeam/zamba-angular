@@ -279,6 +279,12 @@ namespace Zamba.Membership
                         path = string.Empty;
                     }
                 }
+
+                if (String.IsNullOrEmpty(path))
+                {
+                    path = "/log";
+                }
+
                 return path;
 
             }
