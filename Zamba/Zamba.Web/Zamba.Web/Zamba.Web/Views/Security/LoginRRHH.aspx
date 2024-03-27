@@ -18,7 +18,7 @@
         var auth = document.getElementById('<%=hdnAuthorizationData.ClientID%>').value;
         localStorage.setItem("authorizationData", auth);
         localStorage.setItem("UserId", JSON.parse(auth).UserId);
-        window.parent.postMessage('ok', '*');
+        window.parent.postMessage('login-rrhh-ok', '*');
     </script>
 </body>    
 </html>
