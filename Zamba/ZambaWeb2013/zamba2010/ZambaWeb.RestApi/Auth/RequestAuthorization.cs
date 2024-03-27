@@ -116,7 +116,7 @@ namespace ZambaWeb.RestApi.Controllers
 
             //AddHeaderCSP(ref actionExecutedContext);
             HttpResponseMessage r = actionExecutedContext.Response;
-            r.Headers.Remove("Server");
+            //.Headers.Remove("Server");
             actionExecutedContext.Response = r;
             base.OnActionExecuted(actionExecutedContext);
         }

@@ -892,6 +892,9 @@ public partial class TaskHeader : System.Web.UI.UserControl, ITaskHeader
 
                         UAB.ID = "UAB_Rule_" + Rule.ID;
                         UAB.CssClass = "btn btn-primary btn-xs";
+                        
+
+                        UAB.Style["height"] = "35px";
                         UAB.OnClientClick = "ShowLoadingAnimation();";
                         UAB.TabIndex = -1;
 
