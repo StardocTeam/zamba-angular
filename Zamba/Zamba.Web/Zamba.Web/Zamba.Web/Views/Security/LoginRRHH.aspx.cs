@@ -41,7 +41,7 @@ namespace Zamba.Web.Views.Security
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<html><body><script>");
-                sb.AppendLine("window.parent.postMessage('error', '*');");
+                sb.AppendLine("window.parent.postMessage('login-rrhh-error', '*');");
                 sb.AppendLine("</script></body></html>");
                 Response.StatusCode = 200;
                 Response.ContentType = "text/html";
