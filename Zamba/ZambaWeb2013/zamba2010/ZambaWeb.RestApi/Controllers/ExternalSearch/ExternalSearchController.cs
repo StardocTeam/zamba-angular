@@ -456,19 +456,11 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-
-                //string token = "";
-
                 if (searchDto.Indexs == null || searchDto.Indexs.Count <= 0)
                     throw new Exception("Coleccion de indices vacia");
 
                 long userID = long.Parse(searchDto.ExternUserID);
-
                 UserBusiness UB = new UserBusiness();
-
-                //if (!validateToken(userID, token))
-                //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("Token invalido")));
-
                 IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
 
                 if (User != null)
@@ -487,12 +479,12 @@ namespace ZambaWeb.RestApi.Controllers
                     var ExternalEntities = zopt.GetValueOrDefaultNonShared("ES", EB.Encrypt("15,17,2524"));
                     ExternalEntities = EB.Decrypt(ExternalEntities);
 
-                    var ExternalAttributes = zopt.GetValueOrDefaultNonShared("ESA", EB.Encrypt("I29|TipoId,Tipos Doc Siniestros|Tipo"));
-                    ExternalAttributes = EB.Decrypt(ExternalAttributes);
+                    //var ExternalAttributes = zopt.GetValueOrDefaultNonShared("ESA", EB.Encrypt("I29|TipoId,Tipos Doc Siniestros|Tipo"));
+                    //ExternalAttributes = EB.Decrypt(ExternalAttributes);
 
                     Dictionary<string, string> ExternalAttributesToKeep = new Dictionary<string, string>();
-                    foreach (string EA in ExternalAttributes.Split(char.Parse(",")))                    
-                        ExternalAttributesToKeep.Add(EA.Split(char.Parse("|"))[0].ToLower(), EA.Split(char.Parse("|"))[1]);                    
+                    //foreach (string EA in ExternalAttributes.Split(char.Parse(",")))                    
+                    //    ExternalAttributesToKeep.Add(EA.Split(char.Parse("|"))[0].ToLower(), EA.Split(char.Parse("|"))[1]);                    
 
                     var EntitiesWithRights = DTB.GetDocTypesbyUserRights(userID, RightsType.Buscar);
 
@@ -504,16 +496,14 @@ namespace ZambaWeb.RestApi.Controllers
                     SetIndexs(searchDto, IB, search);
                     Setfilters(searchDto, search);
 
-                    UB = null;
-                    DTB = null;
-                    IB = null;
+                    UB = null; DTB = null; IB = null;
 
                     search.UserAssignedId = -1;
 
                     DataTable results = new ModDocuments().DoSearch(ref search, User.ID, search.LastPage, search.PageSize, false, false, true, ref TotalCount, false);
                     ZTrace.WriteLineIf(ZTrace.IsVerbose, "Resultados obtenidos: " + TotalCount);
 
-                    AddAndRemoveColumns(searchDto, searchDto.ExternUserID, ExternalAttributesToKeep, results);
+                    //AddAndRemoveColumns(searchDto, searchDto.ExternUserID, ExternalAttributesToKeep, results);
 
                     sr.data = results;
                     return sr.data;
