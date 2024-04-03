@@ -320,7 +320,7 @@
     <div class="row">
         <asp:HiddenField ID="hdnMultipleCheck" runat="server" />
         <asp:HiddenField ID="hdnJustShow" runat="server" Value="false" />
-        <div class="col-xs-1 col-md-offset-1" style="text-align: left">
+        <div class="col-xs-1 col-md-offset-1" style="text-align: left; margin-top:5px">
             Buscar
         </div>
         <div class="col-xs-10" style="text-align: left">
@@ -348,13 +348,14 @@
             </div>
         </div>
     </div>
-    <asp:CheckBox ID="_chkSelectAll" Text="Seleccionar todos" ForeColor="Black" runat="server" OnClick="CheckSelectAll(this)" AutoPostBack="false" />
-
+    <div style="text-align:left;padding-left:50px" >
+        <asp:CheckBox ID="_chkSelectAll" Text="Seleccionar todos" ForeColor="Black" runat="server" OnClick="CheckSelectAll(this)" AutoPostBack="false" />
+        </div>
     <div class="row">
         <div style="text-align: center; margin-top: 5px;" class="col-xs-12">
-            <asp:Button ID="_btnok" Text="Aceptar" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="97px" disabled="disabled" CssClass="btn btn-primary btn-xs" />
+            <asp:Button ID="_btnok" Text="Aceptar" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="97px" style="height:27px"  disabled="disabled" CssClass="btn btn-primary btn-xs" />
             <asp:Button ID="_btnCancel" Text="Cancel" runat="server" Width="102px" UseSubmitBehavior="false" CssClass="btn btn-primary btn-xs"
-                OnClick="_btnCancel_Click" Style="display: none" />
+                OnClick="_btnCancel_Click" Style="display: none;height:27px" />
             <button type="button" class="btn btn-primary btn-xs" style="width: 102px" onclick="RealoadDoShowTable()">Cancelar </button>
 
         </div>
