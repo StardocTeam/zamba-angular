@@ -695,7 +695,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
         [AcceptVerbs("GET", "POST")]
         [Route("getExternalsearchInfo")]
         public IHttpActionResult getExternalsearchInfo(genericRequest request)
@@ -704,24 +703,44 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 if (request != null)
                 {
-                    SearchDto searchDTO = new SearchDto();
+                    SearchDto searchDTO = CreateSearchDTOFromRequest(request);
+                    DataTable DTResult = new ExternalSearchController().SearchResultsForDashboard(searchDTO);
 
-                    searchDTO.DoctypesIds.Add(long.Parse(request.Params["DoctypesId"]));
+                    List<Vacation> ListVacation = Vacation.MapDataTableToList(DTResult.Rows);
+                    List<VacationDTO> ListVacationDTO = new List<VacationDTO>();
 
-                    searchDTO.ExternUserID = request.UserId.ToString();
-                    searchDTO.UserId = request.UserId;
+                    foreach (Vacation item in ListVacation)
+                    {
+                        VacationDTO vacationDTO = new VacationDTO();
 
-                    IIndex userindex = new Index();
-                    userindex.ID = long.Parse(request.Params["EntityID"]);
-                    userindex.Data = searchDTO.ExternUserID;
+                        if (item.AuthorizeOption1 != null && item.AuthorizeOption1 != "")
+                        {
+                            vacationDTO.AuthorizeOption = item.AuthorizeOption1;
+                            vacationDTO.VacationFromOption = item.VacationFromOption1;
+                            vacationDTO.VacationToOption = item.VacationToOption1;
+                            vacationDTO.RequestedDaysOption = item.RequestedDaysOption1;
 
-                    searchDTO.Indexs.Add(userindex);
+                            vacationDTO.TotalDays = item.TotalDays;
+                        }
+                        else if (item.AuthorizeOption2 != null && item.AuthorizeOption2 != "")
+                        {
+                            vacationDTO.AuthorizeOption = item.AuthorizeOption2;
+                            vacationDTO.VacationFromOption = item.VacationFromOption2;
+                            vacationDTO.VacationToOption = item.VacationToOption2;
+                            vacationDTO.RequestedDaysOption = item.RequestedDaysOption2;
 
-                    DataTable DTResult =  new DataTable();
-                    DTResult = new ExternalSearchController().SearchResultsForDashboard(searchDTO);
+                            vacationDTO.TotalDays = item.TotalDays;
+                        }
+                        else
+                        {
+                            break;
+                        }
 
+                        ListVacationDTO.Add(vacationDTO);
 
-                    return Ok(DTResult);
+                    }
+
+                    return Ok(JsonConvert.SerializeObject(ListVacationDTO));
                 }
                 else
                 {
@@ -736,6 +755,22 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
+        private static SearchDto CreateSearchDTOFromRequest(genericRequest request)
+        {
+            SearchDto searchDTO = new SearchDto();
+
+            searchDTO.DoctypesIds.Add(long.Parse(request.Params["DoctypesId"]));
+
+            searchDTO.ExternUserID = request.UserId.ToString();
+            searchDTO.UserId = request.UserId;
+
+            IIndex userindex = new Index();
+            userindex.ID = long.Parse(request.Params["EntityID"]);
+            userindex.Data = searchDTO.ExternUserID;
+
+            searchDTO.Indexs.Add(userindex);
+            return searchDTO;
+        }
 
         public string getResetPasswordHtml(string token)
         {
@@ -1032,18 +1067,18 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 List<TaskDTO> newsList = null;
-                List<TaskDTORRHH > newsListRet = null;
-                
+                List<TaskDTORRHH> newsListRet = null;
+
                 if (request == null)
                     return BadRequest("Objeto request nulo");
 
                 if (request.UserId <= 0)
                     return BadRequest("Id de usuario debe ser mayor a cero");
                 newsList = new WFTaskBusiness().GetMyTasks(request.UserId);
-                newsListRet = 
-                    (from n 
+                newsListRet =
+                    (from n
                      in newsList
-                     select new TaskDTORRHH(n.Tarea                           ,
+                     select new TaskDTORRHH(n.Tarea,
                          n.Task_id,
                          n.doc_id,
                          n.DOC_TYPE_ID,
@@ -1052,7 +1087,7 @@ namespace ZambaWeb.RestApi.Controllers
                          n.Asignado,
                          n.Ingreso,
                          n.Vencimiento,
-                         Tools.GetURLTask(n,Request ,request.UserId) 
+                         Tools.GetURLTask(n, Request, request.UserId)
                          )
                     ).ToList();
                 return Ok(newsListRet);
@@ -1159,7 +1194,7 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-                DashboardDatabase dashboardDatabase = new DashboardDatabase();                
+                DashboardDatabase dashboardDatabase = new DashboardDatabase();
                 long userid = request.UserId;
                 var data = dashboardDatabase.GetVideoplayerURL(userid);
 
@@ -1172,7 +1207,7 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-       
-        
+
+
     }
 }
