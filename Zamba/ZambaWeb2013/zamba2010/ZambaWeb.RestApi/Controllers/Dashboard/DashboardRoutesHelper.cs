@@ -12,18 +12,18 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard
 
         public static string validate
         {
-            get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
+            get { return "http://" + ApiServerName + "/#/passport/validate"; }
         }
 
         public static string setPassword
         {
-            get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/setpassword"; }
+            get { return "http://" + ApiServerName +  "/#/passport/setpassword"; }
         }
 
         public static string reset
         {
             //get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/validate"; }
-            get { return "http://" + ApiServerName + ":" + ApiServerPort + "/#/passport/changepassword"; }
+            get { return "http://" + ApiServerName + "/#/passport/changepassword"; }
         }
     }
 }
