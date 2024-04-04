@@ -7,21 +7,23 @@ import { ZambaService } from '../../services/zamba/zamba.service';
 
 @Component({
   selector: 'layout-basic',
-  templateUrl: './basic.component.html'
+  templateUrl: './basic.component.html',
+  styleUrls: ['./basic.component.less']
 })
 export class LayoutBasicComponent implements OnInit {
   constructor(
     private settings: SettingsService,
     private ZambaService: ZambaService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
+    this.settings.setLayout('collapsed', true);
   }
 
   options: LayoutDefaultOptions = {
-    logoExpanded: `./assets/logo-zamba-rrhh-t.png`,
+    logoExpanded: `./assets/logo-zamba-rrhh-t.svg`,
     logoCollapsed: `./assets/logo-zamba-rrhh-iso.png`,
-    hideAside: environment['cliente'] == `zamba` ? this.ZambaService.GetConfigUserSidbar() : false
+    hideAside: false
   };
   searchToggleStatus = false;
   showSettingDrawer = !environment.production;
