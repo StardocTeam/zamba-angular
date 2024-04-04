@@ -356,7 +356,7 @@
             <asp:Button ID="_btnok" Text="Aceptar" runat="server" UseSubmitBehavior="false" OnClick="_btnOk_Click" OnClientClick="" Width="97px" style="height:27px"  disabled="disabled" CssClass="btn btn-primary btn-xs" />
             <asp:Button ID="_btnCancel" Text="Cancel" runat="server" Width="102px" UseSubmitBehavior="false" CssClass="btn btn-primary btn-xs"
                 OnClick="_btnCancel_Click" Style="display: none;height:27px" />
-            <button type="button" class="btn btn-primary btn-xs" style="width: 102px" onclick="RealoadDoShowTable()">Cancelar </button>
+            <button type="button" class="btn btn-primary btn-xs" style="width: 102px;height:27px" onclick="RealoadDoShowTable()">Cancelar </button>
 
         </div>
     </div>
