@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formulario para Solicitud de Vacaciones</title>
-    
+	<script src="Vacaciones.js"></script>
     <style>
         body {
             font-family: 'Times New Roman';
@@ -45,15 +45,18 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <form name="frmMain" action="VacacionesInsertar.html">
-            
-            <div class="tab-content">
-                <div class="tab-pane active" id="Vacaciones">
+	<script>
+		InitFormVacationsInsert();
+	</script>
+	<div class="container-fluid">
+		<form name="frmMain" action="VacacionesInsertar.html">
+
+			<div class="tab-content">
+				<div class="tab-pane active" id="Vacaciones">
 					<div class="form-container">
 						<!-- Contenido de Vacaciones -->
-						<div id="tblVacaciones" >
-						
+						<div id="tblVacaciones">
+
 							<div class="form-group row">
 								<div class="form-group row"> </div>
 								<div class="col-md-1"></div>
@@ -61,21 +64,21 @@
 									<span class="input-group-addon" style=""> Solicitud de Vacaciones</span>
 								</div>
 							</div>
-																						
+
 							<div class="form-group row">
 								<div class="col-md-2"></div>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Apellidos</span>
-										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_102" name="zamba_index_102" disabled="disabled"/>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_102" name="zamba_index_102" disabled="disabled" />
 									</div>
-								</div> 
+								</div>
 								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Nombres</span>
-										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_101" name="zamba_index_101" disabled="disabled"/>										
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_101" name="zamba_index_101" disabled="disabled" />
 									</div>
-								</div>								                           
+								</div>
 								<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Nro de Legajo</span>
@@ -99,22 +102,22 @@
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-								   <div class="input-group">
+									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Días Pendientes</span>
 										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_167" name="zamba_index_167" />
 									</div>
 								</div>
-								
+
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-								   <div class="input-group">
+									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Días Totales</span>
 										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_169" name="zamba_index_169" />
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="form-group row"></div>
-							
+
 							<div class="form-group row">
 								<div class="col-md-3"></div>
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -122,7 +125,7 @@
 								</div>
 							</div>
 
-							<div class="form-group row">											
+							<div class="form-group row">
 								<div class="col-md-3"></div>
 								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
 									<div class="input-group">
@@ -133,26 +136,26 @@
 								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Fecha Hasta</span>
-										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_228" name="zamba_index_228" />                                    
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_228" name="zamba_index_228" />
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-								   <div class="input-group">
+									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Días Solicitados</span>
 										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_168" name="zamba_index_168" />
 									</div>
-								</div>                                                        
+								</div>
 							</div>
-							
+
 							<div class="form-group row"></div>
-							
+
 							<div class="form-group row">
 								<div class="col-md-3"></div>
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 									<b class="font-weight-bold"> Opción 2:</b>
 								</div>
 							</div>
-							
+
 							<div class="form-group row">
 								<div class="col-md-3"></div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -164,19 +167,19 @@
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Fecha Hasta</span>
-										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_230" name="zamba_index_230" />                                    
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_230" name="zamba_index_230" />
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-								   <div class="input-group">
+									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Días Solicitados</span>
 										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_239" name="zamba_index_239" />
 									</div>
-								</div>                                                        
+								</div>
 							</div>
-						
+
 							<div class="form-group row"></div>
-							<div class="form-group row"></div>					
+							<div class="form-group row"></div>
 							<div class="form-group row"></div>
 							<div class="form-group row" style="margin-bottom: 40px;">
 								<center>
@@ -184,7 +187,7 @@
 									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" style="position:relative;top:-20px">
 										<div class="row">
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<span class="input-group-addon" style=""> Observaciones</span>
+												<span class="input-group-addon" style=""> Observaciones</span>
 												<!--Area texto Observacion-->
 												<div id="appObservaciones" ng-controller="ObservacionController">
 													<zamba-observaciones index-id="136" entity-id="110"></zamba-observaciones>
@@ -194,24 +197,24 @@
 									</div>
 								</center>
 							</div>
-							<center>                        
+							<center>
 								<div class="form-group row">
 									<input class="btn  btn-primary btn-md" id="zamba_rule_137" name="zamba_rule_137"
-									type="submit" value="Solicitar" onclick="SetRuleId(this);" />
+										   type="submit" value="Solicitar" onclick="SetRuleId(this);" />
 								</div>
 							</center>
 						</div>
 					</div>
-				</div>					
-            </div>    
-<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
-            <div class="form-group row"></div>
-			<center>                
-                <div class="col-md-12">
-                    <span style="color:White">VacacionesInsertar.html</span>
-                </div>                
-            </center>
-        </form>
-    </div>
+				</div>
+			</div>
+			<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+			<div class="form-group row"></div>
+			<center>
+				<div class="col-md-12">
+					<span style="color:White">VacacionesInsertar.html</span>
+				</div>
+			</center>
+		</form>
+	</div>
 </body>
 </html>
