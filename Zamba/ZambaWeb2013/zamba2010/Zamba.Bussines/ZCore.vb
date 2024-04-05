@@ -1126,15 +1126,17 @@ Public Class ZCore
         TB.loadGlobalVariables()
 
         If (ERB IsNot Nothing) Then
-            If Boolean.Parse(UP.getValue("LogErrorsInDB", UPSections.MonitorPreferences, False)) Then
+            Dim LogPerformanceIssuesInDB, SendErrorsbyMail, LogErrorsInDB As Boolean
+
+            If Boolean.TryParse(UP.getValue("LogErrorsInDB", UPSections.MonitorPreferences, False), LogErrorsInDB) AndAlso LogErrorsInDB = True Then
                 RemoveHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.AddException
                 AddHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.AddException
             End If
-            If Boolean.Parse(UP.getValue("LogPerformanceIssuesInDB", UPSections.MonitorPreferences, False)) Then
+            If Boolean.TryParse(UP.getValue("LogPerformanceIssuesInDB", UPSections.MonitorPreferences, False), LogPerformanceIssuesInDB) AndAlso LogPerformanceIssuesInDB = True Then
                 RemoveHandler Zamba.Servers.utilities.LogPerformanceIssue, AddressOf ERB.AddPerformanceIssue
                 AddHandler Zamba.Servers.utilities.LogPerformanceIssue, AddressOf ERB.AddPerformanceIssue
             End If
-            If Boolean.Parse(UP.getValue("SendErrorsbyMail", UPSections.MonitorPreferences, False)) Then
+            If Boolean.TryParse(UP.getValue("SendErrorsbyMail", UPSections.MonitorPreferences, False), SendErrorsbyMail) AndAlso SendErrorsbyMail = True Then
                 RemoveHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.SendException
                 AddHandler Zamba.AppBlock.ZException.LogToDB, AddressOf ERB.SendException
             End If

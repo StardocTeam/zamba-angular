@@ -515,7 +515,7 @@ namespace Zamba.Web
 
                     Zamba.AppBlock.ZException.Log(ex);
 
-                    HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
+                    //HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
                 }
                 else
                 {
@@ -523,12 +523,12 @@ namespace Zamba.Web
                 }
 
                 Server.ClearError();
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
-                HttpContext.Current.Response.StatusCode = 404;
-                HttpContext.Current.Response.StatusDescription = "Not Found";
+                //HttpContext.Current.Response.Clear();
+                //HttpContext.Current.Items["ErrorMessage"] = "Redirect - 404 Not Found";
+                //HttpContext.Current.Response.StatusCode = 404;
+                //HttpContext.Current.Response.StatusDescription = "Not Found";
 
-                HttpContext.Current.Response.End();
+                //HttpContext.Current.Response.End();
             }
             catch (Exception ex)
             {
