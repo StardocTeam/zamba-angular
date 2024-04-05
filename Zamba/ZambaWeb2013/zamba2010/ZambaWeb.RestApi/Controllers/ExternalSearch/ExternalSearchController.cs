@@ -358,7 +358,8 @@ namespace ZambaWeb.RestApi.Controllers
                     {
                         index = JsonConvert.DeserializeObject<Zamba.Core.Index>(searchDtoIndex.ToString());
                         index = IB.GetIndexById(index.ID, index.Data);
-                        if (index == null) {
+                        if (index == null)
+                        {
                             throw new Exception("El atributo especificado no existe");
                         }
                         index.Operator = "=";
@@ -421,11 +422,11 @@ namespace ZambaWeb.RestApi.Controllers
                         { }
                         else if (ExternalAttributesToKeep.Keys.Contains(column.ColumnName.ToLower()))
                         {
-                          column.ColumnName = ExternalAttributesToKeep[column.ColumnName.ToLower()];
+                            column.ColumnName = ExternalAttributesToKeep[column.ColumnName.ToLower()];
                         }
                         else
-                            if(column.ColumnName != "url")
-                                columnsToRemove.Add(column.ColumnName);
+                            if (column.ColumnName != "url")
+                            columnsToRemove.Add(column.ColumnName);
                     }
 
                     //Remuevo las columnas
@@ -448,6 +449,164 @@ namespace ZambaWeb.RestApi.Controllers
 
 
 
+
+
+        [AcceptVerbs("GET", "POST")]
+        [Route("SearchResultsForDashboard")]
+        public DataTable SearchResultsForDashboard(SearchDto searchDto)
+        {
+            try
+            {
+                if (searchDto.Indexs == null || searchDto.Indexs.Count <= 0)
+                    throw new Exception("Coleccion de indices vacia");
+
+                long userID = long.Parse(searchDto.ExternUserID);
+                UserBusiness UB = new UserBusiness();
+                IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
+
+                if (User != null)
+                {
+                    DocTypesBusiness DTB = new DocTypesBusiness();
+                    IndexsBusiness IB = new IndexsBusiness();
+                    ExternalSearchResult sr = new ExternalSearchResult();
+
+                    Zamba.FUS.EncryptBusiness EB = new Zamba.FUS.EncryptBusiness();
+                    Zamba.Core.ZOptBusiness zopt = new Zamba.Core.ZOptBusiness();
+
+                    TinyMapper.Bind<SearchDto, Search>();
+                    var search = TinyMapper.Map<Search>(searchDto);
+                    long TotalCount = 0;
+
+                    var ExternalEntities = zopt.GetValueOrDefaultNonShared("ES", EB.Encrypt("15,17,2524"));
+                    ExternalEntities = EB.Decrypt(ExternalEntities);
+
+                    //var ExternalAttributes = zopt.GetValueOrDefaultNonShared("ESA", EB.Encrypt("I29|TipoId,Tipos Doc Siniestros|Tipo"));
+                    //ExternalAttributes = EB.Decrypt(ExternalAttributes);
+
+                    Dictionary<string, string> ExternalAttributesToKeep = new Dictionary<string, string>();
+                    //foreach (string EA in ExternalAttributes.Split(char.Parse(",")))                    
+                    //    ExternalAttributesToKeep.Add(EA.Split(char.Parse("|"))[0].ToLower(), EA.Split(char.Parse("|"))[1]);                    
+
+                    var EntitiesWithRights = DTB.GetDocTypesbyUserRights(userID, RightsType.Buscar);
+
+                    sr.entities = GetEntitiesWithRights(searchDto, DTB, search, ExternalEntities, EntitiesWithRights);
+
+                    if (search.Doctypes == null || search.Doctypes.Count == 0)                    
+                        throw new Exception("Las entidad no esta habilitada para este modulo o el modulo no soporta ese tipo de entidad.");
+
+                    SetIndexs(searchDto, IB, search);
+                    Setfilters(searchDto, search);
+
+                    UB = null; DTB = null; IB = null;
+
+                    search.UserAssignedId = -1;
+
+                    DataTable results = new ModDocuments().DoSearch(ref search, User.ID, search.LastPage, search.PageSize, false, false, true, ref TotalCount, false);
+                    ZTrace.WriteLineIf(ZTrace.IsVerbose, "Resultados obtenidos: " + TotalCount);
+
+                    //AddAndRemoveColumns(searchDto, searchDto.ExternUserID, ExternalAttributesToKeep, results);
+
+                    sr.data = results;
+                    return sr.data;
+                }
+
+                throw new Exception("No hay usuario disponible");
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+                throw new Exception("Coleccion de indices vacia");
+            }
+        }
+
+        private static void SetIndexs(SearchDto searchDto, IndexsBusiness IB, Search search)
+        {
+            search.Indexs = new List<IIndex>();
+
+            foreach (Zamba.Core.Index searchDtoIndex in searchDto.Indexs)
+            {
+                IIndex index;
+                index = IB.GetIndexById(searchDtoIndex.ID, searchDtoIndex.Data);
+
+                if (index == null)                
+                    throw new Exception("El atributo especificado no existe");                
+
+                index.Operator = "=";
+                search.AddIndex(index);
+            }
+        }
+
+        private void Setfilters(SearchDto searchDto, Search search)
+        {
+            search.Filters = new List<ikendoFilter>();
+
+            if (searchDto.Filters != null)
+            {
+                foreach (object searchDtoFilter in searchDto.Filters)
+                {
+                    var filter = JsonConvert.DeserializeObject<kendoFilter>(searchDtoFilter.ToString());
+                    if (filter.Field != string.Empty || filter.Value != string.Empty || filter.Operator != string.Empty)
+                        search.AddFilter(filter);
+                }
+            }
+        }
+
+        private void AddAndRemoveColumns(SearchDto searchDto, string _userId, Dictionary<string, string> ExternalAttributesToKeep, DataTable results)
+        {
+            // Agrego la nueva columna
+            results.Columns.Add("ID", typeof(string)).SetOrdinal(0);
+
+            //Genero el id del doc
+            foreach (DataRow row in results.Rows)
+                row["id"] = EncriptString(string.Concat(row["doc_id"].ToString(), "-", row["doc_type_id"].ToString(), "-", _userId, "-", DateTime.Today.ToString("yyyy|MM|dd|HH|mm|ss|sss")));
+
+            // nuevo archivo
+            results.Columns.Add("url", typeof(string)).SetOrdinal(0);
+
+            ////Genero el id del doc
+            if (searchDto.url)
+            {
+                String dominio = ZOptBusiness.GetValueOrDefault("ThisDomain", "http://imageapd/zamba.web");
+                foreach (DataRow row in results.Rows)
+                {
+                    string documentUrl = dominio + "Services/GetDocFile.ashx?DocTypeId=" + row["doc_type_id"] + " &DocId = " + row["doc_id"] + " &UserID = " + _userId + " &ConvertToPDf = true";
+                    string newDocumentUrl = Regex.Replace(documentUrl, @"\s", "");
+                    row["url"] = newDocumentUrl;
+                }
+            }
+
+            List<string> columnsToRemove = new List<string>();
+            //Columnas que no deben verse
+            foreach (DataColumn column in results.Columns)
+            {
+                if (ColumnsToShare.Contains(column.ColumnName.ToLower()))
+                { }
+                else if (ExternalAttributesToKeep.Keys.Contains(column.ColumnName.ToLower()))
+                {
+                    column.ColumnName = ExternalAttributesToKeep[column.ColumnName.ToLower()];
+                }
+                else
+                    if (column.ColumnName != "url")
+                    columnsToRemove.Add(column.ColumnName);
+            }
+
+            //Remuevo las columnas
+            foreach (string colName in columnsToRemove)
+                results.Columns.Remove(colName);
+
+            results.AcceptChanges();
+        }
+
+        private static List<EntityDto> GetEntitiesWithRights(SearchDto searchDto, DocTypesBusiness DTB, Search search, string ExternalEntities, List<IDocType> EntitiesWithRights)
+        {
+            List<EntityDto> result = new List<EntityDto>();
+
+            IDocType Entity = DTB.GetDocType(searchDto.DoctypesIds.First());
+            result.Add(new EntityDto() { id = Entity.ID, name = Entity.Name });
+            search.AddDocType(Entity);
+
+            return result;
+        }
 
         /// <summary>
         /// Obtiene el archivo asociado a la tarea a traves de un token.
@@ -496,9 +655,9 @@ namespace ZambaWeb.RestApi.Controllers
                 UserBusiness UB = new UserBusiness();
 
                 if (!validateToken(userID, token))
-                   return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
-                
-               
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
+
+
                 IUser User = UB.ValidateLogIn(userID, ClientType.WebApi);
                 if (User != null)
                 {
@@ -516,7 +675,7 @@ namespace ZambaWeb.RestApi.Controllers
                         {
                             if (MembershipHelper.CurrentUser == null)
                             {
-                               
+
                                 UB.ValidateLogIn(userID, ClientType.Web);
                             }
                         }
@@ -547,9 +706,9 @@ namespace ZambaWeb.RestApi.Controllers
                     }
                     catch (Exception ex)
                     {
-                        ZClass.raiseerror(new Exception("Error al obtener el archivo. Se reintenta decode. Err. 7008",ex));
+                        ZClass.raiseerror(new Exception("Error al obtener el archivo. Se reintenta decode. Err. 7008", ex));
                         return Ok(System.Convert.FromBase64String(GetDocumentData(userID, DocTypeId, DocId, ref convertToPDf, res, false)));
-                        throw ;
+                        throw;
                     }
 
                 }
@@ -573,7 +732,7 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 string _documentId = DecryptString(documentId);
                 docId = long.Parse(_documentId.Split('-')[0]);
-                doctypeId = long.Parse(_documentId.Split('-')[1]);                              
+                doctypeId = long.Parse(_documentId.Split('-')[1]);
 
                 long _userId = long.Parse(_documentId.Split('-')[2]);
                 string _DateTime = _documentId.Split('-')[3];
@@ -610,7 +769,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (request.Params.ContainsKey("converttopdf"))
                     convertToPDf = bool.Parse(request.Params["converttopdf"].ToString());
-               
+
                 //if (!validateToken(userID, token))
                 //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError(StringHelper.InvalidUser)));
                 UserBusiness UB = new UserBusiness();
@@ -671,28 +830,28 @@ namespace ZambaWeb.RestApi.Controllers
         private string GetDocumentData(long userId, long doctypeId, long docId, ref bool convertToPDf, IResult res, bool MsgPreview)
         {
             SZOptBusiness Zopt = new SZOptBusiness();
-            SResult sResult = new SResult();      
+            SResult sResult = new SResult();
 
-                try
+            try
+            {
+                if (MembershipHelper.CurrentUser == null)
                 {
-                    if (MembershipHelper.CurrentUser == null)
-                    {
-                        UserBusiness UB = new UserBusiness();
-                        UB.ValidateLogIn(userId, ClientType.Web);
-                    }
+                    UserBusiness UB = new UserBusiness();
+                    UB.ValidateLogIn(userId, ClientType.Web);
                 }
-                catch (Exception ex)
-                {
-                    ZClass.raiseerror(ex);
-                }
-            
+            }
+            catch (Exception ex)
+            {
+                ZClass.raiseerror(ex);
+            }
+
 
 
 
             byte[] _file = null;
 
             ZTrace.WriteLineIf(ZTrace.IsInfo, res.FullPath);
-            
+
             if (res != null && res.FullPath != null && res.FullPath.Contains("."))
             {
                 bool IsBlob = false;
@@ -963,7 +1122,7 @@ namespace ZambaWeb.RestApi.Controllers
                 DecryptDocId(_documentId, userID, out DocId, out DocTypeId);
 
                 if (userID > 0 && DocTypeId > 0 && DocId > 0)
-                {                    
+                {
                     try
                     {
                         if (MembershipHelper.CurrentUser == null)
@@ -1117,7 +1276,8 @@ namespace ZambaWeb.RestApi.Controllers
                     {
                         Results_Business RB = new Results_Business();
                         List<Int64> onlyIndexsIds = new List<long>();
-                        foreach (IIndex I in Indexs) {
+                        foreach (IIndex I in Indexs)
+                        {
 
                             IIndex In = res.get_GetIndexById(I.ID);
                             if (In == null)
@@ -1127,17 +1287,17 @@ namespace ZambaWeb.RestApi.Controllers
                             In.DataTemp = I.Data;
                             if (I.Data != string.Empty)
                             {
-                                onlyIndexsIds.Add(I.ID);                                
+                                onlyIndexsIds.Add(I.ID);
                             }
                         }
                         RB.SaveModifiedIndexData(ref res, true, false, onlyIndexsIds, null);
 
                         UserBusiness UB = new UserBusiness();
-                            UB.SaveAction(res.ID, Zamba.ObjectTypes.Documents, Zamba.Core.RightsType.ReIndex, res.Name, 0);
-                        
+                        UB.SaveAction(res.ID, Zamba.ObjectTypes.Documents, Zamba.Core.RightsType.ReIndex, res.Name, 0);
+
 
                         sResult = null;
-                        
+
                         return Ok("Document Updated");
                     }
                     else

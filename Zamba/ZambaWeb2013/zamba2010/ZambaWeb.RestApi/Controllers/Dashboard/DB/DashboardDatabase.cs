@@ -364,6 +364,18 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             return DSResult.Tables[0];
         }
 
+
+        public DataTable GetVacation()
+        {
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.DOC_I110");
+
+            DataSet DSResult = new DataSet("Vacations");
+
+            DSResult = Server.get_Con().ExecuteDataset(CommandType.Text, sqlCommand.ToString());
+            return DSResult.Tables[0];
+        }
+
         public DataTable configUserSidbar(string groupid)
         {
             StringBuilder sqlCommand = new StringBuilder();
