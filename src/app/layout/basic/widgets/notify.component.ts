@@ -28,7 +28,7 @@ export class HeaderNotifyComponent {
       emptyText: 'You have seen all the notifications.',
       emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
       clearText: 'Clear notifications'
-    },
+    } /*,
     {
       title: 'Info.',
       list: [],
@@ -42,16 +42,16 @@ export class HeaderNotifyComponent {
       emptyText: 'You have completed all pending tasks',
       emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg',
       clearText: 'Delete tasks'
-    }
+    }*/
   ];
-  count = 5;
+  count = 0;
   loading = false;
 
   constructor(
     private msg: NzMessageService,
     private nzI18n: NzI18nService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   private updateNoticeData(notices: NoticeIconList[]): NoticeItem[] {
     const data = this.data.slice();
@@ -88,6 +88,7 @@ export class HeaderNotifyComponent {
     setTimeout(() => {
       const now = new Date();
       this.data = this.updateNoticeData([
+        /*
         {
           id: '000000001',
           avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
@@ -179,7 +180,7 @@ export class HeaderNotifyComponent {
           extra: 'in progress',
           status: 'processing',
           type: 'Tasks'
-        }
+        }*/
       ]);
 
       this.loading = false;
