@@ -3,7 +3,7 @@
 <ng-template #result>
   <div class="displayFlex alignCenter headerWidget" nz-row>
     <div nz-col nzSpan="12">
-      <span class="marginRight10Px truncate"> {{ TotalDays }} DIAS DISPONIBLES zxzx </span>
+      <span class="marginRight10Px truncate"> {{ TotalDays }} DIAS DISPONIBLES </span>
     </div>
 
     <div nz-col class="displayFlex BtnEnd" nzSpan="12">
@@ -12,8 +12,6 @@
       </button>
     </div>
   </div>
-
-  <!-- <span>Proximas vacaciones: </span> -->
   <nz-alert nzBanner nzMessage="Warning text" />
   <div *ngFor="let item of vacations">
     <span>

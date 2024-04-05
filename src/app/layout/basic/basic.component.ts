@@ -14,7 +14,7 @@ export class LayoutBasicComponent implements OnInit {
   constructor(
     private settings: SettingsService,
     private ZambaService: ZambaService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
     this.settings.setLayout('collapsed', true);
@@ -26,7 +26,7 @@ export class LayoutBasicComponent implements OnInit {
     hideAside: false
   };
   searchToggleStatus = false;
-  showSettingDrawer = !environment.production;
+  showSettingDrawer = false;
   get user(): User {
     return this.settings.user;
   }
