@@ -31,15 +31,18 @@ Public Class DBBusiness
 
     Public Sub InitializeDB(Optional isService As Boolean = False)
 
-        Dim UP As New UserPreferences
+        If Zamba.Servers.Server.ConInitialized = False Then
+            Dim UP As New UserPreferences
 
-        Zamba.Servers.Server.ConInitialized = True
-        Dim server As New Server(Zamba.Servers.Server.currentfile(isService))
-        server.InitializeConnection(UP.getValueForMachine("DateConfig", UPSections.UserPreferences, "CONVERT(DATETIME, '{0}-{1}-{2} 00:00:00', 102)"), UP.getValueForMachine("DateTimeConfig", UPSections.UserPreferences, "CONVERT(DATETIME, '{0}-{1}-{2} {3}:{4}:{5}', 102)"))
-        server.MakeConnection()
+            Zamba.Servers.Server.ConInitialized = True
+            Dim server As New Server(Zamba.Servers.Server.currentfile(isService))
+            server.InitializeConnection(UP.getValueForMachine("DateConfig", UPSections.UserPreferences, "CONVERT(DATETIME, '{0}-{1}-{2} 00:00:00', 102)"), UP.getValueForMachine("DateTimeConfig", UPSections.UserPreferences, "CONVERT(DATETIME, '{0}-{1}-{2} {3}:{4}:{5}', 102)"))
+            server.MakeConnection()
 
-        server = Nothing
-        UP = Nothing
+            server = Nothing
+            UP = Nothing
+        End If
+
     End Sub
 
 End Class

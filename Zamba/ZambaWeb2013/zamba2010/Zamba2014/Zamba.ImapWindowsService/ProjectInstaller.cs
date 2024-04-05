@@ -42,7 +42,6 @@ namespace Zamba.ImapWindowsService
             {
                 Name = "Zamba IMAP Windows Service3";
             }
-            Zamba.AppBlock.ZException.ModuleName = Name;
 
                 this.serviceInstaller1.Description = Name;
                 this.serviceInstaller1.DisplayName = Name;

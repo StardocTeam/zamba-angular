@@ -1,4 +1,7 @@
-﻿''' <summary>
+﻿Imports System.Collections.Generic
+Imports System.IO
+Imports Zamba.Core
+''' <summary>
 ''' Clase que se encarga de escribir los trace de ejecución de los SQL.
 ''' </summary>
 ''' <remarks>   Se creo particularmente para generar un trace por SQL 
@@ -10,19 +13,26 @@ Public Class SQLTrace
     Private Shared fileName, rName, fecha As String
     Private Shared exceptions As String = Membership.MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd")
 
+    Public Shared cacheTraceDirectories As New List(Of String)
+    Public Shared Function CheckDirectory(directoryPath As String)
+        If Not SQLTrace.cacheTraceDirectories.Contains(directoryPath) Then
+            If Directory.Exists(directoryPath) = False Then
+                Directory.CreateDirectory(directoryPath)
+            End If
+            SQLTrace.cacheTraceDirectories.Add(directoryPath)
+        End If
+    End Function
 
     Public Sub Write(ByVal text As String)
         Try
             Dim key As String = ZTrace.GetKey()
-
             'Verifica si existe el trace en el hash
             If Not hsSQLTraces.ContainsKey("SQL" & key) Then
 
                 Dim path As String = exceptions & "\Performance\Trace"
 
-                If (Not IO.Directory.Exists(path)) Then
-                    IO.Directory.CreateDirectory(path)
-                End If
+                SQLTrace.CheckDirectory(path)
+
                 Dim ServiceName As String = String.Empty
                 Try
                     ServiceName = System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath.Replace("/", "")
@@ -32,7 +42,15 @@ Public Class SQLTrace
                 fileName = path & "\Trace SQL " & key & " " & Environment.MachineName & " " & ServiceName & " " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".txt"
 
                 'Genera el trace
-                hsSQLTraces.Add("SQL" & key, New System.Diagnostics.TextWriterTraceListener(fileName))
+
+                SyncLock hsSQLTraces
+                    If Not hsSQLTraces.ContainsKey("SQL" & key) Then
+                        Try
+                            hsSQLTraces.Add("SQL" & key, New System.Diagnostics.TextWriterTraceListener(fileName))
+                        Catch ex As Exception
+                        End Try
+                    End If
+                End SyncLock
             End If
 
             'Obtiene el trace
@@ -42,7 +60,7 @@ Public Class SQLTrace
             trace.WriteLine(text)
             'Libera recursos
             trace.Flush()
-
+            trace.Close()
         Catch ex As Exception
             Zamba.AppBlock.ZException.Log(ex)
         End Try

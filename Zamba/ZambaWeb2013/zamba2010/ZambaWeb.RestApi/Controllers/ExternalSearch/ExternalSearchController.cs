@@ -396,13 +396,14 @@ namespace ZambaWeb.RestApi.Controllers
                     foreach (DataRow row in results.Rows)
                         row["id"] = EncriptString(string.Concat(row["doc_id"].ToString(), "-", row["doc_type_id"].ToString(), "-", _userId, "-", DateTime.Today.ToString("yyyy|MM|dd|HH|mm|ss|sss")));
 
-                    // nuevo archivo
-                    results.Columns.Add("url", typeof(string)).SetOrdinal(0);
 
 
                     ////Genero el id del doc
                     if (searchDto.url)
                     {
+
+                        results.Columns.Add("url", typeof(string)).SetOrdinal(0);
+
                         String dominio = ZOptBusiness.GetValueOrDefault("ThisDomain", "http://imageapd/zamba.web");
                         foreach (DataRow row in results.Rows)
                         {

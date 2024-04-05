@@ -53,6 +53,20 @@ namespace Zamba.Membership
                 }
             }
         }
+        public static HttpContext CurrentContext
+        {
+            get
+            {
+                try
+                {
+                    return HttpContext.Current;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
 
         private static string _optionalAppTempPath;
 
@@ -249,43 +263,38 @@ namespace Zamba.Membership
 
                         if (String.IsNullOrEmpty(path) == false)
                         {
-                            if (HttpContext.Current != null && HttpContext.Current.Handler != null)
-                            {
-                                if (path.StartsWith("/"))
-                                    path = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + path.Replace("/", "\\");
-                            }
-                            else if (System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath != string.Empty)
-                            {
-                                if (path.StartsWith("/"))
-                                    path = (System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + path.Replace("/", "\\")).Replace("\\\\", "\\");
-                            }
-                            else
-                            {
-                                if (path.StartsWith("/"))
-                                    path = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + path.Replace("/", "\\");
-                                path = path.Replace("\\\\", "\\");
-                            }
                             if (path.EndsWith("\\"))
                                 path = path.Remove(path.Length - 1);
 
                             if (Directory.Exists(path) == false)
                                 Directory.CreateDirectory(path);
 
+                            return path;
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        Trace.WriteLine(ex.ToString());
-                        path = string.Empty;
+                        //  path = string.Empty;
                     }
                 }
 
-                if (String.IsNullOrEmpty(path))
+                try
                 {
-                    path = "/log";
-                }
+                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Zamba Software";
 
-                return path;
+                    if (Directory.Exists(path) == false)
+                        Directory.CreateDirectory(path);
+
+                    return path;
+                }
+                catch
+                {
+
+                    if (HttpContext.Current == null)
+                        return Application.StartupPath;
+
+                    return HttpContext.Current.Request.MapPath(Path.Combine(HttpContext.Current.Request.ApplicationPath, "bin"));
+                }
 
             }
         }
