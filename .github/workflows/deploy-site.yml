@@ -23,7 +23,7 @@ jobs:
         run: npm run build:qa
 
       - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: w330212.ferozo.com
           username: w330212

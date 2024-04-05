@@ -26,7 +26,7 @@ export class LayoutBasicComponent implements OnInit {
     hideAside: false
   };
   searchToggleStatus = false;
-  showSettingDrawer = !environment.production;
+  showSettingDrawer = false;
   get user(): User {
     return this.settings.user;
   }
