@@ -1120,7 +1120,7 @@ Public Class ZCore
         Dim DBB As New DBBusiness
 
         DBB.InitializeDB(isService)
-        StartTrace(moduleName)
+        StartTrace()
         ZOPTB.LoadAllOptions()
         UP.LoadAllMachineConfigValues()
         TB.loadGlobalVariables()
@@ -1168,7 +1168,7 @@ Public Class ZCore
 
     End Sub
 
-    Public Sub StartTrace(ByVal moduleName As String)
+    Public Sub StartTrace()
 
         Dim UP As New UserPreferences
         Dim level As Int32
@@ -1178,7 +1178,7 @@ Public Class ZCore
         Catch
             level = 4
         End Try
-        ZTrace.SetLevel(level, moduleName)
+        ZTrace.SetLevel(level)
 
         UP = Nothing
     End Sub

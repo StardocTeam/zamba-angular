@@ -407,7 +407,7 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
         public DataTable optionsUserSidbar(string groupid)
         {
             StringBuilder sqlCommand = new StringBuilder();
-            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.SidebarMenuItem WHERE group_id IN (" + groupid + ") ORDER BY position ASC");
+            sqlCommand.AppendLine("SELECT * FROM zambabpm_RRHH.RH_SidebarMenuItem i inner join usr_rights r on i.menuitem_id = r.aditional and r.objid = 141 and rtype = 1 where r.groupid IN (" + groupid + ") ORDER BY position ASC");
 
             DataSet DSResult = new DataSet("DashboardUsersOption");
 

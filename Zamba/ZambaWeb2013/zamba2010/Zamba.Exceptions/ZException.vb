@@ -8,7 +8,6 @@ Public Class ZException
 
     Public Shared Event LogToDB(ByVal ex As Exception)
     Private Shared logExceptions As Boolean = True
-    Public Shared Property ModuleName As String
 
     Public Shared Function BuildLog(ByVal ex As Exception, ByVal callStack As String) As String
         Dim sb As New Text.StringBuilder

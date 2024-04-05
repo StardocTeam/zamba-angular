@@ -365,7 +365,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
                     else
                     {
-                        query = string.Format(@"select distinct i139590 familia from doc_i139089 i where i139548 = '{0}' and i139603 = '{1}'", nroLegajo, codigo);
+                        query = string.Format(@"select distinct i139590 familia from doc_i139089 i where i139548 = '{0}' and i139603 = '{1}' and (I139578 is null or I139578 = '')", nroLegajo, codigo);
                     }
                     DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
                     // Creo el mensaje a postear
@@ -531,7 +531,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     }
                     else
                     {
-                        query = string.Format(@"select distinct i139590 familia from doc_i139089 i where i139548 = '{0}' and i139603 = '{1}'", nroLegajo, codigo);
+                        query = string.Format(@"select distinct i139590 familia from doc_i139089 i where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", nroLegajo, codigo);
                     }
                     DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
                     // Creo el mensaje a postear
@@ -663,7 +663,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' ", nroLegajo, codigo);
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' and (I139578 is null or I139578 = '')", nroLegajo, codigo);
                 }
                 query = query + string.Format(" and  i139590 = {0} ", Familia["familia"].ToString());
 
@@ -740,7 +740,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' ", NroDespacho, codigo);
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", NroDespacho, codigo);
                 }
 
                 query = query + string.Format(" and  i139590 = {0} ", familia);
@@ -795,7 +795,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}' ", NroDespacho, codigo);
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo, i139590  familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", NroDespacho, codigo);
                 }
 
                 query = query + string.Format(" and  i139590 = {0} ", familia);
@@ -1381,7 +1381,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                 }
                                 else
                                 {
-                                    queryIsSigned = string.Format(@"select d.i139600 cuitDespachante, d.i139645 Despachante, d.i149651 cuitImpoExpo, F.i139562 ImpoExpo, isnull(e.I139565, '') DespachanteEmail, isnull(f.I139565, '') ImpoExpoEmail, isnull(e.i161669, 0) DespachanteNotificacion, isnull(f.i161669, 0) ImpoExpoNotificacion  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600  left join doc_i139073 F on d.i149651 = f.i26296  and f.i139600 = d.i139600 where d.i139548 = '{0}' and d.i139603 = '{1}'", NroDespacho, Codigo);
+                                    queryIsSigned = string.Format(@"select d.i139600 cuitDespachante, d.i139645 Despachante, d.i149651 cuitImpoExpo, F.i139562 ImpoExpo, isnull(e.I139565, '') DespachanteEmail, isnull(f.I139565, '') ImpoExpoEmail, isnull(e.i161669, 0) DespachanteNotificacion, isnull(f.i161669, 0) ImpoExpoNotificacion  from doc_i139072 d     inner join doc_i139074 E on d.i139600 = e.i139600  left join doc_i139073 F on d.i149651 = f.i26296  and f.i139600 = d.i139600 where d.i139548 = '{0}' and d.i139603 = '{1}'  and (I139578 is null or I139578 = '')", NroDespacho, Codigo);
                                 }
                                 DataSet dsall = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, queryIsSigned);
 
@@ -1532,7 +1532,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             else
             {
-                queryIsSigned = string.Format(@"select i139615 from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'", NroDespacho, Codigo);
+                queryIsSigned = string.Format(@"select i139615 from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", NroDespacho, Codigo);
             }
 
             object IsSigned = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, queryIsSigned);
@@ -1546,7 +1546,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    archivo = string.Format(@"select (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'  ", NroDespacho, Codigo);
+                    archivo = string.Format(@"select (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from  doc_i139072  where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')  ", NroDespacho, Codigo);
                 }
                 SR.result = SignPDFResponse.results.alreadySigned;
                 SR.file = archivo;
@@ -1561,7 +1561,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             else
             {
-                query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", NroDespacho, Codigo);
+                query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", NroDespacho, Codigo);
             }
             DataSet dsFiles = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, query);
 
@@ -1614,7 +1614,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             else
             {
-                queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}' ", NroDespacho, Codigo);
+                queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'   and (I139578 is null or I139578 = '')", NroDespacho, Codigo);
             }
 
             DataSet dsFile = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, queryFull);
@@ -1640,7 +1640,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 }
                 else
                 {
-                    querySigned = string.Format(@"update doc_i139072 set i139608 = {0}, i139615 = getdate(), i139617 = {1} where i139548 = '{2}' and i139603 = '{3}' ", CantidadTotal, solicitudFirmaDigital.userId, NroDespacho, Codigo);
+                    querySigned = string.Format(@"update doc_i139072 set i139608 = {0}, i139615 = getdate(), i139617 = {1} where i139548 = '{2}' and i139603 = '{3}'   and (I139578 is null or I139578 = '')", CantidadTotal, solicitudFirmaDigital.userId, NroDespacho, Codigo);
                 }
                 Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, querySigned);
 
@@ -1911,7 +1911,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
             }
             else
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i.i139600 cuitDeclarante,i.i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,i.crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE, i139608 cantidadfojas ,isnull(e.I139565,'') DespachanteEmail,isnull(f.I139565,'') ImpoExpoEmail,isnull(e.i161669,0) DespachanteNotificacion,isnull(f.i161669,0) ImpoExpoNotificacion  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id  inner join doc_i139074 E on i.i139600 = e.i139600 left join doc_i139073 F on i.i149651 = f.i26296  and f.i139600 = i.i139600  where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i.i139600 cuitDeclarante,i.i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,i.crdate, i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE, i139608 cantidadfojas ,isnull(e.I139565,'') DespachanteEmail,isnull(f.I139565,'') ImpoExpoEmail,isnull(e.i161669,0) DespachanteNotificacion,isnull(f.i161669,0) ImpoExpoNotificacion  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id  inner join doc_i139074 E on i.i139600 = e.i139600 left join doc_i139073 F on i.i149651 = f.i26296  and f.i139600 = i.i139600  where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
             }
             DataSet dsDespacho = Zamba.Servers.Server.get_Con().ExecuteDataset(CommandType.Text, querydespacho);
 
@@ -2043,7 +2043,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'", solicitudFirmaDigital, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -2121,7 +2121,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'", solicitudFirmaDigital, 0, "OK. Procesado", solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}', I149654 = {3},i139577 = getdate() where i139548 = '{4}' and i139603 = '{5}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital, 0, "OK. Procesado", solicitudFirmaDigital.userId, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -2197,7 +2197,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}' where i139548 = '{3}' and i139603 = '{4}'", newresultsreciboAvisoRecepAcept, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                        queryAcepted = string.Format(@"update doc_i139072 set I139623 = getdate(), I139619 = '{0}', I139620 = '{1}', I26513 = '{2}' where i139548 = '{3}' and i139603 = '{4}'  and (I139578 is null or I139578 = '')", newresultsreciboAvisoRecepAcept, reciboAvisoRecepAcept.codError, reciboAvisoRecepAcept.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -2267,7 +2267,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //1-BIZ - GET FULL PDF
                 if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                 {
-                    queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                    queryFull = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139072\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                 }
                 else
                 {
@@ -2292,7 +2292,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //1-GENERATE ONE PDF
                 if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                 {
-                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                    query = string.Format(@"select t.doc_id, (v.DISK_VOL_PATH + '\139089\' + convert(nvarchar,t.OFFSET)  + '\' + t.DOC_FILE) Archivo ,i139590 familia,i139608  cantidadTotal, i139609 Pagina from doc_i139089 i inner join doc_t139089 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                 }
                 else
                 {
@@ -2377,7 +2377,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                 //obtener datos del despacho
                 if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                 {
-                    querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque,i139588 IE   from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}'  and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                    querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque,i139588 IE   from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}'  and i139603 = '{1}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                 }
                 else
                 {
@@ -2547,7 +2547,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}' ", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
+                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}'   and (I139578 is null or I139578 = '')", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
                     }
                     else
                     {
@@ -2570,7 +2570,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}'", 0, "OK. Procesado", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
+                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}', i139608 = {4}  where i139548 = '{2}' and i139603 = '{3}'  and (I139578 is null or I139578 = '')", 0, "OK. Procesado", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
                     }
                     else
                     {
@@ -2593,7 +2593,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     var queryAcepted = string.Empty;
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}',  i139608 = {4} where i139548 = '{2}' and i139603 = '{3}' ", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
+                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(),  i139628 = '{0}', i139630 = '{1}',  i139608 = {4} where i139548 = '{2}' and i139603 = '{3}'   and (I139578 is null or I139578 = '')", reciboAvisoDigit.codError, reciboAvisoDigit.descError, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo, solicitudFirmaDigital.cantidadTotal);
                     }
                     else
                     {
@@ -2623,7 +2623,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                     if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
                     {
 
-                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(), i139630 = '{0}' where i139548 = '{1}'  and i139603 = '{2}'", exstr, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                        queryAcepted = string.Format(@"update doc_i139072 set i139627 = GETDATE(), i139630 = '{0}' where i139548 = '{1}'  and i139603 = '{2}'   and (I139578 is null or I139578 = '')", exstr, solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
                     }
                     else
                     {
@@ -2949,7 +2949,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
             if (string.IsNullOrEmpty(solicitudFirmaDigital.sigea))
             {
-                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
+                querydespacho = string.Format(@" select t.doc_id, i139548 nroLegajo, i139600 cuitDeclarante,i26296  cuitIE,i1139 cuitATA,i139603  codigo,i139618  ticket,i139578 sigea,i139614  nroGuia,i139551  fechaDespacho, i139587 indLugarFisico, I26405 FechaGeneracion,crdate,i139577 fechaAceptacion, i149662 vtoEmbarque, i139620 codigoError,i139588 IE  from doc_i139072 i inner join doc_t139072 t on i.doc_id = t.doc_id  inner join disk_volume v on v.disk_vol_id = t.vol_id   where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", solicitudFirmaDigital.nroDespacho, solicitudFirmaDigital.codigo);
             }
             else
             {
@@ -3432,7 +3432,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             }
                                             else
                                             {
-                                                selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'", l.NroLegajo, l.Codigo);
+                                                selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", l.NroLegajo, l.Codigo);
                                             }
                                             object LegajoExiste = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, selectLegajo);
                                             if (!(LegajoExiste is DBNull) && (LegajoExiste.ToString().Length > 0 && Int64.Parse(LegajoExiste.ToString()) > 0))
@@ -3456,7 +3456,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                                 }
                                                 else
                                                 {
-                                                    updateLegajo = string.Format(@"update doc_i139072 set i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
+                                                    updateLegajo = string.Format(@"update doc_i139072 set i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}' where i139548 = '{2}' and i139603 = '{3}'  and (I139578 is null or I139578 = '') ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
                                                 }
 
                                                 Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, updateLegajo);
@@ -3818,7 +3818,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                         }
                                         else
                                         {
-                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'", l.NroLegajo, l.Codigo);
+                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", l.NroLegajo, l.Codigo);
                                         }
                                         object LegajoExiste = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, selectLegajo);
                                         if (!(LegajoExiste is DBNull) && (LegajoExiste.ToString().Length > 0 && Int64.Parse(LegajoExiste.ToString()) > 0))
@@ -3834,7 +3834,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             }
                                             else
                                             {
-                                                updateLegajo = string.Format(@"update doc_i139072 set i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
+                                                updateLegajo = string.Format(@"update doc_i139072 set i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}'   and (I139578 is null or I139578 = '')", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
                                             }
 
                                             Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, updateLegajo);
@@ -4195,7 +4195,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                         }
                                         else
                                         {
-                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'", l.NroLegajo, l.Codigo);
+                                            selectLegajo = string.Format(@"select count(1) from  doc_i139072  WITH(NOLOCK) where i139548 = '{0}' and i139603 = '{1}'  and (I139578 is null or I139578 = '')", l.NroLegajo, l.Codigo);
                                         }
                                         object LegajoExiste = Zamba.Servers.Server.get_Con().ExecuteScalar(CommandType.Text, selectLegajo);
                                         if (!(LegajoExiste is DBNull) && (LegajoExiste.ToString().Length > 0 && Int64.Parse(LegajoExiste.ToString()) > 0))
@@ -4211,7 +4211,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
                                             }
                                             else
                                             {
-                                                updateLegajo = string.Format(@"update doc_i139072 set i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}' ", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
+                                                updateLegajo = string.Format(@"update doc_i139072 set i139618 = '{1}',i139603 = '{3}',i139600 = '{4}',i149651 = {5},i139551 =  CONVERT(datetime,'{6}',120),i139559 = '{7}',i139578 = '{8}' where i139548 = '{2}' and i139603 = '{3}'   and (I139578 is null or I139578 = '')", l.FechaEndo.ToString("yyyy-MM-dd HH:mm:ss"), l.Ticket, l.NroLegajo, l.Codigo, l.CuitDeclarante, l.CuitIE, l.FechaOfic.ToString("yyyy-MM-dd HH:mm:ss"), l.ImporteLiq);
                                             }
 
                                             Zamba.Servers.Server.get_Con().ExecuteNonQuery(CommandType.Text, updateLegajo);

@@ -114,5 +114,5 @@ Public Enum ObjectTypes As Integer
     ShowAnchorSidebar = 138
     UsebtnFlotante = 139
     Cache = 140
-
+    RRHH_SidebarMenuItem = 141
 End Enum

@@ -17,7 +17,7 @@ Imports System.IO
 ''' -----------------------------------------------------------------------------
 Public NotInheritable Class ZTrace
     Private Shared _hsSingletonZCoreInstances As New Dictionary(Of String, TraceListener)
-    Public Shared Property hsSingletonZCoreModules As New Dictionary(Of String, String)
+    ' Public Shared Property hsSingletonZCoreModules As New Dictionary(Of String, String)
 #Region "Atributos"
     Private Shared zTraceSw As New TraceSwitch("ZTrace", "ZTrace")
     Private Shared traceDate As Int32
@@ -104,12 +104,12 @@ Public NotInheritable Class ZTrace
     ''' <history>
     '''     [Tomas] - 04/06/2009 - Created 
     ''' </history>
-    Public Shared Sub SetLevel(ByVal level As Int32, ByVal zModuleName As String)
+    Public Shared Sub SetLevel(ByVal level As Int32)
         'Crea el listener
-        'If level <> 0 Then
-        'AddListener(zModuleName)
-        Zamba.AppBlock.ZException.ModuleName = zModuleName
-        'End If
+        If level <> 0 Then
+            AddListener()
+            'Zamba.AppBlock.ZException.ModuleName = zModuleName
+        End If
         'Asigna el nivel de trace
         zTraceSw.Level = DirectCast(level, TraceLevel)
     End Sub
@@ -123,32 +123,32 @@ Public NotInheritable Class ZTrace
     ''' <history>
     '''     [Tomas] - 04/06/2009 - Created 
     ''' </history>
-    Private Shared Sub AddListener(ByVal zModule As String)
+    Private Shared Sub AddListener()
         Try
-            For Each Chr As Char In IO.Path.GetInvalidFileNameChars
-                zModule = zModule.Replace(Chr, String.Empty)
-            Next
-            Dim zCoreKey As String = GetKey()
+            'For Each Chr As Char In IO.Path.GetInvalidFileNameChars
+            '    zModule = zModule.Replace(Chr, String.Empty)
+            'Next
 
-            SyncLock (hsSingletonZCoreModules)
-                If (zCoreKey <> zModule AndAlso Not hsSingletonZCoreModules.ContainsKey(zCoreKey)) OrElse Not hsSingletonZCoreModules.ContainsKey(zCoreKey) Then
-                    hsSingletonZCoreModules.Add(zCoreKey, zModule)
-                Else
-                    zModule = hsSingletonZCoreModules(zCoreKey)
-                End If
-            End SyncLock
+            'SyncLock (hsSingletonZCoreModules)
+            '    If (Not hsSingletonZCoreModules.ContainsKey(zCoreKey)) Then
+            '        hsSingletonZCoreModules.Add(zCoreKey, zModule)
+            '    Else
+            '        zModule = hsSingletonZCoreModules(zCoreKey)
+            '    End If
+            'End SyncLock
 
-            If (Membership.MembershipHelper.CurrentUser) IsNot Nothing Then
-                zModule = zModule & "-" & Membership.MembershipHelper.CurrentUser.Name
-            End If
+            'If (Membership.MembershipHelper.CurrentUser) IsNot Nothing Then
+            '    zModule = zModule & "-" & Membership.MembershipHelper.CurrentUser.Name
+            'End If
 
             SyncLock (_hsSingletonZCoreInstances)
+                Dim zCoreKey As String = GetKey()
                 If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
                     Dim dir As New DirectoryInfo(Membership.MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd") & "\Trace\")
                     If dir.Exists = False Then
                         dir.Create()
                     End If
-                    Dim Listener As New TextWriterTraceListener(dir.FullName & "\Trace " & zModule & " - " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".html", zModule)
+                    Dim Listener As New TextWriterTraceListener(dir.FullName & "\Trace " & zCoreKey & " - " & Now.ToString("dd-MM-yyyy HH-mm-ss") & ".html", zCoreKey)
                     Listener.Attributes.Add("AutoFlush", "true")
 
                     Dim sw As StreamWriter = Listener.Writer
@@ -289,7 +289,7 @@ Public NotInheritable Class ZTrace
         End While
         'Agrego los listeners nuevos apuntando a otro log
         For Each listenerName As String In names
-            AddListener(listenerName)
+            'AddListener(listenerName)
         Next
 
         names.Clear()
@@ -323,12 +323,12 @@ Public NotInheritable Class ZTrace
     ''' </summary>
     ''' <param name="listeners">Listeners a iniciar</param>
     ''' <remarks>Se puede utilizar en conjunto con StopListeners</remarks>
-    Private Shared Sub StartListeners(ByVal listeners As List(Of String))
-        'Agrego los listeners nuevos apuntando a otro log
-        For Each listenerName As String In listeners
-            AddListener(listenerName)
-        Next
-    End Sub
+    'Private Shared Sub StartListeners(ByVal listeners As List(Of String))
+    '    'Agrego los listeners nuevos apuntando a otro log
+    '    For Each listenerName As String In listeners
+    '        AddListener(listenerName)
+    '    Next
+    'End Sub
 
     ''' <summary>
     ''' Gets directory to save data
@@ -423,9 +423,9 @@ Public NotInheritable Class ZTrace
                     End Select
 
                     nline &= " ' >" & line & "</span></div>"
-
                     instance.WriteLine(nline)
                     instance.Flush()
+                    instance.Close()
                     Trace.Flush()
                 End If
             End If
@@ -456,10 +456,10 @@ Public NotInheritable Class ZTrace
     ''' <remarks></remarks>
     Private Shared Function GetInstance() As TraceListener
         Dim zCoreKey As String = GetKey()
-        SetLevel()
-        If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
-            AddListener(zCoreKey)
-        End If
+        'SetLevel()
+        'If Not _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
+        'AddListener(zCoreKey)
+        'End If
         If _hsSingletonZCoreInstances.ContainsKey(zCoreKey) Then
             Return _hsSingletonZCoreInstances.Item(zCoreKey)
         Else
@@ -471,10 +471,11 @@ Public NotInheritable Class ZTrace
     Public Shared Function GetKey() As String
         If Membership.MembershipHelper.isWeb Then
             Dim SessionName As String = String.Empty
-            If Membership.MembershipHelper.CurrentUser IsNot Nothing Then
-                SessionName = Membership.MembershipHelper.CurrentUser.Name & " - "
-            End If
-            SessionName = SessionName & Membership.MembershipHelper.CurrentSession.SessionID
+            'If Membership.MembershipHelper.CurrentUser IsNot Nothing Then
+            '    SessionName = Membership.MembershipHelper.CurrentUser.Name & " - "
+            'End If
+            'SessionName = SessionName & Membership.MembershipHelper.CurrentSession.SessionID
+            SessionName = SessionName & Membership.MembershipHelper.CurrentContext.Items("ZModule")
             Return SessionName
         Else
             Return "CommonWebServiceTrace"

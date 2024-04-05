@@ -19,7 +19,7 @@
     <RootNamespace>Zamba.Web</RootNamespace>
     <AssemblyName>Zamba.Web</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort>44301</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -7984,6 +7984,7 @@
     <Content Include="Services\AFIPTest.html" />
     <Content Include="Services\DropFiles.asmx" />
     <Content Include="Services\FileUpload.ashx" />
+    <Content Include="Services\AccountService.asmx" />
     <Content Include="systemjs.config.js" />
     <Content Include="Test\Andreani Despachos\AndreaniDespachosController.js" />
     <Content Include="Test\Andreani Despachos\TestAndreani.html" />
@@ -10490,6 +10491,10 @@
       <DependentUpon>IndexService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\AccountService.asmx.cs">
+      <DependentUpon>AccountService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Services\TaskService.asmx.cs">
       <DependentUpon>TaskService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -11307,18 +11312,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>80</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44301/Zamba.Web</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:44301/Zamba.Web</IISAppRootUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

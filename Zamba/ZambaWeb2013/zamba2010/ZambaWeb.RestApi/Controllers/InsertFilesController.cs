@@ -35,11 +35,21 @@ namespace ZambaWeb.RestApi.Controllers
 
         public InsertFilesController()
         {
-            ZCore ZC = new ZCore();
-            if (Zamba.Servers.Server.ConInitialized == false)
-                ZC.InitializeSystem("Zamba.API");
+            try
+            {
+                string Zmodule = "Zamba.API" + Guid.NewGuid().ToString();
+                ZCore ZC = new ZCore();
+                HttpContext.Current.Items.Add("ZModule", Zmodule);
+                HttpContext.Current.Response.AppendHeader("ZModule", Zmodule);
+                //if (Zamba.Servers.Server.ConInitialized == false)
+                ZC.InitializeSystem(Zmodule);
 
-            ZC.VerifyFileServer();
+                ZC.VerifyFileServer();
+
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -306,6 +316,24 @@ namespace ZambaWeb.RestApi.Controllers
         [Route("api/InsertFiles/UploadFileWithIndexReturn")]
         [OverrideAuthorization]
         public string UploadFileWithIndexReturn([FromBody] insert insert)
+        {
+            try
+            {
+
+                //InsertFilesController.counter++;
+                //while (InsertFilesController.counter < 6 )
+                //{
+
+                //}
+                return InsertFileWithReturn(insert);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw;
+            }
+        }
+
+        private string InsertFileWithReturn(insert insert)
         {
             string pathTemp = string.Empty;
             Int64 newId = 0;
@@ -672,10 +700,7 @@ namespace ZambaWeb.RestApi.Controllers
                 var filename = newDocID + "." + insert.file.extension;
                 ZTrace.WriteLineIf(ZTrace.IsVerbose, string.Format(@"Nuevo Archivo: {0}", filename));
 
-                if (!Directory.Exists(Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp")))
-                {
-                    Directory.CreateDirectory(Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp"));
-                }
+                InsertFilesController.CheckDirectory(Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp"));
 
                 pathTemp = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "Temp", filename);
 
@@ -685,10 +710,7 @@ namespace ZambaWeb.RestApi.Controllers
                 File.WriteAllBytes(pathTemp, data);
 
                 var pathBKP = Path.Combine(Zamba.Membership.MembershipHelper.AppTempPath, "BKP InsertFile", DateTime.Now.ToString("yyyy-MM-dd"));
-                if (!Directory.Exists(pathBKP))
-                {
-                    Directory.CreateDirectory(pathBKP);
-                }
+                InsertFilesController.CheckDirectory(pathBKP);
                 File.Copy(pathTemp, Path.Combine(pathBKP, filename), true);
             }
             else
@@ -701,7 +723,24 @@ namespace ZambaWeb.RestApi.Controllers
         }
 
 
-    }
-}
 
+        public static List<string> cacheDirectories = new List<string>();
+
+        public static void CheckDirectory(string directoryPath)
+        {
+            if (!cacheDirectories.Contains(directoryPath))
+            {
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                cacheDirectories.Add(directoryPath);
+            }
+        }
+
+
+    }
+
+
+}
 

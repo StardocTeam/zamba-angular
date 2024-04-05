@@ -39,42 +39,13 @@ Public Class Server
         Try
             Dim _Connection As IConnection
             Select Case Server.ServerType
-                Case DBTYPES.SyBase
-                    'Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    _Connection = New SyBaseCon(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.Oracle
-                    ''Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    _Connection = New OraCon(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.Oracle9
-                    ''Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    _Connection = New OraCon9(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.OracleClient, DBTYPES.OracleDirect
-                    ''Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    _Connection = New OraClientCon(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
                 Case DBTYPES.OracleManaged
                     ''Debug.WriteLine("Base de Datos: " & ConnectionString)
                     _Connection = New OraManagedCon(ConnectionString, dbOwner, FlagClose)
                     Return _Connection
-                Case DBTYPES.OracleODP
-                    ''Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    '  _Connection = New OraODP(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.MSSQLServer
-                    ''Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    _Connection = New SQLCon(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
                 Case DBTYPES.MSSQLServer7Up, DBTYPES.MSSQLExpress
                     _Connection = New SQLCon7(ConnectionString, dbOwner, FlagClose)
                     Return _Connection
-
-                Case DBTYPES.ODBC
-                    _Connection = New ODBCCon(ConnectionString, dbOwner, FlagClose)
-                    Return _Connection
-
             End Select
             Return Nothing
         Catch ex As Exception
@@ -87,42 +58,13 @@ Public Class Server
         Try
             Dim _Connection As IConnection
             Select Case servertype
-                Case DBTYPES.SyBase
-                    ''Debug.WriteLine("Base de Datos: " & connectionstring)
-                    _Connection = New SyBaseCon(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.Oracle
-                    ''Debug.WriteLine("Base de Datos: " & connectionstring)
-                    _Connection = New OraCon(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.Oracle9
-                    ''Debug.WriteLine("Base de Datos: " & connectionstring)
-                    _Connection = New OraCon9(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.OracleClient, DBTYPES.OracleDirect
-                    'Debug.WriteLine("Base de Datos: " & connectionstring)
-                    _Connection = New OraClientCon(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
                 Case DBTYPES.OracleManaged
                     ''Debug.WriteLine("Base de Datos: " & ConnectionString)
                     _Connection = New OraManagedCon(connectionstring, dbOwner, FlagClose)
                     Return _Connection
-                Case DBTYPES.OracleODP
-                    ''Debug.WriteLine("Base de Datos: " & ConnectionString)
-                    '  _Connection = New OraODP(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
-                Case DBTYPES.MSSQLServer
-                    'Debug.WriteLine("Base de Datos: " & connectionstring)
-                    _Connection = New SQLCon(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
                 Case DBTYPES.MSSQLServer7Up, DBTYPES.MSSQLExpress
                     'Debug.WriteLine("Base de Datos: " & connectionstring)
                     _Connection = New SQLCon7(connectionstring, dbOwner, FlagClose)
-                    Return _Connection
-
-                Case DBTYPES.ODBC
-                    'Debug.WriteLine("Base de Datos: " & connectionstring)
-                    _Connection = New ODBCCon(connectionstring, dbOwner, FlagClose)
                     Return _Connection
             End Select
             Return Nothing
@@ -146,20 +88,8 @@ Public Class Server
     Public Shared Function CreateTables() As CreateTables
         Try
             Select Case Server.ServerType
-                Case DBTYPES.SyBase
-                    Return New SyBaseCreateTables
-                Case DBTYPES.Oracle
-                    Return New OraCreateTables
-                Case DBTYPES.Oracle9
-                    Return New Ora9CreateTables
-                Case DBTYPES.OracleClient, DBTYPES.OracleDirect
-                    Return New OraClientCreateTables
                 Case DBTYPES.OracleManaged
                     Return New OraManagedCreateTables
-                Case DBTYPES.OracleODP
-              '      Return New OraODPCreateTables
-                Case DBTYPES.MSSQLServer
-                    Return New SQLCreateTables
                 Case DBTYPES.MSSQLServer7Up, DBTYPES.MSSQLExpress
                     Return New SQL7CreateTables
             End Select
