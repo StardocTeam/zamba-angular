@@ -112,7 +112,7 @@ namespace Zamba.MailKit
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                     log.Add("Connecting...");
-                    SecureSocketOptions secureSocketOptions = SecureSocketOptions.Auto;
+                    SecureSocketOptions secureSocketOptions = SecureSocketOptions.SslOnConnect;
                     switch (config.secureSocketOptions)
                     {
                         case "Auto":
