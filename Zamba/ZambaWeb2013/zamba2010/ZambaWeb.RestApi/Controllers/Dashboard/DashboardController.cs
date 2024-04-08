@@ -97,6 +97,11 @@ namespace ZambaWeb.RestApi.Controllers
                 UserBusiness ub = new UserBusiness();
                 ub.ValidateLogIn(UserId, ClientType.Web);
 
+                if (UserId == null)
+                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
+                        new HttpError(StringHelper.InvalidUser)));
+
+
                 // se crea uan tarea nueva
                 //long stepid = 0;
                 //DocType dt = new DocType(0);
@@ -107,10 +112,6 @@ namespace ZambaWeb.RestApi.Controllers
                 string[] ZvarParams = new string[] { };
                 ITaskResult NewTaskResult = null;
                 string oldFullPath = string.Empty;
-
-                if (UserId == null)
-                    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
-                        new HttpError(StringHelper.InvalidUser)));
 
                 if (paramRequest.Params.ContainsKey("ruleId") && !string.IsNullOrEmpty(paramRequest.Params["ruleId"]))
                 {

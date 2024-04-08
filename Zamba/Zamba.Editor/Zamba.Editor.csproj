@@ -410,10 +410,6 @@
       <Project>{ED286D37-C5BB-4A5A-B726-54FE8E963B50}</Project>
       <Name>Zamba.ZTrace</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZambaWeb2013\zamba2010\ZambaWeb.RestApi\ZambaWeb.RestApi.csproj">
-      <Project>{0d7f9c45-8cbf-4110-9b0f-c9e4a51db2f4}</Project>
-      <Name>ZambaWeb.RestApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -466,7 +462,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
