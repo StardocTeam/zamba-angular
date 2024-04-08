@@ -20,6 +20,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class HeaderNotifyComponent {
   data: NoticeItem[] = [
     {
