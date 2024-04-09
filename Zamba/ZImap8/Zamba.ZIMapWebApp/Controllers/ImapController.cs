@@ -28,7 +28,7 @@ namespace EmailRetrievalAPI.Controllers
         [Route("Test")]
         public IActionResult Test()
         {
-            return Ok("Test OK");
+            return Ok("Test NO UPDATED OK");
         }
 
         [HttpGet, HttpPost]
