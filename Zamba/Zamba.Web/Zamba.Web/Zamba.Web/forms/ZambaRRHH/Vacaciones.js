@@ -11,14 +11,18 @@
 //zamba_index_230 (fecha hasta opcion 2)
 //zamba_index_239 (dias solicitados opcion 2)
 //zamba_index_226 (Autorizar opcion 2)
-
+debugger;
+document.addEventListener("DOMContentLoaded", function () {
+    InitFormVacationsInsert();
+});
+//window.onload = function () {
+//    InitFormVacationsInsert();
+//}
 
 function InitFormVacationsInsert() {
-    window.onload = function () {
-        SetEventsfillTotalDays();
-        setEventsRequestDays();
-    };
-    
+    debugger;
+    SetEventsfillTotalDays();
+    setEventsRequestDays();
 }
 function SetEventsfillTotalDays() {
     
@@ -52,7 +56,7 @@ function fillRequestedDays() {
     var Option1DateTo = new Date(document.getElementById('zamba_index_228').value);
     var Option2DateFrom = new Date(document.getElementById('zamba_index_229').value);;;
     var Option2DateTo = new Date(document.getElementById('zamba_index_230').value);;;
-    if (isNaN(Option1DateFrom.getTime()) && isNaN(Option1DateTo.getTime())) {
+    if (!isNaN(Option1DateFrom.getTime()) && !isNaN(Option1DateTo.getTime())) {
         if (chooseWorkingDays) {
             document.getElementById('zamba_index_168').value = calculateWorkingDays(Option1DateFrom, Option1DateTo).toString();
         }
@@ -62,7 +66,7 @@ function fillRequestedDays() {
     } else {
         document.getElementById('zamba_index_168').value = "";
     }
-    if (isNaN(Option2DateFrom.getTime()) && isNaN(Option2DateTo.getTime())) {
+    if (!isNaN(Option2DateFrom.getTime()) && !isNaN(Option2DateTo.getTime())) {
         if (chooseWorkingDays) {
             document.getElementById('zamba_index_239').value = calculateWorkingDays(Option2DateFrom, Option2DateTo).toString();
         }
