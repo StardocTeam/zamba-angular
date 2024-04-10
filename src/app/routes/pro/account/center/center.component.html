@@ -1,5 +1,5 @@
-<div nz-row nzGutter="24" class="py-lg">
-  <div nz-col nzMd="24" nzLg="7">
+<div nz-row nzGutter="24" class="py-lg zamba-user-profile">
+  <div nz-col nzMd="24" nzLg="14">
     <nz-card [nzBordered]="false" class="mb-lg" [nzLoading]="!user">
       <ng-container *ngIf="user">
         <div class="avatar-holder">
@@ -23,17 +23,8 @@
           <nz-tag *ngIf="!taging" (click)="tagShowIpt()" class="ant-tag__plus">
             <i nz-icon nzType="plus"></i>
           </nz-tag>
-          <input
-            *ngIf="taging"
-            #tagInput
-            nz-input
-            [(ngModel)]="tagValue"
-            (blur)="tagBlur()"
-            (keydown)="tagEnter($event)"
-            nzSize="small"
-            type="text"
-            style="width: 78px"
-          />
+          <input *ngIf="taging" #tagInput nz-input [(ngModel)]="tagValue" (blur)="tagBlur()"
+            (keydown)="tagEnter($event)" nzSize="small" type="text" style="width: 78px" />
         </div>
         <nz-divider nzDashed />
         <div class="team">
@@ -52,6 +43,7 @@
       </ng-container>
     </nz-card>
   </div>
+  <!--
   <div nz-col nzMd="24" nzLg="17">
     <nz-card class="tabs-card" [nzBordered]="false" [nzTitle]="tagTitleTpl">
       <ng-template #tagTitleTpl>
@@ -62,4 +54,5 @@
       <router-outlet />
     </nz-card>
   </div>
+-->
 </div>

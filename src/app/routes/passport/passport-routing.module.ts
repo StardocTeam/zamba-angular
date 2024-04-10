@@ -26,7 +26,7 @@ const routes: Routes = [
       {
         path: 'login',
         component: UserLoginV2Component,
-        data: { title: '登录', titleI18n: 'app.login.login' }
+        data: { title: 'Login', titleI18n: 'app.login.login' }
       },
       {
         path: 'validate',
@@ -89,7 +89,6 @@ const routes: Routes = [
     path: 'welcome',
     component: InitialPasswordWizardComponent
   },
-  // 单页不包裹Layout
   { path: 'passport/callback/:type', component: CallbackComponent }
 ];
 

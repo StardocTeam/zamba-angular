@@ -99,4 +99,4 @@ const icons: IconDefinition[] = [
   exports: [...COMPONENTS, ...PASSPORT],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
-export class LayoutModule { }
+export class LayoutModule {}
