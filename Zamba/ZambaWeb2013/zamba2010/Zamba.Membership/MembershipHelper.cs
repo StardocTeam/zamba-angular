@@ -274,28 +274,10 @@ namespace Zamba.Membership
                     }
                     catch
                     {
-                        //  path = string.Empty;
+                        return path;
                     }
                 }
-
-                try
-                {
-                    path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Zamba Software";
-
-                    if (Directory.Exists(path) == false)
-                        Directory.CreateDirectory(path);
-
-                    return path;
-                }
-                catch
-                {
-
-                    if (HttpContext.Current == null)
-                        return Application.StartupPath;
-
-                    return HttpContext.Current.Request.MapPath(Path.Combine(HttpContext.Current.Request.ApplicationPath, "bin"));
-                }
-
+                return path;
             }
         }
 

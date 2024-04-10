@@ -494,6 +494,7 @@ namespace Zamba.Web
             }
         }
 
+        static string lastError = "";
         void Application_Error(object sender, EventArgs e)
         {
             try
@@ -505,6 +506,8 @@ namespace Zamba.Web
 
                 if (ex != null)
                 {
+                    lastError = ex.ToString();
+
                     ExMEssage = ex.Message == null ? "" : ex.Message.ToString();
                     ZTrace.WriteLineIf(ZTrace.IsError, "Application_Error: " + ExMEssage);
 
@@ -513,9 +516,9 @@ namespace Zamba.Web
 
                     String BaseURLZambaWeb = Request.Url.Scheme + "://" + Request.Url.OriginalString.Split('/')[2] + System.Web.Configuration.WebConfigurationManager.AppSettings["ThisDomain"].ToString();
 
-                    Zamba.AppBlock.ZException.Log(ex);
 
-                    //HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
+                    Zamba.AppBlock.ZException.Log(ex);
+                    HttpContext.Current.Response.Redirect(BaseURLZambaWeb + "/views/CustomErrorPages/Error.html?e=" + ex.Message);
                 }
                 else
                 {
@@ -569,7 +572,9 @@ namespace Zamba.Web
             }
             if (Response.StatusCode == 500)
             {
-                String myhtml = "\"Message\": \"An error has occurred.";
+                String myhtml = "Message: An error has occurred:  ";
+                myhtml = myhtml + Response.ToString();
+                myhtml = myhtml + lastError;
                 byte[] misbytes = Encoding.ASCII.GetBytes(myhtml);
                 HttpContext.Current.Response.Cookies.Clear();
                 HttpContext.Current.Response.ClearContent();

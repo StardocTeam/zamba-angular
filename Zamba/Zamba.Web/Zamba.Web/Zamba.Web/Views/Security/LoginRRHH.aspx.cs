@@ -39,6 +39,8 @@ namespace Zamba.Web.Views.Security
             }
             catch (Exception ex)
             {
+                ZClass.raiseerror(ex);
+                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<html><body><script>");
                 sb.AppendLine("window.parent.postMessage('login-rrhh-error', '*');");
@@ -47,7 +49,6 @@ namespace Zamba.Web.Views.Security
                 Response.ContentType = "text/html";
                 Response.Write(sb.ToString());
                 Response.End();
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
             }            
         }
     }
