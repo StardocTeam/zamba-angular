@@ -25,16 +25,18 @@ export class WidgetsContainerComponent implements OnInit {
     private router: Router,
     private WCService: WidgetsContainerService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getWidgetsContainer();
 
     this.options = {
       itemChangeCallback: (item, itemComponent) => {
+        // console.log("🟥: " + item["type"] + " " + item["cols"] + " " + item["rows"] + " " + item["x"] + " " + item["y"]);
         this.changeEvent.emit(item);
       },
       itemResizeCallback: (item, itemComponent) => {
+        // console.log("🟩: " + item["type"] + " " + item["cols"] + " " + item["rows"] + " " + item["x"] + " " + item["y"]);
         this.resizeEvent.emit({ item, itemComponent });
       }
     };

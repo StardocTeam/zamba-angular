@@ -76,7 +76,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     private carouselService: CarouselService,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2
-  ) {}
+  ) { }
 
   ChangeFlag() {
     this.showImages = !this.showImages;
@@ -129,7 +129,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.changeSubscription = this.changeEvent.subscribe((item: any) => {});
+    this.changeSubscription = this.changeEvent.subscribe((item: any) => { });
   }
 
   ngOnDestroy() {

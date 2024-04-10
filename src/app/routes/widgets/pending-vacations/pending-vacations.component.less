@@ -46,8 +46,32 @@ nz-footer {
 
 .headerWidget {
     background: rgb(24, 144, 255);
-    background: linear-gradient(90deg, rgba(24, 144, 255, 1) 0%, rgba(24, 144, 255, 0) 100%);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #1890ff;
 }
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+}
+
+.headerWidget span {
+    color: white;
+}
+
+
+.headerWidget button[nzType="default"] {
+    span {
+        color: rgb(0, 0, 0);
+    }
+}
+
+
 
 .h1 {
     margin-bottom: 0px;
@@ -55,10 +79,4 @@ nz-footer {
 
 .marginRight10Px {
     margin-left: 10px;
-}
-
-.truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
