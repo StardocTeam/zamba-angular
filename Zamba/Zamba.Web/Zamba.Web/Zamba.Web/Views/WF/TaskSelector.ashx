@@ -22,8 +22,10 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
             {
                 UserBusiness UB = new UserBusiness();
                 token = context.Request.QueryString["t"];
-                if (token.EndsWith(";")) token = token.Replace(";", "");
-                if (token.EndsWith("'")) token = token.Replace("'", "");
+                var tokenBytes = System.Convert.FromBase64String(token);
+                token = System.Text.Encoding.UTF8.GetString(tokenBytes);
+                //if (token.EndsWith(";")) token = token.Replace(";", "");
+                //if (token.EndsWith("'")) token = token.Replace("'", "");
 
                 User = UB.ValidateLogIn(token, ClientType.Web);
 
