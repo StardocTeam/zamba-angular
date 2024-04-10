@@ -39,7 +39,11 @@ Public Class WFStepStatesBusiness
 
     Public Shared Function getInitialState(ByVal stepId As Int64) As Integer
         If Cache.Workflows.hsStepsinitialState.ContainsKey(stepId) = False Then
-            Cache.Workflows.hsStepsinitialState.Add(stepId, WFStepStatesFactory.getInitialState(stepId))
+            Dim initialState As Integer = WFStepStatesFactory.getInitialState(stepId)
+            If Cache.Workflows.hsStepsinitialState.ContainsKey(stepId) = False Then
+                Cache.Workflows.hsStepsinitialState.Add(stepId, initialState)
+            End If
+            Return initialState
         End If
         Return Cache.Workflows.hsStepsinitialState(stepId)
     End Function

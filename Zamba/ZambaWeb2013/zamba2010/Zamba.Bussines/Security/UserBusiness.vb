@@ -6,6 +6,8 @@ Imports Zamba.Tools
 Imports System.Text
 Imports Zamba.Servers
 Imports System.IO
+Imports Zamba.Framework
+Imports Newtonsoft
 
 Public Class UserBusiness
 
@@ -1145,6 +1147,24 @@ Public Class UserBusiness
         If CurrentUser Is Nothing Then
             ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar. Id de usuario: " & ID)
             Throw New Exception("El usuario no se pudo validar. Id de usuario: " & ID)
+        End If
+        Dim UP As New UserPreferences
+        Dim TraceLevel As Int32 = UP.getValue("TraceLevel", UPSections.UserPreferences, 4, CurrentUser.ID)
+        CurrentUser.TraceLevel = TraceLevel
+        MembershipHelper.SetCurrentUser(CurrentUser)
+        MembershipHelper.ClientType = clientType
+        Return CurrentUser
+    End Function
+
+    Public Function ValidateLogIn(ByVal token As String, ByVal clientType As ClientType) As IUser
+
+        Dim tokenData As Zss
+        tokenData = Json.JsonConvert.DeserializeObject(Of Zss)(token)
+
+        Dim CurrentUser As IUser = GetUserById(tokenData.UserId)
+        If CurrentUser Is Nothing Then
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "El usuario no se pudo validar. Id de usuario: " & tokenData.UserId)
+            Throw New Exception("El usuario no se pudo validar. Id de usuario: " & tokenData.UserId)
         End If
         Dim UP As New UserPreferences
         Dim TraceLevel As Int32 = UP.getValue("TraceLevel", UPSections.UserPreferences, 4, CurrentUser.ID)

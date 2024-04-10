@@ -327,6 +327,7 @@
                 UrlParams = parent.getUrlParametersFromIframe();
             }
 
+           
             if (UrlParams.hasOwnProperty("modalmode")) {
                 var isTrueSet = (UrlParams.modalmode === 'true');
 

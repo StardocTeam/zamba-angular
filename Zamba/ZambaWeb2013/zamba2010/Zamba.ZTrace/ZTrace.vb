@@ -403,33 +403,38 @@ Public NotInheritable Class ZTrace
     ''' <param name="line"></param>
     ''' <remarks></remarks>
     Public Shared Sub WriteLineIf(ByVal level As TraceLevel, ByVal line As String)
-        If level <> TraceLevel.Off Then
-            Dim instance As TraceListener = GetInstance()
-            If Not IsNothing(instance) Then
-                If line.Trim <> String.Empty Then
-                    Dim timestring As String = GetTraceTimeandMemory()
+        Try
 
-                    Dim nline As String = timestring & "<span class=' data "
+            If level <> TraceLevel.Off Then
+                Dim instance As TraceListener = GetInstance()
+                If Not IsNothing(instance) Then
+                    If line.Trim <> String.Empty Then
+                        Dim timestring As String = GetTraceTimeandMemory()
 
-                    Select Case level
-                        Case TraceLevel.Error
-                            nline &= "text-error"
-                        Case TraceLevel.Info
-                            nline &= "text-primary"
-                        Case TraceLevel.Verbose
-                            nline &= "text-secondary"
-                        Case TraceLevel.Warning
-                            nline &= "text-warning"
-                    End Select
+                        Dim nline As String = timestring & "<span class=' data "
 
-                    nline &= " ' >" & line & "</span></div>"
-                    instance.WriteLine(nline)
-                    instance.Flush()
-                    instance.Close()
-                    Trace.Flush()
+                        Select Case level
+                            Case TraceLevel.Error
+                                nline &= "text-error"
+                            Case TraceLevel.Info
+                                nline &= "text-primary"
+                            Case TraceLevel.Verbose
+                                nline &= "text-secondary"
+                            Case TraceLevel.Warning
+                                nline &= "text-warning"
+                        End Select
+
+                        nline &= " ' >" & line & "</span></div>"
+                        instance.WriteLine(nline)
+                        instance.Flush()
+                        instance.Close()
+                        Trace.Flush()
+                    End If
                 End If
             End If
-        End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Shared Sub Write(ByVal line As String)

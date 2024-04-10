@@ -53,6 +53,9 @@ Public Class ZssFactory
             Return Nothing
         End Try
     End Function
+
+
+
     Public Sub RemoveZss(ByVal userid As Integer)
         Dim [select] = "Delete FROM ZSS WHERE USERID=" & userid
         Dim RemoveUser = Zamba.Servers.Server.Con().ExecuteNonQuery(CommandType.Text, [select])
