@@ -55,9 +55,13 @@ Public Class WFStepStatesComponent
 
     Public Shared Function GetStepStateById(ByVal stateId As Int64) As IWFStepState
         If Cache.Workflows.hsStates.ContainsKey(stateId) = False Then
+            Dim stepStates As IWFStepState = WFStepStatesFactory.GetStepStateById(stateId)
             SyncLock (Cache.Workflows.hsStates)
-                Cache.Workflows.hsStates.Add(stateId, WFStepStatesFactory.GetStepStateById(stateId))
+                If Cache.Workflows.hsStates.ContainsKey(stateId) = False Then
+                    Cache.Workflows.hsStates.Add(stateId, WFStepStatesFactory.GetStepStateById(stateId))
+                End If
             End SyncLock
+            Return stepStates
         End If
         Return Cache.Workflows.hsStates(stateId)
     End Function
