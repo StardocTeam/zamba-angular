@@ -2787,6 +2787,20 @@ namespace ZambaWeb.RestApi.Controllers
                             VariablesInterReglas.set_Item("scripttoexecute", openTaskscript);
 
 
+
+                        //construimos la url
+                        System.Text.StringBuilder taskURL = new System.Text.StringBuilder();
+                        taskURL.Append("/views/WF/TaskSelector.ashx?doctype=");
+                        taskURL.Append(Params["DocTypeId"]);
+                        taskURL.Append("&docid=");
+                        taskURL.Append(Params["DocID"]);
+            
+                        if (!VariablesInterReglas.ContainsKey("taskURL"))
+                            VariablesInterReglas.Add("taskURL", taskURL.ToString());
+                        else
+                            VariablesInterReglas.set_Item("taskURL", taskURL.ToString());
+
+
                         //Page.ClientScript.RegisterStartupScript(this.GetType(), "openTask", openTaskscript, true);
                         RegisterStartupScript = true;
 
@@ -3056,6 +3070,18 @@ namespace ZambaWeb.RestApi.Controllers
                             url.Append(Zamba.Membership.MembershipHelper.CurrentUser.ID);
                             ExecuteEntryInWFDoGenerateTaskResultscript = string.Format("parent.OpenDocTask3({0},{1},{2},{3},'{4}','{5}',{6},{7},{8});", Task.TaskId, Task.ID, Task.DocTypeId, "false", Task.Name, url, Zamba.Membership.MembershipHelper.CurrentUser.ID, 0, openMode);
                             ExecuteEntryInWFDoGenerateTaskResultscript += "parent.SelectTabFromMasterPage('tabtasks');";
+
+                            //construimos la url
+                            System.Text.StringBuilder taskURL = new System.Text.StringBuilder();
+                            taskURL.Append("/views/WF/TaskSelector.ashx?doctype=");
+                            taskURL.Append(Task.DocTypeId);
+                            taskURL.Append("&docid=");
+                            taskURL.Append(Task.ID);
+
+                            if (!VariablesInterReglas.ContainsKey("taskURL"))
+                                VariablesInterReglas.Add("taskURL", taskURL.ToString());
+                            else
+                                VariablesInterReglas.set_Item("taskURL", taskURL.ToString());
                         }
                         // }
 

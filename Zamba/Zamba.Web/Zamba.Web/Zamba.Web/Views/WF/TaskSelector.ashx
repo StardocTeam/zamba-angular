@@ -16,8 +16,18 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
         {
             IUser User = null;
             String userId = string.Empty;
+            String token = string.Empty;
 
-            if (context.Request.QueryString["userId"] != null)
+            if (context.Request.QueryString["t"] != null)
+            {
+                UserBusiness UB = new UserBusiness();
+                token = context.Request.QueryString["t"];
+                if (token.EndsWith(";")) token = token.Replace(";", "");
+                if (token.EndsWith("'")) token = token.Replace("'", "");
+
+                User = UB.ValidateLogIn(token, ClientType.Web);
+
+            } else  if (context.Request.QueryString["userId"] != null)
             {
                 UserBusiness UB = new UserBusiness();
                 userId = context.Request.QueryString["userId"];
@@ -84,6 +94,8 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
                 SRights sRights = new SRights();
 
                 String mode = context.Request.QueryString["mode"];
+                String modalmode = context.Request.QueryString["modalmode"];
+
 
                 String userToken = string.Empty;
                 if (!string.IsNullOrEmpty(context.Request.QueryString["t"]))
@@ -99,7 +111,7 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
 
                 String stepid = context.Request.QueryString["WFStepID"];
                 String breakmodal = context.Request.QueryString["breakmodal"];
-                   
+
                 RightsBusiness RB = new RightsBusiness();
                 if (!string.IsNullOrEmpty(taskid) && taskid != "0" && taskid != "undefined")
                 {
@@ -107,9 +119,9 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
                         stepid = sTasks.GetStepId(Int64.Parse(taskid)).ToString();
 
                     if (RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.Use, Int64.Parse(stepid)))
-                        path = "/Views/WF/TaskViewer.aspx?taskid=" + taskid + "&docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + "&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken + (breakmodal == string.Empty ? string.Empty : "&breakmodal=1");
+                        path = "/Views/WF/TaskViewer.aspx?taskid=" + taskid + "&docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + (modalmode == string.Empty ? string.Empty : "&modalmode=" + modalmode) + "&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken + (breakmodal == string.Empty ? string.Empty : "&breakmodal=1");
                     else
-                        path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
+                        path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + (modalmode == string.Empty ? string.Empty : "&modalmode=" + modalmode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
 
                 }
                 else
@@ -119,9 +131,9 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
                     if (task != null)
                     {
                         if (RB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.WFSteps, RightsType.Use, task.StepId))
-                            path = "/Views/WF/TaskViewer.aspx?doctypeid=" + task.DocTypeId.ToString() + "&taskid=" + task.TaskId + "&docid=" + docid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + "&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
+                            path = "/Views/WF/TaskViewer.aspx?doctypeid=" + task.DocTypeId.ToString() + "&taskid=" + task.TaskId + "&docid=" + docid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + (modalmode == string.Empty ? string.Empty : "&modalmode=" + modalmode) + "&UserID=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
                         else
-                            path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
+                            path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + (modalmode == string.Empty ? string.Empty : "&modalmode=" + modalmode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
                     }
                     else
                     {
@@ -130,11 +142,12 @@ public class TaskSelector : IHttpHandler, System.Web.SessionState.IReadOnlySessi
 
                         if (Edit != null)
                         {
-                            path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID  + "&Ed=" + Edit + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
+                            path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + (modalmode == string.Empty ? string.Empty : "&modalmode=" + modalmode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&Ed=" + Edit + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
                         }
-                        else {
+                        else
+                        {
 
-                            path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
+                            path = "/Views/Search/DocViewer.aspx?docid=" + docid + "&doctype=" + doctypeid + (mode == string.Empty ? string.Empty : "&mode=" + mode) + (modalmode == string.Empty ? string.Empty : "&modalmode=" + modalmode) + "&U=" + Zamba.Membership.MembershipHelper.CurrentUser.ID + "&m=" + formId + "&mf=" + modalFormId + "&t=" + userToken;
 
                         }
 
