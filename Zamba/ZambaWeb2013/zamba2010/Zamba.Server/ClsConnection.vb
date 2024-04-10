@@ -49,9 +49,9 @@ Public Class Server
             End Select
             Return Nothing
         Catch ex As Exception
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en Base de Datos: " & ConnectionString)
             Zamba.AppBlock.ZException.Log(ex)
-            Throw New Exception("No se puede instanciar el motor de la base de datos")
+            ZTrace.WriteLineIf(ZTrace.IsInfo, "Error en Base de Datos: " & ConnectionString)
+            Throw New Exception("No se puede instanciar el motor de la base de datos" & ConnectionString, ex)
         End Try
     End Function
     Private Shared Function Connection(ByVal servertype As DBTYPES, ByVal connectionstring As String, Optional ByVal FlagClose As Boolean = True) As IConnection

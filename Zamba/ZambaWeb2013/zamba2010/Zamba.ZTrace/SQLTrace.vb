@@ -14,6 +14,11 @@ Public Class SQLTrace
     Private Shared exceptions As String = Membership.MembershipHelper.AppTempPath & "\Exceptions\" & DateTime.Now.ToString("yyyy-MM-dd")
 
     Public Shared cacheTraceDirectories As New List(Of String)
+
+    Public Sub New()
+
+    End Sub
+
     Public Shared Function CheckDirectory(directoryPath As String)
         If Not SQLTrace.cacheTraceDirectories.Contains(directoryPath) Then
             If Directory.Exists(directoryPath) = False Then
