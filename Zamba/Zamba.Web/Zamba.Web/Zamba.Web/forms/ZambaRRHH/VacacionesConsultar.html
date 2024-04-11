@@ -6,41 +6,46 @@
 <!--Modificado por: -->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulario para Solicitud de Vacaciones</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Formulario para Solicitud de Vacaciones</title>
 	<script src="Vacaciones.js"></script>
-    <style>
-        body {
-            font-family: 'Times New Roman';
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			InitFormVacationsView();
+		});
+	</script>
+	<style>
+		body {
+			font-family: 'Times New Roman';
 			background-color: black;
 			color: white;
-        }
+		}
 
-        .form-container {
-            padding: 20px;
-            border: 5px solid #ddd;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
+		.form-container {
+			padding: 20px;
+			border: 5px solid #ddd;
+			border-radius: 10px;
+			margin-top: 20px;
+		}
 
-        .btn-submit {
-            background-color: #0bb4c4;
-            color: #fff;
-        }
-		
+		.btn-submit {
+			background-color: #0bb4c4;
+			color: #fff;
+		}
+
 		.nav-tabs .nav-link {
-            color: white;
-        }
+			color: white;
+		}
 
-        .tab-content {
-            margin-top: 20px;
-        }
+		.tab-content {
+			margin-top: 20px;
+		}
 
-        .tab-pane {
-            margin-bottom: 20px;
-        }
-    </style>
+		.tab-pane {
+			margin-bottom: 20px;
+		}
+	</style>
 
 </head>
 
@@ -116,14 +121,14 @@
 							
 							<div class="form-group row"></div>
 							
-							<div class="form-group row">
+							<div class="form-group row" id="row_option_1_a">
 								<div class="col-md-2"></div>
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 									<b class="font-weight-bold"> Opción 1:</b>
 								</div>
 							</div>
 
-							<div class="form-group row">											
+							<div class="form-group row" id="row_option_1_b">											
 								<div class="col-md-2"></div>
 								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
 									<div class="input-group">
@@ -155,14 +160,14 @@
 							
 							<div class="form-group row"></div>
 							
-							<div class="form-group row">
+							<div class="form-group row" id="row_option_2_a">
 								<div class="col-md-2"></div>
 								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 									<b class="font-weight-bold"> Opción 2:</b>
 								</div>
 							</div>
 							
-							<div class="form-group row">
+							<div class="form-group row" id="row_option_2_b">
 								<div class="col-md-2"></div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
 									<div class="input-group">

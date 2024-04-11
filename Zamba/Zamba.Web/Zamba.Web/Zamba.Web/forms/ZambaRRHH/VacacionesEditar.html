@@ -6,41 +6,46 @@
 <!--Modificado por: -->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulario para Solicitud de Vacaciones</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Formulario para Solicitud de Vacaciones</title>
 	<script src="Vacaciones.js"></script>
-    <style>
-        body {
-            font-family: 'Times New Roman';
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			InitFormVacationsEdit();
+		});
+	</script>
+	<style>
+		body {
+			font-family: 'Times New Roman';
 			background-color: black;
 			color: white;
-        }
+		}
 
-        .form-container {
-            padding: 20px;
-            border: 5px solid #ddd;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
+		.form-container {
+			padding: 20px;
+			border: 5px solid #ddd;
+			border-radius: 10px;
+			margin-top: 20px;
+		}
 
-        .btn-submit {
-            background-color: #0bb4c4;
-            color: #fff;
-        }
-		
+		.btn-submit {
+			background-color: #0bb4c4;
+			color: #fff;
+		}
+
 		.nav-tabs .nav-link {
-            color: white;
-        }
+			color: white;
+		}
 
-        .tab-content {
-            margin-top: 20px;
-        }
+		.tab-content {
+			margin-top: 20px;
+		}
 
-        .tab-pane {
-            margin-bottom: 20px;
-        }
-    </style>
+		.tab-pane {
+			margin-bottom: 20px;
+		}
+	</style>
 
 </head>
 
@@ -122,7 +127,7 @@
 								</div>
 							</div>
 
-							<div class="form-group row">											
+							<div class="form-group row">
 								<div class="col-md-3"></div>
 								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
 									<div class="input-group">
@@ -133,15 +138,18 @@
 								<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Fecha Hasta</span>
-										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_228" name="zamba_index_228" />                                    
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_228" name="zamba_index_228" />
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-								   <div class="input-group">
+									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Días Solicitados</span>
 										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_168" name="zamba_index_168" />
 									</div>
-								</div>                                                        
+								</div>
+								<label style="color:red;display:none" id="error_opcion_1">
+									(*) Rango de fechas mal ingresado
+								</label>
 							</div>
 							
 							<div class="form-group row"></div>
@@ -164,15 +172,18 @@
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Fecha Hasta</span>
-										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_230" name="zamba_index_230" />                                    
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_230" name="zamba_index_230" />
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-								   <div class="input-group">
+									<div class="input-group">
 										<span class="input-group-addon" style="padding: 3px">Días Solicitados</span>
 										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_239" name="zamba_index_239" />
 									</div>
-								</div>                                                        
+								</div>
+								<label style="color:red;display:none" id="error_opcion_2">
+									(*) Rango de fechas mal ingresado
+								</label>
 							</div>
 						
 							<div class="form-group row"></div>

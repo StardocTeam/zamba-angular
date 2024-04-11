@@ -16,36 +16,57 @@
 //    InitFormVacationsInsert();
 //});
 
+var LastFocus;
 function InitFormVacationsInsert() {
-    SetEventsfillTotalDays();
+    setEventsfillTotalDays();
     setEventsRequestDays();
 }
-
+function InitFormVacationsEdit() {
+    setEventsfillTotalDays();
+    setEventsRequestDays();
+}
 function InitFormVacationsAuthorization() {
 
+    setSingleCheckedAuthorization();
+}
+function InitFormVacationsView() {
+    ShowOnlyVacationApproved();
+}
+function setSingleCheckedAuthorization() {
     document.getElementById('zamba_index_225').addEventListener('change', function () {
         checkedAuthorizationDateRange(1);
     });
     document.getElementById('zamba_index_226').addEventListener('change', function () {
         checkedAuthorizationDateRange(2);
     });
+}
 
-    //SetEventsfillTotalDays();
-    //setEventsRequestDays();
+
+function ShowOnlyVacationApproved() {
+    var check1 = document.getElementById("zamba_index_225").checked;
+    var check2 = document.getElementById("zamba_index_226").checked;
+    if (check1) {
+        document.getElementById("row_option_2_a").style.display = "none";
+        document.getElementById("row_option_2_b").style.display = "none";
+    }
+    if (check2) {
+        document.getElementById("row_option_1_a").style.display = "none";
+        document.getElementById("row_option_1_b").style.display = "none";
+    }    
 }
 function checkedAuthorizationDateRange(option) {
     if (option == 1) {
-        if (document.getElementById('zamba_index_225').value = "checked") {
-            document.getElementById('zamba_index_226').value = "unchecked"
+        if (document.getElementById('zamba_index_225').checked = true) {
+            document.getElementById('zamba_index_226').checked = false
         }
     } else {
-        if (document.getElementById('zamba_index_226').value = "checked") {
-            document.getElementById('zamba_index_225').value = "unchecked"
+        if (document.getElementById('zamba_index_226').checked = true) {
+            document.getElementById('zamba_index_225').checked = false
         }
     }
     
 }
-function SetEventsfillTotalDays() {
+function setEventsfillTotalDays() {
 
     document.getElementById('zamba_index_166').addEventListener('blur', function () {
         fillTotalDays();
@@ -57,30 +78,36 @@ function SetEventsfillTotalDays() {
 }
 function setEventsRequestDays() {
     document.getElementById('zamba_index_227').addEventListener('blur', function () {
-        fillRequestedDays();
+        LastFocus = this;
+        fillRequestedDays(this);
+        
     });
     document.getElementById('zamba_index_228').addEventListener('blur', function () {
-        fillRequestedDays();
+        LastFocus = this;
+        fillRequestedDays(this);
     });
     document.getElementById('zamba_index_229').addEventListener('blur', function () {
-        fillRequestedDays();
+        LastFocus = this;
+        fillRequestedDays(this);
     });
     document.getElementById('zamba_index_230').addEventListener('blur', function () {
-        fillRequestedDays();
+        LastFocus = this;
+        fillRequestedDays(this);
     });
-    document.getElementById('zamba_index_168').addEventListener('blur', function () {
-        fillRequestedDays();
+    //document.getElementById('zamba_index_168').addEventListener('blur', function () {
+    //    fillRequestedDays(this);
+    //});
+    //document.getElementById('zamba_index_239').addEventListener('blur', function () {
+    //    fillRequestedDays(this);
+    //});
+    var inputs = document.querySelectorAll('input');
+    // Recorrer cada input y agregar el evento focus
+    inputs.forEach(function (input) {
+        input.addEventListener('focus', function () {
+            fillRequestedDays(input);
+        });
     });
-    document.getElementById('zamba_index_239').addEventListener('blur', function () {
-        fillRequestedDays();
-    });
-    document.getElementById('zamba_index_168').addEventListener('focus', function () {
-        fillRequestedDays();
-    });
-    document.getElementById('zamba_index_239').addEventListener('focus', function () {
-        fillRequestedDays();
-    });
-    fillRequestedDays();
+    //fillRequestedDays();
 }
 function DateToStringDDMMYYYY(fecha) {
     let partes = fecha.split('/');
@@ -91,37 +118,36 @@ function DateToStringDDMMYYYY(fecha) {
     return new Date(nuevaFecha);
 }
 
-function fillRequestedDays() {
+function fillRequestedDays(sender) {
     var chooseWorkingDays = true;
-    
+
     var Option1DateFrom = DateToStringDDMMYYYY(document.getElementById('zamba_index_227').value);
     var Option1DateTo = DateToStringDDMMYYYY(document.getElementById('zamba_index_228').value);
     var Option2DateFrom = DateToStringDDMMYYYY(document.getElementById('zamba_index_229').value);
     var Option2DateTo = DateToStringDDMMYYYY(document.getElementById('zamba_index_230').value);
-    debugger;
 
     if (!isNaN(Option1DateFrom.getTime()) && !isNaN(Option1DateTo.getTime())) {
         if (chooseWorkingDays) {
-            document.getElementById('zamba_index_168').value = calculateWorkingDays(Option1DateFrom, Option1DateTo,1).toString();
+            document.getElementById('zamba_index_168').value = calculateWorkingDays(Option1DateFrom, Option1DateTo,1,sender).toString();
         }
         else {
-            document.getElementById('zamba_index_168').value = calculateContinuesDays(Option1DateFrom, Option1DateTo,1).toString();
+            document.getElementById('zamba_index_168').value = calculateContinuesDays(Option1DateFrom, Option1DateTo,1,sender).toString();
         }
     } else {
         document.getElementById('zamba_index_168').value = "";
     }
     if (!isNaN(Option2DateFrom.getTime()) && !isNaN(Option2DateTo.getTime())) {
         if (chooseWorkingDays) {
-            document.getElementById('zamba_index_239').value = calculateWorkingDays(Option2DateFrom, Option2DateTo,2).toString();
+            document.getElementById('zamba_index_239').value = calculateWorkingDays(Option2DateFrom, Option2DateTo,2,sender).toString();
         }
         else {
-            document.getElementById('zamba_index_239').value = calculateContinuesDays(Option2DateFrom, Option2DateTo,2).toString();
+            document.getElementById('zamba_index_239').value = calculateContinuesDays(Option2DateFrom, Option2DateTo,2,sender).toString();
         }
     } else {
         document.getElementById('zamba_index_239').value = "";
     }
 }
-function calculateWorkingDays(dateFrom, dateTo, option) {
+function calculateWorkingDays(dateFrom, dateTo, option,sender) {
     document.getElementById("error_opcion_" + option).style.display = "none"
     if (dateFrom <= dateTo) {
         var totalDays = Math.round((dateTo - dateFrom) / (1000 * 60 * 60 * 24)) + 1;
@@ -138,11 +164,11 @@ function calculateWorkingDays(dateFrom, dateTo, option) {
         return workingDays;
     }
     else {
-        ShowInvalidDate(option);
+        ShowInvalidDate(option,sender);
         return "";
     }
 }
-function calculateContinuesDays(dateFrom, DateTo, option) {
+function calculateContinuesDays(dateFrom, DateTo, option,sender) {
     document.getElementById("error_opcion_" + option).style.display = "none"
     if (dateFrom <= DateTo) {
         
@@ -150,13 +176,14 @@ function calculateContinuesDays(dateFrom, DateTo, option) {
         
     }
     else {
-        ShowInvalidDate(option);
+        ShowInvalidDate(option,sender);        
         return "";
     }
     
 }
-function ShowInvalidDate(option) {
+function ShowInvalidDate(option,sender) {
     document.getElementById("error_opcion_" + option).style.display = "block";
+    LastFocus.value = "";
 }
 function fillTotalDays() {
     var pendingDays = parseFloat(document.getElementById('zamba_index_166').value);
@@ -168,6 +195,8 @@ function fillTotalDays() {
         document.getElementById('zamba_index_169').value = "";
     }
 }
+
+    
 
 
 
