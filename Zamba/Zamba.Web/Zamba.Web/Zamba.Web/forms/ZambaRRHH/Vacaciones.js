@@ -1,28 +1,28 @@
-﻿//zamba_index_167 (dias pendientes)
-//zamba_index_169 (dias totales)
-//zamba_index_166 (dias del periodo)
+﻿/* referencias (no borrar por favor):
 
-//zamba_index_227 (fecha desde opcion 1)
-//zamba_index_228 (fecha hasta opcion 1)
-//zamba_index_168 (dias solicitados opcion 1)
-//zamba_index_225 (Autorizar opcion 1)
+zamba_index_167 (dias pendientes)
+zamba_index_169 (dias totales)
+zamba_index_166 (dias del periodo)
 
-//zamba_index_229 (fecha desde opcion 2)
-//zamba_index_230 (fecha hasta opcion 2)
-//zamba_index_239 (dias solicitados opcion 2)
-//zamba_index_226 (Autorizar opcion 2)
+zamba_index_227 (fecha desde opcion 1)
+zamba_index_228 (fecha hasta opcion 1)
+zamba_index_168 (dias solicitados opcion 1)
+zamba_index_225 (Autorizar opcion 1)
 
-//document.addEventListener("DOMContentLoaded", function () {
-//    InitFormVacationsInsert();
-//});
+zamba_index_229 (fecha desde opcion 2)
+zamba_index_230 (fecha hasta opcion 2)
+zamba_index_239 (dias solicitados opcion 2)
+zamba_index_226 (Autorizar opcion 2)
+*/
 
-var LastFocus;
+
+var LastFocusInput;
 function InitFormVacationsInsert() {
     setEventsfillTotalDays();
     setEventsRequestDays();
 }
 function InitFormVacationsEdit() {
-    setEventsfillTotalDays();
+    setEventsfillTotalDays();   
     setEventsRequestDays();
 }
 function InitFormVacationsAuthorization() {
@@ -78,36 +78,29 @@ function setEventsfillTotalDays() {
 }
 function setEventsRequestDays() {
     document.getElementById('zamba_index_227').addEventListener('blur', function () {
-        LastFocus = this;
+        LastFocusInput = this;
         fillRequestedDays(this);
         
     });
     document.getElementById('zamba_index_228').addEventListener('blur', function () {
-        LastFocus = this;
+        LastFocusInput = this;
         fillRequestedDays(this);
     });
     document.getElementById('zamba_index_229').addEventListener('blur', function () {
-        LastFocus = this;
+        LastFocusInput = this;
         fillRequestedDays(this);
     });
     document.getElementById('zamba_index_230').addEventListener('blur', function () {
-        LastFocus = this;
+        LastFocusInput = this;
         fillRequestedDays(this);
     });
-    //document.getElementById('zamba_index_168').addEventListener('blur', function () {
-    //    fillRequestedDays(this);
-    //});
-    //document.getElementById('zamba_index_239').addEventListener('blur', function () {
-    //    fillRequestedDays(this);
-    //});
+
     var inputs = document.querySelectorAll('input');
-    // Recorrer cada input y agregar el evento focus
     inputs.forEach(function (input) {
         input.addEventListener('focus', function () {
             fillRequestedDays(input);
         });
     });
-    //fillRequestedDays();
 }
 function DateToStringDDMMYYYY(fecha) {
     let partes = fecha.split('/');
@@ -183,7 +176,7 @@ function calculateContinuesDays(dateFrom, DateTo, option,sender) {
 }
 function ShowInvalidDate(option,sender) {
     document.getElementById("error_opcion_" + option).style.display = "block";
-    LastFocus.value = "";
+    LastFocusInput.value = "";
 }
 function fillTotalDays() {
     var pendingDays = parseFloat(document.getElementById('zamba_index_166').value);
