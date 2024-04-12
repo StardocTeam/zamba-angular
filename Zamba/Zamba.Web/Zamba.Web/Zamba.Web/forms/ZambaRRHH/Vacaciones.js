@@ -94,7 +94,10 @@ function setEventsRequestDays() {
         LastFocusInput = this;
         fillRequestedDays(this);
     });
-
+    document.getElementById('zamba_index_224').addEventListener('change', function () {
+        LastFocusInput = this;
+        fillRequestedDays(this);
+    });
     var inputs = document.querySelectorAll('input');
     inputs.forEach(function (input) {
         input.addEventListener('focus', function () {
@@ -112,7 +115,9 @@ function DateToStringDDMMYYYY(fecha) {
 }
 
 function fillRequestedDays(sender) {
-    var chooseWorkingDays = true;
+    
+    var TypeCalculateDays = document.getElementById("zamba_index_224").value;
+    var chooseWorkingDays = TypeCalculateDays=='2';
 
     var Option1DateFrom = DateToStringDDMMYYYY(document.getElementById('zamba_index_227').value);
     var Option1DateTo = DateToStringDDMMYYYY(document.getElementById('zamba_index_228').value);
