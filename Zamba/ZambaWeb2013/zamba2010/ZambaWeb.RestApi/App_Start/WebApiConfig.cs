@@ -78,8 +78,8 @@ namespace ZambaWeb.RestApi
         {
             var response = await base.SendAsync(request, cancellationToken);
 
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "* Respuesta capturada en 'SendAsync' (WebApiconfig):");
-            ZTrace.WriteLineIf(ZTrace.IsInfo, response.ToString());
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "* Respuesta capturada en 'SendAsync' (WebApiconfig):");
+            //ZTrace.WriteLineIf(ZTrace.IsInfo, response.ToString());
 
             if (response.StatusCode == HttpStatusCode.NotFound ||
                 response.StatusCode == HttpStatusCode.InternalServerError ||
@@ -87,8 +87,8 @@ namespace ZambaWeb.RestApi
                 response.StatusCode == HttpStatusCode.BadRequest)
             {
 
-                ZTrace.WriteLineIf(ZTrace.IsError, "error en WebApiConfig, se rechazo el request con error nro" + response.StatusCode.ToString() + ".");
-                ZTrace.WriteLineIf(ZTrace.IsError, "Datelles de la respuesta: ");
+                //ZTrace.WriteLineIf(ZTrace.IsError, "error en WebApiConfig, se rechazo el request con error nro" + response.StatusCode.ToString() + ".");
+                //ZTrace.WriteLineIf(ZTrace.IsError, "Datelles de la respuesta: ");
 
                 //try
                 //{

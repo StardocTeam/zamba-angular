@@ -26,7 +26,18 @@ public partial class Views_UC_Viewers_DocToolbar : System.Web.UI.UserControl
     public bool IsImportant { get; set; }
     public bool IsFavorite { get; set; }
     public long CurrentUserID { get; set; }
-    public IResult Result { get; set; }
+    public IResult Result
+    {
+        set
+        {
+            Results_Business RB = new Results_Business();
+            if (DocTypeId != "")
+            {
+                string ResultName = (value != null && string.IsNullOrEmpty(value.Name) == false) ? value.Name : RB.GetName(Convert.ToInt64(DocId), Convert.ToInt64(DocTypeId));
+                lbltitulodocumento.InnerHtml = ResultName;
+            }
+        }
+    }
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -57,14 +68,14 @@ public partial class Views_UC_Viewers_DocToolbar : System.Web.UI.UserControl
         //    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.DocTypes, RightsType.RemoveSendMailInTasks, Int64.Parse(DocTypeId)) != false &&
         //    RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.Documents, RightsType.EnviarPorMailWeb, -1) == true);
         // btnPrint.Visible = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.Documents, RightsType.Print, -1);
-        btnAttach.Visible = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID,ObjectTypes.InsertWeb, RightsType.View, -1);
-        Results_Business RB = new Results_Business();
-        if (DocTypeId != "")
-        {
-            string ResultName = RB.GetName(Convert.ToInt64(DocId), Convert.ToInt64(DocTypeId));
-            lbltitulodocumento.InnerHtml = ResultName;
-        }
-        
+        btnAttach.Visible = RiB.GetUserRights(Zamba.Membership.MembershipHelper.CurrentUser.ID, ObjectTypes.InsertWeb, RightsType.View, -1);
+        //Results_Business RB = new Results_Business();
+        //if (DocTypeId != "")
+        //{
+        //    string ResultName = RB.GetName(Convert.ToInt64(DocId), Convert.ToInt64(DocTypeId));
+        //    lbltitulodocumento.InnerHtml = ResultName;
+        //}
+
     }
 
 

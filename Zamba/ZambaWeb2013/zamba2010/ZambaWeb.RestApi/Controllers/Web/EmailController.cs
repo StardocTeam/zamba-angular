@@ -213,7 +213,7 @@ namespace ZambaWeb.RestApi.Controllers.Web
 
                 //return ERROR();
 
-                throw ex;
+                throw;
             }
             finally
             {

@@ -354,7 +354,7 @@
             <li class="nav-item ">
                 <button id="liAsociated" type="button" title="Ver Asociados" class="ToolbarButtons btn btn-info btn-xs ToolbarText" onclick="ShowAsociated()" style="display: none">
                     <span class="glyphicon glyphicon-retweet ToolbarText"></span><span class="hidden-sm hidden-xs" style="margin-left: 5px">Asociados</span>
-                    <span class="badge badge-warning">{{AssociatedCountButton}}</span>
+                    <%--<span class="badge badge-warning">{{AssociatedCountButton}}</span>--%>
                 </button>
             </li>
 

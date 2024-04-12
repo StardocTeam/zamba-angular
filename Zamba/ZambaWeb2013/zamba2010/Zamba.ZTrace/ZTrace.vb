@@ -268,7 +268,7 @@ Public NotInheritable Class ZTrace
             Return level
         Else
             'Como no se debe loguear devuelve false
-            Return TraceLevel.Info
+            Return TraceLevel.Off
         End If
     End Function
 
