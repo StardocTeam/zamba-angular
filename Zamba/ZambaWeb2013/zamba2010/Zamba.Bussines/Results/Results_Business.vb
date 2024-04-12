@@ -1736,8 +1736,9 @@ Public Class Results_Business
 
     Public Sub MapMail(newResult As INewResult)
         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Validando MSG...")
-        If newResult.FileName.ToLower().EndsWith(".msg") Or newResult.FileName.ToLower().EndsWith(".eml") Then
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Mapeando archivo MSG...")
+        If (newResult.FileName.ToLower().EndsWith(".msg") OrElse newResult.FileName.ToLower().EndsWith(".eml")) AndAlso File.Exists(newResult.FullPath) Then
+
+            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Mapeando archivo MSG..." + newResult.FullPath)
             Dim message As MailMessage = MailMessage.Load(newResult.FullPath)
 
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Obteniendo atributos...")
@@ -1792,7 +1793,16 @@ Public Class Results_Business
                         ZTrace.WriteLineIf(ZTrace.IsInfo, "Id del atributo '" + item.Name + "': " + item.ID.ToString())
                         Dim IndexCode As String = ZOptBusiness.GetValueOrDefault("msgIndexCode", item.ID)
                         Dim Code As IIndex = newResult.GetIndexById(IndexCode)
-                        Code.DataTemp = IIf(Code IsNot Nothing, message.Id.Substring(0, message.Id.IndexOf("@")), "")
+
+                        If (Code IsNot Nothing) Then
+                            Dim MailId As String
+                            If (String.IsNullOrEmpty(message.Id) = False) Then
+                                MailId = message.Id.Substring(0, message.Id.IndexOf("@"))
+                            Else
+                                MailId = CoreData.GetNewID(IdTypes.MailId)
+                            End If
+                            Code.DataTemp = MailId
+                        End If
 
                     Case "usuario correo"
                         ZTrace.WriteLineIf(ZTrace.IsVerbose, "[MapMail]: Asignando 'UserMail'...")

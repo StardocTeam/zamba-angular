@@ -93,4 +93,5 @@
     TraceId = 111
     RuleBreakpoint = 112
     Observaciones = 113
+    MailId = 114
 End Enum
