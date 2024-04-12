@@ -894,7 +894,7 @@ namespace Zamba.FileTools
             catch (Exception ex)
             {
                 ZClass.raiseerror(ex);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -922,7 +922,7 @@ namespace Zamba.FileTools
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -1023,7 +1023,7 @@ namespace Zamba.FileTools
             {
                 ZClass.raiseerror(ex);
                 Zamba.Core.ZTrace.WriteLineIf(Zamba.Core.ZTrace.IsError, ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {

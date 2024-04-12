@@ -333,11 +333,17 @@ Public Class Newsfactory
             Dim ds As New DataSet
             Dim DtTareas As DataTable
             Dim PrimerItem As Boolean = True
-
+            Dim entitiesIds As New StringBuilder()
             For Each item As DataRow In dtDoctype.Rows
+                entitiesIds.Append("'")
+                entitiesIds.Append(item.ItemArray(0))
+                entitiesIds.Append("',")
+            Next
+            entitiesIds.Remove(entitiesIds.Length - 1, 1)
 
-                Dim querySlect As String = String.Format("SELECT wf.Task_id ,q.doc_id ,q.EntityId DOC_TYPE_ID ,wf.name Tarea ,Fecha ,s.name Etapa ,isnull(us.name, '') Asignado ,wf.checkin Ingreso ,wf.expiredate Vencimiento FROM ( SELECT TOP (20) object_id doc_Id ,MAX(ACTION_DATE) Fecha ,s_object_id EntityId ,USER_ID FROM USER_HST u WITH (NOLOCK) WHERE USER_ID = {0} AND ACTION_TYPE IN ( 1 ,71 ) AND OBJECT_TYPE_ID = 6 AND S_OBJECT_ID NOT LIKE '%.%' AND ISNUMERIC(S_OBJECT_ID) > 0 GROUP BY object_id ,S_OBJECT_ID ,USER_ID ORDER BY FECHA DESC ) q INNER JOIN DOC_T{1} T ON T.Doc_ID = q.doc_Id LEFT JOIN  usrtable us ON us.ID = q.USER_ID LEFT JOIN wfdocument wf WITH (NOLOCK) ON wf.doc_id = q.doc_id LEFT JOIN wfstep s WITH (NOLOCK) ON s.step_id = wf.step_id", userId, item.ItemArray(0))
-                Dim dtRows As DataTable = Server.Con.ExecuteDataset(CommandType.Text, querySlect).Tables(0)
+
+            Dim querySlect As String = String.Format("SELECT wf.Task_id ,q.doc_id ,q.EntityId DOC_TYPE_ID ,wf.name Tarea ,Fecha ,s.name Etapa ,isnull(us.name, '') Asignado ,wf.checkin Ingreso ,wf.expiredate Vencimiento FROM ( SELECT TOP (20) object_id doc_Id ,MAX(ACTION_DATE) Fecha ,s_object_id EntityId ,USER_ID FROM USER_HST u WITH (NOLOCK) WHERE USER_ID = {0} AND ACTION_TYPE IN ( 1 ,71 ) AND OBJECT_TYPE_ID = 6 AND S_OBJECT_ID NOT LIKE '%.%' AND ISNUMERIC(S_OBJECT_ID) > 0 and s_object_id in ({1}) GROUP BY object_id ,S_OBJECT_ID ,USER_ID ORDER BY FECHA DESC ) q INNER JOIN  usrtable us ON us.ID = q.USER_ID INNER JOIN wfdocument wf WITH (NOLOCK) ON wf.doc_id = q.doc_id INNER JOIN wfstep s WITH (NOLOCK) ON s.step_id = wf.step_id", userId, entitiesIds.ToString())
+            Dim dtRows As DataTable = Server.Con.ExecuteDataset(CommandType.Text, querySlect).Tables(0)
 
                 If PrimerItem Then
                     DtTareas = dtRows.Copy
@@ -348,7 +354,7 @@ Public Class Newsfactory
                     Next
                 End If
 
-            Next
+
 
             ds.Tables.Add(DtTareas)
             Return ds

@@ -100,7 +100,7 @@ Public Class utilities
         Dim StrParams As String
         Dim querytime As Int64
 
-        If (LogEnabled) Then
+        If (LogEnabled AndAlso ZTrace.IsVerbose = TraceLevel.Verbose) Then
             Try
 
                 LogEnabled = False

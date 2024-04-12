@@ -594,7 +594,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Dashboard - Nuevo usuario en Zamba - Error al crear nuevo usuario: " + ex.Message);
-                throw ex;
+                throw;
             }
 
         }
@@ -692,7 +692,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
 
-                throw ex;
+                throw;
             }
         }
 
@@ -797,7 +797,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
 
-                throw ex;
+                throw;
             }
         }
 
@@ -1163,7 +1163,7 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
-                throw ex;
+                throw;
             }
         }
         public List<MenuItem> ListMenuItem(DataTable result)
