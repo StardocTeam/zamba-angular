@@ -20,10 +20,12 @@ var LastFocusInput;
 function InitFormVacationsInsert() {
     setEventsfillTotalDays();
     setEventsRequestDays();
+    preProcessItemTypeDays();    
 }
 function InitFormVacationsEdit() {
     setEventsfillTotalDays();   
     setEventsRequestDays();
+    preProcessItemTypeDays();    
 }
 function InitFormVacationsAuthorization() {
 
@@ -113,6 +115,10 @@ function DateToStringDDMMYYYY(fecha) {
     let nuevaFecha = `${mes}/${dia}/${anio}`;
     return new Date(nuevaFecha);
 }
+function preProcessItemTypeDays() {
+    RemoveItemToDefineInSelect(224);
+    chooseItemInSelect(224, 1);
+}
 
 function fillRequestedDays(sender) {
     
@@ -181,7 +187,8 @@ function calculateContinuesDays(dateFrom, DateTo, option,sender) {
 }
 function ShowInvalidDate(option,sender) {
     document.getElementById("error_opcion_" + option).style.display = "block";
-    LastFocusInput.value = "";
+    debugger;
+    LastFocusInput= undefined;
 }
 function fillTotalDays() {
     var pendingDays = parseFloat(document.getElementById('zamba_index_166').value);
@@ -194,6 +201,35 @@ function fillTotalDays() {
     }
 }
 
+function RemoveItemToDefineInSelect(index) {
+    var select = document.getElementById("zamba_index_" + index.toString());
+    for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].text === "A Definir") {
+            select.remove(i);
+            break;
+        }
+    }
+}
+function ButtonRequestVacations(obj) {
+    debugger
+    if (document.getElementById("zamba_index_168").value == ""
+        ||
+        document.getElementById("zamba_index_239").value == ""
+    ) {
+        if (document.getElementById("zamba_index_168").value == "") {
+            ShowInvalidDate(1);
+        }
+        if (document.getElementById("zamba_index_239").value == "") {
+            ShowInvalidDate(2);
+        }
+        return false;
+    }    
+    SetRuleId(obj);
+    return true;
+}
+function chooseItemInSelect(index, item) {
+    document.getElementById("zamba_index_" + index.toString()).value = item;
+}
     
 
 
