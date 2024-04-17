@@ -6,41 +6,44 @@
 <!--Modificado por: -->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulario Datos de la Empresa </title>
-    
-    <style>
-        body {
-            font-family: 'Times New Roman';
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Formulario Datos de la Empresa </title>
+	<script src="FichaEmpresa.js"></script>
+	<script>
+        document.addEventListener("DOMContentLoaded", function () { InitFormEmpresaInsertar(); });
+	</script>
+	<style>
+		body {
+			font-family: 'Times New Roman';
 			background-color: black;
 			color: white;
-        }
+		}
 
-        .form-container {
-            padding: 20px;
-            <!-- border: 5px solid #ddd;
-            border-radius: 10px; -->
-            margin-top: 20px;
-        }
+		.form-container {
+			padding: 20px;
+			<!-- border: 5px solid #ddd;
+			border-radius: 10px; -->
+			margin-top: 20px;
+		}
 
-        .btn-submit {
-            background-color: #0bb4c4;
-            color: #fff;
-        }
-		
+		.btn-submit {
+			background-color: #0bb4c4;
+			color: #fff;
+		}
+
 		.nav-tabs .nav-link {
-            color: white;
-        }
+			color: white;
+		}
 
-        .tab-content {
-            margin-top: 20px;
-        }
+		.tab-content {
+			margin-top: 20px;
+		}
 
-        .tab-pane {
-            margin-bottom: 20px;
-        }
-    </style>
+		.tab-pane {
+			margin-bottom: 20px;
+		}
+	</style>
 
 </head>
 
@@ -77,6 +80,11 @@
 													<img alt="" src="images/Lupa.png" height="16" width="16" />
 												</button>
 											</span>
+										</span>
+										<span>
+											<label style="color:red;display:none" id="cuit_invalido">
+												(*) CUIT no es válido
+											</label>
 										</span>
 									</div>
 								</div>
