@@ -88,21 +88,28 @@ namespace Zamba.MailKit
             public string File;
             public string Name;
         }
-        public List<ZMessage> RetrieveEmails(imapConfig config)
-        {
 
+        public bool AreEqual(imapConfig lastConfig, imapConfig other)
+        {
+            return lastConfig != null && lastConfig.ImapServer == other.ImapServer &&
+                   lastConfig.ImapPort == other.ImapPort &&
+                   lastConfig.ImapUsername == other.ImapUsername &&
+                   lastConfig.ImapPassword == other.ImapPassword &&
+                   lastConfig.FolderName == other.FolderName &&
+                   lastConfig.ExportFolderPath == other.ExportFolderPath;
+        }
+
+        static imapConfig lastConfig;
+        public List<ZMessage> RetrieveEmails(imapConfig config, string tracefile)
+        {
             List<string> log = new List<string>();
             List<ZMessage> messages = new List<ZMessage>();
 
-            DirectoryInfo dir = new DirectoryInfo("Exceptions\\" + DateTime.Now.ToString("yyyy - MM - dd") + "\\");
-            if (!dir.Exists)
-                dir.Create();
+            Boolean ConfigIsEquals = AreEqual(EmailService.lastConfig,config);
 
-            string tracefile = dir.FullName + "\\Trace ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
+            EmailService.lastConfig = config;
             try
             {
-
-
                 // Configure the certificate validation callback to trust the certificate
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) => true;
 
@@ -111,36 +118,42 @@ namespace Zamba.MailKit
                     // Ignore certificate validation for the IMAP connection
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                    log.Add("Connecting...");
+                    log.Add("Connecting...: " + config.ImapUsername + " - " + config.FolderName);
                     SecureSocketOptions secureSocketOptions = SecureSocketOptions.SslOnConnect;
                     switch (config.secureSocketOptions)
                     {
                         case "Auto":
                             secureSocketOptions = SecureSocketOptions.Auto;
-                            log.Add("secureSocketOptions: Auto");
+                            if (!ConfigIsEquals) log.Add("secureSocketOptions: Auto");
                             break;
                         case "SslOnConnect":
                             secureSocketOptions = SecureSocketOptions.SslOnConnect;
-                            log.Add("secureSocketOptions: SslOnConnect");
+                            if (!ConfigIsEquals) log.Add("secureSocketOptions: SslOnConnect");
                             break;
                         case "None":
                             secureSocketOptions = SecureSocketOptions.None;
-                            log.Add("secureSocketOptions: None");
+                            if (!ConfigIsEquals) log.Add("secureSocketOptions: None");
                             break;
                     }
 
-                    log.Add("config.ImapServer: " + config.ImapServer);
-                    log.Add("config.ImapPort.Value: " + config.ImapPort.Value);
-                    log.Add("config.secureSocketOptions: " + secureSocketOptions.ToString());
+                    if (!ConfigIsEquals) log.Add("config.ImapServer: " + config.ImapServer);
+                    if (!ConfigIsEquals) log.Add("config.ImapPort.Value: " + config.ImapPort.Value);
                     client.Connect(config.ImapServer, config.ImapPort.Value, secureSocketOptions);
 
-                    log.Add("Authenticate user/mail: " + config.ImapUsername);
-                    log.Add("Authenticate password: " + config.ImapPassword);
+                    if (!ConfigIsEquals) log.Add("Authenticate user/mail: " + config.ImapUsername);
+                    
+                    int count = Math.Max(0, config.ImapPassword.Length - 3); // Ensure count is non-negative
+                    string xs = new string('x', count);
+
+                    if (!ConfigIsEquals) log.Add("Authenticate password: " + config.ImapPassword.Substring(0,3) + xs);
                     client.Authenticate(config.ImapUsername, config.ImapPassword);
 
-                    log.Add("GetFolder: " + config.FolderName);
+                    if (!ConfigIsEquals) log.Add("Source Folder: " + config.FolderName);
+                    
                     var folder = client.GetFolder(config.FolderName);
                     folder.Open(FolderAccess.ReadWrite);
+
+                    if (!ConfigIsEquals) log.Add("Destination Folder: " + config.ExportFolderPath);
 
                     var uids = folder.Search(SearchQuery.Not(SearchQuery.Deleted));
 
@@ -148,6 +161,7 @@ namespace Zamba.MailKit
                         Directory.CreateDirectory(config.ExportFolderPath);
 
                     Int64 messageCount = 0;
+                    log.Add("Found " + uids.Count + " emails, exporting the first 10");
 
                     foreach (var uid in uids)
                     {
@@ -222,10 +236,13 @@ namespace Zamba.MailKit
                         }
                         catch (Exception ex)
                         {
-                            string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
+                            DirectoryInfo exceptionDir = new DirectoryInfo("Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + "\\Exceptions\\");
+                            if (!exceptionDir.Exists)
+                                exceptionDir.Create();
+                            string errorfile = exceptionDir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
                             log.Add($"ZIMAP Mail ERROR : {uid} - {ex.ToString()}");
                             StreamWriter sw = new StreamWriter(errorfile);
-                            sw.WriteLine(string.Join(System.Environment.NewLine, log.ToArray()));
+                            sw.WriteLine($"ZIMAP Mail ERROR : {uid} - {ex.ToString()}");
                             sw.Flush();
                             sw.Close();
                             sw.Dispose();
@@ -235,14 +252,13 @@ namespace Zamba.MailKit
                     client.Disconnect(true);
                 }
 
-                if (messages.Count == 0)
-                {
-                    log.Add("No hay mensajes exportados");
-                }
                 return messages;
             }
             catch (System.Net.WebException ex)
             {
+                DirectoryInfo dir = new DirectoryInfo("Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + "\\Exceptions\\");
+                if (!dir.Exists)
+                    dir.Create();
                 string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
                 log.Add($"ZIMAP WebException: {ex.ToString()}");
                 StreamWriter sw = new StreamWriter(errorfile);
@@ -255,6 +271,9 @@ namespace Zamba.MailKit
             catch (Exception ex)
             {
 
+                DirectoryInfo dir = new DirectoryInfo("Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + "\\Exceptions\\");
+                if (!dir.Exists)
+                    dir.Create();
                 string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
                 log.Add($"ZIMAP ERROR : {ex.ToString()}");
                 StreamWriter sw = new StreamWriter(errorfile);
@@ -266,12 +285,50 @@ namespace Zamba.MailKit
             }
             finally
             {
-                log.Add("----------EXPORT IMAP PROCESS ENDED-------------");
-                StreamWriter sw = new StreamWriter(tracefile);
+                log.Add("----------EXPORT IMAP END-------------");
+                StreamWriter sw = new StreamWriter(tracefile,true);
                 sw.WriteLine(string.Join(System.Environment.NewLine, log.ToArray()));
                 sw.Flush();
                 sw.Close();
                 sw.Dispose();
+            }
+        }
+
+        public void CleanTraceAndExceptions(DirectoryInfo dir, int days)
+        {
+            try
+            {
+
+                foreach (FileInfo fi in dir.GetFiles())
+                {
+                    TimeSpan age = DateTime.Now - fi.CreationTime;
+                    if (age.TotalDays > days)
+                    {
+                        try
+                        {
+                            fi.Delete();
+                        }
+                        catch (Exception)
+                        {
+                            // Handle deletion exception here if needed
+                        }
+                    }
+                }
+
+                foreach (DirectoryInfo di in dir.GetDirectories())
+                {
+                    CleanTraceAndExceptions(di, days);
+                }
+
+                if (dir.GetFiles().Length == 0 && dir.GetDirectories().Length == 0 && dir.FullName.EndsWith("Log\\") == false) {
+                    dir.Delete();
+                }
+
+
+            }
+            catch (Exception)
+            {
+                // Handle exception here if needed
             }
         }
 
@@ -282,358 +339,7 @@ namespace Zamba.MailKit
 
             return false;
         }
-
-
-
-        //public static void ConvertEmlToMsg(Stream emlFile, Stream msgFile)
-        //{
-        //    var eml = MimeMessage.Load(emlFile);
-        //    var sender = new Sender(string.Empty, string.Empty);
-
-        //    if (eml.From.Count > 0)
-        //    {
-        //        var mailAddress = (MailboxAddress)eml.From[0];
-        //        sender = new Sender(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    var representing = new Representing(string.Empty, string.Empty);
-        //    if (eml.ResentSender != null)
-        //        representing = new Representing(eml.ResentSender.Address, eml.ResentSender.Name);
-
-        //    var msg = new Email(sender, representing, eml.Subject)
-        //    {
-        //        SentOn = eml.Date.UtcDateTime,
-        //        InternetMessageId = eml.MessageId
-        //    };
-
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        eml.Headers.WriteTo(memoryStream);
-        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(memoryStream.ToArray());
-        //    }
-
-        //    switch (eml.Priority)
-        //    {
-        //        case MessagePriority.NonUrgent:
-        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NONURGENT;
-        //            break;
-        //        case MessagePriority.Normal:
-        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NORMAL;
-        //            break;
-        //        case MessagePriority.Urgent:
-        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_URGENT;
-        //            break;
-        //    }
-
-        //    switch (eml.Importance)
-        //    {
-        //        case MessageImportance.Low:
-        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_LOW;
-        //            break;
-        //        case MessageImportance.Normal:
-        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_NORMAL;
-        //            break;
-        //        case MessageImportance.High:
-        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_HIGH;
-        //            break;
-        //    }
-
-        //    foreach (var to in eml.To)
-        //    {
-        //        var mailAddress = (MailboxAddress)to;
-        //        msg.Recipients.AddTo(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    foreach (var cc in eml.Cc)
-        //    {
-        //        var mailAddress = (MailboxAddress)cc;
-        //        msg.Recipients.AddCc(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    foreach (var bcc in eml.Bcc)
-        //    {
-        //        var mailAddress = (MailboxAddress)bcc;
-        //        msg.Recipients.AddBcc(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    using (var headerStream = new MemoryStream())
-        //    {
-        //        eml.Headers.WriteTo(headerStream);
-        //        headerStream.Position = 0;
-        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(headerStream.ToArray());
-        //    }
-
-        //    var namelessCount = 0;
-        //    var index = 1;
-
-        //    // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
-        //    // As such, any included messages are just attachments here.
-        //    foreach (var bodyPart in eml.BodyParts)
-        //    {
-        //        var handled = false;
-
-        //        // The first text/plain part (that's not an attachment) is the body part.
-        //        if (!bodyPart.IsAttachment && bodyPart is TextPart text)
-        //        {
-        //            // Sets the first matching inline content type for body parts.
-
-        //            if (msg.BodyText == null && text.IsPlain)
-        //            {
-        //                msg.BodyText = text.Text;
-        //                handled = true;
-        //            }
-
-        //            if (msg.BodyHtml == null && text.IsHtml)
-        //            {
-        //                msg.BodyHtml = text.Text;
-        //                handled = true;
-        //            }
-
-        //            if (msg.BodyRtf == null && text.IsRichText)
-        //            {
-        //                msg.BodyRtf = text.Text;
-        //                handled = true;
-        //            }
-        //        }
-
-        //        // If the part hasn't previously been handled by "body" part handling
-        //        if (!handled)
-        //        {
-        //            var attachmentStream = new MemoryStream();
-        //            var fileName = bodyPart.ContentType.Name;
-        //            var extension = string.Empty;
-
-        //            if (bodyPart is MessagePart messagePart)
-        //            {
-        //                messagePart.Message.WriteTo(attachmentStream);
-        //                if (messagePart.Message != null)
-        //                    fileName = messagePart.Message.Subject;
-
-        //                extension = ".eml";
-        //            }
-        //            else if (bodyPart is MessageDispositionNotification)
-        //            {
-        //                var part = (MessageDispositionNotification)bodyPart;
-        //                fileName = part.FileName;
-        //            }
-        //            else if (bodyPart is MessageDeliveryStatus)
-        //            {
-        //                var part = (MessageDeliveryStatus)bodyPart;
-        //                fileName = "details";
-        //                extension = ".txt";
-        //                part.WriteTo(FormatOptions.Default, attachmentStream, true);
-        //            }
-        //            else
-        //            {
-        //                var part = (MimePart)bodyPart;
-        //                part.Content.DecodeTo(attachmentStream);
-        //                fileName = part.FileName;
-        //            }
-
-        //            fileName = string.IsNullOrWhiteSpace(fileName)
-        //                ? $"part_{++namelessCount:00}"
-        //                : fileName;
-
-        //            if (!string.IsNullOrEmpty(extension))
-        //                fileName += extension;
-
-        //            var inline = bodyPart.ContentDisposition != null &&
-        //                bodyPart.ContentDisposition.Disposition.Equals("inline",
-        //                    StringComparison.InvariantCultureIgnoreCase);
-
-        //            attachmentStream.Position = 0;
-
-        //            try
-        //            {
-        //                msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
-        //            }
-        //            catch (MKAttachmentExists)
-        //            {
-        //                var tempFileName = Path.GetFileNameWithoutExtension(fileName);
-        //                var tempExtension = Path.GetExtension(fileName);
-        //                msg.Attachments.Add(attachmentStream, $"{tempFileName}({index}){tempExtension}", -1, inline, bodyPart.ContentId);
-        //                index += 1;
-        //            }
-        //        }
-        //    }
-
-        //    msg.Save(msgFile);
-        //}
-
-        //public static void ConvertEmlToMsg(string emlFile, string msgFile)
-        //{
-        //    var eml = MimeMessage.Load(emlFile);
-        //    var sender = new Sender(string.Empty, string.Empty);
-
-        //    if (eml.From.Count > 0)
-        //    {
-        //        var mailAddress = (MailboxAddress)eml.From[0];
-        //        sender = new Sender(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    var representing = new Representing(string.Empty, string.Empty);
-        //    if (eml.ResentSender != null)
-        //        representing = new Representing(eml.ResentSender.Address, eml.ResentSender.Name);
-
-        //    var msg = new Email(sender, representing, eml.Subject)
-        //    {
-        //        SentOn = eml.Date.UtcDateTime,
-        //        InternetMessageId = eml.MessageId
-        //    };
-
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        eml.Headers.WriteTo(memoryStream);
-        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(memoryStream.ToArray());
-        //    }
-
-        //    switch (eml.Priority)
-        //    {
-        //        case MessagePriority.NonUrgent:
-        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NONURGENT;
-        //            break;
-        //        case MessagePriority.Normal:
-        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_NORMAL;
-        //            break;
-        //        case MessagePriority.Urgent:
-        //            msg.Priority = MsgKit.Enums.MessagePriority.PRIO_URGENT;
-        //            break;
-        //    }
-
-        //    switch (eml.Importance)
-        //    {
-        //        case MessageImportance.Low:
-        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_LOW;
-        //            break;
-        //        case MessageImportance.Normal:
-        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_NORMAL;
-        //            break;
-        //        case MessageImportance.High:
-        //            msg.Importance = MsgKit.Enums.MessageImportance.IMPORTANCE_HIGH;
-        //            break;
-        //    }
-
-        //    foreach (var to in eml.To)
-        //    {
-        //        var mailAddress = (MailboxAddress)to;
-        //        msg.Recipients.AddTo(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    foreach (var cc in eml.Cc)
-        //    {
-        //        var mailAddress = (MailboxAddress)cc;
-        //        msg.Recipients.AddCc(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    foreach (var bcc in eml.Bcc)
-        //    {
-        //        var mailAddress = (MailboxAddress)bcc;
-        //        msg.Recipients.AddBcc(mailAddress.Address, mailAddress.Name);
-        //    }
-
-        //    using (var headerStream = new MemoryStream())
-        //    {
-        //        eml.Headers.WriteTo(headerStream);
-        //        headerStream.Position = 0;
-        //        msg.TransportMessageHeadersText = Encoding.ASCII.GetString(headerStream.ToArray());
-        //    }
-
-        //    var namelessCount = 0;
-        //    var index = 1;
-
-        //    // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
-        //    // As such, any included messages are just attachments here.
-        //    foreach (var bodyPart in eml.BodyParts)
-        //    {
-        //        var handled = false;
-
-        //        // The first text/plain part (that's not an attachment) is the body part.
-        //        if (!bodyPart.IsAttachment && bodyPart is TextPart text)
-        //        {
-        //            // Sets the first matching inline content type for body parts.
-
-        //            if (msg.BodyText == null && text.IsPlain)
-        //            {
-        //                msg.BodyText = text.Text;
-        //                handled = true;
-        //            }
-
-        //            if (msg.BodyHtml == null && text.IsHtml)
-        //            {
-        //                msg.BodyHtml = text.Text;
-        //                handled = true;
-        //            }
-
-        //            if (msg.BodyRtf == null && text.IsRichText)
-        //            {
-        //                msg.BodyRtf = text.Text;
-        //                handled = true;
-        //            }
-        //        }
-
-        //        // If the part hasn't previously been handled by "body" part handling
-        //        if (!handled)
-        //        {
-        //            var attachmentStream = new MemoryStream();
-        //            var fileName = bodyPart.ContentType.Name;
-        //            var extension = string.Empty;
-
-        //            if (bodyPart is MessagePart messagePart)
-        //            {
-        //                messagePart.Message.WriteTo(attachmentStream);
-        //                if (messagePart.Message != null)
-        //                    fileName = messagePart.Message.Subject;
-
-        //                extension = ".eml";
-        //            }
-        //            else if (bodyPart is MessageDispositionNotification)
-        //            {
-        //                var part = (MessageDispositionNotification)bodyPart;
-        //                fileName = part.FileName;
-        //            }
-        //            else if (bodyPart is MessageDeliveryStatus)
-        //            {
-        //                var part = (MessageDeliveryStatus)bodyPart;
-        //                fileName = "details";
-        //                extension = ".txt";
-        //                part.WriteTo(FormatOptions.Default, attachmentStream, true);
-        //            }
-        //            else
-        //            {
-        //                var part = (MimePart)bodyPart;
-        //                part.Content.DecodeTo(attachmentStream);
-        //                fileName = part.FileName;
-        //            }
-
-        //            fileName = string.IsNullOrWhiteSpace(fileName)
-        //                ? $"part_{++namelessCount:00}"
-        //                : fileName;
-
-        //            if (!string.IsNullOrEmpty(extension))
-        //                fileName += extension;
-
-        //            var inline = bodyPart.ContentDisposition != null &&
-        //                bodyPart.ContentDisposition.Disposition.Equals("inline",
-        //                    StringComparison.InvariantCultureIgnoreCase);
-
-        //            attachmentStream.Position = 0;
-
-        //            try
-        //            {
-        //                msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
-        //            }
-        //            catch (MKAttachmentExists)
-        //            {
-        //                var tempFileName = Path.GetFileNameWithoutExtension(fileName);
-        //                var tempExtension = Path.GetExtension(fileName);
-        //                msg.Attachments.Add(attachmentStream, $"{tempFileName}({index}){tempExtension}", -1, inline, bodyPart.ContentId);
-        //                index += 1;
-        //            }
-        //        }
-        //    }
-
-        //    msg.Save(msgFile);
-        //}
+              
 
     }
 }
