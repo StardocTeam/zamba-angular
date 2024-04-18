@@ -14,7 +14,7 @@ namespace EmailRetrievalAPI.Controllers
     public class ImapController : ControllerBase
     {
 
-       
+
 
         private bool IsPreviouslyRetrieved(string uid)
         {
@@ -31,16 +31,6 @@ namespace EmailRetrievalAPI.Controllers
             return Ok("Test NO UPDATED OK");
         }
 
-        [HttpGet, HttpPost]
-        [Route("TestImap")]
-        public IActionResult TestImap()
-        {
-            Zamba.MailKit.EmailService.imapConfig iconfig = new Zamba.MailKit.EmailService.imapConfig();
-            EmailService EC = new EmailService();
-
-            var response = EC.RetrieveEmails(iconfig);
-            return Ok(response);
-        }
 
         [HttpGet, HttpPost]
         [Route("GetImapEMails")]
@@ -48,19 +38,24 @@ namespace EmailRetrievalAPI.Controllers
         {
             try
             {
-               //  config = Newtonsoft.Json.JsonConvert.DeserializeObject<EmailService.imapConfig>(config);
+                DirectoryInfo dir = new DirectoryInfo("Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + "\\Trace\\");
+                if (!dir.Exists)
+                    dir.Create();
+
+                string tracefile = dir.FullName + "\\Trace ZImapAPI - " + config.ImapUsername + "-" + config.FolderName + "-" + DateTime.Now.ToString("dd-MM-yyyy HH") + ".txt";
+
+
                 EmailService EC = new EmailService();
-                var response = EC.RetrieveEmails(config);
+                var response = EC.RetrieveEmails(config, tracefile);
                 var jsonResponse = Newtonsoft.Json.JsonConvert.SerializeObject(response, Newtonsoft.Json.Formatting.Indented);
                 return Ok(jsonResponse);
-
             }
             catch (Exception ex)
             {
                 List<string> log = new List<string>();
                 List<ZMessage> messages = new List<ZMessage>();
 
-                DirectoryInfo dir = new DirectoryInfo("Exceptions\\" + DateTime.Now.ToString("yyyy - MM - dd") + "\\");
+                DirectoryInfo dir = new DirectoryInfo("Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + "\\Exceptions\\");
                 if (!dir.Exists)
                     dir.Create();
                 string errorfile = dir.FullName + "\\Exception ZImapAPI - " + DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss") + ".txt";
@@ -73,6 +68,29 @@ namespace EmailRetrievalAPI.Controllers
                 return StatusCode(500, $"Internal server error: {ex.ToString()}");
             }
         }
+
+        [HttpGet, HttpPost]
+        [Route("CleanExceptions")]
+        public IActionResult CleanExceptions(int days)
+        {
+            try
+            {
+                DirectoryInfo dir = new DirectoryInfo("Log\\");
+
+                EmailService EC = new EmailService();
+
+                if (dir.Exists)
+                    EC.CleanTraceAndExceptions(dir, days);
+
+            }
+            catch (Exception)
+            {
+            }
+
+            return Ok();
+        }
+
+       
 
 
     }
