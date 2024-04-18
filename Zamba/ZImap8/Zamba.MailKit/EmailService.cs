@@ -157,8 +157,8 @@ namespace Zamba.MailKit
 
                     var uids = folder.Search(SearchQuery.Not(SearchQuery.Deleted));
 
-                    if (!Directory.Exists(config.ExportFolderPath))
-                        Directory.CreateDirectory(config.ExportFolderPath);
+                    if (!Directory.Exists("Log\\" + config.ExportFolderPath))
+                        Directory.CreateDirectory("Log\\" + config.ExportFolderPath);
 
                     Int64 messageCount = 0;
                     log.Add("Found " + uids.Count + " emails, exporting the first 10");
@@ -181,7 +181,7 @@ namespace Zamba.MailKit
                                 continue;
 
                             // Create a local email file with .eml extension
-                            var filePath = Path.Combine(config.ExportFolderPath, $"{uid}.eml");
+                            var filePath = Path.Combine("Log\\" + config.ExportFolderPath, $"{uid}.eml");
                             message.WriteTo(FormatOptions.Default, filePath);
 
                             //                            ConvertEmlToMsg(filePath, filePath.Replace(".eml",".msg"));
