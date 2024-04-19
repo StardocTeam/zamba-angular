@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<html lang="es">
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion: 03.2024-->
+<!--Ultima Edicion: -->
+<!--Modificado por: -->
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Formulario Datos de la Empresa</title>
+	<script src="FichaEmpresa.js"></script>
+
+	<style>
+		body {
+			font-family: 'Times New Roman';
+			background-color: black;
+			color: white;
+		}
+
+		.form-container {
+			padding: 20px;
+			border: 5px solid #ddd;
+			border-radius: 10px;
+			margin-top: 20px;
+		}
+
+		.btn-submit {
+			background-color: #0bb4c4;
+			color: #fff;
+		}
+
+		.nav-tabs .nav-link {
+			color: white;
+		}
+
+		.tab-content {
+			margin-top: 20px;
+		}
+
+		.tab-pane {
+			margin-bottom: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <form name="frmMain" action="FichaEmpresaEditar.html">
+			<input type="hidden" id="FormName" value="FichaEmpresaEditar" />
+			<ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#DatosEmpresa">Datos de la Empresa</a></li>
+                <li><a id="DocdeEmpresaBtn" data-toggle="tab" href="#DocdeEmpresa">Doc. de la Empresa</a></li>               
+            </ul>					
+						
+            <div class="tab-content">
+                <div class="tab-pane active" id="DatosEmpresa">
+					<div class="form-container">
+                        <!-- Contenido de Datos de la Empresa -->
+						<div id="tblDatos de la Empresa" >
+																				
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-7 col-md-6 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Nombre o Razón Social</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_172" name="zamba_index_172" disabled="disabled"/>
+									</div>
+								</div>																                           
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">CUIT</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_109" name="zamba_index_109" disabled="disabled"/>
+										<!-- <span class="input-group-btn">
+											<span class="input-group-btn">
+												<button class="btn  btn-primary" type="submit" id="zamba_rule_697" name="zamba_rule_697" onclick="SetRuleId2(this);">
+													<img alt="" src="images/Lupa.png" height="16" width="16" />
+												</button>
+											</span>
+										</span> -->
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-10 col-md-10 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Actividad de la empresa</span>
+										<Input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_204" name="zamba_index_204"disabled="disabled"/>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-10 col-md-10 col-sm-6 col-xs-12">									
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Descripción de la Empresa</span>
+										<Input class="form-control input-sm" cols="1" rows="2" id="zamba_index_250" name="zamba_index_250" disabled="disabled"/>
+									</div>                                    
+                                </div>                            
+							</div>
+							
+							<div class="form-group row">
+								<div class="col-md-1"></div>								
+								<div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Persona de contacto</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_177" name="zamba_index_177" />
+									</div>								
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Telefono/Celular</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_257" name="zamba_index_257" />
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">email</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_237" name="zamba_index_237" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Area o Sector</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_152" name="zamba_index_152" size="1"></select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Departamento</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_235" name="zamba_index_235" size="1"></select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Cargo</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_153" name="zamba_index_153"></select>
+									</div>
+								</div>															
+							</div>							
+							
+							<div class="form-group row"> </div>
+							
+							<hr style="border: 0 ; border-top: 4px double Grey; width: 90%;">
+							
+							<div class="form-group row"> </div>
+							<div class="form-group row"> </div>
+							<div class="form-group row"> 
+								<div class="col-md-1"></div>
+								<div class="col-lg-10 col-md-9 col-sm-9 col-xs-12" style="position:relative;top:-20px">
+									<span class="input-group-addon" style=""> Datos de Facturación</span>
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-10 col-md-4 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Dirección Fiscal</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_173" name="zamba_index_173" />
+									</div>
+								</div>								
+							</div>
+													
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Forma de Pago</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_217" name="zamba_index_217"></select>
+									</div>
+								</div>
+								<div class="col-lg-1 col-md-1 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px"></span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_216" name="zamba_index_216"></select>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Condición ante el IVA</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_178" name="zamba_index_178"></select>
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Cant Empleados</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_181" name="zamba_index_181" disabled="disabled"/>
+									</div>
+								</div>
+							</div>
+								
+							<div class="form-group row"> </div>
+
+							<hr style="border: 0 ; border-top: 4px double Grey; width: 90%;">
+							
+							<div class="form-group row"> </div>
+							<div class="form-group row"> </div>
+							<div class="form-group row"> 
+								<div class="col-md-1"></div>
+								<div class="col-lg-10 col-md-9 col-sm-9 col-xs-12" style="position:relative;top:-20px">
+									<span class="input-group-addon" style=""> Ubicación de la Empresa</span>
+								</div>
+							</div>
+													
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">País</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_118" name="zamba_index_118"></select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Provincia</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_119" name="zamba_index_119"></select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Localidad</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_122" name="zamba_index_122"></select>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<div class="col-md-1"></div>
+								<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Calle</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_114" name="zamba_index_114" />
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Nro</span>
+										<input class="form-control input-sm solonums" style=" color: #090A0A; font-weight: bold" id="zamba_index_115" name="zamba_index_115" />
+									</div>
+								</div>
+								<div class="col-lg-1 col-md-2 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Piso</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_116" name="zamba_index_116" />
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Oficina</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_117" name="zamba_index_117" />
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Cod postal</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_124" name="zamba_index_124" />
+									</div>
+								</div>								
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-1"></div>								
+								<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Cod país</span>
+										<Select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_125" name="zamba_index_125"></select>
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Cod área</span>
+										<select class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_126" name="zamba_index_126"></select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-8">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Teléfonos</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_127" name="zamba_index_127" />
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Celulares</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_128" name="zamba_index_128" />
+									</div>
+								</div>								
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-1"></div>																
+								<div class="col-lg-5 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">email de contacto</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_129" name="zamba_index_129" />
+									</div>
+								</div>
+								<div class="col-lg-5 col-md-3 col-sm-6 col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon" style="padding: 3px">Pagina Web</span>
+										<input class="form-control input-sm" style=" color: #090A0A; font-weight: bold" id="zamba_index_251" name="zamba_index_251" />
+									</div>
+								</div>
+							</div>
+														
+							<div class="form-group row"></div>
+							<div class="form-group row" style="margin-bottom: 40px;">
+								<div class="col-md-1"></div>
+								<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 style="position:relative;top:-20px">
+									<div class="row">							
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<span class="input-group-addon" style=""> Observaciones</span>
+											
+											<div id="appObservaciones" ng-controller="ObservacionController">
+												<zamba-observaciones index-id="136" entity-id="113"></zamba-observaciones>
+											</div>									
+										</div>
+									</div>									
+								</div>
+								<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 style="position:relative;top:-20px">						
+									<div class="row">							
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<span class="input-group-addon" style=""> Agregue abajo la documentación de la Empresa </span>
+											<div class="form-group row"></div>
+											
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style=" width: 96%;">								
+												<div ng-controller="appController"> <zamba-drop id="114" indexids="182"> </zamba-drop>
+												</div>
+											</div>										
+										</div>
+									</div>						
+								</div>								
+							</div>
+														
+							<center>
+								<div class="form-group row">
+									<div class="form-group">
+										<input class="btn  btn-primary btn-md" id="zamba_rule_858" name="zamba_rule_858" 
+										type="submit" value="Guardar" onclick="SaveDataCompanyFormEdit(this);" />								
+										
+									</div>
+								</div>
+							</center>
+							
+						</div>
+					</div>
+					<div class="form-group row"></div>
+					<center>                
+						<div class="col-md-12">
+							<span style="color:White">FichaEmpresaEditar.html</span>
+						</div>                
+					</center>					
+                </div>
+<!--Doc de Empresa---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+				<div class="tab-pane" id="DocdeEmpresa">
+					<div class="form-group row"></div>
+					<div class="form-container">
+						<div class="form-group row"> </div>
+						<div class="form-group row">
+							<div>
+								<div ng-controller="ZambaAssociatedController">
+									<zamba-associated entities="114" default-enable-mode="grid" table-height="400" grid-title="Doc. de Empresa" caller="DocdeEmpresaBtn">                                </zamba-associated>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+			</div>           
+        </form>
+    </div>
+</body>
+</html>

@@ -211,7 +211,6 @@ function RemoveItemToDefineInSelect(index) {
     }
 }
 function ButtonRequestVacations(obj) {
-    debugger
     if (document.getElementById("zamba_index_168").value == ""
         ||
         document.getElementById("zamba_index_239").value == ""
