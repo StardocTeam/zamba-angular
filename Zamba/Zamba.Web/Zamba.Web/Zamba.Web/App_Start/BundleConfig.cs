@@ -254,9 +254,9 @@ namespace Zamba.Web
 
             #region KendoUI
 
-            bundles.Add(new StyleBundle("~/bundles/Styles/fonts/glyphs").Include(
-                "~/Scripts/KendoUI/styles/fonts/glyphs/WebComponentsIcons.ttf")
-                );
+            //bundles.Add(new StyleBundle("~/bundles/Styles/fonts/glyphs").Include(
+            //    "~/Scripts/KendoUI/styles/fonts/glyphs/WebComponentsIcons.ttf")
+            //    );
             bundles.Add(new StyleBundle("~/bundles/Styles/kendo").Include(
 
                       "~/Scripts/KendoUI/styles/kendo.common.min.css",

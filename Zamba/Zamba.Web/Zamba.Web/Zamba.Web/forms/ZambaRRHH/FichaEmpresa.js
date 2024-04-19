@@ -1,12 +1,13 @@
-﻿FormLoad();
+﻿document.addEventListener("DOMContentLoaded", function () { FormLoad(); });
+
 function FormLoad() {
     var formActive = document.getElementById("FormName").value;
     switch (formActive) {
         case 'FichaEmpresaInsert':
-            document.addEventListener("DOMContentLoaded", function () { InitFormEmpresaInsertar(); });
+             InitFormEmpresaInsertar();
             break;
         case 'FichaEmpresaEdit':
-            document.addEventListener("DOMContentLoaded", function () { InitFormEmpresaEditar(); });            
+            InitFormEmpresaEditar();            
             break;
     }
 }
