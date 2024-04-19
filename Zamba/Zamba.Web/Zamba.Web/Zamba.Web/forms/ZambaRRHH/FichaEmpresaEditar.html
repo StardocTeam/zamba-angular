@@ -6,48 +6,49 @@
 <!--Modificado por: -->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formulario Datos de la Empresa</title>
-    
-    <style>
-        body {
-            font-family: 'Times New Roman';
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Formulario Datos de la Empresa</title>
+	<script src="FichaEmpresa.js"></script>
+
+	<style>
+		body {
+			font-family: 'Times New Roman';
 			background-color: black;
 			color: white;
-        }
+		}
 
-        .form-container {
-            padding: 20px;
-            border: 5px solid #ddd;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
+		.form-container {
+			padding: 20px;
+			border: 5px solid #ddd;
+			border-radius: 10px;
+			margin-top: 20px;
+		}
 
-        .btn-submit {
-            background-color: #0bb4c4;
-            color: #fff;
-        }
-		
+		.btn-submit {
+			background-color: #0bb4c4;
+			color: #fff;
+		}
+
 		.nav-tabs .nav-link {
-            color: white;
-        }
+			color: white;
+		}
 
-        .tab-content {
-            margin-top: 20px;
-        }
+		.tab-content {
+			margin-top: 20px;
+		}
 
-        .tab-pane {
-            margin-bottom: 20px;
-        }
-    </style>
+		.tab-pane {
+			margin-bottom: 20px;
+		}
+	</style>
 
 </head>
 
 <body>
     <div class="container-fluid">
         <form name="frmMain" action="FichaEmpresaEditar.html">
-		
+			<input type="hidden" id="FormName" value="FichaEmpresaEditar" />
 			<ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#DatosEmpresa">Datos de la Empresa</a></li>
                 <li><a id="DocdeEmpresaBtn" data-toggle="tab" href="#DocdeEmpresa">Doc. de la Empresa</a></li>               
@@ -342,7 +343,7 @@
 								<div class="form-group row">
 									<div class="form-group">
 										<input class="btn  btn-primary btn-md" id="zamba_rule_858" name="zamba_rule_858" 
-										type="submit" value="Guardar" onclick="SetRuleId(this);" />								
+										type="submit" value="Guardar" onclick="SaveDataCompanyFormEdit(this);" />								
 										
 									</div>
 								</div>
