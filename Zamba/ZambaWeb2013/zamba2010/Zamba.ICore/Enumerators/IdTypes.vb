@@ -95,4 +95,5 @@
     Observaciones = 113
     FilterWeb = 115
     DateTypeId = 107
+    MailId = 114
 End Enum

@@ -377,24 +377,24 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
         private Boolean ValidateUrl()
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "RequestResponseController: Validando URL...");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "RequestResponseController: Validando URL...");
 
             var scheme = System.Web.Configuration.WebConfigurationManager.AppSettings["Scheme"];
             if (scheme == null)
             {
                 scheme = "http";
             }
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'scheme': " + scheme.ToString());
+            // ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'scheme': " + scheme.ToString());
 
             if (HttpContext.Current.Request.UrlReferrer != null)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Validando propiedad 'Request.UrlReferrer.Host': " + HttpContext.Current.Request.UrlReferrer.Host.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Url.Host': " + HttpContext.Current.Request.Url.Host.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "if (Request.UrlReferrer.Host != Request.Url.Host)");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Validando propiedad 'Request.UrlReferrer.Host': " + HttpContext.Current.Request.UrlReferrer.Host.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Url.Host': " + HttpContext.Current.Request.Url.Host.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "if (Request.UrlReferrer.Host != Request.Url.Host)");
 
                 if (HttpContext.Current.Request.UrlReferrer.Host != HttpContext.Current.Request.Url.Host)
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
+//                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                     return false;
                 }
             }
@@ -404,27 +404,27 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
             if (HttpContext.Current.Request.Url.Scheme.ToLower() != scheme)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'RequestScheme': " + RequestScheme.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'RequestScheme': " + RequestScheme.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                 return false;
             }
 
             if (HttpContext.Current.Request.UrlReferrer != null)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.UrlReferrer.Scheme': " + HttpContext.Current.Request.UrlReferrer.Scheme.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.UrlReferrer.Scheme': " + HttpContext.Current.Request.UrlReferrer.Scheme.ToString());
 
                 if (HttpContext.Current.Request.UrlReferrer.Scheme.ToLower() != scheme)
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
+                    //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                     return false;
                 }
             }
 
             if (!(HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString() || HttpContext.Current.Request.Headers["Host"] == HttpContext.Current.Request.Url.Host))
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Headers[\"Host\"]': " + HttpContext.Current.Request.Headers["Host"].ToString());
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "'Request.Url.Host + \":\" + Request.Url.Port.ToString()': " + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad 'Request.Headers[\"Host\"]': " + HttpContext.Current.Request.Headers["Host"].ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "'Request.Url.Host + \":\" + Request.Url.Port.ToString()': " + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: FALSE");
                 return false;
             }
 
@@ -432,25 +432,25 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
 
             if (HttpContext.Current.Request.Headers["Origin"] != null)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'HttpContext.Current.Request.Headers[\"Origin\"]': " + HttpContext.Current.Request.Headers["Origin"].ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'HttpContext.Current.Request.Headers[\"Origin\"]': " + HttpContext.Current.Request.Headers["Origin"].ToString());
                 strOrigin = HttpContext.Current.Request.Headers.GetValues("Origin").FirstOrDefault();
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'strOrigin': " + strOrigin.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Propiedad: 'strOrigin': " + strOrigin.ToString());
             }
 
             if (string.IsNullOrEmpty(strOrigin))
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "'HttpContext.Current.Request.Url.Scheme + HttpContext.Current.Request.Url.Authority': " + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
                 return true;
             }
             else if (strOrigin == HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
                 return true;
             }
             else
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
                 return false;
             }
         }
@@ -492,35 +492,35 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         public override void OnActionExecuting(HttpActionContext actionContext)
         //public override void OnActionExecuting(ActionExecutingContext actionContext)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuting'");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuting'");
             if (!string.IsNullOrEmpty(actionContext.Request.RequestUri.AbsoluteUri))
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.RequestUri.AbsoluteUri.ToString());
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.RequestUri.AbsoluteUri.ToString());
 
             foreach (KeyValuePair<String, IEnumerable<String>> item in actionContext.Request.Headers)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, item.Key);
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, item.Key);
                 foreach (String value in item.Value)
                 {
-                    ZTrace.WriteLineIf(ZTrace.IsInfo, value);
+                    //ZTrace.WriteLineIf(ZTrace.IsInfo, value);
                 }
             }
 
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "OnActionExecuting:");
+            //ZTrace.WriteLineIf(ZTrace.IsInfo, "OnActionExecuting:");
 
-            if (!string.IsNullOrEmpty(actionContext.Request.Headers.Host))
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.Host);
-            else
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: NO HAY HOST");
+            //if (!string.IsNullOrEmpty(actionContext.Request.Headers.Host))
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.Host);
+            //else
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, "Host: NO HAY HOST");
 
 
-            if (actionContext.Request.Headers.Contains("Origin"))
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.GetValues("Origin").ToString());
-            else
-                ZTrace.WriteLineIf(ZTrace.IsVerbose, "Origin: NO EXISTE en los HEADERS");
+            //if (actionContext.Request.Headers.Contains("Origin"))
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, actionContext.Request.Headers.GetValues("Origin").ToString());
+            //else
+                //ZTrace.WriteLineIf(ZTrace.IsVerbose, "Origin: NO EXISTE en los HEADERS");
 
             if (!ValidateRequest(actionContext))
             {
-                ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request en OnActionExecuting");
+                //ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Bad request en OnActionExecuting");
 
                 actionContext.Response = new HttpResponseMessage();
                 actionContext.Response.Content = new StringContent("");
@@ -529,7 +529,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuted'");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'OnActionExecuted'");
 
             //AddHeaderCSP(ref actionExecutedContext);
             HttpResponseMessage r = actionExecutedContext.Response;
@@ -570,36 +570,36 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         public Boolean ValidateRequest(HttpActionContext actionContext)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'ValidateRequest'");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'ValidateRequest'");
             Boolean isValid = true;
             if (!ValidateOrigin(actionContext))
                 isValid = false;
 
-            ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando " + (isValid ? "true" : "false"));
+            //ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando " + (isValid ? "true" : "false"));
             return isValid;
         }
         private Boolean ValidateOrigin(HttpActionContext actionContext)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'ValidateOrigin'");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[globalControlRequestFilter]: Ejecutando 'ValidateOrigin'");
             HttpRequestMessage request = actionContext.Request;
             string strOrigin = "";
             if (request.Headers.Contains("Origin"))
                 strOrigin = request.Headers.GetValues("Origin").FirstOrDefault();
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, strOrigin);
-            ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, request.RequestUri.Scheme + "://" + request.RequestUri.Authority);
+            //ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, strOrigin);
+            //ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Info, request.RequestUri.Scheme + "://" + request.RequestUri.Authority);
             if (string.IsNullOrEmpty(strOrigin))
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando true");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando true");
                 return true;
             }
             else if (strOrigin == request.RequestUri.Scheme + "://" + request.RequestUri.Authority)
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando true");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando true");
                 return true;
             }
             else
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando false");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "retornando false");
                 return false;
             }
         }
@@ -609,7 +609,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'OnAuthorization'...");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'OnAuthorization'...");
             if (!Authorize(actionContext))
             {
                 HandleUnauthorizedRequest(actionContext);
@@ -617,7 +617,7 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'HandleUnauthorizedRequest'...");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'HandleUnauthorizedRequest'...");
             if (actionContext.Response == null)
             {
                 actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
@@ -632,14 +632,14 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
         }
         private bool ValidateGenericRequest(HttpRequestMessage request)
         {
-            ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'ValidateGenericRequest'...");
+            //ZTrace.WriteLineIf(ZTrace.IsVerbose, "[isGenericRequest]: Ejecutando 'ValidateGenericRequest'...");
             // Obtener el contenido de la respuesta HTTP
             HttpContent httpContent = request.Content;
             // Leer el contenido como una cadena JSON
             string jsonString = httpContent.ReadAsStringAsync().Result;
             if (jsonString == "")
             {
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
                 return false;
             }
 
@@ -651,12 +651,12 @@ namespace ZambaWeb.RestApi.AuthorizationRequest
                 {
                     if (item.Name.ToLower() != "params" && item.Name.ToLower() != "userid")
                     {
-                        ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
+                        //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: false");
                         return false;
                     }
                 }
 
-                ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
+                //ZTrace.WriteLineIf(ZTrace.IsInfo, "Resultado: true");
                 return true;
             }
             catch (Exception ex)

@@ -24,6 +24,14 @@
         "focusout": render_Importe,
     });
 
+    //Codigo para que ponga puntos millares al cargar el documento.
+    //document.addEventListener('DOMContentLoaded', (event) => {
+    //    setInputSeparatorElem($("#zamba_index_109")[0]);
+    //    setInputSeparatorElem($("#zamba_index_11535299")[0]);
+    //    setInputSeparatorElem($("#zamba_index_11535300")[0]);
+    //    setInputSeparatorElem($("#zamba_index_11535301")[0]);
+    //    setInputSeparatorElem($("#zamba_index_11535296")[0]);
+    //});
 
     CheckImporteMoneda();
     CheckMiPyme();

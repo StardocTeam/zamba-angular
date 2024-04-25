@@ -220,6 +220,16 @@
             }
         });
 
+        function showVerticalScrollBar() {
+            var BodyMasterBlanck = $(".Body-Master-Blanck");
+            BodyMasterBlanck.addClass("scrollBarShow");
+        }
+
+        function hideVerticalScrollBar() {
+            var BodyMasterBlanck = $(".Body-Master-Blanck");
+            BodyMasterBlanck.removeClass("scrollBarShow");
+        }
+
         function getUrlParametersFromIframe() {
             var Url = $("#iframeDoShowForm").attr("src");
             return getUrlParameters(Url);
@@ -257,5 +267,7 @@
         .titleColor{
             color: white;
         }
+
+
     </style>
 </asp:Content>

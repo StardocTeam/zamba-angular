@@ -42,5 +42,5 @@
         })
     };
 
-    $scope.LoadCountAssociated();
+   // $scope.LoadCountAssociated();
 });

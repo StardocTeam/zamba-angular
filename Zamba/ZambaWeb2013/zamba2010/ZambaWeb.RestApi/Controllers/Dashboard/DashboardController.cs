@@ -89,7 +89,6 @@ namespace ZambaWeb.RestApi.Controllers
         {
             try
             {
-
                 //Int32 RuleId = Convert.ToInt16(paramRequest.Params["password"]);
 
                 int UserId = Convert.ToInt16(paramRequest.UserId);
@@ -104,14 +103,6 @@ namespace ZambaWeb.RestApi.Controllers
                     return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotAcceptable,
                         new HttpError(StringHelper.InvalidUser)));
 
-
-                // se crea uan tarea nueva
-                //long stepid = 0;
-                //DocType dt = new DocType(0);
-                //ITaskResult task = new TaskResult(ref stepid, 0, 0, dt, "Home", 0, 0, TaskStates.Asignada, null, null, UserId, UserId.ToString());
-                //Results.Add(task);
-
-
                 string[] ZvarParams = new string[] { };
                 ITaskResult NewTaskResult = null;
                 string oldFullPath = string.Empty;
@@ -121,9 +112,7 @@ namespace ZambaWeb.RestApi.Controllers
                     Int64 ruleId = 0;
                     List<string> docIds = new List<string>();
                     STasks sTasks = new STasks();
-                    //List<Zamba.Core.ITaskResult> Results = new List<Zamba.Core.ITaskResult>();
                     string resultIds;
-                    //List<itemVarsResults> listResultIds = new List<itemVarsResults>();
                     ruleId = Int64.Parse(paramRequest.Params["ruleId"].ToString());
                     if (paramRequest.Params.ContainsKey("resultIds") && !string.IsNullOrEmpty(paramRequest.Params["resultIds"]))
                     {
@@ -603,7 +592,7 @@ namespace ZambaWeb.RestApi.Controllers
             catch (Exception ex)
             {
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, "Dashboard - Nuevo usuario en Zamba - Error al crear nuevo usuario: " + ex.Message);
-                throw ex;
+                throw;
             }
 
         }
@@ -691,7 +680,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
 
-                throw ex;
+                throw;
             }
         }
 
@@ -796,7 +785,7 @@ namespace ZambaWeb.RestApi.Controllers
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
 
-                throw ex;
+                throw;
             }
         }
 
@@ -1153,7 +1142,7 @@ namespace ZambaWeb.RestApi.Controllers
             {
                 ZClass.raiseerror(ex);
                 ZTrace.WriteLineIf(System.Diagnostics.TraceLevel.Error, ex.Message);
-                throw ex;
+                throw;
             }
         }
         public List<MenuItem> ListMenuItem(DataTable result)

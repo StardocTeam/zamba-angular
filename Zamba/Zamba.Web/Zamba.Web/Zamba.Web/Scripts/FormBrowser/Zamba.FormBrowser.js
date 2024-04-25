@@ -255,20 +255,24 @@ function applySetMinValuesValidations(t) {
 
             //Si es menor o igual
             if (aceptEquals) {
-                $(t).rules("add", {
-                    lessEqualThan: minValue,
-                    messages: {
-                        lessEqualThan: "El valor debe ser mayor o igual que: " + minValue
-                    }
-                });
+                if ($(t).rules) {
+                    $(t).rules("add", {
+                        lessEqualThan: minValue,
+                        messages: {
+                            lessEqualThan: "El valor debe ser mayor o igual que: " + minValue
+                        }
+                    });
+                }
             }
             else {
-                $(t).rules("add", {
-                    lessThan: minValue,
-                    messages: {
-                        lessThan: "El valor debe ser mayor que: " + minValue
-                    }
-                });
+                if ($(t).rules) {
+                    $(t).rules("add", {
+                        lessThan: minValue,
+                        messages: {
+                            lessThan: "El valor debe ser mayor que: " + minValue
+                        }
+                    });
+                }
             }
 
             if (dataType == "date") {
