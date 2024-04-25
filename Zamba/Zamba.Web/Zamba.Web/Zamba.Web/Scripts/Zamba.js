@@ -1,6 +1,7 @@
 ﻿//-----------------------------------------gLOBAL vARIABLES---------------------------------------
 
 //Esta variable sirve para acceder al la main toolbar de zamba, por ejemplo para cambiar de tab con
+var isDashBoardRRHH = true;
 var MainTabber;
 var ZambaVersion;
 var tmrPopupsUnlocked;

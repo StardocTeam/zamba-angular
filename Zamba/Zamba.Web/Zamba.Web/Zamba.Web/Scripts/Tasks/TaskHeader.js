@@ -91,18 +91,19 @@ $(document).ready(function () {
     try {
         var UrlParams;
         var flag;
+        if (!isDashBoardRRHH) {
+            if (flag = (parent.name != "TAGGESTION")) {
+                UrlParams = getUrlParametersFromIframe();
+            } else {
+                UrlParams = parent.getUrlParametersFromIframe();
+            }
+            if (UrlParams.hasOwnProperty("modalmode")) {
+                var isTrueSet = (UrlParams.modalmode === 'true');
 
-        if (flag = (parent.name != "TAGGESTION")) {
-            UrlParams = getUrlParametersFromIframe();
-        } else {
-            UrlParams = parent.getUrlParametersFromIframe();
-        }
-        if (UrlParams.hasOwnProperty("modalmode")) {
-            var isTrueSet = (UrlParams.modalmode === 'true');
-
-            if (isTrueSet) {
-                $("#THNavBar").hide();
-                $("#navbar-header").hide();
+                if (isTrueSet) {
+                    $("#THNavBar").hide();
+                    $("#navbar-header").hide();
+                }
             }
         }
     } catch (e) {

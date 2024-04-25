@@ -68,6 +68,10 @@ namespace Zamba.Web
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+            HttpContext.Current.Response.Headers.Add("Content-Security-Policy", "frame-ancestors 'self' http://localhost:4200");
+            HttpContext.Current.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            HttpContext.Current.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
             HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
             HttpContext.Current.Response.Headers.Remove("Server");
@@ -549,23 +553,25 @@ namespace Zamba.Web
 
         protected void Application_EndRequest()
         {
-
+            
             HttpContext.Current.Response.Headers.Remove("X-AspNet-Version");
             HttpContext.Current.Response.Headers.Remove("X-AspNetMvc-Version");
             HttpContext.Current.Response.Headers.Remove("Server");
             HttpContext.Current.Response.Headers.Remove("X-Powered-By");
-
-
-
-            if (Response.StatusCode == 404 || Response.StatusCode == 403)
+            
+            if(Request.Url.AbsoluteUri.ToLower().EndsWith(".aspx") || Request.Url.AbsoluteUri.ToLower().EndsWith(".html"))
             {
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.StatusCode = 404;
-                HttpContext.Current.Response.StatusDescription = "Not Found";
-                Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
-                HttpContext.Current.Response.End();
+                if (Response.StatusCode == 404 || Response.StatusCode == 403)
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.StatusCode = 404;
+                    HttpContext.Current.Response.StatusDescription = "Not Found";
+                    Response.Redirect("~/Views/Security/views/CustomErrorPages/404.aspx");
+                    HttpContext.Current.Response.End();
 
+                }
             }
+            
             if (Response.StatusCode == 500)
             {
                 String myhtml = "Message: An error has occurred:  ";
@@ -578,6 +584,7 @@ namespace Zamba.Web
                 HttpContext.Current.Response.Flush();
                 HttpContext.Current.Response.End();
             }
+            
         }
 
         void Session_End(object sender, EventArgs e)

@@ -76,6 +76,7 @@
             opacity: 1 !important;
             color: #ffffff;
         }
+
         .modal-backdrop.in {
             opacity: 0 !important;
         }
@@ -136,7 +137,7 @@
     <%: Styles.Render("~/bundles/Styles/kendo")%>
     <%: Styles.Render("~/bundles/Styles/fonts/glyphs")%>
 
-    
+
 
 
     <link rel="stylesheet" href="../../Content/styles/tabber.css" type="text/css" />
@@ -150,7 +151,7 @@
     <script src="../../Scripts/bower-angular-translate-2.9.0.1/angular-translate.js"></script>
 
 
-    
+
     <script src="../../app/FormSearchSLST/FormSearchSLSTService.js"></script>
     <script src="../../app/FormSearchSLST/FormSearchSLSTController.js"></script>
 
@@ -231,7 +232,7 @@
     <script src="../../GlobalSearch/services/authService.js?v=261"></script>
 
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />    
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
     <div id="taskController" ng-controller="TaskController">
         <asp:HiddenField ID="hdnTaskID" runat="server" />
@@ -244,7 +245,7 @@
         <UC6:UCWFExecution ID="UC_WFExecution" runat="server" height="200" width="200" />
         <iframe id="printFrame" style="display: none;"></iframe>
 
-        <div class="" id="rowTaskHeader">
+        <div class="" id="rowTaskHeader" >
             <UC3:UCTaskHeader runat="server" ID="ucTaskHeader" />
         </div>
 
@@ -258,7 +259,7 @@
                 <div class="modal-content" id="openModalIFContent" style="width: 98%; height: 87%; left: 1%;">
 
                     <div class="modal-header headerModalColor">
-                        <button type="button" class="close"  onclick="closeModalIFs()" id="closeModalIF"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                        <button type="button" class="close" onclick="closeModalIFs()" id="closeModalIF"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                         <%--<button type="button" class="close" onclick="OpenModalIF.fullscreen(this);"><span aria-hidden="true">&#9633;</span></button>--%>
                         <h5 class="modal-title" id="modalFormTitle"></h5>
                     </div>
@@ -301,14 +302,13 @@
         <div class="modal-dialog modal-dialog-centered" style="width: 300px;">
             <div class="modal-content" id="exportPDFContent" style="margin-top: 330px; text-align: center">
                 <div class="modal-body">
-                    <h4 class="modal-title" style="text-align: center">
-                        Exportando PDF...
-                        <i class="fa fa-circle-o-notch fa-spin" style="font-size:18px;"></i>
+                    <h4 class="modal-title" style="text-align: center">Exportando PDF...
+                        <i class="fa fa-circle-o-notch fa-spin" style="font-size: 18px;"></i>
                     </h4>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 
 
     <%-- <div id="angularLogin" ng-controller="loginController">
@@ -320,14 +320,17 @@
         $(document).ready(function () {
             var UrlParams;
             var flag;
-
-            if (flag = (parent.name != "TAGGESTION")) {
+            if (!isDashBoardRRHH) {
+                if (flag = (parent.name != "TAGGESTION")) {
+                    UrlParams = getUrlParametersFromIframe();
+                } else {
+                    UrlParams = parent.getUrlParametersFromIframe();
+                }
+            }
+            else {
                 UrlParams = getUrlParametersFromIframe();
-            } else {
-                UrlParams = parent.getUrlParametersFromIframe();
             }
 
-           
             if (UrlParams.hasOwnProperty("modalmode")) {
                 var isTrueSet = (UrlParams.modalmode === 'true');
 
@@ -336,15 +339,19 @@
                     $("#Toolbar-div").hide();
                     $(".Body-Master-Blanck").css("padding-top", "0px");
                     $("#modalDoShowForm").css("display", "none");
-                    parent.showVerticalScrollBar();
+                    if (!isDashBoardRRHH)
+                        parent.showVerticalScrollBar();
+
                 } else {
                     $("#rowTaskHeader").show();
                     $("#Toolbar-div").show();
                     $(".Body-Master-Blanck").css("padding-top", "99px");
                     $("#modalDoShowForm").css("display", "inline-table");
-                    parent.hideVerticalScrollBar();
+                    if (!isDashBoardRRHH)
+                        parent.hideVerticalScrollBar();
                 }
             } else {
+                $("#rowTaskHeader").show();
                 $("#modalDoShowForm").css("display", "none");
                 flag ? showVerticalScrollBar() : parent.showVerticalScrollBar();
             }
@@ -377,8 +384,8 @@
                 if (UrlParams.previewmode != undefined) {
                     var isTrueSet = (UrlParams.previewmode === 'true');
 
-                    if (isTrueSet) 
-                        HideBtnsOnPreviewMode();                    
+                    if (isTrueSet)
+                        HideBtnsOnPreviewMode();
                 }
             } else {
                 $("#modalDoShowForm").css("display", "none");
@@ -408,7 +415,7 @@
 
         window.onload = function () {
             try {
-            document.querySelector(".modal-headerDoShowForm").querySelector("#tittle").innerHTML = document.querySelector("#ctl00_ContentPlaceHolder_ucTaskDetail_ctl00_docTB_lbltitulodocumento").innerHTML;
+                document.querySelector(".modal-headerDoShowForm").querySelector("#tittle").innerHTML = document.querySelector("#ctl00_ContentPlaceHolder_ucTaskDetail_ctl00_docTB_lbltitulodocumento").innerHTML;
             } catch (e) {
                 console.error(e);
             }
@@ -426,7 +433,7 @@
 
         $('#rowTaskDetail, #rowTaskHeader').on('click', function () {
             //Este codigo se comenta ya que queda inabilitado por servicio q verifica el login automatico
-           /* CheckUserTimeOut();*/
+            /* CheckUserTimeOut();*/
         });
 
         var push_notification_player_id = document.getElementById('<%= hdnPushNotification_player_id.ClientID%>').value;
@@ -510,7 +517,7 @@
             var LastTabSelected = JSON.parse(localStorage.getItem(varNameLocalStorage));
 
             var selectedTab = $("li").filter(function () {
-        //        return $(this).text() == LastTabSelected.selectedTab;
+                //        return $(this).text() == LastTabSelected.selectedTab;
             });
 
             $(selectedTab[0]).find('a').click();
@@ -526,7 +533,7 @@
                     if (value.docId == getElementFromQueryString("docid") && value.docTypeId == getElementFromQueryString("DocType")) {
 
                         var expirationDateTime = moment(value.expirationDateTime);
-                        if (expirationDateTime <= Date.now()){
+                        if (expirationDateTime <= Date.now()) {
                             localStorage.removeItem(key);
                         }
                     }
@@ -570,7 +577,7 @@
             setTimeout(setTabSelectedOnLocalStorage, 1000);
         });
         function thumbZoom(t) {
-            
+
         }
 
 
