@@ -15,7 +15,7 @@ public class DashboardAuthorizationAttribute : AuthorizeAttribute
         if (authHeader != null && authHeader.Scheme == "Bearer" && !string.IsNullOrEmpty(authHeader.Parameter))
         {
             var token = authHeader.Parameter;
-            // Aquí puedes usar el token para la autenticación/autorización
+            
             if(new JWTManager().ValidateJwtToken(token))
                 return;
         }
