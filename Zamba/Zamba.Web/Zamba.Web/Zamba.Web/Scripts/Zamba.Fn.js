@@ -190,14 +190,18 @@ function browserType() {
 
 //Bootbox language
 $(document).ready(function () {
-    if (typeof (parent.bootbox) != "undefined")
-        parent.bootbox.setDefaults({
-            locale: "es"
-        });
-    if (typeof (bootbox) != "undefined")
-        bootbox.setDefaults({
-            locale: "es"
-        });
+    if (!isDashBoardRRHH) {
+        if (typeof (parent.bootbox) != "undefined")
+            parent.bootbox.setDefaults({
+                locale: "es"
+            });
+        if (typeof (bootbox) != "undefined")
+            bootbox.setDefaults({
+                locale: "es"
+            });
+    }
+
+
 });
 
 function getLocaleShortDateString(d) {

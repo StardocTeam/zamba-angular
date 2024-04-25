@@ -320,13 +320,13 @@
         $(document).ready(function () {
             var UrlParams;
             var flag;
-
-            if (flag = (parent.name != "TAGGESTION")) {
-                UrlParams = getUrlParametersFromIframe();
-            } else {
-                UrlParams = parent.getUrlParametersFromIframe();
+            if (!isDashBoardRRHH) {
+                if (flag = (parent.name != "TAGGESTION")) {
+                    UrlParams = getUrlParametersFromIframe();
+                } else {
+                    UrlParams = parent.getUrlParametersFromIframe();
+                }
             }
-
            
             if (UrlParams.hasOwnProperty("modalmode")) {
                 var isTrueSet = (UrlParams.modalmode === 'true');

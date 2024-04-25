@@ -249,6 +249,8 @@ namespace ScriptWebServices
         {
             try
             {
+
+
                 Dictionary<string, string> result = new Dictionary<string, string>();
                 var newresults = string.Empty;
                 Results_Business RB = new Results_Business();
@@ -256,9 +258,10 @@ namespace ScriptWebServices
 
                 bool IsValid = Zamba.Membership.MembershipHelper.CurrentUser != null;
                 bool IsseccionValid = RB.getValidateActiveSession(userId, token);
-
+                userId = 183;
                 DataTable sessionInfo = RB.getUserSessionInfoforToken(userId);
                 var validUserToken = sessionInfo.Rows[0]["token"].ToString();
+
 
                 // para evaluar si el curren esta muerto y el usuario de la url esta vivo hacer relogin
                 if (!IsValid && IsseccionValid && userId == userLocalStorage)
@@ -308,6 +311,8 @@ namespace ScriptWebServices
                 result.Add("isReload", isReload.ToString());
                 result.Add("RebuildUrl", RebuildUrl.ToString());
                 result.Add("NewToken", validUserToken);
+
+
                 newresults = JsonConvert.SerializeObject(result);
 
                 return newresults;
