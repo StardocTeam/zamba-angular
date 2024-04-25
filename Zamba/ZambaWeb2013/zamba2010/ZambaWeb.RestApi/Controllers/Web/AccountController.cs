@@ -1200,7 +1200,7 @@ namespace ZambaWeb.RestApi.Controllers
                 String username = oktaUserIntrospection.username.Split('@').First();
                 //username = "15116";
                 //username = "1248518";
-                username = "zamba";                
+                //username = "zamba";                
                 String UserNameIntrospectWithU = "U" + username;
                 String MailUserInfo = oktaUserInformation.email;
                 string MailUserInfoSinDominio = MailUserInfo.Split('@').First();

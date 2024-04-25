@@ -258,7 +258,7 @@ namespace ScriptWebServices
 
                 bool IsValid = Zamba.Membership.MembershipHelper.CurrentUser != null;
                 bool IsseccionValid = RB.getValidateActiveSession(userId, token);
-                userId = 183;
+                //userId = 183;
                 DataTable sessionInfo = RB.getUserSessionInfoforToken(userId);
                 var validUserToken = sessionInfo.Rows[0]["token"].ToString();
 
