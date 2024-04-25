@@ -20,17 +20,20 @@ using static ZambaWeb.RestApi.Controllers.Dashboard.DB.ZambaTokenDatabase;
 using Zamba.Services;
 using ZambaWeb.RestApi.Controllers.Dashboard.Business;
 using Zamba;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ZambaWeb.RestApi.Controllers
 {
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/Dashboard")]
+    [DashboardAuthorization]
     public class DashboardController : ApiController
     {
         DashBoardTools Tools = new DashBoardTools();
         [AcceptVerbs("GET", "POST")]
         [Route("Register")]
+        [OverrideAuthorization]
         public IHttpActionResult Register(genericRequest request)
         {
             try
@@ -292,6 +295,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("Login")]
+        [OverrideAuthorization]
         public IHttpActionResult Login(genericRequest request)
         {
             try
@@ -314,6 +318,10 @@ namespace ZambaWeb.RestApi.Controllers
                     userData.user.name = email;
 
                     userData.user.groups = new PermissionsDatabase().getUserPermissions(userData.user.userid);
+
+                    //JWT
+                    new JWTManager().CreateJwtToken(userData.user);
+                 
                 }
 
 
@@ -327,12 +335,9 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-
-
-
-
         [AcceptVerbs("GET", "POST")]
         [Route("ActivateUser")]
+        [OverrideAuthorization]
         public IHttpActionResult ActivateUser(genericRequest request)
         {
             try
@@ -375,6 +380,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("ResendVerificationEmail")]
+        [OverrideAuthorization]
         public IHttpActionResult ResendVerificationEmail(genericRequest request)
         {
             try
@@ -407,6 +413,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("RequestResetPassword")]
+        [OverrideAuthorization]
         public IHttpActionResult RequestResetPassword(genericRequest request)
         {
             try
@@ -436,9 +443,9 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-
         [AcceptVerbs("GET", "POST")]
         [Route("GetResetPasswordToken")]
+        [OverrideAuthorization]
         public IHttpActionResult GetResetPasswordToken(genericRequest request)
         {
             try
@@ -469,6 +476,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("ResetPassword")]
+        [OverrideAuthorization]
         public IHttpActionResult ResetPassword(genericRequest request)
         {
             try
@@ -496,6 +504,7 @@ namespace ZambaWeb.RestApi.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [Route("ResetPasswordFirstTime")]
+        [OverrideAuthorization]
         public IHttpActionResult ResetPasswordFirstTime(genericRequest request)
         {
             try
@@ -521,7 +530,9 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
         [AcceptVerbs("GET", "POST")]
+
         [Route("ValidateResetToken")]
+        [OverrideAuthorization]
         public IHttpActionResult ValidateResetToken(genericRequest request)
         {
             try
@@ -551,8 +562,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-
-
 
         private long CreateNewUserForZamba(string username, string password, string names, string lastname, string email, long groupid)
         {
@@ -599,10 +608,9 @@ namespace ZambaWeb.RestApi.Controllers
 
         }
 
-
-
         [AcceptVerbs("GET", "POST")]
         [Route("getDepartment")]
+        [OverrideAuthorization]
         public IHttpActionResult getDepartment(genericRequest request)
         {
             try
@@ -617,10 +625,6 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
         }
-
-
-
-
 
         [AcceptVerbs("GET", "POST")]
         [Route("getVacation")]
@@ -640,13 +644,9 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
-
-
-
-
         [AcceptVerbs("GET", "POST")]
         [Route("getRol")]
+        [OverrideAuthorization]
         public IHttpActionResult getRol(genericRequest request)
         {
             try
@@ -661,7 +661,6 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
         }
-
 
         public string getWelcomeHtml(DashboarUserDTO newUser)
         {
@@ -801,9 +800,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
-
-
         [AcceptVerbs("GET", "POST")]
         [Route("getSidebarItems")]
         public IHttpActionResult getSidebarItems(genericRequest request)
@@ -900,7 +896,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
         [AcceptVerbs("GET", "POST")]
         [Route("getCarouselConfig")]
         public IHttpActionResult getCarouselConfig(genericRequest request)
@@ -926,7 +921,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
         [AcceptVerbs("GET", "POST")]
         [Route("setWidgetsContainer")]
         public IHttpActionResult setWidgetsContainer(genericRequest request)
@@ -944,10 +938,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
         }
 
-
-
-
-
         [AcceptVerbs("GET", "POST")]
         [Route("getWidgetsContainer")]
         public IHttpActionResult getWidgetsContainer(genericRequest request)
@@ -955,6 +945,7 @@ namespace ZambaWeb.RestApi.Controllers
             try
             {
                 DataTable resultsDT = new DashboardDatabase().getWidgetsContainer(request.UserId.ToString());
+                
                 return Ok(JsonConvert.SerializeObject(resultsDT));
             }
             catch (Exception ex)
@@ -964,7 +955,6 @@ namespace ZambaWeb.RestApi.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.InternalServerError));
             }
         }
-
 
         [AcceptVerbs("GET", "POST")]
         [Route("getEvents")]
@@ -1072,7 +1062,7 @@ namespace ZambaWeb.RestApi.Controllers
 
                 if (request == null)
                     return BadRequest("Objeto request nulo");
-
+                
                 if (request.UserId <= 0)
                     return BadRequest("Id de usuario debe ser mayor a cero");
                 newsList = new WFTaskBusiness().GetMyTasks(request.UserId);
@@ -1188,7 +1178,6 @@ namespace ZambaWeb.RestApi.Controllers
             return listItem;
         }
 
-
         [AcceptVerbs("GET", "POST")]
         [Route("getVideoplayerURL")]
         public IHttpActionResult GetVideoplayerURL(genericRequest request)
@@ -1208,7 +1197,6 @@ namespace ZambaWeb.RestApi.Controllers
             }
 
         }
-
 
     }
 }

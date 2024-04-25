@@ -81,6 +81,15 @@ namespace ZambaWeb.RestApi
             ZTrace.WriteLineIf(ZTrace.IsVerbose, "* Respuesta capturada en 'SendAsync' (WebApiconfig):");
             ZTrace.WriteLineIf(ZTrace.IsInfo, response.ToString());
 
+            //Codigo para devolver 401 al Zamba Dashboard RRHH - para desloguear
+            if (response.Content != null)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                if (content.Contains("ZambaRRHH")) {
+                    return response;
+                }
+            }
+
             if (response.StatusCode == HttpStatusCode.NotFound ||
                 response.StatusCode == HttpStatusCode.InternalServerError ||
                 response.StatusCode == HttpStatusCode.Unauthorized ||

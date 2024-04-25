@@ -702,6 +702,10 @@ namespace ZambaWeb.RestApi.Controllers.Dashboard.DB
             public int userid { get; set; }
 
             public ArrayList groups { get; set; }
+
+            public string jwt { get; set; }
+
+            public int durationDays { get; set; }
         }
     }
 }
