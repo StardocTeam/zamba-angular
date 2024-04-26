@@ -211,6 +211,7 @@ function RemoveItemToDefineInSelect(index) {
     }
 }
 function ButtonRequestVacations(obj) {
+    SendMessageToDashBoard("request vacation", "begin", "");
     if (document.getElementById("zamba_index_168").value == ""
         ||
         document.getElementById("zamba_index_239").value == ""
@@ -224,6 +225,7 @@ function ButtonRequestVacations(obj) {
         return false;
     }    
     SetRuleId(obj);
+    SendMessageToDashBoard("request vacation", "ready", "");
     return true;
 }
 function chooseItemInSelect(index, item) {
