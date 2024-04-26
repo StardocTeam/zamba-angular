@@ -187,7 +187,6 @@ function calculateContinuesDays(dateFrom, DateTo, option,sender) {
 }
 function ShowInvalidDate(option,sender) {
     document.getElementById("error_opcion_" + option).style.display = "block";
-    debugger;
     LastFocusInput= undefined;
 }
 function fillTotalDays() {
