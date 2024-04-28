@@ -1,15 +1,12 @@
-import { HttpContext } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
-import { SettingsService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
+import { DA_SERVICE_TOKEN, ITokenService, SocialService } from '@delon/auth';
+import { _HttpClient } from '@delon/theme';
 import { catchError, finalize, Subscription, throwError } from 'rxjs';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 import { PassportService } from '../services/passport.service';
 
@@ -45,24 +42,21 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
   safeZambaUrl: SafeResourceUrl = '';
 
   constructor(
-    private sanitizer: DomSanitizer,
-
     private fb: FormBuilder,
     private router: Router,
-    private settingsService: SettingsService,
-    private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private startupService: StartupService,
     private cdr: ChangeDetectorRef,
-    private passportService: PassportService
+    private passportService: PassportService,
+    private zambaService: ZambaService,
   ) {}
   ngOnInit(): void {
     window.addEventListener('message', event => {
       if (event.data === 'login-rrhh-ok') {
         console.log('Ha devueto un Ok el sitio web de zamba');
+        this.safeZambaUrl = '';
         this.router.navigateByUrl('/dashboard');
       } else if (event.data === 'login-rrhh-error') {
         this.authServerError = true;
@@ -117,22 +111,24 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
             return;
           }
           this.reuseTabService.clear();
-          let url = this.tokenService.referrer!.url || '/';
-          if (url.includes('/passport')) {
-            url = '/';
-          }
-          let tokenService = this.tokenService.get();
-          console.log(tokenService);
-          let userid = tokenService ? tokenService['userid'] : null;
-          let token = tokenService ? tokenService['token'] : null;
-          this.router.navigateByUrl('/dashboard');
-          // this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-          //   `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `userid=${userid}&token=${token}`
-          // );
-          // this.cdr.detectChanges();
+          
+          this.safeZambaUrl = this.zambaService.preFlightLogin();
+
+          // this.router.navigateByUrl('/dashboard');
+          this.cdr.detectChanges();
         })
     );
   }
+  // private preFlightLogin() {
+  //   let tokenService = this.tokenService.get();
+  //   console.log(tokenService);
+  //   let userid = tokenService ? tokenService['userid'] : null;
+  //   let token = tokenService ? tokenService['token'] : null;
+  //   this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+  //     `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `userid=${userid}&token=${token}`
+  //   );
+  // }
+
   ngOnDestroy(): void {
     if (this.interval$) {
       clearInterval(this.interval$);

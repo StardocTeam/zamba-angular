@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { DA_SERVICE_TOKEN, ITokenService, ALLOW_ANONYMOUS } from '@delon/auth';
@@ -160,5 +160,15 @@ export class ZambaService {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
     //return this.http.post(this.LOGIN_URL + '/executeRuleDashboard', genericRequest);
+  }
+
+  public preFlightLogin(): SafeResourceUrl {
+    let tokenService = this.tokenService.get();
+    console.log(tokenService);
+    let userid = tokenService ? tokenService['userid'] : null;
+    let token = tokenService ? tokenService['token'] : null;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `userid=${userid}&token=${token}`
+    );
   }
 }

@@ -1,9 +1,7 @@
-import { Location } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, Injectable, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { NZ_I18N, es_ES } from 'ng-zorro-antd/i18n';
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/zamba/shared.service';
 import { ZambaService } from '../../../services/zamba/zamba.service';
@@ -31,25 +29,31 @@ export class RuleComponent implements OnInit {
   WebUrl = environment['zambaWeb'];
   result: boolean;
 
-  navigateUrl: SafeResourceUrl;
+  navigateUrl!: SafeResourceUrl;
+  safeZambaUrl: SafeResourceUrl = '';
+
   constructor(
-    private location: Location,
-    private router: Router,
-    private ZambaService: ZambaService,
+    private sanitizer: DomSanitizer,
+    private zambaService: ZambaService,
     private route: ActivatedRoute,
     public sharedService: SharedService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef
   ) {
-    this.navigateUrl = '';
+    // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.result = false;
   }
 
   ngOnInit(): void {
-    this.navigateUrl = '';
+    window.addEventListener('message', event => {
+      this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
+      this.cdr.detectChanges();
+    });
+
+
+    // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.result = false;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
 
     this.route.queryParams.subscribe(params => {
       const tokenData = this.tokenService.get();
@@ -63,7 +67,7 @@ export class RuleComponent implements OnInit {
         };
       }
 
-      this.ZambaService.executeRule(genericRequest).subscribe({
+      this.zambaService.executeRule(genericRequest).subscribe({
         next: data => {
           switch (params['typeRule']) {
             case 'executeViewTask':
@@ -78,10 +82,21 @@ export class RuleComponent implements OnInit {
 
               newUrl = `${newUrl}&modalmode=true&t=${encodedString}`;
 
-             this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
-              this.result = true;
+              // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
+              // this.result = true;
+              // this.cdr.detectChanges();
+
+              // this.iframe.nativeElement.contentWindow.postMessage({ authToken }, '*');
+              // Abre una nueva ventana o pestaña con la URL especificada
+    
+              this.safeZambaUrl = this.zambaService.preFlightLogin();
               this.cdr.detectChanges();
-              
+
+              const newtab = window.open(newUrl, '_blank');
+              newtab?.postMessage({ authToken: JSON.stringify(tokenData) }, '*');
+
+              // Send the authToken to the iframe
+
               // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
               //// Abre una nueva ventana o pestaña con la URL especificada
               // window.open(newUrl, '_blank');
@@ -95,8 +110,6 @@ export class RuleComponent implements OnInit {
           this.cdr.detectChanges();
         }
       });
-
-
     });
   }
 
