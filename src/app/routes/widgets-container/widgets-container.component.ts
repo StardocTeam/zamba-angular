@@ -4,7 +4,8 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { filter } from 'rxjs';
+import { filter, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { WidgetsContainerOptions } from './entities/WidgetsContainerOptions';
 import { WidgetsContainerService } from './service/widgets-container.service';
@@ -26,7 +27,7 @@ export class WidgetsContainerComponent implements OnInit {
     private router: Router,
     private WCService: WidgetsContainerService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getWidgetsContainer();
@@ -56,7 +57,12 @@ export class WidgetsContainerComponent implements OnInit {
       };
 
       this.WCService._getWidgetsContainer(genericRequest)
-        .pipe(filter(data => data != '[]'))
+        .pipe(filter(data => data != '[]'),
+          catchError(error => {
+            console.error('An error occurred:', error);
+            return of('[]');
+          })
+        )
         .subscribe(data => {
           var dataJson = JSON.parse(data)[0];
           var optionsJson = JSON.parse(dataJson.Options);

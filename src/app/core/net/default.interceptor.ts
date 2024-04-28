@@ -66,12 +66,9 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   private checkStatus(ev: HttpResponseBase): void {
-    if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
+    if ((ev.status >= 200 && ev.status < 300) || ev.status === 401 || ev.status === 403) {
       return;
     }
-
-    const errortext = CODEMESSAGE[ev.status] || ev.statusText;
-    this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
   }
 
   /**
@@ -166,7 +163,6 @@ export class DefaultInterceptor implements HttpInterceptor {
   // #endregion
 
   private toLogin(): void {
-    this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
     this.goTo(this.tokenSrv.login_url!);
   }
 
@@ -201,12 +197,11 @@ export class DefaultInterceptor implements HttpInterceptor {
         // }
         break;
       case 401:
-        if (this.refreshTokenEnabled && this.refreshTokenType === 're-request') {
-          return this.tryRefreshToken(ev, req, next);
-        }
         this.toLogin();
         break;
       case 403:
+        this.toLogin();
+        break;
       case 404:
       case 500:
         // this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
@@ -214,7 +209,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       default:
         if (ev instanceof HttpErrorResponse) {
           console.warn(
-            '未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题',
+            "HttpErrorResponse",
             ev
           );
         }
@@ -238,24 +233,32 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // 统一加上服务端前缀
     let url = req.url;
     if (!req.context.get(IGNORE_BASE_URL) && !url.startsWith('https://') && !url.startsWith('http://')) {
       const { baseUrl } = environment.api;
       url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
     }
-
-    const newReq = req.clone({ url, setHeaders: this.getAdditionalHeaders(req.headers) });
-    return next.handle(newReq).pipe(
+    const tokenServ = this.tokenSrv.get();
+    const jwt = tokenServ && tokenServ["jwt"] ? tokenServ["jwt"] : null;
+    const authReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${jwt}`
+      }
+    });
+    return next.handle(authReq).pipe(
       mergeMap(ev => {
-        // 允许统一对请求错误处理
         if (ev instanceof HttpResponseBase) {
-          return this.handleData(ev, newReq, next);
+          return this.handleData(ev, authReq, next);
         }
-        // 若一切都正常，则后续操作
+        if (ev instanceof HttpErrorResponse) {
+          return this.handleData(ev, authReq, next);
+        }
+
         return of(ev);
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return this.handleData(err, authReq, next);
       })
-      // catchError((err: HttpErrorResponse) => this.handleData(err, newReq, next))
     );
   }
 }

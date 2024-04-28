@@ -136,7 +136,7 @@ export class ZambaService {
       .pipe(
         catchError(res => {
           console.warn(`Network request failed`, res);
-          return of(null);
+          return of(res);
         }),
         map((appData: NzSafeAny) => {
           appData = JSON.parse(appData);

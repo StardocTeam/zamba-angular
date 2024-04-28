@@ -6,7 +6,7 @@ import localeEs from '@angular/common/locales/es';
 import { APP_INITIALIZER, LOCALE_ID, NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SimpleInterceptor } from '@delon/auth';
+import { SimpleInterceptor, DelonAuthModule } from '@delon/auth';
 import { DELON_LOCALE, es_ES as delonLang, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { NZ_DATE_LOCALE, provideNzI18n, es_ES as zorroLang } from 'ng-zorro-antd/i18n';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
@@ -59,7 +59,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultInterceptor } from '@core';
 
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
+  //{ provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }
 ];
 // #endregion
@@ -95,7 +95,7 @@ import { WidgetsModule } from './routes/widgets/widgets.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-
+    DelonAuthModule,
     HttpClientModule,
     GlobalConfigModule.forRoot(),
     CoreModule,
@@ -111,4 +111,4 @@ import { WidgetsModule } from './routes/widgets/widgets.module';
   providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
