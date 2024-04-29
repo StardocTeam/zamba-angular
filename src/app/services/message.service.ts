@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class MessageListenerService {
+export class MessageService {
 
   constructor(private router: Router) { }
   startListening() {
@@ -30,6 +30,22 @@ export class MessageListenerService {
       }
     } catch (e) {
       console.error("Error al procesar el mensaje: ", e);
+    }
+  }
+
+
+  sendMessage(type: any, data: any, error: any, elementId: string) {
+    var url = new URL(environment['zambaWeb']);
+    var origin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
+    var message = {
+      type: type,
+      data: { data },
+      error: error
+    }
+    var messageJSON = JSON.stringify(message);
+    let iframeElement = document.getElementById(elementId) as HTMLIFrameElement;
+    if (iframeElement && iframeElement.contentWindow) {
+      iframeElement.contentWindow.postMessage(messageJSON, origin);
     }
   }
 
