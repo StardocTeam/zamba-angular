@@ -18,7 +18,7 @@ function GetDomain() {
 function InitFormGeneric() {
     GetDomain();
     window.addEventListener('message', event => {
-        var url = new URL(environment['zambaWeb']);
+        
         var origin = scheme + "://" + domainDashboardRRHH;
         if (event.origin != origin) {
             return;
