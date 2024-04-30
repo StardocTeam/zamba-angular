@@ -35,7 +35,7 @@ function handleMessage(message) {
             case 'request vacation':
                 console.log(message.data);
                 break;
-}
+        }
     } catch (e) {
         console.error("Error al procesar el mensaje: ", e);
     }
