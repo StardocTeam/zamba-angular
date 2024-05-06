@@ -20,7 +20,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: { preload: true }
+        data: { preload: true, title: "Dashboard" }
       },
       {
         path: 'default',
@@ -29,7 +29,8 @@ const routes: Routes = [
       },
       {
         path: 'widgets',
-        loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule)
+        loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
+        data: { title: 'Dashboard' }
       },
       { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
       { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
@@ -64,4 +65,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule { }

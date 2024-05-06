@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { GridsterItem } from 'angular-gridster2';
 import { NzButtonSize } from 'ng-zorro-antd/button';
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { Subscription, catchError } from 'rxjs';
 
 import { Vacation } from './entitie/vacation';
