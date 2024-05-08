@@ -207,5 +207,12 @@ export const esEs = {
 
     "ruleExecution.an-error-has-occurred": "Ha ocurrido un error",
     "ruleExecution.uncaught-error": "Error no capturado, vuelva a intentarlo mas tarde.",
-    "ruleExecution.rerun": "Volver a ejecutar"
+    "ruleExecution.rerun": "Volver a ejecutar",
+
+    "routeTitle.dashboard": "Dashboard",
+    "routeTitle.widgets": "Dashboard",
+
+    "routeTitle.form": "Formulario",
+    "routeTitle.account": "Cuenta"
+
 }

@@ -76,17 +76,17 @@ const routes: Routes = [
           {
             path: 'articles',
             component: ProAccountCenterArticlesComponent,
-            data: { titleI18n: 'pro-account-center' }
+            data: { titleI18n: 'Cuenta' }
           },
           {
             path: 'projects',
             component: ProAccountCenterProjectsComponent,
-            data: { titleI18n: 'pro-account-center' }
+            data: { titleI18n: 'Cuenta' }
           },
           {
             path: 'applications',
             component: ProAccountCenterApplicationsComponent,
-            data: { titleI18n: 'pro-account-center' }
+            data: { titleI18n: 'Cuenta' }
           }
         ]
       },
@@ -125,4 +125,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProRoutingModule {}
+export class ProRoutingModule { }
