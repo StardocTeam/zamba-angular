@@ -7,8 +7,8 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
-  apiRestBasePath: 'http://localhost:44301/ZambaWeb.RestApi/api/Dashboard',
-  zambaWeb: 'http://localhost:44301/Zamba.Web',
+  apiRestBasePath: 'http://localhost/ZambaWeb.RestApi/api/Dashboard',
+  zambaWeb: 'http://localhost/Zamba.Web',
   cliente: 'zamba',
   api: {
     baseUrl: './',

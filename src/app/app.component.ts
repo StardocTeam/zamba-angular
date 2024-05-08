@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
       }
       if (configLoad && ev instanceof NavigationError) {
         this.modalSrv.confirm({
-          nzTitle: `提醒`,
+          nzTitle: `Hay una nueva version disponible`,
           nzContent: environment.production ? `Tenemos una nueva version para actualizar, haz click en Actualizar.` : `Ver：${ev.url}`,
           nzCancelDisabled: false,
           nzOkText: 'OK',

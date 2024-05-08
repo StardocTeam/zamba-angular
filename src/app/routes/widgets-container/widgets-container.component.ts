@@ -27,7 +27,7 @@ export class WidgetsContainerComponent implements OnInit {
     private router: Router,
     private WCService: WidgetsContainerService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getWidgetsContainer();
@@ -52,12 +52,13 @@ export class WidgetsContainerComponent implements OnInit {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: ''
       };
 
       this.WCService._getWidgetsContainer(genericRequest)
-        .pipe(filter(data => data != '[]'),
+        .pipe(
+          filter(data => data != '[]'),
           catchError(error => {
             console.error('An error occurred:', error);
             return of('[]');
@@ -102,7 +103,7 @@ export class WidgetsContainerComponent implements OnInit {
       );
 
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: {
           options: JSON.stringify(WCOptions),
           widgetsContainer: JSON.stringify(this.dashboard)

@@ -51,19 +51,26 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
     private cdr: ChangeDetectorRef,
     private passportService: PassportService,
     private zambaService: ZambaService,
-  ) {}
-  ngOnInit(): void {
-    window.addEventListener('message', event => {
-      if (event.data === 'login-rrhh-ok') {
-        console.log('Ha devueto un Ok el sitio web de zamba');
-        this.safeZambaUrl = '';
-        this.router.navigateByUrl('/dashboard');
-      } else if (event.data === 'login-rrhh-error') {
-        this.authServerError = true;
-        this.cdr.detectChanges();
-      }
-    });
+  ) {
+    this.responseFromZambaLogin = this.responseFromZambaLogin.bind(this);
+
   }
+  ngOnInit(): void {
+    window.addEventListener('message', this.responseFromZambaLogin);
+  }
+
+   responseFromZambaLogin(event: MessageEvent){
+    if (event.data === 'login-rrhh-ok') {
+      console.log('Ha devueto un Ok el sitio web de zamba');
+      window.removeEventListener('message',this.responseFromZambaLogin);
+      this.safeZambaUrl = '';
+      this.router.navigateByUrl('/dashboard');
+    } else if (event.data === 'login-rrhh-error') {
+      this.authServerError = true;
+      this.cdr.detectChanges();
+    }
+  }
+
 
   submit(): void {
     this.error = '';
@@ -119,16 +126,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
         })
     );
   }
-  // private preFlightLogin() {
-  //   let tokenService = this.tokenService.get();
-  //   console.log(tokenService);
-  //   let userid = tokenService ? tokenService['userid'] : null;
-  //   let token = tokenService ? tokenService['token'] : null;
-  //   this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-  //     `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `userid=${userid}&token=${token}`
-  //   );
-  // }
-
+  
   ngOnDestroy(): void {
     if (this.interval$) {
       clearInterval(this.interval$);

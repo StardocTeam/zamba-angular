@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/zamba/shared.service';
 import { ZambaService } from '../../../services/zamba/zamba.service';
@@ -31,6 +32,7 @@ export class RuleComponent implements OnInit {
 
   navigateUrl!: SafeResourceUrl;
   safeZambaUrl: SafeResourceUrl = '';
+  nextStepUrl: SafeResourceUrl = '';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -38,31 +40,36 @@ export class RuleComponent implements OnInit {
     private route: ActivatedRoute,
     public sharedService: SharedService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+
+    private modalSrv: NzModalService,
+    private router: Router,
   ) {
-    // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.result = false;
   }
 
   ngOnInit(): void {
     window.addEventListener('message', event => {
-      this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
-      this.cdr.detectChanges();
+      if (event.data === 'login-rrhh-ok') {
+        this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
+        this.nextStep();
+      } else {
+this.router.navigate(['passport','login'])     
+        // ver que hacer cuando falla la auth en zamba
+      }
     });
 
-
-    // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
     this.result = false;
-    // this.cdr.detectChanges();
 
     this.route.queryParams.subscribe(params => {
-      const tokenData = this.tokenService.get();
+      const tokenData: any = this.tokenService.get();
       let genericRequest = {};
       if (tokenData != null) {
         console.log('Imprimo los valores en tokenService en el service', tokenData);
 
         genericRequest = {
-          UserId: tokenData['userid'],
+          UserId: tokenData['userID'],
+          token: tokenData['jwt'],
           Params: params
         };
       }
@@ -78,24 +85,22 @@ export class RuleComponent implements OnInit {
 
               let newUrl = `${this.WebUrl}${urlTask}`;
               // Encode string to Base64
-              const encodedString = this.encodeStringToBase64(JSON.stringify(tokenData));
+              //const encodedString = this.encodeStringToBase64(JSON.stringify(tokenData.token));
+              const encodedString = tokenData.token;
 
               newUrl = `${newUrl}&modalmode=true&t=${encodedString}`;
+              this.nextStepUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
 
-              // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
-              // this.result = true;
-              // this.cdr.detectChanges();
-
-              // this.iframe.nativeElement.contentWindow.postMessage({ authToken }, '*');
               // Abre una nueva ventana o pestaña con la URL especificada
-    
               this.safeZambaUrl = this.zambaService.preFlightLogin();
               this.cdr.detectChanges();
 
-              const newtab = window.open(newUrl, '_blank');
-              newtab?.postMessage({ authToken: JSON.stringify(tokenData) }, '*');
+              //this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
+              // this.result = true;
+              // this.cdr.detectChanges();
 
-              // Send the authToken to the iframe
+              // const newtab = window.open(newUrl, '_blank');
+              // newtab?.postMessage({ authToken: JSON.stringify(tokenData) }, '*');
 
               // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
               //// Abre una nueva ventana o pestaña con la URL especificada
@@ -108,11 +113,26 @@ export class RuleComponent implements OnInit {
           console.error('Error al obtener datos:', error);
           this.result = true;
           this.cdr.detectChanges();
+
+          this.modalSrv.confirm({
+            nzTitle: `Ups! Tuvimos un problema`,
+            nzContent: environment.production
+              ? `No pudimos procesar tu solicitud, en caso de continuar el problema contacta al area de soporte.`
+              : `Ver：${JSON.stringify(error)}`,
+            nzCancelDisabled: true,
+            nzOkText: 'OK',
+            nzOnOk: () => this.cdr.detectChanges()
+          });
         }
       });
     });
   }
 
+  nextStep() {
+    this.navigateUrl = this.nextStepUrl;
+    this.result = true;
+    this.cdr.detectChanges();
+  }
   encodeStringToBase64(str: string): string {
     return btoa(str);
   }

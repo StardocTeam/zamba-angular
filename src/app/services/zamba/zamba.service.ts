@@ -74,7 +74,7 @@ export class ZambaService {
       });
 
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: {
           groups: groupsid.toString()
         }
@@ -121,7 +121,7 @@ export class ZambaService {
         });
 
         genericRequest = {
-          UserId: tokenData['userid'],
+          UserId: tokenData['userID'],
           Params: {
             groups: groupsid.toString()
           }
@@ -165,10 +165,10 @@ export class ZambaService {
   public preFlightLogin(): SafeResourceUrl {
     let tokenService = this.tokenService.get();
     console.log(tokenService);
-    let userid = tokenService ? tokenService['userid'] : null;
+    let userid = tokenService ? tokenService['userID'] : null;
     let token = tokenService ? tokenService['token'] : null;
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `userid=${userid}&token=${token}`
+      `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`
     );
   }
 }
