@@ -45,7 +45,7 @@ export class PendingVacationsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private PVService: PendingVacationsService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.GetExternalsearchInfo();
@@ -71,7 +71,7 @@ export class PendingVacationsComponent implements OnInit {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: {
           EntityID: '258',
           DoctypesId: '110'

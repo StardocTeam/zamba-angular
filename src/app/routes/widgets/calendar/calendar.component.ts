@@ -197,7 +197,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       UserId: null,
       Params: {
         groupids: JSON.stringify(groupids),
-        userid: tokenData ? tokenData['userid'] : null
+        userid: tokenData ? tokenData['userID'] : null
       }
     };
 
@@ -307,7 +307,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let userid = null;
 
     if (this.selectedValue == -100) {
-      if (tokenData != null) userid = tokenData['userid'];
+      if (tokenData != null) userid = tokenData['userID'];
     } else {
       groupid = this.selectedValue;
     }
@@ -329,7 +329,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     };
 
     var genericRequest = {
-      UserId: tokenData ? tokenData['userid'] : null,
+      UserId: tokenData ? tokenData['userID'] : null,
       Params: {
         groupid: groupid,
         eventdata: JSON.stringify(newEvent),
@@ -384,7 +384,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let userid = null;
 
     if (this.selectedValue == -100) {
-      if (tokenData != null) userid = tokenData['userid'];
+      if (tokenData != null) userid = tokenData['userID'];
     } else {
       groupid = this.selectedValue;
     }
@@ -393,7 +393,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.editableEventCalendar.userid = userid;
 
     var genericRequest = {
-      UserId: tokenData ? tokenData['userid'] : null,
+      UserId: tokenData ? tokenData['userID'] : null,
       Params: {
         groupid: groupid,
         eventdata: JSON.stringify(this.editableEventCalendar),

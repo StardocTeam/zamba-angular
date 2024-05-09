@@ -60,4 +60,6 @@
 <div class="other">
 
 </div>
+<ng-container *ngIf="!!safeZambaUrl">
 <iframe [src]="safeZambaUrl" frameborder="0" height="0" width="0"></iframe>
+</ng-container>
