@@ -33,7 +33,7 @@ export class ProAccountCenterComponent implements OnInit {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: {}
       };
 

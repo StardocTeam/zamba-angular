@@ -11,18 +11,18 @@ export class MessageService {
 
   constructor(private router: Router) { }
   startListening() {
-    window.addEventListener('message', event => {
+    window.addEventListener('message', this.handleMessage);
+  }
+
+  handleMessage(event: MessageEvent) {
+    try {
       var url = new URL(environment['zambaWeb']);
       var origin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
       if (event.origin != origin) {
         return;
       }
       var message = JSON.parse(event.data);
-      this.handleMessage(message);
-    });
-  }
-  handleMessage(message: any) {
-    try {
+      
       switch (message.type) {
         case 'request vacation':
           console.log(message.data);

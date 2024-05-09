@@ -146,7 +146,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: ''
       };
 
@@ -188,7 +188,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: ''
       };
       this.carouselService
