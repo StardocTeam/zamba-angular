@@ -6,7 +6,7 @@
     <div nz-col nzSpan="20">
       <div class="truncate">
         <span nz-typography><strong>{{ 'APPROVED_VACATIONS' | i18n }}</strong></span>
-        <nz-badge [nzCount]="5" />
+        <nz-badge [nzCount]="vacations.length" />
       </div>
     </div>
 
@@ -17,7 +17,7 @@
     <div nz-col class="displayFlex BtnEnd" nzSpan="4">
       <button nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS"
         (click)="RequestVacation()">
-        <span nz-icon nzType="redo"></span>
+        <span nz-icon nzType="redo" (click)="GetExternalsearchInfo()"></span>
       </button>
     </div>
   </div>
@@ -26,11 +26,17 @@
   <div>
     <div class="displayFlex alignCenter subHeaderWidget" nz-row>
       <div nz-col nzSpan="17" class="truncate">
-        <span nz-typography><strong>{{ TotalDays }} {{ 'DAYSAVAILABLE' | i18n }}</strong></span>
+        <span nz-typography><strong>
+            {{ TotalDays }}
+
+            {{ 'DAYSAVAILABLE' | i18n }}
+
+          </strong></span>
       </div>
 
       <div nz-col class="displayFlex BtnEnd" nzSpan="7">
-        <button nz-button nzType="default" nzShape="circle" [nzSize]="size_DAYS_AVAILABLE" (click)="RequestVacation()">
+        <button *ngIf="TotalDays != 0" nz-button nzType="default" nzShape="circle" [nzSize]="size_DAYS_AVAILABLE"
+          (click)="RequestVacation()">
           <span nz-icon nzType="plus"></span>
         </button>
       </div>
@@ -49,9 +55,17 @@
 
 <ng-template #noInfo>
   <div class="displayFlex alignCenter headerWidget" nz-row>
-    <div nz-col nzSpan="24" class="truncate">
+    <div nz-col nzSpan="20" class="truncate">
       <span nz-typography><strong> {{ 'NO_INFORMATION' | i18n }} </strong></span>
     </div>
+
+    <div nz-col class="displayFlex BtnEnd" nzSpan="4">
+      <button nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS"
+        (click)="RequestVacation()">
+        <span nz-icon nzType="redo" (click)="GetExternalsearchInfo()"></span>
+      </button>
+    </div>
+
   </div>
   <h1 *ngShow="result == true" style="text-align: center"> {{ 'UNABLE_TO_GET_INFORMATION' | i18n }} </h1>
 </ng-template>

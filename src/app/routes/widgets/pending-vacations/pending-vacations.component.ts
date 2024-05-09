@@ -63,6 +63,8 @@ export class PendingVacationsComponent implements OnInit {
     });
   }
   GetExternalsearchInfo() {
+    debugger;
+    this.vacations = [];
     this.info = false;
     this.result = false;
     this.cdr.detectChanges();
@@ -87,10 +89,11 @@ export class PendingVacationsComponent implements OnInit {
           })
         )
         .subscribe(data => {
+          debugger;
           var JsonData = JSON.parse(data);
 
           if (JsonData != null) {
-            for (let item of JsonData) {
+            for (let item of JsonData.VacationList) {
               var vacationItem: Vacation = new Vacation();
 
               vacationItem.AuthorizeOption = item['AuthorizeOption'];
@@ -99,16 +102,18 @@ export class PendingVacationsComponent implements OnInit {
               vacationItem.VacationToOption = item['VacationToOption'];
 
               //TODO: Refactorizar si es que cambia la estructura de forma definitiva.
-              this.TotalDays = JsonData[JsonData.length - 1]['TotalDays'].toString();
               this.vacations.push(vacationItem);
               this.info = true;
               this.result = true;
             }
+
+            this.TotalDays = parseInt(JsonData['TotalDays'].toString());
+
           } else {
             this.info = false;
             this.result = true;
           }
-
+          this.vacations.reverse();
           this.cdr.detectChanges();
         });
     }
