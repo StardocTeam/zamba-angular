@@ -16,7 +16,8 @@ import { PendingVacationsService } from './service/pending-vacations.service';
 export class PendingVacationsComponent implements OnInit {
   vacations: Vacation[] = [];
   TotalDays: number = 0;
-  size: NzButtonSize = 'large';
+  size_APPROVED_VACATIONS: NzButtonSize = 'small';
+  size_DAYS_AVAILABLE: NzButtonSize = 'small';
   info: boolean = true;
 
   @Input()
