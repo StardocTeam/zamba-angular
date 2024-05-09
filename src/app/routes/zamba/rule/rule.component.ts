@@ -46,21 +46,31 @@ export class RuleComponent implements OnInit {
     private router: Router,
   ) {
     this.result = false;
+    
+    this.responseFromZambaLogin = this.responseFromZambaLogin.bind(this);
+  }
+
+  responseFromZambaLogin(event: MessageEvent) {
+    var message = JSON.parse(event.data);
+
+    switch (message.type) {
+      case 'auth':
+        console.log(message.data);
+
+        if (message.data === 'login-rrhh-ok') {
+          console.log('Ha devueto un Ok el sitio web de zamba');
+          this.nextStep();
+        } else if (message.data === 'login-rrhh-error') {
+          this.router.navigate(['passport','login'])     
+        }
+        break;
+    }
   }
 
   ngOnInit(): void {
-    window.addEventListener('message', event => {
-      if (event.data === 'login-rrhh-ok') {
-        this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
-        this.nextStep();
-      } else {
-this.router.navigate(['passport','login'])     
-        // ver que hacer cuando falla la auth en zamba
-      }
-    });
-
+    window.addEventListener('message', this.responseFromZambaLogin);
     this.result = false;
-
+10
     this.route.queryParams.subscribe(params => {
       const tokenData: any = this.tokenService.get();
       let genericRequest = {};
@@ -69,7 +79,7 @@ this.router.navigate(['passport','login'])
 
         genericRequest = {
           UserId: tokenData['userID'],
-          token: tokenData['jwt'],
+          token: tokenData['token'],
           Params: params
         };
       }
@@ -128,7 +138,7 @@ this.router.navigate(['passport','login'])
     });
   }
 
-  nextStep() {
+  nextStep(): void {
     this.navigateUrl = this.nextStepUrl;
     this.result = true;
     this.cdr.detectChanges();

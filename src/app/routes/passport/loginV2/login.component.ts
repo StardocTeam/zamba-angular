@@ -50,27 +50,33 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef,
     private passportService: PassportService,
-    private zambaService: ZambaService,
+    private zambaService: ZambaService
   ) {
     this.responseFromZambaLogin = this.responseFromZambaLogin.bind(this);
-
   }
   ngOnInit(): void {
     window.addEventListener('message', this.responseFromZambaLogin);
   }
 
-   responseFromZambaLogin(event: MessageEvent){
-    if (event.data === 'login-rrhh-ok') {
-      console.log('Ha devueto un Ok el sitio web de zamba');
-      window.removeEventListener('message',this.responseFromZambaLogin);
-      this.safeZambaUrl = '';
-      this.router.navigateByUrl('/dashboard');
-    } else if (event.data === 'login-rrhh-error') {
-      this.authServerError = true;
-      this.cdr.detectChanges();
+  responseFromZambaLogin(event: MessageEvent) {
+    var message = JSON.parse(event.data);
+
+    switch (message.type) {
+      case 'auth':
+        console.log(message.data);
+
+        if (message.data === 'login-rrhh-ok') {
+          console.log('Ha devueto un Ok el sitio web de zamba');
+          window.removeEventListener('message', this.responseFromZambaLogin);
+          this.safeZambaUrl = '';
+          this.router.navigateByUrl('/dashboard');
+        } else if (message.data === 'login-rrhh-error') {
+          this.authServerError = true;
+          this.cdr.detectChanges();
+        }
+        break;
     }
   }
-
 
   submit(): void {
     this.error = '';
@@ -118,7 +124,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
             return;
           }
           this.reuseTabService.clear();
-          
+
           this.safeZambaUrl = this.zambaService.preFlightLogin();
 
           // this.router.navigateByUrl('/dashboard');
@@ -126,7 +132,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
         })
     );
   }
-  
+
   ngOnDestroy(): void {
     if (this.interval$) {
       clearInterval(this.interval$);
