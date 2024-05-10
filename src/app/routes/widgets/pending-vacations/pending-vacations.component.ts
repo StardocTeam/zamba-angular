@@ -63,7 +63,6 @@ export class PendingVacationsComponent implements OnInit {
     });
   }
   GetExternalsearchInfo() {
-    debugger;
     this.vacations = [];
     this.info = false;
     this.result = false;
@@ -89,7 +88,6 @@ export class PendingVacationsComponent implements OnInit {
           })
         )
         .subscribe(data => {
-          debugger;
           var JsonData = JSON.parse(data);
 
           if (JsonData != null) {
@@ -100,6 +98,13 @@ export class PendingVacationsComponent implements OnInit {
               vacationItem.RequestedDaysOption = item['RequestedDaysOption'];
               vacationItem.VacationFromOption = item['VacationFromOption'];
               vacationItem.VacationToOption = item['VacationToOption'];
+
+              vacationItem.DocType = item['DocType'];
+              vacationItem.docid = item['docid'];
+              vacationItem.taskid = item['taskid'];
+              vacationItem.mode = item['mode'];
+              vacationItem.s = item['s'];
+              vacationItem.userId = item['userId'];
 
               //TODO: Refactorizar si es que cambia la estructura de forma definitiva.
               this.vacations.push(vacationItem);
@@ -116,6 +121,41 @@ export class PendingVacationsComponent implements OnInit {
           this.vacations.reverse();
           this.cdr.detectChanges();
         });
+    }
+  }
+
+  GoToTask(obj: any) {
+    var token = this.tokenService.get();
+    if (token != null) {
+
+      debugger;
+      // var url = this.WebUrl;
+      // var QS = "?DocType=" + obj.DocType +
+      //   "&docid=" + obj.docid +
+      //   "&taskid=" + obj.taskid +
+      //   "&mode=" + obj.mode +
+      //   "&s=" + obj.s +
+      //   "&userId=" + obj.userId +
+      //   "&modalmode=true&" +
+      //   "&t=" + token['token'];
+
+      // var newUrl = url + "/views/WF/TaskViewer" + QS;
+
+      // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
+
+      this.router.navigate(['/zamba/form'], {
+        queryParams:
+        {
+          DocType: obj.DocType,
+          docid: obj.docid,
+          taskid: obj.taskid,
+          mode: obj.mode,
+          s: obj.s,
+          userId: obj.userId,
+          modalmode: "true",
+          t: token['token']
+        }
+      });
     }
   }
 
