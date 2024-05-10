@@ -16,7 +16,8 @@ import { PendingVacationsService } from './service/pending-vacations.service';
 export class PendingVacationsComponent implements OnInit {
   vacations: Vacation[] = [];
   TotalDays: number = 0;
-  size: NzButtonSize = 'large';
+  size_APPROVED_VACATIONS: NzButtonSize = 'small';
+  size_DAYS_AVAILABLE: NzButtonSize = 'small';
   info: boolean = true;
 
   @Input()
@@ -39,6 +40,7 @@ export class PendingVacationsComponent implements OnInit {
   private resizeSubscription: Subscription | undefined;
   private changeSubscription: Subscription | undefined;
   result: boolean = false;
+  loading: boolean = false;
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -62,8 +64,10 @@ export class PendingVacationsComponent implements OnInit {
     });
   }
   GetExternalsearchInfo() {
+    this.vacations = [];
     this.info = false;
     this.result = false;
+    this.loading = true;
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
@@ -82,6 +86,8 @@ export class PendingVacationsComponent implements OnInit {
         .pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
+            this.loading = false;
+            this.cdr.detectChanges();
             throw error;
           })
         )
@@ -89,7 +95,7 @@ export class PendingVacationsComponent implements OnInit {
           var JsonData = JSON.parse(data);
 
           if (JsonData != null) {
-            for (let item of JsonData) {
+            for (let item of JsonData.VacationList) {
               var vacationItem: Vacation = new Vacation();
 
               vacationItem.AuthorizeOption = item['AuthorizeOption'];
@@ -97,19 +103,66 @@ export class PendingVacationsComponent implements OnInit {
               vacationItem.VacationFromOption = item['VacationFromOption'];
               vacationItem.VacationToOption = item['VacationToOption'];
 
+              vacationItem.DocType = item['DocType'];
+              vacationItem.docid = item['docid'];
+              vacationItem.taskid = item['taskid'];
+              vacationItem.mode = item['mode'];
+              vacationItem.s = item['s'];
+              vacationItem.userId = item['userId'];
+
               //TODO: Refactorizar si es que cambia la estructura de forma definitiva.
-              this.TotalDays = JsonData[JsonData.length - 1]['TotalDays'].toString();
               this.vacations.push(vacationItem);
               this.info = true;
               this.result = true;
             }
+
+            this.TotalDays = parseInt(JsonData['TotalDays'].toString());
+
           } else {
             this.info = false;
             this.result = true;
+
           }
 
+          this.vacations.reverse();
+          this.loading = false;
           this.cdr.detectChanges();
         });
+    }
+  }
+
+  GoToTask(obj: any) {
+    var token = this.tokenService.get();
+    if (token != null) {
+
+      debugger;
+      // var url = this.WebUrl;
+      // var QS = "?DocType=" + obj.DocType +
+      //   "&docid=" + obj.docid +
+      //   "&taskid=" + obj.taskid +
+      //   "&mode=" + obj.mode +
+      //   "&s=" + obj.s +
+      //   "&userId=" + obj.userId +
+      //   "&modalmode=true&" +
+      //   "&t=" + token['token'];
+
+      // var newUrl = url + "/views/WF/TaskViewer" + QS;
+
+      // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
+
+      this.router.navigate(['/zamba/form'], {
+        queryParams:
+        {
+          DocType: obj.DocType,
+          docid: obj.docid,
+          taskid: obj.taskid,
+          mode: obj.mode,
+          s: obj.s,
+          userId: obj.userId,
+          modalmode: "true",
+          t: token['token']
+        }
+      });
     }
   }
 

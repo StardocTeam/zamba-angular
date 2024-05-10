@@ -1,0 +1,17 @@
+<ng-container *ngIf="navigateUrl != ''; then Ok; else noInfo" />
+
+<ng-template #Ok>
+    <iframe id="ruleComponentIframe" *ngIf="navigateUrl" [src]="navigateUrl" frameborder="0"></iframe>
+</ng-template>
+
+<ng-template #noInfo>
+    <div *ngIf="result == false">
+        <nz-spin nzTip="" id="main-spinner" />
+    </div>
+
+    <div *ngIf="result == true">
+        <nz-result nzTitle="{{'ruleExecution.an-error-has-occurred' | i18n}}" nzStatus="error"
+            nzSubTitle="{{'ruleExecution.uncaught-error' | i18n}}">
+        </nz-result>
+    </div>
+</ng-template>
