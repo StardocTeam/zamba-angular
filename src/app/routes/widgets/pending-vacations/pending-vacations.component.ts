@@ -40,6 +40,7 @@ export class PendingVacationsComponent implements OnInit {
   private resizeSubscription: Subscription | undefined;
   private changeSubscription: Subscription | undefined;
   result: boolean = false;
+  loading: boolean = false;
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -66,6 +67,7 @@ export class PendingVacationsComponent implements OnInit {
     this.vacations = [];
     this.info = false;
     this.result = false;
+    this.loading = true;
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
@@ -84,6 +86,8 @@ export class PendingVacationsComponent implements OnInit {
         .pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
+            this.loading = false;
+            this.cdr.detectChanges();
             throw error;
           })
         )
@@ -117,8 +121,11 @@ export class PendingVacationsComponent implements OnInit {
           } else {
             this.info = false;
             this.result = true;
+
           }
+
           this.vacations.reverse();
+          this.loading = false;
           this.cdr.detectChanges();
         });
     }

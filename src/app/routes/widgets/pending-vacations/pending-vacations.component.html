@@ -13,8 +13,7 @@
 
 
     <div nz-col class="displayFlex BtnEnd" nzSpan="4">
-      <button nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS"
-        (click)="RequestVacation()">
+      <button [nzLoading]="loading" nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS">
         <span nz-icon nzType="redo" (click)="GetExternalsearchInfo()"></span>
       </button>
     </div>
@@ -42,7 +41,7 @@
 
 
     <ng-container *ngFor="let item of vacations" style="height: 500px; overflow-y: auto">
-      <nz-alert (click)="GoToTask(item)" nzBanner nzMessage="
+      <nz-alert (dblclick)="GoToTask(item)" class="pointer" nzBanner nzMessage="
             {{ item.VacationFromOption | date: 'dd/MM/yyyy' }}
             {{ 'VACATION_TO' | i18n }}
             {{ item.VacationToOption | date: 'dd/MM/yyyy' }}" />
@@ -53,17 +52,17 @@
 
 <ng-template #noInfo>
   <div class="displayFlex alignCenter headerWidget" nz-row>
+
     <div nz-col nzSpan="20" class="truncate">
       <span nz-typography><strong> {{ 'NO_INFORMATION' | i18n }} </strong></span>
     </div>
 
     <div nz-col class="displayFlex BtnEnd" nzSpan="4">
-      <button nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS"
-        (click)="RequestVacation()">
+      <button [nzLoading]="loading" nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS">
         <span nz-icon nzType="redo" (click)="GetExternalsearchInfo()"></span>
       </button>
     </div>
-
   </div>
+
   <h1 *ngShow="result == true" style="text-align: center"> {{ 'UNABLE_TO_GET_INFORMATION' | i18n }} </h1>
 </ng-template>

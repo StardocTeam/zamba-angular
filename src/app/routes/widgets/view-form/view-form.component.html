@@ -1,7 +1,7 @@
 <ng-container *ngIf="navigateUrl != ''; then Ok; else noInfo" />
 
 <ng-template #Ok>
-    <iframe id="" *ngIf="navigateUrl" [src]="navigateUrl" frameborder="0"></iframe>
+    <iframe id="ruleComponentIframe" *ngIf="navigateUrl" [src]="navigateUrl" frameborder="0"></iframe>
 </ng-template>
 
 <ng-template #noInfo>

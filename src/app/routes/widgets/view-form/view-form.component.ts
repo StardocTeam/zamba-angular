@@ -38,6 +38,7 @@ export class ViewFormComponent implements OnInit {
   ngOnInit(): void {
     this.navigateUrl = '';
     this.result = false;
+
     this.cdr.detectChanges();
 
     this.route.queryParams.subscribe(params => {
@@ -45,8 +46,7 @@ export class ViewFormComponent implements OnInit {
 
       if (tokenData != null) {
         console.log('Imprimo los valores en tokenService en el service', tokenData);
-        debugger;
-        //TODO: validar valores de tokenData
+
         this.DocType = params["DocType"];
         this.docid = params["docid"];
         this.taskid = params["taskid"];
@@ -55,12 +55,10 @@ export class ViewFormComponent implements OnInit {
         this.userId = params["userId"];
         this.t = params["t"];
 
-        var queryString = "?DocType=" + this.DocType + "&docid=" + this.docid + "&taskid=" + this.taskid + "&mode=" + this.mode + "&s=" + this.s + "&userId=" + this.userId + "&modalmode=true&" + "&t=" + this.t;
+        var queryString = "?DocType=" + this.DocType + "&docid=" + this.docid + "&taskid=" + this.taskid + "&mode=" + this.mode + "&s=" + this.s + "&userId=" + this.userId + "&modalmode=true&" + "&t=" + this.t + "#Zamba";
 
         var newUrl = this.WebUrl + "/views/WF/TaskViewer" + queryString;
 
-        // Encode string to Base64
-        const encodedString = this.encodeStringToBase64(JSON.stringify(tokenData));
         this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
         this.result = true;
         this.cdr.detectChanges();
