@@ -4,21 +4,34 @@
       <span nzTitle class="header-title">Inicia sesión para continuar</span>
     </nz-typography>
     <nz-typography>
-      <a class="register" routerLink="/passport/register"> <span nzTitle class="header-title w-underline">{{
-          'app.login.signup' |
-          i18n }}</span></a>
-
+      <a class="register" routerLink="/passport/register">
+        <span nzTitle class="header-title w-underline">{{ 'app.login.signup' | i18n }}</span></a
+      >
     </nz-typography>
   </div>
-  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="'app.login.message-invalid-credentials' | i18n"
-    [nzShowIcon]="true" class="mb-lg" />
-  <nz-alert *ngIf="serverError" [nzType]="'error'" [nzMessage]="'app.server.error-message' | i18n" [nzShowIcon]="true"
-    class="mb-lg" />
-  <nz-alert *ngIf="authServerError" [nzType]="'error'" [nzMessage]="'app.server.error-auth-message' | i18n"
-    [nzShowIcon]="true" class="mb-lg" />
+  <nz-alert
+    *ngIf="error"
+    [nzType]="'error'"
+    [nzMessage]="'app.login.message-invalid-credentials' | i18n"
+    [nzShowIcon]="true"
+    class="mb-lg"
+  />
+  <nz-alert *ngIf="serverError" [nzType]="'error'" [nzMessage]="'app.server.error-message' | i18n" [nzShowIcon]="true" class="mb-lg" />
+  <nz-alert
+    *ngIf="authServerError"
+    [nzType]="'error'"
+    [nzMessage]="'app.server.error-auth-message' | i18n"
+    [nzShowIcon]="true"
+    class="mb-lg"
+  />
   <nz-form-item>
-    <nz-alert *ngIf="errorUserIsNotActive" [nzType]="'error'" [nzMessage]="'app.server.error-user-isnot-active' | i18n"
-      [nzShowIcon]="true" class="mb-lg" />
+    <nz-alert
+      *ngIf="errorUserIsNotActive"
+      [nzType]="'error'"
+      [nzMessage]="'app.server.error-user-isnot-active' | i18n"
+      [nzShowIcon]="true"
+      class="mb-lg"
+    />
     <nz-form-control [nzErrorTip]="mailErrorTip">
       <nz-input-group nzSize="large" nzPrefixIcon="mail">
         <input nz-input formControlName="email" placeholder="{{ 'app.register.form-email-placeholder' | i18n }}" />
@@ -57,9 +70,7 @@
     </button>
   </nz-form-item>
 </form>
-<div class="other">
-
-</div>
+<div class="other"> </div>
 <ng-container *ngIf="!!safeZambaUrl">
-<iframe [src]="safeZambaUrl" frameborder="0" height="0" width="0"></iframe>
+  <iframe [src]="safeZambaUrl" frameborder="0" height="0" width="0"></iframe>
 </ng-container>

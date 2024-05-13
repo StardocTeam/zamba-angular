@@ -20,7 +20,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: { preload: true, title: "Dashboard" }
+        data: { preload: true, title: 'Dashboard' }
       },
       {
         path: 'default',
@@ -65,4 +65,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {}

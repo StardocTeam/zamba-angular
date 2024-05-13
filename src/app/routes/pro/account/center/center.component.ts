@@ -1,12 +1,12 @@
+import { TmplAstImmediateDeferredTrigger } from '@angular/compiler';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import { Subscription, zip, filter, catchError } from 'rxjs';
 
 import { employeeUser } from './entitie/employeeUser';
-import { EmployeeUserService } from "./service/employee-user.service";
-import { TmplAstImmediateDeferredTrigger } from '@angular/compiler';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { EmployeeUserService } from './service/employee-user.service';
 
 @Component({
   selector: 'app-account-center',
@@ -23,7 +23,7 @@ export class ProAccountCenterComponent implements OnInit {
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
     private employeeUserService: EmployeeUserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cdr.detectChanges();
@@ -37,19 +37,19 @@ export class ProAccountCenterComponent implements OnInit {
         Params: {}
       };
 
-
-      this.employeeUserService.getEmployeeUser(genericRequest)
+      this.employeeUserService
+        .getEmployeeUser(genericRequest)
         .pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
           })
-        ).subscribe((res: any) => {
+        )
+        .subscribe((res: any) => {
           this.user = res;
 
           this.cdr.detectChanges();
         });
     }
-
   }
 }

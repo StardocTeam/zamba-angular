@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { Observable, Subject } from 'rxjs';
-import { Router } from '@angular/router';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
   startListening() {
     window.addEventListener('message', this.handleMessage);
   }
@@ -17,36 +15,34 @@ export class MessageService {
   handleMessage(event: MessageEvent) {
     try {
       var url = new URL(environment['zambaWeb']);
-      var origin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
+      var origin = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}`;
       if (event.origin != origin) {
         return;
       }
       var message = JSON.parse(event.data);
-      
+
       switch (message.type) {
         case 'request vacation':
           console.log(message.data);
           break;
       }
     } catch (e) {
-      console.error("Error al procesar el mensaje: ", e);
+      console.error('Error al procesar el mensaje: ', e);
     }
   }
 
-
   sendMessage(type: any, data: any, error: any, elementId: string) {
     var url = new URL(environment['zambaWeb']);
-    var origin = url.protocol + '//' + url.hostname + (url.port ? ':' + url.port : '');
+    var origin = `${url.protocol}//${url.hostname}${url.port ? `:${url.port}` : ''}`;
     var message = {
       type: type,
       data: { data },
       error: error
-    }
+    };
     var messageJSON = JSON.stringify(message);
     let iframeElement = document.getElementById(elementId) as HTMLIFrameElement;
     if (iframeElement && iframeElement.contentWindow) {
       iframeElement.contentWindow.postMessage(messageJSON, origin);
     }
   }
-
 }

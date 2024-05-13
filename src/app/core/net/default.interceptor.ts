@@ -208,10 +208,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
-          console.warn(
-            "HttpErrorResponse",
-            ev
-          );
+          console.warn('HttpErrorResponse', ev);
         }
         break;
     }
@@ -239,7 +236,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
     }
     const tokenServ = this.tokenSrv.get();
-    const token = tokenServ && tokenServ["token"] ? tokenServ["token"] : null;
+    const token = tokenServ && tokenServ['token'] ? tokenServ['token'] : null;
     const authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

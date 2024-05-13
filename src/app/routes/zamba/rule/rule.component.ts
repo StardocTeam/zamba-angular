@@ -3,6 +3,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzModalService } from 'ng-zorro-antd/modal';
+
 import { environment } from '../../../../environments/environment';
 import { SharedService } from '../../../services/zamba/shared.service';
 import { ZambaService } from '../../../services/zamba/zamba.service';
@@ -43,10 +44,10 @@ export class RuleComponent implements OnInit {
     private cdr: ChangeDetectorRef,
 
     private modalSrv: NzModalService,
-    private router: Router,
+    private router: Router
   ) {
     this.result = false;
-    
+
     this.responseFromZambaLogin = this.responseFromZambaLogin.bind(this);
   }
 
@@ -61,7 +62,7 @@ export class RuleComponent implements OnInit {
           console.log('Ha devueto un Ok el sitio web de zamba');
           this.nextStep();
         } else if (message.data === 'login-rrhh-error') {
-          this.router.navigate(['passport','login'])     
+          this.router.navigate(['passport', 'login']);
         }
         break;
     }
@@ -70,7 +71,7 @@ export class RuleComponent implements OnInit {
   ngOnInit(): void {
     window.addEventListener('message', this.responseFromZambaLogin);
     this.result = false;
-10
+    10;
     this.route.queryParams.subscribe(params => {
       const tokenData: any = this.tokenService.get();
       let genericRequest = {};

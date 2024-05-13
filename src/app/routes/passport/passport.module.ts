@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { CallbackComponent } from './callback.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -17,7 +18,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ResetResultComponent } from './reset-result/reset-result.component';
 import { ValidateComponent } from './validate.component';
 import { InitialPasswordWizardComponent } from '../welcome/initial-password-wizard/initial-password-wizard.component';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 const COMPONENTS = [
   UserLoginV2Component,
@@ -40,4 +40,4 @@ const COMPONENTS = [
   imports: [SharedModule, PassportRoutingModule, RecaptchaModule, NzTypographyModule],
   declarations: [...COMPONENTS]
 })
-export class PassportModule { }
+export class PassportModule {}

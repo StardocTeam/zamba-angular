@@ -12,7 +12,7 @@ export class PassportService {
   constructor(
     private http: _HttpClient,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) { }
+  ) {}
 
   doLogin(
     data: Partial<{
@@ -42,8 +42,8 @@ export class PassportService {
           res.user = {
             durationDays: 1,
             time: new Date(),
-            expired: +new Date() + 1 * 24 * 60 * 60 * 1000, //new Date(res.tokenExpire),
-          }
+            expired: +new Date() + 1 * 24 * 60 * 60 * 1000 //new Date(res.tokenExpire),
+          };
           this.tokenService.set(res);
         })
       );

@@ -8,15 +8,11 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class EmployeeUserService {
-
-
-
   public getEmployeeUser(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/getEmployeeUser`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
 
-  constructor(
-    private http: _HttpClient) { }
+  constructor(private http: _HttpClient) {}
 }

@@ -117,11 +117,9 @@ export class PendingVacationsComponent implements OnInit {
             }
 
             this.TotalDays = parseInt(JsonData['TotalDays'].toString());
-
           } else {
             this.info = false;
             this.result = true;
-
           }
 
           this.vacations.reverse();
@@ -134,7 +132,6 @@ export class PendingVacationsComponent implements OnInit {
   GoToTask(obj: any) {
     var token = this.tokenService.get();
     if (token != null) {
-
       debugger;
       // var url = this.WebUrl;
       // var QS = "?DocType=" + obj.DocType +
@@ -151,15 +148,14 @@ export class PendingVacationsComponent implements OnInit {
       // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
 
       this.router.navigate(['/zamba/form'], {
-        queryParams:
-        {
+        queryParams: {
           DocType: obj.DocType,
           docid: obj.docid,
           taskid: obj.taskid,
           mode: obj.mode,
           s: obj.s,
           userId: obj.userId,
-          modalmode: "true",
+          modalmode: 'true',
           t: token['token']
         }
       });
