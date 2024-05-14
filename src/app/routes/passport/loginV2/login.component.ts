@@ -1,15 +1,12 @@
-import { HttpContext } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { StartupService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
-import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
-import { SettingsService, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
+import { DA_SERVICE_TOKEN, ITokenService, SocialService } from '@delon/auth';
+import { _HttpClient } from '@delon/theme';
 import { catchError, finalize, Subscription, throwError } from 'rxjs';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 import { PassportService } from '../services/passport.service';
 
@@ -30,7 +27,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
     captcha: ['', [Validators.required]],
     remember: [true]
   });
-  error = '';
+  error = false;
   serverError = false;
   authServerError = false;
   type = 0;
@@ -45,34 +42,44 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
   safeZambaUrl: SafeResourceUrl = '';
 
   constructor(
-    private sanitizer: DomSanitizer,
-
     private fb: FormBuilder,
     private router: Router,
-    private settingsService: SettingsService,
-    private socialService: SocialService,
     @Optional()
     @Inject(ReuseTabService)
     private reuseTabService: ReuseTabService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private startupService: StartupService,
     private cdr: ChangeDetectorRef,
-    private passportService: PassportService
-  ) {}
+    private passportService: PassportService,
+    private zambaService: ZambaService
+  ) {
+    this.responseFromZambaLogin = this.responseFromZambaLogin.bind(this);
+  }
   ngOnInit(): void {
-    window.addEventListener('message', event => {
-      if (event.data === 'login-rrhh-ok') {
-        console.log('Ha devueto un Ok el sitio web de zamba');
-        this.router.navigateByUrl('/dashboard');
-      } else if (event.data === 'login-rrhh-error') {
-        this.authServerError = true;
-        this.cdr.detectChanges();
-      }
-    });
+    window.addEventListener('message', this.responseFromZambaLogin);
+  }
+
+  responseFromZambaLogin(event: MessageEvent) {
+    var message = JSON.parse(event.data);
+
+    switch (message.type) {
+      case 'auth':
+        console.log(message.data);
+
+        if (message.data === 'login-rrhh-ok') {
+          console.log('Ha devueto un Ok el sitio web de zamba');
+          window.removeEventListener('message', this.responseFromZambaLogin);
+          this.safeZambaUrl = '';
+          this.router.navigateByUrl('/dashboard');
+        } else if (message.data === 'login-rrhh-error') {
+          this.authServerError = true;
+          this.cdr.detectChanges();
+        }
+        break;
+    }
   }
 
   submit(): void {
-    this.error = '';
+    this.error = false;
     this.serverError = false;
     this.errorUserIsNotActive = false;
     this.authServerError = false;
@@ -96,7 +103,11 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
         .pipe(
           catchError(error => {
             console.error('Error en la solicitud:', error);
-            this.serverError = true;
+            if (error.status == 403)
+              this.error = true;
+            else
+              this.serverError = true;
+
             return throwError(() => error);
           }),
           finalize(() => {
@@ -108,31 +119,24 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           res = JSON.parse(res);
           console.log(res);
           if (res.msg == 'Invalid username or password') {
-            this.error = res.msg;
+            this.error = true;
             this.cdr.detectChanges();
             return;
-          } else if (res.msg == 'ok' && res.isActive == false) {
+          } else if (res.isActive == false) {
             this.errorUserIsNotActive = true;
             this.cdr.detectChanges();
             return;
           }
           this.reuseTabService.clear();
-          let url = this.tokenService.referrer!.url || '/';
-          if (url.includes('/passport')) {
-            url = '/';
-          }
-          let tokenService = this.tokenService.get();
-          console.log(tokenService);
-          let userid = tokenService ? tokenService['userid'] : null;
-          let token = tokenService ? tokenService['token'] : null;
-          this.router.navigateByUrl('/dashboard');
-          // this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-          //   `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `userid=${userid}&token=${token}`
-          // );
-          // this.cdr.detectChanges();
+
+          this.safeZambaUrl = this.zambaService.preFlightLogin();
+
+          // this.router.navigateByUrl('/dashboard');
+          this.cdr.detectChanges();
         })
     );
   }
+
   ngOnDestroy(): void {
     if (this.interval$) {
       clearInterval(this.interval$);

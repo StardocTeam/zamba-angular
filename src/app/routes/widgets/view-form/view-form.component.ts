@@ -1,11 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
+
 import { environment } from '../../../../environments/environment';
-
-
 
 @Component({
   selector: 'app-view-form',
@@ -13,9 +11,8 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./view-form.component.less']
 })
 export class ViewFormComponent implements OnInit {
-  navigateUrl: SafeResourceUrl = "";
+  navigateUrl: SafeResourceUrl = '';
   result: boolean = false;
-
 
   DocType: string = '';
   docid: string = '';
@@ -23,17 +20,19 @@ export class ViewFormComponent implements OnInit {
   mode: string = '';
   s: string = '';
   userId: string = '';
-  t: any = "";
+  t: any = '';
 
   WebUrl = environment['zambaWeb'];
 
   /**
    *
    */
-  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute, private sanitizer: DomSanitizer, @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
-
-  }
-
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
+  ) {}
 
   ngOnInit(): void {
     this.navigateUrl = '';
@@ -47,17 +46,19 @@ export class ViewFormComponent implements OnInit {
       if (tokenData != null) {
         console.log('Imprimo los valores en tokenService en el service', tokenData);
 
-        this.DocType = params["DocType"];
-        this.docid = params["docid"];
-        this.taskid = params["taskid"];
-        this.mode = params["mode"];
-        this.s = params["s"];
-        this.userId = params["userId"];
-        this.t = params["t"];
+        this.DocType = params['DocType'];
+        this.docid = params['docid'];
+        this.taskid = params['taskid'];
+        this.mode = params['mode'];
+        this.s = params['s'];
+        this.userId = params['userId'];
+        this.t = params['t'];
 
-        var queryString = "?DocType=" + this.DocType + "&docid=" + this.docid + "&taskid=" + this.taskid + "&mode=" + this.mode + "&s=" + this.s + "&userId=" + this.userId + "&modalmode=true&" + "&t=" + this.t + "#Zamba";
+        var queryString =
+          `?DocType=${this.DocType}&docid=${this.docid}&taskid=${this.taskid}&mode=${this.mode}&s=${this.s}&userId=${this.userId}&modalmode=true&` +
+          `&t=${this.t}#Zamba`;
 
-        var newUrl = this.WebUrl + "/views/WF/TaskViewer" + queryString;
+        var newUrl = `${this.WebUrl}/views/WF/TaskViewer${queryString}`;
 
         this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
         this.result = true;
@@ -65,7 +66,6 @@ export class ViewFormComponent implements OnInit {
       }
     });
   }
-
 
   encodeStringToBase64(str: string): string {
     return btoa(str);
@@ -75,5 +75,4 @@ export class ViewFormComponent implements OnInit {
   decodeBase64ToString(base64: string): string {
     return atob(base64);
   }
-
 }

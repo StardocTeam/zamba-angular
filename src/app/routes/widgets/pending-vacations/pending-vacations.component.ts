@@ -49,7 +49,7 @@ export class PendingVacationsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private PVService: PendingVacationsService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.GetExternalsearchInfo();
@@ -143,7 +143,7 @@ export class PendingVacationsComponent implements OnInit {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         Params: {
           EntityID: '258',
           DoctypesId: '110'
@@ -184,11 +184,9 @@ export class PendingVacationsComponent implements OnInit {
             }
 
             this.TotalDays = parseInt(JsonData['TotalDays'].toString());
-
           } else {
             this.info = false;
             this.result = true;
-
           }
 
           this.vacations.reverse();
@@ -203,15 +201,14 @@ export class PendingVacationsComponent implements OnInit {
     if (token != null) {
 
       this.router.navigate(['/zamba/form'], {
-        queryParams:
-        {
+        queryParams: {
           DocType: obj.DocType,
           docid: obj.docid,
           taskid: obj.taskid,
           mode: obj.mode,
           s: obj.s,
           userId: obj.userId,
-          modalmode: "true",
+          modalmode: 'true',
           t: token['token']
         }
       });

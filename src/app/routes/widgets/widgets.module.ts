@@ -14,10 +14,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzResultModule } from 'ng-zorro-antd/result';
 
 import { CalendarComponent } from './calendar/calendar.component';
 import { CarouselComponent } from './carousel/carousel.component';
@@ -64,4 +64,4 @@ const COMPONENTS: Array<Type<void>> = [
   declarations: COMPONENTS,
   exports: COMPONENTS
 })
-export class WidgetsModule { }
+export class WidgetsModule {}

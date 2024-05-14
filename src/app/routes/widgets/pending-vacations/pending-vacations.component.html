@@ -1,16 +1,15 @@
 <ng-container *ngIf="info; then result; else noInfo" />
 
 <ng-template #result>
-
   <div class="displayFlex alignCenter headerWidget" nz-row>
     <div nz-col nzSpan="20">
       <div class="truncate">
-        <span nz-typography><strong>{{ 'APPROVED_VACATIONS' | i18n }}</strong></span>
+        <span nz-typography
+          ><strong>{{ 'APPROVED_VACATIONS' | i18n }}</strong></span
+        >
         <nz-badge [nzCount]="vacations.length" />
       </div>
     </div>
-
-
 
     <div nz-col class="displayFlex BtnEnd" nzSpan="4">
       <button [nzLoading]="loading" nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS">
@@ -19,42 +18,52 @@
     </div>
   </div>
 
-
   <div>
     <div class="displayFlex alignCenter subHeaderWidget" nz-row>
       <div nz-col nzSpan="17" class="truncate">
-        <span nz-typography><strong>
+        <span nz-typography
+          ><strong>
             {{ TotalDays }}
 
             {{ 'DAYSAVAILABLE' | i18n }}
-
-          </strong></span>
+          </strong></span
+        >
       </div>
 
       <div nz-col class="displayFlex BtnEnd" nzSpan="7">
-        <button *ngIf="TotalDays != 0" nz-button nzType="default" nzShape="circle" [nzSize]="size_DAYS_AVAILABLE"
-          (click)="RequestVacation()">
+        <button
+          *ngIf="TotalDays != 0"
+          nz-button
+          nzType="default"
+          nzShape="circle"
+          [nzSize]="size_DAYS_AVAILABLE"
+          (click)="RequestVacation()"
+        >
           <span nz-icon nzType="plus"></span>
         </button>
       </div>
     </div>
 
-
     <ng-container *ngFor="let item of vacations" style="height: 500px; overflow-y: auto">
-      <nz-alert (dblclick)="GoToTask(item)" class="pointer" nzBanner nzMessage="
+      <nz-alert
+        (dblclick)="GoToTask(item)"
+        class="pointer"
+        nzBanner
+        nzMessage="
             {{ item.VacationFromOption | date: 'dd/MM/yyyy' }}
             {{ 'VACATION_TO' | i18n }}
-            {{ item.VacationToOption | date: 'dd/MM/yyyy' }}" />
+            {{ item.VacationToOption | date: 'dd/MM/yyyy' }}"
+      />
     </ng-container>
-
   </div>
 </ng-template>
 
 <ng-template #noInfo>
   <div class="displayFlex alignCenter headerWidget" nz-row>
-
     <div nz-col nzSpan="20" class="truncate">
-      <span nz-typography><strong> {{ 'NO_INFORMATION' | i18n }} </strong></span>
+      <span nz-typography
+        ><strong> {{ 'NO_INFORMATION' | i18n }} </strong></span
+      >
     </div>
 
     <div nz-col class="displayFlex BtnEnd" nzSpan="4">

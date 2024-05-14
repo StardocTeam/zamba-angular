@@ -11,9 +11,8 @@ const routes: Routes = [
   { path: 'form', component: ViewFormComponent, title: 'Formulario' }
 ];
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ZambaRoutingModule { }
+export class ZambaRoutingModule {}

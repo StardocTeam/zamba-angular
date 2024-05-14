@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IconDefinition } from '@ant-design/icons-angular';
-import
-  * as AllIcons from '@ant-design/icons-angular/icons';
+import * as AllIcons from '@ant-design/icons-angular/icons';
 import { GlobalFooterModule } from '@delon/abc/global-footer';
 import { HotkeyModule } from '@delon/abc/hotkey';
 import { NoticeIconModule } from '@delon/abc/notice-icon';
@@ -82,4 +81,4 @@ const icons: IconDefinition[] = Object.values(AllIcons);
   exports: [...COMPONENTS, ...PASSPORT],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
-export class LayoutModule { }
+export class LayoutModule {}
