@@ -27,7 +27,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
     captcha: ['', [Validators.required]],
     remember: [true]
   });
-  error = '';
+  error = false;
   serverError = false;
   authServerError = false;
   type = 0;
@@ -79,7 +79,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
   }
 
   submit(): void {
-    this.error = '';
+    this.error = false;
     this.serverError = false;
     this.errorUserIsNotActive = false;
     this.authServerError = false;
@@ -103,7 +103,11 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
         .pipe(
           catchError(error => {
             console.error('Error en la solicitud:', error);
-            this.serverError = true;
+            if (error.status == 403)
+              this.error = true;
+            else
+              this.serverError = true;
+
             return throwError(() => error);
           }),
           finalize(() => {
@@ -115,7 +119,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           res = JSON.parse(res);
           console.log(res);
           if (res.msg == 'Invalid username or password') {
-            this.error = res.msg;
+            this.error = true;
             this.cdr.detectChanges();
             return;
           } else if (res.isActive == false) {
