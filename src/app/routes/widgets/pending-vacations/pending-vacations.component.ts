@@ -49,11 +49,11 @@ export class PendingVacationsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private PVService: PendingVacationsService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.GetExternalsearchInfo();
-    //this.PostExternalsearchInfo();
+    //this.GetExternalsearchInfo();
+    this.PostExternalsearchInfo();
 
     this.resizeSubscription = this.resizeEvent.subscribe((event: any) => {
       // console.log("🔴: " + event);
@@ -78,7 +78,7 @@ export class PendingVacationsComponent implements OnInit {
 
     if (tokenData != null) {
       request = {
-        UserId: tokenData['userid'],
+        UserId: tokenData['userID'],
         EntityID: '258',
         DoctypesId: '110'
       };

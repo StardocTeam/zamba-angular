@@ -30,7 +30,6 @@ export class PendingVacationsService {
   _GetExternalsearchInfo(request: Generic) {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let options = { headers: headers };
-    debugger;
 
     return this.http.get(`${environment['apiRestBasePath']}/getExternalsearchInfo`, request, options);
   }
