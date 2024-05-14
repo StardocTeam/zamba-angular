@@ -118,7 +118,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
             this.error = res.msg;
             this.cdr.detectChanges();
             return;
-          } else if (res.msg == 'ok' && res.isActive == false) {
+          } else if (res.isActive == false) {
             this.errorUserIsNotActive = true;
             this.cdr.detectChanges();
             return;
