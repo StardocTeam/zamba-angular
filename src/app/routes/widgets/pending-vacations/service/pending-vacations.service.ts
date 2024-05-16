@@ -7,13 +7,11 @@ import { Observable } from 'rxjs';
 
 import { Generic } from '../entitie/generic';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class PendingVacationsService {
-  constructor(private http: _HttpClient) { }
+  constructor(private http: _HttpClient) {}
 
   _GetVacation(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/getVacation`, genericRequest, null, {

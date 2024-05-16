@@ -103,10 +103,8 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
         .pipe(
           catchError(error => {
             console.error('Error en la solicitud:', error);
-            if (error.status == 403)
-              this.error = true;
-            else
-              this.serverError = true;
+            if (error.status == 403) this.error = true;
+            else this.serverError = true;
 
             return throwError(() => error);
           }),

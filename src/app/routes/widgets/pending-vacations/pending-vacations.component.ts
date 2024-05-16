@@ -5,9 +5,8 @@ import { GridsterItem } from 'angular-gridster2';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { Subscription, catchError } from 'rxjs';
 
+import { Generic } from './entitie/generic';
 import { Vacation } from './entitie/vacation';
-import { Generic } from "./entitie/generic";
-
 import { PendingVacationsService } from './service/pending-vacations.service';
 
 @Component({
@@ -49,7 +48,7 @@ export class PendingVacationsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private PVService: PendingVacationsService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     //this.GetExternalsearchInfo();
@@ -117,11 +116,9 @@ export class PendingVacationsComponent implements OnInit {
             }
 
             this.TotalDays = parseInt(JsonData['TotalDays'].toString());
-
           } else {
             this.info = false;
             this.result = true;
-
           }
 
           this.vacations.reverse();
@@ -199,7 +196,6 @@ export class PendingVacationsComponent implements OnInit {
   GoToTask(obj: any) {
     var token = this.tokenService.get();
     if (token != null) {
-
       this.router.navigate(['/zamba/form'], {
         queryParams: {
           DocType: obj.DocType,
