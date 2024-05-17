@@ -59,22 +59,26 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
   }
 
   responseFromZambaLogin(event: MessageEvent) {
-    var message = JSON.parse(event.data);
+    try {
+      var message = JSON.parse(event.data);
 
-    switch (message.type) {
-      case 'auth':
-        console.log(message.data);
+      switch (message.type) {
+        case 'auth':
+          console.log(message.data);
 
-        if (message.data === 'login-rrhh-ok') {
-          console.log('Ha devueto un Ok el sitio web de zamba');
-          window.removeEventListener('message', this.responseFromZambaLogin);
-          this.safeZambaUrl = '';
-          this.router.navigateByUrl('/dashboard');
-        } else if (message.data === 'login-rrhh-error') {
-          this.authServerError = true;
-          this.cdr.detectChanges();
-        }
-        break;
+          if (message.data === 'login-rrhh-ok') {
+            console.log('Ha devueto un Ok el sitio web de zamba');
+            window.removeEventListener('message', this.responseFromZambaLogin);
+            this.safeZambaUrl = '';
+            this.router.navigateByUrl('/dashboard');
+          } else if (message.data === 'login-rrhh-error') {
+            this.authServerError = true;
+            this.cdr.detectChanges();
+          }
+          break;
+      }
+    } catch (error) {
+
     }
   }
 
