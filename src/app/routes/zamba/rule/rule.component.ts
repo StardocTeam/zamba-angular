@@ -52,19 +52,23 @@ export class RuleComponent implements OnInit {
   }
 
   responseFromZambaLogin(event: MessageEvent) {
-    var message = JSON.parse(event.data);
+    try {
+      var message = JSON.parse(event.data);
 
-    switch (message.type) {
-      case 'auth':
-        console.log(message.data);
+      switch (message.type) {
+        case 'auth':
+          console.log(message.data);
 
-        if (message.data === 'login-rrhh-ok') {
-          console.log('Ha devueto un Ok el sitio web de zamba');
-          this.nextStep();
-        } else if (message.data === 'login-rrhh-error') {
-          this.router.navigate(['passport', 'login']);
-        }
-        break;
+          if (message.data === 'login-rrhh-ok') {
+            console.log('Ha devueto un Ok el sitio web de zamba');
+            this.nextStep();
+          } else if (message.data === 'login-rrhh-error') {
+            this.router.navigate(['passport', 'login']);
+          }
+          break;
+      }
+    } catch (error) {
+
     }
   }
 

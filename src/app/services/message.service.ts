@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
   startListening() {
     window.addEventListener('message', this.handleMessage);
   }
@@ -27,7 +27,7 @@ export class MessageService {
           break;
       }
     } catch (e) {
-      console.error('Error al procesar el mensaje: ', e);
+      //console.error('Error al procesar el mensaje: ', e);
     }
   }
 
